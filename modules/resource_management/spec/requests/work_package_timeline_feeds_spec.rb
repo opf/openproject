@@ -48,7 +48,8 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
 
   describe "resources" do
     it "returns the view's work packages as FullCalendar resources with rendered html" do
-      get project_resource_planner_view_work_package_timeline_resources_path(project, planner, view, format: :json)
+      get resource_planner_view_work_package_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
+                                                                     project_id: project)
 
       expect(response).to have_http_status(:ok)
       body = response.parsed_body
@@ -60,7 +61,8 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
 
     it "tags each resource with its position so FullCalendar keeps the query order" do
       create(:work_package, project:, subject: "Second work package")
-      get project_resource_planner_view_work_package_timeline_resources_path(project, planner, view, format: :json)
+      get resource_planner_view_work_package_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
+                                                                     project_id: project)
 
       orders = response.parsed_body["resources"].pluck("order")
       expect(orders).to eq((0...orders.size).to_a)
@@ -68,7 +70,8 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
 
     it "denies users without access" do
       login_as create(:user)
-      get project_resource_planner_view_work_package_timeline_resources_path(project, planner, view, format: :json)
+      get resource_planner_view_work_package_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
+                                                                     project_id: project)
 
       expect(response).to have_http_status(:not_found).or have_http_status(:forbidden)
     end
@@ -92,8 +95,9 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
     end
 
     it "returns allocations as FullCalendar events flagged overbooked" do
-      get project_resource_planner_view_work_package_timeline_events_path(project, planner, view,
-                                                                          start: "2026-05-25", end: "2026-07-01", format: :json)
+      get resource_planner_view_work_package_timeline_events_path(resource_planner_id: planner, view_id: view,
+                                                                  start: "2026-05-25", end: "2026-07-01", format: :json,
+                                                                  project_id: project)
 
       expect(response).to have_http_status(:ok)
       block_events = response.parsed_body["events"].reject { |e| e["display"] == "background" }
@@ -107,9 +111,8 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
     end
 
     def get_events(start: "2026-05-25", finish: "2026-07-01")
-      get project_resource_planner_view_work_package_timeline_events_path(
-        project, planner, view, start:, end: finish, format: :json
-      )
+      get resource_planner_view_work_package_timeline_events_path(resource_planner_id: planner, view_id: view, start:,
+                                                                  end: finish, format: :json, project_id: project)
     end
 
     it "carries an edit url on each allocation event for a user who may allocate" do
@@ -119,8 +122,8 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
       get_events
 
       expect(block_events.map { |e| e.dig("extendedProps", "editUrl") })
-        .to include(edit_project_resource_allocation_path(project, allocation_a),
-                    edit_project_resource_allocation_path(project, allocation_b))
+        .to include(edit_resource_allocation_path(allocation_a, project_id: project),
+                    edit_resource_allocation_path(allocation_b, project_id: project))
     end
 
     it "omits the edit url for a user who may only view" do
@@ -178,10 +181,9 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
     end
 
     def background_event_for(work_package, granularity:)
-      get project_resource_planner_view_work_package_timeline_events_path(
-        project, planner, view,
-        start: "2026-06-01", end: "2026-07-01", granularity:, format: :json
-      )
+      get resource_planner_view_work_package_timeline_events_path(resource_planner_id: planner, view_id: view,
+                                                                  start: "2026-06-01", end: "2026-07-01",
+                                                                  granularity:, format: :json, project_id: project)
       expect(response).to have_http_status(:ok)
       response.parsed_body["events"]
         .select { |e| e["display"] == "background" }

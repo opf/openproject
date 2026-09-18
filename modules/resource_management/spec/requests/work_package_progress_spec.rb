@@ -45,13 +45,13 @@ RSpec.describe "WorkPackage progress requests", :skip_csrf, type: :rails_request
   shared_let(:work_package) { create(:work_package, project:, subject: "Build the thing") }
 
   let(:edit_path) do
-    edit_project_resource_planner_view_work_package_progress_path(project, resource_planner, view, work_package)
+    edit_resource_planner_view_work_package_progress_path(resource_planner, view, work_package, project_id: project)
   end
   let(:update_path) do
-    project_resource_planner_view_work_package_progress_path(project, resource_planner, view, work_package)
+    resource_planner_view_work_package_progress_path(resource_planner, view, work_package, project_id: project)
   end
   let(:preview_path) do
-    preview_project_resource_planner_view_work_package_progress_path(project, resource_planner, view, work_package)
+    preview_resource_planner_view_work_package_progress_path(resource_planner, view, work_package, project_id: project)
   end
 
   before { login_as(user) }
@@ -92,7 +92,7 @@ RSpec.describe "WorkPackage progress requests", :skip_csrf, type: :rails_request
 
       # The work package list content is re-rendered inline (its sub-header
       # links back to the view's settings) and a success flash is shown.
-      expect(response.body).to include(edit_project_resource_planner_view_path(project, resource_planner, view))
+      expect(response.body).to include(edit_resource_planner_view_path(resource_planner, view, project_id: project))
       expect(response).to have_turbo_stream action: "flash"
     end
 
@@ -152,9 +152,7 @@ RSpec.describe "WorkPackage progress requests", :skip_csrf, type: :rails_request
       let(:other_project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
       let(:invisible_work_package) { create(:work_package, project: other_project) }
       let(:invisible_path) do
-        edit_project_resource_planner_view_work_package_progress_path(
-          project, resource_planner, view, invisible_work_package
-        )
+        edit_resource_planner_view_work_package_progress_path(resource_planner, view, invisible_work_package, project_id: project)
       end
 
       it "returns not found" do

@@ -57,7 +57,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::SubHeaderComponent, ty
 
     expect(page).to have_css(
       "a[data-controller='async-dialog']" \
-      "[href='#{edit_project_resource_planner_view_path(project, planner, view)}']"
+      "[href='#{edit_resource_planner_view_path(planner, view, project_id: project)}']"
     )
   end
 
@@ -87,7 +87,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::SubHeaderComponent, ty
 
       expect(page).to have_text("Add work package")
       expect(page).to have_link(
-        href: new_work_package_project_resource_planner_view_path(project, planner, manual_view)
+        href: new_work_package_resource_planner_view_path(planner, manual_view, project_id: project)
       )
     end
   end

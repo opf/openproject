@@ -44,7 +44,7 @@ RSpec.describe "ResourceAllocations requests",
 
   describe "GET new" do
     it "opens the dialog on the allocation form" do
-      get new_project_resource_allocation_path(project), as: :turbo_stream
+      get new_resource_allocation_path(project_id: project), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("opce-resource-allocation-autocompleter")
@@ -54,8 +54,8 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     it "pre-fills the form from a timeline selection" do
-      get new_project_resource_allocation_path(project, work_package_id: work_package.id,
-                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+      get new_resource_allocation_path(work_package_id: work_package.id, start_date: "2026-06-10", end_date: "2026-06-12",
+                                       project_id: project),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -64,8 +64,8 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     it "pre-fills the form for a preselected user" do
-      get new_project_resource_allocation_path(project, principal_id: assignee.id,
-                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+      get new_resource_allocation_path(principal_id: assignee.id, start_date: "2026-06-10", end_date: "2026-06-12",
+                                       project_id: project),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -77,8 +77,8 @@ RSpec.describe "ResourceAllocations requests",
     it "warns inline when the preselected user has no schedule covering the dates" do
       create(:user_working_hours, user: assignee, valid_from: Date.new(2026, 6, 12))
 
-      get new_project_resource_allocation_path(project, principal_id: assignee.id,
-                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+      get new_resource_allocation_path(principal_id: assignee.id, start_date: "2026-06-10", end_date: "2026-06-12",
+                                       project_id: project),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -89,7 +89,7 @@ RSpec.describe "ResourceAllocations requests",
 
   describe "POST refresh_form" do
     it "refreshes the form via POST as a turbo stream" do
-      post refresh_form_project_resource_allocations_path(project),
+      post refresh_form_resource_allocations_path(project_id: project),
            params: { resource_allocation: {
              placeholder_or_user_id: assignee.id,
              entity_type: "WorkPackage",
@@ -113,7 +113,7 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     def refresh(start_date:, end_date:, entity_id: dated_work_package.id)
-      post refresh_form_project_resource_allocations_path(project),
+      post refresh_form_resource_allocations_path(project_id: project),
            params: { resource_allocation: {
              placeholder_or_user_id: assignee.id,
              entity_type: "WorkPackage",
@@ -157,7 +157,7 @@ RSpec.describe "ResourceAllocations requests",
 
   describe "POST refresh_form (missing working hours warning)" do
     def refresh(placeholder_or_user_id:)
-      post refresh_form_project_resource_allocations_path(project),
+      post refresh_form_resource_allocations_path(project_id: project),
            params: { resource_allocation: {
              placeholder_or_user_id:,
              entity_type: "WorkPackage",
@@ -205,7 +205,7 @@ RSpec.describe "ResourceAllocations requests",
   describe "POST create" do
     context "for an explicit user" do
       subject(:perform) do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
@@ -244,7 +244,7 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       subject(:perform) do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: existing.id,
                entity_type: "WorkPackage",
@@ -273,7 +273,7 @@ RSpec.describe "ResourceAllocations requests",
 
     context "with invalid input" do
       subject(:perform) do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
@@ -294,7 +294,7 @@ RSpec.describe "ResourceAllocations requests",
       shared_let(:other_work_package) { create(:work_package) }
 
       subject(:perform) do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
@@ -315,7 +315,7 @@ RSpec.describe "ResourceAllocations requests",
       shared_let(:non_member) { create(:user) }
 
       subject(:perform) do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: non_member.id,
                entity_type: "WorkPackage",
@@ -334,7 +334,7 @@ RSpec.describe "ResourceAllocations requests",
 
     context "with an entity type outside the allow-list" do
       subject(:perform) do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: assignee.id,
                entity_type: "Project",
@@ -370,7 +370,7 @@ RSpec.describe "ResourceAllocations requests",
       # surfaced as an inline warning in the editable step instead.
       it "creates the allocation directly without a confirmation step" do
         expect do
-          post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+          post resource_allocations_path(project_id: project), params: base_params, as: :turbo_stream
         end.to change(ResourceAllocation, :count).by(1)
 
         expect(ResourceAllocation.last.entity).to eq(dated_work_package)
@@ -384,7 +384,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "creates the allocation directly without confirmation" do
         expect do
-          post project_resource_allocations_path(project),
+          post resource_allocations_path(project_id: project),
                params: { resource_allocation: {
                  placeholder_or_user_id: assignee.id,
                  entity_type: "WorkPackage",
@@ -418,7 +418,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "does not create yet and renders the overbooking confirmation step" do
         expect do
-          post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+          post resource_allocations_path(project_id: project), params: base_params, as: :turbo_stream
         end.not_to change(ResourceAllocation, :count)
 
         expect(response).to have_http_status(:ok)
@@ -435,7 +435,7 @@ RSpec.describe "ResourceAllocations requests",
         create(:user_working_hours, user: partially_available, valid_from: Date.new(2025, 1, 1), availability_factor: 80)
 
         params = base_params.deep_merge(resource_allocation: { placeholder_or_user_id: partially_available.id })
-        post project_resource_allocations_path(project), params:, as: :turbo_stream
+        post resource_allocations_path(project_id: project), params:, as: :turbo_stream
 
         expect(response.body).to include("Mon-Fri 8h (80% available for project work)")
       end
@@ -446,7 +446,7 @@ RSpec.describe "ResourceAllocations requests",
                                     monday: 360, tuesday: 360, wednesday: 360, thursday: 360, friday: 360,
                                     availability_factor: 80)
 
-        post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+        post resource_allocations_path(project_id: project), params: base_params, as: :turbo_stream
 
         expect(response.body).to include(
           "Mon-Fri 8h until #{I18n.l(Date.new(2026, 3, 2))}, " \
@@ -456,7 +456,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "creates the allocation once confirmed" do
         expect do
-          post project_resource_allocations_path(project),
+          post resource_allocations_path(project_id: project),
                params: base_params.merge(confirmed: "1"),
                as: :turbo_stream
         end.to change(ResourceAllocation, :count).by(1)
@@ -471,7 +471,7 @@ RSpec.describe "ResourceAllocations requests",
                start_date: Date.new(2026, 3, 2),
                end_date: Date.new(2026, 3, 3))
 
-        post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+        post resource_allocations_path(project_id: project), params: base_params, as: :turbo_stream
 
         expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.hidden_work"))
         expect(response.body).to include("10h")
@@ -482,7 +482,7 @@ RSpec.describe "ResourceAllocations requests",
     context "when the assigned user has no working time configured" do
       it "skips the overbooking check and creates directly" do
         expect do
-          post project_resource_allocations_path(project),
+          post resource_allocations_path(project_id: project),
                params: { resource_allocation: {
                  placeholder_or_user_id: assignee.id,
                  entity_type: "WorkPackage",
@@ -500,7 +500,7 @@ RSpec.describe "ResourceAllocations requests",
     shared_let(:allocation) { create(:resource_allocation, entity: work_package, principal: assignee) }
 
     it "opens the edit dialog with the allocation form" do
-      get edit_project_resource_allocation_path(project, allocation), as: :turbo_stream
+      get edit_resource_allocation_path(allocation, project_id: project), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(I18n.t("resource_management.edit_allocation_dialog.title"))
@@ -508,7 +508,7 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     it "offers a Delete button targeting the destroy path" do
-      get edit_project_resource_allocation_path(project, allocation), as: :turbo_stream
+      get edit_resource_allocation_path(allocation, project_id: project), as: :turbo_stream
 
       expect(response.body).to have_turbo_stream(action: "dialog") do
         assert_select "a[data-turbo-method='delete'][href$='/resource_allocations/#{allocation.id}']",
@@ -526,7 +526,7 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       it "pre-fills the picker with the placeholder and shows its criteria" do
-        get edit_project_resource_allocation_path(project, filter_allocation), as: :turbo_stream
+        get edit_resource_allocation_path(filter_allocation, project_id: project), as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("resource_allocation[placeholder_or_user_id]")
@@ -539,7 +539,7 @@ RSpec.describe "ResourceAllocations requests",
       let(:other_allocation) { create(:resource_allocation) }
 
       it "is not found" do
-        get edit_project_resource_allocation_path(project, other_allocation), as: :turbo_stream
+        get edit_resource_allocation_path(other_allocation, project_id: project), as: :turbo_stream
 
         expect(response).to have_http_status(:not_found)
       end
@@ -552,7 +552,7 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     def perform(allocated_hours: "16h")
-      patch project_resource_allocation_path(project, allocation),
+      patch resource_allocation_path(allocation, project_id: project),
             params: { resource_allocation: {
               placeholder_or_user_id: assignee.id,
               entity_type: "WorkPackage",
@@ -616,7 +616,7 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       def perform(extra = {})
-        patch project_resource_allocation_path(project, allocation),
+        patch resource_allocation_path(allocation, project_id: project),
               params: { resource_allocation: {
                 placeholder_or_user_id: working_assignee.id,
                 entity_type: "WorkPackage",
@@ -667,7 +667,7 @@ RSpec.describe "ResourceAllocations requests",
 
     it "deletes the allocation and confirms it" do
       expect do
-        delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+        delete resource_allocation_path(allocation, project_id: project), as: :turbo_stream
       end.to change(ResourceAllocation, :count).by(-1)
 
       expect(response).to have_http_status(:ok)
@@ -675,14 +675,14 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     it "refreshes the open allocations list and announces the change for the planner table" do
-      delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+      delete resource_allocation_path(allocation, project_id: project), as: :turbo_stream
 
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-allocations-list-component")
       expect_allocation_change_announced_for(work_package)
     end
 
     it "closes the edit dialog, so deleting from within it dismisses the dialog" do
-      delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+      delete resource_allocation_path(allocation, project_id: project), as: :turbo_stream
 
       expect(response.body).to have_turbo_stream(
         action: "closeDialog",
@@ -698,19 +698,19 @@ RSpec.describe "ResourceAllocations requests",
     before { login_as viewer }
 
     it "denies access to the new dialog" do
-      get new_project_resource_allocation_path(project), as: :turbo_stream
+      get new_resource_allocation_path(project_id: project), as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)
     end
 
     it "denies access to the edit dialog" do
-      get edit_project_resource_allocation_path(project, allocation), as: :turbo_stream
+      get edit_resource_allocation_path(allocation, project_id: project), as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)
     end
 
     it "denies updating an allocation" do
-      patch project_resource_allocation_path(project, allocation),
+      patch resource_allocation_path(allocation, project_id: project),
             params: { resource_allocation: { allocated_hours: "1h" } },
             as: :turbo_stream
 
@@ -719,7 +719,7 @@ RSpec.describe "ResourceAllocations requests",
 
     it "denies deleting an allocation" do
       expect do
-        delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+        delete resource_allocation_path(allocation, project_id: project), as: :turbo_stream
       end.not_to change(ResourceAllocation, :count)
 
       expect(response).to have_http_status(:forbidden)
@@ -727,7 +727,7 @@ RSpec.describe "ResourceAllocations requests",
 
     it "denies creating an allocation" do
       expect do
-        post project_resource_allocations_path(project),
+        post resource_allocations_path(project_id: project),
              params: { resource_allocation: {
                placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
@@ -753,8 +753,7 @@ RSpec.describe "ResourceAllocations requests",
     let(:user_dialog_id) { ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID }
 
     it "replaces the utilization dialog and opens the allocation step prefilled for the user" do
-      get new_project_resource_allocation_path(project, principal_id: assignee.id,
-                                                        resource_planner_view_id: card_view.id),
+      get new_resource_allocation_path(principal_id: assignee.id, resource_planner_view_id: card_view.id, project_id: project),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -763,7 +762,7 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     it "reopens a refreshed utilization dialog after a successful create" do
-      post project_resource_allocations_path(project, resource_planner_view_id: card_view.id),
+      post resource_allocations_path(resource_planner_view_id: card_view.id, project_id: project),
            params: { resource_allocation: {
              placeholder_or_user_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
              date_range: "2026-03-02 - 2026-03-03", allocated_hours: "40h"
@@ -781,7 +780,7 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       it "replaces the utilization dialog with the edit form" do
-        get edit_project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+        get edit_resource_allocation_path(allocation, resource_planner_view_id: card_view.id, project_id: project),
             as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
@@ -789,7 +788,7 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       it "re-renders the utilization dialog after a successful update" do
-        patch project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+        patch resource_allocation_path(allocation, resource_planner_view_id: card_view.id, project_id: project),
               params: { resource_allocation: {
                 placeholder_or_user_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
                 date_range: "2026-03-02 - 2026-03-03", allocated_hours: "8h"
@@ -801,7 +800,7 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       it "re-renders the utilization dialog after a successful delete" do
-        delete project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+        delete resource_allocation_path(allocation, resource_planner_view_id: card_view.id, project_id: project),
                as: :turbo_stream
 
         expect(response.body).to include(user_dialog_id)

@@ -124,9 +124,11 @@ RSpec.describe "Global resource planner views requests",
 
       expect(response).to have_http_status(:ok)
       expect(response.body)
-        .to include(resource_planner_view_work_package_timeline_resources_path(planner, view, format: :json))
+        .to include(resource_planner_view_work_package_timeline_resources_path(resource_planner_id: planner, view_id: view,
+                                                                               format: :json))
       expect(response.body)
-        .to include(resource_planner_view_work_package_timeline_events_path(planner, view, format: :json))
+        .to include(resource_planner_view_work_package_timeline_events_path(resource_planner_id: planner, view_id: view,
+                                                                            format: :json))
     end
   end
 
