@@ -123,6 +123,14 @@ RSpec.describe "script/ci/ai_involvement_check.sh", :aggregate_failures do # rub
     expect(run_check(pr_body("- Collaborative"))).to eq("status" => "level_missing")
   end
 
+  it "ignores prose that merely starts with a level word" do
+    expect(run_check(pr_body("None of this was AI-written"))).to eq("status" => "level_missing")
+    expect(run_check(pr_body("Directed the agent myself."))).to eq("status" => "level_missing")
+
+    body = pr_body("Collaborative – AI generated parts of it.\nAssisted by an agent for the specs")
+    expect(run_check(body)).to eq("status" => "ok", "level" => "Collaborative")
+  end
+
   it "rejects a description without the section" do
     expect(run_check("# What are you trying to accomplish?\n\nSomething.\n")).to eq("status" => "section_missing")
   end

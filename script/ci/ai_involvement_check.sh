@@ -96,11 +96,12 @@ fi
 # or colon as in the template ("Collaborative – AI generated ..."). Only the part
 # before that separator is inspected, so that several levels on one line
 # ("Collaborative / Directed") are rejected while an explanation that happens to
-# mention another level is not.
+# mention another level is not. That part must consist of levels alone, as prose
+# can start with a level word too ("None of this was AI-written").
 SELECTED=$(
   printf '%s\n' "$SECTION" |
-    grep -E "^[[:space:]]*($LEVELS)\b" |
     sed -E 's/[[:space:]]*(–|—|-|:).*$//' |
+    grep -E "^([[:space:]/,]*($LEVELS))+[[:space:]/,]*$" |
     grep -oE "\b($LEVELS)\b" |
     sed -E 's#^(None|Assisted)$#None/Assisted#' || true
 )
