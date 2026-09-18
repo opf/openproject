@@ -258,6 +258,56 @@ RSpec.describe Header::ProjectsController do
       end
     end
 
+    context "when a visible project's sibling isn't loaded yet" do
+      shared_let(:sibling_project) { create(:project, name: "Alpha Sibling", parent: parent_project) }
+
+      subject(:make_request) { get :index, params: { current_project_id: child_project.id } }
+
+      before do
+        create(:member, principal: current_user, project: sibling_project, roles: [role])
+      end
+
+      it "includes the sibling alongside the current project, with the parent fully loaded", :aggregate_failures do
+        make_request
+
+        expect(assigns(:projects)).to include(child_project, sibling_project, parent_project)
+
+        parent_node = assigns(:tree).find { |node| node[:project] == parent_project }
+        expect(parent_node[:children].pluck(:project)).to contain_exactly(child_project, sibling_project)
+        expect(parent_node[:deferred_children_path]).to be_nil
+      end
+    end
+
+    context "when siblings exist at multiple levels of the ancestor chain" do
+      shared_let(:top_root) { create(:project, name: "Root Multi") }
+      shared_let(:root_sibling) { create(:project, name: "Root Multi Sibling", parent: top_root) }
+      shared_let(:mid_parent) { create(:project, name: "Mid Parent", parent: top_root) }
+      shared_let(:mid_sibling) { create(:project, name: "Mid Sibling", parent: mid_parent) }
+      shared_let(:leaf_project) { create(:project, name: "Leaf Project", parent: mid_parent) }
+
+      subject(:make_request) { get :index, params: { current_project_id: leaf_project.id } }
+
+      before do
+        [top_root, root_sibling, mid_parent, mid_sibling, leaf_project].each do |project|
+          create(:member, principal: current_user, project:, roles: [role])
+        end
+      end
+
+      it "includes siblings at every level, not just the immediate parent", :aggregate_failures do
+        make_request
+
+        expect(assigns(:projects)).to include(top_root, root_sibling, mid_parent, mid_sibling, leaf_project)
+
+        root_node = assigns(:tree).find { |node| node[:project] == top_root }
+        expect(root_node[:children].pluck(:project)).to contain_exactly(mid_parent, root_sibling)
+        expect(root_node[:deferred_children_path]).to be_nil
+
+        mid_node = root_node[:children].find { |node| node[:project] == mid_parent }
+        expect(mid_node[:children].pluck(:project)).to contain_exactly(leaf_project, mid_sibling)
+        expect(mid_node[:deferred_children_path]).to be_nil
+      end
+    end
+
     context "with an invalid filter_mode param" do
       it "defaults to showing all root-level projects" do
         get :index, params: { filter_mode: "invalid" }
