@@ -51,6 +51,10 @@ module GitlabIntegration
       ]
     end
 
+    def commit_message
+      commit_message_lines.join("\n\n")
+    end
+
     def create_branch_command_lines
       command_lines = [
         "git switch -c #{branch_name} &&",
@@ -59,7 +63,15 @@ module GitlabIntegration
 
       message_lines = commit_message_lines.map { |line| "-m '#{sanitize_shell_command_string(line)}'" }
 
-      lines = command_lines.concat(message_lines)
+      command_lines.concat(message_lines)
+    end
+
+    def create_branch_command
+      create_branch_command_lines.join(" ")
+    end
+
+    def create_branch_command_text
+      lines = create_branch_command_lines
       lines.map.with_index do |line, idx|
         line = "  #{line}" if idx > 0
         line = "#{line} \\" if idx < lines.count - 1

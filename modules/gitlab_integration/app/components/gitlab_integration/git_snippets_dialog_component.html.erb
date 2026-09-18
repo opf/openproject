@@ -42,14 +42,16 @@ See COPYRIGHT and LICENSE files for more details.
             menu.with_trailing_action_clipboard_copy_button(
               id: :copy_branch_name,
               value: branch_name,
-              aria: { label: "Copy branch name" }
+              aria: { label: t(".copy_branch_name") }
             )
           end
         end
 
         container.with_row { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".commit_message") } }
         container.with_row(mb: 3) do
-          render(OpPrimer::InsetBoxComponent.new(data: { test_selector: "gitlab-snippets-commit-message" })) do
+          render(OpPrimer::InsetBoxComponent.new(data: { test_selector: "gitlab-snippets-commit-message" })) do |box|
+            box.with_clipboard_copy_button(value: commit_message, aria: { label: t(".copy_commit_message") })
+
             concat(render(Primer::Beta::Text.new(tag: :p, mb: 3)) { commit_message_lines[0] })
             concat(render(Primer::Beta::Text.new(tag: :p, mb: 0)) { commit_message_lines[1] })
           end
@@ -57,8 +59,10 @@ See COPYRIGHT and LICENSE files for more details.
 
         container.with_row { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".create_branch_with_empty_commit") } }
         container.with_row do
-          render(OpPrimer::InsetBoxComponent.new(data: { test_selector: "gitlab-snippets-create-branch-command" })) do
-            create_branch_command_lines.each do |line|
+          render(OpPrimer::InsetBoxComponent.new(data: { test_selector: "gitlab-snippets-create-branch-command" })) do |box|
+            box.with_clipboard_copy_button(value: create_branch_command, aria: { label: t(".copy_create_branch_command") })
+
+            create_branch_command_text.each do |line|
               concat(render(Primer::Beta::Text.new(tag: :div, style: "white-space: pre")) { line })
             end
           end
