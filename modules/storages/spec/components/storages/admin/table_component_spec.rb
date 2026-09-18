@@ -31,23 +31,23 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::StorageListComponent, type: :component do
+RSpec.describe Storages::Admin::TableComponent, type: :component do
   shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
   shared_let(:one_drive_storage) { create(:one_drive_storage) }
 
   let(:storages) { [nextcloud_storage, one_drive_storage] }
 
-  subject(:storage_list_component) { described_class.new(storages) }
+  subject(:storage_table_component) { described_class.new(rows: storages) }
 
   before do
-    render_inline(storage_list_component)
+    render_inline(storage_table_component)
   end
 
   context "with storages" do
     it "lists all storages" do
-      expect(page).to have_list_item(count: 2)
-      expect(page).to have_list_item(nextcloud_storage.name)
-      expect(page).to have_list_item(one_drive_storage.name)
+      expect(page).to have_css(".Box-row", count: 2)
+      expect(page).to have_css(".Box-row", text: nextcloud_storage.name)
+      expect(page).to have_css(".Box-row", text: one_drive_storage.name)
     end
   end
 
