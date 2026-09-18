@@ -53,6 +53,9 @@ interface BurndownChartData {
   nonWorkingIntervals:NonWorkingInterval[];
 }
 
+// Keeps the tallest step clear of the top of the plot area.
+const Y_AXIS_HEADROOM = 1.1;
+
 function cssVariable(name:string, fallback:string):string {
   return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
 }
@@ -91,10 +94,10 @@ export class BurndownChartComponent {
     return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
   });
 
-  private readonly peakValue = computed(() => {
+  private readonly yAxisMaximum = computed(() => {
     const values = this.parsed().series.flatMap((series) => series.data.map((point) => point.y));
 
-    return values.length === 0 ? undefined : Math.max(...values);
+    return values.length === 0 ? undefined : Math.max(...values) * Y_AXIS_HEADROOM;
   });
 
   readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
@@ -115,7 +118,7 @@ export class BurndownChartComponent {
       y: {
         title: { display: true, text: this.i18n.t('js.burndown.story_points') },
         beginAtZero: true,
-        suggestedMax: this.peakValue(),
+        suggestedMax: this.yAxisMaximum(),
       },
     },
     plugins: {
