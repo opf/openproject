@@ -25,6 +25,10 @@ import {
   Twisty,
 } from './atoms';
 
+// Where the top layer is out of reach, the list stays an ordinary fixed box.
+const TOP_LAYER = typeof HTMLElement !== 'undefined'
+  && typeof HTMLElement.prototype.showPopover === 'function';
+
 const MAX_LIST_HEIGHT = 320;
 const LIST_OFFSET = 2;
 const OPEN_DURATION = 150;
@@ -96,6 +100,16 @@ export const Suggestions = ({
   const heldAt = useRef<number | null>(null);
   const crossedTo = useRef<number | null>(null);
   const rolledOpen = useRef(false);
+
+  // Ahead of the placement below, which has no height to go by while the list
+  // is still in the flow and display:none.
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!TOP_LAYER || !list) return;
+
+    list.showPopover();
+    return () => { if (list.isConnected) list.hidePopover(); };
+  }, []);
 
   useAnchoredPopover({
     anchorEl,
@@ -170,6 +184,7 @@ export const Suggestions = ({
   return (
     <SuggestionList
       ref={listRef}
+      popover={TOP_LAYER ? 'manual' : undefined}
       data-testid={`${id}-popover`}
       aria-hidden={!open}
       $closing={!open}

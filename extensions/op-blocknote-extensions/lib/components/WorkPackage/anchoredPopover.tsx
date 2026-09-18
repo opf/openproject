@@ -29,8 +29,8 @@ const clamp = (value:number, min:number, max:number):number =>
 const getAnchorRect = (el:HTMLElement):DOMRect =>
   el.getClientRects()[0] ?? el.getBoundingClientRect();
 
-const isSameRect = (a:DOMRect, b:DOMRect):boolean =>
-  a.top === b.top && a.left === b.left && a.width === b.width && a.height === b.height;
+const isSameRect = (a:VisibleRect, b:VisibleRect):boolean =>
+  a.top === b.top && a.left === b.left && a.right === b.right && a.bottom === b.bottom;
 
 const getParentElement = (element:Element):Element | null => {
   if (element.parentElement) return element.parentElement;
@@ -38,15 +38,22 @@ const getParentElement = (element:Element):Element | null => {
   return root instanceof ShadowRoot ? root.host : null;
 };
 
+const getViewportRect = ():VisibleRect => {
+  const viewport = window.visualViewport;
+  const unzoomed = viewport?.scale === 1 ? viewport : undefined;
+
+  return {
+    top: 0,
+    left: 0,
+    right: Math.min(unzoomed?.width ?? Infinity, window.innerWidth),
+    bottom: Math.min(unzoomed?.height ?? Infinity, window.innerHeight),
+  };
+};
+
 // A fixed popover is taken out of the flow, so only the viewport clips it; an
 // absolute one is also clipped by every scrolling ancestor above it.
 const getVisibleRect = (element:HTMLElement):VisibleRect => {
-  const visible:VisibleRect = {
-    top: 0,
-    left: 0,
-    right: window.innerWidth,
-    bottom: window.innerHeight,
-  };
+  const visible = getViewportRect();
 
   if (getComputedStyle(element).position === 'fixed') return visible;
 
@@ -167,41 +174,50 @@ export const useAnchoredPopover = ({
     () => (anchorEl ? getAnchorRect(anchorEl) : null)
   );
   const [side, setSide] = useState<PopoverSide>(placement);
+  const [visible, setVisible] = useState<VisibleRect>(getViewportRect);
 
   useEffect(() => {
     if (!anchorEl) return;
     // The chip rerenders on every editor transaction, and a fresh DOMRect would
     // reposition the popover on each of them.
-    const update = () => setAnchorRect((previous) => {
-      const next = getAnchorRect(anchorEl);
-      return previous && isSameRect(previous, next) ? previous : next;
-    });
-
-    // Coalesce reposition work to one run per frame - resize fires far faster.
-    let frame = 0;
-    const scheduleUpdate = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => { frame = 0; update(); });
-    };
-
-    const handleScroll = () => {
-      const popover = popoverRef.current;
-      if (popover && getComputedStyle(popover).position === 'fixed') scheduleUpdate();
+    const update = () => {
+      setAnchorRect((previous) => {
+        const next = getAnchorRect(anchorEl);
+        return previous && isSameRect(previous, next) ? previous : next;
+      });
+      setVisible((previous) => {
+        const next = getViewportRect();
+        return isSameRect(previous, next) ? previous : next;
+      });
     };
 
     update();
-    window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', scheduleUpdate);
+
+    const popover = popoverRef.current;
+    let frame = 0;
+    if (!popover || getComputedStyle(popover).position === 'fixed') {
+      const track = () => {
+        update();
+        frame = requestAnimationFrame(track);
+      };
+      frame = requestAnimationFrame(track);
+    }
+
+    window.addEventListener('resize', update);
     // A popover opened on a field that is still animating in was measured
     // against a position the anchor has since left.
-    window.addEventListener('animationend', scheduleUpdate, true);
-    window.addEventListener('transitionend', scheduleUpdate, true);
+    window.addEventListener('animationend', update, true);
+    window.addEventListener('transitionend', update, true);
+    const viewport = window.visualViewport;
+    viewport?.addEventListener('resize', update);
+    viewport?.addEventListener('scroll', update);
     return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('resize', scheduleUpdate);
-      window.removeEventListener('animationend', scheduleUpdate, true);
-      window.removeEventListener('transitionend', scheduleUpdate, true);
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', update);
+      window.removeEventListener('animationend', update, true);
+      window.removeEventListener('transitionend', update, true);
+      viewport?.removeEventListener('resize', update);
+      viewport?.removeEventListener('scroll', update);
     };
   }, [anchorEl, popoverRef]);
 
@@ -213,7 +229,7 @@ export const useAnchoredPopover = ({
     if (matchAnchorWidth) popover.style.width = `${anchorRect.width}px`;
 
     setSide(positionPopover(popover, anchorRect, placement, offset, maxHeight, reserveMaxHeight));
-  }, [anchorRect, placement, offset, popoverRef, matchAnchorWidth, maxHeight, reserveMaxHeight, resizeKey]);
+  }, [anchorRect, visible, placement, offset, popoverRef, matchAnchorWidth, maxHeight, reserveMaxHeight, resizeKey]);
 
   return { side };
 };

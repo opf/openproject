@@ -1,9 +1,12 @@
-import { expect } from 'vitest';
+import { expect, onTestFinished } from 'vitest';
 import { delay, http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { worker } from '../mocks/browser';
 import { createFormFor } from '../mocks/handlers';
 import type { FormRequestBody } from '../mocks/handlers';
+
+const PHONE = { width: 390, height: 640 };
+const DESKTOP = { width: 800, height: 600 };
 
 export function holdBackFormLoads(ms:number) {
   worker.use(http.post('http://localhost:3000/api/v3/work_packages/form', async () => { await delay(ms); }));
@@ -32,7 +35,21 @@ export function colorChannelsOf(element:Element):string[] {
   return ['--color-r', '--color-g', '--color-b'].map((channel) => styles.getPropertyValue(channel).trim());
 }
 
+export async function onAPhone(height = PHONE.height) {
+  await page.viewport(PHONE.width, height);
+  onTestFinished(() => page.viewport(DESKTOP.width, DESKTOP.height));
+}
+
 export const modalPanel = ():HTMLElement => page.getByTestId('create-wp-modal').element() as HTMLElement;
+
+export const pickerList = (label:string):HTMLElement =>
+  page.getByRole('listbox', { name: label }).element().closest<HTMLElement>('[data-testid$="-popover"]')!;
+
+export function gapToField(label:string, field:Element):number {
+  const list = pickerList(label).getBoundingClientRect();
+  const box = field.getBoundingClientRect();
+  return Math.round(Math.min(Math.abs(list.top - box.bottom), Math.abs(box.top - list.bottom)));
+}
 
 export const modalBody = ():HTMLElement => modalPanel().querySelector<HTMLElement>('form > div')!;
 
@@ -76,19 +93,19 @@ export async function clearProject() {
   await userEvent.click(page.getByTestId('op-bn-create-wp-project-list-deselect'));
 }
 
-export async function selectOptionNamed(label:string, option:string) {
+export async function openPicker(label:string, option:string) {
   await userEvent.click(page.getByLabelText(label));
   await expect.element(page.getByRole('option', { name: option })).toBeVisible();
+}
+
+export async function selectOptionNamed(label:string, option:string) {
+  await openPicker(label, option);
   await userEvent.click(page.getByRole('option', { name: option }));
 }
 
 // The list closes on every pick, so it is opened again for the next value.
 export async function pickValues(label:string, ...options:string[]) {
-  for (const option of options) {
-    await userEvent.click(page.getByLabelText(label));
-    await expect.element(page.getByRole('option', { name: option })).toBeVisible();
-    await userEvent.click(page.getByRole('option', { name: option }));
-  }
+  for (const option of options) await selectOptionNamed(label, option);
 }
 
 export async function fillRequiredFields(subject:string) {
@@ -103,11 +120,10 @@ export async function fillRequiredFieldsBesidesSubject(type = 'Task') {
   await selectOptionNamed('Type *', type);
 
   await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
-  await userEvent.click(page.getByLabelText('Supervisor *'));
-  await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
-  await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
+  await selectOptionNamed('Supervisor *', 'Anna Kovalenko');
 
   await selectOptionNamed('Department *', 'Design');
 
   await pickValues('Labels *', 'Accessibility');
 }
+
