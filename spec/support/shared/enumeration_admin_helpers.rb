@@ -28,18 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Menu and ordering helpers for the enumeration admin Border Box lists
-# (priorities, time entry activities). Included per feature spec.
+# Menu and ordering helpers for the enumeration admin lists (priorities,
+# time entry activities, document types). Included per feature spec.
+# Consumers define `enumeration_list_selector` and `enumeration_actions_label`;
+# tables override `enumeration_item_selector` with `:row`.
 module EnumerationAdminHelpers
+  def enumeration_item_selector = :list_item
+
   def within_enumeration_list(&)
     page.within(enumeration_list_selector, &)
   end
 
   def expect_enumeration_order(*names)
     within_enumeration_list do
-      expect(page).to have_list_item(count: names.size)
+      expect(page).to have_selector(enumeration_item_selector, count: names.size)
       names.each_with_index do |name, index|
-        expect(page).to have_list_item(name, position: index + 1)
+        expect(page).to have_selector(enumeration_item_selector, name, position: index + 1)
       end
     end
   end
@@ -52,7 +56,7 @@ module EnumerationAdminHelpers
 
   def within_enumeration_menu(record, &)
     within_enumeration_list do
-      within(:list_item, record.name) do
+      within(enumeration_item_selector, record.name) do
         button = find(:button, accessible_name: enumeration_actions_label)
         within(open_controlled_menu(button), &)
       end
@@ -73,13 +77,13 @@ module EnumerationAdminHelpers
 
   def enumeration_drag_handle(record)
     within_enumeration_list do
-      find(:list_item, record.name)
+      find(enumeration_item_selector, record.name)
         .find(:button, accessible_name: I18n.t("drag_handle.button_drag"))
     end
   end
 
   def enumeration_row(record)
-    within_enumeration_list { find(:list_item, record.name) }
+    within_enumeration_list { find(enumeration_item_selector, record.name) }
   end
 
   private
