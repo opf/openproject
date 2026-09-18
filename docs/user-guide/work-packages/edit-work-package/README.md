@@ -74,7 +74,7 @@ Next steps vary depending on whether you are creating a new wiki page or linking
 
 Depending on your system configuration, you can choose between:
 
-- **OpenProject **, if the OpenProject project wiki is enabled by an administrator.
+- OpenProject , if the OpenProject project wiki is enabled by an administrator.
 - an external wiki, if an administrator has configured it, such as **XWiki** (Enterprise add-on).
 
 > [!NOTE]
@@ -91,7 +91,7 @@ Depending on your system configuration, you can choose between:
 #### Link an existing wiki page
 
 3. Naming step is skipped. If there is more than one provider, you will need to select a Wiki provider. Click **Next**.
-4. Search for and select the wiki page you want to link. You can also enter a URL if you already know the destination.
+4. Search for and select the wiki page you want to link. You can also enter a URL if you already know the destination. For a page that you don't know its title, enter a search term, and the search results replaces the page hierarchy. To return to the hierarchy with all pages collapsed, simply clear the search bar.
 5. Click **Add** to add the link to the work package description.
 
 The wiki page is inserted into the description as a link.
