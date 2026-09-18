@@ -205,12 +205,13 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
 
   context "when branch tracking fails" do
     let(:branch_name) { "bug/#{work_package.id}-fix-the-thing" }
+    let(:error) { ActiveRecord::RecordNotUnique.new("boom") }
 
     before do
       payload["before"] = "0" * 40
       payload["ref"] = "refs/heads/#{branch_name}"
       allow(OpenProject::GitlabIntegration::Services::TrackBranch)
-        .to receive(:new).and_raise(StandardError, "boom")
+        .to receive(:new).and_raise(error)
       allow(OpenProject.logger).to receive(:error)
     end
 
@@ -219,8 +220,16 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
 
       expect(OpenProject.logger)
         .to have_received(:error)
-        .with(/Failed to track Gitlab branch/, hash_including(exception: an_instance_of(StandardError)))
+        .with(/Failed to track Gitlab branch/, hash_including(exception: error))
       expect(handler_instance).to have_received(:comment_on_referenced_work_packages)
+    end
+
+    context "when the failure is not a database error" do
+      let(:error) { NoMethodError.new("boom") }
+
+      it "lets the error through" do
+        expect { process }.to raise_error(NoMethodError)
+      end
     end
   end
 

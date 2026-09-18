@@ -61,7 +61,7 @@ module OpenProject::GitlabIntegration
       # from being processed.
       def track_branch(user)
         ::OpenProject::GitlabIntegration::Services::TrackBranch.new.call(payload, user:)
-      rescue StandardError => e
+      rescue ActiveRecord::ActiveRecordError => e
         ::OpenProject.logger.error("Failed to track Gitlab branch #{payload.ref}", exception: e)
       end
 
