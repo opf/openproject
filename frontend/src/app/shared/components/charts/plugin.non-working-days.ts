@@ -35,6 +35,7 @@ export interface NonWorkingInterval {
 
 export interface NonWorkingDaysPluginOptions {
   intervals?:NonWorkingInterval[];
+  hidden?:boolean;
 }
 
 declare module 'chart.js' {
@@ -79,7 +80,7 @@ export const NonWorkingDaysPlugin:Plugin = {
     const intervals = options?.intervals ?? [];
     const scale = chart.scales.x;
 
-    if (intervals.length === 0 || !scale) {
+    if (options?.hidden || intervals.length === 0 || !scale) {
       return;
     }
 
