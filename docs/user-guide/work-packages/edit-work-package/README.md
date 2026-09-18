@@ -94,6 +94,8 @@ Depending on your system configuration, you can choose between:
 4. Search for and select the wiki page you want to link. You can also enter a URL if you already know the destination. For a page that you don't know its title, enter a search term, and the search results replaces the page hierarchy. To return to the hierarchy with all pages collapsed, simply clear the search bar.
 5. Click **Add** to add the link to the work package description.
 
+![Add an existing wiki page](openproject_user_guide_wp_wiki_existing_page_search.png)
+
 The wiki page is inserted into the description as a link.
 
 When added from the work package description, the wiki page is inserted into the description as a link.
