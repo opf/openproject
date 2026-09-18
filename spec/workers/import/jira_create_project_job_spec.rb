@@ -68,11 +68,10 @@ RSpec.describe Import::JiraCreateProjectJob,
 
     context "when project creation fails with a general error" do
       before do
-        # rubocop:disable RSpec/AnyInstance
+        # rubocop:disable-next RSpec/AnyInstance
         allow_any_instance_of(Projects::CreateService).to receive(:call).and_return(
           ServiceResult.failure(message: "Something went wrong during project creation")
         )
-        # rubocop:enable RSpec/AnyInstance
       end
 
       it "raises the error message" do
@@ -108,6 +107,59 @@ RSpec.describe Import::JiraCreateProjectJob,
 
       it "does not create any custom field" do
         expect { create_project }.not_to change(WorkPackageCustomField, :count)
+      end
+    end
+
+    context "with project versions" do
+      let!(:jira_version) do
+        create(:jira_version,
+               jira_import:,
+               jira_project:,
+               origin_id: "10001",
+               payload: { "id" => "10001", "name" => "v1.0", "description" => "First release" })
+      end
+
+      it "creates Version records for each JiraVersion" do
+        expect { create_project }.to change(Version, :count).by(1)
+      end
+
+      it "creates versions with correct attributes" do
+        create_project
+
+        version = Version.find_by(name: "v1.0")
+        expect(version).to be_present
+        expect(version.project.identifier).to eq(jira_project_key)
+      end
+
+      it "creates references for versions" do
+        create_project
+
+        expect(Import::JiraOpenProjectReference.find_op_leg(jira_version)).to be_a(Version)
+      end
+
+      context "when version with same name already exists in the project" do
+        it "reuses the existing version" do
+          create_project
+          existing_version = Version.find_by(name: "v1.0")
+
+          # Simulate a second run
+          expect { create_project rescue nil }.not_to change(Version, :count)
+          expect(Version.find_by(name: "v1.0")).to eq(existing_version)
+        end
+      end
+
+      context "with multiple versions" do
+        let!(:jira_version2) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10002",
+                 payload: { "id" => "10002", "name" => "v2.0" })
+        end
+
+        it "creates all versions" do
+          expect { create_project }.to change(Version, :count).by(2)
+        end
       end
     end
   end

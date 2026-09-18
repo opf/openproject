@@ -30,7 +30,7 @@
 
 module Import
   class JiraStagedImportJob < ApplicationJob
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def perform(batch, _context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
@@ -53,6 +53,7 @@ module Import
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).pluck(:id).each do |id|
               Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
+              Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
             end
           end
         elsif batch.properties[:stage] == 2
@@ -99,6 +100,5 @@ module Import
         jira_import.transition_to!(:import_error)
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end
