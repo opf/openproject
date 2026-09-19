@@ -86,6 +86,11 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
+  scope :overlapping, ->(date_range) {
+    where("daterange(start_date, end_date, '[]') && daterange(?, ?, '[]')",
+          date_range.begin, date_range.end)
+  }
+
   scope :for_projects, ->(projects) {
     joins = ENTITY_PROJECT_JOINS.values.pluck(:join)
     conditions = ENTITY_PROJECT_JOINS.values.map { |source| "#{source[:project_id]} IN (:project_ids)" }

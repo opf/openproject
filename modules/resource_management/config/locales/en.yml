@@ -231,10 +231,10 @@ en:
     user_allocations_dialog:
       allocate_work_package: Allocate work package
       blank: This user has no allocated work packages.
-      other_work_packages:
-        one: "1 other work package"
-        other: "%{count} other work packages"
+      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
+      hidden_work_package: Work package not visible to you
       title: Utilization
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: Add user

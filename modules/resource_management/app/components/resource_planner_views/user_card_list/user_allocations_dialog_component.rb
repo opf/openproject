@@ -36,35 +36,33 @@ module ResourcePlannerViews::UserCardList
 
     DIALOG_ID = "user-allocations-dialog"
 
-    def initialize(project:, view:, user:, allocations:, overbooked_ids: Set.new)
+    def initialize(project:, view:, user:, allocations:, timeframe: nil, overbooked_ids: Set.new)
       super
 
       @project = project
       @view = view
       @user = user
       @allocations = allocations
+      @timeframe = timeframe
       @overbooked_ids = overbooked_ids
     end
 
     private
 
-    attr_reader :project, :view, :user, :allocations, :overbooked_ids
-
-    # The card view always belongs to a planner, which carries the utilization
-    # window.
-    def resource_planner
-      @view.parent
-    end
+    attr_reader :project, :view, :user, :allocations, :timeframe, :overbooked_ids
 
     def title
       I18n.t("resource_management.user_allocations_dialog.title")
     end
 
+    def availability
+      @availability ||= ResourceAllocations::Availability.new(user:, allocations:)
+    end
+
     def utilization
       return @utilization if defined?(@utilization)
 
-      @utilization = utilization_window &&
-                     ResourceAllocations::Availability.new(user:, allocations:).utilization_ratio(utilization_window)
+      @utilization = timeframe && availability.utilization_ratio(timeframe)
     end
 
     def utilization?
@@ -75,35 +73,55 @@ module ResourcePlannerViews::UserCardList
       helpers.number_to_percentage(utilization, precision: 0)
     end
 
-    def utilization_window
-      return @utilization_window if defined?(@utilization_window)
-
-      from = resource_planner.start_date
-      to = resource_planner.end_date
-      @utilization_window = from && to ? from..to : nil
+    def timeframe_label
+      t("resource_management.timeframe.full",
+        start: helpers.format_date(timeframe.begin),
+        end: helpers.format_date(timeframe.end))
     end
 
-    def visible_allocations
-      allocations.select { |allocation| work_package_for(allocation) }
+    def capacity_known?
+      timeframe.present? && capacity_minutes.positive?
     end
 
-    def hidden_allocations
-      allocations.reject { |allocation| work_package_for(allocation) }
+    def capacity_label
+      t("resource_management.user_allocations_dialog.total_time",
+        hours: DurationConverter.output(capacity_minutes / 60.0))
     end
 
-    def hidden_count
-      hidden_allocations.size
+    def capacity_minutes
+      @capacity_minutes ||= availability.capacity_minutes_within(timeframe)
     end
 
-    def hidden_duration
-      DurationConverter.output(hidden_allocations.sum(&:allocated_hours))
+    def blank_label
+      key = timeframe ? "blank_in_timeframe" : "blank"
+
+      t("resource_management.user_allocations_dialog.#{key}")
     end
 
+    def visible?(allocation)
+      work_package_for(allocation).present?
+    end
+
+    def hidden_label
+      t("resource_management.user_allocations_dialog.hidden_work_package")
+    end
+
+    # A global dialog spans projects, and inside a project the allocations
+    # reaching outside it are the ones worth naming.
+    def show_project?(allocation)
+      work_package_project = work_package_for(allocation)&.project
+
+      work_package_project.present? && work_package_project != project
+    end
+
+    # Every allocation the utilization above is computed from gets its own row, so
+    # the lookup is bounded by what the viewer may see and nothing else.
     def work_packages_by_id
       @work_packages_by_id ||=
         WorkPackage
           .visible(User.current)
-          .where(project:, id: allocations.map(&:entity_id).uniq)
+          .where(id: allocations.map(&:entity_id).uniq)
+          .includes(:project)
           .index_by(&:id)
     end
 
@@ -119,10 +137,21 @@ module ResourcePlannerViews::UserCardList
       DurationConverter.output(allocation.allocated_hours)
     end
 
-    def editable?
-      return @editable if defined?(@editable)
+    def date_range(allocation)
+      "#{helpers.format_date(allocation.start_date)} - #{helpers.format_date(allocation.end_date)}"
+    end
 
-      @editable = User.current.allowed_in_project?(:allocate_user_resources, project)
+    # The permission lives on the project of the allocated work package, which on
+    # a global planner differs from row to row.
+    def editable?(allocation)
+      allocation_project = work_package_for(allocation)&.project
+      return false if allocation_project.nil?
+
+      @editable ||= {}
+      @editable.fetch(allocation_project.id) do
+        @editable[allocation_project.id] =
+          User.current.allowed_in_project?(:allocate_user_resources, allocation_project)
+      end
     end
 
     def overbooked_message
@@ -137,12 +166,14 @@ module ResourcePlannerViews::UserCardList
       new_allocation_path(project, principal_id: user.id, resource_planner_view_id: view.id)
     end
 
-    def edit_allocation_path(allocation)
-      edit_project_resource_allocation_path(project, allocation, resource_planner_view_id: view.id)
+    def edit_path_for(allocation)
+      edit_allocation_path(project, allocation, resource_planner_view_id: view.id)
     end
 
-    def delete_allocation_path(allocation)
-      project_resource_allocation_path(project, allocation)
+    # The view is carried along so the destroy response knows to re-render this
+    # dialog, which stays open behind the confirmation.
+    def delete_path_for(allocation)
+      allocation_path(project, allocation, resource_planner_view_id: view.id)
     end
   end
 end

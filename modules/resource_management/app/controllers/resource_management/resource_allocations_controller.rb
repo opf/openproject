@@ -31,6 +31,7 @@ module ::ResourceManagement
   class ResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
     include ResourceManagement::PlannerRoutes
+    include ResourceManagement::UserAllocationsDialog
 
     menu_item :resource_management
 
@@ -113,12 +114,13 @@ module ::ResourceManagement
 
     def destroy
       entity = @resource_allocation.entity
+      principal = @resource_allocation.principal
       call = ResourceAllocations::DeleteService
                .new(user: current_user, model: @resource_allocation)
                .call
 
       if call.success?
-        render_destroy_success(entity)
+        render_destroy_success(entity, principal)
       else
         render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
         respond_with_turbo_streams
@@ -239,25 +241,16 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::NewDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
-      reopen_user_dialog(allocation)
+      refresh_user_allocations_dialog(allocation.principal)
       respond_with_turbo_streams
     end
 
-    def reopen_user_dialog(allocation)
+    def refresh_user_allocations_dialog(principal)
       return unless reopen_user_allocations_dialog?
-      return if allocation.principal.nil?
-
-      user = allocation.principal
-      allocations = ResourceAllocation.allocated.for_principal(user).includes(:entity).to_a
+      return if principal.nil?
 
       dialog_via_turbo_stream(
-        component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
-          project: @project,
-          view: resource_planner_view,
-          user:,
-          allocations:,
-          overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
-        )
+        component: user_allocations_dialog_component(view: resource_planner_view, user: principal)
       )
     end
 
@@ -330,11 +323,11 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
-      reopen_user_dialog(allocation)
+      refresh_user_allocations_dialog(allocation.principal)
       respond_with_turbo_streams
     end
 
-    def render_destroy_success(entity)
+    def render_destroy_success(entity, principal)
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.work_package_allocations_dialog.delete_success")
       )
@@ -343,6 +336,7 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(entity)
       notify_allocation_change(entity)
+      refresh_user_allocations_dialog(principal)
       respond_with_turbo_streams
     end
 

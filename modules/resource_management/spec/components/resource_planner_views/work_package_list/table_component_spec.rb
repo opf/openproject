@@ -28,31 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ::ResourceManagement
-  class UserResourceAllocationsController < BaseController
-    include OpTurbo::ComponentStream
-    include ResourceManagement::UserAllocationsDialog
+require "rails_helper"
 
-    menu_item :resource_management
+RSpec.describe ResourcePlannerViews::WorkPackageList::TableComponent, type: :component do
+  def columns_for(project)
+    described_class.new(rows: [], view: nil, project:, resource_planner: nil).columns
+  end
 
-    load_and_authorize_in_planner_section
-    before_action :find_resource_planner_view
-    before_action :find_user
+  it "names each work package's project on a global planner" do
+    expect(columns_for(nil)).to eq(%i[subject project priority dates allocation allocated_members])
+  end
 
-    def index
-      respond_with_dialog user_allocations_dialog_component(view: @resource_planner_view, user: @user)
-    end
-
-    private
-
-    def find_resource_planner_view
-      @resource_planner_view = PersistedView
-                                 .where(parent: ResourcePlanner.visible_to(current_user, @project))
-                                 .find(params.expect(:resource_planner_view_id))
-    end
-
-    def find_user
-      @user = User.visible(current_user).find(params.expect(:user_id))
-    end
+  it "omits the column inside a project, where it would only repeat the page" do
+    expect(columns_for(build_stubbed(:project))).to eq(%i[subject priority dates allocation allocated_members])
   end
 end
