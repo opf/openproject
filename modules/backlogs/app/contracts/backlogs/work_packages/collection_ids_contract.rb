@@ -29,28 +29,36 @@
 #++
 
 module Backlogs
-  class MoveToSprintDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+  module WorkPackages
+    class CollectionIdsContract < ::ParamsContract
+      validate :ids_distinct_and_present
+      validate :batch_within_cap
 
-    DIALOG_ID = "move-to-sprint-dialog"
-    FORM_ID = "move-to-sprint-dialog-form"
-    SELECTION_LABEL_ID = "move-to-sprint-dialog-selection"
+      # BaseContract#errors returns model.errors whenever the model responds
+      # to it, and project does: without this override, validating the
+      # contract would clear and repopulate the live project's own error bag.
+      def errors
+        @errors ||= ActiveModel::Errors.new(self)
+      end
 
-    attr_reader :work_packages, :sprints, :move_action
+      private
 
-    def initialize(work_packages:, sprints:, move_action:)
-      super()
+      def ids
+        Array(params[:ids]).map(&:to_s)
+      end
 
-      @work_packages = work_packages
-      @sprints = sprints
-      @move_action = move_action
-    end
+      def ids_distinct_and_present
+        return unless ids.empty? || ids.any?(&:blank?) || ids.uniq.length != ids.length
 
-    private
+        errors.add(:base, I18n.t("backlogs.work_packages.move_collection.invalid_ids"))
+      end
 
-    def destination_list_type
-      Backlogs::Target::SprintId.list_type
+      def batch_within_cap
+        return if ids.length <= BatchUpdateService::MAX_BATCH_SIZE
+
+        errors.add(:base, I18n.t("backlogs.work_packages.move_collection.too_many_work_packages",
+                                 max: BatchUpdateService::MAX_BATCH_SIZE))
+      end
     end
   end
 end
