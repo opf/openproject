@@ -23,25 +23,50 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+module GitlabIntegration
+  class MergeRequestComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, only: %i[] do
-        collection do
-          resources :tab, only: %i[index], controller: "work_package_gitlab_tab", as: "gitlab_tab"
-        end
+    alias_method :merge_request, :model
+
+    private
+
+    def state_scheme
+      case merge_request.state.to_sym
+      when :opened
+        :success
+      when :closed, :locked
+        :danger
+      when :merged
+        :done
+      else
+        raise ArgumentError, "Unsupported merge request state #{state}"
       end
+    end
+
+    def state_icon
+      case merge_request.state.to_sym
+      when :opened
+        :"git-pull-request"
+      when :closed
+        :"git-pull-request-closed"
+      when :locked
+        :lock
+      when :merged
+        :"git-merge"
+      else
+        raise ArgumentError, "Unsupported merge request state #{state}"
+      end
+    end
+
+    def state_label
+      t(".states.#{merge_request.state}")
     end
   end
 end

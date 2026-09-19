@@ -23,25 +23,36 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+module GitlabIntegration
+  class LabelComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, only: %i[] do
-        collection do
-          resources :tab, only: %i[index], controller: "work_package_gitlab_tab", as: "gitlab_tab"
-        end
-      end
+    VALID_COLOR = /#[a-fA-F0-9]{3,6}/
+
+    attr_reader :title, :color
+
+    def initialize(title:, color:, **)
+      super(nil, **)
+
+      @title = title
+      @color = sanitize_color(color)
+    end
+
+    private
+
+    def sanitize_color(color)
+      # TODO: maybe indirectly assign colors via hl_background_class helpers and updating CSS
+      # in app/views/highlighting/styles.css.erb (requires us to enumerate all colors in use by GitLab)
+      # This would ensure contrasts of those colors always work (even #ffffff in light mode and #000000 in darkmode)
+      return color if color.match?(VALID_COLOR)
+
+      "#000"
     end
   end
 end

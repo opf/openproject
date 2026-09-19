@@ -23,25 +23,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+module GitlabIntegration
+  class StatusComponent < Primer::Component
+    attr_reader :scheme, :icon
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, only: %i[] do
-        collection do
-          resources :tab, only: %i[index], controller: "work_package_gitlab_tab", as: "gitlab_tab"
-        end
-      end
+    def initialize(scheme:, icon:, **system_arguments)
+      super()
+
+      @scheme = scheme
+      @icon = icon
+      @system_arguments = system_arguments
     end
   end
 end
