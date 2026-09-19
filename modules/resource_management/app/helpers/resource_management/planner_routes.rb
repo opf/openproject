@@ -134,6 +134,14 @@ module ResourceManagement
       end
     end
 
+    def edit_allocation_path(project, allocation, **params)
+      if project
+        op_routes.edit_project_resource_allocation_path(project, allocation, **params)
+      else
+        op_routes.edit_resource_allocation_path(allocation, **params)
+      end
+    end
+
     def work_package_allocations_path(project, work_package, **params)
       if project
         op_routes.project_work_package_resource_allocations_path(project, work_package, **params)

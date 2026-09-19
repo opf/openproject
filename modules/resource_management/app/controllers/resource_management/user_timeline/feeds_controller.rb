@@ -31,10 +31,11 @@
 module ResourceManagement
   module UserTimeline
     class FeedsController < BaseController
+      include ResourceManagement::PlannerRoutes
+
       menu_item :resource_management
 
-      before_action :find_project_by_project_id
-      before_action :authorize
+      before_action :load_and_authorize_in_optional_project
       before_action :find_resource_planner
       before_action :find_view
 

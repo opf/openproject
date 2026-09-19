@@ -86,6 +86,18 @@ module ResourcePlannerViews
       def candidate_tooltip_id
         "wp-timeline-candidates-#{allocation.id}"
       end
+
+      def label_tooltip_id
+        "wp-timeline-bar-#{allocation.id}"
+      end
+
+      # The bar is often too narrow to show the name and job title, so the full
+      # text is reachable by hovering anywhere on it.
+      def label_tooltip
+        return placeholder_label unless principal_visible?
+
+        [allocation.principal.name, job_title].compact_blank.join(" - ")
+      end
     end
   end
 end
