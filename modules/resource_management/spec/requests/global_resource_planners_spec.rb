@@ -30,9 +30,26 @@
 
 require "spec_helper"
 
-RSpec.describe "Global resource planners requests", type: :rails_request, with_ee: %i[resource_management] do
+RSpec.describe "Global resource planners requests",
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, name: "Alpha", enabled_module_names: %w[resource_management]) }
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
+  shared_let(:invisible) { create(:project, name: "Invisible", enabled_module_names: %w[resource_management]) }
+
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: { project => %i[view_resource_planners] },
+           global_permissions: %i[view_global_resource_planners])
+  end
+
+  shared_let(:project_planner) do
+    create(:resource_planner, project:, principal: user, name: "Project planner")
+  end
+  shared_let(:global_planner) do
+    create(:resource_planner, :global, principal: user, name: "Global planner")
+  end
+  shared_let(:invisible_planner) do
+    create(:resource_planner, project: invisible, principal: create(:user), public: true, name: "Invisible planner")
+  end
 
   before { login_as(user) }
 
@@ -42,6 +59,59 @@ RSpec.describe "Global resource planners requests", type: :rails_request, with_e
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("resource_planners_sidemenu")
     expect(response.body).to include(menu_resource_planners_path)
+  end
+
+  it "lists only global planners, linking them into the global scope" do
+    get resource_planners_path
+
+    expect(response.body).to include("Global planner")
+    expect(response.body).to include(resource_planner_path(global_planner))
+  end
+
+  it "does not list project planners" do
+    get resource_planners_path
+
+    expect(response.body).not_to include("Project planner", "Invisible planner")
+  end
+
+  it "offers a create link into the global scope" do
+    get resource_planners_path
+
+    expect(response.body).to include(new_resource_planner_path)
+  end
+
+  it "renders the new planner dialog" do
+    get new_resource_planner_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    expect(response).to have_http_status(:ok)
+  end
+
+  it "creates a global planner and advances to the configure step" do
+    expect do
+      post resource_planners_path,
+           params: { resource_planner: { name: "Cross-project capacity",
+                                         default_view_class_name: "ResourceWorkPackageList" } },
+           as: :turbo_stream
+    end.to change(ResourcePlanner.where(project: nil), :count).by(1)
+
+    planner = ResourcePlanner.last
+    expect(planner).to have_attributes(name: "Cross-project capacity", project: nil, principal: user)
+    expect(response.body).to include(resource_planner_views_path(planner))
+  end
+
+  context "without the global permission" do
+    shared_let(:project_only_user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+    end
+
+    before { login_as(project_only_user) }
+
+    it "still reaches the section but sees no global planners" do
+      get resource_planners_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("Global planner")
+    end
   end
 
   context "without any resource planner permission" do

@@ -28,26 +28,49 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlanners
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-    include ResourceManagement::PlannerRoutes
-
-    def initialize(project:)
-      super
-      @project = project
+module ResourceManagement
+  # Resource planners are reachable both inside a project and globally, so every
+  # link has to pick its route from the planner's own scope rather than from the
+  # page it is rendered on.
+  module PlannerRoutes
+    def planners_path(project)
+      project ? project_resource_planners_path(project) : resource_planners_path
     end
 
-    def render_create_button?
-      ResourcePlanner.viewable_by?(User.current, @project)
+    def new_planner_path(project)
+      project ? new_project_resource_planner_path(project) : new_resource_planner_path
     end
 
-    def create_label
-      I18n.t("resource_management.label_resource_planner")
+    def planner_path(planner)
+      if planner.global?
+        resource_planner_path(planner)
+      else
+        project_resource_planner_path(planner.project, planner)
+      end
     end
 
-    def create_path
-      new_planner_path(@project)
+    def edit_planner_path(planner)
+      if planner.global?
+        edit_resource_planner_path(planner)
+      else
+        edit_project_resource_planner_path(planner.project, planner)
+      end
+    end
+
+    def planner_views_path(planner)
+      if planner.global?
+        resource_planner_views_path(planner)
+      else
+        project_resource_planner_views_path(planner.project, planner)
+      end
+    end
+
+    def toggle_public_planner_path(planner)
+      if planner.global?
+        toggle_public_resource_planner_path(planner)
+      else
+        toggle_public_project_resource_planner_path(planner.project, planner)
+      end
     end
   end
 end

@@ -31,7 +31,15 @@
 Rails.application.routes.draw do
   resources :resource_planners,
             controller: "resource_management/resource_planners",
-            only: %i[index show] do
+            only: %i[index show new create edit update destroy] do
+    member do
+      post :toggle_public
+    end
+
+    resources :views,
+              controller: "resource_management/resource_planner_views",
+              only: %i[show new create edit update destroy]
+
     collection do
       get "menu" => "resource_management/menus#show"
     end
