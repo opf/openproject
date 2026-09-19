@@ -31,6 +31,7 @@
 module ResourcePlannerViews::WorkPackageList
   class SubHeaderComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     def initialize(project:, resource_planner:, view:)
       super
