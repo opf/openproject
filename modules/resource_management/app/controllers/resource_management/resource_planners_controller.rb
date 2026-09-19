@@ -37,7 +37,8 @@ module ::ResourceManagement
 
     skip_before_action :ensure_resource_management_licensed, only: :index
 
-    before_action :load_and_authorize_in_optional_project
+    load_and_authorize_in_planner_section
+
     before_action -> { find_resource_planner(:id) }, only: %i[show edit update destroy toggle_public]
     before_action :build_resource_planner, only: %i[new]
 
@@ -136,11 +137,7 @@ module ::ResourceManagement
     private
 
     def index_scope
-      if @project
-        ResourcePlanner.visible(current_user).where(project: @project)
-      else
-        ResourcePlanner.global_visible_to(current_user)
-      end
+      ResourcePlanner.visible_to(current_user, @project)
     end
 
     def build_resource_planner

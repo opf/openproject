@@ -57,12 +57,20 @@ class ResourcePlanner < PersistedView
   include ResourceManagement::Categorized
   include ResourceManagement::DateRangeAttribute
 
-  # `visible` only separates public from own planners, so the global permission
-  # has to be checked on top of it.
-  def self.global_visible_to(user)
-    return none unless user.allowed_globally?(:view_global_resource_planners)
+  # Reaching the global section does not require the global permission: a member
+  # of a project granting `view_resource_planners` keeps getting there, they just
+  # find no global planners listed.
+  def self.section_visible_to?(user)
+    user.allowed_globally?(:view_global_resource_planners) ||
+      user.allowed_in_any_project?(:view_resource_planners)
+  end
 
-    visible(user).where(project: nil)
+  # `visible` only separates public from own planners, so the permission for the
+  # scope the planner lives in has to be checked on top of it.
+  def self.visible_to(user, project)
+    return none unless viewable_by?(user, project)
+
+    visible(user).where(project:)
   end
 
   def self.viewable_by?(user, project)

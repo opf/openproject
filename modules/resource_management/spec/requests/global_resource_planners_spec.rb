@@ -106,6 +106,45 @@ RSpec.describe "Global resource planners requests",
     expect(response.body).to include(resource_planner_views_path(planner))
   end
 
+  context "with the global permission but no project membership" do
+    shared_let(:global_only_user) do
+      create(:user, global_permissions: %i[view_global_resource_planners])
+    end
+    shared_let(:own_planner) do
+      create(:resource_planner, :global, principal: global_only_user, name: "Cross-project")
+    end
+
+    before { login_as(global_only_user) }
+
+    it "reaches the global index and lists its own planners" do
+      get resource_planners_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Cross-project")
+    end
+
+    it "renders the global sidebar menu" do
+      get menu_resource_planners_path
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "opens one of its planners" do
+      get resource_planner_path(own_planner)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "creates a global planner" do
+      expect do
+        post resource_planners_path,
+             params: { resource_planner: { name: "No project needed",
+                                           default_view_class_name: "ResourceWorkPackageList" } },
+             as: :turbo_stream
+      end.to change(ResourcePlanner.where(project: nil), :count).by(1)
+    end
+  end
+
   context "without the global permission" do
     shared_let(:project_only_user) do
       create(:user, member_with_permissions: { project => %i[view_resource_planners] })
@@ -118,6 +157,14 @@ RSpec.describe "Global resource planners requests",
 
       expect(response).to have_http_status(:ok)
       expect(response.body).not_to include("Global planner")
+    end
+
+    it "cannot open a public global planner" do
+      global_planner.update!(public: true)
+
+      get resource_planner_path(global_planner)
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 

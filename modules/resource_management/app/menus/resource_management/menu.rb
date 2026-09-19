@@ -58,7 +58,7 @@ module ResourceManagement
     def staffing_item
       OpenProject::Menu::MenuItem.new(
         title: I18n.t("resource_management.staffing.menu_item"),
-        href: project_staffing_path(project),
+        href: staffing_path(project),
         # The menu is loaded lazily through its own controller, so the page we
         # came from is forwarded as `origin_controller`.
         selected: params[:origin_controller] == "resource_management/staffing"
@@ -84,8 +84,7 @@ module ResourceManagement
     # back without a second query.
     def base_scope
       ResourcePlanner
-        .visible(User.current)
-        .where(project:)
+        .visible_to(User.current, project)
         .with_favorited_by_user(User.current)
         .order(favorited: :desc, name: :asc)
     end

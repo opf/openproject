@@ -29,10 +29,8 @@
 #++
 
 module ::ResourceManagement
-  class MenusController < ApplicationController
-    guard_enterprise_feature(:resource_management)
-
-    before_action :load_and_authorize_in_optional_project
+  class MenusController < BaseController
+    load_and_authorize_in_planner_section
 
     def show
       @submenu_menu_items = menu.menu_items

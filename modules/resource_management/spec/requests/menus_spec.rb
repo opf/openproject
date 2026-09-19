@@ -34,26 +34,31 @@ RSpec.describe "Global resource planner menu requests", type: :rails_request, wi
   shared_let(:project) { create(:project, name: "Alpha", enabled_module_names: %w[resource_management]) }
   shared_let(:invisible) { create(:project, name: "Invisible", enabled_module_names: %w[resource_management]) }
 
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: { project => %i[view_resource_planners] },
+           global_permissions: %i[view_global_resource_planners])
+  end
 
-  shared_let(:planner) { create(:resource_planner, project:, principal: user, name: "Alpha planner") }
+  shared_let(:global_planner) { create(:resource_planner, :global, principal: user, name: "Global planner") }
+  shared_let(:project_planner) { create(:resource_planner, project:, principal: user, name: "Alpha planner") }
   shared_let(:invisible_planner) do
     create(:resource_planner, project: invisible, principal: create(:user), public: true, name: "Invisible planner")
   end
 
   before { login_as(user) }
 
-  it "renders a section for each project the user has planners in" do
+  it "renders the global planners" do
     get menu_resource_planners_path
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Alpha", "Alpha planner")
+    expect(response.body).to include("Global planner")
   end
 
-  it "does not disclose planners from projects the user cannot see" do
+  it "does not list project planners" do
     get menu_resource_planners_path
 
-    expect(response.body).not_to include("Invisible")
+    expect(response.body).not_to include("Alpha planner", "Invisible planner")
   end
 
   context "without any resource planner permission" do

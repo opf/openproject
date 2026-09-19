@@ -33,7 +33,33 @@ module ::ResourceManagement
     include Layout
     include PaginationHelper
 
+    helper ResourceManagement::PlannerRoutes
+
     before_action :ensure_resource_management_licensed
+
+    # Loads `@project` from `:project_id` and authorizes a controller whose
+    # actions serve a planner both inside a project and globally.
+    #
+    # The project routes take the regular controller-action check. The global
+    # ones cannot: they admit holders of `view_global_resource_planners` as well
+    # as members of a project granting `view_resource_planners`, and since the
+    # same actions serve both scopes, mapping the global permission onto them in
+    # the engine would also let it pass on the project routes and open every
+    # project's planners. Which planners the user then gets to see is decided by
+    # `ResourcePlanner.visible_to`.
+    def self.load_and_authorize_in_planner_section(**options)
+      # `Accounts::Authorization` only recognises its own method names as an
+      # authorization check, so ours has to be affirmed.
+      authorization_checked_by_default_action(**options.slice(:only, :except))
+
+      before_action(**options) do
+        if params[:project_id].present?
+          load_and_authorize_in_optional_project
+        else
+          render_403 unless ResourcePlanner.section_visible_to?(current_user)
+        end
+      end
+    end
 
     private
 
@@ -46,8 +72,7 @@ module ::ResourceManagement
 
     def find_resource_planner(param_key = :resource_planner_id)
       @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
+                            .visible_to(current_user, @project)
                             .with_children
                             .find(params.expect(param_key))
     end

@@ -99,8 +99,7 @@ module OpenProject::ResourceManagement
       # manager, so this proc is the only gate.
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
-          (User.current.allowed_globally?(:view_global_resource_planners) ||
-            User.current.allowed_in_any_project?(:view_resource_planners))
+          ResourcePlanner.section_visible_to?(User.current)
       end
 
       menu :global_menu,

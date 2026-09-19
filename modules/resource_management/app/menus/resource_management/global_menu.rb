@@ -35,7 +35,7 @@ module ResourceManagement
     end
 
     def menu_items
-      [staffing_group, *global_planner_groups, *project_groups].compact
+      [staffing_group, *global_planner_groups].compact
     end
 
     def staffing_group
@@ -47,7 +47,7 @@ module ResourceManagement
     def staffing_item
       OpenProject::Menu::MenuItem.new(
         title: I18n.t("resource_management.staffing.menu_item"),
-        href: staffing_path,
+        href: staffing_path(project),
         selected: params[:origin_controller] == "resource_management/staffing"
       )
     end
@@ -55,33 +55,13 @@ module ResourceManagement
     private
 
     # The inherited `base_scope` carries a nil project and so resolves to the
-    # project-independent planners.
+    # project-independent planners, and to none of them without the global
+    # permission.
     def global_planner_groups
-      return [] unless User.current.allowed_globally?(:view_global_resource_planners)
-
       [
         populated_group(I18n.t("resource_management.sidebar.public"), public_planners),
         populated_group(I18n.t("resource_management.sidebar.private"), private_planners)
       ]
-    end
-
-    def project_groups
-      planners_by_project.map do |project, planners|
-        menu_group(header: project.name, children: planners.map { |planner| planner_item(planner) })
-      end
-    end
-
-    # `visible` only separates public from own planners, so the projects the user
-    # may see resource planners in have to be intersected explicitly.
-    def planners_by_project
-      ResourcePlanner
-        .visible(User.current)
-        .where(project: Project.allowed_to(User.current, :view_resource_planners))
-        .with_favorited_by_user(User.current)
-        .includes(:project)
-        .order(favorited: :desc, name: :asc)
-        .group_by(&:project)
-        .sort_by { |project, _| project.lft }
     end
 
     def populated_group(header, children)

@@ -212,6 +212,57 @@ RSpec.describe ResourcePlanner do
     end
   end
 
+  describe ".section_visible_to?" do
+    shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
+
+    it "admits a holder of the global permission who is a member nowhere" do
+      user = create(:user, global_permissions: %i[view_global_resource_planners])
+
+      expect(described_class.section_visible_to?(user)).to be(true)
+    end
+
+    it "admits a member holding only the project permission" do
+      user = create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+
+      expect(described_class.section_visible_to?(user)).to be(true)
+    end
+
+    it "rejects a user holding neither" do
+      expect(described_class.section_visible_to?(create(:user))).to be(false)
+    end
+  end
+
+  describe ".visible_to" do
+    shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
+    shared_let(:global_user) { create(:user, global_permissions: %i[view_global_resource_planners]) }
+    shared_let(:project_user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+    end
+
+    shared_let(:public_global_planner) do
+      create(:resource_planner, :global, principal: global_user, public: true)
+    end
+    shared_let(:public_project_planner) do
+      create(:resource_planner, project:, principal: project_user, public: true)
+    end
+
+    it "returns the global planners for a holder of the global permission" do
+      expect(described_class.visible_to(global_user, nil)).to contain_exactly(public_global_planner)
+    end
+
+    it "returns nothing globally for a user holding only the project permission" do
+      expect(described_class.visible_to(project_user, nil)).to be_empty
+    end
+
+    it "returns the project's planners for a member" do
+      expect(described_class.visible_to(project_user, project)).to contain_exactly(public_project_planner)
+    end
+
+    it "returns nothing in a project the user is not permitted in" do
+      expect(described_class.visible_to(global_user, project)).to be_empty
+    end
+  end
+
   describe "child entity counts" do
     shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
     shared_let(:user) do

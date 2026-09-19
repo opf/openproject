@@ -29,42 +29,32 @@
 #++
 
 module ResourceAllocations
-  module AllocationStep
-    class NonMemberBannerComponent < ApplicationComponent
-      include OpTurbo::Streamable
+  # The global Staffing list: one collapsible section per project the user may
+  # staff in. Sections without anything to staff are kept, collapsed, so an
+  # absent project reads as "you cannot staff here" rather than "nothing to do".
+  class GlobalAssignmentListComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-      I18N_SCOPE = "resource_management.allocate_resource_dialog.non_member"
+    def initialize(sections:, visible_work_package_ids:)
+      super
 
-      def initialize(allocation:)
-        super
-        @allocation = allocation
-      end
+      @sections = sections
+      @visible_work_package_ids = visible_work_package_ids
+    end
 
-      def call
-        component_wrapper do
-          render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mt: 2)) { warning_text } if non_member?
-        end
-      end
+    private
 
-      private
+    attr_reader :sections, :visible_work_package_ids
 
-      def user
-        @allocation.principal
-      end
+    def body_id(project)
+      "staffing-project-#{project.id}"
+    end
 
-      def project
-        @allocation.project
-      end
-
-      def non_member?
-        return false if user.nil? || project.nil?
-
-        !Principal.in_project(project).exists?(id: user.id)
-      end
-
-      def warning_text
-        I18n.t("#{I18N_SCOPE}.warning", user: user.name, project: project.name)
-      end
+    # The rows link back to the global staffing routes, so the assignment dialog
+    # returns to this page rather than the project's.
+    def table_for(allocations)
+      AssignmentTableComponent.new(rows: allocations, project: nil, visible_work_package_ids:)
     end
   end
 end
