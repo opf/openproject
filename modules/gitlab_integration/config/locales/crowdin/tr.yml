@@ -24,6 +24,10 @@
 tr:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Etiketler
       gitlab_pipeline:
@@ -39,6 +43,9 @@ tr:
             labels:
               invalid_schema: 'anahtarları olan bir özet dizisi olmalıdır: renk, başlık'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        other: GitLab branches
       gitlab_issue:
         one: GitLab issue
         other: GitLab issues

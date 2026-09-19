@@ -774,7 +774,7 @@ pl:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: nie może to być wariant należący do innego projektu.
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: musi być wariantem typu używanego w projekcie.
         queries/filters/base:
           attributes:
@@ -1647,6 +1647,8 @@ pl:
         main-menu-bg-selected-background: Menu główne po wybraniu
         primary-button-color: Przycisk główny
       custom_colors: Kolory użytkownika
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: nie jest prawidłowym plikiem czcionki TTF.
@@ -3522,16 +3524,16 @@ pl:
     blocks:
       community: Społeczność OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Wspomagane przez sztuczną inteligencję działania dotyczące pakietów roboczych, komentarzy oraz relacji z serwerem MCP (plan Professional).
-            line_1: Wiele wersji docelowych do pakietów roboczych.
-            line_2: Ogólne limity i ograniczenia dotyczące wpisów czasu (plan Professional).
-            line_3: Ulepszenia w ramach metodyki zwinnej dotyczące edycji zbiorczej oraz przeciągania kart backlogów do aplikacji zewnętrznych.
-            line_4: Makra wiki dostępne w większej liczbie edytorów tekstu.
-            line_5: Ulepszono funkcję wyszukiwania identyfikatorów pakietów roboczych.
-            line_6: 'Funkcja udostępniona społeczności: wyświetlanie relacji w tabelach pakietów roboczych.'
-          new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
@@ -6745,6 +6747,8 @@ pl:
     getting_started: Pierwsze kroki
     help_and_support: Pomoc i wsparcie
   total_progress: Całkowity postęp
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

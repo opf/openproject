@@ -24,7 +24,7 @@ nl:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Meerdere actieve sprints toestaan
         backlog_excluded_types: Uitgesloten werkpakket types
         sprint_sharing: Sprint delen
         statuses_considered_closed: Statussen die als gesloten worden beschouwd
@@ -40,26 +40,26 @@ nl:
           in_planning: Wordt gepland
         work_packages: Werkpakketten
       sprint_goal:
-        text: Sprint goal
+        text: Sprint doel
       work_package:
-        backlog_bucket: Backlog bucket
-        backlog_inbox: Backlog inbox
+        backlog_bucket: Werkvoorraad bakje
+        backlog_inbox: Werkvoorraad postvak
         backlogs_work_package_type: Backlog type
         position: Positie
         sprint: Sprint
         story_points: Verhaal punten
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
-        dates_required: Start and finish dates are required in order to start the sprint.
+        cannot_start_while_receiving_shared_sprints: kan niet worden gestart zolang het project nog deelneemt aan gedeelde sprints.
+        dates_required: Start- en einddata zijn vereist om de sprint te starten.
         must_be_in_planning: moet in de planning staan om te beginnen.
-        only_one_active_sprint_allowed: only one active sprint is allowed per project.
+        only_one_active_sprint_allowed: per project is slechts één actieve sprint toegestaan.
       models:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: kan niet worden gewijzigd zolang er meerdere actieve sprints lopen.
+              requires_no_sharing: kan alleen worden ingeschakeld als het delen van de sprite is ingesteld op 'Niet delen'.
             sprint_sharing:
               active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
@@ -77,7 +77,7 @@ nl:
             status:
               not_active: is niet actief en kan dus niet worden gesloten.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: heeft al een doel voor deze sprint.
         work_package:
           attributes:
             backlog_bucket:
@@ -93,14 +93,14 @@ nl:
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
       backlog_bucket:
-        one: Backlog bucket
-        other: Backlog buckets
+        one: Werkvoorraad bakje
+        other: Werkvoorraad bakje
       sprint:
         one: Sprint
         other: Sprints
       sprint_goal:
-        one: Sprint goal
-        other: Sprint goals
+        one: Sprint doel
+        other: Sprintdoelen
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -108,31 +108,31 @@ nl:
       text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
       title: Backlog admin settings are evolving
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Nieuw werkvoorraad bakje
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: Werkvoorraad bakje
+        other: Werkvoorraad bakjes
+        zero: Alle werkvoorraad bakjes
       label_sprint_filter:
         one: Sprint
         other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        zero: Alle sprints
+      select_panel_title: Selecteer items
     blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-        delete_backlog_bucket: Delete backlog bucket
-        edit_backlog_bucket: Edit backlog bucket
+        add_existing_work_package: Bestaand werkpakket toevoegen
+        add_new_work_package: Nieuw werkpakket toevoegen
+        delete_backlog_bucket: Verwijder voorraadbakje
+        edit_backlog_bucket: Wijzig voorraadbakje
       blankslate_description: Drag items here to add them
       blankslate_title: Backlog bucket is empty
       drop_zone_label: Drop here to add this item
       label_actions: Backlog bucket actions
     bucket_destroy_modal_component:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
-      title: Delete backlog bucket?
+      title: Voorraadbakje verwijderen?
     burndown_chart:
       show:
         blankslate_description: Set start and end date for the sprint to generate a burndown chart.
@@ -160,7 +160,7 @@ nl:
       label_actions: Inbox actions
       show_more:
         one: Show 1 more item
-        other: Show %{count} more items
+        other: Nog %{count} items weergeven
       title: Inbox
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -169,7 +169,7 @@ nl:
     label_sprint_board: Sprint bord
     label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
-      title: Move to backlog bucket
+      title: Verplaats naar voorraadbakje
     move_to_sprint_dialog_component:
       label_sprint: Sprint
       title: Verplaats naar sprint
@@ -189,14 +189,14 @@ nl:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-        edit_sprint: Edit sprint
+        edit_sprint: Sprint bewerken
       blankslate_description: No items planned yet. Drag items here to add them.
-      blankslate_title: "%{name} is empty"
+      blankslate_title: "%{name} is leeg"
       drop_zone_label: Drop here to add this item
-      label_actions: Sprint actions
-      label_complete_sprint: Complete sprint
+      label_actions: Sprint acties
+      label_complete_sprint: Voltooi sprint
       label_start_sprint: Start sprint
-      start_sprint_disabled_reason_active_sprint: Another sprint is already active.
+      start_sprint_disabled_reason_active_sprint: Er is al een sprint actief.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
       start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
@@ -208,8 +208,8 @@ nl:
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprint_reports:
       page_header_component:
-        breadcrumb: Report
-        title: "%{sprint} report"
+        breadcrumb: Rapport
+        title: "%{sprint} rapport"
       widgets:
         work_package_graph:
           title: Work packages graph
@@ -223,7 +223,7 @@ nl:
               heading: Scope change
               story_points_change: "+%{added} / -%{removed} story points"
             completed:
-              heading: Completed
+              heading: Voltooid
             initially_planned:
               heading: Initially planned
             unfinished:
@@ -238,8 +238,8 @@ nl:
     sprints:
       row_component:
         action_menu:
-          edit_sprint: Edit sprint
-          sprint_report: Sprint report
+          edit_sprint: Sprint bewerken
+          sprint_report: Sprint rapport
     sprints_component:
       blankslate:
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
@@ -250,7 +250,7 @@ nl:
         receive_description_text: This project receives shared sprints from a different project, but none are available right now.
         settings_link_text: projectinstellingen
         title: No sprints present yet
-      button_new_sprint: New sprint
+      button_new_sprint: Nieuwe sprint
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
@@ -267,9 +267,9 @@ nl:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
         move_menu: Move to position
-        move_to_backlog_bucket: Move to backlog bucket
+        move_to_backlog_bucket: Verplaats naar voorraadbakje
         move_to_inbox: Move to backlog inbox
-        move_to_sprint: Move to sprint
+        move_to_sprint: Verplaats naar sprint
     work_package_is_closed: Het werkpakket is klaar wanneer
     work_packages:
       add_existing_dialog:
@@ -303,11 +303,11 @@ nl:
         description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
-  label_all_sprints: All sprints
+  label_all_sprints: Alle sprints
   label_backlog: Backlog
   label_backlog_and_sprints: Backlog and sprints
-  label_backlog_bucket_edit: Edit backlog bucket
-  label_backlog_bucket_new: New backlog bucket
+  label_backlog_bucket_edit: Wijzig voorraadbakje
+  label_backlog_bucket_new: Nieuw werkvoorraad bakje
   label_backlogs: Backlogs
   label_burndown_chart: Burndown chart
   label_inbox: Postvak in
@@ -328,7 +328,7 @@ nl:
 
       '
     other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
-  permission_create_sprints: Create sprints
+  permission_create_sprints: Maak sprints
   permission_manage_sprint_items: Manage sprint items
   permission_select_backlog_types_and_statuses: Select backlog types and statuses
   permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
@@ -343,7 +343,7 @@ nl:
   project_module_backlogs: Backlogs
   projects:
     copy:
-      backlog_buckets: Backlog buckets
+      backlog_buckets: Werkvoorraad bakje
       sprints: Sprints
     settings:
       backlog_sharing:

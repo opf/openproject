@@ -1431,6 +1431,8 @@ fr:
         main-menu-bg-selected-background: Menu principal quand sélectionné
         primary-button-color: Bouton principal
       custom_colors: Couleurs personnalisées
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Modifier %{color}
       fonts:
         file_is_invalid: n'est pas un fichier de police TTF valide.
@@ -3236,16 +3238,16 @@ fr:
     blocks:
       community: Communauté OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Actions assistées par l'IA sur les lots de travaux, les commentaires et les relations grâce au serveur MCP (formule Professional).
-            line_1: Plusieurs versions cibles pour les lots de travaux.
-            line_2: Limites et restrictions globales pour les saisies de temps (formule Professional).
-            line_3: Améliorations agiles pour la modification en bloc et le glisser-déposer de cartes Backlogs vers des applications externes.
-            line_4: Macros wiki disponibles dans davantage d'éditeurs de texte.
-            line_5: Recherche améliorée pour les identifiants de lots de travaux.
-            line_6: 'Désormais disponible dans l''édition Community : affichage des relations dans les tableaux de lots de travaux.'
-          new_features_title: 'Cette version contient diverses nouveautés et améliorations, notamment :
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
@@ -6415,6 +6417,8 @@ fr:
     getting_started: Pour commencer
     help_and_support: Aide et support
   total_progress: Progression totale
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Ajouter une variante à %{name}

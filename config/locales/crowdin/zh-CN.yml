@@ -1323,6 +1323,8 @@ zh-CN:
         main-menu-bg-selected-background: 选择时的主菜单
         primary-button-color: 主按钮色
       custom_colors: 自定义颜色
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: 不是有效的 TTF 字体文件。
@@ -3093,16 +3095,16 @@ zh-CN:
     blocks:
       community: OpenProject 社区
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: 针对工作包、评论以及与 MCP 服务器关系的 AI 辅助操作（专业方案）。
-            line_1: 工作包的多个目标版本。
-            line_2: 时间条目的全局限制和约束（专业方案）。
-            line_3: 敏捷改进，支持批量编辑和将积压工作卡拖放到外部应用程序。
-            line_4: 可以在更多文本编辑器中使用 Wiki 宏。
-            line_5: 改进了对工作包标识符的搜索。
-            line_6: 已发布到社区：在工作包表中显示关系。
-          new_features_title: '此版本包含多项新功能和改进，例如：
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 了解新功能和产品更新。
@@ -6244,6 +6246,8 @@ zh-CN:
     getting_started: 入门指南
     help_and_support: 帮助和支持
   total_progress: 总进度
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

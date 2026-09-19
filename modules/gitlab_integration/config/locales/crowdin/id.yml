@@ -24,6 +24,10 @@
 id:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Label
       gitlab_pipeline:
@@ -39,6 +43,8 @@ id:
             labels:
               invalid_schema: 'harus berupa array dari hash dengan kunci: warna, judul'
     models:
+      gitlab_branch:
+        other: GitLab branches
       gitlab_issue:
         other: GitLab issues
       gitlab_merge_request:

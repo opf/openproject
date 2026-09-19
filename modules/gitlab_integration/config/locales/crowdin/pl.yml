@@ -24,6 +24,10 @@
 pl:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Etykiety
       gitlab_pipeline:
@@ -39,6 +43,11 @@ pl:
             labels:
               invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        few: GitLab branches
+        many: GitLab branches
+        other: GitLab branches
       gitlab_issue:
         one: Zgłoszenie w GitLab
         few: Zgłoszenia w GitLab

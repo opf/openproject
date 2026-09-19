@@ -1429,6 +1429,8 @@ fa:
         main-menu-bg-selected-background: منوی اصلی در حالت انتخاب
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
@@ -3232,16 +3234,16 @@ fa:
     blocks:
       community: جامعه OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: اقدام‌های مبتنی بر هوش مصنوعی روی بسته‌های کاری، دیدگاه‌ها و روابط با MCP Server (طرح Professional).
-            line_1: چند نسخه هدف برای بسته‌های کاری.
-            line_2: محدودیت‌ها و قیود سراسری برای ورودی‌های زمان (طرح Professional).
-            line_3: بهبودهای Agile برای ویرایش گروهی و Drag کردن کارت‌های بک‌لاگ به برنامه‌های خارجی.
-            line_4: Macroهای Wiki در ویرایشگرهای متن بیشتری در دسترس هستند.
-            line_5: جستجوی بهبودیافته برای شناسه‌های بسته کاری.
-            line_6: 'منتشرشده برای Community: نمایش روابط در جدول‌های بسته کاری.'
-          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید مختلفی است، از جمله:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -6416,6 +6418,8 @@ fa:
     getting_started: شروع کار
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: افزودن یک گونه به %{name}

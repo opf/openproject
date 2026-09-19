@@ -24,6 +24,10 @@
 ms:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Labels
       gitlab_pipeline:
@@ -39,6 +43,8 @@ ms:
             labels:
               invalid_schema: 'mestilah jalur hash dengan kunci-kunci: warna, tajuk'
     models:
+      gitlab_branch:
+        other: GitLab branches
       gitlab_issue:
         other: GitLab issues
       gitlab_merge_request:

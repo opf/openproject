@@ -1431,6 +1431,8 @@ de:
         main-menu-bg-selected-background: Hintergrundfarbe des Hauptmenüs bei Auswahl
         primary-button-color: Primäre Schaltfläche
       custom_colors: Benutzerdefinierte Farben
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: ist keine gültige TTF-Schriftdatei.
@@ -3234,16 +3236,16 @@ de:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: KI-gestützte Aktionen auf Arbeitspaketen, Kommentaren und Verbindungen zum MCP-Server (Professional-Plan).
-            line_1: Mehrere Zielversionen für Arbeitspakete.
-            line_2: Globale Begrenzungen und Einschränkungen für Zeiteinträge (Professional-Plan).
-            line_3: Verbesserungen bei der Massenbearbeitung im agilen Kontext und das Ziehen von Backlog-Karten in externe Anwendungen.
-            line_4: Wiki-Makros sind in weiteren Texteditoren verfügbar.
-            line_5: Verbesserte Suche nach Arbeitspaket-Identifikatoren.
-            line_6: 'Für die Community freigegeben: Darstellung von Beziehungen in Arbeitspaket-Tabellen.'
-          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -6416,6 +6418,8 @@ de:
     getting_started: Erste Schritte
     help_and_support: Hilfe und Support
   total_progress: Gesamtfortschritt
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Variante zu %{name} hinzufügen
