@@ -78,10 +78,19 @@ en:
   permission_assign_users_to_generic_allocations_explanation: >-
     Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet
     have a user. It does not allow creating or editing allocations.
+  permission_manage_public_global_resource_planners: Manage public global resource planners
+  permission_manage_public_global_resource_planners_explanation: >-
+    Allows users to publish their own global resource planners and to manage global resource planners that other users have
+    shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Manage public resource planners
   permission_manage_public_resource_planners_explanation: >-
     Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own
     resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+  permission_view_global_resource_planners: View global resource planners
+  permission_view_global_resource_planners_explanation: >-
+    Allows users to access the global resource planner section, where resources and allocations from several projects can be
+    planned together. It allows them to create and manage their own global resource planners and view public ones. Users only
+    ever see the projects, resources and allocations they are permitted to view.
   permission_view_resource_planners: View resource planners
   permission_view_resource_planners_explanation: >-
     Allows users to access resource planners. It allows them to create and manage their own resource planners and view public

@@ -30,6 +30,7 @@
 
 module ::ResourceManagement
   class BaseController < ::ApplicationController
+    include Layout
     include PaginationHelper
 
     before_action :ensure_resource_management_licensed

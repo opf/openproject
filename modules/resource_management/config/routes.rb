@@ -29,6 +29,16 @@
 #++
 
 Rails.application.routes.draw do
+  resources :resource_planners,
+            controller: "resource_management/resource_planners",
+            only: %i[index show] do
+    collection do
+      get "menu" => "resource_management/menus#show"
+    end
+  end
+
+  get "staffing" => "resource_management/staffing#index", as: :staffing
+
   scope "projects/:project_id", as: "project" do
     resources :resource_planners, controller: "resource_management/resource_planners" do
       member do

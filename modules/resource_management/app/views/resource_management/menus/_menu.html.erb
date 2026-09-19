@@ -36,7 +36,8 @@ See COPYRIGHT and LICENSE files for more details.
   static entry (e.g. Staffing); planner entries highlight via the `id` param.
 %>
 <% if EnterpriseToken.allows_to?(:resource_management) %>
-  <% menu_src = menu_project_resource_planners_path(@project, **params.permit(:id), origin_controller: params[:controller]) %>
+  <% menu_params = { **params.permit(:id), origin_controller: params[:controller] } %>
+  <% menu_src = @project ? menu_project_resource_planners_path(@project, **menu_params) : menu_resource_planners_path(**menu_params) %>
   <%= turbo_frame_tag "resource_planners_sidemenu",
                       src: menu_src,
                       target: "_top",
