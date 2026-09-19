@@ -29,6 +29,8 @@ en:
           attributes:
             end_date:
               greater_than_start_date: must be after the start date.
+            principal:
+              not_a_member: is not a member of the work package's project.
         resource_planner:
           attributes:
             end_date:
@@ -118,6 +120,10 @@ en:
         partial: >-
           The selected user has no working hours configured for %{dates}, so those days are counted as
           having no capacity.
+      non_member:
+        warning: >-
+          %{user} is not a member of %{project} and cannot be allocated to its work packages. Add them to
+          the project first, or pick someone else.
       outside_dates:
         description: >-
           The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.

@@ -37,13 +37,12 @@ module ::ResourceManagement
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
+    before_action :load_and_authorize_in_optional_project
     before_action :find_work_package
-    before_action :authorize
 
     def index
       respond_with_dialog ResourceAllocations::ListDialogComponent.new(
-        project: @project,
+        project: @project || @work_package.project,
         work_package: @work_package,
         allocations:,
         visible_principal_ids: ResourceAllocation.visible_principal_ids(allocations, current_user),
@@ -62,10 +61,10 @@ module ::ResourceManagement
     # non-visible (or out-of-project) id therefore 404s. The
     # `view_resource_planners` permission is enforced by `authorize`.
     def find_work_package
-      @work_package = WorkPackage
-                        .visible(current_user)
-                        .where(project: @project)
-                        .find(params.expect(:work_package_id))
+      scope = WorkPackage.visible(current_user)
+      scope = scope.where(project: @project) if @project
+
+      @work_package = scope.find(params.expect(:work_package_id))
     end
   end
 end

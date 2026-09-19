@@ -76,7 +76,7 @@ module ResourcePlannerViews
       end
 
       def can_allocate?
-        helpers.current_user.allowed_in_project?(:allocate_user_resources, @project)
+        ResourcePlanner.allocatable_by?(helpers.current_user, @project)
       end
 
       # Blank when the user may not allocate (the controller treats a present URL

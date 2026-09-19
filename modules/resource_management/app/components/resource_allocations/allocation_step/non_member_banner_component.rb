@@ -28,22 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::WorkPackageList
-  class SubHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ResourceManagement::PlannerRoutes
+module ResourceAllocations
+  module AllocationStep
+    class NonMemberBannerComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    def initialize(project:, resource_planner:, view:)
-      super
-      @project = project
-      @resource_planner = resource_planner
-      @view = view
-    end
+      I18N_SCOPE = "resource_management.allocate_resource_dialog.non_member"
 
-    private
+      def initialize(allocation:)
+        super
+        @allocation = allocation
+      end
 
-    def allowed_to_allocate?
-      ResourcePlanner.allocatable_by?(User.current, @project)
+      def call
+        component_wrapper do
+          render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mt: 2)) { warning_text } if non_member?
+        end
+      end
+
+      private
+
+      def user
+        @allocation.principal
+      end
+
+      def project
+        @allocation.project
+      end
+
+      def non_member?
+        return false if user.nil? || project.nil?
+
+        !Principal.in_project(project).exists?(id: user.id)
+      end
+
+      def warning_text
+        I18n.t("#{I18N_SCOPE}.warning", user: user.name, project: project.name)
+      end
     end
   end
 end

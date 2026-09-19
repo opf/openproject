@@ -38,6 +38,12 @@ module ResourceAllocations
 
       form do |f|
         f.hidden name: :entity_type, value: "WorkPackage"
+
+        # Carries what the pickers were scoped to, so a refresh can tell whether
+        # picking another work package moved the allocation to a different project.
+        f.hidden name: :form_project_id, value: @project&.id
+        f.hidden name: :form_dialog_id, value: @dialog_id
+
         f.work_package_autocompleter(
           name: :entity_id,
           label: WorkPackage.model_name.human,
@@ -67,7 +73,8 @@ module ResourceAllocations
       # Constrains the picker to the project, and additionally to the planner
       # view's work packages when the dialog was opened from a work-package view.
       def autocomplete_filters
-        filters = [{ name: "project_id", operator: "=", values: [@project.id.to_s] }]
+        filters = []
+        filters << { name: "project_id", operator: "=", values: [@project.id.to_s] } if @project
         filters.concat(@view.allocation_work_package_filters) if @view&.allocation_work_package_filters
         filters
       end
