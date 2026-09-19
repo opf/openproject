@@ -45,7 +45,6 @@
                   concat(
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu|
                       menu.with_show_button(icon: "kebab-horizontal", "aria-label": "Actions for #{title}", scheme: :invisible)
-                      menu.with_divider(data: { sortable_lists__item_target: "moveDivider" })
                       move_items.each do |label, direction|
                         menu.with_item(
                           label:,
