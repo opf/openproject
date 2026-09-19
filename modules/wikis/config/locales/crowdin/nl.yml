@@ -28,8 +28,8 @@ nl:
         one: Inline page link
         other: Inline page links
       wikis/internal_provider:
-        one: Internal provider
-        other: Internal providers
+        one: Interne aanbieder
+        other: Interne aanbieders
       wikis/page_link:
         one: Page link
         other: Page links
@@ -49,7 +49,7 @@ nl:
       wikis: Wikis
     project_settings:
       wiki: Project wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Links naar wikipagina’s beheren
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -146,11 +146,11 @@ nl:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
+      connection_error: Er kon geen verbinding worden gemaakt met de wiki-aanbieder.
+      invalid_parent: De geselecteerde pagina is geen geldige bovenliggende pagina.
+      invalid_response: De wiki-aanbieder reageerde onverwacht.
+      missing_token: Het gebruikersaccount is nog niet gekoppeld aan de wiki-aanbieder.
+      request_failed: Er is een onverwachte fout opgetreden bij de wiki-aanbieder.
       unauthorized: An authorization error occurred.
     health_checks:
       authentication:
@@ -187,8 +187,8 @@ nl:
         one: 1 sub-page
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Bestaande wikipagina toevoegen
+      title_create: Nieuwe wiki pagina
     instructions:
       xwiki:
         integration: XWiki Administration

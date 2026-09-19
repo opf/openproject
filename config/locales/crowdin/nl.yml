@@ -1134,7 +1134,7 @@ nl:
         other: Health reports
       issue_priority:
         one: Prioriteit
-        other: Priorities
+        other: Prioriteiten
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1583,8 +1583,8 @@ nl:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
-              other: "%{count} issues"
+              one: 1 probleem
+              other: "%{count} problemen"
             projects:
               one: 1 project
               other: "%{count} projects"
@@ -3327,7 +3327,7 @@ nl:
       budget: a non-visible budget
       category: a non-visible category
       default: a non-visible record
-      issue_priority: a non-visible priority
+      issue_priority: een niet-zichtbare prioriteit
       project: a non-visible project
       sprint: a non-visible sprint
       time_entry_activity: a non-visible activity
@@ -4570,7 +4570,7 @@ nl:
         title: Non-participating
         work_package_commented: All new comments
         work_package_created: New work packages
-        work_package_prioritized: All priority changes
+        work_package_prioritized: Alle prioriteitswijzigingen
         work_package_processed: All status changes
         work_package_scheduled: All date changes
       participating:
@@ -5383,7 +5383,7 @@ nl:
         show_work_packages: Show work packages
         work_packages_graph: Werkpakketten grafiek
       work_package_priorities:
-        new_label: New priority
+        new_label: Nieuwe prioriteit
     status:
       button_edit: Edit status
     wizard:
