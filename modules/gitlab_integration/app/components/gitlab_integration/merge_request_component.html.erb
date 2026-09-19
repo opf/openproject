@@ -40,9 +40,19 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::Text.new(color: :muted)) { "##{merge_request.gitlab_id}" }
         end
 
-        row.with_column do
+        row.with_column(mr: 2) do
           render(GitlabIntegration::StatusComponent.new(scheme: state_scheme, icon: state_icon)) do
             render(Primer::Beta::Text.new) { state_label }
+          end
+        end
+
+        if latest_pipeline.present?
+          row.with_column do
+            render(Primer::Beta::Link.new(href: latest_pipeline.gitlab_html_url, data: { allow_external_link: true })) do
+              render(GitlabIntegration::StatusComponent.new(scheme: pipeline_status_scheme, icon: pipeline_status_icon)) do
+                render(Primer::Beta::Text.new) { pipeline_status_label }
+              end
+            end
           end
         end
       end
