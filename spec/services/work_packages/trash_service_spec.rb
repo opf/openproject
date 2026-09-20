@@ -47,7 +47,7 @@ RSpec.describe WorkPackages::TrashService, with_ee: %i[work_package_trash] do
   before { User.current = user }
 
   it "moves a hierarchy to trash, restores it, and permanently deletes it", :aggregate_failures do
-    trash_result = WorkPackages::TrashService.new(user:, model: work_package).call
+    trash_result = described_class.new(user:, model: work_package).call
 
     expect(trash_result).to be_success
     expect(WorkPackage.find_by(id: work_package.id)).to be_nil
@@ -63,7 +63,7 @@ RSpec.describe WorkPackages::TrashService, with_ee: %i[work_package_trash] do
     expect(WorkPackage.find(work_package.id)).to be_present
     expect(WorkPackage.find(child.id).parent_id).to eq(work_package.id)
 
-    WorkPackages::TrashService.new(user:, model: WorkPackage.find(work_package.id)).call
+    described_class.new(user:, model: WorkPackage.find(work_package.id)).call
     purge_result = WorkPackages::PurgeService.new(
       user:,
       model: WorkPackage.with_trashed.find(work_package.id)

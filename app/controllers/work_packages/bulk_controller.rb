@@ -126,17 +126,26 @@ class WorkPackages::BulkController < ApplicationController
   private
 
   def perform_deletion
-    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-      return redirect_to(action: :reassign,
-                         ids: @work_packages.map(&:id),
-                         delete_descendants: delete_descendants?,
-                         back_url: params[:back_url])
-    end
+    return redirect_to_reassignment unless associated_cleanup_complete?
 
     calls = deletion_calls
     failures = calls.reject(&:success?)
     set_deletion_flash(calls, failures)
+    respond_after_deletion(failures)
+  end
 
+  def associated_cleanup_complete?
+    WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
+  end
+
+  def redirect_to_reassignment
+    redirect_to(action: :reassign,
+                ids: @work_packages.map(&:id),
+                delete_descendants: delete_descendants?,
+                back_url: params[:back_url])
+  end
+
+  def respond_after_deletion(failures)
     respond_to do |format|
       format.html do
         redirect_back_or_default(project_work_packages_path(@work_packages.first.project),
