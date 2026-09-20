@@ -134,7 +134,7 @@ module API
 
         helpers do
           def trash_available?
-            WorkPackages::TrashFeature.enabled?
+            ::WorkPackages::TrashFeature.enabled?
           end
 
           def call_trash_service(service)

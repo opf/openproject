@@ -91,7 +91,7 @@ module API
 
         link :delete,
              cache_if: -> {
-               !WorkPackages::TrashFeature.enabled? &&
+               !::WorkPackages::TrashFeature.enabled? &&
                  current_user.allowed_in_project?(:delete_work_packages, represented.project)
              } do
           {
@@ -102,7 +102,7 @@ module API
 
         link :moveToTrash,
              cache_if: -> {
-               WorkPackages::TrashFeature.enabled? &&
+               ::WorkPackages::TrashFeature.enabled? &&
                  !represented.trashed? &&
                  current_user.allowed_in_project?(:manage_work_package_trash, represented.project)
              } do
@@ -114,7 +114,7 @@ module API
 
         link :restore,
              cache_if: -> {
-               WorkPackages::TrashFeature.enabled? &&
+               ::WorkPackages::TrashFeature.enabled? &&
                  represented.trashed? &&
                  current_user.allowed_in_project?(:manage_work_package_trash, represented.project)
              } do
@@ -126,7 +126,7 @@ module API
 
         link :deletePermanently,
              cache_if: -> {
-               WorkPackages::TrashFeature.enabled? &&
+               ::WorkPackages::TrashFeature.enabled? &&
                  represented.trashed? &&
                  current_user.allowed_in_project?(:delete_work_packages, represented.project)
              } do
