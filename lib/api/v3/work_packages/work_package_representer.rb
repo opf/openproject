@@ -526,13 +526,13 @@ module API
 
         date_time_property :deleted_at,
                            writable: false,
-                           if: ->(*) { represented.trashed? }
+                           if: ->(represented:, **) { represented.trashed? }
 
         associated_resource :deleted_by,
                             as: :deletedBy,
                             representer: ::API::V3::Users::UserRepresenter,
                             v3_path: :user,
-                            show_if: ->(*) { represented.trashed? },
+                            show_if: ->(represented:, **) { represented.trashed? },
                             setter: ->(**) {}
 
         property :relations,
@@ -544,9 +544,9 @@ module API
         property :readonly,
                  writable: false,
                  render_nil: false,
-                 if: ->(*) { ::Status.can_readonly? || represented.trashed? },
-                 getter: ->(*) do
-                   represented.trashed? || (status_id && status.is_readonly?)
+                 if: ->(represented:, **) { ::Status.can_readonly? || represented.trashed? },
+                 getter: ->(represented:, **) do
+                   represented.trashed? || (represented.status_id && represented.status.is_readonly?)
                  end
 
         property :has_project_attributes,
