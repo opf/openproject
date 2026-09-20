@@ -531,8 +531,8 @@ module API
         associated_resource :deleted_by,
                             as: :deletedBy,
                             v3_path: :user,
-                            writable: false,
-                            if: ->(*) { represented.trashed? }
+                            show_if: ->(*) { represented.trashed? },
+                            setter: ->(**) {}
 
         property :relations,
                  embedded: true,
