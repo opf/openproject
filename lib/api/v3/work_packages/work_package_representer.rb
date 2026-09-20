@@ -530,6 +530,7 @@ module API
 
         associated_resource :deleted_by,
                             as: :deletedBy,
+                            representer: ::API::V3::Users::UserRepresenter,
                             v3_path: :user,
                             show_if: ->(*) { represented.trashed? },
                             setter: ->(**) {}

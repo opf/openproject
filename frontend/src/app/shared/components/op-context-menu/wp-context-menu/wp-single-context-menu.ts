@@ -140,6 +140,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       }
       case 'restore':
       case 'delete_permanently': {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const currentBaseRoute = this.$state.current.data?.baseRoute as string | undefined;
         const backUrl = currentBaseRoute
           ? this.$state.href(currentBaseRoute)
