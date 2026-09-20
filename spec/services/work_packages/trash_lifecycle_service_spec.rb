@@ -25,7 +25,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package trash lifecycle", with_ee: %i[work_package_trash] do
+RSpec.describe WorkPackages::TrashService, with_ee: %i[work_package_trash] do
   shared_let(:project) { create(:project) }
   shared_let(:user) do
     create(

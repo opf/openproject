@@ -10,12 +10,7 @@ class WorkPackages::RestoreService < BaseServices::Delete
   def persist(service_result)
     deletion_group = model.deletion_group
     restored = WorkPackage.transaction do
-      group_members.each do |work_package|
-        work_package.assign_attributes(deleted_at: nil, deleted_by: nil, deletion_group: nil)
-        work_package.save!(validate: false)
-        service_result.add_dependent!(ServiceResult.success(result: work_package)) unless work_package == model
-      end
-
+      restore_group_members(service_result)
       audit(group_members, deletion_group)
       group_members
     end
@@ -26,6 +21,14 @@ class WorkPackages::RestoreService < BaseServices::Delete
     service_result.success = false
     service_result.errors.add(:base, e.message)
     service_result
+  end
+
+  def restore_group_members(service_result)
+    group_members.each do |work_package|
+      work_package.assign_attributes(deleted_at: nil, deleted_by: nil, deletion_group: nil)
+      work_package.save!(validate: false)
+      service_result.add_dependent!(ServiceResult.success(result: work_package)) unless work_package == model
+    end
   end
 
   def group_members
@@ -45,7 +48,4 @@ class WorkPackages::RestoreService < BaseServices::Delete
       deletion_group:
     )
   end
-
-  # Restoring is an update, not a physical destroy.
-  def destroy(*) = true
 end

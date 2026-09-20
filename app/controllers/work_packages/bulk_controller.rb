@@ -125,7 +125,7 @@ class WorkPackages::BulkController < ApplicationController
 
   private
 
-  def perform_deletion # rubocop:disable Metrics/AbcSize
+  def perform_deletion
     unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
       return redirect_to(action: :reassign,
                          ids: @work_packages.map(&:id),
@@ -133,18 +133,9 @@ class WorkPackages::BulkController < ApplicationController
                          back_url: params[:back_url])
     end
 
-    calls = if WorkPackages::TrashFeature.enabled?
-              trash_work_packages(@work_packages)
-            else
-              destroy_work_packages(@work_packages)
-            end
+    calls = deletion_calls
     failures = calls.reject(&:success?)
-
-    if failures.any?
-      flash[:error] = deletion_error_message(failures)
-    else
-      flash[:notice] = deletion_success_message(calls)
-    end
+    set_deletion_flash(calls, failures)
 
     respond_to do |format|
       format.html do
@@ -165,13 +156,24 @@ class WorkPackages::BulkController < ApplicationController
     end
   end
 
+  def deletion_calls
+    return trash_work_packages(@work_packages) if WorkPackages::TrashFeature.enabled?
+
+    destroy_work_packages(@work_packages)
+  end
+
+  def set_deletion_flash(calls, failures)
+    if failures.any?
+      flash[:error] = deletion_error_message(failures)
+    else
+      flash[:notice] = deletion_success_message(calls)
+    end
+  end
+
   def find_trashed_work_packages
     raise ActiveRecord::RecordNotFound unless WorkPackages::TrashFeature.enabled?
 
-    @work_packages = WorkPackage.visible_in_trash(current_user)
-                                .where_display_id_in(params[:work_package_id] || params[:ids])
-                                .includes(:project)
-                                .order("id ASC")
+    @work_packages = trashed_work_packages_scope.to_a
     raise ActiveRecord::RecordNotFound if @work_packages.empty?
 
     @projects = @work_packages.filter_map(&:project).uniq
@@ -238,15 +240,24 @@ class WorkPackages::BulkController < ApplicationController
 
   def redirect_after_trash_action(calls, action)
     failures = calls.reject(&:success?)
-    flash[failures.any? ? :error : :notice] =
-      if failures.any?
-        failures.flat_map { |call| call.errors.full_messages }.to_sentence
-      else
-        t("work_packages.trash.#{action}_successful", count: calls.sum { |call| call.all_results.size })
-      end
+    flash[failures.any? ? :error : :notice] = trash_action_message(calls, failures, action)
 
     redirect_back_or_default(@project ? project_work_packages_path(@project) : work_packages_path,
                              status: :see_other)
+  end
+
+  def trash_action_message(calls, failures, action)
+    return failures.flat_map { |call| call.errors.full_messages }.to_sentence if failures.any?
+
+    count = calls.sum { |call| call.all_results.size }
+    t("work_packages.trash.#{action}_successful", count:)
+  end
+
+  def trashed_work_packages_scope
+    WorkPackage.visible_in_trash(current_user)
+               .where_display_id_in(params[:work_package_id] || params[:ids])
+               .includes(:project)
+               .order(:id)
   end
 
   # Absent means cascade, consistent with WorkPackages::DeleteService's default.

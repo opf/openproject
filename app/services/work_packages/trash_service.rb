@@ -9,26 +9,7 @@ class WorkPackages::TrashService < WorkPackages::DeleteService
 
   def persist(service_result)
     WorkPackage.transaction do
-      detachable = unlinked_descendants
-      trashable = [model] + deleted_descendants
-
-      detachment_result = detach(detachable)
-      unless detachment_result.success?
-        service_result.merge!(detachment_result)
-        raise ActiveRecord::Rollback
-      end
-
-      deletion_group = SecureRandom.uuid
-      deleted_at = Time.current
-
-      trashable.each do |work_package|
-        work_package.assign_attributes(deleted_at:, deleted_by: user, deletion_group:)
-        work_package.save!(validate: false)
-        service_result.add_dependent!(ServiceResult.success(result: work_package)) unless work_package == model
-      end
-
-      delete_associated_notifications_for(trashable)
-      audit("moved_to_trash", trashable)
+      trash_work_packages(service_result)
     end
 
     service_result
@@ -36,6 +17,32 @@ class WorkPackages::TrashService < WorkPackages::DeleteService
     service_result.success = false
     service_result.errors.add(:base, e.message)
     service_result
+  end
+
+  def trash_work_packages(service_result)
+    detach_descendants!(service_result)
+    trashable = [model] + deleted_descendants
+    mark_as_trashed(trashable, service_result)
+    delete_associated_notifications_for(trashable)
+    audit("moved_to_trash", trashable)
+  end
+
+  def detach_descendants!(service_result)
+    detachment_result = detach(unlinked_descendants)
+    return if detachment_result.success?
+
+    service_result.merge!(detachment_result)
+    raise ActiveRecord::Rollback
+  end
+
+  def mark_as_trashed(work_packages, service_result)
+    attributes = { deleted_at: Time.current, deleted_by: user, deletion_group: SecureRandom.uuid }
+
+    work_packages.each do |work_package|
+      work_package.assign_attributes(attributes)
+      work_package.save!(validate: false)
+      service_result.add_dependent!(ServiceResult.success(result: work_package)) unless work_package == model
+    end
   end
 
   def delete_associated_notifications_for(work_packages)

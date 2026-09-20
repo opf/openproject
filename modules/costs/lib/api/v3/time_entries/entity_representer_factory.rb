@@ -95,12 +95,14 @@ module API
                                                                                      title_attribute:,
                                                                                      getter:))
 
-            if entity.is_a?(WorkPackage)
-              link.merge(displayId: entity.display_id.to_s, title: work_package_title(entity))
-            else
-              link
-            end
+            API::V3::TimeEntries::EntityRepresenterFactory.enrich_link(link, entity)
           }
+        end
+
+        def enrich_link(link, entity)
+          return link unless entity.is_a?(WorkPackage)
+
+          link.merge(displayId: entity.display_id.to_s, title: work_package_title(entity))
         end
 
         # Renders the deprecated `workPackage` link, gated on work package visibility.

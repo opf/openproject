@@ -7341,6 +7341,7 @@ en:
       requires_description: "Marks the related work package as a requirement to this one"
 
   work_packages:
+    # yamllint disable rule:key-ordering
     trash:
       already_in_trash: "The work package is already in the trash."
       enterprise_only: "The work package trash is an Enterprise feature."
@@ -7432,6 +7433,7 @@ en:
         undeletable_descendants_warning_html:
           one: "One descendant in %{projects} cannot be moved to the trash. It will remain active and be detached."
           other: "%{count} descendants in %{projects} cannot be moved to the trash. They will remain active and be detached."
+    # yamllint enable rule:key-ordering
     bulk:
       copy_failed: "The work packages could not be copied."
       could_not_be_deleted: "The following work packages could not be deleted:"

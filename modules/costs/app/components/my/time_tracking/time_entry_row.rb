@@ -81,14 +81,8 @@ module My
         return "--" unless time_entry.entity.is_a?(WorkPackage)
 
         render(Primer::OpenProject::FlexLayout.new) do |flex|
-          flex.with_row do
-            render(WorkPackages::InfoLineComponent.new(work_package: time_entry.entity))
-          end
-          flex.with_row do
-            subject = time_entry.entity.subject
-            subject += " (#{t('work_packages.trash.in_trash')})" if time_entry.entity.trashed?
-            render(Primer::Beta::Text.new(font_weight: :semibold)) { subject }
-          end
+          flex.with_row { render(WorkPackages::InfoLineComponent.new(work_package: time_entry.entity)) }
+          flex.with_row { render(Primer::Beta::Text.new(font_weight: :semibold)) { work_package_subject } }
         end
       end
 
@@ -113,6 +107,12 @@ module My
       delegate :comments, to: :time_entry
 
       private
+
+      def work_package_subject
+        subject = time_entry.entity.subject
+        subject += " (#{t('work_packages.trash.in_trash')})" if time_entry.entity.trashed?
+        subject
+      end
 
       def stop_timer_action_button(menu)
         menu.with_item(

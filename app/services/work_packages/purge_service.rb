@@ -11,25 +11,29 @@ class WorkPackages::PurgeService < BaseServices::Delete
     records = group_members
     audit(records)
 
-    WorkPackage.transaction do
-      records_in_destroy_order(records).each do |work_package|
-        next if work_package.destroyed?
-
-        success = work_package.destroy
-        service_result.add_dependent!(ServiceResult.new(success:, result: work_package)) unless work_package == model
-        unless success
-          service_result.success = false
-          service_result.errors.merge!(work_package.errors)
-          raise ActiveRecord::Rollback
-        end
-      end
-    end
+    WorkPackage.transaction { destroy_records(records, service_result) }
 
     service_result
   rescue ActiveRecord::ActiveRecordError => e
     service_result.success = false
     service_result.errors.add(:base, e.message)
     service_result
+  end
+
+  def destroy_records(records, service_result)
+    records_in_destroy_order(records).each do |work_package|
+      next if work_package.destroyed?
+
+      success = work_package.destroy
+      service_result.add_dependent!(ServiceResult.new(success:, result: work_package)) unless work_package == model
+      rollback_with_errors(work_package, service_result) unless success
+    end
+  end
+
+  def rollback_with_errors(work_package, service_result)
+    service_result.success = false
+    service_result.errors.merge!(work_package.errors)
+    raise ActiveRecord::Rollback
   end
 
   def group_members

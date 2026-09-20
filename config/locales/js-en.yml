@@ -1032,9 +1032,9 @@ en:
         summary: "Summary"
         trash: "Trash"
       trash:
+        delete_permanently: "Delete permanently"
         move_to_trash: "Move to trash"
         restore: "Restore"
-        delete_permanently: "Delete permanently"
       description_enter_text: "Enter text"
       description_filter: "Filter"
       description_options_hide: "Hide options"
