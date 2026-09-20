@@ -80,6 +80,24 @@ export class WorkPackageContextMenuHelperService {
       link: 'delete',
       href: this.PathHelper.workPackagesBulkDeletePath(),
     },
+    {
+      text: I18n.t('js.button_move_to_trash'),
+      key: 'move_to_trash',
+      link: 'moveToTrash',
+      href: this.PathHelper.workPackagesBulkDeleteDialogPath([]),
+    },
+    {
+      text: I18n.t('js.button_restore'),
+      key: 'restore',
+      link: 'restore',
+      href: this.PathHelper.workPackagesBulkRestoreDialogPath([]),
+    },
+    {
+      text: I18n.t('js.button_delete_permanently'),
+      key: 'delete_permanently',
+      link: 'deletePermanently',
+      href: this.PathHelper.workPackagesBulkPurgeDialogPath([]),
+    },
   ];
 
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {

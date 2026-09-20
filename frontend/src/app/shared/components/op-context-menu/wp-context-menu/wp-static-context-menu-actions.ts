@@ -60,6 +60,21 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'delete',
   },
   {
+    key: 'move_to_trash',
+    link: 'moveToTrash',
+    icon: 'icon-delete',
+  },
+  {
+    key: 'restore',
+    link: 'restore',
+    icon: 'icon-undo',
+  },
+  {
+    key: 'delete_permanently',
+    link: 'deletePermanently',
+    icon: 'icon-delete',
+  },
+  {
     key: 'copy_numeric_id_to_clipboard',
     icon: 'icon-code-tag',
     link: 'id',

@@ -139,7 +139,16 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
     switch (action.key) {
       case 'delete':
+      case 'move_to_trash':
         this.deleteSelectedWorkPackages();
+        break;
+
+      case 'restore':
+        this.openTrashDialog('restore');
+        break;
+
+      case 'delete_permanently':
+        this.openTrashDialog('purge');
         break;
 
       case 'edit':
@@ -204,6 +213,16 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
     const backUrl = this.$state.href(this.baseRoute as string) || this.pathHelper.workPackagesPath(this.currentProject.identifier ?? null);
     void this.turboRequests.request(this.pathHelper.workPackagesBulkDeleteDialogPath(ids, backUrl), { method: 'GET' });
+  }
+
+  private openTrashDialog(action:'restore'|'purge') {
+    const selected = this.getSelectedWorkPackages();
+    const ids = selected.map((wp) => wp.id).filter((id):id is string => id !== null);
+    const backUrl = this.$state.href(this.baseRoute as string) || this.pathHelper.workPackagesPath(this.currentProject.identifier ?? null);
+    const path = action === 'restore'
+      ? this.pathHelper.workPackagesBulkRestoreDialogPath(ids, backUrl)
+      : this.pathHelper.workPackagesBulkPurgeDialogPath(ids, backUrl);
+    void this.turboRequests.request(path, { method: 'GET' });
   }
 
   private editSelectedWorkPackages(link:any) {

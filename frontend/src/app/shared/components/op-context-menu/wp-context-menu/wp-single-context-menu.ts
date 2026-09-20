@@ -125,7 +125,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           window.location.href = `${this.PathHelper.workPackageCopyPath(this.workPackage.project.identifier, this.workPackage.id)}`;
         }
         break;
-      case 'delete': {
+      case 'delete':
+      case 'move_to_trash': {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const currentBaseRoute = this.$state.current.data?.baseRoute as string | undefined;
         const backUrl = currentBaseRoute
@@ -135,6 +136,18 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           this.PathHelper.workPackagesBulkDeleteDialogPath([this.workPackage.id!], backUrl),
           { method: 'GET' },
         );
+        break;
+      }
+      case 'restore':
+      case 'delete_permanently': {
+        const currentBaseRoute = this.$state.current.data?.baseRoute as string | undefined;
+        const backUrl = currentBaseRoute
+          ? this.$state.href(currentBaseRoute)
+          : this.PathHelper.workPackagesPath(this.currentProject.identifier ?? null);
+        const path = key === 'restore'
+          ? this.PathHelper.workPackagesBulkRestoreDialogPath([this.workPackage.id!], backUrl)
+          : this.PathHelper.workPackagesBulkPurgeDialogPath([this.workPackage.id!], backUrl);
+        void this.turboRequests.request(path, { method: 'GET' });
         break;
       }
       case 'log_time':

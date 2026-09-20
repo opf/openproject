@@ -58,9 +58,13 @@ class Query::Results
   private
 
   def sorted_work_packages_matching_the_filters_today
-    sorted_work_packages
-      .merge(filtered_work_packages.merge(filter_merges))
-      .visible
+    scope = sorted_work_packages.merge(filtered_work_packages.merge(filter_merges))
+
+    if query.trash?
+      scope.merge(WorkPackage.visible_in_trash)
+    else
+      scope.visible
+    end
   end
 
   # For filtering on historic data, this returns the work packages
@@ -107,8 +111,13 @@ class Query::Results
   end
 
   def work_package_scope
-    WorkPackage
-      .eager_load(all_includes)
+    scope = if query.trash? || query.historic?
+              WorkPackage.with_trashed
+            else
+              WorkPackage.all
+            end
+
+    scope.eager_load(all_includes)
   end
 
   def all_includes

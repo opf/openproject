@@ -79,11 +79,13 @@ module API
             v3_path = API::V3::CostEntries::EntityRepresenterFactory.representer_type(entity)
             title_attribute = API::V3::CostEntries::EntityRepresenterFactory.title_attribute(entity)
 
-            instance_exec(&self.class.associated_resource_default_link_lambda(name,
-                                                                              v3_path:,
-                                                                              skip_link: -> { false },
-                                                                              title_attribute:,
-                                                                              getter:))
+            link = instance_exec(&self.class.associated_resource_default_link_lambda(name,
+                                                                                     v3_path:,
+                                                                                     skip_link: -> { false },
+                                                                                     title_attribute:,
+                                                                                     getter:))
+
+            entity.is_a?(WorkPackage) ? link.merge(title: work_package_title(entity)) : link
           }
         end
 
@@ -97,7 +99,7 @@ module API
               next API::V3::CostEntries::EntityRepresenterFactory.undisclosed_link
             end
 
-            { href: api_v3_paths.work_package(entity.id), title: entity.subject }
+            { href: api_v3_paths.work_package(entity.id), title: work_package_title(entity) }
           }
         end
 
@@ -114,7 +116,16 @@ module API
         end
 
         def entity_visible?(entity, user)
-          !entity.is_a?(WorkPackage) || entity.visible?(user)
+          return true unless entity.is_a?(WorkPackage)
+
+          permission = entity.trashed? ? :view_work_packages_in_trash : :view_work_packages
+          user.allowed_in_work_package?(permission, entity)
+        end
+
+        def work_package_title(entity)
+          return entity.subject unless entity.trashed?
+
+          "#{entity.subject} (#{I18n.t('work_packages.trash.in_trash')})"
         end
 
         def undisclosed_link

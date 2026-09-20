@@ -32,7 +32,7 @@ class CostEntry < ApplicationRecord
   ALLOWED_ENTITY_TYPES = %w[WorkPackage].freeze
 
   belongs_to :project
-  belongs_to :entity, polymorphic: true
+  belongs_to :entity, -> { unscope(where: :deleted_at) }, polymorphic: true
   belongs_to :user
   belongs_to :logged_by, class_name: "User"
   include ::Costs::DeletedUserFallback

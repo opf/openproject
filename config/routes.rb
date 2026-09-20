@@ -1080,6 +1080,10 @@ Rails.application.routes.draw do
         match :reassign, via: %i[get delete]
         get :delete_dialog
         post :confirm_delete
+        get :restore_dialog
+        post :restore
+        get :purge_dialog
+        delete :purge
       end
     end
   end

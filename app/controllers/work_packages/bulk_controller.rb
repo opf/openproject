@@ -29,7 +29,8 @@
 #++
 
 class WorkPackages::BulkController < ApplicationController
-  before_action :find_work_packages
+  before_action :find_work_packages, except: %i[restore_dialog restore purge_dialog purge]
+  before_action :find_trashed_work_packages, only: %i[restore_dialog restore purge_dialog purge]
   before_action :authorize
 
   include ProjectsHelper
@@ -59,6 +60,22 @@ class WorkPackages::BulkController < ApplicationController
     dialog_via_turbo_stream(component: delete_descendants_dialog_component)
 
     respond_with_turbo_streams
+  end
+
+  def restore_dialog
+    respond_with_dialog WorkPackages::TrashActionDialogComponent.new(
+      work_packages: @work_packages,
+      action: :restore,
+      back_url: params[:back_url]
+    )
+  end
+
+  def purge_dialog
+    respond_with_dialog WorkPackages::TrashActionDialogComponent.new(
+      work_packages: @work_packages,
+      action: :purge,
+      back_url: params[:back_url]
+    )
   end
 
   def edit
@@ -96,6 +113,16 @@ class WorkPackages::BulkController < ApplicationController
     perform_deletion
   end
 
+  def restore
+    calls = call_for_deletion_groups(@work_packages, WorkPackages::RestoreService)
+    redirect_after_trash_action(calls, :restoration)
+  end
+
+  def purge
+    calls = call_for_deletion_groups(@work_packages, WorkPackages::PurgeService)
+    redirect_after_trash_action(calls, :purge)
+  end
+
   private
 
   def perform_deletion # rubocop:disable Metrics/AbcSize
@@ -106,7 +133,11 @@ class WorkPackages::BulkController < ApplicationController
                          back_url: params[:back_url])
     end
 
-    calls = destroy_work_packages(@work_packages)
+    calls = if WorkPackages::TrashFeature.enabled?
+              trash_work_packages(@work_packages)
+            else
+              destroy_work_packages(@work_packages)
+            end
     failures = calls.reject(&:success?)
 
     if failures.any?
@@ -132,6 +163,19 @@ class WorkPackages::BulkController < ApplicationController
     else
       WorkPackages::BulkDeleteDescendantsDialogComponent.new(work_packages: @work_packages, back_url: params[:back_url])
     end
+  end
+
+  def find_trashed_work_packages
+    raise ActiveRecord::RecordNotFound unless WorkPackages::TrashFeature.enabled?
+
+    @work_packages = WorkPackage.visible_in_trash(current_user)
+                                .where_display_id_in(params[:work_package_id] || params[:ids])
+                                .includes(:project)
+                                .order("id ASC")
+    raise ActiveRecord::RecordNotFound if @work_packages.empty?
+
+    @projects = @work_packages.filter_map(&:project).uniq
+    @project = @projects.first if @projects.size == 1
   end
 
   def setup_edit
@@ -170,6 +214,41 @@ class WorkPackages::BulkController < ApplicationController
     end
   end
 
+  def trash_work_packages(work_packages)
+    work_packages.filter_map do |work_package|
+      WorkPackages::TrashService
+        .new(user: current_user, model: work_package.reload)
+        .call(delete_descendants: delete_descendants?)
+    rescue ::ActiveRecord::RecordNotFound
+      nil
+    end
+  end
+
+  def call_for_deletion_groups(work_packages, service_class)
+    seen_groups = Set.new
+
+    work_packages.filter_map do |work_package|
+      group = work_package.deletion_group || work_package.id
+      next if seen_groups.include?(group)
+
+      seen_groups << group
+      service_class.new(user: current_user, model: work_package).call
+    end
+  end
+
+  def redirect_after_trash_action(calls, action)
+    failures = calls.reject(&:success?)
+    flash[failures.any? ? :error : :notice] =
+      if failures.any?
+        failures.flat_map { |call| call.errors.full_messages }.to_sentence
+      else
+        t("work_packages.trash.#{action}_successful", count: calls.sum { |call| call.all_results.size })
+      end
+
+    redirect_back_or_default(@project ? project_work_packages_path(@project) : work_packages_path,
+                             status: :see_other)
+  end
+
   # Absent means cascade, consistent with WorkPackages::DeleteService's default.
   def delete_descendants?
     ActiveModel::Type::Boolean.new.cast(params.fetch(:delete_descendants, true))
@@ -178,9 +257,13 @@ class WorkPackages::BulkController < ApplicationController
   # A call also carries the descendants it deleted, next to work packages it only
   # rescheduled, so count the ones that are actually gone.
   def deletion_success_message(calls)
-    count = calls.sum { |call| call.all_results.count(&:destroyed?) }
+    trash_enabled = WorkPackages::TrashFeature.enabled?
+    count = calls.sum do |call|
+      trash_enabled ? call.all_results.size : call.all_results.count(&:destroyed?)
+    end
 
-    t("work_packages.bulk.deletion_successful", count:)
+    key = trash_enabled ? "work_packages.trash.moved_successfully" : "work_packages.bulk.deletion_successful"
+    t(key, count:)
   end
 
   def deletion_error_message(failures)

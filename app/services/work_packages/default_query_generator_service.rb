@@ -40,7 +40,8 @@ module ::WorkPackages
       :created_by_me,
       :assigned_to_me,
       :shared_with_users,
-      :shared_with_me
+      :shared_with_me,
+      :trash
     ].freeze
 
     DEFAULT_PARAMS =
@@ -140,6 +141,16 @@ module ::WorkPackages
         )
       end
 
+      def trash_query
+        DEFAULT_PARAMS.merge(
+          {
+            c: %w[id subject type project author updatedAt],
+            t: "updatedAt:desc,id:asc",
+            f: [{ "n" => "trashed", "o" => "=", "v" => [OpenProject::Database::DB_VALUE_TRUE] }]
+          }
+        )
+      end
+
       def assign_params(query_key, project)
         case query_key
         when :latest_activity
@@ -152,6 +163,10 @@ module ::WorkPackages
           return if project.blank?
 
           summary_query
+        when :trash
+          return unless trash_query_available?(project)
+
+          trash_query
         else
           return unless User.current.logged?
 
@@ -169,6 +184,16 @@ module ::WorkPackages
           shared_with_users_query
         when :shared_with_me
           shared_with_me_query
+        end
+      end
+
+      def trash_query_available?(project)
+        return false unless WorkPackages::TrashFeature.enabled?
+
+        if project
+          User.current.allowed_in_project?(:view_work_packages_in_trash, project)
+        else
+          User.current.allowed_in_any_project?(:view_work_packages_in_trash)
         end
       end
 

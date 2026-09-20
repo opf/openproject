@@ -44,6 +44,8 @@ module WorkPackage::TimeEntriesCleaner
       return false unless to_do.present?
 
       case to_do[:action]
+      when "keep"
+        true
       when "destroy"
         true
         # nothing to do

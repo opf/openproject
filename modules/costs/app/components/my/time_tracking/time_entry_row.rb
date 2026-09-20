@@ -85,7 +85,9 @@ module My
             render(WorkPackages::InfoLineComponent.new(work_package: time_entry.entity))
           end
           flex.with_row do
-            render(Primer::Beta::Text.new(font_weight: :semibold)) { time_entry.entity.subject }
+            subject = time_entry.entity.subject
+            subject += " (#{t('work_packages.trash.in_trash')})" if time_entry.entity.trashed?
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { subject }
           end
         end
       end

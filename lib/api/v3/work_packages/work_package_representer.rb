@@ -90,9 +90,48 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user.allowed_in_project?(:delete_work_packages, represented.project) } do
+             cache_if: -> {
+               !WorkPackages::TrashFeature.enabled? &&
+                 current_user.allowed_in_project?(:delete_work_packages, represented.project)
+             } do
           {
             href: api_v3_paths.work_package(represented.id),
+            method: :delete
+          }
+        end
+
+        link :moveToTrash,
+             cache_if: -> {
+               WorkPackages::TrashFeature.enabled? &&
+                 !represented.trashed? &&
+                 current_user.allowed_in_project?(:manage_work_package_trash, represented.project)
+             } do
+          {
+            href: "#{api_v3_paths.work_package(represented.id)}/move_to_trash",
+            method: :post
+          }
+        end
+
+        link :restore,
+             cache_if: -> {
+               WorkPackages::TrashFeature.enabled? &&
+                 represented.trashed? &&
+                 current_user.allowed_in_project?(:manage_work_package_trash, represented.project)
+             } do
+          {
+            href: "#{api_v3_paths.work_package(represented.id)}/restore",
+            method: :post
+          }
+        end
+
+        link :deletePermanently,
+             cache_if: -> {
+               WorkPackages::TrashFeature.enabled? &&
+                 represented.trashed? &&
+                 current_user.allowed_in_project?(:delete_work_packages, represented.project)
+             } do
+          {
+            href: "#{api_v3_paths.work_package(represented.id)}/delete_permanently",
             method: :delete
           }
         end
@@ -108,7 +147,10 @@ module API
         end
 
         link :move,
-             cache_if: -> { current_user.allowed_in_project?(:move_work_packages, represented.project) } do
+             cache_if: -> {
+               !represented.trashed? &&
+                 current_user.allowed_in_project?(:move_work_packages, represented.project)
+             } do
           next if represented.new_record?
 
           {
@@ -482,6 +524,16 @@ module API
 
         date_time_property :updated_at
 
+        date_time_property :deleted_at,
+                           writable: false,
+                           if: ->(*) { represented.trashed? }
+
+        associated_resource :deleted_by,
+                            as: :deletedBy,
+                            v3_path: :user,
+                            writable: false,
+                            if: ->(*) { represented.trashed? }
+
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
@@ -491,9 +543,9 @@ module API
         property :readonly,
                  writable: false,
                  render_nil: false,
-                 if: ->(*) { ::Status.can_readonly? },
+                 if: ->(*) { ::Status.can_readonly? || represented.trashed? },
                  getter: ->(*) do
-                   status_id && status.is_readonly?
+                   represented.trashed? || (status_id && status.is_readonly?)
                  end
 
         property :has_project_attributes,
@@ -765,6 +817,8 @@ module API
         def current_user_update_allowed?
           return @current_user_update_allowed if defined?(@current_user_update_allowed)
 
+          return @current_user_update_allowed = false if represented.trashed?
+
           @current_user_update_allowed = ::WorkPackages::UpdateContract.update_allowed?(user: current_user,
                                                                                         work_package: represented)
         end
@@ -791,6 +845,8 @@ module API
         def log_time_allowed?
           return @log_time_allowed if defined?(@log_time_allowed)
 
+          return @log_time_allowed = false if represented.trashed?
+
           @log_time_allowed =
             current_user.allowed_in_project?(:log_time, represented.project) ||
               current_user.allowed_in_work_package?(:log_own_time, represented)
@@ -816,6 +872,8 @@ module API
 
         def add_work_packages_allowed?
           return @add_work_packages_allowed if defined?(@add_work_packages_allowed)
+
+          return @add_work_packages_allowed = false if represented.trashed?
 
           @add_work_packages_allowed = current_user.allowed_in_project?(:add_work_packages, represented.project)
         end
@@ -883,6 +941,8 @@ module API
         end
 
         def ordered_custom_actions
+          return [] if represented.trashed?
+
           # As the custom actions are sometimes set as an array
           @ordered_custom_actions ||= represented.custom_actions(current_user).to_a.sort_by(&:position)
         end

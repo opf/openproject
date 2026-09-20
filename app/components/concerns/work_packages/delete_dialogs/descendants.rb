@@ -72,6 +72,16 @@ module WorkPackages
         end
       end
 
+      def deletable?(descendant)
+        permission = if WorkPackages::TrashFeature.enabled?
+                       :manage_work_package_trash
+                     else
+                       :delete_work_packages
+                     end
+
+        descendant.project && deletion_user.allowed_in_project?(permission, descendant.project)
+      end
+
       def variant
         @variant ||=
           if !has_descendants? then :none
