@@ -48,6 +48,16 @@ RSpec.describe "Global resource planner menu requests", type: :rails_request, wi
 
   before { login_as(user) }
 
+  # The submenu partial is registered on a menu item, so it renders in the view
+  # context of whichever controller serves the page. It may therefore only use
+  # helpers every view has, not the module's own.
+  it "renders the sidebar frame on a global page served by another controller" do
+    get projects_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("resource_planners_sidemenu")
+  end
+
   it "renders the global planners" do
     get menu_resource_planners_path
 

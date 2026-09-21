@@ -33,6 +33,7 @@ module ResourceAllocations
   # avatar and name (or an anonymous placeholder when the principal is not
   # visible to the current user) and the allocated hours.
   class ListItemComponent < ApplicationComponent
+    include ResourceManagement::PlannerRoutes
     include OpPrimer::ComponentHelpers
     include AvatarHelper
     include ResourceManagement::PlannerRoutes
