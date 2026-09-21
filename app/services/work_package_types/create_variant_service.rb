@@ -38,9 +38,7 @@ module WorkPackageTypes
     def instance_class = TypeVariant
 
     def instance(params)
-      type.variants.new(workflow: workflow_for(params[:project])).tap do |variant|
-        TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", type.default_variant) }
-      end
+      type.variants.new(workflow: workflow_for(params[:project]), linked_aspects: TypeVariant::ASPECTS.dup)
     end
 
     def after_perform(service_call)

@@ -85,15 +85,8 @@ module WorkPackageTypes
       ServiceResult.failure(result: variant, errors: variant.errors)
     end
 
-    # Owning an aspect is the absence of a source, so severing is a nullifying update rather
-    # than a delete. The exclusions go with it: they describe what was dropped from what was
-    # inherited, and nothing is inherited any more.
     def sever_link
-      aspect_column = TypeVariant.validated_configuration_aspect(aspect)
-      attributes = { "#{aspect_column}_source_id" => nil }
-      attributes["#{aspect_column}_excluded_elements"] = [] if TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
-
-      variant.update!(attributes)
+      variant.unlink!(aspect)
 
       ServiceResult.success(result: variant)
     rescue ActiveRecord::RecordInvalid

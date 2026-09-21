@@ -395,12 +395,9 @@ en:
       type_variant:
         attribute_groups: "Form"
         default_work_package_description: "Default text for description"
-        defaults_source: "Defaults source"
         enabled_in_new_projects: "Active in new projects"
-        form_configuration_source: "Form source"
+        linked_aspects: "Inherited configuration"
         patterns: "Patterns"
-        pdf_export_source: "PDF export source"
-        project_attributes_source: "Project attributes source"
         project_types: "Projects using this variant"
         variant: "Variant"
         variant_name: "Name"
@@ -896,31 +893,15 @@ en:
               group_without_name: "Group name can't be blank."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
             base:
-              borrowed_by_variants: "Cannot be deleted while its configuration is reused by %{names}."
-              inherits_from_project_owned: >
-                This variant currently inherits from a project-specific variant and cannot be
-                converted to a global variant.
               is_default_variant: "The default configuration of a type cannot be deleted."
               project_variants_not_allowed: "This type does not allow creation of variants inside projects."
               restrict_dependent_destroy:
                 has_many: "Cannot be deleted while projects are still using it."
-            defaults_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
             enabled_in_new_projects:
               not_available_to_project_owned_variant: "cannot be set on a variant a project owns."
               taken: "is already set for another configuration of this type."
-            form_configuration_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
-            pdf_export_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
-            project_attributes_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
             workflow:
@@ -6917,12 +6898,8 @@ en:
             other: "The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents."
           dialog:
             description: "These types and variants inherit the configuration of this section. A change you make here applies to all of them."
-            direct_heading: "Direct dependents"
-            indirect_heading: "Dependents through other types"
             title: "Dependent types"
             variant_of_html: "Variant of %{type_name}"
-            variant_of_via_html: "Variant of %{type_name}, inheriting via %{source_name}"
-            via_html: "Inheriting via %{source_name}"
           title:
             one: "1 dependent type"
             other: "%{count} dependent types"
@@ -6931,27 +6908,15 @@ en:
           not_inherited: "This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead."
           unknown_aspect: 'Unknown configuration section "%{aspect}".'
         inherited:
-          change_source: "Change source type"
           configure_manually: "Configure manually"
           confirm_dialog:
-            change_source:
-              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
-              heading: "Change source type?"
-              title: "Change source type"
             check_box: "I understand that this will override the current settings"
             from_manual:
               description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
               heading: "Switch configuration mode?"
               title: "Switch configuration mode"
-          description: "This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}."
-          description_unlinked: "This configuration is inherited from the source type %{source_name}%{source_suffix}."
-          dialog:
-            description: "Inherit this configuration from a source type. Any new configuration added to the source also applies here."
-            source_label: "Source type"
-            source_placeholder: "Select a type or variant"
-            submit: "Switch"
-            title: "Inherit from another type"
-          invalid_source: "The configuration cannot be inherited from the selected type. Please select a different source type."
+          from_parent: "This configuration is inherited from the parent type [%{source_name}](source_url)."
+          from_parent_unlinked: "This configuration is inherited from the parent type %{source_name}."
           success: "The configuration mode was switched."
           title: "Inherited configuration"
         manual:
@@ -6965,7 +6930,7 @@ en:
           dialog:
             submit: "Switch"
             title: "Configure manually"
-          inherit_from_type: "Inherit from another type"
+          inherit_from_type: "Inherit from parent"
           invalid_mode: "The selected mode is not available for this configuration. Please choose a different mode."
           modes:
             copy:
