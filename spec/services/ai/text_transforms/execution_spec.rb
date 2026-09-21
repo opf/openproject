@@ -107,6 +107,29 @@ RSpec.describe AI::TextTransforms::Execution,
     expect(events).to eq([[1, "status", { "status" => "running" }]])
   end
 
+  it "ends cancelled while a reasoning model only sends empty deltas" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", "", ""],
+                                                  before_each: lambda {
+                                                    advance.call(0.6)
+                                                    run.update_column(:cancel_requested, true)
+                                                  })
+
+    execute(gateway)
+
+    expect(run).to be_cancelled
+    expect(events).to eq([[1, "status", { "status" => "running" }]])
+  end
+
+  it "fails with timeout when only empty deltas arrive past the budget" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", ""], before_each: -> { advance.call(200) })
+
+    execute(gateway)
+
+    expect(run).to be_failed
+    expect(events.last[2]).to include("reason" => "timeout")
+    expect(events.pluck(1)).not_to include("text_delta")
+  end
+
   it "stops silently when the run was deleted mid-stream" do
     gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b],
                                                   before_each: lambda {
