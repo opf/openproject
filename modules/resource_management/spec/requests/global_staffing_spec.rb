@@ -92,6 +92,28 @@ RSpec.describe "Global staffing", :skip_csrf, type: :rails_request, with_ee: %i[
     expect(response.body).to include(resource_management_staffing_assign_path(busy_allocation))
   end
 
+  it "offers the actions menu, as the staffing page inside a project does" do
+    get resource_management_staffing_path
+
+    expect(response.body).to include(I18n.t("resource_management.staffing.context_menu_label"))
+  end
+
+  context "when the user may also edit the allocation" do
+    shared_let(:user) do
+      create(:user, member_with_permissions: {
+               busy => %i[view_resource_planners view_work_packages assign_users_to_generic_allocations
+                          allocate_user_resources]
+             })
+    end
+
+    it "offers edit and delete on the global routes" do
+      get resource_management_staffing_path
+
+      expect(response.body).to include(edit_resource_allocation_path(busy_allocation))
+      expect(response.body).to include(resource_allocation_path(busy_allocation))
+    end
+  end
+
   context "without the permission anywhere" do
     before { login_as(create(:user, member_with_permissions: { busy => %i[view_resource_planners] })) }
 
