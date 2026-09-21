@@ -151,7 +151,7 @@ Copy a work package URL ad paste directly into a document. You can use either th
 ![Pasting a work package link into a document in OpenProject](openproject_user_guide_documents_wp_url.png)
 
 > [!NOTE]
-> The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If its pasted into an existing paragraph, the work package is linked as a regular size ( same as when using ###).
+> The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If it is pasted into an existing paragraph, the work package is linked as a regular size ( same as when using ###).
 
 ### Create new work packages in documents
 
@@ -159,9 +159,18 @@ To create new work packages in documents, type **/** to open the slash menu, the
 
 ![Create a new work package in documents](openproject_user_guide_documents_create_new_wp.png)
 
-A form is displayed for you to enter the **Subject**, **Assignee** and **Type**. Click create and the work package will automatically be linked.
+A form is displayed for you to enter the **Subject**, **Project**, **Assignee**, and **Type**. Click create and the work package will automatically be linked.
 
 ![Form to create new work package in documents](openproject_user_guide_documents_create_new_wp_form.png)
+
+You can also create a new work package without using the **/** slash menu:
+
+- Type a text and select it (the selected text becomes the work package subject)
+
+- Click the + icon on the right.
+
+  ![Alternative option to create new work package in documents](openproject_user_guide_documents_create_new_wp_alternative.png)
+
 
 ## Delete a project document
 
