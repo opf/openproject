@@ -60,7 +60,7 @@ module ::Widget
     # Write a string to the canvas.
     # OG: html_safe canvas; markup passed to write must be safe or it is escaped.
     def write(str)
-      @output ||= (+"").html_safe
+      @output ||= ActiveSupport::SafeBuffer.new
       @output << str
       str
     end

@@ -122,7 +122,7 @@ module Reporting
     def available_values
       return head :bad_request if params[:filter_name].blank?
 
-      canvas = +"".html_safe
+      canvas = ActiveSupport::SafeBuffer.new
       render_widget Widget::Filters::Option, requested_filter, to: canvas
 
       render html: canvas, layout: !request.xhr?
