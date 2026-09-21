@@ -87,6 +87,10 @@ RSpec.describe Query::Results do
       expect(query_results.work_packages).to include(trashed_work_package)
       expect(query_results.work_packages).not_to include(active_work_package)
     end
+
+    it "checks visibility using the project-scoped trash permission" do
+      expect(trashed_work_package).to be_visible(user1)
+    end
   end
 
   describe "#work_package_count_by_group" do

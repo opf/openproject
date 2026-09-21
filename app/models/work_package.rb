@@ -247,8 +247,11 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = User.current)
-    permission = trashed? ? :view_work_packages_in_trash : :view_work_packages
-    usr.allowed_in_work_package?(permission, self)
+    if trashed?
+      usr.allowed_in_project?(:view_work_packages_in_trash, project)
+    else
+      usr.allowed_in_work_package?(:view_work_packages, self)
+    end
   end
 
   # RELATIONS

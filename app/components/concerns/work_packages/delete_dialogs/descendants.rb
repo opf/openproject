@@ -49,6 +49,12 @@ module WorkPackages
         User.current
       end
 
+      def confirm_button_text
+        key = WorkPackages::TrashFeature.enabled? ? "work_packages.trash.move_to_trash" : :button_delete_permanently
+
+        I18n.t(key)
+      end
+
       # The dialogs always show the full cascade, the user's actual choice is applied later by
       # WorkPackages::DeleteService.
       def include_descendants?

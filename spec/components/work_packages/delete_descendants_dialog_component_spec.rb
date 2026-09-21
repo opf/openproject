@@ -75,6 +75,17 @@ RSpec.describe WorkPackages::DeleteDescendantsDialogComponent, type: :component 
     create(:work_package, project: invisible_project, parent: work_package, subject: "Secret child")
   end
 
+  context "when the trash feature is enabled" do
+    before do
+      allow(WorkPackages::TrashFeature).to receive(:enabled?).and_return(true)
+    end
+
+    it "labels the confirmation as moving to trash" do
+      expect(subject).to have_button "Move to trash"
+      expect(subject).to have_no_button "Delete permanently"
+    end
+  end
+
   context "with every descendant deletable" do
     before { deletable_child }
 

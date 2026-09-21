@@ -52,6 +52,18 @@ RSpec.describe WorkPackages::BulkDeleteDescendantsDialogComponent, type: :compon
     User.current = user
   end
 
+  describe "the confirmation button" do
+    before do
+      allow(WorkPackages::TrashFeature).to receive(:enabled?).and_return(true)
+      render_inline(component)
+    end
+
+    it "labels the confirmation as moving to trash" do
+      expect(page).to have_button "Move to trash"
+      expect(page).to have_no_button "Delete permanently"
+    end
+  end
+
   describe "#projects" do
     context "when work packages have descendants in sub-projects" do
       let(:child_wp) { create(:work_package, project: sub_project, parent: wp_main) }
