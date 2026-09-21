@@ -930,6 +930,7 @@ en:
         display_hierarchy: "Display hierarchy"
         display_sums: "Display sums"
         export: "Export"
+        import: "Import work packages"
         group_by: "Group by"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"

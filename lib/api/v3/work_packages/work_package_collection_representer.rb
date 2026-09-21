@@ -124,6 +124,18 @@ module API
           end
         end
 
+        link :import do
+          next unless project.present? &&
+                      OpenProject::FeatureDecisions.csv_import_active? &&
+                      current_user.allowed_in_project?(:import_work_packages, project)
+
+          {
+            href: import_project_work_packages_path(project),
+            type: "text/html",
+            title: I18n.t("work_packages.import.title")
+          }
+        end
+
         links :representations do
           if current_user.allowed_in_any_work_package?(:export_work_packages, in_project: project)
             representation_formats
