@@ -31,26 +31,21 @@
 require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
-  let(:version) { build_stubbed(:version) }
+  let(:actual_project) { create(:project) }
+  let(:version) { create(:version, project: actual_project) }
+  let(:other_project_version) { create(:version, project: create(:project)) }
+
+  let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+  let(:user) { create(:user, member_with_roles: { actual_project => role }) }
+
+  before { login_as(user) }
 
   it_behaves_like "basic query filter" do
+    let(:project) { actual_project }
     let(:type) { :list_optional }
     let(:class_key) { :version_id }
     let(:values) { [version.id.to_s] }
     let(:name) { WorkPackage.human_attribute_name("version") }
-    let(:scope) { instance_double(ActiveRecord::Relation) }
-
-    before do
-      if project
-        allow(project)
-          .to receive_message_chain(:shared_versions, :pluck)
-          .and_return [version.id]
-      else
-        allow(Version).to receive(:visible).and_return(scope)
-        allow(scope).to receive(:or).with(Version.systemwide).and_return(scope)
-        allow(scope).to receive(:pluck).with(:id).and_return([version.id])
-      end
-    end
 
     describe "#available?" do
       context "with the setting enabled",
@@ -70,46 +65,54 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
 
     describe "#valid?" do
       context "within a project" do
-        it "is true if the value exists as a version" do
-          expect(instance).to be_valid
+        context "and the version belongs to the project" do
+          it "is valid" do
+            expect(instance).to be_valid
+          end
         end
 
-        it "is false if the value does not exist as a version" do
-          allow(project)
-            .to receive_message_chain(:shared_versions, :pluck)
-            .and_return []
+        context "and the version is from another project" do
+          let(:values) { [other_project_version.id.to_s] }
 
-          expect(instance).not_to be_valid
+          it "is not valid" do
+            expect(instance).not_to be_valid
+          end
         end
       end
 
-      context "outside of a project" do
+      context "without a project" do
         let(:project) { nil }
 
-        it "is true if the value exists as a version" do
-          expect(instance).to be_valid
+        context "and the version is visible to the user" do
+          it "is valid" do
+            expect(instance).to be_valid
+          end
         end
 
-        it "is false if the value does not exist as a version" do
-          allow(scope).to receive(:pluck).with(:id).and_return([])
+        context "and the version does not exist" do
+          let(:values) { ["12345"] }
 
-          expect(instance).not_to be_valid
+          it "is not valid" do
+            expect(instance).not_to be_valid
+          end
         end
       end
     end
 
     describe "#allowed_values" do
       context "within a project" do
-        before do
+        it "returns the project's shared versions" do
           expect(instance.allowed_values)
             .to contain_exactly([version.id.to_s, version.id.to_s])
         end
       end
 
-      context "outside of a project" do
+      context "without a project" do
         let(:project) { nil }
 
-        before do
+        it "returns only versions visible to the current user" do
+          other_project_version
+
           expect(instance.allowed_values)
             .to contain_exactly([version.id.to_s, version.id.to_s])
         end
@@ -124,20 +127,10 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     end
 
     describe "#value_objects" do
-      let(:version1) { build_stubbed(:version) }
-      let(:version2) { build_stubbed(:version) }
+      let!(:other_version) { create(:version, project: actual_project) }
 
-      before do
-        allow(project)
-          .to receive(:shared_versions)
-          .and_return([version1, version2])
-
-        instance.values = [version1.id.to_s]
-      end
-
-      it "returns an array of versions" do
-        expect(instance.value_objects)
-          .to contain_exactly(version1)
+      it "returns the Version records matching the filter values" do
+        expect(instance.value_objects).to contain_exactly(version)
       end
     end
 
