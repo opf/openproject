@@ -65,6 +65,8 @@ RSpec.describe "project settings index" do
 
     expect(page.all(".version .name").map { |element| element.text.strip }).to eq([version2.name])
 
+    expand_sub_header_search(I18n.t("versions.index.filter_label"))
+
     wait_for_turbo_frame(frame: Settings::ProjectVersions::IndexComponent::FRAME_ID) do
       fill_in I18n.t("versions.index.filter_label"), with: "aaaaa"
     end

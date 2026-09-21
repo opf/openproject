@@ -1,4 +1,4 @@
-<%= render(Primer::OpenProject::SubHeader.new(collapsed_search: false, data: sub_header_data_attributes)) do |subheader| %>
+<%= render(Primer::OpenProject::SubHeader.new(collapsed_search: filter_input_value.blank?, data: sub_header_data_attributes)) do |subheader| %>
   <% subheader.with_filter_input(
        name: "any_name_attribute",
        id: filter_input_id,
