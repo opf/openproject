@@ -226,14 +226,15 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
   describe "a file with nothing to import" do
     it "reports an empty file" do
       with_csv("") do |path|
-        expect(described_class.call(path).result.first.message).to eq("This file is empty.")
+        expect(described_class.call(path).result.first.message)
+          .to eq(I18n.t("work_packages.import.csv.file.empty"))
       end
     end
 
     it "reports a header row with nothing under it" do
       with_csv("Subject,Type\n") do |path|
         expect(described_class.call(path).result.first.message)
-          .to eq("This file has column headers but no rows underneath them.")
+          .to eq(I18n.t("work_packages.import.csv.file.no_rows"))
       end
     end
   end
@@ -244,7 +245,7 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
         result = described_class.call(path)
 
         expect(result).to be_failure
-        expect(result.result.first.message).to eq("This file has more rows than can be imported at once. The most is 3.")
+        expect(result.result.first.message).to eq(I18n.t("work_packages.import.csv.file.too_many_rows", limit: 3))
       end
     end
 
@@ -262,8 +263,7 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
 
         expect(result).to be_failure
         expect(result.result.first.message)
-          .to eq("Line 2 contains bytes that are not valid UTF-8. " \
-                 "Save the file again as CSV (UTF-8) and upload that file instead.")
+          .to eq(I18n.t("work_packages.import.csv.file.invalid_encoding", line: 2))
       end
     end
   end

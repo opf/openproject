@@ -76,10 +76,21 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
     it "counts what was created, defaults included" do
       expect(import(rows).result.counts)
-        .to eq("Type" => { "Task" => 1, "Bug" => 1 },
-               "Status" => { "New" => 2 },
-               "Priority" => { "Normal" => 2 },
-               "Category" => { "Backend" => 1 })
+        .to eq("type" => { "Task" => 1, "Bug" => 1 },
+               "status" => { "New" => 2 },
+               "priority" => { "Normal" => 2 },
+               "category" => { "Backend" => 1 })
+    end
+
+    # The job runs in the importing user's language, and the report is read in the reader's, so a
+    # caption as the key would leave a German run unreadable to everyone else.
+    it "keys the counts by attribute, not by whatever the caption is in the current language" do
+      counts = I18n.with_locale(:de) do
+        expect(WorkPackage.human_attribute_name(:type)).to eq("Typ")
+        import(rows).result.counts
+      end
+
+      expect(counts.keys).to contain_exactly("type", "status", "priority", "category")
     end
 
     it "sends no notifications" do
@@ -99,7 +110,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
       expect(result).to be_success
       expect(result.result).to have_attributes(row_count: 1, created_count: 1, problems: [])
-      expect(result.result.counts).to include("Type" => { "Task" => 1 })
+      expect(result.result.counts).to include("type" => { "Task" => 1 })
     end
   end
 
@@ -124,7 +135,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     it "attributes the problem to the row, the column and the value" do
       problem = import(rows).result.problems.sole
 
-      expect(problem).to have_attributes(row: 3, attribute: "Subject", value: "")
+      expect(problem).to have_attributes(row: 3, attribute: "subject", value: "")
       expect(problem.message).to eq("can't be blank.")
     end
   end
@@ -231,7 +242,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
       expect(WorkPackages::CreateService).not_to have_received(:new)
       expect(result.result.problems.sole)
-        .to have_attributes(row: 5, attribute: "Type", value: "Milestone")
+        .to have_attributes(row: 5, attribute: "type", value: "Milestone")
     end
   end
 

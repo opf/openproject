@@ -68,7 +68,7 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
                                  "back_dated" => false,
                                  "dry_run" => true,
                                  "problems" => [])
-      expect(payload["counts"]).to include("Type" => { "Task" => 2 })
+      expect(payload["counts"]).to include("type" => { "Task" => 2 })
     end
 
     it "names the project, the file and the attachment so the page can commit it" do
@@ -122,7 +122,7 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
 
       expect(payload).to include("outcome" => "rows_rejected")
       expect(payload["problems"].sole)
-        .to include("row" => 3, "attribute" => "Subject", "message" => "can't be blank.")
+        .to include("row" => 3, "attribute" => "subject", "message" => "can't be blank.")
       expect(JobStatus::Status.sole.status).to eq("failure")
     end
 
@@ -241,6 +241,27 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
 
       expect(payload["problems"].size).to eq(described_class::PROBLEM_LIMIT)
       expect(payload["problems_omitted"]).to eq(2)
+    end
+  end
+
+  describe "the status written before the job runs" do
+    it "names the project, the file and the mode, so the page can show a queued run" do
+      described_class.perform_later(user:, project:, attachment_id: attachment.id, dry_run: true)
+
+      expect(JobStatus::Status.sole.payload)
+        .to include("project_id" => project.id,
+                    "filename" => attachment.filename,
+                    "dry_run" => true)
+    end
+
+    # The identity is merged into a payload the job keys with symbols. Keyed any other way it
+    # would ride along beside those entries and be written to JSON twice.
+    it "keys the identity the way the payload it merges into is keyed" do
+      job = described_class.new(user:, project:, attachment_id: attachment.id, dry_run: true)
+      payload = job.send(:build_status_attributes, {})[:payload]
+
+      expect(payload.keys).to all(be_a(Symbol))
+      expect(payload.keys.map(&:to_s)).to eq(payload.keys.map(&:to_s).uniq)
     end
   end
 

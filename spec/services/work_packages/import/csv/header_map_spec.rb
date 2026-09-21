@@ -131,13 +131,13 @@ RSpec.describe WorkPackages::Import::CSV::HeaderMap do
       problem = result.result.first
       expect(problem.column).to eq("C")
       expect(problem.header).to eq("Sprint")
-      expect(problem.message).to start_with("is not a column this page knows")
+      expect(problem.message).to start_with("cannot be imported")
     end
 
     it "suggests the column a typo was probably meant to be" do
       problem = map.call(["Assignde"]).result.first
 
-      expect(problem.message).to eq("is not a column this page knows. Did you mean Assignee?")
+      expect(problem.message).to eq("cannot be imported. Did you mean Assignee?")
     end
 
     it "reports the same column twice as a duplicate" do

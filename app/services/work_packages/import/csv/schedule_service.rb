@@ -63,19 +63,46 @@ module WorkPackages
           sniffed = FormatSniffer.call(file)
           return sniffed if sniffed.failure?
 
+          created = store(file)
+
+          created.success? ? created : ServiceResult.failure(**refusal(created, file))
+        end
+
+        # Attachments::CreateService#error_wrapped_call rescues and re-raises a translated string,
+        # so a storage failure arrives as an exception rather than a result.
+        def store(file)
           Attachment.without_post_upload_jobs do
             Attachments::CreateService
               .bypass_allowlist(user:)
               .call(container: nil, filename: file.original_filename, file:)
           end
+        rescue RuntimeError => e
+          ServiceResult.failure(message: e.message)
         end
 
-        # The author could have claimed the attachment into a container since it was checked, and
-        # the uncontainered sweep could have removed it, so neither is taken on trust.
+        def refusal(created, file)
+          if created.errors.of_kind?(:file, :file_too_large)
+            { result: :too_large, message: too_large_message(file) }
+          else
+            { result: :refused, message: created.message || created.errors.full_messages.to_sentence }
+          end
+        end
+
+        def too_large_message(file)
+          I18n.t("work_packages.import.csv.file.too_large",
+                 size: ActiveSupport::NumberHelper.number_to_human_size(file.size),
+                 limit: ActiveSupport::NumberHelper.number_to_human_size(max_size))
+        end
+
+        def max_size = Setting.attachment_max_size.to_i.kilobytes
+
         def reuse(attachment_id)
           attachment = Attachment.where(container: nil, author: user).find_by(id: attachment_id)
 
-          return ServiceResult.failure(message: I18n.t("work_packages.import.csv.file.expired")) if attachment.nil?
+          if attachment.nil?
+            return ServiceResult.failure(result: :expired,
+                                         message: I18n.t("work_packages.import.csv.file.expired"))
+          end
 
           ServiceResult.success(result: attachment)
         end

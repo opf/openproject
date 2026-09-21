@@ -63,7 +63,15 @@ module WorkPackages
         end
 
         def headers
-          HeaderMap::ATTRIBUTES.map { |attribute| WorkPackage.human_attribute_name(attribute) }
+          columns.map { |attribute| WorkPackage.human_attribute_name(attribute) }
+        end
+
+        # Offering a column the parser is configured to reject would hand back a template that
+        # fails its own import on the instance that served it.
+        def columns
+          return HeaderMap::ATTRIBUTES unless WorkPackage.status_based_mode?
+
+          HeaderMap::ATTRIBUTES - [:done_ratio]
         end
 
         def cells(example)
@@ -79,7 +87,7 @@ module WorkPackages
             done_ratio: example[:complete]
           }
 
-          HeaderMap::ATTRIBUTES.map { |attribute| values[attribute] }
+          columns.map { |attribute| values[attribute] }
         end
 
         def example_text(example, field)

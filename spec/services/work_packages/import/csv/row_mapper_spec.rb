@@ -92,18 +92,39 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       expect(result.result.attributes).to eq(assigned_to: assignee)
     end
 
-    it "names the alternatives when a type is not in the project" do
+    # Beside the message rather than inside it, so the report can fold a long list away while
+    # the download still carries all of it.
+    it "collects the alternatives when a type is not in the project" do
       result = map(type: "Milestone")
 
       expect(result).to be_failure
-      expect(result.result.map(&:message))
-        .to eq(["does not exist in this project. Available: Task, Bug."])
+      expect(result.result.map(&:message)).to eq(["does not exist in this project."])
+      expect(mapper.available).to eq("type" => ["Task", "Bug"])
     end
 
     it "reports a status without claiming it is project specific" do
       result = map(status: "Closed")
 
-      expect(result.result.first.message).to eq("does not exist. Available: New.")
+      expect(result.result.first.message).to eq("does not exist.")
+      expect(mapper.available).to eq("status" => ["New"])
+    end
+
+    # A list per attribute, not per failing cell: at the problem cap the difference is the bulk
+    # of what the run stores.
+    it "collects each list once, however many cells fail on it" do
+      map_row({ type: "Milestone" }, number: 2)
+      first = mapper.available["type"]
+
+      2.times { |n| map_row({ type: "Milestone" }, number: n + 3) }
+
+      expect(mapper.available.keys).to eq(["type"])
+      expect(mapper.available["type"]).to equal(first)
+    end
+
+    it "collects nothing for an attribute no row failed on" do
+      map(type: "Task")
+
+      expect(mapper.available).to be_empty
     end
 
     it "hands every cell failing on the same attribute one shared message" do
@@ -168,7 +189,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
 
         expect(result).to be_failure
         expect(result.result.first)
-          .to have_attributes(attribute: "Assignee",
+          .to have_attributes(attribute: "assigned_to",
                               value: "nobody@example.com",
                               message: "does not match an active user. " \
                                        "Use the email address the user signs in with.")
@@ -247,20 +268,20 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       result = map(created_at: 1.day.from_now.utc.iso8601)
 
       expect(result.result.sole)
-        .to have_attributes(attribute: "Created on", message: "must not be in the future.")
+        .to have_attributes(attribute: "created_at", message: "must not be in the future.")
     end
 
     it "rejects an Updated on in the future" do
       result = map(updated_at: 1.day.from_now.utc.iso8601)
 
-      expect(result.result.sole).to have_attributes(attribute: "Updated on")
+      expect(result.result.sole).to have_attributes(attribute: "updated_at")
     end
 
     it "rejects a Created on later than the Updated on beside it" do
       result = map(created_at: "2024-05-06T11:15:00Z", updated_at: "2024-03-04T09:30:00Z")
 
       expect(result.result.sole)
-        .to have_attributes(attribute: "Created on",
+        .to have_attributes(attribute: "created_at",
                             value: "2024-05-06T11:15:00Z",
                             message: "must not be later than the value in Updated on.")
     end
@@ -289,13 +310,13 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "carries the row number, the attribute caption and the value" do
       problem = map_row({ type: "Milestone" }, number: 7).result.first
 
-      expect(problem).to have_attributes(row: 7, attribute: "Type", value: "Milestone")
+      expect(problem).to have_attributes(row: 7, attribute: "type", value: "Milestone")
     end
 
     it "collects every bad cell instead of stopping at the first" do
       result = map(type: "Milestone", status: "Closed", start_date: "yesterday")
 
-      expect(result.result.map(&:attribute)).to eq(["Type", "Status", "Start date"])
+      expect(result.result.map(&:attribute)).to eq(%w[type status start_date])
     end
 
     it "keeps the problems the parser already found and leaves them unattributed" do

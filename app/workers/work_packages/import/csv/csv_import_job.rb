@@ -44,6 +44,8 @@ module WorkPackages
           @dry_run = dry_run
           @attachment = Attachment.find_by(id: attachment_id, container: nil, author: user)
 
+          @started_at = Time.current
+
           User.execute_as(user) { run }
         ensure
           discard_attachment unless outcome == "checked"
@@ -59,11 +61,32 @@ module WorkPackages
 
         private
 
-        attr_reader :user, :project, :attachment, :outcome
+        attr_reader :user, :project, :attachment, :outcome, :started_at
 
         def dry_run
-          @dry_run.nil? ? arguments.first.to_h[:dry_run] : @dry_run
+          @dry_run.nil? ? queued[:dry_run] : @dry_run
         end
+
+        # The queued and started statuses are written before #perform, and the page will not show a
+        # report it cannot tie to the project in the route, so the identity goes in from the first
+        # write rather than only with the result.
+        def build_status_attributes(attributes)
+          super.tap do |attrs|
+            attrs[:payload] = identity.merge(attrs[:payload] || {})
+          end
+        end
+
+        # What the page needs to show a queued run: which project it belongs to, so the report is
+        # tied to the route, which file it is working through, and whether it will create anything.
+        def identity
+          @identity ||= {
+            project_id: (@project || queued[:project])&.id,
+            filename: (attachment || Attachment.find_by(id: queued[:attachment_id]))&.filename,
+            dry_run:
+          }
+        end
+
+        def queued = arguments.first.to_h
 
         def discard_attachment
           Attachment.where(id: attachment&.id, container: nil, author: user).destroy_all
@@ -104,9 +127,12 @@ module WorkPackages
             row_count: report.row_count,
             created_count: report.created_count,
             back_dated: report.back_dated.positive?,
+            assignee_count: report.assignee_count,
+            dated_count: report.dated_count,
             counts: report.counts,
             problems: problems(report.problems),
-            problems_omitted: [report.problems.size - PROBLEM_LIMIT, 0].max
+            problems_omitted: [report.problems.size - PROBLEM_LIMIT, 0].max,
+            available: report.available
           }
         end
 
@@ -126,10 +152,15 @@ module WorkPackages
             row_count: 0,
             created_count: 0,
             back_dated: false,
+            assignee_count: 0,
+            dated_count: 0,
+            started_at: started_at,
+            finished_at: Time.current,
             counts: {},
             problems: [],
             problems_omitted: 0,
-            column_problems: []
+            column_problems: [],
+            available: {}
           }
         end
 

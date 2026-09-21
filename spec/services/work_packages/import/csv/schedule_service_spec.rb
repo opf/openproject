@@ -68,7 +68,7 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
         result = service.call(file: binary)
 
         expect(result).to be_failure
-        expect(result.message).to include("not a UTF-8 CSV file")
+        expect(result.message).to eq(I18n.t("work_packages.import.csv.format.unknown"))
       end
 
       it "stores nothing and enqueues nothing" do

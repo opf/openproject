@@ -84,11 +84,27 @@ RSpec.describe WorkPackages::Import::CSV::Template do
     expect(Date.iso8601(rows[1][8])).to eq(Date.current + 5)
   end
 
+  context "when progress is calculated from the status" do
+    before { allow(WorkPackage).to receive(:status_based_mode?).and_return(true) }
+
+    it "leaves out the % Complete column the parser would reject" do
+      expect(rows.first).not_to include("% Complete")
+    end
+
+    it "still parses back through the importer's own parser" do
+      expect(parse_back(template)).to be_success
+    end
+  end
+
   it "parses back through the importer's own parser" do
+    expect(parse_back(template)).to be_success
+  end
+
+  def parse_back(body)
     file = Tempfile.new(["template", ".csv"])
-    file.write(template)
+    file.write(body)
     file.close
 
-    expect(WorkPackages::Import::CSV::Parser.call(file.path)).to be_success
+    WorkPackages::Import::CSV::Parser.call(file.path)
   end
 end

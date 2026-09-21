@@ -55,6 +55,10 @@ module WorkPackages
           mails.each { |mail| users[mail] = found[mail] }
         end
 
+        # @return [Hash] attribute name => the values that would have been accepted, for the
+        #   attributes a row actually failed on
+        def available = @available ||= {}
+
         def call(row)
           problems = carried_problems(row)
           resolved = {}
@@ -62,11 +66,8 @@ module WorkPackages
           row.values.each_pair do |attribute, raw|
             next if raw.blank?
 
-            begin
-              resolved[attribute] = resolve(attribute, raw)
-            rescue Unresolvable => e
-              problems << problem(row, attribute, raw, e.message)
-            end
+            cell = resolve_cell(row, attribute, raw)
+            cell.is_a?(Problem) ? problems << cell : resolved[attribute] = cell
           end
 
           problems.concat(timestamp_problems(row, resolved))
@@ -79,6 +80,12 @@ module WorkPackages
         private
 
         attr_reader :project
+
+        def resolve_cell(row, attribute, raw)
+          resolve(attribute, raw)
+        rescue Unresolvable => e
+          problem(row, attribute, raw, e.message)
+        end
 
         def timestamp_problems(row, resolved)
           future = TIMESTAMPS.select { |attribute| resolved[attribute]&.future? }
@@ -109,11 +116,10 @@ module WorkPackages
           Mapped.new(attributes: attributes.to_h, timestamps: timestamps.to_h)
         end
 
+        # The attribute travels as its own name rather than as a caption: the run is written in
+        # the importing user's language and read in the reader's.
         def problem(row, attribute, raw, message)
-          Problem.new(row: row.number,
-                      attribute: WorkPackage.human_attribute_name(attribute),
-                      value: raw,
-                      message:)
+          Problem.new(row: row.number, attribute: attribute.to_s, value: raw, message:)
         end
 
         def resolve(attribute, raw)
@@ -128,7 +134,16 @@ module WorkPackages
         end
 
         def named(attribute, raw)
-          index(attribute).fetch(raw.strip.downcase) { raise Unresolvable, unknown_message(attribute) }
+          index(attribute).fetch(raw.strip.downcase) do
+            record_candidates(attribute)
+            raise Unresolvable, unknown_message(attribute)
+          end
+        end
+
+        # Once per attribute rather than once per failing cell, and read off the report as a whole
+        # rather than copied onto every problem it explains.
+        def record_candidates(attribute)
+          available[attribute.to_s] ||= index(attribute).values.map(&:name)
         end
 
         def index(attribute)
@@ -146,8 +161,7 @@ module WorkPackages
 
         def unknown_message(attribute)
           unknown_messages[attribute] ||=
-            I18n.t("work_packages.import.csv.row.#{PROJECT_SCOPED.include?(attribute) ? :unknown_in_project : :unknown}",
-                   available: index(attribute).values.map(&:name).join(", ")).freeze
+            I18n.t("work_packages.import.csv.row.#{PROJECT_SCOPED.include?(attribute) ? :unknown_in_project : :unknown}").freeze
         end
 
         def user(raw)

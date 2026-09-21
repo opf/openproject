@@ -97,7 +97,7 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
 
       expect(result).to be_failure
       expect(result.result).to eq(:unknown)
-      expect(result.message).to start_with("This is not a UTF-8 CSV file")
+      expect(result.message).to eq(I18n.t("work_packages.import.csv.format.unknown"))
     end
 
     it "rejects a NUL byte, which makes the file binary" do

@@ -32,11 +32,12 @@ module WorkPackages
   module Import
     module CSV
       class ImportService
-        Report = Data.define(:row_count, :created_count, :back_dated, :counts, :problems)
+        Report = Data.define(:row_count, :created_count, :back_dated, :assignee_count, :dated_count,
+                             :counts, :problems, :available)
 
         COUNTED = %i[type status priority category].freeze
 
-        Progress = Struct.new(:created_count, :back_dated, :counts, :problems)
+        Progress = Struct.new(:created_count, :back_dated, :counts, :problems, :assignees, :dated)
         private_constant :Progress
 
         def initialize(user:, project:)
@@ -74,14 +75,21 @@ module WorkPackages
           mapper = RowMapper.new(project:)
           mapper.prime(rows)
 
-          progress = Progress.new(0, 0, {}, [])
+          progress = Progress.new(0, 0, {}, [], Set.new, 0)
           rows.each { |row| import_row(row, mapper, progress) }
 
-          Report.new(row_count: rows.size,
+          report(rows.size, progress, mapper.available)
+        end
+
+        def report(row_count, progress, available)
+          Report.new(row_count:,
                      created_count: progress.created_count,
                      back_dated: progress.back_dated,
+                     assignee_count: progress.assignees.size,
+                     dated_count: progress.dated,
                      counts: progress.counts,
-                     problems: progress.problems)
+                     problems: progress.problems,
+                     available:)
         end
 
         def import_row(row, mapper, progress)
@@ -96,7 +104,7 @@ module WorkPackages
             progress.created_count += 1
             progress.back_dated += 1 if timestamps.any?
             back_date(created.result, timestamps)
-            count_values(progress.counts, created.result)
+            summarise(progress, created.result)
           else
             progress.problems.concat(problems_for(row, created.errors))
           end
@@ -121,12 +129,18 @@ module WorkPackages
           WorkPackages::CreateService.new(user:).call(project:, **attributes)
         end
 
+        def summarise(progress, work_package)
+          count_values(progress.counts, work_package)
+          progress.assignees << work_package.assigned_to_id if work_package.assigned_to_id
+          progress.dated += 1 if work_package.start_date || work_package.due_date
+        end
+
         def count_values(counts, work_package)
           COUNTED.each do |attribute|
             name = work_package.public_send(attribute)&.name
             next if name.nil?
 
-            per_value = (counts[WorkPackage.human_attribute_name(attribute)] ||= {})
+            per_value = (counts[attribute.to_s] ||= {})
             per_value[name] = per_value.fetch(name, 0) + 1
           end
         end
@@ -149,7 +163,7 @@ module WorkPackages
             attribute = csv_attribute(error.attribute)
 
             RowMapper::Problem.new(row: row.number,
-                                   attribute: attribute && WorkPackage.human_attribute_name(attribute),
+                                   attribute: attribute&.to_s,
                                    value: attribute && row.values[attribute],
                                    message: attribute ? error.message : error.full_message)
           end
