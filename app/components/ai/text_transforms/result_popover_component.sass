@@ -1,0 +1,26 @@
+// Demo only (AI-126). Primer's popover is a static anchored box; the fixed placement below
+// the application header, the width and the overlay stacking are custom.
+.op-ai-result-popover
+  // Primer adds .left-0 and .right-0 with !important, so the placement needs it too.
+  // The controller overrides both inline (with priority) while the popover is dragged.
+  top: calc(var(--header-height) + 8px)
+  right: 16px !important
+  left: auto !important
+  z-index: 600
+  width: min(480px, calc(100vw - 32px))
+
+  &--message.Popover-message
+    width: 100%
+    max-width: none
+
+  &--layout
+    max-height: calc(100vh - var(--header-height) - 32px)
+
+  &--header,
+  &--grip
+    cursor: grab
+    user-select: none
+
+  &--body
+    overflow-y: auto
+    min-height: 12rem

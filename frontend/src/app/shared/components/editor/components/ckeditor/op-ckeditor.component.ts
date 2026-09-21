@@ -42,6 +42,15 @@ import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/compo
 import { KeyCodes } from 'core-app/shared/helpers/keycodes';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+
+// Demo only (AI-126): the ids the AI action menu needs from the edited work package.
+interface AiMenuResource {
+  _type?:string;
+  id?:string|null;
+  project?:{ id?:string|null };
+  type?:{ id?:string|null };
+}
 
 @Component({
   selector: 'op-ckeditor',
@@ -255,9 +264,40 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
         model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
         model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
 
+        this.mountAiTextTransformMenu();
+
         this.initializeDone.emit(watchdog.editor);
         return watchdog.editor;
       });
+  }
+
+  // Demo only (AI-126): the AI action menu sits at the end of the description editor's toolbar
+  // row. Its shell is rendered by the server, its items come from the API (AI-134).
+  private mountAiTextTransformMenu():void {
+    const resource = this.context?.resource as unknown as AiMenuResource|undefined;
+    const toolbar = this.opCkeditorReplacementContainer.nativeElement.querySelector('.document-editor__toolbar');
+    if (this.context?.field !== 'description' || resource?._type !== 'WorkPackage' || !toolbar) {
+      return;
+    }
+    if (!this.configurationService.activeFeatureFlags.includes('aiTextTransformActions')) {
+      return;
+    }
+
+    const frameId = `ai-text-transform-menu-${Math.random().toString(36).slice(2, 10)}`;
+    const params = new URLSearchParams({ frame_id: frameId });
+    if (isNewResource({ id: resource.id ?? null })) {
+      params.set('project_id', resource.project?.id ?? '');
+      params.set('type_id', resource.type?.id ?? '');
+    } else {
+      params.set('work_package_id', resource.id ?? '');
+    }
+
+    const frame = document.createElement('turbo-frame');
+    frame.id = frameId;
+    frame.classList.add('document-editor__ai-menu');
+    frame.setAttribute('src', `${window.appBasePath || ''}/ai/text_transform_menu?${params.toString()}`);
+    toolbar.classList.add('document-editor__toolbar_with-ai-menu');
+    toolbar.appendChild(frame);
   }
 
   private interceptModifiedEnterKeystrokes(editor:ICKEditorInstance) {
