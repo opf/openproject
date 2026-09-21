@@ -87,7 +87,7 @@ export class WorkPackageContextMenuHelperService {
       href: this.PathHelper.workPackagesBulkDeleteDialogPath([]),
     },
     {
-      text: I18n.t('js.button_restore'),
+      text: I18n.t('js.work_packages.trash.restore'),
       key: 'restore',
       link: 'restore',
       href: this.PathHelper.workPackagesBulkRestoreDialogPath([]),
