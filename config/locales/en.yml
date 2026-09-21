@@ -495,6 +495,8 @@ en:
         begin_deletion: "Begin of the deletion"
         begin_insertion: "Begin of the insertion"
         children: "Subelements"
+        deleted_at: "Moved to trash on"
+        deleted_by: "Moved to trash by"
         derived_done_ratio: "Total % complete"
         derived_remaining_hours: "Total remaining work"
         derived_remaining_time: "Total remaining work"
