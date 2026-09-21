@@ -72,7 +72,11 @@
     <% if deleted_descendants.any? %>
       <%= render(OpPrimer::InsetBoxComponent.new) do %>
         <%= render(Primer::Beta::Text.new(font_size: :small, font_weight: :bold, display: :block, mb: 2)) do %>
-          <%= t_dialog("children_label") %>
+          <% if WorkPackages::TrashFeature.enabled? %>
+            <%= t_dialog("children_label") %>
+          <% else %>
+            <%= I18n.t("work_packages.bulk_delete_dialog.children_label") %>
+          <% end %>
         <% end %>
         <% deleted_descendants.each do |descendant| %>
           <%= render WorkPackages::InfoLineComponent.new(

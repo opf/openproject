@@ -111,11 +111,12 @@ module API
             entity = represented.entity
             next unless entity.is_a?(WorkPackage)
 
-            unless entity.visible?(current_user)
+            unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(entity, current_user)
               next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
             end
 
-            { href: api_v3_paths.work_package(entity.id), title: work_package_title(entity) }
+            title = API::V3::TimeEntries::EntityRepresenterFactory.work_package_title(entity)
+            { href: api_v3_paths.work_package(entity.id), title: }
           }
         end
 
