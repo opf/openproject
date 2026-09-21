@@ -31,17 +31,21 @@
 module Import
   class JiraFinalizeImportJob < ApplicationJob
     def perform(jira_import_id)
+      Rails.logger.info "Finalizing import started"
       jira_import = Import::JiraImport.find(jira_import_id)
 
       unlock_active_jira_users(jira_import)
       jira_import.destroy_jira_objects
       jira_import.transition_to!(:finalizing_done)
+      Rails.logger.info "Finalizing import finished"
     rescue StandardError => e
+      Rails.logger.error "Finalizing import failed: #{e.message}"
       jira_import&.transition_to!(:finalizing_error, error: e.message, error_backtrace: e.backtrace)
     end
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def unlock_active_jira_users(jira_import)
       Import::JiraOpenProjectReference
         .where(
@@ -54,6 +58,7 @@ module Import
           next unless jira_user.payload["active"]
 
           op_user = ref.op_leg
+          Rails.logger.debug { "Unlocking user #{jira_user.origin_id}" }
           Journal::NotificationConfiguration.with(false) do
             Journal::EventConfiguration.with(false) do
               Users::UpdateService

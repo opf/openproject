@@ -43,13 +43,17 @@ module Import
       "Fetching meta data about selected projects"
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
+      Rails.logger.info "Fetching meta data for selected projects started"
       jira_import = Import::JiraImport.find(jira_import_id)
       client = jira_import.jira.client
       selected = collect_metadata(client, jira_import.project_ids)
       jira_import.update!(selected:)
       jira_import.transition_to!(:projects_meta_done, selected:)
+      Rails.logger.info "Fetching meta data for selected projects finished"
     rescue StandardError => e
+      Rails.logger.error "Fetching meta data for selected projects failed: #{e.message}"
       jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
@@ -74,6 +78,7 @@ module Import
     end
 
     def collect_project_metadata(client, project_id)
+      Rails.logger.debug "Fetching meta data for project"
       project_statuses = client.project_statuses(project_id)
       project_issue_type_ids = project_statuses.pluck("id")
       project_status_ids = project_statuses.flat_map { |type| type["statuses"].map { |status| status["id"] } }

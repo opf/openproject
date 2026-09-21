@@ -37,11 +37,13 @@ module Import
       if batch.succeeded?
         # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
         if jira_import.in_state?(:import_aborting)
+          Rails.logger.info "Import is aborting, not enqueueing further stages"
           jira_import.transition_to!(:import_error)
           return
         end
 
         if batch.properties[:stage].nil?
+          Rails.logger.info "Entering stage 1: fetching issue types, priorities, statuses and projects"
           batch.enqueue(stage: 1) do
             Import::JiraFetchIssueTypesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
             Import::JiraFetchPrioritiesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
@@ -49,6 +51,7 @@ module Import
             Import::JiraFetchProjectsJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 1
+          Rails.logger.info "Entering stage 2: fetching issues per project"
           batch.enqueue(stage: 2) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).pluck(:id).each do |id|
@@ -56,20 +59,24 @@ module Import
             end
           end
         elsif batch.properties[:stage] == 2
+          Rails.logger.info "Entering stage 3: fetching users and custom fields"
           batch.enqueue(stage: 3) do
             Import::JiraFetchUsersJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
             Import::JiraFetchCustomFieldJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 3
+          Rails.logger.info "Entering stage 4: creating users"
           batch.enqueue(stage: 4) do
             Import::JiraCreateUsersJob.set(good_job_labels: ["stage_4"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 4
+          Rails.logger.info "Entering stage 5: creating project role and custom fields"
           batch.enqueue(stage: 5) do
             Import::JiraCreateProjectRoleJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
             Import::JiraCreateCustomFieldsJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 5
+          Rails.logger.info "Entering stage 6: creating projects"
           batch.enqueue(stage: 6) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
@@ -77,6 +84,7 @@ module Import
             end
           end
         elsif batch.properties[:stage] == 6
+          Rails.logger.info "Entering stage 7: creating work packages"
           batch.enqueue(stage: 7) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
@@ -85,6 +93,7 @@ module Import
             end
           end
         elsif batch.properties[:stage] == 7
+          Rails.logger.info "Entering stage 8: downloading work package attachments"
           batch.enqueue(stage: 8) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
@@ -93,9 +102,11 @@ module Import
             end
           end
         elsif batch.properties[:stage] == 8
+          Rails.logger.info "All stages finished"
           jira_import.transition_to!(:imported)
         end
       elsif batch.discarded?
+        Rails.logger.error "Import batch was discarded"
         jira_import.transition_to!(:import_error)
       end
     end

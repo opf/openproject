@@ -62,6 +62,7 @@ module Import
     rescue StandardError => e
       raise if @jira_import.nil?
 
+      Rails.logger.error "Building revert enumerator failed: #{e.message}"
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
                                   error_backtrace: e.backtrace,
@@ -69,14 +70,18 @@ module Import
       nil # JobIteration skips the job when no enumerator is returned
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(revert_step, jira_import_id)
+      Rails.logger.info "Revert step '#{revert_step}' started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
       ApplicationRecord.transaction do
         send(revert_step)
         @jira_import.set_job_cursor(self, revert_step)
       end
+      Rails.logger.info "Revert step '#{revert_step}' finished"
     rescue StandardError => e
+      Rails.logger.error "Revert step '#{revert_step}' failed: #{e.message}"
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
                                   error_backtrace: e.backtrace,
@@ -93,9 +98,11 @@ module Import
         .where(op_entity_class: "Project")
         .find_each do |ref|
           op_leg = ref.op_leg
+          Rails.logger.debug { "Deleting project ##{ref.op_entity_id}" }
           service_call = ::Projects::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          log_leg_not_found(ref)
           next
         end
     end
@@ -106,8 +113,10 @@ module Import
         .where(op_entity_class: ["Type", "IssuePriority", "Status"])
         .find_each do |ref|
           op_leg = ref.op_leg
+          Rails.logger.debug { "Deleting #{ref.op_entity_class} ##{ref.op_entity_id}" }
           op_leg.destroy!
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          log_leg_not_found(ref)
           next
         end
     end
@@ -118,10 +127,12 @@ module Import
         .where(op_entity_class: "User")
         .find_each do |ref|
           op_leg = ref.op_leg
+          Rails.logger.debug { "Deleting user ##{ref.op_entity_id}" }
           # EmptyContract is used to make deletion not dependent on Setting.users_deletable_by_admins
           service_call = ::Users::DeleteService.new(user: @user, model: op_leg, contract_class: EmptyContract).call
           raise service_call.message if service_call.failure?
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          log_leg_not_found(ref)
           next
         end
     end
@@ -132,9 +143,11 @@ module Import
         .where(op_entity_class: "Group")
         .find_each do |ref|
           op_leg = ref.op_leg
+          Rails.logger.debug { "Deleting group ##{ref.op_entity_id}" }
           service_call = ::Groups::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          log_leg_not_found(ref)
           next
         end
     end
@@ -145,9 +158,11 @@ module Import
         .where(op_entity_class: "ProjectRole")
         .find_each do |ref|
           op_leg = ref.op_leg
+          Rails.logger.debug { "Deleting project role ##{ref.op_entity_id}" }
           service_call = ::Roles::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          log_leg_not_found(ref)
           next
         end
     end
@@ -158,8 +173,10 @@ module Import
         .where(op_entity_class: "WorkPackageCustomField")
         .find_each do |ref|
           op_leg = ref.op_leg
+          Rails.logger.debug { "Deleting custom field ##{ref.op_entity_id}" }
           op_leg.destroy!
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          log_leg_not_found(ref)
           next
         end
     end
@@ -171,6 +188,10 @@ module Import
     def delete_jira_objects
       @jira_import.destroy_jira_objects
       @jira_import.transition_to!(:reverted, job_id: job_id)
+    end
+
+    def log_leg_not_found(ref)
+      Rails.logger.warn "OpenProject #{ref.op_entity_class} ##{ref.op_entity_id} no longer exists, skipping its deletion"
     end
   end
 end

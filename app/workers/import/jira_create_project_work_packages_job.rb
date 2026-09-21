@@ -40,6 +40,7 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
+      Rails.logger.info "Creating work packages finished"
     end
 
     def text
@@ -62,6 +63,7 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Creating work packages started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
@@ -171,6 +173,9 @@ module Import
 
         type = service_call.result
         uses_existing = false
+      elsif type.name != issue_type["name"]
+        Rails.logger.warn "Reusing existing type '#{type.name}' for Jira issue type '#{issue_type['name']}' " \
+                          "(names differ only by case)"
       end
 
       enable_type(project, type)
@@ -187,6 +192,7 @@ module Import
       raise service_call.message if service_call.failure?
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
       status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
@@ -195,12 +201,16 @@ module Import
         is_closed = issue_status.dig("statusCategory", "key") == "done"
         status = Status.create!(name: issue_status["name"], is_closed: is_closed)
         uses_existing = false
+      elsif status.name != issue_status["name"]
+        Rails.logger.warn "Reusing existing status '#{status.name}' for Jira status '#{issue_status['name']}' " \
+                          "(names differ only by case)"
       end
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
       status
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
       if issue_priority.present?
@@ -209,6 +219,9 @@ module Import
         if priority.blank?
           priority = IssuePriority.create!(name: issue_priority["name"])
           uses_existing = false
+        elsif priority.name != issue_priority["name"]
+          Rails.logger.warn "Reusing existing priority '#{priority.name}' for Jira priority '#{issue_priority['name']}' " \
+                            "(names differ only by case)"
         end
         jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
         create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
@@ -350,7 +363,7 @@ module Import
           raise log_message
         end
       else
-        Rails.logger.info "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+        Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
         DeletedUser.first
       end
     end

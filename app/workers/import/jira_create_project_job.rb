@@ -37,13 +37,16 @@ module Import
       "Create project '#{jira_project_name}'"
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id, jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
+          Rails.logger.info "Creating project started"
           @jira_import = Import::JiraImport.find(jira_import_id)
           @jira_id = @jira_import.jira.id
           @system_user = User.system
           jira_project = Import::JiraProject.find(jira_project_id)
+
 
           # Needed to avoid project.lft and project.rgt corruption due to race condition
           # when multiple projects are created at the same time.
@@ -51,6 +54,8 @@ module Import
           OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
             create_project(jira_project)
           end
+
+          Rails.logger.info "Creating project finished"
         end
       end
     end
@@ -90,9 +95,11 @@ module Import
 
       if (error = service_call.errors.find { |e| e.attribute == :identifier && e.type == :taken }) && error.present?
         taken_identifier = error.options[:value]
+        Rails.logger.error "Project identifier '#{taken_identifier}' is already taken"
         raise I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
       end
 
+      Rails.logger.error "Creating project failed: #{service_call.message}"
       raise service_call.message
     end
     # rubocop:enable Metrics/AbcSize

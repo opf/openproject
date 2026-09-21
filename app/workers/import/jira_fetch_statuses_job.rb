@@ -37,14 +37,17 @@ module Import
     end
 
     def perform(jira_import_id)
+      Rails.logger.info "Fetching statuses started"
       prepare_jira_import_ivars(jira_import_id)
       fetch_data
+      Rails.logger.info "Fetching statuses finished"
     end
 
     private
 
     def fetch_data
       statuses_upsert_data = @jira_client.statuses.map do |status|
+        Rails.logger.debug { "Fetched status '#{status['name']}'" }
         {
           payload: status,
           origin_id: status.fetch("id"),

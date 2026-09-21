@@ -225,7 +225,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         before do
           jira_user.destroy!
           jira_user_reference.destroy!
-          allow(Rails.logger).to receive(:info)
+          allow(Rails.logger).to receive(:warn)
         end
 
         it "uses DeletedUser as a fallback for author and assignee" do
@@ -236,10 +236,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect(work_package.assigned_to).to eq(DeletedUser.first)
         end
 
-        it "logs an info message about the missing user" do
+        it "logs a warning about the missing user" do
           create_work_packages
 
-          expect(Rails.logger).to have_received(:info).with(
+          expect(Rails.logger).to have_received(:warn).with(
             /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
           ).at_least(:once)
         end

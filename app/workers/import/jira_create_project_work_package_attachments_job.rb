@@ -30,6 +30,10 @@
 
 module Import
   class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
+    on_complete do
+      Rails.logger.info "Downloading work package attachments finished"
+    end
+
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       "Download work package attachments for '#{jira_project_name}'"
@@ -50,6 +54,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Downloading work package attachments started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
@@ -76,8 +81,8 @@ module Import
       jira_issue_key = jira_issue.payload["key"]
       Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
                           "jira_issue_key:#{jira_issue_key}") do
-      Journal::NotificationConfiguration.with(false) do
-        Journal::EventConfiguration.with(false) do
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
             Rails.logger.debug "Creating work package attachment"
             work_package = JiraOpenProjectReference.find_by!(
               jira_entity_id: jira_issue.id,
@@ -100,7 +105,6 @@ module Import
             # activity behind everything the import journalized.
             journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
           end
-
         end
       end
     end
@@ -134,8 +138,8 @@ module Import
       jira_project_for_log = project.slice(:identifier)
       jira_issue_for_log = work_package.slice(:identifier)
       attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
-      Rails.logger.error(
-        "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
+      Rails.logger.warn(
+        "Could not create jira import attachment, skipping it. Error: #{e}. Jira Project: #{jira_project_for_log} " \
         "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
       )
     end

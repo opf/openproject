@@ -37,14 +37,17 @@ module Import
     end
 
     def perform(jira_import_id)
+      Rails.logger.info "Fetching projects started"
       prepare_jira_import_ivars(jira_import_id)
       fetch_data
+      Rails.logger.info "Fetching projects finished"
     end
 
     private
 
     def fetch_data
       projects_upsert_data = @jira_client.projects.map do |payload|
+        Rails.logger.debug { "Fetched project '#{payload['key']}'" }
         {
           payload:,
           origin_id: payload.fetch("id"),

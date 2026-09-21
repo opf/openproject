@@ -32,6 +32,10 @@ module Import
   class JiraCreateUsersJob < ProgressableJob
     include JiraOpenProjectReferenceCreation
 
+    on_complete do
+      Rails.logger.info "Creating users finished"
+    end
+
     def text
       "Create users"
     end
@@ -49,6 +53,7 @@ module Import
     end
 
     def build_enumerator(jira_import_id, cursor:)
+      Rails.logger.info "Creating users started"
       @jira_import = Import::JiraImport.find(jira_import_id)
 
       cursor ||= @jira_import.get_job_cursor(self)
@@ -69,7 +74,10 @@ module Import
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def import_user(jira_user)
+      Rails.logger.debug { "Creating user #{jira_user.origin_id}" }
+
       # A retried run re-processes every Jira user. Without this the OP user created by the
       # previous attempt is seen as a login/email collision and a duplicate is created.
       already_imported = Import::JiraOpenProjectReference.exists?(
@@ -106,13 +114,16 @@ module Import
       if taken_errors.any? { |e| e.attribute == :mail }
         user = jira_user.try_to_find_existing_op_user_by_mail
         if user.blank?
-          raise "Existing User is expected to be found, because there was an email " \
-                "collision. See attributes: #{user_attrs.except(:password)}"
+          message = "Existing User is expected to be found, because there was an email " \
+                    "collision. See attributes: #{user_attrs.except(:password)}"
+          Rails.logger.error message
+          raise message
         end
 
         if jira_user_already_referenced?(user)
           handle_referenced_user_mail_conflict(user_attrs, jira_user)
         else
+          Rails.logger.debug { "Reusing existing OpenProject user '#{user.mail}' for Jira user (exact mail match)" }
           create_reference!(op_leg: user, jira_leg: jira_user, jira_import: @jira_import, uses_existing: true)
         end
         return
@@ -123,7 +134,9 @@ module Import
         return
       end
 
-      raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
+      message = "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
+      Rails.logger.error message
+      raise message
     end
     # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
@@ -131,6 +144,7 @@ module Import
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
       unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.origin_id)
       if reusable_user
+        Rails.logger.debug { "Reusing existing OpenProject user '#{reusable_user.mail}' for Jira user" }
         create_reference!(
           op_leg: reusable_user,
           jira_leg: jira_user,
@@ -142,13 +156,16 @@ module Import
           mail: unique_mail,
           login: resolve_jira_login(user_attrs[:login], jira_user.origin_id)
         }
+        Rails.logger.warn "Email '#{user_attrs[:mail]}' is already taken by another user, using '#{unique_mail}' instead"
 
         new_call = Users::CreateService
          .new(user: User.system, contract_class: EmptyContract)
          .call(user_attrs.merge(overrides))
         unless new_call.success?
-          raise "Error creating a user with modified email '#{unique_mail}' " \
-                "(#{user_attrs.except(:password)}): #{new_call.message}"
+          message = "Error creating a user with modified email '#{unique_mail}' " \
+                    "(#{user_attrs.except(:password)}): #{new_call.message}"
+          Rails.logger.error message
+          raise message
         end
 
         create_reference!(
@@ -161,14 +178,18 @@ module Import
     end
     # rubocop:enable Metrics/AbcSize
 
+    # rubocop:disable-next Metrics/AbcSize
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
       unique_login = resolve_jira_login(user_attrs[:login], jira_user.origin_id)
+      Rails.logger.warn "Login '#{user_attrs[:login]}' is already taken by another user, using '#{unique_login}' instead"
       new_call = Users::CreateService
                    .new(user: User.system, contract_class: EmptyContract)
                    .call(user_attrs.merge(login: unique_login))
       unless new_call.success?
-        raise "Error creating a user with modified login '#{unique_login}' " \
-              "(#{user_attrs.except(:password)}): #{new_call.message}"
+        message = "Error creating a user with modified login '#{unique_login}' " \
+                  "(#{user_attrs.except(:password)}): #{new_call.message}"
+        Rails.logger.error message
+        raise message
       end
 
       create_reference!(
@@ -187,6 +208,7 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def import_user_group(group_name, jira_user)
+      Rails.logger.debug { "Creating group '#{group_name}'" }
       call = Groups::CreateService
                .new(user: User.system, contract_class: EmptyContract)
                .call(name: group_name)
@@ -216,7 +238,9 @@ module Import
     # rubocop:disable Metrics/AbcSize
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?
-        raise "Error creating a group #{group_name}: #{call.message}"
+        message = "Error creating a group #{group_name}: #{call.message}"
+        Rails.logger.error message
+        raise message
       end
 
       group = Group.where(name: group_name).first
@@ -230,6 +254,7 @@ module Import
         )
         return if already_referenced
 
+        Rails.logger.debug { "Reusing existing group '#{group_name}'" }
         create_reference!(
           op_leg: group,
           jira_leg: nil,
@@ -237,7 +262,9 @@ module Import
           uses_existing: true
         )
       else
-        raise "Existing Group is expected to be found. Group name: #{group_name}"
+        message = "Existing Group is expected to be found. Group name: #{group_name}"
+        Rails.logger.error message
+        raise message
       end
     end
     # rubocop:enable Metrics/AbcSize

@@ -39,14 +39,19 @@ module Import
     end
 
     def perform(jira_import_id)
+      Rails.logger.info "Fetching custom fields started"
       prepare_jira_import_ivars(jira_import_id)
 
       @index = Import::JiraCustomField::IssueValueIndex.scan(@jira_import)
-      return if @index[:used_keys].empty?
+      if @index[:used_keys].empty?
+        Rails.logger.info "Fetching custom fields finished, no custom field is used by any issue"
+        return
+      end
 
       upsert_custom_fields(@index[:used_keys])
       sync_custom_field_options
       store_issue_value_index
+      Rails.logger.info "Fetching custom fields finished"
     end
 
     private
@@ -68,6 +73,7 @@ module Import
         field.fetch("custom", false) && used_custom_field_ids.include?(field.fetch("id"))
       end
       fields_upsert_data = used_fields.map do |payload|
+        Rails.logger.debug { "Fetched custom field '#{payload['name']}'" }
         {
           payload:,
           origin_id: payload.fetch("id"),

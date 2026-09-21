@@ -36,7 +36,9 @@ module Import
       "Create 'JiraMember' project role"
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
+      Rails.logger.info "Creating 'JiraMember' project role started"
       jira_import = Import::JiraImport.find(jira_import_id)
       service_call = Roles::CreateService.new(user: User.system).call(
         name: "JiraMember",
@@ -51,8 +53,12 @@ module Import
                           jira_leg: nil,
                           jira_import:,
                           uses_existing: false)
+        Rails.logger.info "Creating 'JiraMember' project role finished"
       elsif service_call.errors.find { |error| error.type == :taken }.blank?
+        Rails.logger.error "Creating 'JiraMember' project role failed: #{service_call.message}"
         raise service_call.message
+      else
+        Rails.logger.info "'JiraMember' project role already exists, reusing it"
       end
     end
   end

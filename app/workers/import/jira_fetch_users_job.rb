@@ -35,11 +35,13 @@ module Import
     end
 
     def perform(jira_import_id)
+      Rails.logger.info "Fetching users started"
       jira_import = Import::JiraImport.find(jira_import_id)
       user_keys, mention_usernames = collect_user_to_import(jira_import)
       resolve_mention_user_keys(mention_usernames, user_keys, jira_import.client)
       upsert_data = build_users_upsert_data(user_keys, jira_import)
       Import::JiraUser.upsert_all(upsert_data, unique_by: %i[jira_import_id origin_id]) if upsert_data.present?
+      Rails.logger.info "Fetching users finished, fetched #{upsert_data.size} users"
     end
 
     private
@@ -89,7 +91,7 @@ module Import
       rescue Import::JiraClient::ApiError => e
         message = "Could not resolve mentioned user '#{username}': #{e.message}"
         if e.status == 404
-          Rails.logger.info("#{message} - skipping")
+          Rails.logger.warn("#{message} - skipping")
         else
           raise message
         end
@@ -144,6 +146,7 @@ module Import
       # here we send a direct user request to get group memberships
       # which are not returned by users_search endpoint
       jira_user_by_key = jira_client.user_by_key(key: jira_user_key)
+      Rails.logger.debug { "Fetched user #{jira_user_key}" }
       {
         payload: jira_user_by_key,
         jira_import_id: jira_import.id,
@@ -155,7 +158,7 @@ module Import
       if e.status == 404
         # The user for jira_user_key was not found, this may happen for a user in the Jira issue history
         # no longer available in the Jira instance
-        Rails.logger.error "Error fetching user data for user key #{jira_user_key}: #{e.message}"
+        Rails.logger.warn "Could not fetch user data for user key #{jira_user_key}, skipping: #{e.message}"
         nil
       else
         raise "Error fetching user data for user key #{jira_user_key}: #{e.message}"
