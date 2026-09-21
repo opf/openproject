@@ -25,9 +25,9 @@ pt-BR:
   activerecord:
     attributes:
       gitlab_branch:
-        gitlab_project: GitLab project
+        gitlab_project: Projeto GitLab
         namespace: GitLab namespace
-        project_html_url: GitLab project URL
+        project_html_url: URL do projeto GitLab
       gitlab_merge_request:
         labels: Rótulos
       gitlab_pipeline:

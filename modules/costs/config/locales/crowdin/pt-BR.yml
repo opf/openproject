@@ -280,8 +280,8 @@ pt-BR:
   permission_edit_rates: Editar taxas
   permission_log_costs: Reservar custos unitários
   permission_log_own_costs: Reservar custos unitários próprios
-  permission_manage_default_hourly_rates: Manage default hourly rates
-  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+  permission_manage_default_hourly_rates: Gerenciar taxas padrão por hora
+  permission_manage_default_hourly_rates_explanation: 'Permite adicionar, alterar e excluir as taxas padrão de usuários e usuários do espaço reservado.
 
     '
   permission_view_cost_entries: Ver custos reservados
@@ -321,10 +321,10 @@ pt-BR:
   text_destroy_cost_entries_question: "%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
   text_destroy_time_and_cost_entries: Excluir horas e custos informados
   text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} foram relatados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
-  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
-  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
-  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
-  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_hourly_rate_destroy_confirmation: A taxa de %{rate} válida a partir de %{valid_from} será excluída. Os custos lançados com base nessa taxa serão recalculados com a taxa então vigente.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Entendo que esta ação é irreversível.
+  text_hourly_rate_recalculation: Essa taxa é válida a partir da data de vigência até que uma taxa posterior entre em vigor. Sua alteração também recalculará os registros de horas e os orçamentos existentes nesse período.
+  text_no_default_rate: A taxa padrão é usada em todos os projetos onde o usuário não tem uma taxa específica configurada.
   text_no_project_rate: Este projeto utilizará a taxa padrão atual.
   text_reassign_time_and_cost_entries: 'Reatribua horas reportadas e custos para este pacote de trabalho:'
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
