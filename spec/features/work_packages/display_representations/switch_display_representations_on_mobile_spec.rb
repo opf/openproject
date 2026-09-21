@@ -63,8 +63,7 @@ RSpec.describe "Switching work package view on mobile", :js, :selenium do
 
       # A single click leads to the full view
       cards.select_work_package(wp1)
-      expect(page).to have_css(".work-packages--details--subject",
-                               text: wp_1.subject)
+      expect(page).to have_heading(wp1.subject, level: 2, exact_text: true)
       page.go_back
       # The query is however unchanged
       expect(page).to have_no_css(".editable-toolbar-title--save")
