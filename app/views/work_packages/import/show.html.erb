@@ -1,0 +1,19 @@
+<% html_title t(:label_work_package_plural), t("work_packages.import.title") %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("work_packages.import.title") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_work_packages_path(@project), text: t(:label_work_package_plural) },
+       t("work_packages.import.title")]
+    )
+  end
+%>
+
+<p><%= t("work_packages.import.intro") %></p>
+
+<p>
+  <%= link_to t("work_packages.import.download_template"),
+              import_template_project_work_packages_path(@project) %>
+</p>

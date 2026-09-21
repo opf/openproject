@@ -7464,6 +7464,9 @@ en:
           %{projects}. These will be preserved but any hierarchical relations will be removed.
 
     import:
+      download_template: "Download the template"
+      intro: "Create work packages in bulk by uploading a CSV file. Check the file first, then import it."
+      title: "Import work packages"
       csv:
         file:
           empty: "This file is empty."
