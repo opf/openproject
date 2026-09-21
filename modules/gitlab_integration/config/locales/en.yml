@@ -180,7 +180,7 @@ en:
           title: No merge requests
       branches: Branches
       commits: Commits
-      description_html: Link an existing GitLab element by adding the code %{code} to the title or description or by creating a new one.
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
       git_snippets: Git snippets
       issues: Issues
       merge_requests: Merge requests
