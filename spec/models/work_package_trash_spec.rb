@@ -29,8 +29,8 @@ RSpec.describe WorkPackage, with_ee: %i[work_package_trash] do
   let!(:active) { create(:work_package) }
   let!(:trashed) { create(:work_package, deleted_at: Time.current, deletion_group: SecureRandom.uuid) }
 
-  it "excludes trashed records from normal scopes" do
-    expect(described_class.where(id: [active.id, trashed.id])).to contain_exactly(active)
+  it "excludes trashed records from the active scope" do
+    expect(described_class.active.where(id: [active.id, trashed.id])).to contain_exactly(active)
   end
 
   it "makes trashed records explicitly available" do

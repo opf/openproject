@@ -50,7 +50,7 @@ RSpec.describe WorkPackages::TrashService, with_ee: %i[work_package_trash] do
     trash_result = described_class.new(user:, model: work_package).call
 
     expect(trash_result).to be_success
-    expect(WorkPackage.find_by(id: work_package.id)).to be_nil
+    expect(WorkPackage.active.find_by(id: work_package.id)).to be_nil
 
     trashed_root = WorkPackage.with_trashed.find(work_package.id)
     trashed_child = WorkPackage.with_trashed.find(child.id)

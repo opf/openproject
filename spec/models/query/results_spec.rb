@@ -46,6 +46,7 @@ RSpec.describe Query::Results do
              edit_work_packages
              create_work_packages
              delete_work_packages
+             view_work_packages_in_trash
            ))
   end
   let(:role_dev) do
@@ -63,6 +64,28 @@ RSpec.describe Query::Results do
       create(:work_package,
              project: project1,
              assigned_to_id: user1.id)
+    end
+  end
+
+  describe "#work_packages with trashed work packages", with_ee: %i[work_package_trash] do
+    let(:query) { build(:query, project: project1, show_hierarchies: false) }
+    let!(:active_work_package) { create(:work_package, project: project1) }
+    let!(:trashed_work_package) do
+      create(:work_package, project: project1, deleted_at: Time.current, deletion_group: SecureRandom.uuid)
+    end
+
+    before { login_as(user1) }
+
+    it "excludes trashed work packages from a regular query" do
+      expect(query_results.work_packages).to include(active_work_package)
+      expect(query_results.work_packages).not_to include(trashed_work_package)
+    end
+
+    it "returns trashed work packages from a trash query" do
+      query.add_filter("trashed", "=", ["t"])
+
+      expect(query_results.work_packages).to include(trashed_work_package)
+      expect(query_results.work_packages).not_to include(active_work_package)
     end
   end
 

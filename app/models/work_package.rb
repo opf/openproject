@@ -86,14 +86,13 @@ class WorkPackage < ApplicationRecord
     order(updated_at: :desc)
   }
 
-  default_scope { where(deleted_at: nil) }
-
+  scope :active, -> { where(deleted_at: nil) }
   scope :with_trashed, -> { unscope(where: :deleted_at) }
   scope :trashed, -> { with_trashed.where.not(deleted_at: nil) }
 
-  scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
+  scope :visible, ->(user = User.current) { active.allowed_to(user, :view_work_packages) }
   scope :visible_in_trash, ->(user = User.current) {
-    trashed.allowed_to(user, :view_work_packages_in_trash)
+    trashed.where(project_id: Project.allowed_to(user, :view_work_packages_in_trash))
   }
 
   scope :in_status, ->(*args) do
@@ -185,6 +184,10 @@ class WorkPackage < ApplicationRecord
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
+
+  def self.search(...)
+    active.scoping { super }
+  end
 
   # makes virtual model WorkPackageHierarchy available
   has_closure_tree
