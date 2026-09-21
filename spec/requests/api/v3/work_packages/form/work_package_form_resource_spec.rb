@@ -199,6 +199,27 @@ RSpec.describe "API v3 Work package form resource" do
               it_behaves_like "having no errors"
             end
 
+            describe "labels" do
+              let(:label) { create(:label) }
+              let(:params) do
+                valid_params.merge(_links: { labels: [{ href: api_v3_paths.label(label.id) }] })
+              end
+
+              include_context "with post request"
+
+              it_behaves_like "having no errors"
+
+              it "echoes the pending labels back" do
+                expect(last_response.body)
+                  .to be_json_eql(api_v3_paths.label(label.id).to_json)
+                        .at_path("_embedded/payload/_links/labels/0/href")
+              end
+
+              it "does not persist them" do
+                expect(Labeling.where(labelable: work_package)).not_to exist
+              end
+            end
+
             context "for invalid content" do
               before do
                 allow(User).to receive(:current).and_return current_user

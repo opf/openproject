@@ -70,4 +70,78 @@ RSpec.describe WorkPackage, "labels" do
       expect(described_class.labeled_with(higher_label)).to contain_exactly(work_package)
     end
   end
+
+  describe "#label_changes" do
+    # A record that carries the labels of the outer setup without the bookkeeping
+    # of having assigned them, as in any request loading it fresh.
+    subject(:labeled) { described_class.find(work_package.id) }
+
+    it "is empty when the labels were not touched" do
+      expect(labeled.label_changes).to eq({})
+    end
+
+    it "is empty when the same set is assigned again" do
+      labeled.label_ids = [higher_label.id, lower_label.id]
+
+      expect(labeled.label_changes).to eq({})
+    end
+
+    it "reports the ids before and after an assignment" do
+      labeled.label_ids = [lower_label.id]
+
+      expect(labeled.label_changes)
+        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id]])
+    end
+
+    it "reports a label added to the collection" do
+      other_label = create(:label, name: "mango")
+      labeled.labels << other_label
+
+      expect(labeled.label_changes)
+        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id, higher_label.id, other_label.id]])
+    end
+
+    it "reports a label removed from the collection" do
+      labeled.labels.delete(higher_label)
+
+      expect(labeled.label_changes)
+        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id]])
+    end
+
+    it "keeps reporting the set the changes started from" do
+      other_label = create(:label, name: "mango")
+      labeled.labels.delete(higher_label)
+      labeled.labels << other_label
+
+      expect(labeled.label_changes)
+        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id, other_label.id]])
+    end
+
+    it "starts over after the work package was saved" do
+      labeled.label_ids = [lower_label.id]
+      labeled.save!
+
+      expect(labeled.label_changes).to eq({})
+    end
+  end
+
+  describe "attribution to the user" do
+    subject(:tracked) do
+      described_class.find(work_package.id).extend(OpenProject::ChangedBySystem)
+    end
+
+    it "counts an assignment as changed by the user" do
+      tracked.label_ids = [lower_label.id]
+
+      expect(tracked.changed_by_user).to include("labels")
+    end
+
+    it "does not count an assignment made by the system" do
+      tracked.change_by_system do
+        tracked.label_ids = [lower_label.id]
+      end
+
+      expect(tracked.changed_by_user).not_to include("labels")
+    end
+  end
 end

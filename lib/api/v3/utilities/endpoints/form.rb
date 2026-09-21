@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -33,9 +35,6 @@ module API
         class Form < API::Utilities::Endpoints::Bodied
           include V3Deductions
 
-          # The idea here is that Form does not want to persist stuff, only
-          # produce something that can be used as a form.
-          # So we do the transaction and reject it.
           def process(request, params)
             call = nil
 
