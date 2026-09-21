@@ -27,11 +27,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { title }
-    header.with_description { description }
-    header.with_breadcrumbs(breadcrumb_items)
-    helpers.render_tab_header_nav(header, @tabs)
-  end
-%>
+<% html_title t(:label_administration), t(:label_work_package_types), @type.name, t("types.comparison.title") %>
+
+<%= render ::Types::EditPageHeaderComponent.new(
+      type: @type,
+      title: t("types.comparison.title_for_type", name: @type.name),
+      description: t("types.comparison.description"),
+      additional_breadcrumb_items: [t("types.comparison.title")]
+    ) %>
+
+<% if @comparison.any_variants? %>
+  <%= render WorkPackageTypes::Comparison::MatrixComponent.new(comparison: @comparison) %>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, spacious: true, test_selector: "comparison-blankslate")) do |blankslate| %>
+    <% blankslate.with_heading(tag: :h3) { t("types.comparison.blankslate.title") } %>
+    <% blankslate.with_description { t("types.comparison.blankslate.description") } %>
+    <% blankslate.with_primary_action(href: new_creation_wizard_types_path(type_id: @type.id, back_url: request.fullpath)) do %>
+      <%= t("types.index.add_variant_action") %>
+    <% end %>
+  <% end %>
+<% end %>
