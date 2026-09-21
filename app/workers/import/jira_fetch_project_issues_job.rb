@@ -31,6 +31,7 @@
 module Import
   class JiraFetchProjectIssuesJob < ProgressableJob
     include JiraJobUtils
+    include Import::JiraImportLogging
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
@@ -49,16 +50,20 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      Rails.logger.info "Fetching issues started"
+      with_jira_log_tags(jira_import_id:, jira_project_id:, jira_object_type: :project) do
+        Rails.logger.info "Fetching issues started"
+      end
+
       prepare_jira_import_ivars(jira_import_id)
       jira_project = Import::JiraProject.find(jira_project_id)
+      jira_project_key = jira_project.payload["key"]
 
       cursor ||= @jira_import.get_job_cursor(self)
       start_at = cursor&.dig("start_at") || 0
 
       Enumerator.new do |yielder|
         loop do
-          jql = "project = '#{jira_project.payload['key']}' ORDER BY id ASC"
+          jql = "project = '#{jira_project_key}' ORDER BY id ASC"
           response = @jira_client.issues(jql:, start_at:, max_results: 50)
 
           issues = response["issues"]
@@ -71,8 +76,14 @@ module Import
 
           @jira_import.set_job_cursor(self, new_cursor)
 
-          Rails.logger.info "Fetched #{start_at + issues.size} of #{total} issues " \
-                            "for project '#{jira_project.payload['key']}'"
+          # This loop body runs later, inside the Enumerator's own Fiber, once build_enumerator
+          # has already returned and the with_jira_log_tags call above has already closed - so
+          # it needs its own full set of tags rather than nesting inside (and inheriting from)
+          # that one.
+          with_jira_log_tags(jira_import_id:, jira_project_id:, jira_object_type: :project,
+                             jira_object_id_or_name: jira_project_key) do
+            Rails.logger.info "Fetched #{start_at + issues.size} of #{total} issues"
+          end
 
           yielder.yield(
             issues_and_total,
@@ -86,9 +97,11 @@ module Import
 
     def each_iteration(issues_and_total, jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
-      issues_and_total["total"]
       issues_upsert_data = issues.map do |payload|
-        Rails.logger.debug { "Fetched issue '#{payload['key']}'" }
+        with_jira_log_tags(jira_import_id:, jira_project_id:, jira_issue_key: payload["key"],
+                           jira_object_type: :issue, jira_object_id_or_name: payload["key"]) do
+          Rails.logger.debug "Fetched issue"
+        end
         {
           payload:,
           jira_project_id:,

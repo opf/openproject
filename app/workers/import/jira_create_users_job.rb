@@ -31,9 +31,10 @@
 module Import
   class JiraCreateUsersJob < ProgressableJob
     include JiraOpenProjectReferenceCreation
+    include Import::JiraImportLogging
 
     on_complete do
-      Rails.logger.info "Creating users finished"
+      with_jira_log_tags(jira_import_id: @jira_import.id) { Rails.logger.info "Creating users finished" }
     end
 
     def text
@@ -53,21 +54,26 @@ module Import
     end
 
     def build_enumerator(jira_import_id, cursor:)
-      Rails.logger.info "Creating users started"
-      @jira_import = Import::JiraImport.find(jira_import_id)
+      with_jira_log_tags(jira_import_id:) do
+        Rails.logger.info "Creating users started"
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraUser.where(jira_import_id:),
-        cursor: cursor
-      )
+        @jira_import = Import::JiraImport.find(jira_import_id)
+
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraUser.where(jira_import_id:),
+          cursor: cursor
+        )
+      end
     end
 
-    def each_iteration(jira_user, _jira_import_id)
-      Journal::NotificationConfiguration.with(false) do
-        Journal::EventConfiguration.with(false) do
-          import_user(jira_user)
-          @jira_import.set_job_cursor(self, jira_user.id)
+    def each_iteration(jira_user, jira_import_id)
+      with_jira_log_tags(jira_import_id:, jira_object_type: :user, jira_object_id_or_name: jira_user.origin_id) do
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
+            import_user(jira_user)
+            @jira_import.set_job_cursor(self, jira_user.id)
+          end
         end
       end
     end
@@ -208,30 +214,32 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def import_user_group(group_name, jira_user)
-      Rails.logger.debug { "Creating group '#{group_name}'" }
-      call = Groups::CreateService
-               .new(user: User.system, contract_class: EmptyContract)
-               .call(name: group_name)
-      call.on_success do |result|
-        create_reference!(
-          op_leg: result.result,
-          jira_leg: nil,
-          jira_import: @jira_import,
-          uses_existing: false
-        )
+      with_jira_log_tags(jira_object_id_or_name: group_name) do
+        Rails.logger.debug "Creating group"
+        call = Groups::CreateService
+                 .new(user: User.system, contract_class: EmptyContract)
+                 .call(name: group_name)
+        call.on_success do |result|
+          create_reference!(
+            op_leg: result.result,
+            jira_leg: nil,
+            jira_import: @jira_import,
+            uses_existing: false
+          )
+        end
+        call.on_failure do |_result|
+          handle_create_group_failure(call, group_name)
+        end
+        member_id = Import::JiraOpenProjectReference.where(
+          jira_import_id: @jira_import.id,
+          jira_entity_id: jira_user.id,
+          jira_entity_class: jira_user.class.to_s
+        ).pick(:op_entity_id)
+        group = Group.find_by!(name: group_name)
+        Groups::AddUsersService
+          .new(group, current_user: User.system)
+          .call(ids: [member_id], send_notifications: false)
       end
-      call.on_failure do |_result|
-        handle_create_group_failure(call, group_name)
-      end
-      member_id = Import::JiraOpenProjectReference.where(
-        jira_import_id: @jira_import.id,
-        jira_entity_id: jira_user.id,
-        jira_entity_class: jira_user.class.to_s
-      ).pick(:op_entity_id)
-      group = Group.find_by!(name: group_name)
-      Groups::AddUsersService
-        .new(group, current_user: User.system)
-        .call(ids: [member_id], send_notifications: false)
     end
     # rubocop:enable Metrics/AbcSize
 

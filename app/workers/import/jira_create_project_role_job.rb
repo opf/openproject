@@ -31,13 +31,20 @@
 module Import
   class JiraCreateProjectRoleJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
+    include Import::JiraImportLogging
 
     def text
       "Create 'JiraMember' project role"
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
+      with_jira_log_tags(jira_import_id:) { create_project_role(jira_import_id) }
+    end
+
+    private
+
+    # rubocop:disable-next Metrics/AbcSize
+    def create_project_role(jira_import_id)
       Rails.logger.info "Creating 'JiraMember' project role started"
       jira_import = Import::JiraImport.find(jira_import_id)
       service_call = Roles::CreateService.new(user: User.system).call(

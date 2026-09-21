@@ -31,23 +31,28 @@
 module Import
   class JiraFetchPrioritiesJob < ApplicationJob
     include JiraJobUtils
+    include Import::JiraImportLogging
 
     def text
       "Fetch Priorities"
     end
 
     def perform(jira_import_id)
-      Rails.logger.info "Fetching priorities started"
-      prepare_jira_import_ivars(jira_import_id)
-      fetch_data
-      Rails.logger.info "Fetching priorities finished"
+      with_jira_log_tags(jira_import_id:) do
+        Rails.logger.info "Fetching priorities started"
+        prepare_jira_import_ivars(jira_import_id)
+        fetch_data
+        Rails.logger.info "Fetching priorities finished"
+      end
     end
 
     private
 
     def fetch_data
       priorities_upsert_data = @jira_client.priorities.map do |payload|
-        Rails.logger.debug { "Fetched priority '#{payload['name']}'" }
+        with_jira_log_tags(jira_object_type: :priority, jira_object_id_or_name: payload["name"]) do
+          Rails.logger.debug "Fetched priority"
+        end
         {
           payload:,
           origin_id: payload.fetch("id"),

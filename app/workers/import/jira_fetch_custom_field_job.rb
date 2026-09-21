@@ -31,6 +31,7 @@
 module Import
   class JiraFetchCustomFieldJob < ApplicationJob
     include Import::JiraJobUtils
+    include Import::JiraImportLogging
 
     OPTION_BASED_CUSTOM_SUFFIXES = %w[select multiselect multicheckboxes radiobuttons cascadingselect].freeze
 
@@ -39,19 +40,21 @@ module Import
     end
 
     def perform(jira_import_id)
-      Rails.logger.info "Fetching custom fields started"
-      prepare_jira_import_ivars(jira_import_id)
+      with_jira_log_tags(jira_import_id:) do
+        Rails.logger.info "Fetching custom fields started"
 
-      @index = Import::JiraCustomField::IssueValueIndex.scan(@jira_import)
-      if @index[:used_keys].empty?
-        Rails.logger.info "Fetching custom fields finished, no custom field is used by any issue"
-        return
+        prepare_jira_import_ivars(jira_import_id)
+        @index = Import::JiraCustomField::IssueValueIndex.scan(@jira_import)
+        if @index[:used_keys].empty?
+          Rails.logger.info "Fetching custom fields finished, no custom field is used by any issue"
+          next
+        end
+
+        upsert_custom_fields(@index[:used_keys])
+        sync_custom_field_options
+        store_issue_value_index
+        Rails.logger.info "Fetching custom fields finished"
       end
-
-      upsert_custom_fields(@index[:used_keys])
-      sync_custom_field_options
-      store_issue_value_index
-      Rails.logger.info "Fetching custom fields finished"
     end
 
     private
@@ -73,7 +76,9 @@ module Import
         field.fetch("custom", false) && used_custom_field_ids.include?(field.fetch("id"))
       end
       fields_upsert_data = used_fields.map do |payload|
-        Rails.logger.debug { "Fetched custom field '#{payload['name']}'" }
+        with_jira_log_tags(jira_object_type: :customField, jira_object_id_or_name: payload.fetch("id")) do
+          Rails.logger.debug "Fetched custom field"
+        end
         {
           payload:,
           origin_id: payload.fetch("id"),
@@ -94,8 +99,10 @@ module Import
 
       collect_field_contexts_via_options_api(option_based_fields_by_jira_id)
     rescue Import::JiraClient::UnsupportedEndpointError => e
-      Rails.logger.warn("Jira custom field options endpoint unusable (#{e.message}), falling back to editmeta. " \
-                        "Option sets are then limited to what the issues' edit screens report.")
+      with_jira_log_tags(jira_object_type: :customField) do
+        Rails.logger.warn("Jira custom field options endpoint unusable (#{e.message}), falling back to editmeta. " \
+                          "Option sets are then limited to what the issues' edit screens report.")
+      end
       collect_field_contexts_via_editmeta(option_based_fields_by_jira_id)
     end
 
@@ -140,7 +147,9 @@ module Import
     rescue Import::JiraClient::UnsupportedEndpointError, Import::JiraClient::ApiError => e
       raise unless @options_api_confirmed
 
-      Rails.logger.warn("Could not fetch options of custom field #{jira_field.origin_id}: #{e.message}.")
+      with_jira_log_tags(jira_object_type: :customField, jira_object_id_or_name: jira_field.origin_id) do
+        Rails.logger.warn("Could not fetch options of custom field #{jira_field.origin_id}: #{e.message}.")
+      end
       nil
     end
 
@@ -190,7 +199,9 @@ module Import
       result = @jira_client.issue_editmeta(issue_key)
       record_editmeta_fields(result["fields"], project_key, issuetype_id, option_based_fields_by_jira_id, groups_by_field)
     rescue Import::JiraClient::ApiError => e
-      Rails.logger.warn("Could not fetch editmeta for issue #{issue_key}: #{e.message}.")
+      with_jira_log_tags(jira_issue_key: issue_key, jira_object_type: :issue, jira_object_id_or_name: issue_key) do
+        Rails.logger.warn("Could not fetch editmeta for issue #{issue_key}: #{e.message}.")
+      end
     end
 
     def record_editmeta_fields(fields_meta, project_key, issuetype_id, option_based_fields_by_jira_id, groups_by_field)

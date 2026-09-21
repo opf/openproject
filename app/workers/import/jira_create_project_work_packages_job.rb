@@ -32,6 +32,7 @@ module Import
   class JiraCreateProjectWorkPackagesJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+    include Import::JiraImportLogging
 
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
@@ -40,7 +41,10 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
-      Rails.logger.info "Creating work packages finished"
+      with_jira_log_tags(jira_import_id: @jira_import.id, jira_project_id: arguments[1], jira_object_type: :project,
+                         jira_object_id_or_name: @jira_project_key) do
+        Rails.logger.info "Creating work packages finished"
+      end
     end
 
     def text
@@ -63,23 +67,27 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      Rails.logger.info "Creating work packages started"
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @system_user = User.system
-      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      jira_project = Import::JiraProject.find(jira_project_id)
+      with_jira_log_tags(jira_import_id:, jira_project_id:, jira_object_type: :project) do
+        Rails.logger.info "Creating work packages started"
 
-      @project_role = Role.find_by!(name: "JiraMember")
-      @custom_field_registry = build_custom_field_registry
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        jira = @jira_import.jira
+        @jira_id = jira.id
+        @system_user = User.system
+        @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+        jira_project = Import::JiraProject.find(jira_project_id)
+        @jira_project_key = jira_project.payload["key"]
 
-      @project = JiraOpenProjectReference.find_by!(
-        jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s
-      ).op_leg
+        @project_role = Role.find_by!(name: "JiraMember")
+        @custom_field_registry = build_custom_field_registry
 
-      update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
+        @project = JiraOpenProjectReference.find_by!(
+          jira_entity_id: jira_project.id,
+          jira_entity_class: jira_project.class.to_s
+        ).op_leg
+
+        update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
+      end
 
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
@@ -90,10 +98,10 @@ module Import
     # rubocop:enable Metrics/AbcSize
 
     # rubocop:disable Metrics/AbcSize
-    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
+    def each_iteration(jira_issue, jira_import_id, jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
-                          "jira_issue_key:#{jira_issue_key}") do
+      with_jira_log_tags(jira_import_id:, jira_project_id:, jira_issue_key:, jira_object_type: :issue,
+                         jira_object_id_or_name: jira_issue_key) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -316,7 +324,7 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        Rails.logger.tagged("comment_created:#{comment['created']}") do
+        with_jira_log_tags(jira_object_type: :comment, jira_object_id_or_name: comment["created"]) do
           key = comment.dig("author", "key")
           Rails.logger.tagged("author:#{key}") do
             author = find_user(key)

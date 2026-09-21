@@ -30,8 +30,16 @@
 
 module Import
   class JiraStagedImportJob < ApplicationJob
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    include Import::JiraImportLogging
+
     def perform(batch, _context)
+      with_jira_log_tags(jira_import_id: batch.properties[:jira_import_id]) { perform_stage(batch) }
+    end
+
+    private
+
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
+    def perform_stage(batch)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
       if batch.succeeded?
@@ -110,6 +118,5 @@ module Import
         jira_import.transition_to!(:import_error)
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

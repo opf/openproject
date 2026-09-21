@@ -31,6 +31,7 @@
 module Import
   class JiraCreateProjectJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
+    include Import::JiraImportLogging
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
@@ -41,21 +42,25 @@ module Import
     def perform(jira_import_id, jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
-          Rails.logger.info "Creating project started"
-          @jira_import = Import::JiraImport.find(jira_import_id)
-          @jira_id = @jira_import.jira.id
-          @system_user = User.system
-          jira_project = Import::JiraProject.find(jira_project_id)
+          with_jira_log_tags(jira_import_id:, jira_project_id:, jira_object_type: :project) do
+            Rails.logger.info "Creating project started"
 
+            @jira_import = Import::JiraImport.find(jira_import_id)
+            @jira_id = @jira_import.jira.id
+            @system_user = User.system
+            jira_project = Import::JiraProject.find(jira_project_id)
 
-          # Needed to avoid project.lft and project.rgt corruption due to race condition
-          # when multiple projects are created at the same time.
-          lock_key = "jira_import_#{jira_import_id}_create_project"
-          OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
-            create_project(jira_project)
+            with_jira_log_tags(jira_object_id_or_name: jira_project.payload["key"]) do
+              # Needed to avoid project.lft and project.rgt corruption due to race condition
+              # when multiple projects are created at the same time.
+              lock_key = "jira_import_#{jira_import_id}_create_project"
+              OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
+                create_project(jira_project)
+              end
+
+              Rails.logger.info "Creating project finished"
+            end
           end
-
-          Rails.logger.info "Creating project finished"
         end
       end
     end

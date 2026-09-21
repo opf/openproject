@@ -31,6 +31,7 @@
 module Import
   class JiraRevertImportJob < ApplicationJob
     include JobIteration::Iteration
+    include Import::JiraImportLogging
 
     REVERT_STEPS = %i[delete_projects
                       delete_types_statuses_and_issue_priorities
@@ -40,6 +41,17 @@ module Import
                       delete_custom_fields
                       delete_references
                       delete_jira_objects].freeze
+
+    # Only object kinds that have a corresponding jira_object_type; Group and ProjectRole
+    # references have no Jira leg, so they are tagged without an object type.
+    REF_OBJECT_TYPES = {
+      "Project" => :project,
+      "Type" => :issueType,
+      "IssuePriority" => :priority,
+      "Status" => :status,
+      "User" => :user,
+      "WorkPackageCustomField" => :customField
+    }.freeze
 
     def text
       "REVERTING"
@@ -62,7 +74,7 @@ module Import
     rescue StandardError => e
       raise if @jira_import.nil?
 
-      Rails.logger.error "Building revert enumerator failed: #{e.message}"
+      with_jira_log_tags(jira_import_id:) { Rails.logger.error "Building revert enumerator failed: #{e.message}" }
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
                                   error_backtrace: e.backtrace,
@@ -70,8 +82,21 @@ module Import
       nil # JobIteration skips the job when no enumerator is returned
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(revert_step, jira_import_id)
+      with_jira_log_tags(jira_import_id:) { perform_revert_step(jira_import_id, revert_step) }
+    rescue StandardError => e
+      with_jira_log_tags(jira_import_id:) { Rails.logger.error "Revert step '#{revert_step}' failed: #{e.message}" }
+      @jira_import&.transition_to!(:revert_error,
+                                   job_id: job_id,
+                                   error_backtrace: e.backtrace,
+                                   error: e.message,
+                                   revert_step:)
+      throw(:abort)
+    end
+
+    private
+
+    def perform_revert_step(jira_import_id, revert_step)
       Rails.logger.info "Revert step '#{revert_step}' started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
@@ -80,27 +105,18 @@ module Import
         @jira_import.set_job_cursor(self, revert_step)
       end
       Rails.logger.info "Revert step '#{revert_step}' finished"
-    rescue StandardError => e
-      Rails.logger.error "Revert step '#{revert_step}' failed: #{e.message}"
-      @jira_import.transition_to!(:revert_error,
-                                  job_id: job_id,
-                                  error_backtrace: e.backtrace,
-                                  error: e.message,
-                                  revert_step:)
-      throw(:abort)
     end
-
-    private
 
     def delete_projects
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Project")
         .find_each do |ref|
-          op_leg = ref.op_leg
-          Rails.logger.debug { "Deleting project ##{ref.op_entity_id}" }
-          service_call = ::Projects::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          with_ref_log_tags(ref) do
+            Rails.logger.debug "Deleting project"
+            service_call = ::Projects::DeleteService.new(user: @user, model: ref.op_leg).call
+            raise service_call.message if service_call.failure?
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           log_leg_not_found(ref)
           next
@@ -112,9 +128,10 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: ["Type", "IssuePriority", "Status"])
         .find_each do |ref|
-          op_leg = ref.op_leg
-          Rails.logger.debug { "Deleting #{ref.op_entity_class} ##{ref.op_entity_id}" }
-          op_leg.destroy!
+          with_ref_log_tags(ref) do
+            Rails.logger.debug { "Deleting #{ref.op_entity_class}" }
+            ref.op_leg.destroy!
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           log_leg_not_found(ref)
           next
@@ -126,11 +143,12 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "User")
         .find_each do |ref|
-          op_leg = ref.op_leg
-          Rails.logger.debug { "Deleting user ##{ref.op_entity_id}" }
-          # EmptyContract is used to make deletion not dependent on Setting.users_deletable_by_admins
-          service_call = ::Users::DeleteService.new(user: @user, model: op_leg, contract_class: EmptyContract).call
-          raise service_call.message if service_call.failure?
+          with_ref_log_tags(ref) do
+            Rails.logger.debug "Deleting user"
+            # EmptyContract is used to make deletion not dependent on Setting.users_deletable_by_admins
+            service_call = ::Users::DeleteService.new(user: @user, model: ref.op_leg, contract_class: EmptyContract).call
+            raise service_call.message if service_call.failure?
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           log_leg_not_found(ref)
           next
@@ -142,10 +160,11 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Group")
         .find_each do |ref|
-          op_leg = ref.op_leg
-          Rails.logger.debug { "Deleting group ##{ref.op_entity_id}" }
-          service_call = ::Groups::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          with_ref_log_tags(ref) do
+            Rails.logger.debug "Deleting group"
+            service_call = ::Groups::DeleteService.new(user: @user, model: ref.op_leg).call
+            raise service_call.message if service_call.failure?
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           log_leg_not_found(ref)
           next
@@ -157,10 +176,11 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "ProjectRole")
         .find_each do |ref|
-          op_leg = ref.op_leg
-          Rails.logger.debug { "Deleting project role ##{ref.op_entity_id}" }
-          service_call = ::Roles::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          with_ref_log_tags(ref) do
+            Rails.logger.debug "Deleting project role"
+            service_call = ::Roles::DeleteService.new(user: @user, model: ref.op_leg).call
+            raise service_call.message if service_call.failure?
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           log_leg_not_found(ref)
           next
@@ -172,9 +192,10 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "WorkPackageCustomField")
         .find_each do |ref|
-          op_leg = ref.op_leg
-          Rails.logger.debug { "Deleting custom field ##{ref.op_entity_id}" }
-          op_leg.destroy!
+          with_ref_log_tags(ref) do
+            Rails.logger.debug "Deleting custom field"
+            ref.op_leg.destroy!
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           log_leg_not_found(ref)
           next
@@ -190,8 +211,15 @@ module Import
       @jira_import.transition_to!(:reverted, job_id: job_id)
     end
 
+    def with_ref_log_tags(ref, &)
+      with_jira_log_tags(jira_object_type: REF_OBJECT_TYPES[ref.op_entity_class],
+                         jira_object_id_or_name: ref.op_entity_id, &)
+    end
+
     def log_leg_not_found(ref)
-      Rails.logger.warn "OpenProject #{ref.op_entity_class} ##{ref.op_entity_id} no longer exists, skipping its deletion"
+      with_ref_log_tags(ref) do
+        Rails.logger.warn "OpenProject #{ref.op_entity_class} no longer exists, skipping its deletion"
+      end
     end
   end
 end

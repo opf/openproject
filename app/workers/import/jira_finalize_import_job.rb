@@ -30,20 +30,27 @@
 
 module Import
   class JiraFinalizeImportJob < ApplicationJob
-    def perform(jira_import_id)
-      Rails.logger.info "Finalizing import started"
-      jira_import = Import::JiraImport.find(jira_import_id)
+    include Import::JiraImportLogging
 
-      unlock_active_jira_users(jira_import)
-      jira_import.destroy_jira_objects
-      jira_import.transition_to!(:finalizing_done)
-      Rails.logger.info "Finalizing import finished"
+    def perform(jira_import_id)
+      with_jira_log_tags(jira_import_id:) { perform_finalize(jira_import_id) }
     rescue StandardError => e
-      Rails.logger.error "Finalizing import failed: #{e.message}"
-      jira_import&.transition_to!(:finalizing_error, error: e.message, error_backtrace: e.backtrace)
+      with_jira_log_tags(jira_import_id:) { Rails.logger.error "Finalizing import failed: #{e.message}" }
+      @jira_import&.transition_to!(:finalizing_error, error: e.message, error_backtrace: e.backtrace)
     end
 
     private
+
+    def perform_finalize(jira_import_id)
+      Rails.logger.info "Finalizing import started"
+
+      @jira_import = Import::JiraImport.find(jira_import_id)
+
+      unlock_active_jira_users(@jira_import)
+      @jira_import.destroy_jira_objects
+      @jira_import.transition_to!(:finalizing_done)
+      Rails.logger.info "Finalizing import finished"
+    end
 
     # rubocop:disable-next Metrics/AbcSize
     def unlock_active_jira_users(jira_import)
@@ -58,13 +65,15 @@ module Import
           next unless jira_user.payload["active"]
 
           op_user = ref.op_leg
-          Rails.logger.debug { "Unlocking user #{jira_user.origin_id}" }
-          Journal::NotificationConfiguration.with(false) do
-            Journal::EventConfiguration.with(false) do
-              Users::UpdateService
-                .new(model: op_user, user: User.system, contract_class: Users::JiraImportUpdateContract)
-                .call(status: :active)
-                .on_failure { |result| raise result.message }
+          with_jira_log_tags(jira_object_type: :user, jira_object_id_or_name: jira_user.origin_id) do
+            Rails.logger.debug "Unlocking user"
+            Journal::NotificationConfiguration.with(false) do
+              Journal::EventConfiguration.with(false) do
+                Users::UpdateService
+                  .new(model: op_user, user: User.system, contract_class: Users::JiraImportUpdateContract)
+                  .call(status: :active)
+                  .on_failure { |result| raise result.message }
+              end
             end
           end
         end

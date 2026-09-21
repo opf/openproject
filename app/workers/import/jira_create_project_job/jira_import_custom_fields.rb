@@ -347,42 +347,45 @@ module Import
       end
 
       def reuse_custom_field(custom_field, jira_field)
-        unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
-                                                        op_entity_class: custom_field.class.to_s,
-                                                        jira_import_id: @jira_import.id)
-          create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
+        with_jira_log_tags(jira_object_type: :customField, jira_object_id_or_name: jira_field.origin_id) do
+          unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
+                                                          op_entity_class: custom_field.class.to_s,
+                                                          jira_import_id: @jira_import.id)
+            create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
+          end
+          Rails.logger.debug { "Reusing existing custom field '#{custom_field.name}'" }
+          custom_field
         end
-        Rails.logger.debug { "Reusing existing custom field '#{custom_field.name}' for Jira field #{jira_field.origin_id}" }
-        custom_field
       end
 
       # rubocop:disable-next Metrics/AbcSize
       def create_custom_field(jira_field, builder)
-        name, field_format = builder.custom_field_settings
-        params = {
-          type: "WorkPackageCustomField",
-          name:,
-          field_format:,
-          is_required: false,
-          is_for_all: false,
-          **builder.custom_field_parameters
-        }
-        service_call = CustomFields::CreateService.new(user: @system_user).call(**params)
-        unless service_call.success?
-          Rails.logger.error "Creating custom field '#{name}' for Jira field #{jira_field.origin_id} failed: " \
-                             "#{service_call.message}"
-          raise I18n.t(
-            "admin.jira.errors.custom_field_creation_failed",
-            name: jira_field.payload["name"],
-            message: service_call.message
-          )
-        end
+        with_jira_log_tags(jira_object_type: :customField, jira_object_id_or_name: jira_field.origin_id) do
+          name, field_format = builder.custom_field_settings
+          params = {
+            type: "WorkPackageCustomField",
+            name:,
+            field_format:,
+            is_required: false,
+            is_for_all: false,
+            **builder.custom_field_parameters
+          }
+          service_call = CustomFields::CreateService.new(user: @system_user).call(**params)
+          unless service_call.success?
+            Rails.logger.error "Creating custom field '#{name}' failed: #{service_call.message}"
+            raise I18n.t(
+              "admin.jira.errors.custom_field_creation_failed",
+              name: jira_field.payload["name"],
+              message: service_call.message
+            )
+          end
 
-        custom_field = service_call.result
-        create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: false)
-        builder.custom_field_post_processing(custom_field)
-        Rails.logger.debug { "Created custom field '#{custom_field.name}' for Jira field #{jira_field.origin_id}" }
-        custom_field
+          custom_field = service_call.result
+          create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: false)
+          builder.custom_field_post_processing(custom_field)
+          Rails.logger.debug { "Created custom field '#{custom_field.name}'" }
+          custom_field
+        end
       end
 
       def find_context_for_issue(entry, jira_issue)

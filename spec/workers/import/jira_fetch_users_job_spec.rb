@@ -118,6 +118,8 @@ RSpec.describe Import::JiraFetchUsersJob do
   end
 
   describe "#resolve_mention_user_keys" do
+    let(:jira_import) { instance_double(Import::JiraImport, id: 1, client: jira_client) }
+
     context "when all mentioned users exist" do
       before do
         allow(jira_client).to receive(:user_by_username).with(username: "alice").and_return({ "key" => "JIRAUSER100" })
@@ -125,7 +127,7 @@ RSpec.describe Import::JiraFetchUsersJob do
       end
 
       it "adds all user keys" do
-        job.send(:resolve_mention_user_keys, %w[alice bob], user_keys, jira_client)
+        job.send(:resolve_mention_user_keys, %w[alice bob], user_keys, jira_import)
         expect(user_keys).to contain_exactly("JIRAUSER100", "JIRAUSER200")
       end
     end
@@ -139,17 +141,17 @@ RSpec.describe Import::JiraFetchUsersJob do
       end
 
       it "does not raise an error" do
-        expect { job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client) }.not_to raise_error
+        expect { job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_import) }.not_to raise_error
       end
 
       it "skips the missing user and still adds the existing one" do
-        job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
+        job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_import)
         expect(user_keys).to contain_exactly("JIRAUSER100")
       end
 
       it "logs a warning" do
         allow(Rails.logger).to receive(:warn)
-        job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
+        job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_import)
         expect(Rails.logger).to have_received(:warn).with(a_string_including("ghost"))
       end
     end
@@ -162,7 +164,7 @@ RSpec.describe Import::JiraFetchUsersJob do
       end
 
       it "raises an error" do
-        expect { job.send(:resolve_mention_user_keys, %w[alice], user_keys, jira_client) }
+        expect { job.send(:resolve_mention_user_keys, %w[alice], user_keys, jira_import) }
           .to raise_error(/Could not resolve mentioned user 'alice': Boom/)
       end
     end
