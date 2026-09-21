@@ -31,22 +31,56 @@
 module ResourcePlannerViews
   module UserTimeline
     class AllocationBarComponent < ApplicationComponent
-      def initialize(allocation:, overbooked_ranges: [])
+      # A user's bars span every project they are allocated in, including ones the
+      # viewer cannot open. Those keep their hours — the load is real and feeds the
+      # utilization maths — but disclose nothing about the work package.
+      # `project_names` is only given on a global planner, where the bar has to say
+      # which project the work sits in; it holds the visible projects alone, so an
+      # entry is missing exactly when the project must stay undisclosed.
+      def initialize(allocation:, overbooked_ranges: [], visible_work_package_ids: nil, project_names: nil)
         super
         @allocation = allocation
         @overbooked_ranges = overbooked_ranges
+        @visible_work_package_ids = visible_work_package_ids
+        @project_names = project_names
       end
 
       private
 
-      attr_reader :allocation
+      attr_reader :allocation, :visible_work_package_ids, :project_names
+
+      def project_name
+        return if project_names.nil?
+
+        project_names[allocation.entity&.project_id]
+      end
+
+      def entity_visible?
+        return true if visible_work_package_ids.nil?
+
+        visible_work_package_ids.include?(allocation.entity_id)
+      end
 
       def hours_label
         t("resource_management.allocation.hours", value: allocation.allocated_hours.round)
       end
 
       def entity_subject
+        return t("resource_management.timeline.undisclosed.work_package") unless entity_visible?
+
         allocation.entity.subject
+      end
+
+      def label_tooltip_id
+        "user-timeline-bar-#{allocation.id}"
+      end
+
+      # The bar is often too narrow to show the project and subject, so the full
+      # text is reachable by hovering anywhere on it.
+      def label_tooltip
+        return t("resource_management.timeline.undisclosed.tooltip") unless entity_visible?
+
+        [project_name, entity_subject].compact_blank.join(" - ")
       end
 
       def overbooked? = @overbooked_ranges.any?
@@ -78,6 +112,8 @@ module ResourcePlannerViews
 
       # Nil when the status has no colour, in which case the CSS falls back to a muted border.
       def status_style
+        return unless entity_visible?
+
         hexcode = allocation.entity.status&.color&.hexcode
         "--rm-status-color: #{hexcode}" if hexcode.present?
       end

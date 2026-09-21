@@ -40,8 +40,10 @@ module ResourceManagement
     # lookups rather than resource planning. Only the attributes a planner
     # allocates by are offered, plus custom fields.
     #
-    # `ProjectFilter` is deliberately absent: the view is always scoped to its
-    # planner's project and a configured filter must not override that scoping.
+    # `ProjectFilter` is deliberately absent here: a project planner's view is
+    # scoped to that project and a configured filter must not override the
+    # scoping. A global planner has no such scope, so it offers the filter
+    # instead — see GLOBAL_CONFIGURATION_FILTERS.
     CONFIGURATION_FILTERS = [
       ::Queries::WorkPackages::Filter::CustomFieldFilter,
       ::Queries::WorkPackages::Filter::AncestorFilter,
@@ -70,9 +72,16 @@ module ResourceManagement
       ::Queries::WorkPackages::Filter::UpdatedAtFilter
     ].freeze
 
+    # Only reachable from a global planner, where picking the projects to plan
+    # across is the point.
+    GLOBAL_CONFIGURATION_FILTERS = [
+      ::Queries::WorkPackages::Filter::ProjectFilter
+    ].freeze
+
     # The custom field filter's key is a `cf_<id>` pattern rather than a single
     # name, hence the `===` match rather than a set lookup.
     CONFIGURATION_FILTER_KEYS = CONFIGURATION_FILTERS.map(&:key).freeze
+    GLOBAL_CONFIGURATION_FILTER_KEYS = GLOBAL_CONFIGURATION_FILTERS.map(&:key).freeze
 
     included do
       validate :query_must_be_work_package_query
@@ -138,10 +147,18 @@ module ResourceManagement
     end
 
     def configuration_filter?(name)
-      CONFIGURATION_FILTER_KEYS.any? { |key| key === name.to_sym }
+      configuration_filter_keys.any? { |key| key === name.to_sym }
     end
 
     private
+
+    # Checked per view rather than read off the frozen constant, so the project
+    # filter cannot be smuggled into a project planner's view.
+    def configuration_filter_keys
+      return CONFIGURATION_FILTER_KEYS if project
+
+      CONFIGURATION_FILTER_KEYS + GLOBAL_CONFIGURATION_FILTER_KEYS
+    end
 
     # The view's filters were originally built from API-v3 filter JSON, so
     # dumping `field`/`operator`/`values` round-trips back into that format.

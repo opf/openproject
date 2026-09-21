@@ -31,11 +31,11 @@ module ::ResourceManagement
   class ResourcePlannerViewsController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
+    include ResourceManagement::PlannerRoutes
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    load_and_authorize_in_planner_section
     before_action :find_resource_planner
     before_action :find_view,
                   only: %i[show edit update destroy
@@ -51,6 +51,8 @@ module ::ResourceManagement
 
     def show
       @content_component = work_package_list_content(@view)
+
+      render :show, locals: { menu_name: project_or_global_menu }
     end
 
     def new
@@ -100,7 +102,7 @@ module ::ResourceManagement
         flash[:error] = call.message
       end
 
-      redirect_to project_resource_planner_path(@project, @resource_planner), status: :see_other
+      redirect_to planner_path(@resource_planner), status: :see_other
     end
 
     def new_work_package
@@ -112,10 +114,7 @@ module ::ResourceManagement
     end
 
     def add_work_package
-      work_package = WorkPackage
-                       .visible(current_user)
-                       .where(project: @project)
-                       .find_by(id: params[:work_package_id])
+      work_package = addable_work_packages.find_by(id: params[:work_package_id])
 
       return render_400(message: I18n.t(:notice_file_not_found)) if work_package.nil?
 
@@ -169,7 +168,7 @@ module ::ResourceManagement
     end
 
     def add_user
-      user = User.user.visible(current_user).in_project(@project).find_by(id: params[:user_id])
+      user = addable_users.find_by(id: params[:user_id])
 
       return render_400(message: I18n.t(:notice_file_not_found)) if user.nil?
 
@@ -193,6 +192,18 @@ module ::ResourceManagement
     end
 
     private
+
+    # A global planner draws from everything the user may see; a project one stays
+    # within its project.
+    def addable_work_packages
+      scope = WorkPackage.visible(current_user)
+      @project ? scope.where(project: @project) : scope
+    end
+
+    def addable_users
+      scope = User.user.visible(current_user)
+      @project ? scope.in_project(@project) : scope
+    end
 
     def append_user(user)
       query = @view.effective_query
@@ -244,7 +255,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourcePlannerViews::ConfigureStep::FormComponent.new(
           view:,
-          url: project_resource_planner_views_path(@project, @resource_planner),
+          url: planner_views_path(@resource_planner),
           hidden_fields: { view_class_name: view.class.name },
           dialog_id: ResourcePlannerViews::NewDialogComponent::DIALOG_ID,
           filter_query: view.build_default_query
@@ -260,7 +271,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourcePlannerViews::ConfigureStep::FormComponent.new(
           view:,
-          url: project_resource_planner_view_path(@project, @resource_planner, view),
+          url: planner_view_path(@resource_planner, view),
           method: :patch,
           form_id: ResourcePlannerViews::EditDialogComponent::FORM_ID,
           dialog_id: ResourcePlannerViews::EditDialogComponent::DIALOG_ID,
@@ -278,7 +289,6 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourcePlanners::ShowPageHeaderComponent.new(
           resource_planner: @resource_planner,
-          project: @project,
           selected_view: view
         )
       )
@@ -320,7 +330,7 @@ module ::ResourceManagement
 
     def render_create_success(view)
       render turbo_stream: turbo_stream.redirect_to(
-        project_resource_planner_view_path(@project, @resource_planner, view)
+        planner_view_path(@resource_planner, view)
       )
     end
 

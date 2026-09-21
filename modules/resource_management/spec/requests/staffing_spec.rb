@@ -80,7 +80,7 @@ RSpec.describe "Staffing requests",
 
   describe "GET index" do
     it "lists the unassigned generic allocations sorted by start date" do
-      get project_staffing_path(project)
+      get project_resource_management_staffing_path(project)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Earlier developer", "Later developer")
@@ -91,7 +91,7 @@ RSpec.describe "Staffing requests",
 
     it "warns about an allocation that has already started" do
       travel_to(Date.new(2026, 2, 1)) do
-        get project_staffing_path(project)
+        get project_resource_management_staffing_path(project)
       end
 
       expect(response.body).to include(I18n.t("resource_management.staffing.starts_in_past"))
@@ -102,7 +102,7 @@ RSpec.describe "Staffing requests",
 
       it "is forbidden" do
         login_as other
-        get project_staffing_path(project)
+        get project_resource_management_staffing_path(project)
 
         expect(response).to have_http_status(:forbidden)
       end
@@ -111,7 +111,7 @@ RSpec.describe "Staffing requests",
 
   describe "the row context menu" do
     it "offers Assign inside a frame that reloads when an allocation changes" do
-      get project_staffing_path(project)
+      get project_resource_management_staffing_path(project)
 
       expect(response.body).to include(I18n.t("resource_management.staffing.assign"))
       # Edit and delete require the allocate permission, which this user lacks.
@@ -132,7 +132,7 @@ RSpec.describe "Staffing requests",
 
       it "also offers Edit and Delete" do
         login_as manager
-        get project_staffing_path(project)
+        get project_resource_management_staffing_path(project)
 
         expect(response.body).to include(edit_project_resource_allocation_path(project, earlier_allocation))
         expect(response.body).to include(I18n.t("resource_management.staffing.delete_confirmation"))
@@ -146,7 +146,7 @@ RSpec.describe "Staffing requests",
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(I18n.t("resource_management.staffing.menu_item"))
-      expect(response.body).to include(project_staffing_path(project))
+      expect(response.body).to include(project_resource_management_staffing_path(project))
     end
 
     context "without the assign permission" do
@@ -163,7 +163,7 @@ RSpec.describe "Staffing requests",
 
   describe "GET assign (dialog)" do
     it "opens the dialog listing matching project members" do
-      get project_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
+      get project_resource_management_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Mona Matcher")
@@ -186,7 +186,7 @@ RSpec.describe "Staffing requests",
       mark_matching(create(:user, firstname: "Nora", lastname: "NoSchedule",
                                   member_with_permissions: { project => %i[view_work_packages] }))
 
-      get project_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
+      get project_resource_management_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
 
       expect(response.body).to include("Nora NoSchedule")
       expect(response.body).to include(I18n.t("resource_management.assignment_dialog.no_schedule"))
@@ -199,7 +199,7 @@ RSpec.describe "Staffing requests",
                                    start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 1, 31),
                                    allocated_time: 300 * 60)
 
-      get project_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
+      get project_resource_management_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
 
       expect(response.body).to include("the work package requires")
     end
@@ -207,7 +207,7 @@ RSpec.describe "Staffing requests",
 
   describe "PUT assign" do
     def assign(allocation, params = {})
-      put project_staffing_assign_path(project, allocation),
+      put project_resource_management_staffing_assign_path(project, allocation),
           params: { principal_id: matching_user.id }.merge(params),
           as: :turbo_stream
     end

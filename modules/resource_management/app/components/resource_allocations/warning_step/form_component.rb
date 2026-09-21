@@ -37,6 +37,7 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include ResourceAllocations::ScheduleSummary
+      include ResourceManagement::PlannerRoutes
 
       # `body_id`/`form_id`/`footer ids default to the allocate wizard's so the
       # create and edit flows are unchanged. The Staffing flow hosts the same
@@ -80,9 +81,9 @@ module ResourceAllocations
         return @form_url if @form_url
 
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+          allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
         else
-          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
+          allocations_path(@project, resource_planner_view_id: @view&.id)
         end
       end
 

@@ -76,6 +76,37 @@ RSpec.describe ResourceWorkPackageList do
       expect(offered).not_to include(:project_id)
     end
 
+    context "on a global planner's view" do
+      # `ProjectFilter#available?` only reports itself once the user can see a
+      # project to filter by.
+      shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+      subject(:view) do
+        described_class.new(name: "My view", project: nil, principal: member).tap do |v|
+          v.query = v.build_default_query
+        end
+      end
+
+      before { login_as(member) }
+
+      it "offers the project filter, since there is no project scoping to override" do
+        expect(offered).to include(:project_id)
+      end
+
+      it "still withholds everything the project view withholds" do
+        expect(offered).not_to include(:typeahead, :search, :storage_id, :relates)
+      end
+
+      it "accepts a configured project filter" do
+        view.apply_query_configuration(
+          filters_json: filters_json({ project_id: { operator: "=", values: [project.id.to_s] } }),
+          filter_mode: "automatic"
+        )
+
+        expect(view.effective_query.filters.map(&:name)).to include(:project_id)
+      end
+    end
+
     it "withholds the filters that back autocompleters and full-text search" do
       expect(offered).not_to include(:typeahead, :search, :subject_or_id, :relatable,
                                      :attachment_content, :attachment_file_name,
