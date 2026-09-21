@@ -71,77 +71,131 @@ RSpec.describe WorkPackage, "labels" do
     end
   end
 
-  describe "#label_changes" do
-    # A record that carries the labels of the outer setup without the bookkeeping
-    # of having assigned them, as in any request loading it fresh.
-    subject(:labeled) { described_class.find(work_package.id) }
+  describe "#label_id_replacements=" do
+    before { work_package.reload }
 
-    it "is empty when the labels were not touched" do
-      expect(labeled.label_changes).to eq({})
+    def persisted_label_ids = Labeling.where(labelable: work_package).pluck(:label_id)
+
+    it "does not touch the labelings until the work package is saved" do
+      work_package.label_id_replacements = [lower_label.id]
+
+      expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
+
+      work_package.save!
+
+      expect(persisted_label_ids).to contain_exactly(lower_label.id)
     end
 
-    it "is empty when the same set is assigned again" do
-      labeled.label_ids = [higher_label.id, lower_label.id]
-
-      expect(labeled.label_changes).to eq({})
-    end
-
-    it "reports the ids before and after an assignment" do
-      labeled.label_ids = [lower_label.id]
-
-      expect(labeled.label_changes)
-        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id]])
-    end
-
-    it "reports a label added to the collection" do
+    it "adds and removes in a single save" do
       other_label = create(:label, name: "mango")
-      labeled.labels << other_label
+      work_package.label_id_replacements = [lower_label.id, other_label.id]
+      work_package.save!
 
-      expect(labeled.label_changes)
-        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id, higher_label.id, other_label.id]])
+      expect(persisted_label_ids).to contain_exactly(lower_label.id, other_label.id)
     end
 
-    it "reports a label removed from the collection" do
-      labeled.labels.delete(higher_label)
+    it "accepts label records as well as ids" do
+      work_package.label_id_replacements = [higher_label]
+      work_package.save!
 
-      expect(labeled.label_changes)
-        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id]])
+      expect(persisted_label_ids).to contain_exactly(higher_label.id)
     end
 
-    it "keeps reporting the set the changes started from" do
-      other_label = create(:label, name: "mango")
-      labeled.labels.delete(higher_label)
-      labeled.labels << other_label
+    it "drops blanks and duplicates" do
+      work_package.label_id_replacements = ["", nil, higher_label.id, higher_label.id.to_s]
 
-      expect(labeled.label_changes)
-        .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id, other_label.id]])
+      expect(work_package.label_id_replacements).to eq([higher_label.id])
     end
 
-    it "starts over after the work package was saved" do
-      labeled.label_ids = [lower_label.id]
-      labeled.save!
+    it "clears the labels when assigned an empty list" do
+      work_package.label_id_replacements = []
+      work_package.save!
 
-      expect(labeled.label_changes).to eq({})
-    end
-  end
-
-  describe "attribution to the user" do
-    subject(:tracked) do
-      described_class.find(work_package.id).extend(OpenProject::ChangedBySystem)
+      expect(persisted_label_ids).to be_empty
     end
 
-    it "counts an assignment as changed by the user" do
-      tracked.label_ids = [lower_label.id]
+    it "leaves the labels alone when assigned nil" do
+      work_package.label_id_replacements = nil
+      work_package.save!
 
-      expect(tracked.changed_by_user).to include("labels")
+      expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
     end
 
-    it "does not count an assignment made by the system" do
-      tracked.change_by_system do
-        tracked.label_ids = [lower_label.id]
+    it "is consumed by a single save" do
+      work_package.label_id_replacements = [lower_label.id]
+      work_package.save!
+
+      Labeling.where(labelable: work_package).delete_all
+      work_package.save!
+
+      expect(persisted_label_ids).to be_empty
+    end
+
+    it "is invalid when a label does not exist, leaving the labelings alone" do
+      work_package.label_id_replacements = [lower_label.id, 0]
+
+      expect(work_package).not_to be_valid
+      expect(work_package.errors.symbols_for(:labels)).to contain_exactly(:does_not_exist)
+      expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
+    end
+
+    it "leaves the association writers writing through immediately" do
+      work_package.label_ids = [lower_label.id]
+
+      expect(persisted_label_ids).to contain_exactly(lower_label.id)
+      expect(work_package.label_id_replacements).to be_nil
+    end
+
+    describe "#effective_labels" do
+      it "returns the persisted labels when no replacements are pending" do
+        expect(work_package.effective_labels).to eq([lower_label, higher_label])
       end
 
-      expect(tracked.changed_by_user).not_to include("labels")
+      it "returns the pending labels before they are saved" do
+        work_package.label_id_replacements = [higher_label.id]
+
+        expect(work_package.effective_labels).to eq([higher_label])
+      end
+    end
+
+    describe "#label_changes" do
+      it "is empty when nothing is pending" do
+        expect(work_package.label_changes).to eq({})
+      end
+
+      it "is empty when the same set is assigned again" do
+        work_package.label_id_replacements = [higher_label.id, lower_label.id]
+
+        expect(work_package.label_changes).to eq({})
+      end
+
+      it "reports the persisted and the pending ids" do
+        work_package.label_id_replacements = [lower_label.id]
+
+        expect(work_package.label_changes)
+          .to eq("labels" => [[lower_label.id, higher_label.id], [lower_label.id]])
+      end
+    end
+
+    describe "attribution to the user" do
+      subject(:tracked) do
+        work_package.extend(OpenProject::ChangedBySystem)
+        work_package
+      end
+
+      it "counts an assignment as changed by the user" do
+        tracked.label_id_replacements = [lower_label.id]
+
+        expect(tracked.changed_by_user).to include("labels")
+      end
+
+      it "does not count an assignment made by the system" do
+        tracked.change_by_system do
+          tracked.label_id_replacements = [lower_label.id]
+        end
+
+        expect(tracked.changed_by_user).not_to include("labels")
+      end
     end
   end
 end

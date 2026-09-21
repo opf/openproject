@@ -240,18 +240,6 @@ RSpec.describe WorkPackages::UpdateContract do
       end
     end
 
-    describe "labels" do
-      before do
-        work_package.label_ids = [create(:label).id]
-      end
-
-      context "without the permission to edit work packages" do
-        let(:permissions) { %i[view_work_packages assign_versions] }
-
-        it_behaves_like "contract is invalid", labels: :error_readonly
-      end
-    end
-
     describe "type" do
       let!(:milestone_type) do
         create(:type, is_milestone: true, projects: [work_package.project])

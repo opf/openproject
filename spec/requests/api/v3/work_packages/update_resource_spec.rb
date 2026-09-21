@@ -798,7 +798,9 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:not_found) }
+          it_behaves_like "constraint violation" do
+            let(:message) { "Labels does not exist" }
+          end
 
           it "leaves the labels alone" do
             expect(work_package.reload.labels).to contain_exactly(label)
@@ -811,6 +813,28 @@ RSpec.describe "API v3 Work package resource",
           include_context "patch request"
 
           it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "does not assign the label" do
+            expect(work_package.reload.labels).to be_empty
+          end
+        end
+
+        context "for a user having assign_versions but lacking edit_work_packages permission" do
+          let(:permissions) { %i[view_work_packages assign_versions] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "has a readonly error" do
+            expect(response.body)
+              .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                    .at_path("errorIdentifier")
+          end
+
+          it "does not assign the label" do
+            expect(work_package.reload.labels).to be_empty
+          end
         end
       end
 

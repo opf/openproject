@@ -667,7 +667,25 @@ module API
                              end
 
         associated_resources :labels,
-                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? }
+                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? },
+                             getter: ->(*) {
+                               next unless embed_link?(:labels)
+
+                               represented.effective_labels.map do |label|
+                                 ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.effective_labels.map do |label|
+                                 ::API::Decorators::LinkObject
+                                   .new(label,
+                                        property_name: :itself,
+                                        path: :label,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             }
 
         associated_resource :parent,
                             v3_path: :work_package,
