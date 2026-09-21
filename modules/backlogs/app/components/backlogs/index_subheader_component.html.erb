@@ -31,6 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper do
     render(
       Primer::OpenProject::SubHeader.new(
+        collapsed_search: filter_input_value.blank?,
         data: sub_header_data_attributes,
         mb: 0,
         pb: 3,
