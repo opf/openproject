@@ -806,32 +806,32 @@ fa:
       sorting_disabled: مرتب‌سازی غیرفعال است
     sortable_lists:
       announcements:
-        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
+        batch_too_large: امکان جابه‌جایی %{count} مورد به‌صورت هم‌زمان وجود ندارد. حداکثر %{max} مورد را انتخاب کنید.
         fallback_item_label: مورد
         fallback_list_name: فهرست دیگر
         move_failed_check_position: انتقال ناموفق بود. موقعیت فعلی مورد را بررسی کنید.
         move_failed_check_positions_batch:
-          other: Move failed. Check the items' current positions.
+          other: جابه‌جایی ناموفق بود. موقعیت فعلی موارد را بررسی کنید.
         move_failed_rolled_back: انتقال ناموفق بود. %{label} به موقعیت قبلی بازگشت.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} items returned to their previous positions.
+          other: جابه‌جایی ناموفق بود. %{count} مورد به موقعیت‌های قبلی خود بازگشتند.
         moved: "%{label} به موقعیت %{position} از %{total} منتقل شد"
         moved_batch:
-          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} مورد به موقعیت‌های %{first} تا %{last} از %{total} منتقل شدند"
         moved_batch_to_list:
-          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} مورد به %{list}، موقعیت‌های %{first} تا %{last} از %{total} منتقل شدند"
         moved_to_list: "%{label} به %{list}، موقعیت %{position} از %{total} منتقل شد"
       selection:
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        cleared: انتخاب پاک شد.
+        not_selectable: انتخاب بدون تغییر ماند. این مورد در ترتیب این فهرست نقشی ندارد.
+        range_blocked: انتخاب بدون تغییر ماند. این بازه شامل موردی است که در ترتیب این فهرست نقشی ندارد.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
-          other: Could not extend the range. %{count} items selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: گسترش بازه ممکن نشد. ۱ مورد انتخاب شد.
+          other: گسترش بازه ممکن نشد. %{count} مورد انتخاب شدند.
+        range_unavailable: انتخاب بدون تغییر ماند. برای انتخاب آن بازه، این فهرست را گسترش دهید.
         selected:
-          one: 1 item selected.
-          other: "%{count} items selected."
+          one: ۱ مورد انتخاب شد.
+          other: "%{count} مورد انتخاب شدند."
     spot:
       drop_modal:
         close: بستن پنجره Modal

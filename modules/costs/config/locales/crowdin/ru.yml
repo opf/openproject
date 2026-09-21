@@ -298,6 +298,10 @@ ru:
   permission_edit_rates: Править тарифы
   permission_log_costs: Регистрировать затраты по количеству
   permission_log_own_costs: Регистрировать затраты по количеству для себя
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Просмотр зарегистрированных затрат
   permission_view_cost_rates: Просмотр тарифов по стоимости
   permission_view_hourly_rates: Просмотр всех почасовых тарифов

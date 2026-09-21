@@ -905,6 +905,8 @@ ru:
               would_create_cycle: объединит эти конфигурации в цикл.
             variant:
               must_belong_to_the_type: должен быть вариантом данного типа.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
@@ -1645,6 +1647,8 @@ ru:
         main-menu-bg-selected-background: Главное меню при выборе
         primary-button-color: Основная кнопка
       custom_colors: Настроить цвета
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: не является действительным файлом шрифта TTF.
@@ -1721,6 +1725,7 @@ ru:
         ssl_error: 'Ошибка SSL при подключении к серверу Jira: %{message}'
         ssrf_block_doc_link: Пожалуйста, ознакомьтесь с нашей [документацией](docs_url).
         ssrf_blocked: 'Соединение заблокировано: хост Jira резолвится в частный IP-адрес. Если ваш экземпляр Jira работает во внутренней сети, добавьте его IP-адрес в список разрешенных через переменную среды OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Добавлено
         creator: Автор
@@ -3523,16 +3528,16 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
-            line_1: Несколько целевых версий для пакетов работ.
-            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
-            line_3: Усовершенствования в рамках методологии Agile, касающиеся массового редактирования и перетаскивания карточек из списка задач в сторонние приложения.
-            line_4: Вики-макросы, доступные в большем числе текстовых редакторов.
-            line_5: Улучшен поиск идентификаторов пакетов работ.
-            line_6: 'Выпущено для сообщества: отображение связей в таблицах пакетов работ.'
-          new_features_title: 'В данном выпуске представлены различные новые функции и улучшения, в частности:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -3578,6 +3583,7 @@ ru:
         field_set: "%{field} установлено в %{value}"
         field_updated: "%{field} обновлено"
         header: изменения %{author}
+        migrated: from Jira
         set_with_diff: "%{field} установлено (%{link})"
       meeting_cancelled: "(отменена)"
       meeting_deleted: "(удалена)"
@@ -5747,7 +5753,7 @@ ru:
     wizard:
       create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
       create_artifact_work_package_error: Не удалось создать пакет работ артефакта
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
@@ -5940,6 +5946,18 @@ ru:
     permissions:
       section_check_all_label: Назначьте все разрешения %{module}
       section_uncheck_all_label: Отменить все разрешения %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Матрица разрешений для модуля %{module}
       matrix_check_all_label: Назначьте все разрешения %{module} всем ролям
@@ -6723,6 +6741,8 @@ ru:
     getting_started: Приступая к работе
     help_and_support: Помощь и поддержка
   total_progress: Общий прогресс
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}
@@ -7007,6 +7027,9 @@ ru:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."

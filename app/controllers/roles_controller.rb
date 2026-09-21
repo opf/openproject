@@ -131,7 +131,7 @@ class RolesController < ApplicationController
   private
 
   def find_role
-    @role = Role.find(params.expect(:id))
+    @role = Role.visible.find(params.expect(:id))
   end
 
   def set_role_attributes(role, create_or_update)

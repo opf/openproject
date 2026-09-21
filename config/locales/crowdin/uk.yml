@@ -909,6 +909,8 @@ uk:
               would_create_cycle: зв’яже ці конфігурації в цикл.
             variant:
               must_belong_to_the_type: має бути варіантом цього типу.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: зв’яже ці конфігурації в цикл.
@@ -1649,6 +1651,8 @@ uk:
         main-menu-bg-selected-background: Головне меню в разі вибору
         primary-button-color: Основна кнопка
       custom_colors: Кольори за власними вподобаннями
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: не є дійсним файлом шрифту TTF.
@@ -1725,6 +1729,7 @@ uk:
         ssl_error: 'При підключенні до сервера Jira сталася помилка SSL: %{message}'
         ssrf_block_doc_link: Перегляньте [документацію](docs_url).
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Додано
         creator: Автор
@@ -3529,16 +3534,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: дії на основі ШІ з пакетами робіт, коментарями й звʼязками з MCP-сервером (у тарифному плані Professional);
-            line_1: можливість використовувати кілька цільових версій для пакетів робіт;
-            line_2: загальні ліміти й обмеження для записів часу (у тарифному плані Professional);
-            line_3: покращення в межах Agile, повʼязані з масовим редагуванням і перетягуванням карток беклогів у зовнішні додатки;
-            line_4: макроси Wiki, доступні в більшій кількості текстових редакторів;
-            line_5: удосконалений пошук ідентифікаторів пакетів робіт;
-            line_6: відображення зв’язків у таблицях пакетів робіт (випущено для спільноти).
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3584,6 +3589,7 @@ uk:
         field_set: Для поля «%{field}» вибрано значення «%{value}»
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
+        migrated: from Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
@@ -5753,7 +5759,7 @@ uk:
     wizard:
       create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
       create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
@@ -5958,6 +5964,18 @@ uk:
     permissions:
       section_check_all_label: Призначити всі дозволи модуля «%{module}»
       section_uncheck_all_label: Скасувати призначення всіх дозволів модуля «%{module}»
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Матриця дозволів для модуля «%{module}»
       matrix_check_all_label: Призначити всі дозволи модуля «%{module}» усім ролям
@@ -6744,6 +6762,8 @@ uk:
     getting_started: Починаємо
     help_and_support: Допомога та підтримка
   total_progress: Загальний прогрес
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}
@@ -7028,6 +7048,9 @@ uk:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."

@@ -271,6 +271,10 @@ ms:
   permission_edit_rates: Edit kadar
   permission_log_costs: Tempah kos unit
   permission_log_own_costs: Tempah kos unit untuk diri sendiri
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Lihat kos yang ditempah
   permission_view_cost_rates: Lihat kadar kos
   permission_view_hourly_rates: Lihat semua kadar jam

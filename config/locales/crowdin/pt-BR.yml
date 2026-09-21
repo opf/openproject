@@ -903,6 +903,8 @@ pt-BR:
               would_create_cycle: criaria um loop ao vincular estas configurações.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
+            workflow:
+              not_available_to_this_variant: deve ser um fluxo de trabalho que este projeto possa usar.
             workflows_source_id:
               must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
@@ -1429,6 +1431,8 @@ pt-BR:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão primário
       custom_colors: Cores personalizadas
+      default_colors:
+        description: Defina uma paleta de cores para usar em outro lugar da aplicação. Isto estará disponível, por exemplo, ao escolher uma cor para representar um status ou um tipo.
       edit_color: Editar %{color}
       fonts:
         file_is_invalid: não é um arquivo de fonte TTF válido.
@@ -1505,6 +1509,7 @@ pt-BR:
         ssl_error: 'Erro de SSL ao conectar ao servidor Jira: %{message}'
         ssrf_block_doc_link: Consulte nossa [documentação](docs_url).
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: API Jira não tem nenhum endpoint no %{path} (status %{status})
       columns:
         added: Adicionado
         creator: Criador
@@ -3231,15 +3236,15 @@ pt-BR:
     blocks:
       community: Comunidade do OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Ações assistidas por IA em pacotes de trabalho, comentários e relações com o servidor MCP (plano Professional).
-            line_1: Várias versões de destino para pacotes de trabalho.
-            line_2: Limites e restrições globais para lançamentos de horas (plano Professional).
-            line_3: Melhorias ágeis para edição em massa e arraste de cartões de Backlogs para aplicativos externos.
-            line_4: Macros de wiki disponíveis em mais editores de texto.
-            line_5: Pesquisa aprimorada de identificadores de pacotes de trabalho.
-            line_6: 'Lançado para a Community: exibição de relações nas tabelas de pacotes de trabalho.'
+            line_0: Criar pacotes de trabalho diretamente no Documents.
+            line_1: Pesquise e filtre pacotes de trabalho nos Backlogs.
+            line_2: Escolha se deseja manter os descendentes ao excluir um pacote de trabalho.
+            line_3: Use o Servidor MCP para acompanhar o tempo, pesquisar pacotes de trabalho pelo ID de exibição e mais (plano Profissional).
+            line_4: Insira o trabalho planejado em horas, dias, semanas ou meses.
+            line_5: Veja o andamento da importação ao utilizar o Jira Migrator.
+            line_6: Use alertas de data na edição da Comunidade.
           new_features_title: 'A versão contém vários novos recursos e melhorias, como:
 
             '
@@ -3286,6 +3291,7 @@ pt-BR:
         field_set: "%{field} definido como %{value}"
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
+        migrated: do Jira
         set_with_diff: "%{field} definido (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(excluído)"
@@ -4959,7 +4965,7 @@ pt-BR:
         caption: Incluam os orçamentos do projeto com seus itens de custos unitários e de mão de obra previstos.
         label: Orçamentos do projeto
       include_lifecycle:
-        caption: Include the project's phases and their date ranges.
+        caption: Incluir as fases do projeto e seus intervalos de datas.
         label: Ciclo de vida do projeto
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
@@ -5110,14 +5116,14 @@ pt-BR:
   placeholder_users:
     criteria:
       activate: Ativar critérios de filtragem
-      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+      activate_caption: 'Isso permite adicionar um conjunto de filtros para este usuário placeholder usado para definir os possíveis usuários que atendam aos critérios desejados.
 
         '
-      enable: Match users by criteria
-      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
-      matching_users: Users meeting the filter criteria
-      no_matching_users: No user meets these criteria.
-      show_all_matching_users: Show all %{count} matching users
+      enable: Corresponder usuários por critério
+      enable_caption: Descreva o tipo de usuário que este espaço reservado representa, para que usuários correspondentes possam ser sugeridos para ele.
+      matching_users: Usuários que atendem aos critérios de filtragem
+      no_matching_users: Nenhum usuário atende a esses critérios.
+      show_all_matching_users: Mostrar todos os usuários %{count} correspondentes
     delete_tooltip: Excluir usuário de espaço reserva
     deletion_info:
       data_consequences: 'Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído". Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
@@ -5421,7 +5427,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: Este projeto não possui atributos do projeto ativados para o assistente. Por favor, ative pelo menos um nas configurações do projeto <a href="%{link}"></a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
@@ -5606,6 +5612,16 @@ pt-BR:
     permissions:
       section_check_all_label: Atribuir todas as permissões de %{module}
       section_uncheck_all_label: Remover todas as permissões de %{module}
+    permissions_dialog:
+      edit_permissions: Editar permissões de função
+      implicit_permission: Sempre concedido
+      no_permissions: Esta função não concede nenhuma permissão.
+      permission_count:
+        one: 1 permissão
+        other: "%{count} permissões"
+      preview_action: Ver permissões
+      preview_aria_label: Ver as permissões do %{role}
+      title: Permissões de "%{name}"
     report:
       matrix_caption: Matriz de permissões do módulo %{module}
       matrix_check_all_label: Atribuir todas as permissões do módulo %{module} a todas as funções
@@ -6386,6 +6402,8 @@ pt-BR:
     getting_started: Guia de introdução
     help_and_support: Ajuda e suporte
   total_progress: Progresso total
+  tree_view:
+    label_empty_sub_tree: Sem itens
   types:
     creation_wizard:
       add_variant: Adicionar uma variante a %{name}
@@ -6668,18 +6686,21 @@ pt-BR:
         text: 'Isto tornará esta variante específica de projeto uma global que está disponível para todos os projetos. O administrador do projeto não poderá mais editá-lo.
 
           '
+        workflow_text: 'Seu fluxo de trabalho “%{name}” faz parte deste projeto e passa a ser global também.
+
+          '
       convert_to_global_notice: "%{name} agora é uma variante global."
       convert_to_global_rename:
         confirm: Converter
         text: Já existe uma variante global com esse nome. Escolha um nome diferente.
         title: Escolha outro nome para esta variante
       delete:
-        description: The type will be deleted permanently. This action cannot be undone.
-        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
-        heading: Delete type '%{name}'?
+        description: O tipo será excluído permanentemente. Esta ação não pode ser desfeita.
+        description_with_variants: O tipo e todas as suas variantes serão excluídos permanentemente. Essa ação não pode ser revertida.
+        heading: Apagar o tipo '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
-          other: 'The type will be removed from %{count} projects:'
+          one: 'O tipo será removido de 1 projeto:'
+          other: 'O tipo será removido dos %{count} projetos:'
         title: Excluir tipo
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 

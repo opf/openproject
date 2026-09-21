@@ -72,7 +72,7 @@ module WorkPackages::Scopes
                                                            .unscoped
                                                            .allowed_to_member_union(user,
                                                                                     permissions,
-                                                                                    entity_types: [WorkPackage.name])
+                                                                                    entity_types: [nil, WorkPackage.name])
 
         # Split the member projects into two distinct sets
         # for easier reference.

@@ -24,6 +24,10 @@
 fa:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: برچسب‌ها
       gitlab_pipeline:
@@ -39,6 +43,9 @@ fa:
             labels:
               invalid_schema: باید آرایه‌ای از hashها با کلیدهای color و title باشد
     models:
+      gitlab_branch:
+        one: GitLab branch
+        other: GitLab branches
       gitlab_issue:
         one: مسئله GitLab
         other: مسائل GitLab
@@ -55,7 +62,6 @@ fa:
     commit: Commit
     gitlab: شناسهٔ GitLab
     gitlab_avatar_url: URL آواتار
-    gitlab_email: ایمیل GitLab
     gitlab_html_url: URL HTML در GitLab
     gitlab_merge_request: درخواست ادغام
     gitlab_name: نام GitLab

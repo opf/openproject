@@ -32,7 +32,7 @@ module WorkPackageTypes
   class VariantsController < BaseTabController
     include OpTurbo::ComponentStream
 
-    administration_only! :index, :make_default, :remove_default,
+    administration_only! :index, :comparison, :make_default, :remove_default,
                          :convert_to_global_dialog, :convert_to_global
 
     current_menu_item do
@@ -45,6 +45,10 @@ module WorkPackageTypes
       return unless turbo_frame_request?
 
       render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
+    end
+
+    def comparison
+      @comparison = VariantComparison.new(type: @type)
     end
 
     def menu

@@ -36,6 +36,7 @@ module ResourceAllocations
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ResourceManagement::PlannerRoutes
 
       def initialize(project:, allocation:, candidates:, error: nil)
         super
@@ -93,7 +94,7 @@ module ResourceAllocations
       end
 
       def form_url
-        helpers.project_staffing_assign_path(project, allocation)
+        staffing_assign_path(project, allocation)
       end
 
       def form_id

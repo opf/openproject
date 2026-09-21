@@ -3,7 +3,7 @@ pt-BR:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: Critérios de filtragem
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
@@ -11,7 +11,7 @@ pt-BR:
         end_date: Data de término
         entity: Entidade
         placeholder_or_user: Responsável
-        placeholder_user: Placeholder user
+        placeholder_user: Usuário substituto
         principal: Atribuição
         start_date: Data de início
         state: Estado
@@ -93,8 +93,8 @@ pt-BR:
         empty: Nenhum critério definido.
         label: Critério
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: O usuário selecionado não tem horário de trabalho configurado para essas datas; portanto, considera-se que ele não tem disponibilidade.
+        partial: O usuário selecionado não possui horário de trabalho configurado para %{dates}; portanto, esses dias são considerados como sem disponibilidade.
       outside_dates:
         description: As datas do recurso selecionado (%{resource_dates}) estão fora do período do pacote de trabalho (%{work_package_dates}).
       overbooking:
