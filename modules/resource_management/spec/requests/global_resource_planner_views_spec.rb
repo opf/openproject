@@ -139,10 +139,12 @@ RSpec.describe "Global resource planner views requests",
     end
   end
 
-  describe "with a user card view" do
+  describe "with a hand-picked user card view" do
     shared_let(:view) do
-      ResourceUserCard.create!(name: "Team", parent: planner, project: nil, principal: user,
-                               query: UserQuery.new(name: "q", project: nil, principal: user).tap(&:save!))
+      ResourceUserCard.create!(
+        name: "Team", parent: planner, project: nil, principal: user,
+        query: UserQuery.new(name: "q", project: nil, principal: user, manual_elements: true).tap(&:save!)
+      )
     end
 
     shared_let(:beta_member) do
