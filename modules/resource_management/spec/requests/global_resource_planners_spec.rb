@@ -93,6 +93,28 @@ RSpec.describe "Global resource planners requests",
     expect(response).to have_http_status(:ok)
   end
 
+  context "with the permission to publish global planners, and no planners yet" do
+    shared_let(:publisher) do
+      create(:user, global_permissions: %i[view_global_resource_planners manage_public_global_resource_planners])
+    end
+
+    before { login_as(publisher) }
+
+    it "invites the user to plan across projects rather than in this one" do
+      get resource_planners_path
+
+      expect(response.body).to include(I18n.t("resource_management.blankslate.global_desc"))
+      expect(response.body).not_to include(I18n.t("resource_management.blankslate.desc"))
+    end
+
+    it "captions the public checkbox without promising it to a project's members" do
+      get new_resource_planner_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response.body).to include(I18n.t("resource_management.global_public_caption"))
+      expect(response.body).not_to include(I18n.t("resource_management.public_caption"))
+    end
+  end
+
   it "creates a global planner and advances to the configure step" do
     expect do
       post resource_planners_path,
