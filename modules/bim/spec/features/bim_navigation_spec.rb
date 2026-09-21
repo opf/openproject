@@ -93,7 +93,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
 
         details_view.ensure_page_loaded
         details_view.expect_subject
-        details_view.go_back
+        details_view.close
 
         details_view.expect_closed
         card_view.expect_work_package_listed(work_package)

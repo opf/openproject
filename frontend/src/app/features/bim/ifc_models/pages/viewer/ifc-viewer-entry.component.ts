@@ -26,30 +26,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
+/**
+ * An entry component to be rendered by Rails for the BIM/BCF list (left pane: IFC
+ * viewer or BCF list, right pane: reactive BCF list or a WP detail/create pane
+ * rendered by Rails into the content-bodyRight turbo frame - see index.html.erb).
+ */
 @Component({
-  template: `
-    <a [title]="text.refresh_hover"
-       class="button refresh-button"
-       (click)="refresh()">
-      <op-icon icon-classes="button--icon icon-workflow" />
-    </a>
-  `,
-  selector: 'op-refresh-button',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'op-ifc-viewer-entry',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   standalone: false,
+  template: `
+    <op-ifc-viewer-page>
+      <op-bcf-content-left />
+    </op-ifc-viewer-page>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RefreshButtonComponent {
-  readonly I18n = inject(I18nService);
-
-  public text = {
-    refresh: this.I18n.t('js.bcf.refresh'),
-    refresh_hover: this.I18n.t('js.bcf.refresh_work_package'),
-  };
-
-  refresh() {
-    window.location.reload();
+export class IfcViewerEntryComponent {
+  constructor() {
+    document.body.classList.add('router--bim');
   }
 }

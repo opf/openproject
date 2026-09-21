@@ -77,14 +77,14 @@ export class WorkPackageService {
           const numericId = routeWpId ? resolveNumericId(this.states, routeWpId) : undefined;
 
           if (numericId && ids.includes(numericId)) {
-            if (this.$state.current.name) {
+            if (this.urlParams.isOnNonRouterPage()) {
+              const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+              Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
+            } else {
               const baseRoute = (this.$state.current.data as { baseRoute?:string } | undefined)?.baseRoute;
               if (baseRoute) {
                 void this.$state.go(baseRoute, this.$state.params);
               }
-            } else {
-              const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
-              Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
             }
           }
         })

@@ -29,16 +29,14 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
@@ -75,10 +73,6 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
   @LazyInject() ifcModelsService:IfcModelsDataService;
 
   @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
-
-  @LazyInject() uIRouterGlobals:UIRouterGlobals;
-
-  @LazyInject() $state:StateService;
 
   @LazyInject() viewer:ViewerBridgeService;
 
@@ -117,27 +111,20 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
       }
     }
 
+    // Unlike the plain work-packages list (which opens the full view on double
+    // click), BCF always opens the split view here - leaving `/bcf` would drop
+    // the topic list/model toolbar. Whether the viewer pane itself is shown
+    // alongside it is a layout concern (see IFCViewerPageComponent), not a
+    // routing one.
     if (double || this.deviceService.isMobile) {
-      this.goToWpDetailState(workPackageId, this.uIRouterGlobals.params.cards);
+      this.openInSplitView(resolveRoutingId(this.states, workPackageId));
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
-    this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards, true);
+  // Overridden (rather than inherited as-is) because the parent's version opens
+  // the full view for a 'show' link - here that would leave `/bcf` and drop the
+  // topic list/model toolbar, same as handleWorkPackageClicked above.
+  openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }):void {
+    this.openInSplitView(resolveRoutingId(this.states, event.workPackageId));
   }
-
-  goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean):void {
-    // Show the split view when there is a viewer (browser)
-    // Show only wp details when there is no viewer, plugin environment (ie: Revit)
-    const stateToGo = this.viewer.shouldShowViewer
-      ? splitViewRoute(this.$state)
-      : 'bim.partitioned.show';
-    // Passing the card param to the new state because the router doesn't keep
-    // it when going to 'bim.partitioned.show'
-    const routingId = resolveRoutingId(this.states, workPackageId);
-    const params = { workPackageId: routingId, cards, focus };
-
-    void this.$state.go(stateToGo, params);
-  }
-
 }

@@ -28,6 +28,7 @@
 
 import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { Injectable, inject } from '@angular/core';
 import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -56,6 +57,7 @@ export function consumeSelfInitiatedUrlChangeFlag():boolean {
 export class WorkPackagesListChecksumService {
   protected UrlParamsHelper = inject(UrlParamsHelperService);
   protected $state = inject(StateService);
+  protected urlParams = inject(UrlParamsService);
 
 
   public id:string|null;
@@ -174,21 +176,11 @@ export class WorkPackagesListChecksumService {
     );
   }
 
-  private isOnNonRouterPage():boolean {
-    if (!this.$state.current.name) return true;
-    const { pathname } = window.location;
-    return pathname.includes('/team_planners')
-      || pathname.includes('/calendars')
-      || pathname.includes('/ifc_models');
-  }
-
   private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
     this.visibleChecksum = checksum;
     this.visibleChecksum$.next(checksum);
 
-    // When uiRouter is not managing the current page (e.g. calendar, team planner, BIM after Turbo migration),
-    // $state.current.name may be stale from a previous router page. Detect by URL to avoid incorrect $state.go() navigation.
-    if (this.isOnNonRouterPage()) {
+    if (this.urlParams.isOnNonRouterPage()) {
       const url = new URL(window.location.href);
 
       if (checksum) {

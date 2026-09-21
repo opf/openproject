@@ -51,7 +51,7 @@ module Pages
       end
 
       def path
-        bcf_project_frontend_path(project, "create_new")
+        bcf_project_new_split_path(project)
       end
 
       def expect_current_path

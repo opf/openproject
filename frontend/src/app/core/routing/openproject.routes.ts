@@ -72,12 +72,6 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
       '!$default': { component: ApplicationBaseComponent },
     },
   },
-  {
-    name: 'bim.**',
-    parent: 'optional_project',
-    url: '/bcf',
-    loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then((m) => m.OpenprojectIFCModelsModule),
-  },
 ];
 
 /**

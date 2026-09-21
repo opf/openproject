@@ -482,7 +482,7 @@ export class WorkPackagesListService {
     const url = new URL(window.location.href);
     const { pathname } = url;
 
-    if (pathname.includes('/work_packages') || pathname.includes('/gantt')) {
+    if (pathname.includes('/work_packages') || pathname.includes('/gantt') || pathname.includes('/bcf')) {
       // List-based pages: the query id lives in the query_id search param, the path itself
       // doesn't address a specific view (unlike calendars/:id, team_planners/:id below).
       if (queryId) {
@@ -510,7 +510,7 @@ export class WorkPackagesListService {
     const { pathname } = window.location;
     if (pathname.includes('/calendars')) return 'calendar_sidemenu';
     if (pathname.includes('/team_planners')) return 'team_planner_sidemenu';
-    if (pathname.includes('/ifc_models')) return 'bim_sidemenu';
+    if (pathname.includes('/ifc_models') || pathname.includes('/bcf')) return 'bim_sidemenu';
     if (pathname.includes('/gantt')) return 'gantt_menu';
     if (pathname.includes('/work_packages')) return 'work_packages_sidemenu';
     return undefined;

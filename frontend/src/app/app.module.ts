@@ -40,6 +40,7 @@ import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { OpenprojectBoardsModule } from 'core-app/features/boards/openproject-boards.module';
+import { OpenprojectBimModule } from 'core-app/features/bim/openproject-bim.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
@@ -143,6 +144,10 @@ import {
   BoardEntryComponent,
 } from 'core-app/features/boards/board/board-partitioned-page/board-entry.component';
 import { CalendarEntryComponent } from 'core-app/features/calendar/calendar-entry.component';
+import { IfcViewerEntryComponent } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-viewer-entry.component';
+import {
+  BcfContentRightEntryComponent,
+} from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-content-right-entry.component';
 import { TeamPlannerEntryComponent } from 'core-app/features/team-planner/team-planner/team-planner-entry.component';
 import { TeamPlannerModule } from 'core-app/features/team-planner/team-planner/team-planner.module';
 import {
@@ -289,6 +294,9 @@ export function runBootstrap(appRef:ApplicationRef) {
     // Boards
     OpenprojectBoardsModule,
 
+    // BIM/BCF
+    OpenprojectBimModule,
+
     // Work packages in graph representation
     OpenprojectWorkPackageGraphsModule,
     // Calendar module
@@ -389,6 +397,8 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
     registerCustomElement('opce-wp-split-create', WorkPackageSplitCreateEntryComponent, { injector });
     registerCustomElement('opce-board-view', BoardEntryComponent, { injector });
+    registerCustomElement('opce-ifc-viewer-view', IfcViewerEntryComponent, { injector });
+    registerCustomElement('opce-bcf-content-right', BcfContentRightEntryComponent, { injector });
     registerCustomElement('opce-calendar-view', CalendarEntryComponent, { injector });
     registerCustomElement('opce-team-planner-view', TeamPlannerEntryComponent, { injector });
     registerCustomElement('opce-wp-full-view', WorkPackageFullViewEntryComponent, { injector });
