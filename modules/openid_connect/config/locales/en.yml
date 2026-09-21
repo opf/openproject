@@ -52,7 +52,7 @@ en:
         other: "OpenID Connect tokens"
   logout_warning: >
     You have been logged out. The contents of any form you submit may be lost.
-    Please [log in].
+    Please [log in](login).
   openid_connect:
     delete_heading: "Delete this OpenID Connect provider?"
     delete_title: "Delete OpenID Connect provider"
