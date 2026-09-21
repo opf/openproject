@@ -21,7 +21,7 @@ The form preview on the right shows the attributes that are currently displayed 
 On the left side are all available attributes and [custom fields](../../../custom-fields) that are not currently used in the form. You can filter them using the search field.  User created custom fields are distinguished from system **Built-in** attributes by a label indicating the field's format. 
 
 >[!TIP]
-> Built-in custom fields can not be permanently removed. If you delete them from the form, they will appear on the left side.
+> Built-in fields can not be permanently removed. If you delete them from the form, they will appear on the left side.
 
 To customize the form:
 
