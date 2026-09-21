@@ -61,6 +61,22 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
       expect(JobStatus::Status.sole.user).to eq(user)
     end
 
+    context "with a file that is not a CSV" do
+      let(:binary) { Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/image.png"), "text/csv") }
+
+      it "refuses it, naming what it is not" do
+        result = service.call(file: binary)
+
+        expect(result).to be_failure
+        expect(result.message).to include("not a UTF-8 CSV file")
+      end
+
+      it "stores nothing and enqueues nothing" do
+        expect { service.call(file: binary) }.not_to change(Attachment, :count)
+        expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
+      end
+    end
+
     it "returns the job id the page polls" do
       result = service.call(file:)
 

@@ -60,6 +60,9 @@ module WorkPackages
         # bypass_allowlist: Setting.attachment_whitelist does not apply. #allowed? is the gate, and
         # the file is parsed rather than stored on a record or served to anyone.
         def upload(file)
+          sniffed = FormatSniffer.call(file)
+          return sniffed if sniffed.failure?
+
           Attachment.without_post_upload_jobs do
             Attachments::CreateService
               .bypass_allowlist(user:)
