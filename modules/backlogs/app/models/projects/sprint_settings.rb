@@ -38,9 +38,16 @@ module Projects::SprintSettings
 
   SPRINT_SHARING_MODES = [NO_SHARING, SHARE_ALL_PROJECTS, SHARE_SUBPROJECTS, RECEIVE_SHARED].freeze
 
+  STORY_POINTS = "story_points"
+  TIME = "time"
+  NONE = "none"
+
+  ESTIMATION_UNITS = [STORY_POINTS, TIME, NONE].freeze
+
   included do
     store_attribute :settings, :sprint_sharing, :string
     store_attribute :settings, :allow_multiple_active_sprints, :boolean
+    store_attribute :settings, :estimation_unit, :string
 
     scopes :share_sprints_with_all_projects,
            :share_sprints_with_subprojects,
@@ -128,6 +135,14 @@ module Projects::SprintSettings
 
   def allow_multiple_active_sprints
     super || false
+  end
+
+  def estimation_unit
+    if OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
+      super || STORY_POINTS
+    else
+      STORY_POINTS
+    end
   end
 
   def share_sprints_with_all_projects?

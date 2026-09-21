@@ -204,4 +204,38 @@ RSpec.describe Projects::SprintSettings do
       end
     end
   end
+
+  describe "ESTIMATION_UNITS" do
+    it "defines all supported unit options" do
+      expect(described_class::ESTIMATION_UNITS).to match_array(%w[story_points time none])
+    end
+
+    it "is exposed on Project" do
+      expect(Project::ESTIMATION_UNITS).to eq(described_class::ESTIMATION_UNITS)
+    end
+  end
+
+  describe "#estimation_unit" do
+    let(:estimation_unit) { nil }
+
+    it "defaults to story_points" do
+      expect(project.estimation_unit).to eq("story_points")
+    end
+
+    context "with feature flag enabled", with_flag: :project_settings_estimation_unit do
+      it "persists configured values" do
+        project.update!(estimation_unit: "none")
+
+        expect(project.reload.estimation_unit).to eq("none")
+      end
+    end
+
+    context "without feature flag enabled" do
+      it "always returns story_points" do
+        project.update!(estimation_unit: "none")
+
+        expect(project.reload.estimation_unit).to eq("story_points")
+      end
+    end
+  end
 end
