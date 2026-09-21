@@ -89,7 +89,7 @@ RSpec.describe Projects::Types::AddService do
       let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
 
       before do
-        variant.update!(form_configuration_source: type.default_variant)
+        variant.link!(TypeVariant::FORM_CONFIGURATION)
       end
 
       it "enables the fields the variant actually shows, which are the type's" do

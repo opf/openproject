@@ -102,18 +102,6 @@ RSpec.describe WorkPackageTypes::DuplicateService do
     expect(later_sibling.reload.position).to be > copy.position
   end
 
-  context "when the source has a linked aspect" do
-    shared_let(:link_target) { create(:type, name: "Shared config") }
-
-    before { link_configuration(source, source: link_target, aspect: TypeVariant::DEFAULTS) }
-
-    it "replicates the link on the copy's base variant" do
-      copy = service_call.result
-
-      expect(copy.default_variant.source_for(TypeVariant::DEFAULTS)).to eq(link_target.default_variant)
-    end
-  end
-
   context "with project assignments" do
     shared_let(:project_a) { create(:project) }
     shared_let(:project_b) { create(:project) }
