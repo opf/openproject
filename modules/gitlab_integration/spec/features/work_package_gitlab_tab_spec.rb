@@ -160,21 +160,25 @@ RSpec.describe "Open the Gitlab tab", :js do
 
         gitlab_tab.issues_collapse_button.click
         expect(page).to have_text("No issues")
+        expect(page).to have_css(".octicon-issue-opened")
         expect(page).to have_text("Link an existing issue by adding the code OP##{work_package.id} to " \
                                   "the title or description.")
 
         gitlab_tab.merge_requests_collapse_button.click
         expect(page).to have_text("No merge requests")
+        expect(page).to have_css(".octicon-git-pull-request")
         expect(page).to have_text("Link an existing merge request by adding the code OP##{work_package.id} to " \
                                   "the title or description.")
 
         gitlab_tab.branches_collapse_button.click
         expect(page).to have_text("No branches")
+        expect(page).to have_css(".octicon-git-branch")
         expect(page).to have_text("Link an existing branch by adding the code #{work_package.display_id} to " \
                                   "the branch name, for example feature/#{work_package.display_id.to_s.downcase}.")
 
         gitlab_tab.commits_collapse_button.click
         expect(page).to have_text("No commits")
+        expect(page).to have_css(".octicon-git-commit")
         expect(page).to have_text("Link an existing commit by adding the code OP##{work_package.id} to " \
                                   "the message.")
       end

@@ -59,7 +59,8 @@ See COPYRIGHT and LICENSE files for more details.
             work_package:,
             empty_state: {
               title: t(".blank_slates.issues.title"),
-              description: t(".blank_slates.issues.description_html", code: content_tag(:code, linking_code))
+              description: t(".blank_slates.issues.description_html", code: content_tag(:code, linking_code)),
+              icon: :"issue-opened"
             }
           )
         )
@@ -74,7 +75,8 @@ See COPYRIGHT and LICENSE files for more details.
             work_package:,
             empty_state: {
               title: t(".blank_slates.merge_requests.title"),
-              description: t(".blank_slates.merge_requests.description_html", code: content_tag(:code, linking_code))
+              description: t(".blank_slates.merge_requests.description_html", code: content_tag(:code, linking_code)),
+              icon: :"git-pull-request"
             }
           )
         )
@@ -91,7 +93,8 @@ See COPYRIGHT and LICENSE files for more details.
               title: t(".blank_slates.branches.title"),
               description: t(".blank_slates.branches.description_html",
                              code: content_tag(:code, branch_code),
-                             example: content_tag(:code, branch_example))
+                             example: content_tag(:code, branch_example)),
+              icon: :"git-branch"
             }
           )
         )
@@ -106,7 +109,8 @@ See COPYRIGHT and LICENSE files for more details.
             work_package:,
             empty_state: {
               title: t(".blank_slates.commits.title"),
-              description: t(".blank_slates.commits.description_html", code: content_tag(:code, linking_code))
+              description: t(".blank_slates.commits.description_html", code: content_tag(:code, linking_code)),
+              icon: :"git-commit"
             }
           )
         )
