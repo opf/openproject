@@ -43,13 +43,13 @@ module AI
       end
 
       def stream(system:, user:, timeout:, &)
-        @cancelled = nil
+        @raised_by_caller = nil
         response = chat(system, timeout).ask(user) { |chunk| forward(chunk, &) }
         response.content.to_s
-      rescue Cancelled
-        raise
       rescue StandardError => e
-        raise @cancelled if @cancelled
+        # Llm::Errors.wrap turns whatever the block raises into an Llm::Errors::Error,
+        # so the caller's own signal (cancellation, exceeded budget) is restored here.
+        raise @raised_by_caller if @raised_by_caller
 
         raise translate(e)
       end
@@ -60,13 +60,12 @@ module AI
         Llm::Runtime.for(FEATURE).chat(timeout:, max_retries: 0).with_instructions(system)
       end
 
+      # Reasoning models stream minutes of chunks without content. They are passed
+      # on as empty deltas so the caller can check cancellation and its budget.
       def forward(chunk)
-        content = chunk.content
-        return if content.to_s.empty?
-
-        yield content
-      rescue Cancelled => e
-        @cancelled = e
+        yield chunk.content.to_s
+      rescue Cancelled, Errors::Error => e
+        @raised_by_caller = e
         raise
       end
 
