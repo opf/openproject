@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject, input,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, InputSignal, OnInit, ViewChild, inject, input,
   booleanAttribute, model,
 } from '@angular/core';
 import {
@@ -76,7 +76,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
   readonly showGroupByOptions = input(true, { transform: booleanAttribute });
 
-  readonly chartOptions = input<ChartOptions>({ maintainAspectRatio: false });
+  readonly chartOptions:InputSignal<ChartOptions> = input<ChartOptions>({ maintainAspectRatio: false });
 
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
 
