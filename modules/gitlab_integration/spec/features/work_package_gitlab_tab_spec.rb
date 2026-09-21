@@ -109,7 +109,7 @@ RSpec.describe "Open the Gitlab tab", :js do
       it "allows the user to copy the branch name to the clipboard" do
         pending "In headless mode, the clipboard content is not copied to the clipboard, how to fix?"
 
-        gitlab_tab.git_actions_menu_button.click
+        page.click_on "Git snippets"
         gitlab_tab.git_actions_copy_branch_name_button.click
 
         expect(page).to have_text("Copied!")
@@ -117,16 +117,17 @@ RSpec.describe "Open the Gitlab tab", :js do
       end
 
       it "shows a commit message with newlines between title and link" do
-        gitlab_tab.git_actions_menu_button.click
+        page.click_on "Git snippets"
 
-        commit_message_input_text = page.find_field("Commit message").value
-        expect(commit_message_input_text)
-          .to eq("OP##{work_package.id} A test work_package\n\n#{work_package_short_url(work_package)}")
+        within_dialog do
+          commit_message = "OP##{work_package.id} A test work_package\n#{work_package_short_url(work_package)}"
+          expect(page).to have_test_selector("gitlab-snippets-commit-message", text: commit_message)
+        end
       end
 
       it "allows the user to copy a commit message with newlines between title and link to the clipboard" do
         pending "In headless mode, the clipboard content is not copied to the clipboard, how to fix?"
-        gitlab_tab.git_actions_menu_button.click
+        page.click_on "Git snippets"
         gitlab_tab.git_actions_copy_commit_message_button.click
 
         expect(page).to have_text("Copied!")

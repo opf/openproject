@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -44,10 +46,6 @@ module Pages
 
     def wait_for_tab_loaded
       wait_for { page }.to have_test_selector("op-work-package-gitlab-tab-container")
-    end
-
-    def git_actions_menu_button
-      find(".gitlab-git-copy:not([disabled])", text: "Git")
     end
 
     def git_actions_copy_branch_name_button
