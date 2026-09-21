@@ -36,6 +36,7 @@ module Backlogs
 
         param :sprint
         param :project
+        param :breakdown
 
         def render?
           EnterpriseToken.allows_to?(:baseline_comparison) &&
@@ -108,10 +109,6 @@ module Backlogs
         def i18n_key = raise SubclassResponsibilityError
 
         def i18n_scope = "backlogs.sprint_reports.widgets.work_package_table"
-
-        def breakdown
-          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
-        end
       end
     end
   end
