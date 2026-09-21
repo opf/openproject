@@ -38,18 +38,20 @@ See COPYRIGHT and LICENSE files for more details.
           line.with_column(mr: 2) do
             render(Primer::Beta::Text.new(font_size: :small, color: status_color)) { status_text }
           end
-          if error_code.present?
+          if error_code.present? && docs_href.present?
             line.with_column do
               render(Primer::Beta::Label.new(scheme: status_color)) { error_code }
             end
           end
         end
 
-        if error_code.present?
+        if error_code.present? && docs_href.present?
           row.with_column do
-            helpers.static_link_to(href: docs_href,
-                                   label: I18n.t(:label_more_information),
-                                   underline: true)
+            helpers.static_link_to(
+              href: docs_href,
+              label: I18n.t(:label_more_information),
+              underline: true
+            )
           end
         end
       end

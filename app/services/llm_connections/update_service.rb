@@ -49,6 +49,10 @@ module LlmConnections
         next unless service_call.success?
 
         Setting.llm_features_enabled = model.llm_features_enabled
+        # Switching the AI features on or off decides whether the scheduled
+        # health check has anything to do.
+        Llm::HealthCheckJob.toggle_cron_job
+
         next unless @sync_models
         next unless initial_fill?(service_call.result)
 
