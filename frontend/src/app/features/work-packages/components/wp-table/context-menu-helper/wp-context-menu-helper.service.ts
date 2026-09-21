@@ -181,7 +181,9 @@ export class WorkPackageContextMenuHelperService {
 
     actions.forEach((action) => {
       if (action.link && workPackage[action.link] !== undefined) {
-        action.text = action.text || I18n.t(`js.button_${action.key}`);
+        action.text = action.text || I18n.t(
+          action.key === 'restore' ? 'js.work_packages.trash.restore' : `js.button_${action.key}`,
+        );
         allowedActions.push(action);
       }
     });

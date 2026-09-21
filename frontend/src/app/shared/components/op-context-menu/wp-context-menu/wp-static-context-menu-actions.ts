@@ -66,7 +66,6 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   },
   {
     key: 'restore',
-    text: I18n.t('js.work_packages.trash.restore'),
     link: 'restore',
     icon: 'icon-undo',
   },
