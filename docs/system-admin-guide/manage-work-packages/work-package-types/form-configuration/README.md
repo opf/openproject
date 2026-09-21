@@ -18,7 +18,7 @@ To configure the work package form for a type, navigate to **Administration → 
 
 The form preview on the right shows the attributes that are currently displayed when creating or editing work packages of this type. Attributes are organized into sections.
 
-On the left side are all available attributes and [custom fields](../../../custom-fields) that are not currently used in the form. You can filter them using the search field.
+On the left side are all available attributes and [custom fields](../../../custom-fields) that are not currently used in the form. You can filter them using the search field.  User created custom fields are typically distinguished from system **Built-in** attributes by a label indicating the field's format. For example, List, Long text, or Hierarchy. 
 
 To customize the form:
 
