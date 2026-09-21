@@ -64,7 +64,8 @@ module Backlogs
           end
 
           def resolved_work_packages_count
-            @resolved_work_packages_count ||= work_packages_in_epic.where(status_id: project.done_status_ids).count
+            @resolved_work_packages_count ||=
+              work_packages_in_epic.where(status_id: project.done_status_ids | Status.where(is_closed: true).ids).count
           end
 
           def total_work_packages_count

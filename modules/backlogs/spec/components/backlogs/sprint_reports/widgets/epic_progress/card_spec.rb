@@ -70,6 +70,20 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     end
   end
 
+  context "when a descendant has a globally closed status the project has not added to done_status_ids" do
+    let(:closed_status) { create(:closed_status) }
+    let(:open_status) { create(:status) }
+    let!(:closed_child) { create(:work_package, type: task_type, project:, parent: epic, status: closed_status) }
+    let!(:open_child) { create(:work_package, type: task_type, project:, parent: epic, status: open_status) }
+
+    before { project.done_status_ids = [] }
+
+    it "counts it as resolved" do
+      expect(rendered_component).to have_text("1 / 2 work packages")
+      expect(rendered_component).to have_text("(50%)")
+    end
+  end
+
   context "when descendant type is excluded from backlogs" do
     let(:excluded_type) { create(:type_bug) }
     let(:project) { create(:project, types: [epic_type, task_type, excluded_type].compact) }
