@@ -193,11 +193,14 @@ module ::ResourceManagement
 
     private
 
-    # A global planner draws from everything the user may see; a project one stays
-    # within its project.
     def addable_work_packages
       scope = WorkPackage.visible(current_user)
-      @project ? scope.where(project: @project) : scope
+
+      if @project
+        scope.where(project: @project)
+      else
+        scope.where(project: Project.has_module(:resource_management))
+      end
     end
 
     def addable_users
