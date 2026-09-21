@@ -7484,6 +7484,14 @@ en:
         job:
           checking: "Checking the file"
           importing: "Importing the file"
+        template:
+          examples:
+            one:
+              description: "Explain what the new page has to do."
+              subject: "Write the documentation"
+            two:
+              description: "The error appears after a failed password reset."
+              subject: "Fix the login error"
         row:
           created_after_updated: "must not be later than the value in Updated on."
           fractional_percentage: "must be a whole number of percent, for example 50."
