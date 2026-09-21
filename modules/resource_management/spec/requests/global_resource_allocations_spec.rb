@@ -83,7 +83,7 @@ RSpec.describe "Global resource allocations", :skip_csrf, type: :rails_request,
 
     expect(response.body).to include(%(action="#{resource_allocations_path}"))
     expect(response.body).to include(refresh_form_resource_allocations_path)
-    expect(response.body).not_to include(resource_allocations_path(project_id: allocatable))
+    expect(response.body).not_to include(project_resource_allocations_path(allocatable))
   end
 
   it "still narrows the pickers to the preselected work package's project" do
@@ -133,6 +133,7 @@ RSpec.describe "Global resource allocations", :skip_csrf, type: :rails_request,
       expect(response.body).to include("is not a member of the work package")
       expect(response.body).not_to include("can&#39;t be blank")
     end
+
   end
 
   describe "an existing global allocation" do

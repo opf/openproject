@@ -40,7 +40,7 @@ RSpec.describe "Resource work package timeline view", :skip_csrf, type: :rails_r
   before { login_as user }
 
   it "creates a timeline view and renders its container on show" do
-    post resource_planner_views_path(planner, project_id: project),
+    post project_resource_planner_views_path(project, planner),
          params: { view_class_name: "ResourceWorkPackageTimeline",
                    view: { name: "Epic Planning", filter_mode: "automatic" },
                    filters: [{ status_id: { operator: "o", values: [] } }].to_json },
@@ -50,7 +50,7 @@ RSpec.describe "Resource work package timeline view", :skip_csrf, type: :rails_r
     view = ResourceWorkPackageTimeline.last
     expect(view.name).to eq("Epic Planning")
 
-    get resource_planner_view_path(planner, view, project_id: project)
+    get project_resource_planner_view_path(project, planner, view)
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("resource-work-package-timeline")
   end

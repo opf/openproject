@@ -55,8 +55,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
 
   describe "resources" do
     it "returns the view's users as FullCalendar resources with rendered html" do
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       expect(response).to have_http_status(:ok)
       body = response.parsed_body
@@ -67,8 +66,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
     end
 
     it "tags each resource with its position so FullCalendar keeps the query order" do
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       orders = response.parsed_body["resources"].pluck("order")
       expect(orders).to eq((0...orders.size).to_a)
@@ -82,16 +80,14 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
                                    start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5),
                                    allocated_time: 5 * 8 * 60)
 
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       cell = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }
       expect(cell.dig("extendedProps", "html")).to include(I18n.t("resource_management.user_timeline.overbooked"))
     end
 
     it "flags a user with no work schedule, but not one who has one" do
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       warning = I18n.t("resource_management.user_timeline.no_work_schedule")
       # `user` (Olivia) has no working hours; `assignee` (Adam) has the factory default.
@@ -107,8 +103,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       job_title = create(:user_custom_field, :string, name: "Position", semantic_key: :job_title)
       assignee.custom_values.create!(custom_field: job_title, value: "UX Designer")
 
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       html = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }.dig("extendedProps", "html")
       expect(html).to include("<b>Product Team</b>")
@@ -122,8 +117,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
         assignee.custom_values.create!(custom_field: job_title, value: option)
       end
 
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       html = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }.dig("extendedProps", "html")
       expect(html).to include("UX Designer, Researcher")
@@ -131,8 +125,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
 
     it "denies users without access" do
       login_as create(:user)
-      get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                             project_id: project)
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       expect(response).to have_http_status(:not_found).or have_http_status(:forbidden)
     end
@@ -150,8 +143,9 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
     end
 
     def get_events
-      get resource_planner_view_user_timeline_events_path(resource_planner_id: planner, view_id: view, start: "2026-05-25",
-                                                          end: "2026-07-01", format: :json, project_id: project)
+      get project_resource_planner_view_user_timeline_events_path(
+        project, planner, view, start: "2026-05-25", end: "2026-07-01", format: :json
+      )
     end
 
     it "places each allocation on its assigned user's row with the work package html" do
@@ -173,7 +167,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       get_events
 
       expect(block_events.map { |e| e.dig("extendedProps", "editUrl") })
-        .to include(edit_resource_allocation_path(allocation, project_id: project))
+        .to include(edit_project_resource_allocation_path(project, allocation))
     end
 
     it "omits the edit url for a user who may only view" do
@@ -216,8 +210,9 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
     # `assignee` already has the factory's Mon-Fri working week; weekends are
     # zero-capacity. `user` has no configured working hours.
     def background_events_for(user)
-      get resource_planner_view_user_timeline_events_path(resource_planner_id: planner, view_id: view, start: "2026-06-22",
-                                                          end: "2026-06-29", format: :json, project_id: project)
+      get project_resource_planner_view_user_timeline_events_path(
+        project, planner, view, start: "2026-06-22", end: "2026-06-29", format: :json
+      )
       response.parsed_body["events"]
         .select { |e| e["display"] == "background" }
         .select { |e| e["resourceId"] == user.id }
@@ -240,8 +235,9 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
 
   describe "non-working day events" do
     def non_working_events_for(user)
-      get resource_planner_view_user_timeline_events_path(resource_planner_id: planner, view_id: view, start: "2026-06-22",
-                                                          end: "2026-07-13", format: :json, project_id: project)
+      get project_resource_planner_view_user_timeline_events_path(
+        project, planner, view, start: "2026-06-22", end: "2026-07-13", format: :json
+      )
       response.parsed_body["events"]
         .select { |e| (e["classNames"] || []).include?("op-rm-timeline-non-working") }
         .select { |e| e["resourceId"] == user.id }

@@ -51,7 +51,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
   before { login_as user }
 
   def open_settings_dialog(view)
-    find("a[href='#{edit_resource_planner_view_path(resource_planner, view, project_id: project)}']").click
+    find("a[href='#{edit_project_resource_planner_view_path(project, resource_planner, view)}']").click
     expect(page).to have_css("##{ResourcePlannerViews::EditDialogComponent::DIALOG_ID}")
   end
 
@@ -64,7 +64,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
 
     before do
       create(:resource_allocation, entity: work_package, principal: member)
-      visit resource_planner_view_path(resource_planner, view, project_id: project)
+      visit project_resource_planner_view_path(project, resource_planner, view)
     end
 
     it "renders every project member as a card by default" do
@@ -115,7 +115,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
   describe "switching the filter mode" do
     it "drops the filtered cards and becomes an empty manual list" do
       view = ResourceUserCard.create!(name: "People", parent: resource_planner, project:, principal: user, query:)
-      visit resource_planner_view_path(resource_planner, view, project_id: project)
+      visit project_resource_planner_view_path(project, resource_planner, view)
       expect(page).to have_test_selector("op-user-card", text: member.name)
 
       open_settings_dialog(view)
@@ -133,7 +133,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
       query.update!(manual_elements: true)
       view = ResourceUserCard.create!(name: "People", parent: resource_planner, project:, principal: user, query:)
       view.query.ordered_entities.create!(entity: member, position: 1)
-      visit resource_planner_view_path(resource_planner, view, project_id: project)
+      visit project_resource_planner_view_path(project, resource_planner, view)
       expect(page).to have_test_selector("op-user-card", text: member.name)
       expect(page).to have_no_test_selector("op-user-card", text: user.name)
 
@@ -157,7 +157,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
     end
 
     it "starts empty and adds a user through the autocompleter" do
-      visit resource_planner_view_path(resource_planner, view, project_id: project)
+      visit project_resource_planner_view_path(project, resource_planner, view)
 
       expect(page).to have_text(I18n.t("resource_management.user_card_list.blank.manual_description"))
 
@@ -173,7 +173,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
 
     it "removes a previously picked user via the remove action" do
       view.query.ordered_entities.create!(entity: member, position: 1)
-      visit resource_planner_view_path(resource_planner, view, project_id: project)
+      visit project_resource_planner_view_path(project, resource_planner, view)
 
       within(find_test_selector("op-user-card", text: member.name)) do
         accept_confirm { find("a[data-turbo-method='delete']").click }
@@ -198,7 +198,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
       # The window's capacity is 720 (Fri 480 + the 4h Monday 240)
       create(:resource_allocation, principal: member, entity: create(:work_package, project:),
                                    allocated_time: 720, start_date: Date.new(2026, 1, 8), end_date: Date.new(2026, 1, 9))
-      visit resource_planner_view_path(planner, view, project_id: project)
+      visit project_resource_planner_view_path(project, planner, view)
     end
 
     it "shows utilization prorated over the window's working time capacity" do

@@ -74,12 +74,12 @@ RSpec.describe "Global timeline feeds", :skip_csrf, type: :rails_request, with_e
   before { login_as(user) }
 
   def get_events
-    get resource_planner_view_user_timeline_events_path(resource_planner_id: planner, view_id: view, format: :json)
+    get resource_planner_view_user_timeline_events_path(planner, view, format: :json)
     response.parsed_body.fetch("events")
   end
 
   it "serves the feed on the global route" do
-    get resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json)
+    get resource_planner_view_user_timeline_resources_path(planner, view, format: :json)
 
     expect(response).to have_http_status(:ok)
   end
@@ -132,7 +132,7 @@ RSpec.describe "Global timeline feeds", :skip_csrf, type: :rails_request, with_e
     before { login_as(create(:user, member_with_permissions: { visible_project => %i[view_resource_planners] })) }
 
     it "is not found" do
-      get resource_planner_view_user_timeline_events_path(resource_planner_id: planner, view_id: view, format: :json)
+      get resource_planner_view_user_timeline_events_path(planner, view, format: :json)
 
       expect(response).to have_http_status(:not_found)
     end

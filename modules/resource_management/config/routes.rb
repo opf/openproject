@@ -29,11 +29,12 @@
 #++
 
 Rails.application.routes.draw do
-  # One tree for both scopes: the leading segment is optional, so every helper takes
-  # `project_id` when the planner belongs to a project and omits it when it is global.
-  # `ResourcePlanner#path_args` decides which. Required segments sit to the right of the
-  # optional one, so positional arguments still fill them correctly.
-  scope "(projects/:project_id)" do
+  # Written once and drawn twice, so every route exists in both scopes and each
+  # has its own helper: `project_resource_planners_path` inside a project,
+  # `resource_planners_path` globally. A call site therefore names the area it
+  # links into, and naming one that does not exist fails rather than quietly
+  # producing the other one's URL.
+  concern :resource_planning do
     resources :resource_planners,
               controller: "resource_management/resource_planners" do
       member do
@@ -108,6 +109,12 @@ Rails.application.routes.draw do
       put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
     end
   end
+
+  scope "projects/:project_id", as: "project" do
+    concerns :resource_planning
+  end
+
+  concerns :resource_planning
 
   # Global only: placeholder users are not managed inside a project.
   scope "resource_management", as: "resource_management" do

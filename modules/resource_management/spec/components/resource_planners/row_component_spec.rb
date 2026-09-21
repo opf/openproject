@@ -27,7 +27,7 @@ RSpec.describe ResourcePlanners::RowComponent, type: :component do
 
   describe "name column" do
     it "links to the planner's show page" do
-      expect(rendered).to have_link(planner.name, href: resource_planner_path(planner, project_id: project))
+      expect(rendered).to have_link(planner.name, href: project_resource_planner_path(project, planner))
     end
 
     context "when the planner is favorited by the current user" do
@@ -63,7 +63,7 @@ RSpec.describe ResourcePlanners::RowComponent, type: :component do
       context "when the current user owns the planner" do
         it "offers the edit action" do
           expect(rendered).to have_link(text: I18n.t("resource_management.action.edit"),
-                                        href: edit_resource_planner_path(planner, project_id: project))
+                                        href: edit_project_resource_planner_path(project, planner))
         end
       end
 

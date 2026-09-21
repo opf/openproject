@@ -56,12 +56,15 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ResourceCellComponent,
   end
 
   def remove_path(target_view)
-    remove_work_package_resource_planner_view_path(planner, target_view, work_package_id: work_package.id, project_id: project)
+    remove_work_package_project_resource_planner_view_path(
+      project, planner, target_view, work_package_id: work_package.id
+    )
   end
 
   def move_path(target_view, direction:)
-    move_work_package_resource_planner_view_path(planner, target_view, work_package_id: work_package.id, direction:,
-                                                                       project_id: project)
+    move_work_package_project_resource_planner_view_path(
+      project, planner, target_view, work_package_id: work_package.id, direction:
+    )
   end
 
   context "with an automatically filtered view" do

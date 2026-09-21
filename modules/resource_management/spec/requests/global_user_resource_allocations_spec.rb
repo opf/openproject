@@ -61,7 +61,7 @@ RSpec.describe "Global user resource allocations requests",
   shared_let(:beta_allocation) { create(:resource_allocation, entity: beta_wp, principal: card_user) }
   shared_let(:invisible_allocation) { create(:resource_allocation, entity: invisible_wp, principal: card_user) }
 
-  let(:path) { user_resource_allocations_path(user_id: card_user, resource_planner_view_id: card_view.id) }
+  let(:path) { user_resource_allocations_path(card_user, resource_planner_view_id: card_view.id) }
 
   before { login_as(user) }
 

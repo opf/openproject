@@ -43,7 +43,7 @@ RSpec.describe "WorkPackage resource allocations requests", type: :rails_request
   shared_let(:hidden_user) { create(:user, firstname: "Secret", lastname: "Agent") }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  let(:path) { work_package_resource_allocations_path(work_package, project_id: project) }
+  let(:path) { project_work_package_resource_allocations_path(project, work_package) }
 
   before { login_as(user) }
 
@@ -113,7 +113,7 @@ RSpec.describe "WorkPackage resource allocations requests", type: :rails_request
 
         get path, as: :turbo_stream
 
-        expect(response.body).to include(edit_resource_allocation_path(allocation, project_id: project))
+        expect(response.body).to include(edit_project_resource_allocation_path(project, allocation))
         expect(response.body).to include(I18n.t(:button_delete))
       end
 
@@ -164,7 +164,7 @@ RSpec.describe "WorkPackage resource allocations requests", type: :rails_request
       let(:invisible_work_package) { create(:work_package, project: other_project) }
 
       it "returns not found" do
-        get work_package_resource_allocations_path(invisible_work_package, project_id: project), as: :turbo_stream
+        get project_work_package_resource_allocations_path(project, invisible_work_package), as: :turbo_stream
 
         expect(response).to have_http_status(:not_found)
       end

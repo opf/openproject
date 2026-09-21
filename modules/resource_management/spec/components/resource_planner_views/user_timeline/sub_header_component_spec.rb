@@ -65,7 +65,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::SubHeaderComponent, type: :co
 
   it "links the settings action to the edit dialog" do
     expect(rendered).to have_link(
-      href: edit_resource_planner_view_path(resource_planner, view, project_id: project)
+      href: edit_project_resource_planner_view_path(project, resource_planner, view)
     )
   end
 
@@ -83,7 +83,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::SubHeaderComponent, type: :co
 
       expect(rendered).to have_link(
         text: I18n.t("resource_management.timeline.subheader.allocate"),
-        href: new_resource_allocation_path(resource_planner_view_id: view.id, project_id: project)
+        href: new_project_resource_allocation_path(project, resource_planner_view_id: view.id)
       )
     end
   end
@@ -94,7 +94,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::SubHeaderComponent, type: :co
     it "offers the add user button" do
       expect(rendered).to have_text(I18n.t("resource_management.user_timeline.subheader.add_user"))
       expect(rendered).to have_link(
-        href: new_user_resource_planner_view_path(resource_planner, view, project_id: project)
+        href: new_user_project_resource_planner_view_path(project, resource_planner, view)
       )
     end
   end

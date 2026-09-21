@@ -46,21 +46,21 @@ RSpec.describe "Work package timeline view", :js, with_ee: %i[resource_managemen
   before { login_as user }
 
   it "renders the work package as a timeline row" do
-    visit resource_planner_view_path(planner, view, project_id: project)
+    visit project_resource_planner_view_path(project, planner, view)
 
     expect(page).to have_css("[data-test-selector='resource-work-package-timeline']")
     expect(page).to have_text("Develop route optimization", wait: 15)
   end
 
   it "shades each work package's active span" do
-    visit resource_planner_view_path(planner, view, project_id: project)
+    visit project_resource_planner_view_path(project, planner, view)
 
     expect(page).to have_css("[data-test-selector='resource-work-package-timeline']")
     expect(page).to have_css(".op-rm-timeline-view .fc-bg-event.op-rm-timeline-active", wait: 15)
   end
 
   it "marks header columns that have an active work package" do
-    visit resource_planner_view_path(planner, view, project_id: project)
+    visit project_resource_planner_view_path(project, planner, view)
 
     expect(page).to have_css(
       ".op-rm-timeline-view .fc-timeline-header .fc-timeline-slot-label.op-rm-active-col",

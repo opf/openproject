@@ -67,8 +67,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
         render_inline(described_class.new(view:, project:, resource_planner: planner, work_packages: []))
 
         expect(page).to have_text("There are no work packages matching this view's filters yet.")
-        expect(page).to have_no_css("a[href='#{new_work_package_resource_planner_view_path(planner, view,
-                                                                                           project_id: project)}']")
+        expect(page).to have_no_css("a[href='#{new_work_package_project_resource_planner_view_path(project, planner, view)}']")
       end
 
       it "offers a configure-view button opening the edit dialog" do
@@ -76,7 +75,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
 
         expect(page).to have_css(
           "a[data-controller='async-dialog']" \
-          "[href='#{edit_resource_planner_view_path(planner, view, project_id: project)}']",
+          "[href='#{edit_project_resource_planner_view_path(project, planner, view)}']",
           text: "Configure view"
         )
       end
@@ -101,7 +100,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
         expect(page).to have_text("Add work packages to this view to plan their allocation over time.")
         expect(page).to have_css(
           "a[data-controller='async-dialog']" \
-          "[href='#{new_work_package_resource_planner_view_path(planner, manual_view, project_id: project)}']",
+          "[href='#{new_work_package_project_resource_planner_view_path(project, planner, manual_view)}']",
           text: "Add work package"
         )
       end

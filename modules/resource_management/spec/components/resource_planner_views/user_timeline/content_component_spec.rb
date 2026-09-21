@@ -60,11 +60,9 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
       prefix = "data-resource-management--resource-timeline"
 
       expect(el["#{prefix}-resources-url-value"])
-        .to eq(resource_planner_view_user_timeline_resources_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                                  project_id: project))
+        .to eq(project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json))
       expect(el["#{prefix}-events-url-value"])
-        .to eq(resource_planner_view_user_timeline_events_path(resource_planner_id: planner, view_id: view, format: :json,
-                                                               project_id: project))
+        .to eq(project_resource_planner_view_user_timeline_events_path(project, planner, view, format: :json))
       expect(el["#{prefix}-initial-view-value"]).to eq("resourceTimelineDays")
       expect(el["#{prefix}-selection-param-value"]).to eq("principal_id")
       expect(el["#{prefix}-reload-event-name-value"]).to eq("op-dispatched:resource-allocations:changed")
@@ -104,7 +102,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
         expect(rendered).to have_text("No users to display")
         expect(rendered).to have_css(
           "a[data-controller='async-dialog']" \
-          "[href='#{edit_resource_planner_view_path(planner, view, project_id: project)}']",
+          "[href='#{edit_project_resource_planner_view_path(project, planner, view)}']",
           text: "Configure view"
         )
       end
@@ -117,7 +115,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
         expect(rendered).to have_text("Add users to this view to see their allocation over time.")
         expect(rendered).to have_css(
           "a[data-controller='async-dialog']" \
-          "[href='#{new_user_resource_planner_view_path(planner, view, project_id: project)}']",
+          "[href='#{new_user_project_resource_planner_view_path(project, planner, view)}']",
           text: "Add user"
         )
       end

@@ -68,7 +68,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::SubHeaderComponent, type: 
 
     it "links the settings action to the edit dialog" do
       expect(rendered).to have_link(
-        href: edit_resource_planner_view_path(resource_planner, view, project_id: project)
+        href: edit_project_resource_planner_view_path(project, resource_planner, view)
       )
     end
 
@@ -103,7 +103,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::SubHeaderComponent, type: 
 
     it "links the add-work-package option to the search dialog" do
       expect(rendered).to have_link(
-        href: new_work_package_resource_planner_view_path(resource_planner, view, project_id: project)
+        href: new_work_package_project_resource_planner_view_path(project, resource_planner, view)
       )
     end
 

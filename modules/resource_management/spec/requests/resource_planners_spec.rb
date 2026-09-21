@@ -43,14 +43,14 @@ RSpec.describe "ResourcePlanners requests",
 
   describe "without the resource_management enterprise feature", with_ee: false do
     it "renders the index with an upsell banner instead of the planners" do
-      get resource_planners_path(project_id: project)
+      get project_resource_planners_path(project)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("op-enterprise-banner")
     end
 
     it "still guards the other actions with 403" do
-      get new_resource_planner_path(project_id: project),
+      get new_project_resource_planner_path(project),
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response).to have_http_status(:forbidden)
@@ -59,7 +59,7 @@ RSpec.describe "ResourcePlanners requests",
 
   describe "GET edit" do
     it "responds with the edit dialog turbo stream" do
-      get edit_resource_planner_path(resource_planner, project_id: project),
+      get edit_project_resource_planner_path(project, resource_planner),
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response).to have_http_status(:ok)
@@ -71,7 +71,7 @@ RSpec.describe "ResourcePlanners requests",
     it "renders the timeframe as a clearable range picker holding the planner's dates" do
       resource_planner.update!(start_date: Date.new(2026, 8, 1), end_date: Date.new(2026, 8, 14))
 
-      get edit_resource_planner_path(resource_planner, project_id: project),
+      get edit_project_resource_planner_path(project, resource_planner),
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response.body).to include("opce-range-date-picker")
@@ -84,22 +84,22 @@ RSpec.describe "ResourcePlanners requests",
 
   describe "PATCH update" do
     it "updates the planner and redirects to the show page" do
-      patch resource_planner_path(resource_planner, project_id: project),
+      patch project_resource_planner_path(project, resource_planner),
             params: { resource_planner: { name: "Renamed" } }
 
-      expect(response).to redirect_to(resource_planner_path(resource_planner, project_id: project))
+      expect(response).to redirect_to(project_resource_planner_path(project, resource_planner))
       expect(resource_planner.reload.name).to eq("Renamed")
     end
 
     it "favorites the planner when the favorite flag is set" do
-      patch resource_planner_path(resource_planner, project_id: project),
+      patch project_resource_planner_path(project, resource_planner),
             params: { resource_planner: { name: "Original", favorite: "1" } }
 
       expect(resource_planner.favorited_by?(user)).to be(true)
     end
 
     it "re-renders the form with errors when invalid" do
-      patch resource_planner_path(resource_planner, project_id: project),
+      patch project_resource_planner_path(project, resource_planner),
             params: { resource_planner: { name: "" } },
             headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
@@ -108,7 +108,7 @@ RSpec.describe "ResourcePlanners requests",
     end
 
     it "splits the picked range into a start and a finish date" do
-      patch resource_planner_path(resource_planner, project_id: project),
+      patch project_resource_planner_path(project, resource_planner),
             params: { resource_planner: { name: "Original", date_range: "2026-08-01 - 2026-08-14" } }
 
       expect(resource_planner.reload.start_date).to eq(Date.new(2026, 8, 1))
@@ -118,7 +118,7 @@ RSpec.describe "ResourcePlanners requests",
     it "unsets both dates when the range is cleared" do
       resource_planner.update!(start_date: Date.new(2026, 8, 1), end_date: Date.new(2026, 8, 14))
 
-      patch resource_planner_path(resource_planner, project_id: project),
+      patch project_resource_planner_path(project, resource_planner),
             params: { resource_planner: { name: "Original", date_range: "" } }
 
       expect(resource_planner.reload.start_date).to be_nil
@@ -126,7 +126,7 @@ RSpec.describe "ResourcePlanners requests",
     end
 
     it "rejects a half-open range, as the timeframe is picked as a range" do
-      patch resource_planner_path(resource_planner, project_id: project),
+      patch project_resource_planner_path(project, resource_planner),
             params: { resource_planner: { name: "Original", date_range: "2026-08-01 - " } },
             headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
@@ -137,7 +137,7 @@ RSpec.describe "ResourcePlanners requests",
 
   describe "POST create with a default view" do
     it "advances to the configure step with the view type's label pre-filled as the name" do
-      post resource_planners_path(project_id: project),
+      post project_resource_planners_path(project),
            params: { resource_planner: { name: "My planner", default_view_class_name: "ResourceWorkPackageList" } },
            as: :turbo_stream
 
@@ -151,10 +151,10 @@ RSpec.describe "ResourcePlanners requests",
       resource_planner
 
       expect do
-        delete resource_planner_path(resource_planner, project_id: project)
+        delete project_resource_planner_path(project, resource_planner)
       end.to change(ResourcePlanner, :count).by(-1)
 
-      expect(response).to redirect_to(resource_planners_path(project_id: project))
+      expect(response).to redirect_to(project_resource_planners_path(project))
     end
   end
 end
