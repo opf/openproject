@@ -180,6 +180,8 @@ en:
       title: Edit allocation
     favorite_caption: >-
       Make this view a favorite to add it on the top section of the sidebar menu.
+    filters:
+      resource_management_enabled: Resource management enabled
     global_public_caption: >-
       Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of
       work packages which still depends on each user permission.

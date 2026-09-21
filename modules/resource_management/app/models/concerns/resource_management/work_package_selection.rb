@@ -35,6 +35,12 @@ module ResourceManagement
     # The "ow" (ordered work packages) filter restricts results to a hand-picked set.
     MANUAL_FILTER_NAME = "manual_sort"
 
+    RESOURCE_MANAGEMENT_ENABLED_FILTER = {
+      name: "resource_management_enabled",
+      operator: "=",
+      values: [OpenProject::Database::DB_VALUE_TRUE]
+    }.freeze
+
     # Work package queries advertise roughly fifty filters, most of which exist
     # to back autocompleters, full-text search, storage integrations or relation
     # lookups rather than resource planning. Only the attributes a planner
@@ -114,7 +120,9 @@ module ResourceManagement
     end
 
     def work_packages
-      effective_query&.results&.work_packages || WorkPackage.none
+      return WorkPackage.none if effective_query.nil?
+
+      effective_query.results.work_packages.where(project: Project.has_module(:resource_management))
     end
 
     # A manually-picked view pins its hand-chosen ids; an automatic view forwards
@@ -127,7 +135,7 @@ module ResourceManagement
         # with the id-only GROUP BY otherwise.
         [{ name: "id", operator: "=", values: work_packages.reorder(nil).ids.map(&:to_s) }]
       else
-        dump_query_filters(effective_query)
+        dump_query_filters(effective_query) + [RESOURCE_MANAGEMENT_ENABLED_FILTER]
       end
     end
 

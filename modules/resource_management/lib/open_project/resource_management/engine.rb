@@ -158,6 +158,13 @@ module OpenProject::ResourceManagement
       end
     end
 
+    config.to_prepare do
+      ::Queries::Register.register(::Query) do
+        filter ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
+        exclude ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
+      end
+    end
+
     add_api_path :allocatable_principals do
       "#{root}/allocatable_principals"
     end
