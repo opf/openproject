@@ -32,8 +32,7 @@ module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   STATUS_BY_OPERATOR = { "o" => "open", "c" => "closed", "l" => "locked" }.freeze
 
   def allowed_values
-    # as we no longer display the allowed values, the first value is irrelevant
-    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
+    @allowed_values ||= versions.order(:name).pluck(:name, :id).map { |name, id| [name, id.to_s] }
   end
 
   def available_operators

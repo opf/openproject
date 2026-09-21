@@ -109,23 +109,7 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
     end
 
     describe "#allowed_values" do
-      context "within a project" do
-        it "returns the project's shared versions" do
-          expect(instance.allowed_values)
-            .to contain_exactly([version.id.to_s, version.id.to_s])
-        end
-      end
-
-      context "without a project" do
-        let(:project) { nil }
-
-        it "returns only versions visible to the current user" do
-          other_project_version
-
-          expect(instance.allowed_values)
-            .to contain_exactly([version.id.to_s, version.id.to_s])
-        end
-      end
+      it_behaves_like "version filter allowed values"
     end
 
     describe "#value_objects" do
