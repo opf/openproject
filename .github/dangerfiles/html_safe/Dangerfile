@@ -27,9 +27,44 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-danger.import_dangerfile(path: ".github/dangerfiles/user_references/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/release_migrations/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/project_id_contract/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/op_primer_changes/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/migration_index_names/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/html_safe/Dangerfile")
+
+require_relative "scanner"
+
+SKIP_PATH_REGEX = %r{\A(?:spec|lookbook|docs|\.github/dangerfiles)/}
+
+def added_html_safe_files
+  (git.modified_files + git.added_files)
+    .reject { |file| file.match?(SKIP_PATH_REGEX) }
+    .select { |file| File.exist?(file) }
+    .select { |file| added_non_empty_html_safe?(file) }
+end
+
+def added_non_empty_html_safe?(file)
+  diff = git.diff_for_file(file)
+  return false unless diff
+
+  diff.patch.to_s.lines.any? { |line| HtmlSafeDangerScanner.added_non_empty_html_safe_line?(line) }
+end
+
+flagged_files = added_html_safe_files
+
+if flagged_files.any?
+  message_lines = [
+    "@opf/security **New `.html_safe` usage found.** Please review for injection safety.",
+    ""
+  ]
+
+  flagged_files.each do |file|
+    message_lines << "- #{file}"
+  end
+
+  message_lines << <<~MESSAGE
+
+    `.html_safe` marks a string as trusted HTML. Empty `"".html_safe` / `''.html_safe` buffers are ignored.
+
+    Prefer `safe_join`, `content_tag`, `_html` I18n keys, or `sanitize` / `sanitize_basic_html` instead.
+    If `.html_safe` is required, confirm the string is escaped or sanitized first.
+  MESSAGE
+
+  warn message_lines.join("\n")
+end
