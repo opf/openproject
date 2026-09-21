@@ -33,6 +33,7 @@ en:
       project:
         allow_multiple_active_sprints: "Allow multiple active sprints"
         backlog_excluded_types: "Excluded work package types"
+        estimation_unit: "Unit"
         sprint_sharing: "Sprint sharing"
         statuses_considered_closed: "Statuses considered closed"
       sprint:
