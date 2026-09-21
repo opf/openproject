@@ -27,25 +27,13 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import {
+  AI_TEXT_TRANSFORM_TERMINAL_STATUSES,
+  AiTextTransformRun,
+  AiTextTransformRunClient,
+  AiTextTransformRunEvent,
+} from 'core-stimulus/helpers/ai-text-transform-run';
 
-interface RunEvent {
-  seq:number;
-  kind:'status'|'text_delta'|'completed'|'error';
-  payload:{ status?:string; delta?:string; text?:string; message?:string; reason?:string };
-}
-
-interface RunResponse {
-  id:string;
-  status:string;
-  systemPrompt?:string;
-  events:RunEvent[];
-  _links:{ self:{ href:string }; cancel?:{ href:string } };
-}
-
-const TERMINAL_STATUSES = ['succeeded', 'failed', 'cancelled'];
-const MIN_DELAY = 400;
-const MAX_DELAY = 1000;
-const DELAY_STEP = 150;
 const TIMER_TICK = 100;
 const LABEL_SCHEMES:Record<string, string> = {
   idle: 'Label--secondary',
@@ -60,7 +48,7 @@ const LABEL_SCHEMES:Record<string, string> = {
 
 /**
  * Prototype sandbox for the description assistant: posts the textarea content
- * against the execute API and polls the run with an adaptive cursor-based loop.
+ * against the execute API and shows the run as the shared run client polls it.
  */
 export default class AiTextTransformSandboxController extends Controller<HTMLElement> {
   static targets = [
@@ -86,26 +74,15 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
   declare readonly urlValue:string;
   declare readonly actionIdValue:number;
 
+  private client:AiTextTransformRunClient|null = null;
   private runId:string|null = null;
-  private runUrl:string|null = null;
-  private cancelUrl:string|null = null;
-  private cursor = 0;
-  private delay = MIN_DELAY;
-  private pollTimer:ReturnType<typeof setTimeout>|null = null;
   private tickTimer:ReturnType<typeof setInterval>|null = null;
   private startedAt = 0;
   private finishedAt:number|null = null;
-  private inFlight = false;
   private text = '';
-  private readonly onVisibilityChange = () => { this.handleVisibilityChange(); };
-
-  connect():void {
-    document.addEventListener('visibilitychange', this.onVisibilityChange);
-  }
 
   disconnect():void {
-    document.removeEventListener('visibilitychange', this.onVisibilityChange);
-    this.stopPolling();
+    this.client?.dispose();
     this.stopTimer();
   }
 
@@ -119,32 +96,16 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     this.setStatus('creating');
     this.startTimer();
 
-    const response = await this.request(this.urlValue, 'POST', JSON.stringify(this.body()));
-    if (!response.ok) {
-      this.stopTimer();
-      this.setStatus('error');
-      this.outputTarget.textContent = `HTTP ${response.status}\n\n${await response.text()}`;
-      this.executeTarget.disabled = false;
-      this.spinnerTarget.hidden = true;
-      return;
-    }
-
-    const run = await response.json() as RunResponse;
-    this.runId = run.id;
-    this.runUrl = run._links.self.href;
-    this.cancelUrl = run._links.cancel?.href ?? null;
-    this.cancelTarget.disabled = this.cancelUrl === null;
-    this.systemPromptTarget.textContent = run.systemPrompt ?? '';
-    this.apply(run);
-    this.schedule();
+    this.client = new AiTextTransformRunClient(this.urlValue, {
+      onRun: (run) => this.apply(run),
+      onRequestFailed: (status, body) => this.requestFailed(status, body),
+    });
+    await this.client.start(this.body());
   }
 
   async cancel():Promise<void> {
-    if (!this.cancelUrl) {
-      return;
-    }
     this.cancelTarget.disabled = true;
-    await this.request(this.cancelUrl, 'POST');
+    await this.client?.cancel();
   }
 
   private body() {
@@ -176,48 +137,21 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     return input?.value ?? '';
   }
 
-  private schedule():void {
-    this.stopPolling();
-    this.pollTimer = setTimeout(() => { void this.poll(); }, this.delay);
-    this.delay = Math.min(MAX_DELAY, this.delay + DELAY_STEP);
+  private requestFailed(status:number, body:string):void {
+    this.setStatus('error');
+    this.outputTarget.textContent = `HTTP ${status}\n\n${body}`;
+    this.finish();
   }
 
-  private async poll():Promise<void> {
-    if (!this.runUrl || this.inFlight) {
-      return;
-    }
-    if (document.hidden) {
-      this.schedule();
-      return;
+  private apply(run:AiTextTransformRun):void {
+    if (this.runId === null) {
+      this.runId = run.id;
+      this.cancelTarget.disabled = run._links.cancel === undefined;
+      this.systemPromptTarget.textContent = run.systemPrompt ?? '';
     }
 
-    this.inFlight = true;
-    const requestedCursor = this.cursor;
-    try {
-      const response = await this.request(`${this.runUrl}?after=${requestedCursor}`, 'GET');
-      if (!response.ok) {
-        this.setStatus('error');
-        this.outputTarget.textContent = `Poll failed: HTTP ${response.status}`;
-        this.finish();
-        return;
-      }
-      if (requestedCursor !== this.cursor) {
-        return;
-      }
-      const run = await response.json() as RunResponse;
-      this.apply(run);
-      if (!TERMINAL_STATUSES.includes(run.status)) {
-        this.schedule();
-      }
-    } finally {
-      this.inFlight = false;
-    }
-  }
-
-  private apply(run:RunResponse):void {
     this.setStatus(run.status);
     run.events.forEach((event) => {
-      this.cursor = Math.max(this.cursor, event.seq);
       this.appendEventRow(event);
       switch (event.kind) {
         case 'text_delta':
@@ -236,14 +170,13 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
       }
     });
 
-    if (TERMINAL_STATUSES.includes(run.status)) {
+    if (AI_TEXT_TRANSFORM_TERMINAL_STATUSES.includes(run.status)) {
       this.finish();
     }
     this.renderRunMeta(run.status);
   }
 
   private finish():void {
-    this.stopPolling();
     this.stopTimer();
     this.finishedAt ??= performance.now();
     this.renderTimer();
@@ -252,27 +185,11 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     this.spinnerTarget.hidden = true;
   }
 
-  private request(url:string, method:'GET'|'POST', body?:string):Promise<Response> {
-    return fetch(url, {
-      method,
-      body,
-      credentials: 'same-origin',
-      headers: {
-        Accept: 'application/hal+json',
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-    });
-  }
-
   private reset():void {
-    this.stopPolling();
+    this.client?.dispose();
+    this.client = null;
     this.stopTimer();
     this.runId = null;
-    this.runUrl = null;
-    this.cancelUrl = null;
-    this.cursor = 0;
-    this.delay = MIN_DELAY;
     this.text = '';
     this.finishedAt = null;
     this.outputTarget.textContent = '';
@@ -304,19 +221,6 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     this.timerTarget.textContent = this.finishedAt === null ? `${seconds} s` : `${seconds} s total`;
   }
 
-  private stopPolling():void {
-    if (this.pollTimer !== null) {
-      clearTimeout(this.pollTimer);
-      this.pollTimer = null;
-    }
-  }
-
-  private handleVisibilityChange():void {
-    if (!document.hidden && this.runUrl && this.finishedAt === null && this.pollTimer === null && !this.inFlight) {
-      this.schedule();
-    }
-  }
-
   private setStatus(status:string):void {
     this.statusTarget.textContent = status;
     Object.values(LABEL_SCHEMES).forEach((cls) => this.statusTarget.classList.remove(cls));
@@ -327,7 +231,7 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     const rows:[string, string][] = [
       ['Run', this.runId ?? ''],
       ['Status', status],
-      ['Events', String(this.cursor)],
+      ['Events', String(this.client?.highestSeq ?? 0)],
       ['Elapsed', this.timerTarget.textContent ?? ''],
     ];
     this.runMetaTarget.textContent = '';
@@ -342,7 +246,7 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     });
   }
 
-  private appendEventRow(event:RunEvent):void {
+  private appendEventRow(event:AiTextTransformRunEvent):void {
     const row = document.createElement('tr');
     const cells = [
       String(event.seq),
