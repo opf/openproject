@@ -59,5 +59,10 @@ module ResourceAllocations
     def allocate_resource_path
       new_allocation_path(project, work_package_id: work_package.id)
     end
+
+    def allocatable?
+      work_package.project.present? &&
+        User.current.allowed_in_project?(:allocate_user_resources, work_package.project)
+    end
   end
 end
