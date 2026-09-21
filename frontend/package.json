@@ -198,7 +198,9 @@
     "test:watch": "ng test --watch=true",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "generate-typings": "tsc -d -p tsconfig.app.json",
+    "typecheck": "npm run typecheck:app && npm run typecheck:spec",
+    "typecheck:app": "tsc -d --noEmit -p tsconfig.app.json",
+    "typecheck:spec": "tsc --noEmit -p tsconfig.spec.json",
     "postinstall": "patch-package"
   },
   "allowScripts": {
