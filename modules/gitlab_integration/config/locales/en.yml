@@ -81,6 +81,14 @@ en:
       create_merge_request: Create merge request
       created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
@@ -181,6 +189,7 @@ en:
       git_snippets: Git snippets
       issues: Issues
       merge_requests: Merge requests
+      snippets_button_label: Git snippets
 
   label_gitlab_actor: "GitLab actor"
 

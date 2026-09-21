@@ -35,7 +35,7 @@ class WorkPackageGitlabTabController < ApplicationController
 
   before_action :set_work_package
 
-  def index
+  def tab
     tab_component = GitlabIntegration::WorkPackageGitlabTabComponent.new(@work_package)
     replace_via_turbo_stream(component: tab_component)
 
@@ -44,6 +44,10 @@ class WorkPackageGitlabTabController < ApplicationController
         render(tab_component, layout: false)
       end
     end
+  end
+
+  def git_snippets_dialog
+    respond_with_dialog(GitlabIntegration::GitSnippetsDialogComponent.new(@work_package))
   end
 
   private
