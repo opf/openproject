@@ -36,4 +36,8 @@ RSpec.describe WorkPackage, with_ee: %i[work_package_trash] do
   it "makes trashed records explicitly available" do
     expect(described_class.trashed).to contain_exactly(trashed)
   end
+
+  it "treats records without the trash column in their projection as active" do
+    expect(described_class.select(:id).find(active.id)).not_to be_trashed
+  end
 end

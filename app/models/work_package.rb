@@ -222,7 +222,7 @@ class WorkPackage < ApplicationRecord
   prepend Journable::Timestamps
 
   def trashed?
-    deleted_at.present?
+    has_attribute?(:deleted_at) && deleted_at.present?
   end
 
   def self.status_based_mode?
