@@ -76,6 +76,11 @@ en:
     gitlab_user_avatar_url: "GitLab avatar URL"
     gitlab_username: "GitLab username"
   gitlab_integration:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      created_by: Created by %{name}.
+      updated_at: Updated on %{date_time}.
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
@@ -159,7 +164,7 @@ en:
     work_package_gitlab_tab_component:
       blank_slates:
         branches:
-          description_html: Link an existing branch by adding the code %{code} to the branch name.
+          description_html: Link an existing branch by adding the code %{code} to the branch name, for example %{example}.
           title: No branches
         commits:
           description_html: Link an existing commit by adding the code %{code} to the message.

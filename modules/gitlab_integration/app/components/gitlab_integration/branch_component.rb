@@ -29,36 +29,19 @@
 #++
 
 module GitlabIntegration
-  class CollapsibleItemsComponent < ApplicationComponent
+  class BranchComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    attr_reader :heading, :container
-
-    alias_method :items, :model
-
-    def initialize(model = nil, container_id:, heading:, work_package:, empty_state: {}, **)
-      @container_id = container_id
-      @heading = heading
-      @work_package = work_package
-      @empty_state = empty_state
-
-      super(model, **)
-    end
+    alias_method :branch, :model
 
     private
 
-    def component_for(item)
-      case item
-      when GitlabBranch
-        BranchComponent.new(item)
-      when GitlabIssue
-        IssueComponent.new(item)
-      when GitlabMergeRequest
-        MergeRequestComponent.new(item)
-      else
-        raise ArgumentError, "Items of type #{item.class} are not yet supported by #{self.class}"
-      end
+    def meta_text
+      [
+        (t(".created_by", name: branch.gitlab_user.gitlab_name) if branch.gitlab_user),
+        t(".updated_at", date_time: format_time(branch.updated_at))
+      ].compact.join(" ")
     end
   end
 end
