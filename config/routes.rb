@@ -424,6 +424,7 @@ Rails.application.routes.draw do
   # Demo only (AI-126): shell of the AI action menu mounted into the description editor.
   namespace :ai do
     resource :text_transform_menu, only: :show
+    resource :text_transform_preview, only: :create
   end
 
   namespace :projects do

@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
           button.with_trailing_action_icon(icon: :"triangle-down")
           ""
         end
-        menu.with_item(label: "…", tag: :button, hidden: true, content_arguments: { data: item_data })
+        menu.with_item(label: "…", tag: :button, hidden: true, content_arguments: { type: :button, data: item_data })
       end
     %>
   <% end %>

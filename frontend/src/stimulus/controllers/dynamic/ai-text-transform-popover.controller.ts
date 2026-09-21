@@ -37,11 +37,12 @@ import {
 } from 'core-stimulus/controllers/dynamic/ai-text-transform-menu.controller';
 
 type PopoverState = 'generating'|'done'|'stopped'|'failed';
-type DemoFault = 'blocked'|'failed'|null;
 
 const RENDER_INTERVAL = 1200;
 const COPIED_FEEDBACK = 1500;
 const EDGE_MARGIN = 8;
+// Demo only: ?ai_demo_fault=blocked or =failed in the page URL makes the next runs end that way.
+const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
  * Demo (AI-126): the AI result popover. It runs the action chosen in the editor's AI menu
@@ -51,13 +52,12 @@ const EDGE_MARGIN = 8;
 export default class AiTextTransformPopoverController extends Controller<HTMLElement> {
   static targets = [
     'handle', 'grip', 'title', 'output', 'stopped', 'failed', 'failedMessage',
-    'generatingFooter', 'doneFooter', 'errorFooter', 'copyLabel', 'faultState',
+    'generatingFooter', 'doneFooter', 'errorFooter', 'copyLabel',
   ];
 
   static values = {
     runsUrl: String,
     renderUrl: String,
-    workPackageLink: String,
     editorGone: String,
     copied: String,
     copy: String,
@@ -74,10 +74,8 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   declare readonly doneFooterTarget:HTMLElement;
   declare readonly errorFooterTarget:HTMLElement;
   declare readonly copyLabelTarget:HTMLElement;
-  declare readonly faultStateTarget:HTMLElement;
   declare readonly runsUrlValue:string;
   declare readonly renderUrlValue:string;
-  declare readonly workPackageLinkValue:string;
   declare readonly editorGoneValue:string;
   declare readonly copiedValue:string;
   declare readonly copyValue:string;
@@ -87,7 +85,6 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   private input = '';
   private markdown = '';
   private result:string|null = null;
-  private demoFault:DemoFault = null;
   private lastRenderAt = 0;
   private renderTimer:ReturnType<typeof setTimeout>|null = null;
   private renderSequence = 0;
@@ -153,18 +150,6 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     setTimeout(() => { this.copyLabelTarget.textContent = this.copyValue; }, COPIED_FEEDBACK);
   }
 
-  forceError():void {
-    this.setDemoFault('failed');
-  }
-
-  forceGuardrail():void {
-    this.setDemoFault('blocked');
-  }
-
-  resetFault():void {
-    this.setDemoFault(null);
-  }
-
   private async start(detail:AiTextTransformStartDetail):Promise<void> {
     if (this.client?.running) {
       await this.client.cancel();
@@ -205,8 +190,9 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
       body.projectId = projectId;
       body.typeId = typeId;
     }
-    if (this.demoFault) {
-      body.demoFault = this.demoFault;
+    const demoFault = new URLSearchParams(window.location.search).get(DEMO_FAULT_PARAM);
+    if (demoFault) {
+      body.demoFault = demoFault;
     }
     return body;
   }
@@ -296,8 +282,8 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     });
   }
 
-  // The deltas are markdown, the popover shows formatted text: the server renders it, at most
-  // once per interval while the text streams in.
+  // The deltas are markdown, the popover shows formatted text: a demo endpoint renders it, at
+  // most once per interval while the text streams in.
   private scheduleRender():void {
     if (this.renderTimer !== null) {
       return;
@@ -316,11 +302,15 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     this.renderSequence += 1;
     const sequence = this.renderSequence;
 
-    const response = await fetch(this.renderUrl(), {
+    const response = await fetch(this.renderUrlValue, {
       method: 'POST',
-      body: this.markdown,
+      body: JSON.stringify({ markdown: this.markdown, work_package_id: this.contextIds().workPackageId }),
       credentials: 'same-origin',
-      headers: { 'Content-Type': 'text/plain; charset=UTF-8', 'X-Requested-With': 'XMLHttpRequest' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? '',
+      },
     });
     if (!response.ok || sequence !== this.renderSequence) {
       return;
@@ -330,26 +320,11 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     this.outputTarget.innerHTML = await response.text();
   }
 
-  private renderUrl():string {
-    const { workPackageId } = this.contextIds();
-    if (!workPackageId) {
-      return this.renderUrlValue;
-    }
-
-    const link = this.workPackageLinkValue.replace('__id__', String(workPackageId));
-    return `${this.renderUrlValue}?context=${encodeURIComponent(link)}`;
-  }
-
   private clearRenderTimer():void {
     if (this.renderTimer !== null) {
       clearTimeout(this.renderTimer);
       this.renderTimer = null;
     }
-  }
-
-  private setDemoFault(fault:DemoFault):void {
-    this.demoFault = fault;
-    this.faultStateTarget.textContent = fault === null ? '' : `next run: ${fault}`;
   }
 
   private beginDrag(event:PointerEvent):void {
