@@ -47,15 +47,11 @@ RSpec.shared_context "with a sprint report work package table" do
 
   current_user { user }
 
-  subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
+  subject(:rendered_component) { render_inline(described_class.new(sprint, project, breakdown)) }
 
   let(:rendered_html) { rendered_component.to_html }
   let(:table_element) { rendered_component.at("opce-embedded-work-package-table") }
   let(:query_props) { JSON.parse(table_element["data-query-props"]) }
-
-  before do
-    allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
-  end
 
   shared_examples "renders the sprint report widget box" do
     it "renders a full width widget box" do

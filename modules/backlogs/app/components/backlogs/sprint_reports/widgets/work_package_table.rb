@@ -36,6 +36,7 @@ module Backlogs
 
         param :sprint
         param :project
+        param :breakdown
 
         def title = t("#{i18n_key}.title", scope: i18n_scope)
 
@@ -107,10 +108,6 @@ module Backlogs
 
         def status_filter(operator)
           { status: { operator:, values: breakdown.done_status_ids.map(&:to_s) } }
-        end
-
-        def breakdown
-          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
         end
       end
     end
