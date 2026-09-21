@@ -1,0 +1,26 @@
+<%
+  verb = @status.payload["dry_run"] ? "checking_file" : "importing_file"
+  box = Primer::Box.new(
+    border: true,
+    border_radius: 2,
+    border_color: :muted,
+    p: 3,
+    mb: 4,
+    display: :flex,
+    align_items: :center,
+    style: "border-style: dashed"
+  )
+%>
+
+<%= render(box) do %>
+  <%= render Primer::Beta::Spinner.new(size: :small, mr: 3) %>
+
+  <div>
+    <%=
+      render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mb: 0)) do
+        t("work_packages.import.#{verb}", filename: @status.payload["filename"])
+      end
+    %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) { t("work_packages.import.running_note") } %>
+  </div>
+<% end %>

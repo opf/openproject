@@ -7537,8 +7537,78 @@ en:
           %{projects}. These will be preserved but any hierarchical relations will be removed.
 
     import:
+      check_file: "Check file"
+      checking_file: "Checking %{filename}"
+      choose_file: "Choose file"
+      clear: "Clear"
       download_template: "Download the template"
-      intro: "Create work packages in bulk by uploading a CSV file. Check the file first, then import it."
+      drop_or_click: "Drop a CSV file here or click to select one."
+      dry_run_caption: "Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before."
+      dry_run_label: "Check the file first, without importing"
+      file_label: "CSV file"
+      guidance:
+        column_reference: "column reference"
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: "UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}."
+        names_html: "Type, Status, Priority and Category are matched by name and must already exist. Assignees are matched by email address. See the %{link}."
+        title: "Before you start"
+      import_file: "Import file"
+      importing_file: "Importing %{filename}"
+      intro: "Create many work packages at once from a CSV file. Existing work packages are not changed."
+      report:
+        checked:
+          heading: "Ready to import"
+          import: "Import %{count} work packages"
+          kept: "The checked file is kept for a few hours, so importing it does not need a second upload."
+          text: "Nothing has been created yet. Review the summary below, then import."
+          title: "%{count} lines checked, no problems found"
+        download_problems: "Download as CSV"
+        file_rejected:
+          heading: "Header line"
+          line: "line 1 of %{filename}"
+          nothing: "Nothing was imported. Correct the file and upload it again."
+          text: "Correct the headers in the file and upload it again."
+          title: "The column headers could not be read"
+        headline:
+          assignees:
+            label: "Assignees"
+            subtitle: "matched by email address"
+          dated:
+            label: "Lines with dates"
+            subtitle: "a start or finish date"
+          types:
+            label: "Types"
+            subtitle: "used in this file"
+          work_packages:
+            label: "Work packages"
+            subtitle: "one for every line"
+        imported:
+          again: "Import another file"
+          back_dated: "These work packages carry imported dates, so they cannot be listed by the time they were created."
+          heading: "Import summary"
+          link: "View the %{count} imported work packages"
+          notifications: "Notifications were not sent for these work packages."
+          text_html: "Imported from %{filename} on %{date} at %{time}."
+          title: "%{count} work packages created"
+          work_packages: "work packages"
+        problems:
+          all: "%{count} problems, all shown."
+          available: "%{count} available values"
+          capped: "%{count} problems, %{shown} shown."
+          heading: "Problems"
+        rows_rejected:
+          text: "Everything was rolled back. Correct the lines below and upload the file again."
+          title: "Nothing was imported: %{problems} problems in %{lines} lines"
+        table:
+          attribute: "Column"
+          available: "Available"
+          column: "Column"
+          empty: "empty"
+          header: "Header"
+          message: "Problem"
+          row: "Line"
+          value: "Value"
+      running_note: "This runs in the background. Please do not close the page."
       title: "Import work packages"
       csv:
         file:

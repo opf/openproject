@@ -1,0 +1,20 @@
+<%
+  running = @status.present? && @status.payload["outcome"].blank?
+%>
+
+<%= render Primer::Box.new(id: "import_report") do %>
+  <% if running %>
+    <%=
+      render Primer::Box.new(
+        tag: :span,
+        hidden: true,
+        data: { work_packages__csv_import_target: "poll",
+                url: import_status_project_work_packages_path(@project, job: @status.job_id) }
+      )
+    %>
+    <%= render partial: "work_packages/import/running" %>
+  <% elsif @status.present? %>
+    <%= render Primer::Box.new(tag: :span, hidden: true, data: { work_packages__csv_import_target: "finished" }) %>
+    <%= render WorkPackages::Import::CSV::ReportComponent.new(status: @status, project: @project) %>
+  <% end %>
+<% end %>

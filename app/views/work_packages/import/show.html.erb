@@ -3,6 +3,7 @@
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t("work_packages.import.title") }
+    header.with_description { t("work_packages.import.intro") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },
        { href: project_work_packages_path(@project), text: t(:label_work_package_plural) },
@@ -11,9 +12,14 @@
   end
 %>
 
-<p><%= t("work_packages.import.intro") %></p>
+<%
+  max_size = Setting.attachment_max_size.to_i.kilobytes
+  too_large = t("work_packages.import.csv.file.too_large_before_upload", limit: number_to_human_size(max_size))
+%>
 
-<p>
-  <%= link_to t("work_packages.import.download_template"),
-              import_template_project_work_packages_path(@project) %>
-</p>
+<div data-controller="work-packages--csv-import"
+     data-work-packages--csv-import-max-size-value="<%= max_size %>"
+     data-work-packages--csv-import-too-large-value="<%= too_large %>">
+  <%= render partial: "work_packages/import/report" %>
+  <%= render partial: "work_packages/import/form" %>
+</div>
