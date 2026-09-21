@@ -60,4 +60,53 @@ RSpec.describe Members::CreateService, "integration", type: :model do
       end
     end
   end
+
+  describe "with a project membership" do
+    let(:project) { create(:project) }
+    let(:project_role) { create(:project_role) }
+    let(:params) do
+      {
+        principal: group,
+        project_id: project.id,
+        role_ids: [project_role.id]
+      }
+    end
+
+    it "inherits the membership to all users", :aggregate_failures do
+      expect(subject).to be_success
+
+      group.users.each do |user|
+        members = Member.where(user_id: user.id, project_id: project.id)
+        expect(members.count).to eq 1
+        expect(members.first.roles).to eq [project_role]
+      end
+    end
+
+    context "when the group already holds a project query share" do
+      let(:query) { create(:project_query) }
+      let(:query_role) { create(:view_project_query_role) }
+
+      before do
+        Shares::CreateService
+          .new(user: user1, contract_class: EmptyContract)
+          .call(entity: query, user_id: group.id, role_ids: [query_role.id])
+          .on_failure { |call| raise call.message }
+      end
+
+      it "leaves the inherited project query shares untouched", :aggregate_failures do
+        expect(subject).to be_success
+
+        members_by_user_id = Member
+          .where(user_id: group.users.select(:id), entity: query)
+          .includes(:roles)
+          .index_by(&:user_id)
+
+        group.users.each do |user|
+          member = members_by_user_id[user.id]
+          expect(member).to be_present
+          expect(member.roles).to eq [query_role]
+        end
+      end
+    end
+  end
 end
