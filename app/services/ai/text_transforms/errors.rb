@@ -50,6 +50,11 @@ module AI
       class Upstream < Error
         REASON = :upstream_error
       end
+
+      # Demo only (AI-126): a guardrail stopped the stream, the partial text must not be used.
+      class Blocked < Error
+        REASON = :blocked
+      end
     end
   end
 end

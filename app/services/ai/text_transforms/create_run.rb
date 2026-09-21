@@ -31,12 +31,13 @@
 module AI
   module TextTransforms
     class CreateRun
-      def initialize(user:, action:, context:, content:, availability: Availability.new)
+      def initialize(user:, action:, context:, content:, availability: Availability.new, demo_fault: nil)
         @user = user
         @action = action
         @context = context
         @content = content
         @availability = availability
+        @demo_fault = demo_fault
       end
 
       def call
@@ -50,7 +51,7 @@ module AI
 
       private
 
-      attr_reader :user, :action, :context, :content, :availability
+      attr_reader :user, :action, :context, :content, :availability, :demo_fault
 
       def unavailable(run)
         run.errors.add(:base,
@@ -71,7 +72,7 @@ module AI
       def system_prompt
         return "" if action.nil?
 
-        Prompt.build(action:, context:, content:).system
+        DemoFaultGateway.mark(Prompt.build(action:, context:, content:).system, demo_fault)
       end
     end
   end

@@ -79,6 +79,7 @@ module API
             optional :workPackageId, type: Integer
             optional :projectId, type: Integer
             optional :typeId, type: Integer
+            optional :demoFault, type: String, values: ::AI::TextTransforms::DemoFaultGateway::FAULTS
             mutually_exclusive :workPackageId, :projectId
             all_or_none_of :projectId, :typeId
           end
@@ -88,7 +89,7 @@ module API
             context = context_from_params
             action = ::AI::TextTransformAction.find_by(id: params[:actionId])
             call = ::AI::TextTransforms::CreateRun
-                     .new(user: current_user, action:, context:, content: params[:content])
+                     .new(user: current_user, action:, context:, content: params[:content], demo_fault: params[:demoFault])
                      .call
 
             raise_create_failure(call.errors) if call.failure?

@@ -2267,10 +2267,31 @@ en:
   ai:
     text_transform:
       errors:
+        blocked: "The response was blocked before it finished."
         connection_failed: "The AI service could not be reached."
         not_available: "The AI assistant is not available."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
+      menu:
+        label: "AI actions"
+      popover:
+        cancel: "Cancel"
+        close: "Close"
+        context_description: "Work package description"
+        copied: "Copied"
+        copy: "Copy"
+        discard: "Discard"
+        editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
+        failed_title: "Generation failed"
+        generating: "Generating…"
+        prototype_controls: "Prototype controls"
+        prototype_force_error: "force error"
+        prototype_force_guardrail: "force guardrail"
+        prototype_reset: "reset"
+        replace: "Replace"
+        stopped_description: "The response was blocked before it finished, so the partial text was discarded."
+        stopped_title: "Generation stopped"
+        try_again: "Try again"
   announcements:
     is_active: currently displayed
     is_inactive: currently not displayed
