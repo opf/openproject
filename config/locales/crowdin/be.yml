@@ -1630,6 +1630,8 @@ be:
         main-menu-bg-selected-background: Галоўнае меню калі выбрана
         primary-button-color: Асноўная кнопка
       custom_colors: Карыстальніцкія колеры
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
@@ -1706,6 +1708,7 @@ be:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -3035,7 +3038,6 @@ be:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -3114,8 +3116,6 @@ be:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.
       define_custom_style:
         description: Наладзьце ваш OpenProject з вашым уласным лагатыпам і колерамі.
         more_info: 'Заўвага: выкарыстаны лагатып будзе агульнадаступным.'
@@ -3500,15 +3500,15 @@ be:
     blocks:
       community: OpenProject community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3555,6 +3555,7 @@ be:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -5233,6 +5234,13 @@ be:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
@@ -5247,6 +5255,12 @@ be:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -5705,6 +5719,7 @@ be:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -6662,6 +6677,8 @@ be:
     getting_started: Getting started
     help_and_support: Help and support
   total_progress: Total progress
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

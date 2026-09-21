@@ -1418,6 +1418,8 @@ it:
         main-menu-bg-selected-background: Menu principale quando selezionato
         primary-button-color: Pulsante principale
       custom_colors: Colori personalizzati
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: non è un file font TTF valido.
@@ -1494,6 +1496,7 @@ it:
         ssl_error: 'Errore di connessione SSL al server Jira: %{message}'
         ssrf_block_doc_link: Consulta la nostra [documentazione](docs_url).
         ssrf_blocked: 'Connessione bloccata: l''host Jira viene risolto in un indirizzo IP privato. Se la tua istanza Jira è in esecuzione su una rete interna, autorizza il suo IP tramite la variabile d''ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Aggiunta
         creator: Autore
@@ -2759,7 +2762,6 @@ it:
       custom_actions: Azioni personalizzate
       custom_field_hierarchies: Gerarchie
       customize_life_cycle: Personalizza il ciclo di vita
-      date_alerts: Avvisi di data
       define_custom_style: Tema e logo personalizzati
       edit_attribute_groups: Modifica proprietà gruppo
       gantt_pdf_export: Esportazione PDF Gantt
@@ -2836,8 +2838,6 @@ it:
         description: I campi personalizzati gerarchici consentono di organizzare strutture gerarchiche di macro-attività e progetti utilizzando elenchi di selezione multilivello.
       customize_life_cycle:
         description: Crea e organizza fasi di progetto diverse da quelle forniti dalla pianificazione del ciclo di progetto PM2.
-      date_alerts:
-        description: Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.
       define_custom_style:
         description: Personalizza la tua installazione OpenProject con il tuo logo e i tuoi colori.
         more_info: 'Nota: il logo utilizzato sarà accessibile al pubblico.'
@@ -3212,16 +3212,16 @@ it:
     blocks:
       community: Comunità di OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Azioni assistite dall'IA su macro-attività, commenti e relazioni con il server MCP (piano Professional).
-            line_1: Più versioni di destinazione per le macro-attività.
-            line_2: Limiti e restrizioni globali per le registrazioni orarie (piano Professional).
-            line_3: Miglioramenti Agile per la modifica in blocco e il trascinamento delle schede dei backlog in applicazioni esterne.
-            line_4: Macro wiki disponibili in più editor di testo.
-            line_5: Ricerca migliorata degli identificatori delle macro-attività.
-            line_6: 'Disponibile nella Community: visualizzazione delle relazioni nelle tabelle delle macro-attività.'
-          new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
@@ -3267,6 +3267,7 @@ it:
         field_set: "%{field} impostato su %{value}"
         field_updated: "%{field} aggiornato"
         header: modifiche di %{author}
+        migrated: from Jira
         set_with_diff: "%{field} impostato (%{link})"
       meeting_cancelled: "(annullata)"
       meeting_deleted: "(eliminata)"
@@ -4918,6 +4919,13 @@ it:
     prev: Precedente
     prev_page: Pagina precedente
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Questo testo apparirà in ogni pagina al centro del piè di pagina.
@@ -4932,6 +4940,12 @@ it:
         label: Sillabazione
       hyphenation_language:
         label: Lingua e trattini
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Seleziona l'orientamento delle pagine nel documento PDF.
         label: Orientamento pagina
@@ -5382,6 +5396,7 @@ it:
     wizard:
       create_artifact_storage_error: Impossibile salvare l'artefatto nell'archivio file esterno
       create_artifact_work_package_error: Creazione della macro-attività dell'artefatto non riuscita
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Questo attributo non ha un testo guida definito.
       progress_label: "%{current} di %{total}"
       sections: Sezioni
@@ -6330,6 +6345,8 @@ it:
     getting_started: Per cominciare
     help_and_support: Guida e Assistenza
   total_progress: Progresso totale
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

@@ -125,6 +125,7 @@ describe('ProjectTimelineGraphComponent', () => {
     endDate: '2024-01-14',
     status: 'active',
     row: 0,
+    href: '/projects/some-project/backlogs?sprint_ids%5B%5D=20',
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
@@ -264,6 +265,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.className).toContain('op-timeline-sprint');
       expect(item!.className).toContain('op-timeline-sprint--active');
       expect(item!.itemType).toBe('sprint');
+      expect(item!.href).toBe(sprint.href);
     });
 
     it('does not add the active class for non-active sprints', () => {
@@ -550,8 +552,8 @@ describe('ProjectTimelineGraphComponent', () => {
     it('renders no caret side until the placement is known', () => {
       const { message } = renderView({ content: 'Launch' });
 
-      expect(Array.from(message.classList)).toEqual(['Popover-message']);
-      expect(message.style.getPropertyValue('--op-timeline-tooltip-caret-offset')).toBe('');
+      expect(Array.from(message.classList)).toEqual(['Popover-message', 'op-anchored-popover']);
+      expect(message.style.getPropertyValue('--op-anchored-popover-caret-offset')).toBe('');
     });
 
     it('turns the caret to face the anchor at the given offset', () => {
@@ -559,7 +561,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
       expect(message.classList.contains('Popover-message--left')).toBe(true);
       expect(message.classList.contains('Popover-message--bottom')).toBe(false);
-      expect(message.style.getPropertyValue('--op-timeline-tooltip-caret-offset')).toBe('30px');
+      expect(message.style.getPropertyValue('--op-anchored-popover-caret-offset')).toBe('30px');
     });
 
     it('drops the sideways caret when the popover moves back above the anchor', () => {
@@ -662,8 +664,8 @@ describe('ProjectTimelineGraphComponent', () => {
 
     let element:HTMLElement;
 
-    // Only the hover delay is faked; the caret waits for a real animation frame.
     const fakeHoverDelay = () => vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const nextFrame = () => new Promise(requestAnimationFrame);
 
     const popover = () => element.querySelector<HTMLElement>('.op-project-timeline-graph--tooltip')!;
     const message = () => popover().querySelector<HTMLElement>('.Popover-message')!;
@@ -680,17 +682,19 @@ describe('ProjectTimelineGraphComponent', () => {
         fixture.detectChanges();
         return element.querySelector(selector) !== null;
       });
+      await nextFrame();
       return element.querySelector<HTMLElement>(selector)!;
     };
 
-    const caretOffsetValue = () => message().style.getPropertyValue('--op-timeline-tooltip-caret-offset');
+    const caretOffsetValue = () => message().style.getPropertyValue('--op-anchored-popover-caret-offset');
 
-    const openTooltip = async (item:Element) => {
-      fakeHoverDelay();
+    // anchored-position places the popover in the frame after it opens.
+    const openTooltip = (item:Element) => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'cancelAnimationFrame'] });
       hover('mouseover', item);
       vi.advanceTimersByTime(500);
+      vi.advanceTimersToNextFrame();
       vi.useRealTimers();
-      await vi.waitUntil(() => caretOffsetValue() !== '');
     };
 
     const caretOffset = () => parseFloat(caretOffsetValue());
@@ -759,8 +763,8 @@ describe('ProjectTimelineGraphComponent', () => {
         expect(popover()).toBe(before);
       });
 
-      it('points the caret at the diamond from the side facing it', async () => {
-        await openTooltip(milestoneItem);
+      it('points the caret at the diamond from the side facing it', () => {
+        openTooltip(milestoneItem);
 
         const diamond = milestoneItem.querySelector('.vis-dot')!.getBoundingClientRect();
         const box = popover().getBoundingClientRect();
@@ -772,16 +776,16 @@ describe('ProjectTimelineGraphComponent', () => {
         expect(message().classList.contains('Popover-message--bottom')).toBe(popoverIsAbove);
       });
 
-      it('closes the tooltip when the page scrolls', async () => {
-        await openTooltip(milestoneItem);
+      it('closes the tooltip when the page scrolls', () => {
+        openTooltip(milestoneItem);
         expect(isOpen()).toBe(true);
 
         document.dispatchEvent(new Event('scroll'));
         expect(isOpen()).toBe(false);
       });
 
-      it('closes the tooltip when the window is resized', async () => {
-        await openTooltip(milestoneItem);
+      it('closes the tooltip when the window is resized', () => {
+        openTooltip(milestoneItem);
         expect(isOpen()).toBe(true);
 
         window.dispatchEvent(new Event('resize'));
@@ -813,7 +817,7 @@ describe('ProjectTimelineGraphComponent', () => {
     it('keeps a long milestone name inside the viewport', async () => {
       const longName = 'really long milestone '.repeat(12).trim();
       const item = await renderItems('.vis-item.vis-point', { milestonesData: [{ ...milestone, subject: longName }] });
-      await openTooltip(item);
+      openTooltip(item);
 
       const box = popover().getBoundingClientRect();
       expect(box.left).toBeGreaterThanOrEqual(0);
@@ -823,7 +827,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
     it('anchors a phase bar on the bar itself', async () => {
       const bar = await renderItems('.vis-item.vis-range', { phasesData: [phaseWithDates] });
-      await openTooltip(bar);
+      openTooltip(bar);
 
       expect(caretOffset()).toBeCloseTo(expectedCaretOffset(bar.getBoundingClientRect()), 0);
       expect(popover().textContent).toContain('Design');
@@ -831,7 +835,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
     it('anchors a gate on its visible icon rather than the hidden dot', async () => {
       const gate = await renderItems('.vis-item.vis-point.op-timeline-gate', { phasesData: [phaseWithGates] });
-      await openTooltip(gate);
+      openTooltip(gate);
 
       const icon = gate.getBoundingClientRect();
       expect(icon.width).toBeGreaterThan(0);
@@ -842,7 +846,7 @@ describe('ProjectTimelineGraphComponent', () => {
     it('shows every gate of a cluster', async () => {
       const secondPhase = { ...phaseWithGates, id: 3, name: 'Test', startGateName: 'Test Start', finishGate: false };
       const cluster = await renderItems('.vis-item.vis-cluster', { phasesData: [phaseWithGates, secondPhase] });
-      await openTooltip(cluster);
+      openTooltip(cluster);
 
       expect(popover().textContent).toContain('Build Start');
       expect(popover().textContent).toContain('Test Start');

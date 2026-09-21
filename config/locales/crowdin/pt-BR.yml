@@ -1414,6 +1414,8 @@ pt-BR:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão primário
       custom_colors: Cores personalizadas
+      default_colors:
+        description: Defina uma paleta de cores para usar em outro lugar da aplicação. Isto estará disponível, por exemplo, ao escolher uma cor para representar um status ou um tipo.
       edit_color: Editar %{color}
       fonts:
         file_is_invalid: não é um arquivo de fonte TTF válido.
@@ -1490,6 +1492,7 @@ pt-BR:
         ssl_error: 'Erro de SSL ao conectar ao servidor Jira: %{message}'
         ssrf_block_doc_link: Consulte nossa [documentação](docs_url).
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: API Jira não tem nenhum endpoint no %{path} (status %{status})
       columns:
         added: Adicionado
         creator: Criador
@@ -2753,7 +2756,6 @@ pt-BR:
       custom_actions: Ações Personalizadas
       custom_field_hierarchies: Hierarquias
       customize_life_cycle: Personalizar Ciclo de Vida
-      date_alerts: Alertas de data
       define_custom_style: Tema e logotipo personalizados
       edit_attribute_groups: Editar atributo de grupos
       gantt_pdf_export: Exportar diagrama de Gantt para PDF
@@ -2830,8 +2832,6 @@ pt-BR:
         description: Campos personalizados de hierarquia permitem organizar estruturas hierárquicas nos pacotes de trabalho e projetos por meio de listas de seleção de vários níveis.
       customize_life_cycle:
         description: Criar e organizar fases do projeto diferentes das fornecidas pelo planejamento do ciclo de projeto PM2.
-      date_alerts:
-        description: Com os alertas de data, você será notificado sobre as próximas datas de início ou término para não perder nem esquecer nenhum prazo importante.
       define_custom_style:
         description: Personalize a instalação de seu OpenProject com seu logotipo e cores.
         more_info: 'Obs.: o logotipo usado pode ser acessado publicamente.'
@@ -3208,15 +3208,15 @@ pt-BR:
     blocks:
       community: Comunidade do OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Ações assistidas por IA em pacotes de trabalho, comentários e relações com o servidor MCP (plano Professional).
-            line_1: Várias versões de destino para pacotes de trabalho.
-            line_2: Limites e restrições globais para lançamentos de horas (plano Professional).
-            line_3: Melhorias ágeis para edição em massa e arraste de cartões de Backlogs para aplicativos externos.
-            line_4: Macros de wiki disponíveis em mais editores de texto.
-            line_5: Pesquisa aprimorada de identificadores de pacotes de trabalho.
-            line_6: 'Lançado para a Community: exibição de relações nas tabelas de pacotes de trabalho.'
+            line_0: Criar pacotes de trabalho diretamente no Documents.
+            line_1: Pesquise e filtre pacotes de trabalho nos Backlogs.
+            line_2: Escolha se deseja manter os descendentes ao excluir um pacote de trabalho.
+            line_3: Use o Servidor MCP para acompanhar o tempo, pesquisar pacotes de trabalho pelo ID de exibição e mais (plano Profissional).
+            line_4: Insira o trabalho planejado em horas, dias, semanas ou meses.
+            line_5: Veja o andamento da importação ao utilizar o Jira Migrator.
+            line_6: Use alertas de data na edição da Comunidade.
           new_features_title: 'A versão contém vários novos recursos e melhorias, como:
 
             '
@@ -3263,6 +3263,7 @@ pt-BR:
         field_set: "%{field} definido como %{value}"
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
+        migrated: do Jira
         set_with_diff: "%{field} definido (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(excluído)"
@@ -4912,6 +4913,13 @@ pt-BR:
     prev: Anterior
     prev_page: Página anterior
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Custo por unidade
+      description: Descrição
+      labor: Custos de trabalho
+      material: Custos unitários
+      sum: Soma
+      total: Total
     dialog:
       footer_center:
         caption: Este texto aparecerá centralizado no rodapé de todas as páginas.
@@ -4926,6 +4934,12 @@ pt-BR:
         label: Hifenização
       hyphenation_language:
         label: Idioma e hifenização
+      include_budget:
+        caption: Incluam os orçamentos do projeto com seus itens de custos unitários e de mão de obra previstos.
+        label: Orçamentos do projeto
+      include_lifecycle:
+        caption: Incluir as fases do projeto e seus intervalos de datas.
+        label: Ciclo de vida do projeto
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
         label: Orientação da página
@@ -5376,6 +5390,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
+      no_custom_fields_html: Este projeto não possui atributos do projeto ativados para o assistente. Por favor, ative pelo menos um nas configurações do projeto <a href="%{link}"></a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
@@ -6314,6 +6329,8 @@ pt-BR:
     getting_started: Guia de introdução
     help_and_support: Ajuda e suporte
   total_progress: Progresso total
+  tree_view:
+    label_empty_sub_tree: Sem itens
   types:
     creation_wizard:
       add_variant: Adicionar uma variante a %{name}

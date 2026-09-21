@@ -29,8 +29,10 @@
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { render } from 'lit-html';
 import type { Timeline } from 'vis-timeline/standalone';
+import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
+import { liveRect } from 'core-app/shared/components/anchored-popover/live-rect';
+import { visibleRect } from 'core-app/shared/components/anchored-popover/visible-rect';
 import type { ProjectTimelineTooltipBuilder, TooltipView } from './project-timeline-tooltip.builder';
-import { caretPlacement } from './project-timeline-tooltip-caret';
 
 const TOOLTIP_DELAY_IN_MS = 500;
 
@@ -96,39 +98,32 @@ export class ProjectTimelineTooltipPopover {
   }
 
   private show({ item, event }:ItemHoverEvent):void {
-    const anchor = event.target instanceof Element ? this.anchorFor(event.target) : null;
+    const anchorEl = event.target instanceof Element ? this.anchorFor(event.target) : null;
     const content = this.visItemSet()?.getItemById(item)?.getTitle();
-    if (!anchor || !content) {
+    if (!anchorEl || !content) {
       this.hide();
       return;
     }
 
-    this.view = { anchor, content, caret: null };
+    this.view = { anchor: liveRect(() => visibleRect(anchorEl)), content, caret: null };
     this.render();
 
     this.clearTimer();
     this.timer = window.setTimeout(() => {
       this.timer = null;
-      this.open(anchor);
+      this.open(anchorEl);
     }, TOOLTIP_DELAY_IN_MS);
   }
 
-  // `anchored-position` positions the popover in a frame it requests on
-  // `beforetoggle` and does not report which side it settled on, so the caret
-  // is derived from the resulting geometry one frame after opening.
-  private open(anchor:HTMLElement):void {
-    if (!anchor.isConnected) return;
+  private open(anchorEl:HTMLElement):void {
+    if (!anchorEl.isConnected) return;
 
-    this.popover?.togglePopover(true);
-    requestAnimationFrame(() => this.alignCaret());
-  }
-
-  private alignCaret():void {
     const popover = this.popover;
     const { anchor } = this.view;
-    if (!popover || !anchor || !popover.matches(':popover-open')) return;
+    if (!popover || !anchor) return;
 
-    this.view = { ...this.view, caret: caretPlacement(popover.getBoundingClientRect(), anchor.getBoundingClientRect()) };
+    popover.togglePopover(true);
+    this.view = { ...this.view, caret: placePopover(popover, anchor) };
     this.render();
   }
 

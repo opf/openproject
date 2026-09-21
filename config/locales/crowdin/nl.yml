@@ -1134,7 +1134,7 @@ nl:
         other: Health reports
       issue_priority:
         one: Prioriteit
-        other: Priorities
+        other: Prioriteiten
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1414,6 +1414,8 @@ nl:
         main-menu-bg-selected-background: Hoofdmenu wanneer geselecteerd
         primary-button-color: Primaire knop
       custom_colors: Aangepaste kleuren
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
@@ -1490,6 +1492,7 @@ nl:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -1580,8 +1583,8 @@ nl:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
-              other: "%{count} issues"
+              one: 1 probleem
+              other: "%{count} problemen"
             projects:
               one: 1 project
               other: "%{count} projects"
@@ -2755,7 +2758,6 @@ nl:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2832,8 +2834,6 @@ nl:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet.
       define_custom_style:
         description: Pas uw OpenProject installatie aan met uw eigen logo en kleuren.
         more_info: 'Opmerking: het gebruikte logo is openbaar toegankelijk.'
@@ -3208,15 +3208,15 @@ nl:
     blocks:
       community: OpenProject gemeenschap
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3263,6 +3263,7 @@ nl:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -3326,7 +3327,7 @@ nl:
       budget: a non-visible budget
       category: a non-visible category
       default: a non-visible record
-      issue_priority: a non-visible priority
+      issue_priority: een niet-zichtbare prioriteit
       project: a non-visible project
       sprint: a non-visible sprint
       time_entry_activity: a non-visible activity
@@ -4569,7 +4570,7 @@ nl:
         title: Non-participating
         work_package_commented: All new comments
         work_package_created: New work packages
-        work_package_prioritized: All priority changes
+        work_package_prioritized: Alle prioriteitswijzigingen
         work_package_processed: All status changes
         work_package_scheduled: All date changes
       participating:
@@ -4911,6 +4912,13 @@ nl:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Deze tekst verschijnt op elke pagina in het midden van de voettekst.
@@ -4925,6 +4933,12 @@ nl:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -5369,12 +5383,13 @@ nl:
         show_work_packages: Show work packages
         work_packages_graph: Werkpakketten grafiek
       work_package_priorities:
-        new_label: New priority
+        new_label: Nieuwe prioriteit
     status:
       button_edit: Edit status
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -6320,6 +6335,8 @@ nl:
     getting_started: Aan de slag
     help_and_support: Hulp en ondersteuning
   total_progress: Totaal vorderingen
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

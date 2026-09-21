@@ -59,6 +59,7 @@ export interface ProjectSprintData {
   endDate:string;
   status:string;
   row:number;
+  href:string;
 }
 
 export interface ProjectTimelineItem {
@@ -76,6 +77,7 @@ export interface ProjectTimelineItem {
   definitionId?:number;
   typeId?:number;
   workPackageId?:number;
+  href?:string;
   isCluster?:boolean;
   items?:ProjectTimelineItem[];
 }
@@ -202,6 +204,7 @@ export class ProjectTimelineItemBuilder {
       type: 'range',
       className: `op-timeline-sprint${isActive ? ' op-timeline-sprint--active' : ''}`,
       itemType: 'sprint',
+      href: sprint.href,
     };
   }
 

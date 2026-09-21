@@ -95,6 +95,9 @@ pt-BR:
         principal:
           caption: Alocar horas para um usuário específico.
           label: Usuário
+      missing_working_hours:
+        none: O usuário selecionado não tem horário de trabalho configurado para essas datas; portanto, considera-se que ele não tem disponibilidade.
+        partial: O usuário selecionado não possui horário de trabalho configurado para %{dates}; portanto, esses dias são considerados como sem disponibilidade.
       outside_dates:
         description: As datas do recurso selecionado (%{resource_dates}) estão fora do período do pacote de trabalho (%{work_package_dates}).
       overbooking:

@@ -1634,6 +1634,8 @@ uk:
         main-menu-bg-selected-background: Головне меню в разі вибору
         primary-button-color: Основна кнопка
       custom_colors: Кольори за власними вподобаннями
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: не є дійсним файлом шрифту TTF.
@@ -1710,6 +1712,7 @@ uk:
         ssl_error: 'При підключенні до сервера Jira сталася помилка SSL: %{message}'
         ssrf_block_doc_link: Перегляньте [документацію](docs_url).
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Додано
         creator: Автор
@@ -3041,7 +3044,6 @@ uk:
       custom_actions: Користувацькі дії
       custom_field_hierarchies: Ієрархії
       customize_life_cycle: Налаштування життєвого циклу
-      date_alerts: Оповіщення про дати
       define_custom_style: Користувацька тема й логотип
       edit_attribute_groups: Редагування груп атрибутів
       gantt_pdf_export: Експорт діаграми Ґантта в PDF
@@ -3120,8 +3122,6 @@ uk:
         description: Користувацькі поля типу «Ієрархія» дають змогу впорядковувати ієрархічні структури в пакети робіт і проєкти, використовуючи багаторівневі розкривні списки.
       customize_life_cycle:
         description: Створюйте й упорядковуйте етапи й проєкту, відмінні від тих, що передбачено плануванням циклу проєкту PM2.
-      date_alerts:
-        description: Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни й не забуватимете про них.
       define_custom_style:
         description: Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів.
         more_info: 'Примітка: вибраний логотип буде загальнодоступний.'
@@ -3506,16 +3506,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: дії на основі ШІ з пакетами робіт, коментарями й звʼязками з MCP-сервером (у тарифному плані Professional);
-            line_1: можливість використовувати кілька цільових версій для пакетів робіт;
-            line_2: загальні ліміти й обмеження для записів часу (у тарифному плані Professional);
-            line_3: покращення в межах Agile, повʼязані з масовим редагуванням і перетягуванням карток беклогів у зовнішні додатки;
-            line_4: макроси Wiki, доступні в більшій кількості текстових редакторів;
-            line_5: удосконалений пошук ідентифікаторів пакетів робіт;
-            line_6: відображення зв’язків у таблицях пакетів робіт (випущено для спільноти).
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3561,6 +3561,7 @@ uk:
         field_set: Для поля «%{field}» вибрано значення «%{value}»
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
+        migrated: from Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
@@ -5236,6 +5237,13 @@ uk:
     prev: Попереднє
     prev_page: Попередня сторінка
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
@@ -5250,6 +5258,12 @@ uk:
         label: Перенесення
       hyphenation_language:
         label: Мова й поділ слів на склади
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Виберіть орієнтацію сторінок у PDF-документі.
         label: Орієнтація сторінки
@@ -5708,6 +5722,7 @@ uk:
     wizard:
       create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
       create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
@@ -6662,6 +6677,8 @@ uk:
     getting_started: Починаємо
     help_and_support: Допомога та підтримка
   total_progress: Загальний прогрес
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

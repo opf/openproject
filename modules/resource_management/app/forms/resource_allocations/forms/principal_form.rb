@@ -31,6 +31,8 @@
 module ResourceAllocations
   module Forms
     class PrincipalForm < ApplicationForm
+      REFRESH_ACTION = "change->refresh-on-form-changes#triggerTurboStream"
+
       form do |f|
         f.autocompleter(
           name: :principal_id,
@@ -47,7 +49,8 @@ module ResourceAllocations
             defaultData: true,
             focusDirectly: false,
             multiple: false,
-            appendTo: "##{@dialog_id}"
+            appendTo: "##{@dialog_id}",
+            hiddenFieldAction: REFRESH_ACTION
           }
         )
       end

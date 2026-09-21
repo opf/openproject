@@ -371,7 +371,7 @@ nl:
       clear_selection: Selectie wissen
       include_subprojects: Inclusief alle sub-projecten
       no_results: Geen enkel project komt overeen met uw zoekcriteria.
-      search_placeholder: Search projects...
+      search_placeholder: Zoek projecten...
       selected_filter:
         all: Alle projecten
         selected: Alleen geselecteerd
@@ -646,11 +646,11 @@ nl:
       date_alerts:
         milestone_date: Milestone date
         overdue: Te laat
-        overdue_since: for %{difference_in_days}.
+        overdue_since: voor %{difference_in_days}.
         property_is: is in %{difference_in_days}.
-        property_is_deleted: is deleted.
-        property_today: is today.
-        property_was: was %{difference_in_days} ago.
+        property_is_deleted: is verwijderd.
+        property_today: is vandaag.
+        property_was: was %{difference_in_days} geleden.
       no_unread: Geen ongelezen meldingen
       reasons:
         assigned: Toegewezene
@@ -658,7 +658,7 @@ nl:
         created: Gemaakt
         dateAlert: Date alert
         mentioned: Genoemd
-        prioritized: Prioritized
+        prioritized: Geprioriteerd
         processed: Verwerkt
         reminder: Reminder
         responsible: Verantwoording afleggen
@@ -711,12 +711,12 @@ nl:
         timeout: Time-out
     pagination:
       no_other_page: U bent op de enige pagina.
-      page_navigation: Pagination navigation
+      page_navigation: Navigatie paginanummers
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
       pages_skipped: Pages skipped.
-      per_page_navigation: Items per page selection
+      per_page_navigation: Selectie van het aantal items per pagina
     placeholders:
       default: "-"
       description: 'Beschrijving: Klik om te bewerken...'
@@ -746,7 +746,7 @@ nl:
       add_new_relation: Maak nieuwe relatie
       add_parent: Voeg bestaande ouder toe
       add_predecessor: Toevoegen van de voorganger
-      add_successor: Add successor
+      add_successor: Opvolger toevoegen
       change_parent: Wijzig bovenliggende pagina
       create_new: Nieuwe aanmaken
       group_by_relation_type: Groep per relatietype
@@ -916,7 +916,7 @@ nl:
         removal_label: Removed from view within the comparison time period
       bulk_actions:
         delete: Selectie verwijderen
-        duplicate: Bulk duplicate
+        duplicate: Dupliceren in bulk
         edit: Aanpassen in bulk
         move: Bulk verandering van project
       button_clear: Wissen
@@ -946,7 +946,7 @@ nl:
       description_options_hide: Verberg opties
       description_options_show: Toon opties
       duplicate:
-        title: Duplicate work package
+        title: Dupliceer werkpakket
       edit_attribute: "%{attribute} - Bewerken"
       faulty_query:
         description: Uw overzicht is onjuist en kan niet worden verwerkt.
@@ -1069,7 +1069,7 @@ nl:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
       sharing:
-        show_all_users: Show all users with whom the work package has been shared with
+        show_all_users: Toon alle gebruikers met wie het werkpakket is gedeeld
         title: Werkpakket delen
       table:
         configure_button: Configureer werkpakkettabel

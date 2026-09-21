@@ -66,8 +66,8 @@ fa:
 
       '
     login_with_auth_provider: یا با حساب موجود خود وارد سیستم شوید
-    omniauth_direct_login_continue: Continue to sign in
-    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
+    omniauth_direct_login_continue: ادامه برای ورود
+    omniauth_direct_login_redirecting: در حال هدایت شما به ارائه‌دهنده هویت…
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
     signup_title: ایجاد حساب در %{app_title}
     signup_with_external_account: ثبت‌نام با حساب خارجی
@@ -86,20 +86,20 @@ fa:
         types: انواع بسته کاری
         usage_scope: دامنه
       ai/text_transform_run:
-        action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
-        status: Status
-        system_prompt: System prompt
-        user: User
-        uuid: UUID
+        action: عملیات
+        cancel_requested: درخواست لغو
+        error_message: پیام خطا
+        finished_at: زمان پایان
+        input: ورودی
+        status: وضعیت
+        system_prompt: پرامپت سیستمی
+        user: کاربر
+        uuid: شناسه UUID
       ai/text_transform_run_event:
-        kind: Kind
-        payload: Payload
-        run: Run
-        seq: Sequence number
+        kind: نوع
+        payload: داده
+        run: اجرا
+        seq: شماره توالی
       announcements:
         show_until: نمایش تا
       attachment:
@@ -142,9 +142,9 @@ fa:
         is_for_all: برای همه پروژه‌ها
         is_required: الزامی
         max_length: حداکثر طول
-        max_value: Maximum value
+        max_value: حداکثر مقدار
         min_length: حداقل طول
-        min_value: Minimum value
+        min_value: حداقل مقدار
         multi_value: اجازه انتخاب چندگانه
         possible_values: مقادیر ممکن
         regexp: عبارت منظم
@@ -590,7 +590,7 @@ fa:
         regex_list_invalid: خطوط %{invalid_lines} به‌عنوان عبارت منظم قابل تجزیه نیستند.
         regex_match_failed: با عبارت منظم %{expression} مطابقت ندارد.
         smaller_than_or_equal_to_max_length: باید کوچک‌تر از یا برابر با حداکثر طول باشد.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: باید کمتر از یا مساوی حداکثر مقدار باشد.
         ssrf_filtered: سیاست SSRF این نمونه OpenProject را نقض می‌کند.
         status_transition_invalid: نامعتبر است، زیرا برای نقش‌های کاربر فعلی هیچ انتقال معتبری از وضعیت قبلی به وضعیت جدید وجود ندارد.
         system_wide_non_working_day_exists: با یک روز غیرکاری سراسری موجود برای این تاریخ تداخل دارد.
@@ -1017,11 +1017,11 @@ fa:
         one: عملیات تبدیل متن
         other: عملیات تبدیل متن
       ai/text_transform_run:
-        one: Text transform run
-        other: Text transform runs
+        one: اجرای تبدیل متن
+        other: اجراهای تبدیل متن
       ai/text_transform_run_event:
-        one: Text transform run event
-        other: Text transform run events
+        one: رویداد اجرای تبدیل متن
+        other: رویدادهای اجرای تبدیل متن
       announcement:
         one: اعلان
         other: اعلان‌ها
@@ -1399,11 +1399,11 @@ fa:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
     custom_styles:
       color_groups:
-        base_colors: Base colors
-        main_menu: Main lateral menu
-        top_header_colors: Top header colors
+        base_colors: رنگ‌های پایه
+        main_menu: منوی کناری اصلی
+        top_header_colors: رنگ‌های سربرگ بالا
       color_theme: رنگ زمینه
-      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
+      color_theme_caption: از یکی از پوسته‌های پیش‌فرض OpenProject استفاده کنید، یا با انتخاب «پوسته سفارشی»، پوسته خود را با رنگ‌های دلخواه بسازید.
       color_theme_custom: شخصی
       colors:
         accent-color: رنگ تأکیدی
@@ -1412,15 +1412,17 @@ fa:
         main-menu-bg-selected-background: منوی اصلی در حالت انتخاب
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
-      edit_color: Edit %{color}
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+      edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
         file_too_large: بیش از حد بزرگ است (حداکثر اندازه %{count} مگابایت).
       instructions:
         accent-color: رنگ پیوندها و سایر عناصر دارای تأکید متوسط.
-        header-bg-color: Default background color of the app header.
+        header-bg-color: رنگ پس‌زمینه پیش‌فرض سربرگ برنامه.
         main-menu-bg-color: رنگ پس‌زمینه منوی سمت چپ.
-        main-menu-bg-selected-background: Background color of menu items when selected.
+        main-menu-bg-selected-background: رنگ پس‌زمینه موارد منو هنگام انتخاب.
         primary-button-color: رنگ تأکیدی قوی که برای مهم‌ترین دکمه هر صفحه استفاده می‌شود.
       manage_colors: ویرایش گزینه‌های انتخاب رنگ
       tab_branding: برندسازی
@@ -1488,6 +1490,7 @@ fa:
         ssl_error: 'خطای SSL هنگام اتصال به سرور Jira: %{message}'
         ssrf_block_doc_link: لطفاً [مستندات](docs_url) را ببینید.
         ssrf_blocked: 'اتصال مسدود شد: میزبان Jira به یک نشانی IP خصوصی Resolve می‌شود. اگر نمونه Jira شما روی شبکه داخلی اجرا می‌شود، IP آن را از طریق متغیر محیطی OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST مجاز کنید.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: افزوده‌شده
         creator: ایجادکننده
@@ -2195,7 +2198,7 @@ fa:
     label_delete_token: حذف پشتیبان گیری توکن
     label_reset_token: بازنشانی پشتیبانی گیری توکن
     label_token_users: کاربران زیر توکن نسخه پشتیبان فعال دارند
-    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+    missing_attachments_notice_html: '<br/> <b>امکان خواندن %{file_count} فایل وجود نداشت</b> و از این نسخه پشتیبان حذف شدند. نام آرشیو با پسوند "-incomplete" تغییر داده شد تا مشخص شود برخی پیوست‌ها در آن موجود نیستند.
 
       '
     reset_token:
@@ -2487,8 +2490,8 @@ fa:
         all: ۰ یعنی بدون محدودیت
         project: ۰ یعنی بدون محدودیت
       min_max_value:
-        all: Leave blank for no restriction
-        project: Leave blank for no restriction
+        all: برای بدون محدودیت، خالی بگذارید
+        project: برای بدون محدودیت، خالی بگذارید
       multi_select:
         all: به کاربر اجازه می‌دهد چند مقدار به این فیلد سفارشی تخصیص دهد.
         project: به کاربر اجازه می‌دهد چند مقدار به این ویژگی تخصیص دهد.
@@ -2751,7 +2754,6 @@ fa:
       custom_actions: اقدام‌های سفارشی
       custom_field_hierarchies: سلسله‌مراتب‌ها
       customize_life_cycle: سفارشی‌سازی چرخه عمر
-      date_alerts: هشدارهای تاریخ
       define_custom_style: پوسته و لوگوی سفارشی
       edit_attribute_groups: ویرایش گروه‌های ویژگی
       gantt_pdf_export: خروجی PDF گانت
@@ -2828,8 +2830,6 @@ fa:
         description: فیلدهای سفارشی سلسله‌مراتبی با استفاده از فهرست‌های انتخاب چندسطحی امکان سازمان‌دهی ساختارهای سلسله‌مراتبی در بسته‌های کاری و پروژه‌ها را فراهم می‌کنند.
       customize_life_cycle:
         description: مرحله‌های پروژه متفاوت از موارد ارائه‌شده در برنامه‌ریزی چرخه پروژه PM2 ایجاد و سازمان‌دهی کنید.
-      date_alerts:
-        description: با هشدارهای تاریخ، درباره تاریخ شروع یا پایان نزدیک‌شونده مطلع می‌شوید تا هیچ موعد مهمی را از دست ندهید یا فراموش نکنید.
       define_custom_style:
         description: نصب OpenProject خود را با لوگو و رنگ‌های خودتان سفارشی کنید.
         more_info: 'توجه: لوگوی استفاده‌شده به‌صورت عمومی قابل دسترسی خواهد بود.'
@@ -3206,16 +3206,16 @@ fa:
     blocks:
       community: جامعه OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: اقدام‌های مبتنی بر هوش مصنوعی روی بسته‌های کاری، دیدگاه‌ها و روابط با MCP Server (طرح Professional).
-            line_1: چند نسخه هدف برای بسته‌های کاری.
-            line_2: محدودیت‌ها و قیود سراسری برای ورودی‌های زمان (طرح Professional).
-            line_3: بهبودهای Agile برای ویرایش گروهی و Drag کردن کارت‌های بک‌لاگ به برنامه‌های خارجی.
-            line_4: Macroهای Wiki در ویرایشگرهای متن بیشتری در دسترس هستند.
-            line_5: جستجوی بهبودیافته برای شناسه‌های بسته کاری.
-            line_6: 'منتشرشده برای Community: نمایش روابط در جدول‌های بسته کاری.'
-          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید مختلفی است، از جمله:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -3261,6 +3261,7 @@ fa:
         field_set: "%{field} روی %{value} تنظیم شد"
         field_updated: "%{field} به‌روزرسانی شد"
         header: تغییرات توسط %{author}
+        migrated: from Jira
         set_with_diff: "%{field} تنظیم شد (%{link})"
       meeting_cancelled: "(لغوشده)"
       meeting_deleted: "(حذف‌شده)"
@@ -4280,7 +4281,7 @@ fa:
   mail_body_account_information: اطلاعات حساب شما
   mail_body_account_information_external: می‌توانید از حساب %{value} خود برای ورود استفاده کنید.
   mail_body_backup_ready: 'درخواست پشتیبان گیری شما آماده است. می توانید از اینجا دانلود کنید: '
-  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+  mail_body_backup_ready_incomplete: 'امکان خواندن %{file_count} فایل وجود نداشت و از این نسخه پشتیبان حذف شدند. آرشیو دانلودشده با پسوند "-incomplete" نام‌گذاری شده است تا مشخص شود برخی پیوست‌ها در آن موجود نیستند.
 
     '
   mail_body_backup_token_info: توکن قبلی دیگر معتبر نیست.
@@ -4606,7 +4607,7 @@ fa:
   notice_account_already_activated: حساب از قبل فعال شده است.
   notice_account_invalid_credentials: نام کاربری یا گذرواژه نامعتبر است
   notice_account_invalid_credentials_or_blocked: نام کاربری یا گذرواژه نامعتبر است یا حساب به‌دلیل چند تلاش ناموفق ورود مسدود شده است. در این صورت پس از مدت کوتاهی به‌طور خودکار رفع مسدودی می‌شود.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: اگر حساب شما برای ورود یکپارچه تنظیم شده است، به‌جای آن از ارائه‌دهنده هویت خود برای ورود استفاده کنید.
   notice_account_invalid_token: توکن فعال‌سازی نامعتبر است
   notice_account_lost_email_sent: ایمیلی با دستورالعمل انتخاب گذرواژه جدید برای شما ارسال شده است.
   notice_account_new_password_forced: گذرواژه جدید لازم است.
@@ -4911,6 +4912,13 @@ fa:
     prev: قبلی
     prev_page: صفحه قبل
   pdf_generator:
+    budgets_table:
+      cost_per_unit: هزینه هر واحد
+      description: توضیحات
+      labor: هزینه نیروی انسانی
+      material: هزینه واحد
+      sum: جمع
+      total: کل
     dialog:
       footer_center:
         caption: این متن در همه صفحات، وسط پابرگ نمایش داده می‌شود.
@@ -4925,6 +4933,12 @@ fa:
         label: شکستن واژه
       hyphenation_language:
         label: زبان و شکستن واژه
+      include_budget:
+        caption: بودجه‌های پروژه را همراه با اقلام برنامه‌ریزی‌شده هزینه واحد و نیروی انسانی در خروجی قرار دهید.
+        label: بودجه‌های پروژه
+      include_lifecycle:
+        caption: فازهای پروژه و بازه‌های زمانی آن‌ها را در خروجی قرار دهید.
+        label: چرخه حیات پروژه
       page_orientation:
         caption: جهت صفحه‌ها را در سند PDF انتخاب کنید.
         label: جهت صفحه
@@ -5375,6 +5389,7 @@ fa:
     wizard:
       create_artifact_storage_error: ذخیره آرتیفکت در Storage فایل ناموفق بود
       create_artifact_work_package_error: ایجاد بسته کاری آرتیفکت ناموفق بود
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها
@@ -5534,11 +5549,11 @@ fa:
     edit:
       default_for_new_projects_warning: 'این نقش به‌عنوان نقش پیش‌فرض برای کاربران غیرمدیری که پروژه ایجاد می‌کنند پیکربندی شده است. مجوزهای زیر را حذف نکنید؛ در غیر این صورت ایجادکنندگان پروژه نمی‌توانند راه‌اندازی پروژه‌های تازه خود را کامل کنند:'
     index:
-      filter_label: Search roles
+      filter_label: جستجوی نقش‌ها
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: همه نقش‌ها
+        global: نقش‌های سراسری
+        project: نقش‌های پروژه
     permissions:
       section_check_all_label: تخصیص همه مجوزهای %{module}
       section_uncheck_all_label: لغو تخصیص همه مجوزهای %{module}
@@ -6330,6 +6345,8 @@ fa:
     getting_started: شروع کار
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: افزودن یک گونه به %{name}
@@ -6447,14 +6464,14 @@ fa:
         tab: فرم
         untitled_group: گروه بدون عنوان
       overview:
-        configuration_mode: Configuration mode
-        dependents: Dependent types and variants
+        configuration_mode: حالت پیکربندی
+        dependents: انواع و گونه‌های وابسته
         mode:
-          always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
-          manual: Manually configured
-        settings: Settings
-        tab: Overview
+          always_manual: همیشه دستی
+          inheriting_from_html: ارث‌بری از %{source_name}
+          manual: پیکربندی دستی
+        settings: تنظیمات
+        tab: نمای کلی
       project_attributes:
         actions:
           label_disable_all: غیرفعال‌کردن همه
@@ -6988,12 +7005,12 @@ fa:
       confirm_descendants_deletion: تأیید می‌کنم همه فرزندان فهرست‌شده بالا نیز حذف خواهند شد.
       cross_project_warning_html: 'این بسته‌های کاری در چند پروژه قرار دارند: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: همه زیرمجموعه‌ها نیز حذف شوند؟
+        question: در حال حذف بسته‌های کاری‌ای هستید که زیرمجموعه دارند. آیا می‌خواهید آن‌ها نیز حذف شوند؟
+        self_only_label: فقط بسته‌های کاری انتخاب‌شده حذف شوند
+        self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
+        with_descendants_label: بسته‌های کاری انتخاب‌شده و زیرمجموعه‌های آن‌ها حذف شوند
+        with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
       description: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط را حذف کنید؟
       description_with_all_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان آن‌ها را حذف کنید؟
       description_with_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان زیر را حذف کنید؟
@@ -7059,12 +7076,12 @@ fa:
       confirm_descendants_deletion: تأیید می‌کنم همه فرزندان فهرست‌شده بالا نیز حذف خواهند شد.
       cross_project_warning_html: 'بسته‌های کاری پروژه‌های زیر حذف خواهند شد: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: همه زیرمجموعه‌ها نیز حذف شوند؟
+        question: این بسته کاری زیرمجموعه دارد. آیا می‌خواهید آن‌ها نیز حذف شوند؟
+        self_only_label: فقط همین بسته کاری حذف شود
+        self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
+        with_descendants_label: این بسته کاری و زیرمجموعه‌های آن حذف شوند
+        with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
       description: مطمئنید می‌خواهید «%{name}» را حذف کنید؟
       heading: این بسته کاری برای همیشه حذف شود؟
       hidden_descendants_only_warning:
@@ -7128,7 +7145,7 @@ fa:
         target_role_ids:
           label: نقش‌های مقصد
         target_variant_ids:
-          label: Target types
+          label: انواع مقصد
       from_roles:
         create:
           notice:
@@ -7137,8 +7154,8 @@ fa:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: گردش کار با موفقیت به «%{type_name}» کپی شد.
+            other: گردش کار با موفقیت به %{count} نوع کپی شد.
       new:
         title: کپی گردش‌کار «%{source_type}»
     form:

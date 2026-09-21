@@ -258,51 +258,51 @@ nl:
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Sprintplanningsvergadering
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Gelieve hier de agendapunten voor de sprintplanningsvergadering vast te leggen_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Tijdslimiet (8 uur)
+                  * Input: Productbacklog
+                  * Output: Sprintbacklog
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Opgesplitst in twee extra tijdsblokken van 4 uur:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * De Product Owner presenteert de [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en de prioriteiten aan het team en licht het Sprintdoel toe, waarmee het team moet instemmen. Gezamenlijk stellen zij de prioriteiten vast voor de onderwerpen uit de Product Backlog die het team in de volgende sprint zal afhandelen. Het team verbindt zich tot de besproken oplevering.
+                      * Het team maakt zelfstandig (zonder de Product Owner) een gedetailleerd plan en splitst de taken uit de besproken vereisten op om een [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) samen te stellen.
 
 
-                  ### Sprint Retrospective
+                  ### Dagelijkse Scrum-vergadering
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Gelieve hier de onderwerpen voor de dagelijkse Scrum-vergadering te noteren_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Korte, dagelijkse statusvergadering van het team.
+                  * Tijdslimiet (max. 15 min).
+                  * Stand-upvergadering om de volgende onderwerpen van het takenbord te bespreken.
+                      * Wat ben ik van plan te doen tot de volgende dagelijkse scrumvergadering?
+                      * Wat heeft mijn werk belemmerd (belemmeringen)?
+                  * De scrummaster treedt op als moderator en noteert sprintbelemmeringen.
+                  * De producteigenaar kan deelnemen om op de hoogte te blijven.
+
+                  ### Sprint Review-bijeenkomst
+
+                  _Gelieve hier de onderwerpen voor de Sprint Review-bijeenkomst vast te leggen_
+
+                  * Tijdslimiet (4 uur).
+                  * Maximaal één uur voorbereidingstijd per persoon.
+                  * Het team toont de Product Owner en andere geïnteresseerden wat er in deze sprint is gerealiseerd.
+                  * Belangrijk: geen dummy’s en geen PowerPoint! Alleen voltooide productfunctionaliteiten (Increments) mogen worden gedemonstreerd.
+                  * Feedback van de Product Owner, belanghebbenden en anderen is gewenst en zal worden meegenomen in het verdere werk.
+                  * Op basis van de gedemonstreerde functionaliteiten besluit de Product Owner om dit increment live te zetten of verder te ontwikkelen. Deze mogelijkheid maakt een vroege ROI mogelijk.
+
+
+                  ### Sprint Retrospectieve
+
+                  _Gelieve hier onderwerpen voor de Sprint Retrospectieve-bijeenkomst te documenteren_
+
+                  * Tijdslimiet (3 uur).
+                  * Volgt na de Sprint Review en wordt gemodereerd door de Scrum Master.
+                  * Het team bespreekt de sprint: wat ging er goed, wat moet er worden verbeterd om productiever te zijn voor de volgende sprint of zelfs om meer plezier te hebben.
             item_3:
               name: Sprint 2
           categories:
@@ -411,51 +411,51 @@ nl:
             item_16:
               subject: Release v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Sprintplanningsvergadering
 
-            _Please document here topics to the Sprint planning meeting_
+            _Gelieve hier de agendapunten voor de sprintplanningsvergadering vast te leggen_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Tijdslimiet (8 uur)
+            * Input: Productbacklog
+            * Output: Sprintbacklog
 
-            * Divided into two additional time boxes of 4 h:
+            * Opgesplitst in twee extra tijdsblokken van 4 uur:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * De Product Owner presenteert de [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en de prioriteiten aan het team en licht het Sprintdoel toe, waarmee het team moet instemmen. Gezamenlijk stellen zij de prioriteiten vast voor de onderwerpen uit de Product Backlog die het team in de volgende sprint zal afhandelen. Het team verbindt zich tot de besproken oplevering.
+                * Het team maakt zelfstandig (zonder de Product Owner) een gedetailleerd plan en splitst de taken uit de besproken vereisten op om een [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) samen te stellen.
 
 
-            ### Sprint Retrospective
+            ### Dagelijkse Scrum-vergadering
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _Gelieve hier de onderwerpen voor de dagelijkse Scrum-vergadering te noteren_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Korte, dagelijkse statusvergadering van het team.
+            * Tijdslimiet (max. 15 min).
+            * Stand-upvergadering om de volgende onderwerpen van het takenbord te bespreken.
+                * Wat ben ik van plan te doen tot de volgende dagelijkse scrumvergadering?
+                * Wat heeft mijn werk belemmerd (belemmeringen)?
+            * De scrummaster treedt op als moderator en noteert sprintbelemmeringen.
+            * De producteigenaar kan deelnemen om op de hoogte te blijven.
+
+            ### Sprint Review-bijeenkomst
+
+            _Gelieve hier de onderwerpen voor de Sprint Review-bijeenkomst vast te leggen_
+
+            * Tijdslimiet (4 uur).
+            * Maximaal één uur voorbereidingstijd per persoon.
+            * Het team toont de Product Owner en andere geïnteresseerden wat er in deze sprint is gerealiseerd.
+            * Belangrijk: geen dummy’s en geen PowerPoint! Alleen voltooide productfunctionaliteiten (Increments) mogen worden gedemonstreerd.
+            * Feedback van de Product Owner, belanghebbenden en anderen is gewenst en zal worden meegenomen in het verdere werk.
+            * Op basis van de gedemonstreerde functionaliteiten besluit de Product Owner om dit increment live te zetten of verder te ontwikkelen. Deze mogelijkheid maakt een vroege ROI mogelijk.
+
+
+            ### Sprint Retrospectieve
+
+            _Gelieve hier onderwerpen voor de Sprint Retrospectieve-bijeenkomst te documenteren_
+
+            * Tijdslimiet (3 uur).
+            * Volgt na de Sprint Review en wordt gemodereerd door de Scrum Master.
+            * Het team bespreekt de sprint: wat ging er goed, wat moet er worden verbeterd om productiever te zijn voor de volgende sprint of zelfs om meer plezier te hebben.
       statuses:
         item_0:
           name: Nieuw

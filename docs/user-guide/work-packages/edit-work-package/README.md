@@ -74,7 +74,7 @@ Next steps vary depending on whether you are creating a new wiki page or linking
 
 Depending on your system configuration, you can choose between:
 
-- OpenProject, if the OpenProject project wiki is enabled by an administrator.
+- **OpenProject**, if the OpenProject project wiki is enabled by an administrator.
 - an external wiki, if an administrator has configured it, such as **XWiki** (Enterprise add-on).
 
 > [!NOTE]
