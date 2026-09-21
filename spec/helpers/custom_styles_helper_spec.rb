@@ -142,6 +142,28 @@ RSpec.describe CustomStylesHelper do
     end
   end
 
+  describe ".mobile_logo_modes" do
+    let(:dark_mobile_logo) do
+      Rack::Test::UploadedFile.new(Rails.root.join("spec/support/custom_styles/logos/logo_image.png"))
+    end
+
+    context "with a desktop logo and only a dark mobile logo" do
+      let(:current_theme) { build(:custom_style_with_logo, logo_mobile_dark: dark_mobile_logo) }
+
+      it "returns only dark mode" do
+        expect(helper.mobile_logo_modes).to eq([:dark])
+      end
+    end
+
+    context "without a desktop logo" do
+      let(:current_theme) { build(:custom_style_with_logo_mobile_dark) }
+
+      it "keeps the mobile logo available in every mode" do
+        expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast dark])
+      end
+    end
+  end
+
   describe ".resolved_logo_urls" do
     subject(:logo_urls) { helper.resolved_logo_urls }
 
@@ -194,6 +216,36 @@ RSpec.describe CustomStylesHelper do
           light: helper.asset_path("logo_openproject_white_big.png"),
           light_high_contrast: path,
           dark: helper.asset_path("logo_openproject_white_big.png")
+        )
+      end
+    end
+
+    context "with a desktop light logo and a mobile high-contrast logo", with_ee: %i[define_custom_style] do
+      let(:current_theme) do
+        create(
+          :custom_style_with_logo,
+          logo_mobile_light_high_contrast: Rack::Test::UploadedFile.new(
+            Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+          )
+        )
+      end
+
+      it "uses the mobile logo for desktop high contrast" do
+        desktop_path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_identifier,
+          field: :logo
+        )
+        high_contrast_path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_mobile_light_high_contrast_identifier,
+          field: :logo_mobile_light_high_contrast
+        )
+
+        expect(logo_urls[:desktop]).to eq(
+          light: desktop_path,
+          light_high_contrast: high_contrast_path,
+          dark: desktop_path
         )
       end
     end

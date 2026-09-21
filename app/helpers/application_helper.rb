@@ -311,7 +311,8 @@ module ApplicationHelper
     theme_options = {
       auto_theme_switcher_theme_value: theme,
       auto_theme_switcher_desktop_light_high_contrast_logo_class: "op-logo--link_high_contrast",
-      auto_theme_switcher_mobile_white_logo_class: "op-logo--icon_white"
+      auto_theme_switcher_mobile_white_logo_class: "op-logo--icon_white",
+      auto_theme_switcher_mobile_logo_modes_value: mobile_logo_modes.to_json
     }
 
     if pref.sync_with_os_theme?

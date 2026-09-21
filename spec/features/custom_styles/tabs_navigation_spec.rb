@@ -194,6 +194,32 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
         .to include(ActionController::Base.helpers.asset_path("logo_openproject_white_big.png"))
     end
 
+    context "with only a dark mobile logo", :js do
+      before do
+        custom_style.update!(
+          logo_mobile_dark: Rack::Test::UploadedFile.new(
+            Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+          )
+        )
+        admin.pref.update!(settings: admin.pref.settings.merge("theme" => "light"))
+        visit custom_style_path
+      end
+
+      include_context "with mobile screen size"
+
+      it "shows the mobile logos only in dark mode" do
+        expect(page).to have_no_css("a.op-logo--icon", visible: :visible)
+
+        admin.pref.update!(settings: admin.pref.settings.merge("theme" => "dark"))
+        visit custom_style_path
+
+        expect(page).to have_css("a.op-logo--icon", visible: :visible)
+
+        find_test_selector("op-app-header--modules-menu-button").click
+        expect(page).to have_css(".op-app-header--modules-menu-header .op-logo", visible: :visible)
+      end
+    end
+
     it "redirects to pdf export styles tab" do
       click_on "PDF export styles"
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")

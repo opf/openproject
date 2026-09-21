@@ -114,6 +114,20 @@ module CustomStylesHelper
     end
   end
 
+  def mobile_logo_modes
+    mobile_fields = CustomStyle::LOGO_FIELDS.fetch(:mobile)
+    style = CustomStyle.current
+    return mobile_fields.keys unless style && desktop_logo_present?(style)
+
+    mobile_fields.keys.select do |mode|
+      style.logo_for(
+        color_mode: mode == :dark ? :dark : :light,
+        high_contrast: mode == :light_high_contrast,
+        mobile: true
+      ).present?
+    end
+  end
+
   def custom_logo_url(custom_style, attachment)
     return if attachment.blank?
 
@@ -181,6 +195,12 @@ module CustomStylesHelper
 
   private
 
+  def desktop_logo_present?(style)
+    style.theme_logo.present? || CustomStyle::LOGO_FIELDS.fetch(:desktop).values.any? do |field|
+      style.public_send(field).present?
+    end
+  end
+
   def color_theme(current_theme)
     OpenProject::CustomStyles::ColorThemes.themes.find do |theme|
       theme[:theme] == current_theme
@@ -215,7 +235,7 @@ module CustomStylesHelper
     desktop, mobile = custom_logo_urls(custom_style).fetch_values(:desktop, :mobile)
     theme_logo = locale_aware_theme_logo(custom_style)
 
-    desktop = desktop_fallback_to_mobile(desktop, mobile)
+    desktop = desktop_fallback_to_mobile(custom_style, desktop, mobile)
 
     {
       desktop: defaults[:desktop].merge({ light: theme_logo, dark: theme_logo }.compact).merge(desktop.compact),
@@ -223,10 +243,16 @@ module CustomStylesHelper
     }
   end
 
-  def desktop_fallback_to_mobile(desktop, mobile)
-    return desktop if desktop.values.any?
+  def desktop_fallback_to_mobile(custom_style, desktop, mobile)
+    desktop_fields = CustomStyle::LOGO_FIELDS.fetch(:desktop)
+    mobile_fields = CustomStyle::LOGO_FIELDS.fetch(:mobile)
 
-    mobile.slice(*desktop.keys)
+    desktop.to_h do |mode, url|
+      desktop_logo_present = custom_style.public_send(desktop_fields.fetch(mode)).present?
+      mobile_logo_present = custom_style.public_send(mobile_fields.fetch(mode)).present?
+
+      [mode, !desktop_logo_present && (mobile_logo_present || url.nil?) ? mobile[mode] : url]
+    end
   end
 
   def locale_aware_theme_logo(custom_style)

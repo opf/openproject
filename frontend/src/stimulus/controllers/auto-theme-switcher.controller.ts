@@ -36,6 +36,7 @@ export default class AutoThemeSwitcher extends Controller {
     increaseContrast: Boolean,
     forceLightContrast: Boolean,
     forceDarkContrast: Boolean,
+    mobileLogoModes: Array,
   };
 
   static targets = ['desktopLogo', 'mobileLogo'];
@@ -45,6 +46,7 @@ export default class AutoThemeSwitcher extends Controller {
   declare readonly increaseContrastValue:boolean;
   declare readonly forceLightContrastValue:boolean;
   declare readonly forceDarkContrastValue:boolean;
+  declare readonly mobileLogoModesValue:string[];
   declare readonly desktopLogoTarget:HTMLLinkElement;
   declare readonly mobileLogoTarget:HTMLLinkElement;
   declare readonly desktopLightHighContrastLogoClass:string;
@@ -81,6 +83,7 @@ export default class AutoThemeSwitcher extends Controller {
   applyTheme(theme:OpColorMode, increaseContrast:boolean):void {
     window.OpenProject.theme.applyThemeToBody(theme, increaseContrast);
     this.updateOpLogoContrast(theme, increaseContrast);
+    this.updateMobileLogoVisibility(theme, increaseContrast);
   }
 
   lightModeChanged():void {
@@ -110,5 +113,16 @@ export default class AutoThemeSwitcher extends Controller {
     if (this.hasMobileLogoTarget) {
       this.mobileLogoTarget.classList.toggle(this.mobileWhiteLogoClass, !isLightHighContrast);
     }
+  }
+
+  private updateMobileLogoVisibility(colorMode:OpColorMode, increaseContrast:boolean):void {
+    const mode = colorMode === 'light' && increaseContrast ? 'light_high_contrast' : colorMode;
+    const visible = this.mobileLogoModesValue.includes(mode);
+
+    this.element.querySelectorAll<HTMLElement>(
+      '.op-logo--icon, .op-app-header--modules-menu-header .op-logo',
+    ).forEach((logo) => {
+      logo.hidden = !visible;
+    });
   }
 }
