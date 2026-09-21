@@ -76,18 +76,9 @@ class SprintWorkPackageBreakdown
 
   def reference_finish
     return Timestamp.new(@sprint.completed_at) if @sprint.completed_at?
+    return Timestamp.now if @sprint.started_at?
 
-    scheduled_finish = @sprint.finish_date.in_time_zone.end_of_day
-
-    if @sprint.started_at?
-      if Time.zone.now > scheduled_finish
-        Timestamp.now
-      else
-        Timestamp.new(scheduled_finish)
-      end
-    else
-      Timestamp.new(scheduled_finish)
-    end
+    Timestamp.new(@sprint.finish_date.in_time_zone.end_of_day)
   end
 
   def added_after_start_ids
