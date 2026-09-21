@@ -159,17 +159,21 @@ To create new work packages in documents, type **/** to open the slash menu, the
 
 ![Create a new work package in documents](openproject_user_guide_documents_create_new_wp.png)
 
-A form is displayed for you to enter the **Subject**, **Project**, **Assignee**, and **Type**. Click create and the work package will automatically be linked.
+A form will open where you can enter the **Subject**, **Project**, **Assignee**, and **Type**. Click **Create** to create the work package and automatically link it in the document.
 
 ![Form to create new work package in documents](openproject_user_guide_documents_create_new_wp_form.png)
 
-You can also create a new work package without using the **/** slash menu:
+For a quicker way to create a work package, you can use existing text in your document as the work package subject:
 
-- Type a text and select it (the selected text becomes the work package subject)
+- Highlight the text you want to use as the work package subject.
+- In the formatting toolbar that appears, click the **+** icon on the right.
+- Select **Create a new work package**.
 
-- Click the + icon on the right.
+![Alternative option to create new work package in documents](openproject_user_guide_documents_create_new_wp_alternative.png)
 
-  ![Alternative option to create new work package in documents](openproject_user_guide_documents_create_new_wp_alternative.png)
+This can save time, as the highlighted text is automatically used as the work package subject. 
+
+![Work package form with the highlighted text pre-filled as the subject](openproject_user_guide_documents_create_new_wp_form_subject_prefilled.png)
 
 
 ## Delete a project document
