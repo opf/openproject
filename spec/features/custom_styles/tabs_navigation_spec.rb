@@ -98,8 +98,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
 
       it "shows the warning and applies the confirmed theme" do
         within "#confirm-theme-dialog[open]" do
-          expect(page).to have_heading(I18n.t("admin.custom_styles.color_theme"))
-          expect(page).to have_text(I18n.t(:text_are_you_sure_continue))
+          expect(page).to have_heading(I18n.t(:text_are_you_sure_continue))
           expect(page).to have_text(I18n.t("admin.custom_styles.theme_warning_confirmation"))
           expect(page).to have_button(I18n.t(:button_apply), disabled: true)
 

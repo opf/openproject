@@ -99,16 +99,6 @@ module CustomStylesHelper
     ]
   end
 
-  private
-
-  def color_theme(current_theme)
-    OpenProject::CustomStyles::ColorThemes.themes.find do |theme|
-      theme[:theme] == current_theme
-    end || OpenProject::CustomStyles::ColorThemes.themes.first
-  end
-
-  public
-
   def apply_custom_styles?(skip_ee_check: OpenProject::Configuration.bim?)
     # Apply custom styles either if EE allows OR we are on a BIM edition with the BIM theme active.
     CustomStyle.current.present? &&
@@ -190,6 +180,12 @@ module CustomStylesHelper
   end
 
   private
+
+  def color_theme(current_theme)
+    OpenProject::CustomStyles::ColorThemes.themes.find do |theme|
+      theme[:theme] == current_theme
+    end || OpenProject::CustomStyles::ColorThemes.themes.first
+  end
 
   def default_logo_urls
     desktop_light = asset_path(I18n.locale == :ru ? "logo-white-bg-ua.png" : "logo_openproject_white_big.png")
