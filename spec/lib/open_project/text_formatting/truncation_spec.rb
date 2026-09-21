@@ -41,5 +41,9 @@ RSpec.describe OpenProject::TextFormatting::Truncation do
         expect(subject.truncate_single_line("ABC" * 99)).to be_html_safe
       end
     end
+
+    it "collapses newlines to spaces" do
+      expect(subject.truncate_single_line("foo\n\nbar", length: 100)).to eq("foo bar")
+    end
   end
 end
