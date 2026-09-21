@@ -239,6 +239,7 @@ OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE (default=false) Enable
 OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE (default=true) Allows the display and use of built-in OAuth applications.
 OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE (default=false)
 OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE (default=false) Allow exporting a meeting with FITKO styling. See #65124 for details.
+OPENPROJECT_FEATURE__PROJECT__SETTINGS__ESTIMATION__UNIT__ACTIVE (default=false) Enables project settings for the unit of velocity, effort and capacity. See AGILE-198 for details.
 OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE (default=false) Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress.
 OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE (default=false)
 OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE (default=true) Enables Wiki enhancements, such as the Wikis tab and XWiki integration.
