@@ -1,5 +1,5 @@
 <%=
-  render(Primer::OpenProject::SubHeader.new(collapsed_search: false, data: sub_header_data_attributes)) do |subheader|
+  render(Primer::OpenProject::SubHeader.new( data: sub_header_data_attributes)) do |subheader|
     if User.current.allowed_in_project?(:manage_versions, project)
       subheader.with_action_button(
         scheme: :primary,
