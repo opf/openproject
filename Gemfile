@@ -162,7 +162,7 @@ gem "matrix", "~> 0.4.3"
 
 gem "mcp", "~> 1.5.0"
 
-gem "meta-tags", "~> 2.23.0"
+gem "meta-tags", "~> 2.24.0"
 
 gem "paper_trail", "~> 17.0.0"
 
