@@ -35,7 +35,7 @@ module AI
         def ready? = ready
       end
 
-      def self.build = LlmGateway.new
+      def self.build = DemoFaultGateway.new(LlmGateway.new)
     end
   end
 end
