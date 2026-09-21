@@ -110,6 +110,15 @@ RSpec.describe "Global resource planner views requests",
       expect(response).to have_http_status(:bad_request)
       expect(view.reload.work_packages).not_to include(invisible_wp)
     end
+
+    # Its autocompleter narrows by project, which a global planner does not have.
+    it "opens the add dialog" do
+      get new_work_package_resource_planner_view_path(planner, view),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(work_packages_resource_planner_view_path(planner, view))
+    end
   end
 
   describe "with a timeline view" do
@@ -147,6 +156,16 @@ RSpec.describe "Global resource planner views requests",
 
       expect(response).to have_http_status(:ok)
       expect(view.reload.results).to include(beta_member)
+    end
+
+    # Its autocompleter narrows by project membership, which a global planner
+    # does not have.
+    it "opens the add dialog" do
+      get new_user_resource_planner_view_path(planner, view),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(users_resource_planner_view_path(planner, view))
     end
   end
 
