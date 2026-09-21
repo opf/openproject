@@ -1,0 +1,37 @@
+<%
+  template_link = link_to(
+    t("work_packages.import.download_template"),
+    import_template_project_work_packages_path(@project)
+  )
+  reference_link = static_link_to(
+    :user_guide, :work_packages, :import, :columns,
+    label: t("work_packages.import.guidance.column_reference")
+  )
+  limits = t(
+    "work_packages.import.guidance.limits_html",
+    lines: number_with_delimiter(Setting.work_package_import_max_rows),
+    size: number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)
+  )
+  items = [
+    [:download, t("work_packages.import.guidance.columns_html", link: template_link)],
+    [:info, t("work_packages.import.guidance.names_html", link: reference_link)],
+    [:file, limits]
+  ]
+%>
+
+<%= render Primer::Beta::BorderBox.new(mb: 4) do |box| %>
+  <% box.with_header do %>
+    <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 5)) { t("work_packages.import.guidance.title") } %>
+  <% end %>
+
+  <% box.with_row do %>
+    <%= render Primer::Alpha::Stack.new(gap: :condensed) do %>
+      <% items.each do |icon, text| %>
+        <%= render Primer::Alpha::Stack.new(direction: :horizontal, align: :start, gap: :condensed) do %>
+          <%= render Primer::Beta::Octicon.new(icon:, color: :muted, mt: 1) %>
+          <div><%= text %></div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

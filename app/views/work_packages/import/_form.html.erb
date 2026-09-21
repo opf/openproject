@@ -1,0 +1,95 @@
+<%
+  outcome = @status&.payload&.dig("outcome")
+  running = @status.present? && outcome.blank?
+  checked = outcome == "checked"
+  # A run that produced something leaves nothing to fill in: the report carries the next step.
+  # Unless the upload was just refused, which is the one case that needs the form back.
+  settled = %w[checked imported].include?(outcome) && @error.blank?
+%>
+
+<%= render Primer::Box.new(id: "import_form") do %>
+  <% if @error.present? %>
+    <%
+      refusal = Primer::Alpha::Banner.new(
+        scheme: :danger,
+        dismiss_scheme: :none,
+        mb: 3,
+        test_selector: "import-file-error"
+      )
+    %>
+    <%= render(refusal) { @error } %>
+  <% end %>
+
+  <% if @status.blank? %>
+    <%= render partial: "work_packages/import/guidance" %>
+  <% end %>
+
+  <% unless running || settled %>
+    <%= form_with url: import_project_work_packages_path(@project), method: :post, multipart: true do |f| %>
+      <%= hidden_field_tag :job, @status&.job_id if checked %>
+
+      <%= render Primer::Box.new(mb: 3) do %>
+        <%= f.label :file, t("work_packages.import.file_label"), class: "form--label" %>
+
+        <%=
+          f.file_field :file,
+                       accept: "text/csv,.csv",
+                       hidden: true,
+                       data: { work_packages__csv_import_target: "file",
+                               action: "change->work-packages--csv-import#fileChosen" }
+        %>
+
+        <button type="button"
+                class="op-file-section--drop-box"
+                data-test-selector="import-drop-box"
+                data-work-packages--csv-import-target="dropBox"
+                data-action="click->work-packages--csv-import#openFilePicker
+                             dragover->work-packages--csv-import#dragOver
+                             dragleave->work-packages--csv-import#dragLeave
+                             drop->work-packages--csv-import#dropFile">
+          <%= render Primer::Beta::Octicon.new(icon: :upload) %>
+          <span class="op-file-section--drop-box-text"
+                data-work-packages--csv-import-target="filename"
+                data-empty="<%= t("work_packages.import.drop_or_click") %>"><%= t("work_packages.import.drop_or_click") %></span>
+        </button>
+
+        <%=
+          render Primer::Beta::Text.new(
+            tag: :p,
+            color: :danger,
+            font_size: 6,
+            mb: 0,
+            mt: 1,
+            hidden: true,
+            data: { work_packages__csv_import_target: "sizeError" }
+          )
+        %>
+      <% end %>
+
+      <%= render Primer::Box.new(mb: 3) do %>
+        <%=
+          f.check_box :dry_run,
+                      checked: !checked,
+                      data: { work_packages__csv_import_target: "dryRun",
+                              action: "change->work-packages--csv-import#nameTheAction" }
+        %>
+        <%= f.label :dry_run, t("work_packages.import.dry_run_label") %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: 6, mb: 0)) { t("work_packages.import.dry_run_caption") } %>
+      <% end %>
+
+      <%
+        button = Primer::Beta::Button.new(
+          type: :submit,
+          scheme: :primary,
+          disabled: true,
+          data: {
+            work_packages__csv_import_target: "submit",
+            check_label: t("work_packages.import.check_file"),
+            import_label: t("work_packages.import.import_file")
+          }
+        )
+      %>
+      <%= render(button) { checked ? t("work_packages.import.import_file") : t("work_packages.import.check_file") } %>
+    <% end %>
+  <% end %>
+<% end %>

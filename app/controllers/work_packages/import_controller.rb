@@ -31,18 +31,36 @@
 class WorkPackages::ImportController < ApplicationController
   menu_item :work_packages
   before_action :find_project_by_project_id, :authorize
+  before_action :load_status, only: %i[show status problems]
 
   def show; end
 
+  # Its own action rather than a format of #show: Turbo asks for a stream first when it follows
+  # the redirect out of #create, and answering that with streams leaves the address bar behind,
+  # so a reload would lose the run.
+  def status
+    render turbo_stream: report_streams
+  end
+
   def create
+    refused = missing_file_error
+    return refuse(refused) if refused
+
     result = schedule
 
     if result.success?
       redirect_to import_project_work_packages_path(@project, job: result.result)
     else
-      flash[:error] = result.message
-      redirect_to import_project_work_packages_path(@project)
+      refuse(result.message, expired: result.result == :expired)
     end
+  end
+
+  def problems
+    return head(:not_found) if @status.blank?
+
+    send_data ::WorkPackages::Import::CSV::ProblemReport.call(payload: @status.payload),
+              filename: "#{File.basename(@status.payload['filename'].to_s, '.*')}-problems.csv",
+              type: "text/csv; charset=utf-8"
   end
 
   def template
@@ -52,6 +70,47 @@ class WorkPackages::ImportController < ApplicationController
   end
 
   private
+
+  # Both regions, so the poll never has to reconcile a report with a form that still offers to
+  # upload the file it is reporting on.
+  def report_streams
+    [turbo_stream.replace("import_report", partial: "work_packages/import/report"),
+     turbo_stream.replace("import_form", partial: "work_packages/import/form")]
+  end
+
+  def load_status
+    return if params[:job].blank?
+
+    status = ::JobStatus::Status.find_by(job_id: params[:job], user_id: current_user.id)
+    @status = status if status && status.payload["project_id"] == @project.id
+  end
+
+  # A refused upload is a form error, not a run: re-render the page with the message on the file
+  # field, keeping whatever report the reader arrived with.
+  def refuse(message, expired: false)
+    load_status
+
+    @error = expired ? expired_message(message) : message
+
+    render :show, status: :unprocessable_entity
+  end
+
+  def expired_message(fallback)
+    filename = @status&.payload&.dig("filename")
+
+    filename.present? ? t("work_packages.import.csv.file.expired_named", filename:) : fallback
+  end
+
+  def missing_file_error
+    return if params[:attachment_id].present?
+
+    file = params[:file]
+
+    return t("work_packages.import.csv.file.missing") if file.blank?
+    return t("work_packages.import.csv.file.empty") if file.size.to_i.zero?
+
+    nil
+  end
 
   def schedule
     ::WorkPackages::Import::CSV::ScheduleService
