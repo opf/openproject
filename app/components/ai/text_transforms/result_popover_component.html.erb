@@ -86,9 +86,12 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        layout.with_row(classes: "op-ai-result-popover--footer", border: :top, bg: :subtle, p: 3) do
+        layout.with_row(classes: "op-ai-result-popover--footer", border: :top, bg: :subtle, p: 3, position: :relative) do
           safe_join(
             [
+              render(Primer::BaseComponent.new(tag: :span, classes: "op-ai-result-popover--grip", data: target(:grip))) do
+                render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+              end,
               flex_layout(align_items: :center, justify_content: :space_between, data: target(:generatingFooter)) do |footer|
                 footer.with_column do
                   render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
@@ -124,29 +127,6 @@ See COPYRIGHT and LICENSE files for more details.
               end
             ]
           )
-        end
-
-        layout.with_row(classes: "op-ai-result-popover--prototype", border: :top, px: 3, py: 2) do
-          flex_layout(align_items: :center) do |controls|
-            controls.with_column(mr: 2, classes: "op-ai-result-popover--grip", data: target(:grip)) do
-              render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
-            end
-            controls.with_column(mr: 3) do
-              render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { label(:prototype_controls) }
-            end
-            controls.with_column(mr: 3) do
-              render(Primer::Beta::Button.new(scheme: :link, font_size: :small, data: action(:forceError))) { label(:prototype_force_error) }
-            end
-            controls.with_column(mr: 3) do
-              render(Primer::Beta::Button.new(scheme: :link, font_size: :small, data: action(:forceGuardrail))) { label(:prototype_force_guardrail) }
-            end
-            controls.with_column(mr: 3) do
-              render(Primer::Beta::Button.new(scheme: :link, font_size: :small, data: action(:resetFault))) { label(:prototype_reset) }
-            end
-            controls.with_column do
-              render(Primer::Beta::Text.new(font_size: :small, color: :attention, data: target(:faultState))) { "" }
-            end
-          end
         end
       end
     end

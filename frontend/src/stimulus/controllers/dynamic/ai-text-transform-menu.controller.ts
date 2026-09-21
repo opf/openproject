@@ -114,6 +114,7 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
 
     item.hidden = false;
     button.id = `${button.id}-${action.id}`;
+    button.type = 'button';
     button.removeAttribute('data-ai-text-transform-menu-target');
     button.dataset.actionId = String(action.id);
     button.dataset.actionLabel = action.label;
