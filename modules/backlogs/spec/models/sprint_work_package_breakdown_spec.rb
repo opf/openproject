@@ -92,7 +92,7 @@ RSpec.describe SprintWorkPackageBreakdown do
       end
 
       it "clips reference_finish to the current time rather than the stale planned finish date" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(Time.zone.now))
+        expect(breakdown.reference_finish).to eq(Timestamp.now)
       end
     end
 

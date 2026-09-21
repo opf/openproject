@@ -79,8 +79,8 @@ class SprintWorkPackageBreakdown
 
     scheduled_finish = @sprint.finish_date.in_time_zone.end_of_day
 
-    if @sprint.started_at?
-      Timestamp.new([scheduled_finish, Time.zone.now].max)
+    if @sprint.started_at? && Time.zone.now > scheduled_finish
+      Timestamp.now
     else
       Timestamp.new(scheduled_finish)
     end
