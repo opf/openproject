@@ -509,6 +509,7 @@ en:
           title: "Working days"
           true: "include non-working days"
         journal_internal: Internal Journal
+        labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
         parent: "Parent"
@@ -1172,6 +1173,9 @@ en:
       issue_priority:
         one: "Priority"
         other: "Priorities"
+      label:
+        one: "Label"
+        other: "Labels"
       ldap_auth_source:
         one: "LDAP connection"
         other: "LDAP connections"

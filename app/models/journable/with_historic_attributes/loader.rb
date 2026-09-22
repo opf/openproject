@@ -69,6 +69,7 @@ class Journable::WithHistoricAttributes
       load_custom_value_associations(journalized, journal_ids)
       load_versions_associations(journalized, journal_ids, kind: "target", association: :target_versions)
       load_versions_associations(journalized, journal_ids, kind: "observed_in", association: :observed_in_versions)
+      load_labels_association(journalized, journal_ids)
 
       journalized
     end
@@ -91,7 +92,20 @@ class Journable::WithHistoricAttributes
 
       journalized.each do |work_package|
         version_journals = Array(version_journals_by_journal_id[work_package.journal_id])
-        set_versions_association_from_journal!(work_package:, version_journals:, association:)
+        historic_versions = version_journals.filter_map(&:version).sort_by(&:id)
+        set_association_from_journal!(work_package:, records: historic_versions, association:)
+      end
+    end
+
+    def load_labels_association(journalized, journal_ids)
+      return unless journalized_class.method_defined?(:labels)
+
+      label_journals_by_journal_id = load_label_journals_by_journal_id(journal_ids)
+
+      journalized.each do |work_package|
+        label_journals = Array(label_journals_by_journal_id[work_package.journal_id])
+        historic_labels = label_journals.filter_map(&:label).sort_by(&:id)
+        set_association_from_journal!(work_package:, records: historic_labels, association: :labels)
       end
     end
 
@@ -144,6 +158,13 @@ class Journable::WithHistoricAttributes
         .group_by(&:journal_id)
     end
 
+    def load_label_journals_by_journal_id(journal_ids)
+      Journal::LabelJournal
+        .where(journal_id: journal_ids)
+        .includes(:label)
+        .group_by(&:journal_id)
+    end
+
     def set_custom_value_association_from_journal!(work_package:, customizable_journals:)
       # Build the associated customizable_journals as custom values, this way the historic work packages
       # will behave just as the normal ones. Additionally set the reverse customized association
@@ -156,11 +177,9 @@ class Journable::WithHistoricAttributes
       work_package.association(:custom_values).target = historic_custom_values
     end
 
-    def set_versions_association_from_journal!(work_package:, version_journals:, association:)
-      historic_versions = version_journals.filter_map(&:version).sort_by(&:id)
-
+    def set_association_from_journal!(work_package:, records:, association:)
       work_package.association(association).loaded!
-      work_package.association(association).target = historic_versions
+      work_package.association(association).target = records
     end
 
     attr_accessor :journables
