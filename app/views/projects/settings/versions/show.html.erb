@@ -53,34 +53,17 @@ See COPYRIGHT and LICENSE files for more details.
             method: :put,
             data: { turbo_confirm: I18n.t(:text_are_you_sure) }
           },
-          href: close_completed_project_versions_path(@project),
+          href: close_completed_project_versions_path(@project)
         )
       end
     end
   end
 %>
 
-<% if current_user.allowed_in_project?(:manage_versions, @project) %>
-  <%= render(Primer::OpenProject::SubHeader.new) do |subheader|
-        subheader.with_action_button(
-          scheme: :primary,
-          leading_icon: :plus,
-          label: t(:label_version_new),
-          tag: :a,
-          href: url_for({ controller: "/versions", action: "new", project_id: @project })
-        ) do
-          Version.model_name.human
-        end
-
-
-      end %>
-<% end %>
-
-<% if @versions.any? %>
-  <%= render Versions::TableComponent.new(rows: @versions, project: @project) %>
-<% else %>
-  <%= no_results_box action_url: new_project_version_path(@project),
-                     display_action: authorize_for("versions", "new"),
-                     custom_title: t("projects.settings.versions.no_results_title_text"),
-                     custom_action_text: t("projects.settings.versions.no_results_content_text") %>
-<% end %>
+<%= render(
+      Settings::ProjectVersions::IndexComponent.new(
+        project: @project,
+        query: @query,
+        rows: @versions
+      )
+    ) %>

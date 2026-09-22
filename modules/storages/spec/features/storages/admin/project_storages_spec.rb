@@ -178,6 +178,15 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
     end
 
+    it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+      let(:target_project) { create(:project, name: "Searched Storage Project", identifier: "searched-storage-project") }
+      let(:control_project) { create(:project, name: "Unrelated Storage Project", identifier: "unrelated-storage-project") }
+
+      before do
+        click_on "Add projects"
+      end
+    end
+
     it "links to the delete page of a storage" do
       page.find_test_selector("storage-delete-button").click
 

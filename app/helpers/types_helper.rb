@@ -221,7 +221,7 @@ module ::TypesHelper
     if represented[:is_cf]
       label_for_custom_field_format(represented[:field_format])
     else
-      I18n.t("types.edit.form_configuration.builtin_field")
+      I18n.t("label_builtin")
     end
   end
 end

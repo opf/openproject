@@ -4,7 +4,6 @@ require "spec_helper"
 
 RSpec.describe "Notification center",
                :js,
-               with_ee: %i[date_alerts],
                # We decrease the notification polling interval because some portions of the JS code rely on something triggering
                # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
                with_settings: { journal_aggregation_time_minutes: 0, notifications_polling_interval: 1_000 } do

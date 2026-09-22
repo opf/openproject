@@ -1,0 +1,70 @@
+# Schema: HourlyRateModel
+---
+type: object
+required:
+  - _type
+  - id
+  - validFrom
+  - rate
+properties:
+  _type:
+    type: string
+    enum:
+      - HourlyRate
+  id:
+    type: integer
+    description: |-
+      The unique identifier of the hourly rate.
+    minimum: 1
+  validFrom:
+    type: string
+    format: date
+    description: |-
+      The date from which this rate takes effect (ISO 8601 format). It stays in effect until a
+      later rate of the same kind takes over.
+  rate:
+    type: number
+    format: float
+    description: |-
+      The amount charged per hour, in the currency configured for the instance.
+  _links:
+    type: object
+    required:
+      - self
+      - principal
+    properties:
+      self:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              This hourly rate.
+              **Resource**: HourlyRate
+      principal:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The user or placeholder user this rate belongs to.
+              **Resource**: Principal
+      project:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The project this rate applies in. Absent on a default rate, which applies in every
+              project where the principal has no project rate. Can only be written on creation.
+
+              **Resource**: Project
+
+example:
+  _type: HourlyRate
+  id: 1
+  validFrom: "2025-01-01"
+  rate: 50.0
+  _links:
+    self:
+      href: /api/v3/principals/42/hourly_rates/1
+    principal:
+      href: /api/v3/users/42
+      title: Jane Doe
+    project:
+      href: /api/v3/projects/7
+      title: Customer Portal

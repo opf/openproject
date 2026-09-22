@@ -843,6 +843,25 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
+    context "when the work package was migrated" do
+      subject(:cause) do
+        { "type" => "import", "migrated" => true }
+      end
+
+      it "renders the migration message in HTML" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.import')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.import.migrated')}"
+        )
+      end
+
+      it "renders the migration message in plain text" do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.import')} #{I18n.t('journals.cause_descriptions.import.migrated')}"
+        )
+      end
+    end
+
     context "when import_history is empty" do
       subject(:cause) do
         {

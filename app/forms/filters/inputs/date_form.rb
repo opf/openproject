@@ -96,7 +96,10 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
       hidden: value.nil?,
       leading_visual: { icon: :calendar },
       value: value || "",
-      datepicker_options: { input_attributes: { "data-filter--filters-form-target" => "singleDay" } },
+      datepicker_options: {
+        inDialog: @dialog_id,
+        input_attributes: { "data-filter--filters-form-target" => "singleDay" }
+      }.compact,
       data: { "filter-name": filter_name }
     )
   end
@@ -109,7 +112,10 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
       hidden: value.nil?,
       leading_visual: { icon: :calendar },
       value: value || "-",
-      datepicker_options: { input_attributes: { "data-filter--filters-form-target" => "dateRange" } },
+      datepicker_options: {
+        inDialog: @dialog_id,
+        input_attributes: { "data-filter--filters-form-target" => "dateRange" }
+      }.compact,
       data: { "filter-name": filter_name }
     )
   end

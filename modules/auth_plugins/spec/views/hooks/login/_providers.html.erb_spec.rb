@@ -52,13 +52,13 @@ RSpec.describe "rendering the login buttons for all providers" do
     expect(rendered).to match /#{providers[1][:display_name]}/
   end
 
-  it "posts to the OmniAuth request phase" do
-    expect(rendered).to have_css("form.button_to[action='/auth/mock_auth'][method='post']")
+  it "links to the OmniAuth start form" do
+    expect(rendered).to have_link(href: "/login/omniauth/mock_auth")
   end
 
   context "with relative url root", with_config: { rails_relative_url_root: "/foobar" } do
     it "renders correctly" do
-      expect(rendered).to include "/foobar/auth/mock_auth"
+      expect(rendered).to include "/foobar/login/omniauth/mock_auth"
     end
   end
 end

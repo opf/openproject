@@ -42,12 +42,14 @@ module OpPrimer
     # @param title [String]
     # @param title_icon [Symbol] select [none, info, alert, stop, check-circle, link, pencil, git-branch]
     # @param action [Symbol] select [none, button, buttons, menu]
+    # @param clipboard_copy_button [Boolean]
     # @param content [String]
     def playground(border: true,
                    scheme: :default,
                    title: "Inset box title",
                    title_icon: :none,
                    action: :none,
+                   clipboard_copy_button: false,
                    content: "Group some information here")
       render OpPrimer::InsetBoxComponent.new(
         border: ActiveModel::Type::Boolean.new.cast(border),
@@ -55,6 +57,9 @@ module OpPrimer
       ) do |box|
         box.with_title_icon(icon: title_icon.to_sym) unless title_icon.to_s == "none"
         box.with_title { title } if title.present?
+        if ActiveModel::Type::Boolean.new.cast(clipboard_copy_button)
+          box.with_clipboard_copy_button(value: content, aria: { label: "Copy content" })
+        end
         playground_actions(box, action.to_sym)
         content
       end
@@ -133,6 +138,14 @@ module OpPrimer
           menu.with_item(label: "Remove inheritance", href: "#", scheme: :danger)
         end
         "Two types inherit this configuration."
+      end
+    end
+
+    def with_clipboard_copy_button
+      render OpPrimer::InsetBoxComponent.new do |box|
+        box.with_title { "API token" }
+        box.with_clipboard_copy_button(value: "s3cr3t-token", aria: { label: "Copy token" })
+        "1234-5678-9012-3456"
       end
     end
 

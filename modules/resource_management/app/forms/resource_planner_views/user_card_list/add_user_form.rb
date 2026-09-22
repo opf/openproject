@@ -58,11 +58,12 @@ module ResourcePlannerViews
 
       private
 
+      # A global planner has no project to take the membership from and offers
+      # every user visible to the viewer, which is what
+      # `ResourcePlannerViewsController#addable_users` accepts in turn.
       def autocomplete_filters
-        filters = [
-          { name: "type", operator: "=", values: %w[User] },
-          { name: "member", operator: "=", values: [@project.id.to_s] }
-        ]
+        filters = [{ name: "type", operator: "=", values: %w[User] }]
+        filters << { name: "member", operator: "=", values: [@project.id.to_s] } if @project
 
         if @excluded_ids.present?
           filters << { name: "id", operator: "!", values: @excluded_ids.map(&:to_s) }

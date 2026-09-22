@@ -72,6 +72,10 @@ he:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -98,47 +102,38 @@ he:
       cost_entry:
         one: עלות כניסה
         two: Cost entries
-        many: Cost entries
         other: Cost entries
       cost_rate:
         one: Cost rate
         two: Cost rates
-        many: Cost rates
         other: Cost rates
       cost_type:
         one: Cost type
         two: Cost types
-        many: Cost types
         other: Cost types
       default_hourly_rate:
         one: Default hourly rate
         two: Default hourly rates
-        many: Default hourly rates
         other: Default hourly rates
       hourly_rate:
         one: Hourly rate
         two: Hourly rates
-        many: Hourly rates
         other: Hourly rates
       rate:
         one: Rate
         two: Rates
-        many: Rates
         other: Rates
       time_entry:
         one: Time entry
         two: Time entries
-        many: Time entries
         other: Time entries
       time_entry_activity:
         one: Time tracking activity
         two: Time tracking activities
-        many: Time tracking activities
         other: Time tracking activities
       time_entry_custom_field:
         one: Time entry custom field
         two: Time entry custom fields
-        many: Time entry custom fields
         other: Time entry custom fields
   api_v3:
     errors:
@@ -225,6 +220,7 @@ he:
   label_costlog: Logged unit costs
   label_costs: Costs
   label_costs_per_page: Costs per page
+  label_current: Current
   label_current_default_rate: Current default rate
   label_date_on: פועל
   label_day: ימים
@@ -251,6 +247,8 @@ he:
   label_next_week: שבוע הבא
   label_next_workweek: Next work week
   label_no: לא
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: No time tracked
   label_option_plural: אפשריות
   label_overall_costs: Overall costs
@@ -271,6 +269,7 @@ he:
   label_today_capitalized: Today
   label_units: Cost units
   label_until: until
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Valid from
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Add work package filter
@@ -290,6 +289,10 @@ he:
   permission_edit_rates: Edit rates
   permission_log_costs: Book unit costs
   permission_log_own_costs: Book unit costs for oneself
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: View booked costs
   permission_view_cost_rates: View cost rates
   permission_view_hourly_rates: View all hourly rates
@@ -327,6 +330,11 @@ he:
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: Delete reported hours and costs
   text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this work package:'
   text_warning_hidden_elements: Some entries may have been excluded from the aggregation.
   total_times:

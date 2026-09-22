@@ -24,6 +24,10 @@
 zh-TW:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: 標籤
       gitlab_pipeline:
@@ -39,6 +43,8 @@ zh-TW:
             labels:
               invalid_schema: 必須是一個帶值的雜湊陣列：color、title
     models:
+      gitlab_branch:
+        other: GitLab branches
       gitlab_issue:
         other: GitLab issues
       gitlab_merge_request:
@@ -51,7 +57,6 @@ zh-TW:
     commit: 提交
     gitlab: GitLab 識別碼
     gitlab_avatar_url: 大頭貼網址
-    gitlab_email: GitLab 電子郵件
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 合併請求
     gitlab_name: GitLab 名稱

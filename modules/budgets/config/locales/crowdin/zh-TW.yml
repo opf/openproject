@@ -58,6 +58,8 @@ zh-TW:
   attributes:
     budget: 預算
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
