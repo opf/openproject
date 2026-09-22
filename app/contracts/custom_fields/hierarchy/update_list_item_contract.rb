@@ -40,6 +40,7 @@ module CustomFields
       rule(:item) do
         key.failure(:not_persisted) if value.new_record?
         key.failure(:root_item) if value.root?
+        key.failure(:nesting_not_allowed) if value.root&.custom_field&.list? && value.parent.present? && !value.parent.root?
       end
 
       rule(:label) do

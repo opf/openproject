@@ -119,6 +119,31 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
         ].each { |params| expect(subject.call(params)).to be_failure }
       end
     end
+
+    context "when the custom field is a list" do
+      let(:custom_field) { create(:list_wp_custom_field) }
+      let(:root) { CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(custom_field).value! }
+      let(:child) do
+        CustomFields::Hierarchy::HierarchicalItemService
+          .new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Top")
+          .value!
+      end
+      let(:grandchild) { child.children.create!(label: "Nested") }
+
+      it "accepts an item directly under the root" do
+        result = subject.call(item: child, label: "Renamed", short: nil)
+
+        expect(result).to be_success
+      end
+
+      it "rejects an item nested under another item" do
+        result = subject.call(item: grandchild, label: "Renamed", short: nil)
+
+        expect(result).to be_failure
+        expect(result.errors.to_h[:item]).to include("cannot have sub-items for this custom field.")
+      end
+    end
   end
   # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
 end
