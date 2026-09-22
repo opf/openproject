@@ -38,6 +38,10 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
+import { html, render, TemplateResult } from 'lit-html';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { clockIconData, toDOMString } from '@openproject/octicons-angular';
+import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 
 // The subset of FullCalendar::TimeEntryEvent the chart reads. The calendar view is served
 // the same payload, so the two stay in sync; the chart ignores the event's own start and
@@ -48,10 +52,11 @@ interface ChartTimeEntry {
   hours:number;
   title:string;
   typeId:number;
+  workPackageSubject:string;
+  projectName:string;
 }
 
 const TIME_ENTRY_CLASS_NAME = 'te-chart--time-entry';
-const DAY_SUM_CLASS_NAME = 'te-chart--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-chart--add-entry';
 const ADD_ICON_CLASS_NAME = 'te-chart--add-icon';
 const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
@@ -148,11 +153,14 @@ export default class MyTimeTrackingChartController extends Controller {
       slotMinTime: `${MIN_HOUR - 1}:00:00`,
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
-      slotLabelFormat: (info:VerboseFormattingArg) => ((MAX_HOUR - info.date.hour) / this.scaleRatio).toString(),
+      // The axis counts hours logged, not times, so the labels run from MAX_HOUR down.
+      slotLabelFormat: (info:VerboseFormattingArg) => displayDuration((MAX_HOUR - info.date.hour) / this.scaleRatio),
       events: (fetchInfo, successCallback) => successCallback(this.buildEvents(fetchInfo.startStr, fetchInfo.endStr)),
       eventOverlap: (stillEvent) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
-      eventDidMount: (info) => this.decorateEvent(info.el, info.event.extendedProps),
+      eventContent: (info) => this.eventContent(info.event.extendedProps),
+      eventDidMount: (info) => this.decorateBackgroundEvent(info.el),
       eventClick: (info) => this.handleEventClick(info.el, info.event.startStr, info.event.extendedProps),
+      viewDidMount: () => setTimeout(() => this.addTotalFooter(), 100),
     });
 
     this.calendar.render();
@@ -189,46 +197,36 @@ export default class MyTimeTrackingChartController extends Controller {
     const events:EventInput[] = [];
 
     this.daysBetween(startStr, endStr).forEach((day) => {
-      const duration = dateSums[day] || 0;
-
-      events.push(this.sumEvent(day, duration));
-
       if (this.canCreateValue) {
-        events.push(this.addEvent(day, duration));
+        events.push(this.addEvent(day, dateSums[day] || 0));
       }
     });
 
     return events;
   }
 
-  private timeEntryEvent(entry:ChartTimeEntry, day:string, startHour:number, endHour:number):EventInput {
-    const span = (endHour - startHour) * 60;
-    const classNames = [
-      TIME_ENTRY_CLASS_NAME,
-      ...Highlighting.backgroundClass('type', entry.typeId).split(' '),
-    ];
+  private addTotalFooter():void {
+    const dateSums = this.calculateDateSums();
 
-    if (span < 40) {
-      classNames.push('-no-fadeout');
-    }
+    renderFooterTotals(this.element, (day) => displayDuration(dateSums[day] || 0));
 
-    return {
-      id: entry.id,
-      title: span < 20 ? '' : entry.title,
-      start: this.slotTime(day, startHour),
-      end: this.slotTime(day, endHour),
-      classNames,
-      extendedProps: { entry },
-    };
+    // The footer row is appended to the scrollgrid after FullCalendar has laid the view
+    // out, so the slots still occupy the full height and would run underneath it.
+    this.calendar.updateSize();
   }
 
-  private sumEvent(day:string, duration:number):EventInput {
+  private timeEntryEvent(entry:ChartTimeEntry, day:string, startHour:number, endHour:number):EventInput {
     return {
-      start: this.slotTime(day, MAX_HOUR - Math.min(duration * this.scaleRatio, MAX_HOUR - 0.5) - 0.5),
-      end: this.slotTime(day, MAX_HOUR - Math.min((duration + 0.05) * this.scaleRatio, MAX_HOUR - 0.5)),
-      display: 'background' as const,
-      classNames: [DAY_SUM_CLASS_NAME],
-      extendedProps: { sum: String(I18n.t('js.units.hour_string', { hours: duration.toFixed(2) })) },
+      id: entry.id,
+      title: entry.title,
+      start: this.slotTime(day, startHour),
+      end: this.slotTime(day, endHour),
+      classNames: [
+        TIME_ENTRY_CLASS_NAME,
+        '__hl_border_top',
+        Highlighting.resourceClass('type', entry.typeId),
+      ],
+      extendedProps: { entry },
     };
   }
 
@@ -247,43 +245,50 @@ export default class MyTimeTrackingChartController extends Controller {
     };
   }
 
-  private decorateEvent(element:HTMLElement, props:Record<string, unknown>):void {
-    if (element.classList.contains(ADD_ENTRY_CLASS_NAME)) {
-      const addIcon = document.createElement('div');
-      addIcon.classList.add(ADD_ICON_CLASS_NAME);
-      addIcon.innerText = '+';
-      element.append(addIcon);
-      return;
-    }
-
-    if (props.sum) {
-      element.innerHTML = props.sum as string;
-      return;
-    }
-
+  // Background events render no content of their own, so they keep FullCalendar's default
+  // and are decorated on mount instead.
+  private eventContent(props:Record<string, unknown>):{ domNodes:Node[] }|undefined {
     const entry = props.entry as ChartTimeEntry|undefined;
-    if (!entry || entry.hours < 0.5) {
+
+    if (!entry) {
+      return undefined;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('fc-event-main-frame');
+    render(this.cardContent(entry), wrapper);
+
+    return { domNodes: [wrapper] };
+  }
+
+  private cardContent(entry:ChartTimeEntry):TemplateResult {
+    const clock = toDOMString(clockIconData, 'small', {
+      'aria-hidden': 'true',
+      class: 'octicon',
+    });
+
+    return html`
+      <div class="te-chart--card">
+        <div class="te-chart--card-duration">${displayDuration(entry.hours)}</div>
+        <div class="te-chart--card-subject" title="${entry.workPackageSubject}">
+          ${entry.workPackageSubject}
+        </div>
+        <div class="te-chart--card-project" title="${entry.projectName}">
+          ${entry.projectName}
+        </div>
+        <div class="te-chart--card-icon">${unsafeHTML(clock)}</div>
+      </div>`;
+  }
+
+  private decorateBackgroundEvent(element:HTMLElement):void {
+    if (!element.classList.contains(ADD_ENTRY_CLASS_NAME)) {
       return;
     }
 
-    this.prependDuration(element, entry);
-    this.appendFadeout(element);
-  }
-
-  private prependDuration(element:HTMLElement, entry:ChartTimeEntry):void {
-    element
-      .querySelector('.fc-event-title')
-      ?.insertAdjacentHTML('afterbegin', `<div class="fc-duration">${displayDuration(entry.hours)}</div>`);
-  }
-
-  /* Fade out event text to the bottom to avoid it being cut off weirdly.
-   * Multiline ellipsis with an unknown height is not possible, hence we blur the text.
-   */
-  private appendFadeout(element:HTMLElement):void {
-    const fadeout = document.createElement('div');
-    fadeout.classList.add('fc-fadeout');
-
-    element.append(fadeout);
+    const addIcon = document.createElement('div');
+    addIcon.classList.add(ADD_ICON_CLASS_NAME);
+    addIcon.innerText = '+';
+    element.append(addIcon);
   }
 
   private handleEventClick(element:HTMLElement, startStr:string, props:Record<string, unknown>):void {

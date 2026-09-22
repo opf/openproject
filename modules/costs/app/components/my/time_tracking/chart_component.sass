@@ -14,40 +14,51 @@
   .my-time-tracking-chart-view--canvas
     height: 100%
     min-width: 800px
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    overflow: hidden
 
-  // Move the days header to the bottom, the bars grow downwards from the top.
-  thead
-    display: table-footer-group
-
-  th.fc-day,
-  th.fc-timegrid-axis
-    border-bottom: none
-
-  table.fc-scrollgrid.fc-scrollgrid-liquid
-    border-left: none
+  // The canvas owns the outer frame, so the scrollgrid must not draw its own top and
+  // left border inside the rounded corners.
+  .fc-scrollgrid
+    border-width: 0
 
   .fc-event,
   .fc-bgevent
-    border-radius: 0
     margin-right: 8px
     margin-left: 8px
-
-  .fc-timegrid-event-harness .fc-timegrid-event
-    box-shadow: none
 
   .fc-timegrid-slot.fc-timegrid-slot-minor
     border-top: 0
 
-  .te-chart--day-sum
-    border: none
-    background-color: initial
-    color: var(--body-font-color)
-    text-align: center
-    font-size: 0.875em
-    font-weight: var(--base-text-weight-bold)
-    line-height: 22px
-    opacity: 1
-    cursor: default
+  // FullCalendar measures the axis content and writes the resulting width onto the
+  // colgroup, so the label has to carry the width rather than the cell.
+  .fc-timegrid-slot-label-cushion
+    min-width: 52px
+    padding-right: 8px
+    color: var(--fgColor-muted)
+
+  .fc-col-header-cell
+    padding: 6px 0
+    font-weight: var(--base-text-weight-semibold)
+
+  .fc-timegrid-footer-totals
+    .fc-col-footer-cell
+      padding: 6px 0
+      text-align: center
+      font-weight: var(--base-text-weight-semibold)
+
+    // The canvas draws the bottom edge; the cells' own border would double it.
+    .fc-col-footer-cell,
+    .fc-timegrid-axis
+      border-bottom: 0
+
+  // The day columns tint past and future days, which must not carry into the header and
+  // footer. Today keeps its highlight there. The tint comes from an id selector, so it
+  // takes !important to override, as in the calendar view.
+  .fc-col-header .fc-day:not(.fc-day-today),
+  .fc-timegrid-footer-totals .fc-day:not(.fc-day-today)
+    background-color: var(--fc-page-bg-color) !important
 
   .te-chart--add-entry
     text-align: center
@@ -76,34 +87,45 @@
       .te-chart--add-icon
         display: none
 
-  // Bars carry __hl_background alongside their __hl_type_<id> class. A type without a
-  // color leaves --hl-color undeclared, which makes every declaration in __hl_background
-  // invalid at computed-value time, so the bar loses its background and border. The
-  // outline is not part of that ruleset and keeps such a bar visible.
+  // Entries read as cards: a neutral box carrying the work package type color as the
+  // top border through __hl_border_top.
   .te-chart--time-entry
-    outline: 1px solid var(--borderColor-default)
-    outline-offset: -1px
+    background: var(--bgColor-default)
+    border: 0
+    border-radius: 5px
+    box-shadow: var(--shadow-floating-small)
+    overflow: hidden
 
-    .fc-fadeout
-      position: relative
-      bottom: 2em
-      height: 2em
-      z-index: 5
-      background-image: linear-gradient(rgb(from var(--hl-color) r g b / 0) 0%, var(--hl-color) 100%)
+    .fc-event-main
+      height: 100%
+      color: var(--fgColor-default)
 
-    body[data-color-mode="dark"] & .fc-fadeout
-      background-image: linear-gradient(rgb(from var(--hl-color) r g b / 0) 0%, rgb(from var(--hl-color) r g b / 0.18) 100%)
+  .te-chart--card
+    display: flex
+    flex-direction: column
+    height: 100%
+    padding: 8px
+    gap: 2px
+    overflow: hidden
 
-    &.-no-fadeout
-      .fc-fadeout
-        display: none
+  .te-chart--card-duration
+    color: var(--fgColor-muted)
+    font-size: var(--text-body-size-small)
+    line-height: var(--text-body-lineHeight-small)
 
-    .fc-event-title-container
-      margin: 0 4px !important
-      line-height: 14px !important
+  .te-chart--card-subject
+    color: var(--fgColor-default)
+    font-size: var(--text-body-size-small)
+    line-height: var(--text-body-lineHeight-small)
 
-  .fc-duration
-    display: inline-block
-    margin-right: 5px
-    padding-right: 5px
-    font-weight: var(--base-text-weight-bold)
+  .te-chart--card-project
+    color: var(--fgColor-muted)
+    font-size: var(--text-caption-size)
+    line-height: var(--text-caption-lineHeight)
+
+  .te-chart--card-icon
+    display: flex
+    margin-top: auto
+    align-self: flex-end
+    flex-shrink: 0
+    color: var(--fgColor-muted)

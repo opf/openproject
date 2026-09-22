@@ -45,6 +45,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
+import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -320,22 +321,8 @@ export default class MyTimeTrackingController extends Controller {
 
   addTotalFooter() {
     if (!this.calendar) return;
-    const calendarScrollGridWrapper = document.querySelector('.fc-timegrid .fc-scrollgrid tbody');
 
-    if (!calendarScrollGridWrapper) return;
-
-    // Remove existing footer if it exists
-    const existingFooter = document.querySelector('.fc-timegrid-footer-totals');
-    if (existingFooter) { existingFooter.remove(); }
-
-    const days:string[] = [];
-    document
-      .querySelectorAll('.fc-timegrid-cols .fc-day')
-      .forEach((dayElement) => {
-        days.push(dayElement.getAttribute('data-date')!);
-      });
-
-    calendarScrollGridWrapper.appendChild(this.buildHtmlFooter(days));
+    renderFooterTotals(document, (day) => displayDuration(this.calculateTotalHours(day)));
   }
 
   calculateTotalHours(dayStr:string):number {
@@ -355,74 +342,6 @@ export default class MyTimeTrackingController extends Controller {
     });
 
     return totalHours;
-  }
-
-  buildHtmlFooter(days:string[]):HTMLTableRowElement {
-    const tr = document.createElement('tr');
-    tr.setAttribute('role', 'presentation');
-    tr.className = 'fc-scrollgrid-section fc-timegrid-footer-totals';
-
-    const td = document.createElement('td');
-    td.setAttribute('role', 'presentation');
-
-    const scrollerHarness = document.createElement('div');
-    scrollerHarness.className = 'fc-scroller-harness';
-
-    const scroller = document.createElement('div');
-    scroller.className = 'fc-scroller';
-    scroller.style.overflow = 'hidden scroll';
-
-    const table = document.createElement('table');
-    table.setAttribute('role', 'presentation');
-    table.className = 'fc-col-footer';
-
-    const colgroup = document.createElement('colgroup');
-    const col = document.createElement('col');
-    const otherCol = document.querySelector<HTMLTableColElement>('.fc-scrollgrid-section-header .fc-col-header col');
-    if (otherCol) {
-      col.style.width = otherCol.style.width;
-    }
-
-    const tbody = document.createElement('tbody');
-    tbody.setAttribute('role', 'presentation');
-
-    const tbodyTr = document.createElement('tr');
-    tbodyTr.setAttribute('role', 'row');
-
-    const th1 = document.createElement('th');
-    th1.setAttribute('aria-hidden', 'true');
-    th1.className = 'fc-timegrid-axis';
-
-    const axisFrame = document.createElement('div');
-    axisFrame.className = 'fc-timegrid-axis-frame';
-
-    th1.appendChild(axisFrame);
-    tbodyTr.appendChild(th1);
-
-    // Add columns for each day
-    days.forEach((day) => {
-      const footerCell = document.createElement('th');
-      footerCell.setAttribute('role', 'columnfooter');
-      footerCell.className = 'fc-col-footer-cell fc-day';
-
-      // Inner div in der zweiten Zelle erstellen
-      const syncInner = document.createElement('div');
-      syncInner.className = 'fc-scrollgrid-sync-inner';
-      syncInner.textContent = displayDuration(this.calculateTotalHours(day));
-      footerCell.appendChild(syncInner);
-      tbodyTr.appendChild(footerCell);
-    });
-
-    tbody.appendChild(tbodyTr);
-    colgroup.appendChild(col);
-    table.appendChild(colgroup);
-    table.appendChild(tbody);
-    scroller.appendChild(table);
-    scrollerHarness.appendChild(scroller);
-    td.appendChild(scrollerHarness);
-    tr.appendChild(td);
-
-    return tr;
   }
 
   updateTimeEntry(timeEntryId:string, spentOn:string, startTime:string|null, hours:number, revertFunction:() => void) {
