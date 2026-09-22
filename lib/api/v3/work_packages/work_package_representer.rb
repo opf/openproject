@@ -676,6 +676,8 @@ module API
                                end
                              },
                              link: ->(*) {
+                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
+
                                represented.effective_labels.map do |label|
                                  ::API::Decorators::LinkObject
                                    .new(label,
