@@ -106,6 +106,12 @@ module Admin
           redirect_to action: :show, id: @active_item.parent, status: :see_other
         end
 
+        def reorder_alphabetical
+          item_service.reorder_children_alphabetically(parent: @active_item)
+
+          redirect_to action: :show, id: @active_item, status: :see_other
+        end
+
         def change_parent
           parse_parent_input(new_parent_params)
             .bind { item_service.move_item(item: @active_item, new_parent: it) }

@@ -55,6 +55,16 @@ module Admin
           end
         end
 
+        def reorder_alphabetical_path
+          custom_field_id = root.custom_field_id
+
+          if project_custom_field_context?
+            reorder_alphabetical_admin_settings_project_custom_field_item_path(custom_field_id, model)
+          else
+            reorder_alphabetical_custom_field_item_path(custom_field_id, model)
+          end
+        end
+
         def children
           list = model.children
           return list unless @new_item

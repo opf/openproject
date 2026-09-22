@@ -159,9 +159,18 @@ module CustomFields
         Success()
       end
 
-      # Mark an item as the custom field's default value.
-      # @param item [CustomField::Hierarchy::Item]
-      # @return [Success(CustomField::Hierarchy::Item)]
+      def reorder_children_alphabetically(parent:)
+        ActiveRecord::Base.transaction do
+          parent.children.reorder(Arel.sql("LOWER(label)")).each_with_index do |child, index|
+            child.update_column(:sort_order, index)
+          end
+        end
+
+        update_position_cache(parent.root)
+
+        Success()
+      end
+
       def set_default(item:)
         ActiveRecord::Base.transaction do
           unless item.root.custom_field.multi_value?
@@ -174,8 +183,6 @@ module CustomFields
         Success(item)
       end
 
-      # @param item [CustomField::Hierarchy::Item]
-      # @return [Success(CustomField::Hierarchy::Item)]
       def clear_default(item:)
         item.update!(default_value: false)
 
