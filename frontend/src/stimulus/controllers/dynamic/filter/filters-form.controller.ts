@@ -84,7 +84,6 @@ export default class FiltersFormController extends Controller {
 
   declare readonly hasFilterFormToggleTarget:boolean;
   declare readonly hasFiltersInputTarget:boolean;
-  declare readonly hasAddFilterSelectTarget:boolean;
 
   static values = {
     displayFilters: { type: Boolean, default: false },
@@ -117,11 +116,6 @@ export default class FiltersFormController extends Controller {
   private boundListener:() => void;
   private boundClearListener:(event:MouseEvent) => void;
   private sentFilters:string|null = null;
-
-  // Rows the user added that have no value yet. They are kept visible here instead of being
-  // sent: the server hides a row its query does not hold, and a blank value would make that
-  // query invalid, which empties the result set.
-  private readonly pendingFilters = new Set<string>();
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -304,7 +298,6 @@ export default class FiltersFormController extends Controller {
     const selectedFilter = this.findTargetByName(filterName, this.filterTargets);
     if (selectedFilter) {
       selectedFilter.removeAttribute('hidden');
-      this.pendingFilters.add(filterName);
     }
     this.addFilterSelectTarget.selectedOptions[0].disabled = true;
     this.addFilterSelectTarget.selectedIndex = 0;
@@ -312,39 +305,6 @@ export default class FiltersFormController extends Controller {
     this.focusFilterValueIfPossible(selectedFilter);
 
     this.sendFormLive();
-  }
-
-  // A re-render renders each row from what the query holds, so it hides the pending ones again.
-  // Run after every stream render, and for rows that come back as new nodes rather than morphed.
-  restorePendingFilters() {
-    this.pendingFilters.forEach((filterName) => {
-      const row = this.findTargetByName(filterName, this.filterTargets);
-
-      if (!row?.hasAttribute('hidden')) {
-        // The row is gone, or the query holds it now and the server renders it visible itself.
-        this.pendingFilters.delete(filterName);
-        return;
-      }
-
-      this.showPendingFilter(row, filterName);
-    });
-  }
-
-  filterTargetConnected(target:HTMLElement) {
-    const filterName = target.getAttribute('data-filter-name');
-
-    if (filterName && this.pendingFilters.has(filterName) && target.hasAttribute('hidden')) {
-      this.showPendingFilter(target, filterName);
-    }
-  }
-
-  private showPendingFilter(row:HTMLElement, filterName:string) {
-    row.removeAttribute('hidden');
-
-    if (!this.hasAddFilterSelectTarget) return;
-
-    const option = Array.from(this.addFilterSelectTarget.options).find((candidate) => candidate.value === filterName);
-    option?.setAttribute('disabled', 'disabled');
   }
 
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
@@ -383,7 +343,6 @@ export default class FiltersFormController extends Controller {
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
     const filterToRemove = this.findTargetByName(filterName, this.filterTargets);
     filterToRemove?.setAttribute('hidden', '');
-    this.pendingFilters.delete(filterName);
 
     const selectOptions = Array.from(this.addFilterSelectTarget.options);
     const removedFilterOption = selectOptions.find((option) => option.value === filterName);
@@ -547,7 +506,6 @@ export default class FiltersFormController extends Controller {
         .then((response:Response) => response.text())
         .then((html:string) => {
           renderStreamMessage(html);
-          this.restorePendingFilters();
           if (this.sentFilters === newFilters) {
             window.history.replaceState(window.history.state, '', browserUrl);
           }
