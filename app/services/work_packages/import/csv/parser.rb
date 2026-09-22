@@ -78,10 +78,15 @@ module WorkPackages
 
         def header_entry(candidate)
           @header_entries ||= {}
-          @header_entries[candidate] ||=
-            ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: candidate)
-                 .with_index
-                 .find { |values, _| values.any?(&:present?) } || [[], 0]
+          @header_entries[candidate] ||= first_populated_row(candidate)
+        end
+
+        def first_populated_row(candidate)
+          values, index = ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: candidate)
+                               .with_index
+                               .find { |row, _| row.any?(&:present?) } || [[], 0]
+
+          [values.reverse.drop_while(&:blank?).reverse, index]
         end
 
         def resolvable_headers(candidate)

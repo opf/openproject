@@ -134,6 +134,13 @@ RSpec.describe WorkPackages::Import::CSV::HeaderMap do
       expect(problem.message).to start_with("cannot be imported")
     end
 
+    it "reports a column the header row left without a name" do
+      problem = map.call(["Subject", "", "Type"]).result.first
+
+      expect(problem.column).to eq("B")
+      expect(problem.message).to eq("This column has no name. Name it or remove the column.")
+    end
+
     it "suggests the column a typo was probably meant to be" do
       problem = map.call(["Assignde"]).result.first
 

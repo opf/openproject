@@ -85,6 +85,8 @@ module WorkPackages
         private
 
         def examine(header, index)
+          return @problems << unnamed(index, header) if header.blank?
+
           attribute = resolve(header)
 
           if attribute.nil?
@@ -102,6 +104,10 @@ module WorkPackages
           shared = captions.values.tally.select { |_, count| count > 1 }.keys
 
           captions.reject { |_, caption| shared.include?(caption) }.invert
+        end
+
+        def unnamed(index, header)
+          problem(index, header, I18n.t("work_packages.import.csv.header.unnamed"))
         end
 
         def unknown(index, header)

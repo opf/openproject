@@ -7485,6 +7485,7 @@ en:
           percent_complete_status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
           unknown: "cannot be imported."
           unknown_with_suggestion: "cannot be imported. Did you mean %{suggestion}?"
+          unnamed: "This column has no name. Name it or remove the column."
         job:
           checking: "Checking the file"
           importing: "Importing the file"

@@ -61,6 +61,16 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
       end
     end
 
+    it "ignores the empty cells a spreadsheet leaves at the end of the header row" do
+      with_csv("Subject,Type,,\nA,Task,,\n") do |path|
+        result = described_class.call(path)
+
+        expect(result).to be_success
+        expect(result.result.first.values).to eq(subject: "A", type: "Task")
+        expect(result.result.first.problems).to be_empty
+      end
+    end
+
     it "finds the header under a leading blank line, and numbers rows from where it is" do
       with_csv("\nSubject,Type\nA,Task\n") do |path|
         rows = described_class.call(path).result
@@ -181,6 +191,16 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
 
         expect(row.values).to eq(subject: "Hello", type: " world")
         expect(row.problems).to be_present
+      end
+    end
+
+    it "still reports a value sitting under an empty cell of the header row" do
+      with_csv("Subject,Type,,\nA,Task,stray,\n") do |path|
+        row = described_class.call(path).result.first
+
+        expect(row.values).to eq(subject: "A", type: "Task")
+        expect(row.problems)
+          .to eq(["has 4 cells but the header has 2. A value containing the separator has to be quoted."])
       end
     end
 
