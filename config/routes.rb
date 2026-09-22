@@ -122,7 +122,11 @@ Rails.application.routes.draw do
     get "/logout", action: "logout", as: "signout"
 
     get "/sso", action: "auth_source_sso_failed", as: "sso_failure"
+  end
 
+  get "/login/omniauth/:provider", to: "omni_auth_start#show", as: "omniauth_login"
+
+  scope controller: "account" do
     get "/login/:stage/failure", action: "stage_failure", as: "stage_failure"
     get "/login/:stage/:secret", action: "stage_success", as: "stage_success"
 
@@ -178,17 +182,12 @@ Rails.application.routes.draw do
 
     resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
       get :reset_dialog
-      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
-        collection do
-          post :add_group
-        end
-
-        member do
-          post :cancel_edit
-          put :drop
-          put :move
-          patch :update_query
-        end
+      resource :group, only: %i[create edit update destroy], controller: "form_configuration_groups_tab" do
+        post :add_group
+        post :cancel_edit
+        put :drop
+        put :move
+        patch :update_query
       end
       resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
         member do
@@ -272,6 +271,7 @@ Rails.application.routes.draw do
 
     member do
       get :menu
+      get :deletion_dialog
       put :drop
       post :duplicate
     end
@@ -285,6 +285,10 @@ Rails.application.routes.draw do
     nested do
       scope "(in-project/:in_project_id)" do
         resources :variants, controller: "variants", only: %i[index destroy] do
+          collection do
+            get :comparison
+          end
+
           member do
             get :menu
             post :make_default
@@ -310,7 +314,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :statuses, except: :show
+  resources :statuses, except: :show do
+    member do
+      put :move
+    end
+  end
 
   get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
@@ -698,6 +706,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/roles/:role_id/permissions_dialog" => "roles/permissions_dialogs#show", as: :role_permissions_dialog
+
   scope "admin" do
     resource :announcements, only: %i[edit update]
 
@@ -760,6 +770,7 @@ Rails.application.routes.draw do
 
     resources :roles, except: %i[show] do
       member do
+        get :deletion_dialog
         put :drop
       end
 
@@ -1050,6 +1061,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :members, only: %i[index]
+
     resources :departments,
               only: %i[index show edit update destroy] do
       member do
@@ -1242,6 +1255,8 @@ Rails.application.routes.draw do
     member do
       get "/edit(/:tab)" => "placeholder_users#edit", as: "edit"
       get :deletion_info
+      get :update_criteria
+      post :toggle_criteria
     end
   end
 
@@ -1387,7 +1402,6 @@ Rails.application.routes.draw do
 
   scope :notifications do
     get "/share_upsell" => "notifications#share_upsell", as: "notifications_share_upsell"
-    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsell"
     get "/", to: "notifications#index", as: :notifications_center
   end
 

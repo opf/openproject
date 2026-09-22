@@ -611,8 +611,10 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       within(cf_filter) do
         projects_page.expect_ng_value_label(select_value_id, list_custom_field.possible_values[2].value)
-        projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value, clear: false
       end
+      projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value,
+                                            filter_name: list_custom_field.column_name,
+                                            clear: false
       wait_for_reload
 
       projects_page.expect_projects_not_listed(development_project)
@@ -714,7 +716,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
 
       it "does not offer the filter" do
@@ -770,7 +772,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       shared_let(:program) { create(:program, name: "Growth Program") }
 
       it "does not offer the filter" do

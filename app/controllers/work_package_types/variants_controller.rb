@@ -32,7 +32,7 @@ module WorkPackageTypes
   class VariantsController < BaseTabController
     include OpTurbo::ComponentStream
 
-    administration_only! :index, :make_default, :remove_default,
+    administration_only! :index, :comparison, :make_default, :remove_default,
                          :convert_to_global_dialog, :convert_to_global
 
     current_menu_item do
@@ -47,6 +47,10 @@ module WorkPackageTypes
       render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
     end
 
+    def comparison
+      @comparison = VariantComparison.new(type: @type)
+    end
+
     def menu
       render Types::VariantActionsComponent.new(variant: named_variant, back_url: params[:back_url]),
              layout: false
@@ -56,7 +60,7 @@ module WorkPackageTypes
       variant = named_variant
       targets = variant.migration_targets.in_display_order
 
-      respond_with_dialog Types::DeletionDialogComponent.new(
+      respond_with_dialog Types::VariantDeletionDialogComponent.new(
         variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
         url: type_variant_path(type_id: variant.type_id, id: variant.id)
       )
@@ -223,7 +227,7 @@ module WorkPackageTypes
     end
 
     def convert_confirm_dialog(variant)
-      Types::ConvertToGlobalDialogComponent.new(url: convert_path(variant))
+      Types::ConvertToGlobalDialogComponent.new(variant:, url: convert_path(variant))
     end
 
     def convert_path(variant)

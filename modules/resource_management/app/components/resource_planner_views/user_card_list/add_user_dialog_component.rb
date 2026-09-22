@@ -32,6 +32,7 @@ module ResourcePlannerViews::UserCardList
   class AddUserDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "rm-add-user-dialog"
     FORM_ID = "rm-add-user-form"
@@ -51,7 +52,7 @@ module ResourcePlannerViews::UserCardList
     end
 
     def form_url
-      users_project_resource_planner_view_path(@project, @resource_planner, @view)
+      planner_view_users_path(@resource_planner, @view)
     end
 
     def already_added_user_ids

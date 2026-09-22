@@ -24,6 +24,10 @@
 fr:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Étiquettes
       gitlab_pipeline:
@@ -39,6 +43,9 @@ fr:
             labels:
               invalid_schema: 'doit être un tableau de hachages avec les clés : color, title'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        other: GitLab branches
       gitlab_issue:
         one: Ticket GitLab
         other: Tickets GitLab
@@ -55,7 +62,6 @@ fr:
     commit: Commit
     gitlab: Identifiant GitLab
     gitlab_avatar_url: URL de l'avatar
-    gitlab_email: E-mail GitLab
     gitlab_html_url: URL HTML GitLab
     gitlab_merge_request: Requête de fusion
     gitlab_name: Nom GitLab

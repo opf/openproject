@@ -51,6 +51,7 @@ module Backlogs
         controller: "filter--filters-form",
         "filter--filters-form-output-format-value": "params",
         "filter--filters-form-turbo-frame-request-value": "backlogs_container",
+        "filter--filters-form-reset-params-value": %w[page all].to_json,
         "filter--filters-form-url-path-name-value": helpers.project_backlogs_backlog_path(@project),
         "filter--filters-form-clear-button-id-value": clear_button_id,
         "filter--filters-form-display-filters-value": filters_expanded?

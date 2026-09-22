@@ -49,17 +49,14 @@ he:
       budget:
         one: Budget
         two: Budgets
-        many: Budgets
         other: Budgets
       labor_budget_item:
         one: Planned labor cost
         two: Planned labor costs
-        many: Planned labor costs
         other: Planned labor costs
       material_budget_item:
         one: Unit
         two: Units
-        many: Units
         other: Units
   activity:
     filter:
@@ -67,6 +64,8 @@ he:
   attributes:
     budget: תקציב
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:

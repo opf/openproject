@@ -96,7 +96,7 @@ class ForumsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to project_forums_path(@project)
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

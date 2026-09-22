@@ -27,12 +27,12 @@ fr:
         cost_report:
           pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
-      cost_report:
-        one: Cost report
-        other: Cost reports
       cost_query:
         one: Rapport de coûts
         other: Rapports de coûts
+      cost_report:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Enregistrer le rapport sous...
   comments: Commentaire
   cost_reports_title: Temps et coûts

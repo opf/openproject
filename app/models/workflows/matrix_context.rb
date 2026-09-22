@@ -56,11 +56,11 @@ module Workflows
     def readonly? = variant.linked?(TypeVariant::WORKFLOWS)
 
     def eligible_roles
-      @eligible_roles ||= Workflow.ordered_eligible_roles
+      @eligible_roles ||= Workflows::StatusTransition.ordered_eligible_roles
     end
 
     def roles
-      @roles ||= Workflow.selected_roles(@requested_role_ids)
+      @roles ||= Workflows::StatusTransition.selected_roles(@requested_role_ids)
     end
 
     # The dialogs forward these verbatim, so they must stay the raw request and never fall

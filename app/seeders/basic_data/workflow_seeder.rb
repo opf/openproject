@@ -35,7 +35,7 @@ module BasicData
       BasicData::StatusSeeder,
       BasicData::TypeSeeder
     ]
-    self.model_class = Workflow
+    self.model_class = Workflows::StatusTransition
     self.seed_data_model_key = "workflows"
     self.attribute_names_for_required_references = %w[statuses type]
 
@@ -55,7 +55,7 @@ module BasicData
         statuses.each do |old_status|
           statuses.each do |new_status|
             [member, project_admin, work_package_editor].each do |role|
-              model_class.create type_variant:,
+              model_class.create workflow: type_variant.workflow,
                                  role:,
                                  old_status:,
                                  new_status:

@@ -5,7 +5,6 @@ he:
       boards/grid:
         one: Board
         two: Boards
-        many: Boards
         other: Boards
   boards:
     board_type_attributes:

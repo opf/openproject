@@ -27,10 +27,10 @@ uz:
         cost_report:
           pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
-      cost_report:
+      cost_query:
         one: Cost report
         other: Cost reports
-      cost_query:
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Save report as...

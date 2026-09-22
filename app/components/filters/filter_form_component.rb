@@ -71,11 +71,15 @@
 # (`wrap_with_controller: true`); otherwise the host's controller wrapper
 # decides.
 #
-# `autocomplete_append_to:` forwards an `appendTo` selector (or DOM reference
-# string ng-select understands, e.g. `"#my-dialog"` or `"body"`) to every
-# autocompleter the component renders. Use this when the component is embedded
-# in a Primer dialog or another container that clips overflow, so the dropdown
-# portal renders outside that container instead of being clipped.
+# `dialog_id:` names the dialog hosting the form. Pass it when the component is
+# embedded in a Primer dialog so the overlays the filter inputs open (ng-select
+# dropdowns and flatpickr calendars) are portalled into the dialog instead of
+# being clipped by it or rendered behind it.
+#
+# The inputs are capped at a readable width by default. Pass `full_width: true`
+# where they should instead stretch to the full width of whatever contains the
+# component. Only meaningful together with `wrap_with_controller: true`; without
+# it the host's wrapper decides.
 class Filters::FilterFormComponent < ApplicationComponent
   include OpPrimer::AttributesHelper
   include Primer::FetchOrFallbackHelper
@@ -89,7 +93,8 @@ class Filters::FilterFormComponent < ApplicationComponent
                  wrap_with_controller: false,
                  hidden_input_name: nil,
                  output_format: nil,
-                 autocomplete_append_to: nil,
+                 dialog_id: nil,
+                 full_width: false,
                  **wrapper_arguments)
     super()
     @builder = builder
@@ -98,11 +103,12 @@ class Filters::FilterFormComponent < ApplicationComponent
     @wrap_with_controller = wrap_with_controller
     @hidden_input_name = hidden_input_name
     @output_format = fetch_or_fallback(OUTPUT_FORMATS, output_format.to_sym) if output_format
-    @autocomplete_append_to = autocomplete_append_to
+    @dialog_id = dialog_id
     @wrapper_arguments = wrapper_arguments
     @wrapper_arguments[:tag] ||= :div
     @wrapper_arguments[:classes] = class_names(
       "op-filters-form -expanded",
+      ("op-filters-form--full-width" if full_width),
       @wrapper_arguments[:classes]
     )
     @wrapper_arguments[:data] = merge_data(
@@ -146,7 +152,7 @@ class Filters::FilterFormComponent < ApplicationComponent
   def sub_forms
     forms = map_filter do |filter, active, additional_attributes|
       filter_form_class(filter)
-        .new(@builder, filter:, additional_attributes:, active:)
+        .new(@builder, filter:, additional_attributes:, active:, dialog_id: @dialog_id)
     end
 
     forms << Filters::Inputs::AddFilterForm.new(
@@ -167,7 +173,7 @@ class Filters::FilterFormComponent < ApplicationComponent
 
   def additional_filter_attributes(filter)
     opts = filter.autocomplete_options
-    opts = opts.merge(appendTo: @autocomplete_append_to) if @autocomplete_append_to
+    opts = opts.merge(appendTo: "##{@dialog_id}") if @dialog_id
     opts.any? ? { autocomplete_options: opts } : {}
   end
 

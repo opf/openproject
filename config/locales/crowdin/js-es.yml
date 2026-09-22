@@ -804,12 +804,32 @@ es:
       sorting_disabled: ordenación deshabilitada
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Elemento
         fallback_list_name: otra lista
         move_failed_check_position: No se ha podido trasladar. Comprueba la posición actual del elemento.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: No se ha podido trasladar. %{label} regresó a su posición anterior.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} se trasladó al puesto %{position} de %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} se trasladó a %{list}, posición %{position} de %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. 1 item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: 1 item selected.
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Cerrar ventana modal

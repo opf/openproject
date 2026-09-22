@@ -32,7 +32,6 @@ he:
         participant:
           one: 1 Participant
           two: "%{count} Participants"
-          many: "%{count} Participants"
           other: "%{count} Participants"
         participants: משתתפים
         participants_added: 'Participants added:'
@@ -105,42 +104,34 @@ he:
       meeting:
         one: One-time meeting
         two: One-time meetings
-        many: One-time meetings
         other: One-time meetings
       meeting_agenda_item:
         one: Agenda item
         two: Agenda items
-        many: Agenda items
         other: Agenda items
       meeting_outcome:
         one: Outcome
         two: Outcomes
-        many: Outcomes
         other: Outcomes
       meeting_participant:
         one: Meeting participant
         two: Meeting participants
-        many: Meeting participants
         other: Meeting participants
       meeting_section:
         one: Section
         two: Sections
-        many: Sections
         other: Sections
       recurring_meeting:
         one: Recurring meeting
         two: Recurring meetings
-        many: Recurring meetings
         other: Recurring meetings
       scheduled_meeting:
         one: Scheduled meeting
         two: Scheduled meetings
-        many: Scheduled meetings
         other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
         two: iCal Meeting subscriptions
-        many: iCal Meeting subscriptions
         other: iCal Meeting subscriptions
   activity:
     filter:
@@ -250,7 +241,6 @@ he:
   label_meeting_more:
     one: There is one more meeting.
     two: There are %{count} more meetings.
-    many: There are %{count} more meetings.
     other: There are %{count} more meetings.
   label_meeting_new: פגישה חדשה
   label_meeting_new_dynamic: New one-time meeting
@@ -298,12 +288,10 @@ he:
   label_recurring_meeting_more:
     one: There is one more scheduled meeting (%{schedule}).
     two: There are %{count} more scheduled meetings (%{schedule}).
-    many: There are %{count} more scheduled meetings (%{schedule}).
     other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
     one: There is one more past meeting.
     two: There are %{count} more past meetings.
-    many: There are %{count} more past meetings.
     other: There are %{count} more past meetings.
   label_recurring_meeting_new: New recurring meeting
   label_recurring_meeting_next_occurrence: Next occurrence
@@ -586,7 +574,6 @@ he:
       occurrences:
         one: This results in 1 upcoming occurrence
         two: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
         other: This results in %{count} upcoming occurrences
       occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
@@ -621,17 +608,14 @@ he:
       x_daily:
         one: Every day
         two: Every %{count} days
-        many: Every %{count} days
         other: Every %{count} days
       x_monthly:
         one: Every month
         two: Every %{count} months
-        many: Every %{count} months
         other: Every %{count} months
       x_weekly:
         one: Every week
         two: Every %{count} weeks
-        many: Every %{count} weeks
         other: Every %{count} weeks
     in_words:
       daily_interval: Every %{interval} days
