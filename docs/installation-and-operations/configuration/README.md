@@ -341,6 +341,21 @@ OPENPROJECT_SEED_DESIGN_EXPORT__LOGO="..."
 OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 ```
 
+**Applying the design only on first seed**
+
+By default, these variables are re-applied on every seed (including upgrades), which overwrites any design changes made in the administration UI.
+
+To seed an initial design once and then leave it under admin control, set:
+
+```shell
+OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY="true"
+```
+
+When this flag is true, the seeder runs only if no custom design (`CustomStyle`) exists yet. Omit the flag or set it to `false` to keep the default always-reapply behavior.
+
+> [!NOTE]
+> On BIM edition, the BIM theme seeder already creates a custom design during first install. With `ONLY__WHEN__EMPTY=true`, the environment design will therefore not be applied on BIM first install.
+
 ## Examples for common use cases
 
 - [`attachments_storage_path`](#attachments-storage-path)
