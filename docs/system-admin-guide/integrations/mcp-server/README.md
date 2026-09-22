@@ -70,7 +70,7 @@ The available response format options are:
 
 ![Model context protocol (MCP) settings under OpenProject administration](openproject_system_guide_new_mcp.png)
 
-Individual tools and resources can also be enabled or disabled. Their titles and descriptions can be customized. This can be useful if you
+Individual tools and resources can also be enabled or disabled. Their titles and descriptions can be customized. This can be useful if you want to introduce alternative terminology for certain entities or limit the functionality available through MCP.
 want to introduce alternative terminology for certain entities or limit the functionality available through MCP.
 
 For example, if work packages are called "work items" in your day-to-day language, you can rename **Search work packages** to **Search work
