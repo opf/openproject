@@ -7535,6 +7535,7 @@ en:
           message: "Problem"
           row: "Line"
           value: "Value"
+      run_failed: "This run did not finish, and nothing was created. Upload the file again."
       running_note: "This runs in the background. Please do not close the page."
       title: "Import work packages"
       csv:
