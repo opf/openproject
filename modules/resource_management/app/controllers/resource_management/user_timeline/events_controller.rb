@@ -124,21 +124,51 @@ module ResourceManagement
       end
 
       def edit_url_for(allocation)
-        return unless may_allocate?
+        return unless may_allocate?(allocation)
 
-        edit_project_resource_allocation_path(@project, allocation)
+        edit_allocation_path(@project, allocation)
       end
 
-      def may_allocate?
-        return @may_allocate if defined?(@may_allocate)
+      # The permission lives on the allocation's own project, which on a global
+      # planner differs from bar to bar.
+      def may_allocate?(allocation)
+        allocation_project = allocation.project
+        return false if allocation_project.nil?
 
-        @may_allocate = current_user.allowed_in_project?(:allocate_user_resources, @project)
+        @may_allocate ||= {}
+        @may_allocate.fetch(allocation_project.id) do
+          @may_allocate[allocation_project.id] =
+            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
+        end
       end
 
       def render_bar(allocation, overbooked_ranges)
         ResourcePlannerViews::UserTimeline::AllocationBarComponent
-          .new(allocation:, overbooked_ranges:)
+          .new(allocation:, overbooked_ranges:, visible_work_package_ids:,
+               project_names: (visible_project_names if @project.nil?))
           .render_in(view_context)
+      end
+
+      # A global planner's bars span projects, so each one names its own. Only the
+      # projects the viewer may see are resolved; the rest stay undisclosed.
+      def visible_project_names
+        @visible_project_names ||= begin
+          project_ids = allocation_entities.map(&:project_id).uniq
+          Project.visible(current_user).where(id: project_ids).pluck(:id, :name).to_h
+        end
+      end
+
+      # A user's allocations span every project they work in, so the subjects have
+      # to be filtered against what the viewer may actually see.
+      def visible_work_package_ids
+        @visible_work_package_ids ||=
+          WorkPackage.visible(current_user).where(id: allocation_entities.map(&:id)).pluck(:id).to_set
+      end
+
+      def allocation_entities
+        @allocation_entities ||= allocations_by_principal.values.flatten
+                                                         .select { |a| a.entity_type == "WorkPackage" }
+                                                         .filter_map(&:entity)
       end
 
       def non_working_events

@@ -53,7 +53,7 @@ class Shares::CreateService < BaseServices::Create
       .new(share.principal, current_user: user, contract_class: EmptyContract)
       .call(user_ids: share.principal.user_ids,
             send_notifications: false,
-            project_ids: [share.project_id]) # TODO: Here we should add project_id and the entity id as well
+            member_id: share.id)
   end
 
   def send_notification(share)

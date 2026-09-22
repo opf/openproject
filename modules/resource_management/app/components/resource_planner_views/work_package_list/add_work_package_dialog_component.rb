@@ -32,6 +32,7 @@ module ResourcePlannerViews::WorkPackageList
   class AddWorkPackageDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "rm-add-work-package-dialog"
     FORM_ID = "rm-add-work-package-form"
@@ -51,7 +52,7 @@ module ResourcePlannerViews::WorkPackageList
     end
 
     def form_url
-      work_packages_project_resource_planner_view_path(@project, @resource_planner, @view)
+      planner_view_work_packages_path(@resource_planner, @view)
     end
 
     def already_added_work_package_ids

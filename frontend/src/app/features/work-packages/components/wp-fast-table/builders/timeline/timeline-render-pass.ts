@@ -54,6 +54,7 @@ export class TimelineRenderPass {
 
       const secondary = this.timelineBuilder.build(wpId);
       secondary.classList.add(row.classIdentifier, `${row.classIdentifier}-timeline`, ...row.additionalClasses);
+      secondary.dataset.classIdentifier = row.classIdentifier;
       this.timelineBody.appendChild(secondary);
     });
   }

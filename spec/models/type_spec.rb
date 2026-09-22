@@ -319,14 +319,14 @@ RSpec.describe Type do
 
   describe "#copy_from_type on own_workflows" do
     before do
-      allow(Workflow)
+      allow(Workflows::StatusTransition)
         .to receive(:copy)
     end
 
-    it "calls the .copy method on Workflow" do
+    it "calls the .copy method on Workflows::StatusTransition" do
       type.default_variant.own_workflows.copy_from_variant(type2.default_variant)
 
-      expect(Workflow)
+      expect(Workflows::StatusTransition)
         .to have_received(:copy)
         .with(type2.default_variant, nil, type.default_variant, nil)
     end
@@ -372,14 +372,15 @@ RSpec.describe Type do
       expect(type.default_variant.workflows).not_to include(own)
     end
 
-    it "writes through #own_workflows to its own rows while linked, leaving the source untouched" do
+    it "copies onto a forked workflow while linked, leaving the source untouched" do
       link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-      expect(type.default_variant.own_workflows).to be_empty
+      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
 
       type.default_variant.own_workflows.copy_from_variant(owner.default_variant)
 
       expect(type.default_variant.own_workflows.sole)
         .to have_attributes(old_status_id: statuses[0].id, new_status_id: statuses[1].id)
+      expect(type.default_variant.workflow_id).not_to eq(owner.default_variant.workflow_id)
       expect(owner.default_variant.reload.own_workflows).to contain_exactly(owner_workflow)
     end
   end

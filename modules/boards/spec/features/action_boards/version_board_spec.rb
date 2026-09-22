@@ -240,6 +240,9 @@ RSpec.describe "Version action board",
 
       visit project_settings_versions_path(project)
       expect(page).to have_content "Completely new version"
+
+      wait_for_turbo { click_on I18n.t("versions.filter_status_labels.closed") }
+
       expect(page).to have_content "Closed version"
 
       board_page.visit!

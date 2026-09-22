@@ -36,7 +36,7 @@ module WorkPackageTypes
 
     def edit
       @current_tab = params[:tab] || "always"
-      @roles = Workflow.selected_roles(params[:role_ids])
+      @roles = Workflows::StatusTransition.selected_roles(params[:role_ids])
     end
   end
 end

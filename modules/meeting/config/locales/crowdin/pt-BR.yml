@@ -496,7 +496,7 @@ pt-BR:
       structured_text_copy: Copiar uma reunião atualmente não copiará os itens associados da agenda da reunião, apenas os detalhes
     widgets:
       blankslate:
-        description: Próximas reuniões nas quais você participar aparecerão aqui.
+        description: As próximas reuniões das quais você participará aparecerão aqui.
         heading: Nenhuma reunião futura
       view_details: Visualizar todas as reuniões
   meeting_participant:
