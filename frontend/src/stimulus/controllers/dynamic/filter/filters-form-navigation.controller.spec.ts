@@ -151,15 +151,9 @@ describe('Filters form navigation', () => {
     setUrl();
     const controller = await mount(['page', 'all'], STATUS_LIST_ROW);
 
-    // The row has to reach the server, or the next re-render renders it hidden again. It
-    // selects nothing yet, so the expansion survives.
     controller.addFilterByName('status_id');
+    expect(visit).not.toHaveBeenCalled();
 
-    const added = visitedUrl();
-    expect(added.searchParams.get('all')).toBe('true');
-    expect(added.searchParams.get('filters')).toBe('status_id = ""');
-
-    visit.mockClear();
     selectStatus('2');
     controller.autocompleteSendForm();
 
@@ -168,25 +162,11 @@ describe('Filters form navigation', () => {
     expect(url.searchParams.get('filters')).toBe('status_id = "2"');
   });
 
-  it('keeps an added row alongside the filters already applied', async () => {
-    setUrl('subject ~ "old"');
-    const controller = await mount(['page', 'all'], STATUS_LIST_ROW);
-    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['old'] } }];
-
-    controller.addFilterByName('status_id');
-
-    const url = visitedUrl();
-    expect(url.searchParams.get('filters')).toBe('subject ~ "old"&status_id = ""');
-    expect(url.searchParams.get('all')).toBe('true');
-    expect(url.searchParams.get('page')).toBe('3');
-  });
-
   it('serializes several selected list values', async () => {
     setUrl();
     const controller = await mount(['page', 'all'], STATUS_LIST_ROW);
 
     controller.addFilterByName('status_id');
-    visit.mockClear();
     selectStatus('2,5');
     controller.autocompleteSendForm();
 

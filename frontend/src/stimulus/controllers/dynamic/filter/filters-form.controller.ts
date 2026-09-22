@@ -46,12 +46,6 @@ export interface InternalFilterValue {
   value:string[];
 }
 
-// A filter selects results once it carries a value, or once its operator needs none
-// ("is not set"). A row that was added without a value yet leaves the results untouched.
-function hasEffectiveValue(filter:InternalFilterValue):boolean {
-  return filter.value.length === 0 || filter.value.some((value) => value !== '');
-}
-
 type SerializedFilter = Record<string, { operator:string; values:unknown[] }>;
 
 type FilterFunc<T> = (_value:T) => boolean;
@@ -90,6 +84,7 @@ export default class FiltersFormController extends Controller {
 
   declare readonly hasFilterFormToggleTarget:boolean;
   declare readonly hasFiltersInputTarget:boolean;
+  declare readonly hasAddFilterSelectTarget:boolean;
 
   static values = {
     displayFilters: { type: Boolean, default: false },
@@ -122,7 +117,11 @@ export default class FiltersFormController extends Controller {
   private boundListener:() => void;
   private boundClearListener:(event:MouseEvent) => void;
   private sentFilters:string|null = null;
-  private sentEffectiveFilters:string|null = null;
+
+  // Rows the user added that have no value yet. They are kept visible here instead of being
+  // sent: the server hides a row its query does not hold, and a blank value would make that
+  // query invalid, which empties the result set.
+  private readonly pendingFilters = new Set<string>();
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -305,6 +304,7 @@ export default class FiltersFormController extends Controller {
     const selectedFilter = this.findTargetByName(filterName, this.filterTargets);
     if (selectedFilter) {
       selectedFilter.removeAttribute('hidden');
+      this.pendingFilters.add(filterName);
     }
     this.addFilterSelectTarget.selectedOptions[0].disabled = true;
     this.addFilterSelectTarget.selectedIndex = 0;
@@ -312,6 +312,39 @@ export default class FiltersFormController extends Controller {
     this.focusFilterValueIfPossible(selectedFilter);
 
     this.sendFormLive();
+  }
+
+  // A re-render renders each row from what the query holds, so it hides the pending ones again.
+  // Run after every stream render, and for rows that come back as new nodes rather than morphed.
+  restorePendingFilters() {
+    this.pendingFilters.forEach((filterName) => {
+      const row = this.findTargetByName(filterName, this.filterTargets);
+
+      if (!row?.hasAttribute('hidden')) {
+        // The row is gone, or the query holds it now and the server renders it visible itself.
+        this.pendingFilters.delete(filterName);
+        return;
+      }
+
+      this.showPendingFilter(row, filterName);
+    });
+  }
+
+  filterTargetConnected(target:HTMLElement) {
+    const filterName = target.getAttribute('data-filter-name');
+
+    if (filterName && this.pendingFilters.has(filterName) && target.hasAttribute('hidden')) {
+      this.showPendingFilter(target, filterName);
+    }
+  }
+
+  private showPendingFilter(row:HTMLElement, filterName:string) {
+    row.removeAttribute('hidden');
+
+    if (!this.hasAddFilterSelectTarget) return;
+
+    const option = Array.from(this.addFilterSelectTarget.options).find((candidate) => candidate.value === filterName);
+    option?.setAttribute('disabled', 'disabled');
   }
 
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
@@ -350,6 +383,7 @@ export default class FiltersFormController extends Controller {
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
     const filterToRemove = this.findTargetByName(filterName, this.filterTargets);
     filterToRemove?.setAttribute('hidden', '');
+    this.pendingFilters.delete(filterName);
 
     const selectOptions = Array.from(this.addFilterSelectTarget.options);
     const removedFilterOption = selectOptions.find((option) => option.value === filterName);
@@ -470,25 +504,15 @@ export default class FiltersFormController extends Controller {
     }
 
     const params = new URLSearchParams(window.location.search);
-    const filters = this.currentFilters();
-    const newFilters = this.buildFiltersParam(filters);
-    const previousFilters = this.sentFilters ?? params.get('filters') ?? '';
+    const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === previousFilters) {
+    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
     }
 
-    // Parameters tied to the result set (pagination, expansion state) must survive the addition
-    // of a filter row that has no value yet, because it selects exactly what was shown before.
-    const effectiveFilters = this.buildFiltersParam(filters.filter(hasEffectiveValue));
-    const previousEffectiveFilters = this.sentEffectiveFilters ?? previousFilters;
-    this.sentEffectiveFilters = effectiveFilters;
-
-    if (effectiveFilters !== previousEffectiveFilters) {
-      this.resetParamsValue.forEach((parameter) => params.delete(parameter));
-    }
+    this.resetParamsValue.forEach((parameter) => params.delete(parameter));
 
     if (newFilters) {
       params.set('filters', newFilters);
@@ -512,7 +536,7 @@ export default class FiltersFormController extends Controller {
     showElement(loadingIndicator);
 
     if (this.turboStreamRequestValue) {
-      const rollbackFilters = this.sentFilters;
+      const previousFilters = this.sentFilters;
       this.sentFilters = newFilters;
 
       fetch(url, {
@@ -523,13 +547,14 @@ export default class FiltersFormController extends Controller {
         .then((response:Response) => response.text())
         .then((html:string) => {
           renderStreamMessage(html);
+          this.restorePendingFilters();
           if (this.sentFilters === newFilters) {
             window.history.replaceState(window.history.state, '', browserUrl);
           }
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
-          this.sentFilters = rollbackFilters;
+          this.sentFilters = previousFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);
         });
@@ -627,10 +652,7 @@ export default class FiltersFormController extends Controller {
     if (valueContainer.dataset.filterAutocomplete === 'true') {
       const selected = valueContainer.querySelector<HTMLInputElement>('input[name="value"]')?.value ?? '';
       const values = selected.split(',').filter((value) => value !== '');
-      // A row the user has added but not given a value to yet is still part of the form. It is
-      // sent with an empty value so the server keeps rendering it after the re-render, while
-      // `hasEffectiveValue` keeps it from counting as a change of the result set.
-      return values.length > 0 ? values : [''];
+      return values.length > 0 ? values : null;
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
