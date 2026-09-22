@@ -57,7 +57,7 @@ module OpenProject
         truncated = truncate(text, *)
         return truncated unless truncated
 
-        safe_join(truncated.split(/[\r\n]+/), " ")
+        truncated.html_safe_gsub(/[\r\n]+/, " ")
       end
     end
   end
