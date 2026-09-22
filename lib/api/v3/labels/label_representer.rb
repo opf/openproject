@@ -28,31 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labelable
-  extend ActiveSupport::Concern
+require "roar/decorator"
+require "roar/json/hal"
 
-  included do
-    has_many :labelings, as: :labelable, dependent: :delete_all
-    has_many :labels, -> { order(:id) }, through: :labelings
+module API
+  module V3
+    module Labels
+      class LabelRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
+        include API::Caching::CachedRepresenter
 
-    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
+        self_link
 
-    after_save { @labels_was = nil }
-  end
+        property :id
 
-  def labels=(*)
-    @labels_was ||= label_ids
-    super
-  end
+        property :name
 
-  def label_ids=(*)
-    @labels_was ||= label_ids
-    super
-  end
+        date_time_property :created_at
+        date_time_property :updated_at
 
-  def label_changes
-    return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
-
-    { "labels" => [@labels_was, label_ids] }
+        def _type
+          "Label"
+        end
+      end
+    end
   end
 end

@@ -28,31 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labelable
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    has_many :labelings, as: :labelable, dependent: :delete_all
-    has_many :labels, -> { order(:id) }, through: :labelings
+RSpec.describe API::V3::Labels::LabelCollectionRepresenter do
+  include API::V3::Utilities::PathHelper
 
-    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
-
-    after_save { @labels_was = nil }
+  let(:self_base_link) { api_v3_paths.labels }
+  let(:labels) do
+    build_stubbed_list(:label, 3).tap do |labels|
+      without_partial_double_verification do
+        allow(labels).to receive_messages(offset: labels, limit: labels, count: total)
+      end
+    end
   end
-
-  def labels=(*)
-    @labels_was ||= label_ids
-    super
+  let(:representer) do
+    described_class.new(labels,
+                        self_link: self_base_link,
+                        page:,
+                        per_page: page_size,
+                        current_user: instance_double(User))
   end
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 2 }
+  let(:actual_count) { 3 }
+  let(:collection_inner_type) { "Label" }
 
-  def label_ids=(*)
-    @labels_was ||= label_ids
-    super
-  end
+  context "when listing" do
+    subject(:collection) { representer.to_json }
 
-  def label_changes
-    return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
-
-    { "labels" => [@labels_was, label_ids] }
+    it_behaves_like "offset-paginated APIv3 collection"
   end
 end
