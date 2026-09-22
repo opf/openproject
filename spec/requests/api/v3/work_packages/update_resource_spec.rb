@@ -752,7 +752,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      describe "labels" do
+      describe "labels", with_flag: :work_package_labels do
         let(:label) { create(:label) }
         let(:label_links) { [{ href: api_v3_paths.label(label.id) }] }
         let(:params) { valid_params.merge(_links: { labels: label_links }) }
