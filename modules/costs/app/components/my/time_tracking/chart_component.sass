@@ -1,0 +1,109 @@
+@import "helpers"
+
+.my-time-tracking-chart-view
+  height: 100%
+
+  .my-time-tracking-chart-view--body
+    flex-grow: 1
+    min-height: 0
+    overflow-x: auto
+
+  .my-time-tracking-chart-view--entries
+    height: 100%
+
+  .my-time-tracking-chart-view--canvas
+    height: 100%
+    min-width: 800px
+
+  // Move the days header to the bottom, the bars grow downwards from the top.
+  thead
+    display: table-footer-group
+
+  th.fc-day,
+  th.fc-timegrid-axis
+    border-bottom: none
+
+  table.fc-scrollgrid.fc-scrollgrid-liquid
+    border-left: none
+
+  .fc-event,
+  .fc-bgevent
+    border-radius: 0
+    margin-right: 8px
+    margin-left: 8px
+
+  .fc-timegrid-event-harness .fc-timegrid-event
+    box-shadow: none
+
+  .fc-timegrid-slot.fc-timegrid-slot-minor
+    border-top: 0
+
+  .te-chart--day-sum
+    border: none
+    background-color: initial
+    color: var(--body-font-color)
+    text-align: center
+    font-size: 0.875em
+    font-weight: var(--base-text-weight-bold)
+    line-height: 22px
+    opacity: 1
+    cursor: default
+
+  .te-chart--add-entry
+    text-align: center
+    font-weight: var(--base-text-weight-bold)
+    opacity: 0
+    background: none
+    border: none
+    display: flex
+    align-items: center
+
+    &:hover
+      opacity: 1
+      transition: opacity 1s ease
+      background: var(--bgColor-neutral-muted)
+      border: 1px solid var(--fgColor-muted)
+
+    .te-chart--add-icon
+      color: var(--body-font-color)
+      width: 100%
+      font-weight: normal
+      font-size: 1.5rem
+
+    &.-prohibited
+      cursor: not-allowed
+
+      .te-chart--add-icon
+        display: none
+
+  // Bars carry __hl_background alongside their __hl_type_<id> class. A type without a
+  // color leaves --hl-color undeclared, which makes every declaration in __hl_background
+  // invalid at computed-value time, so the bar loses its background and border. The
+  // outline is not part of that ruleset and keeps such a bar visible.
+  .te-chart--time-entry
+    outline: 1px solid var(--borderColor-default)
+    outline-offset: -1px
+
+    .fc-fadeout
+      position: relative
+      bottom: 2em
+      height: 2em
+      z-index: 5
+      background-image: linear-gradient(rgb(from var(--hl-color) r g b / 0) 0%, var(--hl-color) 100%)
+
+    body[data-color-mode="dark"] & .fc-fadeout
+      background-image: linear-gradient(rgb(from var(--hl-color) r g b / 0) 0%, rgb(from var(--hl-color) r g b / 0.18) 100%)
+
+    &.-no-fadeout
+      .fc-fadeout
+        display: none
+
+    .fc-event-title-container
+      margin: 0 4px !important
+      line-height: 14px !important
+
+  .fc-duration
+    display: inline-block
+    margin-right: 5px
+    padding-right: 5px
+    font-weight: var(--base-text-weight-bold)

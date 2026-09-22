@@ -30,13 +30,39 @@
 
 module My
   module TimeTracking
-    class ChartComponent < ApplicationComponent
+    class ChartEntriesComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
       options time_entries: [],
               mode: :week,
               date: Date.current
+
+      private
+
+      def wrapper_data
+        {
+          "controller" => "my--time-tracking-chart",
+          "my--time-tracking-chart-mode-value" => mode,
+          "my--time-tracking-chart-time-entries-value" => time_entries_json,
+          "my--time-tracking-chart-initial-date-value" => date.iso8601,
+          "my--time-tracking-chart-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
+          "my--time-tracking-chart-locale-value" => I18n.locale,
+          "my--time-tracking-chart-start-of-week-value" => (Setting.start_of_week || 1) % 7,
+          "my--time-tracking-chart-working-days-value" => working_days,
+          "my--time-tracking-chart-time-zone-value" => User.current.time_zone.name
+        }
+      end
+
+      def time_entries_json
+        time_entries.map do |time_entry|
+          FullCalendar::TimeEntryEvent.from_time_entry(time_entry)
+        end.to_json
+      end
+
+      def working_days
+        Setting.working_days.map { |day| day % 7 }.sort
+      end
     end
   end
 end

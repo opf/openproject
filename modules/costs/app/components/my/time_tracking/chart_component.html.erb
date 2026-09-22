@@ -1,5 +1,8 @@
 <% helpers.html_title t(:label_my_time_tracking), "#{t("label_#{mode}")} #{t(:label_chart)} #{I18n.l(date)}" -%>
-<%= component_wrapper(tag: "div", data: wrapper_data) do %>
-  <%= render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :chart)) %>
-  <%= render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :chart)) %>
+<%= flex_layout(classes: "my-time-tracking-chart-view") do |chart_page| %>
+  <% chart_page.with_row { render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :chart)) } %>
+  <% chart_page.with_row { render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :chart)) } %>
+  <% chart_page.with_row(classes: "my-time-tracking-chart-view--body") do %>
+    <%= render(My::TimeTracking::ChartEntriesComponent.new(time_entries:, mode:, date:)) %>
+  <% end %>
 <% end %>

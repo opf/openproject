@@ -44,6 +44,7 @@ import { html, render, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
+import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -301,7 +302,7 @@ export default class MyTimeTrackingController extends Controller {
     return html`
       <div class="fc-event-time">
         ${unsafeHTML(stopTimerButton)}
-        ${this.displayDuration(duration)}
+        ${displayDuration(duration)}
       </div>
       <div class="fc-event-title-container">
         <div class="fc-event-title fc-event-wp" title="${info.event.extendedProps.workPackageSubject}">
@@ -407,9 +408,7 @@ export default class MyTimeTrackingController extends Controller {
       // Inner div in der zweiten Zelle erstellen
       const syncInner = document.createElement('div');
       syncInner.className = 'fc-scrollgrid-sync-inner';
-      syncInner.textContent = this.displayDuration(
-        this.calculateTotalHours(day),
-      );
+      syncInner.textContent = displayDuration(this.calculateTotalHours(day));
       footerCell.appendChild(syncInner);
       tbodyTr.appendChild(footerCell);
     });
@@ -455,19 +454,6 @@ export default class MyTimeTrackingController extends Controller {
           revertFunction();
         }
       });
-  }
-
-  displayDuration(duration:number):string {
-    const hours = Math.floor(duration);
-    const minutes = Math.round((duration - hours) * 60);
-
-    if (minutes === 0) {
-      return `${hours}h`;
-    }
-    if (hours === 0) {
-      return `${minutes}m`;
-    }
-    return `${hours}h ${minutes}m`;
   }
 
   calculateHours(event:EventApi):number {
