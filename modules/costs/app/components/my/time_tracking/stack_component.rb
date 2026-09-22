@@ -30,7 +30,7 @@
 
 module My
   module TimeTracking
-    class ChartComponent < ApplicationComponent
+    class StackComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 

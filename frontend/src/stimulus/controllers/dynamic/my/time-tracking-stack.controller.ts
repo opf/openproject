@@ -43,10 +43,10 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { clockIconData, toDOMString } from '@openproject/octicons-angular';
 import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 
-// The subset of FullCalendar::TimeEntryEvent the chart reads. The calendar view is served
-// the same payload, so the two stay in sync; the chart ignores the event's own start and
+// The subset of FullCalendar::TimeEntryEvent the stack reads. The calendar view is served
+// the same payload, so the two stay in sync; the stack ignores the event's own start and
 // end and stacks its bars from the day and the hours instead.
-interface ChartTimeEntry {
+interface StackTimeEntry {
   id:string;
   start:string;
   hours:number;
@@ -56,12 +56,12 @@ interface ChartTimeEntry {
   projectName:string;
 }
 
-const TIME_ENTRY_CLASS_NAME = 'te-chart--time-entry';
-const ADD_ENTRY_CLASS_NAME = 'te-chart--add-entry';
-const ADD_ICON_CLASS_NAME = 'te-chart--add-icon';
+const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
+const ADD_ENTRY_CLASS_NAME = 'te-stack--add-entry';
+const ADD_ICON_CLASS_NAME = 'te-stack--add-icon';
 const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 
-// The chart is a timeGrid abused as a stacked bar chart: every day is a column and its
+// The stack is a timeGrid abused as a stacked bar chart: every day is a column and its
 // entries are stacked downwards from maxHour. The slot labels therefore show hours, not
 // times, and the scale ratio compresses the stack once a day exceeds the visible range.
 const MIN_HOUR = 1;
@@ -74,14 +74,14 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
 // It is applied after the scale ratio so that it stays a roughly constant height on screen.
 const MIN_BAR_HOURS = 0.5;
 
-export default class MyTimeTrackingChartController extends Controller {
+export default class MyTimeTrackingStackController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
   declare turboRequests:TurboRequestsService;
   declare pathHelperService:PathHelperService;
   declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
 
-  static targets = ['chart'];
+  static targets = ['stack'];
 
   static values = {
     mode: String,
@@ -94,10 +94,10 @@ export default class MyTimeTrackingChartController extends Controller {
     timeZone: String,
   };
 
-  declare readonly chartTarget:HTMLElement;
-  declare readonly hasChartTarget:boolean;
+  declare readonly stackTarget:HTMLElement;
+  declare readonly hasStackTarget:boolean;
   declare readonly modeValue:string;
-  declare readonly timeEntriesValue:ChartTimeEntry[];
+  declare readonly timeEntriesValue:StackTimeEntry[];
   declare readonly initialDateValue:string;
   declare readonly canCreateValue:boolean;
   declare readonly localeValue:string;
@@ -116,8 +116,8 @@ export default class MyTimeTrackingChartController extends Controller {
   }
 
   servicesConnected() {
-    if (this.hasChartTarget) {
-      this.initializeChart();
+    if (this.hasStackTarget) {
+      this.initializeStack();
     }
 
     document.addEventListener('dialog:close', this.boundListener);
@@ -147,7 +147,7 @@ export default class MyTimeTrackingChartController extends Controller {
    */
   private observeResize():void {
     this.resizeObserver = new ResizeObserver(() => {
-      const width = this.chartTarget.clientWidth;
+      const width = this.stackTarget.clientWidth;
 
       if (width === this.lastWidth) {
         return;
@@ -158,18 +158,18 @@ export default class MyTimeTrackingChartController extends Controller {
       this.addTotalFooter();
     });
 
-    this.resizeObserver.observe(this.chartTarget);
+    this.resizeObserver.observe(this.stackTarget);
   }
 
-  initializeChart() {
+  initializeStack() {
     this.setRatio();
 
-    this.calendar = new Calendar(this.chartTarget, {
+    this.calendar = new Calendar(this.stackTarget, {
       plugins: [timeGridPlugin, interactionPlugin],
       views: {
         timeGridMonth: { type: 'timeGrid', duration: { months: 1 } },
       },
-      initialView: this.chartView(),
+      initialView: this.stackView(),
       initialDate: this.initialDateValue,
       locales: allLocales,
       locale: this.localeValue,
@@ -227,7 +227,7 @@ export default class MyTimeTrackingChartController extends Controller {
   // An event's start always carries its spent_on date: the server builds the timestamp
   // from spent_on in the entry's own time zone and serializes it with that zone's offset,
   // so the date part never depends on where it is read.
-  private dayOf(entry:ChartTimeEntry):string {
+  private dayOf(entry:StackTimeEntry):string {
     return entry.start.slice(0, 10);
   }
 
@@ -254,7 +254,7 @@ export default class MyTimeTrackingChartController extends Controller {
     this.calendar.updateSize();
   }
 
-  private timeEntryEvent(entry:ChartTimeEntry, day:string, startHour:number, endHour:number):EventInput {
+  private timeEntryEvent(entry:StackTimeEntry, day:string, startHour:number, endHour:number):EventInput {
     return {
       id: entry.id,
       title: entry.title,
@@ -287,7 +287,7 @@ export default class MyTimeTrackingChartController extends Controller {
   // Background events render no content of their own, so they keep FullCalendar's default
   // and are decorated on mount instead.
   private eventContent(props:Record<string, unknown>):{ domNodes:Node[] }|undefined {
-    const entry = props.entry as ChartTimeEntry|undefined;
+    const entry = props.entry as StackTimeEntry|undefined;
 
     if (!entry) {
       return undefined;
@@ -300,18 +300,18 @@ export default class MyTimeTrackingChartController extends Controller {
     return { domNodes: [wrapper] };
   }
 
-  private cardContent(entry:ChartTimeEntry):TemplateResult {
+  private cardContent(entry:StackTimeEntry):TemplateResult {
     const clock = toDOMString(clockIconData, 'small', {
       'aria-hidden': 'true',
       class: 'octicon',
     });
 
     return html`
-      <div class="te-chart--card">
-        <div class="te-chart--card-duration">${displayDuration(entry.hours)}</div>
-        <div class="te-chart--card-subject">${entry.workPackageSubject}</div>
-        <div class="te-chart--card-project">${entry.projectName}</div>
-        <div class="te-chart--card-icon">${unsafeHTML(clock)}</div>
+      <div class="te-stack--card">
+        <div class="te-stack--card-duration">${displayDuration(entry.hours)}</div>
+        <div class="te-stack--card-subject">${entry.workPackageSubject}</div>
+        <div class="te-stack--card-project">${entry.projectName}</div>
+        <div class="te-stack--card-icon">${unsafeHTML(clock)}</div>
       </div>`;
   }
 
@@ -327,7 +327,7 @@ export default class MyTimeTrackingChartController extends Controller {
   }
 
   private handleEventClick(element:HTMLElement, startStr:string, props:Record<string, unknown>):void {
-    const entry = props.entry as ChartTimeEntry|undefined;
+    const entry = props.entry as StackTimeEntry|undefined;
 
     if (entry) {
       void this.turboRequests.request(
@@ -400,7 +400,7 @@ export default class MyTimeTrackingChartController extends Controller {
     return days;
   }
 
-  private chartView():string {
+  private stackView():string {
     switch (this.modeValue) {
       case 'day':
         return 'timeGridDay';

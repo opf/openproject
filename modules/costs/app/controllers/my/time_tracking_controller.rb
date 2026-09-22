@@ -132,7 +132,7 @@ module My
     def list_view_component
       component_class = case view_mode
                         when :list then My::TimeTracking::ListComponent
-                        when :chart then My::TimeTracking::ChartComponent
+                        when :stack then My::TimeTracking::StackComponent
                         else My::TimeTracking::CalendarComponent
                         end
 

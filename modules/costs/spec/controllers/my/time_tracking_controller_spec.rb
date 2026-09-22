@@ -98,11 +98,11 @@ RSpec.describe My::TimeTrackingController do
       end
     end
 
-    context "when requesting the chart view mode" do
-      it "renders the chart view" do
-        get :index, params: { mode: :week, view_mode: :chart }
+    context "when requesting the stack view mode" do
+      it "renders the stack view" do
+        get :index, params: { mode: :week, view_mode: :stack }
 
-        expect(assigns(:view_mode)).to eq(:chart)
+        expect(assigns(:view_mode)).to eq(:stack)
         expect(response).to be_successful
       end
     end

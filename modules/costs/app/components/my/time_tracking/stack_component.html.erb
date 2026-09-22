@@ -1,0 +1,8 @@
+<% helpers.html_title t(:label_my_time_tracking), "#{t("label_#{mode}")} #{t(:label_stack)} #{I18n.l(date)}" -%>
+<%= flex_layout(classes: "my-time-tracking-stack-view") do |stack_page| %>
+  <% stack_page.with_row { render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :stack)) } %>
+  <% stack_page.with_row { render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :stack)) } %>
+  <% stack_page.with_row(classes: "my-time-tracking-stack-view--body") do %>
+    <%= render(My::TimeTracking::StackEntriesComponent.new(time_entries:, mode:, date:)) %>
+  <% end %>
+<% end %>

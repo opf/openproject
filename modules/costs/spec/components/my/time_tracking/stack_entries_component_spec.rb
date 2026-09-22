@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe My::TimeTracking::ChartEntriesComponent, type: :component do
+RSpec.describe My::TimeTracking::StackEntriesComponent, type: :component do
   let(:user) { create(:user) }
   let(:project) { create(:project, name: "Demo project") }
   let(:work_package) { create(:work_package, project:, subject: "Some work") }
@@ -48,32 +48,32 @@ RSpec.describe My::TimeTracking::ChartEntriesComponent, type: :component do
     login_as user
   end
 
-  def chart_entries
-    JSON.parse(rendered_component.css("[data-controller='my--time-tracking-chart']")
-                 .attr("data-my--time-tracking-chart-time-entries-value").value)
+  def stack_entries
+    JSON.parse(rendered_component.css("[data-controller='my--time-tracking-stack']")
+                 .attr("data-my--time-tracking-stack-time-entries-value").value)
   end
 
-  it "mounts the chart controller with a target to render into" do
+  it "mounts the stack controller with a target to render into" do
     expect(rendered_component).to have_css(
-      "[data-controller='my--time-tracking-chart'] [data-my--time-tracking-chart-target='chart']"
+      "[data-controller='my--time-tracking-stack'] [data-my--time-tracking-stack-target='stack']"
     )
   end
 
   it "exposes the requested date and mode" do
-    wrapper = rendered_component.css("[data-controller='my--time-tracking-chart']")
+    wrapper = rendered_component.css("[data-controller='my--time-tracking-stack']")
 
-    expect(wrapper.attr("data-my--time-tracking-chart-initial-date-value").value).to eq("2022-05-04")
-    expect(wrapper.attr("data-my--time-tracking-chart-mode-value").value).to eq("week")
+    expect(wrapper.attr("data-my--time-tracking-stack-initial-date-value").value).to eq("2022-05-04")
+    expect(wrapper.attr("data-my--time-tracking-stack-mode-value").value).to eq("week")
   end
 
   it "serializes the time entries the same way the calendar view does" do
-    expect(chart_entries).to eq(
+    expect(stack_entries).to eq(
       JSON.parse([FullCalendar::TimeEntryEvent.from_time_entry(time_entry)].to_json)
     )
   end
 
-  it "serializes what the chart positions and labels its bars with" do
-    expect(chart_entries).to contain_exactly(
+  it "serializes what the stack positions and labels its bars with" do
+    expect(stack_entries).to contain_exactly(
       hash_including(
         "id" => time_entry.id.to_s,
         "start" => "2022-05-04",
@@ -90,7 +90,7 @@ RSpec.describe My::TimeTracking::ChartEntriesComponent, type: :component do
     end
 
     it "keeps the spent on date in the serialized start" do
-      expect(chart_entries.first["start"]).to start_with("2022-05-04")
+      expect(stack_entries.first["start"]).to start_with("2022-05-04")
     end
   end
 end

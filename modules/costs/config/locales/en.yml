@@ -220,7 +220,6 @@ en:
   label_available_cost_types_projects: "Available cost types projects"
 
   label_between: "between"
-  label_chart: "Chart"
   label_cost: "Cost"
   label_cost_filter_add: "Add cost entry filter"
   label_cost_plural: "Costs"
@@ -269,6 +268,7 @@ en:
   label_show: "Show"
   label_specific_day: "Day %{day}"
   label_specific_month: "Month %{month}"
+  label_stack: "Stack"
   label_start_and_finished: "Start and finish times"
   label_status_finished: "Finished"
   label_time: "Time"

@@ -30,7 +30,7 @@
 
 module My
   module TimeTracking
-    class ChartEntriesComponent < ApplicationComponent
+    class StackEntriesComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
@@ -42,15 +42,15 @@ module My
 
       def wrapper_data
         {
-          "controller" => "my--time-tracking-chart",
-          "my--time-tracking-chart-mode-value" => mode,
-          "my--time-tracking-chart-time-entries-value" => time_entries_json,
-          "my--time-tracking-chart-initial-date-value" => date.iso8601,
-          "my--time-tracking-chart-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
-          "my--time-tracking-chart-locale-value" => I18n.locale,
-          "my--time-tracking-chart-start-of-week-value" => (Setting.start_of_week || 1) % 7,
-          "my--time-tracking-chart-working-days-value" => working_days,
-          "my--time-tracking-chart-time-zone-value" => User.current.time_zone.name
+          "controller" => "my--time-tracking-stack",
+          "my--time-tracking-stack-mode-value" => mode,
+          "my--time-tracking-stack-time-entries-value" => time_entries_json,
+          "my--time-tracking-stack-initial-date-value" => date.iso8601,
+          "my--time-tracking-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
+          "my--time-tracking-stack-locale-value" => I18n.locale,
+          "my--time-tracking-stack-start-of-week-value" => (Setting.start_of_week || 1) % 7,
+          "my--time-tracking-stack-working-days-value" => working_days,
+          "my--time-tracking-stack-time-zone-value" => User.current.time_zone.name
         }
       end
 

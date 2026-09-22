@@ -1,19 +1,19 @@
 @import "helpers"
 @import "fullcalendar_frame"
 
-.my-time-tracking-chart-view
+.my-time-tracking-stack-view
   height: 100%
   +fc-frame-grid
 
-  .my-time-tracking-chart-view--body
+  .my-time-tracking-stack-view--body
     flex-grow: 1
     min-height: 0
     overflow-x: auto
 
-  .my-time-tracking-chart-view--entries
+  .my-time-tracking-stack-view--entries
     height: 100%
 
-  .my-time-tracking-chart-view--canvas
+  .my-time-tracking-stack-view--canvas
     height: 100%
     min-width: 800px
     +fc-frame-container
@@ -33,7 +33,7 @@
     padding-right: 8px
     color: var(--fgColor-muted)
 
-  .te-chart--add-entry
+  .te-stack--add-entry
     text-align: center
     font-weight: var(--base-text-weight-bold)
     opacity: 0
@@ -48,7 +48,7 @@
       background: var(--bgColor-neutral-muted)
       border: 1px solid var(--fgColor-muted)
 
-    .te-chart--add-icon
+    .te-stack--add-icon
       color: var(--body-font-color)
       width: 100%
       font-weight: normal
@@ -57,12 +57,12 @@
     &.-prohibited
       cursor: not-allowed
 
-      .te-chart--add-icon
+      .te-stack--add-icon
         display: none
 
   // Entries read as cards: a neutral box carrying the work package type color as the
   // top border through __hl_border_top.
-  .te-chart--time-entry
+  .te-stack--time-entry
     background: var(--bgColor-default)
     border: 0
     border-radius: 5px
@@ -75,7 +75,7 @@
 
   // FullCalendar's event frame is itself a flex container, so the card has to be told to
   // fill it. Sized to its content it would pull the clock in next to the text.
-  .te-chart--card
+  .te-stack--card
     display: flex
     flex: 1
     min-width: 0
@@ -85,22 +85,22 @@
     gap: 2px
     overflow: hidden
 
-  .te-chart--card-duration
+  .te-stack--card-duration
     color: var(--fgColor-muted)
     font-size: var(--text-body-size-small)
     line-height: var(--text-body-lineHeight-small)
 
-  .te-chart--card-subject
+  .te-stack--card-subject
     color: var(--fgColor-default)
     font-size: var(--text-body-size-small)
     line-height: var(--text-body-lineHeight-small)
 
-  .te-chart--card-project
+  .te-stack--card-project
     color: var(--fgColor-muted)
     font-size: var(--text-caption-size)
     line-height: var(--text-caption-lineHeight)
 
-  .te-chart--card-icon
+  .te-stack--card-icon
     display: flex
     margin-top: auto
     align-self: flex-end
@@ -109,25 +109,25 @@
 
   // Short entries put the duration and the subject on one line, as the calendar view does.
   .fc-timegrid-event-short
-    .te-chart--card
+    .te-stack--card
       flex-direction: row
       align-items: center
       gap: 8px
       padding: 4px 8px
 
-    .te-chart--card-duration
+    .te-stack--card-duration
       flex-shrink: 0
 
-    .te-chart--card-subject
+    .te-stack--card-subject
       min-width: 0
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
 
-    .te-chart--card-project
+    .te-stack--card-project
       display: none
 
-    .te-chart--card-icon
+    .te-stack--card-icon
       margin-top: 0
       margin-left: auto
       align-self: center
