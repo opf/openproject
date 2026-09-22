@@ -58,11 +58,14 @@ module Llm
     # The global httpx defaults (connect 3s / read 3s / request 10s, all
     # writable: false) are tuned for storage and webhook calls and are far too
     # tight for an inference endpoint. Every call site must override them.
-    PROBE_TIMEOUT = {
+    # Named for what it is: httpx options spread into .with. Llm::Session has a
+    # PROBE_TIMEOUT of its own that is a plain number of seconds for Faraday, and
+    # passing one where the other is expected fails far from the cause.
+    PROBE_TIMEOUT_OPTIONS = {
       timeout: { connect_timeout: 5, read_timeout: 15, request_timeout: 20 }
     }.freeze
 
-    def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT, headers: {})
+    def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT_OPTIONS, headers: {})
       @base_url = base_url.to_s.chomp("/")
       @api_key = api_key
       @timeout = timeout
