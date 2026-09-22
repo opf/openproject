@@ -25,6 +25,26 @@ The Backlogs module is divided into two sides: on the left, you'll find the **Ba
 
 ![Backlogs module in OpenProject showing backlog items and multiple sprints with work packages](openproject_user_guide_backlog_bucket.png)
 
+### Backlog and sprint filters
+
+At the top of the backlog and sprints page is a search box and a filter button. You can search for a work package by its subject to have it displayed across the backlog and sprints. The filter button helps you to narrow down results in the backlog and sprints; supporting your backlog refinement and sprint planning.
+
+![Search box at the top of the backlog and sprints page ](openproject_user_guide_backlogs_search_box.png)
+
+Clicking the **All filters** button opens the **Add filter** form. Here, you can filter by type, subject, assignee, status and all other options displayed in the selection. The backlog and sprints page is updated automatically based on the selected criteria.
+
+![All filters button](openproject_user_guide_all_filters_button.png)
+
+![Add filter form displaying different filtering options](openproject_user_guide_backlogs_add_filter_options.png)
+
+![Details of opened add filter form](openproject_user_guide_all_filters_opened_form.png)
+
+Click the **All filters** button again to close the filter form. 
+
+> [!NOTE]
+>
+> After applying filters, the number of items in both the backlog and sprint containers become automatically adjusted based on the work packages that are visible.
+
 ### Sprint containers
 
 Each sprint is displayed in a dedicated container showing key planning information, including the sprint name, status, start and end dates, number of work packages, and total story points. 
