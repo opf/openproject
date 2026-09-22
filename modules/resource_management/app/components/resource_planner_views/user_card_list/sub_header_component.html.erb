@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
       leading_icon: :gear,
       label: t("resource_management.user_card_list.subheader.settings"),
       tag: :a,
-      href: edit_project_resource_planner_view_path(@project, @resource_planner, @view),
+      href: edit_planner_view_path(@resource_planner, @view),
       data: { controller: "async-dialog" }
     )
 
@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
         scheme: :primary,
         label: t("resource_management.user_card_list.subheader.resource"),
         tag: :a,
-        href: new_user_project_resource_planner_view_path(@project, @resource_planner, @view),
+        href: new_planner_view_user_path(@resource_planner, @view),
         data: { controller: "async-dialog" }
       ) do
         t("resource_management.user_card_list.subheader.resource")

@@ -93,6 +93,7 @@ export default class FiltersFormController extends Controller {
     clearButtonId: String,
     urlPathName: String,
     currentFilters: Array,
+    resetParams: { type: Array, default: ['page'] },
   };
 
   declare displayFiltersValue:boolean;
@@ -103,6 +104,7 @@ export default class FiltersFormController extends Controller {
   declare readonly clearButtonIdValue:string;
   declare urlPathNameValue:string;
   declare currentFiltersValue:SerializedFilter[];
+  declare resetParamsValue:string[];
   declare hasFilterFormTarget:boolean;
 
   private formLoadedResolver:(() => void)|null = () => null;
@@ -305,33 +307,37 @@ export default class FiltersFormController extends Controller {
     this.sendFormLive();
   }
 
-  // Takes an Element and tries to find the next input or select child element. This should be the filter value.
-  // If found, it will be focused.
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
-    if (!element) return;
+    const filterName = element?.getAttribute('data-filter-name');
+    if (!filterName) return;
 
-    // Try different selectors for various filter styles. The order is important as some selectors match unwanted
-    // hidden fields when used too early in the chain.
-    const selectors = [
-      '.advanced-filters--filter-value ng-select input',
-      '.advanced-filters--filter-value input',
-      '.advanced-filters--filter-value select',
-    ];
+    const operator = this.findTargetByName(filterName, this.operatorTargets);
+    const container = this.findTargetByName(filterName, this.filterValueContainerTargets);
+    const canFocus = (candidate:HTMLElement) => candidate.isConnected
+      && !candidate.matches(':disabled, input[type="hidden"]')
+      && !candidate.closest('[hidden], [inert]')
+      && candidate.checkVisibility({ visibilityProperty: true });
 
-    selectors.some((selector) => {
-      const target = element.querySelector<HTMLElement>(selector);
+    let target:HTMLElement|undefined;
+    if (operator && this.operatorRequiresNoValue(operator)) {
+      target = canFocus(operator) ? operator : undefined;
+    } else if (container) {
+      const controls = 'input, select, textarea, button';
+      const candidates = [
+        ...container.querySelectorAll<HTMLElement>('ng-select input'),
+        ...container.querySelectorAll<HTMLElement>('button[aria-current="true"]'),
+        ...(container.matches(controls) ? [container] : []),
+        ...container.querySelectorAll<HTMLElement>(controls),
+      ];
+      target = candidates.find(canFocus);
+    }
 
-      if (target) {
-        window.setTimeout(() => {
-          target.focus();
-
-          // We have found and focused our element, abort the iteration.
-          return true;
-        }, 250);
-      }
-
-      return false;
-    });
+    if (target) {
+      const destination = target;
+      window.setTimeout(() => {
+        if (canFocus(destination)) destination.focus();
+      }, 250);
+    }
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
@@ -459,14 +465,13 @@ export default class FiltersFormController extends Controller {
     const params = new URLSearchParams(window.location.search);
     const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === (this.sentFilters ?? params.get('filters'))) {
+    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
     }
 
-    // Remove the page parameter when changing filters, so that pagination resets
-    params.delete('page');
+    this.resetParamsValue.forEach((parameter) => params.delete(parameter));
 
     if (newFilters) {
       params.set('filters', newFilters);
@@ -598,12 +603,14 @@ export default class FiltersFormController extends Controller {
       return [checkbox.checked ? 't' : 'f'];
     }
 
-    if (valueContainer.dataset.filterAutocomplete === 'true') {
-      return (valueContainer.querySelector<HTMLInputElement>('input[name="value"]'))?.value.split(',');
-    }
-
     if (requiresNoValue) {
       return [];
+    }
+
+    if (valueContainer.dataset.filterAutocomplete === 'true') {
+      const selected = valueContainer.querySelector<HTMLInputElement>('input[name="value"]')?.value ?? '';
+      const values = selected.split(',').filter((value) => value !== '');
+      return values.length > 0 ? values : null;
     }
 
     if (this.dateFilterTypes.includes(filterType)) {

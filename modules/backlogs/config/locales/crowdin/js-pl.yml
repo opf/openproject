@@ -22,6 +22,39 @@
 ---
 pl:
   js:
+    backlogs:
+      announcements:
+        batch_too_large: Nie można przenieść %{count} pakietów roboczych naraz. Wybierz nie więcej niż %{max}.
+        fallback_item_label: Pakiet roboczy
+        fallback_list_name: inna lista
+        move_failed_check_position: Przeniesienie nie powiodło się. Sprawdź bieżącą pozycję pakietu roboczego.
+        move_failed_check_positions_batch:
+          other: Przeniesienie nie powiodło się. Sprawdź bieżące pozycje pakietów roboczych.
+        move_failed_rolled_back: Przeniesienie nie powiodło się. Przywrócono poprzednią pozycję %{label}.
+        move_failed_rolled_back_batch:
+          other: Przeniesienie nie powiodło się. Pakiety robocze (%{count}) powróciły na swoje poprzednie pozycje.
+        moved: "%{label} przeniesiono do pozycji %{position} z %{total}"
+        moved_batch:
+          other: "%{count} pakiety robocze przeniesiono do pozycji od %{first} do %{last} z %{total}"
+        moved_batch_to_list:
+          other: Pakiety robocze (%{count}) przeniesiono do %{list}, pozycje od %{first} do %{last} z %{total}
+        moved_to_list: "%{label} przeniesiono do %{list}, pozycja %{position} z %{total}"
+      selection:
+        card_state: Wybrana
+        cleared: Wyczyszczono wybór.
+        not_selectable: Wybór pozostaje bez zmian. Ten pakiet roboczy nie ma wpływu na kolejność pozycji na tej liście.
+        range_blocked: Wybór pozostaje bez zmian. Ten zakres zawiera pakiet roboczy, który nie ma wpływu na kolejność pozycji na tej liście.
+        range_restarted:
+          one: Nie można rozszerzyć zakresu. Wybrano 1 pakiet roboczy.
+          few: Nie można rozszerzyć zakresu. Wybrano %{count} pakiety robocze.
+          many: Nie można rozszerzyć zakresu. Wybrano %{count} pakietów roboczych.
+          other: Nie można rozszerzyć zakresu. Wybrano %{count} pakietu roboczego.
+        range_unavailable: Wybór pozostaje bez zmian. Rozwiń tę listę, aby wybrać ten zakres.
+        selected:
+          one: Wybrano 1 pakiet roboczy.
+          few: Wybrano %{count} pakiety robocze.
+          many: Wybrano %{count} pakietów roboczych.
+          other: Wybrano %{count} pakietu roboczego.
     burndown:
       day: Dzień
       points: Punkty

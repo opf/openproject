@@ -48,6 +48,7 @@ class WorkPackage < ApplicationRecord
   include ::Scopes::Scoped
   include HasMembers
   include Remindable
+  include Labelable
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -129,6 +130,7 @@ class WorkPackage < ApplicationRecord
 
   scopes :covering_dates_or_days_of_week,
          :allowed_to,
+         :allowed_to_via_share_only,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
@@ -175,7 +177,7 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
-  # makes virtual modal WorkPackageHierarchy available
+  # makes virtual model WorkPackageHierarchy available
   has_closure_tree
 
   # Add on_destroy paper trail

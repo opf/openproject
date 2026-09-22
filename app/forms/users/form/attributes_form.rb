@@ -105,6 +105,7 @@ module Users
                            label: User.human_attribute_name(key),
                            required: true,
                            input_width: :medium,
+                           autocomplete: autocomplete_for(key),
                            **editability(key))
         when "login"
           return if @user.new_record?
@@ -113,6 +114,7 @@ module Users
                            label: User.human_attribute_name(:login),
                            required: true,
                            input_width: :medium,
+                           autocomplete: "username",
                            **editability(:login))
         when "language"
           render_language(group)
@@ -125,7 +127,8 @@ module Users
         group.select_list(name: :language,
                           label: User.human_attribute_name(:language),
                           include_blank: "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
-                          input_width: :medium) do |list|
+                          input_width: :medium,
+                          autocomplete: "language") do |list|
           helpers.lang_options_for_select.each { |label, value| list.option(label:, value:) }
         end
       end
@@ -174,6 +177,14 @@ module Users
       # read-only with an explanatory caption instead.
       def editability(key)
         { disabled: !@contract.writable?(key.to_sym) }
+      end
+
+      def autocomplete_for(key)
+        {
+          "firstname" => "given-name",
+          "lastname" => "family-name",
+          "mail" => "email"
+        }[key]
       end
     end
   end

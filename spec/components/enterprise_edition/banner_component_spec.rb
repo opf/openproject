@@ -263,7 +263,7 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
   context "with large variant" do
     context "with video parameter" do
-      let(:component_args) { { variant: :large, video: "enterprise/date-alert-notifications.mp4" } }
+      let(:component_args) { { variant: :large, video: "enterprise/share-work-package.mp4" } }
 
       it_behaves_like "renders the component"
 
@@ -274,7 +274,7 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
         expect(component[:class]).to include("op-enterprise-banner_large")
 
-        expect(component).to have_css('video[src$="/enterprise/date-alert-notifications.mp4"]')
+        expect(component).to have_css('video[src$="/enterprise/share-work-package.mp4"]')
       end
     end
 
@@ -313,7 +313,7 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
     context "with dark_image but without image parameter" do
       let(:component_args) do
-        { variant: :large, video: "enterprise/date-alert-notifications.mp4", dark_image: "enterprise/hierarchies.png" }
+        { variant: :large, video: "enterprise/share-work-package.mp4", dark_image: "enterprise/hierarchies.png" }
       end
 
       it "raises an error" do
@@ -324,7 +324,7 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
     context "with video and image parameters" do
       let(:component_args) do
-        { variant: :large, video: "enterprise/date-alert-notifications.mp4", image: "enterprise/homescreen.png" }
+        { variant: :large, video: "enterprise/share-work-package.mp4", image: "enterprise/homescreen.png" }
       end
 
       it "raises an error" do

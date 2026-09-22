@@ -78,6 +78,10 @@ module API
           ->(*) {
             entity = represented.send(name)
 
+            # entity_id can reference a record that no longer exists, e.g. when a form request
+            # links a deleted work package.
+            next { href: nil } unless entity
+
             unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(entity, current_user)
               next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
             end

@@ -79,7 +79,7 @@ export abstract class DialogPreviewController extends Controller {
         // apply them once the morph has finished.
         const pendingReplacements:[HTMLElement, Node][] = [];
 
-        Idiomorph.morph(currentElement, newElement, {
+        void Idiomorph.morph(currentElement, newElement, {
           ignoreActiveValue: this.ignoreActiveValueWhenMorphing(),
           callbacks: {
             beforeNodeMorphed: (oldNode, newNode) => {

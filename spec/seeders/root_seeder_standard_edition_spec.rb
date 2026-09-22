@@ -94,6 +94,12 @@ RSpec.describe RootSeeder,
       expect(count_by_version).to eq("1.0" => 9, "1.1" => 5, "2.0" => 5)
     end
 
+    it "links bugs to the versions they were observed in" do
+      count_by_version = WorkPackage.joins(:observed_in_versions).group("versions.name").count
+
+      expect(count_by_version).to eq("1.0" => 2, "1.1" => 1)
+    end
+
     it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
       default_modules = Setting.find_by(name: "default_projects_modules").value
       expect(default_modules).to include("backlogs")
@@ -217,7 +223,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: IssuePriority, expected_count: 4
     include_examples "it creates records", model: Status, expected_count: 14
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
-    include_examples "it creates records", model: Workflow, expected_count: 1758
+    include_examples "it creates records", model: Workflows::StatusTransition, expected_count: 1758
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
     include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"

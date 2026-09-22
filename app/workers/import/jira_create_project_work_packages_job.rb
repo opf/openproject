@@ -89,19 +89,23 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
-      Journal::NotificationConfiguration.with(false) do
-        Journal::EventConfiguration.with(false) do
-          ActiveRecord::Base.transaction do
-            type = create_type(jira_issue, @project)
-            status = create_status(jira_issue)
-            update_workflows(type)
-            new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
-            update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
-            priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
-            raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+      jira_issue_key = jira_issue.payload["key"]
+      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
+                          "jira_issue_key:#{jira_issue_key}") do
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
+            ActiveRecord::Base.transaction do
+              type = create_type(jira_issue, @project)
+              status = create_status(jira_issue)
+              update_workflows(type)
+              new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
+              update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
+              priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
+              raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
 
-            create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry)
-            @jira_import.set_job_cursor(self, jira_issue.id)
+              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry)
+              @jira_import.set_job_cursor(self, jira_issue.id)
+            end
           end
         end
       end
@@ -147,11 +151,9 @@ module Import
     end
 
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      applicable_cfs = Import::JiraIssue
-                         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
-                         .flat_map { |jira_issue| custom_fields_for_issue(custom_field_registry, jira_issue) }
       existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
-      new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
+      new_cfs = custom_fields_for_project(custom_field_registry, jira_project)
+                  .reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
@@ -190,7 +192,8 @@ module Import
       status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
       uses_existing = true
       if status.blank?
-        status = Status.create!(name: issue_status["name"])
+        is_closed = issue_status.dig("statusCategory", "key") == "done"
+        status = Status.create!(name: issue_status["name"], is_closed: is_closed)
         uses_existing = false
       end
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
@@ -225,6 +228,8 @@ module Import
 
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
+      Rails.logger.debug "Creating work package"
+
       # required because otherwise project.types does not include type and then wp creation fails.
       project.reload
 
@@ -291,20 +296,24 @@ module Import
       journal_service = Import::JiraImportJournals.new(work_package:)
 
       jira_created_at = jira_issue.payload.dig("fields", "created")
-      journal_service.update_creation_entry(date_time: jira_created_at) if jira_created_at.present?
+      journal_service.set_creation_time(date_time: jira_created_at)
 
       history = jira_issue.payload.dig("changelog", "histories")
       journal_service.add_history(history:) if history.present?
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        key = comment.dig("author", "key")
-        author = find_user(key)
-        create_member(project, author)
-        journal_service.add_comment(comment:, user: author || User.system)
+        Rails.logger.tagged("comment_created:#{comment['created']}") do
+          key = comment.dig("author", "key")
+          Rails.logger.tagged("author:#{key}") do
+            author = find_user(key)
+            create_member(project, author)
+            journal_service.add_comment(comment:, user: author || User.system)
+          end
+        end
       end
 
-      journal_service.call
+      journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
     # rubocop:enable Metrics/AbcSize
 
@@ -336,10 +345,13 @@ module Import
         if ref.present?
           ref.op_leg
         else
-          raise "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          Rails.logger.error log_message
+          raise log_message
         end
       else
-        raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        Rails.logger.info "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+        DeletedUser.first
       end
     end
   end

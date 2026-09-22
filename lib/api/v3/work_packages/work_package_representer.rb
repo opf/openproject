@@ -42,7 +42,8 @@ module API
         include TimestampedRepresenter
 
         cached_representer key_parts: %i(project),
-                           disabled: false
+                           disabled: false,
+                           dependencies: -> { historic_state? }
 
         attr_accessor :timestamps, :query
 
@@ -64,6 +65,8 @@ module API
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
@@ -78,6 +81,8 @@ module API
 
         link :updateImmediately,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
@@ -751,6 +756,10 @@ module API
           return @current_user_watcher if defined?(@current_user_watcher)
 
           @current_user_watcher = represented.watchers.any? { |w| w.user_id == current_user.id }
+        end
+
+        def historic_state?
+          timestamps.last&.historic? || false
         end
 
         def current_user_update_allowed?
