@@ -41,6 +41,7 @@ module CustomFields
         next if schema_error?(:parent)
 
         key.failure("must exist") unless value.persisted?
+        key.failure(:nesting_not_allowed) if value.root&.custom_field&.list? && !value.root?
       end
 
       rule(:label) do

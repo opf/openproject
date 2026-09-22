@@ -37,7 +37,7 @@ module CustomFields
 
       rule(:custom_field) do
         field_format = value.field_format
-        key.failure(:format_not_supported, field_format:) if %w[hierarchy weighted_item_list].exclude?(field_format)
+        key.failure(:format_not_supported, field_format:) if %w[list hierarchy weighted_item_list].exclude?(field_format)
         key.failure(:defined) if value.hierarchy_root.present?
       end
     end

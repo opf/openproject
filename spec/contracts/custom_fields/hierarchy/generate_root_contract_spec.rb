@@ -72,6 +72,12 @@ RSpec.describe CustomFields::Hierarchy::GenerateRootContract, with_ee: [:custom_
       end
     end
 
+    it "accepts a list custom field" do
+      custom_field = create(:list_wp_custom_field)
+
+      expect(described_class.new.call(custom_field:)).to be_success
+    end
+
     context "when inputs are invalid" do
       it "creates a failure result" do
         [

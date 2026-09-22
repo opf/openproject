@@ -5032,11 +5032,13 @@ en:
         custom_field:
           format_not_supported: "format '%{field_format}' is unsupported."
         item:
+          nesting_not_allowed: "cannot have sub-items for this custom field."
           not_persisted: "must be an already existing item."
           root_item: "cannot be a root item."
         label:
           not_unique: "must be unique within the same hierarchy level."
         parent:
+          nesting_not_allowed: "cannot have sub-items for this custom field."
           not_descendant: "must be a descendant of the hierarchy root."
         short:
           not_unique: "must be unique within the same hierarchy level."
