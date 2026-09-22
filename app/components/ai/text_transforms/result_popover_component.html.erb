@@ -1,0 +1,146 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(
+    Primer::Beta::Popover.new(
+      position: :fixed,
+      hidden: true,
+      classes: "op-ai-result-popover",
+      data: controller_data,
+      test_selector: "ai-text-transform-popover"
+    )
+  ) do |popover|
+    popover.with_body(large: true, p: 0, classes: "op-ai-result-popover--message") do
+      flex_layout(direction: :column, classes: "op-ai-result-popover--layout") do |layout|
+        layout.with_row(classes: "op-ai-result-popover--header", border: :bottom, p: 3, data: target(:handle)) do
+          flex_layout(align_items: :center) do |header|
+            header.with_column(mr: 2) do
+              render(Primer::Beta::Octicon.new(icon: :copilot, color: :done, size: :medium))
+            end
+            header.with_column(flex: 1) do
+              render(Primer::Beta::Heading.new(tag: :h4, font_size: 3, data: target(:title))) { "" }
+            end
+            header.with_column do
+              render(
+                Primer::Beta::IconButton.new(
+                  icon: :x,
+                  scheme: :invisible,
+                  "aria-label": label(:close),
+                  data: action(:dismiss)
+                )
+              )
+            end
+          end
+        end
+
+        layout.with_row(classes: "op-ai-result-popover--body", flex: 1, p: 3) do
+          flex_layout(direction: :column) do |body|
+            body.with_row(mb: 3, text_align: :right) do
+              render(Primer::Beta::Label.new(scheme: :done, size: :large)) { label(:context_description) }
+            end
+            body.with_row(mb: 3, hidden: true, data: target(:stopped)) do
+              render(Primer::Alpha::Banner.new(scheme: :warning, description: label(:stopped_description))) do
+                label(:stopped_title)
+              end
+            end
+            body.with_row(mb: 3, hidden: true, data: target(:failed)) do
+              render(Primer::Alpha::Banner.new(scheme: :danger)) do
+                safe_join(
+                  [
+                    render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mb: 1)) { label(:failed_title) },
+                    render(Primer::Beta::Text.new(tag: :span, data: target(:failedMessage))) { "" }
+                  ]
+                )
+              end
+            end
+            body.with_row do
+              render(Primer::BaseComponent.new(tag: :div, classes: "op-uc-container", data: target(:output)))
+            end
+          end
+        end
+
+        layout.with_row(classes: "op-ai-result-popover--footer", border: :top, bg: :subtle, p: 3) do
+          flex_layout(align_items: :center) do |bar|
+            bar.with_column(mr: 2, classes: "op-ai-result-popover--grip", data: target(:grip)) do
+              render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+            end
+            bar.with_column(flex: 1) do
+              safe_join(
+                [
+                  flex_layout(align_items: :center, justify_content: :space_between, data: target(:generatingFooter)) do |footer|
+                    footer.with_column do
+                      render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
+                    end
+                    footer.with_column do
+                      render(Primer::Beta::Button.new(data: action(:cancel))) { label(:cancel) }
+                    end
+                  end,
+                  flex_layout(align_items: :center, hidden: true, data: target(:doneFooter)) do |footer|
+                    footer.with_column(flex: 1) do
+                      render(Primer::Beta::Button.new(scheme: :invisible, data: action(:copy))) do |button|
+                        button.with_leading_visual_icon(icon: :copy)
+                        content_tag(:span, label(:copy), data: target(:copyLabel))
+                      end
+                    end
+                    footer.with_column(mr: 2) do
+                      render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:discard) }
+                    end
+                    footer.with_column do
+                      render(Primer::Beta::Button.new(scheme: :primary, data: action(:replace))) { label(:replace) }
+                    end
+                  end,
+                  flex_layout(align_items: :center, justify_content: :flex_end, hidden: true, data: target(:errorFooter)) do |footer|
+                    footer.with_column(mr: 2) do
+                      render(Primer::Beta::Button.new(data: action(:retry))) do |button|
+                        button.with_leading_visual_icon(icon: :sync)
+                        label(:try_again)
+                      end
+                    end
+                    footer.with_column do
+                      render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:close) }
+                    end
+                  end
+                ]
+              )
+            end
+          end
+        end
+
+        %w[left right bottom-left bottom-right].each do |edge|
+          layout.with_row(
+            classes: "op-ai-result-popover--resize op-ai-result-popover--resize_#{edge}",
+            data: target(:resize).merge(edge:),
+            "aria-hidden": true
+          )
+        end
+      end
+    end
+  end
+%>
