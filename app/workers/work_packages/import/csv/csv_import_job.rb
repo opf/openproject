@@ -126,7 +126,8 @@ module WorkPackages
           {
             row_count: report.row_count,
             created_count: report.created_count,
-            back_dated: report.back_dated.positive?,
+            back_dated: report.back_dated,
+            created_ids: created_ids(report),
             assignee_count: report.assignee_count,
             dated_count: report.dated_count,
             counts: report.counts,
@@ -151,7 +152,8 @@ module WorkPackages
             dry_run:,
             row_count: 0,
             created_count: 0,
-            back_dated: false,
+            back_dated: 0,
+            created_ids: [],
             assignee_count: 0,
             dated_count: 0,
             started_at: started_at,
@@ -165,6 +167,8 @@ module WorkPackages
         end
 
         def problems(list) = list.first(PROBLEM_LIMIT).map(&:to_h)
+
+        def created_ids(report) = dry_run ? [] : report.created_ids
 
         def file_problem(key, **)
           HeaderMap::Problem.new(column: nil,

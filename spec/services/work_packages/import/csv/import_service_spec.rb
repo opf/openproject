@@ -67,6 +67,10 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(result.result).to have_attributes(row_count: 2, created_count: 2, problems: [])
     end
 
+    it "names the work packages it created, so the report can list exactly those" do
+      expect(import(rows).result.created_ids).to eq(WorkPackage.order(:id).pluck(:id))
+    end
+
     it "assigns the attributes the rows carry" do
       import(rows)
 
@@ -179,6 +183,12 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
     it "reports how many rows were back-dated" do
       expect(import(rows).result.back_dated).to eq(1)
+    end
+
+    it "does not count a row carrying nothing but an Updated on" do
+      result = import([row({ subject: "Touched later", updated_at: updated_at.iso8601 })])
+
+      expect(result.result.back_dated).to eq(0)
     end
 
     it "leaves a row without the columns alone" do

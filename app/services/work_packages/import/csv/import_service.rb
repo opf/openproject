@@ -33,11 +33,11 @@ module WorkPackages
     module CSV
       class ImportService
         Report = Data.define(:row_count, :created_count, :back_dated, :assignee_count, :dated_count,
-                             :counts, :problems, :available)
+                             :counts, :problems, :available, :created_ids)
 
         COUNTED = %i[type status priority category].freeze
 
-        Progress = Struct.new(:created_count, :back_dated, :counts, :problems, :assignees, :dated)
+        Progress = Struct.new(:created_count, :back_dated, :counts, :problems, :assignees, :dated, :created_ids)
         private_constant :Progress
 
         def initialize(user:, project:)
@@ -75,7 +75,7 @@ module WorkPackages
           mapper = RowMapper.new(project:)
           mapper.prime(rows)
 
-          progress = Progress.new(0, 0, {}, [], Set.new, 0)
+          progress = Progress.new(0, 0, {}, [], Set.new, 0, [])
           rows.each { |row| import_row(row, mapper, progress) }
 
           report(rows.size, progress, mapper.available)
@@ -89,7 +89,8 @@ module WorkPackages
                      dated_count: progress.dated,
                      counts: progress.counts,
                      problems: progress.problems,
-                     available:)
+                     available:,
+                     created_ids: progress.created_ids)
         end
 
         def import_row(row, mapper, progress)
@@ -102,7 +103,8 @@ module WorkPackages
         def record(created, row, timestamps, progress)
           if created.success?
             progress.created_count += 1
-            progress.back_dated += 1 if timestamps.any?
+            progress.created_ids << created.result.id
+            progress.back_dated += 1 if timestamps.key?(:created_at)
             back_date(created.result, timestamps)
             summarise(progress, created.result)
           else
