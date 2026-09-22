@@ -888,4 +888,38 @@ RSpec.describe CustomField do
       end
     end
   end
+
+  describe "#default_value for hierarchical formats", with_ee: [:custom_field_hierarchies] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field) }
+    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
+    let!(:first) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                          parent: custom_field.hierarchy_root, label: "First").value!
+    end
+    let!(:second) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                          parent: custom_field.hierarchy_root, label: "Second").value!
+    end
+
+    it "is nil when no item is marked as default" do
+      expect(custom_field.default_value).to be_nil
+    end
+
+    it "returns the marked item's id as a string" do
+      second.update!(default_value: true)
+
+      expect(custom_field.default_value).to eq(second.id.to_s)
+    end
+
+    context "when the field is multi value" do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, multi_value: true) }
+
+      it "returns every marked item's id" do
+        first.update!(default_value: true)
+        second.update!(default_value: true)
+
+        expect(custom_field.default_value).to contain_exactly(first.id.to_s, second.id.to_s)
+      end
+    end
+  end
 end

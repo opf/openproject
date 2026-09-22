@@ -118,11 +118,11 @@ class CustomField < ApplicationRecord
               custom_options.where(default_value: true).pluck(:id).map(&:to_s)
             end
 
-      if multi_value?
-        ids
-      else
-        ids.first
-      end
+      multi_value? ? ids : ids.first
+    elsif hierarchical_list?
+      ids = default_hierarchy_item_ids
+
+      multi_value? ? ids : ids.first
     else
       val = read_attribute :default_value
       cast_value val
@@ -453,6 +453,12 @@ class CustomField < ApplicationRecord
   end
 
   private
+
+  def default_hierarchy_item_ids
+    return [] if hierarchy_root.nil?
+
+    hierarchy_root.descendants.where(default_value: true).pluck(:id).map(&:to_s)
+  end
 
   def possible_versions(obj, options: {})
     project = deduce_project(obj)
