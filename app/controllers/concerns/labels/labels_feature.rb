@@ -28,22 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Labels
+  module LabelsFeature
+    extend ActiveSupport::Concern
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+    private
 
-  normalizes :name, with: -> { it.squish }
-
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
-
-  def self.page_of(label, per_page:)
-    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+    def require_work_package_labels_feature
+      render_404 unless OpenProject::FeatureDecisions.work_package_labels_active?
+    end
   end
 end

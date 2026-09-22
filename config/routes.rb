@@ -1037,6 +1037,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :labels, only: %i[index create update destroy] do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        get :new_dialog, defaults: { format: :turbo_stream }
+      end
+      member do
+        get :edit_dialog, defaults: { format: :turbo_stream }
+        get :deletion_dialog, defaults: { format: :turbo_stream }
+      end
+    end
+
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
         get :reset_token_dialog

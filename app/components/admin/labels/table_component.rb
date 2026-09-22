@@ -28,22 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Admin
+  module Labels
+    class TableComponent < OpPrimer::BorderBoxTableComponent
+      options :query
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+      columns :name, :usage
+      main_column :name
+      mobile_columns :name, :usage
+      mobile_labels :usage
 
-  normalizes :name, with: -> { it.squish }
+      def has_actions? = true
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+      def headers
+        [
+          [:name,  { caption: t(".headers.name") }],
+          [:usage, { caption: t(".headers.usage") }]
+        ]
+      end
 
-  def self.page_of(label, per_page:)
-    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+      def mobile_title = t(:label_label_plural)
+
+      def filtered?
+        query.find_active_filter(:name).present?
+      end
+
+      def blank_title
+        filtered? ? t(".no_matches.title") : t(".blank_slate.title")
+      end
+
+      def blank_description
+        filtered? ? t(".no_matches.description") : t(".blank_slate.description")
+      end
+
+      def blank_icon
+        filtered? ? :search : :tag
+      end
+
+      def pagination_params = { params: { action: "index" } }
+    end
   end
 end

@@ -28,22 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Admin
+  module Labels
+    class SubHeaderComponent < ApplicationComponent
+      def initialize(query:)
+        super()
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+        @query = query
+      end
 
-  normalizes :name, with: -> { it.squish }
+      def filter_input_value
+        @query.find_active_filter(:name)&.values&.first
+      end
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+      def sub_header_data_attributes
+        {
+          controller: "filter--filters-form",
+          "filter--filters-form-turbo-stream-request-value": true,
+          "filter--filters-form-url-path-name-value": search_admin_labels_path,
+          "filter--filters-form-output-format-value": "json",
+          "filter--filters-form-clear-button-id-value": clear_button_id,
+          test_selector: "labels-sub-header"
+        }
+      end
 
-  def self.page_of(label, per_page:)
-    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+      def filter_input_data_attributes
+        {
+          "filter-name": "name",
+          "filter-type": "string",
+          "filter-operator": "~",
+          "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+        }
+      end
+
+      def clear_button_id
+        "labels-filters-form-clear-button"
+      end
+    end
   end
 end

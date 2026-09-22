@@ -28,22 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+require "rails_helper"
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+RSpec.describe Admin::Labels::ListComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-  normalizes :name, with: -> { it.squish }
+  let(:labels) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
+  let(:query) { Queries::Labels::LabelQuery.new }
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  subject(:rendered_component) do
+    with_request_url "/admin/labels" do
+      render_inline(described_class.new(labels, query:))
+    end
+  end
 
-  def self.page_of(label, per_page:)
-    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+  it "renders a component_wrapper div with a stable DOM id" do
+    wrapper_id = described_class.new(labels, query:).wrapper_key
+    expect(rendered_component).to have_css("##{wrapper_id}")
+  end
+
+  context "with labels" do
+    shared_let(:label) { create(:label, name: "Bug") }
+
+    it "renders the table" do
+      expect(rendered_component).to have_selector(:columnheader, "Used in")
+      expect(rendered_component).to have_test_selector("label-row-#{label.id}")
+    end
   end
 end
