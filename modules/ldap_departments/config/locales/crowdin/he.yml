@@ -25,12 +25,10 @@ he:
       ldap_departments/synchronized_department:
         one: Synchronized department
         two: Synchronized departments
-        many: Synchronized departments
         other: Synchronized departments
       ldap_departments/synchronized_tree:
         one: LDAP department synchronization
         two: LDAP department synchronizations
-        many: LDAP department synchronizations
         other: LDAP department synchronizations
   ee:
     upsell:
@@ -62,7 +60,6 @@ he:
         confirmation_message:
           one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
           two: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-          many: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
           other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Remove synchronization %{name}?
         info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.

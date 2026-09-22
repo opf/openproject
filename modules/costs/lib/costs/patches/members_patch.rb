@@ -151,7 +151,7 @@ module Costs
           link_to(
             number_to_currency(rate),
             controller: "/hourly_rates",
-            action: rate_action,
+            action: "show",
             id: member.principal,
             project_id: project
           )
@@ -172,14 +172,6 @@ module Costs
         member.principal.current_rate(project).try(:rate) || 0.0
       end
 
-      def rate_action
-        if allow_edit?
-          "edit"
-        else
-          "show"
-        end
-      end
-
       def show_rate?
         costs_enabled? && user? && allow_view?
       end
@@ -190,10 +182,6 @@ module Costs
 
       def allow_view?
         table.current_user.allowed_in_project?(:view_hourly_rates, project)
-      end
-
-      def allow_edit?
-        table.current_user.allowed_in_project?(:edit_hourly_rates, project)
       end
     end
   end

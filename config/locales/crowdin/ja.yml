@@ -222,6 +222,7 @@ ja:
         title: Title
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: ロール
       notification:
         read_ian: アプリ内の読み取り
@@ -443,6 +444,13 @@ ja:
         time_zone: タイムゾーン
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告
         workdays: 営業時間
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -856,6 +864,10 @@ ja:
               blank: トークン名を入力してください
               format: "%{message}"
               in_use: このトークン名は既に使用されています。違うトークン名を入力してください
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -866,6 +878,9 @@ ja:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -889,6 +904,8 @@ ja:
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
@@ -1308,6 +1325,8 @@ ja:
         main-menu-bg-selected-background: 選択時のメインメニュー
         primary-button-color: プライマリボタン
       custom_colors: カスタム色
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: は有効なTTFフォントファイルでありません。
@@ -1384,6 +1403,7 @@ ja:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -1627,6 +1647,14 @@ ja:
       update:
         failure: MCP configuration could not be updated.
         success: MCP configuration was updated successfully.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: 詳しくは統合とプラグインのページをご覧ください。
       no_results_title_text: 現在、プラグインはインストールされていません。
@@ -1867,6 +1895,13 @@ ja:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: 現在表示されています
     is_inactive: 現在表示されていません
@@ -1929,10 +1964,6 @@ ja:
       not_found:
         reminder: お探しのリマインダーが見つからないか、削除されました。
         work_package: 探しているワークパッケージが見つからないか、削除されています。
-      render:
-        context_not_parsable: このコンテキストはリソースへのリンクではありません。
-        context_object_not_found: コンテキストで指定されたリソースが見つかりません。
-        unsupported_context: 指定されたリソースは、コンテキストとしてはサポートされません。
       unable_to_create_attachment: 添付ファイルを作成できませんでした
       unable_to_create_attachment_permissions: ファイルシステムのアクセス許可がないため、添付ファイルを保存できませんでした
       user:
@@ -2617,7 +2648,6 @@ ja:
       custom_actions: カスタムアクション
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: ライフサイクルをカスタマイズ
-      date_alerts: 日付アラート
       define_custom_style: カスタムテーマとロゴ
       edit_attribute_groups: 属性グループを編集
       gantt_pdf_export: ガントPDFをエクスポート
@@ -2693,8 +2723,6 @@ ja:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: PM2プロジェクトサイクル計画で提供されるものとは異なるプロジェクトフェーズを作成して整理します。
-      date_alerts:
-        description: 日付アラートでは、重要な期限を逃したり忘れたりすることは決してないように、今後の開始または終了日が通知されます。
       define_custom_style:
         description: 独自のロゴと色でOpenProjectのインストールをカスタマイズします。
         more_info: 注:使用されたロゴは一般公開されます。
@@ -3067,15 +3095,15 @@ ja:
     blocks:
       community: OpenProject コミュニティ
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3122,6 +3150,7 @@ ja:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -3319,6 +3348,7 @@ ja:
   label_core_build: コアビルド
   label_core_version: メインのバージョン
   label_created_by: 作成者： %{user}
+  label_criteria: Criteria
   label_current_status: 現在のステータス
   label_current_version: 最新版
   label_custom_comment: "%{name} comment"
@@ -3893,6 +3923,8 @@ ja:
   label_wiki_start: 開始ページ
   label_wiki_toc: 目次
   label_wiki_toc_empty: 見出しが存在しないため、目次は空です。
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 予定時間
   label_work_package: ワーク パッケージ
   label_work_package_attachments: ワークパッケージの添付ファイル
@@ -4755,6 +4787,13 @@ ja:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: このテキストはフッターの中央にあるすべてのページに表示されます。
@@ -4769,6 +4808,12 @@ ja:
         label: ハイフネーション
       hyphenation_language:
         label: 言語とハイフネーション
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF ドキュメント内のページの向きを選択します。
         label: ページの向き
@@ -4916,6 +4961,16 @@ ja:
   permission_work_package_assigned: 担当者/責任者になる
   permission_work_package_assigned_explanation: それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: プレースホルダー ユーザーを削除
     deletion_info:
       data_consequences: 'プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。 削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
@@ -5205,7 +5260,7 @@ ja:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: 新しいバージョンを作成
-        no_results_title_text: 現在、プロジェクトのバージョンはありません。
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Show work packages
         work_packages_graph: ワークパッケージのグラフ
       work_package_priorities:
@@ -5215,6 +5270,7 @@ ja:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -5368,6 +5424,26 @@ ja:
     warnings:
       cannot_annotate: このファイルに注釈を付けることはできません。
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        other: "%{count} projects"
+      summary_users:
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -5379,6 +5455,15 @@ ja:
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Permissions matrix for %{module} module
       matrix_check_all_label: Assign all %{module} permissions to all roles
@@ -5954,13 +6039,14 @@ ja:
         <br>
         <strong>メモ</strong>: 継承された値 (例えば、子や関連) が適用されます。
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: 合計から除外
         is_closed: 終了
-        is_default: 既定の項目
         is_readonly: 読み取り専用
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: 新しいステータスを追加
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
+      status_actions: Status actions
   support:
     array:
       sentence_connector: 及び
@@ -6166,7 +6252,49 @@ ja:
     getting_started: はじめに
     help_and_support: ヘルプとサポート
   total_progress: 全体の進行状況
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Create type
@@ -6250,7 +6378,6 @@ ja:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
@@ -6432,7 +6559,7 @@ ja:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6441,6 +6568,27 @@ ja:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
@@ -6642,6 +6790,12 @@ ja:
   version_status_locked: ロック済み
   version_status_open: 未完了
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
       work_packages_in_archived_projects: バージョンは、まだこのバージョンにワークパッケージが割り当てられているアーカイブされたプロジェクトと共有されます。 これらはカウントされますが、リンクされたビューには表示されません。

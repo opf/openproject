@@ -41,4 +41,10 @@ RSpec.describe AuthProvider do
       expect(Setting.omniauth_direct_login_provider).to be_blank
     end
   end
+
+  describe "#csp_form_action_origin" do
+    it "raises SubclassResponsibilityError on the abstract base class" do
+      expect { described_class.new.csp_form_action_origin }.to raise_error(SubclassResponsibilityError)
+    end
+  end
 end

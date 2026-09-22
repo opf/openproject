@@ -139,6 +139,32 @@ RSpec.describe Header::ProjectsController do
         parent_node = tree.find { |n| n[:project] == parent_project }
         expect(parent_node[:matches_query]).to be(false)
       end
+
+      context "with multiple search terms" do
+        subject(:make_request) { get :index, params: { query: "Beta Gamma" } }
+
+        it "requires every term to match" do
+          make_request
+          expect(assigns(:projects)).to be_empty
+        end
+      end
+    end
+
+    context "when searching by a term that only matches the identifier" do
+      shared_let(:identifier_project) { create(:project, name: "Delta Fourth", identifier: "top-secret-code") }
+
+      subject(:make_request) { get :index, params: { query: "secret" } }
+
+      before do
+        create(:member, principal: current_user, project: identifier_project, roles: [role])
+      end
+
+      it "returns the project whose identifier matches", :aggregate_failures do
+        make_request
+
+        expect(assigns(:projects)).to include(identifier_project)
+        expect(assigns(:projects)).not_to include(parent_project, child_project, other_project)
+      end
     end
 
     context "with filter_mode=favorited" do

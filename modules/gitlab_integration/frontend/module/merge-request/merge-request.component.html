@@ -77,11 +77,10 @@
   {{ text.label_created_by }}
   <span class='op-merge-request--user'>
     @if (mergeRequest.gitlabUser) {
-      <a
-        [href]="'mailto:' + mergeRequest.gitlabUser.email"
+      <span
         class='op-merge-request--username'
         [textContent]="mergeRequest.gitlabUser.login"
-      ></a>
+      ></span>
       }.
     </span>
     <span class='op-merge-request--date'>

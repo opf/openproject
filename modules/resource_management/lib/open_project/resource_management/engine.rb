@@ -36,6 +36,8 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    patches %i[PlaceholderUser]
+
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]
 
@@ -45,11 +47,6 @@ module OpenProject::ResourceManagement
              settings: {} do
       project_module :resource_management,
                      enterprise_feature: "resource_management" do
-        # `view_resource_planners` gates access to all CRUD actions. The
-        # per-record rules (only owners can change their own private planner;
-        # only manage_public users can change public ones) live in the
-        # contracts — the controller filter just establishes that the user
-        # has *some* business in the resource planner area.
         permission :view_resource_planners,
                    {
                      "resource_management/resource_planners": %i[index show overview new create edit update destroy],
@@ -68,52 +65,70 @@ module OpenProject::ResourceManagement
                    },
                    permissible_on: :project
 
-        # Beyond this permission, the contract additionally requires the planner
-        # itself to be public.
         permission :manage_public_resource_planners,
                    { "resource_management/resource_planners": %i[toggle_public] },
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners]
 
-        # The `contract_actions` map keeps the permission discoverable for the
-        # API contracts that consume it via `allowed_in_project?`.
+        permission :view_global_resource_planners,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin
+
+        permission :manage_public_global_resource_planners,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin,
+                   dependencies: %i[view_global_resource_planners]
+
         permission :allocate_user_resources,
-                   { "resource_management/resource_allocations": %i[new step refresh_form create edit update destroy] },
+                   { "resource_management/resource_allocations": %i[new refresh_form create edit update destroy] },
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners],
                    contract_actions: { resource_allocation: %i[create update destroy] }
 
-        # Assigning a real user to a generic (filter-based) allocation in the
-        # Staffing view. Independent of `allocate_user_resources`: a user may be
-        # allowed to staff without being allowed to create or edit allocations.
+        # Independent of `allocate_user_resources`: a user may be allowed to staff
+        # without being allowed to create or edit allocations.
         permission :assign_users_to_generic_allocations,
                    { "resource_management/staffing": %i[index assign_form assign] },
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners]
       end
 
-      # TODO: Add those menus when global overview will be implemented
-      #    should_render_global_menu_item = Proc.new do
-      #      (User.current.logged? || !Setting.login_required?) &&
-      #        User.current.allowed_in_any_project?(:view_resources)
-      #    end
+      # Menu items outside a project are not permission-filtered by the menu
+      # manager, so this proc is the only gate.
+      should_render_global_menu_item = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+          ResourcePlanner.section_visible_to?(User.current)
+      end
 
-      #    menu :global_menu,
-      #         :resource_management,
-      #         { controller: "/resource_management/resource_management", action: :overview },
-      #         caption: :label_resource_management,
-      #         after: :calendar_view,
-      #         icon: "people",
-      #         if: should_render_global_menu_item
+      menu :global_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index, project_id: nil },
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management",
+           if: should_render_global_menu_item
 
-      #    menu :top_menu,
-      #         :resource_management,
-      #         { controller: "/resource_management/resource_management", action: :overview },
-      #         context: :modules,
-      #         caption: :label_resource_management,
-      #         after: :calendar_view,
-      #         icon: "people",
-      #         if: should_render_global_menu_item
+      menu :global_menu,
+           :resource_planners_menu,
+           { controller: "/resource_management/resource_planners", action: :index },
+           parent: :resource_management,
+           partial: "resource_management/menus/menu",
+           last: true,
+           caption: :label_resource_management,
+           if: should_render_global_menu_item
+
+      menu :top_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index, project_id: nil },
+           context: :modules,
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management",
+           if: should_render_global_menu_item
 
       menu :project_menu,
            :resource_management,
@@ -130,6 +145,37 @@ module OpenProject::ResourceManagement
            partial: "resource_management/menus/menu",
            last: true,
            caption: :label_resource_management
+    end
+
+    initializer "resource_management.permissions" do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:manage_placeholder_user)
+                                  .controller_actions
+                                  .push(
+                                    "resource_management/placeholder_users/new",
+                                    "resource_management/placeholder_users/create"
+                                  )
+      end
+    end
+
+    config.to_prepare do
+      ::Queries::Register.register(::Query) do
+        filter ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
+        exclude ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
+      end
+    end
+
+    add_api_path :allocatable_principals do
+      "#{root}/allocatable_principals"
+    end
+
+    add_api_path :allocatable_work_packages do
+      "#{root}/allocatable_work_packages"
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI
+      mount ::API::V3::AllocatableWorkPackages::AllocatableWorkPackagesAPI
     end
   end
 end

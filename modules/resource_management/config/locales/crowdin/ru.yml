@@ -2,17 +2,19 @@
 ru:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Часы
         allocated_time: Распределенное время
         date_range: Даты
         end_date: Дата окончания
         entity: Сущность
-        filter_name: Название фильтра ресурсов
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Исполнитель
         start_date: Дата начала
         state: Состояние
-        user_filter: Фильтры пользователей
       resource_planner:
         date_range: Даты
         default_view_class_name: Представление по умолчанию
@@ -27,6 +29,8 @@ ru:
           attributes:
             end_date:
               greater_than_start_date: должно быть после даты начала.
+            principal:
+              not_a_member: is not a member of the work package's project.
         resource_planner:
           attributes:
             end_date:
@@ -82,8 +86,12 @@ ru:
   permission_allocate_user_resources_explanation: Позволяет пользователям создавать, обновлять и удалять распределение ресурсов в планировщике ресурсов. Сюда входит назначение пользователей (или фильтров) на планировщик и корректировка выделенного времени и диапазона дат.
   permission_assign_users_to_generic_allocations: Назначить пользователей общим распределением
   permission_assign_users_to_generic_allocations_explanation: Позволяет пользователям использовать режим штатного расписания для назначения реальных пользователей общим (основанным на фильтрах) распределением ресурсов, которые еще не имеют пользователя. Он не позволяет создавать или редактировать назначения.
+  permission_manage_public_global_resource_planners: Manage public global resource planners
+  permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Управление общедоступными планировщиками ресурсов
   permission_manage_public_resource_planners_explanation: Позволяет пользователям создавать и управлять общедоступными планировщиками ресурсов. Это позволяет просматривать, создавать, управлять и публиковать свои собственные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
+  permission_view_global_resource_planners: View global resource planners
+  permission_view_global_resource_planners_explanation: Allows users to access the global resource planner section, where resources and allocations from several projects can be planned together. It allows them to create and manage their own global resource planners and view public ones. Users only ever see the projects, resources and allocations they are permitted to view.
   permission_view_resource_planners: Просмотр планировщиков ресурсов
   permission_view_resource_planners_explanation: Позволяет пользователям получить доступ к планировщику ресурсов. Это позволяет создавать и управлять своими собственными планировщиками ресурсов и просматривать общедоступные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
   plugin_openproject_resource_management:
@@ -99,14 +107,12 @@ ru:
       make_public: Сделать общедоступным
       unfavorite: Удалить из избранного
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Установите критерии фильтрации на основе атрибутов пользователя для создания ресурса-заполнителя.
-          label: Критерии фильтрации
-        label: Тип распределения
-        principal:
-          caption: Распределить часы для определенного пользователя.
-          label: Пользователь
+      criteria:
+        empty: No criteria set.
+        label: Criteria
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: Выбранные даты ресурса, %{resource_dates}, вне дат пакета работ, %{work_package_dates}.
       overbooking:
@@ -140,6 +146,7 @@ ru:
       title: Назначить %{filter_name}
     blankslate:
       desc: Создать планировщик ресурсов, чтобы начать планировать этот проект.
+      global_desc: Create a resource planner to start planning capacity across projects.
       title: Нет планировщиков ресурсов
     configure_view_dialog:
       delete_confirmation: Вы уверены, что хотите удалить это представление? Это действие нельзя отменить.
@@ -152,11 +159,17 @@ ru:
           caption: Пользовательский список элементов, которые вы добавляете и удаляете вручную. Фильтрация невозможна.
           label: Выбрано вручную
       title: Настроить представление
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Сохранить
       success_message: Распределение ресурсов обновлено.
       title: Редактировать распределение
     favorite_caption: Сделайте это представление избранным, чтобы добавить его в верхний раздел меню боковой панели.
+    filters:
+      resource_management_enabled: Resource management enabled
+    global_public_caption: Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of work packages which still depends on each user permission.
     label_edit_resource_planner: Редактировать планировщик ресурсов
     label_new_resource_planner: Новый планировщик ресурсов
     label_resource_planner: Планировщик ресурсов
@@ -201,15 +214,16 @@ ru:
         add: Добавить
         allocate: Распределить
         settings: Настроить представление
+      undisclosed:
+        tooltip: You don't have permissions to see this allocated resource
+        work_package: Work package not visible to you
     user_allocations_dialog:
       allocate_work_package: Распределить пакет работ
       blank: У данного пользователя нет назначенных пакетов работ.
-      other_work_packages:
-        one: еще 1 пакет работ
-        few: ещё %{count} пакета работ
-        many: ещё %{count} пакетов работ
-        other: ещё %{count} пакетов работ
+      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
+      hidden_work_package: Work package not visible to you
       title: Использование
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: Добавить пользователя

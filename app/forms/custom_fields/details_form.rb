@@ -229,7 +229,7 @@ module CustomFields
         )
       end
 
-      details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :default)
+      details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
     end
 
     def label(field)

@@ -67,7 +67,7 @@ RSpec.describe "Omniauth authentication" do
   describe "existing user sign in" do
     it "redirects to back url" do
       visit account_lost_password_path
-      click_link_or_button("Omniauth Developer", match: :first, visible: :all)
+      start_omniauth_developer
 
       SeleniumHubWaiter.wait
       fill_in("first_name", with: user.firstname)

@@ -27,10 +27,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%
-  @rates = HourlyRate.history_for_user(@user)
-  @rates_default = @rates.delete(nil)
-%>
-
-<%= render partial: "hourly_rates/list_default" %>
-<%= render partial: "hourly_rates/list" %>
+<%= render(HourlyRates::HistoryComponent.new(principal: @user)) %>
