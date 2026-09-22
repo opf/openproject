@@ -1,10 +1,9 @@
 @import "helpers"
+@import "fullcalendar_frame"
 
 .my-time-tracking-chart-view
   height: 100%
-  // FullCalendar defaults to its own grey, which reads as a different colour next to the
-  // canvas border.
-  --fc-border-color: var(--borderColor-default)
+  +fc-frame-grid
 
   .my-time-tracking-chart-view--body
     flex-grow: 1
@@ -17,31 +16,7 @@
   .my-time-tracking-chart-view--canvas
     height: 100%
     min-width: 800px
-    border: 1px solid var(--borderColor-default)
-    border-radius: var(--borderRadius-medium)
-    overflow: hidden
-
-  // The canvas owns the outer frame. Neither the scrollgrid nor the cells sitting on its
-  // outer edges may add a second line next to it, which would read as a thicker border.
-  .fc-scrollgrid
-    border-width: 0
-
-    th:first-child,
-    td:first-child
-      border-left: 0
-
-    th:last-child,
-    td:last-child
-      border-right: 0
-
-  .fc-col-header-cell,
-  .fc-col-header .fc-timegrid-axis
-    border-top: 0
-
-  // Every section wrapper draws a line under its own section, doubling up with the cell
-  // borders that already close each section off, and with the canvas border at the bottom.
-  .fc-scrollgrid-section > td
-    border-bottom: 0
+    +fc-frame-container
 
   .fc-event,
   .fc-bgevent
@@ -57,28 +32,6 @@
     min-width: 52px
     padding-right: 8px
     color: var(--fgColor-muted)
-
-  .fc-col-header-cell
-    padding: 6px 0
-    font-weight: var(--base-text-weight-semibold)
-
-  .fc-timegrid-footer-totals
-    .fc-col-footer-cell
-      padding: 6px 0
-      text-align: center
-      font-weight: var(--base-text-weight-semibold)
-
-    // The canvas draws the bottom edge; the cells' own border would double it.
-    .fc-col-footer-cell,
-    .fc-timegrid-axis
-      border-bottom: 0
-
-  // The day columns tint past and future days, which must not carry into the header and
-  // footer. Today keeps its highlight there. The tint comes from an id selector, so it
-  // takes !important to override, as in the calendar view.
-  .fc-col-header .fc-day:not(.fc-day-today),
-  .fc-timegrid-footer-totals .fc-day:not(.fc-day-today)
-    background-color: var(--fc-page-bg-color) !important
 
   .te-chart--add-entry
     text-align: center

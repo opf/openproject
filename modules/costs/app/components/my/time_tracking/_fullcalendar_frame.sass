@@ -1,0 +1,70 @@
+// Shared frame for the FullCalendar based my time tracking views.
+//
+// FullCalendar draws a border on the scrollgrid table and on every cell, so a frame put
+// around the grid lands next to those and reads as a thicker, differently coloured edge.
+// The container owns the frame and the cells on the outer edges give theirs up.
+
+// Goes on the element the calendar is rendered into.
+=fc-frame-container
+  border: 1px solid var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+  overflow: hidden
+
+// Goes on the view root, above the container.
+=fc-frame-grid
+  // FullCalendar defaults to its own grey, which reads as a different colour next to the
+  // container border.
+  --fc-border-color: var(--borderColor-default)
+
+  .fc-scrollgrid
+    border-width: 0
+
+    th:first-child,
+    td:first-child
+      border-left: 0
+
+    th:last-child,
+    td:last-child
+      border-right: 0
+
+  .fc-col-header-cell,
+  .fc-col-header .fc-timegrid-axis
+    border-top: 0
+
+  // Every section wrapper draws a line under its own section, doubling up with the cell
+  // borders that already close each section off, and with the container border at the bottom.
+  .fc-scrollgrid-section > td
+    border-bottom: 0
+
+  .fc-col-header-cell
+    padding: 6px 0
+    font-weight: var(--base-text-weight-semibold)
+
+  // The footer's own top border closes the grid off, so the columns must not draw a
+  // second line directly above it.
+  .fc-timegrid-cols td
+    border-bottom: 0
+
+  .fc-timegrid-footer-totals
+    // FullCalendar hides the top edge of every table inside the scrollgrid. Those tables
+    // collapse their borders, and `hidden` wins there over any width, so the footer cells
+    // cannot draw the separator themselves.
+    .fc-col-footer
+      border-top: 1px solid var(--fc-border-color)
+
+    .fc-col-footer-cell
+      padding: 6px 0
+      text-align: center
+      font-weight: var(--base-text-weight-semibold)
+
+    // The container draws the bottom edge.
+    .fc-col-footer-cell,
+    .fc-timegrid-axis
+      border-bottom: 0
+
+  // The day columns tint past and future days, which must not carry into the header and
+  // footer. Today keeps its highlight there. The tint comes from an id selector, so it
+  // takes !important to override.
+  .fc-col-header .fc-day:not(.fc-day-today),
+  .fc-timegrid-footer-totals .fc-day:not(.fc-day-today)
+    background-color: var(--fc-page-bg-color) !important

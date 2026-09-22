@@ -1,8 +1,12 @@
+@import "fullcalendar_frame"
+
 .my-time-tracking-calendar-view
   height: 100%
+  +fc-frame-grid
 
   .op-fc-wrapper
     flex-grow: 1
+    +fc-frame-container
 
     .fc-daygrid-day-bottom
       display: flex
@@ -82,14 +86,6 @@
 
       .fc-event-title-container
         margin: 0 !important
-
-    .fc-col-header
-      .fc-day
-        &.fc-day-past
-          background-color: var(--fc-page-bg-color) !important
-
-        &.fc-day-future
-          background-color: var(--fc-page-bg-color) !important
 
     .fc-timegrid-more-link
       background: var(--fc-page-bg-color) !important
