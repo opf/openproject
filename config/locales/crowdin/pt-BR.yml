@@ -903,6 +903,8 @@ pt-BR:
               would_create_cycle: criaria um loop ao vincular estas configurações.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
@@ -1505,6 +1507,7 @@ pt-BR:
         ssl_error: 'Erro de SSL ao conectar ao servidor Jira: %{message}'
         ssrf_block_doc_link: Consulte nossa [documentação](docs_url).
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Adicionado
         creator: Criador
@@ -3286,6 +3289,7 @@ pt-BR:
         field_set: "%{field} definido como %{value}"
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
+        migrated: from Jira
         set_with_diff: "%{field} definido (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(excluído)"
@@ -5113,10 +5117,10 @@ pt-BR:
       activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
 
         '
-      enable: Match users by criteria
-      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      enable: Corresponder usuários por critério
+      enable_caption: Descreva o tipo de usuário que este espaço reservado representa, para que usuários correspondentes possam ser sugeridos para ele.
       matching_users: Users meeting the filter criteria
-      no_matching_users: No user meets these criteria.
+      no_matching_users: Nenhum usuário atende a esses critérios.
       show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Excluir usuário de espaço reserva
     deletion_info:
@@ -5421,7 +5425,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
@@ -5606,6 +5610,16 @@ pt-BR:
     permissions:
       section_check_all_label: Atribuir todas as permissões de %{module}
       section_uncheck_all_label: Remover todas as permissões de %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Matriz de permissões do módulo %{module}
       matrix_check_all_label: Atribuir todas as permissões do módulo %{module} a todas as funções
@@ -6668,6 +6682,9 @@ pt-BR:
         text: 'Isto tornará esta variante específica de projeto uma global que está disponível para todos os projetos. O administrador do projeto não poderá mais editá-lo.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} agora é uma variante global."
       convert_to_global_rename:
         confirm: Converter
@@ -6676,7 +6693,7 @@ pt-BR:
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
-        heading: Delete type '%{name}'?
+        heading: Apagar o tipo '%{name}'?
         projects:
           one: 'The type will be removed from 1 project:'
           other: 'The type will be removed from %{count} projects:'

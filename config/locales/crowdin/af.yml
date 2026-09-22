@@ -903,6 +903,8 @@ af:
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
@@ -1505,6 +1507,7 @@ af:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -3288,6 +3291,7 @@ af:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -5426,7 +5430,7 @@ af:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -5619,6 +5623,16 @@ af:
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Permissions matrix for %{module} module
       matrix_check_all_label: Assign all %{module} permissions to all roles
@@ -6688,6 +6702,9 @@ af:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."

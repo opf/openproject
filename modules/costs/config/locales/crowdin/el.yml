@@ -280,6 +280,10 @@ el:
   permission_edit_rates: Επεξεργασία αμοιβών
   permission_log_costs: Κράτηση κόστους μονάδας
   permission_log_own_costs: Κράτηση κόστους μονάδα για τον εαυτό του
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Εμφάνιση κλεισμένου κόστους
   permission_view_cost_rates: Εμφάνιση κόστους αμοιβών
   permission_view_hourly_rates: Εμφάνιση όλων των ωριαίων αμοιβών

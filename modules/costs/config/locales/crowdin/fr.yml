@@ -280,6 +280,10 @@ fr:
   permission_edit_rates: Éditer les tarifs
   permission_log_costs: Réserver des coûts unitaires
   permission_log_own_costs: Réserver coûts unitaires propres
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Afficher coûts réservés
   permission_view_cost_rates: Voir les coûts horaires
   permission_view_hourly_rates: Voir tous les tarifs horaires

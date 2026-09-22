@@ -31,6 +31,10 @@
 en:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: "GitLab project"
+        namespace: "GitLab namespace"
+        project_html_url: "GitLab project URL"
       gitlab_merge_request:
         labels: "Labels"
       gitlab_pipeline:
@@ -46,6 +50,9 @@ en:
             labels:
               invalid_schema: "must be an array of hashes with keys: color, title"
     models:
+      gitlab_branch:
+        one: "GitLab branch"
+        other: "GitLab branches"
       gitlab_issue:
         one: "GitLab issue"
         other: "GitLab issues"
@@ -62,7 +69,6 @@ en:
     commit: "Commit"
     gitlab: "GitLab identifier"
     gitlab_avatar_url: "Avatar URL"
-    gitlab_email: "GitLab Email"
     gitlab_html_url: "GitLab HTML URL"
     gitlab_merge_request: "Merge Request"
     gitlab_name: "GitLab name"
@@ -75,6 +81,14 @@ en:
       copy_sha: Copy SHA to clipboard
       created_by: Created by %{name}.
       empty_message: <empty commit message>
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
@@ -175,6 +189,7 @@ en:
       git_snippets: Git snippets
       issues: Issues
       merge_requests: Merge requests
+      snippets_button_label: Git snippets
 
   label_gitlab_actor: "GitLab actor"
 

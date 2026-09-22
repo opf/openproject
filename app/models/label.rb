@@ -33,10 +33,10 @@ class Label < ApplicationRecord
   has_many :labelings, dependent: :delete_all
 
   scope :with_usage_count, -> {
-    left_joins(:labelings)
-      .select("labels.*, COUNT(labelings.id) AS usage_count")
-      .group(:id)
+    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
   }
+
+  normalizes :name, with: -> { it.squish }
 
   validates :name,
             presence: true,
