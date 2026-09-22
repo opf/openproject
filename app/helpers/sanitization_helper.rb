@@ -27,17 +27,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module Documents
-  module Admin
-    module CollaborationSettings
-      class PageHeaderComponent < ApplicationComponent
-        def description
-          helpers.link_translate("documents.admin.collaboration_settings.page_header.description_html",
-                                 links: { hocuspocus_server_link: %i[hocuspocus_server_docs] })
-        end
-      end
-    end
+require "sanitize"
+
+module SanitizationHelper
+  BASIC_HTML_SANITIZE_CONFIG = {
+    elements: %w[ul ol li a br b strong em i],
+    attributes: { "a" => %w[href] }
+  }.freeze
+
+  def sanitize_basic_html(html)
+    sanitized = Sanitize.fragment(
+      html.to_s,
+      BASIC_HTML_SANITIZE_CONFIG.merge(
+        protocols: { "a" => { "href" => Setting::AllowedLinkProtocols.all + %i[relative] } }
+      )
+    )
+
+    # OG: html_safe after Sanitize.fragment (basic HTML + AllowedLinkProtocols).
+    sanitized.html_safe # rubocop:disable Rails/OutputSafety
   end
 end

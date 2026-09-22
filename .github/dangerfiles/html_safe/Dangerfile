@@ -27,17 +27,42 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module Documents
-  module Admin
-    module CollaborationSettings
-      class PageHeaderComponent < ApplicationComponent
-        def description
-          helpers.link_translate("documents.admin.collaboration_settings.page_header.description_html",
-                                 links: { hocuspocus_server_link: %i[hocuspocus_server_docs] })
-        end
-      end
-    end
+require_relative "scanner"
+
+def added_html_safe_files
+  (git.modified_files + git.added_files)
+    .reject { |file| HtmlSafeDangerScanner.skip_path?(file) }
+    .select { |file| File.exist?(file) }
+    .select { |file| added_non_empty_html_safe?(file) }
+end
+
+def added_non_empty_html_safe?(file)
+  diff = git.diff_for_file(file)
+  return false unless diff
+
+  diff.patch.to_s.lines.any? { |line| HtmlSafeDangerScanner.added_non_empty_html_safe_line?(line) }
+end
+
+flagged_files = added_html_safe_files
+
+if flagged_files.any?
+  message_lines = [
+    "@opf/security **New `.html_safe` usage found.** Please review for injection safety.",
+    ""
+  ]
+
+  flagged_files.each do |file|
+    message_lines << "- #{file}"
   end
+
+  message_lines << <<~MESSAGE
+
+    `.html_safe` marks a string as trusted HTML. Empty `"".html_safe` / `''.html_safe` buffers are ignored.
+
+    Prefer `safe_join`, `content_tag`, `_html` I18n keys, or `sanitize` / `sanitize_basic_html` instead.
+    If `.html_safe` is required, confirm the string is escaped or sanitized first.
+  MESSAGE
+
+  warn message_lines.join("\n")
 end

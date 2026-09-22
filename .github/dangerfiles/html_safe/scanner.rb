@@ -7,7 +7,7 @@
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# This program is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
@@ -27,17 +27,34 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module Documents
-  module Admin
-    module CollaborationSettings
-      class PageHeaderComponent < ApplicationComponent
-        def description
-          helpers.link_translate("documents.admin.collaboration_settings.page_header.description_html",
-                                 links: { hocuspocus_server_link: %i[hocuspocus_server_docs] })
-        end
-      end
+module HtmlSafeDangerScanner
+  HTML_SAFE_CALL_REGEX = /\.html_safe(?![?_])/
+  EMPTY_RECEIVER = /(['"])\1\z/
+  SKIP_PATH_REGEX = %r{(?:\A|/)(?:spec|lookbook|docs|\.github/dangerfiles)/}
+
+  module_function
+
+  def skip_path?(file)
+    file.match?(SKIP_PATH_REGEX)
+  end
+
+  def added_non_empty_html_safe_line?(line)
+    return false unless line.start_with?("+")
+    return false if line.start_with?("+++")
+
+    contains_non_empty_html_safe?(line.delete_prefix("+"))
+  end
+
+  def contains_non_empty_html_safe?(code)
+    code.to_enum(:scan, HTML_SAFE_CALL_REGEX).any? do
+      !empty_html_safe_receiver?(code, Regexp.last_match.begin(0))
     end
+  end
+
+  def empty_html_safe_receiver?(code, dot_index)
+    return false if dot_index < 2
+
+    code[dot_index - 2, 2].match?(EMPTY_RECEIVER)
   end
 end
