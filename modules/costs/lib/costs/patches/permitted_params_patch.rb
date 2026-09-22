@@ -66,11 +66,6 @@ module Costs::Patches::PermittedParamsPatch
                                         existing_rate_attributes: %i[valid_from rate])
     end
 
-    def user_rates
-      params.require(:user).permit(new_rate_attributes: %i[valid_from rate],
-                                   existing_rate_attributes: %i[valid_from rate])
-    end
-
     def time_entries
       additional_fields = []
 

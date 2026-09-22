@@ -84,6 +84,27 @@ RSpec.describe "Recurring meetings global creation",
       expect(meeting.project).to eq project
     end
 
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               enabled_module_names: %w[meetings],
+               member_with_permissions: { user => %i[view_meetings create_meetings] })
+      end
+
+      before do
+        meetings_page.click_on "add-meeting-button"
+
+        page.within("action-list") do
+          meetings_page.click_on "Recurring"
+        end
+      end
+
+      delegate :search_project, to: :meetings_page
+    end
+
     it "shows a project validation error when empty (Regression #61176)" do
       expect(page).to have_current_path(meetings_page.path)
       meetings_page.click_on "add-meeting-button"

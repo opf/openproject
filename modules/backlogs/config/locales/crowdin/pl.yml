@@ -127,7 +127,7 @@ pl:
         other: Sprinty
         zero: Wszystkie sprinty
       select_panel_title: Wybierz elementy
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Żadne pakiety robocze nie spełniają kryteriów filtrowania.
     bucket_component:
       action_menu:
         add_existing_work_package: Dodaj istniejący pakiet roboczy
@@ -173,7 +173,7 @@ pl:
         other: Pokaż jeszcze %{count} elementu
       title: Skrzynka odbiorcza
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Wyszukaj pakiety robocze według tematu
     label_burndown_chart: Wykres spalania (burndown)
     label_is_done_status: Status %{status_name} oznacza zrobiony
     label_sprint_board: Tablica sprintu
@@ -196,6 +196,7 @@ pl:
     remaining_hours: Pozostała praca
     sharing: Udostępnianie sprintu
     show_burndown_chart: Wykres spalania (burndown)
+    show_work_package_overview: Pakiety robocze w ramach sprintu
     sprint_component:
       action_menu:
         add_existing_work_package: Dodaj istniejący pakiet roboczy
@@ -221,6 +222,33 @@ pl:
       page_header_component:
         breadcrumb: Raport
         title: Raport dotyczący %{sprint}
+      widgets:
+        work_package_graph:
+          title: Wykres pakietów roboczych
+        work_package_overview:
+          blankslate:
+            description: Ustaw datę rozpoczęcia i zakończenia sprintu, aby wygenerować przegląd pakietów roboczych.
+            heading: Brak dostępnych danych sprintu
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Zmiana zakresu
+              story_points_change: "+%{added} / -%{removed} pkt. historii"
+            completed:
+              heading: Ukończone
+            initially_planned:
+              heading: Pierwotnie planowano
+            unfinished:
+              heading: Niedokończone
+          breakdown_block:
+            blocks:
+              show_all: Wyświetl wszystkie
+          closed_work_packages: Zamknięte pakiety robocze
+          resolved_summary:
+            one: "%{percentage}% (Pakiet roboczy %{resolved} z %{total})"
+            few: "%{percentage}% (%{resolved} z %{total} pakietów roboczych)"
+            many: "%{percentage}% (%{resolved} z %{total} pakietów roboczych)"
+            other: "%{percentage}% (%{resolved} z %{total} pakietu roboczego)"
     sprints:
       row_component:
         action_menu:
@@ -263,8 +291,19 @@ pl:
       add_existing_dialog:
         invalid_target: Cel, do którego próbujesz dodać, jest nieprawidłowy.
         target_not_found: Nie znaleziono sprint lub backlogu, do którego próbujesz dodać.
+      batch_update_service:
+        mixed_projects: Wszystkie pakiety robocze wsadu muszą należeć do tego samego projektu.
+        stale_batch: Podczas przygotowań do przeniesienia nastąpiła zmiana co najmniej jednego pakietu roboczego. Sprawdź bieżące pozycje i spróbuj ponownie.
+        stale_predecessor: Pakiet roboczy do wstawienia po przeniesieniu w inne miejsce. Sprawdź bieżące pozycje i spróbuj ponownie.
+        unavailable_target: Lista miejsc docelowych nie jest już dostępna. Załaduj ponownie stronę i ponów próbę.
+        unexpected_failure: Nie udało się przenieść pakietów roboczych. Spróbuj ponownie.
       move:
         moved_announcement: "%{label} przeniesiono do %{list}, pozycja %{position} z %{total}"
+      move_collection:
+        invalid_ids: Lista pakietów roboczych do przeniesienia jest nieprawidłowa.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Jednorazowo można przenieść nie więcej pakietów roboczych niż %{max}.
+        work_packages_not_found: W tym projekcie nie udało się znaleźć co najmniej jednego pakietu roboczego.
       update_service:
         invalid_target_type: 'Atrybut list_type musi mieć jedną z następujących wartości: backlog_bucket z list_id, sprint z list_id lub inbox bez list_id.'
         missing_target: Atrybut list_type lub list_id muszą być obecne.
@@ -300,9 +339,13 @@ pl:
   notice_unsuccessful_finish_with_reason: 'Nie można ukończyć sprintu: %{reason}'
   notice_unsuccessful_start: Nie można rozpocząć sprintu.
   notice_unsuccessful_start_with_reason: 'Nie można rozpocząć sprintu: %{reason}'
-  notice_work_package_invisible_after_move: 'Pakiet roboczy został przeniesiony do %{backlog}, ale nie jest widoczny, ponieważ jego typ lub status są wykluczone z backlogu.
+  notice_work_package_invisible_after_move:
+    one: 'Pakiet roboczy został przeniesiony do %{backlog}, ale nie jest widoczny, ponieważ jego typ lub status są wykluczone z backlogu.
 
-    '
+      '
+    few: "%{count} pakiety robocze zostały przeniesione do %{backlog}, ale nie są widoczne, ponieważ ich typ lub status są wykluczone z backlogu.\n"
+    many: "%{count} pakietów roboczych zostało przeniesionych do %{backlog}, ale nie są widoczne, ponieważ ich typ lub status są wykluczone z backlogu.\n"
+    other: "%{count} pakietu roboczego zostało przeniesione do %{backlog}, ale nie jest widoczne, ponieważ ich typ lub status są wykluczone z backlogu.\n"
   permission_create_sprints: Utwórz sprinty
   permission_manage_sprint_items: Zarządzaj elementami sprintu
   permission_select_backlog_types_and_statuses: Wybierz typy i statusy backlogu

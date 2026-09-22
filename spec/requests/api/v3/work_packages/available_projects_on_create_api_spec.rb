@@ -69,6 +69,28 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
     end
   end
 
+  context "with a favored filter present" do
+    let(:favored_project) { create(:project) }
+    let(:member) do
+      create(:member, principal: current_user, project: favored_project, roles: [add_role])
+    end
+
+    before do
+      project
+      member
+      Favorite.create!(user: current_user, favorited: favored_project)
+
+      params = [{ favored: { operator: "=", values: ["t"] } }]
+      escaped = CGI.escape(JSON.dump(params))
+
+      get "#{api_v3_paths.available_projects_on_create}?filters=#{escaped}"
+    end
+
+    it_behaves_like "API V3 collection response", 1, 1, "Project" do
+      let(:elements) { [favored_project] }
+    end
+  end
+
   describe "with a single project" do
     before do
       project

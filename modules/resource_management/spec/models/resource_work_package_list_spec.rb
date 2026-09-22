@@ -76,6 +76,37 @@ RSpec.describe ResourceWorkPackageList do
       expect(offered).not_to include(:project_id)
     end
 
+    context "on a global planner's view" do
+      # `ProjectFilter#available?` only reports itself once the user can see a
+      # project to filter by.
+      shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+      subject(:view) do
+        described_class.new(name: "My view", project: nil, principal: member).tap do |v|
+          v.query = v.build_default_query
+        end
+      end
+
+      before { login_as(member) }
+
+      it "offers the project filter, since there is no project scoping to override" do
+        expect(offered).to include(:project_id)
+      end
+
+      it "still withholds everything the project view withholds" do
+        expect(offered).not_to include(:typeahead, :search, :storage_id, :relates)
+      end
+
+      it "accepts a configured project filter" do
+        view.apply_query_configuration(
+          filters_json: filters_json({ project_id: { operator: "=", values: [project.id.to_s] } }),
+          filter_mode: "automatic"
+        )
+
+        expect(view.effective_query.filters.map(&:name)).to include(:project_id)
+      end
+    end
+
     it "withholds the filters that back autocompleters and full-text search" do
       expect(offered).not_to include(:typeahead, :search, :subject_or_id, :relatable,
                                      :attachment_content, :attachment_file_name,
@@ -216,6 +247,40 @@ RSpec.describe ResourceWorkPackageList do
     end
   end
 
+  describe "#work_packages" do
+    shared_let(:plain_project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
+    shared_let(:managed_work_package) { create(:work_package, project:) }
+    shared_let(:unmanaged_work_package) { create(:work_package, project: plain_project) }
+
+    shared_let(:viewer) do
+      create(:user,
+             member_with_permissions: {
+               project => %i[view_work_packages],
+               plain_project => %i[view_work_packages]
+             })
+    end
+
+    subject(:global_view) do
+      described_class.new(name: "Global view", project: nil, principal: viewer).tap do |v|
+        v.query = v.build_default_query
+      end
+    end
+
+    before { login_as(viewer) }
+
+    it "leaves out work packages from projects without the module" do
+      expect(global_view.work_packages).to contain_exactly(managed_work_package)
+    end
+
+    it "leaves out hand-picked work packages once their project loses the module" do
+      global_view.apply_query_configuration(filter_mode: "manual", filters_json: nil)
+      global_view.query.save!
+      global_view.query.ordered_work_packages.create!(work_package: unmanaged_work_package, position: 1)
+
+      expect(global_view.work_packages).to be_empty
+    end
+  end
+
   describe "#allocation_work_package_filters" do
     context "in automatic mode" do
       before do
@@ -227,7 +292,8 @@ RSpec.describe ResourceWorkPackageList do
 
       it "forwards the view's query filters so the API filters server-side" do
         expect(view.allocation_work_package_filters).to contain_exactly(
-          { name: "assigned_to_id", operator: "=", values: [user.id.to_s] }
+          { name: "assigned_to_id", operator: "=", values: [user.id.to_s] },
+          { name: "resource_management_enabled", operator: "=", values: ["t"] }
         )
       end
     end

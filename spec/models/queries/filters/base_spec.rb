@@ -210,4 +210,10 @@ RSpec.describe Queries::Filters::Base do
     it_behaves_like "validity checked"
     it_behaves_like "date validity checked"
   end
+
+  describe ".stored_key" do
+    it "is nil by default" do
+      expect(Queries::WorkPackages::Filter::SubjectFilter.stored_key).to be_nil
+    end
+  end
 end

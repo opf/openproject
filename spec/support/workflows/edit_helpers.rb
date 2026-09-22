@@ -104,7 +104,7 @@ module Workflows
     end
 
     def expect_transition(role, from_index, to_index, exist:, author: false, assignee: false)
-      expect(Workflow.exists?(role_id: role.id, type_variant_id: type.default_variant.id,
+      expect(Workflows::StatusTransition.exists?(role_id: role.id, workflow_id: type.default_variant.workflow_id,
                               old_status_id: statuses[from_index].id,
                               new_status_id: statuses[to_index].id,
                               author:, assignee:)).to be exist

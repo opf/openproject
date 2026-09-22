@@ -29,21 +29,21 @@
 // The drag preview's `getOffset` decides where the pointer sits on the
 // preview, and Pragmatic only hands it to the real `setCustomNativeDragPreview`
 // — nothing observable from the outside. So this file mocks that module and
-// reads the options back, which the sibling engine spec cannot do: it renders
-// previews for real. Separate file rather than a mock added there, because the
-// suite runs with `isolate: false` and shares one module registry.
+// reads the options back. It stays a separate file from the sibling engine
+// spec because that one renders previews for real, and one file cannot both
+// stub and exercise the same module.
 
 import { vi } from 'vitest';
 import { NativeDragSimulation } from 'core-common/drag-and-drop/testing/native-drag-simulation';
-import { createSortableRoot } from './sortable-lists-engine';
+import type { createSortableRoot as createSortableRootFn } from './sortable-lists-engine';
 
-const { previewCalls } = vi.hoisted(() => ({
-  previewCalls: [] as {
-    getOffset?:(args:{ container:HTMLElement }) => { x:number; y:number };
-  }[],
-}));
+// `doMock` is not hoisted, so this initialises before the factory below runs
+// and a plain const does the job `vi.hoisted()` used to.
+const previewCalls:{
+  getOffset?:(args:{ container:HTMLElement }) => { x:number; y:number };
+}[] = [];
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
   setCustomNativeDragPreview: (options:{
     getOffset?:(args:{ container:HTMLElement }) => { x:number; y:number };
   }) => {
@@ -51,8 +51,14 @@ vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-previe
   },
 }));
 
+let createSortableRoot:typeof createSortableRootFn;
+
 describe('createSortableRoot drag preview offset', () => {
   let cleanupFns:(() => void)[] = [];
+
+  beforeAll(async () => {
+    ({ createSortableRoot } = await import('./sortable-lists-engine'));
+  });
 
   beforeEach(() => { previewCalls.length = 0; });
 
@@ -64,6 +70,10 @@ describe('createSortableRoot drag preview offset', () => {
 
   function setup():{ rows:HTMLElement[] } {
     const root = document.createElement('div');
+    // The engine attaches auto-scroll to this element directly, with no
+    // ancestor walk, so the overflow has to sit here. This also computes
+    // overflow-x to auto; 600px rows just happen to fit the viewport.
+    root.style.cssText = 'overflow-y:auto;';
     const rows = ['a', 'b'].map((id) => {
       const row = document.createElement('div');
       row.style.cssText = 'height:40px; width:600px;';

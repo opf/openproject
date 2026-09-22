@@ -157,6 +157,9 @@ export class ApiV3Service {
   // /api/v3/users
   public readonly users = this.apiV3CustomEndpoint(ApiV3UsersPaths);
 
+  // /api/v3/user_resources
+  public readonly user_resources = this.apiV3CollectionEndpoint('user_resources');
+
   // /api/v3/placeholder_users
   public readonly placeholder_users = this.apiV3CustomEndpoint(ApiV3PlaceholderUsersPaths);
 

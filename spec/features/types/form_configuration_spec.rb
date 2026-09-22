@@ -277,7 +277,7 @@ RSpec.describe "form configuration", :js, :selenium do
         end
 
         it "shows field format labels beside attributes" do
-          builtin_label = I18n.t("types.edit.form_configuration.builtin_field")
+          builtin_label = I18n.t("label_builtin")
 
           expect(page.find(form.attribute_selector(:assignee))).to have_text(builtin_label)
           expect(page.find(form.attribute_selector(:date))).to have_text(builtin_label)
@@ -322,6 +322,18 @@ RSpec.describe "form configuration", :js, :selenium do
 
         form.expect_group("Saved custom group", "Saved custom group")
         expect(page).to have_no_css("[data-group-key]", text: /\bRenamed group\b/)
+      end
+
+      it "renames and deletes a group whose name contains special characters (Regression INTERNAL-963)" do
+        form.add_attribute_group("b) > 10.000 / 20.000 Nutzende")
+
+        visit edit_type_form_configuration_path(type)
+
+        form.rename_group("b) > 10.000 / 20.000 Nutzende", "b) > 20.000 / 30.000 Nutzende")
+        expect(persisted_group_order).to include("b) > 20.000 / 30.000 Nutzende")
+
+        form.remove_group("b) > 20.000 / 30.000 Nutzende")
+        expect(persisted_group_order).not_to include("b) > 20.000 / 30.000 Nutzende")
       end
 
       it "shows only the edit action for query rows" do

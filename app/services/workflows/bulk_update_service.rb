@@ -64,7 +64,7 @@ class Workflows::BulkUpdateService < BaseServices::BaseCallable
 
     (status_transitions || {}).each do |status_id, transitions|
       transitions.each_key do |new_status_id|
-        new_workflows << Workflow.new(type_variant: variant,
+        new_workflows << Workflows::StatusTransition.new(workflow: variant.workflow,
                                       role:,
                                       old_status: status_map[status_id.to_i],
                                       new_status: status_map[new_status_id.to_i],
@@ -89,14 +89,14 @@ class Workflows::BulkUpdateService < BaseServices::BaseCallable
   def bulk_insert(workflows)
     return unless workflows.any?
 
-    columns = %w(role_id type_variant_id old_status_id new_status_id author assignee)
+    columns = %w(role_id workflow_id old_status_id new_status_id author assignee)
     values = workflows.map { |w| w.attributes.slice(*columns) }
 
-    Workflow.insert_all values
+    Workflows::StatusTransition.insert_all values
   end
 
   def own_workflows
-    Workflow.where(role_id: role.id, type_variant_id: variant.id)
+    Workflows::StatusTransition.where(role_id: role.id, workflow_id: variant.workflow_id)
   end
 
   def status_map

@@ -117,6 +117,53 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     backlogs_page.expect_inbox_work_package_count(1)
   end
 
+  context "with milestone filtering" do
+    shared_let(:milestone_type) { create(:type, is_milestone: true) }
+
+    before_all { project.project_types.create!(type: milestone_type) }
+
+    shared_let(:milestone_parent) do
+      create(:work_package, project:, type: matching_inbox_wp.type, status: status_a, subject: "Milestone parent")
+    end
+    shared_let(:inbox_milestone) do
+      create(:work_package, project:, type: milestone_type, parent: milestone_parent, status: status_a)
+    end
+    shared_let(:bucket_milestone) do
+      create(:work_package, project:, type: milestone_type, backlog_bucket: bucket, status: status_a)
+    end
+    shared_let(:sprint_milestone) { create(:work_package, project:, type: milestone_type, sprint:, status: status_a) }
+
+    it "narrows the listings when the milestone filter is toggled" do
+      backlogs_page.apply_milestone_filter(:yes)
+
+      backlogs_page.expect_inbox_items(items: inbox_milestone)
+      backlogs_page.expect_no_inbox_items(items: milestone_parent)
+      backlogs_page.expect_inbox_work_package_count(1)
+
+      backlogs_page.expect_bucket_items(bucket, items: bucket_milestone)
+      backlogs_page.expect_no_bucket_items(bucket, items: matching_bucket_wp)
+      backlogs_page.expect_backlog_bucket_work_package_count(bucket, 1)
+
+      backlogs_page.expect_sprint_items(sprint, items: sprint_milestone)
+      backlogs_page.expect_no_sprint_items(sprint, items: matching_sprint_wp)
+      backlogs_page.expect_sprint_work_package_count(sprint, 1)
+
+      backlogs_page.apply_milestone_filter(:no)
+
+      backlogs_page.expect_inbox_items(items: milestone_parent)
+      backlogs_page.expect_no_inbox_items(items: inbox_milestone)
+      backlogs_page.expect_inbox_work_package_count(4)
+
+      backlogs_page.expect_bucket_items(bucket, items: matching_bucket_wp)
+      backlogs_page.expect_no_bucket_items(bucket, items: bucket_milestone)
+      backlogs_page.expect_backlog_bucket_work_package_count(bucket, 4)
+
+      backlogs_page.expect_sprint_items(sprint, items: matching_sprint_wp)
+      backlogs_page.expect_no_sprint_items(sprint, items: sprint_milestone)
+      backlogs_page.expect_sprint_work_package_count(sprint, 3)
+    end
+  end
+
   context "when executing various actions on the page with filters applied" do
     shared_let(:other_bucket) { create(:backlog_bucket, project:) }
     shared_let(:sprint_kept_wp) do
@@ -215,6 +262,37 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.expect_bucket_items_in_order(
         empty_target_bucket, items: [draggable_wp, existing_wp]
       )
+    end
+  end
+
+  context "with an expanded filtered inbox" do
+    shared_let(:needle_inbox_items) do
+      create_list(:work_package, 6, project:, subject: "Expansion needle", status: status_a)
+    end
+
+    before do
+      # Truncates the inbox above 5 items: see pagination_state_spec.rb.
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 3)
+    end
+
+    it "restores truncation after quick search and advanced filter changes" do
+      backlogs_page.apply_subject_filter("Expansion needle")
+      backlogs_page.expect_no_inbox_items(items: matching_inbox_wp)
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_no_inbox_show_more
+
+      backlogs_page.clear_subject_filter
+      backlogs_page.expect_inbox_items(items: matching_inbox_wp)
+      backlogs_page.expect_inbox_show_more
+      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_no_inbox_show_more
+
+      backlogs_page.apply_status_filter(status_a)
+      backlogs_page.expect_no_inbox_items(items: status_b_inbox_wp)
+      backlogs_page.expect_inbox_show_more
+      expect(page).to have_no_current_path(/[?&]all=/, url: true)
     end
   end
 end

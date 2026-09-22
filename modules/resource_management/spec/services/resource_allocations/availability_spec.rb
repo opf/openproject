@@ -214,6 +214,38 @@ RSpec.describe ResourceAllocations::Availability do
     end
   end
 
+  describe "#unscheduled_range" do
+    it "is nil when a schedule covers the whole range" do
+      expect(availability.unscheduled_range(monday..friday)).to be_nil
+    end
+
+    it "is the whole range when the user has no working time configured" do
+      other = described_class.new(user: create(:user))
+
+      expect(other.unscheduled_range(monday..friday)).to eq(monday..friday)
+    end
+
+    it "is the stretch before the earliest schedule takes effect" do
+      newcomer = create(:user)
+      create(:user_working_hours, user: newcomer, valid_from: tuesday)
+
+      expect(described_class.new(user: newcomer).unscheduled_range(monday..friday)).to eq(monday..monday)
+    end
+
+    it "is the whole range when the earliest schedule only takes effect after it" do
+      newcomer = create(:user)
+      create(:user_working_hours, user: newcomer, valid_from: Date.new(2027, 1, 1))
+
+      expect(described_class.new(user: newcomer).unscheduled_range(monday..friday)).to eq(monday..friday)
+    end
+
+    it "ignores later schedule changes within the range" do
+      create(:user_working_hours, user:, valid_from: tuesday)
+
+      expect(availability.unscheduled_range(monday..friday)).to be_nil
+    end
+  end
+
   describe "#utilization_ratio" do
     it "expresses booked time as a percentage of the window's capacity" do
       allocate(1200) # half of the 2400 min Mon-Fri capacity

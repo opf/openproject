@@ -222,6 +222,7 @@ tr:
         title: Başlık
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: Yetkiler
       notification:
         read_ian: Uygulama içi okuyun
@@ -441,6 +442,13 @@ tr:
         time_zone: Zaman dilimi
         warn_on_leaving_unsaved: İş paketlerinden ayrılırken kaydedilmemiş değişiklik olduğunda beni uyar
         workdays: İş Günleri
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Kullanılabilirlik faktörü
         days: Çalışma Günleri
@@ -859,6 +867,10 @@ tr:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -869,6 +881,9 @@ tr:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -892,6 +907,8 @@ tr:
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
@@ -1418,6 +1435,8 @@ tr:
         main-menu-bg-selected-background: Seçildiğinde ana menü
         primary-button-color: Birincil düğme
       custom_colors: Özel renkler
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: geçerli bir TTF yazı tipi dosyası değildir.
@@ -1494,6 +1513,7 @@ tr:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Eklendi
         creator: Creator
@@ -1744,6 +1764,14 @@ tr:
       update:
         failure: MCP yapılandırması güncellenemedi.
         success: MCP yapılandırması başarıyla güncellendi.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Daha fazla bilgi için entegrasyonlar ve eklentiler sayfamıza bakın.
       no_results_title_text: Şu anda yüklü bir eklenti yok.
@@ -1989,6 +2017,13 @@ tr:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
@@ -2051,10 +2086,6 @@ tr:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: Aradığınız çalışma paketi bulunamadı veya silinmiş.
-      render:
-        context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
-        context_object_not_found: Bağlam olarak verilen kaynağı bulamıyor.
-        unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.
       unable_to_create_attachment: Ek oluşturulamadı
       unable_to_create_attachment_permissions: 'Dosya sistemi izinlerinin eksik olması nedeniyle ek kaydedilemedi
 
@@ -2761,7 +2792,6 @@ tr:
       custom_actions: Özel Eylemler
       custom_field_hierarchies: Hiyerarşiler
       customize_life_cycle: Yaşam Döngüsünü Özelleştir
-      date_alerts: Tarih Uyarıları
       define_custom_style: Özel tema ve logo
       edit_attribute_groups: Özellik Grubunu Düzenleme
       gantt_pdf_export: Gantt PDF Dışa Aktarma
@@ -2838,8 +2868,6 @@ tr:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: PM2 proje döngüsü planlaması tarafından sağlananlardan farklı proje aşamaları oluşturun ve düzenleyin.
-      date_alerts:
-        description: Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız.
       define_custom_style:
         description: OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin.
         more_info: 'Not: Kullanılan logo herkese açık olacaktır.'
@@ -3216,15 +3244,15 @@ tr:
     blocks:
       community: OpenProject topluluğu
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3271,6 +3299,7 @@ tr:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -3468,6 +3497,7 @@ tr:
   label_core_build: Çekirdek yapı
   label_core_version: Çekirdek sürümü
   label_created_by: "%{user} tarafından oluşturuldu"
+  label_criteria: Criteria
   label_current_status: Mevcut durum
   label_current_version: Mevcut sürüm
   label_custom_comment: "%{name} comment"
@@ -4042,6 +4072,8 @@ tr:
   label_wiki_start: Başlangıç sayfası
   label_wiki_toc: İçindekiler Tablosu
   label_wiki_toc_empty: Başlık mevcut olmadığı için İçindekiler boştur.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Çalışma
   label_work_package: İş paketi
   label_work_package_attachments: İş paketi ekleri
@@ -4919,6 +4951,13 @@ tr:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Bu metin her sayfada altbilginin ortasında görünecektir.
@@ -4933,6 +4972,12 @@ tr:
         label: Heceleme
       hyphenation_language:
         label: Dil ve heceleme
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF belgesindeki sayfaların yönünü seçin.
         label: Sayfa yönlendirme
@@ -5080,6 +5125,16 @@ tr:
   permission_work_package_assigned: Atanan/sorumlu olun
   permission_work_package_assigned_explanation: İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Yer tutucu kullanıcısını silin.
     deletion_info:
       data_consequences: 'Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır. Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
@@ -5373,7 +5428,7 @@ tr:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Yeni bir sürüm oluştur
-        no_results_title_text: Şu anda proje için sürüm mevcut değil.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: İş paketlerini göster
         work_packages_graph: İş paketleri grafiği
       work_package_priorities:
@@ -5383,6 +5438,7 @@ tr:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Bu özniteliğin tanımlanmış bir yardım metni yoktur.
       progress_label: "%{current} / %{total}"
       sections: Bölümler
@@ -5539,6 +5595,31 @@ tr:
     warnings:
       cannot_annotate: Bu dosyaya açıklama yapılamaz.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -5550,6 +5631,16 @@ tr:
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Permissions matrix for %{module} module
       matrix_check_all_label: Assign all %{module} permissions to all roles
@@ -6124,13 +6215,14 @@ tr:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Toplamlardan hariç tutulanlar
         is_closed: Kapalı
-        is_default: Varsayılan
         is_readonly: Salt okunur
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Yeni durum ekle
       no_results_title_text: Şu anda çalışma paketi durumu yok.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: ve
@@ -6330,7 +6422,50 @@ tr:
     getting_started: Başlarken
     help_and_support: Yardım ve Destek
   total_progress: Toplam ilerleme
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Create type
@@ -6414,7 +6549,6 @@ tr:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
@@ -6598,7 +6732,7 @@ tr:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6607,6 +6741,28 @@ tr:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
@@ -6811,6 +6967,12 @@ tr:
   version_status_locked: kilitli
   version_status_open: açık
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Bu sürüme atanan iş paketi bulunmuyor.
       work_packages_in_archived_projects: Sürüm, hala bu sürüme atanmış iş paketleri olan arşivlenmiş projelerle paylaşılmakta. Bunlar sayılır, ancak bağlantılı görünümlerde gösterilmez.
