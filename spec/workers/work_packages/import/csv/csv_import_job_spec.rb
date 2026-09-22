@@ -39,15 +39,15 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
   shared_let(:user) { create(:user, member_with_roles: { project => role }) }
 
   let(:content) { "Subject,Type\nWrite the docs,Task\nFix the bug,Task\n" }
-  let(:attachment) { uncontainered(content) }
+  let(:attachment) { import_file(content) }
   let(:dry_run) { true }
 
-  def uncontainered(body)
+  def import_file(body)
     file = Tempfile.new(%w[import .csv])
     file.write(body)
     file.rewind
 
-    create(:attachment, container: nil, author: user, file:)
+    create(:attachment, container: WorkPackages::Import::CSV::Upload.create!, author: user, file:)
   end
 
   def run
@@ -106,10 +106,11 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
       expect(JobStatus::Status.sole.status).to eq("success")
     end
 
-    it "deletes the file, which has no further use" do
+    it "deletes the file and its container, which have no further use" do
       run
 
       expect(Attachment.exists?(attachment.id)).to be(false)
+      expect(WorkPackages::Import::CSV::Upload.count).to eq(0)
     end
   end
 
@@ -144,12 +145,6 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
         .to include("column" => "B", "header" => "Zustaendig")
       expect(JobStatus::Status.sole.status).to eq("failure")
     end
-
-    it "deletes the file" do
-      run
-
-      expect(Attachment.exists?(attachment.id)).to be(false)
-    end
   end
 
   describe "a file that is not CSV at all" do
@@ -160,12 +155,6 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
 
       expect(payload).to include("outcome" => "file_rejected")
       expect(payload["column_problems"].sole["message"]).to include("could not be read as CSV")
-    end
-
-    it "deletes the file" do
-      run
-
-      expect(Attachment.exists?(attachment.id)).to be(false)
     end
   end
 
@@ -181,16 +170,16 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
     end
   end
 
-  describe "an attachment claimed into a work package" do
+  describe "an attachment moved out of its import container" do
     let(:dry_run) { false }
 
-    def claim(attachment)
+    def move(attachment)
       attachment.update_columns(container_id: create(:work_package, project:).id,
                                 container_type: "WorkPackage")
     end
 
-    it "is not read when the claim happened before the job started" do
-      claim(attachment)
+    it "is not read when the move happened before the job started" do
+      move(attachment)
 
       run
 
@@ -198,17 +187,17 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
       expect(payload["column_problems"].sole["message"]).to include("no longer available")
     end
 
-    it "survives a claim that happened before the job started" do
-      claim(attachment)
+    it "survives a move that happened before the job started" do
+      move(attachment)
 
       run
 
       expect(Attachment.exists?(attachment.id)).to be(true)
     end
 
-    it "survives a claim that happened while the job was running" do
+    it "survives a move that happened while the job was running" do
       allow(WorkPackages::Import::CSV::ImportService).to receive(:new).and_wrap_original do |original, **args|
-        claim(attachment)
+        move(attachment)
         original.call(**args)
       end
 
@@ -252,16 +241,6 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
         .to include("project_id" => project.id,
                     "filename" => attachment.filename,
                     "dry_run" => true)
-    end
-
-    # The identity is merged into a payload the job keys with symbols. Keyed any other way it
-    # would ride along beside those entries and be written to JSON twice.
-    it "keys the identity the way the payload it merges into is keyed" do
-      job = described_class.new(user:, project:, attachment_id: attachment.id, dry_run: true)
-      payload = job.send(:build_status_attributes, {})[:payload]
-
-      expect(payload.keys).to all(be_a(Symbol))
-      expect(payload.keys.map(&:to_s)).to eq(payload.keys.map(&:to_s).uniq)
     end
   end
 

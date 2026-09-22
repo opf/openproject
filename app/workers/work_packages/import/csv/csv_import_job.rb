@@ -42,7 +42,7 @@ module WorkPackages
           @user = user
           @project = project
           @dry_run = dry_run
-          @attachment = Attachment.find_by(id: attachment_id, container: nil, author: user)
+          @attachment = Upload.file_of(user, attachment_id)
 
           @started_at = Time.current
 
@@ -81,7 +81,7 @@ module WorkPackages
         def identity
           @identity ||= {
             project_id: (@project || queued[:project])&.id,
-            filename: (attachment || Attachment.find_by(id: queued[:attachment_id]))&.filename,
+            filename: (attachment || Upload.file_of(queued[:user], queued[:attachment_id]))&.filename,
             dry_run:
           }
         end
@@ -89,7 +89,7 @@ module WorkPackages
         def queued = arguments.first.to_h
 
         def discard_attachment
-          Attachment.where(id: attachment&.id, container: nil, author: user).destroy_all
+          attachment&.container&.destroy
         end
 
         def run

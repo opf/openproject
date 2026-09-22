@@ -58,46 +58,51 @@ module WorkPackages
         end
 
         # bypass_allowlist: Setting.attachment_whitelist does not apply. #allowed? is the gate, and
-        # the file is parsed rather than stored on a record or served to anyone.
+        # the Upload container keeps the file off work packages, so it is never served to anyone.
         def upload(file)
           sniffed = FormatSniffer.call(file)
           return sniffed if sniffed.failure?
+          return too_large(file) if file.size > max_size
 
           created = store(file)
+          return ServiceResult.failure(result: :refused, message: refusal(created)) if created.failure?
 
-          created.success? ? created : ServiceResult.failure(**refusal(created, file))
+          ::Exports::CleanupOutdatedJob.perform_after_grace
+          created
         end
 
         # Attachments::CreateService#error_wrapped_call rescues and re-raises a translated string,
         # so a storage failure arrives as an exception rather than a result.
         def store(file)
-          Attachment.without_post_upload_jobs do
-            Attachments::CreateService
-              .bypass_allowlist(user:)
-              .call(container: nil, filename: file.original_filename, file:)
-          end
+          upload = Upload.create!
+          created = Attachments::CreateService
+                      .bypass_allowlist(user:)
+                      .call(container: upload, filename: file.original_filename, file:)
+
+          upload.destroy! if created.failure?
+          created
         rescue RuntimeError => e
+          upload&.destroy!
           ServiceResult.failure(message: e.message)
         end
 
-        def refusal(created, file)
-          if created.errors.of_kind?(:file, :file_too_large)
-            { result: :too_large, message: too_large_message(file) }
-          else
-            { result: :refused, message: created.message || created.errors.full_messages.to_sentence }
-          end
-        end
+        def refusal(created) = created.message || created.errors.full_messages.to_sentence
 
-        def too_large_message(file)
-          I18n.t("work_packages.import.csv.file.too_large",
-                 size: ActiveSupport::NumberHelper.number_to_human_size(file.size),
-                 limit: ActiveSupport::NumberHelper.number_to_human_size(max_size))
+        # The contract skips its own size check for an internal container, and an oversized file
+        # is worth refusing before it is written anywhere.
+        def too_large(file)
+          ServiceResult.failure(
+            result: :too_large,
+            message: I18n.t("work_packages.import.csv.file.too_large",
+                            size: ActiveSupport::NumberHelper.number_to_human_size(file.size),
+                            limit: ActiveSupport::NumberHelper.number_to_human_size(max_size))
+          )
         end
 
         def max_size = Setting.attachment_max_size.to_i.kilobytes
 
         def reuse(attachment_id)
-          attachment = Attachment.where(container: nil, author: user).find_by(id: attachment_id)
+          attachment = Upload.file_of(user, attachment_id)
 
           if attachment.nil?
             return ServiceResult.failure(result: :expired,

@@ -42,15 +42,41 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
     Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/csv_import/work_packages.csv"), "text/csv")
   end
 
-  def uncontainered(author: user, container: nil)
-    create(:attachment, container:, author:)
+  def import_files = Attachment.where(container: WorkPackages::Import::CSV::Upload.all)
+
+  def import_file(author: user)
+    create(:attachment, container: WorkPackages::Import::CSV::Upload.create!, author:)
   end
 
   describe "an uploaded file" do
-    it "stores it uncontainered and enqueues the job" do
+    it "stores it under an import container and enqueues the job" do
       expect { service.call(file:) }
-        .to change(Attachment.where(container: nil), :count).by(1)
+        .to change(import_files, :count).by(1)
         .and have_enqueued_job(WorkPackages::Import::CSV::CsvImportJob)
+    end
+
+    it "leaves nothing the rich text editor could claim onto a work package" do
+      service.call(file:)
+
+      stored = import_files.sole
+      expect(Attachment.where(container: nil)).to be_empty
+      expect(Attachments::ClaimableIdsFromText.call("/attachments/#{stored.id}/content", user:)).to be_empty
+    end
+
+    it "marks it scanned, since an internal container is never served" do
+      service.call(file:)
+
+      expect(import_files.sole).to be_status_scanned
+    end
+
+    it "refuses a file over the size this instance accepts" do
+      allow(Setting).to receive(:attachment_max_size).and_return("0")
+
+      result = service.call(file:)
+
+      expect(result).to be_failure
+      expect(result.result).to eq(:too_large)
+      expect(import_files).to be_empty
     end
 
     it "gives the job status to the importing user, not to whoever is current" do
@@ -124,7 +150,7 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
 
     it "refuses reusing an attachment into a project the user cannot import into" do
       elsewhere = create(:user, member_with_roles: { other_project => role })
-      attachment = create(:attachment, container: nil, author: elsewhere)
+      attachment = create(:attachment, container: WorkPackages::Import::CSV::Upload.create!, author: elsewhere)
 
       expect(described_class.new(user: elsewhere, project:).call(attachment_id: attachment.id))
         .to be_failure
@@ -136,8 +162,8 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
   end
 
   describe "reusing a checked file" do
-    it "accepts the user's own uncontainered attachment" do
-      attachment = uncontainered
+    it "accepts the user's own import file" do
+      attachment = import_file
 
       expect { service.call(attachment_id: attachment.id, dry_run: false) }
         .to have_enqueued_job(WorkPackages::Import::CSV::CsvImportJob)
@@ -145,14 +171,14 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
     end
 
     it "refuses one belonging to somebody else" do
-      attachment = uncontainered(author: other_user)
+      attachment = import_file(author: other_user)
 
       expect(service.call(attachment_id: attachment.id)).to be_failure
       expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
     end
 
-    it "refuses one that has since been claimed into a container" do
-      attachment = uncontainered(container: create(:work_package))
+    it "refuses one that was never uploaded for an import" do
+      attachment = create(:attachment, container: create(:work_package), author: user)
 
       expect(service.call(attachment_id: attachment.id)).to be_failure
     end

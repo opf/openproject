@@ -532,43 +532,6 @@ RSpec.describe Attachment do
       context "on update" do
         it_behaves_like "does not run extraction"
       end
-
-      context "within Attachment.without_post_upload_jobs" do
-        it "does not run extraction" do
-          allow(Attachments::ExtractFulltextJob).to receive(:perform_later)
-
-          described_class.without_post_upload_jobs { attachment.save }
-
-          expect(Attachments::ExtractFulltextJob).not_to have_received(:perform_later)
-        end
-
-        it "does not scan for viruses either" do
-          allow(Setting::VirusScanning).to receive(:enabled?).and_return(true)
-          allow(Attachments::VirusScanJob).to receive(:perform_later)
-
-          described_class.without_post_upload_jobs { attachment.save }
-
-          expect(Attachments::VirusScanJob).not_to have_received(:perform_later)
-        end
-
-        it "runs them again once the block is over" do
-          described_class.without_post_upload_jobs { nil }
-
-          extraction_with_id = nil
-          allow(Attachments::ExtractFulltextJob)
-            .to receive(:perform_later) { |id| extraction_with_id = id }
-
-          attachment.save
-
-          expect(extraction_with_id).to eql attachment.id
-        end
-
-        it "restores the previous setting even when the block raises" do
-          expect { described_class.without_post_upload_jobs { raise "boom" } }.to raise_error("boom")
-
-          expect(described_class).to be_post_upload_jobs
-        end
-      end
     end
   end
 end
