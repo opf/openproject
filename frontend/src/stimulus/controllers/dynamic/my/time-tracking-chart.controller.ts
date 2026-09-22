@@ -69,6 +69,11 @@ const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
+// A bar thinner than this has no room left for its own duration once the card is padded,
+// so short entries are drawn at this height and the rest of the stack moves up with them.
+// It is applied after the scale ratio so that it stays a roughly constant height on screen.
+const MIN_BAR_HOURS = 0.5;
+
 export default class MyTimeTrackingChartController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
@@ -178,6 +183,9 @@ export default class MyTimeTrackingChartController extends Controller {
       allDaySlot: false,
       displayEventTime: false,
       slotEventOverlap: false,
+      // Below this FullCalendar marks the event short, which drops the card to the lines
+      // that still fit.
+      eventShortHeight: 80,
       slotMinTime: `${MIN_HOUR - 1}:00:00`,
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
@@ -206,7 +214,9 @@ export default class MyTimeTrackingChartController extends Controller {
     return this.timeEntriesValue.map((entry) => {
       const day = this.dayOf(entry);
       const endHour = stackTops[day] ?? MAX_HOUR;
-      const startHour = endHour - (entry.hours * this.scaleRatio);
+      const hours = Math.max(entry.hours * this.scaleRatio, MIN_BAR_HOURS);
+      // A day made up of many tiny entries can outgrow the axis once they are floored.
+      const startHour = Math.max(endHour - hours, 0);
 
       stackTops[day] = startHour;
 
@@ -299,12 +309,8 @@ export default class MyTimeTrackingChartController extends Controller {
     return html`
       <div class="te-chart--card">
         <div class="te-chart--card-duration">${displayDuration(entry.hours)}</div>
-        <div class="te-chart--card-subject" title="${entry.workPackageSubject}">
-          ${entry.workPackageSubject}
-        </div>
-        <div class="te-chart--card-project" title="${entry.projectName}">
-          ${entry.projectName}
-        </div>
+        <div class="te-chart--card-subject">${entry.workPackageSubject}</div>
+        <div class="te-chart--card-project">${entry.projectName}</div>
         <div class="te-chart--card-icon">${unsafeHTML(clock)}</div>
       </div>`;
   }

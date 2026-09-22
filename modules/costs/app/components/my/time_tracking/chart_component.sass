@@ -73,8 +73,12 @@
       height: 100%
       color: var(--fgColor-default)
 
+  // FullCalendar's event frame is itself a flex container, so the card has to be told to
+  // fill it. Sized to its content it would pull the clock in next to the text.
   .te-chart--card
     display: flex
+    flex: 1
+    min-width: 0
     flex-direction: column
     height: 100%
     padding: 8px
@@ -102,3 +106,28 @@
     align-self: flex-end
     flex-shrink: 0
     color: var(--fgColor-muted)
+
+  // Short entries put the duration and the subject on one line, as the calendar view does.
+  .fc-timegrid-event-short
+    .te-chart--card
+      flex-direction: row
+      align-items: center
+      gap: 8px
+      padding: 4px 8px
+
+    .te-chart--card-duration
+      flex-shrink: 0
+
+    .te-chart--card-subject
+      min-width: 0
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+    .te-chart--card-project
+      display: none
+
+    .te-chart--card-icon
+      margin-top: 0
+      margin-left: auto
+      align-self: center
