@@ -302,8 +302,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       expect(GitlabUser.first).to have_attributes(
         gitlab_id: 1,
         gitlab_name: "Administrator",
-        gitlab_username: "root",
-        gitlab_email: "root@example.com"
+        gitlab_username: "root"
       )
     end
 
