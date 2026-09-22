@@ -47,10 +47,23 @@ Under the _Single Sign-On (SSO)_ tab you can adjust following settings:
 
 1. Select a **direct login SSO provider**. If this option is active, login requests will be redirected to the configured Omniauth provider. This will disable the login dropdown and sign-in page. 
 
-> [!NOTE]
-> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting internal login page, for example `https://yourinstancename.openproject.com/login/internal` login page.
+2. Select who may use **Password login**:
 
-2. Allow **remapping of existing users**. If enabled, this option allows any configured identity provider to authenticate existing users based on their login, even if those users have never previously signed in with that provider. This feature is particularly useful when migrating your OpenProject instance to a new SSO provider.
+   - **Allow for everyone** (`all`) keeps the current behavior and is the default.
+   - **Disallow for SSO users** (`except_sso`) prevents users linked to an SSO provider from authenticating with an internal or LDAP password.
+   - **Disallow for everyone** (`none`) disables password authentication except for configured break-glass users and groups, and hides the password form on `/login`.
+
+   With **Disallow for SSO users** or **Disallow for everyone**, use **Users and groups who may still use a password** to configure break-glass access. Selecting a group also includes its child groups recursively.
+
+> [!NOTE]
+> The internal login route `/login/internal` can be used for break-glass password login when direct SSO login is configured. It is also available when password login is set to **Disallow for everyone** and a break-glass allowlist or environment login overlay is configured.
+>
+> If no SSO provider is enabled, the password login restriction controls are disabled and a warning is shown. Settings provided through configuration or environment variables are shown as read-only and listed in a banner.
+
+> [!IMPORTANT]
+> Restricting password login also affects password changes, lost-password flows and LDAP password authentication. With **Disallow for everyone**, password-related administration settings are disabled and the LDAP connections administration menu is hidden.
+
+3. Allow **remapping of existing users**. If enabled, this option allows any configured identity provider to authenticate existing users based on their login, even if those users have never previously signed in with that provider. This feature is particularly useful when migrating your OpenProject instance to a new SSO provider.
 
 > [!IMPORTANT]
 > It is **not recommended** when using an identity provider that is not trusted by all users in your instance, as this may introduce security risks.
