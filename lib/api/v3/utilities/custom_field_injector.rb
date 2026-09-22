@@ -195,6 +195,7 @@ module API
             type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             required: custom_field.is_required,
+            options: cf_options(custom_field).merge(allowsNesting: !custom_field.list?),
             href_callback: ->(*) { api_v3_paths.custom_field_items(custom_field.id) }
           )
         end
