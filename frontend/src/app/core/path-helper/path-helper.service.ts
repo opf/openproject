@@ -236,6 +236,10 @@ export class PathHelperService {
     return `${this.workPackagesPath(projectId)}/new`;
   }
 
+  public projectWorkPackageImportPath(projectId:string) {
+    return `${this.workPackagesPath(projectId)}/import`;
+  }
+
   public boardsPath(projectIdentifier:string|null) {
     if (projectIdentifier) {
       return `${this.projectPath(projectIdentifier)}/boards`;
