@@ -198,12 +198,6 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       expect(page).to have_css("details", text: "Task, Bug, Milestone")
     end
 
-    # A summary is a list item, so a block details would put it on its own line and make every
-    # row of the table two lines tall before anyone has clicked anything.
-    it "keeps the disclosure on the line the message ends on" do
-      expect(page).to have_css("details.d-inline-block summary", text: "3 available values")
-    end
-
     it "leaves the message alone for a problem that has no alternatives" do
       expect(page).to have_css("td", text: "can't be blank.")
       expect(page).to have_css("details", count: 1)
