@@ -68,11 +68,10 @@ RSpec.describe Import::JiraCreateProjectJob,
 
     context "when project creation fails with a general error" do
       before do
-        # rubocop:disable RSpec/AnyInstance
+        # rubocop:disable-next RSpec/AnyInstance
         allow_any_instance_of(Projects::CreateService).to receive(:call).and_return(
           ServiceResult.failure(message: "Something went wrong during project creation")
         )
-        # rubocop:enable RSpec/AnyInstance
       end
 
       it "raises the error message" do
