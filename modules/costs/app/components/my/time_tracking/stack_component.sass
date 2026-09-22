@@ -26,9 +26,8 @@
   .fc-timegrid-slot.fc-timegrid-slot-minor
     border-top: 0
 
-  // The columns carry no tint of their own here; the shaded part of a day is the time the
-  // user is scheduled to work. The tint comes from an id selector, so it takes !important
-  // to clear. Today keeps its highlight.
+  // The shaded part of a day is the time the user is scheduled to work, so the columns
+  // give up their own tint. It comes from an id selector, hence !important.
   .fc-timegrid-col.fc-day:not(.fc-day-today)
     background-color: var(--fc-page-bg-color) !important
 
@@ -44,8 +43,7 @@
     padding-right: 8px
     color: var(--fgColor-muted)
 
-  // Entries read as cards: a neutral box carrying the work package type color as the
-  // top border through __hl_border_top.
+  // The work package type colour arrives as the top border, through __hl_border_top.
   .te-stack--time-entry
     background: var(--bgColor-default)
     border: 0
@@ -57,8 +55,8 @@
       height: 100%
       color: var(--fgColor-default)
 
-  // FullCalendar's event frame is itself a flex container, so the card has to be told to
-  // fill it. Sized to its content it would pull the clock in next to the text.
+  // FullCalendar's event frame is itself a flex container, so without this the card would
+  // size to its content and pull the clock in next to the text.
   .te-stack--card
     display: flex
     flex: 1
@@ -91,7 +89,6 @@
     flex-shrink: 0
     color: var(--fgColor-muted)
 
-  // Short entries put the duration and the subject on one line, as the calendar view does.
   .fc-timegrid-event-short
     .te-stack--card
       flex-direction: row

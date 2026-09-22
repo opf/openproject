@@ -28,14 +28,11 @@
 
 export const FOOTER_TOTALS_CLASS_NAME = 'fc-timegrid-footer-totals';
 
-/**
- * FullCalendar's timegrid has no footer row, so one is appended to the scrollgrid by hand.
- * The row mirrors the markup of the column header so that it inherits its column widths.
- *
- * Call this after the view has rendered and whenever the events change; the previous row
- * is replaced.
- */
 export type FooterCellContent = (date:string) => string|Node;
+
+// FullCalendar's timegrid has no footer row, so one is appended to the scrollgrid by hand.
+// The row mirrors the markup of the column header so that it inherits its column widths.
+// Call this after the view has rendered and whenever the events change.
 
 export function renderFooterTotals(root:ParentNode, contentForDate:FooterCellContent):void {
   const scrollGridBody = root.querySelector('.fc-timegrid .fc-scrollgrid tbody');

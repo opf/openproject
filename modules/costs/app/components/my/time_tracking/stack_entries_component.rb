@@ -55,9 +55,6 @@ module My
         }
       end
 
-      # The hours the user is scheduled to work, per day. WorkingTimeCalendar resolves the
-      # schedule that is valid on each date, so a schedule starting mid-week is picked up,
-      # and it reports no capacity on public holidays and during the user's absences.
       def working_hours
         ResourceAllocations::WorkingTimeCalendar
           .new(user: User.current, range: displayed_dates)
@@ -66,7 +63,7 @@ module My
       end
 
       # FullCalendar lays out the whole week for both week modes and merely hides the days
-      # that are not worked, so the work week needs the same range as the week.
+      # that are not worked, so the work week covers the same range as the week.
       def displayed_dates
         return date..date if mode == :day
 

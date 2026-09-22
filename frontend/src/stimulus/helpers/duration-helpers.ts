@@ -26,10 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Formats a duration in decimal hours the way time entries are labelled across the
- * my time tracking views, e.g. 2.5 -> "2h 30m", 2 -> "2h", 0.25 -> "15m".
- */
 export function displayDuration(duration:number):string {
   const hours = Math.floor(duration);
   const minutes = Math.round((duration - hours) * 60);

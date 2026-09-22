@@ -1,8 +1,8 @@
 // Shared frame for the FullCalendar based my time tracking views.
 //
-// FullCalendar draws a border on the scrollgrid table and on every cell, so a frame put
-// around the grid lands next to those and reads as a thicker, differently coloured edge.
-// The container owns the frame and the cells on the outer edges give theirs up.
+// FullCalendar draws a border on the scrollgrid table and on every cell, so a frame around
+// the grid lands next to those and reads as a thicker, differently coloured edge. The
+// container owns the frame and the cells on the outer edges give theirs up.
 
 // Goes on the element the calendar is rendered into.
 =fc-frame-container
@@ -12,8 +12,7 @@
 
 // Goes on the view root, above the container.
 =fc-frame-grid
-  // FullCalendar defaults to its own grey, which reads as a different colour next to the
-  // container border.
+  // FullCalendar defaults to its own grey, a different colour from the container border.
   --fc-border-color: var(--borderColor-default)
 
   .fc-scrollgrid
@@ -32,7 +31,7 @@
     border-top: 0
 
   // Every section wrapper draws a line under its own section, doubling up with the cell
-  // borders that already close each section off, and with the container border at the bottom.
+  // borders that already close it off, and with the container border at the bottom.
   .fc-scrollgrid-section > td
     border-bottom: 0
 

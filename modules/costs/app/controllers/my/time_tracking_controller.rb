@@ -105,8 +105,8 @@ module My
       @mode ||= begin
         requested = (params[:mode].presence || default_mode).to_sym
 
-        # A month of stacked bars says nothing useful, so the stack view stays on the
-        # work week even when a month is asked for directly.
+        # The mode switcher already hides the month for the stack; this covers a URL
+        # asking for one directly.
         requested == :month && view_mode == :stack ? :workweek : requested
       end
     end

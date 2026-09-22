@@ -43,9 +43,8 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { clockIconData, toDOMString } from '@openproject/octicons-angular';
 import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 
-// The subset of FullCalendar::TimeEntryEvent the stack reads. The calendar view is served
-// the same payload, so the two stay in sync; the stack ignores the event's own start and
-// end and stacks its bars from the day and the hours instead.
+// Mirrors the fields of FullCalendar::TimeEntryEvent the stack uses; the calendar view is
+// served the same payload.
 interface StackTimeEntry {
   id:string;
   start:string;
@@ -59,18 +58,16 @@ interface StackTimeEntry {
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 const WORKING_HOURS_CLASS_NAME = 'te-stack--working-hours';
 
-// The stack is a timeGrid abused as a stacked bar chart: every day is a column and its
-// entries are stacked downwards from maxHour. The slot labels therefore show hours, not
-// times, and the scale ratio compresses the stack once a day exceeds the visible range.
+// The stack is a timeGrid abused as a stacked bar chart, so these bound an axis of hours
+// logged rather than clock times, and the scale ratio compresses a day that exceeds them.
 const MIN_HOUR = 1;
 const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
 const MS_PER_HOUR = 60 * 60 * 1000;
 const DAY_IN_MS = 24 * MS_PER_HOUR;
 
-// A bar thinner than this has no room left for its own duration once the card is padded,
-// so short entries are drawn at this height and the rest of the stack moves up with them.
-// It is applied after the scale ratio so that it stays a roughly constant height on screen.
+// A bar thinner than this leaves no room for its own duration once the card is padded.
+// Applied after the scale ratio, so that it stays a constant height on screen.
 const MIN_BAR_HOURS = 0.5;
 
 export default class MyTimeTrackingStackController extends Controller {
@@ -102,7 +99,6 @@ export default class MyTimeTrackingStackController extends Controller {
   declare readonly canCreateValue:boolean;
   declare readonly localeValue:string;
   declare readonly workingDaysValue:number[];
-  // Scheduled hours keyed by ISO date, for the whole week the view lays out.
   declare readonly workingHoursValue:Record<string, number>;
   declare readonly startOfWeekValue:number;
   declare readonly timeZoneValue:string;
@@ -137,16 +133,8 @@ export default class MyTimeTrackingStackController extends Controller {
     }
   }
 
-  /*
-   * FullCalendar keeps whatever column widths it measured on its first layout, so a
-   * container that is still settling leaves the columns collapsed for good. The observer
-   * re-measures as soon as the container reaches its real width, which also covers the
-   * side menu collapsing, zen mode and window resizes.
-   *
-   * It runs after layout but before paint, so the correction lands on the first frame
-   * rather than flickering, and unlike requestAnimationFrame it also fires while the tab
-   * is in the background.
-   */
+  // FullCalendar keeps whatever column widths it measured on its first layout, so a
+  // container that is still settling would leave the columns collapsed for good.
   private observeResize():void {
     this.resizeObserver = new ResizeObserver(() => {
       const width = this.stackTarget.clientWidth;
@@ -182,13 +170,10 @@ export default class MyTimeTrackingStackController extends Controller {
       allDaySlot: false,
       displayEventTime: false,
       slotEventOverlap: false,
-      // Below this FullCalendar marks the event short, which drops the card to the lines
-      // that still fit.
       eventShortHeight: 80,
       slotMinTime: `${MIN_HOUR - 1}:00:00`,
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
-      // The axis counts hours logged, not times, so the labels run from MAX_HOUR down.
       slotLabelFormat: (info:VerboseFormattingArg) => displayDuration((MAX_HOUR - info.date.hour) / this.scaleRatio),
       events: (fetchInfo, successCallback) => successCallback(this.buildEvents(fetchInfo.startStr, fetchInfo.endStr)),
       eventOverlap: (stillEvent) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
@@ -207,7 +192,6 @@ export default class MyTimeTrackingStackController extends Controller {
     return this.buildTimeEntryEvents().concat(this.buildWorkingHoursEvents(startStr, endStr));
   }
 
-  // Entries are laid out top-down per day, each one ending where the previous one started.
   private buildTimeEntryEvents():EventInput[] {
     const stackTops:Record<string, number> = {};
 
@@ -224,9 +208,8 @@ export default class MyTimeTrackingStackController extends Controller {
     });
   }
 
-  // An event's start always carries its spent_on date: the server builds the timestamp
-  // from spent_on in the entry's own time zone and serializes it with that zone's offset,
-  // so the date part never depends on where it is read.
+  // The server builds an event's start from spent_on in the entry's own time zone and
+  // serializes it with that offset, so the date part never depends on where it is read.
   private dayOf(entry:StackTimeEntry):string {
     return entry.start.slice(0, 10);
   }
@@ -237,8 +220,6 @@ export default class MyTimeTrackingStackController extends Controller {
       .map((day) => this.workingHoursEvent(day, this.workingHoursValue[day]));
   }
 
-  // Shades the part of the column the user is scheduled to work, measured from the
-  // baseline up, so that a day's bars can be read against the time available that day.
   private workingHoursEvent(day:string, scheduled:number):EventInput {
     return {
       start: this.slotTime(day, Math.max(MAX_HOUR - (scheduled * this.scaleRatio), 0)),
@@ -253,8 +234,8 @@ export default class MyTimeTrackingStackController extends Controller {
 
     renderFooterTotals(this.element, (day) => this.footerContent(dateSums[day] || 0, this.workingHoursValue[day] || 0));
 
-    // The footer row is appended to the scrollgrid after FullCalendar has laid the view
-    // out, so the slots still occupy the full height and would run underneath it.
+    // The footer is appended after FullCalendar has laid the view out, so without this the
+    // slots keep the full height and run underneath it.
     this.calendar.updateSize();
   }
 
@@ -293,8 +274,6 @@ export default class MyTimeTrackingStackController extends Controller {
     };
   }
 
-  // Background events render no content of their own, so they keep FullCalendar's default
-  // and are decorated on mount instead.
   private eventContent(props:Record<string, unknown>):{ domNodes:Node[] }|undefined {
     const entry = props.entry as StackTimeEntry|undefined;
 
@@ -337,8 +316,8 @@ export default class MyTimeTrackingStackController extends Controller {
     );
   }
 
-  // A selection spans slots on an axis that counts hours logged, so its length is the
-  // duration to log. There is no clock time to carry over, only the day and how long.
+  // A selection spans slots on an axis of hours logged, so its length is the duration to
+  // log once the scale ratio is undone.
   private selectedHours(start:Date, end:Date):number {
     const spanned = (end.getTime() - start.getTime()) / MS_PER_HOUR;
 
@@ -385,8 +364,7 @@ export default class MyTimeTrackingStackController extends Controller {
     return 1;
   }
 
-  // A naive ISO timestamp, which FullCalendar resolves in its own time zone. Building one
-  // from an offset Date instead would shift the event by the browser's UTC offset.
+  // A naive ISO timestamp, which FullCalendar resolves in its own time zone.
   private slotTime(day:string, hoursFromMidnight:number):string {
     const seconds = Math.round(hoursFromMidnight * 3600);
     const pad = (value:number) => value.toString().padStart(2, '0');

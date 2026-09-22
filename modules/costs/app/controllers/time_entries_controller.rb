@@ -156,8 +156,7 @@ class TimeEntriesController < ApplicationController
 
     if params[:date].present?
       @time_entry.spent_on = params[:date]
-      # Views whose axis measures duration rather than clock time, such as the stack,
-      # prefill how long was selected without implying when it started.
+      # A duration without a start time, for views whose axis measures hours logged.
       @time_entry.hours = params[:hours].to_f if params[:hours].present?
     elsif params[:startTime].present? && params[:endTime].present?
       parsed_start_time = DateTime.parse(params[:startTime]).in_time_zone(User.current.time_zone)
