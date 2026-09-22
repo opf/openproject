@@ -33,6 +33,7 @@ import {
   WorkPackageViewFocusService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-app/core/states/states.service';
 import {
@@ -93,6 +94,8 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   private readonly toastService = inject(ToastService);
 
   readonly cdRef = inject(ChangeDetectorRef);
+
+  readonly titleService = inject(OpTitleService);
 
   readonly apiV3Service = inject(ApiV3Service);
 
@@ -164,6 +167,8 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     } else {
       this.workPackage = wp;
     }
+
+    this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
 
     this.cdRef.detectChanges();
   }

@@ -1,6 +1,6 @@
 <%= helpers.angular_component_tag "opce-wp-full-create",
                                   inputs: {
                                     type: @type,
-                                    projectIdentifier: @project.present? ? @project.identifier : nil
+                                    projectIdentifier: @project.presence&.identifier
                                   }
 %>

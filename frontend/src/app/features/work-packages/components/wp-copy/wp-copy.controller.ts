@@ -70,7 +70,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
   }
 
   protected createdWorkPackage() {
-    this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId;
+    this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId!;
     return new Promise<WorkPackageChangeset>((resolve, reject) => {
       this
         .apiV3Service

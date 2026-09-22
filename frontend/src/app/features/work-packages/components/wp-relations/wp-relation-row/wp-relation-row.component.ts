@@ -37,6 +37,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 
 @Component({
@@ -239,8 +240,9 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public get relatedWorkPackagePath():string {
+    const relatedProject = this.relatedWorkPackage.project as ProjectResource;
     return this.PathHelper.genericWorkPackagePath(
-      this.relatedWorkPackage.project.identifier,
+      relatedProject.identifier,
       this.relatedWorkPackage.displayId,
       'relations',
     );

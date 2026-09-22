@@ -70,7 +70,7 @@ describe('WpTabsComponent', () => {
       declarations: [WpTabsComponent, ScrollableTabsComponent],
       providers: [
         { provide: CurrentProjectService, useValue: {} },
-        { provide: PathHelperService, useValue: {} },
+        { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '' } },
         WorkPackageTabsService,
       ],
       schemas: [NO_ERRORS_SCHEMA]

@@ -45,6 +45,20 @@ import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalSource } from 'core-app/features/hal/interfaces';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+
+export interface WorkPackageCreateStateParams {
+  type?:string;
+  parent_id?:string;
+  projectPath?:string;
+  copiedFromWorkPackageId?:string;
+  defaults?:{
+    _links?:Record<string, { href:string }>;
+    startDate?:string;
+    dueDate?:string;
+    ignoreNonWorkingDays?:boolean;
+  };
+}
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -69,7 +83,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   /** Are we in the copying substates ? */
   public copying = false;
 
-  @Input() public stateParams:any;
+  @Input() public stateParams:WorkPackageCreateStateParams;
 
   public text = {
     button_settings: this.I18n.t('js.button_settings'),
@@ -98,7 +112,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     this.editForm?.cancel(false);
 
     window.OpenProject.pageState = 'submitted';
-    Turbo.visit(this.pathHelper.projectWorkPackagePath(savedResource.project.identifier, savedResource.displayId) + window.location.search);
+    const savedResourceProject = savedResource.project as ProjectResource;
+    Turbo.visit(this.pathHelper.projectWorkPackagePath(savedResourceProject.identifier, savedResource.displayId) + window.location.search);
   }
 
   protected showForm() {

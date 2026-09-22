@@ -88,6 +88,11 @@ export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
 
           // Run bootstrap again to initialize the new application
           bootstrap(appRef);
+
+          // Re-flag every subsequent page too, not just the very first one bootstrapModule()
+          // ran on - spec/support/angular.rb#expect_angular_frontend_initialized polls for this
+          // class on whatever page a test navigates to via Turbo, not just the entry page.
+          document.body.classList.add('__ng2-bootstrap-has-run');
         });
     });
 

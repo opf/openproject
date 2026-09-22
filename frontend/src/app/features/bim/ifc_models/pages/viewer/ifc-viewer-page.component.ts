@@ -27,6 +27,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import {
   PartitionedQuerySpacePageComponent,
@@ -159,7 +160,7 @@ export class IFCViewerPageComponent
     this.querySpace.query.values$()
       .pipe(this.untilDestroyed())
       .subscribe((query) => {
-        const dr = query.displayRepresentation || bcfSplitViewCardsIdentifier;
+        const dr = query.displayRepresentation ?? bcfSplitViewCardsIdentifier;
         this.filterAllowed = dr !== bcfViewerViewIdentifier;
         // When changing the query space by selecting a dropdown option, handle the split screen
         // and hide it for full views.
@@ -167,12 +168,25 @@ export class IFCViewerPageComponent
         this.cdRef.detectChanges();
       });
 
-    // When going back from "details" route to "list" route, handle the split screen right side
+    // When going back from "details" route to "list" route, handle the split screen right side.
+    // Scoped to actual route transitions (distinctUntilChanged on the details/list boolean),
+    // not every URL change - a filter-only query-param update also fires `changed$`, and at
+    // that point the query for the new filter hasn't reloaded yet, so `displayRepresentation`
+    // would read as stale/undefined and wrongly collapse the split screen for good (there's no
+    // code path that ever widens it back once collapsed).
     this.urlParams.changed$
-      .pipe(this.untilDestroyed())
-      .subscribe(():void => {
-        const dr = this.querySpace.query.value?.displayRepresentation;
-        this.updateSplitScreen((dr || bcfTableViewIdentifier) as BcfViewState);
+      .pipe(
+        map(() => this.urlParams.currentDetailsRouteParams() !== null),
+        distinctUntilChanged(),
+        this.untilDestroyed(),
+      )
+      .subscribe((isDetailsRoute):void => {
+        if (isDetailsRoute) {
+          return;
+        }
+
+        const dr = this.querySpace.query.value?.displayRepresentation ?? bcfSplitViewCardsIdentifier;
+        this.updateSplitScreen(dr as BcfViewState);
       });
   }
 
@@ -211,6 +225,14 @@ export class IFCViewerPageComponent
       });
   }
 
+  /**
+   * Tracks whether *this* method is the one that last collapsed the split screen
+   * width to 0, so it only ever restores a width it collapsed itself - never a
+   * width the user set by hand via the resizer (WpResizerComponent shares the
+   * same --split-screen-width CSS variable for the WP details pane).
+   */
+  private collapsedSplitScreenWidth = false;
+
   private updateSplitScreen(dr:BcfViewState):void {
     const isFullViewDisplayRepresentation = [
       bcfViewerViewIdentifier,
@@ -222,6 +244,21 @@ export class IFCViewerPageComponent
 
     if (isListRoute && isFullViewDisplayRepresentation) {
       document.documentElement.style.setProperty('--split-screen-width', '0');
+      this.collapsedSplitScreenWidth = true;
+    } else if (this.collapsedSplitScreenWidth) {
+      // Restore the user's own resized width (WpResizerComponent's own
+      // localStorage-backed preference, shared across all --split-screen-width
+      // resizers) rather than falling back to the CSS default - otherwise the
+      // resizer's cached in-memory width goes stale relative to the (wrongly
+      // reset) rendered width, only surfacing at the next resize's own re-sync
+      // as an apparent "jump back to default" right as dragging starts.
+      const savedWidth = window.OpenProject.guardedLocalStorage('openProject-splitViewFlexBasis');
+      if (savedWidth) {
+        document.documentElement.style.setProperty('--split-screen-width', `${savedWidth}px`);
+      } else {
+        document.documentElement.style.removeProperty('--split-screen-width');
+      }
+      this.collapsedSplitScreenWidth = false;
     }
   }
 }

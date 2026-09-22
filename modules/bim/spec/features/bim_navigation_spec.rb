@@ -150,7 +150,15 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         details_view.ensure_page_loaded
         details_view.expect_subject
         details_view.switch_to_tab tab: "Relations"
+        details_view.expect_tab "Relations"
 
+        # The "full screen" link's href is rendered server-side from the active tab,
+        # but it lags behind the tab nav's own selected-state update (data-aria-current,
+        # checked by expect_tab above) - wait for the href itself to catch up, or
+        # clicking too early still hits the pre-switch (activity) href.
+        expect(page).to have_css(
+          "[data-test-selector='wp-details-tab-component--full-screen'][href*='relations']"
+        )
         details_view.switch_to_fullscreen
         full_view.expect_tab "Relations"
 

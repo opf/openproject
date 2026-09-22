@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -36,6 +36,8 @@ import {
 } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
+import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 /**
  * Entry component for the reactive BCF list shown in the content-bodyRight turbo frame
@@ -44,8 +46,11 @@ import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bc
  *
  * Bootstrapped as its own, independent Angular Elements island, entirely separate from
  * op-bcf-content-left's: it derives everything from the same URL as the left pane, so it
- * doesn't need to share query-space state with it, only load the same query independently -
- * the same pattern already used by the WP split-view/split-create entry components.
+ * doesn't need to share query-space state with it - but unlike the WP split-view/split-create
+ * entry components (which show one fixed work package, unaffected by the list's filters), this
+ * one renders the same filterable list the left pane's toolbar controls, so it must also reload
+ * whenever the URL's filter/sort/etc. params change there - the same reactive-reload mechanism
+ * PartitionedQuerySpacePageComponent already uses via QueryParamListenerService#observe$.
  */
 @Component({
   selector: 'op-bcf-content-right-entry',
@@ -53,17 +58,33 @@ import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bc
   standalone: false,
   providers: [
     BcfViewService,
+    QueryParamListenerService,
   ],
   template: '<op-bcf-content-right />',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BcfContentRightEntryComponent implements OnInit {
+export class BcfContentRightEntryComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   private readonly wpListService = inject(WorkPackagesListService);
   private readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
   private readonly currentProject = inject(CurrentProjectService);
   private readonly bcfView = inject(BcfViewService);
+  private readonly queryParamListener = inject(QueryParamListenerService);
 
   ngOnInit():void {
+    this.loadQuery();
+
+    this.queryParamListener
+      .observe$
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.loadQuery());
+  }
+
+  override ngOnDestroy():void {
+    this.queryParamListener.removeQueryChangeListener();
+    super.ngOnDestroy();
+  }
+
+  private loadQuery():void {
     void this.wpListService
       .loadCurrentQueryFromParams(this.currentProject.identifier ?? undefined)
       .then((query) => {

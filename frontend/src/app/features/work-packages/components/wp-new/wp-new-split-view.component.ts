@@ -88,7 +88,7 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
           ...(ignoreNonWorkingDays ? { ignoreNonWorkingDays: true } : {}),
           ...(assigneeHref ? {
             _links: {
-              ...(existingDefaults?._links || {}),
+              ...(existingDefaults?._links ?? {}),
               assignee: { href: assigneeHref },
             },
           } : {}),

@@ -61,6 +61,10 @@ import {
     // itself, so the table's drag binding needs its own scoped instance here.
     DragAndDropService,
   ],
+  // The BIM/primerized layout has no equivalent of the (non-BIM) partitioned
+  // page's own content-right placeholder div, so this component's own host is
+  // what the <wp-resizer elementClass="..."> below measures/resizes instead.
+  host: { class: 'work-packages-partitioned-page--content-right' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-bcf-list',
   standalone: false,
