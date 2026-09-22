@@ -33,8 +33,6 @@ require "rails_helper"
 RSpec.describe Admin::Labels::ListComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  shared_let(:admin) { create(:admin) }
-
   let(:labels) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
   let(:query) { Queries::Labels::LabelQuery.new }
 
