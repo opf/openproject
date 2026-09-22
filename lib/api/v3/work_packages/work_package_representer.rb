@@ -666,7 +666,8 @@ module API
                                represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
-        associated_resources :labels
+        associated_resources :labels,
+                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? }
 
         associated_resource :parent,
                             v3_path: :work_package,
