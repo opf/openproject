@@ -174,6 +174,12 @@ class TypeVariant < ApplicationRecord
     source_ids.any? && self.class.project_owned.exists?(id: source_ids)
   end
 
+  # Mirrors WorkPackageTypes::ConfiguredInScope: only a project-owned variant is addressable
+  # through a project, and that project is the one the controllers authorize against.
+  def configurable_by?(user)
+    user.admin? || (project_owned? && user.allowed_in_project?(:manage_project_variants, project))
+  end
+
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)
@@ -232,18 +238,6 @@ class TypeVariant < ApplicationRecord
 
     scope = self.class.statuses([id], role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
-  end
-
-  # A project only shows custom fields its own activation includes, so fields on this
-  # variant's form have to be activated wherever that form is in force, or the form silently
-  # omits them.
-  # TODO: This needs to be removed in the custom field form migration
-  def activate_custom_fields_in_effective_projects!
-    return if custom_field_ids.empty?
-
-    projects.each do |project|
-      project.work_package_custom_field_ids |= custom_field_ids
-    end
   end
 
   def replacement_pattern_defined_for?(attribute)

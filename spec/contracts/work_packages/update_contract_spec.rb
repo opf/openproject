@@ -317,7 +317,6 @@ RSpec.describe WorkPackages::UpdateContract do
           let(:cf1) { create(:string_wp_custom_field) }
 
           before do
-            persisted_project.work_package_custom_fields << cf1
             persisted_type.default_variant.custom_fields << cf1
             work_package.custom_field_values = { cf1.id => "test" }
             contract.validate

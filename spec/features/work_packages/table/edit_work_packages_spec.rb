@@ -123,16 +123,14 @@ RSpec.describe "Inline editing work packages", :js do
           possible_values: %w(foo bar xyz),
           is_required: false,
           is_for_all: false,
-          types: [type],
-          projects: [project]
+          types: [type]
         ),
         create(
           :work_package_custom_field,
           field_format: "string",
           is_required: false,
           is_for_all: false,
-          types: [type],
-          projects: [project]
+          types: [type]
         )
       ]
 

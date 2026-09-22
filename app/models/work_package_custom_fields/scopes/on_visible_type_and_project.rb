@@ -47,8 +47,12 @@ module WorkPackageCustomFields::Scopes
       #
       # Pass +project:+ to restrict the check to a single known project instead of
       # scanning all projects visible to the user.
-      def on_visible_type_and_project(user = User.current, project: nil)
-        visible_projects = Project.visible(user)
+      #
+      # Pass +projects:+ to substitute a narrower reach than every project the user can see,
+      # which callers exposing work package data need: seeing a project does not entail seeing
+      # its work packages.
+      def on_visible_type_and_project(user = User.current, project: nil, projects: nil)
+        visible_projects = reach(projects, user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
         source_join, source_variant_id, excluded =
@@ -66,13 +70,18 @@ module WorkPackageCustomFields::Scopes
               ON cft.type_variant_id = #{source_variant_id}
              AND cft.custom_field_id = custom_fields.id
              AND #{exclusion}
-            LEFT JOIN custom_fields_projects cfp
-              ON cfp.project_id = vp.id
-             AND cfp.custom_field_id = custom_fields.id
-            WHERE custom_fields.is_for_all = TRUE
-               OR cfp.custom_field_id IS NOT NULL
           )
         SQL
+      end
+
+      private
+
+      def reach(projects, user)
+        case projects
+        when nil then Project.visible(user)
+        when ActiveRecord::Relation then projects
+        else Project.where(id: projects)
+        end
       end
     end
   end

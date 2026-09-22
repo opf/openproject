@@ -171,23 +171,13 @@ module API
           }
         end
 
-        link :customFields,
-             cache_if: -> { current_user.allowed_in_project?(:select_custom_fields, represented.project) } do
-          next if represented.project.nil?
-
-          {
-            href: project_settings_custom_fields_path(represented.project.identifier),
-            type: "text/html",
-            title: "Custom fields"
-          }
-        end
-
         link :configureForm,
-             cache_if: -> { current_user.admin? } do
-          next unless represented.type_id
+             cache_if: -> { configure_form_allowed? } do
+          variant = represented.type_variant
+          next unless variant
 
           {
-            href: edit_type_form_configuration_path(represented.type_id),
+            href: edit_type_form_configuration_path(**variant.path_args),
             type: "text/html",
             title: "Configure form"
           }
@@ -841,6 +831,12 @@ module API
           return @add_work_packages_allowed if defined?(@add_work_packages_allowed)
 
           @add_work_packages_allowed = current_user.allowed_in_project?(:add_work_packages, represented.project)
+        end
+
+        def configure_form_allowed?
+          return @configure_form_allowed if defined?(@configure_form_allowed)
+
+          @configure_form_allowed = !!represented.type_variant&.configurable_by?(current_user)
         end
 
         def project_phase

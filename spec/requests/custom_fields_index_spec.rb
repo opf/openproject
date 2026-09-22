@@ -28,22 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::WorkPackageCustomFields
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    # Custom field for the project's work_packages
-    has_and_belongs_to_many :work_package_custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                            -> { order("#{CustomField.table_name}.position") },
-                            join_table: :custom_fields_projects,
-                            association_foreign_key: "custom_field_id"
+RSpec.describe "Administration custom fields index", type: :rails_request do
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:on_a_type) { create(:work_package_custom_field, name: "Severity", types: [type]) }
+  shared_let(:on_no_type) { create(:work_package_custom_field, name: "Orphan") }
 
-    # Returns an AR scope of all custom fields enabled for project's work packages
-    # (explicitly associated custom fields and custom fields enabled for all projects)
-    def all_work_package_custom_fields
-      WorkPackageCustomField
-        .for_all
-        .or(WorkPackageCustomField.where(id: work_package_custom_fields))
+  current_user { create(:admin) }
+
+  # The work package tab is the default one.
+  it "lists the work package custom fields and the types configuring them" do
+    get custom_fields_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Severity").and include("Orphan")
+    expect(response.body).to include("Bug")
+  end
+
+  describe "the projects a field reaches" do
+    shared_let(:reaching) { create(:project, types: [type]) }
+
+    it "counts the projects whose form configuration shows the field" do
+      get custom_fields_path
+
+      expect(response.body).to include("Used in projects")
+      expect(response.body).to include("1 project")
+    end
+
+    it "does not count an archived project, matching the reminder on the field itself" do
+      reaching.update_columns(active: false)
+
+      get custom_fields_path
+
+      expect(response.body).to include("no projects")
     end
   end
 end

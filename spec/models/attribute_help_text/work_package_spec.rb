@@ -95,16 +95,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
     end
 
-    context "with a user having the `select_custom_fields` permission" do
-      let(:permissions) { [:select_custom_fields] }
-
-      it "returns the help text for the static and cf attribute" do
-        expect(subject)
-          .to contain_exactly(static_instance, cf_instance)
-      end
-    end
-
-    context "user being member in a project with activated custom fields" do
+    context "when the user is a member of a project whose type configures custom fields" do
       let(:permissions) { [] }
       let(:type) do
         type = create(:type)
@@ -114,7 +105,6 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
       let(:cf_instance_active) do
         custom_field = create(:text_wp_custom_field)
-        project.work_package_custom_fields << custom_field
         type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
@@ -123,10 +113,9 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
       let(:cf_instance_inactive_no_type) do
         custom_field = create(:text_wp_custom_field)
-        project.work_package_custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
-      let(:cf_instance_inactive_not_in_project) do
+      let(:cf_instance_not_in_project) do
         custom_field = create(:text_wp_custom_field)
         type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
@@ -141,13 +130,13 @@ RSpec.describe AttributeHelpText::WorkPackage do
         cf_instance_active
         cf_instance_inactive
         cf_instance_inactive_no_type
-        cf_instance_inactive_not_in_project
+        cf_instance_not_in_project
         cf_instance_for_all
       end
 
-      it "returns the help text for the static and active cf attributes" do
+      it "returns the help text for the static attribute and every configured cf" do
         expect(subject)
-          .to contain_exactly(static_instance, cf_instance_active, cf_instance_for_all)
+          .to contain_exactly(static_instance, cf_instance_active, cf_instance_for_all, cf_instance_not_in_project)
       end
     end
   end
