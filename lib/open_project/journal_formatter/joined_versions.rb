@@ -34,18 +34,56 @@
 # placeholder for versions that have been deleted or are no longer visible to
 # the reader.
 class OpenProject::JournalFormatter::JoinedVersions < JournalFormatter::NamedAssociation
+  def render(key, values, options = { html: true })
+    old_ids, new_ids = values.map { ids_from(it) }
+    return super unless set_change?(old_ids, new_ids)
+    return render_permission_denied_message(options) unless permission_granted?(options.merge(key:))
+
+    render_set_change(key, old_ids, new_ids, options)
+  end
+
   private
 
+  def render_set_change(key, old_ids, new_ids, options)
+    key = key.to_s
+    label = set_change_label(key, options)
+    added = change_names(new_ids - old_ids, key, options)
+    removed = change_names(old_ids - new_ids, key, options)
+
+    lines = []
+    lines << I18n.t(:text_journal_set_added, label:, value: added) if added.present?
+    lines << I18n.t(:text_journal_set_removed, label:, old: removed) if removed.present?
+    lines.join(options[:html] ? "<br/>" : "\n")
+  end
+
+  def set_change_label(key, options)
+    options[:html] ? content_tag(:strong, label(key)) : label(key)
+  end
+
+  def change_names(ids, key, options)
+    names = names_for(ids, key)
+    return names if names.blank? || !options[:html]
+
+    content_tag(:i, h(names))
+  end
+
+  def set_change?(old_ids, new_ids)
+    old_ids.any? && new_ids.any? && !(old_ids.one? && new_ids.one?)
+  end
+
   def format_values(values, key)
+    values.map { |value| names_for(ids_from(value), key).presence }
+  end
+
+  def names_for(ids, key)
     klass = class_from_field(key)
+    return if klass.nil?
 
-    values.map do |value|
-      next if value.blank? || klass.nil?
+    ids.map { |id| name_or_placeholder(associated_object(klass, id)) }.join(", ")
+  end
 
-      value.to_s.split(",")
-           .map { |id| name_or_placeholder(associated_object(klass, id.to_i)) }
-           .join(", ")
-    end
+  def ids_from(value)
+    value.to_s.split(",").map(&:to_i)
   end
 
   def name_or_placeholder(object)

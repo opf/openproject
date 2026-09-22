@@ -6564,6 +6564,8 @@ en:
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
   text_journal_permission_denied: "You do not have permission to see this journal activity."
+  text_journal_set_added: "%{label} added: %{value}"
+  text_journal_set_removed: "%{label} removed: %{old}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_latest_note: "The latest comment is: %{note}"

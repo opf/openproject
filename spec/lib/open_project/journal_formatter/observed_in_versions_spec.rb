@@ -82,6 +82,13 @@ RSpec.describe OpenProject::JournalFormatter::ObservedInVersions do
       end
     end
 
+    context "when adding an observed in version to an existing set" do
+      it "renders only the added version" do
+        expect(instance.render(:observed_in_versions, [version.id.to_s, "#{version.id},#{other_version.id}"]))
+          .to eq(I18n.t(:text_journal_set_added, label:, value: "<i>Beta</i>"))
+      end
+    end
+
     context "with html: false" do
       it "renders plain text" do
         expect(instance.render(:observed_in_versions, [version.id.to_s, other_version.id.to_s], html: false))

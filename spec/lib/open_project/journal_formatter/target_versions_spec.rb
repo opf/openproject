@@ -34,6 +34,7 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
   describe "#render", with_settings: { work_package_multiple_versions: false } do
     let(:version) { build_stubbed(:version, name: "Alpha") }
     let(:other_version) { build_stubbed(:version, name: "Beta") }
+    let(:third_version) { build_stubbed(:version, name: "Gamma") }
     let(:work_package) { build_stubbed(:work_package) }
     let(:journal) { build_stubbed(:work_package_journal, journable: work_package) }
     let(:instance) { described_class.new(journal) }
@@ -44,7 +45,7 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     before do
       allow(Version).to receive(:find_by).and_return(nil)
 
-      [version, other_version].each do |v|
+      [version, other_version, third_version].each do |v|
         allow(Version).to receive(:find_by).with(id: v.id).and_return(v)
         # Withholding names from readers outside the project is covered in the
         # JournalFormatter::NamedAssociation spec.
@@ -70,6 +71,44 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
       end
     end
 
+    context "when adding a target version to an existing set" do
+      it "renders only the added version" do
+        expect(instance.render(:target_versions, [version.id.to_s, "#{version.id},#{other_version.id}"]))
+          .to eq(I18n.t(:text_journal_set_added, label:, value: "<i>Beta</i>"))
+      end
+    end
+
+    context "when removing a target version from a set" do
+      it "renders only the removed version" do
+        expect(instance.render(:target_versions, ["#{version.id},#{other_version.id}", version.id.to_s]))
+          .to eq(I18n.t(:text_journal_set_removed, label:, old: "<i>Beta</i>"))
+      end
+    end
+
+    context "when adding and removing target versions in one change" do
+      it "renders the added and the removed versions on separate lines" do
+        expect(instance.render(:target_versions,
+                               ["#{version.id},#{other_version.id}", "#{version.id},#{third_version.id}"]))
+          .to eq([I18n.t(:text_journal_set_added, label:, value: "<i>Gamma</i>"),
+                  I18n.t(:text_journal_set_removed, label:, old: "<i>Beta</i>")].join("<br/>"))
+      end
+
+      it "renders plain text lines with html: false" do
+        expect(instance.render(:target_versions,
+                               ["#{version.id},#{other_version.id}", "#{version.id},#{third_version.id}"],
+                               html: false))
+          .to eq([I18n.t(:text_journal_set_added, label: "Version", value: "Gamma"),
+                  I18n.t(:text_journal_set_removed, label: "Version", old: "Beta")].join("\n"))
+      end
+    end
+
+    context "when adding a target version that has since been deleted" do
+      it "renders the placeholder as the added version" do
+        expect(instance.render(:target_versions, [version.id.to_s, "#{version.id},99999"]))
+          .to eq(I18n.t(:text_journal_set_added, label:, value: "<i>(deleted version)</i>"))
+      end
+    end
+
     context "when removing all target versions" do
       it "renders the old version names as deleted" do
         expect(instance.render(:target_versions, ["#{version.id},#{other_version.id}", nil]))
@@ -85,11 +124,7 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
 
       it "still shows the change when only the deleted version was removed" do
         expect(instance.render(:target_versions, ["#{version.id},99999", version.id.to_s]))
-          .to eq(I18n.t(:text_journal_changed_plain,
-                        label:,
-                        linebreak: nil,
-                        old: "<i>Alpha, (deleted version)</i>",
-                        new: "<i>Alpha</i>"))
+          .to eq(I18n.t(:text_journal_set_removed, label:, old: "<i>(deleted version)</i>"))
       end
     end
 
