@@ -42,6 +42,25 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
     expect(rendered_component).to have_css ".widget-box"
   end
 
+  it "labels the widget box with its visible heading" do
+    expect(rendered_component).to have_css(
+      ".widget-box[role='group'][aria-labelledby='cool_widget-header'] h3#cool_widget-header",
+      text: "Cool Widget"
+    )
+  end
+
+  it "preserves additional aria attributes on the widget box" do
+    rendered_component = render_component(
+      key: "cool_widget",
+      title: "Cool Widget",
+      aria: { describedby: "cool_widget-description" }
+    )
+
+    expect(rendered_component).to have_css(
+      ".widget-box[aria-labelledby='cool_widget-header'][aria-describedby='cool_widget-description']"
+    )
+  end
+
   it "renders turbo-frame around content" do
     expect(rendered_component).to have_element :"turbo-frame", id: "cool_widget", target: "_top"
   end

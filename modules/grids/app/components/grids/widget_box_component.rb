@@ -80,12 +80,11 @@ module Grids
       @system_arguments[:id] ||= "#{key}-box"
 
       @turbo_enabled = turbo_enabled
-      @turbo_frame_arguments = { tag: :"turbo-frame", id: key, target: "_top" }
-      @turbo_frame_arguments[:style] = "display:contents"
+      @turbo_frame_arguments = { tag: :"turbo-frame", id: key, target: "_top", style: "display:contents" }
 
-      @list_arguments = { tag: :ul }
-      @list_arguments[:id] = "#{key}-list"
-      @list_arguments[:classes] = "op-widget-box--rows"
+      configure_accessibility
+
+      @list_arguments = { tag: :ul, id: "#{key}-list", classes: "op-widget-box--rows" }
     end
 
     def render?
@@ -101,6 +100,11 @@ module Grids
     end
 
     private
+
+    def configure_accessibility
+      @system_arguments[:role] ||= :group
+      @system_arguments[:aria] = (@system_arguments[:aria] || {}).merge(labelledby: @header_id)
+    end
 
     def before_render
       return unless header
