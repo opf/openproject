@@ -50,13 +50,9 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @system_user = User.system
-      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+      @jira_import.jira
       jira_project = Import::JiraProject.find(jira_project_id)
 
       @project = JiraOpenProjectReference.find_by!(
@@ -71,6 +67,7 @@ module Import
       )
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_version, jira_import_id, jira_project_id)
       payload = jira_version.payload
       jira_version_name = payload.fetch("name")
@@ -84,7 +81,7 @@ module Import
             description: payload["description"],
             effective_date: payload["releaseDate"]&.to_date,
             start_date: payload["startDate"]&.to_date,
-            status: payload.fetch("released") ? "closed" : "open"
+            status: payload.fetch("released") || payload.fetch("archived") ? "closed" : "open"
           )
           create_reference!(op_leg: version,
                             jira_leg: jira_version,

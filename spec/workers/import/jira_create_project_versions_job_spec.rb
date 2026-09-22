@@ -77,16 +77,16 @@ RSpec.describe Import::JiraCreateProjectVersionsJob,
     it "creates references for versions" do
       create_versions
 
-      expect(Import::JiraOpenProjectReference.find_op_leg(jira_version)).to be_a(Version)
+      expect(jira_import.find_op_leg(jira_version)).to be_a(Version)
     end
 
-    context "when version is not released" do
+    context "when version is not released and not archived" do
       let!(:jira_version) do
         create(:jira_version,
                jira_import:,
                jira_project:,
                origin_id: "10001",
-               payload: { "id" => "10001", "name" => "v1.0", "released" => false })
+               payload: { "id" => "10001", "name" => "v1.0", "released" => false, "archived" => false })
       end
 
       it "creates version with open status" do
@@ -97,13 +97,64 @@ RSpec.describe Import::JiraCreateProjectVersionsJob,
       end
     end
 
+    context "when version is not released but archived" do
+      let!(:jira_version) do
+        create(:jira_version,
+               jira_import:,
+               jira_project:,
+               origin_id: "10001",
+               payload: { "id" => "10001", "name" => "v1.0", "released" => false, "archived" => true })
+      end
+
+      it "creates version with closed status" do
+        create_versions
+
+        version = Version.find_by(name: "v1.0")
+        expect(version.status).to eq("closed")
+      end
+    end
+
+    context "when version is released and archived" do
+      let!(:jira_version) do
+        create(:jira_version,
+               jira_import:,
+               jira_project:,
+               origin_id: "10001",
+               payload: { "id" => "10001", "name" => "v1.0", "released" => true, "archived" => true })
+      end
+
+      it "creates version with closed status" do
+        create_versions
+
+        version = Version.find_by(name: "v1.0")
+        expect(version.status).to eq("closed")
+      end
+    end
+
+    context "when version is released and not archived" do
+      let!(:jira_version) do
+        create(:jira_version,
+               jira_import:,
+               jira_project:,
+               origin_id: "10001",
+               payload: { "id" => "10001", "name" => "v1.0", "released" => true, "archived" => false })
+      end
+
+      it "creates version with closed status" do
+        create_versions
+
+        version = Version.find_by(name: "v1.0")
+        expect(version.status).to eq("closed")
+      end
+    end
+
     context "when optional fields are missing" do
       let!(:jira_version) do
         create(:jira_version,
                jira_import:,
                jira_project:,
                origin_id: "10001",
-               payload: { "id" => "10001", "name" => "v1.0", "released" => false })
+               payload: { "id" => "10001", "name" => "v1.0", "released" => false, "archived" => false })
       end
 
       it "creates version with nil for optional fields" do
@@ -122,7 +173,7 @@ RSpec.describe Import::JiraCreateProjectVersionsJob,
                jira_import:,
                jira_project:,
                origin_id: "10002",
-               payload: { "id" => "10002", "name" => "v2.0", "released" => false })
+               payload: { "id" => "10002", "name" => "v2.0", "released" => false, "archived" => false })
       end
 
       it "creates all versions" do

@@ -249,7 +249,7 @@ module Import
           .then do |origin_ids|
             Import::JiraVersion
               .where(jira_import: @jira_import, origin_id: origin_ids)
-              .filter_map { |jira_version| Import::JiraOpenProjectReference.find_op_leg(jira_version) }
+              .filter_map { |jira_version| @jira_import.find_op_leg(jira_version) }
           end
       observed_in_versions =
         jira_issue.payload["fields"]["versions"]
@@ -257,7 +257,7 @@ module Import
           .then do |origin_ids|
             Import::JiraVersion
               .where(jira_import: @jira_import, origin_id: origin_ids)
-              .filter_map { |jira_version| Import::JiraOpenProjectReference.find_op_leg(jira_version) }
+              .filter_map { |jira_version| @jira_import.find_op_leg(jira_version) }
           end
 
       service_call =
