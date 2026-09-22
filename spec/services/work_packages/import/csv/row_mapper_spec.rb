@@ -145,13 +145,15 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       result = map(assigned_to: "nobody@example.com")
 
       expect(result.result.first.message)
-        .to eq("does not match an active user. Use the email address the user signs in with.")
+        .to eq("does not match a user. Use the email address the user signs in with.")
     end
 
-    it "does not accept a locked user" do
-      create(:user, mail: "locked@example.com", status: Principal.statuses[:locked])
+    it "resolves a user who has not signed in yet, and one who has been locked out" do
+      invited = create(:user, mail: "invited@example.com", status: Principal.statuses[:invited])
+      locked = create(:user, mail: "locked@example.com", status: Principal.statuses[:locked])
 
-      expect(map(assigned_to: "locked@example.com")).to be_failure
+      expect(map(assigned_to: "invited@example.com").result.attributes).to eq(assigned_to: invited)
+      expect(map(assigned_to: "locked@example.com").result.attributes).to eq(assigned_to: locked)
     end
 
     describe "#prime" do
@@ -166,20 +168,20 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       end
 
       it "resolves every distinct address in one query" do
-        allow(User).to receive(:active).and_call_original
+        allow(User).to receive(:not_builtin).and_call_original
 
         mapper.prime(rows)
 
-        expect(User).to have_received(:active).once
+        expect(User).to have_received(:not_builtin).once
       end
 
       it "leaves nothing for the rows themselves to query" do
         mapper.prime(rows)
-        allow(User).to receive(:active).and_call_original
+        allow(User).to receive(:not_builtin).and_call_original
 
         rows.each { |row| mapper.call(row) }
 
-        expect(User).not_to have_received(:active)
+        expect(User).not_to have_received(:not_builtin)
       end
 
       it "still reports an address it could not resolve" do
@@ -191,7 +193,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
         expect(result.result.first)
           .to have_attributes(attribute: "assigned_to",
                               value: "nobody@example.com",
-                              message: "does not match an active user. " \
+                              message: "does not match a user. " \
                                        "Use the email address the user signs in with.")
       end
 
@@ -203,11 +205,11 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       end
 
       it "asks for nothing when no row names an assignee" do
-        allow(User).to receive(:active).and_call_original
+        allow(User).to receive(:not_builtin).and_call_original
 
         mapper.prime([row({ subject: "No assignee" }), row({ assigned_to: "" })])
 
-        expect(User).not_to have_received(:active)
+        expect(User).not_to have_received(:not_builtin)
       end
 
       it "does not ask again for an address already cached" do

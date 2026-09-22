@@ -51,7 +51,7 @@ module WorkPackages
           mails = unresolved_mails(rows)
           return if mails.empty?
 
-          found = User.active.where("LOWER(mail) IN (?)", mails).index_by { |user| user.mail.downcase }
+          found = assignable.where("LOWER(mail) IN (?)", mails).index_by { |user| user.mail.downcase }
           mails.each { |mail| users[mail] = found[mail] }
         end
 
@@ -167,9 +167,11 @@ module WorkPackages
         def user(raw)
           mail = normalized_mail(raw)
 
-          users.fetch(mail) { users[mail] = User.active.find_by("LOWER(mail) = ?", mail) } ||
+          users.fetch(mail) { users[mail] = assignable.find_by("LOWER(mail) = ?", mail) } ||
             unresolvable(:unknown_user)
         end
+
+        def assignable = User.not_builtin
 
         def normalized_mail(raw) = raw.presence&.strip&.downcase.presence
 

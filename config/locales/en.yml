@@ -7507,7 +7507,7 @@ en:
           too_many_cells: "has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted."
           unknown: "does not exist."
           unknown_in_project: "does not exist in this project."
-          unknown_user: "does not match an active user. Use the email address the user signs in with."
+          unknown_user: "does not match a user. Use the email address the user signs in with."
 
     move:
       bulk_current_type_not_available_in_target_project: >
