@@ -35,6 +35,8 @@ module WorkPackages
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
 
+        LISTABLE_IDS = 250 # the max IDs that fit in an URL
+
         def initialize(status:, project:)
           super(status)
           @status = status
@@ -208,22 +210,43 @@ module WorkPackages
 
         def problems_path = import_problems_project_work_packages_path(project, job: status.job_id)
 
-        # A back-dated run puts created_at outside the window the filter asks about, so the link
-        # would quietly list fewer work packages than were created.
         def created_list_path
-          return if payload["back_dated"] || payload["started_at"].blank?
+          return if payload["started_at"].blank?
 
           project_work_packages_path(project, query_props: created_query.to_json)
         end
 
         def created_query
           {
-            c: %w[id type subject status assignee startDate dueDate],
-            t: "id:asc",
-            f: [{ n: "createdAt", o: "<>d", v: [payload["started_at"], payload["finished_at"]] },
-                { n: "author", o: "=", v: [status.user_id.to_s] }]
+            t: newest_first? ? "id:desc" : "id:asc",
+            f: created_filters
           }
         end
+
+        def created_filters
+          case list_mode
+          when :ids then [{ n: "id", o: "=", v: created_ids.map(&:to_s) }]
+          when :window then [{ n: "createdAt", o: "<>d", v: [payload["started_at"], payload["finished_at"]] },
+                             author_filter]
+          else [author_filter]
+          end
+        end
+
+        def author_filter = { n: "author", o: "=", v: [status.user_id.to_s] }
+
+        def list_mode
+          return :ids if listable_ids?
+
+          back_dated? ? :newest : :window
+        end
+
+        def created_ids = payload["created_ids"].to_a
+
+        def listable_ids? = created_ids.any? && created_ids.size <= LISTABLE_IDS
+
+        def back_dated? = payload["back_dated"].to_i.positive?
+
+        def newest_first? = list_mode == :newest
       end
     end
   end
