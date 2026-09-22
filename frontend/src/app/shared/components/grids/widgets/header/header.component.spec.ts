@@ -26,34 +26,37 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
+import { WidgetHeaderComponent } from 'core-app/shared/components/grids/widgets/header/header.component';
 
-@Component({
-  selector: 'widget-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
-})
-export class WidgetHeaderComponent {
-  readonly layout = inject(GridAreaService);
-  readonly drag = inject(GridDragAndDropService);
+describe('WidgetHeaderComponent', () => {
+  let fixture:ComponentFixture<WidgetHeaderComponent>;
 
-  @Input() name:string;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [WidgetHeaderComponent],
+      imports: [CommonModule],
+      providers: [
+        { provide: GridAreaService, useValue: { isEditable: false } },
+        { provide: GridDragAndDropService, useValue: { isDraggable: false } },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
-  @Input() headingId:string;
+    fixture = TestBed.createComponent(WidgetHeaderComponent);
+  });
 
-  @Input() editable = true;
+  it('applies the provided ID to the visible heading', () => {
+    fixture.componentRef.setInput('headingId', 'widget-heading-1');
+    fixture.componentRef.setInput('name', 'Widget title');
+    fixture.detectChanges();
 
-  @Output() onRenamed = new EventEmitter<string>();
+    const heading = fixture.nativeElement.querySelector('h3') as HTMLHeadingElement;
 
-  public renamed(name:string) {
-    this.onRenamed.emit(name);
-  }
-
-  public get isRenameable() {
-    return this.editable && this.layout.isEditable;
-  }
-}
+    expect(heading.id).toEqual('widget-heading-1');
+  });
+});
