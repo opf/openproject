@@ -108,6 +108,7 @@ module API
                                      has_default: false,
                                      writable: default_writable_property(property),
                                      attribute_group: nil,
+                                     options: nil,
                                      show_if: true)
           getter = ->(*) do
             schema_with_allowed_link_property_getter(type,
@@ -116,7 +117,8 @@ module API
                                                      has_default,
                                                      writable,
                                                      attribute_group,
-                                                     href_callback)
+                                                     href_callback,
+                                                     options)
           end
 
           schema_property(property,
@@ -344,7 +346,8 @@ module API
                                                    has_default,
                                                    writable,
                                                    attribute_group,
-                                                   href_callback)
+                                                   href_callback,
+                                                   options = nil)
         representer = ::API::Decorators::AllowedValuesByLinkRepresenter
                       .new(type: call_or_use(type),
                            name: call_or_translate(name_source),
@@ -352,7 +355,8 @@ module API
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
                            writable: call_or_use(writable),
-                           attribute_group: call_or_use(attribute_group))
+                           attribute_group: call_or_use(attribute_group),
+                           options: call_or_use(options))
 
         if form_embedded
           representer.allowed_values_href = instance_eval(&href_callback)

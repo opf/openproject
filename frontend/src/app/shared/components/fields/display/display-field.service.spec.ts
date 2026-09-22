@@ -45,12 +45,19 @@ import {
 import {
   SingleLineUserDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/single-line-user-display-field.module';
+import {
+  HierarchyItemDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/hierarchy-item-display-field.module';
+import {
+  ResourceDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 type DisplayFieldClass = new (name:string, context:DisplayFieldContext) => DisplayField;
 
 describe('DisplayFieldService', () => {
   const service = new DisplayFieldService();
+  service.addFieldType(ResourceDisplayField, 'resource', ['CustomField::Hierarchy::Item']);
 
   const mockI18n = { t: (key:string) => key };
 
@@ -96,5 +103,19 @@ describe('DisplayFieldService', () => {
         expect(fieldFor(type)).toBeInstanceOf(multilineClass);
       });
     });
+  });
+
+  it('uses the plain resource field for a hierarchical field that cannot nest', () => {
+    const schema = { type: 'CustomField::Hierarchy::Item', options: { allowsNesting: false } } as IFieldSchema;
+    const context = {
+      injector: mockInjector,
+      container: 'single-view',
+      options: {},
+    } as unknown as DisplayFieldContext;
+
+    const field = service.getField({} as HalResource, 'customField1', schema, context);
+
+    expect(field).toBeInstanceOf(ResourceDisplayField);
+    expect(field instanceof HierarchyItemDisplayField).toBeFalsy();
   });
 });
