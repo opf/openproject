@@ -29,7 +29,7 @@ Under the _Login_ tab you can adjust following settings:
 
 2. Activate the **session expiration option**. 
 
-3. Set the **duration for inactivity time**, after which a session will expire. Note that any value below 5 will be treated as disabling the session expiration setting.
+3. Set the **duration for inactivity time**, after which a session will expire. Note that any value below 5 will be treated as disabling the session expiration setting. This setting is not visible if the *Session expiration* is not selected.
 
 4. Define whether **user login, name, and mail address** should be logged for all requests.
 
@@ -47,26 +47,27 @@ Under the _Single Sign-On (SSO)_ tab you can adjust following settings:
 
 1. Select a **direct login SSO provider**. If this option is active, login requests will be redirected to the configured Omniauth provider. This will disable the login dropdown and sign-in page. 
 
-2. Select who may use **Password login**:
-
-   - **Allow for everyone** (`all`) keeps the current behavior and is the default.
-   - **Disallow for SSO users** (`except_sso`) prevents users linked to an SSO provider from authenticating with an internal or LDAP password.
-   - **Disallow for everyone** (`none`) disables password authentication except for configured break-glass users and groups, and hides the password form on `/login`.
-
-   With **Disallow for SSO users** or **Disallow for everyone**, use **Users and groups who may still use a password** to configure break-glass access. Selecting a group also includes its child groups recursively.
-
-> [!NOTE]
-> The internal login route `/login/internal` can be used for break-glass password login when direct SSO login is configured. It is also available when password login is set to **Disallow for everyone** and a break-glass allowlist or environment login overlay is configured.
->
-> If no SSO provider is enabled, the password login restriction controls are disabled and a warning is shown. Settings provided through configuration or environment variables are shown as read-only and listed in a banner.
-
-> [!IMPORTANT]
-> Restricting password login also affects password changes, lost-password flows and LDAP password authentication. With **Disallow for everyone**, password-related administration settings are disabled and the LDAP connections administration menu is hidden.
-
-3. Allow **remapping of existing users**. If enabled, this option allows any configured identity provider to authenticate existing users based on their login, even if those users have never previously signed in with that provider. This feature is particularly useful when migrating your OpenProject instance to a new SSO provider.
+2. Allow **remapping of existing users**. If enabled, this option allows any configured identity provider to authenticate existing users based on their login, even if those users have never previously signed in with that provider. This feature is particularly useful when migrating your OpenProject instance to a new SSO provider.
 
 > [!IMPORTANT]
 > It is **not recommended** when using an identity provider that is not trusted by all users in your instance, as this may introduce security risks.
+
+3. Select who may use **Password login**:
+
+- **Allow for everyone** :  Anyone with an internal password can sign in with it, including users linked to an identity provider. This is the default and corresponds to the previous behavior.
+- **Disallow for SSO users**: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using password authentication.
+- **Disallow for everyone**: The password form is hidden on the regular sign-in page. Only users and groups configured under **Users and groups who may still use a password** can sign in with a password via `/login/internal`.
+
+For **Disallow for SSO users** and **Disallow for everyone**, you can select **Users and groups who may still use a password** to retain password access for specific users, for example for break-glass administrative access. Selecting a group also includes users in its child groups recursively.
+
+> [!NOTE]
+> The `/login/internal` route provides access to password authentication without going through the regular SSO sign-in flow. It is available when a direct SSO login provider is configured. It is also available with **Disallow for everyone** when at least one break-glass user or group, or an environment-based login exception, is configured.
+>
+> If no SSO provider is enabled, the password login restriction controls are disabled and a warning is displayed. Settings defined through configuration or environment variables cannot be changed in the administration interface; affected settings are displayed as read-only and listed in a banner.
+
+> [!IMPORTANT]
+> The selected **Password login** policy also applies to password changes, password recovery, and LDAP password authentication. With **Disallow for everyone**, password-related administration settings are disabled and **LDAP connections** is hidden from the administration menu.
+
 
 ![SSO tab under login and registration settings in OpenProject system administration](openproject_system_admin_guide_authentication_settings_sso_tab.png)
 
@@ -107,11 +108,11 @@ Under the _Registration_ tab you can adjust following settings:
 Under the _Password_ tab you can adjust following settings: 
 
 1. Define the **minimum password length**.
-2. Select what **character classes are a mandatory part of the password**.
+2. Define which **character classes are a mandatory part of the password**.
 3. Define the **minimum number of required character classes**.
 4. Define the number of days, after which a **password change should be enforced**. Value of 0 disables this option, i.e. no password change will be enforced.
 5. Define the **number of the most recently used passwords that a user should not be allowed to reuse**.
-6. Activate the **password reset** (Forgot your password option). This way users will be able to reset their own passwords via email.
+6. **Enable password reset** (Forgot your password option). This way users will be able to reset their own passwords via email.
 7. Define the number of failed **login attempts, after which a user will be temporarily blocked**. Value of 0 disables this option, i.e. users will not be blocked after any amount of failed login attempts.
 8. Define the **duration of the time, for which the user will be blocked after failed login attempts**. Value of 0 disables this option.
 
