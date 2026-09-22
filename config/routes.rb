@@ -447,6 +447,7 @@ Rails.application.routes.draw do
         post :new_child, action: :create
         post :set_default
         post :clear_default
+        post :reorder_alphabetical
       end
     end
   end
@@ -986,6 +987,7 @@ Rails.application.routes.draw do
             post :new_child, action: :create
             post :set_default
             post :clear_default
+            post :reorder_alphabetical
           end
         end
       end
@@ -1029,6 +1031,7 @@ Rails.application.routes.draw do
             post :new_child, action: :create
             post :set_default
             post :clear_default
+            post :reorder_alphabetical
           end
         end
       end

@@ -38,6 +38,15 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::OpenProject::SubHeader.new) do |subheader|
               subheader.with_action_button(
                 tag: :a,
+                scheme: :secondary,
+                href: reorder_alphabetical_path,
+                data: { turbo_method: :post, turbo_confirm: t("custom_fields.reorder_confirmation") }
+              ) do
+                t("custom_fields.reorder_alphabetical")
+              end
+
+              subheader.with_action_button(
+                tag: :a,
                 scheme: :primary,
                 leading_icon: :plus,
                 label: t(:label_item),

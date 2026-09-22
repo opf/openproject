@@ -499,6 +499,35 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
     end
   end
 
+  describe "#reorder_children_alphabetically" do
+    let(:custom_field) do
+      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
+        service.generate_root(cf).value!
+        cf.reload
+      end
+    end
+    let(:root) { custom_field.hierarchy_root }
+    let(:contract) { CustomFields::Hierarchy::InsertListItemContract }
+
+    before do
+      ["banana", "Apple", "cherry"].each do |label|
+        service.insert_item(contract_class: contract, parent: root, label:).value!
+      end
+    end
+
+    it "sorts siblings case insensitively" do
+      service.reorder_children_alphabetically(parent: root)
+
+      expect(root.children.reload.order(:sort_order).pluck(:label)).to eq(%w[Apple banana cherry])
+    end
+
+    it "leaves sort_order contiguous from zero" do
+      service.reorder_children_alphabetically(parent: root)
+
+      expect(root.children.reload.order(:sort_order).pluck(:sort_order)).to eq([0, 1, 2])
+    end
+  end
+
   context "with weighted item list and calculated values", with_ee: %i[calculated_values weighted_item_lists] do
     current_user { create(:admin) }
 
