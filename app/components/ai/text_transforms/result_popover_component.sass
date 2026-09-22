@@ -39,9 +39,38 @@
 
   &--resize
     position: absolute
-    right: 0
-    bottom: 0
-    width: 16px
-    height: 16px
-    cursor: nwse-resize
-    background: linear-gradient(135deg, transparent 0 50%, var(--borderColor-default) 50% 60%, transparent 60% 70%, var(--borderColor-default) 70% 80%, transparent 80%)
+
+    &_left,
+    &_right
+      top: 50%
+      width: 10px
+      height: 48px
+      margin-top: -24px
+      cursor: ew-resize
+      border-radius: 3px
+      background: repeating-linear-gradient(90deg, transparent 0 2px, var(--borderColor-default) 2px 4px)
+      background-size: 6px 100%
+      background-repeat: no-repeat
+      background-position: center
+
+    &_left
+      left: -2px
+
+    &_right
+      right: -2px
+
+    &_bottom-left,
+    &_bottom-right
+      bottom: 0
+      width: 16px
+      height: 16px
+
+    &_bottom-right
+      right: 0
+      cursor: nwse-resize
+      background: linear-gradient(135deg, transparent 0 50%, var(--borderColor-default) 50% 60%, transparent 60% 70%, var(--borderColor-default) 70% 80%, transparent 80%)
+
+    &_bottom-left
+      left: 0
+      cursor: nesw-resize
+      background: linear-gradient(225deg, transparent 0 50%, var(--borderColor-default) 50% 60%, transparent 60% 70%, var(--borderColor-default) 70% 80%, transparent 80%)
