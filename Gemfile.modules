@@ -46,4 +46,5 @@ group :opf_plugins do
   gem 'openproject-documents',                 path: 'modules/documents'
 
   gem 'openproject-bim',                       path: 'modules/bim'
+  gem 'openproject-strikezone_frank',          path: 'modules/strikezone_frank'
 end

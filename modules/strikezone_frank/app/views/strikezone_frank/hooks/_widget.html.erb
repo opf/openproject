@@ -1,0 +1,141 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<style>
+  .strikezone-frank-widget {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    pointer-events: none;
+  }
+
+  .strikezone-frank-widget__iframe {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: transparent;
+    color-scheme: light;
+    pointer-events: auto;
+  }
+</style>
+
+<%= tag.div(
+      class: "strikezone-frank-widget",
+      data: {
+        embed_origin: embed_origin,
+        host_context: host_context
+      }
+    ) do %>
+  <%= tag.iframe(
+        id: "strikezone-frank-widget-iframe",
+        class: "strikezone-frank-widget__iframe",
+        src: embed_url,
+        title: t("strikezone_frank.iframe_title"),
+        allow: "clipboard-write",
+        allowtransparency: "true"
+      ) %>
+<% end %>
+
+<%= nonced_javascript_tag do %>
+  (function () {
+    const widget = document.querySelector(".strikezone-frank-widget");
+    if (!widget || widget.dataset.bound === "true") { return; }
+    widget.dataset.bound = "true";
+
+    const iframe = widget.querySelector("iframe");
+    const targetOrigin = widget.dataset.embedOrigin;
+    const message = JSON.parse(widget.dataset.hostContext);
+    const CLIP_PAD = 56;
+    let geometry = null;
+
+    const defaultGeometry = function () {
+      const width = 420;
+      const height = 72;
+      const margin = 24;
+      return {
+        mode: "launcher",
+        x: Math.max(0, window.innerWidth - width - margin),
+        y: Math.max(0, window.innerHeight - height - margin),
+        width: width,
+        height: height
+      };
+    };
+
+    const applyClip = function (next) {
+      const g = next || defaultGeometry();
+      if (g.mode === "dragging") {
+        iframe.style.clipPath = "none";
+        iframe.style.webkitClipPath = "none";
+        return;
+      }
+
+      const x = Number(g.x) || 0;
+      const y = Number(g.y) || 0;
+      const width = Math.max(1, Number(g.width) || 1);
+      const height = Math.max(1, Number(g.height) || 1);
+      const radius = g.mode === "launcher" ? "999px" : "12px";
+      const top = Math.max(0, y - CLIP_PAD);
+      const left = Math.max(0, x - CLIP_PAD);
+      const right = Math.max(0, window.innerWidth - x - width - CLIP_PAD);
+      const bottom = Math.max(0, window.innerHeight - y - height - CLIP_PAD);
+      const value = "inset(" + top + "px " + right + "px " + bottom + "px " + left + "px round " + radius + ")";
+      iframe.style.clipPath = value;
+      iframe.style.webkitClipPath = value;
+    };
+
+    const sendHostContext = function () {
+      if (!iframe.contentWindow || !iframe.getAttribute("src")) { return; }
+      iframe.contentWindow.postMessage(message, targetOrigin);
+    };
+
+    iframe.addEventListener("load", sendHostContext);
+
+    window.addEventListener("message", function (event) {
+      if (event.origin !== targetOrigin) { return; }
+      if (!event.data || event.data.source !== "strikezone-frank") { return; }
+      if (event.data.type === "ready") {
+        sendHostContext();
+      }
+      if (event.data.type === "frame-geometry") {
+        geometry = event.data;
+        applyClip(geometry);
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      applyClip(geometry);
+    });
+
+    applyClip(defaultGeometry());
+  })();
+<% end %>

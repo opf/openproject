@@ -1,0 +1,7 @@
+---
+en:
+  plugin_openproject_strikezone_frank:
+    description: "Embeds the existing Frank PM widget inside OpenProject for local development."
+    name: "Strikezone Frank"
+  strikezone_frank:
+    iframe_title: "Frank AI"
