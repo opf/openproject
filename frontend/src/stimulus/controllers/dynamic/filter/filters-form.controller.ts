@@ -118,22 +118,21 @@ export default class FiltersFormController extends Controller {
   });
 
   private boundListener:() => void;
-  private boundClearListener:(event:MouseEvent) => void;
-  private boundKeepPendingRows:(event:TurboBeforeMorphAttributeEvent) => void;
+  private abortController?:AbortController;
   private sentFilters:string|null = null;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
     this.boundListener = debounce(this.sendFormLive.bind(this), 300);
-
-    this.boundClearListener = (event:MouseEvent) => this.clearInputWithButton(event);
-    this.boundKeepPendingRows = (event:TurboBeforeMorphAttributeEvent) => this.keepPendingRows(event);
   }
 
   connect() {
+    this.abortController = new AbortController();
+    const { signal } = this.abortController;
+
     const clearButton = document.getElementById(this.clearButtonIdValue);
-    clearButton?.addEventListener('click', this.boundClearListener);
-    this.element.addEventListener('turbo:before-morph-attribute', this.boundKeepPendingRows);
+    clearButton?.addEventListener('click', (event) => this.clearInputWithButton(event), { signal });
+    this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingRows, { signal });
 
     // A restored page brings its markup back but not this controller's model, so a marker
     // already in the DOM here belongs to whoever was cached.
@@ -141,9 +140,7 @@ export default class FiltersFormController extends Controller {
   }
 
   disconnect() {
-    const clearButton = document.getElementById(this.clearButtonIdValue);
-    clearButton?.removeEventListener('click', this.boundClearListener);
-    this.element.removeEventListener('turbo:before-morph-attribute', this.boundKeepPendingRows);
+    this.abortController?.abort();
   }
 
   addFilterSelectTargetConnected() {
@@ -398,7 +395,7 @@ export default class FiltersFormController extends Controller {
     });
   }
 
-  private keepPendingRows(event:TurboBeforeMorphAttributeEvent) {
+  private readonly keepPendingRows = (event:TurboBeforeMorphAttributeEvent) => {
     const { attributeName } = event.detail;
     const target = event.target as HTMLElement;
 
@@ -412,7 +409,7 @@ export default class FiltersFormController extends Controller {
     if (keepsRow || keepsOptionTaken) {
       event.preventDefault();
     }
-  }
+  };
 
   clearInputWithButton(event:MouseEvent) {
     // Primer does not trigger an input event when clearing the value of the input field unless
