@@ -62,7 +62,8 @@ module ResourceAllocations
     def editable?
       return @editable if defined?(@editable)
 
-      @editable = User.current.allowed_in_project?(:allocate_user_resources, project)
+      @editable = work_package.project.present? &&
+        User.current.allowed_in_project?(:allocate_user_resources, work_package.project)
     end
   end
 end

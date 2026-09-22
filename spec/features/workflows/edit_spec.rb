@@ -67,15 +67,19 @@ RSpec.describe "Workflow edit", :js do
     expect(page)
       .to have_field workflow_checkbox(1, 0), checked: true
 
-    expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id).count).to be 2
+    expect(Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id).count).to be 2
 
-    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[0].id,
-                       new_status_id: statuses[1].id).first
+    w = Workflows::StatusTransition.where(role_id: role.id,
+                                          workflow_id: type.default_variant.workflow_id,
+                                          old_status_id: statuses[0].id,
+                                          new_status_id: statuses[1].id).first
     assert !w.author
     assert !w.assignee
 
-    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
-                       new_status_id: statuses[0].id).first
+    w = Workflows::StatusTransition.where(role_id: role.id,
+                                          workflow_id: type.default_variant.workflow_id,
+                                          old_status_id: statuses[1].id,
+                                          new_status_id: statuses[0].id).first
     assert !w.author
     assert !w.assignee
   end
@@ -101,20 +105,23 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, author: true).count).to be 2
+      expect(Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id,
+                                               author: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
-                         new_status_id: statuses[0].id).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[1].id,
+                                            new_status_id: statuses[0].id).first
       assert w.author
       assert !w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id,
-                         type_variant_id: type.default_variant.id,
-                         old_status_id: statuses[0].id,
-                         new_status_id: statuses[1].id,
-                         author: false).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[0].id,
+                                            new_status_id: statuses[1].id,
+                                            author: false).first
       assert !w.author
       assert !w.assignee
     end
@@ -141,20 +148,23 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, assignee: true).count).to be 2
+      expect(Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id,
+                                               assignee: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
-                         new_status_id: statuses[0].id).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[1].id,
+                                            new_status_id: statuses[0].id).first
       assert !w.author
       assert w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id,
-                         type_variant_id: type.default_variant.id,
-                         old_status_id: statuses[0].id,
-                         new_status_id: statuses[1].id,
-                         assignee: false).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[0].id,
+                                            new_status_id: statuses[1].id,
+                                            assignee: false).first
       assert !w.author
       assert !w.assignee
     end

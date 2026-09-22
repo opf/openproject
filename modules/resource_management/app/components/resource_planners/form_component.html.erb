@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         if can_manage_public?
           flex.with_row(mb: 3) do
-            render ResourcePlanners::Forms::PublicForm.new(f)
+            render ResourcePlanners::Forms::PublicForm.new(f, global: @project.nil?)
           end
         end
 

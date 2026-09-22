@@ -29,6 +29,7 @@
 #++
 
 require "support/pages/page"
+require "support/browsers/browser_platform"
 
 module Pages
   class Backlog < Page
@@ -342,6 +343,31 @@ module Pages
       find(work_package_card_selector(work_package))
     end
 
+    # The row wrapper, not the card: it carries the item id and, once
+    # selected, `data-batch-selected`. The description lives on the card,
+    # which is the focus host, so it is checked through {#work_package_card}.
+    def work_package_row(work_package)
+      find(work_package_selector(work_package))
+    end
+
+    # The row's resolved background colour. Read it twice around one isolated
+    # change, never across two rows and never around a gesture that also
+    # focuses or navigates: the background depends on focus and `aria-current`
+    # too, so anything else makes the difference unattributable.
+    def row_background_color(work_package)
+      work_package_row(work_package).style("background-color").fetch("background-color")
+    end
+
+    # Moves focus onto the card without a pointer and without any event a
+    # Backlogs controller listens for. Establishes focus before a
+    # background-colour control read, so a later keyboard gesture on the same
+    # card does not change it a second time.
+    def focus_work_package_card(work_package)
+      work_package_card(work_package).execute_script(
+        "this.focus({ focusVisible: true, preventScroll: true })"
+      )
+    end
+
     # Right-clicks near the card's top-left corner: the offset keeps the
     # pointer off the subject link and the actions menu button, both of which
     # keep their native context menu on purpose.
@@ -383,6 +409,20 @@ module Pages
     def expect_work_package_card_focused(work_package)
       expect(page)
         .to have_css(work_package_card_selector(work_package), focused: true)
+    end
+
+    # The *computed* accessible description, not the raw `aria-describedby`
+    # token: an id that resolves to nothing, or an element the browser
+    # declines to traverse into, leaves this empty while the attribute reads
+    # exactly as intended.
+    def expect_work_package_card_described_as(work_package, description)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), accessible_description: description)
+    end
+
+    def expect_work_package_card_not_described(work_package)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), accessible_description: "")
     end
 
     # The presenter takes the overlay's `anchor` idref away for the duration of
@@ -536,12 +576,26 @@ module Pages
       end
     end
 
+    # Opening details morphs the row into its "current work package" state, so
+    # a reference captured beforehand can go stale mid-morph. `retry_block`
+    # spaces the attempts out and finds the button, menu and view fresh on
+    # each one.
     def open_work_package_details(work_package)
-      within_work_package(work_package) do
-        button = find(:button, accessible_name: "Work package actions")
-        open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        within_work_package(work_package) do
+          button = find(:button, accessible_name: "Work package actions")
+          open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
+        end
+        expect_details_view(work_package)
       end
-      expect_details_view(work_package)
     end
 
     def expect_details_view(work_package)
@@ -606,9 +660,24 @@ module Pages
       end
     end
 
+    # Every row carries the item id whether or not the user may move it, so
+    # the id no longer distinguishes an orderable row. `draggable` and
+    # `mobility` are set independently and read by separate consumers, so
+    # both are checked.
+    def expect_work_package_draggable(work_package)
+      selector = work_package_selector(work_package)
+      expect(page).to have_css("#{selector}[draggable='true']")
+      expect(page).to have_no_css("#{selector}[data-sortable-lists--item-mobility-value='fixed']")
+    end
+
+    # Both assertions are negative, so they also pass against a page that
+    # never rendered the card — including the rack-session page a racing
+    # Selenium login can strand the browser on. Asserting the row exists first
+    # is blocked on fix/selenium-rack-session-login-flake.
     def expect_work_package_not_draggable(work_package)
-      expect(page)
-        .to have_no_css(draggable_work_package_selector(work_package))
+      selector = work_package_selector(work_package)
+      expect(page).to have_no_css("#{selector}[draggable='true']")
+      expect(page).to have_no_css("#{selector}[data-sortable-lists--item-mobility-value='free']")
     end
 
     # A read-only card keeps its drag but is confined to its own list: it can
@@ -616,8 +685,8 @@ module Pages
     # confined value is what the foreign drop targets read.
     def expect_work_package_confined(work_package)
       expect(page)
-        .to have_css("#{draggable_work_package_selector(work_package)}" \
-                     "[data-sortable-lists--item-confined-value='true']")
+        .to have_css("#{work_package_selector(work_package)}" \
+                     "[data-sortable-lists--item-mobility-value='confined']")
       expect(page)
         .to have_css("#{work_package_selector(work_package)}[draggable]")
     end
@@ -637,6 +706,51 @@ module Pages
       end
     end
 
+    # An unmodified click: narrows the batch to this card and opens its
+    # details pane. Offset near the top-left corner because the card's centre
+    # sits on the subject link or the actions menu button, both of which the
+    # selection root ignores as interactive descendants.
+    def select_card(work_package)
+      work_package_card(work_package).click(x: 6, y: 6, offset: :position)
+    end
+
+    # Toggles membership without navigating, and re-bases the anchor to this
+    # card even when the toggle deselects it.
+    def toggle_card(work_package)
+      modified_click(work_package, multi_select_modifier)
+    end
+
+    def multi_select_modifier
+      BrowserPlatform.multi_select_modifier(page)
+    end
+
+    # Selects the contiguous range from the anchor to this card. Repeated
+    # calls resize one range rather than walking it.
+    def extend_selection_to(work_package)
+      modified_click(work_package, :shift)
+    end
+
+    # Asserted directly because an empty batch proves nothing: a root that
+    # opted in and refused every gesture looks identical from outside, yet
+    # differs in whether the browser still gets the keystroke.
+    def expect_batch_selection_disabled
+      expect(page).to have_css("[data-controller~='sortable-lists'][data-sortable-lists-selection-enabled-value='false']",
+                               visible: :all)
+    end
+
+    # Live batch membership, in document order.
+    def selected_card_ids
+      all("[data-batch-selected]").pluck("data-sortable-lists--item-id-value")
+    end
+
+    # The shared description every selected card's `aria-describedby` points
+    # at. Rendered once, permanently `hidden` — screen readers still reach it
+    # through the reference despite that — so `visible: :all` is required.
+    def expect_selection_description_present
+      expect(page).to have_css("##{Backlogs::SelectionDescriptionComponent::DESCRIPTION_ID}",
+                               visible: :all, count: 1)
+    end
+
     def pick_up_and_release_work_package(work_package)
       # A mid-drag list refresh can detach the grabbed row, so retry a bounded
       # number of times on a stale node. retry_block no-ops under
@@ -652,7 +766,7 @@ module Pages
           ]
         }
       ) do
-        moved_element = find(draggable_work_package_selector(work_package))
+        moved_element = find(work_package_selector(work_package))
         install_backlogs_move_request_probe
         begin
           pick_up_and_release_backlogs_item(moved_element)
@@ -692,6 +806,7 @@ module Pages
     end
 
     def apply_subject_filter(text)
+      expand_sub_header_search("Search work packages by subject")
       fill_in "Search work packages by subject", with: text
       wait_for_network_idle
     end
@@ -704,6 +819,16 @@ module Pages
     def apply_status_filter(status, operator: "is (OR)")
       open_filters
       set_filter("status_id", "Status", operator, [status.name])
+      wait_for_network_idle
+    end
+
+    def apply_milestone_filter(value)
+      open_filters
+      if page.has_css?(filter_selector("is_milestone"), wait: 0)
+        within(filter_selector("is_milestone")) { set_toggle_filter([value.to_s]) }
+      else
+        set_filter("is_milestone", "Is milestone", nil, [value.to_s])
+      end
       wait_for_network_idle
     end
 
@@ -756,7 +881,7 @@ module Pages
         raise ArgumentError, "You must specify exactly one of before, after or into"
       end
 
-      moved_element = find(draggable_work_package_selector(moved))
+      moved_element = find(work_package_selector(moved))
       target_element, edge =
         if before
           [find(work_package_selector(before)), :top]
@@ -771,6 +896,29 @@ module Pages
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
+    end
+
+    # Drags expecting a rejection: drag_work_package waits on the frame
+    # reload a successful cross-list move causes, while a rejected move only
+    # streams an error flash, so this settles on the stream render instead.
+    def drag_work_package_expecting_failure(moved, after:)
+      # See pick_up_and_release_work_package for the retry rationale.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(work_package_selector(moved))
+        target_element = find(work_package_selector(after))
+
+        wait_for_backlogs_turbo_stream(frame_reload: false) do
+          drag_backlogs_item(source: moved_element, target: target_element, edge: :bottom)
+        end
+      end
     end
 
     # Drags a confined card over another sprint's list body and releases it
@@ -788,11 +936,11 @@ module Pages
           ]
         }
       ) do
-        moved_element = find(draggable_work_package_selector(moved))
+        moved_element = find(work_package_selector(moved))
         target_element = find(list_body_selector(sprint_selector(into)))
         install_backlogs_move_request_probe
         begin
-          drag_backlogs_item(source: moved_element, target: target_element)
+          drag_backlogs_item(source: moved_element, target: target_element, dwell: true)
         ensure
           stop_backlogs_move_request_probe
         end
@@ -804,20 +952,25 @@ module Pages
 
     # The refusal must be observable, or the assertions above would also pass
     # for a drag that never engaged. The drop has to reach the controller —
-    # the foreign container stays an accepted drop target so the drag keeps
+    # the refused container stays an accepted drop target so the drag keeps
     # the standard cursor, so it may appear in the drop's target list, but no
-    # row of it may — and the final dragover, the one over the foreign
-    # container, must show no drop position and mark that container refused
-    # (the muted danger outline) rather than active. Earlier dragovers may
-    # legitimately show indicators while the pointer is still crossing the
-    # card's own list, which keeps accepting it for real.
+    # row of it may — and the last container feedback the drag painted must be
+    # a refusal (the muted danger outline) rather than an active outline.
+    # Container state is read across the whole event stream, not from the
+    # final dragover: the drop engine paints on an animation frame, so a
+    # refusal can land on a later dragenter than the last dragover. Earlier
+    # feedback may legitimately be active while the pointer is still crossing
+    # a list that accepts the drag for real.
     def expect_backlogs_drag_refused
       refusal = page.evaluate_script(<<~JS)
         (() => {
           const state = window.__opBacklogsDndProbeState;
           const call = state?.handleDropCalls?.at(-1);
-          const lastDragover = (state?.events ?? [])
-            .filter((event) => event.type === 'dragover')
+          const events = state?.events ?? [];
+          const lastDragover = events.filter((event) => event.type === 'dragover').at(-1);
+          const lastContainers = events
+            .map((event) => event.dropContainers)
+            .filter((containers) => containers.length > 0)
             .at(-1);
 
           return {
@@ -825,7 +978,7 @@ module Pages
             dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? [],
             observedDragover: Boolean(lastDragover),
             dropPositions: lastDragover?.dropPositions ?? null,
-            dropContainers: lastDragover?.dropContainers ?? null
+            dropContainers: lastContainers ?? null
           };
         })()
       JS
@@ -838,7 +991,7 @@ module Pages
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       inbox = find(backlog_inbox_selector)
       target_item = inbox.all("[data-sortable-lists--item-id-value]", minimum: 0).last
       target_element = target_item || inbox.find("[data-empty-list-item]")
@@ -853,7 +1006,7 @@ module Pages
     end
 
     def drag_work_package_to_backlog_bucket(work_package, bucket)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       target_element = find(list_body_selector(bucket_selector(bucket)))
 
       wait_for_backlogs_turbo_stream(frame_reload: true) do
@@ -865,7 +1018,7 @@ module Pages
     end
 
     def drag_work_package_to_sprint(work_package, sprint)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       target_element = find(list_body_selector(sprint_selector(sprint)))
       wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element)
@@ -946,6 +1099,19 @@ module Pages
 
     private
 
+    def boolean_filter?(filter)
+      filter.to_s == "is_milestone"
+    end
+
+    # Node::Element#click takes the held key and positional options, so no
+    # action chain is needed. The offset avoids the card's centre, where the
+    # subject link or actions menu button sits: the selection root ignores a
+    # gesture starting on either, and which one lands dead centre varies with
+    # the card's content.
+    def modified_click(work_package, key)
+      work_package_card(work_package).click(key, x: 6, y: 6, offset: :position)
+    end
+
     def within_sprint(sprint, &)
       within(sprint_selector(sprint), &)
     end
@@ -1020,18 +1186,14 @@ module Pages
       "##{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
     end
 
-    def draggable_work_package_selector(work_package)
-      "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
-    end
-
     # Located by the lock's accessible name so the expectation fails if the
     # icon ever loses the text that explains it.
     def readonly_lock_selector
       "[aria-label='#{Status.human_attribute_name(:is_readonly)}']"
     end
 
-    def drag_backlogs_item(source:, target:, edge: nil)
-      selenium_drag_backlogs_item(source:, target:, edge:)
+    def drag_backlogs_item(source:, target:, edge: nil, dwell: false)
+      selenium_drag_backlogs_item(source:, target:, edge:, dwell:)
     end
 
     def pick_up_and_release_backlogs_item(source)
@@ -1089,11 +1251,11 @@ module Pages
       scroll_to_element(source, block: :nearest)
     end
 
-    def selenium_drag_backlogs_item(source:, target:, edge: nil)
+    def selenium_drag_backlogs_item(source:, target:, edge: nil, dwell: false)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
       offset_x, offset_y = selenium_target_offset(target.native.rect, edge:)
-      perform_native_drag(source:, target:, offset_x:, offset_y:)
+      perform_native_drag(source:, target:, offset_x:, offset_y:, dwell:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here

@@ -31,7 +31,6 @@ import {
   CalendarOptions,
   DatesSetArg,
   DayCellContentArg,
-  DayCellMountArg,
   DayHeaderContentArg,
   EventApi,
   EventDropArg,
@@ -95,11 +94,6 @@ import allLocales from '@fullcalendar/core/locales-all';
 export interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
-}
-
-// The CalenderOptions typings are missing daygrid hooks
-interface CalendarOptionsWithDayGrid extends CalendarOptions {
-  dayGridClassNames:(data:DayCellMountArg) => void;
 }
 
 @Injectable()
@@ -373,7 +367,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     this.contextMenuService.show(handler, event);
   }
 
-  private defaultOptions():CalendarOptionsWithDayGrid {
+  private defaultOptions():CalendarOptions {
     return {
       editable: false,
       locales: allLocales,
@@ -392,7 +386,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       datesSet: (dates) => this.updateDateParam(dates),
       dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
-      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       dayHeaderContent: (data:DayHeaderContentArg) => this.calendarService.dayHeaderContent(data),

@@ -231,6 +231,37 @@ RSpec.describe "Invite user modal", :js do
           end
         end
 
+        context "when searching the project step by identifier" do
+          # Only projects the user may add members to are offered, so both the
+          # target and the project asserted to be absent have to be ones the
+          # current user is a member of. The modal preselects `project`, which
+          # would therefore be missing from the dropdown either way.
+          let!(:target_project) do
+            create(:project,
+                   name: "Alpha Initiative",
+                   identifier: "zulu-target",
+                   members: { current_user => role })
+          end
+          let!(:other_project) do
+            create(:project,
+                   name: "Beta Initiative",
+                   identifier: "yankee-other",
+                   members: { current_user => role })
+          end
+
+          it_behaves_like "a project picker searchable by identifier" do
+            let(:control_project) { other_project }
+
+            before do
+              modal.expect_open
+            end
+
+            def search_project(query)
+              modal.project_search(query)
+            end
+          end
+        end
+
         context "with a required list user CF (regression #58429)" do
           let(:current_user) { create(:admin) }
           let(:list_cf) do

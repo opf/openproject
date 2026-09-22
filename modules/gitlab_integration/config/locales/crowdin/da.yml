@@ -24,6 +24,10 @@
 da:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Etiketter
       gitlab_pipeline:
@@ -39,6 +43,9 @@ da:
             labels:
               invalid_schema: 'skal være et række hashes med nøgler: color, title'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        other: GitLab branches
       gitlab_issue:
         one: GitLab issue
         other: GitLab issues
@@ -55,7 +62,6 @@ da:
     commit: Commit
     gitlab: GitLab-identifikator
     gitlab_avatar_url: Avatar-URL
-    gitlab_email: GitLab e-mail
     gitlab_html_url: GitLab HTML-URL
     gitlab_merge_request: Fletteanmodning
     gitlab_name: GitLab-navn

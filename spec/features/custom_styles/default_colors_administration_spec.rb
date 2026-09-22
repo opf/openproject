@@ -45,6 +45,10 @@ RSpec.describe "default colors administration", :js do
 
       click_link accessible_name: "New color"
     end
+
+    it "is described" do
+      expect(page).to have_text(I18n.t("admin.custom_styles.default_colors.description"))
+    end
   end
 
   describe "creating colors" do

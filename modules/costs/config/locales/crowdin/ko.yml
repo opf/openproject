@@ -72,6 +72,10 @@ ko:
           attributes:
             project_ids:
               blank: 프로젝트를 선택하세요.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -198,6 +202,7 @@ ko:
   label_costlog: 기록된 단위 비용
   label_costs: 비용
   label_costs_per_page: 페이지당 비용
+  label_current: Current
   label_current_default_rate: 현재 기본 요금
   label_date_on: "-"
   label_day: 일
@@ -224,6 +229,8 @@ ko:
   label_next_week: 다음 주
   label_next_workweek: 다음 근무 주
   label_no: 아니요
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: 추적된 시간 없음
   label_option_plural: 옵션
   label_overall_costs: 전체 비용
@@ -244,6 +251,7 @@ ko:
   label_today_capitalized: 오늘
   label_units: 단위 비용
   label_until: '다음까지:'
+  label_using_current_default_rate: Using current default rate
   label_valid_from: 다음부터 유효함
   label_view_mode_switcher: 보기 변경
   label_work_package_filter_add: 작업 패키지 필터 추가
@@ -263,6 +271,10 @@ ko:
   permission_edit_rates: 요금 편집
   permission_log_costs: 단위 비용 예약
   permission_log_own_costs: 자신에 대한 단위 비용 예약
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: 예약된 비용 보기
   permission_view_cost_rates: 비용 요금 보기
   permission_view_hourly_rates: 모든 시간당 요금 보기
@@ -300,6 +312,11 @@ ko:
   text_destroy_cost_entries_question: "%{cost_entries}은(는) 삭제하려는 작업 패키지에서 보고되었습니다. 어떻게 하시겠습니까?"
   text_destroy_time_and_cost_entries: 보고된 시간 및 비용 삭제
   text_destroy_time_and_cost_entries_question: "%{hours}시간, %{cost_entries}은(는) 삭제하려는 작업 패키지에서 보고되었습니다. 어떻게 하시겠습니까?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: '보고된 시간 및 비용을 이 작업 패키지에 다시 할당:'
   text_warning_hidden_elements: 일부 항목이 집계에서 제외되었을 수 있습니다.
   total_times:

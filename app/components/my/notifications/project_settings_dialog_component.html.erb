@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
         ) do |form|
           forms = [My::Notifications::ProjectAutocompleterForm.new(form, readonly: edit_mode?, user: @user)]
           forms << My::Notifications::ParticipatingForm.new(form, show_submit: false)
-          forms << My::Notifications::DateAlertsForm.new(form, show_submit: false) if date_alerts_available?
+          forms << My::Notifications::DateAlertsForm.new(form, show_submit: false)
           forms << My::Notifications::NonParticipatingForm.new(form, show_submit: false)
           render(Primer::Forms::FormList.new(*forms))
         end

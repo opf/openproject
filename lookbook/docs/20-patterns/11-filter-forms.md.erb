@@ -51,6 +51,25 @@ rendering until the dropdown is opened (a skeleton is shown in the meantime).
 
 <%= embed OpenProject::Filter::FiltersComponentPreview, :default, panels: %i[preview source] %>
 
+### Width
+
+The box always follows its container, but the inputs inside it are capped at a
+readable width by default. That matters on index pages, where the component is
+rendered into the sub-header's bottom pane: the pane spans the viewport, and
+without the cap the operator and value inputs stretch across the whole page
+with it. The Apply / Close footer is deliberately left uncapped so it stays
+aligned to the edge of the box.
+
+`full_width: true` lifts the cap and lets the inputs fill the container. It
+adds an `op-filters-form--full-width` modifier to the component's root element,
+which resets the `--op-filters-form-content-max-width` custom property the cap
+is built on.
+
+The cap is a `max-width`, so it never binds in a container narrower than it —
+you only need `full_width:` where wide inputs are actually wanted.
+
+<%= embed OpenProject::Filter::FiltersComponentPreview, :full_width, panels: %i[preview source] %>
+
 ## Filters::FilterFormComponent
 
 For everything that isn't a standard filter dropdown, render
@@ -76,6 +95,13 @@ its operator/values filled in. Inactive filters still render but stay
 hidden until the user picks them from the "Add filter" select.
 
 <%= embed OpenProject::Filter::FilterFormPreview, :with_active_filter, panels: %i[preview source] %>
+
+### Width
+
+The same input cap as on `FilterComponent` applies, and `full_width: true`
+lifts it. Since it works by adding the `op-filters-form--full-width` modifier
+to the wrapper this component emits, it only has an effect together with
+`wrap_with_controller: true`; otherwise the host owning the wrapper decides.
 
 ### Submitting via a hidden field
 
@@ -107,11 +133,14 @@ fields still submit through the same surrounding `<form>`.
 
 ### Inside a clipping container (dialogs)
 
-ng-select dropdowns are positioned by their parent; if the component lives
-inside a Primer dialog or any other overflow-clipping container, the
-dropdown gets cut off. Pass `autocomplete_append_to:` with a CSS selector
-that ng-select can resolve (typically the dialog id, or `"body"`) — the
-component forwards it as `appendTo` to every autocompleter it renders.
+Filter inputs open overlays — ng-select dropdowns on the autocompleter and list
+filters, flatpickr calendars on the date filters. Both are positioned relative
+to their parent, so inside a Primer dialog they get clipped by it or painted
+behind it: the dialog opens in the browser's top layer, which overrides all
+other positioning.
+
+Pass `dialog_id:` with the **bare id** of the hosting dialog (no `#`) and the
+component portals every overlay into the dialog itself:
 
 ```erb
 <%%= primer_form_with(...) do |f| %>
@@ -121,11 +150,17 @@ component forwards it as `appendTo` to every autocompleter it renders.
       query: @query,
       wrap_with_controller: true,
       hidden_input_name: "filters",
-      autocomplete_append_to: "#my-dialog"
+      dialog_id: "my-dialog"
     )
   ) %>
 <%% end %>
 ```
+
+The component adapts the id per input type — autocompleters receive it as
+ng-select's `appendTo` selector (`"#my-dialog"`), date pickers as flatpickr's
+`inDialog`. Callers only ever pass the plain id. See
+[Autocompleters](/lookbook/pages/patterns/autocompleters) for the underlying
+option.
 
 ## When to use which
 
