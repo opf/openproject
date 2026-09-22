@@ -32,7 +32,7 @@
 <% when "imported" %>
   <%= render imported_banner %>
 
-  <%= render Primer::Box.new(display: :flex, align_items: :center) do %>
+  <%= render Primer::Box.new(display: :flex, align_items: :center, mb: 3) do %>
     <% if created_list_path %>
       <%= render(created_list_button) do |button| %>
         <%= t("work_packages.import.report.imported.link", count: created_count) %>
