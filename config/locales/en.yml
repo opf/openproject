@@ -6997,6 +6997,11 @@ en:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: "Type"
       variant_label: "Variant"
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: "Milestone"
 
   unsupported_browser:
