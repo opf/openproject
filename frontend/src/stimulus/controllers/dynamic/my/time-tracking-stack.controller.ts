@@ -57,9 +57,6 @@ interface StackTimeEntry {
 }
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
-const ADD_ENTRY_CLASS_NAME = 'te-stack--add-entry';
-const ADD_ICON_CLASS_NAME = 'te-stack--add-icon';
-const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 const WORKING_HOURS_CLASS_NAME = 'te-stack--working-hours';
 
 // The stack is a timeGrid abused as a stacked bar chart: every day is a column and its
@@ -68,7 +65,8 @@ const WORKING_HOURS_CLASS_NAME = 'te-stack--working-hours';
 const MIN_HOUR = 1;
 const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
+const MS_PER_HOUR = 60 * 60 * 1000;
+const DAY_IN_MS = 24 * MS_PER_HOUR;
 
 // A bar thinner than this has no room left for its own duration once the card is padded,
 // so short entries are drawn at this height and the rest of the stack moves up with them.
@@ -195,8 +193,9 @@ export default class MyTimeTrackingStackController extends Controller {
       events: (fetchInfo, successCallback) => successCallback(this.buildEvents(fetchInfo.startStr, fetchInfo.endStr)),
       eventOverlap: (stillEvent) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
-      eventDidMount: (info) => this.decorateBackgroundEvent(info.el),
-      eventClick: (info) => this.handleEventClick(info.el, info.event.startStr, info.event.extendedProps),
+      eventClick: (info) => this.handleEventClick(info.event.extendedProps),
+      selectable: this.canCreateValue,
+      select: (info) => this.newTimeEntry(info.startStr.slice(0, 10), this.selectedHours(info.start, info.end)),
     });
 
     this.calendar.render();
@@ -205,7 +204,7 @@ export default class MyTimeTrackingStackController extends Controller {
   }
 
   private buildEvents(startStr:string, endStr:string):EventInput[] {
-    return this.buildTimeEntryEvents().concat(this.buildAuxEvents(startStr, endStr));
+    return this.buildTimeEntryEvents().concat(this.buildWorkingHoursEvents(startStr, endStr));
   }
 
   // Entries are laid out top-down per day, each one ending where the previous one started.
@@ -232,23 +231,10 @@ export default class MyTimeTrackingStackController extends Controller {
     return entry.start.slice(0, 10);
   }
 
-  private buildAuxEvents(startStr:string, endStr:string):EventInput[] {
-    const dateSums = this.calculateDateSums();
-    const events:EventInput[] = [];
-
-    this.daysBetween(startStr, endStr).forEach((day) => {
-      const scheduled = this.workingHoursValue[day] || 0;
-
-      if (scheduled > 0) {
-        events.push(this.workingHoursEvent(day, scheduled));
-      }
-
-      if (this.canCreateValue) {
-        events.push(this.addEvent(day, dateSums[day] || 0));
-      }
-    });
-
-    return events;
+  private buildWorkingHoursEvents(startStr:string, endStr:string):EventInput[] {
+    return this.daysBetween(startStr, endStr)
+      .filter((day) => (this.workingHoursValue[day] || 0) > 0)
+      .map((day) => this.workingHoursEvent(day, this.workingHoursValue[day]));
   }
 
   // Shades the part of the column the user is scheduled to work, measured from the
@@ -307,21 +293,6 @@ export default class MyTimeTrackingStackController extends Controller {
     };
   }
 
-  private addEvent(day:string, duration:number):EventInput {
-    const classNames = [ADD_ENTRY_CLASS_NAME];
-
-    if (duration >= 24) {
-      classNames.push(ADD_ENTRY_PROHIBITED_CLASS_NAME);
-    }
-
-    return {
-      start: this.slotTime(day, 0),
-      end: this.slotTime(day, MAX_HOUR - Math.min(duration * this.scaleRatio, MAX_HOUR - 1) - 0.5),
-      display: 'background' as const,
-      classNames,
-    };
-  }
-
   // Background events render no content of their own, so they keep FullCalendar's default
   // and are decorated on mount instead.
   private eventContent(props:Record<string, unknown>):{ domNodes:Node[] }|undefined {
@@ -353,34 +324,32 @@ export default class MyTimeTrackingStackController extends Controller {
       </div>`;
   }
 
-  private decorateBackgroundEvent(element:HTMLElement):void {
-    if (!element.classList.contains(ADD_ENTRY_CLASS_NAME)) {
-      return;
-    }
-
-    const addIcon = document.createElement('div');
-    addIcon.classList.add(ADD_ICON_CLASS_NAME);
-    addIcon.innerText = '+';
-    element.append(addIcon);
-  }
-
-  private handleEventClick(element:HTMLElement, startStr:string, props:Record<string, unknown>):void {
+  private handleEventClick(props:Record<string, unknown>):void {
     const entry = props.entry as StackTimeEntry|undefined;
 
-    if (entry) {
-      void this.turboRequests.request(
-        `${this.pathHelperService.timeEntryEditDialog(entry.id)}?onlyMe=true`,
-        { method: 'GET' },
-      );
+    if (!entry) {
       return;
     }
 
-    if (element.classList.contains(ADD_ENTRY_CLASS_NAME) && !element.classList.contains(ADD_ENTRY_PROHIBITED_CLASS_NAME)) {
-      void this.turboRequests.request(
-        `${this.pathHelperService.timeEntryDialog()}?onlyMe=true&date=${startStr.slice(0, 10)}`,
-        { method: 'GET' },
-      );
-    }
+    void this.turboRequests.request(
+      `${this.pathHelperService.timeEntryEditDialog(entry.id)}?onlyMe=true`,
+      { method: 'GET' },
+    );
+  }
+
+  // A selection spans slots on an axis that counts hours logged, so its length is the
+  // duration to log. There is no clock time to carry over, only the day and how long.
+  private selectedHours(start:Date, end:Date):number {
+    const spanned = (end.getTime() - start.getTime()) / MS_PER_HOUR;
+
+    return Math.round((spanned / this.scaleRatio) * 100) / 100;
+  }
+
+  private newTimeEntry(day:string, hours:number):void {
+    void this.turboRequests.request(
+      `${this.pathHelperService.timeEntryDialog()}?onlyMe=true&date=${day}&hours=${hours}`,
+      { method: 'GET' },
+    );
   }
 
   private calculateDateSums():Record<string, number> {
