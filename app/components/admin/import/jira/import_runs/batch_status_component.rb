@@ -40,7 +40,7 @@ module Admin::Import::Jira::ImportRuns
       },
       {
         number: 2,
-        title: "Fetch project issues",
+        title: "Fetch project issues and versions",
         icon: :project
       },
       {
