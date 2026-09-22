@@ -102,10 +102,14 @@ module Llm
       raise SsrfError, "Host resolves to a blocked address"
     end
 
+    # The key goes on first as a plain header so the connection's own headers can
+    # override it. httpx's auth plugin appends rather than replaces, so calling
+    # bearer_auth after .with(headers:) sent both values on one line and a
+    # gateway expecting only its own token also received the stored key.
     def session
       request = OpenProject.httpx.with(timeout)
-      request = request.with(headers:) if headers.any?
-      api_key.present? ? request.plugin(:auth).bearer_auth(api_key) : request
+      request = request.with(headers: { "authorization" => "Bearer #{api_key}" }) if api_key.present?
+      headers.any? ? request.with(headers:) : request
     end
 
     def uri_for(path)
