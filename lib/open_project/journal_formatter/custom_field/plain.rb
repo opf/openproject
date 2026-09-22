@@ -31,8 +31,28 @@
 class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
   include CustomFieldsHelper
   include OpenProject::JournalFormatter::CustomField::SharedMethods
+  include JournalFormatter::SetChange
+
+  def render(key, values, options = { html: true })
+    custom_field = custom_field_for_key(key)
+    return super unless custom_field&.multi_value?
+
+    old_ids, new_ids = values.map { ids_from(it) }
+    return super unless set_change?(old_ids, new_ids)
+    return render_permission_denied_message(options) unless permission_granted?(options.merge(key:))
+
+    resolver = method(get_modifier_function(custom_field))
+    render_set_change(label_for_custom_field(custom_field), old_ids, new_ids, options) do |ids|
+      resolver.call(ids.join(","), custom_field)
+    end
+  end
 
   private
+
+  def custom_field_for_key(key)
+    @custom_field_by_key ||= {}
+    @custom_field_by_key.fetch(key) { @custom_field_by_key[key] = super }
+  end
 
   def format_details(key, values)
     custom_field = custom_field_for_key(key)

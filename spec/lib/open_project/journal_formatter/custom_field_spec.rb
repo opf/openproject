@@ -184,7 +184,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
   end
 
   context "for a multi-select custom field" do
-    let(:custom_field) { build_stubbed(:user_wp_custom_field) }
+    let(:custom_field) { build_stubbed(:user_wp_custom_field, multi_value: true) }
 
     let(:user1) { build_stubbed(:user, firstname: "Foo", lastname: "Bar") }
     let(:user2) { build_stubbed(:user, firstname: "Bla", lastname: "Blub") }
@@ -231,6 +231,32 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
       end
 
       it "outputs the one visible formatted name" do
+        expect(rendered).to eq expected
+      end
+    end
+
+    describe "with a user added who lacks visibility" do
+      let(:visible_users) { [user1] }
+      let(:values) { [user1.id.to_s, "#{user1.id},#{user2.id}"] }
+      let(:expected) do
+        I18n.t(:text_journal_set_added,
+               label: "<strong>#{custom_field.name}</strong>",
+               value: "<i>(missing value or lacking permissions to access)</i>")
+      end
+
+      before do
+        allow(wherestub)
+          .to receive(:where)
+          .with(id: [user2.id])
+          .and_return([])
+
+        allow(wherestub)
+          .to receive(:where)
+          .with(id: [])
+          .and_return([])
+      end
+
+      it "outputs the added user's placeholder name" do
         expect(rendered).to eq expected
       end
     end
@@ -286,11 +312,10 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
       let(:values) { %w[1,2 3,4] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed_plain,
-               label: "<strong>#{custom_field.name}</strong>",
-               linebreak: "",
-               old: "<i>cf 1, cf 2</i>",
-               new: "<i>cf 3, cf 4</i>")
+        [
+          I18n.t(:text_journal_set_added, label: "<strong>#{custom_field.name}</strong>", value: "<i>cf 3, cf 4</i>"),
+          I18n.t(:text_journal_set_removed, label: "<strong>#{custom_field.name}</strong>", old: "<i>cf 1, cf 2</i>")
+        ].join("<br/>")
       end
 
       it { expect(rendered).to eq(expected) }
@@ -301,11 +326,26 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
       let(:new_custom_option_names) { [[4, "cf 4"]] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed_plain,
-               label: "<strong>#{custom_field.name}</strong>",
-               linebreak: "",
-               old: "<i>cf 1, cf 2</i>",
-               new: "<i>(deleted option), cf 4</i>")
+        [
+          I18n.t(:text_journal_set_added,
+                 label: "<strong>#{custom_field.name}</strong>",
+                 value: "<i>(deleted option), cf 4</i>"),
+          I18n.t(:text_journal_set_removed, label: "<strong>#{custom_field.name}</strong>", old: "<i>cf 1, cf 2</i>")
+        ].join("<br/>")
+      end
+
+      it { expect(rendered).to eq(expected) }
+    end
+
+    context "with non html requested" do
+      let(:options) { { html: false } }
+      let(:values) { %w[1,2 3,4] }
+
+      let(:expected) do
+        [
+          I18n.t(:text_journal_set_added, label: custom_field.name, value: "cf 3, cf 4"),
+          I18n.t(:text_journal_set_removed, label: custom_field.name, old: "cf 1, cf 2")
+        ].join("\n")
       end
 
       it { expect(rendered).to eq(expected) }
@@ -398,7 +438,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
   end
 
   context "for hierarchy custom field", with_ee: [:custom_field_hierarchies] do
-    let!(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
+    let!(:custom_field) { build_stubbed(:hierarchy_wp_custom_field, multi_value: true) }
 
     let!(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let!(:root) { custom_field.hierarchy_root }
@@ -430,6 +470,19 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
       it { expect(rendered).to be_html_eql(expected) }
     end
 
+    describe "both values being a single id" do
+      let(:values) { [luke.id.to_s, mara.id.to_s] }
+      let(:expected) do
+        I18n.t(:text_journal_changed_plain,
+               label: "<strong>#{custom_field.name}</strong>",
+               linebreak: "",
+               old: "<i>#{luke.ancestry_path}</i>",
+               new: "<i>#{mara.ancestry_path}</i>")
+      end
+
+      it { expect(rendered).to be_html_eql(expected) }
+    end
+
     context "with multiple values" do
       describe "first value being nil and second value a string" do
         let(:values) { [nil, [luke.id, mara.id].join(",")] }
@@ -455,17 +508,27 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
         it { expect(rendered).to be_html_eql(expected) }
       end
 
-      describe "both values being strings" do
-        let(:values) { [[luke.id, mara.id].join(","), luke.id.to_s] }
-        let(:original_value) { [luke.ancestry_path, mara.ancestry_path].join(", ") }
-        let(:formatted_value) { luke.ancestry_path }
+      describe "with a value added" do
+        let(:values) { [luke.id.to_s, [luke.id, mara.id].join(",")] }
+        let(:formatted_value) { mara.ancestry_path }
 
         let(:expected) do
-          I18n.t(:text_journal_changed_plain,
+          I18n.t(:text_journal_set_added,
                  label: "<strong>#{custom_field.name}</strong>",
-                 linebreak: "",
-                 old: "<i>#{original_value}</i>",
-                 new: "<i>#{formatted_value}</i>")
+                 value: "<i>#{formatted_value}</i>")
+        end
+
+        it { expect(rendered).to be_html_eql(expected) }
+      end
+
+      describe "both values being strings" do
+        let(:values) { [[luke.id, mara.id].join(","), luke.id.to_s] }
+        let(:formatted_value) { mara.ancestry_path }
+
+        let(:expected) do
+          I18n.t(:text_journal_set_removed,
+                 label: "<strong>#{custom_field.name}</strong>",
+                 old: "<i>#{formatted_value}</i>")
         end
 
         it { expect(rendered).to be_html_eql(expected) }
@@ -473,15 +536,12 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
       describe "with a deleted item" do
         let(:values) { [[luke.id, -100].join(","), luke.id.to_s] }
-        let(:original_value) { [luke.ancestry_path, I18n.t(:label_deleted_custom_item)].join(", ") }
-        let(:formatted_value) { luke.ancestry_path }
+        let(:formatted_value) { I18n.t(:label_deleted_custom_item) }
 
         let(:expected) do
-          I18n.t(:text_journal_changed_plain,
+          I18n.t(:text_journal_set_removed,
                  label: "<strong>#{custom_field.name}</strong>",
-                 linebreak: "",
-                 old: "<i>#{original_value}</i>",
-                 new: "<i>#{formatted_value}</i>")
+                 old: "<i>#{formatted_value}</i>")
         end
 
         it { expect(rendered).to be_html_eql(expected) }
@@ -517,6 +577,15 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
       it "renders the permission denied message" do
         expect(rendered).to eq("_#{I18n.t(:text_journal_permission_denied)}_")
+      end
+
+      context "with a multi-value custom field and both sides populated and differing" do
+        let(:custom_field) { build_stubbed(:list_wp_custom_field, multi_value: true) }
+        let(:values) { %w[1,2 3,4] }
+
+        it "renders the permission denied message without resolving option names" do
+          expect(rendered).to eq("_#{I18n.t(:text_journal_permission_denied)}_")
+        end
       end
     end
   end
