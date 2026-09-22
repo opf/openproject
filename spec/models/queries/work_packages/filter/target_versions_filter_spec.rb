@@ -108,9 +108,7 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
       end
     end
 
-    describe "#allowed_values" do
-      it_behaves_like "version filter allowed values"
-    end
+    it_behaves_like "version filter options"
 
     describe "#value_objects" do
       let!(:other_version) { create(:version, project: actual_project) }

@@ -99,9 +99,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
       end
     end
 
-    describe "#allowed_values" do
-      it_behaves_like "version filter allowed values"
-    end
+    it_behaves_like "version filter options"
 
     describe "#ar_object_filter?" do
       it "is true" do

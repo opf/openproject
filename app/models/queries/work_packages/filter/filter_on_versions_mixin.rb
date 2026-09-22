@@ -32,7 +32,22 @@ module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   STATUS_BY_OPERATOR = { "o" => "open", "c" => "closed", "l" => "locked" }.freeze
 
   def allowed_values
-    @allowed_values ||= versions.order(:name).pluck(:name, :id).map { |name, id| [name, id.to_s] }
+    @allowed_values ||= version_options.map { |name, id, _project_name| [name, id.to_s] }
+  end
+
+  def autocomplete_options
+    items = version_options.map { |name, id, project_name| { name:, id: id.to_s, project_name: } }
+
+    {
+      component: "opce-autocompleter",
+      items:,
+      model: items.select { |item| values.include?(item[:id]) },
+      groupBy: "project_name",
+      bindLabel: "name",
+      bindValue: "id",
+      hideSelected: true,
+      defaultData: false
+    }
   end
 
   def available_operators
@@ -80,6 +95,10 @@ module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   end
 
   private
+
+  def version_options
+    @version_options ||= versions.joins(:project).order("projects.name", :name).pluck(:name, :id, "projects.name")
+  end
 
   def versions
     if project

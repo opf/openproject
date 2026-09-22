@@ -139,6 +139,10 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.expect_bucket_items(bucket, items: observed_bucket_wp)
       backlogs_page.expect_no_bucket_items(bucket, items: [matching_bucket_wp, excluded_bucket_wp])
     end
+
+    it "groups versions by project" do
+      backlogs_page.expect_observed_in_version_option(version, grouped_under: project.name)
+    end
   end
 
   context "with milestone filtering" do
