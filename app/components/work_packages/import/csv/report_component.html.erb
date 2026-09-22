@@ -18,7 +18,7 @@
   <% end %>
 
   <%= render Primer::Box.new(display: :flex, align_items: :center, mb: 2) do %>
-    <%= button_to t("work_packages.import.report.checked.import", count: row_count),
+    <%= button_to import_label,
                   import_path,
                   params: { attachment_id: payload["attachment_id"], dry_run: "0", job: status.job_id },
                   form: { class: "button_to mr-2" },
@@ -62,7 +62,7 @@
   <% end %>
 
 <% when "rows_rejected" %>
-  <%= render banner(:danger, "rows_rejected", problems: problem_count, lines: rejected_lines) %>
+  <%= render rejected_banner %>
 
   <%= render Primer::Beta::BorderBox.new(mb: 3) do |box| %>
     <% box.with_header do %>

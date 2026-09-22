@@ -17,9 +17,15 @@
   too_large = t("work_packages.import.csv.file.too_large_before_upload", limit: number_to_human_size(max_size))
 %>
 
-<div data-controller="work-packages--csv-import"
-     data-work-packages--csv-import-max-size-value="<%= max_size %>"
-     data-work-packages--csv-import-too-large-value="<%= too_large %>">
+<%=
+  render Primer::Box.new(
+    data: {
+      controller: "work-packages--csv-import",
+      work_packages__csv_import_max_size_value: max_size,
+      work_packages__csv_import_too_large_value: too_large
+    }
+  ) do
+%>
   <%= render partial: "work_packages/import/report" %>
   <%= render partial: "work_packages/import/form" %>
-</div>
+<% end %>

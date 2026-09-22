@@ -7558,10 +7558,12 @@ en:
       report:
         checked:
           heading: "Ready to import"
-          import: "Import %{count} work packages"
+          import: "Import %{work_packages}"
           kept: "The checked file is kept for a few hours, so importing it does not need a second upload."
           text: "Nothing has been created yet. Review the summary below, then import."
-          title: "%{count} lines checked, no problems found"
+          title:
+            one: "1 line checked, no problems found"
+            other: "%{count} lines checked, no problems found"
         download_problems: "Download as CSV"
         file_rejected:
           heading: "Header line"
@@ -7586,19 +7588,27 @@ en:
           again: "Import another file"
           back_dated: "These work packages carry imported dates, so they cannot be listed by the time they were created."
           heading: "Import summary"
-          link: "View the %{count} imported work packages"
+          link:
+            one: "View the imported work package"
+            other: "View the %{count} imported work packages"
           notifications: "Notifications were not sent for these work packages."
           text_html: "Imported from %{filename} on %{date} at %{time}."
-          title: "%{count} work packages created"
+          title: "%{work_packages} created"
           work_packages: "work packages"
         problems:
-          all: "%{count} problems, all shown."
-          available: "%{count} available values"
-          capped: "%{count} problems, %{shown} shown."
+          all:
+            one: "1 problem."
+            other: "%{count} problems, all shown."
+          available:
+            one: "1 available value"
+            other: "%{count} available values"
+          capped:
+            one: "1 problem, %{shown} shown."
+            other: "%{count} problems, %{shown} shown."
           heading: "Problems"
         rows_rejected:
           text: "Everything was rolled back. Correct the lines below and upload the file again."
-          title: "Nothing was imported: %{problems} problems in %{lines} lines"
+          title: "Nothing was imported: %{problems} in %{lines}"
         table:
           attribute: "Column"
           available: "Available"
@@ -7608,6 +7618,12 @@ en:
           message: "Problem"
           row: "Line"
           value: "Value"
+        x_lines:
+          one: "1 line"
+          other: "%{count} lines"
+        x_problems:
+          one: "1 problem"
+          other: "%{count} problems"
       run_failed: "This run did not finish, and nothing was created. Upload the file again."
       running_note: "This runs in the background. Please do not close the page."
       title: "Import work packages"

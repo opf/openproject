@@ -29,7 +29,7 @@
       <% items.each do |icon, text| %>
         <%= render Primer::Alpha::Stack.new(direction: :horizontal, align: :start, gap: :condensed) do %>
           <%= render Primer::Beta::Octicon.new(icon:, color: :muted, mt: 1) %>
-          <div><%= text %></div>
+          <%= render(Primer::Box.new) { text } %>
         <% end %>
       <% end %>
     <% end %>
