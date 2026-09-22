@@ -5422,7 +5422,7 @@ fr:
         variants_not_allowed: Ce type ne permet pas la création de variantes au sein des projets.
       versions:
         no_results_content_text: Créer une nouvelle version
-        no_results_title_text: Aucune version du projet pour le moment.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Afficher les lots de travaux
         work_packages_graph: Graphique des lots de travaux
       work_package_priorities:
@@ -6420,6 +6420,47 @@ fr:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Ajouter une variante à %{name}
       create_type: Créer un type
@@ -6921,6 +6962,12 @@ fr:
   version_status_locked: verrouillé
   version_status_open: ouvert
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à cette version.
       work_packages_in_archived_projects: La version est partagée avec les projets archivés qui ont encore des lots de travaux assignés à cette version. Ils sont comptés, mais n'apparaîtront pas dans les vues liées.
