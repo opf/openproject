@@ -105,6 +105,19 @@ RSpec.describe My::TimeTrackingController do
         expect(assigns(:view_mode)).to eq(:stack)
         expect(response).to be_successful
       end
+
+      it "falls back to the work week when a month is requested" do
+        get :index, params: { mode: :month, view_mode: :stack }
+
+        expect(assigns(:mode)).to eq(:workweek)
+        expect(response).to be_successful
+      end
+
+      it "keeps the month for the other view modes" do
+        get :index, params: { mode: :month, view_mode: :calendar }
+
+        expect(assigns(:mode)).to eq(:month)
+      end
     end
   end
 

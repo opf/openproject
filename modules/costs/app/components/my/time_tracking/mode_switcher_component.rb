@@ -43,7 +43,15 @@ module My
             t("label_#{current_mode}")
           end
 
-          %i[day workweek week month].each { menu_item_for_mode(menu, it) }
+          modes.each { menu_item_for_mode(menu, it) }
+        end
+      end
+
+      def modes
+        if view_mode == :stack
+          %i[day workweek week]
+        else
+          %i[day workweek week month]
         end
       end
 

@@ -102,7 +102,13 @@ module My
     end
 
     def mode
-      @mode ||= (params[:mode].presence || default_mode).to_sym
+      @mode ||= begin
+        requested = (params[:mode].presence || default_mode).to_sym
+
+        # A month of stacked bars says nothing useful, so the stack view stays on the
+        # work week even when a month is asked for directly.
+        requested == :month && view_mode == :stack ? :workweek : requested
+      end
     end
 
     def default_view_mode

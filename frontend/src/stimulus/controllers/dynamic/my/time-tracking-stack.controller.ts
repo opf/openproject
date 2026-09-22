@@ -166,9 +166,6 @@ export default class MyTimeTrackingStackController extends Controller {
 
     this.calendar = new Calendar(this.stackTarget, {
       plugins: [timeGridPlugin, interactionPlugin],
-      views: {
-        timeGridMonth: { type: 'timeGrid', duration: { months: 1 } },
-      },
       initialView: this.stackView(),
       initialDate: this.initialDateValue,
       locales: allLocales,
@@ -400,15 +397,9 @@ export default class MyTimeTrackingStackController extends Controller {
     return days;
   }
 
+  // The stack has no month view; the controller sends a month request to the work week.
   private stackView():string {
-    switch (this.modeValue) {
-      case 'day':
-        return 'timeGridDay';
-      case 'month':
-        return 'timeGridMonth';
-      default:
-        return 'timeGridWeek';
-    }
+    return this.modeValue === 'day' ? 'timeGridDay' : 'timeGridWeek';
   }
 
   private hiddenDays():number[] {
