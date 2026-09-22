@@ -61,6 +61,8 @@ fa:
   attributes:
     budget: بودجه
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: در %{date} نرخ ساعتی وجود ندارد
     widgets:
       budget_by_cost_type:
         blankslate:

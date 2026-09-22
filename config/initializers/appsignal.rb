@@ -56,7 +56,7 @@ if OpenProject::Appsignal.enabled?
       "OkComputer::OkComputerController#show",
       "OkComputer::OkComputerController#index",
       "GET::API::V3::Notifications::NotificationsAPI",
-      "GET::API::V3::Notifications::NotificationsAPI#/notifications/"
+      "GET::API::V3::Notifications::NotificationsAPI#/:version/notifications"
     ]
 
     config.ignore_errors = [

@@ -88,6 +88,19 @@ RSpec.shared_examples "it supports direct uploads" do
         end
       end
 
+      context "with no file name metadata" do
+        let(:metadata) { { fileSize: file.size } }
+        let(:json) { JSON.parse subject.body }
+
+        it "responds with 422 due to missing file name metadata instead of erroring" do
+          expect(subject.status).to eq(422)
+        end
+
+        it_behaves_like "constraint violation" do
+          let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
+        end
+      end
+
       context "with the correct parameters" do
         let(:json) { JSON.parse subject.body }
 

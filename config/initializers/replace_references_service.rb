@@ -40,6 +40,7 @@ Rails.application.reloader.to_prepare do
       "PersistedQuery" => :principal_id,
       "PersistedView" => :principal_id,
       "::Doorkeeper::Application" => :owner_id,
+      "Label" => :author_id,
       "Message" => :author_id,
       "News" => :author_id,
       "::Notification" => :actor_id,

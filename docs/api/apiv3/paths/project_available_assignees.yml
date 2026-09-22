@@ -115,3 +115,4 @@ get:
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/available_assignees`](https://www.openproject.org/docs/api/endpoints/work-packages/#workspace-available-assignees)
   operationId: Project_Available_assignees
   summary: Project Available assignees
+  deprecated: true

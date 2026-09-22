@@ -28,7 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameFilter
+class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameAndIdentifierFilter
+  WORD_CONDITION = "(LOWER(projects.identifier) LIKE ? OR LOWER(projects.name) LIKE ?)"
+
   def self.key
     :typeahead
   end
@@ -39,5 +41,15 @@ class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::
 
   def human_name
     I18n.t("label_search")
+  end
+
+  def where
+    terms = operator == "**" ? values.first.to_s.downcase.split : []
+    return super if terms.size < 2
+
+    # In contrast to the filter this class inherits from, the typeahead
+    # requires every word to match the query.
+    [Array.new(terms.size, WORD_CONDITION).join(" AND "),
+     *terms.flat_map { |term| ["%#{term}%", "%#{term}%"] }]
   end
 end

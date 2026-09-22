@@ -63,7 +63,7 @@ module SearchHelper
     highlight_tokens(last_journal(event).try(:notes), tokens) or
       highlight_tokens(attachment_fulltexts(event), tokens) or
       highlight_tokens(attachment_filenames(event), tokens) or
-      highlight_and_abbreviate_html(event.event_description, tokens)
+      highlight_and_abbreviate_html(event_description_for_search(event, tokens), tokens)
   end
 
   # This is an enhanced version of `highlight_tokens`.
@@ -249,5 +249,14 @@ module SearchHelper
     modified_text = " #{modified_text}" if original_text.start_with?(" ") && !modified_text.start_with?(" ")
     modified_text = "#{modified_text} " if original_text.end_with?(" ") && !modified_text.end_with?(" ")
     modified_text
+  end
+
+  # Events may expose a token-aware description so the snippet only shows the parts that matched
+  def event_description_for_search(event, tokens)
+    if event.respond_to?(:searchable_content)
+      event.searchable_content(tokens)
+    else
+      event.event_description
+    end
   end
 end

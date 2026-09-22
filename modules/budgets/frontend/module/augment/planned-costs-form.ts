@@ -36,6 +36,7 @@ export class PlannedCostsFormAugment {
 
       link.hidden = true;
       form.hidden = false;
+      PlannedCostsFormAugment.toggleRateHint(form, true);
 
       const input = form.querySelector('input') as HTMLInputElement;
       input.disabled = false;
@@ -47,9 +48,18 @@ export class PlannedCostsFormAugment {
 
       link.hidden = false;
       form.hidden = true;
+      PlannedCostsFormAugment.toggleRateHint(form, false);
 
       const input = form.querySelector('input') as HTMLInputElement;
       input.disabled = true;
     });
+  }
+
+  private static toggleRateHint(form:HTMLElement, hidden:boolean):void {
+    const hint = form.closest('td')?.querySelector<HTMLElement>('.costs--rate-hint');
+
+    if (hint) {
+      hint.hidden = hidden;
+    }
   }
 }
