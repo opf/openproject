@@ -461,15 +461,12 @@ allOf:
                   **Permission**: view_file_links
           labels:
             type: array
-            readOnly: true
             items:
-              allOf:
-                - $ref: "./link.yml"
-                - description: |-
-                    List of labels attached to the work package
+              $ref: "./link.yml"
+            description: |-
+              List of labels attached to the work package
 
-                    **Resource**: Label
-                  readOnly: true
+              **Resource**: Collection of Label
           parent:
             allOf:
               - $ref: "./link.yml"
