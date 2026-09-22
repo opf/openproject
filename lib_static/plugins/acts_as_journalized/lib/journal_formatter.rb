@@ -64,6 +64,7 @@ require_relative "journal_formatter/named_association"
 require_relative "journal_formatter/polymorphic_association"
 require_relative "journal_formatter/percentage"
 require_relative "journal_formatter/plaintext"
+require_relative "journal_formatter/set_change"
 
 module JournalFormatter
   mattr_accessor :formatters, :registered_fields

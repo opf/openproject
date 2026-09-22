@@ -28,38 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Base for formatters rendering the change to a set of versions referenced by a
-# work package. Each value is the sorted, comma-joined version ids (see
-# JournalChanges); every id is resolved to the version's name, with a
-# placeholder for versions that have been deleted or are no longer visible to
-# the reader.
-class OpenProject::JournalFormatter::JoinedVersions < JournalFormatter::NamedAssociation
-  include JournalFormatter::SetChange
+module JournalFormatter
+  # Renders the added/removed difference between two id sets. Including
+  # formatters resolve ids to names in the block, keeping their own
+  # placeholders for deleted or hidden records.
+  module SetChange
+    private
 
-  def render(key, values, options = { html: true })
-    old_ids, new_ids = values.map { ids_from(it) }
-    return super unless set_change?(old_ids, new_ids)
-    return render_permission_denied_message(options) unless permission_granted?(options.merge(key:))
+    def set_change?(old_ids, new_ids)
+      old_ids.any? && new_ids.any? && !(old_ids.one? && new_ids.one?)
+    end
 
-    render_set_change(label(key.to_s), old_ids, new_ids, options) { |ids| names_for(ids, key.to_s) }
-  end
+    def render_set_change(label_text, old_ids, new_ids, options, &)
+      label_text = content_tag(:strong, label_text) if options[:html]
+      added = set_change_names(new_ids - old_ids, options, &)
+      removed = set_change_names(old_ids - new_ids, options, &)
 
-  private
+      lines = []
+      lines << I18n.t(:text_journal_set_added, label: label_text, value: added) if added.present?
+      lines << I18n.t(:text_journal_set_removed, label: label_text, old: removed) if removed.present?
+      lines.join(options[:html] ? "<br/>" : "\n")
+    end
 
-  def format_values(values, key)
-    values.map { |value| names_for(ids_from(value), key).presence }
-  end
+    def set_change_names(ids, options)
+      names = yield(ids)
+      return names if names.blank? || !options[:html]
 
-  def names_for(ids, key)
-    klass = class_from_field(key)
-    return if klass.nil?
+      content_tag(:i, h(names))
+    end
 
-    ids.map { |id| name_or_placeholder(associated_object(klass, id)) }.join(", ")
-  end
-
-  def name_or_placeholder(object)
-    return I18n.t(:label_deleted_version) if object.nil?
-
-    super
+    def ids_from(value)
+      value.to_s.split(",").map(&:to_i)
+    end
   end
 end
