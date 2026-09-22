@@ -175,14 +175,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
     return url.toString();
   }
 
-  // The representer already knows where the import page lives, and only renders the link when the
-  // flag and the permission allow it, so there is nothing to rebuild from the current URL.
-  private importHref():string|undefined {
-    const links = this.querySpace.results.value?.$links as { import?:{ href?:string } }|undefined;
-
-    return links?.import?.href;
-  }
-
   private queryTitle(query:QueryResource):string {
     return isPersistedResource(query) ? query.name : this.staticQueryName(query);
   }
@@ -192,8 +184,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
   }
 
   private buildItems() {
-    const importHidden = this.hideTableOptions || this.authorisationService.cannot('work_packages', 'import');
-
     this.items = [
       {
         // Configuration modal
@@ -363,22 +353,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         linkText: this.query.results.customFields?.name,
         icon: 'icon-custom-fields',
         onClick: () => false,
-      },
-      {
-        divider: true,
-        hidden: importHidden,
-      },
-      {
-        linkText: this.I18n.t('js.toolbar.settings.import'),
-        hidden: importHidden,
-        icon: 'icon-import',
-        onClick: () => {
-          const href = this.importHref();
-          if (href) {
-            window.location.href = href;
-          }
-          return true;
-        },
       },
     ];
   }

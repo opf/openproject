@@ -930,7 +930,6 @@ en:
         display_hierarchy: "Display hierarchy"
         display_sums: "Display sums"
         export: "Export"
-        import: "Import"
         group_by: "Group by"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
@@ -1016,6 +1015,7 @@ en:
         header: "New %{type}"
         header_no_type: "New work package (Type not yet set)"
         header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
+        import: "Import from CSV"
         title: "New work package"
       default_queries:
         all_open: "All open"
