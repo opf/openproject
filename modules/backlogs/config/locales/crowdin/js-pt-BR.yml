@@ -22,6 +22,35 @@
 ---
 pt-BR:
   js:
+    backlogs:
+      announcements:
+        batch_too_large: Não é possível mover %{count} pacotes de trabalho de uma só vez. Selecione no máximo %{max}.
+        fallback_item_label: Pacote de trabalho
+        fallback_list_name: outra lista
+        move_failed_check_position: Falha ao mover. Verifique a posição atual do pacote de trabalho.
+        move_failed_check_positions_batch:
+          other: Erro ao Mover. Verifique as posições atuais dos pacotes de trabalho.
+        move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
+        move_failed_rolled_back_batch:
+          other: Falha ao mover. %{count} itens retornaram para suas posições anteriores.
+        moved: "%{label} movido para a posição %{position} de %{total}"
+        moved_batch:
+          other: "%{count} pacotes de trabalho movidos para as posições %{first} através do %{last} do %{total}"
+        moved_batch_to_list:
+          other: "%{count} pacotes de trabalho transferidos para %{list}, cargos %{first} até %{last} de %{total}"
+        moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
+      selection:
+        card_state: Selecionado
+        cleared: Seleção limpa.
+        not_selectable: Seleção inalterada. Este pacote de trabalho não influencia a ordem desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um pacote de trabalho que não influencia a ordenação desta lista.
+        range_restarted:
+          one: Não foi possível ampliar o escopo. 1 pacote de trabalho selecionado.
+          other: Não foi possível ampliar o intervalo. %{count} pacotes de trabalho selecionados.
+        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
+        selected:
+          one: 1 pacote de trabalho selecionado.
+          other: "%{count} pacotes de trabalho selecionados."
     burndown:
       day: Dia
       points: Pontos

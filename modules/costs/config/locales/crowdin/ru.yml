@@ -72,25 +72,29 @@ ru:
           attributes:
             project_ids:
               blank: Пожалуйста, выберите проект.
+        rate:
+          attributes:
+            principal:
+              invalid: должен быть либо пользователем, либо пользователем-заполнителем.
         time_entry:
           attributes:
             entity:
-              blank: Logged for can't be blank.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              blank: Не может быть пустым.
+              cannot_log_for_this_work_package: У вас нет прав на учет рабочего времени по данному пакету работ.
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              exceeds_user_working_hours: Количество затраченных часов не может превышать %{limit} часов, доступных в рабочий день пользователя.
               format: "%{message}"
-              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
-              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+              max_hours_per_day_exceeded: Количество затраченных часов не может превышать %{limit} часов в течение одного дня, определенного администратором.
+              max_hours_per_entry_exceeded: Количество затраченных часов не может превышать %{limit} часов для одной записи времени, определенной администратором.
             spent_on:
               format: "%{message}"
-              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
-              not_a_working_day: The selected day is a non-working day for this user.
+              in_past_month: Вы не можете планировать время за предыдущий месяц. Записи по времени можно добавлять, изменять или удалять только с %{date}.
+              not_a_working_day: Выбранный день является нерабочим днём для данного пользователя.
             start_time:
               format: "%{message}"
-              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
-          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
+              invalid_time: Недопустимое время. Время должно быть в диапазоне от 00:00 до 23:59.
+          duplicate_ongoing: Таймер уже запущен. Одновременно может быть активен только один таймер.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'
           nullify_is_not_valid_for_cost_entries: Записи о стоимостях не могут быть присвоены проекту.
@@ -225,6 +229,7 @@ ru:
   label_costlog: Журналированные затраты на единицу
   label_costs: Затраты
   label_costs_per_page: Расходов на странице
+  label_current: Текущий
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
   label_day: День
@@ -251,6 +256,8 @@ ru:
   label_next_week: На следующей неделе
   label_next_workweek: Следующая рабочая неделя
   label_no: Нет
+  label_no_default_rate: Ставка по умолчанию не установлена
+  label_no_project_rate: Для данного проекта ставка не установлена
   label_no_time: Нет учтённого времени
   label_option_plural: Параметры
   label_overall_costs: Общие расходы
@@ -271,6 +278,7 @@ ru:
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
+  label_using_current_default_rate: Используется текущая ставка по умолчанию
   label_valid_from: Действует с
   label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы
@@ -290,6 +298,10 @@ ru:
   permission_edit_rates: Править тарифы
   permission_log_costs: Регистрировать затраты по количеству
   permission_log_own_costs: Регистрировать затраты по количеству для себя
+  permission_manage_default_hourly_rates: Управление почасовыми ставками по умолчанию
+  permission_manage_default_hourly_rates_explanation: 'Позволяет добавлять, изменять и удалять стандартные почасовые ставки пользователей и пользователей-заполнителей.
+
+    '
   permission_view_cost_entries: Просмотр зарегистрированных затрат
   permission_view_cost_rates: Просмотр тарифов по стоимости
   permission_view_hourly_rates: Просмотр всех почасовых тарифов
@@ -327,6 +339,11 @@ ru:
   text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
   text_destroy_time_and_cost_entries: Удалить отчеты о часах и расходах
   text_destroy_time_and_cost_entries_question: "%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?"
+  text_hourly_rate_destroy_confirmation: Ставка %{rate}, действительная от %{valid_from}, будет удалена. Затраты, списанные на эту ставку будут пересчитаны по новой активной ставке.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Я понимаю, что это действие нельзя отменить.
+  text_hourly_rate_recalculation: Данная ставка действует с даты вступления в силу до момента вступления в силу более поздней ставки. Её изменение повлечёт за собой перерасчёт существующих записей о затраченном времени и бюджетов за данный период.
+  text_no_default_rate: Ставка по умолчанию используется во всех проектах, где пользователь не имеет установленной ставки.
+  text_no_project_rate: Этот проект будет использовать текущий тариф по умолчанию.
   text_reassign_time_and_cost_entries: 'Переназначьте сообщенные часы и расходы на этот пакет работ:'
   text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
   total_times:

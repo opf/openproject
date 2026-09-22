@@ -38,7 +38,7 @@ ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 2.2.0"
+gem "activerecord-import", "~> 2.3.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.6"
+gem "doorkeeper", "~> 5.9.7"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -77,7 +77,7 @@ gem "addressable", "~> 2.9.0"
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem "tzinfo-data", "~> 1.2026.1"
+gem "tzinfo-data", "~> 1.2026.4"
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem "htmldiff"
@@ -96,7 +96,7 @@ gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
-gem "rouge", "~> 4.7.0"
+gem "rouge", "~> 5.1.0"
 # HTML sanitization used for html-pipeline
 gem "sanitize", "~> 7.0.0"
 # HTML autolinking for mails and urls (replaces autolink)
@@ -123,7 +123,7 @@ gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
-gem "multi_json", "~> 1.21.0"
+gem "multi_json", "~> 1.21.2"
 
 gem "daemons"
 gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
@@ -160,9 +160,9 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.3.0"
+gem "mcp", "~> 1.5.0"
 
-gem "meta-tags", "~> 2.23.0"
+gem "meta-tags", "~> 2.24.0"
 
 gem "paper_trail", "~> 17.0.0"
 
@@ -207,13 +207,13 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.229"
 
-gem "openproject-token", "~> 8.12.0"
+gem "openproject-token", "~> 8.13.0"
 
 gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.3", require: false
+gem "mini_magick", "~> 5.4.0", require: false
 
 gem "validate_url"
 
@@ -235,13 +235,13 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.35.1", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.15.0"
 # Lookbook
-gem "lookbook", "2.3.14"
+gem "lookbook", "2.3.15"
 
 gem "inline_svg", "~> 1.10.0"
 
@@ -253,7 +253,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.2"
+gem "httpx", "~> 1.8.4"
 
 # Provider adapters and a model metadata registry for the AI features. Used as
 # transport and as a source of published model capabilities; what a given
@@ -304,7 +304,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.47"
+  gem "selenium-webdriver", "~> 4.48"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -390,8 +390,8 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.5"
-gem "grape_logging", "~> 3.0.0"
+gem "grape", "~> 4.0.1"
+gem "grape_logging", "~> 3.0.1"
 gem "roar", "~> 1.2.0"
 
 # CORS for API
@@ -437,5 +437,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.37.0"
   gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.1"
+  gem "openproject-primer_view_components", "~>0.91.3"
 end

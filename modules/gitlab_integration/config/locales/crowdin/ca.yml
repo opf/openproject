@@ -24,6 +24,10 @@
 ca:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Labels
       gitlab_pipeline:
@@ -39,6 +43,9 @@ ca:
             labels:
               invalid_schema: 'must be an array of hashes with keys: color, title'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        other: GitLab branches
       gitlab_issue:
         one: GitLab issue
         other: GitLab issues
@@ -55,7 +62,6 @@ ca:
     commit: Commit
     gitlab: GitLab identifier
     gitlab_avatar_url: Avatar URL
-    gitlab_email: GitLab Email
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Merge Request
     gitlab_name: GitLab name

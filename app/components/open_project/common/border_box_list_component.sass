@@ -61,10 +61,11 @@
     > ul > .Box-row:first-of-type
       border-top-color: transparent
 
-      &:has(> .Box-card[data-selected])
+      &[data-batch-selected]
         border-top-color: var(--box-list-item-selected-border-color)
 
-      &:has(> .Box-card[aria-current="true"])
+      &:has(> .Box-card[aria-current="true"]),
+      &:has(> .Box-card[data-activating])
         border-top-color: var(--box-list-item-pressed-border-color)
 
   &.op-border-box-list_transparent
@@ -193,10 +194,11 @@
   &:has(> .Box-card:focus-visible)
     background-color: var(--bgColor-muted)
 
-// Selected state: applied synchronously on activation by the
-// backlogs--work-package controller (single selection), so the list reacts
-// before the split screen has loaded.
-.Box-row:has(> .Box-card[data-selected])
+// Batch selection is written on the `.Box-row` itself, while the
+// current-work-package rule below matches `aria-current` on the `.Box-card`
+// nested inside it. The two selectors are asymmetric because the attributes
+// are.
+.Box-row[data-batch-selected]
   background-color: var(--box-list-item-selected-bg-color)
   @include op-box-list-item-edge-borders(var(--box-list-item-selected-border-color))
 
@@ -206,8 +208,14 @@
 
 // Current state: the card is open in the split screen. aria-current is
 // maintained by the backlogs--work-package controller once the URL reflects
-// the details pane; the strong border wins over a simultaneous selected state.
-.Box-row:has(> .Box-card[aria-current="true"])
+// the details pane; the strong border wins over a simultaneous batch selection.
+//
+// data-activating is that controller's synchronous pressed state — the card
+// was just clicked or Enter-activated and its visit has not landed yet. It
+// is visual only (no ARIA) and reuses the pressed border so it hands over
+// seamlessly to aria-current once the URL reflects the details pane.
+.Box-row:has(> .Box-card[aria-current="true"]),
+.Box-row:has(> .Box-card[data-activating])
   @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
 
 // Drag-and-drop row states, scoped to the border-box list. The global
@@ -304,6 +312,26 @@
     // Firefox only; other browsers snapshot the border box and are unaffected.
     .-browser-firefox &
       box-shadow: none
+
+  // The stack and the lift share the one box-shadow property, so both are
+  // declared here or one replaces the other.
+  //
+  // The depth the preview writes is the batch's, uncapped: past four cards the
+  // added depth stops reading, so this default holds every deeper batch at the
+  // maximum and the shallow depths below override it.
+  &[data-preview][data-stack-depth]
+    box-shadow: op-drag-stack-shadows(), var(--shadow-floating-medium)
+
+    // Blur-free and inside the reserved overhang, so only the lift has to go.
+    .-browser-firefox &
+      box-shadow: op-drag-stack-shadows()
+
+  @for $layers from 1 through $op-drag-stack-max-layers - 1
+    &[data-preview][data-stack-depth="#{$layers}"]
+      box-shadow: op-drag-stack-shadows($layers: $layers), var(--shadow-floating-medium)
+
+      .-browser-firefox &
+        box-shadow: op-drag-stack-shadows($layers: $layers)
 
 .Box--condensed .Box-card
   padding: var(--stack-padding-condensed) var(--stack-padding-normal)

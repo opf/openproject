@@ -1,0 +1,14 @@
+<%= helpers.turbo_frame_tag(Settings::ProjectVersions::IndexComponent::FRAME_ID, target: "_top") do %>
+  <%= render(Settings::ProjectVersions::IndexSubHeaderComponent.new(project:, query:)) %>
+
+  <% if rows.any? %>
+    <%= render Versions::TableComponent.new(rows:, project:) %>
+  <% else %>
+    <%= helpers.no_results_box(
+          action_url: helpers.new_project_version_path(project, back_url: project_settings_versions_path(project)),
+          display_action: helpers.authorize_for("versions", "new"),
+          custom_title: t("projects.settings.versions.no_results_title_text"),
+          custom_action_text: t("projects.settings.versions.no_results_content_text")
+        ) %>
+  <% end %>
+<% end %>

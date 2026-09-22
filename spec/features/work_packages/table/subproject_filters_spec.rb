@@ -8,6 +8,7 @@ RSpec.describe "Subproject filters", :js do
   shared_let(:parent) { create(:project) }
   shared_let(:archived) { create(:project, :archived, parent:, name: "archived project") }
   shared_let(:non_archived) { create(:project, parent:) }
+  shared_let(:sibling) { create(:project, parent:, name: "Sibling subproject") }
   shared_let(:work_package) { create(:work_package, project: parent) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(parent) }
@@ -34,5 +35,23 @@ RSpec.describe "Subproject filters", :js do
                                    results_selector: ".ng-dropdown-panel-items")
 
     expect(dropdown).to have_no_text "archived project"
+  end
+
+  it_behaves_like "a project picker searchable by identifier" do
+    let(:target_project) { sibling }
+    let(:control_project) { non_archived }
+
+    before do
+      filters.expect_filter_count(1)
+      filters.open
+
+      filters.add_filter("Including subproject")
+    end
+
+    def search_project(query)
+      search_autocomplete(page.find("op-project-autocompleter"),
+                          query:,
+                          results_selector: ".ng-dropdown-panel-items")
+    end
   end
 end

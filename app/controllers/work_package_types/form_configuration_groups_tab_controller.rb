@@ -158,7 +158,7 @@ module WorkPackageTypes
     end
 
     def group_key_param
-      params[:key] || params[:id]
+      params.expect(:key)
     end
 
     def temporary_group_key?(key)
