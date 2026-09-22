@@ -343,14 +343,14 @@ OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 
 ## Examples for common use cases
 
-- `attachments_storage_path`
+- [`attachments_storage_path`](#attachments-storage-path)
 - `autologin_cookie_name` (default: 'autologin'),
 - `autologin_cookie_path` (default: '/')
 - `database_cipher_key`     (default: nil)
 - `scm_git_command` (default: 'git')
 - `scm_subversion_command` (default: 'svn')
 - [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
-- `force_help_link` (default: nil)
+- [`force_help_link`](#force-help-link) (default: nil)
 - `drop_old_sessions_on_logout` (default: true)
 - `drop_old_sessions_on_login` (default: false)
 - [`auth_source_sso`](#auth-source-sso) (default: nil)
@@ -407,13 +407,13 @@ To disable, set the configuration option:
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
 ```
 
-### Attachments storage
+### Attachments storage path
 
 You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
 
 To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
 
-#### Attachment storage type
+#### Attachments storage
 
 Attachments can be stored using e.g. Amazon S3, In order to set these values through ENV variables, add to the file :
 
@@ -765,7 +765,7 @@ OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP="false"
 ##### Mail recipient limits (disabled by default)
 
 Limits how many distinct email addresses OpenProject will send mail to per day.
-`0` (the default) disables this form of rate limiting. 
+`0` (the default) disables this form of rate limiting.
 
 Addresses exceeding this are dropped before delivery, so this covers every mailer (registration, invitations, shares, meetings, notifications).
 
