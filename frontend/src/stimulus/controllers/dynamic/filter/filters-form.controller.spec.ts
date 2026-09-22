@@ -154,3 +154,80 @@ describe('Filters form controller - filter count badge', () => {
     });
   });
 });
+
+describe('Filters form controller - rows added without a value', () => {
+  let ctx:StimulusTestContext;
+  let FiltersFormController:typeof FiltersFormControllerType;
+
+  beforeAll(async () => {
+    ({ default: FiltersFormController } = await import('./filters-form.controller'));
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+  });
+
+  async function mountForm() {
+    ctx = await setupStimulusTest({
+      controllers: { 'filter--filters-form': FiltersFormController },
+    });
+
+    await ctx.mount(`
+      <div data-controller="filter--filters-form">
+        <select data-filter--filters-form-target="addFilterSelect">
+          <option value=""></option>
+          <option value="assignee">Assignee</option>
+        </select>
+        ${ASSIGNEE_FILTER_ROW}
+      </div>
+    `);
+
+    return ctx.getController<FiltersFormControllerType>('filter--filters-form');
+  }
+
+  function row() {
+    return ctx.container.querySelector<HTMLElement>('[data-filter--filters-form-target="filter"]')!;
+  }
+
+  function addFilterOption() {
+    return ctx.container.querySelector<HTMLOptionElement>('option[value="assignee"]')!;
+  }
+
+  it('shows the row again after a re-render hid it', async () => {
+    const controller = await mountForm();
+    controller.addFilterByName('assignee');
+
+    // What the server sends back: the query does not hold the filter, so the row is hidden
+    // and its entry in the add-filter select is selectable again.
+    row().setAttribute('hidden', '');
+    addFilterOption().removeAttribute('disabled');
+
+    controller.restorePendingFilters();
+
+    expect(row().hasAttribute('hidden')).toBe(false);
+    expect(addFilterOption().hasAttribute('disabled')).toBe(true);
+  });
+
+  it('leaves a row the user removed hidden', async () => {
+    const controller = await mountForm();
+    controller.addFilterByName('assignee');
+    controller.removeFilter({ params: { filterName: 'assignee' } });
+
+    controller.restorePendingFilters();
+
+    expect(row().hasAttribute('hidden')).toBe(true);
+  });
+
+  it('stops tracking a row once the server renders it itself', async () => {
+    const controller = await mountForm();
+    controller.addFilterByName('assignee');
+
+    // A re-render that leaves the row visible means the query holds the filter now, so the
+    // row stops being this controller's business and a later re-render decides on its own.
+    controller.restorePendingFilters();
+    row().setAttribute('hidden', '');
+    controller.restorePendingFilters();
+
+    expect(row().hasAttribute('hidden')).toBe(true);
+  });
+});
