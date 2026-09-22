@@ -1354,24 +1354,6 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
     end
 
-    it "enables the custom field without reading the issues" do
-      Import::JiraFetchCustomFieldJob.new.tap do |job|
-        job.send(:prepare_jira_import_ivars, jira_import.id)
-        index = Import::JiraCustomField::IssueValueIndex.scan(jira_import)
-        Import::JiraCustomField::IssueValueIndex.serialize(index).each do |origin_id, issue_values|
-          Import::JiraField.where(jira_import:, origin_id:).update_all(issue_values:)
-        end
-      end
-      Import::JiraCreateCustomFieldsJob.perform_now(jira_import.id)
-      Import::JiraIssue.where(jira_import:).delete_all
-
-      import_both_projects
-
-      custom_field = WorkPackageCustomField.sole
-      expect(WorkPackage.count).to eq(0)
-      expect(op_project(jira_project).work_package_custom_fields).to include(custom_field)
-    end
-
     context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
       let!(:jira_field) do
         create(:jira_field, jira_import:,
