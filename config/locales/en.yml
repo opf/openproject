@@ -1772,13 +1772,6 @@ en:
         rename_title: 'Rename "%{name}"'
       index:
         description: "All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects."
-      list_component:
-        blank_slate:
-          description: "Labels created by users on work packages will appear here."
-          title: "No labels yet"
-        no_matches:
-          description: "Try a different search term."
-          title: "No labels match your search"
       row_component:
         used_in_work_packages:
           one: "%{count} work package"
@@ -1788,9 +1781,15 @@ en:
         label_add: "Add label"
         search_placeholder: "Type here to search"
       table_component:
+        blank_slate:
+          description: "Labels created by users on work packages will appear here."
+          title: "No labels yet"
         headers:
           name: "Label"
           usage: "Used in"
+        no_matches:
+          description: "Try a different search term."
+          title: "No labels match your search"
 
     mcp_configurations:
       index:
