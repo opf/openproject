@@ -30,11 +30,9 @@
 
 require_relative "scanner"
 
-SKIP_PATH_REGEX = %r{\A(?:spec|lookbook|docs|\.github/dangerfiles)/}
-
 def added_html_safe_files
   (git.modified_files + git.added_files)
-    .reject { |file| file.match?(SKIP_PATH_REGEX) }
+    .reject { |file| HtmlSafeDangerScanner.skip_path?(file) }
     .select { |file| File.exist?(file) }
     .select { |file| added_non_empty_html_safe?(file) }
 end

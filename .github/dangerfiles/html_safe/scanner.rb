@@ -31,8 +31,13 @@
 module HtmlSafeDangerScanner
   HTML_SAFE_CALL_REGEX = /\.html_safe(?![?_])/
   EMPTY_RECEIVER = /(['"])\1\z/
+  SKIP_PATH_REGEX = %r{(?:\A|/)(?:spec|lookbook|docs|\.github/dangerfiles)/}
 
   module_function
+
+  def skip_path?(file)
+    file.match?(SKIP_PATH_REGEX)
+  end
 
   def added_non_empty_html_safe_line?(line)
     return false unless line.start_with?("+")

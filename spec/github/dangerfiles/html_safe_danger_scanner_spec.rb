@@ -32,6 +32,24 @@ require "spec_helper"
 require Rails.root.join(".github/dangerfiles/html_safe/scanner")
 
 RSpec.describe HtmlSafeDangerScanner do
+  describe ".skip_path?" do
+    it "skips root spec, lookbook, docs, and dangerfiles" do
+      expect(described_class.skip_path?("spec/models/foo_spec.rb")).to be(true)
+      expect(described_class.skip_path?("lookbook/previews/foo.rb")).to be(true)
+      expect(described_class.skip_path?("docs/api.md")).to be(true)
+      expect(described_class.skip_path?(".github/dangerfiles/html_safe/scanner.rb")).to be(true)
+    end
+
+    it "skips module spec paths" do
+      expect(described_class.skip_path?("modules/storages/spec/features/foo_spec.rb")).to be(true)
+    end
+
+    it "does not skip production code" do
+      expect(described_class.skip_path?("app/helpers/foo.rb")).to be(false)
+      expect(described_class.skip_path?("modules/storages/app/helpers/foo.rb")).to be(false)
+    end
+  end
+
   describe ".added_non_empty_html_safe_line?" do
     it "ignores diff headers" do
       expect(described_class.added_non_empty_html_safe_line?("+++ b/app/models/foo.rb")).to be(false)
