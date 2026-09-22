@@ -54,6 +54,8 @@ module Admin
               add_sub_item_action_item(menu)
             end
 
+            with_item_group(menu) { default_action_item(menu) }
+
             with_item_group(menu) { change_parent_item(menu) }
 
             with_item_group(menu) do
@@ -149,6 +151,20 @@ module Admin
               href:,
               content_arguments: { data: { turbo_frame: ItemsComponent.wrapper_key } }
             ) { it.with_leading_visual_icon(icon: "op-arrow-in") }
+          end
+
+          def default_action_item(menu)
+            label = item.default_value ? I18n.t(:button_clear_default_value) : I18n.t(:button_set_as_default_value)
+            action = item.default_value ? :clear_default : :set_default
+            href = if project_custom_field_context?
+                     send(:"#{action}_admin_settings_project_custom_field_item_path", custom_field_id, item)
+                   else
+                     send(:"#{action}_custom_field_item_path", custom_field_id, item)
+                   end
+
+            menu.with_item(label:, tag: :a, href:, content_arguments: { data: { turbo_method: :post } }) do |entry|
+              entry.with_leading_visual_icon(icon: :check)
+            end
           end
 
           def change_parent_item(menu)
