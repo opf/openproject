@@ -430,6 +430,75 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
     end
   end
 
+  describe "#set_default" do
+    let(:custom_field) do
+      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
+        service.generate_root(cf).value!
+        cf.reload
+      end
+    end
+    let(:root) { custom_field.hierarchy_root }
+    let(:described_class_contract) { CustomFields::Hierarchy::InsertListItemContract }
+    let!(:first) do
+      service.insert_item(contract_class: described_class_contract, parent: root, label: "First").value!
+    end
+    let!(:second) do
+      service.insert_item(contract_class: described_class_contract, parent: root, label: "Second").value!
+    end
+
+    it "marks the item as default" do
+      service.set_default(item: first)
+
+      expect(first.reload.default_value).to be(true)
+    end
+
+    it "unmarks the previous default on a single value field" do
+      service.set_default(item: first)
+      service.set_default(item: second)
+
+      expect(first.reload.default_value).to be(false)
+      expect(second.reload.default_value).to be(true)
+    end
+
+    context "when the field is multi value" do
+      let(:custom_field) do
+        create(:custom_field, field_format: "hierarchy", hierarchy_root: nil, multi_value: true).tap do |cf|
+          service.generate_root(cf).value!
+          cf.reload
+        end
+      end
+
+      it "keeps every marked item" do
+        service.set_default(item: first)
+        service.set_default(item: second)
+
+        expect(first.reload.default_value).to be(true)
+        expect(second.reload.default_value).to be(true)
+      end
+    end
+  end
+
+  describe "#clear_default" do
+    let(:custom_field) do
+      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
+        service.generate_root(cf).value!
+        cf.reload
+      end
+    end
+    let!(:item) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                          parent: custom_field.hierarchy_root, label: "Only").value!
+    end
+
+    it "unmarks the item" do
+      service.set_default(item:)
+
+      service.clear_default(item:)
+
+      expect(item.reload.default_value).to be(false)
+    end
+  end
+
   context "with weighted item list and calculated values", with_ee: %i[calculated_values weighted_item_lists] do
     current_user { create(:admin) }
 

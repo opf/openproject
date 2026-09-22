@@ -159,6 +159,29 @@ module CustomFields
         Success()
       end
 
+      # Mark an item as the custom field's default value.
+      # @param item [CustomField::Hierarchy::Item]
+      # @return [Success(CustomField::Hierarchy::Item)]
+      def set_default(item:)
+        ActiveRecord::Base.transaction do
+          unless item.root.custom_field.multi_value?
+            item.root.descendants.where(default_value: true).where.not(id: item.id).update_all(default_value: false)
+          end
+
+          item.update!(default_value: true)
+        end
+
+        Success(item)
+      end
+
+      # @param item [CustomField::Hierarchy::Item]
+      # @return [Success(CustomField::Hierarchy::Item)]
+      def clear_default(item:)
+        item.update!(default_value: false)
+
+        Success(item)
+      end
+
       # Soft delete the item and children
       def soft_delete_item(item:)
         raise SubclassResponsibilityError

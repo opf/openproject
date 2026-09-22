@@ -376,6 +376,8 @@ Rails.application.routes.draw do
             post :move
             get :new_child, action: :new
             post :new_child, action: :create
+            post :set_default
+            post :clear_default
           end
         end
       end
@@ -884,6 +886,8 @@ Rails.application.routes.draw do
             post :move
             get :new_child, action: :new
             post :new_child, action: :create
+            post :set_default
+            post :clear_default
           end
         end
       end
@@ -925,6 +929,8 @@ Rails.application.routes.draw do
             post :move
             get :new_child, action: :new
             post :new_child, action: :create
+            post :set_default
+            post :clear_default
           end
         end
       end

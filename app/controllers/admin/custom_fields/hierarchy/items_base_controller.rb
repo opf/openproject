@@ -94,6 +94,18 @@ module Admin
           redirect_to action: :show, id: @active_item.parent, status: :see_other
         end
 
+        def set_default
+          item_service.set_default(item: @active_item)
+
+          redirect_to action: :show, id: @active_item.parent, status: :see_other
+        end
+
+        def clear_default
+          item_service.clear_default(item: @active_item)
+
+          redirect_to action: :show, id: @active_item.parent, status: :see_other
+        end
+
         def change_parent
           parse_parent_input(new_parent_params)
             .bind { item_service.move_item(item: @active_item, new_parent: it) }
