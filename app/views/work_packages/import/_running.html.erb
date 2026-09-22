@@ -15,12 +15,12 @@
 <%= render(box) do %>
   <%= render Primer::Beta::Spinner.new(size: :small, mr: 3) %>
 
-  <div>
+  <%= render Primer::Box.new do %>
     <%=
       render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mb: 0)) do
         t("work_packages.import.#{verb}", filename: @status.payload["filename"])
       end
     %>
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) { t("work_packages.import.running_note") } %>
-  </div>
+  <% end %>
 <% end %>

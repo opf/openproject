@@ -158,8 +158,20 @@ module WorkPackages
         def imported_banner
           Primer::Alpha::Banner
             .new(scheme: :success, dismiss_scheme: :none, mb: 3, description: imported_description)
-            .with_content(t("work_packages.import.report.imported.title", count: created_count))
+            .with_content(t("work_packages.import.report.imported.title", work_packages: work_package_count))
         end
+
+        def rejected_banner
+          banner(:danger, "rows_rejected",
+                 problems: t("work_packages.import.report.x_problems", count: problem_count),
+                 lines: t("work_packages.import.report.x_lines", count: rejected_lines))
+        end
+
+        def import_label
+          t("work_packages.import.report.checked.import", work_packages: work_package_count(row_count))
+        end
+
+        def work_package_count(count = created_count) = t(:label_x_work_packages, count:)
 
         def imported_description
           t("work_packages.import.report.imported.text_html",

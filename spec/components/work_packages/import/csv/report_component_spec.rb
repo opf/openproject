@@ -182,7 +182,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     end
 
     it "says nothing was imported and how much is wrong" do
-      expect(page).to have_text(I18n.t("work_packages.import.report.rows_rejected.title", problems: 2, lines: 2))
+      expect(page).to have_text("Nothing was imported: 2 problems in 2 lines")
     end
 
     it "gives the row, the column, the value and the problem" do
