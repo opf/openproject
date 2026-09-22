@@ -37,7 +37,7 @@ RSpec.describe Workflows::SummariesController do
     let(:counts) { [] }
 
     before do
-      allow(Workflow)
+      allow(Workflows::StatusTransition)
         .to receive(:count_by_type_variant_and_role)
         .and_return(counts)
 

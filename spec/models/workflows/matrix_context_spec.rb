@@ -43,7 +43,7 @@ RSpec.describe Workflows::MatrixContext do
   let(:options) { { role_ids: [role.id] } }
 
   def create_transition(old_status:, new_status:, for_role: role, **flags)
-    create(:workflow, role_id: for_role.id, type_variant_id: variant.id,
+    create(:workflow, role_id: for_role.id, type_variant: variant,
                       old_status_id: old_status.id, new_status_id: new_status.id, **flags)
   end
 
@@ -68,7 +68,7 @@ RSpec.describe Workflows::MatrixContext do
     end
 
     it "falls back to the first eligible role when none was requested" do
-      expect(described_class.new(variant:).roles).to contain_exactly(Workflow.ordered_eligible_roles.first)
+      expect(described_class.new(variant:).roles).to contain_exactly(Workflows::StatusTransition.ordered_eligible_roles.first)
     end
   end
 

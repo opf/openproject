@@ -222,6 +222,7 @@ uk:
         title: Заголовок
       member:
         blocked: Заблоковано
+        principal_type: Member type
         roles: Роль
       notification:
         read_ian: Читайте в додатку
@@ -441,6 +442,13 @@ uk:
         time_zone: Часовий пояс
         warn_on_leaving_unsaved: Попереджати мене, коли залишив робочий пакет із незбереженими змінами
         workdays: Робочі дні
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Коефіцієнт доступності
         days: Робочі дні
@@ -861,6 +869,10 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -871,6 +883,9 @@ uk:
               query_invalid: 'Вбудований запит «%{group}» недійсний: %{details}'
             base:
               borrowed_by_variants: Не можна видалити, оскільки відповідну конфігурацію повторно використовують %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Стандартну конфігурацію типу не можна видалити.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -894,6 +909,8 @@ uk:
               would_create_cycle: зв’яже ці конфігурації в цикл.
             variant:
               must_belong_to_the_type: має бути варіантом цього типу.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: зв’яже ці конфігурації в цикл.
@@ -1634,6 +1651,8 @@ uk:
         main-menu-bg-selected-background: Головне меню в разі вибору
         primary-button-color: Основна кнопка
       custom_colors: Кольори за власними вподобаннями
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: не є дійсним файлом шрифту TTF.
@@ -1710,6 +1729,7 @@ uk:
         ssl_error: 'При підключенні до сервера Jira сталася помилка SSL: %{message}'
         ssrf_block_doc_link: Перегляньте [документацію](docs_url).
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Додано
         creator: Автор
@@ -1974,6 +1994,14 @@ uk:
       update:
         failure: Не вдалось оновити конфігурацію MCP.
         success: Конфігурацію MCP оновлено.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Щоб дізнатися більше, ознайомтеся з нашою сторінкою інтеграцій і планів.
       no_results_title_text: Зараз немає встановлених плагінів.
@@ -2229,6 +2257,13 @@ uk:
           assignee: Додаткові переходи, доступні для виконавця пакета робіт.
           author: Додаткові переходи, доступні для автора пакета робіт.
         menu_label: Показані переходи
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: наразі відображається
     is_inactive: наразі не відображається
@@ -2291,10 +2326,6 @@ uk:
       not_found:
         reminder: Нагадування, яке ви шукаєте, не вдалося знайти. Можливо, його видалено.
         work_package: Пакет робіт, який ви шукаєте, не можна знайти або його видалено.
-      render:
-        context_not_parsable: Контексті не посилання на ресурс.
-        context_object_not_found: Не можу знайти ресурс з урахуванням контексту.
-        unsupported_context: Даний ресурс не підтримується як контекст.
       unable_to_create_attachment: Не вдалося створити вкладення
       unable_to_create_attachment_permissions: Вкладення не вдалося зберегти через відсутність дозволів на файлову систему
       user:
@@ -3041,7 +3072,6 @@ uk:
       custom_actions: Користувацькі дії
       custom_field_hierarchies: Ієрархії
       customize_life_cycle: Налаштування життєвого циклу
-      date_alerts: Оповіщення про дати
       define_custom_style: Користувацька тема й логотип
       edit_attribute_groups: Редагування груп атрибутів
       gantt_pdf_export: Експорт діаграми Ґантта в PDF
@@ -3120,8 +3150,6 @@ uk:
         description: Користувацькі поля типу «Ієрархія» дають змогу впорядковувати ієрархічні структури в пакети робіт і проєкти, використовуючи багаторівневі розкривні списки.
       customize_life_cycle:
         description: Створюйте й упорядковуйте етапи й проєкту, відмінні від тих, що передбачено плануванням циклу проєкту PM2.
-      date_alerts:
-        description: Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни й не забуватимете про них.
       define_custom_style:
         description: Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів.
         more_info: 'Примітка: вибраний логотип буде загальнодоступний.'
@@ -3506,16 +3534,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: дії на основі ШІ з пакетами робіт, коментарями й звʼязками з MCP-сервером (у тарифному плані Professional);
-            line_1: можливість використовувати кілька цільових версій для пакетів робіт;
-            line_2: загальні ліміти й обмеження для записів часу (у тарифному плані Professional);
-            line_3: покращення в межах Agile, повʼязані з масовим редагуванням і перетягуванням карток беклогів у зовнішні додатки;
-            line_4: макроси Wiki, доступні в більшій кількості текстових редакторів;
-            line_5: удосконалений пошук ідентифікаторів пакетів робіт;
-            line_6: відображення зв’язків у таблицях пакетів робіт (випущено для спільноти).
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3561,6 +3589,7 @@ uk:
         field_set: Для поля «%{field}» вибрано значення «%{value}»
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
+        migrated: from Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
@@ -3758,6 +3787,7 @@ uk:
   label_core_build: Збірка ядра
   label_core_version: Версія ядра
   label_created_by: Створено %{user}
+  label_criteria: Criteria
   label_current_status: Поточний статус
   label_current_version: Поточна версія
   label_custom_comment: Коментар до атрибута «%{name}»
@@ -4332,6 +4362,8 @@ uk:
   label_wiki_start: Початкова сторінка
   label_wiki_toc: Зміст
   label_wiki_toc_empty: Зміст пустий, оскільки немає заголовків.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Робота
   label_work_package: Робочий пакет
   label_work_package_attachments: Додатки до робочого пакету
@@ -5232,6 +5264,13 @@ uk:
     prev: Попереднє
     prev_page: Попередня сторінка
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
@@ -5246,6 +5285,12 @@ uk:
         label: Перенесення
       hyphenation_language:
         label: Мова й поділ слів на склади
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Виберіть орієнтацію сторінок у PDF-документі.
         label: Орієнтація сторінки
@@ -5393,6 +5438,16 @@ uk:
   permission_work_package_assigned: Стати виконавцем / відповідальним
   permission_work_package_assigned_explanation: Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Видалити прототип користувача
     deletion_info:
       data_consequences: 'Усі екземпляри прототипу користувача (наприклад, виконавець, відповідальний тощо) буде перепризначено обліковому запису з назвою «Видалений користувач». Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, відрізнити дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
@@ -5694,7 +5749,7 @@ uk:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Створіть нову версію
-        no_results_title_text: Наразі не існує версій для проекту.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Показати пакети робіт
         work_packages_graph: Графік робочих пакетів
       work_package_priorities:
@@ -5704,6 +5759,7 @@ uk:
     wizard:
       create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
       create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
@@ -5862,6 +5918,41 @@ uk:
     warnings:
       cannot_annotate: Цей файл не може бути анотований.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        few: "(Projects: %{projects})"
+        many: "(Projects: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        few: "(Projects: %{projects} and %{count} others)"
+        many: "(Projects: %{projects} and %{count} others)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        few: 'This role is still attributed to %{count} members:'
+        many: 'This role is still attributed to %{count} members:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        few: "%{count} users"
+        many: "%{count} users"
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Відповідно до налаштувань, ця роль за умовчанням надається користувачам, які створюють проєкт, але не є адміністраторами. Не вилучайте вказані далі права, інакше автори не зможуть завершити налаштування новостворених проєктів:'
     index:
@@ -5873,6 +5964,18 @@ uk:
     permissions:
       section_check_all_label: Призначити всі дозволи модуля «%{module}»
       section_uncheck_all_label: Скасувати призначення всіх дозволів модуля «%{module}»
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Матриця дозволів для модуля «%{module}»
       matrix_check_all_label: Призначити всі дозволи модуля «%{module}» усім ролям
@@ -6446,13 +6549,14 @@ uk:
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Виключено з підсумків
         is_closed: Закрито
-        is_default: За замовчуванням
         is_readonly: Лише для перегляду
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: і
@@ -6658,7 +6762,52 @@ uk:
     getting_started: Починаємо
     help_and_support: Допомога та підтримка
   total_progress: Загальний прогрес
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          few: "%{names} and %{count} more"
+          many: "%{names} and %{count} more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Створити тип
@@ -6742,7 +6891,6 @@ uk:
         add_query_group: Таблиця пов’язаних робочих пакетів
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
-        builtin_field: Вбудоване поле
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Користувацьке поле
@@ -6930,7 +7078,7 @@ uk:
         filter_no_results: Немає варіантів, які відповідають фільтру
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6939,6 +7087,30 @@ uk:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Додати варіант
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '
@@ -7149,6 +7321,12 @@ uk:
   version_status_locked: Заблоковано
   version_status_open: відкрити
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
       work_packages_in_archived_projects: Доступ до цієї версії надано в архівних проєктах, які досі містять пакети робіт, призначені цій версії. Їх враховано, але вони не відображаються в пов’язаних поданнях.

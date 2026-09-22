@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
             menu.with_item(
               label: t(:button_edit),
               tag: :a,
-              href: edit_project_resource_planner_path(@project, @resource_planner),
+              href: edit_planner_path(@resource_planner),
               content_arguments: { data: { controller: "async-dialog", "test-selector": "resource-planner-edit" } }
             ) do |item|
               item.with_leading_visual_icon(icon: :pencil)
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
               label: t(:button_delete),
               scheme: :danger,
               tag: :a,
-              href: project_resource_planner_path(@project, @resource_planner),
+              href: planner_path(@resource_planner),
               content_arguments: {
                 data: {
                   turbo_method: :delete,
@@ -98,13 +98,13 @@ See COPYRIGHT and LICENSE files for more details.
         @resource_planner.children.each do |child|
           tab_nav.with_tab(
             selected: child.id == selected_view_id,
-            href: project_resource_planner_view_path(@project, @resource_planner, child)
+            href: planner_view_path(@resource_planner, child)
           ) { child.name }
         end
 
         if can_add_views?
           tab_nav.with_tab(
-            href: new_project_resource_planner_view_path(@project, @resource_planner),
+            href: new_planner_view_path(@resource_planner),
             data: { controller: "async-dialog" }
           ) do
             render(Primer::Beta::Octicon.new(icon: :plus, size: :medium))

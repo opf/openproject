@@ -217,6 +217,44 @@ RSpec.describe API::Decorators::LinkedResource do
         expect(json).not_to have_json_path("_embedded/thing")
       end
     end
+
+    context "when the representer is cached" do
+      let(:representer_class) do
+        klass = thing_representer_class
+        Class.new(API::Decorators::Single) do
+          include API::Decorators::LinkedResource
+          include API::Caching::CachedRepresenter
+
+          associated_visible_resource :thing, v3_path: :thing, representer: klass,
+                                              undisclosed_title: :"api_v3.undisclosed.parent"
+        end
+      end
+
+      let(:other_user) { create(:user) }
+
+      before do
+        allow(thing).to receive(:visible?).with(current_user).and_return(true)
+        allow(thing).to receive(:visible?).with(other_user).and_return(false)
+      end
+
+      def rendered_for(user)
+        representer_class.new(model, current_user: user, embed_links: true).to_json
+      end
+
+      it "renders the link for the user the representer is rendered for" do
+        expect(rendered_for(current_user))
+          .to be_json_eql("/api/v3/things/42".to_json).at_path("_links/thing/href")
+        expect(rendered_for(other_user))
+          .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json).at_path("_links/thing/href")
+      end
+
+      it "renders the link for the user the representer is rendered for, in reverse order" do
+        expect(rendered_for(other_user))
+          .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json).at_path("_links/thing/href")
+        expect(rendered_for(current_user))
+          .to be_json_eql("/api/v3/things/42".to_json).at_path("_links/thing/href")
+      end
+    end
   end
 
   describe "#from_hash" do

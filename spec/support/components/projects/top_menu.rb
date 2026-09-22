@@ -81,8 +81,7 @@ module Components
       end
 
       def clear_search
-        search_field.set ""
-        search_field.send_keys :backspace
+        clear_input_field_contents(search_field)
       end
 
       def search_and_select(query)

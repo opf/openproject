@@ -29,6 +29,7 @@
 import { Application, Controller } from '@hotwired/stimulus';
 import { type ControllerConstructor } from '@hotwired/stimulus/dist/types/core/controller';
 import { getQueriesForElement, queries, type BoundFunctions } from '@testing-library/dom';
+import { nextFrame } from 'core-common/testing/timing';
 
 export interface StimulusTestContext {
   application:Application;
@@ -90,9 +91,7 @@ export async function setupStimulusTest(options:SetupOptions):Promise<StimulusTe
       return controller as T;
     },
 
-    nextFrame() {
-      return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-    },
+    nextFrame,
 
     dispose() {
       // Unload before stopping: stop() kills the DOM observer, so controllers

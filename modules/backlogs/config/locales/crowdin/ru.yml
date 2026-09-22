@@ -127,7 +127,7 @@ ru:
         other: Спринтов
         zero: Все спринты
       select_panel_title: Выберите элементы
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Ни один пакет работ не соответствует критериям фильтра.
     bucket_component:
       action_menu:
         add_existing_work_package: Добавить существующий пакет работ
@@ -173,7 +173,7 @@ ru:
         other: Показать еще %{count} элементов
       title: Входящие
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Поиск пакетов работ по теме
     label_burndown_chart: Диаграмма выгорания
     label_is_done_status: Статус %{status_name} означает завершение,
     label_sprint_board: Доска для спринта
@@ -196,6 +196,7 @@ ru:
     remaining_hours: Оставшиеся часы
     sharing: Совместное использование спринта
     show_burndown_chart: Диаграмма выгорания
+    show_work_package_overview: Пакеты работ в рамках спринта
     sprint_component:
       action_menu:
         add_existing_work_package: Добавить существующий пакет работ
@@ -221,6 +222,33 @@ ru:
       page_header_component:
         breadcrumb: Отчет
         title: Отчёт %{sprint}
+      widgets:
+        work_package_graph:
+          title: График пакетов работ
+        work_package_overview:
+          blankslate:
+            description: Укажите даты начала и окончания спринта, чтобы сформировать обзор пакетов работ.
+            heading: Данные о спринте отсутствуют
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Изменение охвата
+              story_points_change: "+%{added} / -%{removed} стори поинтов"
+            completed:
+              heading: Завершено
+            initially_planned:
+              heading: Первоначально планировалось
+            unfinished:
+              heading: Не завершено
+          breakdown_block:
+            blocks:
+              show_all: Показать все
+          closed_work_packages: Закрытые пакеты работ
+          resolved_summary:
+            one: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
+            few: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
+            many: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
+            other: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
     sprints:
       row_component:
         action_menu:
@@ -263,8 +291,19 @@ ru:
       add_existing_dialog:
         invalid_target: Цель которую вы пытаетесь добавить является недействительной.
         target_not_found: Спринт или бэклог, в который вы пытаетесь внести запись, не найден.
+      batch_update_service:
+        mixed_projects: Все пакеты работ партии должны принадлежать одному проекту.
+        stale_batch: Во время подготовки перемещения по крайней мере один пакет работ изменился. Проверьте текущие позиции и повторите попытку.
+        stale_predecessor: Пакет работ для вставки был перемещен в другое место. Пожалуйста, проверьте текущие позиции и повторите попытку.
+        unavailable_target: Целевой список больше не доступен. Пожалуйста, перезагрузите страницу и повторите попытку.
+        unexpected_failure: Не удалось переместить пакеты работ. Пожалуйста, попробуйте еще раз.
       move:
         moved_announcement: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
+      move_collection:
+        invalid_ids: Недопустимый список пакетов работ для перемещения.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Одновременно можно переместить не более %{max} пакетов работ.
+        work_packages_not_found: Не удалось найти по крайней мере один пакет работ в этом проекте.
       update_service:
         invalid_target_type: 'list_type должен быть одним из следующих: backlog_bucket с list_id, sprint с list_id, inbox без list_id.'
         missing_target: list_type или list_id должны присутствовать.
@@ -300,9 +339,13 @@ ru:
   notice_unsuccessful_finish_with_reason: 'Спринт не может быть завершён: %{reason}'
   notice_unsuccessful_start: Спринт не может быть запущен.
   notice_unsuccessful_start_with_reason: 'Спринт не может быть запущен: %{reason}'
-  notice_work_package_invisible_after_move: 'Данный пакет работ был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
+  notice_work_package_invisible_after_move:
+    one: 'Пакет работ был перемещен в раздел %{backlog}, однако он не отображается, поскольку его тип или статус исключены из бэклога.
 
-    '
+      '
+    few: "%{count} пакета работ было перемещено в раздел %{backlog}, однако они не отображаются, поскольку их тип или статус исключены из бэклога.\n"
+    many: "%{count} пакетов работ было перемещено в раздел %{backlog}, однако они не отображаются, поскольку их тип или статус исключены из бэклога.\n"
+    other: "%{count} пакетов работ было перемещено в раздел %{backlog}, однако они не отображаются, поскольку их тип или статус исключены из бэклога.\n"
   permission_create_sprints: Создание спринтов
   permission_manage_sprint_items: Управление пунктами спринта
   permission_select_backlog_types_and_statuses: Выберите типы и статусы бэклога

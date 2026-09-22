@@ -120,25 +120,25 @@ nl:
                 options:
                   name: Aan de slag
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wij zijn blij dat u zich bij ons hebt aangesloten! Wij raden u aan een aantal zaken uit te proberen om aan de slag te gaan met OpenProject.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Maar voordat u er meteen mee aan de slag gaat, is het goed om te weten dat dit voorbeeldproject is opgesplitst in twee verschillende projecten:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [Bouwproject]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Hier vindt u de klassieke rollen, enkele workflows en werkpakketten voor uw bouwproject.
+                    2.  [BIM-model aanmaken]({{opSetting:base_url}}/projects/demo-bim-project): Dit project biedt eveneens rollen, workflows en werkpakketten, maar dan specifiek in de BIM-context.
 
-                    _Try the following steps:_
+                    _Volg de onderstaande stappen:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Nieuwe leden uitnodigen voor uw project_: → Ga naar [Leden]({{opSetting:base_url}}/projects/demo-construction-project/members) in de projectnavigatie.
+                    2.  _Het werk in uw projecten bekijken_: → Ga naar [Werkpakketten]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in de projectnavigatie.
+                    3.  _Een nieuw werkpakket aanmaken_: → Ga naar [Werkpakketten → Aanmaken]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Een Gantt-diagram aanmaken en bijwerken_: → Ga naar [Gantt-diagram]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in de projectnavigatie.
+                    5.  _Activeer verdere modules_: → Ga naar [Projectinstellingen → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Bekijk de tegelweergave om een overzicht te krijgen van uw BCF-taken:_ → Ga naar [Werkpakketten]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Agile werken? Bekijk onze gloednieuwe borden:_ → Ga naar [Borden]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier vindt u onze [Gebruikershandleidingen](https://www.openproject.org/docs/user-guide/).
+                    Laat het ons weten als u vragen heeft of ondersteuning nodig heeft. Neem contact met ons op: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Leden
@@ -179,21 +179,21 @@ nl:
                 options:
                   name: Aan de slag
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wij zijn blij dat u zich bij ons hebt aangesloten! Wij raden u aan een aantal zaken uit te proberen om aan de slag te gaan met OpenProject.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Hier vindt u de klassieke rollen, enkele workflows en werkpakketten voor uw bouwproject.
 
-                    _Try the following steps:_
+                    _Probeer de volgende stappen:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Nieuwe leden uitnodigen voor uw project:_ → Ga naar [Leden]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in de projectnavigatie.
+                    2.  _Bekijk de werkzaamheden in uw projecten:_ → Ga naar [Werkpakketten]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in de projectnavigatie.
+                    3.  _Een nieuw werkpakket aanmaken:_ → Ga naar [Werkpakketten → Aanmaken]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Een Gantt-diagram aanmaken en bijwerken:_ → Ga naar [Gantt-diagram]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in de projectnavigatie.
+                    5.  _Activeer verdere modules:_ → Ga naar [Projectinstellingen → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Werkt u agile? Maak dan een nieuw bord aan:_ → Ga naar [Borden]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier vindt u onze [Gebruikershandleidingen](https://www.openproject.org/docs/user-guide/).
+                    Laat het ons weten als u vragen heeft of ondersteuning nodig heeft. Neem contact met ons op: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Leden
@@ -433,24 +433,24 @@ nl:
                 options:
                   name: Aan de slag
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wij zijn blij dat u zich bij ons hebt aangesloten! Wij raden u aan een aantal zaken uit te proberen om aan de slag te gaan met OpenProject.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Dit demoproject biedt rollen, workflows en werkpakketten die speciaal zijn afgestemd op BIM.
 
-                    _Try the following steps:_
+                    _Volg de onderstaande stappen:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Nieuwe leden uitnodigen voor uw project:_ → Ga naar [Leden]({{opSetting:base_url}}/projects/demo-bim-project/members) in de projectnavigatie.
+                    2.  _3D-modellen in IFC-formaat uploaden en bekijken:_ → Ga naar [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in de projectnavigatie.
+                    3.  _Maak en beheer BCF-issues die rechtstreeks aan het IFC-model zijn gekoppeld:_ → Ga naar [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Aanmaken.
+                    4.  _Bekijk het werk in uw projecten:_ → Ga naar [Werkpakketten]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in de projectnavigatie.
+                    5.  _Een nieuw werkpakket aanmaken:_ → Ga naar [Werkpakketten → Aanmaken]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Een Gantt-diagram aanmaken en bijwerken:_ → Ga naar [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in de projectnavigatie.
+                    7.  _Activeer verdere modules:_ → Ga naar [Projectinstellingen → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Bekijk de tegelweergave om een overzicht te krijgen van uw BCF-kwesties:_ → Ga naar [Werkpakketten]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Werkt u agile? Maak een nieuw bord aan:_ → Ga naar [Borden]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier vindt u onze [gebruikershandleidingen](https://www.openproject.org/docs/user-guide/).
+                    Laat het ons weten als u vragen heeft of ondersteuning nodig heeft. Neem contact met ons op: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Leden
@@ -709,23 +709,23 @@ nl:
                 options:
                   name: Aan de slag
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wij zijn blij dat u zich bij ons hebt aangesloten! Wij raden u aan een aantal zaken uit te proberen om aan de slag te gaan met OpenProject.
 
-                    This demo project shows BCF management functionalities.
+                    Dit demoproject toont de BCF-beheerfuncties.
 
-                    _Try the following steps:_
+                    _Volg de onderstaande stappen:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Nieuwe leden uitnodigen voor uw project:_ → Ga naar [Leden]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in de projectnavigatie.
+                    2.  _3D-modellen in IFC-formaat uploaden en bekijken:_ → Ga naar [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in de projectnavigatie.
+                    3.  _Maak en beheer BCF-issues die rechtstreeks aan het IFC-model zijn gekoppeld:_ → Ga naar [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Aanmaken.
+                    4.  _Bekijk de BCF-bestanden in uw project:_ → Ga naar [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in de projectnavigatie.
+                    5.  _Laad uw BCF-bestanden:_ → Ga naar [BCF → Importeren.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Maak een Gantt-diagram aan en werk dit bij:_ → Ga naar [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in de projectnavigatie.
+                    7.  _Activeer verdere modules:_ → Ga naar [Projectinstellingen → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Houdt u van de agile aanpak? Maak een bord aan:_ → Ga naar [Borden]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Hier vindt u onze [gebruikershandleidingen](https://www.openproject.org/docs/user-guide/).
+                    Laat het ons weten als u vragen heeft of ondersteuning nodig heeft. Neem contact met ons op: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Leden

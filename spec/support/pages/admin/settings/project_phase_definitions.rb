@@ -74,7 +74,7 @@ module Pages
         end
 
         def clear_filter
-          find("button[aria-label=Clear]").click
+          click_button accessible_name: "Clear"
         end
 
         def add

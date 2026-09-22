@@ -45,8 +45,6 @@ class Attachment < ApplicationRecord
   validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
 
-  validate :filesize_below_allowed_maximum,
-           if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
   has_paper_trail
@@ -368,12 +366,6 @@ class Attachment < ApplicationRecord
   end
 
   private
-
-  def filesize_below_allowed_maximum
-    if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes
-      errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
-    end
-  end
 
   def container_changed_more_than_once
     if container_id_changed_more_than_once? || container_type_changed_more_than_once?
