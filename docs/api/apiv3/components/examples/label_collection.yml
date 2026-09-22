@@ -32,7 +32,15 @@ value:
         updatedAt: '2014-08-29T12:42:03.128Z'
   _links:
     self:
-      href: "/api/v3/labels"
+      href: "/api/v3/labels?filters=%5B%5D&offset=1&pageSize=20"
+    jumpTo:
+      href: "/api/v3/labels?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20"
+      templated: true
+    changeSize:
+      href: "/api/v3/labels?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D"
+      templated: true
   _type: Collection
   count: 3
   total: 3
+  pageSize: 20
+  offset: 1

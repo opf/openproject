@@ -31,7 +31,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "API v3 Label resource" do
+RSpec.describe "API v3 Label resource", with_flag: { work_package_labels: true } do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -41,7 +41,10 @@ RSpec.describe "API v3 Label resource" do
     create(:user, member_with_roles: { project => role })
   end
 
-  let!(:labels) { create_list(:label, 3) }
+  let!(:labels) { %w[Urgent bug Frontend].map { |name| create(:label, name:) } }
+  let(:urgent) { labels[0] }
+  let(:bug) { labels[1] }
+  let(:frontend) { labels[2] }
 
   describe "labels" do
     describe "#get" do
@@ -56,7 +59,58 @@ RSpec.describe "API v3 Label resource" do
           get get_path
         end
 
-        it_behaves_like "API V3 collection response", 3, 3, "Label"
+        it_behaves_like "API V3 collection response", 3, 3, "Label" do
+          let(:elements) { [bug, frontend, urgent] }
+        end
+
+        context "with a page size smaller than the number of labels" do
+          let(:get_path) { "#{api_v3_paths.labels}?pageSize=2" }
+
+          it_behaves_like "API V3 collection response", 3, 2, "Label" do
+            let(:elements) { [bug, frontend] }
+          end
+
+          it "links to the next page" do
+            expect(response.body)
+              .to be_json_eql("/api/v3/labels?filters=%5B%5D&offset=2&pageSize=2".to_json)
+              .at_path("_links/nextByOffset/href")
+          end
+        end
+
+        context "with an offset" do
+          let(:get_path) { "#{api_v3_paths.labels}?offset=2&pageSize=2" }
+
+          it_behaves_like "API V3 collection response", 3, 1, "Label" do
+            let(:elements) { [urgent] }
+          end
+        end
+
+        context "with a name filter" do
+          let(:get_path) do
+            filter = [{ name: { operator: "~", values: ["ront"] } }]
+
+            "#{api_v3_paths.labels}?filters=#{CGI.escape(filter.to_json)}"
+          end
+
+          it_behaves_like "API V3 collection response", 1, 1, "Label" do
+            let(:elements) { [frontend] }
+          end
+        end
+
+        context "with an unsupported filter" do
+          let(:get_path) do
+            filter = [{ bogus: { operator: "~", values: ["ront"] } }]
+
+            "#{api_v3_paths.labels}?filters=#{CGI.escape(filter.to_json)}"
+          end
+
+          it "returns an error" do
+            expect(response).to have_http_status(:bad_request)
+            expect(response.body)
+              .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+              .at_path("errorIdentifier")
+          end
+        end
       end
 
       context "with not logged in user" do

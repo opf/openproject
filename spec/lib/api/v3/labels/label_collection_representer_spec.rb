@@ -33,14 +33,30 @@ require "spec_helper"
 RSpec.describe API::V3::Labels::LabelCollectionRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:labels) { build_list(:label, 3) }
-  let(:representer) do
-    described_class.new(labels, self_link: api_v3_paths.labels, current_user: instance_double(User))
+  let(:self_base_link) { api_v3_paths.labels }
+  let(:labels) do
+    build_stubbed_list(:label, 3).tap do |labels|
+      without_partial_double_verification do
+        allow(labels).to receive_messages(offset: labels, limit: labels, count: total)
+      end
+    end
   end
+  let(:representer) do
+    described_class.new(labels,
+                        self_link: self_base_link,
+                        page:,
+                        per_page: page_size,
+                        current_user: instance_double(User))
+  end
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 2 }
+  let(:actual_count) { 3 }
+  let(:collection_inner_type) { "Label" }
 
   context "when listing" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like "unpaginated APIv3 collection", 3, "labels", "Label"
+    it_behaves_like "offset-paginated APIv3 collection"
   end
 end

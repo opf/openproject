@@ -1,7 +1,7 @@
 # Schema: LabelCollectionModel
 ---
 allOf:
-  - $ref: "./collection_model.yml"
+  - $ref: "./offset_paginated_collection_model.yml"
   - type: object
     required:
       - _links
@@ -19,7 +19,7 @@ allOf:
                     This label collection
 
                     **Resource**: LabelCollectionModel
-              readOnly: true
+                  readOnly: true
       _embedded:
         type: object
         required:

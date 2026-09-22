@@ -37,14 +37,14 @@ module API
       class LabelsAPI < ::API::OpenProjectAPI
         resources :labels do
           after_validation do
+            raise API::Errors::NotFound unless OpenProject::FeatureDecisions.work_package_labels_active?
+
             authorize_in_any_work_package(:view_work_packages)
           end
 
-          get do
-            LabelCollectionRepresenter.new(Label.order(:name),
-                                           self_link: api_v3_paths.labels,
-                                           current_user:)
-          end
+          get &::API::V3::Utilities::Endpoints::Index
+                 .new(model: Label)
+                 .mount
 
           route_param :id, type: Integer, desc: "Label ID" do
             after_validation do

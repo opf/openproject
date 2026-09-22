@@ -31,7 +31,7 @@
 module API
   module V3
     module Labels
-      class LabelCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      class LabelCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
       end
     end
   end

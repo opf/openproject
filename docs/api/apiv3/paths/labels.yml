@@ -12,6 +12,8 @@ get:
             "$ref": "../components/schemas/label_collection_model.yml"
       description: OK
       headers: {}
+    '400':
+      $ref: "../components/responses/invalid_query.yml"
     '403':
       content:
         application/hal+json:
@@ -30,6 +32,18 @@ get:
       headers: {}
   tags:
   - Labels
-  description: Returns all labels, sorted by name.
+  description: Returns a paginated collection of labels, sorted by name.
   operationId: List_all_Labels
   summary: List all Labels
+  parameters:
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Currently supported filters are:
+
+        + name: filters labels by name, with the operators `~` (contains), `!~` (does not contain) and `**` (all)
+      example: '[{ "name": { "operator": "~", "values": ["bug"] } }]'
+      in: query
+      required: false
+      schema:
+        type: string
