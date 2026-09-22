@@ -126,8 +126,8 @@ en:
         scheduled: Scheduled
         skipped: Skipped
         success: Success
-        waiting_for_resource: Waiting for resource
         waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
       states:
         closed: Closed
         locked: Locked
