@@ -51,9 +51,15 @@ module WorkPackages
 
         def body
           ::CSV.generate do |csv|
-            csv << fields.map { |field| I18n.t("work_packages.import.report.table.#{field}") }
-            problems.each { |problem| csv << fields.map { |field| cell(problem, field) } }
+            csv << escaped(fields.map { |field| I18n.t("work_packages.import.report.table.#{field}") })
+            problems.each { |problem| csv << escaped(fields.map { |field| cell(problem, field) }) }
           end
+        end
+
+        # The values are carried over from a file somebody else may have prepared, and this one is
+        # written to be opened in a spreadsheet.
+        def escaped(cells)
+          cells.map { |cell| cell.nil? ? nil : ::Exports::Concerns::CSVFormulaSanitization.sanitize(cell) }
         end
 
         def cell(problem, field)
