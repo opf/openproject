@@ -133,7 +133,13 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        layout.with_row(classes: "op-ai-result-popover--resize", data: target(:resize), "aria-hidden": true)
+        %w[left right bottom-left bottom-right].each do |edge|
+          layout.with_row(
+            classes: "op-ai-result-popover--resize op-ai-result-popover--resize_#{edge}",
+            data: target(:resize).merge(edge:),
+            "aria-hidden": true
+          )
+        end
       end
     end
   end
