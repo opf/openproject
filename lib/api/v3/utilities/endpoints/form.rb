@@ -35,17 +35,6 @@ module API
         class Form < API::Utilities::Endpoints::Bodied
           include V3Deductions
 
-          def process(request, params)
-            call = nil
-
-            ActiveRecord::Base.transaction(requires_new: true) do
-              call = super
-              raise ActiveRecord::Rollback
-            end
-
-            call
-          end
-
           def success?(call)
             only_validation_errors?(api_errors(call))
           end
