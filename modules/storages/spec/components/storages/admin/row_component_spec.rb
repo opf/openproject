@@ -31,10 +31,13 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::StorageRowComponent, type: :component do
+RSpec.describe Storages::Admin::RowComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  subject(:storage_row_component) { described_class.new(storage) }
+  subject(:storage_row_component) do
+    table = Storages::Admin::TableComponent.new(rows: [storage])
+    described_class.new(row: storage, table:)
+  end
 
   before do
     render_inline(storage_row_component)

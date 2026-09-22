@@ -29,13 +29,41 @@
 #++
 
 module Wikis::Admin
-  class WikiProviderListComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+  class TableComponent < OpPrimer::BorderBoxTableComponent
+    columns :name, :provider_type, :created_at
+    main_column :name
+    mobile_columns :name, :provider_type
 
-    alias_method :wiki_providers, :model
+    def row_class
+      ::Wikis::Admin::RowComponent
+    end
 
-    def provider_url(wiki_provider)
-      wiki_provider.respond_to?(:url) && wiki_provider.url
+    def headers
+      [
+        [:name, { caption: I18n.t("wikis.admin.wiki_provider_list_component.label_name") }],
+        [:provider_type, { caption: I18n.t("wikis.admin.wiki_provider_list_component.label_provider") }],
+        [:created_at, { caption: I18n.t("wikis.admin.wiki_provider_list_component.label_creation_time") }]
+      ]
+    end
+
+    def container_id
+      "wiki-providers-table"
+    end
+
+    def mobile_title
+      I18n.t("menus.admin.external_wiki_providers")
+    end
+
+    def blank_icon
+      :browser
+    end
+
+    def blank_title
+      I18n.t("wikis.admin.wiki_provider_list_component.no_results_title")
+    end
+
+    def blank_description
+      I18n.t("wikis.admin.wiki_provider_list_component.no_results_description")
     end
   end
 end

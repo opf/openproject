@@ -49,8 +49,8 @@ RSpec.describe "Admin List File storages",
 
     it "renders a list of all storages" do
       within :css, "#content" do
-        expect(page).to have_list_item(nextcloud_storage.name)
-        expect(page).to have_list_item(one_drive_storage.name)
+        expect(page).to have_css(".Box-row", text: nextcloud_storage.name)
+        expect(page).to have_css(".Box-row", text: one_drive_storage.name)
       end
     end
 

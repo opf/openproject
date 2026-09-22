@@ -23,39 +23,37 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
+
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::StorageListComponent, type: :component do
-  shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
-  shared_let(:one_drive_storage) { create(:one_drive_storage) }
+RSpec.describe Wikis::Admin::RowComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-  let(:storages) { [nextcloud_storage, one_drive_storage] }
+  shared_let(:xwiki_provider) { create(:xwiki_provider) }
 
-  subject(:storage_list_component) { described_class.new(storages) }
+  subject(:wiki_provider_row_component) do
+    table = Wikis::Admin::TableComponent.new(rows: [xwiki_provider])
+    described_class.new(row: xwiki_provider, table:)
+  end
 
   before do
-    render_inline(storage_list_component)
+    render_inline(wiki_provider_row_component)
   end
 
-  context "with storages" do
-    it "lists all storages" do
-      expect(page).to have_list_item(count: 2)
-      expect(page).to have_list_item(nextcloud_storage.name)
-      expect(page).to have_list_item(one_drive_storage.name)
-    end
+  it "renders the provider name linking to its edit page" do
+    expect(page).to have_link(xwiki_provider.name, href: edit_admin_settings_wiki_provider_path(xwiki_provider))
   end
 
-  context "with no storages" do
-    let(:storages) { [] }
+  it "renders the provider url" do
+    expect(page).to have_text(xwiki_provider.url)
+  end
 
-    it "renders a blank slate" do
-      expect(page).to have_text("You don't have any storages yet.")
-    end
+  it "renders the provider type" do
+    expect(page).to have_text("XWiki")
   end
 end
