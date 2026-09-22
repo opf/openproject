@@ -102,6 +102,8 @@ export default class MyTimeTrackingChartController extends Controller {
 
   private calendar:Calendar;
   private scaleRatio = 1;
+  private resizeObserver:ResizeObserver;
+  private lastWidth = 0;
   private boundListener = this.dialogCloseListener.bind(this);
 
   initialize() {
@@ -111,10 +113,6 @@ export default class MyTimeTrackingChartController extends Controller {
   servicesConnected() {
     if (this.hasChartTarget) {
       this.initializeChart();
-
-      // The stimulus controller gets initialized before the content wrapper is fully shown
-      // so its height might not be set correctly yet.
-      setTimeout(() => this.calendar.updateSize(), 25);
     }
 
     document.addEventListener('dialog:close', this.boundListener);
@@ -123,9 +121,39 @@ export default class MyTimeTrackingChartController extends Controller {
   disconnect():void {
     document.removeEventListener('dialog:close', this.boundListener);
 
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+
     if (this.calendar) {
       this.calendar.destroy();
     }
+  }
+
+  /*
+   * FullCalendar keeps whatever column widths it measured on its first layout, so a
+   * container that is still settling leaves the columns collapsed for good. The observer
+   * re-measures as soon as the container reaches its real width, which also covers the
+   * side menu collapsing, zen mode and window resizes.
+   *
+   * It runs after layout but before paint, so the correction lands on the first frame
+   * rather than flickering, and unlike requestAnimationFrame it also fires while the tab
+   * is in the background.
+   */
+  private observeResize():void {
+    this.resizeObserver = new ResizeObserver(() => {
+      const width = this.chartTarget.clientWidth;
+
+      if (width === this.lastWidth) {
+        return;
+      }
+
+      this.lastWidth = width;
+      this.calendar.updateSize();
+      this.addTotalFooter();
+    });
+
+    this.resizeObserver.observe(this.chartTarget);
   }
 
   initializeChart() {
@@ -160,10 +188,11 @@ export default class MyTimeTrackingChartController extends Controller {
       eventContent: (info) => this.eventContent(info.event.extendedProps),
       eventDidMount: (info) => this.decorateBackgroundEvent(info.el),
       eventClick: (info) => this.handleEventClick(info.el, info.event.startStr, info.event.extendedProps),
-      viewDidMount: () => setTimeout(() => this.addTotalFooter(), 100),
     });
 
     this.calendar.render();
+    this.addTotalFooter();
+    this.observeResize();
   }
 
   private buildEvents(startStr:string, endStr:string):EventInput[] {

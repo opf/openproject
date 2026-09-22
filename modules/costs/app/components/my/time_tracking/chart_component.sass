@@ -2,6 +2,9 @@
 
 .my-time-tracking-chart-view
   height: 100%
+  // FullCalendar defaults to its own grey, which reads as a different colour next to the
+  // canvas border.
+  --fc-border-color: var(--borderColor-default)
 
   .my-time-tracking-chart-view--body
     flex-grow: 1
@@ -18,10 +21,27 @@
     border-radius: var(--borderRadius-medium)
     overflow: hidden
 
-  // The canvas owns the outer frame, so the scrollgrid must not draw its own top and
-  // left border inside the rounded corners.
+  // The canvas owns the outer frame. Neither the scrollgrid nor the cells sitting on its
+  // outer edges may add a second line next to it, which would read as a thicker border.
   .fc-scrollgrid
     border-width: 0
+
+    th:first-child,
+    td:first-child
+      border-left: 0
+
+    th:last-child,
+    td:last-child
+      border-right: 0
+
+  .fc-col-header-cell,
+  .fc-col-header .fc-timegrid-axis
+    border-top: 0
+
+  // Every section wrapper draws a line under its own section, doubling up with the cell
+  // borders that already close each section off, and with the canvas border at the bottom.
+  .fc-scrollgrid-section > td
+    border-bottom: 0
 
   .fc-event,
   .fc-bgevent
