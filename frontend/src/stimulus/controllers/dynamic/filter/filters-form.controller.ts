@@ -46,6 +46,12 @@ export interface InternalFilterValue {
   value:string[];
 }
 
+// A filter selects results once it carries a value, or once its operator needs none
+// ("is not set"). A row that was added without a value yet leaves the results untouched.
+function hasEffectiveValue(filter:InternalFilterValue):boolean {
+  return filter.value.length === 0 || filter.value.some((value) => value !== '');
+}
+
 type SerializedFilter = Record<string, { operator:string; values:unknown[] }>;
 
 type FilterFunc<T> = (_value:T) => boolean;
@@ -116,6 +122,7 @@ export default class FiltersFormController extends Controller {
   private boundListener:() => void;
   private boundClearListener:(event:MouseEvent) => void;
   private sentFilters:string|null = null;
+  private sentEffectiveFilters:string|null = null;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -463,15 +470,25 @@ export default class FiltersFormController extends Controller {
     }
 
     const params = new URLSearchParams(window.location.search);
-    const newFilters = this.buildFiltersParam(this.currentFilters());
+    const filters = this.currentFilters();
+    const newFilters = this.buildFiltersParam(filters);
+    const previousFilters = this.sentFilters ?? params.get('filters') ?? '';
 
-    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
+    if (newFilters === previousFilters) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
     }
 
-    this.resetParamsValue.forEach((parameter) => params.delete(parameter));
+    // Parameters tied to the result set (pagination, expansion state) must survive the addition
+    // of a filter row that has no value yet, because it selects exactly what was shown before.
+    const effectiveFilters = this.buildFiltersParam(filters.filter(hasEffectiveValue));
+    const previousEffectiveFilters = this.sentEffectiveFilters ?? previousFilters;
+    this.sentEffectiveFilters = effectiveFilters;
+
+    if (effectiveFilters !== previousEffectiveFilters) {
+      this.resetParamsValue.forEach((parameter) => params.delete(parameter));
+    }
 
     if (newFilters) {
       params.set('filters', newFilters);
@@ -495,7 +512,7 @@ export default class FiltersFormController extends Controller {
     showElement(loadingIndicator);
 
     if (this.turboStreamRequestValue) {
-      const previousFilters = this.sentFilters;
+      const rollbackFilters = this.sentFilters;
       this.sentFilters = newFilters;
 
       fetch(url, {
@@ -512,7 +529,7 @@ export default class FiltersFormController extends Controller {
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
-          this.sentFilters = previousFilters;
+          this.sentFilters = rollbackFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);
         });
@@ -610,7 +627,10 @@ export default class FiltersFormController extends Controller {
     if (valueContainer.dataset.filterAutocomplete === 'true') {
       const selected = valueContainer.querySelector<HTMLInputElement>('input[name="value"]')?.value ?? '';
       const values = selected.split(',').filter((value) => value !== '');
-      return values.length > 0 ? values : null;
+      // A row the user has added but not given a value to yet is still part of the form. It is
+      // sent with an empty value so the server keeps rendering it after the re-render, while
+      // `hasEffectiveValue` keeps it from counting as a change of the result set.
+      return values.length > 0 ? values : [''];
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
