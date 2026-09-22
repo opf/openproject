@@ -29,7 +29,6 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
@@ -69,7 +68,6 @@ export class WorkPackagesListService {
   readonly I18n = inject(I18nService);
   protected UrlParamsHelper = inject(UrlParamsHelperService);
   protected authorisationService = inject(AuthorisationService);
-  protected $state = inject(StateService);
   protected urlParams = inject(UrlParamsService);
   protected apiV3Service = inject(ApiV3Service);
   protected states = inject(States);
@@ -316,11 +314,7 @@ export class WorkPackagesListService {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
         if (queryAccessibleByUser) {
-          if (this.isOnNonRouterPage()) {
-            this.navigateToQueryOnNonRouterPage(query.id);
-          } else {
-            void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
-          }
+          this.navigateToQueryOnNonRouterPage(query.id);
           this.states.changes.queries.next(query.id);
           this.reloadSidemenu(query.id);
         } else {
@@ -442,43 +436,31 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
-    const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
+    const { pathname } = window.location;
 
-    if (hardReloadOnBaseRoute) {
+    // Calendars and team planners address the shown query by an :id path segment
+    // (e.g. /calendars/42), so deleting it needs a hard reload onto the 'new'
+    // pseudo-path (the default, unsaved view) rather than an in-place query swap.
+    if (pathname.includes('/calendars/') || pathname.includes('/team_planners/')) {
       const url = new URL(window.location.href);
-      const defaultQuery = sideMenuOptions.defaultQuery;
-
-      // If there is a default query passed, we replace the hard coded ids with the default query
-      // e.g. calendars/:id, team_planner/:id, ...
-      // Otherwise, we will just delete the search params
-      if (defaultQuery) {
-        url.pathname = url.pathname.replace(/\d+$/, defaultQuery);
-      }
-
+      url.pathname = pathname.replace(/\/[^/]+$/, '/new');
       url.search = '';
       window.location.href = url.href;
-    } else {
-      let projectId;
-      if (query.project.href) {
-        projectId = query.project.href.split('/').pop();
-      }
-
-      void this.loadDefaultQuery(projectId);
-
-      this.states.changes.queries.next(query.id);
-      this.reloadSidemenu(null);
+      return;
     }
-  }
 
-  private isOnNonRouterPage():boolean {
-    return !this.$state.current.name || !!this.getNonRouterSidemenuId();
+    let projectId;
+    if (query.project.href) {
+      projectId = query.project.href.split('/').pop();
+    }
+
+    void this.loadDefaultQuery(projectId);
+
+    this.states.changes.queries.next(query.id);
+    this.reloadSidemenu(null);
   }
 
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
-    if (!this.isOnNonRouterPage()) { return; }
-
     const url = new URL(window.location.href);
     const { pathname } = url;
 
@@ -502,8 +484,7 @@ export class WorkPackagesListService {
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const sidemenuId = this.isOnNonRouterPage() ? this.getNonRouterSidemenuId() : undefined;
-    this.submenuService.reloadSubmenu(selectedQueryId, sidemenuId);
+    this.submenuService.reloadSubmenu(selectedQueryId, this.getNonRouterSidemenuId());
   }
 
   private getNonRouterSidemenuId():string|undefined {

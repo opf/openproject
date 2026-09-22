@@ -26,11 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService, TransitionService } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { take } from 'rxjs/operators';
@@ -43,20 +41,13 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
   templateUrl: './wp-create-button.html',
   standalone: false,
 })
-export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  /** Only used for the legacy uiRouter contexts still routing through stateName (e.g. BIM). */
-  readonly $state = inject(StateService);
+export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit {
   readonly currentUser = inject(CurrentUserService);
   readonly currentProject = inject(CurrentProjectService);
   readonly authorisationService = inject(AuthorisationService);
-  readonly transition = inject(TransitionService);
   readonly urlParams = inject(UrlParamsService);
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-
-  @Input() stateName$:Observable<string>;
-
-  @Input() routedFromAngular = true;
 
   /** Whether this button is mounted on the full work package view rather than a list toolbar. */
   @Input() fullView = false;
@@ -68,8 +59,6 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
   projectIdentifier:string|null;
 
   types:any;
-
-  transitionUnregisterFn:(() => void)|undefined;
 
   text = {
     title: this.I18n.t('js.work_packages.create.title'),
@@ -92,27 +81,13 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
         this.updateDisabledState();
       });
 
-    if (this.routedFromAngular) {
-      // uiRouter's own type declares this as the generic `Function`; it's actually a
-      // parameterless deregistration callback.
-      this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this)) as () => void;
-    } else {
-      this.urlParams.changed$
-        .pipe(this.untilDestroyed())
-        .subscribe(() => this.updateDisabledState());
-    }
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-    this.transitionUnregisterFn?.();
+    this.urlParams.changed$
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.updateDisabledState());
   }
 
   private updateDisabledState() {
-    const isCreating = this.routedFromAngular
-      ? this.$state.includes('**.new')
-      : window.location.pathname.endsWith('/create_new');
-    this.disabled = !this.allowed || isCreating;
+    this.disabled = !this.allowed || this.urlParams.isCreatePaneOpen();
     this.cdRef.detectChanges();
   }
 }

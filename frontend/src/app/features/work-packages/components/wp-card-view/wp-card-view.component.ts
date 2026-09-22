@@ -34,7 +34,6 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { trackByHrefAndProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { CardHighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -87,7 +86,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly states = inject(States);
   readonly injector = inject(Injector);
-  readonly $state = inject(StateService);
   readonly I18n = inject(I18nService);
   readonly wpCreate = inject(WorkPackageCreateService);
   readonly wpInlineCreate = inject(WorkPackageInlineCreateService);

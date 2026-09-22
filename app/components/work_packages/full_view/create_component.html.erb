@@ -1,7 +1,6 @@
 <%= helpers.angular_component_tag "opce-wp-full-create",
                                   inputs: {
                                     type: @type,
-                                    projectIdentifier: @project.present? ? @project.identifier : nil,
-                                    routedFromAngular: false,
+                                    projectIdentifier: @project.present? ? @project.identifier : nil
                                   }
 %>

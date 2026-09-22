@@ -41,7 +41,6 @@ import {
 import { EMPTY, Observable, Subscription } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
-import { StateService } from '@uirouter/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
@@ -83,7 +82,6 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
-  readonly state = inject(StateService);
   readonly toastService = inject(ToastService);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly boardComponent = inject(BoardPartitionedPageComponent);
@@ -147,7 +145,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   private readonly wpStates = inject(States);
 
   ngOnInit():void {
-    const id:string = this.boardId || this.state.params.board_id?.toString();
+    const id:string = this.boardId;
     this.board$ = this
       .apiV3Service
       .boards

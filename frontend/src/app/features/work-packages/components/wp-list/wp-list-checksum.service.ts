@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { Injectable, inject } from '@angular/core';
@@ -56,7 +55,6 @@ export function consumeSelfInitiatedUrlChangeFlag():boolean {
 @Injectable()
 export class WorkPackagesListChecksumService {
   protected UrlParamsHelper = inject(UrlParamsHelperService);
-  protected $state = inject(StateService);
   protected urlParams = inject(UrlParamsService);
 
 
@@ -176,34 +174,26 @@ export class WorkPackagesListChecksumService {
     );
   }
 
-  private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
+  private maintainUrlQueryState(id:string|null, checksum:string|null):Promise<void> {
     this.visibleChecksum = checksum;
     this.visibleChecksum$.next(checksum);
 
-    if (this.urlParams.isOnNonRouterPage()) {
-      const url = new URL(window.location.href);
+    const url = new URL(window.location.href);
 
-      if (checksum) {
-        url.searchParams.set('query_props', checksum);
-      } else {
-        url.searchParams.delete('query_props');
-      }
-
-      if (id) {
-        url.searchParams.set('query_id', id);
-      } else {
-        url.searchParams.delete('query_id');
-      }
-
-      selfInitiatedUrlChange = true;
-      Turbo.session.history.push(url);
-      return Promise.resolve() as unknown as TransitionPromise;
+    if (checksum) {
+      url.searchParams.set('query_props', checksum);
+    } else {
+      url.searchParams.delete('query_props');
     }
 
-    return this.$state.go(
-      '.',
-      { query_props: checksum, query_id: id },
-      { custom: { notify: false } },
-    );
+    if (id) {
+      url.searchParams.set('query_id', id);
+    } else {
+      url.searchParams.delete('query_id');
+    }
+
+    selfInitiatedUrlChange = true;
+    Turbo.session.history.push(url);
+    return Promise.resolve();
   }
 }

@@ -27,7 +27,6 @@
 //++
 
 import { truncate } from 'lodash-es';
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { WorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/work-package-display-field.module';
@@ -50,9 +49,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
   @LazyInject() urlParams!:UrlParamsService;
 
-  @LazyInject() $state!:StateService;
-
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams, this.$state);
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
 
   public render(element:HTMLElement, displayText:string):void {
     if (this.isEmpty()) {

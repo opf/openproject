@@ -36,7 +36,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -85,7 +84,6 @@ describe('WorkPackage', () => {
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageCreateService, useValue: {} },
-        { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),

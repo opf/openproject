@@ -54,59 +54,52 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
    * can pre-populate the form fields automatically — no manual filter mapping needed.
    */
   protected override async createdWorkPackage() {
-    if (!this.routedFromAngular) {
-      const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
 
-      // Load the active query into the isolated query space so that
-      // WorkPackageCreateService.defaultsFromFilters() can pre-populate filter-based fields.
-      const queryId = params.get('query_id');
-      const queryProps = params.get('query_props');
-      if (queryId || queryProps) {
-        await firstValueFrom(
-          this.wpListService.fromQueryParams(
-            { query_id: queryId ?? undefined, query_props: queryProps ?? undefined },
-            this.currentProjectService.identifier ?? undefined,
-          ),
-        );
-      }
+    // Load the active query into the isolated query space so that
+    // WorkPackageCreateService.defaultsFromFilters() can pre-populate filter-based fields.
+    const queryId = params.get('query_id');
+    const queryProps = params.get('query_props');
+    if (queryId || queryProps) {
+      await firstValueFrom(
+        this.wpListService.fromQueryParams(
+          { query_id: queryId ?? undefined, query_props: queryProps ?? undefined },
+          this.currentProjectService.identifier ?? undefined,
+        ),
+      );
+    }
 
-      // Apply defaults passed via URL params (e.g. when dragging to create on the calendar/team planner).
-      const startDate = params.get('startDate');
-      const dueDate = params.get('dueDate');
-      const ignoreNonWorkingDays = params.get('ignoreNonWorkingDays');
-      const assigneeHref = params.get('assignee_href');
-      const parentId = params.get('parent_id');
-      if (startDate || dueDate || ignoreNonWorkingDays || assigneeHref || parentId) {
-        const existingDefaults = this.stateParams?.defaults;
-        this.stateParams = {
-          ...this.stateParams,
-          ...(parentId ? { parent_id: parentId } : {}),
-          defaults: {
-            _links: {},
-            ...existingDefaults,
-            ...(startDate ? { startDate } : {}),
-            ...(dueDate ? { dueDate } : {}),
-            ...(ignoreNonWorkingDays ? { ignoreNonWorkingDays: true } : {}),
-            ...(assigneeHref ? {
-              _links: {
-                ...(existingDefaults?._links || {}),
-                assignee: { href: assigneeHref },
-              },
-            } : {}),
-          },
-        };
-      }
+    // Apply defaults passed via URL params (e.g. when dragging to create on the calendar/team planner).
+    const startDate = params.get('startDate');
+    const dueDate = params.get('dueDate');
+    const ignoreNonWorkingDays = params.get('ignoreNonWorkingDays');
+    const assigneeHref = params.get('assignee_href');
+    const parentId = params.get('parent_id');
+    if (startDate || dueDate || ignoreNonWorkingDays || assigneeHref || parentId) {
+      const existingDefaults = this.stateParams?.defaults;
+      this.stateParams = {
+        ...this.stateParams,
+        ...(parentId ? { parent_id: parentId } : {}),
+        defaults: {
+          _links: {},
+          ...existingDefaults,
+          ...(startDate ? { startDate } : {}),
+          ...(dueDate ? { dueDate } : {}),
+          ...(ignoreNonWorkingDays ? { ignoreNonWorkingDays: true } : {}),
+          ...(assigneeHref ? {
+            _links: {
+              ...(existingDefaults?._links || {}),
+              assignee: { href: assigneeHref },
+            },
+          } : {}),
+        },
+      };
     }
 
     return super.createdWorkPackage();
   }
 
   public override cancelAndBack():void {
-    if (this.routedFromAngular) {
-      super.cancelAndBack();
-      return;
-    }
-
     this.wpCreate.cancelCreation();
 
     // Close the split panel by navigating to the base URL (strips /details/new or /create_new),
@@ -116,11 +109,6 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
   }
 
   public override onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }):void {
-    if (this.routedFromAngular) {
-      super.onSaved(params);
-      return;
-    }
-
     const { savedResource, isInitial } = params;
     this.editForm?.cancel(false);
 

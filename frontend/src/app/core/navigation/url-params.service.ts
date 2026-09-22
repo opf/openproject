@@ -29,29 +29,12 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
-import { StateService } from '@uirouter/core';
 import { NavigationService } from 'core-app/core/navigation/navigation.service';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
-
-const nonRouterPathSegments = ['/team_planners', '/calendars', '/ifc_models', '/bcf'];
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsService {
   private navigation = inject(NavigationService);
-
-  private $state = inject(StateService);
-
-  /**
-   * Whether the current page is managed by Rails/Turbo rather than by the classic uiRouter
-   * state tree (calendars, team planner, BIM/BCF, and any other already-migrated satellite).
-   * uiRouterGlobals.current.name can be stale/truthy even on these pages (e.g. resolving to
-   * an unrelated state matched during uiRouter's own initial url-sync), so path matching is
-   * the reliable signal - only trust an empty state name as a shortcut, never a non-empty one.
-   */
-  public isOnNonRouterPage(pathname = window.location.pathname):boolean {
-    return !this.$state.current.name || nonRouterPathSegments.some((segment) => pathname.includes(segment));
-  }
-
 
   public get(key:string):string|null {
     return this.searchParams.get(key);
@@ -98,6 +81,11 @@ export class UrlParamsService {
   public splitCreatePath(url = window.location.pathname):string {
     const basePath = this.basePathWithoutDetails(url);
     return /\/(work_packages|gantt)$/.test(basePath) ? `${basePath}/create_new` : `${basePath}/details/new`;
+  }
+
+  /** Whether the split-create form (see splitCreatePath) is the page currently open. */
+  public isCreatePaneOpen(pathname = window.location.pathname):boolean {
+    return pathname.endsWith('/create_new') || pathname.endsWith('/details/new');
   }
 
   /** Raw URL-changed signal, for callers that need to react to more than one pattern at once. */

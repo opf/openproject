@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -86,7 +88,7 @@ module Bim
         @ifc_models = @project
           .ifc_models
           .includes(:attachments)
-          .order("created_at ASC")
+          .order(:created_at)
       end
 
       def set_default_models

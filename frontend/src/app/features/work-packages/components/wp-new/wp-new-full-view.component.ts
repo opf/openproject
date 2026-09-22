@@ -37,8 +37,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: false,
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState = (this.$state?.current?.data?.successState as string) || '';
-
   breadcrumbItems() {
     const items = [];
     if (this.currentProjectService?.identifier) {

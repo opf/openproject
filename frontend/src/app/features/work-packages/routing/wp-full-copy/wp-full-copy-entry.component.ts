@@ -42,7 +42,6 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   template: `
     <wp-copy-full-view
       [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier, copiedFromWorkPackageId: copiedFromWorkPackageId }"
-      [routedFromAngular]="routedFromAngular"
     ></wp-copy-full-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +53,6 @@ export class WorkPackageFullCopyEntryComponent {
   @Input() copiedFromWorkPackageId:string;
   @Input() parentId?:string;
   @Input() projectIdentifier?:string;
-  @Input() routedFromAngular:boolean;
 
   constructor() {
     populateInputsFromDataset(this);

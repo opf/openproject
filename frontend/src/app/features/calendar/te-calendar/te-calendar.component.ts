@@ -30,7 +30,6 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmi
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from 'core-app/core/states/states.service';
 import moment, { Moment } from 'moment';
-import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import timeGrid from '@fullcalendar/timegrid';
 import {
@@ -123,7 +122,6 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   readonly states = inject(States);
   readonly apiV3Service = inject(ApiV3Service);
-  readonly $state = inject(StateService);
   private element = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly i18n = inject(I18nService);
   readonly injector = inject(Injector);

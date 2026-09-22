@@ -65,12 +65,8 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
   public cancelAndBack() {
     this.wpCreate.cancelCreation();
 
-    if (this.routedFromAngular) {
-      this.$state.go(this.cancelState, this.$state.params);
-    } else {
-      const link = this.pathHelper.genericWorkPackagePath(this.currentProjectService.id, this.copiedWorkPackageId);
-      Turbo.visit(link + window.location.search, { action: 'advance' });
-    }
+    const link = this.pathHelper.genericWorkPackagePath(this.currentProjectService.id, this.copiedWorkPackageId);
+    Turbo.visit(link + window.location.search, { action: 'advance' });
   }
 
   protected createdWorkPackage() {

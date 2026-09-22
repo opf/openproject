@@ -33,7 +33,6 @@ import {
   WorkPackageViewFocusService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-app/core/states/states.service';
 import {
@@ -58,21 +57,16 @@ import { ProjectsResourceService } from 'core-app/core/state/projects/projects.s
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StateService } from '@uirouter/angular';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   injector = inject(Injector);
-
-  @Input() routedFromAngular = true;
 
   @Input() workPackageId:string;
 
   @Input() activeTab = 'activity';
 
   readonly states = inject(States);
-
-  readonly $state = inject(StateService);
 
   readonly i18n = inject(I18nService);
 
@@ -100,8 +94,6 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   readonly cdRef = inject(ChangeDetectorRef);
 
-  readonly titleService = inject(OpTitleService);
-
   readonly apiV3Service = inject(ApiV3Service);
 
   readonly hooks = inject(HookService);
@@ -120,14 +112,6 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public showStaticPagePath:string;
 
   public displayNotificationsButton$:Observable<boolean>;
-
-  constructor() {
-    super();
-
-    if (this.routedFromAngular && this.workPackageId === undefined) {
-      this.workPackageId = this.$state.params.workPackageId as string;
-    }
-  }
 
   /**
    * Observe changes of work package and re-run initialization.
@@ -179,11 +163,6 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       this.init();
     } else {
       this.workPackage = wp;
-    }
-
-    if (this.routedFromAngular) {
-      // Push the current title
-      this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
     }
 
     this.cdRef.detectChanges();

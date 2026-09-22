@@ -29,12 +29,12 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Injectable, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Injectable()
 export class StaticQueriesService {
   private readonly I18n = inject(I18nService);
-  private readonly $state = inject(StateService);
+  private readonly urlParams = inject(UrlParamsService);
 
 
   public text = {
@@ -43,8 +43,8 @@ export class StaticQueriesService {
   };
 
   public getStaticName(query:QueryResource):string {
-    if (this.$state.params.query_props) {
-      const nameKey = this.$state.params.name as string;
+    if (this.urlParams.has('query_props')) {
+      const nameKey = this.urlParams.get('name');
       if (nameKey) {
         return this.I18n.t(`js.work_packages.default_queries.${nameKey}`);
       }

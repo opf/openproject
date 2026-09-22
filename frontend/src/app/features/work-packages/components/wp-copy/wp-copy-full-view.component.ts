@@ -37,8 +37,6 @@ import { WorkPackageCopyController } from 'core-app/features/work-packages/compo
   standalone: false,
 })
 export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController {
-  public successState = 'work-packages.show';
-
   breadcrumbItems() {
     const items = [];
     if (this.currentProjectService?.identifier) {

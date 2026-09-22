@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -38,7 +37,6 @@ import {
 import {
   CreateAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
-import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
@@ -61,12 +59,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   readonly halNotification = inject(HalResourceNotificationService);
 
   readonly halSorting = inject(HalResourceSortingService);
-
-  readonly $state = inject(StateService);
-
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
-
-  readonly editFormComponent = inject(EditFormComponent, { optional: true });
 
   public availableOptions:HalResource[] = [];
 
@@ -128,7 +120,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           });
       });
 
-    this.syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
   }
 
   protected initialize() {
@@ -300,21 +291,5 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private getEmptyOption():ValueOption|undefined {
     return (this.availableOptions as ValueOption[]).find((el) => el.name === this.text.placeholder);
-  }
-
-  private syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode?:boolean) {
-    // Work package type changes need to be synced with the type url param
-    // in order to keep the form changes (changeset) between route/state changes
-    if (fieldName === 'type' && editMode) {
-      this.handler.registerOnBeforeSubmit(() => {
-        const oldType = this.uiRouterGlobals.params.type as string|null;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const newType = (this.value as HalResource)?.$source?.id as string;
-
-        if (oldType && newType) {
-          void this.$state.go('.', { type: newType }, { notify: false });
-        }
-      });
-    }
   }
 }

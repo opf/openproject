@@ -29,7 +29,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { StateService } from '@uirouter/core';
 import moment from 'moment';
 import { of } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -87,7 +86,6 @@ describe('TimeEntryCalendarComponent', () => {
         },
         { provide: BrowserDetector, useValue: { isMobile: false } },
         { provide: States, useValue: {} },
-        { provide: StateService, useValue: {} },
         { provide: HalResourceNotificationService, useValue: {} },
         {
           provide: SchemaCacheService,

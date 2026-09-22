@@ -46,7 +46,6 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { StateService } from '@uirouter/angular';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -70,7 +69,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
   readonly ConfigurationService = inject(ConfigurationService);
-  readonly $state = inject(StateService);
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),

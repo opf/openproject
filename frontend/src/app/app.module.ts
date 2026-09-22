@@ -44,7 +44,6 @@ import { OpenprojectBimModule } from 'core-app/features/bim/openproject-bim.modu
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
-import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
@@ -189,7 +188,6 @@ import { ColorsAutocompleterComponent } from 'core-app/shared/components/colors/
 import {
   StaticAttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
-import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.component';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -240,16 +238,6 @@ export function initializeServices(injector:Injector) {
   };
 }
 
-export function runBootstrap(appRef:ApplicationRef) {
-  // Try to bootstrap a dynamic root element
-  const root = document.querySelector(appBaseSelector);
-  if (root) {
-    appRef.bootstrap(ApplicationBaseComponent, root);
-  }
-
-  document.body.classList.add('__ng2-bootstrap-has-run');
-}
-
 @NgModule({
   declarations: [
     OpContextMenuTrigger,
@@ -275,8 +263,6 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpSpotModule,
     // State module
     OpenProjectStateModule,
-    // Router module
-    OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
     OpenProjectJobStatusModule,
@@ -365,7 +351,7 @@ export function runBootstrap(appRef:ApplicationRef) {
 export class OpenProjectModule implements DoBootstrap {
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
-    runBootstrap(appRef);
+    document.body.classList.add('__ng2-bootstrap-has-run');
     this.registerCustomElements(appRef.injector);
   }
 

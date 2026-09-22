@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { Ng2StateDeclaration } from '@uirouter/angular';
 
 import {
   PartitionedQuerySpacePageComponent,
@@ -109,9 +108,6 @@ export class IFCViewerPageComponent
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
-      inputs: {
-        routedFromAngular: false,
-      },
     },
     {
       component: RefreshButtonComponent,
@@ -185,7 +181,7 @@ export class IFCViewerPageComponent
    * sub-state anymore (the split view/create form render via a Rails Turbo frame instead), so
    * the partition is derived from the URL rather than from state data.
    */
-  protected override setPartition(_state:Ng2StateDeclaration):void {
+  protected override setPartition():void {
     const partition:ViewPartitionState = window.location.pathname.includes('/details/') ? '-split' : '-left-only';
     this.currentPartition = partition;
   }
