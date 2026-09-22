@@ -97,6 +97,15 @@ RSpec.describe My::TimeTrackingController do
         end
       end
     end
+
+    context "when requesting the chart view mode" do
+      it "renders the chart view" do
+        get :index, params: { mode: :week, view_mode: :chart }
+
+        expect(assigns(:view_mode)).to eq(:chart)
+        expect(response).to be_successful
+      end
+    end
   end
 
   describe "GET /my/time-tracking/day" do

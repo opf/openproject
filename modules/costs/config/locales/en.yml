@@ -220,6 +220,7 @@ en:
   label_available_cost_types_projects: "Available cost types projects"
 
   label_between: "between"
+  label_chart: "Chart"
   label_cost: "Cost"
   label_cost_filter_add: "Add cost entry filter"
   label_cost_plural: "Costs"

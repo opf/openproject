@@ -54,7 +54,7 @@ Rails.application.routes.draw do
         as: :time_tracking,
         constraints: {
           mode: /day|week|workweek|month/,
-          view_mode: /list|calendar/,
+          view_mode: /list|calendar|chart/,
           date: /(\d{4}-\d{2}-\d{2}|today)/
         }
     get "/time-tracking/refresh" => "time_tracking#refresh",

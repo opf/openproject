@@ -130,19 +130,13 @@ module My
     end
 
     def list_view_component
-      if view_mode == :list
-        My::TimeTracking::ListComponent.new(
-          time_entries: @time_entries,
-          mode: mode,
-          date: date
-        )
-      else
-        My::TimeTracking::CalendarComponent.new(
-          time_entries: @time_entries,
-          mode: mode,
-          date: date
-        )
-      end
+      component_class = case view_mode
+                        when :list then My::TimeTracking::ListComponent
+                        when :chart then My::TimeTracking::ChartComponent
+                        else My::TimeTracking::CalendarComponent
+                        end
+
+      component_class.new(time_entries: @time_entries, mode: mode, date: date)
     end
 
     def week_start_day

@@ -1,0 +1,5 @@
+<% helpers.html_title t(:label_my_time_tracking), "#{t("label_#{mode}")} #{t(:label_chart)} #{I18n.l(date)}" -%>
+<%= component_wrapper(tag: "div", data: wrapper_data) do %>
+  <%= render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :chart)) %>
+  <%= render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :chart)) %>
+<% end %>
