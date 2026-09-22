@@ -461,6 +461,14 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(field_error).to eq("Choose a CSV file to upload.")
     end
 
+    it "asks for a file when the field holds something that is not one" do
+      post show_path, params: { file: "/etc/hostname" }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(field_error).to eq("Choose a CSV file to upload.")
+      expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
+    end
+
     it "names an empty file rather than running a job for it" do
       empty = Tempfile.new(["empty", ".csv"])
       empty.close

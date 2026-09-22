@@ -117,7 +117,7 @@ class WorkPackages::ImportController < ApplicationController
 
     file = params[:file]
 
-    return t("work_packages.import.csv.file.missing") if file.blank?
+    return t("work_packages.import.csv.file.missing") unless file.is_a?(ActionDispatch::Http::UploadedFile)
     return t("work_packages.import.csv.file.empty") if file.size.to_i.zero?
 
     nil
