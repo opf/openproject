@@ -32,7 +32,7 @@ module Wikis::Admin
   class TableComponent < OpPrimer::BorderBoxTableComponent
     columns :name, :provider_type, :created_at
     main_column :name
-    mobile_columns :name
+    mobile_columns :name, :provider_type
 
     def row_class
       ::Wikis::Admin::RowComponent
