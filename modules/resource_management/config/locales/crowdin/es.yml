@@ -29,6 +29,8 @@ es:
           attributes:
             end_date:
               greater_than_start_date: debe ser posterior a la fecha de inicio.
+            principal:
+              not_a_member: is not a member of the work package's project.
         resource_planner:
           attributes:
             end_date:
@@ -72,8 +74,12 @@ es:
   permission_allocate_user_resources_explanation: Permite a los usuarios crear, actualizar y eliminar asignaciones de recursos dentro de un planificador de recursos. Esto incluye asignar usuarios (o filtros de usuarios) a un planificador y ajustar el intervalo de tiempo y fecha asignado.
   permission_assign_users_to_generic_allocations: Asociar usuarios a asignaciones genéricas
   permission_assign_users_to_generic_allocations_explanation: Permite a los usuarios utilizar la vista de personal para asignar usuarios reales a asignaciones genéricas (basadas en filtros) de recursos que aún no tienen un usuario. No permite crear o editar asignaciones.
+  permission_manage_public_global_resource_planners: Manage public global resource planners
+  permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Gestionar los planificadores de recursos públicos
   permission_manage_public_resource_planners_explanation: Permite a los usuarios crear y gestionar planificadores de recursos públicos. Les permite ver, crear, gestionar y publicar sus propios planificadores de recursos. No permite a los usuarios ver los planificadores de recursos creados por otros usuarios que no se hayan compartido públicamente.
+  permission_view_global_resource_planners: View global resource planners
+  permission_view_global_resource_planners_explanation: Allows users to access the global resource planner section, where resources and allocations from several projects can be planned together. It allows them to create and manage their own global resource planners and view public ones. Users only ever see the projects, resources and allocations they are permitted to view.
   permission_view_resource_planners: Ver planificadores de recursos
   permission_view_resource_planners_explanation: Permite a los usuarios acceder a los planificadores de recursos. Les permite crear y gestionar sus propios planificadores de recursos, así como consultar los planificadores de recursos públicos. No permite a los usuarios consultar los planificadores de recursos creados por otros usuarios que no se hayan compartido públicamente.
   plugin_openproject_resource_management:
@@ -128,6 +134,7 @@ es:
       title: Asignar %{filter_name}
     blankslate:
       desc: Cree un planificador de recursos para empezar a planificar la capacidad de este proyecto.
+      global_desc: Create a resource planner to start planning capacity across projects.
       title: Aún no hay planificadores de recursos
     configure_view_dialog:
       delete_confirmation: "¿Seguro que deseas eliminar esta vista? Esta acción no se puede deshacer."
@@ -148,6 +155,9 @@ es:
       success_message: Asignación de recursos actualizada.
       title: Editar asignación
     favorite_caption: Convierta esta vista en favorita para añadirla a la sección superior del menú de la barra lateral.
+    filters:
+      resource_management_enabled: Resource management enabled
+    global_public_caption: Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of work packages which still depends on each user permission.
     label_edit_resource_planner: Editar planificador de recursos
     label_new_resource_planner: Nuevo planificador de recursos
     label_resource_planner: Planificador de recursos
@@ -192,13 +202,16 @@ es:
         add: Añadir
         allocate: Asignar
         settings: Configurar vista
+      undisclosed:
+        tooltip: You don't have permissions to see this allocated resource
+        work_package: Work package not visible to you
     user_allocations_dialog:
       allocate_work_package: Asignar un paquete de trabajo
       blank: Este usuario no tiene paquetes de trabajo asignados.
-      other_work_packages:
-        one: 1 paquete de trabajo más
-        other: "%{count} paquetes de trabajo más"
+      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
+      hidden_work_package: Work package not visible to you
       title: Utilización
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: Añadir usuario

@@ -27,25 +27,33 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module Documents
-  class ListComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module Queries::WorkPackages::Filter
+  class ResourceManagementEnabledFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include ::Queries::Filters::Shared::BooleanFilter
 
-    alias_method :documents, :model
+    def self.key
+      :resource_management_enabled
+    end
 
-    options :project
+    def human_name
+      I18n.t("resource_management.filters.resource_management_enabled")
+    end
+
+    def dependency_class
+      "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+    end
+
+    def where
+      operator = filtering_for_true? ? "IN" : "NOT IN"
+
+      "#{WorkPackage.table_name}.project_id #{operator} (#{resource_management_projects.to_sql})"
+    end
 
     private
 
-    def document_row_css_id(document)
-      helpers.dom_id document
-    end
-
-    def can_add_documents?
-      User.current.allowed_in_project?(:manage_documents, project)
+    def resource_management_projects
+      Project.has_module(:resource_management).select(:id)
     end
   end
 end

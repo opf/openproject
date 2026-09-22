@@ -40,8 +40,8 @@ pt-BR:
               response_is_not_successful: " respondeu com %{status}."
               response_misses_required_attributes: " não retornou os atributos obrigatórios. Os atributos ausentes são: %{missing_attributes}."
           invalid_claims_essential: não define um booleano em %{attribute}.
-          invalid_claims_location: 'contém locais não suportados: %{invalid}. Os locais suportados são: %{supported}.'
-          invalid_claims_values: não define uma matriz em %{attribute}.
+          invalid_claims_location: 'contêm locais não compatíveis: %{invalid}. Os locais compatíveis são: %{supported}.'
+          invalid_claims_values: não define um array em %{attribute}.
           non_object_attribute: não define um objeto JSON em %{attribute}.
     models:
       openid_connect/provider:
@@ -54,7 +54,7 @@ pt-BR:
 
     '
   openid_connect:
-    delete_heading: Deseja excluir este provedor do OpenID Connect?
+    delete_heading: Excluir este provedor do OpenID Connect?
     delete_title: Excluir o provedor OpenID Connect
     group_links_heading: Links de grupos OpenID Connect
     groups:

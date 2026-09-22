@@ -24,6 +24,10 @@
 hy:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Պիտակներ
       gitlab_pipeline:
@@ -39,6 +43,9 @@ hy:
             labels:
               invalid_schema: պետք է լինի հեշերի զանգված հետևյալ բանալիներով՝ color, title
     models:
+      gitlab_branch:
+        one: GitLab branch
+        other: GitLab branches
       gitlab_issue:
         one: GitLab issue
         other: GitLab issues
@@ -55,7 +62,6 @@ hy:
     commit: Կոմիտ
     gitlab: GitLab-ի նույնացուցիչ
     gitlab_avatar_url: Ավատարի URL
-    gitlab_email: GitLab-ի էլ. փոստ
     gitlab_html_url: GitLab-ի HTML URL
     gitlab_merge_request: Միաձուլման հարցում
     gitlab_name: GitLab-ի անուն

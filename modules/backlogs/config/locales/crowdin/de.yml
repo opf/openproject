@@ -184,7 +184,7 @@ de:
     remaining_hours: Verbleibender Aufwand
     sharing: Sprints teilen
     show_burndown_chart: Burndown-Diagramm
-    show_work_package_overview: Work packages within the sprint
+    show_work_package_overview: Arbeitspakete innerhalb des Sprints
     sprint_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -212,7 +212,7 @@ de:
         title: "%{sprint} Bericht"
       widgets:
         work_package_graph:
-          title: Work packages graph
+          title: Arbeitspaket-Graph
         work_package_overview:
           blankslate:
             description: Set start and end date for the sprint to generate the work package overview.
@@ -221,20 +221,20 @@ de:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
               heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change: "+%{added} / -%{removed} Story-Punkte"
             completed:
-              heading: Completed
+              heading: Abgeschlossen
             initially_planned:
-              heading: Initially planned
+              heading: Ursprünglich geplant
             unfinished:
-              heading: Unfinished
+              heading: Unvollendet
           breakdown_block:
             blocks:
-              show_all: View all
-          closed_work_packages: Closed work packages
+              show_all: Alle anzeigen
+          closed_work_packages: Abgeschlossene Arbeitspakete
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage}% (%{resolved} von %{total} Arbeitspaket)"
+            other: "%{percentage}% (%{resolved} von %{total} Arbeitspaketen)"
     sprints:
       row_component:
         action_menu:

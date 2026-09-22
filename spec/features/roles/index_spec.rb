@@ -71,6 +71,8 @@ RSpec.describe "Roles index", :js do
   end
 
   def search_roles(term)
+    expand_sub_header_search(I18n.t("roles.index.filter_label"))
+
     wait_for_turbo_frame(frame: Roles::IndexComponent::FRAME_ID) do
       fill_in I18n.t("roles.index.filter_label"), with: term
     end

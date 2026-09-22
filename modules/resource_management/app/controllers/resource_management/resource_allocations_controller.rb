@@ -30,11 +30,12 @@
 module ::ResourceManagement
   class ResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::PlannerRoutes
+    include ResourceManagement::UserAllocationsDialog
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    before_action :load_and_authorize_in_optional_project
     before_action :find_resource_allocation, only: %i[edit update destroy]
 
     def new
@@ -58,6 +59,7 @@ module ::ResourceManagement
     # validation errors while the user types.
     def refresh_form
       allocation = set_attributes(allocation_params, contract_class: EmptyContract).result
+
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
       )
@@ -112,12 +114,13 @@ module ::ResourceManagement
 
     def destroy
       entity = @resource_allocation.entity
+      principal = @resource_allocation.principal
       call = ResourceAllocations::DeleteService
                .new(user: current_user, model: @resource_allocation)
                .call
 
       if call.success?
-        render_destroy_success(entity)
+        render_destroy_success(entity, principal)
       else
         render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
         respond_with_turbo_streams
@@ -238,25 +241,16 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::NewDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
-      reopen_user_dialog(allocation)
+      refresh_user_allocations_dialog(allocation.principal)
       respond_with_turbo_streams
     end
 
-    def reopen_user_dialog(allocation)
+    def refresh_user_allocations_dialog(principal)
       return unless reopen_user_allocations_dialog?
-      return if allocation.principal.nil?
-
-      user = allocation.principal
-      allocations = ResourceAllocation.allocated.for_principal(user).includes(:entity).to_a
+      return if principal.nil?
 
       dialog_via_turbo_stream(
-        component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
-          project: @project,
-          view: resource_planner_view,
-          user:,
-          allocations:,
-          overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
-        )
+        component: user_allocations_dialog_component(view: resource_planner_view, user: principal)
       )
     end
 
@@ -279,7 +273,7 @@ module ::ResourceManagement
           nil
         else
           PersistedView
-            .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+            .where(parent: ResourcePlanner.visible_to(current_user, @project))
             .find_by(id:)
         end
     end
@@ -329,11 +323,11 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
-      reopen_user_dialog(allocation)
+      refresh_user_allocations_dialog(allocation.principal)
       respond_with_turbo_streams
     end
 
-    def render_destroy_success(entity)
+    def render_destroy_success(entity, principal)
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.work_package_allocations_dialog.delete_success")
       )
@@ -342,6 +336,7 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(entity)
       notify_allocation_change(entity)
+      refresh_user_allocations_dialog(principal)
       respond_with_turbo_streams
     end
 
@@ -383,9 +378,11 @@ module ::ResourceManagement
     # Only allocations of work packages reachable by the current user within
     # the project may be touched; anything else 404s.
     def find_resource_allocation
+      work_packages = WorkPackage.visible(current_user)
+      work_packages = work_packages.where(project: @project) if @project
+
       @resource_allocation = ResourceAllocation
-                               .where(entity_type: "WorkPackage",
-                                      entity_id: WorkPackage.visible(current_user).where(project: @project))
+                               .where(entity_type: "WorkPackage", entity_id: work_packages)
                                .find(params.expect(:id))
     end
 
@@ -398,13 +395,23 @@ module ::ResourceManagement
 
       placeholder_or_user = selected_placeholder_or_user(permitted.delete(:placeholder_or_user_id))
       entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
+
       permitted.merge(entity:, placeholder_or_user:)
     end
 
+    # A global planner has no project of its own, so an allocation belongs to the
+    # project of the work package it is made against.
+    def allocation_project(entity)
+      @project || entity&.project
+    end
+
+    # Membership is not filtered here: dropping a non-member would leave the
+    # allocation without a principal and report it as blank. The contract rejects
+    # the mismatch by name, and the form warns about it while the dialog is open.
     def selected_placeholder_or_user(placeholder_or_user_id)
       return if placeholder_or_user_id.blank?
 
-      User.visible.in_project(@project).find_by(id: placeholder_or_user_id) ||
+      User.visible(current_user).find_by(id: placeholder_or_user_id) ||
         PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
     end
 
@@ -417,7 +424,7 @@ module ::ResourceManagement
     def preselected_user
       return @preselected_user if defined?(@preselected_user)
 
-      @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+      @preselected_user = User.visible(current_user).find_by(id: params[:principal_id])
     end
 
     def prefilled_allocation

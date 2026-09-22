@@ -335,6 +335,32 @@ RSpec.describe ResourceAllocation do
     end
   end
 
+  describe ".overlapping" do
+    shared_let(:project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+
+    let!(:within) do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 3, 10), end_date: Date.new(2026, 3, 12))
+    end
+    let!(:straddling) do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 2, 20), end_date: Date.new(2026, 3, 2))
+    end
+
+    before do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 1, 5), end_date: Date.new(2026, 2, 28))
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 4, 1), end_date: Date.new(2026, 4, 5))
+    end
+
+    it "returns the allocations touching the given range, bounds included" do
+      expect(described_class.overlapping(Date.new(2026, 3, 1)..Date.new(2026, 3, 31)))
+        .to contain_exactly(within, straddling)
+    end
+  end
+
   describe ".for_project" do
     shared_let(:project) { create(:project) }
     shared_let(:other_project) { create(:project) }

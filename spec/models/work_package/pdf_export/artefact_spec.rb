@@ -485,6 +485,43 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
+  describe "work package budget attribute" do
+    let(:project) do
+      create(:project,
+             name: "Artefact project",
+             types: [type],
+             public: true,
+             active: true,
+             enabled_module_names: %w[budgets costs])
+    end
+    let(:permissions) do
+      %w[view_work_packages export_work_packages view_project_attributes view_budgets]
+    end
+    let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+    let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
+    let(:work_package) do
+      create(:work_package, project:, type:, status:, subject: "The artefact subject", budget:)
+    end
+    # the budgets section renders the same subject, so it is excluded here
+    let(:options) { { include_budget: "false" } }
+
+    it "renders the budget the work package is assigned to" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(WorkPackage.human_attribute_name(:budget))
+      expect(joined).to include("Phase 1 rollout")
+    end
+
+    context "when the user cannot view budgets" do
+      let(:permissions) { %w[view_work_packages export_work_packages view_project_attributes] }
+
+      it "omits the attribute" do
+        joined = pdf_strings.join(" ")
+        expect(joined).not_to include(WorkPackage.human_attribute_name(:budget))
+        expect(joined).not_to include("Phase 1 rollout")
+      end
+    end
+  end
+
   describe "table of contents" do
     let(:section) { create(:project_custom_field_section, name: "TOC Section") }
     let!(:string_cf) do

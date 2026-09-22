@@ -34,6 +34,7 @@ module ResourceAllocations
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ResourceManagement::PlannerRoutes
 
       # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
       # attach to it): the create wizard's by default, the edit dialog's when
@@ -61,9 +62,9 @@ module ResourceAllocations
       # through the create flow (with its confirmation step).
       def form_url
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+          allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
         else
-          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
+          allocations_path(@project, resource_planner_view_id: @view&.id)
         end
       end
 
@@ -71,16 +72,26 @@ module ResourceAllocations
         @allocation.persisted? ? :patch : :post
       end
 
+      # The URLs follow the page the dialog was opened from, but the pickers follow
+      # the work package: on a global planner the allocation belongs to whichever
+      # project that work package sits in, and its members are the candidates.
+      def picker_project
+        @allocation.project || @project
+      end
+
       def form_list_component(form)
         Primer::Forms::FormList.new(
           ResourceAllocations::Forms::PlaceholderOrUserForm.new(
             form,
-            project: @project,
+            project: picker_project,
             dialog_id:,
             create_placeholder_user_path: new_resource_management_placeholder_user_path,
             view: @view
           ),
-          ResourceAllocations::Forms::WorkPackageForm.new(form, project: @project, dialog_id: dialog_id, view: @view),
+          ResourceAllocations::Forms::WorkPackageForm.new(form,
+                                                          project: picker_project,
+                                                          dialog_id:,
+                                                          view: @view),
           ResourceAllocations::Forms::DateRangeForm.new(form, dialog_id: dialog_id),
           ResourceAllocations::Forms::HoursForm.new(form)
         )

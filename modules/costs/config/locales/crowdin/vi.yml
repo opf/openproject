@@ -271,6 +271,10 @@ vi:
   permission_edit_rates: Chỉnh sửa giá
   permission_log_costs: Chi phí đơn vị sổ sách
   permission_log_own_costs: Đặt chi phí đơn vị cho chính mình
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Xem chi phí đã đặt
   permission_view_cost_rates: Xem mức chi phí
   permission_view_hourly_rates: Xem tất cả mức giá theo giờ

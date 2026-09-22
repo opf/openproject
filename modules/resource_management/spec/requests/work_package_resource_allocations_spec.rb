@@ -91,6 +91,13 @@ RSpec.describe "WorkPackage resource allocations requests", type: :rails_request
       expect(response.body).not_to include("/edit")
     end
 
+    it "offers no allocate action to a user who may not manage allocations" do
+      get path, as: :turbo_stream
+
+      expect(response.body)
+        .not_to include(I18n.t("resource_management.work_package_allocations_dialog.allocate_resource"))
+    end
+
     context "when the user may manage allocations" do
       shared_let(:manager) do
         create(:user,
@@ -108,6 +115,13 @@ RSpec.describe "WorkPackage resource allocations requests", type: :rails_request
 
         expect(response.body).to include(edit_project_resource_allocation_path(project, allocation))
         expect(response.body).to include(I18n.t(:button_delete))
+      end
+
+      it "offers the allocate action" do
+        get path, as: :turbo_stream
+
+        expect(response.body)
+          .to include(I18n.t("resource_management.work_package_allocations_dialog.allocate_resource"))
       end
     end
 

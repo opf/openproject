@@ -903,6 +903,8 @@ es:
               would_create_cycle: enlazaría estas configuraciones en un bucle.
             variant:
               must_belong_to_the_type: debe ser una variante de este tipo.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: enlazaría estas configuraciones en un bucle.
@@ -1429,6 +1431,8 @@ es:
         main-menu-bg-selected-background: Menú principal seleccionado
         primary-button-color: Botón primario
       custom_colors: Colores personalizados
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: no es un archivo de fuente TTF válido.
@@ -1505,6 +1509,7 @@ es:
         ssl_error: 'Error SSL al conectarse al servidor de Jira: %{message}'
         ssrf_block_doc_link: Consulta nuestra [documentación](docs_url).
         ssrf_blocked: 'Conexión bloqueada: el servidor de Jira corresponde a una dirección IP privada. Si tu instancia de Jira se ejecuta en una red interna, permite su IP mediante la variable de entorno OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Añadido
         creator: Creador
@@ -3227,16 +3232,16 @@ es:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Acciones asistidas por IA en los paquetes de trabajo, los comentarios y las relaciones con el servidor MCP (plan Professional).
-            line_1: Múltiples versiones de destino para paquetes de trabajo.
-            line_2: Límites y restricciones globales para las entradas de tiempo (plan Professional).
-            line_3: Mejoras ágiles para la edición masiva y el arrastre de tarjetas de backlogs a aplicaciones externas.
-            line_4: Macros de wiki disponibles en más editores de texto.
-            line_5: Búsqueda mejorada de identificadores de paquetes de trabajo.
-            line_6: 'Publicado en la comunidad: mostrar las relaciones en las tablas de paquetes de trabajo.'
-          new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
@@ -3282,6 +3287,7 @@ es:
         field_set: "%{field} configurado a %{value}"
         field_updated: "%{field} actualizado"
         header: cambios de %{author}
+        migrated: from Jira
         set_with_diff: "%{field} fijado (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(eliminado)"
@@ -5409,7 +5415,7 @@ es:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Crear un nueva versión
-        no_results_title_text: Actualmente no hay versiones para este proyecto.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Mostrar los paquetes de trabajo
         work_packages_graph: Gráfico de paquetes de trabajo
       work_package_priorities:
@@ -5419,7 +5425,7 @@ es:
     wizard:
       create_artifact_storage_error: No se ha podido guardar el artefacto en el almacenamiento de archivos
       create_artifact_work_package_error: No se ha podido crear el paquete de trabajo del artefacto
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Este atributo no tiene texto de ayuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secciones
@@ -5606,6 +5612,16 @@ es:
     permissions:
       section_check_all_label: Asignar todos los permisos de %{module}
       section_uncheck_all_label: Quitar todos los permisos de %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Matriz de permisos para el módulo %{module}
       matrix_check_all_label: Asignar los permisos de %{module} para todos los roles
@@ -6391,7 +6407,50 @@ es:
     getting_started: Primeros pasos
     help_and_support: Ayuda y soporte
   total_progress: Progreso total
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Crear tipo
@@ -6673,6 +6732,9 @@ es:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -6890,6 +6952,12 @@ es:
   version_status_locked: bloqueado
   version_status_open: abierto
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Actualmente no hay paquetes de trabajo asignados a esta versión.
       work_packages_in_archived_projects: La versión se comparte con proyectos archivados que aún tienen paquetes de trabajo asignados a esta versión. Estos se contabilizan, pero no aparecerán en las vistas vinculadas.

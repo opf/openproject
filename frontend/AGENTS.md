@@ -36,7 +36,10 @@ npm ci && cd ..   # Install Node packages
 
 ```bash
 # JavaScript/TypeScript
-npx eslint src/ && cd ..
+npx eslint src/
+
+# Typecheck application and spec sources
+npm run typecheck
 ```
 
 ## Testing

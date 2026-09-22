@@ -31,8 +31,8 @@ fa:
         one: گزارش هزینه
         other: گزارش‌های هزینه
       cost_report:
-        one: Cost report
-        other: Cost reports
+        one: گزارش هزینه
+        other: گزارش‌های هزینه
   button_save_report_as: ذخیره گزارش با نام...
   comments: دیدگاه
   cost_reports_title: زمان و هزینه‌ها

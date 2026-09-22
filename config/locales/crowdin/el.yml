@@ -903,6 +903,8 @@ el:
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
@@ -1429,6 +1431,8 @@ el:
         main-menu-bg-selected-background: Κύριο μενού όταν είναι επιλεγμένο
         primary-button-color: Primary button
       custom_colors: Προσαρμοσμένα χρώματα
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
@@ -1505,6 +1509,7 @@ el:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -3233,15 +3238,15 @@ el:
     blocks:
       community: Κοινότητα OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3288,6 +3293,7 @@ el:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -5415,7 +5421,7 @@ el:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Δημιουργήστε μια νέα έκδοση
-        no_results_title_text: Δεν υπάρχουν προς το παρόν εκδόσεις για το έργο.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Show work packages
         work_packages_graph: Γράφημα πακέτων εργασίας
       work_package_priorities:
@@ -5425,7 +5431,7 @@ el:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -5614,6 +5620,16 @@ el:
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Permissions matrix for %{module} module
       matrix_check_all_label: Assign all %{module} permissions to all roles
@@ -6403,7 +6419,50 @@ el:
     getting_started: Ξεκινώντας
     help_and_support: Βοήθεια και υποστήριξη
   total_progress: Συνολική πρόοδος
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Create type
@@ -6685,6 +6744,9 @@ el:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -6902,6 +6964,12 @@ el:
   version_status_locked: κλειδωμένο
   version_status_open: ανοιχτό
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασίας σε αυτήν την έκδοση.
       work_packages_in_archived_projects: The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views.

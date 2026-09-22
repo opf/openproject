@@ -903,6 +903,8 @@ sv:
               would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             variant:
               must_belong_to_the_type: måste vara en variant av den här typen.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
               would_create_cycle: skulle länka dessa konfigurationer i en slinga.
@@ -1429,6 +1431,8 @@ sv:
         main-menu-bg-selected-background: Huvudmeny när vald
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
@@ -1505,6 +1509,7 @@ sv:
         ssl_error: 'SSL-fel vid anslutning till Jira-servern: %{message}'
         ssrf_block_doc_link: Se vår [dokumentation](docs_url).
         ssrf_blocked: 'Anslutningen blockerades: Jira-värden matchar en privat IP-adress. Om Jira-instansen körs i ett internt nätverk tillåter du dess IP-adress via miljövariabeln OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Tillagd
         creator: Skapare
@@ -3233,16 +3238,16 @@ sv:
     blocks:
       community: OpenProject community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisterade åtgärder för arbetspaket, kommentarer och relationer med MCP Server (Professional-planen).
-            line_1: Flera målversioner för arbetspaket.
-            line_2: Globala gränser och begränsningar för tidsregistreringar (Professional-planen).
-            line_3: Agila förbättringar för massredigering och dragning av backloggkort till externa program.
-            line_4: Wiki-makron tillgängliga i fler textredigerare.
-            line_5: Förbättrad sökning efter arbetspaketsidentifierare.
-            line_6: 'Släppt till Community: Visa relationer i arbetspaketstabeller.'
-          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, till exempel:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Läs om nya funktioner och produktuppdateringar.
@@ -3288,6 +3293,7 @@ sv:
         field_set: "%{field} angavs till %{value}"
         field_updated: "%{field} uppdaterades"
         header: ändringar av %{author}
+        migrated: from Jira
         set_with_diff: "%{field} angavs (%{link})"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
@@ -5414,7 +5420,7 @@ sv:
         variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
       versions:
         no_results_content_text: Skapa en ny version
-        no_results_title_text: Det finns för närvarande inga versioner av projektet.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Visa arbetspaket
         work_packages_graph: Graf för arbetspaket
       work_package_priorities:
@@ -5424,7 +5430,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
@@ -5607,6 +5613,16 @@ sv:
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Behörighetsmatris för modulen %{module}
       matrix_check_all_label: Tilldela alla %{module}-behörigheter till alla roller
@@ -6390,7 +6406,50 @@ sv:
     getting_started: Komma igång
     help_and_support: Hjälp och support
   total_progress: Totalt klart
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Lägg till en variant till %{name}
       create_type: Skapa typ
@@ -6672,6 +6731,9 @@ sv:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -6889,6 +6951,12 @@ sv:
   version_status_locked: låst
   version_status_open: öppen
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade till denna version.
       work_packages_in_archived_projects: Versionen delas med arkiverade projekt som fortfarande har arbetspaket tilldelade till den här versionen. De räknas med men visas inte i de länkade vyerna.

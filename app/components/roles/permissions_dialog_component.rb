@@ -36,8 +36,12 @@ module Roles
 
     TEST_SELECTOR = "op-roles--permissions-dialog"
 
-    def self.visible_to?(user)
-      user.admin? || user.allowed_in_any_project?(:manage_members)
+    # Without a role this only answers whether the user may inspect roles in general,
+    # which is what the pickers choosing a role dynamically need.
+    def self.visible_to?(user, role = nil)
+      return true if user.admin? || user.allowed_in_any_project?(:manage_members)
+
+      role.present? && user.held_role_ids.include?(role.id)
     end
 
     alias_method :role, :model
