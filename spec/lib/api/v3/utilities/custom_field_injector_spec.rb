@@ -369,6 +369,14 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field) { create(:hierarchy_wp_custom_field) }
+
+      it "reports that the field allows nesting" do
+        expect(JSON.parse(subject).dig("customField#{custom_field.id}", "options", "allowsNesting")).to be(true)
+      end
+    end
+
     describe "user custom field on new project" do
       let(:schema) do
         instance_double(API::V3::WorkPackages::Schema::SpecificWorkPackageSchema,

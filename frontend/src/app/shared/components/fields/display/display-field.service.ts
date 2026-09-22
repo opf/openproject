@@ -112,13 +112,15 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
       return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
     }
 
+    const allowsNesting = (schema as { options?:{ allowsNesting?:boolean } }).options?.allowsNesting !== false;
+
     const isHierarchyItemsField = ['CustomField::Hierarchy::Item'].includes(schema.type);
-    if (context.container === 'single-view' && isHierarchyItemsField) {
+    if (context.container === 'single-view' && isHierarchyItemsField && allowsNesting) {
       return new HierarchyItemDisplayField(fieldName, context);
     }
 
     const isMultilineHierarchyItemsField = ['[]CustomField::Hierarchy::Item'].includes(schema.type);
-    if (context.container === 'single-view' && isMultilineHierarchyItemsField) {
+    if (context.container === 'single-view' && isMultilineHierarchyItemsField && allowsNesting) {
       return new MultipleLinesHierarchyItemDisplayField(fieldName, context);
     }
 
