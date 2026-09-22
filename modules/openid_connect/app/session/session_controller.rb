@@ -35,7 +35,7 @@ class SessionController < ApplicationController
     url = signin_url back_url: params[:back_url]
 
     render "logout_warning", locals: {
-      message: link_translate(:logout_warning, links: { login: url }, external: false)
+      message: link_translate("logout_warning_link", links: { login: url }, external: false)
     }
   end
 end

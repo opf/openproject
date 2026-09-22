@@ -50,7 +50,7 @@ en:
       openid_connect/user_token:
         one: "OpenID Connect token"
         other: "OpenID Connect tokens"
-  logout_warning: >
+  logout_warning_link: >
     You have been logged out. The contents of any form you submit may be lost.
     Please [log in](login).
   openid_connect:
