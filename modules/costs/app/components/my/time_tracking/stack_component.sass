@@ -26,6 +26,17 @@
   .fc-timegrid-slot.fc-timegrid-slot-minor
     border-top: 0
 
+  // The columns carry no tint of their own here; the shaded part of a day is the time the
+  // user is scheduled to work. The tint comes from an id selector, so it takes !important
+  // to clear. Today keeps its highlight.
+  .fc-timegrid-col.fc-day:not(.fc-day-today)
+    background-color: var(--fc-page-bg-color) !important
+
+  .te-stack--working-hours
+    margin: 0
+    background: var(--bgColor-neutral-muted)
+    opacity: 1
+
   // FullCalendar measures the axis content and writes the resulting width onto the
   // colgroup, so the label has to carry the width rather than the cell.
   .fc-timegrid-slot-label-cushion
@@ -131,3 +142,17 @@
       margin-top: 0
       margin-left: auto
       align-self: center
+
+  .te-stack--footer
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 6px
+
+  .te-stack--footer-icon
+    display: flex
+    color: var(--fgColor-muted)
+
+  .te-stack--footer-scheduled
+    color: var(--fgColor-muted)
+    font-weight: var(--base-text-weight-normal)

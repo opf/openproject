@@ -93,4 +93,48 @@ RSpec.describe My::TimeTracking::StackEntriesComponent, type: :component do
       expect(stack_entries.first["start"]).to start_with("2022-05-04")
     end
   end
+
+  describe "the scheduled working hours", with_settings: { start_of_week: 1 } do
+    def working_hours
+      JSON.parse(rendered_component.css("[data-controller='my--time-tracking-stack']")
+                   .attr("data-my--time-tracking-stack-working-hours-value").value)
+    end
+
+    # 2022-05-04 is a Wednesday, so the week runs from Monday the 2nd to Sunday the 8th.
+    before do
+      create(:user_working_hours, user:, valid_from: Date.civil(2022, 4, 1), monday: 480, tuesday: 480,
+                                  wednesday: 480, thursday: 480, friday: 480, saturday: 0, sunday: 0)
+    end
+
+    it "covers the whole week the view lays out, not only the days that are worked" do
+      expect(working_hours.keys).to eq(%w[2022-05-02 2022-05-03 2022-05-04 2022-05-05 2022-05-06 2022-05-07 2022-05-08])
+    end
+
+    it "reports the scheduled hours per day and none on the weekend" do
+      expect(working_hours).to include("2022-05-04" => 8.0, "2022-05-07" => 0.0, "2022-05-08" => 0.0)
+    end
+
+    context "when a new schedule starts in the middle of the week" do
+      before do
+        create(:user_working_hours, user:, valid_from: Date.civil(2022, 5, 5), monday: 240, tuesday: 240,
+                                    wednesday: 240, thursday: 240, friday: 240, saturday: 0, sunday: 0)
+      end
+
+      it "uses the schedule valid on each day, switching on the day it starts" do
+        expect(working_hours).to include(
+          "2022-05-04" => 8.0,
+          "2022-05-05" => 4.0,
+          "2022-05-06" => 4.0
+        )
+      end
+    end
+
+    context "when the user is only scheduled for part of the day" do
+      before { UserWorkingHours.for_user(user).update_all(availability_factor: 50) }
+
+      it "scales the hours by the availability factor" do
+        expect(working_hours).to include("2022-05-04" => 4.0)
+      end
+    end
+  end
 end

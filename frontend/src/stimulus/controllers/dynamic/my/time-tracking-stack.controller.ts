@@ -60,6 +60,7 @@ const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 const ADD_ENTRY_CLASS_NAME = 'te-stack--add-entry';
 const ADD_ICON_CLASS_NAME = 'te-stack--add-icon';
 const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
+const WORKING_HOURS_CLASS_NAME = 'te-stack--working-hours';
 
 // The stack is a timeGrid abused as a stacked bar chart: every day is a column and its
 // entries are stacked downwards from maxHour. The slot labels therefore show hours, not
@@ -90,6 +91,7 @@ export default class MyTimeTrackingStackController extends Controller {
     canCreate: Boolean,
     locale: String,
     workingDays: Array,
+    workingHours: Object,
     startOfWeek: Number,
     timeZone: String,
   };
@@ -102,6 +104,8 @@ export default class MyTimeTrackingStackController extends Controller {
   declare readonly canCreateValue:boolean;
   declare readonly localeValue:string;
   declare readonly workingDaysValue:number[];
+  // Scheduled hours keyed by ISO date, for the whole week the view lays out.
+  declare readonly workingHoursValue:Record<string, number>;
   declare readonly startOfWeekValue:number;
   declare readonly timeZoneValue:string;
 
@@ -233,6 +237,12 @@ export default class MyTimeTrackingStackController extends Controller {
     const events:EventInput[] = [];
 
     this.daysBetween(startStr, endStr).forEach((day) => {
+      const scheduled = this.workingHoursValue[day] || 0;
+
+      if (scheduled > 0) {
+        events.push(this.workingHoursEvent(day, scheduled));
+      }
+
       if (this.canCreateValue) {
         events.push(this.addEvent(day, dateSums[day] || 0));
       }
@@ -241,14 +251,45 @@ export default class MyTimeTrackingStackController extends Controller {
     return events;
   }
 
+  // Shades the part of the column the user is scheduled to work, measured from the
+  // baseline up, so that a day's bars can be read against the time available that day.
+  private workingHoursEvent(day:string, scheduled:number):EventInput {
+    return {
+      start: this.slotTime(day, Math.max(MAX_HOUR - (scheduled * this.scaleRatio), 0)),
+      end: this.slotTime(day, MAX_HOUR),
+      display: 'background' as const,
+      classNames: [WORKING_HOURS_CLASS_NAME],
+    };
+  }
+
   private addTotalFooter():void {
     const dateSums = this.calculateDateSums();
 
-    renderFooterTotals(this.element, (day) => displayDuration(dateSums[day] || 0));
+    renderFooterTotals(this.element, (day) => this.footerContent(dateSums[day] || 0, this.workingHoursValue[day] || 0));
 
     // The footer row is appended to the scrollgrid after FullCalendar has laid the view
     // out, so the slots still occupy the full height and would run underneath it.
     this.calendar.updateSize();
+  }
+
+  private footerContent(logged:number, scheduled:number):Node {
+    const clock = toDOMString(clockIconData, 'small', {
+      'aria-hidden': 'true',
+      class: 'octicon',
+    });
+
+    const wrapper = document.createElement('div');
+    render(
+      html`
+        <div class="te-stack--footer">
+          <span class="te-stack--footer-icon">${unsafeHTML(clock)}</span>
+          <span>${displayDuration(logged)}</span>
+          ${scheduled > 0 ? html`<span class="te-stack--footer-scheduled">${displayDuration(scheduled)}</span>` : ''}
+        </div>`,
+      wrapper,
+    );
+
+    return wrapper;
   }
 
   private timeEntryEvent(entry:StackTimeEntry, day:string, startHour:number, endHour:number):EventInput {

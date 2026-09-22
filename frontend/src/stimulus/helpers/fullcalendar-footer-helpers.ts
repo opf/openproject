@@ -35,7 +35,9 @@ export const FOOTER_TOTALS_CLASS_NAME = 'fc-timegrid-footer-totals';
  * Call this after the view has rendered and whenever the events change; the previous row
  * is replaced.
  */
-export function renderFooterTotals(root:ParentNode, labelForDate:(date:string) => string):void {
+export type FooterCellContent = (date:string) => string|Node;
+
+export function renderFooterTotals(root:ParentNode, contentForDate:FooterCellContent):void {
   const scrollGridBody = root.querySelector('.fc-timegrid .fc-scrollgrid tbody');
 
   if (!scrollGridBody) {
@@ -49,10 +51,10 @@ export function renderFooterTotals(root:ParentNode, labelForDate:(date:string) =
     .map((day) => day.getAttribute('data-date'))
     .filter((date):date is string => !!date);
 
-  scrollGridBody.appendChild(buildFooterRow(root, days, labelForDate));
+  scrollGridBody.appendChild(buildFooterRow(root, days, contentForDate));
 }
 
-function buildFooterRow(root:ParentNode, days:string[], labelForDate:(date:string) => string):HTMLTableRowElement {
+function buildFooterRow(root:ParentNode, days:string[], contentForDate:FooterCellContent):HTMLTableRowElement {
   const row = document.createElement('tr');
   row.setAttribute('role', 'presentation');
   row.className = `fc-scrollgrid-section ${FOOTER_TOTALS_CLASS_NAME}`;
@@ -87,7 +89,7 @@ function buildFooterRow(root:ParentNode, days:string[], labelForDate:(date:strin
   bodyRow.appendChild(buildAxisCell());
 
   days.forEach((day) => {
-    bodyRow.appendChild(buildDayCell(labelForDate(day)));
+    bodyRow.appendChild(buildDayCell(contentForDate(day)));
   });
 
   body.appendChild(bodyRow);
@@ -113,14 +115,19 @@ function buildAxisCell():HTMLTableCellElement {
   return axis;
 }
 
-function buildDayCell(label:string):HTMLTableCellElement {
+function buildDayCell(content:string|Node):HTMLTableCellElement {
   const cell = document.createElement('th');
   cell.setAttribute('role', 'columnfooter');
   cell.className = 'fc-col-footer-cell fc-day';
 
   const inner = document.createElement('div');
   inner.className = 'fc-scrollgrid-sync-inner';
-  inner.textContent = label;
+
+  if (typeof content === 'string') {
+    inner.textContent = content;
+  } else {
+    inner.appendChild(content);
+  }
   cell.appendChild(inner);
 
   return cell;

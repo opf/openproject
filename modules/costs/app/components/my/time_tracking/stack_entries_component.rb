@@ -50,8 +50,27 @@ module My
           "my--time-tracking-stack-locale-value" => I18n.locale,
           "my--time-tracking-stack-start-of-week-value" => (Setting.start_of_week || 1) % 7,
           "my--time-tracking-stack-working-days-value" => working_days,
+          "my--time-tracking-stack-working-hours-value" => working_hours.to_json,
           "my--time-tracking-stack-time-zone-value" => User.current.time_zone.name
         }
+      end
+
+      # The hours the user is scheduled to work, per day. WorkingTimeCalendar resolves the
+      # schedule that is valid on each date, so a schedule starting mid-week is picked up,
+      # and it reports no capacity on public holidays and during the user's absences.
+      def working_hours
+        ResourceAllocations::WorkingTimeCalendar
+          .new(user: User.current, range: displayed_dates)
+          .each_day
+          .to_h { |day, minutes| [day.iso8601, (minutes / 60.0).round(2)] }
+      end
+
+      # FullCalendar lays out the whole week for both week modes and merely hides the days
+      # that are not worked, so the work week needs the same range as the week.
+      def displayed_dates
+        return date..date if mode == :day
+
+        date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
       end
 
       def time_entries_json
