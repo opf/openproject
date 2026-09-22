@@ -67,7 +67,7 @@ pt-BR:
       '
     login_with_auth_provider: ou entre com a sua conta existente
     omniauth_direct_login_continue: Continuar a iniciar sessão
-    omniauth_direct_login_redirecting: Você será redirecionado para o seu provedor de identidade…
+    omniauth_direct_login_redirecting: Você será redirecionado para seu provedor de identidade…
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
@@ -91,13 +91,13 @@ pt-BR:
         error_message: Mensagem de erro
         finished_at: Finalizado em
         input: Entrada
-        status: Status
+        status: Estado
         system_prompt: Prompt do sistema
         user: Usuário
         uuid: UUID
       ai/text_transform_run_event:
         kind: Tipo
-        payload: Payload
+        payload: Carga útil
         run: Executar
         seq: Número sequencial
       announcements:
@@ -455,10 +455,10 @@ pt-BR:
         thursday: Quinta
         thursday_hours: Horário às terças-feiras
         tuesday: Terça-feira
-        tuesday_hours: Horário de funcionamento às terças-feiras
+        tuesday_hours: Horário de terça-feira
         valid_from: Válido a partir de
         wednesday: Quarta-feira
-        wednesday_hours: Horário de funcionamento às quartas-feiras
+        wednesday_hours: Horário de quarta-feira
       users/invitation/form_model:
         id_or_email: Nome ou endereço de e-mail
         principal_type: Tipo de convite
@@ -567,8 +567,8 @@ pt-BR:
         is_for_all_cannot_modify: é aplicável a todos os projetos e, portanto, não pode ser modificado.
         ldap_managed: Este departamento é gerenciado pela sincronização LDAP e não pode ser alterado manualmente.
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
-        migration_failed: 'Não foi possível alternar a variante para o projeto ''%{project}'': %{reason}'
-        migration_target_invalid: A variante selecionada deve ser outra variante do mesmo tipo que todos os projetos afetados possam utilizar.
+        migration_failed: 'A variante não pôde ser alterada para o projeto ''%{project}'': %{reason}'
+        migration_target_invalid: A variante selecionada deve ser outra variante do mesmo tipo que todos os projetos afetados possam usar.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
         not_a_number: não é um número.
@@ -837,7 +837,7 @@ pt-BR:
               hours_per_day_are_missing: O número de horas por dia deve ser definido.
               hours_per_day_is_out_of_bounds: As horas por dia não podem ultrapassar 24
               journal_aggregation_time_minutes_is_out_of_bounds: O período de agregação deve estar entre %{min} e %{max} minutos.
-              password_login_requires_sso_provider: As restrições de login por senha exigem que haja pelo menos um provedor de SSO disponível.
+              password_login_requires_sso_provider: As restrições de login por senha exigem pelo menos um provedor de SSO disponível.
               previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
               working_days_are_missing: Pelo menos um dia da semana deve ser definido como um dia útil.
         status:
@@ -866,30 +866,30 @@ pt-BR:
             base:
               borrowed_by_variants: Não pode ser excluído enquanto sua configuração for reutilizada por %{names}.
               is_default_variant: A configuração padrão de um tipo não pode ser excluída.
-              project_variants_not_allowed: Esse tipo não permite a criação de variantes dentro dos projetos.
+              project_variants_not_allowed: Este tipo não permite a criação de variantes dentro dos projetos.
               restrict_dependent_destroy:
                 has_many: Não pode ser excluído enquanto houver projetos que ainda o utilizem.
             defaults_source_id:
-              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa usar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: não pode ser definido em uma variante pertencente a um projeto.
+              not_available_to_project_owned_variant: não pode ser definida em uma variante pertencente a um projeto.
               taken: já está definido para outra configuração deste tipo.
             form_configuration_source_id:
-              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa usar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
             pdf_export_source_id:
-              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa usar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             project_attributes_source_id:
-              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa usar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
             workflows_source_id:
-              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa usar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
         user:
           attributes:
@@ -1405,7 +1405,7 @@ pt-BR:
         main_menu: Menu lateral principal
         top_header_colors: Cores do cabeçalho superior
       color_theme: Tema Colorido
-      color_theme_caption: Utilize um dos temas padrão do OpenProject ou crie seu próprio tema com suas cores, selecionando “Tema personalizado”.
+      color_theme_caption: Use um dos temas padrão do OpenProject ou crie seu próprio tema com suas cores selecionando “Tema personalizado”.
       color_theme_custom: "(Personalizado)"
       colors:
         accent-color: Destaque
@@ -1424,7 +1424,7 @@ pt-BR:
         accent-color: Cor para os links e outros elementos destacados adequadamente.
         header-bg-color: Cor de fundo padrão do cabeçalho do aplicativo.
         main-menu-bg-color: Cor de fundo do menu esquerdo.
-        main-menu-bg-selected-background: Cor de fundo dos itens do menu quando selecionado.
+        main-menu-bg-selected-background: Cor de fundo dos itens de menu quando selecionados.
         primary-button-color: Cor de destaque forte, usada para o botão mais importante na tela.
       manage_colors: Editar opções de seleção de cor
       tab_branding: Gestão de marca
@@ -1492,7 +1492,7 @@ pt-BR:
         ssl_error: 'Erro de SSL ao conectar ao servidor Jira: %{message}'
         ssrf_block_doc_link: Consulte nossa [documentação](docs_url).
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
-        unsupported_endpoint: API Jira não tem nenhum endpoint no %{path} (status %{status})
+        unsupported_endpoint: A API do Jira não possui um endpoint em %{path} (estado %{status})
       columns:
         added: Adicionado
         creator: Criador
@@ -1559,7 +1559,7 @@ pt-BR:
           revert_error: Erro durante a reversão
           reverted: Revertido
           reverting: Revertendo
-        step_not_available: Essa ação não está disponível para o estado atual da execução da importação.
+        step_not_available: Esta ação não está disponível no estado atual da execução da importação.
         title: Execução de importação
         wizard:
           button_abort: Interromper
@@ -1613,7 +1613,7 @@ pt-BR:
               caption_done: Concluído
               caption_done_info: Todos os dados foram importados
               description: Você está prestes a iniciar uma execução de importação com as seguintes configurações.
-              info_importing: A importação está em andamento. Fechar esta aba não irá interrompê-la, e você poderá verificar o status da importação a qualquer momento abrindo a execução.
+              info_importing: A importação está em andamento. Fechar esta aba não interromperá a importação, e você poderá consultar o status a qualquer momento abrindo a execução.
               label_available_data: Dados a serem importados
               label_import_data: Importando no momento
               label_progress: Importação em andamento...
@@ -1634,7 +1634,7 @@ pt-BR:
               button_done: Aprovar a importação
               button_revert: Reverter importação
               caption: Revisar execução de importação ou reverter importação
-              info: Os dados importados estão, no momento, no modo de revisão. Clique em “Aprovar importação” para tornar a importação definitiva ou em “Reverter importação” para desfazer todas as alterações feitas nesta execução de importação.
+              info: Os dados importados estão atualmente no modo de revisão. Clique em “Aprovar importação” para tornar a importação permanente ou em “Reverter importação” para desfazer todas as alterações feitas nesta execução da importação.
               label_finalize_import: Aprovar importação
               label_finalizing: Aprovando importação...
               label_finalizing_done: Importação aprovada.
@@ -1916,25 +1916,25 @@ pt-BR:
         success_banner: Formato de identificador de pacote de trabalho atualizado com sucesso.
     text_transform_actions:
       delete_dialog_component:
-        description: Os usuários não poderão mais executar essa ação no editor de texto rico.
+        description: Os usuários não poderão mais executar esta ação no editor de texto formatado.
         heading: Tem certeza de que deseja excluir a ação “%{label}”?
         title: Excluir ação de transformação de texto
       form:
-        injects_type_template_caption: Se marcado, o modelo de descrição do tipo de pacote de trabalho é adicionado automaticamente ao prompt. O prompt deve conter instruções sobre o que fazer com o template.
+        injects_type_template_caption: Se marcada, o modelo de descrição do tipo de pacote de trabalho será adicionado automaticamente ao prompt. O prompt deve conter instruções sobre o que fazer com o modelo.
         label_caption: Este é o nome que ficará visível para os usuários no editor.
-        select_types: Selecione tipos
-        types_caption: Adicionar tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão automaticamente incluídas.
-        usage_scope_caption: 'Você pode limitar onde esta ação está visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacotes de trabalho ou para certos tipos de pacotes de trabalho.'
+        select_types: Selecionar tipos
+        types_caption: Adicione os tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão incluídas automaticamente.
+        usage_scope_caption: 'Você pode limitar onde esta ação ficará visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacote de trabalho ou para tipos de pacote de trabalho específicos.'
       index:
-        description: As ações de transformação de texto oferecem aos usuários recursos baseados em LLM para escrever, organizar e revisar textos em qualquer lugar onde o editor de texto rico seja utilizado, como descrições de pacotes de trabalho, comentários e páginas wiki. O senhor pode criar novas ações utilizando seus próprios prompts e instruções.
+        description: As ações de transformação de texto oferecem aos usuários ações baseadas em LLM para escrever, organizar e revisar textos onde quer que o editor de texto formatado seja usado, como nas descrições de pacotes de trabalho, comentários e páginas wiki. Você pode criar novas ações usando seus próprios prompts e instruções.
         label_add_action: Ação
         label_aria_add_action: Adicionar ação de transformação de texto
       index_component:
         blank_slate:
           description: Adicione uma ação para vê-la aqui
-          title: Nenhuma transformação de texto configurado ainda
-        disabled_warning: As ações de transformação de texto estão desativadas. As seguintes ações não estarão disponíveis em lugar nenhum.
-        label_disable_all: Desativar tudo
+          title: Nenhuma ação de transformação de texto configurada ainda
+        disabled_warning: As ações de transformação de texto estão desabilitadas. As ações a seguir não estarão disponíveis em nenhum lugar.
+        label_disable_all: Desabilitar tudo
         label_enable_all: Habilitar tudo
         title: Ações
       new:
@@ -1943,12 +1943,12 @@ pt-BR:
         label_actions: Menu de ações
         label_toggle: Alternar %{label}
         scope_specific_work_package_types:
-          one: Categoria de pacote de trabalho %{count}
-          other: Categorias de pacote %{count}
+          one: "%{count} tipo de pacote de trabalho"
+          other: "%{count} tipos de pacote de trabalho"
       usage_scopes:
         all_work_package_types: Todos os tipos de pacote de trabalho
         everywhere: Em todos os lugares
-        specific_work_package_types: Tipos específicos de pacote de trabalho
+        specific_work_package_types: Tipos de pacote de trabalho específicos
     workflows:
       blankslate:
         description: Adicione status para começar a configurar fluxos de trabalho para esta função

@@ -299,9 +299,9 @@ pt-BR:
   setting_time_entries_max_hours_per_day_caption: Limita o número total de horas que um usuário pode registrar em um único dia. O valor 0 significa que não há restrições.
   setting_time_entries_max_hours_per_entry: Número máximo de horas por lançamento de horas
   setting_time_entries_max_hours_per_entry_caption: Limita o número de horas que um único lançamento de horas pode ter. O valor 0 significa que não há restrições.
-  setting_time_entries_past_month_grace_days: Período de carência referente aos meses anteriores
+  setting_time_entries_past_month_grace_days: Período de carência para meses anteriores
   setting_time_entries_past_month_grace_days_caption: Defina o número de dias que um usuário tem, a partir do início de um novo mês, para registrar lançamentos de horas referentes ao mês anterior. O valor 5 permite que os usuários registrem horas referentes ao mês anterior até o dia 5 do mês atual. O valor 0 significa que não há período de tolerância.
-  setting_time_entries_prohibit_logging_for_past_months: Não permitir registros nos meses anteriores
+  setting_time_entries_prohibit_logging_for_past_months: Não permitir o lançamento de horas referentes a meses anteriores
   setting_time_entries_prohibit_logging_for_past_months_caption: Restringe a adição, alteração e exclusão de lançamentos de horas ao mês atual. As horas registradas em meses anteriores não podem mais ser modificadas.
   setting_time_entries_prohibit_logging_on_non_working_days: Não permitir o registro de horas em dias que não sejam de trabalho
   setting_time_entries_prohibit_logging_on_non_working_days_caption: Os usuários não poderão registrar horas em dias definidos como não úteis pelo administrador ou pelos próprios usuários nas configurações da conta.

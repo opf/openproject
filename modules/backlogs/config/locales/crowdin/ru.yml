@@ -127,7 +127,7 @@ ru:
         other: Спринтов
         zero: Все спринты
       select_panel_title: Выберите элементы
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Ни один пакет работ не соответствует критериям фильтра.
     bucket_component:
       action_menu:
         add_existing_work_package: Добавить существующий пакет работ
@@ -173,7 +173,7 @@ ru:
         other: Показать еще %{count} элементов
       title: Входящие
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Поиск пакетов работ по теме
     label_burndown_chart: Диаграмма выгорания
     label_is_done_status: Статус %{status_name} означает завершение,
     label_sprint_board: Доска для спринта
