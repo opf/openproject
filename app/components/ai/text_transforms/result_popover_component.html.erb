@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
       test_selector: "ai-text-transform-popover"
     )
   ) do |popover|
-    popover.with_body(caret: :top_right, large: true, p: 0, classes: "op-ai-result-popover--message") do
+    popover.with_body(large: true, p: 0, classes: "op-ai-result-popover--message") do
       flex_layout(direction: :column, classes: "op-ai-result-popover--layout") do |layout|
         layout.with_row(classes: "op-ai-result-popover--header", border: :bottom, p: 3, data: target(:handle)) do
           flex_layout(align_items: :center) do |header|
@@ -86,48 +86,54 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        layout.with_row(classes: "op-ai-result-popover--footer", border: :top, bg: :subtle, p: 3, position: :relative) do
-          safe_join(
-            [
-              render(Primer::BaseComponent.new(tag: :span, classes: "op-ai-result-popover--grip", data: target(:grip))) do
-                render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
-              end,
-              flex_layout(align_items: :center, justify_content: :space_between, data: target(:generatingFooter)) do |footer|
-                footer.with_column do
-                  render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
-                end
-                footer.with_column do
-                  render(Primer::Beta::Button.new(data: action(:cancel))) { label(:cancel) }
-                end
-              end,
-              flex_layout(align_items: :center, hidden: true, data: target(:doneFooter)) do |footer|
-                footer.with_column(flex: 1) do
-                  render(Primer::Beta::Button.new(scheme: :invisible, data: action(:copy))) do |button|
-                    button.with_leading_visual_icon(icon: :copy)
-                    content_tag(:span, label(:copy), data: target(:copyLabel))
+        layout.with_row(classes: "op-ai-result-popover--footer", border: :top, bg: :subtle, p: 3) do
+          flex_layout(align_items: :center) do |bar|
+            bar.with_column(mr: 2, classes: "op-ai-result-popover--grip", data: target(:grip)) do
+              render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+            end
+            bar.with_column(flex: 1) do
+              safe_join(
+                [
+                  flex_layout(align_items: :center, justify_content: :space_between, data: target(:generatingFooter)) do |footer|
+                    footer.with_column do
+                      render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
+                    end
+                    footer.with_column do
+                      render(Primer::Beta::Button.new(data: action(:cancel))) { label(:cancel) }
+                    end
+                  end,
+                  flex_layout(align_items: :center, hidden: true, data: target(:doneFooter)) do |footer|
+                    footer.with_column(flex: 1) do
+                      render(Primer::Beta::Button.new(scheme: :invisible, data: action(:copy))) do |button|
+                        button.with_leading_visual_icon(icon: :copy)
+                        content_tag(:span, label(:copy), data: target(:copyLabel))
+                      end
+                    end
+                    footer.with_column(mr: 2) do
+                      render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:discard) }
+                    end
+                    footer.with_column do
+                      render(Primer::Beta::Button.new(scheme: :primary, data: action(:replace))) { label(:replace) }
+                    end
+                  end,
+                  flex_layout(align_items: :center, justify_content: :flex_end, hidden: true, data: target(:errorFooter)) do |footer|
+                    footer.with_column(mr: 2) do
+                      render(Primer::Beta::Button.new(data: action(:retry))) do |button|
+                        button.with_leading_visual_icon(icon: :sync)
+                        label(:try_again)
+                      end
+                    end
+                    footer.with_column do
+                      render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:close) }
+                    end
                   end
-                end
-                footer.with_column(mr: 2) do
-                  render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:discard) }
-                end
-                footer.with_column do
-                  render(Primer::Beta::Button.new(scheme: :primary, data: action(:replace))) { label(:replace) }
-                end
-              end,
-              flex_layout(align_items: :center, justify_content: :flex_end, hidden: true, data: target(:errorFooter)) do |footer|
-                footer.with_column(mr: 2) do
-                  render(Primer::Beta::Button.new(data: action(:retry))) do |button|
-                    button.with_leading_visual_icon(icon: :sync)
-                    label(:try_again)
-                  end
-                end
-                footer.with_column do
-                  render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:close) }
-                end
-              end
-            ]
-          )
+                ]
+              )
+            end
+          end
         end
+
+        layout.with_row(classes: "op-ai-result-popover--resize", data: target(:resize), "aria-hidden": true)
       end
     end
   end

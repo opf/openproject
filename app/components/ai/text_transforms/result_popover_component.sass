@@ -1,5 +1,5 @@
-// Demo only (AI-126). Primer's popover is a static anchored box; the fixed placement below
-// the application header, the width and the overlay stacking are custom.
+// Demo only (AI-126). Primer's popover is a static anchored box with a caret; the fixed
+// placement below the application header, the caret-less border, dragging and resizing are custom.
 .op-ai-result-popover
   // Primer adds .left-0 and .right-0 with !important, so the placement needs it too.
   // The controller overrides both inline (with priority) while the popover is dragged.
@@ -8,12 +8,20 @@
   left: auto !important
   z-index: 600
   width: min(480px, calc(100vw - 32px))
+  min-width: 320px
+  max-width: calc(100vw - 32px)
 
   &--message.Popover-message
     width: 100%
     max-width: none
+    height: 100%
+
+    &::before,
+    &::after
+      display: none
 
   &--layout
+    height: 100%
     max-height: calc(100vh - var(--header-height) - 32px)
 
   &--header,
@@ -22,11 +30,18 @@
     user-select: none
 
   &--grip
-    position: absolute
-    left: 4px
-    bottom: 2px
+    display: inline-flex
     line-height: 1
 
   &--body
     overflow-y: auto
-    min-height: 12rem
+    min-height: 8rem
+
+  &--resize
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 16px
+    height: 16px
+    cursor: nwse-resize
+    background: linear-gradient(135deg, transparent 0 50%, var(--borderColor-default) 50% 60%, transparent 60% 70%, var(--borderColor-default) 70% 80%, transparent 80%)

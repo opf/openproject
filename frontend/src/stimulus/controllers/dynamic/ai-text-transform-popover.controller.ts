@@ -41,6 +41,8 @@ type PopoverState = 'generating'|'done'|'stopped'|'failed';
 const RENDER_INTERVAL = 1200;
 const COPIED_FEEDBACK = 1500;
 const EDGE_MARGIN = 8;
+const MIN_WIDTH = 320;
+const MIN_HEIGHT = 240;
 // Demo only: ?ai_demo_fault=blocked or =failed in the page URL makes the next runs end that way.
 const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
@@ -51,7 +53,7 @@ const DEMO_FAULT_PARAM = 'ai_demo_fault';
  */
 export default class AiTextTransformPopoverController extends Controller<HTMLElement> {
   static targets = [
-    'handle', 'grip', 'title', 'output', 'stopped', 'failed', 'failedMessage',
+    'handle', 'grip', 'resize', 'title', 'output', 'stopped', 'failed', 'failedMessage',
     'generatingFooter', 'doneFooter', 'errorFooter', 'copyLabel',
   ];
 
@@ -65,6 +67,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
 
   declare readonly handleTarget:HTMLElement;
   declare readonly gripTarget:HTMLElement;
+  declare readonly resizeTarget:HTMLElement;
   declare readonly titleTarget:HTMLElement;
   declare readonly outputTarget:HTMLElement;
   declare readonly stoppedTarget:HTMLElement;
@@ -89,6 +92,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   private renderTimer:ReturnType<typeof setTimeout>|null = null;
   private renderSequence = 0;
   private dragOffset:{ x:number; y:number }|null = null;
+  private resizeStart:{ x:number; y:number; width:number; height:number }|null = null;
 
   private readonly onStart = (event:Event) => {
     void this.start((event as CustomEvent<AiTextTransformStartDetail>).detail);
@@ -97,16 +101,22 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   private readonly onPointerDown = (event:PointerEvent) => this.beginDrag(event);
   private readonly onPointerMove = (event:PointerEvent) => this.drag(event);
   private readonly onPointerUp = () => this.endDrag();
+  private readonly onResizeDown = (event:PointerEvent) => this.beginResize(event);
+  private readonly onResizeMove = (event:PointerEvent) => this.resize(event);
+  private readonly onResizeUp = () => this.endResize();
 
   connect():void {
     window.addEventListener(AI_TEXT_TRANSFORM_START_EVENT, this.onStart);
     [this.handleTarget, this.gripTarget].forEach((el) => el.addEventListener('pointerdown', this.onPointerDown));
+    this.resizeTarget.addEventListener('pointerdown', this.onResizeDown);
   }
 
   disconnect():void {
     window.removeEventListener(AI_TEXT_TRANSFORM_START_EVENT, this.onStart);
     [this.handleTarget, this.gripTarget].forEach((el) => el.removeEventListener('pointerdown', this.onPointerDown));
+    this.resizeTarget.removeEventListener('pointerdown', this.onResizeDown);
     this.endDrag();
+    this.endResize();
     this.stopRun();
   }
 
@@ -359,5 +369,39 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     this.dragOffset = null;
     window.removeEventListener('pointermove', this.onPointerMove);
     window.removeEventListener('pointerup', this.onPointerUp);
+  }
+
+  // Resizing pins the popover to its current left edge first, so growing it never pushes
+  // it off the right side of the viewport.
+  private beginResize(event:PointerEvent):void {
+    const rect = this.element.getBoundingClientRect();
+    this.resizeStart = { x: event.clientX, y: event.clientY, width: rect.width, height: rect.height };
+    this.element.style.setProperty('left', `${rect.left}px`, 'important');
+    this.element.style.setProperty('right', 'auto', 'important');
+    this.element.style.setProperty('top', `${rect.top}px`);
+    window.addEventListener('pointermove', this.onResizeMove);
+    window.addEventListener('pointerup', this.onResizeUp);
+    event.preventDefault();
+  }
+
+  private resize(event:PointerEvent):void {
+    if (!this.resizeStart) {
+      return;
+    }
+
+    const rect = this.element.getBoundingClientRect();
+    const maxWidth = window.innerWidth - rect.left - EDGE_MARGIN;
+    const maxHeight = window.innerHeight - rect.top - EDGE_MARGIN;
+    const width = Math.min(Math.max(MIN_WIDTH, this.resizeStart.width + event.clientX - this.resizeStart.x), maxWidth);
+    const height = Math.min(Math.max(MIN_HEIGHT, this.resizeStart.height + event.clientY - this.resizeStart.y), maxHeight);
+
+    this.element.style.width = `${width}px`;
+    this.element.style.height = `${height}px`;
+  }
+
+  private endResize():void {
+    this.resizeStart = null;
+    window.removeEventListener('pointermove', this.onResizeMove);
+    window.removeEventListener('pointerup', this.onResizeUp);
   }
 }
