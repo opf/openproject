@@ -29,6 +29,8 @@
 #++
 
 class WorkPackages::ImportController < ApplicationController
+  RUNNING = %w[in_queue in_process].freeze
+
   menu_item :work_packages
   before_action :find_project_by_project_id, :authorize
   before_action :load_status, only: %i[show status problems]
@@ -83,6 +85,15 @@ class WorkPackages::ImportController < ApplicationController
 
     status = ::JobStatus::Status.find_by(job_id: params[:job], user_id: current_user.id)
     @status = status if status && status.payload["project_id"] == @project.id
+
+    validate_run_state
+  end
+
+  def validate_run_state
+    return unless @status && @status.payload["outcome"].blank? && RUNNING.exclude?(@status.status)
+
+    @error = t("work_packages.import.run_failed")
+    @status = nil
   end
 
   # A refused upload is a form error, not a run: re-render the page with the message on the file

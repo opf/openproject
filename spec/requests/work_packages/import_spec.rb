@@ -321,6 +321,60 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
         expect(response.body).to include("Check file")
       end
     end
+
+    context "when the run died without reporting" do
+      let(:job_id) { SecureRandom.uuid }
+
+      def stopped(status)
+        create(:delayed_job_status,
+               job_id:,
+               user: importer,
+               status:,
+               payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+                          "dry_run" => true })
+      end
+
+      it "says so rather than watching a run that is over" do
+        stopped(:failure)
+
+        get show_path(job: job_id)
+
+        expect(field_error).to eq("This run did not finish, and nothing was created. Upload the file again.")
+        expect(page).to have_no_css("[data-work-packages--csv-import-target='poll']", visible: :all)
+      end
+
+      it "offers the form again, so the file can be sent a second time" do
+        stopped(:failure)
+
+        get show_path(job: job_id)
+
+        expect(page).to have_button("Check file", disabled: true)
+        expect(page).to have_css("[data-test-selector='import-drop-box']")
+      end
+
+      it "stops the poller that is already running" do
+        stopped(:cancelled)
+
+        get status_path(job: job_id)
+
+        expect(response.body).not_to include("csv-import-target=\"poll\"")
+        expect(response.body).to include("This run did not finish")
+      end
+
+      it "leaves a run that reported its own failure to the report" do
+        create(:delayed_job_status,
+               job_id:,
+               user: importer,
+               status: :failure,
+               payload: { "project_id" => project.id, "filename" => "sprint-43.csv", "dry_run" => false,
+                          "outcome" => "file_rejected", "column_problems" => [], "problems" => [] })
+
+        get show_path(job: job_id)
+
+        expect(response.body).to include("The column headers could not be read")
+        expect(response.body).not_to include("This run did not finish")
+      end
+    end
   end
 
   describe "uploading a file end to end", with_flag: { csv_import: true } do
