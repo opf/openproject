@@ -529,7 +529,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
              payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
                         "outcome" => "checked", "row_count" => 142, "created_count" => 142,
                         "attachment_id" => 0, "counts" => {}, "problems" => [],
-                        "column_problems" => [], "back_dated" => false,
+                        "column_problems" => [], "back_dated" => 0,
                         "assignee_count" => 0, "dated_count" => 0 })
     end
 
