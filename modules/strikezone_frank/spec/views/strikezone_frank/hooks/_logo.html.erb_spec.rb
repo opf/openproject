@@ -40,4 +40,27 @@ RSpec.describe "strikezone_frank/hooks/logo" do
     expect(rendered).to include(".op-logo--link")
     expect(rendered).to include(".op-logo--icon")
   end
+
+  it "injects Strikezone theme colour tokens including derived hover colours" do
+    render partial: "strikezone_frank/hooks/logo"
+
+    expect(rendered).to include("--primary-button-color: #DF5301")
+    expect(rendered).to include("--accent-color: #ED6718")
+    expect(rendered).to include("--header-bg-color: #101010")
+    expect(rendered).to include("--primary-button-color--major1:")
+    expect(rendered).to include("--accent-color--major1:")
+    expect(rendered).not_to include("--primary-button-color--major1: #197032")
+  end
+
+  it "loads Baloo Bhaina 2 and applies it as the UI font family" do
+    render partial: "strikezone_frank/hooks/logo"
+
+    expect(rendered).to include("@font-face")
+    expect(rendered).to include("Baloo Bhaina 2")
+    expect(rendered).to include("baloo-bhaina-2-latin-400")
+    expect(rendered).to include("baloo-bhaina-2-latin-700")
+    expect(rendered).to include("--body-font-family:")
+    expect(rendered).to include("--text-title-size-large: 2.5rem")
+    expect(rendered).to include(".Button--large")
+  end
 end

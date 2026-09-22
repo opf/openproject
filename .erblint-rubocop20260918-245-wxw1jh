@@ -1,0 +1,29 @@
+---
+inherit_from:
+- ".rubocop.yml"
+Layout/CommentIndentation:
+  Enabled: false
+Layout/FirstArgumentIndentation:
+  EnforcedStyle: consistent
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+Layout/InitialIndentation:
+  Enabled: false
+Layout/LeadingEmptyLines:
+  Enabled: false
+Layout/LineLength:
+  Enabled: false
+Layout/TrailingEmptyLines:
+  Enabled: false
+Layout/TrailingWhitespace:
+  Enabled: false
+Lint/UselessAssignment:
+  Enabled: false
+Naming/FileName:
+  Enabled: false
+Rails/OutputSafety:
+  Enabled: true
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/RedundantConstantBase:
+  Enabled: false

@@ -44,12 +44,24 @@ module OpenProject::StrikezoneFrank
       strikezone_frank/logo-white.svg
       strikezone_frank/logo-black.svg
       strikezone_frank/icon.svg
+      strikezone_frank/baloo-bhaina-2-latin-400.woff2
+      strikezone_frank/baloo-bhaina-2-latin-500.woff2
+      strikezone_frank/baloo-bhaina-2-latin-600.woff2
+      strikezone_frank/baloo-bhaina-2-latin-700.woff2
     ]
+
+    # Same plugin extension points BIM uses for a named Design theme.
+    patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
+    patch_with_namespace :OpenProject, :CustomStyles, :Design
 
     # Load after OpenProject::Hook is available. Matching other plugins, this
     # runs on reload in development as well.
     config.to_prepare do
       require "open_project/strikezone_frank/hooks"
+      require "open_project/strikezone_frank/branding"
+
+      # WP #55: rename stock "OpenProject" title to Strikezone when still default.
+      OpenProject::StrikezoneFrank::Branding.apply!
 
       # Menus are registered at boot. After the dedicated Frank page was
       # removed, drop leftover items so a reloaded process cannot generate

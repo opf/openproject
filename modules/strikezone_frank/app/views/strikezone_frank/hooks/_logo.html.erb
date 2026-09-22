@@ -27,11 +27,88 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%
+  # WP #55 — logo + theme tokens + Baloo Bhaina 2 via plugin CSS
+  # (survives OpenProject upgrades; covers Community Edition).
+  # Prefer Administration > Design when EE Design is available.
+  branding = OpenProject::StrikezoneFrank::Branding
   logo_white = asset_path("strikezone_frank/logo-white.svg")
   logo_black = asset_path("strikezone_frank/logo-black.svg")
   logo_icon = asset_path("strikezone_frank/icon.svg")
 %>
 <style type="text/css">
+  <% branding::FONT_FILES.each do |weight, file| %>
+  @font-face {
+    font-family: "Baloo Bhaina 2";
+    src: url(<%= asset_path(file) %>) format("woff2");
+    font-weight: <%= weight %>;
+    font-style: normal;
+    font-display: swap;
+  }
+  <% end %>
+
+  /* Strikezone brand colours + typography (product primary orange, Baloo Bhaina 2) */
+  :root {
+    --body-font-family: <%= branding::FONT_FAMILY %>;
+    --text-title-size-large: 2.5rem;
+    --text-title-size-medium: 2rem;
+    --text-title-size-small: 1.5rem;
+    --text-subtitle-size-medium: 1.25rem;
+    --text-body-size-large: 1.125rem;
+    --text-body-size-medium: 1rem;
+    --text-body-size-small: 0.875rem;
+    --text-caption-size-medium: 0.75rem;
+    --base-text-weight-semibold: 600;
+    --base-text-weight-medium: 500;
+    --body-font-size: 1rem;
+    --body-font-color: #1F1F1F;
+    <% if branding.inject_theme_tokens? %>
+      <% branding.theme_css_variables.each do |name, value| %>
+    --<%= name %>: <%= value %>;
+      <% end %>
+    <% end %>
+  }
+
+  @media (max-width: 767.98px) {
+    :root {
+      --body-font-size: 0.875rem;
+      --text-title-size-large: 2rem;
+      --text-title-size-medium: 1.75rem;
+      --text-title-size-small: 1.375rem;
+      --text-subtitle-size-medium: 1.125rem;
+      --text-body-size-large: 1rem;
+      --text-body-size-medium: 0.875rem;
+      --text-body-size-small: 0.75rem;
+    }
+  }
+
+  body {
+    font-family: var(--body-font-family) !important;
+    letter-spacing: 0;
+  }
+
+  .Button,
+  .Button-label {
+    font-family: var(--body-font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.375rem;
+  }
+
+  .Button--large,
+  .Button--large .Button-label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+  }
+
+  .Button--small,
+  .Button--small .Button-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.125rem;
+  }
+
   .op-logo:not(.op-logo--icon) {
     width: 240px;
   }
