@@ -2,6 +2,7 @@
 ---
 get:
   summary: View default query for project
+  deprecated: true
   operationId: View_default_query_for_project
   tags:
   - Queries

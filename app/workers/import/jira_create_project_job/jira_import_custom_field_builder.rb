@@ -134,8 +134,8 @@ module Import
       }.freeze
 
       # Picks how a same-name candidate is matched when Jira Field Contexts have split one
-      # Jira field into several OP custom fields: `:subset` (needed values already covered),
-      # `:exact` (identical option set) or `:extend` (best overlap, missing values appended).
+      # Jira field into several OP custom fields: `:subset` (needed values already covered) or
+      # `:exact` (identical option set).
       VALUE_MATCH_MODE = :subset
 
       def self.supported?(jira_field)
@@ -149,19 +149,16 @@ module Import
 
       attr_reader :jira_field, :context_group
 
-      def initialize(jira_field, context_group: nil, option_value: nil, needs_disambiguation: false, jira_import: nil,
-                     context_index: 0)
+      def initialize(jira_field, context_group: nil, option_value: nil, needs_disambiguation: false, jira_import: nil)
         @jira_field = jira_field
         @context_group = context_group
         @option_value = option_value
         @needs_disambiguation = needs_disambiguation
         @jira_import = jira_import
-        @context_index = context_index
         @import_name = default_cf_name
       end
 
       def find_existing_custom_field(run_custom_field_ids: [])
-        @pending_value_extension = nil
         match = best_matching_candidate(compatible_candidates, run_custom_field_ids)
         return match if match
 
@@ -199,12 +196,6 @@ module Import
 
       def custom_field_post_processing(custom_field)
         populate_hierarchy_items(custom_field) if format == "hierarchy"
-      end
-
-      def apply_pending_value_extension(custom_field, user:)
-        return if @pending_value_extension.blank?
-
-        extend_custom_field_values!(custom_field, @pending_value_extension, user:)
       end
 
       def format
@@ -261,8 +252,6 @@ module Import
         schema["type"] == "array" && JIRA_ARRAY_ITEMS_TO_OP_FORMAT.key?(schema["items"])
       end
 
-      # Returns the flat list of option labels for this list field's context group.
-      # For cascading selects the tree is fully flattened so every level becomes an option.
       def list_field_option_values
         allowed = context_group_allowed_values
         if cascading_select_as_list?
@@ -336,7 +325,6 @@ module Import
       def match_by_mode(candidates, needed)
         case VALUE_MATCH_MODE
         when :exact then exact_match(candidates, needed)
-        when :extend then extend_best_overlapping_candidate(candidates, needed)
         else candidates.find { |cf| needed.subset?(existing_value_labels(cf).to_set) }
         end
       end
@@ -365,106 +353,9 @@ module Import
           .value_or([])
       end
 
-      def extend_best_overlapping_candidate(candidates, needed)
-        scored = candidates.filter_map { |cf| score_extension_candidate(cf, needed) }
-        return nil if scored.empty?
-
-        candidate, existing = scored.min_by { |cf, values| [-(needed & values).size, cf.id] }
-        @pending_value_extension = needed - existing
-        candidate
-      end
-
-      def score_extension_candidate(custom_field, needed)
-        existing = existing_value_labels(custom_field).to_set
-        return unless needed.intersect?(existing)
-
-        [custom_field, existing] if needed.subset?(existing) || import_owned?(custom_field)
-      end
-
-      def import_owned?(custom_field)
-        Import::JiraOpenProjectReference.exists?(
-          jira_import_id: @jira_import.id,
-          op_entity_id: custom_field.id,
-          op_entity_class: custom_field.class.to_s
-        )
-      end
-
-      def extend_custom_field_values!(custom_field, missing_labels, user:)
-        return if missing_labels.empty?
-
-        if format == "hierarchy"
-          extend_hierarchy_values!(custom_field, missing_labels)
-        else
-          extend_list_values!(custom_field, missing_labels, user:)
-        end
-      end
-
-      def extend_list_values!(custom_field, missing_labels, user:)
-        values = custom_field.custom_options.pluck(:value) + missing_labels.to_a
-        service_call = CustomFields::UpdateService.new(user:, model: custom_field).call(possible_values: values)
-        raise service_call.message if service_call.failure?
-      end
-
-      def extend_hierarchy_values!(custom_field, missing_labels)
-        custom_field.reload
-        root = custom_field.hierarchy_root
-        return unless root
-
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
-        context_group_allowed_values.each do |option|
-          insert_missing_hierarchy_option(service, contract, root, option, missing_labels)
-        end
-      end
-
-      def insert_missing_hierarchy_option(service, contract, parent, option, missing_labels, parent_path: nil)
-        label = option_label(option["value"])
-        return if label.blank?
-
-        full_path = parent_path ? "#{parent_path} / #{label}" : label
-        item = parent.children.find_by(label:)
-        item = insert_hierarchy_item(service, contract, parent, label) if item.nil? && missing_labels.include?(full_path)
-        return unless item
-
-        Array(option["children"]).each do |child_option|
-          insert_missing_hierarchy_option(service, contract, item, child_option, missing_labels, parent_path: full_path)
-        end
-      end
-
       def custom_field_by_name(name)
         WorkPackageCustomField.where("LOWER(name) = LOWER(?)", name).first
       end
-
-      # List and hierarchy fields must not be matched by name: a custom field that happens to
-      # share the name may carry a different option set, and reusing it would silently drop
-      # values. They are matched by the position of their context group instead, which is stable
-      # because build_custom_field_registry derives the contexts of a Jira field deterministically
-      # from its stored payload.
-      #
-      # This is what keeps the registry idempotent: it is rebuilt by every per-project job of an
-      # import run, and without this lookup each rebuild created another copy of every list and
-      # hierarchy field ("CF List", "CF List (2)", ...).
-      def custom_field_created_by_import
-        custom_fields_created_by_import[@context_index]
-      end
-
-      # rubocop:disable Metrics/AbcSize
-      def custom_fields_created_by_import
-        return [] if @jira_import.blank?
-
-        @custom_fields_created_by_import ||= begin
-          ids = Import::JiraOpenProjectReference
-                  .where(jira_import_id: @jira_import.id,
-                         jira_entity_class: jira_field.class.to_s,
-                         jira_entity_id: jira_field.id.to_s,
-                         op_entity_class: "WorkPackageCustomField")
-                  .order(:id)
-                  .pluck(:op_entity_id)
-          by_id = WorkPackageCustomField.where(id: ids).index_by { |cf| cf.id.to_s }
-          ids.filter_map { |id| by_id[id] }
-        end
-      end
-      # rubocop:enable Metrics/AbcSize
 
       def unique_custom_field_name
         unique_name = @import_name

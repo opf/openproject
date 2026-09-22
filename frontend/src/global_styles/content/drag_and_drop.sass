@@ -25,6 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+@use "sass:list"
 
 // The intend for this file is to become the place where all drag&drop styles are placed.
 // As there will hopefully also be a shared style for resizing, and as those two will hopefully also share some styles
@@ -45,3 +46,66 @@
 
   &:active
     cursor: grabbing
+
+// Ghost layers behind a multi-card drag preview, one per further card in the
+// batch up to the maximum. Composed into the card's own shadow by the
+// component that renders it (border_box_list_component.sass).
+$op-drag-stack-max-layers: 3 !default
+$op-drag-stack-step: 6px !default
+$op-drag-stack-ring: 1px !default
+$op-drag-stack-shade-blur: 4px !default
+$op-drag-stack-shade-color: rgba(37, 41, 46, 0.18) !default
+
+$op-drag-badge-overhang: 8px !default
+$op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-max-layers + $op-drag-stack-shade-blur
+
+// renderDragPreview reserves the overhangs as container padding, and can only
+// do so inline (Pragmatic inline-resets the container first), so they are
+// published as custom properties rather than duplicated as numbers there.
+:root
+  --op-drag-badge-overhang: #{$op-drag-badge-overhang}
+  --op-drag-stack-overhang: #{$op-drag-stack-overhang}
+
+// Each depth emits shade, fill then ring: CSS paints a shadow list front to
+// back, so a depth's shade lands above its own fill, in the gap under the card
+// in front of it. The deepest shade reaches `step * layers + shade-blur` past
+// the right and bottom edges; the blur is under every offset, so nothing
+// reaches past the top or left.
+@function op-drag-stack-shadows($layers: $op-drag-stack-max-layers, $step: $op-drag-stack-step, $ring: $op-drag-stack-ring, $blur: $op-drag-stack-shade-blur, $shade: $op-drag-stack-shade-color)
+  $shadows: ()
+
+  @for $depth from 1 through $layers
+    $offset: $step * $depth
+    $shadows: list.append($shadows, $offset $offset $blur 0 $shade, comma)
+    $shadows: list.append($shadows, $offset $offset 0 0 var(--bgColor-default), comma)
+    $shadows: list.append($shadows, $offset $offset 0 $ring var(--borderColor-default), comma)
+
+  @return $shadows
+
+// Multi-card batch count badge on a drag preview, on Primer's Counter
+// contract plus the positioning Counter does not own and the accent skin the
+// drop indicator uses.
+//
+// Paint past the container's border box lands in Firefox's drag snapshot and
+// shifts its origin off the grab offset, so the badge sits in the padding
+// renderDragPreview writes. The right offset keeps it on the card's corner.
+.op-sortable-lists-drag-preview-batch-badge
+  position: absolute
+  top: 0
+  right: $op-drag-stack-overhang - $op-drag-badge-overhang
+  min-width: 20px
+  height: 20px
+  padding: 0 6px
+  border-radius: 999px
+  background-color: var(--bgColor-accent-emphasis)
+  color: var(--fgColor-onEmphasis)
+  font-size: 12px
+  font-weight: 600
+  line-height: 20px
+  text-align: center
+  box-shadow: var(--shadow-floating-medium)
+
+  // The blur past the container's border box would shift Firefox's snapshot
+  // origin like the overhang above.
+  .-browser-firefox &
+    box-shadow: none

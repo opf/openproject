@@ -653,6 +653,17 @@ RSpec.describe "Projects", "creation", :js do
         expect(page).to have_text("Foo project")
         expect(page).to have_no_css("svg.octicon")
       end
+
+      # Clear and search by identifier only - should still find the same project by name
+      parent_autocompleter.find("input").set("")
+
+      dropdown = search_autocomplete(parent_autocompleter,
+                                     query: "foo-project",
+                                     results_selector: ".ng-dropdown-panel-items")
+
+      within(dropdown) do
+        expect(page).to have_text("Foo project")
+      end
     end
   end
 end

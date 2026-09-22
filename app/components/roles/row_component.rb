@@ -166,8 +166,8 @@ module Roles
       menu.with_item(
         label: t(:button_delete),
         scheme: :danger,
-        href: role_path(role),
-        form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+        href: deletion_dialog_role_path(role),
+        content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end

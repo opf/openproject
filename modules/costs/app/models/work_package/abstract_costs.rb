@@ -28,12 +28,8 @@ class WorkPackage
     # @param [WorkPackage::ActiveRecord_Relation | Array[WorkPackage]] List of work packages.
     # @return [Float] The sum of the work packages' costs.
     def costs_of(work_packages:)
-      # N.B. Because of an AR quirks the code below uses statements like
-      #   where(work_package_id: ids)
-      # You would expect to be able to simply write those as
-      #   where(work_package: work_packages)
-      # However, AR (Rails 4.2) will not expand :includes + :references inside a subquery,
-      # which will render the query invalid. Therefore we manually extract the IDs in a separate (pluck) query.
+      # AR will not expand :includes + :references inside a subquery, so the IDs have to be
+      # extracted in a separate (pluck) query rather than passing the relation itself.
       wp_ids = work_package_ids(work_packages)
 
       scope = costs_model.where(entity_type: "WorkPackage", entity_id: wp_ids).joins(:project)
@@ -46,7 +42,7 @@ class WorkPackage
     ##
     # The model on which the costs calculations are based.
     # Can be any model which has the fields `overridden_costs` and `costs`
-    # and is related to work packages (i.e. has a `work_package_id` too).
+    # and is related to work packages (i.e. has an `entity` association too).
     #
     # @return [Class] Class of the model the costs are based on, e.g. CostEntry or TimeEntry.
     def costs_model

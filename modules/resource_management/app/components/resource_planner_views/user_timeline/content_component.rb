@@ -56,12 +56,8 @@ module ResourcePlannerViews::UserTimeline
 
     def timeline_feed_values
       {
-        "resources-url" => helpers.project_resource_planner_view_user_timeline_resources_path(
-          @project, @resource_planner, @view, format: :json
-        ),
-        "events-url" => helpers.project_resource_planner_view_user_timeline_events_path(
-          @project, @resource_planner, @view, format: :json
-        ),
+        "resources-url" => planner_view_user_timeline_resources_path(@resource_planner, @view, format: :json),
+        "events-url" => planner_view_user_timeline_events_path(@resource_planner, @view, format: :json),
         # A date-range selection on a user row pre-fills that user (principal) on
         # the new-allocation dialog.
         "selection-param" => "principal_id"
@@ -74,7 +70,7 @@ module ResourcePlannerViews::UserTimeline
     end
 
     def add_user_path
-      helpers.new_user_project_resource_planner_view_path(@project, @resource_planner, @view)
+      new_planner_view_user_path(@resource_planner, @view)
     end
   end
 end

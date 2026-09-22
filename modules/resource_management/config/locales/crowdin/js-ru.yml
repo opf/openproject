@@ -1,0 +1,5 @@
+---
+ru:
+  js:
+    resource_management:
+      create_placeholder_user: Создать пользователя-заполнителя с критериями фильтрации

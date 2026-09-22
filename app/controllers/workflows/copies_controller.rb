@@ -54,6 +54,6 @@ class Workflows::CopiesController < ApplicationController
   end
 
   def eligible_roles
-    @eligible_roles ||= Workflow.eligible_roles
+    @eligible_roles ||= Workflows::StatusTransition.eligible_roles
   end
 end

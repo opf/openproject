@@ -56,7 +56,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
   end
 
   def workflows_for(type, role)
-    Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id)
+    Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id)
   end
 
   it "persists the matrix and advances when clicking 'Continue'" do

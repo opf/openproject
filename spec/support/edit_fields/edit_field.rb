@@ -84,6 +84,10 @@ class EditField
     end
   end
 
+  def expect_editable
+    expect(context).to have_css "#{@selector} #{display_selector}.-editable"
+  end
+
   def expect_read_only
     expect(context).to have_css "#{@selector} #{display_selector}.-read-only"
   end

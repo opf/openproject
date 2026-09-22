@@ -1,0 +1,60 @@
+<style>
+  .hl-preview {
+    display: grid;
+    grid-template-columns: max-content max-content repeat(4, max-content);
+    gap: 10px 20px;
+    align-items: center;
+  }
+
+  .hl-preview--row { display: contents; }
+
+  .hl-preview--head {
+    font-size: 12px;
+    font-weight: var(--base-text-weight-bold);
+    color: var(--fgColor-muted);
+  }
+
+  .hl-preview--color { font-size: 12px; }
+  .hl-preview--color code { display: block; color: var(--fgColor-muted); }
+
+  .hl-preview .__hl_background,
+  .hl-preview .__hl_foreground,
+  .hl-preview .__hl_dot {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--borderRadius-medium);
+    font-size: 12px;
+  }
+
+  .hl-preview .__hl_border_top {
+    display: inline-block;
+    padding: 8px;
+    font-size: 12px;
+    background: var(--bgColor-muted);
+  }
+</style>
+
+<% if colors.empty? %>
+  <em>No colors seeded in this instance.</em>
+<% else %>
+  <div class="hl-preview">
+    <span class="hl-preview--head">Color</span>
+    <span class="hl-preview--head">--hl-perceived-lightness</span>
+    <span class="hl-preview--head"><code>__hl_background</code></span>
+    <span class="hl-preview--head"><code>__hl_foreground</code></span>
+    <span class="hl-preview--head"><code>__hl_dot</code></span>
+    <span class="hl-preview--head"><code>__hl_border_top</code></span>
+
+    <% colors.each do |color| %>
+      <% color_class = hl_color_class("color", color) %>
+      <div class="hl-preview--row">
+        <span class="hl-preview--color"><%= color.name %><code><%= color.hexcode %></code></span>
+        <span class="hl-preview--color"><%= color.perceived_lightness %></span>
+        <span><span class="__hl_background <%= color_class %>">In progress</span></span>
+        <span><span class="__hl_foreground <%= color_class %>">In progress</span></span>
+        <span><span class="__hl_dot <%= color_class %>">In progress</span></span>
+        <span><span class="__hl_border_top <%= color_class %>">In progress</span></span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

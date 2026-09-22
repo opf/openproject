@@ -381,7 +381,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "time entries" do
-      subject { TimeEntry.find_by(work_package_id: work_package.id) }
+      subject { TimeEntry.find_by(entity: work_package) }
 
       it { is_expected.to be_nil }
     end
