@@ -120,6 +120,12 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
       end
     end
 
+    context "with Label" do
+      it_behaves_like "rewritten record",
+                      :label,
+                      :author_id
+    end
+
     context "with CustomValue" do
       shared_let(:version) { create(:version) }
 

@@ -40,7 +40,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
         render(Primer::Beta::IconButton.new(icon: item.icon,
                                             tag: :a,
                                             href: url_for(item.url),
-                                            classes: "op-app-header--primer-button hidden-for-mobile",
+                                            classes: "op-app-header--primer-button",
                                             scheme: :invisible,
                                             pl: 1,
                                             test_selector: "header-help-button",
@@ -64,7 +64,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                                          anchor_align: :end) do |menu|
       menu.with_show_button(icon: :question,
                             scheme: :invisible,
-                            classes: "op-app-header--primer-button hidden-for-mobile",
+                            classes: "op-app-header--primer-button",
                             test_selector: "header-help-button",
                             "aria-label": I18n.t(:label_help))
 

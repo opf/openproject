@@ -7,19 +7,17 @@ keywords: manage versions
 ---
 # Manage versions
 
-Versions are used to track product versions or releases, for example in roadmap planning. Work packages can be assigned to a version and will be displayed in the  [Roadmap](../../../roadmap).
-
-Versions are also used to enable the Backlogs module, i.e., to create a product backlog and manage sprints in OpenProject.
-
-[Learn how to create a new backlogs version](../../../backlogs-scrum/#create-and-manage-sprints).
+Versions help you structure and track work towards releases, milestones, or other delivery goals. Assign work packages to a version to plan and monitor their progress in the [Roadmap](../../../roadmap).
 
 ## Create a new version
 
-Navigate to _Project settings → Versions_ in the project menu. You will see an overview of all existing versions. Per default, the existing versions will be sorted by the _Name_, which is indicated by an arrow next to the column header. To change the sorting order, click the name of any column you wish to use for sorting instead. 
+Navigate to _Project settings → Versions_ in the project menu. You will see an overview of all existing versions. By default, the existing versions will be sorted by the _Name_, which is indicated by an arrow next to the column header. To change the sorting order, click the name of the column you want to sort by.
 
- To create a new version for your project, click the green **+ Version** button. 
+To create a new version for your project, click the green **+ Version** button. 
 
 ![Versions in project settings in OpenProject](openproject_user_guide_project_settings_work_packages_versions.png)
+
+![Create new version under project settings in OpenProject](openproject_user_guide_project_settings_work_packages_versions_new.png)
 
 You can configure the following details:
 
@@ -28,15 +26,70 @@ You can configure the following details:
 - **Status**: Choose the status of the version. The default status is open.
 - **Wiki page**: Select a wiki page to link directly from the version in the Roadmap.
 - **Start and finish date**: Set the planned start and finish dates.
-- **Sharing**: Choose whether the version should be shared with other projects (e.g., in the project hierarchy or with subprojects).
+- **Sharing**: Choose which projects the version should be shared with. Depending on the selected option, the version can be available only in the current project or also in related projects.
 
-> [!NOTE]
-> You’ll need to configure the backlog column separately in each project that uses the version.
+For example, let's consider the following project hierarchy:
 
-- **Column in backlog**: Select a column for this version in the backlogs view. This is only necessary if you’re managing a [Scrum backlog](../../../backlogs-scrum).
+```text
+Parent project
+├── Project A
+│   ├── Project A1
+│   │   └── Project A1a
+│   └── Project A2
+└── Project B
+    ├── Project B1  ← current project
+    │   ├── Project B1a
+    │   │   └── Project B1a-i
+    │   └── Project B1b
+    └── Project B2
+```
+
+Assuming the version you are creating or editing belongs to **Project B1**:
+  - **Not shared**: The version is available only in the current project.
+
+  ```text
+  Project B1  ✓  ← current project
+  ```
+  - **With subprojects**: The version is available in the current project and all of its subprojects, including subprojects nested at lower levels.
+
+  ```text
+  Project B1          ✓  ← current project
+  ├── Project B1a     ✓
+  │   └── Project B1a-i ✓
+  └── Project B1b     ✓
+  ```
+  - **With project hierarchy**: The version is available in the current project, all of its parent projects, and all of its subprojects. Other projects under the same parent are not included.
+
+  ```text
+  Parent project      ✓
+  └── Project B       ✓
+      ├── Project B1  ✓  ← current project
+      │   ├── B1a     ✓
+      │   └── B1b     ✓
+      └── Project B2  ✗
+  ```
+  -  **With project tree**: The version is available in all projects that belong to the same project tree. This includes the current project, its parent projects and subprojects, as well as other projects under the same top-level parent and their subprojects.
+
+In this example, **Project A** and **Project B** have the same top-level parent, **Parent project**, so they and their subprojects are part of the same project tree.
+
+  ```text
+  Parent project          ✓  ← common parent
+  ├── Project A           ✓
+  │   ├── Project A1      ✓
+  │   │   └── Project A1a ✓
+  │   └── Project A2      ✓
+  └── Project B           ✓
+      ├── Project B1      ✓  ← current project
+      │   ├── Project B1a ✓
+      │   └── Project B1b ✓
+      └── Project B2      ✓
+  ```
+
+  - **With all projects**: The version is available in all projects across the entire OpenProject instance, regardless of their position in the project hierarchy.
+
 
 Click the Create button to save your changes.
-![Create new version under project settings in OpenProject](openproject_user_guide_project_settings_work_packages_versions_new.png)
+
 
 ## Edit a version
 
@@ -55,7 +108,7 @@ To close a version, open its details and set the **Status** to _Closed_.
 
 ## Close completed versions
 
-To close all completed versions at once, click the **More (three dots**) icon in the top right corner and click **Close completed versions**.
+To close all completed versions at once, click the **More (three dots)** icon in the top right corner and click **Close completed versions**.
 
 ![Close completed versions in OpenProject project settings](openproject_user_guide_project_settings_work_packages_versions_close_completed.png)
 

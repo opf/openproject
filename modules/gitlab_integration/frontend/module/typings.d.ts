@@ -82,7 +82,6 @@ export interface IGitlabMergeRequestResource extends HalResourceClass {
 
 export interface IGitlabUserResource {
   avatarUrl:string;
-  email:string;
   login:string;
 }
 
