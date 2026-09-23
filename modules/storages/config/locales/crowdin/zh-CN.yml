@@ -406,14 +406,13 @@ zh-CN:
       empty_project_folder_validation: 选择一个文件夹是必须的。
       existing_manual_folder: 您可以指定现有的文件夹作为此项目的根文件夹。 但权限未自动托管，管理员需要手动确保相关用户能够访问。 选定的文件夹可以被多个项目使用。
       host: 请添加存储的主机地址，包括 https://。不应超过 255 个字符。
-      managed_project_folders_application_password_caption: 通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。
+      managed_project_folders_application_password_caption_html: 'Enable automatic managed folders by copying this value from: [%{integration}](provider_settings).'
       name: 为您的存储命名，以便用户可以区分多个存储。
       new_storage_html: 有关详情，请阅读我们关于[设置 %{provider_name} 文件存储空间](docs_url)的文档。
       nextcloud:
-        application_link_text: 应用“集成OpenProject”
         integration: Nextcloud 管理/OpenProject
-        oauth_configuration: 从 %{application_link_text} 复制这些值。
-        provider_configuration: 在进行设置之前，请确保您在 Nextcloud 实例中具有管理员权限，并且已安装了 %{application_link_text}。
+        oauth_configuration_html: Copy these values from [Nextcloud Administration / OpenProject](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in your Nextcloud instance and the [application “Integration OpenProject”](application_link) is installed before doing the setup.
         storage_audience: Nextcloud 实例用于与身份提供者通信的客户端 ID。
         storage_audience_placeholder: 例如 Nextcloud
         token_exchange_scope: 应在令牌交换中申请的范围，每个范围用空格隔开。
@@ -422,27 +421,24 @@ zh-CN:
       not_logged_into_storage: 要选择一个项目文件夹，请先登录
       oauth_application_details_html: 关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 [Nextcloud OpenProject 集成设置](oauth_application_details_link)中。
       one_drive:
-        application_link_text: Azure 门户
         copy_redirect_uri: 复制重定向 URI
-        documentation_link_text: OneDrive 文件存储文档
-        drive_id:
+        drive_id_html: Please copy the ID from the desired drive by following the steps in the [OneDrive file storages documentation](drive_id_guide).
         integration: OneDrive
         missing_client_id_for_redirect_uri: 请填写OAuth 值以生成 URI
         oauth_client_redirect_uri: 请将该值复制到“重定向 URI ”下的新 Web 重定向 URI。
         oauth_client_secret: 如果在“客户端凭据”下没有应用程序客户端密钥，请新建一个。
-        oauth_configuration: 从%{application_link_text}中的所需应用程序复制这些值。
-        provider_configuration: 请确保您在%{application_link_text}具有管理权限，或在进行设置之前与您的 Microsoft 管理员联系。在门户中，您还需要注册一个 Azure 应用程序或使用现有的应用程序进行身份验证。
-        tenant_id: 请从所需应用程序和应用注册中复制目录（租户）ID，链接文本为 %{application_link_text}。
+        oauth_configuration_html: Copy these values from the desired application in the [Azure portal](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [Azure portal](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id_html: Please copy the Directory (tenant) ID from the desired application and App registrations in the [Azure portal](application_link).
         tenant_id_placeholder: 名称或 UUID
       setting_up_additional_storages: 如需设置额外的文件存储，请访问
       setting_up_additional_storages_non_admin: 管理员可以在“管理/文件存储”中设置额外的文件存储。
       setting_up_storages: 如需设置文件存储，请访问
       setting_up_storages_non_admin: 管理员可以在“管理/文件存储”中设置文件存储。
       sharepoint:
-        application_link_text: SharePoint 站点
         integration: SharePoint 管理 / OpenProject
-        oauth_configuration: 从 %{application_link_text} 中的所需应用程序复制这些值。
-        provider_configuration: 请确保您在%{application_link_text}具有管理权限，或在进行设置之前与您的 Microsoft 管理员联系。在门户中，您还需要注册一个 Azure 应用程序或使用现有的应用程序进行身份验证。
+        oauth_configuration_html: Copy these values from the desired application in the [SharePoint site](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [SharePoint site](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
       type: 请确保您在 Nextcloud 实例中具有管理权限，并在进行设置之前安装了以下应用程序：
       type_link_text: "“集成 OpenProject”"
     label_active: 有效
@@ -481,7 +477,7 @@ zh-CN:
       connected: 已连接
       connected_no_permissions: 用户角色没有存储区权限
       not_connectable: 无法连接。存储需要通过SSO提供商登录，但用户没有通过SSO登录。
-      not_connected: 未连接。用户应通过以下 %{link} 登录到存储。
+      not_connected_html: Not connected. The user should login to the storage via the following [link](storage_login).
       not_connected_sso: 尚未连接，在查看文件后 SSO 应自动连接。
     members_no_results: 没有要显示的成员。
     no_results: 尚未设置存储设备。

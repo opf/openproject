@@ -261,6 +261,20 @@ RSpec.shared_examples "work package contract" do
       end
     end
 
+    describe "labels" do
+      let(:label) { create(:label) }
+
+      after do
+        work_package.label_id_replacements = nil
+      end
+
+      before do
+        work_package.label_id_replacements = [label.id]
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
     describe "ignore_non_working_days" do
       context "when not having children and scheduling manually" do
         before do

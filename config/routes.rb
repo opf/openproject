@@ -208,7 +208,6 @@ Rails.application.routes.draw do
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog
-      post :confirm
       post :switch
     end
 
@@ -233,6 +232,12 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      get :change_dialog
+      patch :change
+
+      get :create_dialog
+      post :create
+
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
@@ -317,6 +322,23 @@ Rails.application.routes.draw do
   resources :statuses, except: :show do
     member do
       put :move
+    end
+  end
+
+  resources :workflows, only: %i[index], controller: "workflows/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    member do
+      get :edit_dialog
+    end
+
+    resource :matrix, only: %i[show update], controller: "workflows/matrix" do
+      get :status_dialog
+      post :confirm_statuses
     end
   end
 
@@ -787,10 +809,12 @@ Rails.application.routes.draw do
     end
 
     resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
-      delete :api_key, action: :delete_api_key
-      get :delete_api_key_dialog
-      get :disconnect_dialog
-      post :disconnect
+      collection do
+        delete :api_key, action: :delete_api_key
+        get :delete_api_key_dialog
+        get :disconnect_dialog
+        post :disconnect
+      end
     end
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
@@ -1041,6 +1065,17 @@ Rails.application.routes.draw do
         put :enable_all
         put :disable_all
         post :toggle_setting
+      end
+    end
+
+    resources :labels, only: %i[index create update destroy] do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        get :new_dialog, defaults: { format: :turbo_stream }
+      end
+      member do
+        get :edit_dialog, defaults: { format: :turbo_stream }
+        get :deletion_dialog, defaults: { format: :turbo_stream }
       end
     end
 

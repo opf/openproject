@@ -198,6 +198,7 @@ module ApplicationHelper
   def syntax_highlight(name, content)
     highlighted = OpenProject::SyntaxHighlighting.highlight_by_filename(content, name)
     highlighted.each_line do |line|
+      # OG: each_line drops SafeBuffer; lines are already escaped Rouge HTML.
       yield highlighted.html_safe? ? line.html_safe : line
     end
   end

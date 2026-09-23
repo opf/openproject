@@ -24,37 +24,37 @@ ru:
   js:
     backlogs:
       announcements:
-        batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the work package's current position.
+        batch_too_large: Невозможно переместить сразу несколько пакетов работ %{count}. Выберите не более %{max}.
+        fallback_item_label: Пакет работ
+        fallback_list_name: другой список
+        move_failed_check_position: Перемещение не удалось. Проверьте текущую позицию пакета работ.
         move_failed_check_positions_batch:
-          other: Move failed. Check the work packages' current positions.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+          other: Перемещение не удалось. Проверьте текущие позиции пакетов работ.
+        move_failed_rolled_back: Перемещение не удалось. %{label} остался на прежней позиции.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} work packages returned to their previous positions.
-        moved: "%{label} moved to position %{position} of %{total}"
+          other: Перемещение не удалось. %{count} пакетов работ осталось на прежней позиции.
+        moved: "%{label} перемещен на позицию %{position} %{total}"
         moved_batch:
-          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} пакетов работ перемещено на позиции с %{first} по %{last} из %{total}"
         moved_batch_to_list:
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+          other: "%{count} пакетов работ перемещено в %{list}, позиции с %{first} по %{last} из %{total}"
+        moved_to_list: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: Выбрано
+        cleared: Выбор очищен.
+        not_selectable: Выборка осталась без изменений. Данный пакет работ не влияет на порядок элементов в этом списке.
+        range_blocked: Выборка осталась без изменений. Данный диапазон содержит пакет работ, который не влияет на порядок элементов в этом списке.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
+          one: Не удалось расширить диапазон. Выбран 1 рабочий пакет.
           few: Could not extend the range. %{count} work packages selected.
           many: Could not extend the range. %{count} work packages selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          other: 'Не удалось расширить диапазон. Выбрано рабочих пакетов: %{count}.'
+        range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
         selected:
-          one: 1 work package selected.
+          one: Выбран 1 пакет работ.
           few: "%{count} work packages selected."
           many: "%{count} work packages selected."
-          other: "%{count} work packages selected."
+          other: "%{count} пакетов работ выбрано."
     burndown:
       day: День
       points: Точки

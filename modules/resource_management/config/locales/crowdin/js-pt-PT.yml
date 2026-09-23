@@ -2,4 +2,4 @@
 pt-PT:
   js:
     resource_management:
-      create_placeholder_user: Create placeholder user with filter criteria
+      create_placeholder_user: Criar um utilizador de marcador de posição com critérios de filtragem
