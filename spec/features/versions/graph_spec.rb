@@ -64,6 +64,12 @@ RSpec.describe "version show graph", :js, :selenium do
     expect(page).to have_css(".op-wp-embedded-graph", visible: :all, wait: 20)
     canvas = find(".op-wp-embedded-graph canvas")
     expect(canvas.text).to eq("1 Control; 1 Subject under test")
+    expect(canvas[:role]).to eq("img")
+    expect(canvas["aria-label"]).to eq("Work packages graph")
+
+    description_id = canvas["aria-describedby"]
+    expect(page).to have_css("##{description_id}[hidden]", visible: :all)
+    expect(find("##{description_id}", visible: :all).text(:all)).to include("1 Control", "1 Subject under test")
   end
 
   context "for a version not shared" do
