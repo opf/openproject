@@ -52,6 +52,10 @@ class Label < ApplicationRecord
       .order("LOWER(labels.name) ASC")
   }
 
+  scope :named, ->(name) {
+    where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
+  }
+
   normalizes :name, with: -> { it.squish }
 
   validates :name,
