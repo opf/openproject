@@ -87,7 +87,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       describe "the dry run flag" do
         def upload(params)
           post show_path,
-            params: params.merge(file: Rack::Test::UploadedFile.new(csv_fixture, "text/csv"))
+               params: params.merge(file: Rack::Test::UploadedFile.new(csv_fixture, "text/csv"))
         end
 
         it "checks the file when the box is ticked" do
@@ -221,11 +221,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       before do
         create(:delayed_job_status,
-          job_id:,
-          user: importer,
-          status: :in_process,
-          payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
-            "dry_run" => true })
+               job_id:,
+               user: importer,
+               status: :in_process,
+               payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+                          "dry_run" => true })
       end
 
       it "marks itself for polling and names the file" do
@@ -298,11 +298,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       def stopped(status)
         create(:delayed_job_status,
-          job_id:,
-          user: importer,
-          status:,
-          payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
-            "dry_run" => true })
+               job_id:,
+               user: importer,
+               status:,
+               payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+                          "dry_run" => true })
       end
 
       it "says so rather than watching a run that is over" do
@@ -334,11 +334,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       it "leaves a run that reported its own failure to the report" do
         create(:delayed_job_status,
-          job_id:,
-          user: importer,
-          status: :failure,
-          payload: { "project_id" => project.id, "filename" => "sprint-43.csv", "dry_run" => false,
-            "outcome" => "file_rejected", "column_problems" => [], "problems" => [] })
+               job_id:,
+               user: importer,
+               status: :failure,
+               payload: { "project_id" => project.id, "filename" => "sprint-43.csv", "dry_run" => false,
+                          "outcome" => "file_rejected", "column_problems" => [], "problems" => [] })
 
         get show_path(job: job_id)
 
@@ -537,14 +537,14 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     before do
       login_as importer
       create(:delayed_job_status,
-        job_id:,
-        user: importer,
-        status: :success,
-        payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
-                   "outcome" => "checked", "row_count" => 142, "created_count" => 142,
-                   "attachment_id" => 0, "counts" => {}, "problems" => [],
-                   "column_problems" => [], "query_id" => nil,
-                   "account_count" => 0, "dated_count" => 0 })
+             job_id:,
+             user: importer,
+             status: :success,
+             payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+                        "outcome" => "checked", "row_count" => 142, "created_count" => 142,
+                        "attachment_id" => 0, "counts" => {}, "problems" => [],
+                        "column_problems" => [], "query_id" => nil,
+                        "account_count" => 0, "dated_count" => 0 })
     end
 
     it "keeps the summary rather than reading as though the check went wrong" do
@@ -575,15 +575,15 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     before do
       login_as importer
       create(:delayed_job_status,
-        job_id:,
-        user: importer,
-        status: :failure,
-        payload: { "project_id" => project.id,
-          "filename" => "sprint-43.csv",
-          "outcome" => "rows_rejected",
-          "problems" => [{ "row" => 7, "attribute" => "type", "value" => "Taks",
-            "message" => "does not exist in this project." }],
-          "available" => { "type" => %w[Task Bug Milestone] } })
+             job_id:,
+             user: importer,
+             status: :failure,
+             payload: { "project_id" => project.id,
+                        "filename" => "sprint-43.csv",
+                        "outcome" => "rows_rejected",
+                        "problems" => [{ "row" => 7, "attribute" => "type", "value" => "Taks",
+                                         "message" => "does not exist in this project." }],
+                        "available" => { "type" => %w[Task Bug Milestone] } })
     end
 
     it "sends the problems as a CSV named after the file they came from" do
@@ -593,7 +593,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(response.headers["Content-Disposition"]).to include("sprint-43-problems.csv")
       expect(CSV.parse(response.body.delete_prefix("﻿")))
         .to eq([%w[Line Column Value Problem Available],
-          ["7", "Type", "Taks", "does not exist in this project.", "Task, Bug, Milestone"]])
+                ["7", "Type", "Taks", "does not exist in this project.", "Task, Bug, Milestone"]])
     end
 
     it "gives nothing for a job belonging to somebody else" do
