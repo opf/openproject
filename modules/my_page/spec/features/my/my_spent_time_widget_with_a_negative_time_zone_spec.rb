@@ -99,11 +99,20 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
   # The slot lanes lie over the day columns and are what a click actually lands on, so the
   # day is picked by clicking a lane at that column's horizontal centre, as a user does.
   def select_day(date)
-    column = find("td.fc-timegrid-col[data-date='#{date.iso8601}']")
-    lane = all("td.fc-timegrid-slot-lane").last
+    # The stack renders once its frame has loaded, so wait for the grid before measuring it.
+    find("td.fc-timegrid-col[data-date='#{date.iso8601}']")
 
-    offset = (column.rect.x + (column.rect.width / 2)) - (lane.rect.x + (lane.rect.width / 2))
+    offset = page.evaluate_script(<<~JS)
+      (() => {
+        const column = document.querySelector("td.fc-timegrid-col[data-date='#{date.iso8601}']");
+        const lanes = document.querySelectorAll('td.fc-timegrid-slot-lane');
+        const lane = lanes[lanes.length - 1];
+        const c = column.getBoundingClientRect();
+        const l = lane.getBoundingClientRect();
+        return Math.round((c.left + (c.width / 2)) - (l.left + (l.width / 2)));
+      })()
+    JS
 
-    lane.click(x: offset.round, y: 0)
+    all("td.fc-timegrid-slot-lane").last.click(x: offset, y: 0)
   end
 end

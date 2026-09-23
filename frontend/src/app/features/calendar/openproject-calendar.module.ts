@@ -32,9 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkPackagesCalendarComponent } from 'core-app/features/calendar/wp-calendar/wp-calendar.component';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
-import { TimeEntryCalendarComponent } from 'core-app/features/calendar/te-calendar/te-calendar.component';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
-import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import { WorkPackagesCalendarPageComponent } from 'core-app/features/calendar/wp-calendar-page/wp-calendar-page.component';
 import { CalendarEntryComponent } from 'core-app/features/calendar/calendar-entry.component';
 import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
@@ -46,9 +44,6 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
 
     // Work Package module
     OpenprojectWorkPackagesModule,
-
-    // Time entry module
-    OpenprojectTimeEntriesModule,
 
     // Editable fields e.g. for modals
     OpenprojectFieldsModule,
@@ -64,12 +59,10 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
     CalendarEntryComponent,
     WorkPackagesCalendarPageComponent,
     WorkPackagesCalendarComponent,
-    TimeEntryCalendarComponent,
     QueryGetIcalUrlModalComponent,
   ],
   exports: [
     WorkPackagesCalendarComponent,
-    TimeEntryCalendarComponent,
   ],
 })
 export class OpenprojectCalendarModule {
