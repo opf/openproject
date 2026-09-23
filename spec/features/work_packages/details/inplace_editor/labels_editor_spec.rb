@@ -43,6 +43,28 @@ RSpec.describe "labels inplace editor", :js, with_flag: :work_package_labels do
       expect(field.field_container).to have_no_text(label.name)
       expect(work_package.reload.labels).to contain_exactly(other_label)
     end
+
+    it "offers to create a new label from the search term and adds it to the selection" do
+      new_label_name = "Urgent"
+      create_button_text = I18n.t("js.autocompleter.create_label", name: new_label_name)
+      duplicate_button_text = I18n.t("js.autocompleter.create_label", name: other_label.name.upcase)
+
+      field.activate!
+
+      dropdown = field.autocomplete(other_label.name.upcase, select: false)
+      expect(dropdown).to have_no_button(duplicate_button_text)
+
+      dropdown = field.autocomplete(new_label_name, select: false)
+      expect(dropdown).to have_button(create_button_text)
+      dropdown.click_button(create_button_text)
+
+      field.expect_selected_values(label.name, new_label_name)
+      field.submit_by_dashboard
+
+      field.expect_state_text(new_label_name)
+      expect(Label.named(new_label_name)).to be_present
+      expect(work_package.reload.labels.map(&:name)).to contain_exactly(label.name, new_label_name)
+    end
   end
 
   context "in the split view" do

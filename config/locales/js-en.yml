@@ -79,6 +79,7 @@ en:
         single: 'Select "%{name}"'
       remove: "Remove %{name}"
     autocompleter:
+      create_label: 'Create label "%{name}"'
       notFoundText: "No items found"
       placeholder: "Type to search"
       project:
