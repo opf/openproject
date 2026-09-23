@@ -48,7 +48,7 @@ module Admin
                  .new(user: current_user, model: @connection)
                  .call(**llm_connection_params)
 
-      result.on_success { redirect_after_save }
+      result.on_success { refresh_models_then_redirect(result.result) }
       result.on_failure { render_form_with_errors }
     end
 
@@ -95,6 +95,17 @@ module Admin
     # must not accept writes just because somebody knows the URL.
     def require_feature
       render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
+    end
+
+    # Synchronous, because the flash below reports what the catalogue holds. The
+    # contract has already proven the server reachable when the credentials
+    # changed, so this cannot be the thing that fails the save: a sync failure is
+    # logged by the service and shows up as the "no models" warning.
+    def refresh_models_then_redirect(connection)
+      ::LlmConnections::SyncModelsService.new(connection).call if
+        ::LlmConnections::UpdateService.models_to_refresh?(connection)
+
+      redirect_after_save
     end
 
     # A connection can be perfectly usable without offering a model list, so the
