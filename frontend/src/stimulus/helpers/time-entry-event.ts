@@ -32,18 +32,35 @@ import { clockIconData, opStopwatchStopIconData, toDOMString } from '@openprojec
 import type { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 
-// The fields of FullCalendar::TimeEntryEvent the card renders. Both my time tracking
-// views are served the same payload.
-export interface TimeEntryCard {
+// What FullCalendar::TimeEntryEvent serializes. Both my time tracking views are served
+// this same payload. Attributes the serializer leaves nil are compacted away.
+export interface TimeEntryEvent {
+  id:string;
+  start:string;
+  end:string;
+  allDay:boolean;
+  title:string;
+  classNames:string[];
+  durationEditable:boolean;
   hours:number;
   timeRange?:string;
   ongoing:boolean;
+  typeId:number;
   workPackageId:string;
   workPackageFormattedId:string;
   workPackageSubject:string;
+  projectId:number;
   projectIdentifier:string;
   projectName:string;
 }
+
+// FullCalendar hoists the attributes it knows onto the event itself, so a view holding an
+// EventApi rather than the payload has only these to hand the card.
+export type TimeEntryCard = Pick<
+  TimeEntryEvent,
+  'id'|'hours'|'timeRange'|'ongoing'|'workPackageId'|'workPackageFormattedId'
+  |'workPackageSubject'|'projectIdentifier'|'projectName'
+>;
 
 // Goes on the element the card is rendered into, which each view names for itself.
 export const ONGOING_CLASS_NAME = 'te-entry-card-ongoing';
@@ -59,13 +76,17 @@ export function renderTimeEntryCard(
 
   const timer = toDOMString(opStopwatchStopIconData, 'small', {
     'aria-hidden': 'true',
-    class: 'octicon te-entry-card--timer',
+    class: 'octicon',
   });
 
   return html`
     <div class="te-entry-card">
       <div class="te-entry-card--duration">
-        ${entry.ongoing ? unsafeHTML(timer) : nothing}
+        ${entry.ongoing ? html`
+          <a class="te-entry-card--timer"
+             data-turbo-stream="true"
+             title="${I18n.t('js.timer.button_stop')}"
+             href="${pathHelperService.timeEntryEditDialog(entry.id)}?onlyMe=true">${unsafeHTML(timer)}</a>` : nothing}
         ${displayDuration(entry.hours)}
         ${entry.timeRange ? html`<span class="te-entry-card--times">${entry.timeRange}</span>` : nothing}
       </div>

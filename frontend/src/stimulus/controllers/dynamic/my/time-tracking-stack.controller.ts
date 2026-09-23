@@ -42,17 +42,7 @@ import { html, render } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { clockIconData, toDOMString } from '@openproject/octicons-angular';
 import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
-import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard } from 'core-stimulus/helpers/time-entry-card';
-
-// The fields of FullCalendar::TimeEntryEvent the stack needs on top of the ones the card
-// renders.
-interface StackTimeEntry extends TimeEntryCard {
-  id:string;
-  start:string;
-  allDay:boolean;
-  title:string;
-  typeId:number;
-}
+import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 const WORKING_HOURS_CLASS_NAME = 'te-stack--working-hours';
@@ -93,7 +83,7 @@ export default class MyTimeTrackingStackController extends Controller {
   declare readonly stackTarget:HTMLElement;
   declare readonly hasStackTarget:boolean;
   declare readonly modeValue:string;
-  declare readonly timeEntriesValue:StackTimeEntry[];
+  declare readonly timeEntriesValue:TimeEntryEvent[];
   declare readonly initialDateValue:string;
   declare readonly canCreateValue:boolean;
   declare readonly localeValue:string;
@@ -209,13 +199,13 @@ export default class MyTimeTrackingStackController extends Controller {
 
   // Each bar is stacked on top of the one before it, so the entries are laid out in the
   // order they are meant to read from the bottom of the day upwards.
-  private stackOrder():StackTimeEntry[] {
+  private stackOrder():TimeEntryEvent[] {
     return [...this.timeEntriesValue].sort((a, b) => (
       this.stackRank(a) - this.stackRank(b) || Date.parse(a.start) - Date.parse(b.start)
     ));
   }
 
-  private stackRank(entry:StackTimeEntry):number {
+  private stackRank(entry:TimeEntryEvent):number {
     if (entry.ongoing) {
       return 2;
     }
@@ -225,7 +215,7 @@ export default class MyTimeTrackingStackController extends Controller {
 
   // The server builds an event's start from spent_on in the entry's own time zone and
   // serializes it with that offset, so the date part never depends on where it is read.
-  private dayOf(entry:StackTimeEntry):string {
+  private dayOf(entry:TimeEntryEvent):string {
     return entry.start.slice(0, 10);
   }
 
@@ -274,7 +264,7 @@ export default class MyTimeTrackingStackController extends Controller {
     return wrapper;
   }
 
-  private timeEntryEvent(entry:StackTimeEntry, day:string, startHour:number, endHour:number):EventInput {
+  private timeEntryEvent(entry:TimeEntryEvent, day:string, startHour:number, endHour:number):EventInput {
     return {
       id: entry.id,
       title: entry.title,
@@ -291,7 +281,7 @@ export default class MyTimeTrackingStackController extends Controller {
   }
 
   private eventContent(props:Record<string, unknown>):{ domNodes:Node[] }|undefined {
-    const entry = props.entry as StackTimeEntry|undefined;
+    const entry = props.entry as TimeEntryEvent|undefined;
 
     if (!entry) {
       return undefined;
@@ -305,7 +295,7 @@ export default class MyTimeTrackingStackController extends Controller {
   }
 
   private handleEventClick(props:Record<string, unknown>, jsEvent:MouseEvent):void {
-    const entry = props.entry as StackTimeEntry|undefined;
+    const entry = props.entry as TimeEntryEvent|undefined;
 
     // FullCalendar renders the event element itself as a bare <a>, so only a link that
     // actually leads somewhere may suppress the dialog.

@@ -44,7 +44,7 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
-import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard } from 'core-stimulus/helpers/time-entry-card';
+import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -79,7 +79,7 @@ export default class MyTimeTrackingController extends Controller {
   declare readonly calendarTarget:HTMLElement;
   declare readonly hasCalendarTarget:boolean;
   declare readonly modeValue:string;
-  declare readonly timeEntriesValue:object[];
+  declare readonly timeEntriesValue:TimeEntryEvent[];
   declare readonly initialDateValue:string;
   declare readonly canCreateValue:boolean;
   declare readonly canEditValue:boolean;
@@ -260,8 +260,9 @@ export default class MyTimeTrackingController extends Controller {
         this.calendar.setOption('defaultTimedEventDuration', this.DEFAULT_TIMED_EVENT_DURATION);
       },
       eventClick: (info) => {
-        // check if we clicked on a link tag, if so exit early as we don't want to show the modal
-        if (info.jsEvent.target instanceof HTMLAnchorElement) {
+        // A link in the card leads somewhere of its own, and the click can land on an icon
+        // inside it rather than on the anchor.
+        if ((info.jsEvent.target as HTMLElement).closest('a[href]')) {
           return;
         }
 
@@ -279,7 +280,7 @@ export default class MyTimeTrackingController extends Controller {
   }
 
   createEventContent(info:EventContentArg) {
-    const entry = info.event.extendedProps as TimeEntryCard;
+    const entry = { ...info.event.extendedProps, id: info.event.id } as TimeEntryCard;
 
     // While the event is being resized the serialized duration and time range describe
     // where it came from, so they are recomputed from what is on screen.
