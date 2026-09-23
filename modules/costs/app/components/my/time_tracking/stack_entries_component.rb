@@ -49,7 +49,7 @@ module My
           "my--time-tracking-stack-initial-date-value" => date.iso8601,
           "my--time-tracking-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
           "my--time-tracking-stack-locale-value" => I18n.locale,
-          "my--time-tracking-stack-start-of-week-value" => (Setting.start_of_week || 1) % 7,
+          "my--time-tracking-stack-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
           "my--time-tracking-stack-working-days-value" => working_days,
           "my--time-tracking-stack-working-hours-value" => working_hours.to_json,
           "my--time-tracking-stack-time-zone-value" => User.current.time_zone.name

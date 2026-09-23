@@ -31,6 +31,7 @@
 module My
   class TimeTrackingController < ApplicationController
     include OpTurbo::ComponentStream
+    include My::TimeTrackingHelper
 
     before_action :require_login, :view_mode, :mode, :date
 
@@ -77,8 +78,7 @@ module My
     end
 
     def workweek
-      workdays_normalized = Setting.working_days.map { |day| day % 7 }.sort
-      date.all_week(week_start_day).select { |d| workdays_normalized.include?(d.wday) }
+      workweek_days(date)
     end
 
     def parsed_date
@@ -146,14 +146,6 @@ module My
                         end
 
       component_class.new(time_entries: @time_entries, mode: mode, date: date)
-    end
-
-    def week_start_day
-      case Setting.start_of_week
-      when 6 then :saturday
-      when 7 then :sunday
-      else :monday
-      end
     end
 
     def mobile?

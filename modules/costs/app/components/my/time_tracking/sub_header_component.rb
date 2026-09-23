@@ -39,8 +39,10 @@ module My
         case mode
         when :day
           I18n.l(date, format: :long)
-        when :week, :workweek
+        when :week
           week_date_range(date)
+        when :workweek
+          workweek_date_range(date)
         when :month
           I18n.l(date, format: "%B %Y")
         end
