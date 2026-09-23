@@ -47,9 +47,19 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
   def show_path(**) = import_project_work_packages_path(project, **)
   def status_path(**) = import_status_project_work_packages_path(project, **)
 
+  def poll(**) = get(status_path(**), headers: { "Accept" => "text/vnd.turbo-stream.html" })
+
   def page = Capybara.string(response.body)
 
   def field_error = page.find("[data-test-selector='import-file-error']").text.squish
+
+  def expect_bare_form
+    expect(response).to have_http_status(:ok)
+    expect(page).to have_text("Before you start")
+    expect(page).to have_no_text("sprint-43.csv")
+    expect(page).to have_no_css("[data-work-packages--csv-import-target='poll']", visible: :all)
+  end
+
   let(:csv_fixture) { Rails.root.join("spec/fixtures/csv_import/work_packages.csv") }
   let(:template_path) { import_template_project_work_packages_path(project) }
 
@@ -139,7 +149,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       end
 
       it "refuses the poll" do
-        get status_path
+        poll
 
         expect(response).to have_http_status(:forbidden)
       end
@@ -194,13 +204,19 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
 
     it "answers Clear with the bare page as a stream, so nothing else is torn down" do
-      get status_path
+      poll
 
       expect(response.body).to include('target="import_report"')
       expect(response.body).to include('target="import_form"')
       expect(response.body).to include("Before you start")
       expect(response.body).to include("import-drop-box")
       expect(response.body).not_to include('target="poll"')
+    end
+
+    it "sends a reader who lands on the poll address to the page itself" do
+      get status_path(job: "abc")
+
+      expect(response).to redirect_to(show_path(job: "abc"))
     end
 
     it "does not poll when there is no run to watch" do
@@ -247,7 +263,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       end
 
       it "answers a poll with both regions, so the form never contradicts the report" do
-        get status_path(job: job_id)
+        poll(job: job_id)
 
         expect(response.media_type).to eq("text/vnd.turbo-stream.html")
         expect(response.body).to include('target="import_report"')
@@ -269,27 +285,26 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       end
 
       it "shows the bare form for somebody else's job" do
-        login_as create(:admin)
+        login_as admin
 
         get show_path(job: job_id)
 
-        expect(response.body).not_to include("import_report\" src")
+        expect_bare_form
       end
 
       it "shows the bare form for a job belonging to another project" do
-        other = create(:project)
-        create(:project_role, permissions: %i[view_work_packages add_work_packages import_work_packages])
+        other = create(:project, types: [type], members: { importer => importer_role })
 
         get import_project_work_packages_path(other, job: job_id)
 
-        expect(response).to have_http_status(:not_found).or have_http_status(:forbidden)
+        expect_bare_form
       end
 
       it "shows the bare form for a job that has expired" do
         get show_path(job: SecureRandom.uuid)
 
-        expect(response.body).not_to include("import_report\" src")
-        expect(response.body).to include("Check file")
+        expect_bare_form
+        expect(page).to have_button("Check file", disabled: true)
       end
     end
 
@@ -326,7 +341,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       it "stops the poller that is already running" do
         stopped(:cancelled)
 
-        get status_path(job: job_id)
+        poll(job: job_id)
 
         expect(response.body).not_to include("csv-import-target=\"poll\"")
         expect(response.body).to include("This run did not finish")
