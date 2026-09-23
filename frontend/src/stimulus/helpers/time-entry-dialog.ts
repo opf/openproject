@@ -29,19 +29,49 @@
 import type { FrameElement } from '@hotwired/turbo';
 import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
-// Every my time tracking view opens the one dialog with this id. Asking for it twice before
-// the first response lands renders the dialog stream twice, and the second render morphs the
-// contents of the dialog already on screen, which its Angular backed fields do not survive:
-// the work package, activity and date inputs come back as bare labels. Naming the request
-// lets the service abort the one still in flight, so only the last click renders.
-const DIALOG_REQUEST_ID = 'time-entry-dialog';
+// Every my time tracking view opens the one dialog with this id, and asking for it a second
+// time renders the dialog stream over the first: the second render morphs the contents of the
+// dialog on screen, which its Angular backed fields do not survive, and the work package,
+// activity and date inputs come back as bare labels.
+const DIALOG_ID = 'time-entry-dialog';
+
+// Aborting only helps while a request is still on the wire. A response that has already
+// arrived renders no matter what, and until it has put the modal up there is nothing over the
+// view to stop the next click, so a second request is turned away rather than raced.
+let awaitingDialog = false;
+
+function timeEntryDialog():HTMLDialogElement|null {
+  const dialog = document.getElementById(DIALOG_ID);
+
+  return dialog instanceof HTMLDialogElement ? dialog : null;
+}
+
+// A closed dialog is meant to be taken out of the document by the dialog stream action, but
+// one is left behind often enough that the next open finds it and morphs it instead of
+// rendering afresh. Dropping it first means the next open builds its fields from scratch.
+function discardClosedDialog():void {
+  const dialog = timeEntryDialog();
+
+  if (dialog && !dialog.open) {
+    const helper = dialog.parentElement;
+
+    (helper?.tagName === 'DIALOG-HELPER' ? helper : dialog).remove();
+  }
+}
 
 export function openTimeEntryDialog(turboRequests:TurboRequestsService, url:string):void {
+  if (awaitingDialog || timeEntryDialog()?.open) {
+    return;
+  }
+
+  discardClosedDialog();
+  awaitingDialog = true;
+
   turboRequests
-    .request(url, { method: 'GET' }, false, DIALOG_REQUEST_ID)
-    // The service reports what went wrong itself and rethrows; an abort is this helper
-    // replacing the request and is not a failure at all.
-    .catch(() => undefined);
+    .request(url, { method: 'GET' }, false, DIALOG_ID)
+    // The service reports what went wrong itself and rethrows.
+    .catch(() => undefined)
+    .finally(() => { awaitingDialog = false; });
 }
 
 export function reloadTimeTrackingView(element:Element):void {

@@ -42,7 +42,35 @@ describe('openTimeEntryDialog', () => {
     return Promise.resolve({ html: '', headers: new Headers() });
   }
 
-  it('asks for the dialog under a request id, so a pending one can be dropped', () => {
+  // The helper holds onto a request until it settles, so every test hands it back.
+  async function settle() {
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+  }
+
+  function addDialog({ open, wrapped = true }:{ open:boolean, wrapped?:boolean }) {
+    const dialog = document.createElement('dialog');
+    dialog.id = 'time-entry-dialog';
+    dialog.open = open;
+
+    if (wrapped) {
+      const helper = document.createElement('dialog-helper');
+      helper.appendChild(dialog);
+      document.body.appendChild(helper);
+    } else {
+      document.body.appendChild(dialog);
+    }
+
+    return dialog;
+  }
+
+  afterEach(async () => {
+    await settle();
+    document.querySelectorAll('#time-entry-dialog, dialog-helper').forEach((node) => node.remove());
+  });
+
+  it('asks for the dialog under a request id, so a pending one can be dropped', async () => {
     const { service, request } = serviceReturning(resolved());
 
     openTimeEntryDialog(service, '/time_entries/1/dialog?onlyMe=true');
@@ -53,16 +81,62 @@ describe('openTimeEntryDialog', () => {
       false,
       'time-entry-dialog',
     );
+    await settle();
   });
 
-  it('names every dialog the same, so opening one replaces the one on its way', () => {
+  // Aborting cannot take back a response that already arrived, and it would render over the
+  // dialog the first click is still busy putting up.
+  it('turns away a second request while the first is outstanding', async () => {
     const { service, request } = serviceReturning(resolved());
 
     openTimeEntryDialog(service, '/time_entries/1/dialog');
-    openTimeEntryDialog(service, '/time_entries/dialog?date=2026-09-22');
+    openTimeEntryDialog(service, '/time_entries/2/dialog');
 
-    const [first, second] = request.mock.calls;
-    expect(first[3]).toEqual(second[3]);
+    expect(request).toHaveBeenCalledTimes(1);
+    await settle();
+  });
+
+  it('turns away a request while the dialog is on screen', () => {
+    addDialog({ open: true });
+    const { service, request } = serviceReturning(resolved());
+
+    openTimeEntryDialog(service, '/time_entries/1/dialog');
+
+    expect(request).not.toHaveBeenCalled();
+  });
+
+  it('asks again once the previous request is done and no dialog is up', async () => {
+    const { service, request } = serviceReturning(resolved());
+
+    openTimeEntryDialog(service, '/time_entries/1/dialog');
+    await settle();
+    openTimeEntryDialog(service, '/time_entries/2/dialog');
+
+    expect(request).toHaveBeenCalledTimes(2);
+    await settle();
+  });
+
+  // Otherwise the dialog stream morphs the leftover instead of rendering a fresh one, and the
+  // Angular backed fields do not come back.
+  it('drops a closed dialog left behind by the previous open', async () => {
+    addDialog({ open: false });
+    const { service } = serviceReturning(resolved());
+
+    openTimeEntryDialog(service, '/time_entries/1/dialog');
+
+    expect(document.querySelector('#time-entry-dialog')).toBeNull();
+    expect(document.querySelector('dialog-helper')).toBeNull();
+    await settle();
+  });
+
+  it('drops a closed dialog that was appended without its helper', async () => {
+    addDialog({ open: false, wrapped: false });
+    const { service } = serviceReturning(resolved());
+
+    openTimeEntryDialog(service, '/time_entries/1/dialog');
+
+    expect(document.querySelector('#time-entry-dialog')).toBeNull();
+    await settle();
   });
 
   it('swallows the rejection an aborted request leaves behind', async () => {
@@ -72,7 +146,6 @@ describe('openTimeEntryDialog', () => {
     expect(() => openTimeEntryDialog(service, '/time_entries/1/dialog')).not.toThrow();
 
     // Settle the microtask queue so an unhandled rejection would surface here.
-    await Promise.resolve();
-    await Promise.resolve();
+    await settle();
   });
 });
