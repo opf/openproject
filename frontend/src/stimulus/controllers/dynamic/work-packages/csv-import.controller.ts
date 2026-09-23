@@ -27,9 +27,10 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import * as Turbo from '@hotwired/turbo';
+import { renderStreamMessage } from '@hotwired/turbo';
 
 const DRAGGING_OVER = 'op-file-section--drop-box_dragging-over';
+const STREAM_TYPE = 'text/vnd.turbo-stream.html';
 const POLLING_INTERVAL = 2000;
 
 export default class CsvImportController extends Controller<HTMLElement> {
@@ -120,34 +121,47 @@ export default class CsvImportController extends Controller<HTMLElement> {
   }
 
   private async refresh(url:string) {
-    const response = await fetch(url, {
-      headers: { Accept: 'text/vnd.turbo-stream.html' },
-    });
+    let stream:string|null;
 
-    if (response.ok) {
-      Turbo.renderStreamMessage(await response.text());
-    } else {
-      this.stopPolling();
+    try {
+      stream = await this.streamFrom(url);
+    } catch {
+      // The request never arrived
+      return;
     }
+
+    // Something other than the stream that was asked for, so the session has most likely expired
+    if (stream === null) {
+      this.stopPolling();
+      return;
+    }
+
+    renderStreamMessage(stream);
   }
 
   private async reset(url:string, streamUrl:string) {
-    const response = await fetch(streamUrl, {
-      headers: { Accept: 'text/vnd.turbo-stream.html' },
-    });
+    const stream = await this.streamFrom(streamUrl).catch(() => null);
 
-    if (!response.ok) {
+    if (stream === null) {
       window.location.href = url;
       return;
     }
 
-    Turbo.renderStreamMessage(await response.text());
+    renderStreamMessage(stream);
     // The report is gone, so reloading must not bring it back.
     window.history.replaceState({}, '', url);
   }
 
-  // The size is refused here so a file far over the limit is never sent only to be turned away;
-  // the server refuses it again, which is what actually decides.
+  private async streamFrom(url:string):Promise<string|null> {
+    const response = await fetch(url, { headers: { Accept: STREAM_TYPE } });
+
+    if (!response.ok || !(response.headers.get('Content-Type') ?? '').includes(STREAM_TYPE)) {
+      return null;
+    }
+
+    return response.text();
+  }
+
   private checkFile(file:File|undefined) {
     const tooLarge = !!file && this.maxSizeValue > 0 && file.size > this.maxSizeValue;
 
