@@ -51,13 +51,6 @@ const MIN_HOUR = 1;
 const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
 const MS_PER_HOUR = 60 * 60 * 1000;
-const DAY_IN_MS = 24 * MS_PER_HOUR;
-const DAYS_PER_WEEK = 7;
-
-// timeGrid gives a column per day, so the month view borrows one day per calendar week and
-// relabels it. The columns are the first days of the leading week, which keeps them
-// consecutive and lets the day a column stands for be worked out from its offset.
-const MONTH_VIEW = 'stackMonth';
 
 // A bar thinner than this leaves no room for its own duration once the card is padded.
 // Applied after the scale ratio, so that it stays a constant height on screen.
@@ -150,8 +143,7 @@ export default class MyTimeTrackingStackController extends Controller {
     this.calendar = new Calendar(this.stackTarget, {
       plugins: [timeGridPlugin, interactionPlugin],
       initialView: this.stackView(),
-      views: { [MONTH_VIEW]: { type: 'timeGrid', duration: { days: this.weekStarts().length } } },
-      initialDate: this.monthly ? this.weekStarts()[0] : this.initialDateValue,
+      initialDate: this.initialDateValue,
       locales: allLocales,
       locale: this.localeValue,
       timeZone: this.timeZoneValue,
@@ -169,16 +161,11 @@ export default class MyTimeTrackingStackController extends Controller {
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
       slotLabelFormat: (info:VerboseFormattingArg) => displayDuration((MAX_HOUR - info.date.hour) / this.scaleRatio),
-      // A month column stands for a week, so neither the working days nor the day a column
-      // happens to sit on say anything about it.
-      businessHours: this.monthly ? false : { daysOfWeek: this.workingDaysValue, startTime: '00:00', endTime: '24:00' },
-      dayHeaderContent: this.monthly ? (info) => this.weekHeader(info.date) : undefined,
-      now: this.monthly ? this.currentWeekColumn() : undefined,
+      businessHours: { daysOfWeek: this.workingDaysValue, startTime: '00:00', endTime: '24:00' },
       events: (_fetchInfo, successCallback) => successCallback(this.buildTimeEntryEvents()),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
       eventClick: (info) => this.handleEventClick(info.event.extendedProps, info.jsEvent),
-      // A selection would name a week rather than the day an entry needs.
-      selectable: this.canCreateValue && !this.monthly,
+      selectable: this.canCreateValue,
       select: (info) => this.newTimeEntry(info.startStr.slice(0, 10), this.selectedHours(info.start, info.end)),
     });
 
@@ -219,37 +206,20 @@ export default class MyTimeTrackingStackController extends Controller {
     return entry.allDay ? 1 : 0;
   }
 
-  // The column an entry stacks into. The server builds an event's start from spent_on in
-  // the entry's own time zone and serializes it with that offset, so the date part never
-  // depends on where it is read.
+  // The server builds an event's start from spent_on in the entry's own time zone and
+  // serializes it with that offset, so the date part never depends on where it is read.
   private dayOf(entry:TimeEntryEvent):string {
-    const day = entry.start.slice(0, 10);
-
-    return this.monthly ? this.columnOfWeek(this.weekStartOf(day)) : day;
+    return entry.start.slice(0, 10);
   }
 
   private addTotalFooter():void {
     const dateSums = this.calculateDateSums();
 
-    renderFooterTotals(this.element, (day) => renderDayTotal(dateSums[day] || 0, this.scheduledFor(day)));
+    renderFooterTotals(this.element, (day) => renderDayTotal(dateSums[day] || 0, this.workingHoursValue[day] || 0));
 
     // The footer is appended after FullCalendar has laid the view out, so without this the
     // slots keep the full height and run underneath it.
     this.calendar.updateSize();
-  }
-
-  // The server only sends the scheduled hours of the days it loaded entries for, so a week
-  // reaching outside the month counts the part of it the month covers, as the list does.
-  private scheduledFor(column:string):number {
-    if (!this.monthly) {
-      return this.workingHoursValue[column] || 0;
-    }
-
-    const weekStart = this.weekOfColumn(column);
-
-    return Array
-      .from({ length: DAYS_PER_WEEK }, (_, index) => this.workingHoursValue[this.addDays(weekStart, index)] || 0)
-      .reduce((total, hours) => total + hours, 0);
   }
 
   private timeEntryEvent(entry:TimeEntryEvent, day:string, startHour:number, endHour:number):EventInput {
@@ -352,73 +322,7 @@ export default class MyTimeTrackingStackController extends Controller {
 
   // The stack has no month view; the controller sends a month request to the work week.
   private stackView():string {
-    switch (this.modeValue) {
-      case 'day': return 'timeGridDay';
-      case 'month': return MONTH_VIEW;
-      default: return 'timeGridWeek';
-    }
-  }
-
-  private get monthly():boolean {
-    return this.modeValue === 'month';
-  }
-
-  // The first days of the weeks the month reaches into, one per column.
-  private weekStarts():string[] {
-    const first = this.weekStartOf(`${this.initialDateValue.slice(0, 7)}-01`);
-    const last = this.weekStartOf(this.endOfMonth());
-    const count = Math.round((Date.parse(last) - Date.parse(first)) / (DAYS_PER_WEEK * DAY_IN_MS)) + 1;
-
-    return Array.from({ length: count }, (_, index) => this.addDays(first, index * DAYS_PER_WEEK));
-  }
-
-  private endOfMonth():string {
-    const [year, month] = this.initialDateValue.split('-').map(Number);
-
-    return new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10);
-  }
-
-  private weekStartOf(day:string):string {
-    const weekday = new Date(`${day}T00:00:00Z`).getUTCDay();
-
-    return this.addDays(day, -((weekday - this.startOfWeekValue + DAYS_PER_WEEK) % DAYS_PER_WEEK));
-  }
-
-  private addDays(day:string, days:number):string {
-    return new Date(Date.parse(`${day}T00:00:00Z`) + (days * DAY_IN_MS)).toISOString().slice(0, 10);
-  }
-
-  private columnOfWeek(weekStart:string):string {
-    const first = this.weekStarts()[0];
-    const index = Math.round((Date.parse(weekStart) - Date.parse(first)) / (DAYS_PER_WEEK * DAY_IN_MS));
-
-    return this.addDays(first, index);
-  }
-
-  private weekOfColumn(column:string):string {
-    const first = this.weekStarts()[0];
-    const index = Math.round((Date.parse(column) - Date.parse(first)) / DAY_IN_MS);
-
-    return this.addDays(first, index * DAYS_PER_WEEK);
-  }
-
-  // FullCalendar marks today by its date, which in a month view would land on whichever
-  // column happens to sit on it. Moving "now" onto the column standing for today's week
-  // marks the right one, and a date outside the columns marks none.
-  private currentWeekColumn():string {
-    const weeks = this.weekStarts();
-    const current = this.weekStartOf(new Date().toISOString().slice(0, 10));
-
-    return weeks.includes(current) ? this.columnOfWeek(current) : this.addDays(weeks[0], -1);
-  }
-
-  private weekHeader(date:Date):string {
-    const weekStart = this.weekOfColumn(this.calendar.formatIso(date, true).slice(0, 10));
-    const format = { month: 'short' as const, day: 'numeric' as const };
-
-    return [weekStart, this.addDays(weekStart, DAYS_PER_WEEK - 1)]
-      .map((day) => this.calendar.formatDate(`${day}T00:00:00`, format))
-      .join(' – ');
+    return this.modeValue === 'day' ? 'timeGridDay' : 'timeGridWeek';
   }
 
   private hiddenDays():number[] {

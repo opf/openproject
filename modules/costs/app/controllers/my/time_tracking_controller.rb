@@ -112,7 +112,13 @@ module My
     end
 
     def mode
-      @mode ||= (params[:mode].presence || default_mode).to_sym
+      @mode ||= begin
+        requested = (params[:mode].presence || default_mode).to_sym
+
+        # The mode switcher already hides the month for the stack; this covers a URL
+        # asking for one directly.
+        requested == :month && view_mode == :stack ? :workweek : requested
+      end
     end
 
     def default_view_mode
