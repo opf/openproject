@@ -79,6 +79,7 @@ $nm-color-success-background: #d8fdd1
 .toolbar-items
   display: flex
   flex-wrap: wrap
+  row-gap: 10px
   margin: 0
   padding: 0
   justify-content: flex-end
@@ -87,14 +88,14 @@ $nm-color-success-background: #d8fdd1
     list-style-type: none
 
   .toolbar-item
-    margin-right: 10px
+    margin-left: 10px
 
-    &:last-of-type
-      margin-right: 0
+    &:first-of-type
+      margin-left: 0
 
     // hide right margin for e.g., conditional buttons
     &.-no-spacing
-      margin-right: 0
+      margin-left: 0
 
     &.-no-grow
       flex-grow: 0
