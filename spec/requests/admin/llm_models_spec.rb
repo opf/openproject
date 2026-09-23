@@ -59,6 +59,18 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     context "when logged in as admin" do
       before { login_as admin }
 
+      # The controller reads turboStreamRequest; with the old name the value was
+      # ignored, live updates stayed off and typing sent no request at all.
+      # Nothing caught it because the request spec calls /search directly.
+      it "declares live updates on the filter form, so the input is listened to" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(page).to have_css("[data-controller~='filter--filters-form']" \
+                                 "[data-filter--filters-form-turbo-stream-request-value='true']")
+      end
+
       it "lists the cached models without contacting the server" do
         create(:llm_connection, :with_models, base_url:)
 
