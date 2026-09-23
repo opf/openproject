@@ -736,6 +736,7 @@ en:
               singleton: "Only one LLM connection can be configured."
             base_url:
               cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
+              models_endpoint_missing: "has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1)."
               not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
               ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."

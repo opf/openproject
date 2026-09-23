@@ -77,12 +77,22 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
   # A server can speak the OpenAI API for chat and still not expose a model list:
   # OpenProject's own hosted gateway does exactly that. Blocking the save would
   # leave the administrator unable to configure a working connection at all.
-  [404, 405, 501].each do |status|
+  # Only a server that serves this URL can answer 405 or 501 for it.
+  [405, 501].each do |status|
     context "when the server answers #{status} for the model list" do
       let!(:models_request) { mock_llm_models_response(base_url, response_code: status) }
 
       include_examples "contract is valid"
     end
+  end
+
+  # 404 is what a mistyped path and a missing version segment both return, so it
+  # cannot stand for "reachable and authenticated": the request never reached
+  # anything that would have judged the API key.
+  context "when the server answers 404 for the model list" do
+    let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+    include_examples "contract is invalid", base_url: :models_endpoint_missing
   end
 
   # Formats whose model list comes from the registry have nothing to probe here.

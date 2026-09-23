@@ -43,7 +43,13 @@ class LlmServerValidator < ActiveModel::EachValidator
 
   # Statuses that mean "this server has no model list here", as opposed to "this
   # server is broken". A gateway may route chat completions and nothing else.
-  MODELS_ENDPOINT_ABSENT = [404, 405, 501].freeze
+  #
+  # 405 and 501 say the path routed and the method or the feature is missing,
+  # which only a server that really does serve this URL can answer. 404 is
+  # deliberately not here: it is what a mistyped path and a missing version
+  # segment both return, and treating it as "reachable and authenticated" let a
+  # wrong URL save silently, along with an API key nothing had checked.
+  MODELS_ENDPOINT_ABSENT = [405, 501].freeze
 
   def validate_each(contract, attribute, value)
     return if value.blank?
@@ -137,6 +143,8 @@ class LlmServerValidator < ActiveModel::EachValidator
   # manual model entry that exists for precisely this situation.
   def add_api_error(contract, attribute, error)
     return if error.status.in?(MODELS_ENDPOINT_ABSENT)
+
+    return contract.errors.add(attribute, :models_endpoint_missing) if error.status == 404
 
     contract.errors.add(attribute, :not_openai_compatible)
   end

@@ -161,6 +161,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    # The reported case: a host without its version segment answers 404 whatever
+    # the key is, so accepting it saved a connection whose key had been judged by
+    # nothing at all.
+    context "with a URL that has no model list behind it" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+      it "refuses the save and says the key could not be verified either" do
+        patch llm_connection_path,
+              params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
+
+        expect(LlmConnection.where(base_url:)).not_to exist
+        expect(response.body).to include("API key could not be verified")
+      end
+    end
+
     context "when an API key is already stored" do
       let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
       let!(:models_request) { mock_llm_models_response(base_url) }
