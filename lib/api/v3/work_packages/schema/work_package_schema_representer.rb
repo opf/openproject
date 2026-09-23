@@ -42,7 +42,8 @@ module API
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?]
+                                  Setting::WorkPackageMultipleVersions.active?,
+                                  OpenProject::FeatureDecisions.work_package_labels_active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -287,6 +288,12 @@ module API
                                    required: false,
                                    href_callback: ->(*) { assignee_user_autocompleter }
 
+          schema_with_allowed_link :labels,
+                                   type: "[]Label",
+                                   required: false,
+                                   show_if: ->(*) { OpenProject::FeatureDecisions.work_package_labels_active? },
+                                   href_callback: ->(*) { labels_autocompleter }
+
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
                                          link_factory: ->(type) {
@@ -466,6 +473,12 @@ module API
               .flatten
               .uniq
               .sort
+          end
+
+          def labels_autocompleter
+            project_id = represented.work_package&.project_id
+
+            api_v3_paths.labels_by_project(project_id) if project_id
           end
 
           def assignee_user_autocompleter
