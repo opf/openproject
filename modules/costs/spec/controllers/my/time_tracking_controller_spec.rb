@@ -106,10 +106,10 @@ RSpec.describe My::TimeTrackingController do
         expect(response).to be_successful
       end
 
-      it "falls back to the work week when a month is requested" do
+      it "stacks a month as well, a column to the calendar week" do
         get :index, params: { mode: :month, view_mode: :stack }
 
-        expect(assigns(:mode)).to eq(:workweek)
+        expect(assigns(:mode)).to eq(:month)
         expect(response).to be_successful
       end
 
@@ -134,12 +134,12 @@ RSpec.describe My::TimeTrackingController do
         expect(assigns(:view_mode)).to eq(:stack)
       end
 
-      it "remembers the mode the requested view was narrowed to" do
+      it "returns to a month too" do
         get :index, params: { mode: :month, view_mode: :stack }
 
         get :index
 
-        expect(assigns(:mode)).to eq(:workweek)
+        expect(assigns(:mode)).to eq(:month)
         expect(assigns(:view_mode)).to eq(:stack)
       end
 

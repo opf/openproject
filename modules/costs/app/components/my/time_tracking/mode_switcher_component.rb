@@ -49,11 +49,7 @@ module My
       end
 
       def modes
-        if view_mode == :stack
-          %i[day workweek week]
-        else
-          %i[day workweek week month]
-        end
+        %i[day workweek week month]
       end
 
       def menu_item_for_mode(menu, mode)

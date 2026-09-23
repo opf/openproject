@@ -45,9 +45,11 @@ module Grids
       private
 
       def dates
-        return date..date if mode == :day
-
-        date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
+        case mode
+        when :day then date..date
+        when :month then date.all_month
+        else date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
+        end
       end
     end
   end

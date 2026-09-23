@@ -42,7 +42,7 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
   def mode
     requested = (params[:mode].presence || User.current.pref.my_work_mode).to_s.to_sym
 
-    %i[day workweek week].include?(requested) ? requested : :workweek
+    %i[day workweek week month].include?(requested) ? requested : :workweek
   end
 
   def remember_mode

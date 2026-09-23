@@ -62,8 +62,14 @@ RSpec.describe Grids::Widgets::TimeEntriesCurrentUserController do
       expect(rendered_mode { get :show }).to eq(:week)
     end
 
-    it "falls back to the work week for a mode it cannot stack" do
+    it "follows a remembered month" do
       user.pref.update(my_work_mode: "month")
+
+      expect(rendered_mode { get :show }).to eq(:month)
+    end
+
+    it "falls back to the work week for a mode it cannot show" do
+      user.pref.update(my_work_mode: "decade")
 
       expect(rendered_mode { get :show }).to eq(:workweek)
     end
