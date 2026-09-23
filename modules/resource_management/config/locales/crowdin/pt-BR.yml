@@ -9,7 +9,7 @@ pt-BR:
         end_date: Data de término
         entity: Entidade
         filter_name: Nome do filtro de recursos
-        principal: Atribuição
+        principal: Responsável
         start_date: Data de início
         state: Estado
         user_filter: Filtro de usuários
@@ -67,7 +67,7 @@ pt-BR:
         title: Gerenciamento de recursos
   label_resource_management: Gerenciamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
-  permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
+  permission_allocate_user_resources_explanation: Permite que os usuários criem, atualizem e excluam alocações de recursos em um planejador de recursos. Isso inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo alocado e o intervalo de datas.
   permission_assign_users_to_generic_allocations: Atribuir usuários a alocações genéricas
   permission_assign_users_to_generic_allocations_explanation: Permite que os usuários usem a visualização de alocação de equipe para atribuir usuários reais a alocações de recursos genéricas (baseadas em filtros) que ainda não possuem um usuário. Não permite criar ou editar alocações.
   permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
@@ -96,8 +96,8 @@ pt-BR:
           caption: Alocar horas para um usuário específico.
           label: Usuário
       missing_working_hours:
-        none: O usuário selecionado não tem horário de trabalho configurado para essas datas; portanto, considera-se que ele não tem disponibilidade.
-        partial: O usuário selecionado não possui horário de trabalho configurado para %{dates}; portanto, esses dias são considerados como sem disponibilidade.
+        none: O usuário selecionado não tem horário de trabalho configurado para essas datas, portanto é considerado sem capacidade disponível.
+        partial: O usuário selecionado não tem horário de trabalho configurado para %{dates}, portanto esses dias são considerados sem capacidade disponível.
       outside_dates:
         description: As datas do recurso selecionado (%{resource_dates}) estão fora do período do pacote de trabalho (%{work_package_dates}).
       overbooking:
@@ -172,7 +172,7 @@ pt-BR:
         work_package: Pacote de trabalho
       context_menu_label: Ações de alocação
       delete_confirmation: Tem certeza de que deseja excluir esta alocação?
-      menu_item: Pessoal
+      menu_item: Contratação
       starts_in_past: Esta alocação já começou e ainda não foi atribuída.
       success_message: Usuário atribuído.
       title: Pessoal
@@ -244,7 +244,7 @@ pt-BR:
         label: Lista de cartões de utilizadores
       resource_user_timeline:
         caption: Crie uma visualização baseada em usuários e veja suas alocações ao longo do tempo em uma linha do tempo
-        label: Timeline dos usuários
+        label: Linha do tempo dos usuários
       resource_work_package_list:
         caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista
         label: Lista de pacotes de trabalho

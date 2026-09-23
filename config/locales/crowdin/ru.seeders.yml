@@ -73,13 +73,13 @@ ru:
           name: Стандартная глобальная роль
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Исправить грамматику
         item_1:
-          label: Make concise
+          label: Сделать кратким
         item_2:
-          label: Translate to English
+          label: Перевести на английский
         item_3:
-          label: Sort into template
+          label: Сортировать по шаблону
     standard:
       project_phases:
         item_0:

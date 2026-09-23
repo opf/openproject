@@ -52,7 +52,7 @@ pt-BR:
         one: Usuário do GitLab
         other: Usuários do GitLab
   attributes:
-    commit: Confirmar
+    commit: Commit
     gitlab: Identificador do GitLab
     gitlab_avatar_url: URL da imagem de perfil
     gitlab_email: E-mail do GitLab

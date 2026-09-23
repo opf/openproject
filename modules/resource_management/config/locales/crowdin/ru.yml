@@ -108,8 +108,8 @@ ru:
           caption: Распределить часы для определенного пользователя.
           label: Пользователь
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: Для выбранного пользователя на эти даты не настроены рабочие часы, поэтому считается, что у него отсутствует рабочая загрузка.
+        partial: Для выбранного пользователя не настроены рабочие часы в системе %{dates}, поэтому эти дни учитываются как дни без доступности.
       outside_dates:
         description: Выбранные даты ресурса, %{resource_dates}, вне дат пакета работ, %{work_package_dates}.
       overbooking:

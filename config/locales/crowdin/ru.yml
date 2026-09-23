@@ -1631,7 +1631,7 @@ ru:
         primary-button-color: Основная кнопка
       custom_colors: Настроить цвета
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: Определите палитру цветов для использования в других частях приложения. Эти цвета будут доступны, например, при выборе цвета для обозначения статуса или типа.
       edit_color: Редактировать %{color}
       fonts:
         file_is_invalid: не является действительным файлом шрифта TTF.
@@ -3502,14 +3502,14 @@ ru:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Создавайте рабочие пакеты непосредственно в разделе «Документы».
+            line_1: Поиск и фильтрация пакетов работ в Бэклоге.
+            line_2: Выберите, сохранять ли потомков при удалении пакета работ.
+            line_3: Используйте сервер MCP для учёта рабочего времени, поиска рабочих пакетов по их идентификатору отображения и других функций (тарифный план «Professional»).
+            line_4: Указывайте запланированные трудозатраты в часах, днях, неделях или месяцах.
+            line_5: Отслеживайте прогресс импорта при использовании Jira Migrator.
+            line_6: Используйте оповещения о дедлайне в версии Community Edition.
+          new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -3682,7 +3682,7 @@ ru:
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
-  label_backtrace: Backtrace
+  label_backtrace: Трассировка
   label_backup: Резервное копирование
   label_basic_details: Основные детали
   label_between: между
@@ -5973,7 +5973,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Включить функциональность вики для новых проектов по умолчанию
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -6655,7 +6655,7 @@ ru:
     help_and_support: Помощь и поддержка
   total_progress: Общий прогресс
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: Нет элементов
   types:
     creation_wizard:
       add_variant: Добавить вариант в %{name}
@@ -6913,19 +6913,19 @@ ru:
         created_in_html: Создан в %{project}
         delete:
           description: Проекты, в которых используется данный вариант, будут переведены на вариант, который вы выберете ниже, до того как данный вариант будет удален.
-          title: Delete %{name}
+          title: Удалить %{name}
         filter: Фильтр по тексту
         filter_no_results: Нет вариантов, соответствующих этому фильтру
         global_section:
-          description: These variants are available across all projects.
-          title: Variants
+          description: Эти варианты доступны во всех проектах.
+          title: Варианты
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          description: Эти варианты доступны только в рамках тех проектов, в которых они были созданы.
+          title: Варианты конкретных проектов
       workflow:
         tab: Рабочие процессы
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Добавить вариант в %{name}
       add_variant_action: Добавить вариант
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
@@ -6938,10 +6938,10 @@ ru:
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
       project_variants_count:
-        one: 1 project-specific variant
+        one: 1 вариант конкретного проекта
         few: "%{count} project-specific variants"
         many: "%{count} project-specific variants"
-        other: "%{count} project-specific variants"
+        other: "%{count} вариантов, используемых в конкретных проектах"
       remove_default: Не активировать в новых проектах
       remove_default_notice: "%{name} в новых проектах эта функция больше не активируется."
       type_label: Тип
@@ -7328,12 +7328,12 @@ ru:
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Эти пакеты работ охватывают несколько проектов: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Удалить также всех потомков?
+        question: Вы пытаетесь удалить пакеты работ, у которых есть потомки. Вы хотите их удалить?
+        self_only_label: Удалить только выбранные пакеты работ
+        self_only_caption: Это не приведёт к удалению потомков, но удалит иерархические связи.
+        with_descendants_label: Удалить выбранные пакеты работ и их потомков
+        with_descendants_caption: Это удалит видимые вам дочерние пакеты работ. В следующем шаге у вас будет возможность просмотреть полный список.
       description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
       description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
       description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
@@ -7407,12 +7407,12 @@ ru:
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Пакеты работ из следующих проектов будут удалены: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Удалить также всех потомков?
+        question: У данного рабочего пакета есть дочерние элементы. Хотите удалить их также?
+        self_only_label: Удалить только этот пакет работ
+        self_only_caption: Это не приведёт к удалению потомков, но удалит иерархические связи.
+        with_descendants_label: Удалить этот пакет работ и потомков
+        with_descendants_caption: Это удалит видимые вам дочерние пакеты работ. В следующем шаге у вас будет возможность просмотреть полный список.
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:
@@ -7486,7 +7486,7 @@ ru:
         target_role_ids:
           label: Целевые роли
         target_variant_ids:
-          label: Target types
+          label: Целевые типы
       from_roles:
         create:
           notice:
@@ -7497,10 +7497,10 @@ ru:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
+            one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
             few: Successfully copied workflow to %{count} types.
             many: Successfully copied workflow to %{count} types.
-            other: Successfully copied workflow to %{count} types.
+            other: Рабочий процесс успешно скопирован в %{count} типов.
       new:
         title: Копировать рабочий процесс из типа "%{source_type}"
     form:

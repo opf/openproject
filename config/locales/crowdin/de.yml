@@ -98,8 +98,8 @@ de:
       ai/text_transform_run_event:
         kind: Art
         payload: Payload
-        run: Run
-        seq: Sequence number
+        run: Ausführen
+        seq: Sequenznummer
       announcements:
         show_until: Anzeigen bis
       attachment:
@@ -491,7 +491,7 @@ de:
           true: Mit Wochenenden
         journal_internal: Internes Journal
         notify: Benachrichtigung
-        observed_in_versions: Observed in versions
+        observed_in_versions: Festgestellt in Versionen
         parent: Übergeordnetes Arbeitspaket
         parent_issue: Übergeordnetes Arbeitspaket
         parent_work_package: Übergeordnetes Arbeitspaket
@@ -1019,11 +1019,11 @@ de:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
       ai/text_transform_run:
-        one: Text transform run
-        other: Text transform runs
+        one: Text-Bearbeitung
+        other: Text-Bearbeitungen
       ai/text_transform_run_event:
-        one: Text transform run event
-        other: Text transform run events
+        one: Text-Bearbeitungsausführung
+        other: Text-Bearbeitungsausführungen
       announcement:
         one: Ankündigung
         other: Ankündigungen
@@ -1401,11 +1401,11 @@ de:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     custom_styles:
       color_groups:
-        base_colors: Base colors
-        main_menu: Main lateral menu
-        top_header_colors: Top header colors
+        base_colors: Grundfarben
+        main_menu: Haupt-Seitenmenü
+        top_header_colors: Farben der Kopfzeile
       color_theme: Farbschema
-      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
+      color_theme_caption: Verwenden Sie eines der Standard-Designs von OpenProject oder erstellen Sie Ihr eigenes Design mit Ihren Farben, indem Sie „Benutzerdefiniertes Design“ auswählen.
       color_theme_custom: "(Benutzerdefiniert)"
       colors:
         accent-color: Akzent
@@ -1415,16 +1415,16 @@ de:
         primary-button-color: Primäre Schaltfläche
       custom_colors: Benutzerdefinierte Farben
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
-      edit_color: Edit %{color}
+        description: Legen Sie eine Farbpalette für die Verwendung an verschiedenen Stellen der Anwendung fest. Beispielsweise können Sie auf die Palette bei der Auswahl einer Farbe zur Darstellung eines Status oder eines Typs zugreifen.
+      edit_color: "%{color} bearbeiten"
       fonts:
         file_is_invalid: ist keine gültige TTF-Schriftdatei.
         file_too_large: ist zu groß (maximale Größe ist %{count} MB).
       instructions:
         accent-color: Farbe für Links und andere dezent hervorgehobene Elemente.
-        header-bg-color: Default background color of the app header.
+        header-bg-color: Standard-Hintergrundfarbe der Kopfzeile.
         main-menu-bg-color: Hintergrundfarbe des Menüs in der linken Seitenleiste.
-        main-menu-bg-selected-background: Background color of menu items when selected.
+        main-menu-bg-selected-background: Hintergrundfarbe der Menüelemente bei Auswahl.
         primary-button-color: Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird.
       manage_colors: Farbauswahloptionen bearbeiten
       tab_branding: Branding
@@ -1492,7 +1492,7 @@ de:
         ssl_error: 'SSL-Fehler bei der Verbindung zum Jira-Server: %{message}'
         ssrf_block_doc_link: Bitte sehen Sie sich unsere [Dokumentation](docs_url) an.
         ssrf_blocked: 'Verbindung blockiert: Der Jira-Host wird zu einer privaten IP-Adresse aufgelöst. Wenn Ihre Jira-Instanz in einem internen Netzwerk läuft, erlauben Sie ihre IP über die OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST Umgebungsvariable.'
-        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
+        unsupported_endpoint: Die Jira-API verfügt über keinen Endpunkt unter %{path} (Status %{status})
       columns:
         added: Hinzugefügt
         creator: Ersteller
@@ -1544,7 +1544,7 @@ de:
           finalizing: Abschließen
           finalizing_done: Abgeschlossen
           finalizing_error: Fehler beim Abschließen
-          import_aborting: Aborting
+          import_aborting: Wird abgebrochen
           import_error: Fehler beim Importieren
           import_scope: Umfang auswählen
           imported: Überprüfungsmodus
@@ -1559,7 +1559,7 @@ de:
           revert_error: Fehler beim Revertieren
           reverted: Rückgängig gemacht
           reverting: Rückgängig machen
-        step_not_available: This action is not available for the current state of the import run.
+        step_not_available: Diese Aktion ist für den aktuellen Status des Importvorgangs nicht verfügbar.
         title: Importlauf
         wizard:
           button_abort: Abbrechen
@@ -1613,7 +1613,7 @@ de:
               caption_done: Abgeschlossen
               caption_done_info: Alle Daten wurden importiert
               description: Sie sind dabei, einen Import mit den folgenden Einstellungen zu starten.
-              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
+              info_importing: Der Import läuft derzeit. Das Schließen dieses Reiters stoppt den Vorgang nicht, und Sie können den Status des Imports jederzeit erneut einsehen, indem Sie den Vorgang öffnen.
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
@@ -1634,7 +1634,7 @@ de:
               button_done: Import bestätigen
               button_revert: Import rückgängig machen
               caption: Importlauf überprüfen oder Import rückgängig machen
-              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              info: Die importierten Daten befinden sich derzeit im Überprüfungsmodus. Klicken Sie auf "Import bestätigen", um den Import dauerhaft zu machen, oder auf "Import rückgängig machen", um alle in diesem Importlauf vorgenommenen Änderungen rückgängig zu machen.
               label_finalize_import: Import bestätigen
               label_finalizing: Import wird abgeschlossen...
               label_finalizing_done: Import bestätigt.
@@ -1916,29 +1916,29 @@ de:
         success_banner: Das Format der Arbeitspaket-Kennung wurde erfolgreich aktualisiert.
     text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        description: Benutzer können diese Aktion im Rich-Text-Editor nicht mehr ausführen.
+        heading: Sind Sie sicher, dass Sie die Aktion %{label} löschen möchten?
+        title: Textumwandlungsaktion löschen
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
+        injects_type_template_caption: Bei aktiviertem Kontrollkästchen, wird die Beschreibungsvorlage des Arbeitspaket-Typs automatisch in die Eingabeaufforderung eingefügt. Die Eingabeaufforderung sollte Anweisungen dazu enthalten, wie mit der Vorlage verfahren werden soll.
+        label_caption: Dies ist der Name, der den Benutzern im Editor angezeigt wird.
         select_types: Typen auswählen
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        types_caption: Fügen Sie Arbeitspakettypen hinzu, für die diese Aktion verfügbar sein soll. Alle verfügbaren Varianten eines Typs werden automatisch hinzugefügt.
+        usage_scope_caption: 'Sie können festlegen, wo diese Aktion sichtbar sein soll: überall (einschließlich Kommentaren, Wikis und benutzerdefinierten Feldern), für alle Arten von Arbeitspaketen oder für bestimmte Arten von Arbeitspaketen.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Mit Textumwandlungsaktionen stehen Ihnen LLM-gestützte Aktionen zum Verfassen, Organisieren und Überprüfen von Texten zur Verfügung, in jedem Rich-Text-Editor zur Verfügung, beispielsweise bei Arbeitspaketbeschreibungen, Kommentaren und Wiki-Seiten. Sie erstellen neue Aktionen anhand Ihrer eigenen Eingabeaufforderungen und Anweisungen.
         label_add_action: Aktion
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Text-Bearbeitungs-Aktion hinzufügen
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+          description: Füge hier eine Aktion hinzu, um sie hier zu sehen
+          title: Noch keine Textumwandlungsaktionen konfiguriert
+        disabled_warning: Aktionen zur Textumwandlung sind deaktiviert. Die folgenden Aktionen stehen an keiner Stelle zur Verfügung.
         label_disable_all: Alles deaktivieren
         label_enable_all: Alles aktivieren
         title: Aktionen
       new:
-        title: New text transform action
+        title: Neue Textumwandlungsaktion
       row_component:
         label_actions: Aktionsmenü
         label_toggle: "%{label} umschalten"
@@ -2200,7 +2200,7 @@ de:
     label_delete_token: Backup-Token löschen
     label_reset_token: Backup-Token zurücksetzen
     label_token_users: Folgende Benutzer haben aktive Backup-Token
-    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+    missing_attachments_notice_html: '<br/> <b>%{file_count} konnten nicht</b> gelesen werden und wurde von diesem Backup ausgeschlossen. Das Archiv wurde mit einem "-incomplete" Suffix umbenannt, um anzuzeigen, dass ihm einige Anhänge fehlen.
 
       '
     reset_token:
@@ -3210,14 +3210,14 @@ de:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Erstellen Sie Arbeitspakete direkt in Dokumenten.
+            line_1: Filter und suchen Sie Arbeitspakete in Backlogs.
+            line_2: Legen Sie fest, ob beim Löschen eines Arbeitspakets dessen untergeordnete Elemente beibehalten werden sollen.
+            line_3: Verwenden Sie den MCP Server, um für Zeitbuchungen, zum Suchen von Arbeitspakete nach ihrer Anzeige-ID und mehr (Professioneller Plan).
+            line_4: Geben Sie den geplanten Arbeitsaufwand in Stunden, Tagen, Wochen oder Monaten ein.
+            line_5: Verfolgen Sie den Importfortschritt bei der Verwendung des Jira Migrators.
+            line_6: Datumsbenachrichtigungen in der Community Edition verwenden.
+          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -3263,7 +3263,7 @@ de:
         field_set: "%{field} auf %{value} gesetzt"
         field_updated: "%{field} aktualisiert"
         header: Änderungen durch %{author}
-        migrated: from Jira
+        migrated: aus Jira
         set_with_diff: "%{field} gesetzt (%{link})"
       meeting_cancelled: "(abgesagt)"
       meeting_deleted: "(gelöscht)"
@@ -3282,7 +3282,7 @@ de:
         progress_calculation_adjusted_from_disabled_mode: Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch auf den aufwandsbezogenen Modus gesetzt und durch das Systemupdate angepasst</a>.
         scheduling_mode_adjusted: Planungsmodus wird beim Versionsupdate automatisch angepasst.
         sprint_migration: Die Version '%{version_name}' wurde als Sprint kopiert.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: Die veraltete Zielversion wurde automatisch entfernt. Sie war fälschlicherweise erneut hinzugefügt worden, als mehrere Zielversionen aktiviert waren.
         target_versions_repaired: Die Zielversionen wurden automatisch mit dem Feld „Version“ synchronisiert, bevor Mehrfachauswahl für Zielversionen aktiviert wurde.
         totals_removed_from_childless_work_packages: Arbeits- und Fortschrittssummen werden bei der <a href="%{href}" target="_blank">Versionsaktualisierung</a> automatisch für nicht übergeordnete Arbeitspakete entfernt. Diese Änderung entstand durch ein Upgrade und kann ignoriert werden.
       total_percent_complete_mode_changed_to_simple_average: Arbeitswerte von Unteraufgaben werden ignoriert.
@@ -4283,7 +4283,7 @@ de:
   mail_body_account_information: Ihre Konto-Informationen
   mail_body_account_information_external: Sie können sich mit Ihrem Konto %{value} anmelden.
   mail_body_backup_ready: 'Ihr gewünschtes Backup ist bereit. Sie können es hier herunterladen:'
-  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+  mail_body_backup_ready_incomplete: '%{file_count} konnten nicht gelesen werden und wurde von diesem Backup ausgeschlossen. Das Archiv wurde mit einem "-incomplete" Suffix umbenannt, um anzuzeigen, dass ihm einige Anhänge fehlen.
 
     '
   mail_body_backup_token_info: Der vorherige Token ist nicht mehr gültig.
@@ -4424,7 +4424,7 @@ de:
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Text transform actions
+      text_transform_actions: Textumwandlungsaktionen
     quick_add:
       label: Hinzufügen…
   more_actions: Weitere Funktionen
@@ -4610,7 +4610,7 @@ de:
   notice_account_already_activated: Dieses Benutzerkonto wurde bereits aktiviert.
   notice_account_invalid_credentials: Benutzer oder Kennwort ist ungültig.
   notice_account_invalid_credentials_or_blocked: Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: Falls Ihr Konto für Single Sign-On eingerichtet ist, melden Sie sich bitte stattdessen über Ihren Identitätsanbieter an.
   notice_account_invalid_token: Ungültiger Aktivierungs-Token
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt.
   notice_account_new_password_forced: Ein neues Passwort muss gesetzt werden.
@@ -4920,17 +4920,17 @@ de:
     prev_page: Vorherige Seite
   pdf_generator:
     budgets_table:
-      cost_per_unit: Cost per unit
-      description: Description
-      labor: Labor costs
-      material: Unit costs
-      sum: Sum
-      total: Total
+      cost_per_unit: Kosten pro Einheit
+      description: Beschreibung
+      labor: Personaleinzelkosten
+      material: Stückkosten
+      sum: Summe
+      total: Gesamt
     dialog:
       footer_center:
         caption: Dieser Text wird auf jeder Seite in der Mitte der Fußzeile angezeigt.
-        default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_project_name: Wird dieses Feld leer gelassen, wird standardmäßig der Projektname verwendet.
+        default_hint_subject: Wird das Feld leer gelassen, wird standardmäßig der Betreff des Arbeitspakets übernommen.
         label: Text in der Fußzeile
       footer_right:
         caption: Dieser Text wird auf jeder Seite in der rechten Ecke der Fußzeile angezeigt.
@@ -4941,11 +4941,11 @@ de:
       hyphenation_language:
         label: Sprache und Silbentrennung
       include_budget:
-        caption: Include the project's budgets with their planned unit and labor cost items.
-        label: Project budgets
+        caption: Fügen Sie die Projektbudgets mit den geplanten Einzelposten für Material- und Arbeitskosten bei.
+        label: Projektbudgets
       include_lifecycle:
-        caption: Include the project's phases and their date ranges.
-        label: Project lifecycle
+        caption: Geben Sie die Projektphasen und deren Zeiträume an.
+        label: Projektlebenszyklus
       page_orientation:
         caption: Wählen Sie die Ausrichtung der Seiten im PDF-Dokument.
         label: Seitenausrichtung
@@ -4965,7 +4965,7 @@ de:
       caption: Details zum Arbeitspaket, dargestellt als PMflex-Artefakt.
       label: PMflex-Artefakt
     template_attributes:
-      caption: All the attributes present in the current form using the default template.
+      caption: Alle Attribute, die in der aktuellen Formularkonfiguration des Standardtemplates vorhanden sind.
       label: Attribute und Beschreibung
     template_contract:
       caption: Details des Arbeitspakets im Format der deutschen Standardvertragsform.
@@ -5039,7 +5039,7 @@ de:
     '
   permission_manage_placeholder_user: Platzhalter-Benutzer erstellen, bearbeiten und löschen
   permission_manage_project_activities: Aktivitäten (Zeiterfassung) verwalten
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Projektspezifischen Typvarianten verwalten
   permission_manage_public_bcf_queries: Öffentliche BCF-Abfragen verwalten
   permission_manage_public_project_queries: Öffentliche Projektlisten verwalten
   permission_manage_public_queries: Öffentliche Ansichten verwalten
@@ -5383,7 +5383,7 @@ de:
         use_in_project: In diesem Projekt verwenden
         variant_in_use: Variante in diesem Projekt
         variant_label: Variante
-        variants_not_allowed: This type does not allow creation of variants inside projects.
+        variants_not_allowed: Bei diesem Typ ist die Erstellung von Varianten innerhalb von Projekten nicht zulässig.
       versions:
         no_results_content_text: Neue Version erstellen
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
@@ -5396,7 +5396,7 @@ de:
     wizard:
       create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
       create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
-      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
+      no_custom_fields_html: Für dieses Projekt sind keine Projektattribute für den Assistenten aktiviert. Bitte aktivieren Sie mindestens eines davon in den <a href="%{link}">Projekteinstellungen</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
@@ -5583,7 +5583,7 @@ de:
   setting_after_login_default_redirect_url_example_html: 'Legen Sie einen Standardpfad fest, zu dem nach der Anmeldung weitergeleitet wird, wenn kein Back-Link vorhanden ist. Falls nicht gesetzt, wird zur Startseite weitergeleitet. <br/> Beispiel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
+  setting_ai_text_transform_actions_enabled: Textumwandlungsaktionen aktivieren
   setting_allowed_link_protocols: Erlaubte Link-Protokolle
   setting_allowed_link_protocols_text_html: Erlauben Sie es, diese Protokolle als Links in Arbeitspaket-Beschreibungen, langen Textfeldern und Kommentaren darzustellen. Zum Beispiel %{tel_code} oder %{element_code}. Geben Sie ein Protokoll pro Zeile ein. <br/> Protokolle %{http_code}, %{https_code} und %{mailto_code} sind immer erlaubt.
   setting_antivirus_scan_action: Aktion für infizierte Datei
@@ -5663,7 +5663,7 @@ de:
   setting_default_language: Standard-Sprache
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Aktiviere Wiki-Funktionalität für neue Projekte standardmäßig
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_disable_password_login: Passwort-Authentifizierung deaktivieren
   setting_display_subprojects_work_packages: Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen
@@ -6346,7 +6346,7 @@ de:
     help_and_support: Hilfe und Support
   total_progress: Gesamtfortschritt
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: Keine Einträge
   types:
     creation_wizard:
       add_variant: Variante zu %{name} hinzufügen
@@ -6390,7 +6390,7 @@ de:
             work_package: Arbeitspaket
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
-        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        allow_project_variants_caption: Für Projektadministratoren, die über die Berechtigung zur Verwaltung von Varianten verfügen, kann dieser Typ innerhalb eines Projekts erweitert oder geändert werden.
         inherited_from_type_html: Vom übergeordneten Typ <b>%{type}</b> gesetzt.
         tab: Details
         type_color_text: |-
@@ -6480,10 +6480,10 @@ de:
           label_enable_all: Alle aktivieren
         blankslate:
           inherited:
-            description: This type does not have any project attributes associated with it.
-            title: No project attributes configured
+            description: Diesem Typ sind keine Projektattribute zugeordnet.
+            title: Es sind keine Projektattribute verfügbar
           manual:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            description: Sobald Sie [Projektattribute anlegen](administration_url), werden diese hier angezeigt und können einem Typ hinzugefügt werden.
             title: Es sind keine Projektattribute verfügbar
         description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
         disabled: Deaktiviert
@@ -6514,7 +6514,7 @@ de:
             description_html: Durch das Kopieren der Daten von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
             title: Konfiguration kopieren?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            description: Kopieren Sie die Konfiguration aus einem Quelltyp und verwenden Sie diese als einmalige Grundlage. Die Konfiguration bleibt manuell und übernimmt spätere Änderungen der Quelle nicht.
             source_label: Quellentyp
             source_placeholder: Wählen Sie einen Typ oder eine Variante aus
             submit: Speichern und kopieren
@@ -6523,15 +6523,15 @@ de:
           success: Die Konfiguration wurde kopiert.
         dependents:
           blank:
-            description: No other type or variant inherits from this configuration
+            description: Kein anderer Typ oder Variante erbt von dieser Konfiguration
             title: Keine abhängigen Typen
           description:
-            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            one: Die folgende Konfiguration wird von einem anderen Typen oder Varianten geerbt. Alle Änderungen, die Sie hier vornehmen, betreffen auch den Abhängigen.
+            other: Die folgende Konfiguration wird von%{count} anderen Typen oder Varianten geerbt. Alle Änderungen, die Sie hier vornehmen, betreffen auch den Abhängigen.
           dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
+            description: Diese Typen und Varianten übernehmen die Konfiguration dieses Abschnitts. Eine Änderung, die Sie hier vornehmen, gilt für alle diese Typen und Varianten.
+            direct_heading: Direkt Abhängige
+            indirect_heading: Indirekt Abhängige über andere Typen
             title: Abhängige Typen
             variant_of_html: Variante von %{type_name}
             variant_of_via_html: Variante von %{type_name}, vererbt über %{source_name}
@@ -6541,56 +6541,56 @@ de:
             other: "%{count} abhängige Typen"
           view: Abhängige Typen ansehen
         exclusions:
-          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: Diese Konfiguration wird geerbt, sodass nichts auszuschließen ist. Bearbeiten Sie die Konfiguration stattdessen direkt.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         inherited:
           change_source: Quellentyp ändern
           configure_manually: Manuell konfigurieren
           confirm_dialog:
             change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              description_html: Durch das Wechseln des Quelltyps von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
               heading: Quellentyp ändern?
               title: Quellentyp ändern
-            check_box: I understand that this will override the current settings
+            check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             from_manual:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
               heading: Konfigurationsmodus wechseln?
               title: Konfigurationsmodus wechseln
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          description: Diese Konfiguration wird vom Quelltyp [%{source_name}](source_url)%{source_suffix} geerbt.
+          description_unlinked: Diese Konfiguration wird vom Quelltyp %{source_name}%{source_suffix} geerbt.
           dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            description: Diese Konfiguration wird von einem Quelltyp geerbt. Jede Änderung der Konfiguration der Quelle gilt auch hier.
             source_label: Quellentyp
             source_placeholder: Typ oder Variante auswählen
             submit: Wechseln
             title: Von einem anderen Typ erben
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
-          success: The configuration mode was switched.
+          invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ geerbt werden. Bitte wählen Sie einen anderen Quelltyp aus.
+          success: Der Konfigurationsmodus wurde gewechselt.
           title: Vererbte Konfiguration
         manual:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
+            description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
             heading: Konfigurationsmodus wechseln?
             title: Konfigurationsmodus wechseln
           copy_from_type: Von einem anderen Typ kopieren
-          description: No settings are inherited. You can still copy the settings from another type one time.
+          description: Es werden keine Einstellungen geerbt. Sie können die Einstellungen jedoch einmalig von einem anderen Typ kopieren.
           dialog:
             submit: Wechseln
             title: Manuell konfigurieren
           inherit_from_type: Von einem anderen Typ erben
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          invalid_mode: Der ausgewählte Modus ist für diese Konfiguration nicht verfügbar. Bitte wählen Sie einen anderen Modus aus.
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              caption: Beginnen Sie mit einer einmaligen Kopie der Einstellungen, die diese Konfiguration derzeit übernimmt.
               label: Vererbte Einstellungen kopieren
             default:
-              caption: Use the default settings for new types.
+              caption: Standardeinstellungen für neue Typen verwenden.
               label: Standardeinstellungen
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
+              caption: Richten Sie alles von Grund auf ein, beginnend mit einer leeren Konfiguration.
               label: Leer
-          success: The configuration mode was switched.
+          success: Der Konfigurationsmodus wurde gewechselt.
           title: Manuelle Konfiguration
         parent_suffix: " (übergeordneter Typ)"
       variants:
@@ -6601,15 +6601,15 @@ de:
           title: Keine Varianten für diesen Typ vorhanden
         created_in_html: Erstellt in %{project}
         delete:
-          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          description: Die Projekte, die diese Variante verwenden, werden auf die von Ihnen unten ausgewählte Variante umgestellt, bevor die Variante gelöscht wird.
           title: "%{name} löschen"
         filter: Nach Text filtern
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
-          description: These variants are available across all projects.
+          description: Diese Varianten sind in allen Projekten verfügbar.
           title: Varianten
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
+          description: Diese Varianten sind nur innerhalb der Projekte verfügbar, in denen sie erstellt wurden.
           title: Projektspezifische Varianten
       workflow:
         tab: Workflows
@@ -7005,12 +7005,12 @@ de:
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Diese Arbeitspakete sind über mehrere Projekte verteilt: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Auch alle untergeordneten Arbeitspakete löschen?
+        question: Sie versuchen, Arbeitspakete zu löschen, die untergeordnete Arbeitspakete haben. Möchten Sie diese ebenfalls löschen?
+        self_only_label: Nur die ausgewählten Arbeitspakete löschen
+        self_only_caption: Dadurch werden zwar keine untergeordneten Arbeitspakete gelöscht, jedoch werden die hierarchischen Beziehungen aufgehoben.
+        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
+        with_descendants_caption: Dadurch werden alle Ihnen sichtbaren untergeordneten Arbeitspakete gelöscht. Im nächsten Schritt haben Sie die Möglichkeit, die vollständige Liste zu überprüfen.
       description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
       description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
       description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
@@ -7076,12 +7076,12 @@ de:
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Die zur Löschung vorgesehenen Arbeitspakete stammen aus folgenden Projekten: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Sollen auch alle untergeordneten Arbeitspakete gelöscht werden?
+        question: Dieses Arbeitspaket hat untergeordnete Arbeitspakete. Möchten Sie diese ebenfalls löschen?
+        self_only_label: Nur dieses Arbeitspaket löschen
+        self_only_caption: Dadurch werden zwar keine untergeordneten Arbeitspakete gelöscht, jedoch werden die hierarchischen Beziehungen aufgehoben.
+        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
+        with_descendants_caption: Dadurch werden alle Ihnen sichtbaren untergeordneten Arbeitspakete gelöscht. Im nächsten Schritt haben Sie die Möglichkeit, die vollständige Liste zu überprüfen.
       description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:
