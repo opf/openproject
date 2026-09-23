@@ -39,6 +39,8 @@ module WorkPackages
 
         COUNTED = %i[type status priority category].freeze
 
+        CONTRACT_ATTRIBUTES = { target_versions: :version }.freeze
+
         Progress = Struct.new(:created_count, :counts, :problems, :assignees, :dated, :created_ids)
         private_constant :Progress
 
@@ -101,33 +103,41 @@ module WorkPackages
           mapped = mapper.call(row)
           return progress.problems.concat(mapped.result) if mapped.failure?
 
-          record(create_work_package(mapped.result.attributes), row, mapped.result.timestamps, progress)
+          record(create_work_package(mapped.result.attributes), row, mapped.result.columns, progress)
         end
 
-        def record(created, row, timestamps, progress)
+        def record(created, row, columns, progress)
           if created.success?
             progress.created_count += 1
             progress.created_ids << created.result.id
-            back_date(created.result, timestamps)
+            write_columns(created.result, columns)
             summarise(progress, created.result)
           else
             progress.problems.concat(problems_for(row, created.errors))
           end
         end
 
-        def back_date(work_package, timestamps)
-          return if timestamps.empty?
+        def write_columns(work_package, columns)
+          return if columns.empty?
 
-          work_package.update_columns(timestamps)
-          back_date_creation_journal(work_package, timestamps[:created_at])
+          work_package.update_columns(columns)
+          correct_creation_journal(work_package, columns)
         end
 
-        def back_date_creation_journal(work_package, created_at)
-          return if created_at.nil?
+        # The creation journal records who brought the work package into existence and when, so it
+        # follows whatever the row said about either.
+        def correct_creation_journal(work_package, columns)
+          changes = journal_columns(columns)
+          return if changes.empty?
 
-          work_package.journals.first&.update_columns(created_at:,
-                                                      updated_at: created_at,
-                                                      validity_period: (created_at..))
+          work_package.journals.first&.update_columns(changes)
+        end
+
+        def journal_columns(columns)
+          created_at = columns[:created_at]
+          dates = created_at ? { created_at:, updated_at: created_at, validity_period: (created_at..) } : {}
+
+          columns.slice(:author_id).transform_keys(author_id: :user_id).merge(dates)
         end
 
         def create_work_package(attributes)
@@ -190,6 +200,8 @@ module WorkPackages
 
         def csv_attribute(name)
           candidate = name.to_s.delete_suffix("_id").to_sym
+          candidate = CONTRACT_ATTRIBUTES.fetch(candidate, candidate)
+
           candidate if HeaderMap::ATTRIBUTES.include?(candidate)
         end
       end

@@ -7482,7 +7482,7 @@ en:
         header:
           ambiguous: "and %{other} both mean %{attribute}. Keep one of them."
           duplicate: "appears more than once. Keep one of them."
-          percent_complete_status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
+          status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
           unknown: "cannot be imported."
           unknown_with_suggestion: "cannot be imported. Did you mean %{suggestion}?"
           unnamed: "This column has no name. Name it or remove the column."

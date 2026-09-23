@@ -34,11 +34,16 @@ module WorkPackages
       class RowMapper
         Problem = Data.define(:row, :attribute, :value, :message)
 
-        Mapped = Data.define(:attributes, :timestamps)
+        Mapped = Data.define(:attributes, :columns)
 
         TIMESTAMPS = %i[created_at updated_at].freeze
 
-        PROJECT_SCOPED = %i[type category].freeze
+        # Refused by the contract, so the service writes them to the row after creating it.
+        DIRECT = (TIMESTAMPS + %i[author]).freeze
+
+        PROJECT_SCOPED = %i[type category version].freeze
+
+        MAIL_COLUMNS = %i[assigned_to responsible author].freeze
 
         class Unresolvable < StandardError; end
         private_constant :Unresolvable
@@ -111,9 +116,24 @@ module WorkPackages
         end
 
         def mapped(resolved)
-          timestamps, attributes = resolved.partition { |attribute, _| TIMESTAMPS.include?(attribute) }
+          direct, attributes = resolved.partition { |attribute, _| DIRECT.include?(attribute) }
 
-          Mapped.new(attributes: attributes.to_h, timestamps: timestamps.to_h)
+          Mapped.new(attributes: with_target_version(attributes.to_h), columns: with_author_id(direct.to_h))
+        end
+
+        def with_author_id(columns)
+          author = columns.delete(:author)
+          return columns if author.nil?
+
+          columns.merge(author_id: author.id)
+        end
+
+        # The column names a single version, which the work package holds as a set of targets.
+        def with_target_version(attributes)
+          version = attributes.delete(:version)
+          return attributes if version.nil?
+
+          attributes.merge(target_version_ids: [version.id])
         end
 
         # The attribute travels as its own name rather than as a caption: the run is written in
@@ -124,8 +144,8 @@ module WorkPackages
 
         def resolve(attribute, raw)
           case attribute
-          when :type, :status, :priority, :category then named(attribute, raw)
-          when :assigned_to then user(raw)
+          when :type, :status, :priority, :category, :version then named(attribute, raw)
+          when *MAIL_COLUMNS then user(raw)
           when :start_date, :due_date then date(raw)
           when :created_at, :updated_at then timestamp(raw)
           when :done_ratio then percentage(raw)
@@ -156,6 +176,7 @@ module WorkPackages
           when :status then Status.all
           when :priority then IssuePriority.active
           when :category then project.categories
+          when :version then project.assignable_versions
           end
         end
 
@@ -176,7 +197,8 @@ module WorkPackages
         def normalized_mail(raw) = raw.presence&.strip&.downcase.presence
 
         def unresolved_mails(rows)
-          rows.filter_map { |row| normalized_mail(row.values[:assigned_to]) }.uniq - users.keys
+          rows.flat_map { |row| MAIL_COLUMNS.map { |attribute| normalized_mail(row.values[attribute]) } }
+              .compact.uniq - users.keys
         end
 
         def date(raw)

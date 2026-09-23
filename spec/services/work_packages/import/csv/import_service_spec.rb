@@ -39,7 +39,11 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
   shared_let(:status) { create(:default_status, name: "New") }
   shared_let(:priority) { create(:default_priority, name: "Normal") }
   shared_let(:category) { create(:category, project:, name: "Backend") }
-  shared_let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages]) }
+  shared_let(:version) { create(:version, project:, name: "Sprint 12") }
+  shared_let(:closed_version) { create(:version, project:, name: "Shipped", status: "closed") }
+  shared_let(:role) do
+    create(:project_role, permissions: %i[view_work_packages add_work_packages assign_versions work_package_assigned])
+  end
   shared_let(:user) { create(:user, member_with_roles: { project => role }) }
 
   def row(values, number: 2)
@@ -76,6 +80,20 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
       expect(WorkPackage.find_by(subject: "Write the docs"))
         .to have_attributes(type:, category:, project:, author: user)
+    end
+
+    it "assigns the accountable and the version the row names" do
+      import([row({ subject: "Owned", responsible: user.mail, version: "Sprint 12" })])
+
+      expect(WorkPackage.find_by(subject: "Owned"))
+        .to have_attributes(responsible: user, target_versions: [version])
+    end
+
+    it "takes work and remaining work as hours, whatever the row wrote them as" do
+      import([row({ subject: "Estimated", estimated_hours: "8", remaining_hours: "1h30m" })])
+
+      expect(WorkPackage.find_by(subject: "Estimated"))
+        .to have_attributes(estimated_hours: 8.0, remaining_hours: 1.5)
     end
 
     it "counts what was created, defaults included" do
@@ -187,6 +205,12 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(problem).to have_attributes(row: 3, attribute: "subject", value: "")
       expect(problem.message).to eq("can't be blank.")
     end
+
+    it "attributes a version the contract refuses to the column the file calls it" do
+      problem = import([row({ subject: "Late", version: closed_version.name })]).result.problems.sole
+
+      expect(problem).to have_attributes(row: 2, attribute: "version", value: "Shipped")
+    end
   end
 
   describe "the Created on and Updated on columns" do
@@ -239,6 +263,49 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
       expect(work_package.updated_at).to eq(updated_at)
       expect(work_package.journals.first.created_at).to be > 1.minute.ago
+    end
+  end
+
+  describe "the Author column" do
+    shared_let(:original) { create(:user, mail: "original@example.com") }
+
+    it "records the user the row names, in the work package and in its creation journal" do
+      import([row({ subject: "From elsewhere", author: "ORIGINAL@example.com" })])
+
+      work_package = WorkPackage.sole
+
+      expect(work_package.author).to eq(original)
+      expect(work_package.journals.first.user).to eq(original)
+    end
+
+    it "falls back to the importing user where the column is missing" do
+      import([row({ subject: "Mine" })])
+
+      expect(WorkPackage.sole.author).to eq(user)
+    end
+
+    it "falls back to the importing user where the cell is empty" do
+      import([row({ subject: "Mine", author: "" })])
+
+      expect(WorkPackage.sole.author).to eq(user)
+    end
+
+    it "reports an address that matches nobody, rather than importing under the wrong name" do
+      result = import([row({ subject: "Nobody", author: "ghost@example.com" })])
+
+      expect(result).to be_failure
+      expect(result.result.problems.sole).to have_attributes(attribute: "author", value: "ghost@example.com")
+    end
+
+    it "keeps the back-dating it arrives with" do
+      created_at = Time.utc(2024, 3, 4, 9, 30)
+      import([row({ subject: "Both", author: original.mail, created_at: created_at.iso8601 })])
+
+      work_package = WorkPackage.sole
+
+      expect(work_package).to have_attributes(author: original, created_at:)
+      expect(work_package.journals.first)
+        .to have_attributes(user: original, created_at:, validity_period: (created_at..))
     end
   end
 

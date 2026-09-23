@@ -52,11 +52,15 @@ RSpec.describe WorkPackages::Import::CSV::HeaderMap do
       expect(map.resolve("Assignee")).to eq(:assigned_to)
       expect(map.resolve("Finish date")).to eq(:due_date)
       expect(map.resolve("Work")).to eq(:estimated_hours)
+      expect(map.resolve("Remaining work")).to eq(:remaining_hours)
+      expect(map.resolve("Accountable")).to eq(:responsible)
+      expect(map.resolve("Author")).to eq(:author)
+      expect(map.resolve("Version")).to eq(:version)
     end
 
     it "does not resolve a column the import has no support for" do
       expect(map.resolve("Parent")).to be_nil
-      expect(map.resolve("Version")).to be_nil
+      expect(map.resolve("Duration")).to be_nil
     end
 
     it "does not resolve an empty header" do

@@ -241,6 +241,23 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
         expect(described_class.call(path)).to be_success
       end
     end
+
+    it "rejects Remaining work too, which the status derives as well",
+       with_settings: { work_package_done_ratio: "status" } do
+      with_csv("Subject,Work,Remaining work,% Complete\nBuild it,8,4,50\n") do |path|
+        result = described_class.call(path)
+
+        expect(result).to be_failure
+        expect(result.result.map(&:header)).to eq(["Remaining work", "% Complete"])
+      end
+    end
+
+    it "accepts Remaining work when progress comes from the field",
+       with_settings: { work_package_done_ratio: "field" } do
+      with_csv("Subject,Remaining work\nBuild it,4\n") do |path|
+        expect(described_class.call(path)).to be_success
+      end
+    end
   end
 
   describe "a file with nothing to import" do

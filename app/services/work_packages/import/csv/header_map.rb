@@ -41,16 +41,22 @@ module WorkPackages
           "status" => :status,
           "priority" => :priority,
           "category" => :category,
+          "version" => :version,
           "assignee" => :assigned_to,
+          "accountable" => :responsible,
+          "author" => :author,
           "start date" => :start_date,
           "finish date" => :due_date,
           "work" => :estimated_hours,
+          "remaining work" => :remaining_hours,
           "% complete" => :done_ratio,
           "created on" => :created_at,
           "updated on" => :updated_at
         }.freeze
 
         ATTRIBUTES = CANONICAL.values.freeze
+
+        DERIVED_FROM_STATUS = %i[remaining_hours done_ratio].freeze
 
         Problem = Data.define(:column, :header, :message)
 

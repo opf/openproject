@@ -35,8 +35,8 @@ module WorkPackages
         FILENAME = "work-packages-import-template.csv"
 
         EXAMPLES = [
-          { key: :one, starts_in: 1, lasts: 4, work: "8", complete: "0" },
-          { key: :two, starts_in: 8, lasts: 1, work: "3.5", complete: "50" }
+          { key: :one, starts_in: 1, lasts: 4, work: "8", remaining: "8", complete: "0" },
+          { key: :two, starts_in: 8, lasts: 1, work: "3.5", remaining: "1.75", complete: "50" }
         ].freeze
 
         def self.call(project:) = new(project:).call
@@ -71,7 +71,7 @@ module WorkPackages
         def columns
           return HeaderMap::ATTRIBUTES unless WorkPackage.status_based_mode?
 
-          HeaderMap::ATTRIBUTES - [:done_ratio]
+          HeaderMap::ATTRIBUTES - HeaderMap::DERIVED_FROM_STATUS
         end
 
         def cells(example)
@@ -84,6 +84,7 @@ module WorkPackages
             start_date: start_date.iso8601,
             due_date: (start_date + example[:lasts]).iso8601,
             estimated_hours: example[:work],
+            remaining_hours: example[:remaining],
             done_ratio: example[:complete]
           }
 

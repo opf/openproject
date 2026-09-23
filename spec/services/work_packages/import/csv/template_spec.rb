@@ -44,7 +44,8 @@ RSpec.describe WorkPackages::Import::CSV::Template do
 
   it "carries every column of the contract, in the order the contract lists them" do
     expect(rows.first).to eq(["Subject", "Description", "Type", "Status", "Priority", "Category",
-                              "Assignee", "Start date", "Finish date", "Work", "% Complete",
+                              "Version", "Assignee", "Accountable", "Author", "Start date",
+                              "Finish date", "Work", "Remaining work", "% Complete",
                               "Created on", "Updated on"])
   end
 
@@ -79,16 +80,22 @@ RSpec.describe WorkPackages::Import::CSV::Template do
     expect(CSV.parse(described_class.call(project: bare).delete_prefix("﻿"))[1][2]).to be_nil
   end
 
+  it "gives Work and Remaining work that agree with the % Complete beside them" do
+    expect(rows[1][12..14]).to eq(%w[8 8 0])
+    expect(rows[2][12..14]).to eq(%w[3.5 1.75 50])
+  end
+
   it "dates the examples from today, so the template does not go stale" do
-    expect(Date.iso8601(rows[1][7])).to eq(Date.current + 1)
-    expect(Date.iso8601(rows[1][8])).to eq(Date.current + 5)
+    expect(Date.iso8601(rows[1][10])).to eq(Date.current + 1)
+    expect(Date.iso8601(rows[1][11])).to eq(Date.current + 5)
   end
 
   context "when progress is calculated from the status" do
     before { allow(WorkPackage).to receive(:status_based_mode?).and_return(true) }
 
-    it "leaves out the % Complete column the parser would reject" do
+    it "leaves out the columns the parser would reject, which the status derives" do
       expect(rows.first).not_to include("% Complete")
+      expect(rows.first).not_to include("Remaining work")
     end
 
     it "still parses back through the importer's own parser" do

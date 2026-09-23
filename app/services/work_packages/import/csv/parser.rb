@@ -103,14 +103,19 @@ module WorkPackages
           (header_result.success? ? [] : header_result.result) + setting_problems
         end
 
-        # The only header rule that depends on configuration rather than the file.
+        # The header rules that depends on configuration rather than the file.
         def setting_problems
-          return [] unless headers.any? { |header| header_map.resolve(header) == :done_ratio }
           return [] unless WorkPackage.status_based_mode?
 
-          [HeaderMap::Problem.new(column: nil,
-                                  header: WorkPackage.human_attribute_name(:done_ratio),
-                                  message: I18n.t("work_packages.import.csv.header.percent_complete_status_based"))]
+          derived_headers.map do |attribute|
+            HeaderMap::Problem.new(column: nil,
+                                   header: WorkPackage.human_attribute_name(attribute),
+                                   message: I18n.t("work_packages.import.csv.header.status_based"))
+          end
+        end
+
+        def derived_headers
+          headers.filter_map { |header| header_map.resolve(header) } & HeaderMap::DERIVED_FROM_STATUS
         end
 
         def read_rows

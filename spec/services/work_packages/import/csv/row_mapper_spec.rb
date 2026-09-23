@@ -40,6 +40,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
   shared_let(:priority) { create(:issue_priority, name: "Normal") }
   shared_let(:category) { create(:category, project:, name: "Backend") }
   shared_let(:assignee) { create(:user, mail: "alice@example.com") }
+  shared_let(:version) { create(:version, project:, name: "Sprint 12") }
 
   def row(values, number: 2, problems: [])
     WorkPackages::Import::CSV::Parser::Row.new(number:, values:, problems:)
@@ -67,14 +68,22 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       expect(result.result.attributes).to eq(subject: "Write the docs")
     end
 
-    it "keeps created on and updated on out of the attributes" do
+    it "keeps created on, updated on and the author out of the attributes" do
       result = map(subject: "Write the docs",
                    created_at: "2026-01-04T09:00:00Z",
-                   updated_at: "2026-01-05T10:30:00Z")
+                   updated_at: "2026-01-05T10:30:00Z",
+                   author: "alice@example.com")
 
       expect(result.result.attributes).to eq(subject: "Write the docs")
-      expect(result.result.timestamps).to eq(created_at: Time.utc(2026, 1, 4, 9),
-                                             updated_at: Time.utc(2026, 1, 5, 10, 30))
+      expect(result.result.columns).to eq(created_at: Time.utc(2026, 1, 4, 9),
+                                          updated_at: Time.utc(2026, 1, 5, 10, 30),
+                                          author_id: assignee.id)
+    end
+
+    it "carries no author column where the cell is empty, so the importer stays the author" do
+      result = map(subject: "Write the docs", author: "")
+
+      expect(result.result.columns).to eq({})
     end
   end
 
@@ -90,6 +99,26 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       result = map(assigned_to: "ALICE@example.com")
 
       expect(result.result.attributes).to eq(assigned_to: assignee)
+    end
+
+    it "resolves the accountable the same way the assignee is resolved" do
+      result = map(responsible: "ALICE@example.com")
+
+      expect(result.result.attributes).to eq(responsible: assignee)
+    end
+
+    it "hands the version over as the set of targets the work package holds" do
+      result = map(version: "SPRINT 12")
+
+      expect(result.result.attributes).to eq(target_version_ids: [version.id])
+    end
+
+    it "names the versions the project offers when one does not match" do
+      result = map(version: "Sprint 99")
+
+      expect(result).to be_failure
+      expect(result.result.first.message).to eq("does not exist in this project.")
+      expect(mapper.available).to eq("version" => ["Sprint 12"])
     end
 
     # Beside the message rather than inside it, so the report can fold a long list away while
@@ -162,8 +191,9 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       let(:rows) do
         [row({ assigned_to: "ALICE@example.com" }),
          row({ assigned_to: " bob@example.com " }),
-         row({ assigned_to: "alice@example.com" }),
+         row({ assigned_to: "alice@example.com", responsible: "bob@example.com" }),
          row({ assigned_to: "nobody@example.com" }),
+         row({ responsible: "ALICE@example.com" }),
          row({ subject: "No assignee" })]
       end
 
@@ -248,6 +278,11 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "leaves work to WorkPackage#estimated_hours=, which runs the same converter" do
       expect(map(estimated_hours: "1h30m").result.attributes).to eq(estimated_hours: "1h30m")
       expect(map(estimated_hours: "PT8H").result.attributes).to eq(estimated_hours: "PT8H")
+    end
+
+    it "leaves remaining work to WorkPackage#remaining_hours=, the same way" do
+      expect(map(remaining_hours: "1h30m").result.attributes).to eq(remaining_hours: "1h30m")
+      expect(map(remaining_hours: "4").result.attributes).to eq(remaining_hours: "4")
     end
 
     it "leaves a % complete it cannot read to the numericality validator" do
