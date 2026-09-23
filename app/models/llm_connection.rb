@@ -54,7 +54,16 @@ class LlmConnection < ApplicationRecord
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
   has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
   validates :base_url, presence: true
+  # The column is NOT NULL and +active_connection+ hands back an unsaved record
+  # with no identifier, so without this a save raises NotNullViolation instead of
+  # surfacing an error a caller can render.
+  validates :identifier, presence: true
+  # Not only the contract's: the environment seeder and any direct write reach
+  # the model alone, and an unknown format is an UnsupportedFormat raised at read
+  # time rather than an error at write time.
+  validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
   validate :single_active_connection, if: :active?
+  validate :custom_headers_are_flat_strings
 
   class << self
     # Identifying attributes are left unset here and filled in by
@@ -88,10 +97,6 @@ class LlmConnection < ApplicationRecord
 
   # Every model that can be addressed today: discovered and still offered, plus
   # anything an administrator entered by hand.
-  #
-  # Deliberately includes models an administrator has deactivated. This is what
-  # Llm::Runtime resolves against, and hiding a model from the pickers must not
-  # break a feature that is already bound to it.
   def available_model_ids
     models.active.by_identifier.pluck(:external_id)
   end
@@ -108,38 +113,25 @@ class LlmConnection < ApplicationRecord
     connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
   end
 
-  # What a picker should offer: the above, minus what an administrator has
-  # switched off.
-  def selectable_model_ids
-    models.selectable.by_identifier.pluck(:external_id)
-  end
-
-  def selectable_models
-    models.selectable.by_identifier
+  def available_models
+    models.active.by_identifier
   end
 
   def chat_models
-    selectable_models.reject(&:embedding?)
+    available_models.reject(&:embedding?)
   end
 
   def embedding_models
-    selectable_models.select(&:embedding?)
-  end
-
-  # Every model the server is known to embed with, including ones an
-  # administrator has switched off: whether a model can embed is a fact about
-  # the server, not about what a picker currently offers.
-  def embedding_capable_models
-    models.active.by_identifier.select(&:embedding?)
+    available_models.select(&:embedding?)
   end
 
   def embedding_capable_model_ids
     capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
   end
 
-  def embedding_model_ids = selectable_model_ids & embedding_capable_model_ids
+  def embedding_model_ids = available_model_ids & embedding_capable_model_ids
 
-  def chat_model_ids = selectable_model_ids - embedding_model_ids
+  def chat_model_ids = available_model_ids - embedding_model_ids
 
   def server_flavour
     options["server_flavour"].presence&.to_sym
@@ -151,5 +143,21 @@ class LlmConnection < ApplicationRecord
     return unless self.class.active.where.not(id:).exists?
 
     errors.add(:base, :singleton)
+  end
+
+  # The value goes into Faraday's header serialisation unchanged, where a nested
+  # hash or a non-string fails at request time rather than at save time.
+  def custom_headers_are_flat_strings
+    return if custom_headers.blank?
+
+    return errors.add(:custom_headers, :invalid) unless custom_headers.is_a?(Hash)
+
+    return if custom_headers.all? { |name, value| header_pair?(name, value) }
+
+    errors.add(:custom_headers, :invalid)
+  end
+
+  def header_pair?(name, value)
+    name.is_a?(String) && value.is_a?(String) && !value.match?(/[[:cntrl:]]/)
   end
 end

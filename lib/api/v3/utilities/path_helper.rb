@@ -630,6 +630,9 @@ module API
             "#{views}/#{type}"
           end
 
+          index :label
+          show :label
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end

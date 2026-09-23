@@ -110,29 +110,18 @@ module LlmConnections
       @embedding_models ||= model.embedding_models
     end
 
-    def embedding_capable_models
-      @embedding_capable_models ||= model.embedding_capable_models
-    end
-
-    # Switched off and unqualified are different problems with different remedies,
-    # so a stored default that embeds but was hidden says so rather than claiming
-    # the server never confirmed it.
+    # A stored default the server has never confirmed stays in the list, said
+    # so, rather than vanishing from the picker that shows it.
     def embedding_option_label(llm_model)
       return llm_model.name if embedding_models.include?(llm_model)
 
-      key = if embedding_capable_models.include?(llm_model)
-              "embedding_option_deactivated"
-            else
-              "embedding_option_unqualified"
-            end
-
-      I18n.t("admin.llm_models.defaults.#{key}", model: llm_model.name)
+      I18n.t("admin.llm_models.defaults.embedding_option_unqualified", model: llm_model.name)
     end
 
     # Says how to make a model eligible when none is, rather than leaving an
     # empty picker with no explanation.
     def embedding_caption
-      return I18n.t("admin.llm_models.defaults.embedding_none") if embedding_capable_models.empty?
+      return I18n.t("admin.llm_models.defaults.embedding_none") if embedding_models.empty?
 
       link_translate("admin.llm_models.defaults.embedding_caption",
                      links: { docs_url: %i[embeddings_explanation] },

@@ -55,6 +55,10 @@ RSpec.describe Llm::Adapters do
     it "offers only providers the gem still ships" do
       expect(described_class::FORMATS).to all(be_in(RubyLLM::Provider.providers.keys.map(&:to_s)))
     end
+
+    it "contains every format that discovers its models live" do
+      expect(described_class::LIVE_DISCOVERY - described_class::FORMATS).to be_empty
+    end
   end
 
   describe ".live_discovery?" do

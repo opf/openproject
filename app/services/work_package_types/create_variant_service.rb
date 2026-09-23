@@ -25,13 +25,6 @@
 #++
 
 module WorkPackageTypes
-  # Adds a named variant to a type.
-  #
-  # It starts out Linked to the type's base variant for every aspect, which is what makes it a
-  # variation of that configuration rather than an empty one. Each aspect goes Independent
-  # later, when someone edits it.
-  # Pass +project+ to make the variant that project's own. Whether the user may is
-  # CreateVariantContract's business.
   class CreateVariantService < ::BaseServices::Create
     def initialize(user:, type:, contract_class: nil, contract_options: {})
       @type = type
@@ -44,12 +37,29 @@ module WorkPackageTypes
 
     def instance_class = TypeVariant
 
-    def instance(_params)
-      type.variants.new.tap do |variant|
-        TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", type.default_variant) }
-      end
+    def instance(params)
+      type.variants.new(workflow: workflow_for(params[:project]), linked_aspects: TypeVariant::ASPECTS.dup)
+    end
+
+    def after_perform(service_call)
+      workflow = service_call.result.workflow
+      Workflows::StatusTransition.copy(base_workflow, nil, workflow, nil) if workflow.project_specific?
+
+      service_call
     end
 
     def default_contract_class = CreateVariantContract
+
+    private
+
+    # A variant only its project can see would otherwise edit the type's transitions for every
+    # other project through the workflow they share.
+    def workflow_for(project)
+      return base_workflow if project.nil?
+
+      Workflow.build_with_available_name(base_workflow.name, project:)
+    end
+
+    def base_workflow = type.default_variant.workflow
   end
 end

@@ -64,9 +64,9 @@ tr:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: Hocuspocus sunucu URL'si
         page_header:
-          description: |-
-            Etkinleştirildiğinde, gerçek zamanlı işbirliği birden fazla kullanıcının bir belgeyi aynı anda düzenlemesine olanak tanır.
-            Çalışması için çalışan bir %{hocuspocus_server_link} gerekir.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Verileri kalıcı olarak kaybedebileceğimi anlıyorum
         confirmation_message: |-
@@ -121,7 +121,7 @@ tr:
       currently_offline: Şu anda çevrimdışısınız.
     label_attachment_author: Ek yazar
     label_categories: Kategoriler
-    last_updated_at: Son kaydedilen %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Tüm belgeler
       collaboration_settings: Gerçek zamanlı işbirliği

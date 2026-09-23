@@ -31,8 +31,7 @@
 require "spec_helper"
 
 # The markup on these pages is hand-written rather than generated, so this spec
-# exists mainly to put it through axe. The row toggle in particular has no
-# accessible name of its own and depends on an explicit aria-label.
+# exists mainly to put it through axe.
 # :selenium is required, not incidental: axe-core-api drives the browser through
 # Selenium's #manage API, so be_axe_clean does not work under cuprite. Every other
 # axe spec in this repository is tagged the same way for the same reason.
@@ -97,7 +96,7 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_test_selector("llm-settings--tabs")
 
-      within_test_selector("llm-settings--tabs") { click_on "LLMs" }
+      within_test_selector("llm-settings--tabs") { click_on "Models" }
 
       expect(page).to have_current_path(llm_models_path)
 
@@ -161,30 +160,8 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_test_selector("llm-model--refresh-button")
       expect(page).to have_text(connection.models.first.external_id)
-      expect(page).to have_test_selector("llm-model--toggle-#{connection.models.first.id}")
+      expect(page).to have_test_selector("llm-model--edit-#{connection.models.first.id}")
       expect(page).to be_axe_clean.within("#content")
-    end
-
-    it "hides a model from the feature pickers when it is switched off" do
-      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
-
-      visit llm_models_path
-
-      expect(offered_default_models).to include("qwen3.6-27b")
-
-      find_test_selector("llm-model--toggle-#{llm_model.id}").click
-
-      wait_for { llm_model.reload.deactivated_at }.not_to be_nil
-      wait_for { offered_default_models }.not_to include("qwen3.6-27b")
-
-      # The toggle re-renders the pickers, not the row, so the table itself only
-      # catches up on the next load.
-      visit llm_models_path
-
-      within_test_selector("llm-model--toggle-#{llm_model.id}") do
-        expect(page).to have_css("button[aria-pressed='false']")
-      end
-      expect(page).to have_no_text("Hidden")
     end
 
     # The chat capabilities are hidden client-side, so only a browser shows that

@@ -162,6 +162,60 @@ RSpec.describe(
         expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
       end
 
+      context "when the source owns the variant" do
+        shared_let(:owned_type) { create(:type, name: "Owned root") }
+        shared_let(:workflow_source) { create(:type_variant, type: owned_type, variant_name: "Shared workflow") }
+        shared_let(:owned_variant) do
+          create(:project_owned_type_variant, type: owned_type, project: source,
+                                              variant_name: "Source only", workflows_source: workflow_source)
+        end
+
+        before { source.project_types.create!(type: owned_type, variant: owned_variant) }
+
+        it "succeeds" do
+          expect(subject).to be_success
+        end
+
+        it "gives the copy a variant of its own" do
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.project).to eq(project_copy)
+          expect(copied).not_to eq(owned_variant)
+        end
+
+        it "keeps the narrowing the source variant expressed" do
+          owned_variant.update!(form_configuration_excluded_elements: %w[assignee])
+
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
+          expect(copied.form_configuration_source).to eq(owned_variant.form_configuration_source)
+        end
+
+        it "lets the copy reference the same workflow" do
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.workflow).to eq(workflow_source.workflow)
+          expect(copied.workflow).not_to be_project_specific
+        end
+
+        context "when the source variant owns its workflow" do
+          before { owned_variant.update!(workflows_source: nil) }
+
+          it "copies the project", pending: "Blocked until variants reference named workflows" do
+            expect(owned_variant.reload.workflow).to be_project_specific
+
+            expect(subject).to be_success
+          end
+        end
+      end
+
       context "when the caller names the types itself" do
         shared_let(:other_type) { create(:type, name: "Chosen type") }
 

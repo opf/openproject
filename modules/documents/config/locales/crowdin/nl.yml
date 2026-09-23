@@ -64,9 +64,9 @@ nl:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: Hocuspocus server URL
         page_header:
-          description: |-
+          description_html: |-
             When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working %{hocuspocus_server_link} to function.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: I understand that I might permanently lose data
         confirmation_message: |-
@@ -121,7 +121,7 @@ nl:
       currently_offline: You are currently offline.
     label_attachment_author: Auteur bijlage
     label_categories: Categorieën
-    last_updated_at: Last saved %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: All documents
       collaboration_settings: Real-time collaboration

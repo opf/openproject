@@ -43,17 +43,40 @@ class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::Llm
 
   # Matches the identifier the server uses and the friendly name an
   # administrator may have given it, since either is what someone types.
+  #
+  # Every operator the :string strategy allows has a branch. BaseQuery applies
+  # filters without asking whether they are valid, so a missing one is a 500 on
+  # a hand-written filter parameter rather than a validation error.
   def where
-    escaped = ActiveRecord::Base.sanitize_sql_like(values.first)
+    return "1=0" if values.first.blank?
 
     case operator
-    when "~", "**"
-      ["llm_models.external_id ILIKE :q OR llm_models.display_name ILIKE :q", { q: "%#{escaped}%" }]
-    when "!~"
-      ["llm_models.external_id NOT ILIKE :q AND (llm_models.display_name IS NULL OR llm_models.display_name NOT ILIKE :q)",
-       { q: "%#{escaped}%" }]
-    else
-      raise "Unsupported operator #{operator}"
+    when "~" then contains
+    when "!~" then excludes_substring
+    when "=" then equals
+    when "!" then differs
     end
+  end
+
+  private
+
+  def term = ActiveRecord::Base.sanitize_sql_like(values.first)
+
+  def contains
+    ["llm_models.external_id ILIKE :q OR llm_models.display_name ILIKE :q", { q: "%#{term}%" }]
+  end
+
+  def excludes_substring
+    ["llm_models.external_id NOT ILIKE :q AND (llm_models.display_name IS NULL OR llm_models.display_name NOT ILIKE :q)",
+     { q: "%#{term}%" }]
+  end
+
+  def equals
+    ["llm_models.external_id = :q OR llm_models.display_name = :q", { q: values.first }]
+  end
+
+  def differs
+    ["llm_models.external_id <> :q AND (llm_models.display_name IS NULL OR llm_models.display_name <> :q)",
+     { q: values.first }]
   end
 end
