@@ -135,10 +135,15 @@ module WorkPackages
         end
 
         def saved_view(ids)
-          view = Query.new(name: view_name, project:, user:, public: false, include_subprojects: false)
-          view.add_filter("id", "=", ids.map(&:to_s))
+          query = Query.new(name: view_name, project:, user:, public: false, include_subprojects: false)
+          query.add_filter("id", "=", ids.map(&:to_s))
 
-          User.execute_as(user) { view.id if view.save }
+          User.execute_as(user) do
+            next unless query.save
+
+            View.create!(query:, type: "work_packages_table")
+            query.id
+          end
         end
 
         def view_name = I18n.t("work_packages.import.csv.view_name", datetime: format_time(Time.current))

@@ -118,6 +118,11 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(view.name).to match(/\ACSV import on .+/)
     end
 
+    it "is listed in the sidebar, which passes over a query carrying no view of its own" do
+      expect(view.views.pluck(:type)).to eq(%w[work_packages_table])
+      expect(view.hidden).to be(false)
+    end
+
     it "filters on exactly the work packages the run created" do
       created = import(rows).result.created_ids
       saved = Query.find_by(user:)
@@ -133,7 +138,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     end
 
     it "outlives nothing: a run that fails saves no view" do
-      expect { import([row({ subject: "" }, number: 2)]) }.not_to change(Query, :count)
+      expect { import([row({ subject: "" }, number: 2)]) }.to not_change(Query, :count).and not_change(View, :count)
     end
   end
 
@@ -145,7 +150,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     end
 
     it "saves no view, since there is nothing to look at afterwards" do
-      expect { import(rows, dry_run: true) }.not_to change(Query, :count)
+      expect { import(rows, dry_run: true) }.to not_change(Query, :count).and not_change(View, :count)
       expect(import(rows, dry_run: true).result.query_id).to be_nil
     end
 
