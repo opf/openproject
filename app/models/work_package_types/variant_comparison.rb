@@ -138,8 +138,7 @@ module WorkPackageTypes
 
     def variants
       @variants ||= type.variants
-                        .with_effective_source(FORM)
-                        .includes(:project, :custom_fields)
+                        .includes(:type, :project, :custom_fields)
                         .in_display_order
                         .to_a
     end

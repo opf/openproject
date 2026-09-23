@@ -55,7 +55,7 @@ RSpec.describe WorkPackageTypes::VariantComparison do
 
   def inheriting_variant(name)
     create(:type_variant, type:, variant_name: name, workflow: base.workflow).tap do |variant|
-      TypeVariant::ASPECTS.each { link_configuration(variant, source: base, aspect: it) }
+      TypeVariant::ASPECTS.each { link_configuration(variant, aspect: it) }
     end
   end
 
