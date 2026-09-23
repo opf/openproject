@@ -1,0 +1,53 @@
+# /api/v3/wiki_pages/{id}/versions/{version}/restore
+---
+post:
+  summary: Restore Wiki Page Version
+  operationId: Restore_Wiki_Page_Version
+  tags:
+    - Wiki Pages
+  description: |-
+    Rewrites the current page body with the content of the requested historical
+    version. A new journal version is created as a result (no destructive history
+    rewrite).
+
+    **Required permission:** `edit_wiki_pages` in the page's project.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+    - name: version
+      in: path
+      required: true
+      description: Version number to restore from.
+      schema:
+        type: integer
+      example: 2
+  responses:
+    '200':
+      description: OK — returns the updated wiki page.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+    '403':
+      description: Returned if the user lacks `edit_wiki_pages` in the page's project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the page or the requested version does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '422':
+      description: Returned if the restore violates a constraint (e.g. concurrent edit).
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'

@@ -1,0 +1,57 @@
+# Schema: List_of_Wiki_PageVersionsModel
+---
+type: object
+description: Offset-paginated collection of `Wiki_PageVersionModel`.
+example:
+  _type: Collection
+  total: 3
+  count: 3
+  pageSize: 3
+  offset: 1
+  _embedded:
+    elements:
+      - _type: WikiPageVersion
+        id: 903
+        version: 3
+        notes: "Reworded the intro"
+        text:
+          format: markdown
+          raw: "**Bold** text on a wiki page"
+          html: "<p><strong>Bold</strong> text on a wiki page</p>"
+        createdAt: '2026-04-02T08:13:05.123Z'
+        _links:
+          self: { href: "/api/v3/wiki_pages/72/versions/3" }
+          wikiPage: { href: "/api/v3/wiki_pages/72", title: "A wiki page with a name" }
+          author: { href: "/api/v3/users/5" }
+          restore: { href: "/api/v3/wiki_pages/72/versions/3/restore", method: post }
+      - _type: WikiPageVersion
+        id: 902
+        version: 2
+        notes: ""
+        text:
+          format: markdown
+          raw: "Earlier version"
+          html: "<p>Earlier version</p>"
+        createdAt: '2026-03-25T10:00:00.000Z'
+        _links:
+          self: { href: "/api/v3/wiki_pages/72/versions/2" }
+          wikiPage: { href: "/api/v3/wiki_pages/72", title: "A wiki page with a name" }
+          author: { href: "/api/v3/users/5" }
+          restore: { href: "/api/v3/wiki_pages/72/versions/2/restore", method: post }
+      - _type: WikiPageVersion
+        id: 901
+        version: 1
+        notes: ""
+        text:
+          format: markdown
+          raw: "Initial body"
+          html: "<p>Initial body</p>"
+        createdAt: '2026-03-20T12:57:01.601Z'
+        _links:
+          self: { href: "/api/v3/wiki_pages/72/versions/1" }
+          wikiPage: { href: "/api/v3/wiki_pages/72", title: "A wiki page with a name" }
+          author: { href: "/api/v3/users/5" }
+          restore: { href: "/api/v3/wiki_pages/72/versions/1/restore", method: post }
+  _links:
+    self:
+      href: "/api/v3/wiki_pages/72/versions"

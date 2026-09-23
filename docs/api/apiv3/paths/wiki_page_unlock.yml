@@ -1,0 +1,40 @@
+# /api/v3/wiki_pages/{id}/unlock
+---
+post:
+  summary: Unlock Wiki Page
+  operationId: Unlock_Wiki_Page
+  tags:
+    - Wiki Pages
+  description: |-
+    Removes the protected flag from the page.
+
+    **Required permission:** `manage_wiki` in the page's project.
+
+    No request body is required.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+  responses:
+    '200':
+      description: "OK — returns the updated wiki page with `locked: false`."
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+    '403':
+      description: Returned if the user lacks `manage_wiki` in the page's project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the page does not exist or is not visible to the user.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'

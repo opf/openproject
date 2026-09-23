@@ -1,0 +1,49 @@
+# Schema: Wiki_PageUpdateModel
+---
+type: object
+description: |-
+  Body for `PATCH /api/v3/wiki_pages/{id}`. All properties are optional; only the
+  supplied fields are updated. `lockVersion` should be echoed from the most recent
+  GET response to detect concurrent edits.
+properties:
+  title:
+    type: string
+    description: New title for the wiki page
+  text:
+    description: |-
+      The page's body. Either a plain string (treated as raw markdown) or a
+      `{ raw: "..." }` object — both forms are accepted.
+    oneOf:
+      - type: string
+      - type: object
+        properties:
+          raw:
+            type: string
+  locked:
+    type: boolean
+    description: Set to `true`/`false` to (un)protect the page. Requires `manage_wiki`.
+  parentTitle:
+    type: string
+    description: |-
+      Re-parent the page under the page with this title within the same wiki.
+      Use `null` to detach. Alternatively reference the parent via `_links.parent`.
+    nullable: true
+  lockVersion:
+    type: integer
+    description: Optimistic-locking counter as returned by the most recent GET.
+  _links:
+    type: object
+    properties:
+      parent:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Optional parent wiki page (by URI). Must belong to the same wiki.
+
+              **Resource**: WikiPage
+example:
+  title: A renamed wiki page
+  text:
+    raw: "Updated body"
+  locked: false
+  lockVersion: 3
