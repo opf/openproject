@@ -101,8 +101,13 @@
       <% end %>
 
       <% box.with_footer do %>
-        <%= render Primer::Beta::Link.new(href: problems_path, font_size: 6) do %>
-          <%= t("work_packages.import.report.download_problems") %>
+        <%= render Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2") do %>
+          <% if omitted_headers_count %>
+            <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { omitted_headers_count } %>
+          <% end %>
+          <%= render Primer::Beta::Link.new(href: problems_path, font_size: 6) do %>
+            <%= t("work_packages.import.report.download_problems") %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

@@ -249,10 +249,37 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     it "does not offer an import button" do
       expect(page).to have_no_button(/Import/)
     end
+
+    it "says nothing about a cap where the table holds everything there is" do
+      expect(page).to have_no_text("shown.")
+    end
   end
 
-  # A problem about the file as a whole names neither a column nor a header, so a table of it
-  # would be one row of two empty cells.
+  describe "file_rejected with more headers than the table shows" do
+    let(:column_problems) do
+      Array.new(described_class::SHOWN_PROBLEMS + 12) do |index|
+        { "column" => "C#{index}", "header" => "Sprint #{index}", "message" => "cannot be imported." }
+      end
+    end
+
+    before do
+      render_outcome("file_rejected",
+                     "row_count" => 0,
+                     "created_count" => 0,
+                     "counts" => {},
+                     "column_problems" => column_problems)
+    end
+
+    it "shows the first of them rather than a row per column in the file" do
+      expect(page).to have_css("tbody tr", count: described_class::SHOWN_PROBLEMS)
+    end
+
+    it "points at the download for the rest, so nothing is dropped in silence" do
+      expect(page).to have_text("#{column_problems.size} problems, the first #{described_class::SHOWN_PROBLEMS} shown.")
+      expect(page).to have_link("Download as CSV")
+    end
+  end
+
   describe "file_rejected over the row limit" do
     before do
       render_outcome("file_rejected",

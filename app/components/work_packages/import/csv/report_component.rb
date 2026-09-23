@@ -78,7 +78,7 @@ module WorkPackages
 
         def shown_problems = @shown_problems ||= problems.first(SHOWN_PROBLEMS)
 
-        def problems_omitted = problems.size - shown_problems.size
+        def shown_header_problems = @shown_header_problems ||= header_problems.first(SHOWN_PROBLEMS)
 
         def problem_count = problems.size
 
@@ -120,24 +120,28 @@ module WorkPackages
         end
 
         def column_problem_rows
-          header_problems.map do |problem|
+          shown_header_problems.map do |problem|
             [{ text: problem["column"], style: :muted },
              { text: problem["header"], style: :code },
-             { text: problem["message"], available: problem["available"], style: :message }]
+             { text: problem["message"], style: :message }]
           end
         end
 
         def caption(attribute) = attribute.presence && WorkPackage.human_attribute_name(attribute)
 
-        # One list per attribute on the report, rather than a copy on every problem explaining it.
         def available_for(problem) = payload.dig("available", problem["attribute"].to_s)
 
         def shown_count
-          if problems_omitted.positive?
-            t("work_packages.import.report.problems.capped", count: problem_count, shown: shown_problems.size)
-          else
+          capped_count(problems, shown_problems) ||
             t("work_packages.import.report.problems.all", count: problem_count)
-          end
+        end
+
+        def omitted_headers_count = capped_count(header_problems, shown_header_problems)
+
+        def capped_count(all, shown)
+          return if all.size <= shown.size
+
+          t("work_packages.import.report.problems.capped", count: all.size, shown: shown.size)
         end
 
         def header_line
