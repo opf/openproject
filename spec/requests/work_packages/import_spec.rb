@@ -53,7 +53,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
   let(:csv_fixture) { Rails.root.join("spec/fixtures/csv_import/work_packages.csv") }
   let(:template_path) { import_template_project_work_packages_path(project) }
 
-  describe "with the flag on", with_flag: { csv_import: true } do
+  describe "who can reach it" do
     context "as a member holding the permission" do
       before { login_as importer }
 
@@ -87,7 +87,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       describe "the dry run flag" do
         def upload(params)
           post show_path,
-               params: params.merge(file: Rack::Test::UploadedFile.new(csv_fixture, "text/csv"))
+            params: params.merge(file: Rack::Test::UploadedFile.new(csv_fixture, "text/csv"))
         end
 
         it "checks the file when the box is ticked" do
@@ -170,36 +170,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "with the flag off", with_flag: { csv_import: false } do
-    before { login_as admin }
-
-    # An unmatched route surfaces as a routing error or as a rendered 404 depending on the path;
-    # either way it never reaches the controller, which is what the flag is for.
-    def unrouted?
-      yield
-      response.not_found?
-    rescue ActionController::RoutingError
-      true
-    end
-
-    it "does not route the page" do
-      expect(unrouted? { get show_path }).to be(true)
-    end
-
-    it "does not route the template" do
-      expect(unrouted? { get template_path }).to be(true)
-    end
-
-    it "does not route the poll" do
-      expect(unrouted? { get status_path }).to be(true)
-    end
-
-    it "does not route an upload" do
-      expect(unrouted? { post show_path }).to be(true)
-    end
-  end
-
-  describe "the page", with_flag: { csv_import: true } do
+  describe "the page" do
     before { login_as importer }
 
     it "offers the form, the guidance and an empty report region" do
@@ -250,11 +221,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       before do
         create(:delayed_job_status,
-               job_id:,
-               user: importer,
-               status: :in_process,
-               payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
-                          "dry_run" => true })
+          job_id:,
+          user: importer,
+          status: :in_process,
+          payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+            "dry_run" => true })
       end
 
       it "marks itself for polling and names the file" do
@@ -327,11 +298,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       def stopped(status)
         create(:delayed_job_status,
-               job_id:,
-               user: importer,
-               status:,
-               payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
-                          "dry_run" => true })
+          job_id:,
+          user: importer,
+          status:,
+          payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+            "dry_run" => true })
       end
 
       it "says so rather than watching a run that is over" do
@@ -363,11 +334,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       it "leaves a run that reported its own failure to the report" do
         create(:delayed_job_status,
-               job_id:,
-               user: importer,
-               status: :failure,
-               payload: { "project_id" => project.id, "filename" => "sprint-43.csv", "dry_run" => false,
-                          "outcome" => "file_rejected", "column_problems" => [], "problems" => [] })
+          job_id:,
+          user: importer,
+          status: :failure,
+          payload: { "project_id" => project.id, "filename" => "sprint-43.csv", "dry_run" => false,
+            "outcome" => "file_rejected", "column_problems" => [], "problems" => [] })
 
         get show_path(job: job_id)
 
@@ -377,7 +348,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "uploading a file end to end", with_flag: { csv_import: true } do
+  describe "uploading a file end to end" do
     before { login_as importer }
 
     def upload(dry_run: "1")
@@ -447,7 +418,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "a refused upload", with_flag: { csv_import: true } do
+  describe "a refused upload" do
     before { login_as importer }
 
     def upload(file)
@@ -517,20 +488,20 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "committing a checked file that has been swept", with_flag: { csv_import: true } do
+  describe "committing a checked file that has been swept" do
     let(:job_id) { SecureRandom.uuid }
 
     before do
       login_as importer
       create(:delayed_job_status,
-             job_id:,
-             user: importer,
-             status: :success,
-             payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
-                        "outcome" => "checked", "row_count" => 142, "created_count" => 142,
-                        "attachment_id" => 0, "counts" => {}, "problems" => [],
-                        "column_problems" => [], "back_dated" => 0,
-                        "assignee_count" => 0, "dated_count" => 0 })
+        job_id:,
+        user: importer,
+        status: :success,
+        payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+          "outcome" => "checked", "row_count" => 142, "created_count" => 142,
+          "attachment_id" => 0, "counts" => {}, "problems" => [],
+          "column_problems" => [], "back_dated" => 0,
+          "assignee_count" => 0, "dated_count" => 0 })
     end
 
     it "keeps the summary rather than reading as though the check went wrong" do
@@ -555,21 +526,21 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "the problems download", with_flag: { csv_import: true } do
+  describe "the problems download" do
     let(:job_id) { SecureRandom.uuid }
 
     before do
       login_as importer
       create(:delayed_job_status,
-             job_id:,
-             user: importer,
-             status: :failure,
-             payload: { "project_id" => project.id,
-                        "filename" => "sprint-43.csv",
-                        "outcome" => "rows_rejected",
-                        "problems" => [{ "row" => 7, "attribute" => "type", "value" => "Taks",
-                                         "message" => "does not exist in this project." }],
-                        "available" => { "type" => %w[Task Bug Milestone] } })
+        job_id:,
+        user: importer,
+        status: :failure,
+        payload: { "project_id" => project.id,
+          "filename" => "sprint-43.csv",
+          "outcome" => "rows_rejected",
+          "problems" => [{ "row" => 7, "attribute" => "type", "value" => "Taks",
+            "message" => "does not exist in this project." }],
+          "available" => { "type" => %w[Task Bug Milestone] } })
     end
 
     it "sends the problems as a CSV named after the file they came from" do
@@ -579,7 +550,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(response.headers["Content-Disposition"]).to include("sprint-43-problems.csv")
       expect(CSV.parse(response.body.delete_prefix("﻿")))
         .to eq([%w[Line Column Value Problem Available],
-                ["7", "Type", "Taks", "does not exist in this project.", "Task, Bug, Milestone"]])
+          ["7", "Type", "Taks", "does not exist in this project.", "Task, Bug, Milestone"]])
     end
 
     it "gives nothing for a job belonging to somebody else" do
@@ -591,7 +562,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "the template", with_flag: { csv_import: true } do
+  describe "the template" do
     before { login_as importer }
 
     it "sends what the template builder produced, named for download" do
