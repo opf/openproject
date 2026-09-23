@@ -47,8 +47,6 @@ RSpec.describe "User custom fields edit", :js do
 
     fill_in "Name", with: "My User CF"
 
-    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
-
     click_on "Save"
 
     new_cf_page.expect_and_dismiss_flash(message: "Successful creation.")
@@ -57,7 +55,6 @@ RSpec.describe "User custom fields edit", :js do
     expect(page).to have_current_path(edit_custom_field_path(cf))
 
     # Edit again
-    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
     fill_in "Name", with: "My User CF (edited)"
 
     click_on "Save"

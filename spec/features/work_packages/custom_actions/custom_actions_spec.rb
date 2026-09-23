@@ -121,7 +121,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     create(:integer_wp_custom_field)
   end
   let(:selected_list_custom_field_options) do
-    [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
+    [list_custom_field.possible_values.first, list_custom_field.possible_values.last]
   end
   let!(:date_custom_field) do
     cf = create(:date_wp_custom_field)

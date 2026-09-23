@@ -137,10 +137,10 @@ module DevelopmentData
     end
 
     def custom_option_id(field, label)
-      option = field.custom_options.find { |o| o.value == label }
-      raise "Unknown option #{label.inspect} for user custom field #{field.name.inspect}" if option.nil?
+      item = field.possible_values.find { |i| i.label == label }
+      raise "Unknown option #{label.inspect} for user custom field #{field.name.inspect}" if item.nil?
 
-      option.id
+      item.id
     end
 
     def user_custom_field(name)

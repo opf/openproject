@@ -54,7 +54,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   shared_let(:custom_value_first) do
     create(:work_package_custom_value,
            custom_field: list_custom_field,
-           value: list_custom_field.custom_options.first.id)
+           value: list_custom_field.possible_values.first.id)
   end
   shared_let(:types) { [type_task, type_bug] }
   shared_let(:project) do

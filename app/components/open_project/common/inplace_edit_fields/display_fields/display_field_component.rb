@@ -182,7 +182,7 @@ module OpenProject
 
           def custom_field_values
             CustomValue
-              .includes(custom_field: :custom_options)
+              .includes(custom_field: { hierarchy_root: :children })
               .where(
                 custom_field_id: custom_field&.id,
                 customized_id: model.id

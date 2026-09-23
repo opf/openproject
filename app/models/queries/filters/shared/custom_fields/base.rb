@@ -64,6 +64,13 @@ module Queries::Filters::Shared
         custom_field.name
       end
 
+      # Every channel a filter's values arrive through - API links, query_props,
+      # saved YAML - funnels through this single setter, so legacy custom option
+      # ids are translated exactly once, here.
+      def values=(values)
+        super(::CustomFields::LegacyOptionIdResolver.resolve_all(custom_field:, ids: Array(values)))
+      end
+
       def allowed_values
         custom_field.possible_values_options(project)
       end

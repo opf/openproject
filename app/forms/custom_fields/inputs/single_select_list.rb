@@ -63,11 +63,11 @@ class CustomFields::Inputs::SingleSelectList < CustomFields::Inputs::Base::Autoc
         }
       end
     else
-      @custom_field.custom_options.map do |custom_option|
+      @custom_field.possible_values.map do |item|
         {
-          label: custom_option.value,
-          value: custom_option.id,
-          selected: selected?(custom_option)
+          label: item.label,
+          value: item.id,
+          selected: selected?(item)
         }
       end
     end
@@ -79,13 +79,13 @@ class CustomFields::Inputs::SingleSelectList < CustomFields::Inputs::Base::Autoc
       .value_or([])
   end
 
-  def selected?(custom_option)
-    custom_option.id == selected_id
+  def selected?(item)
+    item.id == selected_id
   end
 
   ##
-  # Returns the ID of the selected CustomOption,
-  # the default option ID if none is selected, or
+  # Returns the ID of the selected item,
+  # the default item ID if none is selected, or
   # nil if there is no default.
   def selected_id
     if @custom_value.value.present?

@@ -37,6 +37,13 @@ module API
             end
 
             helpers do
+              def legacy_custom_option(id)
+                mapping = CustomField::LegacyOptionMapping.find_by(custom_option_id: id)
+                raise API::Errors::NotFound unless mapping
+
+                mapping
+              end
+
               def authorize_custom_option_visibility(custom_option)
                 case custom_option.custom_field
                 when WorkPackageCustomField
@@ -96,11 +103,14 @@ module API
             end
 
             get do
-              co = CustomOption.find(params[:id])
+              mapping = legacy_custom_option(params[:id])
 
-              authorize_custom_option_visibility(co)
+              authorize_custom_option_visibility(mapping)
 
-              CustomOptionRepresenter.new(co, current_user:)
+              header "Deprecation", "true"
+              header "Link", "<#{api_v3_paths.custom_field_item(mapping.hierarchical_item_id)}>; rel=\"successor-version\""
+
+              { _type: "CustomOption", id: mapping.custom_option_id, value: mapping.hierarchical_item.label }
             end
           end
         end

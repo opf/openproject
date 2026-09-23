@@ -58,7 +58,7 @@ RSpec.describe "Custom fields reporting", :js do
   end
 
   def custom_value_for(cf, str)
-    cf.custom_options.find { |co| co.value == str }.try(:id)
+    cf.possible_values.find { |item| item.label == str }.try(:id)
   end
 
   current_user { user }

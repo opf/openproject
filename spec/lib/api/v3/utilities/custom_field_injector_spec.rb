@@ -253,7 +253,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like "has basic schema properties" do
         let(:path) { cf_path }
-        let(:type) { "CustomOption" }
+        let(:type) { "CustomField::Hierarchy::Item" }
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
@@ -265,7 +265,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
         it_behaves_like "has basic schema properties" do
           let(:path) { cf_path }
-          let(:type) { "CustomOption" }
+          let(:type) { "CustomField::Hierarchy::Item" }
           let(:name) { custom_field.name }
           let(:required) { true }
           let(:writable) { false }
@@ -277,9 +277,13 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         let(:path) { cf_path }
         let(:hrefs) do
           custom_field.possible_values.map do |value|
-            api_v3_paths.custom_option(value.id)
+            api_v3_paths.custom_field_item(value.id)
           end
         end
+      end
+
+      it "reports that the field does not allow nesting" do
+        expect(JSON.parse(subject).dig(cf_path, "options", "allowsNesting")).to be(false)
       end
     end
 
@@ -544,48 +548,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context "for list custom field" do
-      let(:value) { build_stubbed(:custom_option) }
-      let(:typed_value) { value.value }
-      let(:raw_value) { value.id.to_s }
-      let(:field_format) { "list" }
-
-      it_behaves_like "has a titled link" do
-        let(:link) { cf_path }
-        let(:href) { api_v3_paths.custom_option(value.id) }
-        let(:title) { value.value }
-      end
-
-      context "when value is nil" do
-        let(:value) { nil }
-        let(:raw_value) { "" }
-        let(:typed_value) { "" }
-
-        it_behaves_like "has an empty link" do
-          let(:link) { cf_path }
-        end
-      end
-
-      context "when value is some invalid string" do
-        let(:value) { "some invalid string" }
-        let(:raw_value) { "some invalid string" }
-        let(:typed_value) { "some invalid string not found" }
-
-        it "has an empty href" do
-          expect(subject)
-            .to be_json_eql(nil.to_json)
-            .at_path("_links/#{cf_path}/href")
-        end
-
-        it "has the invalid value as title" do
-          expect(subject)
-            .to be_json_eql(typed_value.to_json)
-            .at_path("_links/#{cf_path}/title")
-        end
-      end
-    end
-
-    %w[hierarchy weighted_item_list].each do |format|
+    %w[list hierarchy weighted_item_list].each do |format|
       context "for #{format} custom field" do
         let(:value) { build_stubbed(:hierarchy_item) }
         let(:raw_value) { value.id.to_s }

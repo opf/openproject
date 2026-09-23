@@ -45,7 +45,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     create(:project,
            custom_field_values: {
              text_custom_field.id => "source text",
-             list_custom_field.id => list_custom_field.custom_options.last.id
+             list_custom_field.id => list_custom_field.possible_values.last.id
            })
   end
   let(:permissions) { %i(copy_projects view_project view_work_packages view_project_attributes) }
@@ -84,7 +84,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
             .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
     expect(response.body)
-      .to be_json_eql(list_custom_field.custom_options.last.value.to_json)
+      .to be_json_eql(list_custom_field.possible_values.last.label.to_json)
             .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
   end
 
@@ -127,7 +127,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         statusExplanation: { raw: "A magic dwells in each beginning." },
         _links: {
           list_custom_field.attribute_name(:camel_case) => {
-            href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+            href: api_v3_paths.custom_field_item(list_custom_field.possible_values.first.id)
           },
           status: {
             href: api_v3_paths.project_status("on_track")
@@ -158,7 +158,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
               .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
       expect(response.body)
-        .to be_json_eql(list_custom_field.custom_options.first.value.to_json)
+        .to be_json_eql(list_custom_field.possible_values.first.label.to_json)
               .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
 
       expect(response.body)

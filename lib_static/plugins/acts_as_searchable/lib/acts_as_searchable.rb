@@ -190,13 +190,14 @@ module Redmine
           def build_custom_field_condition(custom_field_ids)
             CustomValue.select("1")
               .joins(<<~SQL.squish)
-                LEFT JOIN custom_options
-                ON custom_options.custom_field_id = custom_values.custom_field_id
-                AND custom_options.id::VARCHAR = custom_values.value
+                LEFT JOIN (hierarchical_items list_items
+                           INNER JOIN hierarchical_items list_roots ON list_roots.id = list_items.parent_id)
+                ON list_roots.custom_field_id = custom_values.custom_field_id
+                AND list_items.id::VARCHAR = custom_values.value
               SQL
               .where(customized_type: name, custom_field_id: custom_field_ids)
               .where("customized_id=#{table_name}.id")
-              .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
+              .where("(custom_values.value ILIKE ?) OR (list_items.label ILIKE ?)")
           end
 
           def add_project_custom_field_enabled_condition(scope)

@@ -47,8 +47,8 @@ RSpec.describe WorkPackage do
 
   let(:custom_values) do
     custom_field
-      .custom_options
-      .where(value: ["ham", "onions", "pineapple"])
+      .possible_values
+      .where(label: ["ham", "onions", "pineapple"])
       .pluck(:id)
       .map(&:to_s)
   end
@@ -68,7 +68,7 @@ RSpec.describe WorkPackage do
 
   it "returns the properly typed values" do
     expect(values.map(&:value)).to eq(custom_values)
-    expect(typed_values).to eq(%w(ham onions pineapple))
+    expect(typed_values.map(&:to_s)).to eq(%w(ham onions pineapple))
   end
 
   context "when value not present" do
@@ -99,7 +99,7 @@ RSpec.describe WorkPackage do
         work_package.custom_field_values = { custom_field.id => ids }
         work_package.save
 
-        expect(work_package.send(custom_field.attribute_getter))
+        expect(work_package.send(custom_field.attribute_getter).map { |v| v&.to_s })
           .to eql values
       end
     end
@@ -121,7 +121,7 @@ RSpec.describe WorkPackage do
     context "when adding values" do
       it_behaves_like "custom field values updates" do
         let(:ids) do
-          CustomOption.where(value: ["ham", "onions", "pineapple", "mushrooms"]).pluck(:id).map(&:to_s)
+          custom_field.possible_values.where(label: ["ham", "onions", "pineapple", "mushrooms"]).pluck(:id).map(&:to_s)
         end
         let(:values) { ["ham", "onions", "pineapple", "mushrooms"] }
       end
@@ -132,7 +132,7 @@ RSpec.describe WorkPackage do
 
       it_behaves_like "custom field values updates" do
         let(:ids) do
-          CustomOption.where(value: ["ham", "mushrooms"]).pluck(:id).map(&:to_s)
+          custom_field.possible_values.where(label: ["ham", "mushrooms"]).pluck(:id).map(&:to_s)
         end
         let(:values) { ["ham", "mushrooms"] }
       end

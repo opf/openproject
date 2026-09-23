@@ -207,7 +207,7 @@ module ResourceManagement
 
       def developer_filter
         custom_field = UserCustomField.for_semantic_key(:job_title)
-        option = custom_field&.custom_options&.find_by(value: "Software Developer")
+        option = custom_field&.possible_values&.find_by(label: "Software Developer")
         return unless option
 
         query = UserQuery.new

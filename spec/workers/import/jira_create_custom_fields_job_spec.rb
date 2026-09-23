@@ -123,7 +123,7 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
     it "creates the list options from the context group" do
       create_custom_fields
 
-      expect(WorkPackageCustomField.find_by!(name: "CF List").custom_options.pluck(:value))
+      expect(WorkPackageCustomField.find_by!(name: "CF List").possible_values.pluck(:label))
         .to eq(%w[Cat Mouse])
     end
 
@@ -168,7 +168,7 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
 
       expect(WorkPackageCustomField.pluck(:name, :field_format))
         .to contain_exactly(["CF List", "list"], ["CF String", "string"])
-      expect(WorkPackageCustomField.find_by!(name: "CF List").custom_options.pluck(:value)).to eq(%w[Cat Mouse])
+      expect(WorkPackageCustomField.find_by!(name: "CF List").possible_values.pluck(:label)).to eq(%w[Cat Mouse])
     end
 
     # A field carrying neither options nor strings is stored used with empty buckets; read as

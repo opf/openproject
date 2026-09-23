@@ -84,9 +84,9 @@ module Exports::PDF::Components::WpTable
   # b) query.results.all_group_sums returns a hash with the group as key - not the value, e.g.
   # {
   # { []: …,
-  #   [#<CustomOption … value: "Foo">]: …,
-  #   [#<CustomOption … value: "Bar">]: …,
-  #   [#<CustomOption … value: "Bar">, #<CustomOption value: "Foo"">] …,
+  #   [#<CustomField::Hierarchy::Item … label: "Foo">]: …,
+  #   [#<CustomField::Hierarchy::Item … label: "Bar">]: …,
+  #   [#<CustomField::Hierarchy::Item … label: "Bar">, #<CustomField::Hierarchy::Item label: "Foo"">] …,
   # }
   #
   # c) for hierarchy custom fields the same call keys by an array of items, even for single value ones, e.g.
@@ -125,9 +125,9 @@ module Exports::PDF::Components::WpTable
   def transform_list_custom_field_keys(custom_field, groups)
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        key.map { |option| option&.value }.presence
+        key.map { |item| item&.label }.presence
       else
-        key&.value
+        key&.label
       end
     end
   end

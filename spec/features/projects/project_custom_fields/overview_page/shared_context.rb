@@ -219,7 +219,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
       project_custom_field_section: section_for_select_fields,
       possible_values: ["Option 1", "Option 2", "Option 3"]
     ) do |field|
-      create(:custom_value, customized: project, custom_field: field, value: field.custom_options.first)
+      create(:custom_value, customized: project, custom_field: field, value: field.possible_values.first)
     end
   end
 
@@ -254,8 +254,8 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
       possible_values: ["Option 1", "Option 2", "Option 3"],
       multi_value: true
     ) do |field|
-      create(:custom_value, customized: project, custom_field: field, value: field.custom_options.first.id)
-      create(:custom_value, customized: project, custom_field: field, value: field.custom_options.second.id)
+      create(:custom_value, customized: project, custom_field: field, value: field.possible_values.first.id)
+      create(:custom_value, customized: project, custom_field: field, value: field.possible_values.second.id)
     end
   end
 

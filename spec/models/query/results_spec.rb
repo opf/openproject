@@ -185,10 +185,10 @@ RSpec.describe Query::Results do
                types: [work_package1.type, work_package2.type])
       end
       let(:first_value) do
-        custom_field.custom_options.first
+        custom_field.possible_values.first
       end
       let(:last_value) do
-        custom_field.custom_options.last
+        custom_field.possible_values.last
       end
       let(:group_by) { custom_field.column_name }
 

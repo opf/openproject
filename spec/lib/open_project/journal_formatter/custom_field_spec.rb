@@ -237,75 +237,35 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
   end
 
   context "for a multi list custom field" do
-    let(:custom_field) { build_stubbed(:list_wp_custom_field, multi_value: true) }
-
-    let(:old_custom_option_names) { [[1, "cf 1"], [2, "cf 2"]] }
-    let(:new_custom_option_names) { [[3, "cf 3"], [4, "cf 4"]] }
-
-    before do
-      cf_options = instance_double(ActiveRecord::Associations::CollectionProxy)
-      old_options = instance_double(ActiveRecord::AssociationRelation)
-      new_options = instance_double(ActiveRecord::AssociationRelation)
-
-      allow(custom_field)
-        .to receive(:custom_options)
-        .and_return(cf_options)
-
-      allow(cf_options)
-        .to receive(:where)
-        .with(id: [1, 2])
-        .and_return(old_options)
-
-      allow(cf_options)
-        .to receive(:where)
-        .with(id: [3, 4])
-        .and_return(new_options)
-
-      allow(old_options)
-        .to receive(:order)
-        .with(:position)
-        .and_return(old_options)
-
-      allow(new_options)
-        .to receive(:order)
-        .with(:position)
-        .and_return(new_options)
-
-      allow(old_options)
-        .to receive(:pluck)
-        .with(:id, :value)
-        .and_return(old_custom_option_names)
-
-      allow(new_options)
-        .to receive(:pluck)
-        .with(:id, :value)
-        .and_return(new_custom_option_names)
-    end
+    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, possible_values: %w[cf1 cf2 cf3 cf4]) }
+    let(:cf1) { custom_field.possible_values.find_by(label: "cf1") }
+    let(:cf2) { custom_field.possible_values.find_by(label: "cf2") }
+    let(:cf3) { custom_field.possible_values.find_by(label: "cf3") }
+    let(:cf4) { custom_field.possible_values.find_by(label: "cf4") }
 
     describe "with both values being a comma separated list of ids" do
-      let(:values) { %w[1,2 3,4] }
+      let(:values) { ["#{cf1.id},#{cf2.id}", "#{cf3.id},#{cf4.id}"] }
 
       let(:expected) do
         I18n.t(:text_journal_changed_plain,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: "",
-               old: "<i>cf 1, cf 2</i>",
-               new: "<i>cf 3, cf 4</i>")
+               old: "<i>cf1, cf2</i>",
+               new: "<i>cf3, cf4</i>")
       end
 
       it { expect(rendered).to eq(expected) }
     end
 
     describe "with both values being a comma separated list of ids, and second being ids that no longer exist" do
-      let(:values) { %w[1,2 3,4] }
-      let(:new_custom_option_names) { [[4, "cf 4"]] }
+      let(:values) { ["#{cf1.id},#{cf2.id}", "999999999,#{cf4.id}"] }
 
       let(:expected) do
         I18n.t(:text_journal_changed_plain,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: "",
-               old: "<i>cf 1, cf 2</i>",
-               new: "<i>(deleted option), cf 4</i>")
+               old: "<i>cf1, cf2</i>",
+               new: "<i>(deleted item), cf4</i>")
       end
 
       it { expect(rendered).to eq(expected) }

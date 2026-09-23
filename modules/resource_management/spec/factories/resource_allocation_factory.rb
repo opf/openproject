@@ -65,8 +65,8 @@ FactoryBot.define do
         generic_filters do
           job_title = job_title_custom_field
           language = spoken_language_custom_field
-          developer_option = job_title.custom_options.find_by(value: "Developer")
-          language_options = language.custom_options.where(value: %w[German English])
+          developer_option = job_title.possible_values.find_by(label: "Developer")
+          language_options = language.possible_values.where(label: %w[German English])
 
           query = UserQuery.new
           query.where(job_title.column_name, "=", [developer_option.id.to_s])

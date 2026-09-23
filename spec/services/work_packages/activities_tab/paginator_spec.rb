@@ -677,9 +677,9 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
                  multi_value: true,
                  possible_values: ["Option 1", "Option 2", "Option 3"])
         end
-        let!(:option1) { multi_select_cf.custom_options.find_by(value: "Option 1") }
-        let!(:option2) { multi_select_cf.custom_options.find_by(value: "Option 2") }
-        let!(:option3) { multi_select_cf.custom_options.find_by(value: "Option 3") }
+        let!(:option1) { multi_select_cf.possible_values.find_by(label: "Option 1") }
+        let!(:option2) { multi_select_cf.possible_values.find_by(label: "Option 2") }
+        let!(:option3) { multi_select_cf.possible_values.find_by(label: "Option 3") }
 
         let!(:other_cf) { create(:work_package_custom_field, field_format: "string") }
 

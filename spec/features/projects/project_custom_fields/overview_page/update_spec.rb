@@ -459,9 +459,9 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:custom_field) { list_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        let(:first_option) { custom_field.custom_options.first.value }
-        let(:unused_option) { custom_field.custom_options.second.value }
-        let(:unused_selection) { custom_field.custom_options.second }
+        let(:first_option) { custom_field.possible_values.first.label }
+        let(:unused_option) { custom_field.possible_values.second.label }
+        let(:unused_selection) { custom_field.possible_values.second }
 
         it_behaves_like "a select field"
       end
@@ -663,8 +663,8 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:custom_field) { multi_list_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        let(:first_option) { custom_field.custom_options.first.value }
-        let(:second_option) { custom_field.custom_options.second.value }
+        let(:first_option) { custom_field.possible_values.first.label }
+        let(:second_option) { custom_field.possible_values.second.label }
 
         it_behaves_like "an autocomplete multi select field"
       end

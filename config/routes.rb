@@ -353,14 +353,8 @@ Rails.application.routes.draw do
 
   resources :custom_fields, except: :show do
     member do
-      delete "options/:option_id", to: "custom_fields#delete_option", as: :delete_option_of
-
-      post :reorder_alphabetical
-
       get :attribute_help_text
       put :update_attribute_help_text
-
-      get :list_items
     end
 
     scope module: :admin do
@@ -858,8 +852,6 @@ Rails.application.routes.draw do
       end
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
           put :move
           put :drop
 
@@ -874,8 +866,6 @@ Rails.application.routes.draw do
 
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
         end
 
         resources :items, controller: "/admin/settings/project_custom_fields/hierarchy/items" do
@@ -911,15 +901,11 @@ Rails.application.routes.draw do
         end
 
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
           put :move
           put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
         end
 
         resources :items, controller: "/admin/settings/user_custom_fields/hierarchy/items" do

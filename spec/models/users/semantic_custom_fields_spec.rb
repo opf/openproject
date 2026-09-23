@@ -77,9 +77,8 @@ RSpec.describe Users::SemanticCustomFields do
       end
 
       it "joins the values" do
-        field.custom_options.each do |option|
-          member.custom_values.create!(custom_field: field, value: option.id)
-        end
+        member.custom_field_values = { field.id => field.possible_values.map(&:id) }
+        member.save!
 
         expect(member.job_title).to eq("Backend, Frontend")
       end

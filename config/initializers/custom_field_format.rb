@@ -57,7 +57,7 @@ OpenProject::CustomFieldFormat.tap do |formats|
                    label: :label_list,
                    order: 6,
                    multi_value_possible: true,
-                   formatter: "CustomValue::ListStrategy")
+                   formatter: "CustomValue::HierarchyStrategy")
   formats.register("date",
                    label: :label_date,
                    order: 7,

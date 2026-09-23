@@ -47,8 +47,8 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
 
   def self.field
     # There is a special treatment for how list custom values are retrieved as those
-    # are not taken directly from the custom_values but from the custom_options table.
-    # But the value still has to be the id of the option which is later on mapped to the
+    # are not taken directly from the custom_values but from the hierarchical_items table.
+    # But the value still has to be the id of the item which is later on mapped to the
     # human readable value.
     # Mapping to the human readable value is done for all custom values (e.g. users, versions)
     # following the same pattern of code, so simply making the exception here to use the value
@@ -69,7 +69,7 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
       # Treat list CFs values as string options again, since
       # aggregation of groups are made by the values as well
       # and otherwise, it won't work as a filter.
-      custom_field.possible_values.map { |co| [co.value, co.value] }
+      custom_field.possible_values.map { |item| [item.label, item.label] }
     else
       custom_field.possible_values
     end

@@ -217,7 +217,7 @@ RSpec.shared_examples_for "project contract" do
 
       it "is the list of custom field values" do
         expect(subject.assignable_custom_field_values(custom_field))
-          .to eql custom_field.possible_values
+          .to eq custom_field.possible_values
       end
     end
 

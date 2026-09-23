@@ -40,7 +40,7 @@ module Queries::Filters::Shared
         when "version"
           ::Version.where(id: values)
         when "list"
-          custom_field.custom_options.where(id: values)
+          custom_field.possible_values.where(id: values)
         else
           super
         end

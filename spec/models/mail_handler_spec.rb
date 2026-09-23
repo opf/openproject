@@ -1503,7 +1503,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           end
 
           it "sets the value" do
-            option = CustomOption.where(custom_field_id: custom_field.id, value: "B").first # as given in .eml fixture
+            option = custom_field.possible_values.find_by(label: "B") # as given in .eml fixture
             value = work_package.custom_values.where(custom_field_id: custom_field.id).pick(:value)
 
             expect(value).to eq option.id.to_s

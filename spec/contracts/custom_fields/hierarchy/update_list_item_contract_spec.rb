@@ -122,7 +122,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
 
     context "when the custom field is a list" do
       let(:custom_field) { create(:list_wp_custom_field) }
-      let(:root) { CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(custom_field).value! }
+      let(:root) { custom_field.hierarchy_root }
       let(:child) do
         CustomFields::Hierarchy::HierarchicalItemService
           .new

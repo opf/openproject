@@ -41,11 +41,9 @@ module Admin::Settings
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit project_mappings new_link link unlink update destroy delete_option reorder_alphabetical
+                  only: %i(show edit project_mappings new_link link unlink update destroy
                            move drop role_assignment update_role_assignment role_assignment_preview_dialog
-                           attribute_help_text update_attribute_help_text list_items)
-    before_action :prepare_custom_option_position, only: %i(update create)
-    before_action :find_custom_option, only: :delete_option
+                           attribute_help_text update_attribute_help_text)
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
     before_action :find_custom_field_projects_to_link, only: :link
     before_action :find_unlink_project_custom_field_mapping, only: :unlink
@@ -73,8 +71,6 @@ module Admin::Settings
     end
 
     def edit; end
-
-    def list_items; end
 
     def project_mappings; end
 

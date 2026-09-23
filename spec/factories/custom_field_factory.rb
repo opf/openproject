@@ -130,7 +130,7 @@ FactoryBot.define do
       multi_value { false }
       possible_values { %w[A B C D E F G] }
 
-      # update custom options default value from the default_option transient
+      # update items default value from the default_option transient
       # field for non-multiselect field
       after(:create) do |custom_field, evaluator|
         default_option = evaluator.default_option
@@ -146,29 +146,29 @@ FactoryBot.define do
                 "Please use a single value instead."
         end
 
-        default_custom_option = custom_field.possible_values.find_by(value: default_option)
-        if default_custom_option.nil?
+        default_item = custom_field.possible_values.find_by(label: default_option)
+        if default_item.nil?
           raise "Default option #{default_option.inspect} not found. " \
-                "Possible options are #{custom_field.possible_values.pluck(:value).inspect}"
+                "Possible options are #{custom_field.possible_values.pluck(:label).inspect}"
         end
 
-        default_custom_option.update!(default_value: true)
+        default_item.update!(default_value: true)
       end
 
-      # update custom options default value from the default_options transient
+      # update items default value from the default_options transient
       # field for multiselect field
       after(:create) do |custom_field, evaluator|
         default_options = Array(evaluator.default_options)
         next if default_options.blank?
 
-        default_custom_options = custom_field.possible_values.where(value: default_options)
-        if default_custom_options.size != default_options.size
-          not_found_options = default_options - default_custom_options.pluck(:value)
+        default_items = custom_field.possible_values.where(label: default_options)
+        if default_items.size != default_options.size
+          not_found_options = default_options - default_items.pluck(:label)
           raise "Default options #{not_found_options.inspect} not found. " \
-                "Possible options are #{custom_field.possible_values.pluck(:value).inspect}"
+                "Possible options are #{custom_field.possible_values.pluck(:label).inspect}"
         end
 
-        default_custom_options.update_all(default_value: true)
+        default_items.update_all(default_value: true)
       end
     end
 

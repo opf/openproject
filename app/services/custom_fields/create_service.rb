@@ -60,10 +60,6 @@ module CustomFields
         enqueue_recalculate_values(cf)
       end
 
-      if cf.hierarchical_list?
-        CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(cf)
-      end
-
       call
     end
 

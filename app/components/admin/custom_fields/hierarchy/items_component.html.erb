@@ -104,8 +104,10 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
-      content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "custom-fields-hierarchy-page--sidebar") do
-        render Admin::CustomFields::Hierarchy::TreeViewComponent.new(custom_field: root.custom_field, active_item: model)
+      unless root.custom_field.list?
+        content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "custom-fields-hierarchy-page--sidebar") do
+          render Admin::CustomFields::Hierarchy::TreeViewComponent.new(custom_field: root.custom_field, active_item: model)
+        end
       end
     end
   end

@@ -45,7 +45,7 @@ RSpec.describe Queries::FilterSummary do
 
   describe "#phrases / #to_s" do
     it "resolves a custom-field list filter's option ids to their labels" do
-      option = job_title.custom_options.find_by(value: "Developer")
+      option = job_title.possible_values.find_by(label: "Developer")
       query = query_with { |q| q.where(job_title.column_name, "=", [option.id.to_s]) }
 
       summary = described_class.new(query.filters)
@@ -56,8 +56,8 @@ RSpec.describe Queries::FilterSummary do
     end
 
     it "joins multiple values and multiple filters" do
-      developer = job_title.custom_options.find_by(value: "Developer")
-      langs = language.custom_options.where(value: %w[German English])
+      developer = job_title.possible_values.find_by(label: "Developer")
+      langs = language.possible_values.where(label: %w[German English])
       query = query_with do |q|
         q.where(job_title.column_name, "=", [developer.id.to_s])
         q.where(language.column_name, "=", langs.map { |o| o.id.to_s })

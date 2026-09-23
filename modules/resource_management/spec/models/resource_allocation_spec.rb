@@ -392,8 +392,8 @@ RSpec.describe ResourceAllocation do
         job_title = UserCustomField.find_by(name: "Job title")
         language = UserCustomField.find_by(name: "Spoken language")
         candidate.custom_field_values = {
-          job_title.id => job_title.custom_options.find_by(value: "Developer").id,
-          language.id => [language.custom_options.find_by(value: "German").id]
+          job_title.id => job_title.possible_values.find_by(label: "Developer").id,
+          language.id => [language.possible_values.find_by(label: "German").id]
         }
         candidate.save!
       end
@@ -700,12 +700,12 @@ RSpec.describe ResourceAllocation do
       language_filter = filters.find { |f| f.name.to_s == language.column_name }
 
       expect(job_title_filter.operator).to eq("=")
-      expect(job_title_filter.values).to eq(job_title.custom_options.where(value: "Developer").pluck(:id).map(&:to_s))
+      expect(job_title_filter.values).to eq(job_title.possible_values.where(label: "Developer").pluck(:id).map(&:to_s))
 
       # "is (OR)" — matches users speaking German or English.
       expect(language_filter.operator).to eq("=")
       expect(language_filter.values)
-        .to match_array(language.custom_options.where(value: %w[German English]).pluck(:id).map(&:to_s))
+        .to match_array(language.possible_values.where(label: %w[German English]).pluck(:id).map(&:to_s))
     end
   end
 
@@ -720,7 +720,7 @@ RSpec.describe ResourceAllocation do
     shared_let(:language) { UserCustomField.find_by(name: "Spoken language") }
 
     def option_id(custom_field, value)
-      custom_field.custom_options.find_by(value:).id
+      custom_field.possible_values.find_by(label: value).id
     end
 
     def user_with(job_title_value, *languages)

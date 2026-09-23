@@ -138,7 +138,7 @@ RSpec.describe API::V3::Versions::VersionRepresenter, "rendering" do
 
       it "has property for the custom field" do
         expect(subject)
-          .to be_json_eql(api_v3_paths.custom_option(custom_value.value).to_json)
+          .to be_json_eql(api_v3_paths.custom_field_item(custom_value.value).to_json)
           .at_path("_links/customField#{custom_field.id}/href")
       end
     end

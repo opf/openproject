@@ -182,7 +182,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
   context "for list format" do
     let(:possible_values) { %w[100 3 20] }
-    let(:id_by_value) { custom_field.possible_values.to_h { [it.value, it.id] } }
+    let(:id_by_value) { custom_field.possible_values.to_h { [it.label, it.id] } }
 
     context "if not allowing multi select" do
       include_examples "it sorts" do
@@ -348,8 +348,8 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
   context "for hierarchy format", with_ee: [:custom_field_hierarchies] do
     include_examples "it sorts" do
-      let(:custom_field) { create(:hierarchy_wp_custom_field, hierarchy_root: nil) }
-      let(:root) { service.generate_root(custom_field).value! }
+      let(:custom_field) { create(:hierarchy_wp_custom_field) }
+      let(:root) { custom_field.hierarchy_root }
       let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
       let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
 

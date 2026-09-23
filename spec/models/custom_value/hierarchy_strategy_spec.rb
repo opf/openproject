@@ -147,8 +147,8 @@ RSpec.describe CustomValue::HierarchyStrategy do
     context "when value is blank" do
       let(:value) { "" }
 
-      it "is blank and does not look for the hierarchy item" do
-        expect(subject).to eql " not found"
+      it "is empty and does not look for the hierarchy item" do
+        expect(subject).to eql ""
 
         expect(CustomField::Hierarchy::Item).not_to have_received(:find_by)
       end
@@ -157,8 +157,8 @@ RSpec.describe CustomValue::HierarchyStrategy do
     context "when value is nil" do
       let(:value) { nil }
 
-      it "is blank and does not look for the hierarchy item" do
-        expect(subject).to eql " not found"
+      it "is empty and does not look for the hierarchy item" do
+        expect(subject).to eql ""
 
         expect(CustomField::Hierarchy::Item).not_to have_received(:find_by)
       end

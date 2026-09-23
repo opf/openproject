@@ -781,8 +781,8 @@ RSpec.describe WorkPackage do
                  project:,
                  type:,
                  custom_field_1: true,
-                 custom_field_2: [list_cf.custom_options.find_by(value: "A"),
-                                  list_cf.custom_options.find_by(value: "D")],
+                 custom_field_2: [list_cf.possible_values.find_by(label: "A"),
+                                  list_cf.possible_values.find_by(label: "D")],
                  journals: {
                    5.days.ago => { user: },
                    4.days.ago => { user:, notes: "First comment" }

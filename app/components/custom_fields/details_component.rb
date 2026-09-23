@@ -105,9 +105,7 @@ module CustomFields
     end
 
     def custom_field_has_no_items?
-      if custom_field.list?
-        custom_field.custom_options.empty?
-      elsif custom_field.hierarchical_list?
+      if custom_field.hierarchical_list?
         custom_field.hierarchy_root.children.empty?
       else
         false

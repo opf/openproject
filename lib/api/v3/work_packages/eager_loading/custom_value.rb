@@ -99,7 +99,7 @@ module API
           end
 
           def list_values(id)
-            @list_values ||= eager_load_values "list", CustomOption
+            @list_values ||= eager_load_values "list", CustomField::Hierarchy::Item
 
             @list_values[id.to_i]
           end

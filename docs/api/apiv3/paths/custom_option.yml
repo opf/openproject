@@ -43,6 +43,10 @@ get:
       headers: {}
   tags:
   - Custom Options
-  description: ''
+  description: |-
+    This endpoint is deprecated and will be removed in a future release. Custom option ids have been
+    replaced by custom field item ids; use `/api/v3/custom_field_items/{id}` instead. The response
+    carries a `Deprecation` header and a `Link` header pointing at that successor.
   operationId: View_Custom_Option
   summary: View Custom Option
+  deprecated: true

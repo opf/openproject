@@ -94,7 +94,7 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
 
   def custom_values_for(*values)
     values.map do |str|
-      custom_field.custom_options.find { |co| co.value == str }.try(:id)
+      custom_field.possible_values.find { |item| item.label == str }.try(:id)
     end
   end
 

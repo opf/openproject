@@ -46,8 +46,8 @@ RSpec.describe ResourceAllocations::AssignService, type: :model do
       job_title = UserCustomField.find_by(name: "Job title")
       language = UserCustomField.find_by(name: "Spoken language")
       user.custom_field_values = {
-        job_title.id => job_title.custom_options.find_by(value: "Developer").id,
-        language.id => [language.custom_options.find_by(value: "German").id]
+        job_title.id => job_title.possible_values.find_by(label: "Developer").id,
+        language.id => [language.possible_values.find_by(label: "German").id]
       }
       user.save!
     end

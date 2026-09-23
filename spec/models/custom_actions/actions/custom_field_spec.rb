@@ -32,16 +32,16 @@ require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Actions::CustomField do
   let(:scope) { instance_double(ActiveRecord::Relation) }
+  let(:list_items) { [build_stubbed(:hierarchy_item, label: "A"), build_stubbed(:hierarchy_item, label: "B")] }
   let(:list_custom_field) do
-    build_stubbed(:list_wp_custom_field,
-                  custom_options: [build_stubbed(:custom_option, value: "A"),
-                                   build_stubbed(:custom_option, value: "B")])
+    build_stubbed(:list_wp_custom_field).tap do |cf|
+      allow(cf).to receive(:possible_values).and_return(list_items)
+    end
   end
   let(:list_multi_custom_field) do
-    build_stubbed(:list_wp_custom_field,
-                  custom_options: [build_stubbed(:custom_option, value: "A"),
-                                   build_stubbed(:custom_option, value: "B")],
-                  multi_value: true)
+    build_stubbed(:list_wp_custom_field, multi_value: true).tap do |cf|
+      allow(cf).to receive(:possible_values).and_return(list_items)
+    end
   end
   let(:version_custom_field) do
     build_stubbed(:version_wp_custom_field)
@@ -371,8 +371,8 @@ RSpec.describe CustomActions::Actions::CustomField do
     context "for a list custom field" do
       let(:expected) do
         custom_field
-          .custom_options
-          .map { |o| { value: o.id, label: o.value } }
+          .possible_values
+          .map { |o| { value: o.id, label: o.label } }
       end
 
       context "for a non required field" do
@@ -502,8 +502,8 @@ RSpec.describe CustomActions::Actions::CustomField do
       it_behaves_like "associated custom action validations" do
         let(:allowed_values) do
           custom_field
-            .custom_options
-            .map { |o| { value: o.id, label: o.value } }
+            .possible_values
+            .map { |o| { value: o.id, label: o.label } }
         end
       end
     end
@@ -514,8 +514,8 @@ RSpec.describe CustomActions::Actions::CustomField do
       it_behaves_like "associated custom action validations" do
         let(:allowed_values) do
           custom_field
-            .custom_options
-            .map { |o| { value: o.id, label: o.value } }
+            .possible_values
+            .map { |o| { value: o.id, label: o.label } }
         end
       end
     end

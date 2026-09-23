@@ -35,10 +35,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   context "with ListItemContract" do
     let!(:custom_field) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        service.generate_root(cf).value!
-        cf.reload
-      end
+      create(:custom_field, field_format: "hierarchy")
     end
     let!(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
 
@@ -52,9 +49,12 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       let!(:mara) { nil }
 
       context "with valid hierarchy custom field" do
-        let!(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+        let!(:custom_field) { create(:custom_field, field_format: "hierarchy") }
 
         it "creates a root item successfully" do
+          custom_field.hierarchy_root.destroy
+          custom_field.reload
+
           expect(service.generate_root(custom_field)).to be_success
         end
       end
@@ -70,9 +70,12 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       end
 
       context "with persistence of hierarchy root fails" do
-        let!(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+        let!(:custom_field) { create(:custom_field, field_format: "hierarchy") }
 
         it "fails to create a root item" do
+          custom_field.hierarchy_root.destroy
+          custom_field.reload
+
           allow(CustomField::Hierarchy::Item)
             .to receive(:create)
                   .and_return(instance_double(CustomField::Hierarchy::Item, new_record?: true, errors: "some errors"))
@@ -196,10 +199,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           end
 
           let!(:custom_field) do
-            create(:hierarchy_wp_custom_field, projects: [project], types: [wp_type], hierarchy_root: nil).tap do |cf|
-              service.generate_root(cf).value!
-              cf.reload
-            end
+            create(:hierarchy_wp_custom_field, projects: [project], types: [wp_type])
           end
           let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia", short: "LO").value! }
 
@@ -432,10 +432,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   describe "#set_default" do
     let(:custom_field) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        service.generate_root(cf).value!
-        cf.reload
-      end
+      create(:custom_field, field_format: "hierarchy")
     end
     let(:root) { custom_field.hierarchy_root }
     let(:described_class_contract) { CustomFields::Hierarchy::InsertListItemContract }
@@ -462,10 +459,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
     context "when the field is multi value" do
       let(:custom_field) do
-        create(:custom_field, field_format: "hierarchy", hierarchy_root: nil, multi_value: true).tap do |cf|
-          service.generate_root(cf).value!
-          cf.reload
-        end
+        create(:custom_field, field_format: "hierarchy", multi_value: true)
       end
 
       it "keeps every marked item" do
@@ -480,10 +474,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   describe "#clear_default" do
     let(:custom_field) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        service.generate_root(cf).value!
-        cf.reload
-      end
+      create(:custom_field, field_format: "hierarchy")
     end
     let!(:item) do
       service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
@@ -501,10 +492,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   describe "#reorder_children_alphabetically" do
     let(:custom_field) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        service.generate_root(cf).value!
-        cf.reload
-      end
+      create(:custom_field, field_format: "hierarchy")
     end
     let(:root) { custom_field.hierarchy_root }
     let(:contract) { CustomFields::Hierarchy::InsertListItemContract }

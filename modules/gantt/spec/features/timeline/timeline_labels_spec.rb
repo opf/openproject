@@ -85,7 +85,7 @@ RSpec.describe "Work package timeline labels",
   end
 
   def custom_value_for(str)
-    custom_field.custom_options.find { |co| co.value == str }.try(:id)
+    custom_field.possible_values.find { |item| item.label == str }.try(:id)
   end
 
   before do

@@ -56,7 +56,7 @@ RSpec.describe "multi select custom values", :js do
   end
 
   def custom_value_for(str)
-    custom_field.custom_options.find { |co| co.value == str }.try(:id)
+    custom_field.possible_values.find { |item| item.label == str }.try(:id)
   end
 
   def table_edit_field(work_package)

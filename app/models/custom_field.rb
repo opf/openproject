@@ -35,16 +35,6 @@ class CustomField < ApplicationRecord
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
   has_many :custom_values, dependent: :delete_all
-  # WARNING: the inverse_of option is also required in order
-  # for the 'touch: true' option on the custom_field association in CustomOption
-  # to work as desired.
-  # Without it, the after_commit callbacks of acts_as_list will prevent the touch to happen.
-  # https://github.com/rails/rails/issues/26726
-  has_many :custom_options,
-           -> { order(position: :asc) },
-           dependent: :delete_all,
-           inverse_of: "custom_field"
-  accepts_nested_attributes_for :custom_options
 
   has_one :hierarchy_root,
           class_name: "CustomField::Hierarchy::Item",
@@ -96,6 +86,7 @@ class CustomField < ApplicationRecord
 
   before_validation :check_searchability
 
+  after_create :generate_hierarchy_root, if: :hierarchical_list?
   after_destroy :destroy_help_text
 
   def visible?(usr = User.current, **)
@@ -108,18 +99,8 @@ class CustomField < ApplicationRecord
     true
   end
 
-  def default_value # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
-    if list?
-      # Use loaded association data when available to avoid N+1 queries.
-      # .where().pluck() always hits the database, bypassing eager-loaded data.
-      ids = if custom_options.loaded?
-              custom_options.select(&:default_value).map { |o| o.id.to_s }
-            else
-              custom_options.where(default_value: true).pluck(:id).map(&:to_s)
-            end
-
-      multi_value? ? ids : ids.first
-    elsif hierarchical_list?
+  def default_value
+    if hierarchical_list?
       ids = default_hierarchy_item_ids
 
       multi_value? ? ids : ids.first
@@ -201,7 +182,7 @@ class CustomField < ApplicationRecord
     when "version"
       possible_version_values_options(obj, options:)
     when "list"
-      possible_list_values_options
+      possible_values.map { |item| [item.label, item.id.to_s] }
     else
       possible_values
     end
@@ -209,7 +190,7 @@ class CustomField < ApplicationRecord
 
   def value_of(value)
     if list?
-      custom_options.where(value:).pick(:id)
+      possible_values.where(label: value).pick(:id)
     else
       CustomValue.new(custom_field: self, value:).valid? && value
     end
@@ -227,7 +208,7 @@ class CustomField < ApplicationRecord
     when "version"
       possible_versions(obj).pluck(:id).map(&:to_s)
     when "list"
-      custom_options
+      hierarchy_root ? hierarchy_root.children.order(:sort_order) : CustomField::Hierarchy::Item.none
     when "hierarchy", "weighted_item_list"
       custom_field_hierarchy_items
     else
@@ -235,22 +216,24 @@ class CustomField < ApplicationRecord
     end
   end
 
-  # Makes possible_values accept a multiline string
+  # Items need a persisted root, which CreateService only builds after save, so
+  # the values are buffered and flushed by #flush_buffered_possible_values.
   def possible_values=(arg)
-    values = possible_values_from_arg arg
+    @buffered_possible_values = possible_values_from_arg(arg)
+  end
 
-    max_position = custom_options.size
-    values.zip(custom_options).each_with_index do |(value, custom_option), i|
-      if custom_option
-        custom_option.value = value
-      else
-        custom_options.build position: i + 1, value:
-      end
+  def flush_buffered_possible_values
+    values = @buffered_possible_values
+    return if values.nil?
 
-      max_position = i + 1
+    @buffered_possible_values = nil
+    service = CustomFields::Hierarchy::HierarchicalItemService.new
+
+    values.each do |value|
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                          parent: hierarchy_root,
+                          label: value)
     end
-
-    custom_options.where("position > ?", max_position).destroy_all
   end
 
   def custom_field_hierarchy_items
@@ -268,7 +251,7 @@ class CustomField < ApplicationRecord
     return if value.blank?
 
     case field_format
-    when "string", "text", "list", "link"
+    when "string", "text", "link"
       value
     when "date"
       begin
@@ -286,7 +269,7 @@ class CustomField < ApplicationRecord
       Principal.find_by(id: value.to_i)
     when "version"
       Version.find_by(id: value.to_i)
-    when "hierarchy", "weighted_item_list"
+    when "list", "hierarchy", "weighted_item_list"
       CustomField::Hierarchy::Item.find_by(id: value.to_i)
     end
   end
@@ -398,7 +381,7 @@ class CustomField < ApplicationRecord
   def calculated_value? = field_format_calculated_value?
 
   def hierarchical_list?
-    field_format_hierarchy? || field_format_weighted_item_list?
+    list? || field_format_hierarchy? || field_format_weighted_item_list?
   end
 
   def multi_value_possible?
@@ -454,6 +437,21 @@ class CustomField < ApplicationRecord
 
   private
 
+  def generate_hierarchy_root
+    return if hierarchy_root.present?
+
+    result = CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(self)
+    unless result.success?
+      raise "Could not generate a hierarchy root for custom field #{id.inspect}: #{result.failure.inspect}"
+    end
+
+    # Prime the cache directly rather than #reload: the root's foreign key is only assigned
+    # once this record is inserted, and a full reload pulls in unrelated framework hooks
+    # (e.g. ActiveStorage's) that some tests stub away at the class level.
+    association(:hierarchy_root).target = result.value!
+    flush_buffered_possible_values
+  end
+
   def default_hierarchy_item_ids
     return [] if hierarchy_root.nil?
 
@@ -483,15 +481,11 @@ class CustomField < ApplicationRecord
                        .map { |u| [u.name, u.id.to_s] }
   end
 
-  def possible_list_values_options
-    possible_values.map { |option| [option.value, option.id.to_s] }
-  end
-
   def possible_values_from_arg(arg)
     if arg.is_a?(Array)
-      arg.compact.map(&:strip).compact_blank
+      arg.compact.map(&:strip).compact_blank.uniq
     else
-      arg.to_s.split(/[\n\r]+/).map(&:strip).compact_blank
+      arg.to_s.split(/[\n\r]+/).map(&:strip).compact_blank.uniq
     end
   end
 

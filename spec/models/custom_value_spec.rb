@@ -618,11 +618,8 @@ RSpec.describe CustomValue do
     end
 
     context "for a list custom field" do
-      let(:custom_option1) { build_stubbed(:custom_option, value: "value1") }
-      let(:custom_option2) { build_stubbed(:custom_option, value: "value1") }
-      let(:custom_field) do
-        build_stubbed(:custom_field, field_format: "list", custom_options: [custom_option1, custom_option2])
-      end
+      let(:custom_field) { create(:custom_field, field_format: "list", possible_values: %w[value1 value2]) }
+      let(:custom_option1) { custom_field.possible_values.find_by(label: "value1") }
 
       context "with a value from the list" do
         let(:value) { custom_option1.id }

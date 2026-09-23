@@ -92,13 +92,11 @@ module API
             format = filter.custom_field.field_format
 
             case format
-            when "list"
-              "API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter"
             when "bool"
               "API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
             when "user", "version", "float"
               "API::V3::Queries::Schemas::#{format.camelize}FilterDependencyRepresenter"
-            when "hierarchy", "weighted_item_list"
+            when "list", "hierarchy", "weighted_item_list"
               "API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter"
             when "string", "link"
               "API::V3::Queries::Schemas::TextFilterDependencyRepresenter"
