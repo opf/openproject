@@ -102,9 +102,9 @@ ru:
         label_oauth_client_id: OAuth ID клиента
         replace_oauth_client: Заменить приложение XWiki OAuth
       redirect_uri_info_component:
-        description: The redirect URI is generated once the wiki OAuth client is configured.
+        description: URI перенаправления генерируется после настройки клиента OAuth вики.
         label_uri: URI
-        show_redirect_uri: Show redirect URI
+        show_redirect_uri: Показать URI переадресации
       side_panel:
         health_status_component:
           last_check: 'Последняя проверка: %{datetime}'
@@ -126,11 +126,11 @@ ru:
         name_caption: Присвойте своему провайдеру вики название, чтобы пользователи могли различать различные вики-платформы.
         name_placeholder: База знаний XWiki
         new_provider_html: Прочитайте нашу документацию по [настройке интеграции XWiki](docs_url) для получения дополнительной информации.
-        successful_setup: Wiki provider configured successfully!
+        successful_setup: Настройка провайдера вики выполнена успешно!
         oauth:
           openproject_oauth: OpenProject OAuth
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          redirect_uri: URI переадресации
+          redirect_uri_caption: Скопируйте это значение в поле URI переадресации в вашей настройке клиента XWiki OIDC.
         sections:
           general_information: Общая информация
           oauth_configuration: Конфигурация OAuth

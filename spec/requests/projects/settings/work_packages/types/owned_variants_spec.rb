@@ -232,28 +232,11 @@ RSpec.describe "Configuring the variants a project owns",
       expect(response).to have_http_status(:ok)
     end
 
-    it "links to a global source" do
+    it "links the aspect to the type's base variant" do
       post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: global.id }, as: :turbo_stream
+           as: :turbo_stream
 
-      expect(ours.reload.source_for(aspect)).to eq(global)
-    end
-
-    it "links to a sibling the same project owns" do
-      sibling = create(:project_owned_type_variant, type:, project:, variant_name: "Sibling")
-
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: sibling.id }, as: :turbo_stream
-
-      expect(ours.reload.source_for(aspect)).to eq(sibling)
-    end
-
-    # The rule the whole feature turns on, at the endpoint rather than in the picker.
-    it "refuses a source another project owns" do
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: theirs.id }, as: :turbo_stream
-
-      expect(ours.reload.source_for(aspect)).to be_nil
+      expect(ours.reload.source_for(aspect)).to eq(type.default_variant)
     end
 
     it "refuses to copy from a source another project owns" do

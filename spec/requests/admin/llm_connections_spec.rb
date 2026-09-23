@@ -93,17 +93,17 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response.body).not_to include("review the models offered by the server")
       end
 
-      it "points at the LLMs tab once the features are on",
+      it "points at the Models tab once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
         get llm_connection_path
 
         expect(response.body).to include("review the models offered by the server")
-        expect(page).to have_css("a[href='#{llm_models_path}']", text: "LLMs")
+        expect(page).to have_css("a[href='#{llm_models_path}']", text: "Models")
       end
 
-      it "offers the LLMs tab once the features are on",
+      it "offers the Models tab once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
@@ -176,16 +176,26 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
                                                  state: "supported", source: "admin", checked_at: Time.current)
         end
 
-        it "leaves the stored catalogue alone when the host URL changes" do
+        it "replaces the stored catalogue when the host URL changes" do
           elsewhere = "https://elsewhere.example/v1"
           mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
 
           patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
 
           connection.reload
-          expect(connection.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+          expect(connection.available_model_ids).to contain_exactly("llama4-8b")
           expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
-          expect(connection).to be_models_stale
+          expect(connection).not_to be_models_stale
+        end
+
+        it "keeps a model an administrator entered by hand" do
+          elsewhere = "https://elsewhere.example/v1"
+          create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+          mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
+
+          patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
+
+          expect(connection.reload.models.pluck(:external_id)).to contain_exactly("llama4-8b", "hand-typed")
         end
       end
     end
@@ -193,7 +203,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     # The case that matters for OpenProject's own gateway: chat completions are
     # routed, the model list is not.
     context "with a server that exposes no model list" do
-      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 405) }
 
       it "still saves the connection and says models must be added by hand" do
         patch llm_connection_path,
@@ -229,10 +239,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(LlmConnection.count).to eq(0)
       end
 
-      it "renders the typed API key back into the form" do
+      # filter_parameters keeps a submitted key out of the logs and does nothing
+      # for a response body, which a proxy, an APM or a HAR capture also sees.
+      it "keeps the typed API key out of the response and says it must be retyped" do
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-typed" } }
 
-        expect(response.body).to include('value="sk-typed"')
+        expect(response.body).not_to include("sk-typed")
+        expect(response.body).to include("was not saved and is not shown again")
         expect(response.body).not_to include("A key is stored")
       end
 
@@ -244,7 +257,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
                 params: { llm_connection: { base_url:, api_key: "sk-typed" } },
                 headers: { "Accept" => "text/html" }
 
-          expect(response.body).to include('value="sk-typed"')
           expect(response.body).not_to include("llm-connection--delete-api-key")
           expect(page).to have_no_css(remove_api_key, visible: :all)
         end
@@ -260,6 +272,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-wrong" } }
 
         expect(LlmConnection.count).to eq(0)
+      end
+    end
+
+    # The reported case: a host without its version segment answers 404 whatever
+    # the key is, so accepting it saved a connection whose key had been judged by
+    # nothing at all.
+    context "with a URL that has no model list behind it" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+      it "refuses the save and says the key could not be verified either" do
+        patch llm_connection_path,
+              params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
+
+        expect(LlmConnection.where(base_url:)).not_to exist
+        expect(response.body).to include("API key could not be verified")
       end
     end
 
@@ -303,6 +330,37 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response.body).not_to include("A key is stored")
       expect(response.body).not_to include("llm-connection--delete-api-key")
       expect(page).to have_no_css(remove_api_key, visible: :all)
+    end
+
+    # The one action that wipes a credential deserves to name the guard that
+    # stops it rather than to pass on any non-200.
+    it "is refused to a non-admin" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      login_as create(:user)
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
+
+    it "is refused while the feature flag is off", with_flag: { llm_connection: false } do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
+
+    # active_connection returns an unsaved record when nothing is stored, and
+    # writing to that inserted a row that failed its own validations, so the
+    # request 500'd instead of saying there is nothing here.
+    it "answers 404 on an instance with no connection stored" do
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(LlmConnection.count).to eq(0)
     end
   end
 
@@ -357,7 +415,17 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       post disconnect_llm_connection_path
 
+      expect(response).to have_http_status(:forbidden)
       expect(connection.reload.api_key).to eq("sk-test")
+    end
+
+    it "answers 404 on an instance with no connection stored" do
+      connection.destroy!
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(LlmConnection.count).to eq(0)
     end
   end
 end

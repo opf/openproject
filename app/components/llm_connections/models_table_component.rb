@@ -49,8 +49,6 @@ module LlmConnections
 
     attr_reader :connection
 
-    def initial_sort = %i[identifier asc]
-
     def has_footer? = false
 
     # Without this the row's button_links are never rendered.

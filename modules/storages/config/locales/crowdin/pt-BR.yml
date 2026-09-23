@@ -66,7 +66,7 @@ pt-BR:
             host:
               authorization_header_missing: se não totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token Bearer com base na autorização de solicitações de API. Verifique novamente suas configurações de servidor HTTP.
               cannot_be_connected_to: não pôde ser acessado. Verifique se o host está disponível e se o aplicativo de integração do OpenProject está instalado.
-              minimal_nextcloud_version_not_met: não atende aos requisitos mínimos de versão (deve ser Nextcloud %{minimal_version} ou superior, mas %{detected_version} foi detectado)
+              minimal_nextcloud_version_not_met: não atende aos requisitos mínimos de versão (é necessário ter o Nextcloud %{minimal_version} ou superior, mas foi detectada a versão %{detected_version})
               not_nextcloud_server: não é um servidor Nextcloud
               op_application_not_installed: Parece não possui o aplicativo "OpenProject integration" instalado. Instale-o primeiro e depois tente novamente.
             password:
@@ -151,7 +151,7 @@ pt-BR:
         error: Ocorreu um erro inesperado. Verifique os registros do OpenProject para obter mais informações ou entre em contato com um administrador
         folder_id_collision: Vários armazenamentos de projeto tentam gerenciar a pasta do projeto %{folder}. A sincronização foi ignorada.
         forbidden: O OpenProject não conseguiu acessar o recurso solicitado. Verifique a configuração de permissões no Provedor de Armazenamento.
-        invalid_response: O OpenProject não conseguiu processar a resposta recebida do provedor de armazenamento. Verifique os registros do OpenProject para obter mais informações ou entre em contato com um administrador.
+        invalid_response: O OpenProject não conseguiu processar a resposta recebida do provedor de armazenamento. Verifique os logs do OpenProject para obter mais informações ou entre em contato com um administrador.
         unauthorized: O OpenProject não conseguiu se autenticar com o provedor de armazenamento. Verifique se você possui acesso a ele.
       models:
         copy_project_folders_service:
@@ -412,14 +412,13 @@ pt-BR:
       empty_project_folder_validation: Selecionar uma pasta é obrigatório para continuar.
       existing_manual_folder: Você pode definir uma pasta existente como a pasta raiz deste projeto. No entanto, as permissões não são gerenciadas automaticamente; o administrador deve garantir manualmente que os usuários necessários tenham acesso. A pasta selecionada pode ser usada por vários projetos.
       host: Adicione o endereço do host de seu armazenamento incluindo o  https://. Ele não deve ter mais de 255 caracteres.
-      managed_project_folders_application_password_caption: 'Habilitar as pastas gerenciadas automaticamente copiando este valor de: %{provider_type_link}.'
+      managed_project_folders_application_password_caption_html: 'Enable automatic managed folders by copying this value from: [%{integration}](provider_settings).'
       name: Dê um nome a seu armazenamento para que os usuários possam diferenciar vários armazenamentos.
       new_storage_html: Leia nossa documentação sobre [configuração de um armazenamento de arquivos %{provider_name}](docs_url) para obter mais informações.
       nextcloud:
-        application_link_text: aplicativo “Integration OpenProject”
         integration: Administração de Nextcloud / OpenProject
-        oauth_configuration: Copie estes valores de %{application_link_text}.
-        provider_configuration: 'Certifique-se de ter os privilégios de administração em sua instância de Nextcloud e de que o %{application_link_text} está instalado antes de realizar a configuração:'
+        oauth_configuration_html: Copy these values from [Nextcloud Administration / OpenProject](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in your Nextcloud instance and the [application “Integration OpenProject”](application_link) is installed before doing the setup.
         storage_audience: O ID do Cliente que a instância do Nextcloud usa para se comunicar com o provedor de identidade.
         storage_audience_placeholder: 'ex.: Nextcloud'
         token_exchange_scope: Os escopos que devem ser solicitados durante a troca de token, separados por espaço.
@@ -428,27 +427,24 @@ pt-BR:
       not_logged_into_storage: Para selecionar uma pasta de projeto, primeiro faça login
       oauth_application_details_html: O valor do segredo do cliente não poderá ser acessado novamente depois que você fechar esta janela. Copie esses valores para as [configurações de integração Nextcloud OpenProject](oauth_application_details_link).
       one_drive:
-        application_link_text: Portal Azure
         copy_redirect_uri: Copiar URI de redirecionamento
-        documentation_link_text: Documentação de armazenamento de arquivos OneDrive
-        drive_id: Copie o ID da unidade desejada seguindo as etapas em %{drive_id_link_text}.
+        drive_id_html: Please copy the ID from the desired drive by following the steps in the [OneDrive file storages documentation](drive_id_guide).
         integration: OneDrive
         missing_client_id_for_redirect_uri: Preencha os valores OAuth para gerar um URI
         oauth_client_redirect_uri: Copie este valor para um novo URI de redirecionamento da Web em URI de redirecionamento.
         oauth_client_secret: Caso não haja um segredo do cliente do aplicativo sob as credenciais do cliente, crie um novo.
-        oauth_configuration: Copie estes valores do aplicativo pretendido no %{application_link_text}.
-        provider_configuration: Certifique-se de ter privilégios de administração no %{application_link_text} ou entre em contato com seu administrador da Microsoft antes de fazer a configuração. No portal, você também precisa registrar um aplicativo Azure ou usar um existente para autenticação.
-        tenant_id: Copie o ID do diretório (inquilino) do aplicativo desejado e dos registros de aplicativos no %{application_link_text}.
+        oauth_configuration_html: Copy these values from the desired application in the [Azure portal](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [Azure portal](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id_html: Please copy the Directory (tenant) ID from the desired application and App registrations in the [Azure portal](application_link).
         tenant_id_placeholder: Nome ou UUID
       setting_up_additional_storages: Para configurar armazenamentos de arquivos adicionais, por favor visite
       setting_up_additional_storages_non_admin: Os administradores podem configurar armazenamentos adicionais em Administração/Armazenamentos de arquivo.
       setting_up_storages: Para configurar armazenamentos de arquivos, visite
       setting_up_storages_non_admin: Administradores podem configurar armazenamentos de arquivos em Administração / Armazenamentos de arquivo.
       sharepoint:
-        application_link_text: Site do SharePoint
         integration: Administração de SharePoint / OpenProject
-        oauth_configuration: Copie esses valores do aplicativo desejado em %{application_link_text}.
-        provider_configuration: Certifique-se de que você tenha privilégios de administrador no %{application_link_text} ou entre em contato com seu administrador Microsoft antes de realizar a configuração. No portal, também é necessário registrar um aplicativo Azure ou usar um existente para autenticação.
+        oauth_configuration_html: Copy these values from the desired application in the [SharePoint site](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [SharePoint site](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
       type: 'Certifique-se de ter privilégios de administração em sua instância Nextcloud e de ter o seguinte aplicativo instalado antes de realizar a configuração:'
       type_link_text: "“Integração OpenProject”"
     label_active: Ativo
@@ -487,7 +483,7 @@ pt-BR:
       connected: Conectado
       connected_no_permissions: A função de usuário não tem permissões de armazenamento
       not_connectable: Não conectado. O armazenamento requer login através de um provedor SSO, mas o usuário não está fazendo login através de SSO.
-      not_connected: Não conectado. O usuário deve iniciar sessão no armazenamento por meio do seguinte %{link}.
+      not_connected_html: Not connected. The user should login to the storage via the following [link](storage_login).
       not_connected_sso: Ainda não conectado. O SSO deve conectá-los automaticamente ao visualizar os arquivos.
     members_no_results: Nenhum membro para exibir.
     no_results: Ainda não há armazenamento configurado.

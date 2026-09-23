@@ -126,7 +126,7 @@ RSpec.describe "form configuration required attributes", :js do
 
     before do
       owner.update!(required_attributes: [custom_field.attribute_name])
-      link_configuration(borrower, source: owner, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(borrower, aspect: TypeVariant::FORM_CONFIGURATION)
       visit edit_type_form_configuration_path(type_id: borrower.type_id, variant_id: borrower.id)
     end
 

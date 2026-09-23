@@ -32,51 +32,40 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::SwitchToLinkedModeService do
   let(:type) { create(:type) }
-  let(:variant) { type.default_variant }
-  let(:source) { create(:type).default_variant }
+  let(:variant) { create(:type_variant, type:) }
   let(:aspect) { TypeVariant::PDF_EXPORT }
 
   subject(:service) { described_class.new(variant:, aspect:) }
 
   describe "#call" do
-    it "links the aspect to the chosen source" do
-      result = service.call(source:)
+    it "links the aspect to the variant's base" do
+      expect(variant).not_to be_linked(aspect)
+
+      result = service.call
 
       expect(result).to be_success
-      expect(variant.source_for(aspect)).to eq(source)
+      expect(variant.reload).to be_linked(aspect)
+      expect(variant.source_for(aspect)).to eq(type.default_variant)
     end
 
-    it "re-points an existing link to a new source" do
-      service.call(source:)
-      other = create(:type).default_variant
+    it "is idempotent when the aspect is already linked" do
+      service.call
 
-      result = service.call(source: other)
+      result = service.call
 
       expect(result).to be_success
-      expect(variant.reload.source_for(aspect)).to eq(other)
+      expect(variant.reload).to be_linked(aspect)
     end
 
-    it "leaves the variant independent when no source is given" do
-      result = service.call(source: nil)
+    context "when the variant is the base" do
+      let(:variant) { type.default_variant }
 
-      expect(result).to be_success
-      expect(variant.reload).not_to be_linked(aspect)
-    end
+      it "fails because a base cannot inherit" do
+        result = service.call
 
-    it "fails when the source is the variant itself" do
-      result = service.call(source: variant)
-
-      expect(result).not_to be_success
-      expect(variant.reload).not_to be_linked(aspect)
-    end
-
-    it "fails when linking would create a cycle" do
-      link_configuration(source, source: variant, aspect:)
-
-      result = service.call(source:)
-
-      expect(result).not_to be_success
-      expect(variant.reload).not_to be_linked(aspect)
+        expect(result).not_to be_success
+        expect(variant.reload).not_to be_linked(aspect)
+      end
     end
   end
 end

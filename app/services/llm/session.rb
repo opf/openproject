@@ -131,7 +131,12 @@ module Llm
         # RubyLLM retries POSTs three times by default, so one completion can be
         # billed four times. Callers state what they are willing to pay for.
         config.max_retries = max_retries
-        config.logger = Rails.logger
+        # Not Rails.logger: RubyLLM wires its Faraday logger middleware with
+        # "bodies: RubyLLM.logger.debug?", so an instance running at debug level
+        # would write full request and response bodies through a path
+        # Llm::Errors.log never sees, including an error body that echoes the
+        # credential.
+        config.logger = Logger.new(IO::NULL)
       end
     end
 

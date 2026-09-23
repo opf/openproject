@@ -1,0 +1,63 @@
+@import "helpers"
+@import "fullcalendar_frame"
+@import "time_entry_card"
+
+.my-time-tracking-stack-view
+  height: 100%
+  +fc-frame-grid
+
+  .my-time-tracking-stack-view--body
+    flex-grow: 1
+    min-height: 0
+    overflow-x: auto
+
+  .my-time-tracking-stack-view--entries
+    height: 100%
+
+  .my-time-tracking-stack-view--canvas
+    height: 100%
+    min-width: 800px
+    +fc-frame-container
+
+  .fc-event
+    margin-right: 8px
+    margin-left: 8px
+
+  .fc-timegrid-slot.fc-timegrid-slot-minor
+    border-top: 0
+
+  // FullCalendar measures the axis content and writes the resulting width onto the
+  // colgroup, so the label has to carry the width rather than the cell.
+  .fc-timegrid-slot-label-cushion
+    min-width: 52px
+    padding-right: 8px
+    color: var(--fgColor-muted)
+
+  // The work package type colour arrives as the top border, through __hl_border_top.
+  .te-stack--time-entry
+    background: var(--bgColor-default)
+    border: 0
+    border-radius: 5px
+    box-shadow: var(--shadow-floating-small)
+    overflow: hidden
+
+    &.te-entry-card-ongoing
+      +te-entry-card-ongoing
+
+    .fc-event-main
+      height: 100%
+      color: var(--fgColor-default)
+
+  +te-entry-card
+
+  .te-entry-card
+    height: 100%
+    padding: 8px
+
+  .fc-timegrid-event-short
+    +te-entry-card-condensed
+
+    .te-entry-card
+      padding: 4px 8px
+
+  +fc-day-total

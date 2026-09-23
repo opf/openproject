@@ -44,10 +44,5 @@ FactoryBot.define do
     trait :withdrawn do
       active { false }
     end
-
-    # Still offered by the server; hidden by an administrator.
-    trait :deactivated do
-      deactivated_at { Time.current }
-    end
   end
 end
