@@ -151,7 +151,7 @@
     "mdx-embed": "^1.1.2",
     "mime": "^4.1.0",
     "moment": "^2.30.1",
-    "moment-timezone": "^0.6.2",
+    "moment-timezone": "^0.6.4",
     "mousetrap": "~1.6.3",
     "ng-dynamic-component": "^10.7.0",
     "ng2-charts": "^10.0.0",
