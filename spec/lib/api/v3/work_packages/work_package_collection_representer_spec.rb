@@ -122,8 +122,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     describe "import" do
       let(:import_link) { JSON.parse(collection).dig("_links", "import") }
 
-      context "with a project, the flag on and the permission held",
-              with_flag: { csv_import: true } do
+      context "with a project and the permission held" do
         let(:project) { build_stubbed(:project) }
         let(:permissions) { %i[import_work_packages] }
 
@@ -134,7 +133,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         end
       end
 
-      context "without a project", with_flag: { csv_import: true } do
+      context "without a project" do
         let(:project) { nil }
 
         it "is absent, since the import always creates into one project" do
@@ -142,16 +141,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         end
       end
 
-      context "with the flag off", with_flag: { csv_import: false } do
-        let(:project) { build_stubbed(:project) }
-        let(:permissions) { %i[import_work_packages] }
-
-        it "is absent" do
-          expect(import_link).to be_nil
-        end
-      end
-
-      context "without the permission", with_flag: { csv_import: true } do
+      context "without the permission" do
         let(:project) { build_stubbed(:project) }
         let(:permissions) { %i[view_work_packages] }
 

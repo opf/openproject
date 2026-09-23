@@ -126,7 +126,6 @@ module API
 
         link :import do
           next unless project.present? &&
-                      OpenProject::FeatureDecisions.csv_import_active? &&
                       current_user.allowed_in_project?(:import_work_packages, project)
 
           {
