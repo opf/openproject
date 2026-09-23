@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% html_title t(:label_administration), t(:label_workflow_plural), @workflow.name -%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { @workflow.name } %>
+  <% header.with_description { @workflow.description } if @workflow.description.present? %>
+  <% header.with_breadcrumbs(
+       [{ href: admin_index_path, text: t("label_administration") },
+        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+        { href: workflows_path, text: t(:label_workflow_plural) },
+        @workflow.name]
+     ) %>
+
+  <% header.with_action_button(
+       tag: :a,
+       scheme: :secondary,
+       href: edit_dialog_workflow_path(@workflow),
+       data: { controller: "async-dialog" },
+       mobile_icon: :pencil,
+       mobile_label: t(:button_edit)
+     ) do |button| %>
+    <% button.with_leading_visual_icon(icon: :pencil) %>
+    <%= t(:button_edit) %>
+  <% end %>
+<% end %>
+
+<%= render(Workflows::WorkflowUsageComponent.new(workflow: @workflow)) %>
+
+<% if @roles.any? %>
+  <%= form_tag(
+        workflow_matrix_path(@workflow, tab: @current_tab),
+        method: :patch,
+        autocomplete: "off",
+        class: "workflow-table--pinned-save-bar"
+      ) do %>
+    <%= turbo_frame_tag "workflow-table",
+                        src: workflow_matrix_path(
+                          @workflow,
+                          tab: @current_tab,
+                          role_ids: @roles.map(&:id),
+                          status_ids: params[:status_ids]
+                        ) %>
+
+    <div class="workflow-save-bar">
+      <%= render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do %>
+        <%= t(:button_save) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

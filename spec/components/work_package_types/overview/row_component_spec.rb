@@ -35,12 +35,10 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type, name: "Bug") }
-  shared_let(:source_type) { create(:type, name: "Feature") }
   shared_let(:variant) { type.default_variant }
-  shared_let(:source) { source_type.default_variant }
 
-  let(:aspect) { TypeVariant::WORKFLOWS }
-  let(:tab) { { name: "workflow", path: "/workflow", label: "Workflows", aspect: } }
+  let(:aspect) { TypeVariant::DEFAULTS }
+  let(:tab) { { name: "defaults", path: "/defaults", label: "Defaults", aspect: } }
   let(:table) { WorkPackageTypes::Overview::TableComponent.new(variant:, tabs: [tab]) }
 
   subject(:row) { described_class.new(row: tab, table:) }
@@ -49,7 +47,7 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
     it "links to its own tab" do
       render_inline(row)
 
-      expect(page).to have_link("Workflows", href: "/workflow")
+      expect(page).to have_link("Defaults", href: "/defaults")
     end
   end
 
@@ -73,14 +71,16 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
     end
 
     context "when the setting is inherited" do
-      before { link_configuration(variant, source:, aspect:) }
+      let(:variant) { create(:type_variant, type:) }
 
-      it "names the source, linking to that setting on it" do
+      before { link_configuration(variant, aspect:) }
+
+      it "names the base, linking to that setting on it" do
         render_inline(row)
 
         expect(page).to have_text("Inheriting from")
-        expect(page).to have_link("Feature",
-                                  href: edit_type_workflow_path(type_id: source.type_id, variant_id: source.id))
+        expect(page).to have_link(type.default_variant.composite_name,
+                                  href: edit_type_defaults_path(type_id: type.id, variant_id: type.default_variant.id))
       end
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
     end
 
     context "when another variant borrows the setting" do
-      before { link_configuration(source, source: variant, aspect:) }
+      before { link_configuration(create(:type_variant, type:, variant_name: "Mobile"), aspect:) }
 
       it "are counted, opening their dialog" do
         render_inline(row)

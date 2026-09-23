@@ -38,7 +38,7 @@ module Storages
       end
 
       def label_storage_name_with_provider_label
-        "#{h(@storage.name)} #{label_storage_provider_part}".html_safe # rubocop:disable Rails/OutputSafety
+        helpers.safe_join([@storage.name, " ", label_storage_provider_part])
       end
 
       def label_storage_provider_part

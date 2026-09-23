@@ -1178,7 +1178,8 @@ module Settings
         string_values: true
       },
       seed_design: {
-        description: "Seed enterprise-edition theme colors and logos through ENV",
+        description: "Seed enterprise-edition theme colors and logos through ENV. " \
+                     "Set only_when_empty to apply only when no CustomStyle exists.",
         writable: false,
         default: nil,
         format: :hash,

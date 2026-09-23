@@ -32,7 +32,7 @@ module LlmConnectionsHelper
   # The tabs of the LLM settings page. With the AI features switched off there
   # is nothing to configure beyond the settings themselves, and a single tab says
   # nothing, so the nav stays empty until they are switched on.
-  def llm_settings_tabs(_connection)
+  def llm_settings_tabs
     return [] unless Setting.llm_features_enabled?
 
     [

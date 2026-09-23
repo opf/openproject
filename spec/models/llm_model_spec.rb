@@ -56,67 +56,17 @@ RSpec.describe LlmModel do
     end
   end
 
-  describe "deactivation", :llm_server_helpers, :webmock, with_flag: { llm_connection: true } do
+  describe "withdrawal", :llm_server_helpers, :webmock, with_flag: { llm_connection: true } do
     let(:base_url) { "https://example.com/v1" }
     let!(:connection) { create(:llm_connection, :with_models, base_url:) }
     let(:model) { connection.models.find_by(external_id: "qwen3.6-27b") }
 
-    before { model.update!(deactivated_at: Time.current) }
-
-    it "hides the model from the pickers" do
-      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
-      expect(connection.selectable_model_ids).to include("bge-m3")
-    end
-
-    # The decision that makes the toggle safe: curation, not enforcement. A row an
-    # administrator switches off must never silently break a running feature.
-    it "stays addressable for a feature that is already bound to it",
-       with_settings: { llm_features_enabled: true } do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
-
-      expect(connection.available_model_ids).to include("qwen3.6-27b")
-      expect(Llm::Runtime.for(:description_assistant)).to be_ready
-    end
-
-    it "still offers it to the feature that is bound to it" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
-
-      options = LlmConnections::SelectableModelsQuery
-                  .new(connection, OpenProject::Llm::Features[:description_assistant])
-                  .call
-
-      expect(options.map(&:model_id)).to include("qwen3.6-27b")
-    end
-
-    it "still offers it to an embedding feature that is bound to it" do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "supported", source: "admin", checked_at: Time.current)
-      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b")
-
-      options = LlmConnections::SelectableModelsQuery
-                  .new(connection, OpenProject::Llm::Features[:semantic_search])
-                  .call
-
-      expect(options.map(&:model_id)).to include("qwen3.6-27b")
-    end
-
-    # The reason deactivated_at exists rather than reusing active: the sync writes
-    # active on every refresh, so an administrator's choice stored there would be
-    # undone by the next "Refresh models".
-    it "survives a catalogue sync that still reports the model" do
-      mock_llm_models_response(base_url)
-
-      LlmConnections::SyncModelsService.new(connection).call
-
-      expect(model.reload).to be_deactivated
-      expect(model).to be_active
-      expect(model).not_to be_selectable
-    end
-
-    it "is distinct from a model the server withdrew" do
+    it "only describes a discovered model the server stopped reporting" do
       withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+      typed = create(:llm_model, :manual, :withdrawn, llm_connection: connection, external_id: "hand-typed")
 
       expect(withdrawn).to be_withdrawn
+      expect(typed).not_to be_withdrawn
       expect(model).not_to be_withdrawn
     end
   end

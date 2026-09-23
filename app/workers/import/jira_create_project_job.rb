@@ -57,7 +57,7 @@ module Import
 
     private
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def create_project(jira_project)
       project_key = jira_project.payload.fetch("key")
       project_keys = jira_project.payload.fetch("projectKeys")
@@ -95,6 +95,5 @@ module Import
 
       raise service_call.message
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

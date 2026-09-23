@@ -90,7 +90,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     it "tests a model that can chat when no default is chosen" do
-      create(:llm_model, :deactivated, llm_connection: connection, external_id: "abandoned-7b")
+      create(:llm_model, :withdrawn, llm_connection: connection, external_id: "abandoned-7b")
       connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                              state: "supported", source: "probe", checked_at: Time.current)
       mock_llm_chat_response(base_url)
@@ -102,7 +102,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
   end
 
   context "when the server publishes no model list" do
-    before { mock_llm_models_response(base_url, response_code: 404) }
+    before { mock_llm_models_response(base_url, response_code: 405) }
 
     # The case that motivated manual model entry: a gateway exposing only chat.
     it "is still reachable, and says the key could not be verified" do

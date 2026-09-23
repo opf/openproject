@@ -68,8 +68,7 @@ module LlmConnections
       UpdateService
         .new(user: User.system,
              model:,
-             contract_class: EnvironmentUpdateContract,
-             sync_models: false)
+             contract_class: EnvironmentUpdateContract)
         .call(**attributes)
     end
 

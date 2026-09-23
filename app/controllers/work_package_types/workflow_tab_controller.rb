@@ -30,6 +30,8 @@
 
 module WorkPackageTypes
   class WorkflowTabController < BaseTabController
+    include OpTurbo::ComponentStream
+
     current_menu_item :edit do
       :types
     end
@@ -37,6 +39,51 @@ module WorkPackageTypes
     def edit
       @current_tab = params[:tab] || "always"
       @roles = Workflows::StatusTransition.selected_roles(params[:role_ids])
+    end
+
+    def change_dialog
+      respond_with_dialog ::Workflows::ChangeWorkflow::DialogComponent.new(variant: @variant)
+    end
+
+    def change
+      assign_and_redirect(Workflow.available_in(@variant.project).find(params.expect(:workflow_id)))
+    end
+
+    def create_dialog
+      respond_with_dialog ::Workflows::DialogComponent.new(workflow: Workflow.new(project: @variant.project),
+                                                           variant: @variant)
+    end
+
+    def create
+      service_call = ::Workflows::CreateService.new(user: current_user)
+                                                 .call(project: @variant.project, **workflow_params)
+      return render_form_errors(service_call.result) unless service_call.success?
+
+      assign_and_redirect(service_call.result)
+    end
+
+    private
+
+    def assign_and_redirect(workflow)
+      service_call = ::WorkPackageTypes::AssignWorkflowService.new(variant: @variant).call(workflow:)
+
+      if service_call.success?
+        flash[:notice] = t(:notice_successful_update)
+      else
+        flash[:error] = service_call.errors.full_messages.to_sentence
+      end
+
+      redirect_to edit_type_workflow_path(**@variant.path_args), status: :see_other
+    end
+
+    def workflow_params
+      params.expect(workflow: %i[name description copy_from_id]).to_h.symbolize_keys
+    end
+
+    def render_form_errors(workflow)
+      update_via_turbo_stream(component: ::Workflows::FormComponent.new(workflow:, variant: @variant),
+                              status: :unprocessable_entity)
+      respond_with_turbo_streams
     end
   end
 end

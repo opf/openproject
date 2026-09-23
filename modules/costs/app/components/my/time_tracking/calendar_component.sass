@@ -1,8 +1,14 @@
+@import "fullcalendar_frame"
+@import "time_entry_card"
+
 .my-time-tracking-calendar-view
   height: 100%
+  +fc-frame-grid
+  +fc-day-total
 
   .op-fc-wrapper
     flex-grow: 1
+    +fc-frame-container
 
     .fc-daygrid-day-bottom
       display: flex
@@ -20,76 +26,27 @@
       line-height: var(--text-body-lineHeight-small)
       font-size: var(--text-body-size-small)
 
-      &-ongoing
-        background: var(--bgColor-accent-muted)
+      +te-entry-card
 
-      .stop-timer-button
-        color: var(--fgColor-accent)
+      &.te-entry-card-ongoing
+        +te-entry-card-ongoing
 
-      .fc-event-time
-        font-size: var(--text-body-size-small) !important
+      // The calendar places an entry on a time axis, so the clock reads as noise here.
+      .te-entry-card--icon
+        display: none
 
       .fc-event-main
         padding: 0
 
-      .fc-event-title-container
-        line-height: var(--text-body-lineHeight-small) !important
-
-      .fc-event-time, .fc-event-times
-        color: var(--fgColor-muted, var(--color-fg-subtle))
-        font-style: normal
-        font-weight: normal
-
-      // special short display version
       &.fc-timegrid-event-short, &.fc-daygrid-block-event
-        padding-top: 4px
-        padding-bottom: 4px
-
-        .fc-event-title-container
-          padding-top: 0
-
-        .fc-event-time
-          padding-top: 0
-          padding-right: 2px
-
-        .fc-event-time::after
-          content: ''
-          display: none
-
-        .fc-event-title
-          font-size: var(--text-body-size-small)
-
-        .fc-event-project
-          display: none
-
-        .fc-event-times
-          display: none
+        +te-entry-card-condensed
 
     .fc-popover
       background: var(--fc-page-bg-color) !important
 
-    // event in the normal calendar area
-    .fc-timegrid-event
-      .fc-event-title-container
-        margin: 0 !important
-
-        .fc-event-project, .fc-event-times
-          color: var(--fgColor-muted, var(--color-fg-subtle))
-
     // event in the the all day area
     .fc-daygrid-event
       background: var(--body-background) !important
-
-      .fc-event-title-container
-        margin: 0 !important
-
-    .fc-col-header
-      .fc-day
-        &.fc-day-past
-          background-color: var(--fc-page-bg-color) !important
-
-        &.fc-day-future
-          background-color: var(--fc-page-bg-color) !important
 
     .fc-timegrid-more-link
       background: var(--fc-page-bg-color) !important

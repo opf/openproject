@@ -58,6 +58,7 @@ module API
       mount ::API::V3::Grids::GridsAPI
       mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::Labels::LabelsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
       mount ::API::V3::OAuth::OAuthApplicationsAPI

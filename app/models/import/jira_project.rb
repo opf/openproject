@@ -34,5 +34,6 @@ module Import
 
     belongs_to :jira_import, class_name: "Import::JiraImport"
     has_many :jira_issues, class_name: "Import::JiraIssue", dependent: :destroy
+    has_many :jira_versions, class_name: "Import::JiraVersion", dependent: :destroy
   end
 end
