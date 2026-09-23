@@ -56,10 +56,10 @@ module API
 
             protected
 
-            # Versions and labels are both has_many, which would multiply rows
-            # in the left_joins/pluck above, so they enter as aggregated
-            # subqueries instead. A version can attach under more than one
-            # kind, so the kind is part of the value and of the order.
+            # Versions and labels are has_many and enter as aggregated subqueries;
+            # joining them in the pluck above would multiply the rows. A version
+            # can attach under more than one kind, so the kind is part of the
+            # value and of the order.
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
               (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
                  FROM work_package_versions wpv
@@ -71,7 +71,7 @@ module API
               (SELECT COALESCE(STRING_AGG(CONCAT(l.id, l.updated_at), ',' ORDER BY l.id), '')
                  FROM labelings lg
                  INNER JOIN labels l ON l.id = lg.label_id
-                WHERE lg.labelable_type = 'WorkPackage' AND lg.labelable_id = work_packages.id)
+                WHERE lg.labelable_type = '#{WorkPackage.polymorphic_name}' AND lg.labelable_id = work_packages.id)
             SQL
 
             def md5_concat
