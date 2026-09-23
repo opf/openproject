@@ -34,8 +34,6 @@ module WorkPackages
       class CsvImportJob < ApplicationJob
         queue_with_priority :above_normal
 
-        PROBLEM_LIMIT = 500
-
         SUCCESSFUL = %w[checked imported].freeze
 
         def perform(user:, project:, attachment_id:, dry_run:)
@@ -132,7 +130,6 @@ module WorkPackages
             dated_count: report.dated_count,
             counts: report.counts,
             problems: problems(report.problems),
-            problems_omitted: [report.problems.size - PROBLEM_LIMIT, 0].max,
             available: report.available
           }
         end
@@ -160,13 +157,12 @@ module WorkPackages
             finished_at: Time.current,
             counts: {},
             problems: [],
-            problems_omitted: 0,
             column_problems: [],
             available: {}
           }
         end
 
-        def problems(list) = list.first(PROBLEM_LIMIT).map(&:to_h)
+        def problems(list) = list.map(&:to_h)
 
         def created_ids(report) = dry_run ? [] : report.created_ids
 

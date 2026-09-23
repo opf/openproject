@@ -235,17 +235,17 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
     end
   end
 
-  describe "the problem cap" do
+  describe "a file with more problems than the page shows" do
+    let(:lines) { WorkPackages::Import::CSV::ReportComponent::SHOWN_PROBLEMS + 2 }
     let(:content) do
-      (["Subject,Type"] + Array.new(described_class::PROBLEM_LIMIT + 2) { ",Task" }).join("\n")
+      (["Subject,Type"] + Array.new(lines) { ",Task" }).join("\n")
     end
     let(:dry_run) { false }
 
-    it "keeps the payload bounded and says how many were dropped" do
+    it "stores every one, since the CSV download is served from the payload" do
       run
 
-      expect(payload["problems"].size).to eq(described_class::PROBLEM_LIMIT)
-      expect(payload["problems_omitted"]).to eq(2)
+      expect(payload["problems"].size).to eq(lines)
     end
   end
 
