@@ -38,6 +38,8 @@ module Admin
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
+    before_action :require_stored_connection,
+                  only: %i[disconnect disconnect_dialog delete_api_key delete_api_key_dialog]
 
     def show; end
 
@@ -76,6 +78,14 @@ module Admin
     end
 
     private
+
+    # active_connection hands back an unsaved record when nothing is stored, and
+    # writing to that inserts a row that fails its own validations. The show page
+    # hides both menu entries behind persisted?; the routes do not, so a
+    # bookmarked or hand-typed URL arrives here.
+    def require_stored_connection
+      render_404 unless @connection.persisted?
+    end
 
     def set_connection
       @connection = LlmConnection.active_connection

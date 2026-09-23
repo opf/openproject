@@ -241,6 +241,16 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response.body).not_to include("llm-connection--delete-api-key")
       expect(page).to have_no_css(remove_api_key, visible: :all)
     end
+
+    # active_connection returns an unsaved record when nothing is stored, and
+    # writing to that inserted a row that failed its own validations, so the
+    # request 500'd instead of saying there is nothing here.
+    it "answers 404 on an instance with no connection stored" do
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(LlmConnection.count).to eq(0)
+    end
   end
 
   describe "disconnecting" do
@@ -278,6 +288,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post disconnect_llm_connection_path
 
       expect(connection.reload.api_key).to eq("sk-test")
+    end
+
+    it "answers 404 on an instance with no connection stored" do
+      connection.destroy!
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(LlmConnection.count).to eq(0)
     end
   end
 end
