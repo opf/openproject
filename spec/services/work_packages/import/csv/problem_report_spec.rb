@@ -73,6 +73,14 @@ RSpec.describe WorkPackages::Import::CSV::ProblemReport do
       expect(rows(payload))
         .to eq([%w[Column Header Problem], ["C", "Sprint", "cannot be imported."]])
     end
+
+    it "carries every column, including the ones the page does not show" do
+      problems = Array.new(WorkPackages::Import::CSV::ReportComponent::SHOWN_PROBLEMS + 12) do |index|
+        { "column" => "C#{index}", "header" => "Sprint #{index}", "message" => "cannot be imported." }
+      end
+
+      expect(rows(payload.merge("column_problems" => problems)).size).to eq(problems.size + 1)
+    end
   end
 
   describe "a cell a spreadsheet would run as a formula" do

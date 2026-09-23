@@ -35,7 +35,7 @@ class WorkPackages::ImportController < ApplicationController
   before_action :find_project_by_project_id, :authorize
   before_action :load_status, only: %i[show status problems]
 
-  helper_method :import_outcome, :import_running?, :import_checked?, :import_settled?
+  helper_method :import_running?, :import_checked?, :import_settled?
 
   def show; end
 
