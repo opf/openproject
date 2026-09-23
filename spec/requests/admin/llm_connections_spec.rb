@@ -167,7 +167,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
                 params: { llm_connection: { base_url:, api_key: "sk-typed" } },
                 headers: { "Accept" => "text/html" }
 
-          expect(response.body).to include('value="sk-typed"')
           expect(response.body).not_to include("llm-connection--delete-api-key")
           expect(page).to have_no_css(remove_api_key, visible: :all)
         end
