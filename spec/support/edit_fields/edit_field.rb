@@ -136,6 +136,14 @@ class EditField
   end
 
   ##
+  # Checks that exactly the given values are currently selected in a
+  # multi-select field (ng-select in multiple mode), reading its value chips.
+  def expect_selected_values(*names)
+    expect(field_container).to have_css(".ng-value-label", count: names.size)
+    names.each { |name| expect(field_container).to have_css(".ng-value-label", text: name) }
+  end
+
+  ##
   # Activate the field and check it opened correctly
   # @return [EditField] self
   def activate!(expect_open: true)
@@ -355,6 +363,8 @@ class EditField
       "create-autocompleter"
     when :targetVersions
       "ng-select"
+    when :labels
+      "op-labels-autocompleter"
     when :project
       "op-project-autocompleter"
     when :activity

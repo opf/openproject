@@ -48,6 +48,9 @@ import {
   UserAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 import {
+  LabelsAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter.component';
+import {
   MeetingAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/meeting-autocompleter/meeting-autocompleter.component';
 import {
@@ -108,6 +111,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   DraggableAutocompleteComponent,
   UserAutocompleterComponent,
   UserAutocompleterTemplateComponent,
+  LabelsAutocompleterComponent,
   ResourceAllocationAutocompleterComponent,
   ResourceAllocationAutocompleterTemplateComponent,
   MeetingAutocompleterTemplateComponent,
