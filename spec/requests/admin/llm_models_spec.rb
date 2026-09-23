@@ -527,6 +527,50 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    describe "the capability assertions a save touches" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # An admin-sourced verdict is the one thing detection must never undo, and
+      # a PATCH carrying one field used to clear all four: absent read the same
+      # as blank, and blank means "withdraw the assertion".
+      it "leaves an assertion alone when its field was not submitted" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { display_name: "Renamed" } }
+
+        expect(llm_model.reload.display_name).to eq("Renamed")
+        expect(llm_model.verdict_for(:vision)&.state).to eq("supported")
+      end
+
+      it "withdraws an assertion whose field is submitted blank" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "" } }
+
+        expect(llm_model.reload.verdict_for(:vision)).to be_nil
+      end
+
+      # Admin verdicts are sticky, so an untouched dropdown that asserted
+      # "not an embedding model" could only be undone by editing the model again.
+      it "asserts no type for a model created without one" do
+        post llm_models_path, params: { llm_model: { external_id: "text-embedding-3-small" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings)).to be_nil
+      end
+
+      it "asserts the type a create actually chose" do
+        post llm_models_path,
+             params: { llm_model: { external_id: "text-embedding-3-small", model_type: "embedding" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings).state).to eq("supported")
+        expect(created.verdict_for(:embeddings).source).to eq("admin")
+      end
+    end
+
     describe "renaming a manually added model" do
       let!(:llm_model) do
         create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")

@@ -196,7 +196,7 @@ module Admin
     def save_with_capabilities(llm_model, submitted)
       ActiveRecord::Base.transaction do
         llm_model.save!
-        apply_capabilities(llm_model, submitted, pin_type: true)
+        apply_capabilities(llm_model, submitted, pin_type: submitted[:model_type].present?)
       end
 
       true
@@ -211,11 +211,18 @@ module Admin
     # The type is only pinned when the administrator picked one that differs from
     # what the model is today, so re-saving a discovered model does not freeze a
     # type that a probe or a refresh could still correct.
+    #
+    # A capability is only touched when its key was submitted. Absent is not the
+    # same as blank: a PATCH carrying one field would otherwise run the whole
+    # loop with nil and clear every assertion an administrator had made, which
+    # is the one thing an admin-sourced verdict is supposed to survive.
     def apply_capabilities(llm_model, submitted, pin_type:)
       embedding = submitted[:model_type] == "embedding"
       assert(llm_model.external_id, :embeddings, embedding ? "supported" : "unsupported") if pin_type
 
       Llm::Capabilities::CHAT.each do |capability|
+        next unless embedding || submitted.key?(:"capability_#{capability}")
+
         state = embedding ? nil : submitted[:"capability_#{capability}"].presence
         assert(llm_model.external_id, capability, state)
       end
