@@ -68,7 +68,7 @@ const DAY_IN_MS = 24 * MS_PER_HOUR;
 
 // A bar thinner than this leaves no room for its own duration once the card is padded.
 // Applied after the scale ratio, so that it stays a constant height on screen.
-const MIN_BAR_HOURS = 0.5;
+const MIN_BAR_HOURS = 0.75;
 
 export default class MyTimeTrackingStackController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
