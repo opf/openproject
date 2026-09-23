@@ -43,10 +43,6 @@
     <%= render(clear_button) { t("work_packages.import.report.imported.again") } %>
   <% end %>
 
-  <% if newest_first? %>
-    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: 6, mb: 2)) { t("work_packages.import.report.imported.newest") } %>
-  <% end %>
-
   <%= render Primer::Beta::BorderBox.new(mb: 3) do |box| %>
     <% box.with_header do %>
       <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.imported.heading") } %>

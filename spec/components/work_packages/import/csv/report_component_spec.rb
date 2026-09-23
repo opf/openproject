@@ -42,11 +42,9 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       "dry_run" => true,
       "row_count" => 142,
       "created_count" => 142,
-      "back_dated" => 0,
-      "created_ids" => [],
+      "query_id" => nil,
       "assignee_count" => 11,
       "dated_count" => 118,
-      "started_at" => "2026-09-21T09:00:00Z",
       "finished_at" => "2026-09-21T09:01:30Z",
       "counts" => { "type" => { "Task" => 96, "Bug" => 46 }, "status" => { "New" => 142 } },
       "problems" => [],
@@ -121,49 +119,17 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       expect(page).to have_text("142 work packages created")
     end
 
-    it "links to the work packages it created, filtered by author and creation window" do
+    it "links to the view the run saved, whatever the size of the run" do
+      render_outcome("imported", "dry_run" => false, "query_id" => 77)
+
+      expect(page).to have_link("View the 142 imported work packages",
+                                href: "/projects/#{project.identifier}/work_packages?query_id=77")
+    end
+
+    it "leaves the link out where no view was saved, rather than offering a broken one" do
       render_outcome("imported", "dry_run" => false)
 
-      href = page.find_link("View the 142 imported work packages")[:href]
-      props = JSON.parse(CGI.unescape(href.split("query_props=").last))
-
-      expect(props["f"]).to include("n" => "createdAt", "o" => "<>d",
-                                    "v" => ["2026-09-21T09:00:00Z", "2026-09-21T09:01:30Z"])
-      expect(props["f"]).to include("n" => "author", "o" => "=", "v" => [user.id.to_s])
-    end
-
-    it "lists by id where the run was small enough to carry them, which back-dating cannot spoil" do
-      render_outcome("imported", "dry_run" => false, "created_ids" => [11, 22, 33], "back_dated" => 2)
-
-      href = page.find_link("View the 142 imported work packages")[:href]
-      props = JSON.parse(CGI.unescape(href.split("query_props=").last))
-
-      expect(props["f"]).to eq([{ "n" => "id", "o" => "=", "v" => %w[11 22 33] }])
-      expect(page).to have_no_text("not in that list")
-    end
-
-    it "falls back to the creation window when no ids arrived and nothing was back-dated" do
-      render_outcome("imported", "dry_run" => false)
-
-      href = page.find_link("View the 142 imported work packages")[:href]
-      props = JSON.parse(CGI.unescape(href.split("query_props=").last))
-
-      expect(props["f"].pluck("n")).to eq(%w[createdAt author])
-      expect(props["t"]).to eq("id:asc")
-      expect(page).to have_no_text("newest first")
-    end
-
-    it "opens the project newest first when the ids do not fit and rows were back-dated" do
-      stub_const("#{described_class}::LISTABLE_IDS", 2)
-
-      render_outcome("imported", "dry_run" => false, "created_ids" => [11, 22, 33], "back_dated" => 2)
-
-      href = page.find_link("View the 142 imported work packages")[:href]
-      props = JSON.parse(CGI.unescape(href.split("query_props=").last))
-
-      expect(props["f"]).to eq([{ "n" => "author", "o" => "=", "v" => [user.id.to_s] }])
-      expect(props["t"]).to eq("id:desc")
-      expect(page).to have_text("opens the project with the newest first")
+      expect(page).to have_no_link("View the 142 imported work packages")
     end
 
     it "offers a fresh start beside the link to what it created" do
