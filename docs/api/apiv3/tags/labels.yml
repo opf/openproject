@@ -13,7 +13,7 @@ description: |-
   | Property    | Description                                 | Type       | Constraints | Supported operations |
   | :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
   | id          | Label id                                    | Integer    | x > 0       | READ                 |
-  | name        | Label name                                  | String     | not empty   | READ                 |
+  | name        | Label name                                  | String     | not empty   | READ / WRITE         |
   | createdAt   | The time the label was created              | DateTime   |             | READ                 |
   | updatedAt   | The time the label was last updated         | DateTime   |             | READ                 |
 name: Labels
