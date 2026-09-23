@@ -37,7 +37,8 @@ Click the **All filters** button to further narrow down the displayed work packa
 
 ![All filters button](openproject_user_guide_all_filters_button.png)
 
-In the filter panel, you can add filters for type, subject, assignee, status and other available work package attributes. The Backlog and sprints view is updated automatically when filters are applied.
+In the filter panel, you can add filters for type, subject, assignee, status, other available work package attributes and custom fields. [Filtering work packages](../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) works the same way as throughout the application.
+The Backlog and sprints view is updated automatically when filters are applied.
 
 ![Add filter form displaying different filtering options](openproject_user_guide_backlogs_add_filter_options.png)
 
@@ -51,7 +52,8 @@ The work package count and story points shown for each container are adjusted to
 > Searching and filtering only changes which work packages are displayed. It does not change their assignment to a sprint, backlog bucket or the Inbox backlog.
 
 Click the **All filters** button again to close the filter panel. 
-
+> [!NOTE]
+> Filtered Backlogs views were introduced in OpenProject 17.9 and cannot yet be saved. In the meantime, you can bookmark the URL of a filtered view to return to it later or share the URL with others.
 ### Sprint containers
 
 Each sprint is displayed in a dedicated container showing key planning information, including the sprint name, status, start and end dates, number of work packages, and total story points. 
