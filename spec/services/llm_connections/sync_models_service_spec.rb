@@ -139,6 +139,21 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.reload.display_name).to eq("Qwen 3.6 27B")
     end
 
+    # The everyday case: the same server still answers, one model is simply gone.
+    it "withdraws a model the server stopped reporting and drops its verdict" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      mock_llm_models_response(base_url, models: [{ id: "qwen3.6-27b", object: "model" }])
+
+      described_class.new(connection).call
+
+      expect(connection.models.find_by(external_id: "bge-m3")).to be_withdrawn
+      expect(connection.models.find_by(external_id: "qwen3.6-27b")).to be_active
+      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["qwen3.6-27b"])
+    end
+
     it "drops every non-admin verdict when the catalogue comes back empty" do
       connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
                                              state: "supported", source: "probe", checked_at: Time.current)
