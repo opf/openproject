@@ -48,7 +48,7 @@ module WorkPackageTypes
       new(
         variant:,
         own: variant.public_send(column).map(&:to_s),
-        effective: variant.effective_excluded_elements(aspect).map(&:to_s)
+        effective: variant.excluded_elements(aspect).map(&:to_s)
       )
     end
 

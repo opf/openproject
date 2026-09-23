@@ -412,6 +412,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_type_plural,
             parent: :admin_work_packages
 
+  menu.push :workflows,
+            { controller: "/workflows/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_workflow_plural,
+            parent: :admin_work_packages
+
   menu.push :statuses,
             { controller: "/statuses" },
             if: ->(_) { User.current.admin? },
@@ -484,6 +490,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_custom_field_plural,
             icon: "op-custom-fields",
             html: { class: "custom_fields" }
+
+  menu.push :labels,
+            { controller: "/admin/labels", action: :index },
+            after: :custom_fields,
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_labels_active? },
+            caption: :label_label_plural,
+            icon: "tag"
 
   menu.push :custom_actions,
             { controller: "/custom_actions" },

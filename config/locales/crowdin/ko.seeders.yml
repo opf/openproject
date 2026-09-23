@@ -251,7 +251,7 @@ ko:
           versions:
             item_0:
               wiki:
-                title: Release 1.0
+                title: 릴리스 1.0
                 content: |
                   ### Release 1.0
 
@@ -267,9 +267,9 @@ ko:
             item_0:
               name: 프로젝트 계획
             item_1:
-              name: Version 1.1
+              name: 버전 1.1
             item_2:
-              name: Version 1.0
+              name: 버전 1.0
             item_3:
               name: 작업
           boards:

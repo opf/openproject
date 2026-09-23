@@ -57,11 +57,11 @@ RSpec.describe "API v3 form configuration exclusions", content_type: :json do
     end
   end
 
-  let(:leaf) { create(:type) }
-  let(:project) { create(:project, types: [owner_type, leaf]) }
+  let(:variant) { create(:type_variant, type: owner.type, variant_name: "Leaf") }
+  let(:project) { create(:project, types: [variant]) }
 
   let(:work_package) do
-    create(:work_package, project:, type: leaf,
+    create(:work_package, project:, type: owner_type,
                           custom_values: {
                             kept_field.id => 1,
                             excluded_field.id => 2,
@@ -70,8 +70,8 @@ RSpec.describe "API v3 form configuration exclusions", content_type: :json do
   end
 
   let!(:link) do
-    link_configuration(leaf, source: owner, aspect: aspect, excluded: [excluded_field.attribute_name,
-                                                         solo_field.attribute_name])
+    link_configuration(variant, aspect: aspect, excluded: [excluded_field.attribute_name,
+                                                           solo_field.attribute_name])
   end
 
   let(:json) { JSON.parse(last_response.body) }
@@ -91,7 +91,7 @@ RSpec.describe "API v3 form configuration exclusions", content_type: :json do
   before { login_as(current_user) }
 
   describe "GET /api/v3/work_packages/schemas/:project_id-:type_id" do
-    before { get api_v3_paths.work_package_schema(project.id, leaf.id) }
+    before { get api_v3_paths.work_package_schema(project.id, owner_type.id) }
 
     it "returns HTTP 200" do
       expect(last_response).to have_http_status(:ok)
@@ -168,8 +168,9 @@ RSpec.describe "API v3 form configuration exclusions", content_type: :json do
   end
 
   describe "the owning type itself" do
+    let(:owner_project) { create(:project, types: [owner_type]) }
     let(:owner_work_package) do
-      create(:work_package, project:, type: owner_type,
+      create(:work_package, project: owner_project, type: owner_type,
                             custom_values: { kept_field.id => 1, excluded_field.id => 2 })
     end
 

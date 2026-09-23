@@ -1776,21 +1776,13 @@ RSpec.describe WorkPackages::BaseContract do
       let(:target_status) { create(:status) }
 
       before do
-        link_configuration(variant, source:, aspect: TypeVariant::WORKFLOWS)
+        variant.update!(workflow: source.default_variant.workflow)
         create(:workflow, role_id: role.id, type_variant: source.default_variant,
                           old_status_id: current_status.id, new_status_id: target_status.id,
                           author: false, assignee: false)
       end
 
-      it "resolves allowed transitions through the linked source's workflows" do
-        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
-      end
-
-      it "resolves allowed transitions through a longer link chain" do
-        middle = create(:type)
-        link_configuration(middle, source:, aspect: TypeVariant::WORKFLOWS)
-        link_configuration(variant, source: middle, aspect: TypeVariant::WORKFLOWS)
-
+      it "resolves allowed transitions through the shared workflow" do
         expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
       end
     end
@@ -1880,7 +1872,7 @@ RSpec.describe WorkPackages::BaseContract do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+        link_configuration(named, aspect: TypeVariant::DEFAULTS)
       end
     end
 
@@ -1938,8 +1930,7 @@ RSpec.describe WorkPackages::BaseContract do
     let(:work_package) { create(:work_package, project:, type: family_root, status: current_status) }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
-      variant.reload
+      variant.update!(workflow: create(:named_workflow))
 
       create(:workflow, type: family_root, role:,
                         old_status_id: current_status.id, new_status_id: root_target.id)

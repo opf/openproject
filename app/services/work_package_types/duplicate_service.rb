@@ -49,7 +49,7 @@ module WorkPackageTypes
         copy = result.result
         copy.insert_at(source.position + 1)
 
-        failure = copy_configuration(copy) || copy_project_assignments(copy)
+        failure = copy_workflows(copy) || copy_configuration(copy) || copy_project_assignments(copy)
         if failure
           result = failure
           raise ActiveRecord::Rollback
@@ -84,6 +84,12 @@ module WorkPackageTypes
         result = ::Projects::Types::AddService.new(user:, model: project).call(variant: copy.default_variant)
         return result if result.failure?
       end
+
+      nil
+    end
+
+    def copy_workflows(copy)
+      Workflows::StatusTransition.copy(source.default_variant.workflow, nil, copy.default_variant.workflow, nil)
 
       nil
     end

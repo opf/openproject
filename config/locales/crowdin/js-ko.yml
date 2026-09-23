@@ -810,10 +810,10 @@ ko:
         fallback_list_name: 다른 목록
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_check_positions_batch:
-          other: Move failed. Check the items' current positions.
+          other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} items returned to their previous positions.
+          other: 이동하지 못했습니다. %{count}개 항목이 이전 위치로 돌아갔습니다.
         moved: "%{label}이(가) 위치 %{position}/%{total}(으)로 이동됨"
         moved_batch:
           other: "%{count} items moved to positions %{first} through %{last} of %{total}"
@@ -825,7 +825,7 @@ ko:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          other: Could not extend the range. %{count} items selected.
+          other: 범위를 확장할 수 없습니다. %{count}개 항목이 선택되었습니다.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
           other: "%{count} items selected."

@@ -59,7 +59,7 @@ pt-BR:
   label_deploy_target_plural: Alvos de implantação
   label_github_comment_user: Ator do GitHub
   label_github_integration: Integração com o GitHub
-  label_github_webhook_secret: Webhook secret
+  label_github_webhook_secret: Segredo do webhook
   notice_deploy_target_created: Alvo de implantação criado
   notice_deploy_target_destroyed: Alvo de implantação excluído
   permission_introspection: Leia a versão principal do OpenProject em execução e construa o SHA.
@@ -74,13 +74,13 @@ pt-BR:
   text_deploy_target_type_info: 'Até o momento, damos suporte apenas ao OpenProject em si.
 
     '
-  text_github_comment_user_info: 'O usuário do OpenProject cuja chave API deve ser usada para autenticar solicitações de webhook recebidas. Quando definido, as solicitações autenticadas com as credenciais de qualquer outro usuário são rejeitadas. Esse usuário também publica comentários automáticos sobre o status da implantação nos pacotes de trabalho. O padrão é o usuário do sistema quando não estiver definido.
+  text_github_comment_user_info: 'O usuário do OpenProject cuja chave de API deve ser usada para autenticar requisições de webhook recebidas. Quando definido, requisições autenticadas com credenciais de qualquer outro usuário são rejeitadas. Este usuário também publica comentários automatizados do estado da implantação em pacotes de trabalho. O padrão é o usuário do sistema quando não for definido.
 
     '
   text_github_webhook_secret_info: 'Um token secreto compartilhado com o GitHub ao configurar o webhook. Quando definido, o OpenProject verifica o cabeçalho X-Hub-Signature-256 em cada solicitação recebida, rejeitando cargas úteis que não correspondam. Deixe em branco para ignorar a verificação (não recomendado).
 
     '
-  text_github_webhook_secret_missing_warning: 'Não há nenhum segredo de webhook configurado. Qualquer solicitação enviada ao ponto de extremidade do webhook do GitHub será aceita sem verificação, o que pode permitir que pessoas não autorizadas falsifiquem eventos. É altamente recomendável definir um segredo.
+  text_github_webhook_secret_missing_warning: 'Nenhum segredo de webhook está configurado. Qualquer requisição ao endpoint de webhook do GitHub será aceita sem verificação, o que pode permitir que agentes não autorizados falsifiquem eventos. É altamente recomendado definir um segredo.
 
     '
   text_pull_request_deployed_to: "%{pr_link} implantado para %{deploy_target_link}"
