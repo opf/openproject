@@ -698,6 +698,13 @@ pl:
               not_unique: jest już w użyciu. Wybierz inną nazwę.
         jira:
           invalid_protocol: Podaj prawidłowy protokół (http lub https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1960,6 +1967,37 @@ pl:
       caption_with_maximum: 'Działania użytkownika w pakiecie roboczym (zmiana opisu, statusu, wartości lub pisanie komentarzy) są grupowane, jeśli zostały wykonane w tym okresie. Kontroluje również powiadomienia i opóźnienia [obiektu webhook](webhook_link). Maksymalny czas wynosi %{max} min.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          few: "%{count} work packages"
+          many: "%{count} work packages"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Protokół kontekstu modelu umożliwia agentom AI dostarczanie użytkownikom narzędzi i zasobów udostępnianych przez to wystąpienie OpenProject. Ta funkcja jest nadal w wersji beta.
@@ -3962,6 +4000,7 @@ pl:
   label_journal_diff: Opis porównania
   label_jump_to_a_project: Skok do projektu...
   label_keyword_plural: Słowa kluczowe
+  label_label_plural: Labels
   label_language: Język
   label_language_based: Na podstawie języka użytkownika
   label_languages: Języki

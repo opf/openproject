@@ -70,9 +70,9 @@ uk:
           invalid_scheme: Слід використовувати протокол WebSocket (ws:// or wss://).
           label: URL-адреса сервера Hocuspocus
         page_header:
-          description: |-
-            Якщо увімкнено, спільне редагування в реальному часі дає змогу кільком користувачам одночасно редагувати документ.
-            Для роботи потрібен працездатний %{hocuspocus_server_link}.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Я розумію, що можу назавжди втратити дані
         confirmation_message: Усі наявні документи можуть стати недоступними. Будь ласка, виконуйте цю дію лише якщо впевнені, що хочете вимкнути спільне редагування в реальному часі та редактор BlockNote у цьому середовищі.
@@ -126,7 +126,7 @@ uk:
       currently_offline: Ви зараз не в мережі.
     label_attachment_author: Автор додатку
     label_categories: Категорії
-    last_updated_at: Востаннє збережено о %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Усі документи
       collaboration_settings: Спільне редагування в реальному часі

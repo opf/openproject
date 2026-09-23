@@ -91,14 +91,17 @@ module Projects
         .merge(target_project_params)
     end
 
+    # We need to reference the project instance
+    # before the contract validates it (to set/copy a variant)
+    # so we store it in the state.
+    def instance(_params)
+      state.project = super
+    end
+
     def before_perform(service_call)
       super.tap do |super_call|
         # Retain values after the set attributes service
         retain_attributes(source, super_call.result)
-
-        # Retain the project in the state for other dependent
-        # copy services to use
-        state.project = super_call.result
       end
     end
 
@@ -157,7 +160,22 @@ module Projects
     end
 
     def source_project_types_attribute
-      { project_types: source.project_types.map(&:dup) }
+      {
+        project_types: source.project_types.map { copied_project_type(it) }
+      }
+    end
+
+    ##
+    # If we copy a project type with a variant that is project-specific
+    # we need to also copy the variant itself, otherwise, this will result in a validation error.
+    def copied_project_type(project_type)
+      variant = project_type.variant
+
+      project_type.dup.tap { it.variant = duplicate_variant(variant) if variant.project_owned? }
+    end
+
+    def duplicate_variant(variant)
+      variant.dup.tap { it.project = state.project }
     end
 
     def source_custom_fields

@@ -34,6 +34,7 @@ module OpPrimer
 
     # taken from Primer::Beta::Spinner which sadly does not expose the paths for use in other components
     # https://github.com/opf/primer_view_components/blob/main/app/components/primer/beta/spinner.html.erb
+    # OG: html_safe for static Primer spinner path markup (no user input).
     PATHS = <<~SVG.html_safe
       <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
       <path d="M15 8a7.002 7.002 0 00-7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>

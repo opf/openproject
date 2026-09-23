@@ -696,6 +696,13 @@ hy:
               not_unique: արդեն օգտագործվում է։ Խնդրում ենք ընտրել այլ անվանում։
         jira:
           invalid_protocol: Խնդրում ենք նշել վավեր պրոտոկոլ (http կամ https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1730,6 +1737,35 @@ hy:
       caption_with_maximum: 'Աշխատանքային փաթեթի վրա օգտատիրոջ գործողությունները (նկարագրության, կարգավիճակի, արժեքների փոփոխում կամ մեկնաբանությունների գրում) խմբավորվում են, եթե կատարվում են այս ժամանակահատվածում։ Այն նաև կարգավորում է ծանուցումների և [վեբհուքի](webhook_link) ուշացումները։ Առավելագույնը %{max} րոպե է։
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Model Context Protocol-ը թույլ է տալիս AI գործակալներին իրենց օգտատերերին տրամադրել այս OpenProject համակարգի կողմից բացահայտված գործիքներ և ռեսուրսներ։ Այս հնարավորությունը դեռ բետա փուլում է։
@@ -3674,6 +3710,7 @@ hy:
   label_journal_diff: Նկարագրության համեմատություն
   label_jump_to_a_project: Անցնել նախագծի...
   label_keyword_plural: Հիմնաբառեր
+  label_label_plural: Labels
   label_language: Լեզու
   label_language_based: Ըստ օգտատիրոջ լեզվի
   label_languages: Լեզուներ

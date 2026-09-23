@@ -45,4 +45,4 @@
       end %>
 <% end %>
 
-<%= render(::Storages::Admin::StorageListComponent.new(@storages)) %>
+<%= render(::Storages::Admin::TableComponent.new(rows: @storages)) %>

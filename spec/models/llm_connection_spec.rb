@@ -93,4 +93,41 @@ RSpec.describe LlmConnection do
       expect(described_class.active_connection).to eq(connection)
     end
   end
+
+  # The environment seeder and direct writes reach the model without the
+  # contract, so these have to hold on the model itself.
+  describe "validations" do
+    it "requires an identifier, rather than failing on the NOT NULL column" do
+      connection = build(:llm_connection, identifier: nil)
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:identifier, :blank)
+    end
+
+    it "refuses a format no adapter serves" do
+      connection = build(:llm_connection, api_format: "no-such-format")
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:api_format, :inclusion)
+    end
+
+    it "accepts custom headers that map names to plain strings" do
+      expect(build(:llm_connection, custom_headers: { "api-version" => "2024-02-01" })).to be_valid
+    end
+
+    it "refuses a header value that is not a string" do
+      connection = build(:llm_connection, custom_headers: { "x-retries" => 3 })
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:custom_headers, :invalid)
+    end
+
+    it "refuses a nested header value" do
+      expect(build(:llm_connection, custom_headers: { "x-gateway" => { "key" => "value" } })).not_to be_valid
+    end
+
+    it "refuses a header value carrying a line break" do
+      expect(build(:llm_connection, custom_headers: { "x-gateway" => "one\r\nInjected: two" })).not_to be_valid
+    end
+  end
 end

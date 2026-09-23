@@ -50,7 +50,7 @@ fa:
       openid_connect/user_token:
         one: توکن OpenID Connect
         other: توکن‌های OpenID Connect
-  logout_warning: 'از سیستم خارج شده‌اید. ممکن است محتوای فرم‌هایی که ارسال می‌کنید از دست برود. لطفاً [وارد شوید].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -79,7 +79,7 @@ fa:
       display_name: نام ارائه‌دهنده. این نام روی دکمه ورود و در فهرست ارائه‌دهندگان نمایش داده می‌شود.
       endpoint_url: نشانی نقطه پایانی ارائه‌شده توسط ارائه‌دهنده OpenID Connect
       group_regexes: در هر خط یک الگوی عبارت منظم وارد کنید. برای اطلاعات بیشتر [مستندات](docs_url) را بخوانید.
-      group_regexes_detail: در صورت نیاز، با استفاده از عبارت‌های منظم الگوهایی برای تطبیق نام گروه‌ها از Claim گروه‌ها تعریف کنید. برای نمونه، الگوی <code>^Level1/Level2/([\w/]+)$</code> از پاسخی شامل “Level1/Level2/GroupName/SubGroup”، گروه “Groupname/SubGroup” را استخراج می‌کند. اگر هیچ الگویی تطبیق نکند، گروه نادیده گرفته می‌شود. برای همگام‌سازی همه گروه‌ها با نام کاملشان این قسمت را خالی بگذارید.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: برای آزمایش الگوی عبارت منظم روی نمونه userinfo مربوط به OIDC، روی 'آزمایش الگو' کلیک کنید.
       group_sync: اطلاعات عضویت گروه را به‌طور خودکار از ارائه‌دهنده هویت استخراج و همگام‌سازی کنید.
       groups_claim: نام Claimای را مشخص کنید که انتظار می‌رود نام گروه‌های عضو کاربر را ارائه کند.
@@ -104,7 +104,7 @@ fa:
       oidc_information: این مقادیر برای پیکربندی ارائه‌دهنده OpenID Connect لازم هستند.
       post_logout_redirect_uri: نشانی‌ای که ارائه‌دهنده OpenID Connect پس از درخواست خروج باید به آن هدایت کند.
       scope: اگر می‌خواهید Scopeهای سفارشی درخواست کنید، یک یا چند مقدار Scope را با فاصله در اینجا وارد کنید. برای اطلاعات بیشتر [مستندات OpenID Connect](docs_url) را ببینید.
-      tenant: در صورت نیاز، Tenant پیش‌فرض را با Tenant خودتان جایگزین کنید. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">این راهنما</a> را ببینید.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: ارائه‌دهندگان OpenID
     providers:
       client_details_description: جزئیات پیکربندی OpenProject به‌عنوان کلاینت OIDC

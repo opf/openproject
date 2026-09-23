@@ -25,14 +25,14 @@ ko:
     backlogs:
       announcements:
         batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the work package's current position.
+        fallback_item_label: 작업 패키지
+        fallback_list_name: 다른 목록
+        move_failed_check_position: 이동하지 못했습니다. 작업 패키지의 현재 위치를 확인하세요.
         move_failed_check_positions_batch:
-          other: Move failed. Check the work packages' current positions.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+          other: 이동하지 못했습니다. 작업 패키지의 현재 위치를 확인하세요.
+        move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} work packages returned to their previous positions.
+          other: 이동하지 못했습니다. %{count}개 작업 패키지가 이전 위치로 돌아갔습니다.
         moved: "%{label} moved to position %{position} of %{total}"
         moved_batch:
           other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"

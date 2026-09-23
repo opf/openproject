@@ -68,7 +68,8 @@ RSpec.describe "Admin Create a new file storage",
         expect(page).to have_test_selector("storage-provider-configuration-instructions",
                                            text: "Please make sure you have administration privileges in your " \
                                                  "Nextcloud instance and the application “Integration OpenProject” " \
-                                                 "is installed before doing the setup.")
+                                                 "is installed before doing the setup.",
+                                           normalize_ws: true)
 
         # OAuth application
         expect(page).to have_test_selector("storage-openproject-oauth-label", text: "OpenProject OAuth")
@@ -127,7 +128,7 @@ RSpec.describe "Admin Create a new file storage",
       aggregate_failures "OAuth Client" do
         within_test_selector("storage-oauth-client-form") do
           expect(page).to have_test_selector("storage-provider-credentials-instructions",
-                                             text: "Copy these values from Nextcloud Administration / OpenProject.")
+                                             text: /Copy these values from\s+Nextcloud Administration \/ OpenProject/)
 
           # With null values, form should render inline errors
           expect(page).to have_css("#oauth_client_client_id", value: "")
@@ -309,7 +310,8 @@ RSpec.describe "Admin Create a new file storage",
                                            text: "Please make sure you have administration privileges in the " \
                                                  "Azure portal or contact your Microsoft administrator before " \
                                                  "doing the setup. In the portal, you also need to register an " \
-                                                 "Azure application or use an existing one for authentication.")
+                                                 "Azure application or use an existing one for authentication.",
+                                           normalize_ws: true)
 
         # Access Management
         wait_for { page }.to have_test_selector("access-management-label", text: "Folder and access management")
@@ -373,8 +375,7 @@ RSpec.describe "Admin Create a new file storage",
       aggregate_failures "OAuth Client" do
         within_test_selector("storage-oauth-client-form") do
           expect(page).to have_test_selector("storage-provider-credentials-instructions",
-                                             text: "Copy these values from the desired application in the " \
-                                                   "Azure portal.")
+                                             text: /Copy these values from the desired application in the\s+Azure portal/)
 
           # With null values, upon submit validation errors are show
           expect(page).to have_css("#oauth_client_client_id", value: "")
