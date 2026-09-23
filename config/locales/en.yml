@@ -1801,6 +1801,7 @@ en:
       form:
         api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_discarded: "The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."

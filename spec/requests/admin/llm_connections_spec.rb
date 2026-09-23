@@ -141,10 +141,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(LlmConnection.count).to eq(0)
       end
 
-      it "renders the typed API key back into the form" do
+      # filter_parameters keeps a submitted key out of the logs and does nothing
+      # for a response body, which a proxy, an APM or a HAR capture also sees.
+      it "keeps the typed API key out of the response and says it must be retyped" do
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-typed" } }
 
-        expect(response.body).to include('value="sk-typed"')
+        expect(response.body).not_to include("sk-typed")
+        expect(response.body).to include("was not saved and is not shown again")
         expect(response.body).not_to include("A key is stored")
       end
     end
