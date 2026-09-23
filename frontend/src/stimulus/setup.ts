@@ -43,7 +43,6 @@ import FlashController from './controllers/flash.controller';
 import RequirePasswordConfirmationController from './controllers/require-password-confirmation.controller';
 import PasswordRequirementsController from './controllers/password-requirements.controller';
 import PreviewController from './controllers/dynamic/work-packages/date-picker/preview.controller';
-import CsvImportController from './controllers/dynamic/work-packages/csv-import.controller';
 import KeepScrollPositionController from './controllers/keep-scroll-position.controller';
 import PatternInputController from './controllers/pattern-input.controller';
 import HoverCardTriggerController from './controllers/hover-card-trigger.controller';
@@ -105,7 +104,6 @@ OpenProjectStimulusApplication.preregister('show-when-checked', OpShowWhenChecke
 OpenProjectStimulusApplication.preregister('show-when-value-selected', OpShowWhenValueSelectedController);
 OpenProjectStimulusApplication.preregister('table-highlighting', TableHighlightingController);
 OpenProjectStimulusApplication.preregister('zen-mode', OpZenModeController);
-OpenProjectStimulusApplication.preregister('work-packages--csv-import', CsvImportController);
 OpenProjectStimulusApplication.preregister('work-packages--date-picker--preview', PreviewController);
 OpenProjectStimulusApplication.preregister('keep-scroll-position', KeepScrollPositionController);
 OpenProjectStimulusApplication.preregister('pattern-input', PatternInputController);
