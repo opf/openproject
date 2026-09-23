@@ -44,6 +44,7 @@ group :opf_plugins do
   gem 'openproject-storages',                  path: 'modules/storages'
   gem 'openproject-wikis',                     path: 'modules/wikis'
   gem 'openproject-documents',                 path: 'modules/documents'
+  gem 'openproject-wiki_api',                  path: 'modules/wiki_api',   require: 'open_project/wiki_api'
 
   gem 'openproject-bim',                       path: 'modules/bim'
 end

@@ -232,6 +232,11 @@ PATH
     openproject-webhooks (1.0.0)
 
 PATH
+  remote: modules/wiki_api
+  specs:
+    openproject-wiki_api (1.0.0)
+
+PATH
   remote: modules/wikis
   specs:
     openproject-wikis (1.0.0)
@@ -1690,6 +1695,7 @@ DEPENDENCIES
   openproject-token (~> 8.13.0)
   openproject-two_factor_authentication!
   openproject-webhooks!
+  openproject-wiki_api!
   openproject-wikis!
   openproject-xls_export!
   opentelemetry-exporter-otlp (~> 0.35.1)
@@ -2070,6 +2076,7 @@ CHECKSUMS
   openproject-token (8.13.0) sha256=b9f570200021db72a1b74b88af756552b12c830db22641725dba9d7fd2a942d0
   openproject-two_factor_authentication (1.0.0)
   openproject-webhooks (1.0.0)
+  openproject-wiki_api (1.0.0)
   openproject-wikis (1.0.0)
   openproject-xls_export (1.0.0)
   openssl (4.0.2) sha256=1037ad2868ae58df9ad917891c0c0f9815a1172f6846d4bcdd508e4c2ee747c2
