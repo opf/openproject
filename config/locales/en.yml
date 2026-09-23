@@ -236,6 +236,8 @@ en:
         base_url: "Host URL"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
         llm_features_enabled: "Enable LLMs for this instance"
       llm_model:
         admin_context_window: "Context window"

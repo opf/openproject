@@ -590,6 +590,31 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    describe "GET /admin/llm_models/:id/delete_dialog" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # Requested by the async-dialog Stimulus controller, which asks for a turbo
+      # stream rather than HTML.
+      it "names a connection default as something that would break" do
+        connection.update!(default_chat_model: llm_model)
+
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("stop working until another model is selected")
+        expect(response.body).to include(LlmConnection.human_attribute_name(:default_chat_model_id))
+      end
+
+      it "says only that the model goes when nothing depends on it" do
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include("no longer be offered to AI features")
+        expect(response.body).not_to include("stop working until another model is selected")
+      end
+    end
+
     describe "renaming a manually added model" do
       let!(:llm_model) do
         create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")
