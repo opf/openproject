@@ -932,6 +932,8 @@ components:
       "$ref": "./components/schemas/label_collection_model.yml"
     LabelModel:
       "$ref": "./components/schemas/label_model.yml"
+    LabelWriteModel:
+      "$ref": "./components/schemas/label_write_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
