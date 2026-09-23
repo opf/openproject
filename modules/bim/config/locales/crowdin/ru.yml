@@ -119,7 +119,7 @@ ru:
       zero: Нет проблем BCF
   bim:
     error_direct_upload_failed: Прямая загрузка не удалась.
-    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
+    error_direct_upload_file_too_large: Модель IFC слишком велика (максимальный размер - %{size} байт).
     label_bim: BIM
   export:
     format:

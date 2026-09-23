@@ -525,7 +525,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:attributes) { { type: family_root } }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      variant.update!(workflow: create(:named_workflow))
 
       create(:workflow, type: family_root, role:,
                         old_status_id: root_only_status.id, new_status_id: root_only_status.id)
@@ -1910,19 +1910,20 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  context "with a type whose subject configuration is linked to a source type" do
-    shared_let(:linked_type) do
-      create(:type, name: "Linked").tap do |t|
-        link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)
-        project.project_types.create!(type: t)
+  context "with a variant inheriting its subject configuration from its base" do
+    shared_let(:variant) do
+      create(:type_variant, type: autosubject_type, variant_name: "Inheriting").tap do |v|
+        link_configuration(v, aspect: TypeVariant::DEFAULTS)
       end
     end
 
-    shared_let(:work_package, reload: true) { create(:work_package, type: linked_type, project:) }
+    shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type, project:) }
 
     let(:attributes) { { description: "new description" } }
 
-    it "generates the subject from the linked source type's pattern" do
+    before { project.project_types.find_by(type: autosubject_type).update!(variant:) }
+
+    it "generates the subject from the inherited pattern" do
       expect(subject).to be_success
 
       expect(work_package.reload).to have_attributes(

@@ -58,65 +58,6 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
   end
 
-  describe ".on_visible_type_and_project with a linked form configuration" do
-    shared_let(:source_type) { create(:type) }
-    shared_let(:linked_type) { create(:type) }
-    shared_let(:linked_project) { create(:project, types: [linked_type]) }
-    shared_let(:linked_user) do
-      create(:user, member_with_permissions: { linked_project => [] })
-    end
-
-    # Activated on the SOURCE type and enabled in the linked type's project.
-    shared_let(:source_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [source_type.default_variant])
-    end
-    # Activated on the linked type itself (a leftover from before it was linked).
-    shared_let(:linked_own_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [linked_type.default_variant])
-    end
-
-    subject { WorkPackageCustomField.on_visible_type_and_project(linked_user) }
-
-    context "when the form configuration is linked" do
-      before do
-        linked_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-      end
-
-      it "surfaces the source variant's custom fields for the linked type's project" do
-        expect(subject).to include(source_cf)
-      end
-
-      it "replaces the linked variant's own fields with the source's (not a union)" do
-        expect(subject).not_to include(linked_own_cf)
-      end
-    end
-
-    context "with a multi-hop link chain" do
-      shared_let(:mid_type) { create(:type) }
-
-      before do
-        linked_type.default_variant.update!(form_configuration_source: mid_type.default_variant)
-        mid_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-      end
-
-      it "resolves to the terminal source type's fields" do
-        expect(subject).to include(source_cf)
-      end
-    end
-
-    context "with a cyclic chain" do
-      before do
-        linked_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-        source_type.default_variant
-                   .update_column(:form_configuration_source_id, linked_type.default_variant.id)
-      end
-
-      it "terminates without raising" do
-        expect { subject.to_a }.not_to raise_error
-      end
-    end
-  end
-
   describe ".on_visible_type_and_project when the project applies a named variant" do
     shared_let(:root_type) { create(:type) }
     shared_let(:variant) { create(:type_variant, type: root_type) }
@@ -140,7 +81,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     context "when the variant inherits its form configuration" do
-      before { variant.update!(form_configuration_source: root_type.default_variant) }
+      before { variant.link!(TypeVariant::FORM_CONFIGURATION) }
 
       it "surfaces the type's fields" do
         expect(subject).to include(root_cf)
@@ -148,6 +89,12 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
 
       it "does not surface the variant's own fields" do
         expect(subject).not_to include(variant_cf)
+      end
+
+      it "hides a field the variant excludes from what it inherits" do
+        variant.update!(form_configuration_excluded_elements: [root_cf.attribute_name])
+
+        expect(subject).not_to include(root_cf)
       end
     end
 

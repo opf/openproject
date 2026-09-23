@@ -28,8 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Who may author a variant. A global one is instance configuration and stays with the
-# administrators; one a project owns may also be authored from inside that project.
+# Who may author an owned configuration record, such as a variant or a workflow. A global one is
+# instance configuration and stays with the administrators; one a project owns may also be
+# authored from inside that project.
 #
 module AuthorizesVariantAuthoring
   extend ActiveSupport::Concern

@@ -29,6 +29,12 @@
 #++
 
 Rails.application.routes.draw do
+  scope module: "grids" do
+    namespace :widgets do
+      resource :time_entries_current_user, controller: :time_entries_current_user, only: %i[show]
+    end
+  end
+
   resources :time_entries, only: %i[create update destroy] do
     get :dialog, on: :collection
     get :dialog, on: :member
@@ -54,7 +60,7 @@ Rails.application.routes.draw do
         as: :time_tracking,
         constraints: {
           mode: /day|week|workweek|month/,
-          view_mode: /list|calendar/,
+          view_mode: /list|calendar|stack/,
           date: /(\d{4}-\d{2}-\d{2}|today)/
         }
     get "/time-tracking/refresh" => "time_tracking#refresh",

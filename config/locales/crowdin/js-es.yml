@@ -804,32 +804,32 @@ es:
       sorting_disabled: ordenación deshabilitada
     sortable_lists:
       announcements:
-        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
+        batch_too_large: No se pueden trasladar %{count} elementos a la vez. Seleccione no más de %{max}.
         fallback_item_label: Elemento
         fallback_list_name: otra lista
         move_failed_check_position: No se ha podido trasladar. Comprueba la posición actual del elemento.
         move_failed_check_positions_batch:
-          other: Move failed. Check the items' current positions.
+          other: No se ha podido trasladar. Compruebe las posiciones actuales de los elementos.
         move_failed_rolled_back: No se ha podido trasladar. %{label} regresó a su posición anterior.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} items returned to their previous positions.
+          other: No se pudo trasladar. %{count} elementos regresaron a sus posiciones anteriores.
         moved: "%{label} se trasladó al puesto %{position} de %{total}"
         moved_batch:
-          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} elementos se han trasladado a las posiciones %{first}-%{last} de %{total}"
         moved_batch_to_list:
-          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} elementos se han trasladado a %{list}, a las posiciones %{first}-%{last} de %{total}"
         moved_to_list: "%{label} se trasladó a %{list}, posición %{position} de %{total}"
       selection:
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        cleared: Selección eliminada.
+        not_selectable: La selección no ha cambiado. Este elemento no influye en el orden de esta lista.
+        range_blocked: La selección no ha cambiado. Ese rango contiene un elemento que no influye en el orden de esta lista.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
-          other: Could not extend the range. %{count} items selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: No se pudo ampliar el rango. Se seleccionó 1 elemento.
+          other: No se pudo ampliar el rango. Se seleccionaron %{count} elementos.
+        range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
-          one: 1 item selected.
-          other: "%{count} items selected."
+          one: 1 elemento seleccionado.
+          other: "%{count} elementos seleccionados."
     spot:
       drop_modal:
         close: Cerrar ventana modal

@@ -149,10 +149,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(LlmConnection.count).to eq(0)
       end
 
-      it "renders the typed API key back into the form" do
+      # filter_parameters keeps a submitted key out of the logs and does nothing
+      # for a response body, which a proxy, an APM or a HAR capture also sees.
+      it "keeps the typed API key out of the response and says it must be retyped" do
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-typed" } }
 
-        expect(response.body).to include('value="sk-typed"')
+        expect(response.body).not_to include("sk-typed")
+        expect(response.body).to include("was not saved and is not shown again")
         expect(response.body).not_to include("A key is stored")
       end
 
@@ -180,6 +183,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-wrong" } }
 
         expect(LlmConnection.count).to eq(0)
+      end
+    end
+
+    # The reported case: a host without its version segment answers 404 whatever
+    # the key is, so accepting it saved a connection whose key had been judged by
+    # nothing at all.
+    context "with a URL that has no model list behind it" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+      it "refuses the save and says the key could not be verified either" do
+        patch llm_connection_path,
+              params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
+
+        expect(LlmConnection.where(base_url:)).not_to exist
+        expect(response.body).to include("API key could not be verified")
       end
     end
 

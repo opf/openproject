@@ -34,7 +34,6 @@ RSpec.describe "Work package type configuration dependents",
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Task") }
-  shared_let(:borrowing_type) { create(:type, name: "Feature") }
 
   let(:aspect) { TypeVariant::PDF_EXPORT }
 
@@ -48,8 +47,9 @@ RSpec.describe "Work package type configuration dependents",
       expect(response.body).to include("No dependent types")
     end
 
-    it "counts the dependents once another variant borrows the aspect" do
-      link_configuration(borrowing_type, source: type, aspect:)
+    it "counts the dependents once a variant borrows the aspect" do
+      variant = create(:type_variant, type:, variant_name: "Hardware")
+      link_configuration(variant, aspect:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
@@ -57,9 +57,9 @@ RSpec.describe "Work package type configuration dependents",
       expect(response.body).to include("View dependent types")
     end
 
-    it "counts a variant borrowing through another one in the same total" do
-      link_configuration(borrowing_type, source: type, aspect:)
-      link_configuration(create(:type, name: "Bug"), source: borrowing_type, aspect:)
+    it "counts several borrowing variants in the same total" do
+      link_configuration(create(:type_variant, type:, variant_name: "Hardware"), aspect:)
+      link_configuration(create(:type_variant, type:, variant_name: "Software"), aspect:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
@@ -68,31 +68,17 @@ RSpec.describe "Work package type configuration dependents",
   end
 
   describe "the dialog" do
-    before { link_configuration(borrowing_type, source: type, aspect:) }
+    let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
+
+    before { link_configuration(variant, aspect:) }
 
     it "lists every dependent with a link to its own configuration" do
       get type_configuration_dependents_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Feature")
+      expect(response.body).to include("Hardware")
       expect(response.body).to include(
-        edit_type_pdf_export_template_index_path(type_id: borrowing_type.id,
-                                                 variant_id: borrowing_type.default_variant.id)
-      )
-    end
-
-    it "lists a variant borrowing through another, naming the variant it comes through" do
-      indirect_variant = create(:type_variant, type: create(:type, name: "Bug"), variant_name: "iOS")
-      link_configuration(indirect_variant, source: borrowing_type, aspect:)
-
-      get type_configuration_dependents_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
-
-      expect(response.body).to include("Direct dependents")
-      expect(response.body).to include("Dependents through other types")
-      expect(response.body).to include("Variant of <b>Bug</b>, inheriting via")
-      expect(response.body).to include(
-        edit_type_pdf_export_template_index_path(type_id: indirect_variant.type_id,
-                                                 variant_id: indirect_variant.id)
+        edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
       )
     end
 
