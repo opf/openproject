@@ -84,6 +84,9 @@ import {
 import {
   VersionsEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
+import {
+  LabelsEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/labels-edit-field.component';
 import { ProjectPhaseAutocompleterComponent } from '../../autocompleter/project-phase-autocompleter/project-phase-autocompleter.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -95,6 +98,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(ProgressPopoverEditFieldComponent, 'progress', ['Progress'])
       .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
       .addFieldType(UserEditFieldComponent, 'user', ['User'])
+      .addFieldType(LabelsEditFieldComponent, 'labels', ['[]Label'])
       .addFieldType(SelectEditFieldComponent, 'select', [
         'Priority',
         'ProjectPhase',
