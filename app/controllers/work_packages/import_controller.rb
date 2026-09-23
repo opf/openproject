@@ -35,13 +35,15 @@ class WorkPackages::ImportController < ApplicationController
   before_action :find_project_by_project_id, :authorize
   before_action :load_status, only: %i[show status problems]
 
+  helper_method :import_outcome, :import_running?, :import_checked?, :import_settled?
+
   def show; end
 
-  # Its own action rather than a format of #show: Turbo asks for a stream first when it follows
-  # the redirect out of #create, and answering that with streams leaves the address bar behind,
-  # so a reload would lose the run.
   def status
-    render turbo_stream: report_streams
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: report_streams }
+      format.html { redirect_to import_project_work_packages_path(@project, job: params[:job]) }
+    end
   end
 
   def create
@@ -73,8 +75,14 @@ class WorkPackages::ImportController < ApplicationController
 
   private
 
-  # Both regions, so the poll never has to reconcile a report with a form that still offers to
-  # upload the file it is reporting on.
+  def import_outcome = @status&.payload&.dig("outcome")
+
+  def import_running? = @status.present? && import_outcome.blank?
+
+  def import_checked? = import_outcome == "checked"
+
+  def import_settled? = %w[checked imported].include?(import_outcome) && @error.blank?
+
   def report_streams
     [turbo_stream.replace("import_report", partial: "work_packages/import/report"),
      turbo_stream.replace("import_form", partial: "work_packages/import/form")]
@@ -96,8 +104,7 @@ class WorkPackages::ImportController < ApplicationController
     @status = nil
   end
 
-  # A refused upload is a form error, not a run: re-render the page with the message on the file
-  # field, keeping whatever report the reader arrived with.
+  # A refused upload is a form error, not a run: re-render the page with the message on the file field
   def refuse(message, expired: false)
     load_status
 

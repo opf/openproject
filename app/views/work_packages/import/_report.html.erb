@@ -1,9 +1,5 @@
-<%
-  running = @status.present? && @status.payload["outcome"].blank?
-%>
-
 <%= render Primer::Box.new(id: "import_report") do %>
-  <% if running %>
+  <% if import_running? %>
     <%=
       render Primer::Box.new(
         tag: :span,
