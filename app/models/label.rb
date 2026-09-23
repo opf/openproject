@@ -53,6 +53,10 @@ class Label < ApplicationRecord
       .order(arel_table[:name].lower.asc)
   }
 
+  scope :named, ->(name) {
+    where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
+  }
+
   normalizes :name, with: -> { it.squish }
 
   validates :name,
