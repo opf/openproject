@@ -114,8 +114,7 @@ module LlmConnections
 
       cards.each do |card|
         model = connection.models.find_or_initialize_by(external_id: card.fetch(:id))
-        model.update!(display_name: card[:display_name].presence || model.display_name,
-                      raw_metadata: merged_metadata(model, card),
+        model.update!(raw_metadata: merged_metadata(model, card),
                       last_seen_at: now,
                       active: true)
       end
@@ -167,9 +166,8 @@ module LlmConnections
       connection.reload
     end
 
-    # The server names the model, but only when it says so: the administrator's
-    # display name and context-window override are theirs, and a routine refresh
-    # must not silently discard them.
+    # The administrator's context-window override is theirs, and a routine
+    # refresh must not silently discard it.
     #
     # The incoming card is stripped of the override's key first. Without that, a
     # server sending "admin_context_window" of its own would have it stored

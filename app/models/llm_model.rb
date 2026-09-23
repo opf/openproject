@@ -74,7 +74,9 @@ class LlmModel < ApplicationRecord
     clear_connection_defaults
   end
 
-  def name = display_name.presence || external_id
+  # display_name is an administrator's; the name the server or the registry
+  # reported is metadata, so a refresh updates one and never the other.
+  def name = display_name.presence || raw_metadata["name"].presence || external_id
 
   def clear_connection_defaults
     defaults = CONNECTION_DEFAULTS
