@@ -59,7 +59,3 @@ OpenProject::FeatureDecisions.add :sprint_reports,
 
 OpenProject::FeatureDecisions.add :ai_text_transform_actions,
                                   description: "Enables the admin UI to manage AI text transform actions."
-
-OpenProject::FeatureDecisions.add :csv_import,
-                                  description: "Enables importing work packages from a CSV file " \
-                                               "at project level."

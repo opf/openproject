@@ -237,7 +237,6 @@ OPENPROJECT_ENTERPRISE__PLAN (default="enterprise-on-premises---basic---euro---1
 OPENPROJECT_ENTERPRISE__TRIAL__CREATION__HOST (default="https://start.openproject.com") Host for EE trial service
 OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE (default=false) Enables the admin UI to manage AI text transform actions.
 OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE (default=true) Allows the display and use of built-in OAuth applications.
-OPENPROJECT_FEATURE__CSV__IMPORT__ACTIVE (default=false) Enables importing work packages from a CSV file at project level.
 OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE (default=false)
 OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE (default=false) Allow exporting a meeting with FITKO styling. See #65124 for details.
 OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE (default=false) Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress.
