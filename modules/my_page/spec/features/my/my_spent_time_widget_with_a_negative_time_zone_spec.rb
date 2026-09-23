@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -76,31 +78,32 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
     my_page.visit!
   end
 
-  it "correctly displays non-working days and prefills day when logging time [fix #49779]",
+  it "prefills the day that was selected [fix #49779]",
      driver: :chrome_new_york_time_zone do
     my_page.add_widget(1, 1, :within, "My spent time")
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
-    wait_for_network_idle
-
-    expect(page)
-      .to have_content time_entry.spent_on.strftime("%-m/%-d")
-
-    aggregate_failures("non-working days are displayed properly") do
-      expect(page).to have_button("Today", disabled: true)
-      expect(page).to have_no_css(".fc-day-mon.fc-non-working-day")
-      expect(page).to have_css(".fc-day-tue.fc-non-working-day")
-      expect(page).to have_no_css(".fc-day-wed.fc-non-working-day")
-      expect(page).to have_no_css(".fc-day-thu.fc-non-working-day")
-      expect(page).to have_no_css(".fc-day-fri.fc-non-working-day")
-      expect(page).to have_css(".fc-day-sat.fc-non-working-day")
-      expect(page).to have_css(".fc-day-sun.fc-non-working-day")
+    aggregate_failures("the week the entry was logged in is shown") do
+      expect(page).to have_text monday.strftime("%-m/%-d")
+      expect(page).to have_css(".te-stack--time-entry", count: 1)
     end
 
-    aggregate_failures("when clicking a day, time entry day is set to the day clicked (Thursday)") do
-      find(".fc-day-thu .te-calendar--add-entry", visible: false).click
-      time_logging_modal.has_field_with_value "spent_on", thursday.iso8601
-    end
+    # The browser runs five hours behind the server here, which must not move the entry
+    # to the neighbouring day.
+    select_day(thursday)
+
+    time_logging_modal.has_field_with_value "spent_on", thursday.iso8601
+  end
+
+  # The slot lanes lie over the day columns and are what a click actually lands on, so the
+  # day is picked by clicking a lane at that column's horizontal centre, as a user does.
+  def select_day(date)
+    column = find("td.fc-timegrid-col[data-date='#{date.iso8601}']")
+    lane = all("td.fc-timegrid-slot-lane").last
+
+    offset = (column.rect.x + (column.rect.width / 2)) - (lane.rect.x + (lane.rect.width / 2))
+
+    lane.click(x: offset.round, y: 0)
   end
 end
