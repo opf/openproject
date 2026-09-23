@@ -95,6 +95,27 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "nomic-embed-text")
     end
 
+    # Each probe is a billed request on some providers, so both of the filters
+    # that keep the batch small are worth pinning: nothing would catch either one
+    # being removed.
+    it "probes only models whose name suggests they embed" do
+      create(:llm_model, llm_connection: connection, external_id: "llama4-70b-instruct")
+      create(:llm_model, llm_connection: connection, external_id: "gte-large")
+
+      service.detect_likely_embedding_models
+
+      expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "gte-large")
+    end
+
+    it "stops at the batch limit in one run" do
+      limit = described_class::BACKGROUND_LIMIT
+      (limit + 3).times { |i| create(:llm_model, llm_connection: connection, external_id: "embed-#{i}") }
+
+      service.detect_likely_embedding_models
+
+      expect(connection.capability_verdicts.count).to eq(limit)
+    end
+
     it "leaves out a model the server has withdrawn" do
       create(:llm_model, :withdrawn, llm_connection: connection, external_id: "nomic-embed-text")
 

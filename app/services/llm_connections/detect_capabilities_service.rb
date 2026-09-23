@@ -80,8 +80,10 @@ module LlmConnections
       @probe ||= Llm::Probes::EmbeddingsProbe.new(connection)
     end
 
-    # A model an administrator switched off is not going to be bound to a
-    # feature, so a speculative probe against it is a request spent for nothing.
+    # Narrowed twice before anything is sent, because a probe is a billed request
+    # on some providers: only models whose name suggests they embed at all, never
+    # one an administrator has already ruled on, and never more than the batch
+    # limit in one background run.
     def candidates
       connection.available_model_ids
                 .grep(EMBEDDING_NAME_HINT)
