@@ -79,6 +79,60 @@ RSpec.describe "my time tracking", :js do
     end
   end
 
+  def expect_tracking_title(mode:, view:, date:)
+    expect(page).to have_title(
+      "#{mode} #{view} #{I18n.l(Date.iso8601(date))} | My time tracking | #{Setting.app_title}",
+      exact: true
+    )
+  end
+
+  describe "navigation" do
+    %w[calendar list stack].each do |view|
+      it "updates the title when navigating dates and periods in the #{view} view" do
+        visit my_time_tracking_path(date: "2025-04-09", view_mode: view, mode: "day")
+        expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
+
+        within "turbo-frame#my-time-tracking-view" do
+          click_link I18n.t(:label_next_day)
+        end
+        expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-10")
+
+        within "turbo-frame#my-time-tracking-view" do
+          click_link I18n.t(:label_previous_day)
+        end
+        expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
+
+        within "turbo-frame#my-time-tracking-view" do
+          click_link I18n.t(:label_previous_day)
+        end
+        expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-08")
+
+        within "turbo-frame#my-time-tracking-view" do
+          click_link I18n.t(:label_today_capitalized)
+        end
+        expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
+
+        within "turbo-frame#my-time-tracking-view" do
+          click_button "Day"
+          click_link "Week", exact: true
+        end
+        expect_tracking_title(mode: "Week", view: view.capitalize, date: "2025-04-09")
+      end
+    end
+
+    it "updates the title when switching views" do
+      visit my_time_tracking_path(date: "2025-04-09", view_mode: "list", mode: "day")
+      expect_tracking_title(mode: "Day", view: "List", date: "2025-04-09")
+
+      %w[Calendar Stack List].each do |view|
+        within "turbo-frame#my-time-tracking-view" do
+          click_link view, exact: true
+        end
+        expect_tracking_title(mode: "Day", view:, date: "2025-04-09")
+      end
+    end
+  end
+
   context "when requesting list view" do
     context "when today is part of the selected week" do
       before do

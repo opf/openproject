@@ -36,7 +36,13 @@ module My
       FRAME_ID = "my-time-tracking-view"
 
       def call
-        helpers.turbo_frame_tag(FRAME_ID, data: { turbo_action: "advance" }) { content }
+        helpers.turbo_frame_tag(FRAME_ID, data: { turbo_action: "advance" }) do
+          parts = [content]
+          if helpers.turbo_frame_request?
+            parts << helpers.turbo_stream.set_title(title: helpers.page_title(*helpers.html_title_parts))
+          end
+          safe_join(parts)
+        end
       end
     end
   end
