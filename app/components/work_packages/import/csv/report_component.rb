@@ -35,8 +35,6 @@ module WorkPackages
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
 
-        LISTABLE_IDS = 250 # the max IDs that fit in an URL
-
         SHOWN_PROBLEMS = 500 # a table nobody scrolls past, the download carries the rest
 
         def initialize(status:, project:)
@@ -215,42 +213,12 @@ module WorkPackages
         def problems_path = import_problems_project_work_packages_path(project, job: status.job_id)
 
         def created_list_path
-          return if payload["started_at"].blank?
+          return if query_id.blank?
 
-          project_work_packages_path(project, query_props: created_query.to_json)
+          project_work_packages_path(project, query_id:)
         end
 
-        def created_query
-          {
-            t: newest_first? ? "id:desc" : "id:asc",
-            f: created_filters
-          }
-        end
-
-        def created_filters
-          case list_mode
-          when :ids then [{ n: "id", o: "=", v: created_ids.map(&:to_s) }]
-          when :window then [{ n: "createdAt", o: "<>d", v: [payload["started_at"], payload["finished_at"]] },
-                             author_filter]
-          else [author_filter]
-          end
-        end
-
-        def author_filter = { n: "author", o: "=", v: [status.user_id.to_s] }
-
-        def list_mode
-          return :ids if listable_ids?
-
-          back_dated? ? :newest : :window
-        end
-
-        def created_ids = payload["created_ids"].to_a
-
-        def listable_ids? = created_ids.any? && created_ids.size <= LISTABLE_IDS
-
-        def back_dated? = payload["back_dated"].to_i.positive?
-
-        def newest_first? = list_mode == :newest
+        def query_id = payload["query_id"]
       end
     end
   end
