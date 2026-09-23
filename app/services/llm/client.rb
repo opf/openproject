@@ -90,9 +90,7 @@ module Llm
     attr_reader :base_url, :api_key, :timeout, :headers
 
     # A gateway may answer with the bare array rather than the list object the
-    # OpenAI schema documents. Wrapping it is the same accommodation this client
-    # already makes for a missing JSON content type: the catalogue is there, and
-    # the envelope around it is not what makes a server usable.
+    # OpenAI schema documents.
     def envelope(body)
       return body if body.is_a?(Hash) && body["data"].is_a?(Array)
       return { "object" => "list", "data" => body } if body.is_a?(Array)
