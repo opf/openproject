@@ -156,7 +156,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     # The case that matters for OpenProject's own gateway: chat completions are
     # routed, the model list is not.
     context "with a server that exposes no model list" do
-      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 405) }
 
       it "still saves the connection and says models must be added by hand" do
         patch llm_connection_path,
