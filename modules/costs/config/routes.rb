@@ -96,14 +96,8 @@ Rails.application.routes.draw do
 
       resources :time_entry_custom_fields, controller: "/admin/settings/time_entry_custom_fields" do
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
-
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
-
           get :deletion_dialog
         end
       end

@@ -89,7 +89,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   # Helper: look up the OP custom field by name and return its value on the WP
   def cf_value(cf_name)
     cf = WorkPackageCustomField.find_by!(name: cf_name)
-    imported_wp.send(cf.attribute_getter)
+    value = imported_wp.send(cf.attribute_getter)
+    return value unless cf.list?
+
+    value.is_a?(Array) ? value.map(&:label) : value&.label
   end
 
   describe "string field (com.atlassian.jira.plugin.system.customfieldtypes:textfield)" do
@@ -291,7 +294,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     it "creates a 'list' custom field with the available options" do
       cf = WorkPackageCustomField.find_by!(name: "CF List")
       expect(cf.field_format).to eq("list")
-      expect(cf.custom_options.pluck(:value)).to contain_exactly("Cat", "Dog", "Green", "Red")
+      expect(cf.possible_values.pluck(:label)).to contain_exactly("Cat", "Dog", "Green", "Red")
     end
 
     it "is not multi-value" do
@@ -400,7 +403,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "populates all checkbox options as possible values" do
       cf = WorkPackageCustomField.find_by!(name: "CF Booleans")
-      expect(cf.custom_options.pluck(:value)).to contain_exactly("Check 1", "Check 2")
+      expect(cf.possible_values.pluck(:label)).to contain_exactly("Check 1", "Check 2")
     end
 
     it "sets the selected options as list values on the work package" do
@@ -509,8 +512,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     it "populates each CF with its own set of options" do
       cf_dyx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (ZBX)")
-      expect(cf_dyx.custom_options.pluck(:value)).to contain_exactly("Alpha", "Beta")
-      expect(cf_zbx.custom_options.pluck(:value)).to contain_exactly("Gamma", "Delta")
+      expect(cf_dyx.possible_values.pluck(:label)).to contain_exactly("Alpha", "Beta")
+      expect(cf_zbx.possible_values.pluck(:label)).to contain_exactly("Gamma", "Delta")
     end
 
     it "sets the value using the issue's matching context CF" do
@@ -607,7 +610,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "populates all radio options as possible values" do
       cf = WorkPackageCustomField.find_by!(name: "CF Radio")
-      expect(cf.custom_options.pluck(:value)).to contain_exactly("Option A", "Option B")
+      expect(cf.possible_values.pluck(:label)).to contain_exactly("Option A", "Option B")
     end
 
     it "sets the selected option as the list value on the work package" do
@@ -668,8 +671,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     it "populates each CF with its own set of options" do
       cf_dyx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (ZBX)")
-      expect(cf_dyx.custom_options.pluck(:value)).to contain_exactly("North", "South")
-      expect(cf_zbx.custom_options.pluck(:value)).to contain_exactly("East", "West")
+      expect(cf_dyx.possible_values.pluck(:label)).to contain_exactly("North", "South")
+      expect(cf_zbx.possible_values.pluck(:label)).to contain_exactly("East", "West")
     end
 
     it "sets the value using the issue's matching context CF" do
@@ -712,7 +715,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "populates options from the values found in imported issues" do
       cf = WorkPackageCustomField.find_by!(name: "CF Labels")
-      expect(cf.custom_options.pluck(:value)).to contain_exactly("Label A", "Label B")
+      expect(cf.possible_values.pluck(:label)).to contain_exactly("Label A", "Label B")
     end
 
     it "sets the selected labels on the work package" do
@@ -868,7 +871,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "populates all tree nodes as path-based list options" do
       cf = WorkPackageCustomField.find_by!(name: "CF Cascading")
-      expect(cf.custom_options.pluck(:value)).to contain_exactly(
+      expect(cf.possible_values.pluck(:label)).to contain_exactly(
         "Critical",
         "Critical / Security",
         "Critical / Performance",
@@ -912,7 +915,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       it "collects the option from the imported issues and sets the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
-        expect(cf.custom_options.pluck(:value)).to contain_exactly("Cat")
+        expect(cf.possible_values.pluck(:label)).to contain_exactly("Cat")
         expect(cf.multi_value).to be false
         expect(cf_value("CF List")).to eq("Cat")
       end
@@ -929,7 +932,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       it "collects all options from the imported issues and sets both values" do
         cf = WorkPackageCustomField.find_by!(name: "CF Multi-List")
-        expect(cf.custom_options.pluck(:value)).to contain_exactly("Mouse", "Turtle")
+        expect(cf.possible_values.pluck(:label)).to contain_exactly("Mouse", "Turtle")
         expect(cf.multi_value).to be true
         expect(cf_value("CF Multi-List")).to contain_exactly("Mouse", "Turtle")
       end
@@ -965,7 +968,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       it "adds the missing option next to the reported ones and sets the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
-        expect(cf.custom_options.pluck(:value)).to contain_exactly("Dog", "Cat")
+        expect(cf.possible_values.pluck(:label)).to contain_exactly("Dog", "Cat")
         expect(cf_value("CF List")).to eq("Cat")
       end
     end
@@ -989,7 +992,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       it "matches the stripped option instead of dropping the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
-        expect(cf.custom_options.pluck(:value)).to contain_exactly("Cat")
+        expect(cf.possible_values.pluck(:label)).to contain_exactly("Cat")
         expect(cf_value("CF List")).to eq("Cat")
       end
     end
@@ -1281,7 +1284,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       custom_field = WorkPackageCustomField.sole
       expect(WorkPackage.count).to eq(2)
-      expect(WorkPackage.all.map { |wp| wp.send(custom_field.attribute_getter) }).to all(eq("Cat"))
+      expect(WorkPackage.all.map { |wp| wp.send(custom_field.attribute_getter).label }).to all(eq("Cat"))
     end
 
     it "creates one custom field even when it was already created by the custom fields job" do

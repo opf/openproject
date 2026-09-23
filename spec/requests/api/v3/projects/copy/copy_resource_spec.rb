@@ -47,7 +47,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
            enabled_module_names: %w[work_package_tracking],
            custom_field_values: {
              text_custom_field.id => "source text",
-             list_custom_field.id => list_custom_field.custom_options.last.id
+             list_custom_field.id => list_custom_field.possible_values.last.id
            })
   end
 
@@ -138,7 +138,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
         expect(project).to be_present
 
         expect(project.custom_value_for(text_custom_field).value).to eq "CF text"
-        expect(project.custom_value_for(list_custom_field).formatted_value).to eq list_custom_field.custom_options.last.value
+        expect(project.custom_value_for(list_custom_field).formatted_value).to eq list_custom_field.possible_values.last.label
       end
     end
 

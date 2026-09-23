@@ -190,11 +190,10 @@ RSpec.describe CustomFieldFormBuilder do
 
     context "for a list custom field" do
       let(:custom_field) do
-        create(:list_wp_custom_field,
-               custom_options: [custom_option])
+        create(:list_wp_custom_field, possible_values: ["my_option"])
       end
       let(:custom_option) do
-        create(:custom_option, value: "my_option")
+        custom_field.possible_values.find_by(label: "my_option")
       end
 
       it_behaves_like "wrapped in container", "select-container" do

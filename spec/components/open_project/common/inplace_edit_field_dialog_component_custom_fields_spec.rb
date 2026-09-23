@@ -138,9 +138,9 @@ RSpec.describe OpenProject::Common::InplaceEditFieldDialogComponent, type: :comp
         create(:list_project_custom_field, projects: [project], has_comment: comments_enabled, multi_value: multiple,
                                            possible_values: ["Option 1", "Option 2", "Option 3"])
       end
-      let(:selected_options) { custom_field.custom_options.first(multiple ? 2 : 1) }
+      let(:selected_options) { custom_field.possible_values.first(multiple ? 2 : 1) }
       let(:initial_values) { selected_options.pluck(:id) }
-      let(:value_matcher) { have_text(selected_options.pluck(:value).join(", ")) }
+      let(:value_matcher) { have_text(selected_options.pluck(:label).join(", ")) }
 
       include_examples "custom field comments and read-only values"
     end

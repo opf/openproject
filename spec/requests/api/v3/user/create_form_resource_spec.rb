@@ -136,7 +136,7 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
       let!(:list_custom_field) do
         create(:user_custom_field, :list)
       end
-      let(:custom_option_href) { api_v3_paths.custom_option(list_custom_field.custom_options.first.id) }
+      let(:custom_option_href) { api_v3_paths.custom_field_item(list_custom_field.possible_values.first.id) }
 
       let(:payload) do
         {

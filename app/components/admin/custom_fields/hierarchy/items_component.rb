@@ -86,7 +86,9 @@ module Admin
         end
 
         def blank_header_text
-          if model.root?
+          if root.custom_field.list?
+            "custom_fields.admin.items.blankslate.list.title"
+          elsif model.root?
             "custom_fields.admin.items.blankslate.root.title"
           else
             "custom_fields.admin.items.blankslate.item.title"
@@ -94,7 +96,9 @@ module Admin
         end
 
         def blank_description_text
-          if model.root?
+          if root.custom_field.list?
+            "custom_fields.admin.items.blankslate.list.description"
+          elsif model.root?
             "custom_fields.admin.items.blankslate.root.description"
           else
             "custom_fields.admin.items.blankslate.item.description"

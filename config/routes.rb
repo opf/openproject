@@ -970,8 +970,6 @@ Rails.application.routes.draw do
       end
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
           put :move
           put :drop
 
@@ -986,9 +984,6 @@ Rails.application.routes.draw do
 
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
-
           get :deletion_dialog
         end
 
@@ -1025,16 +1020,11 @@ Rails.application.routes.draw do
         end
 
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
           put :move
           put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
-
           get :deletion_dialog
         end
 
@@ -1076,42 +1066,24 @@ Rails.application.routes.draw do
 
       resources :work_package_custom_fields, controller: "/admin/settings/work_package_custom_fields" do
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
-
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
-
           get :deletion_dialog
         end
       end
 
       resources :version_custom_fields, controller: "/admin/settings/version_custom_fields" do
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
-
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
-
           get :deletion_dialog
         end
       end
 
       resources :group_custom_fields, controller: "/admin/settings/group_custom_fields" do
         member do
-          delete "options/:option_id", action: "delete_option", as: :delete_option_of
-          post :reorder_alphabetical
-
           get :attribute_help_text
           put :update_attribute_help_text
-
-          get :list_items
-
           get :deletion_dialog
         end
       end

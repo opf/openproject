@@ -98,7 +98,7 @@ RSpec.describe API::V3::Projects::CreateFormAPI, content_type: :json do
           statusExplanation: { raw: "A magic dwells in each beginning." },
           _links: {
             list_custom_field.attribute_name(:camel_case) => {
-              href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+              href: api_v3_paths.custom_field_item(list_custom_field.possible_values.first.id)
             },
             status: {
               href: api_v3_paths.project_status("on_track")
@@ -127,7 +127,7 @@ RSpec.describe API::V3::Projects::CreateFormAPI, content_type: :json do
           .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
         expect(body)
-          .to be_json_eql(api_v3_paths.custom_option(list_custom_field.custom_options.first.id).to_json)
+          .to be_json_eql(api_v3_paths.custom_field_item(list_custom_field.possible_values.first.id).to_json)
           .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/href")
 
         expect(body)

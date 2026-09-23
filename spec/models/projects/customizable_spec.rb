@@ -186,7 +186,7 @@ RSpec.describe Project, "customizable" do
 
       it "reports sorted changes for a multi-value field" do
         project.project_custom_fields << multi_list_custom_field
-        values = multi_list_custom_field.custom_options.reverse.map { it.id.to_s }
+        values = multi_list_custom_field.possible_values.reverse.map { it.id.to_s }
         project.custom_field_values = { multi_list_custom_field.id => values }
 
         expect(project.custom_field_changes)

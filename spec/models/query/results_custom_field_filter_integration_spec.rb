@@ -42,8 +42,8 @@ RSpec.describe Query::Results, "Filtering custom fields" do
 
   def custom_values_for(*names)
     custom_field
-      .custom_options
-      .where(value: names)
+      .possible_values
+      .where(label: names)
       .pluck(:id)
       .map do |value|
       CustomValue.new(custom_field_id: custom_field.id, value:)
@@ -86,7 +86,7 @@ RSpec.describe Query::Results, "Filtering custom fields" do
           show_hierarchies: false,
           project:).tap do |q|
       q.filters.clear
-      q.add_filter(custom_field.column_name, operator, custom_field.custom_options.where(value: values).pluck(:id))
+      q.add_filter(custom_field.column_name, operator, custom_field.possible_values.where(label: values).pluck(:id))
     end
   end
 

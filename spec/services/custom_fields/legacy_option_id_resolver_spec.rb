@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hierarchies] do
   let(:custom_field) { create(:list_wp_custom_field) }
-  let(:root) { CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(custom_field).value! }
+  let(:root) { custom_field.hierarchy_root }
   let(:item) do
     CustomFields::Hierarchy::HierarchicalItemService
       .new

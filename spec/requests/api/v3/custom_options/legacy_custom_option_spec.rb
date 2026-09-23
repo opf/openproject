@@ -28,50 +28,34 @@
 #++
 
 require "spec_helper"
+require "rack/test"
 
-def get_possible_values(amount)
-  (1..amount).to_a.map { |x| "PREFIX #{x}" }
-end
+RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-def get_shuffled_possible_values(amount)
-  get_possible_values(amount).shuffle(random: Random.new(2))
-end
+  shared_let(:user) { create(:admin) }
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[pear], types: [type]) }
 
-def get_possible_values_reordered(amount)
-  get_possible_values(amount).sort
-end
-
-RSpec.describe "Reordering custom options of a list custom field", :js do
-  let(:user) { create(:admin) }
-  let(:cf_page) { Pages::CustomFields::Index.new }
-
-  let!(:custom_field) do
-    create(
-      :list_wp_custom_field,
-      name: "Platform",
-      possible_values: get_shuffled_possible_values(200)
-    )
-  end
+  let(:item) { custom_field.possible_values.first }
+  let(:legacy_id) { 4242 }
 
   before do
+    CustomField::LegacyOptionMapping.create!(custom_option_id: legacy_id,
+                                             hierarchical_item_id: item.id,
+                                             custom_field_id: custom_field.id)
     login_as(user)
+    get api_v3_paths.custom_option(legacy_id)
   end
 
-  it "reorders the items alphabetically when pressed" do
-    expect(custom_field.custom_options.order(:position).pluck(:value))
-      .to eq get_shuffled_possible_values(200)
+  it "still answers with the custom option shape" do
+    expect(JSON.parse(last_response.body)).to include("_type" => "CustomOption", "id" => legacy_id, "value" => "pear")
+  end
 
-    cf_page.visit!
-    click_link custom_field.name
-
-    wait_for_network_idle
-    click_link "Items"
-    wait_for_network_idle
-
-    click_link "Reorder values alphabetically"
-    cf_page.accept_alert_dialog!
-    expect_flash(message: I18n.t(:notice_successful_update))
-    expect(custom_field.custom_options.order(:position).pluck(:value))
-      .to eq get_possible_values_reordered(200)
+  it "announces the deprecation without committing to a removal date" do
+    expect(last_response.headers["Deprecation"]).to eq("true")
+    expect(last_response.headers).not_to have_key("Sunset")
   end
 end
