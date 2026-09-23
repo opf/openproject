@@ -92,10 +92,6 @@ class LlmConnection < ApplicationRecord
 
   # Every model that can be addressed today: discovered and still offered, plus
   # anything an administrator entered by hand.
-  #
-  # Deliberately includes models an administrator has deactivated. This is what
-  # Llm::Runtime resolves against, and hiding a model from the pickers must not
-  # break a feature that is already bound to it.
   def available_model_ids
     models.active.by_identifier.pluck(:external_id)
   end

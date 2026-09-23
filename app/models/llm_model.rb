@@ -81,9 +81,9 @@ class LlmModel < ApplicationRecord
                   .first
   end
 
-  # Discovered models that the server stopped offering are deactivated rather
-  # than deleted, so a binding or verdict pointing at one still has something to
-  # name. Manual entries are never deactivated by a refresh: nothing confirms
+  # Discovered models the server stopped offering are switched off rather than
+  # deleted, so a binding or verdict pointing at one still has something to
+  # name. Manual entries are never switched off by a refresh: nothing confirms
   # them, so nothing can un-confirm them either.
   def withdrawn? = !active? && !manual?
 end
