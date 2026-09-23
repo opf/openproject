@@ -39,11 +39,25 @@ describe('ActualCostsComponent', () => {
   let fixture:ComponentFixture<ActualCostsComponent>;
   let element:HTMLElement;
 
+  const i18nStub = {
+    locale: 'en',
+    t(key:string, options:Record<string, string> = {}) {
+      const translations:Record<string, string> = {
+        'js.costs.widgets.actual_costs.chart_label': 'Actual costs by month chart',
+        'js.costs.widgets.actual_costs.chart_month': `${options.month}: ${options.values}`,
+        'js.costs.widgets.actual_costs.chart_summary': `Actual costs by month: ${options.months}.`,
+        'js.costs.widgets.actual_costs.chart_value': `${options.label}: ${options.value}`,
+      };
+
+      return translations[key] ?? key;
+    },
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ActualCostsComponent],
       providers: [
-        { provide: I18nService, useValue: {} },
+        { provide: I18nService, useValue: i18nStub },
         provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
       ],
     }).compileComponents();
@@ -52,8 +66,8 @@ describe('ActualCostsComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (datasets:unknown[]) => {
-    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets }));
+  const renderWith = (datasets:unknown[], labels = ['2026-01-01']) => {
+    fixture.componentRef.setInput('chartData', JSON.stringify({ labels, datasets }));
     fixture.detectChanges();
   };
 
@@ -76,9 +90,52 @@ describe('ActualCostsComponent', () => {
     expect(canvas.nextElementSibling?.tagName).toBe('DIV');
   });
 
+  it('provides a translated name and month-by-month description for the chart', () => {
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith(
+      [
+        { label: 'Labour', data: [1_000, 1_200] },
+        { label: 'Materials', data: [500, 0] },
+      ],
+      ['2026-01-01', '2026-02-01'],
+    );
+
+    const canvas = element.querySelector('canvas')!;
+    const descriptionId = canvas.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+
+    expect(canvas.getAttribute('role')).toEqual('img');
+    expect(canvas.getAttribute('aria-label')).toEqual('Actual costs by month chart');
+    expect(description.hidden).toBe(true);
+    expect(description.textContent?.trim()).toEqual(
+      'Actual costs by month: January 2026: Labour: €1,000, Materials: €500; February 2026: Labour: €1,200, Materials: €0.',
+    );
+    expect(canvas.textContent?.trim()).toEqual(description.textContent?.trim());
+  });
+
+  it('uses a unique description ID for each chart', () => {
+    renderWith([{ label: 'Labour', data: [10] }]);
+    const secondFixture = TestBed.createComponent(ActualCostsComponent);
+    const secondElement = secondFixture.nativeElement as HTMLElement;
+
+    secondFixture.componentRef.setInput('chartData', JSON.stringify({
+      labels: ['2026-01-01'],
+      datasets: [{ label: 'Labour', data: [20] }],
+    }));
+    secondFixture.detectChanges();
+
+    const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
+    const secondDescriptionId = secondElement.querySelector('canvas')!.getAttribute('aria-describedby');
+
+    expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
+    expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
+    expect(firstDescriptionId).not.toEqual(secondDescriptionId);
+  });
+
   it('renders nothing without data', () => {
     renderWith([]);
     expect(element.querySelector('canvas')).toBeNull();
+    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
   });
 
   it('drops the tooltip renderer together with its host', () => {

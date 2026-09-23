@@ -30,6 +30,13 @@
 en:
   js:
     button_log_costs: "Log unit costs"
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: "Actual costs by month chart"
+          chart_month: "%{month}: %{values}"
+          chart_summary: "Actual costs by month: %{months}."
+          chart_value: "%{label}: %{value}"
     label_hour: "hour"
     label_hours: "hours"
     myTimeTracking:
