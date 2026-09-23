@@ -50,6 +50,7 @@ module Type::AttributeGroups
         remaining_time: :estimates_and_progress,
         percentage_done: :estimates_and_progress,
         priority: :details,
+        labels: :details,
         # `:excluded` is not a "real" group. It's meant to exclude built in fields from the form
         observed_in_versions: :excluded
       }
