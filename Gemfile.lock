@@ -1035,7 +1035,7 @@ GEM
       opentelemetry-helpers-sql
       opentelemetry-helpers-sql-processor
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-net_http (0.29.0)
+    opentelemetry-instrumentation-net_http (0.29.1)
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-pg (0.37.0)
       opentelemetry-helpers-sql
@@ -2113,7 +2113,7 @@ CHECKSUMS
   opentelemetry-instrumentation-lmdb (0.26.1) sha256=a1a3274624ce520e7fa64e2b20635cca4b51bc9466ddaddddb1323a47da794b0
   opentelemetry-instrumentation-mongo (0.26.0) sha256=511407dd4fe06cb11be54b40b0a38f684aba1fc0569a5f6982c013e07e370ffd
   opentelemetry-instrumentation-mysql2 (0.34.0) sha256=3c38c7ac7251d2ac3f7fc744f0f0efb05459635b74232d264727874e9e8552b8
-  opentelemetry-instrumentation-net_http (0.29.0) sha256=fae5eb6a794bbf87fb15752343b74d5cfd2bb830353f42cab3483fd2f3f84fe7
+  opentelemetry-instrumentation-net_http (0.29.1) sha256=d42120e83e6b04a3d0b3bb2e4fc04f62ef79c7110dbe291861a6609380daea2e
   opentelemetry-instrumentation-pg (0.37.0) sha256=90b29a772bcd2e19f6baf31f2b8741ffaa001c9a5523853896bebf4cbfc3dbc0
   opentelemetry-instrumentation-que (0.13.0) sha256=95e04b8c17e89eaa446f5dff7975cf72c2e74f7e1e84717be47facf510613112
   opentelemetry-instrumentation-racecar (0.7.0) sha256=93a991917687aa0a6e785ccd8d0de5746af110122552b2bf1e3abe12ab04584a
