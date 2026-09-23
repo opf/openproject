@@ -7539,7 +7539,6 @@ en:
     import:
       check_file: "Check file"
       checking_file: "Checking %{filename}"
-      choose_file: "Choose file"
       clear: "Clear"
       download_template: "Download the template"
       drop_or_click: "Drop a CSV file here or click to select one."
