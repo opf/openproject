@@ -44,6 +44,7 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
+import { openTimeEntryDialog } from 'core-stimulus/helpers/time-entry-dialog';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -184,10 +185,7 @@ export default class MyTimeTrackingController extends Controller {
           dialogParams = `${dialogParams}&startTime=${info.start.toISOString()}&endTime=${info.end.toISOString()}`;
         }
 
-        void this.turboRequests.request(
-          `${this.pathHelperService.timeEntryDialog()}?${dialogParams}`,
-          { method: 'GET' },
-        );
+        openTimeEntryDialog(this.turboRequests, `${this.pathHelperService.timeEntryDialog()}?${dialogParams}`);
       },
       eventResize: (info) => {
         // it does not make sense to resize the events without start & end times
@@ -267,10 +265,7 @@ export default class MyTimeTrackingController extends Controller {
           return;
         }
 
-        void this.turboRequests.request(
-          `${this.pathHelperService.timeEntryEditDialog(info.event.id)}?onlyMe=true`,
-          { method: 'GET' },
-        );
+        openTimeEntryDialog(this.turboRequests, `${this.pathHelperService.timeEntryEditDialog(info.event.id)}?onlyMe=true`);
       },
       viewDidMount: () => { setTimeout(() => this.addTotalFooter(), 100); },
       eventDidMount: () => { setTimeout(() => this.addTotalFooter(), 100); },
@@ -406,10 +401,7 @@ export default class MyTimeTrackingController extends Controller {
     const dialogParams = `onlyMe=true&date=${event.params.date}`;
 
     const { turboRequests, pathHelperService } = await this.services;
-    void turboRequests.request(
-      `${pathHelperService.timeEntryDialog()}?${dialogParams}`,
-      { method: 'GET' },
-    );
+    openTimeEntryDialog(turboRequests, `${pathHelperService.timeEntryDialog()}?${dialogParams}`);
   }
 
   dialogCloseListener(event:CustomEvent<DialogCloseDetail<AdditionalDialogCloseData>>):void {

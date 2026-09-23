@@ -41,6 +41,7 @@ import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 import { render } from 'lit-html';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
+import { openTimeEntryDialog } from 'core-stimulus/helpers/time-entry-dialog';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 
@@ -290,10 +291,7 @@ export default class MyTimeTrackingStackController extends Controller {
       return;
     }
 
-    void this.turboRequests.request(
-      `${this.pathHelperService.timeEntryEditDialog(entry.id)}?onlyMe=true`,
-      { method: 'GET' },
-    );
+    openTimeEntryDialog(this.turboRequests, `${this.pathHelperService.timeEntryEditDialog(entry.id)}?onlyMe=true`);
   }
 
   // A selection spans slots on an axis of hours logged, so its length is the duration to
@@ -305,9 +303,9 @@ export default class MyTimeTrackingStackController extends Controller {
   }
 
   private newTimeEntry(day:string, hours:number):void {
-    void this.turboRequests.request(
+    openTimeEntryDialog(
+      this.turboRequests,
       `${this.pathHelperService.timeEntryDialog()}?onlyMe=true&date=${day}&hours=${hours}`,
-      { method: 'GET' },
     );
   }
 
