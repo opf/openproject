@@ -32,15 +32,26 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
   skip_before_action :load_and_authorize_in_optional_project
 
   def show
+    remember_mode
+
     render_widget Grids::Widgets::TimeEntriesCurrentUser.new(mode:, date:, current_user:)
   end
 
   private
 
   def mode
-    requested = params[:mode].presence&.to_sym
+    requested = (params[:mode].presence || User.current.pref.my_work_mode).to_s.to_sym
 
     %i[day workweek week].include?(requested) ? requested : :workweek
+  end
+
+  def remember_mode
+    return if params[:mode].blank?
+
+    preference = User.current.pref
+    return if preference.my_work_mode == mode.to_s
+
+    preference.update(my_work_mode: mode.to_s)
   end
 
   def date

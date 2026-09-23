@@ -119,6 +119,51 @@ RSpec.describe My::TimeTrackingController do
         expect(assigns(:mode)).to eq(:month)
       end
     end
+
+    describe "remembering the view the user was last in" do
+      before do
+        allow(controller).to receive(:mobile?).and_return(false)
+      end
+
+      it "returns to it when no view is requested" do
+        get :index, params: { mode: :week, view_mode: :stack }
+
+        get :index
+
+        expect(assigns(:mode)).to eq(:week)
+        expect(assigns(:view_mode)).to eq(:stack)
+      end
+
+      it "remembers the mode the requested view was narrowed to" do
+        get :index, params: { mode: :month, view_mode: :stack }
+
+        get :index
+
+        expect(assigns(:mode)).to eq(:workweek)
+        expect(assigns(:view_mode)).to eq(:stack)
+      end
+
+      it "leaves the remembered view alone when none is requested" do
+        get :index, params: { mode: :week, view_mode: :stack }
+
+        get :index
+
+        expect(user.reload.pref.my_work_mode).to eq("week")
+        expect(user.pref.my_work_view_mode).to eq("stack")
+      end
+
+      context "when the user is on a mobile device" do
+        it "shows the day without forgetting the mode picked elsewhere" do
+          get :index, params: { mode: :week, view_mode: :stack }
+
+          allow(controller).to receive(:mobile?).and_return(true)
+          get :index
+
+          expect(assigns(:mode)).to eq(:day)
+          expect(user.reload.pref.my_work_mode).to eq("week")
+        end
+      end
+    end
   end
 
   describe "GET /my/time-tracking/day" do

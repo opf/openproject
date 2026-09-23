@@ -43,6 +43,8 @@ module My
     helper_method :list_view_component
 
     def index
+      remember_view
+
       case mode
       when :day then load_time_entries(date)
       when :workweek then load_time_entries(workweek)
@@ -93,12 +95,20 @@ module My
       end
     end
 
+    def remember_view
+      return if params[:view_mode].blank?
+
+      preference = User.current.pref
+      return if preference.my_work_view_mode == view_mode.to_s && preference.my_work_mode == mode.to_s
+
+      preference.update(my_work_view_mode: view_mode.to_s, my_work_mode: mode.to_s)
+    end
+
+    # A narrow screen has no room for a week, so regardless of settings we default to the day view
     def default_mode
-      if mobile?
-        "day"
-      else
-        "workweek"
-      end
+      return "day" if mobile?
+
+      User.current.pref.my_work_mode.presence || "workweek"
     end
 
     def mode
@@ -112,6 +122,9 @@ module My
     end
 
     def default_view_mode
+      remembered = User.current.pref.my_work_view_mode
+      return remembered if remembered.present?
+
       if TimeEntry.can_track_start_and_end_time?
         "calendar"
       else
