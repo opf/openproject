@@ -1880,7 +1880,7 @@ en:
         dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
         model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
       index:
-        description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [LLMs](models_url) tab."
+        description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab."
       inherit_with_default: "Use the default (%{model})"
       inherit_without_default: "Use the default (none set)"
       locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
