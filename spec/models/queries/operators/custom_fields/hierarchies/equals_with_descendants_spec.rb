@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe Queries::Operators::CustomFields::Hierarchies::EqualsWithDescendants, with_ee: [:custom_field_hierarchies] do
   subject(:sql) { described_class.sql_for_field(values, db_table, db_field) }
 
-  let(:custom_field) { create(:hierarchy_wp_custom_field, hierarchy_root: nil) }
-  let!(:root) { service.generate_root(custom_field).value! }
+  let(:custom_field) { create(:hierarchy_wp_custom_field) }
+  let!(:root) { custom_field.hierarchy_root }
   let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
   let!(:germany) { service.insert_item(contract_class:, parent: root, label: "Germany", short: "DE").value! }
   let!(:berlin) { service.insert_item(contract_class:, parent: germany, label: "Berlin").value! }

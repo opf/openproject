@@ -32,11 +32,10 @@ class CustomValue::HierarchyStrategy < CustomValue::ARObjectStrategy
   def formatted_value
     item = cached_ar_object
 
-    if item
-      item.to_s
-    else
-      "#{value} #{I18n.t(:label_not_found)}"
-    end
+    return item.to_s if item
+    return "" if value.blank?
+
+    "#{value} #{I18n.t(:label_not_found)}"
   end
 
   def validate_type_of_value

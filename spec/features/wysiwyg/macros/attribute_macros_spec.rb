@@ -176,7 +176,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         wp = build(:work_package, subject: "Foo Bar", project:, type:)
 
         wp.custom_field_values = {
-          custom_field.id => %w[A B C D E F].map { |s| custom_field.custom_options.find { |co| co.value == s }.id }
+          custom_field.id => %w[A B C D E F].map { |s| custom_field.possible_values.find { |item| item.label == s }.id }
         }
 
         wp.save!

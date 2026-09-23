@@ -36,6 +36,16 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project) }
+
+  # The custom_options table is gone; a legacy id only exists as a row in
+  # legacy_custom_option_mappings, pointing at the item it was migrated to.
+  def legacy_option_for(custom_field, legacy_id:)
+    item = custom_field.possible_values.first
+    CustomField::LegacyOptionMapping.create!(custom_option_id: legacy_id,
+                                             hierarchical_item_id: item.id,
+                                             custom_field_id: custom_field.id)
+  end
+
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -64,10 +74,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
         cf
       end
-      shared_let(:custom_option) do
-        create(:custom_option,
-               custom_field:)
-      end
+      shared_let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_001) }
 
       context "when being allowed" do
         let(:permissions) { [:view_work_packages] }
@@ -85,7 +92,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
                   .at_path("id")
 
           expect(response.body)
-            .to be_json_eql(custom_option.value.to_json)
+            .to be_json_eql(custom_option.hierarchical_item.label.to_json)
                   .at_path("value")
         end
       end
@@ -117,7 +124,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
     describe "ProjectCustomField" do
       shared_let(:custom_field) { create(:list_project_custom_field, projects: [project]) }
-      shared_let(:custom_option) { create(:custom_option, custom_field:) }
+      shared_let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_002) }
 
       context "when being allowed" do
         let(:permissions) { [:view_project] }
@@ -135,7 +142,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
                   .at_path("id")
 
           expect(response.body)
-            .to be_json_eql(custom_option.value.to_json)
+            .to be_json_eql(custom_option.hierarchical_item.label.to_json)
                   .at_path("value")
         end
       end
@@ -143,7 +150,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
       context "when custom field is not activated in a visible project" do
         shared_let(:other_project) { create(:project) }
         shared_let(:other_custom_field) { create(:list_project_custom_field, projects: [other_project]) }
-        shared_let(:other_custom_option) { create(:custom_option, custom_field: other_custom_field) }
+        shared_let(:other_custom_option) { legacy_option_for(other_custom_field, legacy_id: 990_003) }
 
         let(:permissions) { [:view_project] }
         let(:path) { api_v3_paths.custom_option other_custom_option.id }
@@ -176,7 +183,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
     describe "TimeEntryCustomField" do
       shared_let(:custom_field) { create(:time_entry_custom_field, :list) }
-      shared_let(:custom_option) { create(:custom_option, custom_field:) }
+      shared_let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_004) }
 
       context "when being allowed with log_time" do
         let(:permissions) { [:log_time] }
@@ -194,7 +201,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
                   .at_path("id")
 
           expect(response.body)
-            .to be_json_eql(custom_option.value.to_json)
+            .to be_json_eql(custom_option.hierarchical_item.label.to_json)
                   .at_path("value")
         end
       end
@@ -218,7 +225,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
     describe "UserCustomField" do
       shared_let(:custom_field) { create(:user_custom_field, :list) }
-      shared_let(:custom_option) { create(:custom_option, custom_field:) }
+      shared_let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_005) }
       let(:permissions) { [] }
 
       context "when the field is visible (not admin_only)" do
@@ -229,7 +236,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
       context "when the field is admin_only" do
         let(:custom_field) { create(:user_custom_field, :list, :admin_only) }
-        let(:custom_option) { create(:custom_option, custom_field:) }
+        let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_006) }
 
         context "and user is not an admin" do
           it "is 404" do
@@ -249,7 +256,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
     describe "GroupCustomField" do
       shared_let(:custom_field) { create(:group_custom_field, :list) }
-      shared_let(:custom_option) { create(:custom_option, custom_field:) }
+      shared_let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_007) }
       let(:permissions) { [] }
 
       context "when the field is visible (not admin_only)" do
@@ -260,7 +267,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
 
       context "when the field is admin_only" do
         let(:custom_field) { create(:group_custom_field, :list, :admin_only) }
-        let(:custom_option) { create(:custom_option, custom_field:) }
+        let(:custom_option) { legacy_option_for(custom_field, legacy_id: 990_008) }
 
         context "and user is not an admin" do
           it "is 404" do

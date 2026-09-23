@@ -51,19 +51,6 @@ module CustomFields
       op_routes.public_send(:"admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end
 
-    def list_item_path(custom_field, *, **)
-      op_routes.public_send(:"list_items_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
-    end
-
-    def delete_option_path(custom_field, custom_option)
-      op_routes.public_send(:"delete_option_of_admin_settings_#{cf_singular(custom_field)}_path",
-                            custom_field.id || 0, custom_option.id || 0)
-    end
-
-    def reorder_alphabetical_path(custom_field)
-      op_routes.public_send(:"reorder_alphabetical_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
-    end
-
     def attribute_help_text_path(custom_field)
       op_routes.public_send(:"attribute_help_text_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end

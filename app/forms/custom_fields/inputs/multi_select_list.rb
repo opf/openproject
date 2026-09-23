@@ -68,11 +68,11 @@ class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autoco
         }
       end
     else
-      @custom_field.custom_options.map do |custom_option|
+      @custom_field.possible_values.map do |item|
         {
-          label: custom_option.value,
-          value: custom_option.id,
-          selected: selected?(custom_option)
+          label: item.label,
+          value: item.id,
+          selected: selected?(item)
         }
       end
     end
@@ -84,11 +84,11 @@ class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autoco
       .value_or([])
   end
 
-  def selected?(custom_option)
+  def selected?(item)
     if custom_values.any?
-      custom_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
+      custom_values.pluck(:value).map { |value| value&.to_i }.include?(item.id)
     else
-      custom_option.default_value?
+      item.default_value?
     end
   end
 end

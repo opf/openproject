@@ -43,7 +43,7 @@ RSpec.describe "List custom fields edit", :js do
     index_cf_page.visit_page("Spent time")
   end
 
-  it "can create and edit list custom fields (#37654)" do
+  it "can create a list custom field (#37654)" do
     index_cf_page.expect_none_listed
     # Create CF
     index_cf_page.click_to_create_new_custom_field("List")
@@ -54,35 +54,9 @@ RSpec.describe "List custom fields edit", :js do
 
     index_cf_page.expect_flash(message: "Successful creation.")
 
-    click_link "Items"
-
-    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
-    fill_in "custom_field_custom_options_attributes_0_value", with: "A"
-
-    click_on "Save"
-    wait_for_network_idle
-
-    # Expect correct values
     cf = CustomField.last
     expect(cf.name).to eq("My List CF")
-    expect(cf.possible_values.map(&:value)).to eq %w(A)
-
-    # Edit again
-    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
-    fill_in "custom_field_custom_options_attributes_0_value", with: "B"
-
-    click_on "Save"
-    wait_for_network_idle
-
-    index_cf_page.expect_and_dismiss_flash(message: "Successful update.")
-
-    # Expect correct values again
-    cf = CustomField.last
-    expect(cf.name).to eq("My List CF")
-    expect(cf.possible_values.map(&:value)).to eq %w(B)
   end
-
-  it_behaves_like "list custom fields", "Spent time"
 
   it_behaves_like "expected fields for the custom field's format", "Spent time", "List"
 end

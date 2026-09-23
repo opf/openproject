@@ -188,8 +188,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
   context "when navigating the hierarchy", with_ee: [:custom_field_hierarchies] do
     let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-    let(:custom_field) { create(:wp_custom_field, name: "Hogwarts", field_format: "hierarchy", hierarchy_root: nil) }
-    let!(:root) { service.generate_root(custom_field).value! }
+    let(:custom_field) { create(:wp_custom_field, name: "Hogwarts", field_format: "hierarchy") }
+    let(:root) { custom_field.hierarchy_root }
     let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
     let!(:ravenclaw) { service.insert_item(contract_class:, parent: root, label: "Ravenclaw").value! }
     let!(:slytherin) { service.insert_item(contract_class:, parent: root, label: "Slytherin").value! }

@@ -485,7 +485,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" })
       end
       let(:builder) { described_class.new(jira_field) }
-      let(:cat_option) { instance_double(CustomOption, id: 1) }
+      let(:cat_option) { instance_double(CustomField::Hierarchy::Item, id: 1) }
 
       before do
         allow(custom_field).to receive(:value_of).with("Cat").and_return(cat_option)
@@ -511,8 +511,8 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multiselect" })
       end
       let(:builder) { described_class.new(jira_field) }
-      let(:mouse_option) { instance_double(CustomOption, id: 2) }
-      let(:turtle_option) { instance_double(CustomOption, id: 3) }
+      let(:mouse_option) { instance_double(CustomField::Hierarchy::Item, id: 2) }
+      let(:turtle_option) { instance_double(CustomField::Hierarchy::Item, id: 3) }
 
       before do
         allow(custom_field).to receive(:value_of).with("Mouse").and_return(mouse_option)
@@ -541,8 +541,8 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:labels" })
       end
       let(:builder) { described_class.new(jira_field) }
-      let(:label_a_option) { instance_double(CustomOption, id: 10) }
-      let(:label_b_option) { instance_double(CustomOption, id: 11) }
+      let(:label_a_option) { instance_double(CustomField::Hierarchy::Item, id: 10) }
+      let(:label_b_option) { instance_double(CustomField::Hierarchy::Item, id: 11) }
 
       before do
         allow(custom_field).to receive(:value_of).with("Label A").and_return(label_a_option)
@@ -757,9 +757,9 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect" })
       end
       let(:builder) { described_class.new(jira_field) }
-      let(:critical_option)          { instance_double(CustomOption, id: 1) }
-      let(:critical_security_option) { instance_double(CustomOption, id: 2) }
-      let(:major_option)             { instance_double(CustomOption, id: 3) }
+      let(:critical_option)          { instance_double(CustomField::Hierarchy::Item, id: 1) }
+      let(:critical_security_option) { instance_double(CustomField::Hierarchy::Item, id: 2) }
+      let(:major_option)             { instance_double(CustomField::Hierarchy::Item, id: 3) }
 
       before do
         allow(custom_field).to receive(:value_of).with("Critical").and_return(critical_option)
@@ -798,12 +798,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                      context_groups: [context_group])
     end
     let(:builder) { described_class.new(jira_field, context_group:) }
-    let!(:hierarchy_cf) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(cf)
-        cf.reload
-      end
-    end
+    let!(:hierarchy_cf) { create(:custom_field, field_format: "hierarchy") }
 
     before { builder.custom_field_post_processing(hierarchy_cf) }
 

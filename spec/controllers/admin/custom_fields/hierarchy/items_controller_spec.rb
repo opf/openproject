@@ -33,9 +33,9 @@ require "spec_helper"
 
 RSpec.describe Admin::CustomFields::Hierarchy::ItemsController, with_ee: [:custom_field_hierarchies] do
   let(:user) { create(:admin) }
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+  let(:custom_field) { create(:custom_field, field_format: "hierarchy") }
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let(:root) { service.generate_root(custom_field).value! }
+  let(:root) { custom_field.hierarchy_root }
   let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
   let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke").value! }
 

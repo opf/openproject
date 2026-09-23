@@ -51,12 +51,12 @@ module Admin
             with_item_group(menu) do
               add_above_action_item(menu)
               add_below_action_item(menu)
-              add_sub_item_action_item(menu)
+              add_sub_item_action_item(menu) unless list?
             end
 
             with_item_group(menu) { default_action_item(menu) }
 
-            with_item_group(menu) { change_parent_item(menu) }
+            with_item_group(menu) { change_parent_item(menu) } unless list?
 
             with_item_group(menu) do
               unless first_item?
@@ -87,6 +87,8 @@ module Admin
           def project_custom_field_context?
             @root.custom_field.is_a?(ProjectCustomField)
           end
+
+          def list? = @root.custom_field.list?
 
           def custom_field_id = @root.custom_field_id
 

@@ -110,20 +110,20 @@ module CostQuery::CustomFieldMixin
 
   def list_join_table(field)
     custom_values_table = CustomValue.table_name
-    custom_options_table = CustomOption.table_name
+    items_table = CustomField::Hierarchy::Item.table_name
 
     <<-SQL
     -- BEGIN Custom Field Join: cf_#{field.id}
     LEFT OUTER JOIN (
     SELECT
-      co.id AS #{db_field},
-      co.value,
+      item.id AS #{db_field},
+      item.label AS value,
       cv.customized_type,
       cv.custom_field_id,
       cv.customized_id
       FROM #{custom_values_table} cv
-      INNER JOIN #{custom_options_table} co
-      ON cv.custom_field_id = co.custom_field_id AND cv.value = co.id::VARCHAR
+      INNER JOIN #{items_table} item
+      ON cv.value = item.id::VARCHAR
     ) AS #{db_field}
     ON #{db_field}.customized_type = 'WorkPackage'
 

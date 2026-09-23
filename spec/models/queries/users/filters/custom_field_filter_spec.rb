@@ -124,8 +124,8 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
     shared_let(:job_title_cf) do
       create(:user_custom_field, :list, possible_values: %w[Developer Designer])
     end
-    shared_let(:developer_option) { job_title_cf.custom_options.find_by(value: "Developer") }
-    shared_let(:designer_option) { job_title_cf.custom_options.find_by(value: "Designer") }
+    shared_let(:developer_option) { job_title_cf.possible_values.find_by(label: "Developer") }
+    shared_let(:designer_option) { job_title_cf.possible_values.find_by(label: "Designer") }
     shared_let(:developer) { create(:user) }
     shared_let(:designer) { create(:user) }
     shared_let(:unassigned) { create(:user) }
@@ -163,7 +163,7 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
       serialized = [{
         "attribute" => list_user_custom_field.column_name,
         "operator" => "=",
-        "values" => [list_user_custom_field.custom_options.first.id.to_s]
+        "values" => [list_user_custom_field.possible_values.first.id.to_s]
       }]
 
       filters = coder.load(serialized)
@@ -171,7 +171,7 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
       expect(filters.size).to eq(1)
       expect(filters.first).to be_a(Queries::Filters::Shared::CustomFields::ListOptional)
       expect(filters.first.custom_field).to eq(list_user_custom_field)
-      expect(filters.first.values).to eq([list_user_custom_field.custom_options.first.id.to_s])
+      expect(filters.first.values).to eq([list_user_custom_field.possible_values.first.id.to_s])
     end
   end
 end

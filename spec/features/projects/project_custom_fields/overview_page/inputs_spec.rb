@@ -374,21 +374,21 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:custom_field) { list_project_custom_field }
         let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        let(:expected_initial_value) { custom_field.custom_options.first.value }
+        let(:expected_initial_value) { custom_field.possible_values.first.label }
 
-        let(:first_option) { custom_field.custom_options.first.value }
-        let(:second_option) { custom_field.custom_options.second.value }
-        let(:third_option) { custom_field.custom_options.third.value }
+        let(:first_option) { custom_field.possible_values.first.label }
+        let(:second_option) { custom_field.possible_values.second.label }
+        let(:third_option) { custom_field.possible_values.third.label }
 
         it_behaves_like "an autocomplete single select field"
 
         it "shows the default value if no value is given" do
           custom_field.custom_values.destroy_all
 
-          custom_field.custom_options.first.update!(default_value: true)
+          custom_field.possible_values.first.update!(default_value: true)
 
           field.within_field do
-            form_field.expect_selected(custom_field.custom_options.first.value)
+            form_field.expect_selected(custom_field.possible_values.first.label)
           end
         end
 
@@ -608,23 +608,23 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:custom_field) { multi_list_project_custom_field }
         let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        let(:expected_initial_value) { [custom_field.custom_options.first.value, custom_field.custom_options.second.value] }
+        let(:expected_initial_value) { [custom_field.possible_values.first.label, custom_field.possible_values.second.label] }
 
-        let(:first_option) { custom_field.custom_options.first.value }
-        let(:second_option) { custom_field.custom_options.second.value }
-        let(:third_option) { custom_field.custom_options.third.value }
+        let(:first_option) { custom_field.possible_values.first.label }
+        let(:second_option) { custom_field.possible_values.second.label }
+        let(:third_option) { custom_field.possible_values.third.label }
 
         it_behaves_like "an autocomplete multi select field"
 
         it "shows the default value if no value is given" do
           multi_list_project_custom_field.custom_values.destroy_all
 
-          multi_list_project_custom_field.custom_options.first.update!(default_value: true)
-          multi_list_project_custom_field.custom_options.second.update!(default_value: true)
+          multi_list_project_custom_field.possible_values.first.update!(default_value: true)
+          multi_list_project_custom_field.possible_values.second.update!(default_value: true)
 
           field.within_field do
-            form_field.expect_selected(multi_list_project_custom_field.custom_options.first.value)
-            form_field.expect_selected(multi_list_project_custom_field.custom_options.second.value)
+            form_field.expect_selected(multi_list_project_custom_field.possible_values.first.label)
+            form_field.expect_selected(multi_list_project_custom_field.possible_values.second.label)
           end
         end
 

@@ -151,7 +151,7 @@ module ::Query::Results::GroupBy
     # If we were to use the keys array with duplicates to find the actual custom options,
     # AR would throw an error as the number of records returned does not match the number
     # of ids searched for.
-    custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
+    custom_field.possible_values.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
   end
 
   def transform_single_custom_field_keys(custom_field, groups)

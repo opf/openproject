@@ -309,11 +309,8 @@ RSpec.describe CustomField do
       end
     end
 
-    describe "WITH a list field WITH a custom option" do
-      before do
-        field.field_format = "list"
-        field.custom_options.build(value: "some value")
-      end
+    describe "WITH a list field WITH items" do
+      let(:field) { create(:custom_field, :list, possible_values: %w[some\ value]) }
 
       it "is valid" do
         expect(field)
@@ -478,18 +475,11 @@ RSpec.describe CustomField do
     end
 
     context "for a list custom field" do
-      let(:option1) { build_stubbed(:custom_option) }
-      let(:option2) { build_stubbed(:custom_option) }
+      let(:field) { create(:custom_field, :list, possible_values: ["First", "Second"]) }
 
-      before do
-        field.field_format = "list"
-
-        field.custom_options = [option1, option2]
-      end
-
-      it "is a list of name, id pairs" do
+      it "is a list of label, id pairs" do
         expect(field.possible_values_options)
-          .to contain_exactly([option1.value, option1.id.to_s], [option2.value, option2.id.to_s])
+          .to eq(field.possible_values.map { |item| [item.label, item.id.to_s] })
       end
     end
 
@@ -558,78 +548,34 @@ RSpec.describe CustomField do
 
   describe "#possible_values" do
     context "on a list custom field" do
-      let(:field) { described_class.new field_format: "list" }
+      let(:field) { create(:custom_field, :list, possible_values:) }
 
       context "on providing an array" do
-        before do
-          field.possible_values = ["One value", "Two values", ""]
-        end
+        let(:possible_values) { ["One value", "Two values", ""] }
 
         it "accepts the values" do
-          expect(field.possible_values.map(&:value))
+          expect(field.possible_values.pluck(:label))
             .to contain_exactly("One value", "Two values")
         end
       end
 
       context "on providing a string" do
-        before do
-          field.possible_values = "One value"
-        end
+        let(:possible_values) { "One value" }
 
         it "accepts the values" do
-          expect(field.possible_values.map(&:value))
+          expect(field.possible_values.pluck(:label))
             .to contain_exactly("One value")
         end
       end
 
       context "on providing a multiline string" do
-        before do
-          field.possible_values = "One value\nTwo values  \r\n \n"
-        end
+        let(:possible_values) { "One value\nTwo values  \r\n \n" }
 
         it "accepts the values" do
-          expect(field.possible_values.map(&:value))
+          expect(field.possible_values.pluck(:label))
             .to contain_exactly("One value", "Two values")
         end
       end
-    end
-  end
-
-  describe "nested attributes for custom options" do
-    let(:option) { build(:custom_option) }
-    let(:options) { [option] }
-    let(:field) { build(:custom_field, field_format: "list", custom_options: options) }
-
-    before do
-      field.save!
-    end
-
-    shared_examples_for "saving updates field's updated_at" do
-      it "updates updated_at" do
-        timestamp_before = field.updated_at
-        sleep 0.001
-        field.save
-        expect(field.updated_at).not_to eql(timestamp_before)
-      end
-    end
-
-    context "after adding a custom option" do
-      before do
-        field.attributes = { "custom_options_attributes" => { "0" => option.attributes,
-                                                              "1" => { value: "blubs" } } }
-      end
-
-      it_behaves_like "saving updates field's updated_at"
-    end
-
-    context "after changing a custom option" do
-      before do
-        attributes = option.attributes.merge(value: "new_value")
-
-        field.attributes = { "custom_options_attributes" => { "0" => attributes } }
-      end
-
-      it_behaves_like "saving updates field's updated_at"
     end
   end
 
@@ -920,6 +866,18 @@ RSpec.describe CustomField do
 
         expect(custom_field.default_value).to contain_exactly(first.id.to_s, second.id.to_s)
       end
+    end
+  end
+
+  describe "#generate_hierarchy_root" do
+    it "raises and rolls back the field when the root cannot be created" do
+      service = instance_double(CustomFields::Hierarchy::HierarchicalItemService,
+                                generate_root: Dry::Monads::Failure.new(:boom))
+      allow(CustomFields::Hierarchy::HierarchicalItemService).to receive(:new).and_return(service)
+
+      expect { create(:custom_field, field_format: "list") }
+        .to raise_error(/Could not generate a hierarchy root/)
+        .and not_change(described_class, :count)
     end
   end
 end

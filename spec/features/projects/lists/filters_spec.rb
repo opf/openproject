@@ -611,7 +611,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.set_filter(list_custom_field.column_name,
                                list_custom_field.name,
                                "is (OR)",
-                               [list_custom_field.possible_values[2].value])
+                               [list_custom_field.possible_values[2].label])
 
       projects_page.expect_projects_not_listed(development_project)
       projects_page.expect_projects_listed(project)
@@ -622,9 +622,9 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       select_value_id = "#{list_custom_field.column_name}_value"
 
       within(cf_filter) do
-        projects_page.expect_ng_value_label(select_value_id, list_custom_field.possible_values[2].value)
+        projects_page.expect_ng_value_label(select_value_id, list_custom_field.possible_values[2].label)
       end
-      projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value,
+      projects_page.set_autocomplete_filter list_custom_field.possible_values[3].label,
                                             filter_name: list_custom_field.column_name,
                                             clear: false
       wait_for_reload
@@ -636,8 +636,8 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       within(cf_filter) do
         # Query has two values for that filter.
         projects_page.expect_ng_value_label(select_value_id,
-                                            [list_custom_field.possible_values[2].value,
-                                             list_custom_field.possible_values[3].value])
+                                            [list_custom_field.possible_values[2].label,
+                                             list_custom_field.possible_values[3].label])
       end
     end
   end

@@ -33,7 +33,7 @@ module ProjectCustomFields
     def initialize(project:, project_custom_fields:)
       @values_by_custom_field_id =
         CustomValue
-          .includes(custom_field: :custom_options)
+          .includes(custom_field: { hierarchy_root: :children })
           .where(
             custom_field: project_custom_fields,
             customized: project

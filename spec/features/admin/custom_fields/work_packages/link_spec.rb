@@ -46,8 +46,6 @@ RSpec.describe "Link custom fields edit", :js do
 
     fill_in "custom_field_name", with: "My Link CF"
 
-    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
-
     click_on "Save"
 
     cf_page.expect_and_dismiss_flash(message: "Successful creation.")
@@ -60,7 +58,6 @@ RSpec.describe "Link custom fields edit", :js do
     # Edit again
     find("a", text: "My Link CF").click
 
-    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_name", with: "My Link CF (edited)"
 
     click_on "Save"

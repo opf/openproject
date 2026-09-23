@@ -99,7 +99,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       let(:custom_field) { create(:wp_custom_field, :multi_list, default_options: ["B"]) }
 
       it "returns an array with a CustomValue whose value is the stringified id of the default custom option" do
-        option_b = custom_field.custom_options.find_by(value: "B")
+        option_b = custom_field.possible_values.find_by(label: "B")
         expect(work_package.custom_field_values)
           .to match([
                       an_instance_of(CustomValue).and(having_attributes(value: option_b.id.to_s,
@@ -112,9 +112,9 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       let(:custom_field) { create(:wp_custom_field, :multi_list, default_options: ["D", "B", "F"]) }
 
       it "returns an array with CustomValues whose values are the stringified ids of the default custom options" do
-        option_d = custom_field.custom_options.find_by(value: "D")
-        option_b = custom_field.custom_options.find_by(value: "B")
-        option_f = custom_field.custom_options.find_by(value: "F")
+        option_d = custom_field.possible_values.find_by(label: "D")
+        option_b = custom_field.possible_values.find_by(label: "B")
+        option_f = custom_field.possible_values.find_by(label: "F")
         expect(work_package.custom_field_values)
           .to match([
                       an_instance_of(CustomValue).and(having_attributes(value: option_b.id.to_s,

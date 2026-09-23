@@ -29,38 +29,37 @@
 #++
 
 require "spec_helper"
+require "rack/test"
 
-RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
+RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
+  include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:custom_option) { build_stubbed(:custom_option, custom_field:) }
-  let(:custom_field) { build_stubbed(:list_wp_custom_field) }
-  let(:user) { build_stubbed(:user) }
-  let(:representer) do
-    described_class.new(custom_option, current_user: user)
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project) }
+  shared_let(:custom_field) do
+    cf = create(:list_wp_custom_field, possible_values: %w[pear])
+    project.work_package_custom_fields << cf
+    cf
   end
 
-  subject { representer.to_json }
+  let(:item) { custom_field.possible_values.first }
+  let(:legacy_id) { 4242 }
 
-  describe "generation" do
-    describe "_links" do
-      it_behaves_like "has a titled link" do
-        let(:link) { "self" }
-        let(:href) { api_v3_paths.custom_option custom_option.id }
-        let(:title) { custom_option.to_s }
-      end
-    end
+  before do
+    CustomField::LegacyOptionMapping.create!(custom_option_id: legacy_id,
+                                             hierarchical_item_id: item.id,
+                                             custom_field_id: custom_field.id)
+    login_as(user)
+    get api_v3_paths.custom_option(legacy_id)
+  end
 
-    it 'has the type "CustomOption"' do
-      expect(subject).to be_json_eql("CustomOption".to_json).at_path("_type")
-    end
+  it "still answers with the custom option shape" do
+    expect(JSON.parse(last_response.body)).to include("_type" => "CustomOption", "id" => legacy_id, "value" => "pear")
+  end
 
-    it "has an id" do
-      expect(subject).to be_json_eql(custom_option.id.to_json).at_path("id")
-    end
-
-    it "has a value" do
-      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path("value")
-    end
+  it "announces the deprecation without committing to a removal date" do
+    expect(last_response.headers["Deprecation"]).to eq("true")
+    expect(last_response.headers).not_to have_key("Sunset")
   end
 end

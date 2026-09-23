@@ -43,7 +43,7 @@ module API
           "bool" => "Boolean",
           "user" => "User",
           "version" => "Version",
-          "list" => "CustomOption",
+          "list" => "CustomField::Hierarchy::Item",
           "hierarchy" => "CustomField::Hierarchy::Item",
           "weighted_item_list" => "CustomField::Hierarchy::Item",
           "calculated_value" => "CalculatedValue"
@@ -54,7 +54,7 @@ module API
         NAMESPACE_MAP = {
           "user" => %w[users groups placeholder_users],
           "version" => "versions",
-          "list" => "custom_options",
+          "list" => "custom_field_items",
           "hierarchy" => "custom_field_items",
           "weighted_item_list" => "custom_field_items"
         }.freeze
@@ -62,7 +62,7 @@ module API
         REPRESENTER_MAP = {
           "user" => "::API::V3::Principals::PrincipalRepresenterFactory",
           "version" => "::API::V3::Versions::VersionRepresenter",
-          "list" => "::API::V3::CustomOptions::CustomOptionRepresenter",
+          "list" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter",
           "hierarchy" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter",
           "weighted_item_list" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter"
         }.freeze
@@ -177,27 +177,36 @@ module API
                                           href_callback: allowed_users_href_callback
         end
 
-        def inject_list_schema(custom_field)
-          @class.schema_with_allowed_collection(
-            property_name(custom_field),
-            type: resource_type(custom_field),
-            name_source: ->(*) { custom_field.name },
-            values_callback: list_schemas_values_callback(custom_field),
-            value_representer: CustomOptions::CustomOptionRepresenter,
-            link_factory: list_schemas_link_callback,
-            required: custom_field.is_required
-          )
-        end
-
         def inject_hierarchy_schema(custom_field)
           @class.schema_with_allowed_link(
             property_name(custom_field),
             type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             required: custom_field.is_required,
-            options: cf_options(custom_field).merge(allowsNesting: !custom_field.list?),
+            options: cf_options(custom_field).merge(allowsNesting: true),
             href_callback: ->(*) { api_v3_paths.custom_field_items(custom_field.id) }
           )
+        end
+
+        def inject_list_schema(custom_field)
+          @class.schema_with_allowed_collection(
+            property_name(custom_field),
+            type: resource_type(custom_field),
+            name_source: ->(*) { custom_field.name },
+            values_callback: list_schemas_values_callback(custom_field),
+            value_representer: ::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter,
+            link_factory: ->(item) { { href: api_v3_paths.custom_field_item(item.id), title: item.label } },
+            required: custom_field.is_required,
+            options: cf_options(custom_field).merge(allowsNesting: false)
+          )
+        end
+
+        def list_schemas_values_callback(custom_field)
+          ->(*) do
+            represented
+              .assignable_custom_field_values(custom_field)
+              &.map { |item| ::API::V3::CustomFields::Hierarchy::HierarchicalItemAggregate.new(item:, depth: 1) }
+          end
         end
 
         def inject_basic_schema(custom_field)
@@ -248,24 +257,37 @@ module API
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
+          # The setter block is instance_exec'd on the represented resource, not on
+          # this injector, so a bound Method is captured here rather than relying
+          # on an implicit self inside the block.
+          parse_href = method(:parse_custom_field_href)
+
           ->(fragment:, represented:, **) {
             values = Array([fragment].flatten).flat_map do |link|
               href = link["href"]
-              value =
-                if href
-                  ::API::Utilities::ResourceLinkParser.parse_id(
-                    href,
-                    property:,
-                    expected_version: "3",
-                    expected_namespace:
-                  )
-                end
+              value = parse_href.call(href, custom_field, property, expected_namespace) if href
 
               [value].compact
             end
 
             represented.send(custom_field.attribute_setter, values)
           }
+        end
+
+        # A list field's href accepts both its current namespace and the retired
+        # /api/v3/custom_options one, so bookmarked filters and forms built before
+        # the migration keep resolving. LegacyOptionIdResolver is a no-op for an id
+        # that already names an item, so this never double-translates.
+        def parse_custom_field_href(href, custom_field, property, expected_namespace)
+          namespace = custom_field.list? ? Array(expected_namespace) + ["custom_options"] : expected_namespace
+
+          id = ::API::Utilities::ResourceLinkParser.parse_id(
+            href, property:, expected_version: "3", expected_namespace: namespace
+          )
+
+          return id unless custom_field.list?
+
+          ::CustomFields::LegacyOptionIdResolver.resolve(custom_field:, id:)
         end
 
         def embedded_link_value_getter(custom_field)
@@ -275,7 +297,6 @@ module API
             # Do not embed list, hierarchies or multi values as their links contain all the
             # information needed (title and href) already.
             next if represented.available_custom_fields.exclude?(custom_field) ||
-                    custom_field.list? ||
                     custom_field.hierarchical_list? ||
                     custom_field.multi_value?
 
@@ -385,19 +406,6 @@ module API
           {
             rtl: ("true" if custom_field.content_right_to_left)
           }
-        end
-
-        def list_schemas_values_callback(custom_field)
-          ->(*) { represented.assignable_custom_field_values(custom_field) }
-        end
-
-        def list_schemas_link_callback
-          ->(value) do
-            {
-              href: api_v3_paths.custom_option(value.id),
-              title: value.to_s
-            }
-          end
         end
 
         def derive_representer_class(custom_field)

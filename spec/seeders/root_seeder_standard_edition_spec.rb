@@ -258,9 +258,9 @@ RSpec.describe RootSeeder,
       skills = UserCustomField.find_by!(name: "Key skills")
       job_start_date = UserCustomField.find_by!(name: "Job start date")
 
-      expect(fritz.typed_custom_value_for(job_title)).to eq("Project Manager")
-      expect(fritz.typed_custom_value_for(languages)).to contain_exactly("English", "German")
-      expect(fritz.typed_custom_value_for(skills)).to contain_exactly("Budgeting", "Stakeholder Management")
+      expect(fritz.typed_custom_value_for(job_title).label).to eq("Project Manager")
+      expect(fritz.typed_custom_value_for(languages).map(&:label)).to contain_exactly("English", "German")
+      expect(fritz.typed_custom_value_for(skills).map(&:label)).to contain_exactly("Budgeting", "Stakeholder Management")
       expect(fritz.typed_custom_value_for(job_start_date)).to eq(Date.new(2017, 7, 3))
     end
 
