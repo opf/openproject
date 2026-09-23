@@ -34,9 +34,13 @@ module Llm
   # Used by the environment seeder, which must not block on -- or fail because of
   # -- an LLM server that has not finished starting.
   class SyncModelsJob < ApplicationJob
+    # One connection whose sync raises must not leave the connections after it
+    # without a catalogue.
     def perform
       LlmConnection.find_each do |connection|
         LlmConnections::SyncModelsService.new(connection).call
+      rescue StandardError => e
+        Rails.logger.error { "LLM model sync failed for connection #{connection.id}: #{e.class}" }
       end
     end
   end

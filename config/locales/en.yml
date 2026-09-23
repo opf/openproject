@@ -237,8 +237,10 @@ en:
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
         default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
         llm_features_enabled: "Enable LLMs for this instance"
       llm_model:
+        admin_context_window: "Context window"
         display_name: "Display name"
         # human_attribute_name strips the _id suffix, so the key omits it.
         external: "Model name"
@@ -411,16 +413,13 @@ en:
       type_variant:
         attribute_groups: "Form"
         default_work_package_description: "Default text for description"
-        defaults_source: "Defaults source"
         enabled_in_new_projects: "Active in new projects"
-        form_configuration_source: "Form source"
+        linked_aspects: "Inherited configuration"
         patterns: "Patterns"
-        pdf_export_source: "PDF export source"
-        project_attributes_source: "Project attributes source"
         project_types: "Projects using this variant"
         variant: "Variant"
         variant_name: "Name"
-        workflows_source: "Workflows source"
+        workflow: "Workflow"
       user:
         admin: "Administrator"
         auth_source: "Authentication source"
@@ -553,6 +552,10 @@ en:
         work_package: "Work package"
       work_package_version:
         kind: "Kind"
+      workflow:
+        description: "Description"
+        name: "Name"
+        type_variants: "Types and variants using this workflow"
     errors:
       messages:
         accepted: "must be accepted."
@@ -721,6 +724,13 @@ en:
               not_unique: "is already in use. Please select another name."
         jira:
           invalid_protocol: "Please provide a valid protocol (http or https)"
+        label:
+          attributes:
+            name:
+              blank: "Name cannot be empty."
+              format: "%{message}"
+              taken: "A label with this name already exists. Please use another one."
+              too_long: "Name is too long (maximum is %{count} characters)."
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -732,15 +742,17 @@ en:
               not_supported: "needs credentials that OpenProject cannot store, such as a separate secret key or region."
             api_key:
               invalid_api_key: "was rejected by the LLM server."
-              unknown_error: "could not be validated with the LLM server. Please verify that the connection is functioning properly."
             base:
               singleton: "Only one LLM connection can be configured."
             base_url:
               cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
+              models_endpoint_missing: "has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1)."
               not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
               ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            custom_headers:
+              invalid: "must map header names to plain text values."
             default_chat_model_id:
               cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
               not_available: "is not offered by the configured LLM server."
@@ -924,38 +936,19 @@ en:
               group_without_name: "Group name can't be blank."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
             base:
-              borrowed_by_variants: "Cannot be deleted while its configuration is reused by %{names}."
-              inherits_from_project_owned: >
-                This variant currently inherits from a project-specific variant and cannot be
-                converted to a global variant.
               is_default_variant: "The default configuration of a type cannot be deleted."
               project_variants_not_allowed: "This type does not allow creation of variants inside projects."
               restrict_dependent_destroy:
                 has_many: "Cannot be deleted while projects are still using it."
-            defaults_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
             enabled_in_new_projects:
               not_available_to_project_owned_variant: "cannot be set on a variant a project owns."
               taken: "is already set for another configuration of this type."
-            form_configuration_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
-            pdf_export_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
-            project_attributes_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
             workflow:
               not_available_to_this_variant: "must be a workflow this project can use."
-            workflows_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:
             base:
@@ -1793,6 +1786,35 @@ en:
       caption_with_maximum: >
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
+    labels:
+      delete_dialog_component:
+        confirmation: "I understand that this action is not reversible"
+        description_html: "This will remove the label <strong>%{name}</strong> from all work packages in all projects."
+        heading: "Delete this label?"
+        title: "Delete this label?"
+      dialog_component:
+        create_title: "Create label"
+        rename_title: 'Rename "%{name}"'
+      index:
+        description: "All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects."
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: "Label"
+        label_add: "Add label"
+        search_placeholder: "Type here to search"
+      table_component:
+        blank_slate:
+          description: "Labels created by users on work packages will appear here."
+          title: "No labels yet"
+        headers:
+          name: "Label"
+          usage: "Used in"
+        no_matches:
+          description: "Try a different search term."
+          title: "No labels match your search"
     llm_connections:
       delete_api_key:
         description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
@@ -1812,6 +1834,7 @@ en:
       form:
         api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_discarded: "The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
         api_key_remove: "Remove key"
@@ -1823,13 +1846,13 @@ en:
         server_group: "Server"
       show:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
-        description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+        description_enabled: "Once connected, review the models offered by the server on the [Models](models_url) tab."
       tabs:
         connection: "Connection"
-        models: "LLMs"
+        models: "Models"
       update:
         disabled: "Saved. LLM features are switched off for this instance."
-        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab."
         success: "Successfully connected to the LLM server."
     llm_models:
       create:
@@ -1887,6 +1910,7 @@ en:
         success: "The model list has been refreshed."
       update:
         success: "%{model} has been updated."
+
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -3776,6 +3800,7 @@ en:
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_item: "(deleted item)"
   label_deleted_custom_option: "(deleted option)"
+  label_deleted_version: "(deleted version)"
   label_departments: "Organization"
   label_departments_description_html: >
     Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you
@@ -3916,6 +3941,7 @@ en:
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: "Keywords"
+  label_label_plural: "Labels"
   label_language: "Language"
   label_language_based: "Based on user's language"
   label_languages: "Languages"
@@ -7047,12 +7073,8 @@ en:
             other: "The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents."
           dialog:
             description: "These types and variants inherit the configuration of this section. A change you make here applies to all of them."
-            direct_heading: "Direct dependents"
-            indirect_heading: "Dependents through other types"
             title: "Dependent types"
             variant_of_html: "Variant of %{type_name}"
-            variant_of_via_html: "Variant of %{type_name}, inheriting via %{source_name}"
-            via_html: "Inheriting via %{source_name}"
           title:
             one: "1 dependent type"
             other: "%{count} dependent types"
@@ -7061,27 +7083,15 @@ en:
           not_inherited: "This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead."
           unknown_aspect: 'Unknown configuration section "%{aspect}".'
         inherited:
-          change_source: "Change source type"
           configure_manually: "Configure manually"
           confirm_dialog:
-            change_source:
-              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
-              heading: "Change source type?"
-              title: "Change source type"
             check_box: "I understand that this will override the current settings"
             from_manual:
               description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
               heading: "Switch configuration mode?"
               title: "Switch configuration mode"
-          description: "This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}."
-          description_unlinked: "This configuration is inherited from the source type %{source_name}%{source_suffix}."
-          dialog:
-            description: "Inherit this configuration from a source type. Any new configuration added to the source also applies here."
-            source_label: "Source type"
-            source_placeholder: "Select a type or variant"
-            submit: "Switch"
-            title: "Inherit from another type"
-          invalid_source: "The configuration cannot be inherited from the selected type. Please select a different source type."
+          from_parent: "This configuration is inherited from the parent type [%{source_name}](source_url)."
+          from_parent_unlinked: "This configuration is inherited from the parent type %{source_name}."
           success: "The configuration mode was switched."
           title: "Inherited configuration"
         manual:
@@ -7095,7 +7105,7 @@ en:
           dialog:
             submit: "Switch"
             title: "Configure manually"
-          inherit_from_type: "Inherit from another type"
+          inherit_from_type: "Inherit from parent"
           invalid_mode: "The selected mode is not available for this configuration. Please choose a different mode."
           modes:
             copy:
@@ -7738,6 +7748,12 @@ en:
       other: "%{count} work package descendants"
 
   workflows:
+    change:
+      title: "Change workflow"
+      workflow:
+        caption: "The type uses the status transitions of the workflow you pick here."
+        label: "Workflow"
+        placeholder: "Select a workflow…"
     copies:
       form:
         target_role_ids:
@@ -7750,6 +7766,14 @@ en:
       new:
         title: 'Copy workflow of "%{source_type}"'
     form:
+      copy_from:
+        caption: "The new workflow starts with a copy of that workflow's status transitions."
+        label: "Copy from"
+        placeholder: "Select a workflow…"
+      description:
+        caption: "Add a short description about where and how will this workflow be used."
+        label: "Description"
+      edit_title: "Edit workflow"
       matrix_caption: "Workflow matrix"
       matrix_caption_assignee: "Workflow matrix for assignee"
       matrix_caption_author: "Workflow matrix for author"
@@ -7758,12 +7782,76 @@ en:
       matrix_check_uncheck_all_in_row_label_html: "Toggle transitions from <em>%{old_status}</em> to all new statuses"
       matrix_checkbox_label: "Allow transition from %{old_status} to %{new_status}"
       matrix_uncheck_all_label: "Disallow all transitions"
+      name:
+        caption: "Pick a name that will let you identify this workflow later in other places."
+        label: "Workflow name"
+      new_title: "Create workflow"
     index:
+      actions:
+        create: "Workflow"
+        edit: "Edit transitions"
+        menu: "Actions for %{name}"
+        rename: "Edit name and description"
+      blank_slate:
+        description: "Create a workflow to define the status transitions a type or variant may use."
+        filtered_description: "No workflow matches the current filters."
+        filtered_title: "No matching workflows"
+        title: "No workflows"
+      columns:
+        name: "Workflow name"
+        projects: "Projects"
+        roles: "Roles"
+        types_and_variants: "Types and variants"
+      description: "Every named set of status transitions in this instance, with the types and variants using it."
+      filters:
+        name: "Workflow"
+        name_placeholder: "Filter by workflow name or description…"
+        projects_placeholder: "Filter projects…"
+      projects_count:
+        one: "1 project"
+        other: "%{count} projects"
+      roles_count:
+        one: "1 role"
+        other: "%{count} roles"
       type_filter:
         label: "Filter by type name…"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: "1 type"
+        other: "%{count} types"
+      variants_count:
+        one: "1 variant"
+        other: "%{count} variants"
+    name:
+      fallback: "Workflow"
     page_headers:
       index_component:
         description: "Configure status transitions for each work package type."
+    reuse_mode:
+      change_workflow: "Change workflow"
+      create_workflow: "Create new workflow"
+      independent:
+        description: "Only this type or variant uses [%{name}](workflow_url)."
+        title: "Independent configuration"
+      shared:
+        description: "Other types and variants use this workflow as well."
+        title: "Reuses workflow [%{name}](workflow_url)"
+      usage:
+        blank:
+          description: "A change to these transitions applies to this type or variant only."
+          title: "Not used anywhere else"
+        description: "A change to these transitions also applies to:"
+        title:
+          one: "Used in 1 other place"
+          other: "Used in %{count} other places"
+    usage:
+      unused: "No type or variant uses this workflow yet."
+      used_by_types:
+        one: "This workflow is used by 1 type. Changes apply to it."
+        other: "This workflow is used by %{count} types. Changes apply to all of them."
+      used_by_variants:
+        one: "This workflow is used by 1 type or variant."
+        other: "This workflow is used by %{count} types and variants."
   working_days:
     change_button: "Change working days"
     dialog:

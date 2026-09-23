@@ -15,13 +15,16 @@ require "support/pages/page"
 module Pages
   module Types
     class ProjectAttributes < ::Pages::Page
-      def initialize(type)
+      def initialize(type, variant: nil)
         super()
 
         @type = type
+        @variant = variant
       end
 
       def path
+        return edit_type_project_attributes_path(type_id: @type.id, variant_id: @variant.id) if @variant
+
         edit_type_project_attributes_path(@type)
       end
 

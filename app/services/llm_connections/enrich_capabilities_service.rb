@@ -62,22 +62,30 @@ module LlmConnections
       published[:states].each { |capability, state| record(llm_model.external_id, capability, state) }
     end
 
+    # Everything written here is metadata. display_name is the administrator's
+    # column alone, so what a registry calls a model goes beside what the server
+    # called it, and only fills in when the server named nothing.
     def apply_metadata(llm_model, published)
-      attributes = {}
-      attributes[:display_name] = published[:display_name] if llm_model.display_name.blank?
+      metadata = llm_model.raw_metadata
+      metadata = metadata.merge("name" => published[:display_name]) if fills_in_name?(llm_model, published)
 
       if published[:context_window].present? && llm_model.raw_metadata["max_model_len"].blank?
-        attributes[:raw_metadata] = llm_model.raw_metadata.merge("context_window" => published[:context_window])
+        metadata = metadata.merge("context_window" => published[:context_window])
       end
 
-      llm_model.update!(attributes) if attributes.any?
+      llm_model.update!(raw_metadata: metadata) unless metadata == llm_model.raw_metadata
+    end
+
+    def fills_in_name?(llm_model, published)
+      published[:display_name].present? && llm_model.raw_metadata["name"].blank?
     end
 
     def record(model_id, capability, state)
       verdict = connection.capability_verdicts.find_or_initialize_by(model_id:, capability: capability.to_s)
-      # Anything an administrator or a probe established beats a published claim:
-      # both looked at this deployment, the registry did not.
-      return if verdict.persisted? && verdict.source.in?(%w[admin probe])
+      # Anything an administrator, a probe or an observed request established
+      # beats a published claim: all three looked at this deployment, the
+      # registry did not.
+      return if verdict.persisted? && verdict.source.in?(%w[admin probe observed])
 
       verdict.update!(state: state.to_s, source: "metadata", checked_at: Time.current)
     end

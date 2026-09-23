@@ -24,21 +24,21 @@ de:
   js:
     backlogs:
       announcements:
-        batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the work package's current position.
+        batch_too_large: Es ist nicht möglich, %{count} Arbeitspakete auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
+        fallback_item_label: Arbeitspaket
+        fallback_list_name: andere Liste
+        move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
         move_failed_check_positions_batch:
-          other: Move failed. Check the work packages' current positions.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+          other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
+        move_failed_rolled_back: Verschieben fehlgeschlagen. %{label} ist wieder an seiner vorherigen Position.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} work packages returned to their previous positions.
-        moved: "%{label} moved to position %{position} of %{total}"
+          other: Die Verschiebung ist fehlgeschlagen. %{count} Arbeitspakete wurden an ihre ursprünglichen Positionen zurückgesetzt.
+        moved: "%{label} verschoben auf Position %{position} von %{total}"
         moved_batch:
-          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} Arbeitspakete auf die Positionen %{first} bis %{last} von %{total} verschoben"
         moved_batch_to_list:
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+          other: "%{count} Arbeitspakete zu %{list} auf die Positionen %{first} bis %{last} von %{total} verschoben"
+        moved_to_list: "%{label} verschoben zu %{list}, Position %{position} von %{total}"
       selection:
         card_state: Ausgewählt
         cleared: Auswahl aufgehoben.

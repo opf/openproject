@@ -56,7 +56,8 @@ RSpec.describe "form configuration exclusions", :js do
   end
 
   before do
-    link_configuration(variant, source: owner, aspect:)
+    owner
+    link_configuration(variant, aspect:)
     login_as admin
     visit edit_type_form_configuration_path(type_id: type.id, variant_id: variant.id)
   end

@@ -66,11 +66,23 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       login_as create(:user)
       get llm_models_path
 
-      expect(response).not_to have_http_status(:ok)
+      expect(response).to have_http_status(:forbidden)
     end
 
     context "when logged in as admin" do
       before { login_as admin }
+
+      # The controller reads turboStreamRequest; with the old name the value was
+      # ignored, live updates stayed off and typing sent no request at all.
+      # Nothing caught it because the request spec calls /search directly.
+      it "declares live updates on the filter form, so the input is listened to" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(page).to have_css("[data-controller~='filter--filters-form']" \
+                                 "[data-filter--filters-form-turbo-stream-request-value='true']")
+      end
 
       it "lists the cached models without contacting the server" do
         create(:llm_connection, :with_models, base_url:)
@@ -80,6 +92,19 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("qwen3.6-27b")
         expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
+      end
+
+      # ".icon:before" carries the padding and colour and "a.icon:hover" removes
+      # the underline, and both select the anchor, so the classes cannot sit on
+      # an inner <i> as op_icon would place them.
+      it "puts the icon classes on the action anchor itself" do
+        create(:llm_connection, :with_models, base_url:)
+        llm_model = LlmModel.find_by(external_id: "qwen3.6-27b")
+
+        get llm_models_path
+
+        expect(page).to have_css("a.icon.icon-edit[href='#{edit_llm_model_path(llm_model)}']", visible: :all)
+        expect(page).to have_css("a.icon.icon-edit .sr-only", text: I18n.t(:button_edit), visible: :all)
       end
 
       it "warns that the list predates the current settings" do
@@ -533,6 +558,94 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(response).to have_http_status(:not_found)
         expect(LlmModel.where(id: llm_model.id)).to exist
+      end
+    end
+
+    describe "the capability assertions a save touches" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # An admin-sourced verdict is the one thing detection must never undo, and
+      # a PATCH carrying one field used to clear all four: absent read the same
+      # as blank, and blank means "withdraw the assertion".
+      it "leaves an assertion alone when its field was not submitted" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { display_name: "Renamed" } }
+
+        expect(llm_model.reload.display_name).to eq("Renamed")
+        expect(llm_model.verdict_for(:vision)&.state).to eq("supported")
+      end
+
+      it "withdraws an assertion whose field is submitted blank" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "" } }
+
+        expect(llm_model.reload.verdict_for(:vision)).to be_nil
+      end
+
+      # Admin verdicts are sticky, so an untouched dropdown that asserted
+      # "not an embedding model" could only be undone by editing the model again.
+      it "asserts no type for a model created without one" do
+        post llm_models_path, params: { llm_model: { external_id: "text-embedding-3-small" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings)).to be_nil
+      end
+
+      it "asserts the type a create actually chose" do
+        post llm_models_path,
+             params: { llm_model: { external_id: "text-embedding-3-small", model_type: "embedding" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings).state).to eq("supported")
+        expect(created.verdict_for(:embeddings).source).to eq("admin")
+      end
+    end
+
+    describe "an administrator's context window" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      it "refuses one that is not a positive number" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "abc" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+
+      it "refuses a negative one" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "-5" } }
+
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+    end
+
+    describe "GET /admin/llm_models/:id/delete_dialog" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # Requested by the async-dialog Stimulus controller, which asks for a turbo
+      # stream rather than HTML.
+      it "names a connection default as something that would break" do
+        connection.update!(default_chat_model: llm_model)
+
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("stop working until another model is selected")
+        expect(response.body).to include(LlmConnection.human_attribute_name(:default_chat_model_id))
+      end
+
+      it "says only that the model goes when nothing depends on it" do
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include("no longer be offered to AI features")
+        expect(response.body).not_to include("stop working until another model is selected")
       end
     end
 

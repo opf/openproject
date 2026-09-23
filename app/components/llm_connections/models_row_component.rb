@@ -86,20 +86,31 @@ module LlmConnections
       llm_model.manual? ? [edit_link, delete_link] : [edit_link]
     end
 
+    # The classes belong on the anchor, not on an inner <i>: ".icon:before"
+    # carries the padding and colour, and "a.icon:hover" is what suppresses the
+    # underline. Split across two elements the row gets neither.
     def edit_link
-      link_to(helpers.op_icon("icon-edit"),
-              url_helpers.edit_llm_model_path(llm_model),
-              data: { test_selector: "llm-model--edit-#{llm_model.id}" },
-              title: I18n.t(:button_edit))
+      icon_link_to(url_helpers.edit_llm_model_path(llm_model),
+                   icon: "icon-edit",
+                   label: I18n.t(:button_edit),
+                   data: { test_selector: "llm-model--edit-#{llm_model.id}" })
     end
 
     # Opens a DangerDialog rather than a browser confirm, so the message can say
     # which features are bound to the model.
     def delete_link
-      link_to(helpers.op_icon("icon-delete"),
-              url_helpers.delete_dialog_llm_model_path(llm_model),
-              data: { controller: "async-dialog", test_selector: "llm-model--delete-#{llm_model.id}" },
-              title: I18n.t(:button_delete))
+      icon_link_to(url_helpers.delete_dialog_llm_model_path(llm_model),
+                   icon: "icon-delete",
+                   label: I18n.t(:button_delete),
+                   data: { controller: "async-dialog", test_selector: "llm-model--delete-#{llm_model.id}" })
+    end
+
+    # The glyph comes from the ":before" of the icon class, so the anchor has no
+    # text of its own and needs the label spelled out for a screen reader.
+    def icon_link_to(path, icon:, label:, data:)
+      link_to(path, class: "icon #{icon}", title: label, data:) do
+        content_tag(:span, label, class: "sr-only")
+      end
     end
   end
 end

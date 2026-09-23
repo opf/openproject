@@ -45,16 +45,23 @@ module Llm
         @connection = connection
       end
 
+      # Same card shape as the OpenAI adapter: an id and whatever the source said
+      # about it, verbatim, under :raw. The reported name is one of those things,
+      # not a column, so a refresh cannot overwrite the name an administrator
+      # gave the model.
       def models
         RubyLLM.models.by_provider(connection.api_format.to_sym).map do |info|
           {
             id: info.id,
-            display_name: info.name,
-            raw: { "context_window" => info.context_window, "owned_by" => connection.api_format }
+            raw: {
+              "name" => info.name,
+              "context_window" => info.context_window,
+              "owned_by" => connection.api_format
+            }
           }
         end
       rescue StandardError => e
-        raise Llm::Client::ApiError.new("Model registry lookup failed: #{e.class} #{e.message}", status: nil)
+        raise Llm::Errors.translate(e)
       end
 
       # Nothing is queried, so there is no server to characterise.

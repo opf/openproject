@@ -213,7 +213,7 @@ RSpec.describe Projects::Types::Switch::Impact do
 
       # Restores the link the outer before severed, which is the state a variant
       # is created in.
-      design.link!(TypeVariant::FORM_CONFIGURATION, source: epic_base)
+      design.link!(TypeVariant::FORM_CONFIGURATION)
     end
 
     # The variant stores no groups of its own, so the diff has to read the
