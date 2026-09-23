@@ -244,20 +244,20 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
 
       it "does not ask again for an address already cached" do
         mapper.call(row({ assigned_to: "alice@example.com" }))
-        allow(User).to receive(:active).and_call_original
+        allow(User).to receive(:not_builtin).and_call_original
 
         mapper.prime([row({ assigned_to: "alice@example.com" })])
 
-        expect(User).not_to have_received(:active)
+        expect(User).not_to have_received(:not_builtin)
       end
     end
 
     it "queries once for an email repeated across rows" do
-      allow(User).to receive(:active).and_call_original
+      allow(User).to receive(:not_builtin).and_call_original
 
       3.times { mapper.call(row({ assigned_to: "alice@example.com" })) }
 
-      expect(User).to have_received(:active).once
+      expect(User).to have_received(:not_builtin).once
     end
   end
 
