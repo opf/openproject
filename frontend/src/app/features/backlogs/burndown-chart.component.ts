@@ -31,6 +31,7 @@ import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } f
 import { ChartData, ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { environment } from '../../../environments/environment';
@@ -48,6 +49,8 @@ export class BurndownChartComponent {
   readonly isDevMode = !environment.production;
   readonly i18n = inject(I18nService);
   readonly chartData = input.required<string>();
+  readonly chartDescriptionId = generateId('burndown-chart-description');
+  readonly chartLabel = this.i18n.t('js.burndown.chart_label');
 
   readonly lineChartData = computed<ChartData<'line'>>(() => {
     const data = JSON.parse(this.chartData()) as ChartData<'line'>;
@@ -57,6 +60,24 @@ export class BurndownChartComponent {
   readonly hasChartData = computed(() =>
     this.lineChartData().datasets.some((ds) => ds.data.length > 0)
   );
+
+  readonly chartDescription = computed(() => {
+    const { datasets } = this.lineChartData();
+    const dayCount = Math.max(...datasets.map((dataset) => dataset.data.length), 0);
+    const days = Array.from({ length: dayCount }, (_, index) => {
+      const values = datasets.map((dataset) => this.i18n.t('js.burndown.chart_value', {
+        label: dataset.label ?? '',
+        value: this.formatValue(Number(dataset.data[index])),
+      }));
+
+      return this.i18n.t('js.burndown.chart_day', {
+        day: index + 1,
+        values: values.join(', '),
+      });
+    });
+
+    return this.i18n.t('js.burndown.chart_summary', { days: days.join('; ') });
+  });
 
   readonly maxValue = computed(() => {
     return this.lineChartData().datasets
@@ -88,4 +109,8 @@ export class BurndownChartComponent {
       }
     }
   }));
+
+  private formatValue(value:number):string {
+    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
+  }
 }

@@ -1,9 +1,17 @@
 @if (hasChartData()) {
   <div class="position-relative mx-auto" style="height:60vh">
-    <canvas baseChart
+    <p [id]="chartDescriptionId" hidden>{{ chartDescription() }}</p>
+    <canvas
+      baseChart
+      role="img"
+      [attr.aria-label]="chartLabel"
+      [attr.aria-describedby]="chartDescriptionId"
       [data]="lineChartData()"
       [options]="lineChartOptions()"
-      [type]="'line'"></canvas>
+      [type]="'line'"
+    >
+      {{ chartDescription() }}
+    </canvas>
   </div>
 } @else {
   <op-no-results />
