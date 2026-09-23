@@ -65,13 +65,40 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.reload).to be_models_stale
     end
 
-    it "keeps administrator assertions and re-activates what the new server reports" do
+    it "keeps administrator assertions and re-fetches what the new server reports" do
       mock_llm_models_response("https://elsewhere.example/v1")
 
       described_class.new(connection).call
 
       expect(connection.capability_verdicts.where(source: "admin").pluck(:capability)).to eq(["embeddings"])
       expect(connection.models.active.pluck(:external_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
+    end
+
+    # Switched off was not enough: the rows stayed in the list, and a list of a
+    # server this connection no longer talks to is a leftover, not a catalogue.
+    it "deletes the models the previous server offered" do
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      expect { service.call }.to change { connection.models.discovered.count }.to(0)
+    end
+
+    it "keeps a model an administrator entered by hand" do
+      create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(connection.models.manual.pluck(:external_id)).to eq(["hand-typed"])
+    end
+
+    # on_delete: :nullify on the two default_*_model_id foreign keys.
+    it "lets go of a connection default that named a model the previous server offered" do
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(connection.reload.default_chat_model_id).to be_nil
     end
   end
 

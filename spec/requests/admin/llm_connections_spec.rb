@@ -139,16 +139,26 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
                                                  state: "supported", source: "admin", checked_at: Time.current)
         end
 
-        it "leaves the stored catalogue alone when the host URL changes" do
+        it "replaces the stored catalogue when the host URL changes" do
           elsewhere = "https://elsewhere.example/v1"
           mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
 
           patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
 
           connection.reload
-          expect(connection.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+          expect(connection.available_model_ids).to contain_exactly("llama4-8b")
           expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
-          expect(connection).to be_models_stale
+          expect(connection).not_to be_models_stale
+        end
+
+        it "keeps a model an administrator entered by hand" do
+          elsewhere = "https://elsewhere.example/v1"
+          create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+          mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
+
+          patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
+
+          expect(connection.reload.models.pluck(:external_id)).to contain_exactly("llama4-8b", "hand-typed")
         end
       end
     end

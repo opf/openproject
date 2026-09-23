@@ -40,17 +40,19 @@ module LlmConnections
         next unless service_call.success?
 
         Setting.llm_features_enabled = model.llm_features_enabled
-        next unless initial_fill?(service_call.result)
+        next unless addresses_a_different_server?(service_call.result)
 
         SyncModelsService.new(service_call.result).call
       end
     end
 
-    # The only automatic refresh: nothing is stored yet, so nothing an
-    # administrator curated can be lost. Every later refresh is asked for.
-    def initial_fill?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES) &&
-        connection.models.none?
+    # Refreshed whenever the connection points somewhere else, which covers both
+    # the first fill and a later switch of server. Nothing an administrator
+    # curated is lost either way: the sync keeps manual entries and admin
+    # verdicts, and only the previous deployment's discovered rows go. Every
+    # other refresh is still asked for explicitly.
+    def addresses_a_different_server?(connection)
+      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
     end
   end
 end

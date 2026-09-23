@@ -123,11 +123,25 @@ module LlmConnections
 
     # Only a successful fetch records the fingerprint (see
     # +connection_attributes+), so a failed refresh leaves the list stale.
+    #
+    # Discovered rows are deleted rather than switched off. Withdrawal is for a
+    # model the same server stopped offering, where a verdict pointing at it
+    # still names something real; here the server itself is gone, and a list of
+    # another deployment's models is not a catalogue but a leftover. Manual
+    # entries stay: an administrator typed those, and a server change does not
+    # un-type them.
+    #
+    # The two default_*_model_id columns reference llm_models with
+    # on_delete: :nullify, so the database clears them as the rows go.
+    # Administrator assertions survive, as they do on an ordinary refresh: they
+    # are statements about a model, not about a server.
     def forget_the_previous_deployment
       ActiveRecord::Base.transaction do
+        connection.models.discovered.delete_all
         connection.capability_verdicts.where.not(source: "admin").delete_all
-        connection.models.discovered.update_all(active: false)
       end
+
+      connection.reload
     end
 
     # The server names the model, but only when it says so: the administrator's
