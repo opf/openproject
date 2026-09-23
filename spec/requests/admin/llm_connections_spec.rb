@@ -369,6 +369,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       delete api_key_llm_connection_path
 
+      expect(response).to have_http_status(:see_other)
       expect(connection.reload.api_key).to eq("sk-original")
     end
 
