@@ -571,6 +571,25 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    describe "an administrator's context window" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      it "refuses one that is not a positive number" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "abc" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+
+      it "refuses a negative one" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "-5" } }
+
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+    end
+
     describe "renaming a manually added model" do
       let!(:llm_model) do
         create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")

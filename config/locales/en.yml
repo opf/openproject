@@ -238,6 +238,7 @@ en:
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
         llm_features_enabled: "Enable LLMs for this instance"
       llm_model:
+        admin_context_window: "Context window"
         display_name: "Display name"
         # human_attribute_name strips the _id suffix, so the key omits it.
         external: "Model name"
