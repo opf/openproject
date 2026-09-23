@@ -7550,7 +7550,7 @@ en:
         column_reference: "column reference"
         columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
         limits_html: "UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}."
-        names_html: "Type, Status, Priority and Category are matched by name and must already exist. Assignees are matched by email address. See the %{link}."
+        names_html: "Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}."
         title: "Before you start"
       import_file: "Import file"
       importing_file: "Importing %{filename}"
@@ -7572,9 +7572,9 @@ en:
           text: "Correct the headers in the file and upload it again."
           title: "The column headers could not be read"
         headline:
-          assignees:
-            label: "Assignees"
-            subtitle: "matched by email address"
+          accounts:
+            label: "Accounts"
+            subtitle: "assignee, accountable and author"
           dated:
             label: "Lines with dates"
             subtitle: "a start or finish date"

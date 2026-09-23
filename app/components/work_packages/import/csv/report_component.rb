@@ -87,7 +87,7 @@ module WorkPackages
         def headline_counts
           [[created_count, :work_packages],
            [type_counts.size, :types],
-           [payload["assignee_count"].to_i, :assignees],
+           [payload["account_count"].to_i, :accounts],
            [payload["dated_count"].to_i, :dated]]
         end
 

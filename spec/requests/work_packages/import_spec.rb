@@ -544,7 +544,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
                    "outcome" => "checked", "row_count" => 142, "created_count" => 142,
                    "attachment_id" => 0, "counts" => {}, "problems" => [],
                    "column_problems" => [], "query_id" => nil,
-                   "assignee_count" => 0, "dated_count" => 0 })
+                   "account_count" => 0, "dated_count" => 0 })
     end
 
     it "keeps the summary rather than reading as though the check went wrong" do
