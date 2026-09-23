@@ -67,7 +67,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(result.result).to have_attributes(row_count: 2, created_count: 2, problems: [])
     end
 
-    it "names the work packages it created, so the report can list exactly those" do
+    it "names the work packages it created, so the view can list exactly those" do
       expect(import(rows).result.created_ids).to eq(WorkPackage.order(:id).pluck(:id))
     end
 
@@ -102,11 +102,51 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     end
   end
 
+  describe "the view it saves" do
+    let(:rows) do
+      [row({ subject: "Write the docs" }, number: 2),
+       row({ subject: "Fix the bug" }, number: 3)]
+    end
+
+    let(:view) { Query.find(import(rows).result.query_id) }
+
+    it "is private to the importer, in the project that was imported into" do
+      expect(view).to have_attributes(user:, project:, public: false)
+    end
+
+    it "is named after the moment of the run" do
+      expect(view.name).to match(/\ACSV import on .+/)
+    end
+
+    it "filters on exactly the work packages the run created" do
+      created = import(rows).result.created_ids
+      saved = Query.find_by(user:)
+
+      expect(saved.filters.map { |filter| [filter.field.to_s, filter.operator, filter.values] })
+        .to eq([["id", "=", created.map(&:to_s)]])
+    end
+
+    it "is saved for an importer who may not save views of their own" do
+      user.members.first.roles.first.update!(permissions: %i[view_work_packages add_work_packages])
+
+      expect(view.user).to eq(user)
+    end
+
+    it "outlives nothing: a run that fails saves no view" do
+      expect { import([row({ subject: "" }, number: 2)]) }.not_to change(Query, :count)
+    end
+  end
+
   describe "a dry run" do
     let(:rows) { [row({ subject: "Write the docs" })] }
 
     it "persists nothing" do
       expect { import(rows, dry_run: true) }.not_to change(WorkPackage, :count)
+    end
+
+    it "saves no view, since there is nothing to look at afterwards" do
+      expect { import(rows, dry_run: true) }.not_to change(Query, :count)
+      expect(import(rows, dry_run: true).result.query_id).to be_nil
     end
 
     it "reports what would have been created" do
@@ -181,20 +221,9 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(WorkPackage.at_timestamp(Timestamp.new((created_at - 1.day).iso8601))).to be_empty
     end
 
-    it "reports how many rows were back-dated" do
-      expect(import(rows).result.back_dated).to eq(1)
-    end
-
-    it "does not count a row carrying nothing but an Updated on" do
-      result = import([row({ subject: "Touched later", updated_at: updated_at.iso8601 })])
-
-      expect(result.result.back_dated).to eq(0)
-    end
-
     it "leaves a row without the columns alone" do
-      result = import([row({ subject: "Written today" })])
+      import([row({ subject: "Written today" })])
 
-      expect(result.result.back_dated).to eq(0)
       expect(WorkPackage.sole.created_at).to be > 1.minute.ago
     end
 

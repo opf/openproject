@@ -65,7 +65,6 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
       expect(payload).to include("outcome" => "checked",
                                  "row_count" => 2,
                                  "created_count" => 2,
-                                 "back_dated" => 0,
                                  "dry_run" => true,
                                  "problems" => [])
       expect(payload["counts"]).to include("type" => { "Task" => 2 })
@@ -219,19 +218,20 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
     end
   end
 
-  describe "the list of what was created" do
+  describe "the view the run saved" do
     let(:dry_run) { false }
 
-    it "names the work packages, so the report can link to exactly those" do
+    it "is named in the payload, so the report can link to it" do
       run
 
-      expect(payload["created_ids"]).to eq(WorkPackage.order(:id).pluck(:id))
+      expect(Query.find(payload["query_id"]))
+        .to have_attributes(user:, project:, public: false)
     end
 
-    it "gives none for a check, whose work packages were rolled back" do
+    it "is absent for a check, whose work packages were rolled back" do
       described_class.perform_now(user:, project:, attachment_id: attachment.id, dry_run: true)
 
-      expect(payload["created_ids"]).to eq([])
+      expect(payload["query_id"]).to be_nil
     end
   end
 

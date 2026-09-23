@@ -32,12 +32,14 @@ module WorkPackages
   module Import
     module CSV
       class ImportService
-        Report = Data.define(:row_count, :created_count, :back_dated, :assignee_count, :dated_count,
+        include Redmine::I18n
+
+        Report = Data.define(:row_count, :created_count, :query_id, :assignee_count, :dated_count,
                              :counts, :problems, :available, :created_ids)
 
         COUNTED = %i[type status priority category].freeze
 
-        Progress = Struct.new(:created_count, :back_dated, :counts, :problems, :assignees, :dated, :created_ids)
+        Progress = Struct.new(:created_count, :counts, :problems, :assignees, :dated, :created_ids)
         private_constant :Progress
 
         def initialize(user:, project:)
@@ -52,6 +54,8 @@ module WorkPackages
             report = silently { import(rows) }
 
             raise ActiveRecord::Rollback if incomplete?(report) || dry_run
+
+            report = report.with(query_id: saved_view(report.created_ids))
           end
 
           incomplete?(report) ? ServiceResult.failure(result: report) : ServiceResult.success(result: report)
@@ -75,7 +79,7 @@ module WorkPackages
           mapper = RowMapper.new(project:)
           mapper.prime(rows)
 
-          progress = Progress.new(0, 0, {}, [], Set.new, 0, [])
+          progress = Progress.new(0, {}, [], Set.new, 0, [])
           rows.each { |row| import_row(row, mapper, progress) }
 
           report(rows.size, progress, mapper.available)
@@ -84,7 +88,7 @@ module WorkPackages
         def report(row_count, progress, available)
           Report.new(row_count:,
                      created_count: progress.created_count,
-                     back_dated: progress.back_dated,
+                     query_id: nil,
                      assignee_count: progress.assignees.size,
                      dated_count: progress.dated,
                      counts: progress.counts,
@@ -104,7 +108,6 @@ module WorkPackages
           if created.success?
             progress.created_count += 1
             progress.created_ids << created.result.id
-            progress.back_dated += 1 if timestamps.key?(:created_at)
             back_date(created.result, timestamps)
             summarise(progress, created.result)
           else
@@ -130,6 +133,15 @@ module WorkPackages
         def create_work_package(attributes)
           WorkPackages::CreateService.new(user:).call(project:, **attributes)
         end
+
+        def saved_view(ids)
+          view = Query.new(name: view_name, project:, user:, public: false, include_subprojects: false)
+          view.add_filter("id", "=", ids.map(&:to_s))
+
+          User.execute_as(user) { view.id if view.save }
+        end
+
+        def view_name = I18n.t("work_packages.import.csv.view_name", datetime: format_time(Time.current))
 
         def summarise(progress, work_package)
           count_values(progress.counts, work_package)

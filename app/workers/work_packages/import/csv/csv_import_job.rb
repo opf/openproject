@@ -42,8 +42,6 @@ module WorkPackages
           @dry_run = dry_run
           @attachment = Upload.file_of(user, attachment_id)
 
-          @started_at = Time.current
-
           User.execute_as(user) { run }
         ensure
           discard_attachment unless outcome == "checked"
@@ -59,7 +57,7 @@ module WorkPackages
 
         private
 
-        attr_reader :user, :project, :attachment, :outcome, :started_at
+        attr_reader :user, :project, :attachment, :outcome
 
         def dry_run
           @dry_run.nil? ? queued[:dry_run] : @dry_run
@@ -124,8 +122,7 @@ module WorkPackages
           {
             row_count: report.row_count,
             created_count: report.created_count,
-            back_dated: report.back_dated,
-            created_ids: created_ids(report),
+            query_id: report.query_id,
             assignee_count: report.assignee_count,
             dated_count: report.dated_count,
             counts: report.counts,
@@ -149,11 +146,9 @@ module WorkPackages
             dry_run:,
             row_count: 0,
             created_count: 0,
-            back_dated: 0,
-            created_ids: [],
+            query_id: nil,
             assignee_count: 0,
             dated_count: 0,
-            started_at: started_at,
             finished_at: Time.current,
             counts: {},
             problems: [],
@@ -163,8 +158,6 @@ module WorkPackages
         end
 
         def problems(list) = list.map(&:to_h)
-
-        def created_ids(report) = dry_run ? [] : report.created_ids
 
         def file_problem(key, **)
           HeaderMap::Problem.new(column: nil,
