@@ -39,11 +39,23 @@ describe('BudgetByCostTypeComponent', () => {
   let fixture:ComponentFixture<BudgetByCostTypeComponent>;
   let element:HTMLElement;
 
+  const i18nStub = {
+    t(key:string, options:Record<string, string> = {}) {
+      const translations:Record<string, string> = {
+        'js.budgets.widgets.budget_by_cost_type.chart_label': 'Budget by cost type chart',
+        'js.budgets.widgets.budget_by_cost_type.chart_summary': `Budget amounts by cost type: ${options.values}.`,
+        'js.budgets.widgets.budget_by_cost_type.chart_value': `${options.label}: ${options.value}`,
+      };
+
+      return translations[key] ?? key;
+    },
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BudgetByCostTypeComponent],
       providers: [
-        { provide: I18nService, useValue: {} },
+        { provide: I18nService, useValue: i18nStub },
         provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
       ],
     }).compileComponents();
@@ -52,8 +64,8 @@ describe('BudgetByCostTypeComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (datasets:unknown[]) => {
-    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets }));
+  const renderWith = (datasets:unknown[], labels = ['Labour']) => {
+    fixture.componentRef.setInput('chartData', JSON.stringify({ labels, datasets }));
     fixture.detectChanges();
   };
 
@@ -76,9 +88,41 @@ describe('BudgetByCostTypeComponent', () => {
     expect(canvas.nextElementSibling?.tagName).toBe('DIV');
   });
 
+  it('provides a translated name and detailed description for the chart', () => {
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith([{ data: [10_000, 4_000] }], ['Labour', 'Materials']);
+
+    const canvas = element.querySelector('canvas')!;
+    const descriptionId = canvas.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+
+    expect(canvas.getAttribute('role')).toEqual('img');
+    expect(canvas.getAttribute('aria-label')).toEqual('Budget by cost type chart');
+    expect(description.hidden).toBe(true);
+    expect(description.textContent?.trim()).toEqual('Budget amounts by cost type: Labour: €10,000; Materials: €4,000.');
+    expect(canvas.textContent?.trim()).toEqual(description.textContent?.trim());
+  });
+
+  it('uses a unique description ID for each chart', () => {
+    renderWith([{ data: [10] }]);
+    const secondFixture = TestBed.createComponent(BudgetByCostTypeComponent);
+    const secondElement = secondFixture.nativeElement as HTMLElement;
+
+    secondFixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets: [{ data: [20] }] }));
+    secondFixture.detectChanges();
+
+    const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
+    const secondDescriptionId = secondElement.querySelector('canvas')!.getAttribute('aria-describedby');
+
+    expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
+    expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
+    expect(firstDescriptionId).not.toEqual(secondDescriptionId);
+  });
+
   it('renders nothing without data', () => {
     renderWith([{ data: [] }]);
     expect(element.querySelector('canvas')).toBeNull();
+    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
   });
 
   it('drops the tooltip renderer together with its host', () => {
