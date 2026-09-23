@@ -96,6 +96,22 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
         .to have_attributes(estimated_hours: 8.0, remaining_hours: 1.5)
     end
 
+    it "counts the distinct accounts the file named, across every column that names one" do
+      other = create(:user, mail: "other@example.com", member_with_roles: { project => role })
+
+      report = import([row({ subject: "One", assigned_to: user.mail, responsible: other.mail }),
+                       row({ subject: "Two", assigned_to: other.mail, author: user.mail }, number: 3),
+                       row({ subject: "Three" }, number: 4)]).result
+
+      expect(report.account_count).to eq(2)
+    end
+
+    it "leaves the importing user out where no row named an author, since nothing matched them" do
+      report = import([row({ subject: "Mine" })]).result
+
+      expect(report.account_count).to eq(0)
+    end
+
     it "counts what was created, defaults included" do
       expect(import(rows).result.counts)
         .to eq("type" => { "Task" => 1, "Bug" => 1 },

@@ -43,7 +43,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       "row_count" => 142,
       "created_count" => 142,
       "query_id" => nil,
-      "assignee_count" => 11,
+      "account_count" => 11,
       "dated_count" => 118,
       "finished_at" => "2026-09-21T09:01:30Z",
       "counts" => { "type" => { "Task" => 96, "Bug" => 46 }, "status" => { "New" => 142 } },
@@ -76,7 +76,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     it "gives four headline counts, each under its own subject" do
       expect(page).to have_text("Work packages 142", normalize_ws: true)
       expect(page).to have_text("Types 2", normalize_ws: true)
-      expect(page).to have_text("Assignees 11", normalize_ws: true)
+      expect(page).to have_text("Accounts 11", normalize_ws: true)
       expect(page).to have_text("#{I18n.t('work_packages.import.report.headline.dated.label')} 118", normalize_ws: true)
     end
 
