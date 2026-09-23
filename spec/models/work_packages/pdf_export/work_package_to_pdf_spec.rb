@@ -333,6 +333,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       end
     end
 
+    describe "with the work package labels feature active", with_flag: { work_package_labels: true } do
+      before do
+        create(:labeling, label: create(:label, name: "Urgent"), labelable: work_package)
+      end
+
+      it "renders the labels attribute" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:labels)} Urgent")
+      end
+    end
+
     describe "with faulty images" do
       before do
         # simulate a null pointer exception

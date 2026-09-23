@@ -48,6 +48,26 @@ RSpec.describe Type::Attributes do
         expect(attributes).not_to have_key("version")
       end
     end
+
+    context "when the work package labels feature is active", with_flag: :work_package_labels do
+      it "offers labels" do
+        expect(attributes).to have_key("labels")
+      end
+    end
+
+    context "when the work package labels feature is inactive", with_flag: { work_package_labels: false } do
+      it "hides labels" do
+        expect(attributes).not_to have_key("labels")
+      end
+    end
+
+    it "keys the cache on the feature flag state" do
+      allow(OpenProject::FeatureDecisions).to receive(:work_package_labels_active?).and_return(false)
+      expect(TypeVariant.all_work_package_form_attributes).not_to have_key("labels")
+
+      allow(OpenProject::FeatureDecisions).to receive(:work_package_labels_active?).and_return(true)
+      expect(TypeVariant.all_work_package_form_attributes).to have_key("labels")
+    end
   end
 
   describe ".translated_work_package_form_attributes" do
