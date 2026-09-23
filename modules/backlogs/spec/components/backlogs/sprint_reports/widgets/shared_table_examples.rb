@@ -95,7 +95,7 @@ RSpec.shared_context "with a sprint report work package table" do
         "filters" => be_json_eql(expected_filters.to_json),
         "timestamps" => expected_timestamps,
         "sortBy" => [%w[position asc]].to_json,
-        "columns[]" => %w[id subject type status assigned_to],
+        "columns[]" => %w[id subject type status assigned_to story_points],
         "showHierarchies" => false,
         "includeSubprojects" => false
       }.compact)
