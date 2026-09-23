@@ -60,7 +60,7 @@ module Backlogs
         def query_props
           {
             filters: filters.to_json,
-            "columns[]": %w[id subject type status assigned_to],
+            "columns[]": %w[id subject type status assigned_to story_points],
             sortBy: [%w[position asc]].to_json,
             showHierarchies: false,
             includeSubprojects: false
