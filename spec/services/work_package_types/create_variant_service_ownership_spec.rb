@@ -78,7 +78,7 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
     variant = call(user: project_admin, project:).result
 
     TypeVariant::ASPECTS.each do |aspect|
-      expect(variant.public_send(:"#{aspect}_source")).to eq(type.default_variant)
+      expect(variant.source_for(aspect)).to eq(type.default_variant)
     end
   end
 

@@ -28,28 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module ConfigurationLinks
-    class DialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+# A variant that owned an aspect (no '<aspect>_source_id') stays independent. A variant that
+# inherited one - from any source, base or otherwise - is linked to its own base instead, dropping
+# the old model's arbitrary inheritance in favour of parent-only links.
+class AddLinkedAspectsToTypeVariants < ActiveRecord::Migration[8.1]
+  ASPECTS = %w[pdf_export defaults form_configuration project_attributes].freeze
 
-      DIALOG_ID = "configuration-link-dialog"
+  def up
+    add_column :type_variants, :linked_aspects, :text, array: true, null: false, default: []
 
-      def initialize(variant:, aspect:)
-        super()
+    ASPECTS.each { |aspect| link_inheriting_variants(aspect) }
+  end
 
-        @variant = variant
-        @aspect = aspect
-      end
+  def down
+    remove_column :type_variants, :linked_aspects
+  end
 
-      private
+  private
 
-      attr_reader :variant, :aspect
-
-      def confirm_path
-        type_configuration_link_confirm_path(**variant.path_args, aspect:)
-      end
-    end
+  def link_inheriting_variants(aspect)
+    execute(<<~SQL.squish)
+      UPDATE type_variants
+      SET linked_aspects = array_append(linked_aspects, '#{aspect}')
+      WHERE NOT is_default_variant
+        AND #{aspect}_source_id IS NOT NULL
+    SQL
   end
 end

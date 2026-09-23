@@ -1872,7 +1872,7 @@ RSpec.describe WorkPackages::BaseContract do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+        link_configuration(named, aspect: TypeVariant::DEFAULTS)
       end
     end
 

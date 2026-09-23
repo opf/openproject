@@ -481,12 +481,12 @@ RSpec.describe Type do
     end
 
     it "resolves through a configuration link" do
-      source = create(:type).default_variant
-      source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
-      source.save!
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+      variant = create(:type_variant, type: type.type)
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
+      type.save!
+      link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
-      expect(type.pdf_export_templates.settings_for("attributes")).to eq(footer_text: "Source footer")
+      expect(variant.pdf_export_templates.settings_for("attributes")).to eq(footer_text: "Base footer")
     end
 
     describe "#readonly?" do
@@ -494,31 +494,34 @@ RSpec.describe Type do
         expect(type.pdf_export_templates).not_to be_readonly
       end
 
-      context "when linked to a source type" do
-        before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+      context "when the variant is linked to its base" do
+        let(:variant) { create(:type_variant, type: type.type) }
+
+        before { link_configuration(variant, aspect: TypeVariant::PDF_EXPORT) }
 
         it "is true" do
-          expect(type.pdf_export_templates).to be_readonly
+          expect(variant.pdf_export_templates).to be_readonly
         end
       end
     end
 
-    context "when linked to a source type" do
-      let(:source) { create(:type).default_variant }
+    context "when the variant is linked to its base" do
+      let(:variant) { create(:type_variant, type: type.type) }
+      let(:base) { type }
 
       before do
-        # `type` already has its own stored `contract` settings before being linked -
+        # `variant` already has its own stored `contract` settings before being linked -
         # this is the data #update_settings must not clobber while resolving through the link.
-        type.pdf_export_templates.update_settings("contract", "footer_text_center" => "Type's own contract footer")
-        type.save!
-        source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
-        source.pdf_export_templates.update_settings("contract", "footer_text_center" => "Source contract footer")
-        source.save!
-        link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+        variant.pdf_export_templates.update_settings("contract", "footer_text_center" => "Variant's own contract footer")
+        variant.save!
+        base.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
+        base.pdf_export_templates.update_settings("contract", "footer_text_center" => "Base contract footer")
+        base.save!
+        link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
       end
 
       it "refuses to write via #update_settings, #clear_setting, #toggle, #move, #enable_all, #disable_all" do
-        pdf_export_templates = type.pdf_export_templates
+        pdf_export_templates = variant.pdf_export_templates
 
         expect { pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override") }
           .to raise_error(Type::PdfExportTemplates::ReadonlyError)
@@ -534,21 +537,21 @@ RSpec.describe Type do
           .to raise_error(Type::PdfExportTemplates::ReadonlyError)
       end
 
-      it "does not corrupt the type's own settings for a different template once unlinked" do
-        # Attempting to edit "attributes" while linked used to merge onto the *source's*
-        # resolved settings hash (which includes the source's "contract" entry) and write
-        # the whole thing back onto `type`'s own column, clobbering `type`'s own "contract"
-        # settings with a copy of the source's. Guard against a regression of that.
+      it "does not corrupt the variant's own settings for a different template once unlinked" do
+        # Attempting to edit "attributes" while linked used to merge onto the *base's*
+        # resolved settings hash (which includes the base's "contract" entry) and write
+        # the whole thing back onto `variant`'s own column, clobbering `variant`'s own "contract"
+        # settings with a copy of the base's. Guard against a regression of that.
         begin
-          type.pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override")
+          variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override")
         rescue Type::PdfExportTemplates::ReadonlyError
           # expected - the write must not happen at all
         end
 
-        unlink_configuration(type, aspect: TypeVariant::PDF_EXPORT)
+        unlink_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
-        expect(type.reload.pdf_export_templates.settings_for("contract"))
-          .to eq(footer_text_center: "Type's own contract footer")
+        expect(variant.reload.pdf_export_templates.settings_for("contract"))
+          .to eq(footer_text_center: "Variant's own contract footer")
       end
     end
   end

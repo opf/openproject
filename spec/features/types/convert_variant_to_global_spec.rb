@@ -115,21 +115,4 @@ RSpec.describe "Convert a project-owned variant to global", :js do
       expect(owned.reload).to have_attributes(project_id: nil, variant_name: "Shared config")
     end
   end
-
-  context "when the variant inherits an aspect from a project-specific variant" do
-    before do
-      owned.update!(defaults_source: create(:project_owned_type_variant, type: bug_type, project:,
-                                                                         variant_name: "Sibling"))
-    end
-
-    it "refuses with an error flash and opens no dialog" do
-      within(find_test_selector("type-variant-#{owned.id}")) { find("action-menu > button").click }
-      click_on convert_action
-
-      expect_flash(type: :error,
-                   message: I18n.t("activerecord.errors.models.type_variant.attributes.base.inherits_from_project_owned").strip)
-      expect(page).to have_no_css("dialog[open]")
-      expect(owned.reload).to be_project_owned
-    end
-  end
 end

@@ -94,8 +94,9 @@ module WorkPackageTypes
       end
 
       it "rejects a variant that borrows its form configuration" do
-        borrower = create(:type_variant, type: create(:type))
-        link_configuration(borrower, source: variant, aspect: TypeVariant::FORM_CONFIGURATION)
+        variant
+        borrower = create(:type_variant, type:)
+        link_configuration(borrower, aspect: TypeVariant::FORM_CONFIGURATION)
 
         result = described_class.new(user:, variant: borrower, row_key: custom_field.attribute_name).call
 
