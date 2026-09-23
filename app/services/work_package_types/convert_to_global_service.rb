@@ -74,6 +74,7 @@ module WorkPackageTypes
       return unless workflow&.project_specific? && workflow.project_id == variant.project_id
 
       workflow.project = nil
+      workflow.name = Workflow.available_name(workflow.name)
     end
   end
 end

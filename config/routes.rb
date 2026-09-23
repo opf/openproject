@@ -233,6 +233,12 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      get :change_dialog
+      patch :change
+
+      get :create_dialog
+      post :create
+
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
@@ -317,6 +323,23 @@ Rails.application.routes.draw do
   resources :statuses, except: :show do
     member do
       put :move
+    end
+  end
+
+  resources :workflows, only: %i[index], controller: "workflows/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    member do
+      get :edit_dialog
+    end
+
+    resource :matrix, only: %i[show update], controller: "workflows/matrix" do
+      get :status_dialog
+      post :confirm_statuses
     end
   end
 

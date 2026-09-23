@@ -404,7 +404,7 @@ en:
         project_types: "Projects using this variant"
         variant: "Variant"
         variant_name: "Name"
-        workflows_source: "Workflows source"
+        workflow: "Workflow"
       user:
         admin: "Administrator"
         auth_source: "Authentication source"
@@ -537,6 +537,10 @@ en:
         work_package: "Work package"
       work_package_version:
         kind: "Kind"
+      workflow:
+        description: "Description"
+        name: "Name"
+        type_variants: "Types and variants using this workflow"
     errors:
       messages:
         accepted: "must be accepted."
@@ -921,9 +925,6 @@ en:
               must_belong_to_the_type: "must be a variant of this type."
             workflow:
               not_available_to_this_variant: "must be a workflow this project can use."
-            workflows_source_id:
-              must_be_available_to_the_variant: "must be a configuration this project can use."
-              would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:
             base:
@@ -7607,6 +7608,12 @@ en:
       other: "%{count} work package descendants"
 
   workflows:
+    change:
+      title: "Change workflow"
+      workflow:
+        caption: "The type uses the status transitions of the workflow you pick here."
+        label: "Workflow"
+        placeholder: "Select a workflow…"
     copies:
       form:
         target_role_ids:
@@ -7619,6 +7626,14 @@ en:
       new:
         title: 'Copy workflow of "%{source_type}"'
     form:
+      copy_from:
+        caption: "The new workflow starts with a copy of that workflow's status transitions."
+        label: "Copy from"
+        placeholder: "Select a workflow…"
+      description:
+        caption: "Add a short description about where and how will this workflow be used."
+        label: "Description"
+      edit_title: "Edit workflow"
       matrix_caption: "Workflow matrix"
       matrix_caption_assignee: "Workflow matrix for assignee"
       matrix_caption_author: "Workflow matrix for author"
@@ -7627,12 +7642,76 @@ en:
       matrix_check_uncheck_all_in_row_label_html: "Toggle transitions from <em>%{old_status}</em> to all new statuses"
       matrix_checkbox_label: "Allow transition from %{old_status} to %{new_status}"
       matrix_uncheck_all_label: "Disallow all transitions"
+      name:
+        caption: "Pick a name that will let you identify this workflow later in other places."
+        label: "Workflow name"
+      new_title: "Create workflow"
     index:
+      actions:
+        create: "Workflow"
+        edit: "Edit transitions"
+        menu: "Actions for %{name}"
+        rename: "Edit name and description"
+      blank_slate:
+        description: "Create a workflow to define the status transitions a type or variant may use."
+        filtered_description: "No workflow matches the current filters."
+        filtered_title: "No matching workflows"
+        title: "No workflows"
+      columns:
+        name: "Workflow name"
+        projects: "Projects"
+        roles: "Roles"
+        types_and_variants: "Types and variants"
+      description: "Every named set of status transitions in this instance, with the types and variants using it."
+      filters:
+        name: "Workflow"
+        name_placeholder: "Filter by workflow name or description…"
+        projects_placeholder: "Filter projects…"
+      projects_count:
+        one: "1 project"
+        other: "%{count} projects"
+      roles_count:
+        one: "1 role"
+        other: "%{count} roles"
       type_filter:
         label: "Filter by type name…"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: "1 type"
+        other: "%{count} types"
+      variants_count:
+        one: "1 variant"
+        other: "%{count} variants"
+    name:
+      fallback: "Workflow"
     page_headers:
       index_component:
         description: "Configure status transitions for each work package type."
+    reuse_mode:
+      change_workflow: "Change workflow"
+      create_workflow: "Create new workflow"
+      independent:
+        description: "Only this type or variant uses [%{name}](workflow_url)."
+        title: "Independent configuration"
+      shared:
+        description: "Other types and variants use this workflow as well."
+        title: "Reuses workflow [%{name}](workflow_url)"
+      usage:
+        blank:
+          description: "A change to these transitions applies to this type or variant only."
+          title: "Not used anywhere else"
+        description: "A change to these transitions also applies to:"
+        title:
+          one: "Used in 1 other place"
+          other: "Used in %{count} other places"
+    usage:
+      unused: "No type or variant uses this workflow yet."
+      used_by_types:
+        one: "This workflow is used by 1 type. Changes apply to it."
+        other: "This workflow is used by %{count} types. Changes apply to all of them."
+      used_by_variants:
+        one: "This workflow is used by 1 type or variant."
+        other: "This workflow is used by %{count} types and variants."
   working_days:
     change_button: "Change working days"
     dialog:

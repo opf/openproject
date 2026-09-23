@@ -54,7 +54,7 @@ RSpec.describe WorkPackageTypes::VariantComparison do
   def profile_for(variant) = comparison.columns.find { it.id == variant.id }
 
   def inheriting_variant(name)
-    create(:type_variant, type:, variant_name: name).tap do |variant|
+    create(:type_variant, type:, variant_name: name, workflow: base.workflow).tap do |variant|
       TypeVariant::ASPECTS.each { link_configuration(variant, source: base, aspect: it) }
     end
   end
@@ -88,9 +88,9 @@ RSpec.describe WorkPackageTypes::VariantComparison do
       expect(comparison).to be_same_as_type(profile_for(variant))
     end
 
-    it "is false when a single aspect resolves differently" do
+    it "is false when the workflow resolves differently" do
       variant = inheriting_variant("Almost")
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      variant.update!(workflow: create(:named_workflow))
 
       expect(comparison).not_to be_same_as_type(profile_for(variant))
     end

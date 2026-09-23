@@ -47,11 +47,6 @@ RSpec.describe WorkPackageTypes::IndependentMode do
         .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
-    it "offers copy and empty for workflows" do
-      expect(described_class.available_for(TypeVariant::WORKFLOWS))
-        .to eq([described_class::COPY, described_class::EMPTY])
-    end
-
     it "offers copy and empty for project attributes" do
       expect(described_class.available_for(TypeVariant::PROJECT_ATTRIBUTES))
         .to eq([described_class::COPY, described_class::EMPTY])

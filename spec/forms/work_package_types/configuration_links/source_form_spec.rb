@@ -42,32 +42,32 @@ RSpec.describe WorkPackageTypes::ConfigurationLinks::SourceForm do
   it "offers unrelated variants of the same type" do
     sibling = create(:type_variant, type:, variant_name: "Sibling")
 
-    expect(options_for(TypeVariant::WORKFLOWS)).to include(type.default_variant, sibling)
+    expect(options_for(TypeVariant::DEFAULTS)).to include(type.default_variant, sibling)
   end
 
   it "never offers the variant being configured" do
-    expect(options_for(TypeVariant::WORKFLOWS)).not_to include(variant)
+    expect(options_for(TypeVariant::DEFAULTS)).not_to include(variant)
   end
 
   it "drops a variant that inherits this aspect from the configured one" do
     dependent = create(:type_variant, type:, variant_name: "Dependent")
-    dependent.link!(TypeVariant::WORKFLOWS, source: variant)
+    dependent.link!(TypeVariant::DEFAULTS, source: variant)
 
-    expect(options_for(TypeVariant::WORKFLOWS)).not_to include(dependent)
+    expect(options_for(TypeVariant::DEFAULTS)).not_to include(dependent)
   end
 
   it "drops a variant that inherits this aspect transitively" do
     dependent = create(:type_variant, type:, variant_name: "Dependent")
-    dependent.link!(TypeVariant::WORKFLOWS, source: variant)
+    dependent.link!(TypeVariant::DEFAULTS, source: variant)
     grand_dependent = create(:type_variant, type:, variant_name: "Grand dependent")
-    grand_dependent.link!(TypeVariant::WORKFLOWS, source: dependent)
+    grand_dependent.link!(TypeVariant::DEFAULTS, source: dependent)
 
-    expect(options_for(TypeVariant::WORKFLOWS)).not_to include(grand_dependent)
+    expect(options_for(TypeVariant::DEFAULTS)).not_to include(grand_dependent)
   end
 
   it "still offers a dependent as a source for an unrelated aspect" do
     dependent = create(:type_variant, type:, variant_name: "Dependent")
-    dependent.link!(TypeVariant::WORKFLOWS, source: variant)
+    dependent.link!(TypeVariant::PDF_EXPORT, source: variant)
 
     expect(options_for(TypeVariant::DEFAULTS)).to include(dependent)
   end

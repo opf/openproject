@@ -53,16 +53,17 @@ RSpec.describe "The overview of a work package type",
   end
 
   it "reports how each setting is configured" do
-    link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
+    link_configuration(type, source: source_type, aspect: TypeVariant::DEFAULTS)
 
     visit type_settings_path(type_id: type.id)
 
     within("#overview-details") { expect(page).to have_text("Always manual") }
-    within("#overview-defaults") { expect(page).to have_text("Manually configured") }
-    within("#overview-workflow") do
+    within("#overview-workflow") { expect(page).to have_text("Always manual") }
+    within("#overview-form_configuration") { expect(page).to have_text("Manually configured") }
+    within("#overview-defaults") do
       expect(page).to have_text("Inheriting from Feature")
       expect(page).to have_link("Feature",
-                                href: edit_type_workflow_path(type_id: source_type.id,
+                                href: edit_type_defaults_path(type_id: source_type.id,
                                                               variant_id: source_type.default_variant.id))
     end
   end
@@ -104,11 +105,11 @@ RSpec.describe "The overview of a work package type",
     end
 
     it "names a source of administration's without a link the project cannot follow" do
-      link_configuration(owned, source: source_type, aspect: TypeVariant::WORKFLOWS)
+      link_configuration(owned, source: source_type, aspect: TypeVariant::DEFAULTS)
 
       visit type_settings_path(**owned.path_args)
 
-      within("#overview-workflow") do
+      within("#overview-defaults") do
         expect(page).to have_text("Inheriting from Feature")
         expect(page).to have_no_link("Feature")
       end
