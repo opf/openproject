@@ -50,6 +50,10 @@ export class ResourcesDisplayField extends DisplayField {
     return [];
   }
 
+  public get valueString():string {
+    return this.stringValue.join(', ');
+  }
+
   public render(element:HTMLElement, displayText:string):void {
     const values = this.stringValue;
     element.innerHTML = '';
