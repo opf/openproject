@@ -42,10 +42,25 @@ module Llm
     retry_on SyncFailed, wait: :polynomially_longer, attempts: 10
 
     def perform
-      LlmConnection.find_each do |connection|
-        result = LlmConnections::SyncModelsService.new(connection).call
-        raise SyncFailed, result.errors.to_s unless result.success?
-      end
+      failures = LlmConnection.find_each.filter_map { |connection| failure_for(connection) }
+
+      raise SyncFailed, failures.join("; ") if failures.any?
+    end
+
+    private
+
+    # Every connection is attempted before anything is raised. One server still
+    # starting, or one row carrying a format no adapter serves, must not leave
+    # the connections after it without a catalogue, and the retry this job relies
+    # on only needs to know that something failed.
+    def failure_for(connection)
+      result = LlmConnections::SyncModelsService.new(connection).call
+      return if result.success?
+
+      result.errors.to_s
+    rescue StandardError => e
+      Rails.logger.error { "LLM model sync failed for connection #{connection.id}: #{e.class}" }
+      e.class.to_s
     end
   end
 end

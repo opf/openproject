@@ -33,29 +33,28 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
                :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Task") }
-  shared_let(:borrowing_type) { create(:type, name: "Feature") }
-  shared_let(:borrowing_variant) { create(:type_variant, type: borrowing_type, variant_name: "Mobile") }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
   before { login_as(admin) }
 
   it "shows both boxes side by side, and the reuse mode actions still work" do
-    visit edit_type_form_configuration_path(type_id: type.id)
+    variant = create(:type_variant, type:, variant_name: "Hardware")
+    visit edit_type_form_configuration_path(**variant.path_args)
 
     expect(page).to have_text("Manual configuration")
     expect(page).to have_text("No dependent types")
     expect(page).to have_text("No other type or variant inherits from this configuration")
 
-    click_on "Inherit from another type"
+    click_on "Inherit from parent"
 
-    expect(page).to have_text("Inherit this configuration from a source type")
-    expect(page).to have_button("Switch")
+    expect(page).to have_text("Switch configuration mode?")
+    expect(page).to have_button(I18n.t(:button_confirm), disabled: :all)
   end
 
   it "counts the dependents and lists them in the dialog" do
-    link_configuration(borrowing_type, source: type, aspect:)
-    link_configuration(borrowing_variant, source: type, aspect:)
+    link_configuration(create(:type_variant, type:, variant_name: "Mobile"), aspect:)
+    link_configuration(create(:type_variant, type:, variant_name: "Desktop"), aspect:)
 
     visit edit_type_form_configuration_path(type_id: type.id)
 
@@ -66,55 +65,23 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
 
     click_on "View dependent types"
 
-    within_test_selector("direct-dependents-list") do
-      expect(page).to have_link("Feature")
+    within_test_selector("dependents-list") do
       expect(page).to have_link("Mobile")
-      expect(page).to have_text("Variant of Feature")
-    end
-
-    expect(page).to have_no_test_selector("indirect-dependents-list")
-  end
-
-  it "counts a whole chain and splits the dialog into direct and indirect dependents" do
-    bug_variant = create(:type_variant, type: create(:type, name: "Bug"), variant_name: "iOS")
-    server_variant = create(:type_variant, type: create(:type, name: "Server"), variant_name: "Web")
-
-    link_configuration(bug_variant, source: type, aspect:)
-    link_configuration(server_variant, source: bug_variant, aspect:)
-
-    visit edit_type_form_configuration_path(type_id: type.id)
-
-    within_test_selector("reuse-mode-dependents") do
-      expect(page).to have_text("2 dependent types")
-    end
-
-    click_on "View dependent types"
-
-    within_test_selector("direct-dependents-list") do
-      expect(page).to have_css(".Box-header", text: "Direct dependents")
-      expect(page).to have_link("iOS")
-      expect(page).to have_text("Variant of Bug")
-    end
-
-    within_test_selector("indirect-dependents-list") do
-      expect(page).to have_css(".Box-header", text: "Dependents through other types")
-      expect(page).to have_link("Web")
-      expect(page).to have_text("Variant of Server, inheriting via iOS")
-      expect(page).to have_link("iOS")
+      expect(page).to have_link("Desktop")
+      expect(page).to have_text("Variant of Task")
     end
   end
 
   it "navigates to a dependent's own configuration from the dialog" do
-    link_configuration(borrowing_variant, source: type, aspect:)
+    dependent = create(:type_variant, type:, variant_name: "Mobile")
+    link_configuration(dependent, aspect:)
 
     visit edit_type_form_configuration_path(type_id: type.id)
 
     click_on "View dependent types"
     click_on "Mobile"
 
-    expect(page).to have_current_path(
-      edit_type_form_configuration_path(type_id: borrowing_type.id, variant_id: borrowing_variant.id)
-    )
+    expect(page).to have_current_path(edit_type_form_configuration_path(**dependent.path_args))
     expect(page).to have_text("Inherited configuration")
     expect(page).to have_css(".color-bg-accent", text: "Inherited configuration")
   end

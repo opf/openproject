@@ -406,14 +406,13 @@ vi:
       empty_project_folder_validation: Việc chọn một thư mục là bắt buộc để tiếp tục.
       existing_manual_folder: Bạn có thể chỉ định một thư mục hiện có làm thư mục gốc cho dự án này. Tuy nhiên, các quyền không được quản lý tự động, quản trị viên cần đảm bảo người dùng liên quan có quyền truy cập theo cách thủ công. Thư mục đã chọn có thể được sử dụng bởi nhiều dự án.
       host: Vui lòng thêm địa chỉ máy chủ lưu trữ của bạn bao gồm https://. Nó không được dài hơn 255 ký tự.
-      managed_project_folders_application_password_caption: 'Bật các thư mục được quản lý tự động bằng cách sao chép giá trị này từ: %{provider_type_link}.'
+      managed_project_folders_application_password_caption_html: 'Enable automatic managed folders by copying this value from: [%{integration}](provider_settings).'
       name: Đặt tên cho bộ lưu trữ của bạn để người dùng có thể phân biệt giữa nhiều bộ lưu trữ.
       new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
       nextcloud:
-        application_link_text: ứng dụng “Tích hợp OpenProject”
         integration: Quản trị Nextcloud / OpenProject
-        oauth_configuration: Sao chép các giá trị này từ %{application_link_text}.
-        provider_configuration: Vui lòng đảm bảo rằng bạn có đặc quyền quản trị trong phiên bản Nextcloud của mình và %{application_link_text} được cài đặt trước khi thực hiện thiết lập.
+        oauth_configuration_html: Copy these values from [Nextcloud Administration / OpenProject](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in your Nextcloud instance and the [application “Integration OpenProject”](application_link) is installed before doing the setup.
         storage_audience: ID khách hàng mà phiên bản Nextcloud sử dụng để liên lạc với nhà cung cấp danh tính.
         storage_audience_placeholder: ví dụ. đám mây tiếp theo
         token_exchange_scope: Các phạm vi cần được yêu cầu trong quá trình trao đổi mã thông báo, mỗi phạm vi được phân tách bằng dấu cách.
@@ -422,27 +421,24 @@ vi:
       not_logged_into_storage: Để chọn thư mục dự án, vui lòng đăng nhập trước
       oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration thiết lập](oauth_application_details_link).
       one_drive:
-        application_link_text: Cổng thông tin Azure
         copy_redirect_uri: Sao chép URI chuyển hướng
-        documentation_link_text: Tài liệu lưu trữ tệp OneDrive
-        drive_id: Vui lòng sao chép ID từ ổ đĩa mong muốn bằng cách làm theo các bước trong %{drive_id_link_text}.
+        drive_id_html: Please copy the ID from the desired drive by following the steps in the [OneDrive file storages documentation](drive_id_guide).
         integration: OneDrive
         missing_client_id_for_redirect_uri: Vui lòng điền các giá trị OAuth để tạo URI
         oauth_client_redirect_uri: Vui lòng sao chép giá trị này vào URI chuyển hướng Web mới trong URI chuyển hướng.
         oauth_client_secret: Trong trường hợp không có bí mật ứng dụng khách nào trong Thông tin xác thực ứng dụng khách, vui lòng tạo một mật khẩu mới.
-        oauth_configuration: Sao chép các giá trị này từ ứng dụng mong muốn trong %{application_link_text}.
-        provider_configuration: Vui lòng đảm bảo rằng bạn có đặc quyền quản trị trong %{application_link_text} hoặc liên hệ với quản trị viên Microsoft của bạn trước khi thực hiện thiết lập. Trong cổng thông tin, bạn cũng cần đăng ký ứng dụng Azure hoặc sử dụng ứng dụng hiện có để xác thực.
-        tenant_id: Vui lòng sao chép ID Thư mục (người thuê) từ ứng dụng mong muốn và đăng ký Ứng dụng trong %{application_link_text}.
+        oauth_configuration_html: Copy these values from the desired application in the [Azure portal](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [Azure portal](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id_html: Please copy the Directory (tenant) ID from the desired application and App registrations in the [Azure portal](application_link).
         tenant_id_placeholder: Tên hoặc UUID
       setting_up_additional_storages: Để thiết lập kho lưu trữ tệp bổ sung, vui lòng truy cập
       setting_up_additional_storages_non_admin: Quản trị viên có thể thiết lập kho lưu trữ tệp bổ sung trong Quản trị / Kho lưu trữ tệp.
       setting_up_storages: Để thiết lập kho lưu trữ tập tin, vui lòng truy cập
       setting_up_storages_non_admin: Quản trị viên có thể thiết lập kho lưu trữ tệp trong Quản trị / Kho lưu trữ tệp.
       sharepoint:
-        application_link_text: Trang SharePoint
         integration: Quản trị SharePoint/OpenProject
-        oauth_configuration: Sao chép các giá trị này từ ứng dụng mong muốn trong %{application_link_text}.
-        provider_configuration: Vui lòng đảm bảo rằng bạn có đặc quyền quản trị trong %{application_link_text} hoặc liên hệ với quản trị viên Microsoft của bạn trước khi thực hiện thiết lập. Trong cổng thông tin, bạn cũng cần đăng ký ứng dụng Azure hoặc sử dụng ứng dụng hiện có để xác thực.
+        oauth_configuration_html: Copy these values from the desired application in the [SharePoint site](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [SharePoint site](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
       type: 'Vui lòng đảm bảo rằng bạn có đặc quyền quản trị trong phiên bản Nextcloud của mình và cài đặt ứng dụng sau trước khi thực hiện thiết lập:'
       type_link_text: "“OpenProject tích hợp”"
     label_active: Đang hoạt động
@@ -481,7 +477,7 @@ vi:
       connected: đã kết nối
       connected_no_permissions: Vai trò người dùng không có quyền lưu trữ
       not_connectable: Không thể kết nối được. Bộ lưu trữ yêu cầu đăng nhập thông qua nhà cung cấp SSO nhưng người dùng không đăng nhập qua SSO.
-      not_connected: Không được kết nối. Người dùng nên đăng nhập vào bộ lưu trữ thông qua %{link} sau.
+      not_connected_html: Not connected. The user should login to the storage via the following [link](storage_login).
       not_connected_sso: Chưa được kết nối, SSO sẽ tự động kết nối chúng sau khi xem tệp.
     members_no_results: Không có thành viên nào để hiển thị
     no_results: Chưa có kho lưu trữ nào được thiết lập.

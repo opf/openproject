@@ -34,6 +34,10 @@ module LlmConnections
   # Kept separate from the contract probe so the same path serves the "Refresh
   # models" button, the update service and the environment seeder.
   class SyncModelsService
+    # A catalogue no administrator could read through anyway, and an upper bound
+    # on how many rows one unbounded response can write.
+    MAX_CARDS = 2_000
+
     def initialize(connection)
       @connection = connection
     end
@@ -44,21 +48,40 @@ module LlmConnections
       # deployment's models and verdicts under new credentials would be wrong.
       invalidate_a_different_deployment
 
-      store(adapter.models)
+      store(capped(adapter.models))
       Llm::DetectCapabilitiesJob.perform_later
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
-      Rails.logger.info { "LLM model sync for #{connection.base_url} failed: #{e.class} #{e.message}" }
-      ServiceResult.failure(errors: e.message)
+      failed("failed: #{e.class} #{e.message}", e.message)
+    rescue ActiveRecord::ActiveRecordError => e
+      # An id longer than the btree index allows, or two syncs racing
+      # find_or_initialize_by into a uniqueness violation. Neither is worth a 500
+      # on the save path or an aborted run in the job.
+      failed("could not be stored: #{e.class}", e.class.to_s)
     end
 
     private
 
     attr_reader :connection
 
+    def failed(reason, errors)
+      Rails.logger.info { "LLM model sync for #{connection.base_url} #{reason}" }
+
+      ServiceResult.failure(errors:)
+    end
+
     def adapter
       @adapter ||= Llm::Adapters.for(connection)
+    end
+
+    def capped(cards)
+      return cards if cards.size <= MAX_CARDS
+
+      Rails.logger.warn do
+        "LLM server at #{connection.base_url} listed #{cards.size} models; storing the first #{MAX_CARDS}"
+      end
+      cards.first(MAX_CARDS)
     end
 
     def store(cards)
@@ -92,8 +115,7 @@ module LlmConnections
 
       cards.each do |card|
         model = connection.models.find_or_initialize_by(external_id: card.fetch(:id))
-        model.update!(display_name: display_name_for(model, card),
-                      raw_metadata: merged_metadata(model, card),
+        model.update!(raw_metadata: merged_metadata(model, card),
                       last_seen_at: now,
                       active: true)
       end
@@ -124,25 +146,35 @@ module LlmConnections
 
     # Only a successful fetch records the fingerprint (see
     # +connection_attributes+), so a failed refresh leaves the list stale.
+    #
+    # Discovered rows are deleted rather than switched off. Withdrawal is for a
+    # model the same server stopped offering, where a verdict pointing at it
+    # still names something real; here the server itself is gone, and a list of
+    # another deployment's models is not a catalogue but a leftover. Manual
+    # entries stay: an administrator typed those, and a server change does not
+    # un-type them.
+    #
+    # The two default_*_model_id columns reference llm_models with
+    # on_delete: :nullify, so the database clears them as the rows go.
+    # Administrator assertions survive, as they do on an ordinary refresh: they
+    # are statements about a model, not about a server.
     def forget_the_previous_deployment
       ActiveRecord::Base.transaction do
+        connection.models.discovered.delete_all
         connection.capability_verdicts.where.not(source: "admin").delete_all
-        connection.models.discovered.update_all(active: false)
       end
-    end
 
-    # The server names the model, but only when it says so: the administrator's
-    # display name is theirs, and a routine refresh must not silently discard it.
-    # A gateway listing in the OpenAI shape carries the name on the raw card,
-    # which the adapter has no vocabulary for.
-    def display_name_for(model, card)
-      card[:display_name].presence || card.dig(:raw, "name").presence || model.display_name
+      connection.reload
     end
 
     # The administrator's context-window override is theirs, and a routine
     # refresh must not silently discard it.
+    #
+    # The incoming card is stripped of the override's key first. Without that, a
+    # server sending "admin_context_window" of its own would have it stored
+    # verbatim and reported as an administrator's.
     def merged_metadata(model, card)
-      raw = normalised_window(card.fetch(:raw, {}))
+      raw = normalised_window(card.fetch(:raw, {})).except("admin_context_window")
       admin_window = model.raw_metadata["admin_context_window"]
 
       admin_window ? raw.merge("admin_context_window" => admin_window) : raw

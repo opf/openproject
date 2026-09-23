@@ -47,7 +47,7 @@ module WorkPackageTypes
     end
 
     def source
-      @variant.effective_source_for(ASPECT)
+      @variant.owner_of(ASPECT)
     end
 
     # We memoize the exclusion state here to avoid an n+1 query

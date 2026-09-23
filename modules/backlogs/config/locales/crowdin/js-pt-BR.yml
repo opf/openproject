@@ -32,22 +32,22 @@ pt-BR:
           other: Erro ao Mover. Verifique as posições atuais dos pacotes de trabalho.
         move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
         move_failed_rolled_back_batch:
-          other: Falha ao mover. %{count} itens retornaram para suas posições anteriores.
-        moved: "%{label} movido para a posição %{position} de %{total}"
+          other: Falha ao mover. %{count} itens retornaram às suas posições anteriores.
+        moved: "%{label} foi movido para a posição %{position} de %{total}"
         moved_batch:
-          other: "%{count} pacotes de trabalho movidos para as posições %{first} através do %{last} do %{total}"
+          other: "%{count} pacotes de trabalho movidos para as posições %{first} a %{last} de %{total}"
         moved_batch_to_list:
-          other: "%{count} pacotes de trabalho transferidos para %{list}, cargos %{first} até %{last} de %{total}"
-        moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
+          other: "%{count} pacotes de trabalho movidos para %{list}, posições %{first} a %{last} de %{total}"
+        moved_to_list: "%{label} movido para %{list}, posição %{position} de %{total}"
       selection:
         card_state: Selecionado
-        cleared: Seleção limpa.
-        not_selectable: Seleção inalterada. Este pacote de trabalho não influencia a ordem desta lista.
-        range_blocked: Seleção inalterada. Esse intervalo contém um pacote de trabalho que não influencia a ordenação desta lista.
+        cleared: Seleção removida.
+        not_selectable: Seleção inalterada. Este pacote de trabalho não faz parte da ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um pacote de trabalho que não faz parte da ordenação desta lista.
         range_restarted:
-          one: Não foi possível ampliar o escopo. 1 pacote de trabalho selecionado.
+          one: Não foi possível ampliar o intervalo. 1 pacote de trabalho selecionado.
           other: Não foi possível ampliar o intervalo. %{count} pacotes de trabalho selecionados.
-        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
+        range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
         selected:
           one: 1 pacote de trabalho selecionado.
           other: "%{count} pacotes de trabalho selecionados."

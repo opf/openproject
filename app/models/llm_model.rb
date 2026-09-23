@@ -40,19 +40,17 @@ class LlmModel < ApplicationRecord
 
   belongs_to :llm_connection
 
-  validates :external_id, presence: true, uniqueness: { scope: :llm_connection_id }
+  # Bounded because the value is a btree index entry and comes from whatever the
+  # remote server chose to call its models.
+  validates :external_id,
+            presence: true,
+            length: { maximum: 512 },
+            uniqueness: { scope: :llm_connection_id }
 
   scope :active, -> { where(active: true) }
   scope :discovered, -> { where(manual: false) }
   scope :manual, -> { where(manual: true) }
   scope :by_identifier, -> { order(:external_id) }
-
-  # What an administrator is willing to have chosen. Distinct from +active+,
-  # which the catalogue sync owns and rewrites on every refresh.
-  scope :deactivated, -> { where.not(deactivated_at: nil) }
-  scope :selectable, -> { active.where(deactivated_at: nil) }
-
-  def deactivated? = deactivated_at.present?
 
   # Everything that points at a model does so by its identifier string, so a
   # rename has to carry them along or it silently orphans them.
@@ -76,13 +74,9 @@ class LlmModel < ApplicationRecord
     clear_connection_defaults
   end
 
-  # Offerable in a picker. Note that this is *not* what decides whether a model
-  # still resolves: a feature already bound to a deactivated model keeps working,
-  # and is surfaced as a warning instead. Switching a row off must never silently
-  # break a running feature.
-  def selectable? = active? && !deactivated?
-
-  def name = display_name.presence || external_id
+  # display_name is an administrator's; the name the server or the registry
+  # reported is metadata, so a refresh updates one and never the other.
+  def name = display_name.presence || raw_metadata["name"].presence || external_id
 
   def clear_connection_defaults
     defaults = CONNECTION_DEFAULTS
@@ -103,6 +97,14 @@ class LlmModel < ApplicationRecord
 
   def admin_context_window = raw_metadata["admin_context_window"]
 
+  # Written into raw_metadata rather than a column, so the validation has to read
+  # back what the setter wrote. Without it "abc" became 0 and "-5" stayed -5,
+  # both present enough for context_window_source to call them an administrator's
+  # and mask the figure the server reported.
+  validates :admin_context_window,
+            numericality: { only_integer: true, greater_than: 0 },
+            allow_nil: true
+
   def context_window_source
     return :admin if raw_metadata["admin_context_window"].present?
     return :server if raw_metadata["max_model_len"].present?
@@ -111,11 +113,13 @@ class LlmModel < ApplicationRecord
     nil
   end
 
+  # Stored as given when it is not a number at all, so the validation has
+  # something to reject rather than silently turning "abc" into 0.
   def admin_context_window=(value)
     self.raw_metadata = if value.blank?
                           raw_metadata.except("admin_context_window")
                         else
-                          raw_metadata.merge("admin_context_window" => value.to_i)
+                          raw_metadata.merge("admin_context_window" => Integer(value, exception: false) || value)
                         end
   end
 
@@ -158,9 +162,9 @@ class LlmModel < ApplicationRecord
                   .first
   end
 
-  # Discovered models that the server stopped offering are deactivated rather
-  # than deleted, so a binding or verdict pointing at one still has something to
-  # name. Manual entries are never deactivated by a refresh: nothing confirms
+  # Discovered models the server stopped offering are switched off rather than
+  # deleted, so a binding or verdict pointing at one still has something to
+  # name. Manual entries are never switched off by a refresh: nothing confirms
   # them, so nothing can un-confirm them either.
   def withdrawn? = !active? && !manual?
 end

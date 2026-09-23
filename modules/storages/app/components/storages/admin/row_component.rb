@@ -27,57 +27,82 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-# Purpose: Defines the row model for the table of Storage objects
-# Used by: Storages table in table_component.rb
 module Storages::Admin
-  class RowComponent < ::RowComponent
-    def storage
-      row
-    end
-
-    # Delegate delegates the execution of certain methods to :storage.
-    # https://www.rubydoc.info/gems/activesupport/Module:delegate
-    delegate :created_at, :host, :provider_type, :configured?, to: :storage
+  class RowComponent < OpPrimer::BorderBoxRowComponent
+    alias_method :storage, :model
 
     def row_css_id
-      helpers.dom_id storage
+      ActionView::RecordIdentifier.dom_id(storage)
     end
 
     def name
-      if configured?
-        storage.name
-      else
-        render(Primer::Beta::Octicon.new(:"alert-fill", size: :small, color: :severe)) +
-          content_tag(:span,
-                      storage.name,
-                      class: "pl-2")
-      end
+      safe_join(
+        [
+          content_tag(:div) do
+            safe_join([name_link, incomplete_label, unhealthy_label])
+          end,
+          host_line
+        ]
+      )
+    end
+
+    def provider_type
+      render(
+        Primer::Beta::Truncate.new(font_weight: :light, data: { test_selector: "storage-provider" })
+      ) { I18n.t("storages.provider_types.#{storage.short_provider_type}.name") }
     end
 
     def creator
-      icon = helpers.avatar storage.creator, size: :mini
-      icon + storage.creator.name
+      render(
+        Users::AvatarComponent.new(
+          user: storage.creator,
+          size: :mini,
+          link: false,
+          show_name: true,
+          name_classes: "hidden-for-tablet-and-small-laptops"
+        )
+      )
     end
 
-    def button_links
-      [edit_link, delete_link]
+    def created_at
+      render(Primer::Beta::Text.new(font_weight: :light)) do
+        I18n.t("activity.item.created_on", datetime: helpers.format_time(storage.created_at)).capitalize
+      end
     end
 
-    def delete_link
-      link_to "",
-              admin_settings_storage_path(storage),
-              class: "icon icon-delete",
-              data: { turbo_method: :delete, turbo_confirm: I18n.t("storages.delete_warning.storage") },
-              title: I18n.t(:button_delete)
+    private
+
+    def name_link
+      render(
+        Primer::Beta::Link.new(
+          href: url_helpers.edit_admin_settings_storage_path(storage),
+          font_weight: :bold,
+          mr: 1,
+          data: { test_selector: "storage-name" }
+        )
+      ) { storage.name }
     end
 
-    def edit_link
-      link_to "",
-              edit_admin_settings_storage_path(storage),
-              class: "icon icon-edit",
-              accesskey: helpers.accesskey(:edit),
-              title: I18n.t(:button_edit)
+    def incomplete_label
+      return if storage.configured?
+
+      render(Primer::Beta::Label.new(scheme: :attention, test_selector: "label-incomplete")) { I18n.t(:label_incomplete) }
+    end
+
+    def unhealthy_label
+      return unless storage.health_unhealthy?
+
+      render(Primer::Beta::Label.new(scheme: :danger, test_selector: "storage-health-label-error")) do
+        I18n.t("storages.health.label_error")
+      end
+    end
+
+    def host_line
+      render(
+        Primer::Beta::Truncate.new(font_weight: :light, color: :subtle, data: { test_selector: "storage-host" })
+      ) { storage.host }
     end
   end
 end

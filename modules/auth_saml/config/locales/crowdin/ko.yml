@@ -45,7 +45,7 @@ ko:
         '
       title: SAML 프로토콜 구성 매개 변수
     instructions:
-      allowed_clock_drift: 'ID 제공자의 응답 타임스탬프를 검증할 때 적용되는 초 단위의 허용 오차입니다. 초 단위의 소수 값도 허용됩니다. OpenProject와 ID 제공자의 시계가 동기화되지 않은 것이 확인된 경우에만 이 설정을 사용하며, 값은 가능한 한 낮게 유지해야 합니다(기본값: 0).
+      allowed_clock_drift: 'ID 공급자의 응답 타임스탬프를 검증할 때 적용되는 초 단위의 허용 오차입니다. 초 단위의 소수 값도 허용됩니다. OpenProject와 ID 공급자의 시계가 동기화되지 않은 것이 확인된 경우에만 이 설정을 사용하며, 값은 가능한 한 낮게 유지해야 합니다(기본값: 0).
 
         '
       authn_requests_signed: '이 옵션을 선택하면 OpenProject가 SAML AuthnRequest에 서명합니다. 아래 필드를 사용하여 서명 인증서와 비공개 키를 제공해야 합니다.

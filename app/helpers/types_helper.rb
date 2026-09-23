@@ -44,7 +44,7 @@ module ::TypesHelper
       variants_tab,
       type_tab("form_configuration", edit_type_form_configuration_path(**args),
                aspect: TypeVariant::FORM_CONFIGURATION),
-      type_tab("workflow", edit_type_workflow_path(**args), aspect: TypeVariant::WORKFLOWS),
+      type_tab("workflow", edit_type_workflow_path(**args), aspect: nil),
       type_tab("project_attributes", edit_type_project_attributes_path(**args),
                aspect: TypeVariant::PROJECT_ATTRIBUTES),
       projects_tab,
@@ -95,8 +95,6 @@ module ::TypesHelper
       edit_type_pdf_export_template_index_path(**args)
     when TypeVariant::PROJECT_ATTRIBUTES
       edit_type_project_attributes_path(**args)
-    when TypeVariant::WORKFLOWS
-      edit_type_workflow_path(**args)
     else
       edit_type_form_configuration_path(**args)
     end

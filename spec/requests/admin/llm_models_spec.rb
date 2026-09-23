@@ -66,11 +66,23 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       login_as create(:user)
       get llm_models_path
 
-      expect(response).not_to have_http_status(:ok)
+      expect(response).to have_http_status(:forbidden)
     end
 
     context "when logged in as admin" do
       before { login_as admin }
+
+      # The controller reads turboStreamRequest; with the old name the value was
+      # ignored, live updates stayed off and typing sent no request at all.
+      # Nothing caught it because the request spec calls /search directly.
+      it "declares live updates on the filter form, so the input is listened to" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(page).to have_css("[data-controller~='filter--filters-form']" \
+                                 "[data-filter--filters-form-turbo-stream-request-value='true']")
+      end
 
       it "lists the cached models without contacting the server" do
         create(:llm_connection, :with_models, base_url:)
@@ -80,6 +92,19 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("qwen3.6-27b")
         expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
+      end
+
+      # ".icon:before" carries the padding and colour and "a.icon:hover" removes
+      # the underline, and both select the anchor, so the classes cannot sit on
+      # an inner <i> as op_icon would place them.
+      it "puts the icon classes on the action anchor itself" do
+        create(:llm_connection, :with_models, base_url:)
+        llm_model = LlmModel.find_by(external_id: "qwen3.6-27b")
+
+        get llm_models_path
+
+        expect(page).to have_css("a.icon.icon-edit[href='#{edit_llm_model_path(llm_model)}']", visible: :all)
+        expect(page).to have_css("a.icon.icon-edit .sr-only", text: I18n.t(:button_edit), visible: :all)
       end
 
       it "warns that the list predates the current settings" do
@@ -171,17 +196,6 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(page).to have_no_button("Save")
       end
 
-      it "keeps a stored default listed once its model is switched off" do
-        connection = create(:llm_connection, :with_models, base_url:)
-        chat_model = connection.models.find_by(external_id: "qwen3.6-27b")
-        connection.update!(default_chat_model: chat_model)
-        chat_model.update!(deactivated_at: Time.current)
-
-        get llm_models_path
-
-        expect(offered_default_models).to include("qwen3.6-27b")
-      end
-
       it "sends the administrator to the settings while the features are off",
          with_settings: { llm_features_enabled: false } do
         create(:llm_connection, :with_models, base_url:)
@@ -234,7 +248,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
     end
 
-    def rendered_rows(body) = body.scan("llm-model--toggle-").size
+    def rendered_rows(body) = body.scan("llm-model--edit-").size
 
     it "shows one page of rows at a time rather than every model" do
       get llm_models_path, params: { per_page: 20 }
@@ -261,7 +275,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
     end
 
-    def rendered_rows(body) = body.scan("llm-model--toggle-").size
+    def rendered_rows(body) = body.scan("llm-model--edit-").size
 
     it "narrows the table to matching models" do
       get search_llm_models_path, params: { filters: }
@@ -559,6 +573,94 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    describe "the capability assertions a save touches" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # An admin-sourced verdict is the one thing detection must never undo, and
+      # a PATCH carrying one field used to clear all four: absent read the same
+      # as blank, and blank means "withdraw the assertion".
+      it "leaves an assertion alone when its field was not submitted" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { display_name: "Renamed" } }
+
+        expect(llm_model.reload.display_name).to eq("Renamed")
+        expect(llm_model.verdict_for(:vision)&.state).to eq("supported")
+      end
+
+      it "withdraws an assertion whose field is submitted blank" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "" } }
+
+        expect(llm_model.reload.verdict_for(:vision)).to be_nil
+      end
+
+      # Admin verdicts are sticky, so an untouched dropdown that asserted
+      # "not an embedding model" could only be undone by editing the model again.
+      it "asserts no type for a model created without one" do
+        post llm_models_path, params: { llm_model: { external_id: "text-embedding-3-small" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings)).to be_nil
+      end
+
+      it "asserts the type a create actually chose" do
+        post llm_models_path,
+             params: { llm_model: { external_id: "text-embedding-3-small", model_type: "embedding" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings).state).to eq("supported")
+        expect(created.verdict_for(:embeddings).source).to eq("admin")
+      end
+    end
+
+    describe "an administrator's context window" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      it "refuses one that is not a positive number" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "abc" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+
+      it "refuses a negative one" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "-5" } }
+
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+    end
+
+    describe "GET /admin/llm_models/:id/delete_dialog" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # Requested by the async-dialog Stimulus controller, which asks for a turbo
+      # stream rather than HTML.
+      it "names a connection default as something that would break" do
+        connection.update!(default_chat_model: llm_model)
+
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("stop working until another model is selected")
+        expect(response.body).to include(LlmConnection.human_attribute_name(:default_chat_model_id))
+      end
+
+      it "says only that the model goes when nothing depends on it" do
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include("no longer be offered to AI features")
+        expect(response.body).not_to include("stop working until another model is selected")
+      end
+    end
+
     describe "renaming a manually added model" do
       let!(:llm_model) do
         create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")
@@ -687,60 +789,6 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
-    end
-  end
-
-  describe "POST /admin/llm_models/:id/toggle" do
-    let!(:connection) { create(:llm_connection, base_url:) }
-    let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
-
-    before { login_as admin }
-
-    it "hides the model from the pickers and puts it back" do
-      post toggle_llm_model_path(llm_model)
-
-      expect(response).to have_http_status(:ok)
-      expect(llm_model.reload).to be_deactivated
-      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
-
-      post toggle_llm_model_path(llm_model)
-
-      expect(llm_model.reload).not_to be_deactivated
-      expect(connection.selectable_model_ids).to include("qwen3.6-27b")
-    end
-
-    it "offers the default pickers again without the model it just switched off" do
-      post toggle_llm_model_path(llm_model)
-
-      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-      expect(response.body).to include('target="llm-connections-default-models-component"')
-      expect(offered_default_models(streamed_markup)).not_to include("qwen3.6-27b")
-    end
-
-    it "refuses a model the server has withdrawn" do
-      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
-
-      post toggle_llm_model_path(withdrawn)
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(withdrawn.reload).not_to be_deactivated
-    end
-
-    it "is refused to a non-admin" do
-      login_as create(:user)
-
-      post toggle_llm_model_path(llm_model)
-
-      expect(llm_model.reload).not_to be_deactivated
-    end
-
-    it "leaves the source of a hidden model answering where it came from" do
-      create(:llm_model, :manual, :deactivated, llm_connection: connection, external_id: "by-hand")
-
-      get llm_models_path
-
-      expect(response.body).to include("Added manually by an administrator")
-      expect(response.body).not_to include("Hidden")
     end
   end
 end

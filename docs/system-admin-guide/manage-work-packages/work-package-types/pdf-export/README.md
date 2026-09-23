@@ -27,7 +27,27 @@ If no template is enabled, users cannot generate a PDF for a work package of thi
 > [!TIP]
 > See [work package PDF export guide](../../../../user-guide/work-packages/exporting/work-package-pdf/) for more details on what each of the templates contains.
 
+The following templates are available:
+
+- **Attributes and description** – Work package attributes present in the current form together with the description.
+- **Contract** – Work package details formatted according to the standard German contract form.
+- **PMflex Artefact** – Work package details rendered as a PMflex Artefact.
+
+### Configure a PDF export template
+
+Click the name of a template to open its configuration page. Each PDF export template has its own settings, so you can configure the templates independently.
+
+The available settings depend on the selected template. This is an example of the template for Attributes and descriptions. 
+
+![PDF export template configuration page for a work package type](openproject_system_guide_work_package_types_pdf_template_configuration.png)
+
+Click **Save** to apply your changes.
+
+Click **Reset to default** to restore the default settings for this template, or **Cancel** to leave the configuration page without saving your changes. 
+
 ## Automatic artefact export
+
+![Generate PDF tab under work package types settings in OpenProject administration, showing automatic artefact export options](openproject_system_guide_work_package_types_pdf_tab_options.png)
 
 In addition to exporting on demand, OpenProject can generate a PMflex Artefact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
 

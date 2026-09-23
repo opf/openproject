@@ -61,9 +61,9 @@ zh-CN:
           invalid_scheme: 必须使用 WebSocket 协议（ws:// 或 wss://）。
           label: Hocuspocus 服务器 URL
         page_header:
-          description: |-
-            启用实时协作后，多个用户可以同时编辑一个文档。
-            它需要一个有效的 %{hocuspocus_server_link} 才能运行。
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: 我明白我可能会永久丢失数据
         confirmation_message: 所有现有文档可能变为无法访问。请仅在确定要禁用实时协作和 BlockNote 编辑器的情况下才执行此操作。
@@ -114,7 +114,7 @@ zh-CN:
       currently_offline: 您目前处于离线状态。
     label_attachment_author: 附件作者
     label_categories: 类别
-    last_updated_at: 最后保存时间：%{time}。
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: 所有文档
       collaboration_settings: 实时协作

@@ -1,0 +1,86 @@
+// Shared card for a time entry in the FullCalendar based my time tracking views. The
+// views own the padding and the height, since those follow from how they size a bar.
+
+// For the event element carrying ONGOING_CLASS_NAME, which each view names for itself.
+=te-entry-card-ongoing
+  background: var(--bgColor-accent-muted)
+
+=te-entry-card
+  .te-entry-card--timer
+    display: flex
+    margin-right: 4px
+    color: var(--fgColor-accent)
+
+    &:hover
+      color: var(--fgColor-accent-emphasis)
+
+  .te-entry-card
+    position: relative
+    display: flex
+    // FullCalendar's event frame is itself a flex container, so without this the card
+    // would size to its content.
+    flex: 1
+    min-width: 0
+    flex-direction: column
+    gap: 2px
+    overflow: hidden
+
+  .te-entry-card--duration
+    display: flex
+    color: var(--fgColor-muted)
+    font-size: var(--text-body-size-small)
+    line-height: var(--text-body-lineHeight-small)
+
+  .te-entry-card--times
+    min-width: 0
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+    &::before
+      content: "·"
+      padding: 0 4px
+
+  .te-entry-card--subject
+    color: var(--fgColor-default)
+    font-size: var(--text-body-size-small)
+    line-height: var(--text-body-lineHeight-small)
+
+  .te-entry-card--project
+    color: var(--fgColor-muted)
+    font-size: var(--text-caption-size)
+    line-height: var(--text-caption-lineHeight)
+
+  // Anchored rather than pushed down by the text, which would shove it out of a card that
+  // is only just tall enough and get it clipped.
+  .te-entry-card--icon
+    position: absolute
+    right: 8px
+    bottom: 8px
+    display: flex
+    color: var(--fgColor-muted)
+
+// For a card with no room for more than a single row.
+=te-entry-card-condensed
+  .te-entry-card
+    flex-direction: row
+    align-items: center
+    gap: 8px
+
+  .te-entry-card--duration
+    flex-shrink: 0
+
+  .te-entry-card--subject
+    min-width: 0
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .te-entry-card--project,
+  .te-entry-card--times
+    display: none
+
+  .te-entry-card--icon
+    position: static
+    margin-left: auto
+    align-self: center

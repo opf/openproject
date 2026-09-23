@@ -120,7 +120,7 @@ zh-CN:
         oauth:
           openproject_oauth: OpenProject OAuth
           redirect_uri: 重定向 URI
-          redirect_uri_caption: 将该值复制进您 XWiki OIDC 客户端注册的重定向 URI 字段中。
+          redirect_uri_caption: 将此值复制进您的 XWiki OIDC 客户端注册的“重定向 URI”字段中。
         sections:
           general_information: 常规信息
           oauth_configuration: OAuth 配置

@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
        { href: mcp_configurations_path, text: t("menus.admin.ai") },
        t("menus.admin.llm_connection")]
     )
-    render_tab_header_nav(header, llm_settings_tabs(@connection), test_selector: "llm-settings--tabs")
+    render_tab_header_nav(header, llm_settings_tabs, test_selector: "llm-settings--tabs")
 
     # Nothing here applies to a connection provisioned from the environment:
     # those settings belong to the deployment, not to the administrator.

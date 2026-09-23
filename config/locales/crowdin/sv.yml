@@ -696,6 +696,13 @@ sv:
               not_unique: används redan. Välj ett annat namn.
         jira:
           invalid_protocol: Ange ett giltigt protokoll (http eller https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1730,6 +1737,35 @@ sv:
       caption_with_maximum: 'Användaråtgärder på ett arbetspaket (ändringar av beskrivning, status eller värden samt kommentarer) grupperas om de utförs inom den här perioden. Den styr även fördröjningar för aviseringar och [webhooks](webhook_link). Högsta värdet är %{max} minuter.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Model Context Protocol gör det möjligt för AI-agenter att ge sina användare verktyg och resurser som exponeras av den här OpenProject-instansen. Funktionen är fortfarande i betaversion.
@@ -3678,6 +3714,7 @@ sv:
   label_journal_diff: Jämför beskrivning
   label_jump_to_a_project: Hoppa till projekt...
   label_keyword_plural: Nyckelord
+  label_label_plural: Labels
   label_language: Språk
   label_language_based: Baserat på användarens språk
   label_languages: Språk
