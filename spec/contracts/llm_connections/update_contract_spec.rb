@@ -104,6 +104,15 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
       expect(models_request).not_to have_been_made
     end
+
+    # The address is checked whatever dialect the server speaks. RubyLLM carries
+    # inference for these formats over a Faraday stack that is not filtered, so
+    # this save-time check is the only guard they get.
+    context "when the host is blocked by the SSRF policy" do
+      before { allow_llm_host("something.else") }
+
+      include_examples "contract is invalid", base_url: :ssrf_filtered
+    end
   end
 
   context "with a gateway that serves the model list in OpenAI shape" do

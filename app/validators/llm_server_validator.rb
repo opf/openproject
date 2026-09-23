@@ -51,11 +51,15 @@ class LlmServerValidator < ActiveModel::EachValidator
   # wrong URL save silently, along with an API key nothing had checked.
   MODELS_ENDPOINT_ABSENT = [405, 501].freeze
 
+  # The address check and the model-list probe are independent: where the server
+  # lives is worth refusing whatever dialect it speaks, and a registry-backed
+  # format still has inference sent to this URL. Only the probe is skipped for
+  # the formats that have no catalogue here.
   def validate_each(contract, attribute, value)
     return if value.blank?
-    return unless queries_the_server?(contract)
     return unless connection_changed?(contract)
     return unless host_allowed?(contract, attribute, value)
+    return unless queries_the_server?(contract)
 
     probe(contract, attribute, value)
   end
@@ -72,9 +76,11 @@ class LlmServerValidator < ActiveModel::EachValidator
     contract.model.changed_attributes.keys.intersect?(CONNECTION_ATTRIBUTES)
   end
 
-  # A pre-flight check purely so the administrator gets an actionable message
-  # naming the environment variable, rather than a bare connection failure from
-  # the transport-level SSRF filter.
+  # The only SSRF guard a registry-backed connection gets: RubyLLM's Faraday
+  # stack carries chat and embeddings, and is not filtered the way
+  # OpenProject.httpx is. For the live-discovery formats it is also a pre-flight
+  # check, so the administrator gets a message naming the environment variable
+  # rather than a bare connection failure from the transport-level filter.
   def host_allowed?(contract, attribute, value)
     host = URI.parse(value).host
     return false if host.blank?
