@@ -242,6 +242,27 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(page).to have_no_css(remove_api_key, visible: :all)
     end
 
+    # The one action that wipes a credential deserves to name the guard that
+    # stops it rather than to pass on any non-200.
+    it "is refused to a non-admin" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      login_as create(:user)
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
+
+    it "is refused while the feature flag is off", with_flag: { llm_connection: false } do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
+
     # active_connection returns an unsaved record when nothing is stored, and
     # writing to that inserted a row that failed its own validations, so the
     # request 500'd instead of saying there is nothing here.
@@ -287,6 +308,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       post disconnect_llm_connection_path
 
+      expect(response).to have_http_status(:forbidden)
       expect(connection.reload.api_key).to eq("sk-test")
     end
 
