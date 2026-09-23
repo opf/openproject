@@ -120,6 +120,18 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
   end
 
+  # A stored connection can reach this with a URL the contract would refuse,
+  # because provisioning from the environment does not run the contract.
+  context "when the model list answers 404" do
+    before { mock_llm_models_response(base_url, response_code: 404) }
+
+    it "reports the status rather than calling the endpoint merely absent" do
+      expect(result_for(:server, :reachable).state).to eq(:success)
+      expect(result_for(:server, :credentials_accepted).state).to eq(:failure)
+      expect(result_for(:server, :credentials_accepted).code).to eq(:server_error)
+    end
+  end
+
   context "when the key is rejected" do
     before { mock_llm_models_response(base_url, response_code: 401) }
 
