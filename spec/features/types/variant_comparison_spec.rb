@@ -72,10 +72,10 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     create(:status_transition, type_variant: mobile, role:, old_status: new_status, new_status: closed_status)
     create(:status_transition, type_variant: clone, role:, old_status: new_status, new_status: closed_status)
 
-    link_configuration(mobile, source: base, aspect: form, excluded: ["responsible"])
-    link_configuration(clone, source: base, aspect: form, excluded: ["responsible"])
-    link_configuration(owned, source: base, aspect: form)
-    link_configuration(twin, source: base, aspect: form)
+    link_configuration(mobile, aspect: form, excluded: ["responsible"])
+    link_configuration(clone, aspect: form, excluded: ["responsible"])
+    link_configuration(owned, aspect: form)
+    link_configuration(twin, aspect: form)
     twin.update!(workflow: base.workflow)
 
     login_as(admin)
@@ -240,8 +240,8 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     end
 
     before do
-      TypeVariant::ASPECTS.each { link_configuration(inheriting, source: overview_base, aspect: it) }
-      link_configuration(project_specific, source: overview_base, aspect: TypeVariant::FORM_CONFIGURATION)
+      TypeVariant::ASPECTS.each { link_configuration(inheriting, aspect: it) }
+      link_configuration(project_specific, aspect: TypeVariant::FORM_CONFIGURATION)
 
       visit comparison_type_variants_path(type_id: overview_type.id)
     end
