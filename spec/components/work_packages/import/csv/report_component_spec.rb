@@ -50,7 +50,6 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       "finished_at" => "2026-09-21T09:01:30Z",
       "counts" => { "type" => { "Task" => 96, "Bug" => 46 }, "status" => { "New" => 142 } },
       "problems" => [],
-      "problems_omitted" => 0,
       "column_problems" => []
     }
   end
@@ -242,15 +241,22 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     end
   end
 
-  describe "rows_rejected over the cap" do
-    it "says how many problems it could not show" do
-      render_outcome("rows_rejected",
-                     "problems" => [{ "row" => 2, "attribute" => "subject", "value" => "",
-                                      "message" => "can't be blank." }],
-                     "problems_omitted" => 40)
+  describe "rows_rejected with more problems than the table shows" do
+    let(:problems) do
+      Array.new(described_class::SHOWN_PROBLEMS + 40) do |index|
+        { "row" => index + 2, "attribute" => "subject", "value" => "", "message" => "can't be blank." }
+      end
+    end
 
-      expect(page).to have_text("Nothing was imported: 41 problems")
-      expect(page).to have_text("41 problems, 1 shown.")
+    before { render_outcome("rows_rejected", "problems" => problems) }
+
+    it "counts every problem and every line it rejected" do
+      expect(page).to have_text("Nothing was imported: #{problems.size} problems in #{problems.size} lines")
+    end
+
+    it "shows the first of them and points at the download for the rest" do
+      expect(page).to have_css("tbody tr", count: described_class::SHOWN_PROBLEMS)
+      expect(page).to have_text("#{problems.size} problems, the first #{described_class::SHOWN_PROBLEMS} shown.")
     end
   end
 
