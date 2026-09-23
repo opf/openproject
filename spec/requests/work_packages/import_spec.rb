@@ -452,6 +452,16 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect { perform_enqueued_jobs { post show_path, params: { attachment_id:, dry_run: "0" } } }
         .to change(WorkPackage, :count).by(2)
     end
+
+    # A file field nobody filled in arrives as an empty string rather than as nothing at all.
+    it "reuses the checked file when an empty file field rides along with it" do
+      upload
+      perform_enqueued_jobs
+      attachment_id = JobStatus::Status.sole.payload["attachment_id"]
+
+      expect { perform_enqueued_jobs { post show_path, params: { attachment_id:, file: "", dry_run: "0" } } }
+        .to change(WorkPackage, :count).by(2)
+    end
   end
 
   describe "a refused upload" do
@@ -477,6 +487,16 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
     it "asks for a file when the field holds something that is not one" do
       post show_path, params: { file: "/etc/hostname" }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(field_error).to eq("Choose a CSV file to upload.")
+      expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
+    end
+
+    # The attachment id is what the Import button sends, so a forged request carries both and the
+    # file has to be turned away on that path too rather than reaching the upload.
+    it "asks for a file when the field holds something that is not one beside an attachment" do
+      post show_path, params: { attachment_id: "0", file: "/etc/hostname", dry_run: "1" }
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(field_error).to eq("Choose a CSV file to upload.")

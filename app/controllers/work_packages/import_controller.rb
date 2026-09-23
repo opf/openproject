@@ -113,20 +113,23 @@ class WorkPackages::ImportController < ApplicationController
   end
 
   def missing_file_error
-    return if params[:attachment_id].present?
+    if uploaded_file
+      t("work_packages.import.csv.file.empty") if uploaded_file.size.to_i.zero?
+    elsif params[:file].present? || params[:attachment_id].blank?
+      t("work_packages.import.csv.file.missing")
+    end
+  end
 
+  def uploaded_file
     file = params[:file]
 
-    return t("work_packages.import.csv.file.missing") unless file.is_a?(ActionDispatch::Http::UploadedFile)
-    return t("work_packages.import.csv.file.empty") if file.size.to_i.zero?
-
-    nil
+    file if file.is_a?(ActionDispatch::Http::UploadedFile)
   end
 
   def schedule
     ::WorkPackages::Import::CSV::ScheduleService
       .new(user: current_user, project: @project)
-      .call(file: params[:file], attachment_id: params[:attachment_id], dry_run: dry_run?)
+      .call(file: uploaded_file, attachment_id: params[:attachment_id], dry_run: dry_run?)
   end
 
   def dry_run?
