@@ -40,34 +40,47 @@ namespace :openproject do
           .filter_map(&)
       end
 
+      def gemfile_lock_dirty?
+        out, = Open3.capture3("git", "status", "--porcelain", "--", "Gemfile.lock")
+        out.present?
+      end
+
       desc "Update gems to the extend the Gemfile allows in individual commits"
       task :gems do
-        out, _process = Open3.capture3("bundle", "outdated", "--parseable")
+        abort "Gemfile.lock has uncommitted changes. Commit or stash them first." if gemfile_lock_dirty?
 
-        parsed = parse_capture(out) do |line|
-          line.match(/(\S+) \(newest ([0-9.]+), installed ([0-9.]+)(?:, requested .{0,2} ([0-9.]+))?\)/).to_a[1..4]
+        out, = Open3.capture3("bundle", "outdated", "--parseable")
+
+        gem_names = parse_capture(out) do |line|
+          line[/\A(\S+) \(newest /, 1]
         end
 
-        parsed.map(&:first).each do |gem|
-          puts "Updating #{gem}"
-          _out, error = Open3.capture3("bundle", "update", gem)
+        gem_names.each do |gem_name|
+          puts "Updating #{gem_name}"
+          _out, error, status = Open3.capture3("bundle", "update", "--conservative", gem_name)
 
-          if error.present?
-            puts "Attempted to update #{gem} but failed: #{error}"
-          else
-            out, _process = Open3.capture3("git", "diff", "Gemfile.lock")
-
-            parsed = parse_capture(out) do |line|
-              line.match(/\A\+\s{4}(\S+) \(([0-9.]+)\)\z/).to_a[1..2]
-            end
-
-            parsed.each do |gem, version|
-              puts "  #{gem}: #{version}"
-            end
-
-            Open3.capture3("git", "add", "Gemfile.lock")
-            Open3.capture3("git", "commit", "-m", "bump #{parsed.map(&:first).join(' & ')}")
+          unless status.success?
+            puts "Attempted to update #{gem_name} but failed: #{error}"
+            next
           end
+
+          out, = Open3.capture3("git", "diff", "--", "Gemfile.lock")
+
+          bumped = parse_capture(out) do |line|
+            line.match(/\A\+ {4}(\S+) \((\S+)\)\z/)&.captures
+          end
+
+          if bumped.empty?
+            puts "  nothing changed"
+            next
+          end
+
+          bumped.each do |name, version|
+            puts "  #{name}: #{version}"
+          end
+
+          Open3.capture3("git", "add", "Gemfile.lock")
+          Open3.capture3("git", "commit", "-m", "bump #{bumped.map(&:first).join(' & ')}")
         end
       end
     end
