@@ -7555,6 +7555,11 @@ en:
       importing_file: "Importing %{filename}"
       intro: "Create many work packages at once from a CSV file. Existing work packages are not changed."
       report:
+        announcement:
+          checked: "The file has been checked. The report is below."
+          file_rejected: "The file was not imported. The report says what is wrong with its column headers."
+          imported: "The import has finished. The report is below."
+          rows_rejected: "Nothing was imported. The report lists the problems."
         checked:
           heading: "Ready to import"
           import: "Import %{work_packages}"
