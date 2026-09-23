@@ -6,8 +6,8 @@
       component.with_text { title }
 
       component.with_action_button_group do |group|
-        group.with_button(icon: "arrow-left", tag: :a, data: link_data, **previous_attrs)
-        group.with_button(icon: "arrow-right", tag: :a, data: link_data, **next_attrs)
+        group.with_button(icon: "arrow-left", tag: :a, data: link_data.merge(test_selector: "time-tracking-previous"), **previous_attrs)
+        group.with_button(icon: "arrow-right", tag: :a, data: link_data.merge(test_selector: "time-tracking-next"), **next_attrs)
       end
 
       component.with_action_button(

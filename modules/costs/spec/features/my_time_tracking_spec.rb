@@ -65,6 +65,8 @@ RSpec.describe "my time tracking", :js do
   let(:list_page) { Pages::MyTimeTracking::ListPage.new }
 
   before do
+    travel_to "2025-04-09T12:00:00Z"
+
     allow(TimeEntry).to receive_messages(
       can_track_start_and_end_time?: allow_exact_time_tracking,
       must_track_start_and_end_time?: force_exact_time_tracking
@@ -73,10 +75,9 @@ RSpec.describe "my time tracking", :js do
     login_as user
   end
 
-  around do |example|
-    travel_to "2025-04-09T12:00:00Z" do
-      example.run
-    end
+  after do
+    # Screenshot uploads sign S3 requests during teardown and need the real clock.
+    travel_back # rubocop:disable Rails/RedundantTravelBack
   end
 
   def expect_tracking_title(mode:, view:, date:)
@@ -93,17 +94,17 @@ RSpec.describe "my time tracking", :js do
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
 
         within "turbo-frame#my-time-tracking-view" do
-          click_link I18n.t(:label_next_day)
+          find_test_selector("time-tracking-next").click
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-10")
 
         within "turbo-frame#my-time-tracking-view" do
-          click_link I18n.t(:label_previous_day)
+          find_test_selector("time-tracking-previous").click
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
 
         within "turbo-frame#my-time-tracking-view" do
-          click_link I18n.t(:label_previous_day)
+          find_test_selector("time-tracking-previous").click
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-08")
 
@@ -133,7 +134,7 @@ RSpec.describe "my time tracking", :js do
     end
   end
 
-  context "when requesting list view" do
+  context "when requesting list view", with_settings: { start_of_week: 1 } do
     context "when today is part of the selected week" do
       before do
         visit my_time_tracking_path(date: "2025-04-09", view_mode: "list", mode: mode)
