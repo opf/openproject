@@ -24,6 +24,10 @@
 pt-PT:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Projeto GitLab
+        namespace: Espaço de nome do GitLab
+        project_html_url: URL do projeto no GitLab
       gitlab_merge_request:
         labels: Etiquetas
       gitlab_pipeline:
@@ -39,6 +43,9 @@ pt-PT:
             labels:
               invalid_schema: 'deve ser um conjunto de hashes com as chaves: cor, título'
     models:
+      gitlab_branch:
+        one: Ramo do GitLab
+        other: Ramos do GitLab
       gitlab_issue:
         one: Problema do GitLab
         other: Problemas do GitLab

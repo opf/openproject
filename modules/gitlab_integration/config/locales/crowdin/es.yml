@@ -24,6 +24,10 @@
 es:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Proyecto de GitLab
+        namespace: Espacio de nombres de GitLab
+        project_html_url: URL de proyecto de GitLab
       gitlab_merge_request:
         labels: Etiquetas
       gitlab_pipeline:
@@ -39,6 +43,9 @@ es:
             labels:
               invalid_schema: 'debe ser una matriz de hashes con las claves: color, título'
     models:
+      gitlab_branch:
+        one: Rama de GitLab
+        other: Ramas de GitLab
       gitlab_issue:
         one: Incidencia de GitLab
         other: Incidencias de GitLab

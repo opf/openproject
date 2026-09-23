@@ -3,10 +3,10 @@ nl:
   activerecord:
     attributes:
       bim/bcf/issue:
-        bcf_comment: BCF comment
-        bim_snippet: BIM snippet
-        reference_links: Reference links
-        stage: Stage
+        bcf_comment: BCF reactie
+        bim_snippet: BIM-fragment
+        reference_links: Referentielinks
+        stage: Fase
         status_id: Status
         viewpoint: Perspectief
       bim/bcf/viewpoint:
@@ -39,17 +39,17 @@ nl:
               invalid_ifc_file: Het opgegeven bestand is geen geldig IFC-bestand.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        other: BCF comments
+        one: BCF reactie
+        other: BCF reacties
       bim/bcf/issue:
-        one: BCF issue
-        other: BCF issues
+        one: BCF probleem
+        other: BCF problemen
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        other: BCF viewpoints
+        one: BCF perspectief
+        other: BCF perspectieven
       bim/ifc_models/ifc_model:
         one: IFC model
-        other: IFC models
+        other: IFC modellen
   attributes:
     bcf_thumbnail: BCF snapshot
   bcf:
@@ -110,8 +110,8 @@ nl:
       other: "%{count} BCF problemen"
       zero: Geen BCF-kwesties
   bim:
-    error_direct_upload_failed: Direct upload failed.
-    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
+    error_direct_upload_failed: Het rechtstreeks uploaden is mislukt.
+    error_direct_upload_file_too_large: ICF-model is te groot (maximum grootte is %{size} Bytes).
     label_bim: BIM
   export:
     format:
@@ -149,9 +149,9 @@ nl:
   permission_delete_bcf: BCF problemen verwijderen
   permission_manage_bcf: BCF-problemen importeren en beheren
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+    Maakt het beheer van BCF-zaken mogelijk, inclusief bulkimport en -updates.
+    De BCF-import koppelt metagegevens van bestanden aan projectresources en kan werkpakketten
+    en opmerkingen aanmaken of bijwerken aan de hand van de auteur- en tijdstempelwaarden uit het geïmporteerde bestand, waarbij het in feite namens de gebruikers handelt.
   permission_manage_ifc_models: IFC-modellen importeren en beheren
   permission_view_ifc_models: Bekijk IFC-modellen
   permission_view_linked_issues: Bekijk alle BCF-kwesties

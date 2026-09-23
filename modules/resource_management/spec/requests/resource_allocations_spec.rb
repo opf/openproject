@@ -773,6 +773,41 @@ RSpec.describe "ResourceAllocations requests",
       expect(response.body).to include(user_dialog_id)
       expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
     end
+
+    describe "acting on an existing allocation" do
+      shared_let(:allocation) do
+        create(:resource_allocation, entity: work_package, principal: assignee,
+                                     start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 3))
+      end
+
+      it "replaces the utilization dialog with the edit form" do
+        get edit_project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to have_turbo_stream(action: "closeDialog", target: user_dialog_id)
+      end
+
+      it "re-renders the utilization dialog after a successful update" do
+        patch project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+              params: { resource_allocation: {
+                placeholder_or_user_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
+                date_range: "2026-03-02 - 2026-03-03", allocated_hours: "8h"
+              } },
+              as: :turbo_stream
+
+        expect(response.body).to include(user_dialog_id)
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+      end
+
+      it "re-renders the utilization dialog after a successful delete" do
+        delete project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+               as: :turbo_stream
+
+        expect(response.body).to include(user_dialog_id)
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+      end
+    end
   end
 
   # The controller emits a `dispatchEvent` turbo stream carrying the changed

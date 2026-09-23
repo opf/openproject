@@ -86,6 +86,18 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
+  scope :overlapping, ->(date_range) {
+    where("daterange(start_date, end_date, '[]') && daterange(?, ?, '[]')",
+          date_range.begin, date_range.end)
+  }
+
+  scope :for_projects, ->(projects) {
+    joins = ENTITY_PROJECT_JOINS.values.pluck(:join)
+    conditions = ENTITY_PROJECT_JOINS.values.map { |source| "#{source[:project_id]} IN (:project_ids)" }
+
+    joins(joins.join(" ")).where(conditions.join(" OR "), project_ids: projects)
+  }
+
   # Loaded once per page so the allocation columns (progress bar and members)
   # share a single query.
   def self.allocated_for_work_packages(work_packages)
@@ -113,10 +125,23 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
+  # Without a project (a global planner) each allocation is counted against the
+  # project of its own work package, since a placeholder's candidates are its
+  # members.
   def self.candidate_counts(allocations, project:)
-    return {} if project.nil?
-
     filter_based = allocations.select(&:filter_based?)
+    return {} if filter_based.empty?
+
+    return candidate_counts_for(filter_based, project) if project
+
+    filter_based.group_by(&:project).reduce({}) do |counts, (allocation_project, grouped)|
+      next counts if allocation_project.nil?
+
+      counts.merge(candidate_counts_for(grouped, allocation_project))
+    end
+  end
+
+  def self.candidate_counts_for(filter_based, project)
     placeholders = filter_based.filter_map(&:placeholder_user).uniq(&:id)
     PlaceholderUser.preload_candidate_counts(placeholders, project:)
 
@@ -124,6 +149,7 @@ class ResourceAllocation < ApplicationRecord
 
     filter_based.to_h { |allocation| [allocation.id, counts.fetch(allocation.placeholder_user_id, 0)] }
   end
+  private_class_method :candidate_counts_for
 
   # Users without configured working hours are skipped — their capacity is
   # unknown, not zero (mirroring the check made when an allocation is created).

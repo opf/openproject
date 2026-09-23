@@ -39,7 +39,7 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
     [
       { name: TypesHelper::SETTINGS_TAB, path: "/overview", label: "Overview", aspect: nil },
       { name: "details", path: "/details", label: "Details", aspect: nil },
-      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::WORKFLOWS }
+      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::DEFAULTS }
     ]
   end
 

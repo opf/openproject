@@ -77,7 +77,7 @@ gem "addressable", "~> 2.9.0"
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem "tzinfo-data", "~> 1.2026.1"
+gem "tzinfo-data", "~> 1.2026.4"
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem "htmldiff"
@@ -152,7 +152,7 @@ gem "structured_warnings", "~> 0.5.0"
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "markly", "~> 0.17" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "markly", "~> 0.18" # another markdown parser like commonmarker, but with AST support used in PDF export
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
@@ -160,9 +160,9 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.4.0"
+gem "mcp", "~> 1.5.0"
 
-gem "meta-tags", "~> 2.23.0"
+gem "meta-tags", "~> 2.24.0"
 
 gem "paper_trail", "~> 17.0.0"
 
@@ -253,7 +253,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.3"
+gem "httpx", "~> 1.8.4"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -385,7 +385,7 @@ end
 
 # API gems
 gem "grape", "~> 4.0.1"
-gem "grape_logging", "~> 3.0.0"
+gem "grape_logging", "~> 3.0.1"
 gem "roar", "~> 1.2.0"
 
 # CORS for API
@@ -431,5 +431,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.37.0"
   gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.2"
+  gem "openproject-primer_view_components", "~>0.91.3"
 end

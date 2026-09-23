@@ -35,7 +35,7 @@ RSpec.describe "Work package type configuration source",
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
-  shared_let(:source) { create(:type) }
+  shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
   let(:aspect) { TypeVariant::PDF_EXPORT }
 
@@ -62,19 +62,19 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("PDF Export templates")
     end
 
-    it "shows the linked banner and links to the source type when Linked" do
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+    it "shows the linked banner and links to the parent type when Linked" do
+      link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
-      get edit_type_pdf_export_template_index_path(type_id: type.id)
+      get edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
 
       expect(response.body).to include("Inherited configuration")
-      expect(response.body).to include(source.name)
+      expect(response.body).to include(type.default_variant.composite_name)
     end
 
     it "shows a read-only preview instead of the editable editor when Linked" do
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+      link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
-      get edit_type_pdf_export_template_index_path(type_id: type.id)
+      get edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
 
       # the preview lists the templates but drops the editable enable/disable actions
       expect(response.body).to include("PDF Export templates")
@@ -83,115 +83,55 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "read-only preview of a Linked aspect" do
-    it "shows the inherited subject pattern and links to the source" do
-      source.default_variant.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
-      link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
+    it "shows the inherited subject pattern and links to the parent" do
+      type.default_variant.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
+      link_configuration(variant, aspect: TypeVariant::DEFAULTS)
 
-      get edit_type_defaults_path(type_id: type.id)
+      get edit_type_defaults_path(type_id: type.id, variant_id: variant.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Inherited configuration")
       expect(response.body).to include("PR-{{id}}")
       expect(response.body).to include(
-        edit_type_defaults_path(type_id: source.id, variant_id: source.default_variant.id)
+        edit_type_defaults_path(type_id: type.id, variant_id: type.default_variant.id)
       )
     end
   end
 
   describe "GET dialog" do
-    it "renders the inheritance source picker" do
-      get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Inherit from another type")
-      expect(response.body).to include("Switch")
-    end
-
-    it "lists every source by composite name, types kept together, the base variant flagged" do
-      feature = create(:type, name: "Feature")
-      create(:type_variant, type: feature, variant_name: "Small")
-      create(:type_variant, type: feature, variant_name: "Big")
-      mobile = create(:type_variant, type: feature, variant_name: "Mobile")
-
-      get type_configuration_link_dialog_path(type_id: feature.id, variant_id: mobile.id, aspect:),
+    it "renders the switch-to-inherited confirmation dialog" do
+      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:),
           as: :turbo_stream
 
-      expect(source_option_labels).to eq(
-        [type.name, source.name, "Feature (parent)", "Feature: Big", "Feature: Small"]
-      )
-    end
-
-    it "submits back to the variant it was opened for" do
-      variant = create(:type_variant, type:)
-
-      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:), as: :turbo_stream
-
-      expect(response.body).to include(
-        type_configuration_link_confirm_path(type_id: type.id, variant_id: variant.id, aspect:)
-      )
-    end
-
-    it "is not found for an unknown aspect" do
-      get type_configuration_link_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "POST confirm" do
-    it "renders the switch-configuration confirmation when currently Independent" do
-      post type_configuration_link_confirm_path(type_id: type.id, aspect:),
-           params: { source_id: source.default_variant.id },
-           as: :turbo_stream
-
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("closeDialog")
-      expect(response.body).to include("Switch configuration mode?")
+      expect(response.body).to include("Switch configuration mode")
       expect(response.body).to include("I understand that this will override the current settings")
     end
 
-    it "renders the change-source confirmation when currently Linked" do
-      link_configuration(type, source: create(:type), aspect:)
-      other = create(:type, name: "Feature")
-
-      post type_configuration_link_confirm_path(type_id: type.id, aspect:),
-           params: { source_id: other.default_variant.id },
-           as: :turbo_stream
-
-      expect(response.body).to include("Change source type?")
-      expect(response.body).to include("Feature")
-    end
-
-    it "submits back to the variant it was opened for" do
-      variant = create(:type_variant, type:)
-
-      post type_configuration_link_confirm_path(type_id: type.id, variant_id: variant.id, aspect:),
-           params: { source_id: source.default_variant.id },
-           as: :turbo_stream
+    it "submits back to the switch action of the variant it was opened for" do
+      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:),
+          as: :turbo_stream
 
       expect(response.body).to include(
         type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:)
       )
     end
 
-    it "flashes an error when no source was picked" do
-      post type_configuration_link_confirm_path(type_id: type.id, aspect:),
-           params: { source_id: "" },
-           as: :turbo_stream
+    it "is not found for an unknown aspect" do
+      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect: "not_an_aspect"),
+          as: :turbo_stream
 
-      expect(response.body).not_to include("Switch configuration mode?")
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.inherited.invalid_source"))
+      expect(response).to have_http_status(:not_found)
     end
   end
 
   describe "POST switch" do
-    it "links the aspect, closes the dialog and dispatches the reload event" do
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.default_variant.id },
+    it "links the aspect to the parent, closes the dialog and dispatches the reload event" do
+      post type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(type.default_variant.reload.source_for(aspect)).to eq(source.default_variant)
+      expect(variant.reload.source_for(aspect)).to eq(type.default_variant)
       expect(response.body).to include("closeDialog")
       expect(response.body).to include("dispatchEvent")
       expect(response.body)
@@ -199,12 +139,10 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include(I18n.t("types.edit.reuse_mode.inherited.success"))
     end
 
-    it "flashes an error and links nothing on a cyclic source" do
-      link_configuration(source, source: type, aspect:)
+    it "flashes an error and links nothing on a base variant, which cannot inherit" do
+      expect(type.default_variant).not_to be_linked(aspect)
 
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.default_variant.id },
-           as: :turbo_stream
+      post type_configuration_link_switch_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response.body).not_to include("dispatchEvent")
       expect(type.default_variant.reload).not_to be_linked(aspect)
@@ -213,20 +151,11 @@ RSpec.describe "Work package type configuration source",
     it "requires admin" do
       login_as create(:user)
 
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.default_variant.id },
+      post type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            as: :turbo_stream
 
       expect(response).not_to be_successful
-      expect(type.default_variant.reload).not_to be_linked(aspect)
+      expect(variant.reload).not_to be_linked(aspect)
     end
-  end
-
-  # A decorated autocompleter ships its options to the Angular component as a
-  # JSON payload rather than rendering them as markup.
-  def source_option_labels
-    autocompleter = Nokogiri::HTML5.fragment(response.body).at_css("opce-autocompleter")
-
-    JSON.parse(autocompleter["data-items"]).pluck("name")
   end
 end

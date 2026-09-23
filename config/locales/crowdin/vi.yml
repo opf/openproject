@@ -695,6 +695,13 @@ vi:
               not_unique: đã được sử dụng. Vui lòng chọn tên khác.
         jira:
           invalid_protocol: Please provide a valid protocol (http or https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1323,6 +1330,8 @@ vi:
         main-menu-bg-selected-background: Menu chính khi được chọn
         primary-button-color: Nút chính
       custom_colors: Tùy chỉnh màu sắc
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: không phải là tệp phông chữ TTF hợp lệ.
@@ -1613,6 +1622,34 @@ vi:
       caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -3091,15 +3128,15 @@ vi:
     blocks:
       community: Cộng đồng OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3531,6 +3568,7 @@ vi:
   label_journal_diff: So sánh mô tả
   label_jump_to_a_project: Chuyển đến một dự án...
   label_keyword_plural: Từ khóa
+  label_label_plural: Labels
   label_language: ngôn ngữ
   label_language_based: Dựa trên ngôn ngữ của người dùng
   label_languages: ngôn ngữ
@@ -5266,7 +5304,7 @@ vi:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Tạo ra một phiên bản mới
-        no_results_title_text: Hiện đang có phiên bản dự án.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Hiển thị các gói công việc
         work_packages_graph: Biểu đồ gói công việc
       work_package_priorities:
@@ -6261,7 +6299,49 @@ vi:
     getting_started: Bắt đầu
     help_and_support: Trợ giúp và hỗ trợ
   total_progress: Tổng tiến độ
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Create type
@@ -6757,6 +6837,12 @@ vi:
   version_status_locked: bị khóa
   version_status_open: mở
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Hiện tại không có gói công việc nào được gán cho phiên bản này.
       work_packages_in_archived_projects: Phiên bản này được chia sẻ với các dự án đã lưu trữ vẫn có các gói công việc được gán cho phiên bản này. Những nội dung này được tính nhưng sẽ không xuất hiện trong các chế độ xem được liên kết.

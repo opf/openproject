@@ -64,9 +64,9 @@ fr:
           invalid_scheme: Doit utiliser un protocole WebSocket (ws:// ou wss://).
           label: URL du serveur Hocuspocus
         page_header:
-          description: |-
-            Lorsqu'elle est activée, la collaboration en temps réel permet à plusieurs utilisateurs de modifier un document en même temps.
-            Elle nécessite un %{hocuspocus_server_link} opérationnel pour fonctionner.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Je comprends que je risque de perdre définitivement des données
         confirmation_message: Tous les documents existants peuvent devenir inaccessibles. Ne faites cela que si vous avez la certitude de vouloir désactiver la collaboration en temps réel et l'éditeur BlockNote sur cette instance.
@@ -118,7 +118,7 @@ fr:
       currently_offline: Vous êtes actuellement hors ligne.
     label_attachment_author: Auteur de la pièce jointe
     label_categories: Catégories
-    last_updated_at: Dernier enregistrement %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Tous les documents
       collaboration_settings: Collaboration en temps réel

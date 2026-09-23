@@ -716,7 +716,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
 
       it "does not offer the filter" do
@@ -772,7 +772,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       shared_let(:program) { create(:program, name: "Growth Program") }
 
       it "does not offer the filter" do

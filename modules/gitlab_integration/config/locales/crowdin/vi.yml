@@ -24,6 +24,10 @@
 vi:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Nhãn
       gitlab_pipeline:
@@ -39,6 +43,8 @@ vi:
             labels:
               invalid_schema: 'phải là một mảng băm có khóa: màu sắc, tiêu đề'
     models:
+      gitlab_branch:
+        other: GitLab branches
       gitlab_issue:
         other: GitLab issues
       gitlab_merge_request:

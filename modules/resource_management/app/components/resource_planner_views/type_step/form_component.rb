@@ -34,6 +34,7 @@ module ResourcePlannerViews
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ResourceManagement::PlannerRoutes
 
       def initialize(resource_planner:, project:)
         super
