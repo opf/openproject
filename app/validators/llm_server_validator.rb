@@ -155,8 +155,13 @@ class LlmServerValidator < ActiveModel::EachValidator
     contract.errors.add(attribute, :not_openai_compatible)
   end
 
+  # Same headers inference sends, or the probe speaks a different dialect than
+  # the traffic it is meant to be proving: a gateway needing its own header would
+  # fail verification on every edit while working at runtime.
   def client(contract, base_url)
-    Llm::Client.new(base_url:, api_key: contract.model.api_key)
+    Llm::Client.new(base_url:,
+                    api_key: contract.model.api_key,
+                    headers: contract.model.custom_headers)
   end
 
   # The upstream message is logged but never surfaced: an OpenAI-compatible
