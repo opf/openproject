@@ -633,6 +633,10 @@ module API
           index :label
           show :label
 
+          def self.labels_by_project(project_id)
+            "#{project(project_id)}/labels"
+          end
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end
