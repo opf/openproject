@@ -30,51 +30,16 @@
 
 module My
   module TimeTracking
-    class ModeSwitcherComponent < ApplicationComponent
-      options :current_mode,
-              :view_mode,
-              :path_builder
-      options link_data: {}
-
-      def call
-        render(Primer::Alpha::ActionMenu.new(menu_id: "my-time-tracking-mode-switch")) do |menu|
-          menu.with_show_button do |button|
-            button.with_leading_visual_icon(icon: icon_for_mode(current_mode))
-            button.with_trailing_action_icon(icon: :"triangle-down")
-            t("label_#{current_mode}")
-          end
-
-          modes.each { menu_item_for_mode(menu, it) }
+    module Widget
+      # Steps the my page widget rather than the my time tracking page. The widget box
+      # frame targets _top, so the navigation has to name the frame to stay in place.
+      class SubHeaderComponent < My::TimeTracking::SubHeaderComponent
+        def path_for(date:, mode: self.mode)
+          widgets_time_entries_current_user_path(date:, mode:)
         end
-      end
 
-      def modes
-        if view_mode == :stack
-          %i[day workweek week]
-        else
-          %i[day workweek week month]
-        end
-      end
-
-      def menu_item_for_mode(menu, mode)
-        menu.with_item(tag: :a,
-                       href: path_builder.call(mode),
-                       content_arguments: { data: link_data },
-                       label: t("label_#{mode}")) do |item|
-          item.with_leading_visual_icon(icon: icon_for_mode(mode))
-        end
-      end
-
-      def icon_for_mode(mode)
-        case mode
-        when :day
-          "op-calendar-day"
-        when :week
-          "op-calendar-week"
-        when :workweek
-          "briefcase"
-        else
-          "calendar"
+        def link_data
+          { turbo_frame: Grids::Widgets::TimeEntriesCurrentUser.wrapper_key }
         end
       end
     end

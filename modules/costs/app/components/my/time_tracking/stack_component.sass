@@ -58,6 +58,7 @@
   // FullCalendar's event frame is itself a flex container, so without this the card would
   // size to its content and pull the clock in next to the text.
   .te-stack--card
+    position: relative
     display: flex
     flex: 1
     min-width: 0
@@ -82,11 +83,13 @@
     font-size: var(--text-caption-size)
     line-height: var(--text-caption-lineHeight)
 
+  // Anchored rather than pushed down by the text, which would shove it out of a card that
+  // is only just tall enough and get it clipped.
   .te-stack--card-icon
+    position: absolute
+    right: 8px
+    bottom: 8px
     display: flex
-    margin-top: auto
-    align-self: flex-end
-    flex-shrink: 0
     color: var(--fgColor-muted)
 
   .fc-timegrid-event-short
@@ -109,7 +112,7 @@
       display: none
 
     .te-stack--card-icon
-      margin-top: 0
+      position: static
       margin-left: auto
       align-self: center
 

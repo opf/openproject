@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,18 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Grids
-      module Widgets
-        class TimeEntryCalendarOptionsRepresenter < DefaultOptionsRepresenter
-          property :days,
-                   getter: ->(represented:, **) {
-                     represented["days"] || {}
-                   }
-        end
+module Grids
+  module Widgets
+    class TimeEntriesCurrentUser < Grids::WidgetComponent
+      option :mode, default: -> { :workweek }
+      option :date, default: -> { Time.zone.today }
+
+      def title
+        I18n.t("js.grid.widgets.time_entries_current_user.title")
+      end
+
+      def time_entries
+        @time_entries ||= My::TimeTracking::EntriesQuery.call(user: current_user, dates:)
+      end
+
+      private
+
+      def dates
+        return date..date if mode == :day
+
+        date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
       end
     end
   end

@@ -46,41 +46,42 @@ module My
         end
       end
 
+      # Overridden where the sub header drives something other than the full page, such as
+      # the my page widget.
+      def path_for(date:, mode: self.mode)
+        my_time_tracking_path(date:, view_mode:, mode:)
+      end
+
+      def mode_switcher
+        My::TimeTracking::ModeSwitcherComponent.new(
+          current_mode: mode,
+          view_mode:,
+          path_builder: ->(for_mode) { path_for(date:, mode: for_mode) },
+          link_data:
+        )
+      end
+
+      def link_data
+        {}
+      end
+
       def today_href
-        my_time_tracking_path(date: "today", view_mode:, mode:)
+        path_for(date: "today")
       end
 
-      def previous_attrs # rubocop:disable Metrics/AbcSize
-        case mode
-        when :day
-          { href: my_time_tracking_path(date: date - 1.day, view_mode:, mode:),
-            aria: { label: I18n.t(:label_previous_day) } }
-        when :workweek
-          { href: my_time_tracking_path(date: date - 1.week, view_mode:, mode:),
-            aria: { label: I18n.t(:label_previous_workweek) } }
-        when :week
-          { href: my_time_tracking_path(date: date - 1.week, view_mode:, mode:),
-            aria: { label: I18n.t(:label_previous_week) } }
-        when :month
-          { href: my_time_tracking_path(date: date - 1.month, view_mode:, mode:),
-            aria: { label: I18n.t(:label_previous_month) } }
-        end
+      def previous_attrs
+        { href: path_for(date: date - step), aria: { label: I18n.t(:"label_previous_#{mode}") } }
       end
 
-      def next_attrs # rubocop:disable Metrics/AbcSize
+      def next_attrs
+        { href: path_for(date: date + step), aria: { label: I18n.t(:"label_next_#{mode}") } }
+      end
+
+      def step
         case mode
-        when :day
-          { href: my_time_tracking_path(date: date + 1.day, view_mode:, mode:),
-            aria: { label: I18n.t(:label_next_day) } }
-        when :workweek
-          { href: my_time_tracking_path(date: date + 1.week, view_mode:, mode:),
-            aria: { label: I18n.t(:label_next_workweek) } }
-        when :week
-          { href: my_time_tracking_path(date: date + 1.week, view_mode:, mode:),
-            aria: { label: I18n.t(:label_next_week) } }
-        when :month
-          { href: my_time_tracking_path(date: date + 1.month, view_mode:, mode:),
-            aria: { label: I18n.t(:label_next_month) } }
+        when :day then 1.day
+        when :month then 1.month
+        else 1.week
         end
       end
 
