@@ -28,34 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::BacklogEstimationUnitsController < Projects::SettingsController
-  menu_item :settings_backlogs
+require "spec_helper"
 
-  before_action :guard_feature_flag
+RSpec.describe Projects::Settings::BacklogEstimationUnitsController do
+  describe "routing" do
+    it {
+      expect(get("/projects/project_42/settings/backlog_estimation_unit")).to route_to(
+        controller: "projects/settings/backlog_estimation_units",
+        action: "show",
+        project_id: "project_42"
+      )
+    }
 
-  def show; end
-
-  def update
-    call = Projects::UpdateService
-      .new(model: @project, user: current_user, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
-      .call(backlog_settings_params)
-
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_backlog_estimation_unit_path(@project)
-    else
-      flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
-    end
-  end
-
-  private
-
-  def backlog_settings_params
-    params.expect(project: %i[estimation_unit])
-  end
-
-  def guard_feature_flag
-    render_404 unless OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
+    it {
+      expect(patch("/projects/project_42/settings/backlog_estimation_unit")).to route_to(
+        controller: "projects/settings/backlog_estimation_units",
+        action: "update",
+        project_id: "project_42"
+      )
+    }
   end
 end
