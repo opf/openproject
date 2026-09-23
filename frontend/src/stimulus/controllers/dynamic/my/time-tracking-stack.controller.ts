@@ -38,21 +38,20 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
-import { html, render, TemplateResult } from 'lit-html';
+import { html, render } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { clockIconData, toDOMString } from '@openproject/octicons-angular';
 import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
+import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard } from 'core-stimulus/helpers/time-entry-card';
 
-// Mirrors the fields of FullCalendar::TimeEntryEvent the stack uses; the calendar view is
-// served the same payload.
-interface StackTimeEntry {
+// The fields of FullCalendar::TimeEntryEvent the stack needs on top of the ones the card
+// renders.
+interface StackTimeEntry extends TimeEntryCard {
   id:string;
   start:string;
-  hours:number;
+  allDay:boolean;
   title:string;
   typeId:number;
-  workPackageSubject:string;
-  projectName:string;
 }
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
@@ -178,7 +177,7 @@ export default class MyTimeTrackingStackController extends Controller {
       events: (fetchInfo, successCallback) => successCallback(this.buildEvents(fetchInfo.startStr, fetchInfo.endStr)),
       eventOverlap: (stillEvent) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
-      eventClick: (info) => this.handleEventClick(info.event.extendedProps),
+      eventClick: (info) => this.handleEventClick(info.event.extendedProps, info.jsEvent),
       selectable: this.canCreateValue,
       select: (info) => this.newTimeEntry(info.startStr.slice(0, 10), this.selectedHours(info.start, info.end)),
     });
@@ -195,7 +194,7 @@ export default class MyTimeTrackingStackController extends Controller {
   private buildTimeEntryEvents():EventInput[] {
     const stackTops:Record<string, number> = {};
 
-    return this.timeEntriesValue.map((entry) => {
+    return this.stackOrder().map((entry) => {
       const day = this.dayOf(entry);
       const endHour = stackTops[day] ?? MAX_HOUR;
       const hours = Math.max(entry.hours * this.scaleRatio, MIN_BAR_HOURS);
@@ -206,6 +205,22 @@ export default class MyTimeTrackingStackController extends Controller {
 
       return this.timeEntryEvent(entry, day, startHour, endHour);
     });
+  }
+
+  // Each bar is stacked on top of the one before it, so the entries are laid out in the
+  // order they are meant to read from the bottom of the day upwards.
+  private stackOrder():StackTimeEntry[] {
+    return [...this.timeEntriesValue].sort((a, b) => (
+      this.stackRank(a) - this.stackRank(b) || Date.parse(a.start) - Date.parse(b.start)
+    ));
+  }
+
+  private stackRank(entry:StackTimeEntry):number {
+    if (entry.ongoing) {
+      return 2;
+    }
+
+    return entry.allDay ? 1 : 0;
   }
 
   // The server builds an event's start from spent_on in the entry's own time zone and
@@ -269,6 +284,7 @@ export default class MyTimeTrackingStackController extends Controller {
         TIME_ENTRY_CLASS_NAME,
         '__hl_border_top',
         Highlighting.resourceClass('type', entry.typeId),
+        ...(entry.ongoing ? [ONGOING_CLASS_NAME] : []),
       ],
       extendedProps: { entry },
     };
@@ -283,30 +299,17 @@ export default class MyTimeTrackingStackController extends Controller {
 
     const wrapper = document.createElement('div');
     wrapper.classList.add('fc-event-main-frame');
-    render(this.cardContent(entry), wrapper);
+    render(renderTimeEntryCard(entry, this.pathHelperService), wrapper);
 
     return { domNodes: [wrapper] };
   }
 
-  private cardContent(entry:StackTimeEntry):TemplateResult {
-    const clock = toDOMString(clockIconData, 'small', {
-      'aria-hidden': 'true',
-      class: 'octicon',
-    });
-
-    return html`
-      <div class="te-stack--card">
-        <div class="te-stack--card-duration">${displayDuration(entry.hours)}</div>
-        <div class="te-stack--card-subject">${entry.workPackageSubject}</div>
-        <div class="te-stack--card-project">${entry.projectName}</div>
-        <div class="te-stack--card-icon">${unsafeHTML(clock)}</div>
-      </div>`;
-  }
-
-  private handleEventClick(props:Record<string, unknown>):void {
+  private handleEventClick(props:Record<string, unknown>, jsEvent:MouseEvent):void {
     const entry = props.entry as StackTimeEntry|undefined;
 
-    if (!entry) {
+    // FullCalendar renders the event element itself as a bare <a>, so only a link that
+    // actually leads somewhere may suppress the dialog.
+    if (!entry || (jsEvent.target as HTMLElement).closest('a[href]')) {
       return;
     }
 

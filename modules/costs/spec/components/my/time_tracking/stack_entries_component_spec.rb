@@ -79,9 +79,15 @@ RSpec.describe My::TimeTracking::StackEntriesComponent, type: :component do
         "start" => "2022-05-04",
         "hours" => 2.5,
         "title" => "Demo project: #{work_package.formatted_id} Some work",
-        "typeId" => work_package.type_id
+        "typeId" => work_package.type_id,
+        "workPackageFormattedId" => work_package.formatted_id,
+        "workPackageSubject" => work_package.subject
       )
     )
+  end
+
+  it "leaves out the time range of an entry that was logged without one" do
+    expect(stack_entries.first).not_to have_key("timeRange")
   end
 
   context "when the entry has a start time in a foreign time zone" do
@@ -91,6 +97,14 @@ RSpec.describe My::TimeTracking::StackEntriesComponent, type: :component do
 
     it "keeps the spent on date in the serialized start" do
       expect(stack_entries.first["start"]).to start_with("2022-05-04")
+    end
+
+    context "and the user is in that time zone", with_settings: { time_format: "%H:%M" } do
+      let(:user) { create(:user, preferences: { time_zone: "Asia/Tokyo" }) }
+
+      it "labels the entry with its time range" do
+        expect(stack_entries.first["timeRange"]).to eq("06:30 - 09:00")
+      end
     end
   end
 

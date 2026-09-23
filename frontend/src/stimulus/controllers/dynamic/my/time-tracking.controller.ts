@@ -38,14 +38,13 @@ import type { PathHelperService } from 'core-app/core/path-helper/path-helper.se
 import moment from 'moment';
 import allLocales from '@fullcalendar/core/locales-all';
 import { renderStreamMessage } from '@hotwired/turbo';
-import { opStopwatchStopIconData, toDOMString } from '@openproject/octicons-angular';
 import { useMeta } from 'stimulus-use';
-import { html, render, TemplateResult } from 'lit-html';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { render } from 'lit-html';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
+import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard } from 'core-stimulus/helpers/time-entry-card';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -162,7 +161,7 @@ export default class MyTimeTrackingController extends Controller {
         ];
 
         if (info.event.extendedProps.ongoing) {
-          classes.push('calendar-time-entry-event-ongoing');
+          classes.push(ONGOING_CLASS_NAME);
         }
 
         return classes;
@@ -280,43 +279,24 @@ export default class MyTimeTrackingController extends Controller {
   }
 
   createEventContent(info:EventContentArg) {
-    let timeDetails:string|TemplateResult = '';
-    let stopTimerButton = '';
-    let duration = info.event.extendedProps.hours as number;
+    const entry = info.event.extendedProps as TimeEntryCard;
 
+    // While the event is being resized the serialized duration and time range describe
+    // where it came from, so they are recomputed from what is on screen.
     if (info.isResizing && info.event.start && info.event.end) {
-      duration = this.calculateHours(info.event);
+      return renderTimeEntryCard(
+        { ...entry, hours: this.calculateHours(info.event), timeRange: this.resizedTimeRange(info.event) },
+        this.pathHelperService,
+      );
     }
 
-    if (!info.event.allDay) {
-      const time = `${toMoment(info.event.start!, this.calendar).format('LT')} - ${toMoment(info.event.end!, this.calendar).format('LT')}`;
-      timeDetails = html`<div class="fc-event-times" title="${time}">${time}</div>`;
-    }
+    return renderTimeEntryCard(entry, this.pathHelperService);
+  }
 
-    if (info.event.extendedProps.ongoing) {
-      stopTimerButton = toDOMString(opStopwatchStopIconData, 'small', {
-        'aria-hidden': 'true',
-        class: 'octicon stop-timer-button',
-      });
-    }
+  resizedTimeRange(event:EventApi):string {
+    const format = (date:Date) => toMoment(date, this.calendar).format('LT');
 
-    return html`
-      <div class="fc-event-time">
-        ${unsafeHTML(stopTimerButton)}
-        ${displayDuration(duration)}
-      </div>
-      <div class="fc-event-title-container">
-        <div class="fc-event-title fc-event-wp" title="${info.event.extendedProps.workPackageSubject}">
-          <a class="Link--primary Link"
-             href="${this.pathHelperService.workPackageShortPath(info.event.extendedProps.workPackageId as string)}">
-            ${info.event.extendedProps.workPackageSubject}
-          </a>
-        </div>
-        <div class="fc-event-project" title="${info.event.extendedProps.projectName}">
-          ${info.event.extendedProps.projectName}
-        </div>
-        ${timeDetails}
-      </div>`;
+    return `${format(event.start!)} - ${format(event.end!)}`;
   }
 
   addTotalFooter() {

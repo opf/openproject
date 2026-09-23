@@ -1,5 +1,6 @@
 @import "helpers"
 @import "fullcalendar_frame"
+@import "time_entry_card"
 
 .my-time-tracking-stack-view
   height: 100%
@@ -51,70 +52,24 @@
     box-shadow: var(--shadow-floating-small)
     overflow: hidden
 
+    &.te-entry-card-ongoing
+      +te-entry-card-ongoing
+
     .fc-event-main
       height: 100%
       color: var(--fgColor-default)
 
-  // FullCalendar's event frame is itself a flex container, so without this the card would
-  // size to its content and pull the clock in next to the text.
-  .te-stack--card
-    position: relative
-    display: flex
-    flex: 1
-    min-width: 0
-    flex-direction: column
+  +te-entry-card
+
+  .te-entry-card
     height: 100%
     padding: 8px
-    gap: 2px
-    overflow: hidden
-
-  .te-stack--card-duration
-    color: var(--fgColor-muted)
-    font-size: var(--text-body-size-small)
-    line-height: var(--text-body-lineHeight-small)
-
-  .te-stack--card-subject
-    color: var(--fgColor-default)
-    font-size: var(--text-body-size-small)
-    line-height: var(--text-body-lineHeight-small)
-
-  .te-stack--card-project
-    color: var(--fgColor-muted)
-    font-size: var(--text-caption-size)
-    line-height: var(--text-caption-lineHeight)
-
-  // Anchored rather than pushed down by the text, which would shove it out of a card that
-  // is only just tall enough and get it clipped.
-  .te-stack--card-icon
-    position: absolute
-    right: 8px
-    bottom: 8px
-    display: flex
-    color: var(--fgColor-muted)
 
   .fc-timegrid-event-short
-    .te-stack--card
-      flex-direction: row
-      align-items: center
-      gap: 8px
+    +te-entry-card-condensed
+
+    .te-entry-card
       padding: 4px 8px
-
-    .te-stack--card-duration
-      flex-shrink: 0
-
-    .te-stack--card-subject
-      min-width: 0
-      white-space: nowrap
-      overflow: hidden
-      text-overflow: ellipsis
-
-    .te-stack--card-project
-      display: none
-
-    .te-stack--card-icon
-      position: static
-      margin-left: auto
-      align-self: center
 
   .te-stack--footer
     display: flex

@@ -81,9 +81,11 @@ RSpec.describe "My page my spent time widget", :js, with_settings: { start_of_we
     expect(page).to have_css(".te-stack--time-entry", count: 2)
 
     aggregate_failures("each entry is shown with its duration and work package") do
-      expect(page).to have_css(".te-stack--card", text: "3h")
-      expect(page).to have_css(".te-stack--card", text: "2h")
-      expect(page).to have_css(".te-stack--card", text: work_package.subject)
+      expect(page).to have_css(".te-entry-card", text: "3h")
+      expect(page).to have_css(".te-entry-card", text: "2h")
+      expect(page).to have_css(".te-entry-card", text: "#{work_package.formatted_id}: #{work_package.subject}")
+      expect(page).to have_link(work_package.formatted_id, href: "/wp/#{work_package.to_param}")
+      expect(page).to have_link(project.name, href: project_path(project))
     end
 
     aggregate_failures("the footer totals the day, leaving out the other user's entry") do
@@ -96,7 +98,7 @@ RSpec.describe "My page my spent time widget", :js, with_settings: { start_of_we
   it "steps through the weeks" do
     step_to Date.current - 1.week
 
-    expect(page).to have_css(".te-stack--card", text: "8h")
+    expect(page).to have_css(".te-entry-card", text: "8h")
     expect(page).to have_css(".te-stack--time-entry", count: 1)
 
     step_to_today
