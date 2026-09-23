@@ -37,7 +37,7 @@ Click the **All filters** button to further narrow down the displayed work packa
 
 ![All filters button](openproject_user_guide_all_filters_button.png)
 
-In the filter panel, you can add filters for type, subject, assignee, status, other available work package attributes and custom fields. [Filtering work packages](../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) works the same way as throughout the application.
+In the filter panel, you can add filters for type, subject, assignee, status, other available work package attributes and custom fields. [Filtering work packages](../work-packages/work-package-table-configuration/#filter-work-packages) works the same way as throughout the application.
 The Backlog and sprints view is updated automatically when filters are applied.
 
 ![Add filter form displaying different filtering options](openproject_user_guide_backlogs_add_filter_options.png)
