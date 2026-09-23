@@ -86,8 +86,6 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
         expect(response).to redirect_to(/#{Regexp.escape(show_path)}/)
       end
 
-      # Turbo asks for a stream first when it follows the redirect out of #create. Answering that
-      # with streams would leave the address bar on the bare page, and a reload would lose the run.
       it "stays a page when Turbo would rather have a stream, so the job survives a reload" do
         get show_path, headers: { "Accept" => "text/vnd.turbo-stream.html, text/html" }
 
@@ -195,8 +193,6 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(response.body).to include("Check file")
     end
 
-    # Submitting an empty form only earns a round trip and a "choose a file" message, so the
-    # button waits for the drop zone to hold something. The controller enables it on change.
     it "keeps the submit disabled until a file is chosen" do
       get show_path
 
@@ -252,8 +248,6 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
         expect(response.body).to include("runs in the background")
       end
 
-      # The address rides on the marker so the two cannot drift: a stale or empty one resolves
-      # against <base href="/"> and polls the homescreen, which has no turbo_stream template.
       it "gives the poller the address on the marker itself" do
         get show_path(job: job_id)
 
@@ -596,11 +590,70 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(field_error).to include("uploaded again")
     end
 
-    it "returns the form with the dry run cleared and the button reading Import file" do
+    it "returns the form ticked for a check, as the message beside it promises" do
       post show_path, params: { attachment_id: 0, dry_run: "0", job: job_id }
 
-      expect(page).to have_field("dry_run", type: "checkbox", checked: false)
-      expect(page).to have_button("Import file", disabled: true)
+      expect(field_error).to include("checked once more before anything is created")
+      expect(page).to have_field("dry_run", type: "checkbox", checked: true)
+      expect(page).to have_button("Check file", disabled: true)
+    end
+  end
+
+  describe "what a screen reader is told" do
+    let(:job_id) { SecureRandom.uuid }
+
+    before { login_as importer }
+
+    def expect_announcement(text)
+      expect(response.body)
+        .to have_turbo_stream(action: "update", target: "import_announcement") { assert_select "template", text: }
+    end
+
+    def run(status, **payload)
+      create(:delayed_job_status,
+             job_id:,
+             user: importer,
+             status:,
+             payload: { "project_id" => project.id, "filename" => "sprint-43.csv",
+                        "dry_run" => true }.merge(payload))
+    end
+
+    # A live region speaks only when its own contents change, and the poll replaces the report
+    # whole, so the region has to sit outside the region it reports on to survive the swap.
+    it "keeps the live region clear of the part of the page the poll replaces" do
+      get show_path
+
+      expect(page).to have_css("#import_announcement.sr-only[aria-live='polite']", visible: :all)
+      expect(page.find_by_id("import_announcement", visible: :all).text).to be_blank
+      expect(page.find_by_id("import_report", visible: :all))
+        .to have_no_css("#import_announcement", visible: :all)
+    end
+
+    it "says nothing while the run is under way, rather than speaking every two seconds" do
+      run(:in_process)
+
+      poll(job: job_id)
+
+      expect_announcement("")
+    end
+
+    it "names the outcome once the run is over" do
+      run(:success,
+          "outcome" => "checked", "row_count" => 2, "created_count" => 2, "attachment_id" => 0,
+          "counts" => {}, "problems" => [], "column_problems" => [], "query_id" => nil,
+          "account_count" => 0, "dated_count" => 0, "finished_at" => "2026-09-21T09:01:30Z")
+
+      poll(job: job_id)
+
+      expect_announcement("The file has been checked. The report is below.")
+    end
+
+    it "carries the message where the run died without reporting one of its own" do
+      run(:failure)
+
+      poll(job: job_id)
+
+      expect_announcement("This run did not finish, and nothing was created. Upload the file again.")
     end
   end
 
