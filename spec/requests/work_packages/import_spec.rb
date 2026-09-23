@@ -352,8 +352,11 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     before { login_as importer }
 
     def upload(dry_run: "1")
-      body = WorkPackages::Import::CSV::Template.call(project:)
-      file = Tempfile.new(["template", ".csv"])
+      upload_content(WorkPackages::Import::CSV::Template.call(project:), dry_run:)
+    end
+
+    def upload_content(body, dry_run: "1")
+      file = Tempfile.new(["import", ".csv"])
       file.write(body)
       file.close
 
@@ -408,6 +411,39 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(page).to have_link("Clear")
     end
 
+    it "offers Clear beside the button when rows were rejected, so the report can be put away" do
+      upload_content("Subject,Type\n,Task\n")
+      perform_enqueued_jobs
+
+      get show_path(job: JobStatus::Status.sole.job_id)
+
+      expect(page).to have_text("Nothing was imported")
+      expect(page).to have_button("Check file", disabled: :all)
+      expect(page).to have_link("Clear")
+    end
+
+    it "offers Clear beside the button when the header was rejected" do
+      upload_content("Nonsense\nvalue\n")
+      perform_enqueued_jobs
+
+      get show_path(job: JobStatus::Status.sole.job_id)
+
+      expect(page).to have_text("The column headers could not be read")
+      expect(page).to have_button("Check file", disabled: :all)
+      expect(page).to have_link("Clear")
+    end
+
+    it "offers Clear beside the button where the file was refused with a banner and no table" do
+      upload_content("Subject\n")
+      perform_enqueued_jobs
+
+      get show_path(job: JobStatus::Status.sole.job_id)
+
+      expect(page).to have_text("no lines underneath them")
+      expect(page).to have_button("Check file", disabled: :all)
+      expect(page).to have_link("Clear")
+    end
+
     it "imports the checked file without a second upload" do
       upload
       perform_enqueued_jobs
@@ -430,6 +466,13 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(field_error).to eq("Choose a CSV file to upload.")
+    end
+
+    it "offers Clear beside the button, so the refusal can be put away" do
+      post show_path, params: { dry_run: "1" }
+
+      expect(page).to have_button("Check file", disabled: :all)
+      expect(page).to have_link("Clear")
     end
 
     it "asks for a file when the field holds something that is not one" do

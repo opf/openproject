@@ -89,7 +89,21 @@
           }
         )
       %>
-      <%= render(button) { checked ? t("work_packages.import.import_file") : t("work_packages.import.check_file") } %>
+      <%= render Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2") do %>
+        <%= render(button) { checked ? t("work_packages.import.import_file") : t("work_packages.import.check_file") } %>
+
+        <% if @status.present? || @error.present? %>
+          <%
+            clear = Primer::Beta::Button.new(
+              tag: :a,
+              href: import_project_work_packages_path(@project),
+              data: { action: "work-packages--csv-import#clear",
+                      stream_url: import_status_project_work_packages_path(@project) }
+            )
+          %>
+          <%= render(clear) { t("work_packages.import.clear") } %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
