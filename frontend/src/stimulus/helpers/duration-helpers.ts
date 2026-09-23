@@ -26,8 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-interface IDayData {
-  weekDay:string;
-  checked:boolean;
-  originalIndex:number;
+export function displayDuration(duration:number):string {
+  const hours = Math.floor(duration);
+  const minutes = Math.round((duration - hours) * 60);
+
+  if (minutes === 0) {
+    return `${hours}h`;
+  }
+
+  if (hours === 0) {
+    return `${minutes}m`;
+  }
+
+  return `${hours}h ${minutes}m`;
 }

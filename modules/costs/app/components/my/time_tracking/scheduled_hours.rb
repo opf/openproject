@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,15 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      module Widgets
-        class TimeEntryCalendarOptionsRepresenter < DefaultOptionsRepresenter
-          property :days,
-                   getter: ->(represented:, **) {
-                     represented["days"] || {}
-                   }
+module My
+  module TimeTracking
+    module ScheduledHours
+      private
+
+      def working_hours
+        ResourceAllocations::WorkingTimeCalendar
+          .new(user: User.current, range: displayed_dates)
+          .each_day
+          .to_h { |day, minutes| [day.iso8601, (minutes / 60.0).round(2)] }
+      end
+
+      # FullCalendar lays out the whole week for both week modes and merely hides the days
+      # that are not worked, so the work week covers the same range as the week.
+      def displayed_dates
+        case mode.to_sym
+        when :day then date..date
+        when :month then date.all_month
+        else date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
         end
       end
     end
