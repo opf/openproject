@@ -37,7 +37,12 @@
 class LlmModel < ApplicationRecord
   belongs_to :llm_connection
 
-  validates :external_id, presence: true, uniqueness: { scope: :llm_connection_id }
+  # Bounded because the value is a btree index entry and comes from whatever the
+  # remote server chose to call its models.
+  validates :external_id,
+            presence: true,
+            length: { maximum: 512 },
+            uniqueness: { scope: :llm_connection_id }
 
   scope :active, -> { where(active: true) }
   scope :discovered, -> { where(manual: false) }
@@ -76,9 +81,9 @@ class LlmModel < ApplicationRecord
                   .first
   end
 
-  # Discovered models that the server stopped offering are deactivated rather
-  # than deleted, so a binding or verdict pointing at one still has something to
-  # name. Manual entries are never deactivated by a refresh: nothing confirms
+  # Discovered models the server stopped offering are switched off rather than
+  # deleted, so a binding or verdict pointing at one still has something to
+  # name. Manual entries are never switched off by a refresh: nothing confirms
   # them, so nothing can un-confirm them either.
   def withdrawn? = !active? && !manual?
 end

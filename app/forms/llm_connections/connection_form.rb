@@ -78,10 +78,13 @@ module LlmConnections
             label: LlmConnection.human_attribute_name(:api_key),
             caption: api_key_caption,
             placeholder: api_key_placeholder,
-            # The stored key is never sent to the browser, only a key typed into a
-            # submission that failed. A blank submission means "keep the current
-            # key", handled in the controller.
-            value: model.api_key_changed? ? model.api_key : nil,
+            # Never a value, the way Rails' own password_field defaults to
+            # render_value: false. Echoing a typed key back put the plaintext in
+            # the response body of every failed save, where a proxy, an APM or a
+            # HAR capture keeps it and filter_parameters does not reach. The
+            # caption says it has to be typed again instead. A blank submission
+            # means "keep the current key", handled in the controller.
+            value: nil,
             type: :password,
             autocomplete: "off",
             input_width: :large,
@@ -147,6 +150,8 @@ module LlmConnections
     end
 
     def api_key_caption
+      return I18n.t("admin.llm_connections.form.api_key_caption_discarded") if model.api_key_changed?
+
       I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if model.api_key_stored?}")
     end
 

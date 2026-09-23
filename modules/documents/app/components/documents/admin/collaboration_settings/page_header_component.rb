@@ -34,12 +34,8 @@ module Documents
     module CollaborationSettings
       class PageHeaderComponent < ApplicationComponent
         def description
-          I18n.t("documents.admin.collaboration_settings.page_header.description", hocuspocus_server_link:).html_safe
-        end
-
-        def hocuspocus_server_link
-          helpers.static_link_to(:hocuspocus_server_docs,
-                                 label: I18n.t("documents.admin.collaboration_settings.hocuspocus_server"))
+          helpers.link_translate("documents.admin.collaboration_settings.page_header.description_html",
+                                 links: { hocuspocus_server_link: %i[hocuspocus_server_docs] })
         end
       end
     end

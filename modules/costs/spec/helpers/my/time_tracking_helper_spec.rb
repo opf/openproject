@@ -88,4 +88,74 @@ RSpec.describe My::TimeTrackingHelper do
       end
     end
   end
+
+  describe "#week_days" do
+    subject { helper.week_days(Date.new(2026, 9, 22)) }
+
+    context "when week starts on Monday", with_settings: { start_of_week: 1 } do
+      it { is_expected.to eq(Date.new(2026, 9, 21)..Date.new(2026, 9, 27)) }
+    end
+
+    context "when week starts on Sunday", with_settings: { start_of_week: 7 } do
+      it { is_expected.to eq(Date.new(2026, 9, 20)..Date.new(2026, 9, 26)) }
+    end
+
+    context "when week starts on Saturday", with_settings: { start_of_week: 6 } do
+      it { is_expected.to eq(Date.new(2026, 9, 19)..Date.new(2026, 9, 25)) }
+    end
+  end
+
+  describe "#workweek_days" do
+    subject { helper.workweek_days(Date.new(2026, 9, 22)).map(&:iso8601) }
+
+    context "when Monday to Friday are worked", with_settings: { start_of_week: 7, working_days: [1, 2, 3, 4, 5] } do
+      it "leaves out the weekend the week is wrapped in" do
+        expect(subject).to eq(%w[2026-09-21 2026-09-22 2026-09-23 2026-09-24 2026-09-25])
+      end
+    end
+
+    context "when the week starts on Monday instead", with_settings: { start_of_week: 1, working_days: [1, 2, 3, 4, 5] } do
+      it "covers the same days" do
+        expect(subject).to eq(%w[2026-09-21 2026-09-22 2026-09-23 2026-09-24 2026-09-25])
+      end
+    end
+
+    context "when Sunday is worked as well", with_settings: { start_of_week: 7, working_days: [1, 2, 3, 4, 5, 7] } do
+      it "keeps it in the week it belongs to" do
+        expect(subject.first).to eq("2026-09-20")
+        expect(subject.last).to eq("2026-09-25")
+      end
+    end
+
+    context "when only some days are worked", with_settings: { start_of_week: 7, working_days: [2, 4] } do
+      it "returns just those" do
+        expect(subject).to eq(%w[2026-09-22 2026-09-24])
+      end
+    end
+  end
+
+  describe "#workweek_date_range" do
+    subject { helper.workweek_date_range(Date.new(2026, 9, 22)) }
+
+    # The header used to name the whole week, which read as a wider range than the days the
+    # calendar and the stack actually put on screen.
+    context "when the week starts on Sunday", with_settings: { start_of_week: 7, working_days: [1, 2, 3, 4, 5] } do
+      it "names the worked days rather than the week around them" do
+        expect(subject).to eq("21. - 25. September 2026")
+        expect(subject).not_to eq(helper.week_date_range(Date.new(2026, 9, 22)))
+      end
+    end
+
+    context "when every day is worked", with_settings: { start_of_week: 7, working_days: [1, 2, 3, 4, 5, 6, 7] } do
+      it "names the whole week" do
+        expect(subject).to eq(helper.week_date_range(Date.new(2026, 9, 22)))
+      end
+    end
+
+    context "when the worked days span two months", with_settings: { start_of_week: 1, working_days: [1, 2, 3, 4, 5] } do
+      subject { helper.workweek_date_range(Date.new(2026, 4, 30)) }
+
+      it { is_expected.to eq("27. April - 01. May 2026") }
+    end
+  end
 end

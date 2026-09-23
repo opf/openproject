@@ -30,27 +30,27 @@
 
 module LlmConnections
   class UpdateService < BaseServices::Update
+    # Whether the catalogue should be refreshed now that the save is through: the
+    # connection points somewhere else than it did, which covers both the first
+    # fill and a later switch of server. Nothing an administrator curated is lost
+    # by refreshing, since the sync keeps manual entries and admin verdicts.
+    #
+    # Callers refresh once the service has returned. BaseContracted#perform runs
+    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
+    # in here would hold an open transaction and the connection's advisory lock
+    # for up to the client's twenty-second probe timeout.
+    def self.models_to_refresh?(connection)
+      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
+    end
+
     private
 
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
     def after_perform(service_call)
       super.tap do
         next unless service_call.success?
 
         Setting.llm_features_enabled = model.llm_features_enabled
-        next unless initial_fill?(service_call.result)
-
-        SyncModelsService.new(service_call.result).call
       end
-    end
-
-    # The only automatic refresh: nothing is stored yet, so nothing an
-    # administrator curated can be lost. Every later refresh is asked for.
-    def initial_fill?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES) &&
-        connection.models.none?
     end
   end
 end

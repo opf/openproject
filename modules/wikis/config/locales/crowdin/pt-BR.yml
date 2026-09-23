@@ -13,7 +13,7 @@ pt-BR:
         authentication_methods:
           oauth2_sso: Single-Sign-On por meio de provedor de identidade OpenID Connect
           two_way_oauth2: Fluxo de código de autorização OAuth 2.0 bidirecional
-        token_exchange_scope: XWiki Scope
+        token_exchange_scope: Escopo do XWiki
         url: URL da Instância
         wiki_audience: Audiência XWiki
     errors:
@@ -49,7 +49,7 @@ pt-BR:
       wikis: Wikis
     project_settings:
       wiki: Wiki do projeto
-  permission_manage_wiki_page_links: Gerenciar links das páginas wiki
+  permission_manage_wiki_page_links: Gerenciar links das páginas do wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -90,9 +90,9 @@ pt-BR:
         label_oauth_client_id: ID do cliente OAuth
         replace_oauth_client: Substituir aplicação OAuth do XWiki
       redirect_uri_info_component:
-        description: O URI de redirecionamento é gerado depois que o cliente OAuth da wiki está configurado.
+        description: O URI de redirecionamento é gerado depois que o cliente OAuth do wiki é configurado.
         label_uri: URI
-        show_redirect_uri: Exibir URI de redirecionamento
+        show_redirect_uri: Mostrar URI de redirecionamento
       side_panel:
         health_status_component:
           last_check: 'Última verificaçã: %{datetime}'
@@ -114,11 +114,11 @@ pt-BR:
         name_caption: Dê um nome ao seu provedor de wiki para que os usuários possam diferenciar entre múltiplas plataformas de wiki.
         name_placeholder: Base de conhecimento XWiki
         new_provider_html: Leia nossa documentação sobre [configuração de uma integração com o XWiki](docs_url) para mais informações.
-        successful_setup: Provedor de Wiki configurado com sucesso!
+        successful_setup: Provedor do Wiki configurado com sucesso!
         oauth:
           openproject_oauth: OAuth do OpenProject
           redirect_uri: Redirecionar URI
-          redirect_uri_caption: Copie este valor no campo “Redirect URI” do seu registro de cliente OIDC do XWiki.
+          redirect_uri_caption: Copie este valor no campo URI de redirecionamento do registro do cliente OIDC do XWiki.
         sections:
           general_information: Informações gerais
           oauth_configuration: Configuração de OAuth
@@ -178,11 +178,11 @@ pt-BR:
       filter_by_name: Filtrar por nome de página
       filter_placeholder: Pesquisar por nome
       menu_title: Wiki
-      no_results_description: Nenhuma página wiki está disponível.
-      no_results_title: Nenhuma página wiki ainda
+      no_results_description: Nenhuma página do wiki está disponível.
+      no_results_title: Nenhuma página do wiki ainda
       queries:
-        all: Todas as páginas da wiki
-        main: Páginas principais da wiki
+        all: Todas as páginas do wiki
+        main: Páginas principais do wiki
       sub_pages_count:
         one: 1 subpágina
         other: "%{count} subpáginas"

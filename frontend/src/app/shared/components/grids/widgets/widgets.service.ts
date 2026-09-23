@@ -193,7 +193,6 @@ export class GridWidgetsService {
         title: this.I18n.t('js.grid.widgets.time_entries_current_user.title'),
         properties: {
           name: this.I18n.t('js.grid.widgets.time_entries_current_user.title'),
-          days: [true, true, true, true, true, true, true],
         },
       },
       {

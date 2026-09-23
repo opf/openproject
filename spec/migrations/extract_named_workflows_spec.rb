@@ -30,6 +30,7 @@
 
 require "spec_helper"
 require Rails.root.join("db/migrate/20260916120000_extract_named_workflows.rb")
+require Rails.root.join("db/migrate/20260916140000_drop_workflows_aspect_link.rb")
 
 RSpec.describe ExtractNamedWorkflows, type: :model do
   subject(:migrate_up) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
@@ -55,7 +56,10 @@ RSpec.describe ExtractNamedWorkflows, type: :model do
   end
 
   before do
-    borrower.update!(workflows_source: owner)
+    ActiveRecord::Migration.suppress_messages { DropWorkflowsAspectLink.new.down }
+    ActiveRecord::Base.connection.execute(
+      "UPDATE type_variants SET workflows_source_id = #{owner.id} WHERE id = #{borrower.id}"
+    )
 
     ActiveRecord::Migration.suppress_messages { described_class.new.down }
     ActiveRecord::Base.connection.execute(unreachable_transition)

@@ -75,9 +75,10 @@ module LlmConnections
 
     def record(model_id, capability, state)
       verdict = connection.capability_verdicts.find_or_initialize_by(model_id:, capability: capability.to_s)
-      # Anything an administrator or a probe established beats a published claim:
-      # both looked at this deployment, the registry did not.
-      return if verdict.persisted? && verdict.source.in?(%w[admin probe])
+      # Anything an administrator, a probe or an observed request established
+      # beats a published claim: all three looked at this deployment, the
+      # registry did not.
+      return if verdict.persisted? && verdict.source.in?(%w[admin probe observed])
 
       verdict.update!(state: state.to_s, source: "metadata", checked_at: Time.current)
     end

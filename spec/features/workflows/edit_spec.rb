@@ -744,8 +744,8 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
-  describe "when the workflow is linked from a source" do
-    let(:source_type) { create(:type) }
+  describe "when another type shares the workflow" do
+    let(:source_type) { create(:type, name: "Feature") }
     let!(:source_workflow) do
       create(:workflow, role_id: role.id,
                         type_id: source_type.id,
@@ -756,45 +756,48 @@ RSpec.describe "Workflow edit", :js do
     end
 
     before do
-      link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
+      type.default_variant.update!(workflow: source_type.default_variant.workflow)
       visit_workflow_edit(roles: [role])
     end
 
-    it "shows the source's transitions read-only without editing actions" do
-      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
-      expect(page).to have_field(workflow_checkbox(1, 0), disabled: true)
-      expect(page).to have_no_button "Save"
+    it "calls the workflow reused and keeps the transitions editable" do
+      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: false)
+      expect(page).to have_button "Save"
+
+      within_test_selector("workflow-reuse-mode") do
+        expect(page).to have_css("h3", text: "Reuses workflow")
+      end
 
       within "#workflow-table" do
-        expect(page).to have_no_link "Status"
-        expect(page).to have_no_link "Copy"
+        expect(page).to have_link "Status"
+      end
+    end
+
+    it "says how far a change carries" do
+      within_test_selector("workflow-usage-box") do
+        expect(page).to have_text("Used in 1 other place")
+        expect(page).to have_link("Feature")
       end
     end
   end
 
-  describe "reuse mode boxes" do
-    let(:source_type) { create(:type, name: "Feature") }
+  describe "the reuse mode section" do
+    it "names the workflow in use and links to its own page" do
+      workflow = type.default_variant.workflow
+      workflow.update!(name: "Standard flow")
+      visit_workflow_edit(roles: [role])
 
-    context "when the workflow configuration is independent" do
-      before { visit_workflow_edit(roles: [role]) }
-
-      it "shows the manual box offering to inherit from another type, or to copy from one" do
-        expect(page).to have_text("Manual configuration")
-        expect(page).to have_link("Inherit from another type")
-        expect(page).to have_link("Copy from another type")
+      within_test_selector("workflow-reuse-mode") do
+        expect(page).to have_css("h3", text: "Independent configuration")
+        expect(page).to have_link("Standard flow", href: edit_workflow_path(workflow))
       end
     end
 
-    context "when the workflow configuration is linked to a source" do
-      before do
-        link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
-        visit_workflow_edit(roles: [role])
-      end
+    it "says the workflow reaches nothing else while no other type or variant shares it" do
+      visit_workflow_edit(roles: [role])
 
-      it "shows the inherited box naming the source with change and switch actions" do
-        expect(page).to have_text("Inherited configuration")
-        expect(page).to have_link("Change source type")
-        expect(page).to have_link("Configure manually")
+      within_test_selector("workflow-usage-box") do
+        expect(page).to have_text("Not used anywhere else")
       end
     end
   end

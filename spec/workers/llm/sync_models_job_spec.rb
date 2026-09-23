@@ -46,4 +46,19 @@ RSpec.describe Llm::SyncModelsJob, :llm_server_helpers, :webmock do
   it "does nothing while no connection is stored" do
     expect { described_class.perform_now }.not_to raise_error
   end
+
+  # The loop used to stop at the first connection whose sync raised, leaving
+  # every row after it without a catalogue.
+  it "refreshes the connections after one whose sync raises" do
+    broken = create(:llm_connection, base_url: "https://broken.example/v1")
+    healthy = create(:llm_connection, base_url:, active: false)
+    request = mock_llm_models_response(base_url)
+    allow(LlmConnections::SyncModelsService).to receive(:new).and_call_original
+    allow(LlmConnections::SyncModelsService).to receive(:new).with(broken).and_raise("unexpected")
+
+    expect { described_class.perform_now }.not_to raise_error
+
+    expect(request).to have_been_made.once
+    expect(healthy.reload.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+  end
 end
