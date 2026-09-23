@@ -42,8 +42,7 @@ import { useMeta } from 'stimulus-use';
 import { render } from 'lit-html';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
-import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
-import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
+import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 
 interface AdditionalDialogCloseData {
@@ -70,6 +69,7 @@ export default class MyTimeTrackingController extends Controller {
     allowTimes: Boolean,
     forceTimes: Boolean,
     workingDays: Array,
+    workingHours: Object,
     startOfWeek: Number,
     timeZone: String,
   };
@@ -88,6 +88,7 @@ export default class MyTimeTrackingController extends Controller {
   declare readonly localeValue:string;
   declare readonly viewModeValue:string;
   declare readonly workingDaysValue:number[];
+  declare readonly workingHoursValue:Record<string, number>;
   declare readonly startOfWeekValue:number;
   declare readonly timeZoneValue:string;
   declare readonly csrfToken:string;
@@ -303,7 +304,7 @@ export default class MyTimeTrackingController extends Controller {
   addTotalFooter() {
     if (!this.calendar) return;
 
-    renderFooterTotals(document, (day) => displayDuration(this.calculateTotalHours(day)));
+    renderFooterTotals(document, (day) => renderDayTotal(this.calculateTotalHours(day), this.workingHoursValue[day] || 0));
   }
 
   calculateTotalHours(dayStr:string):number {

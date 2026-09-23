@@ -33,6 +33,7 @@ module My
     class CalendarComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ScheduledHours
 
       options time_entries: [],
               mode: :week,
@@ -54,6 +55,7 @@ module My
           "my--time-tracking-locale-value" => I18n.locale,
           "my--time-tracking-start-of-week-value" => (Setting.start_of_week || 1) % 7,
           "my--time-tracking-working-days-value" => working_days,
+          "my--time-tracking-working-hours-value" => working_hours.to_json,
           "my--time-tracking-time-zone-value" => User.current.time_zone.name
         }
       end

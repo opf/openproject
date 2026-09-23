@@ -26,9 +26,36 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { html, nothing, render } from 'lit-html';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { clockIconData, toDOMString } from '@openproject/octicons-angular';
+import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
+
 export const FOOTER_TOTALS_CLASS_NAME = 'fc-timegrid-footer-totals';
 
 export type FooterCellContent = (date:string) => string|Node;
+
+// What a day column totals up to: the time logged on it, next to the time the user is
+// scheduled to work that day.
+export function renderDayTotal(logged:number, scheduled:number):Node {
+  const clock = toDOMString(clockIconData, 'small', {
+    'aria-hidden': 'true',
+    class: 'octicon',
+  });
+
+  const wrapper = document.createElement('div');
+  render(
+    html`
+      <div class="te-day-total">
+        <span class="te-day-total--icon">${unsafeHTML(clock)}</span>
+        <span>${displayDuration(logged)}</span>
+        ${scheduled > 0 ? html`<span class="te-day-total--scheduled">${displayDuration(scheduled)}</span>` : nothing}
+      </div>`,
+    wrapper,
+  );
+
+  return wrapper;
+}
 
 // FullCalendar's timegrid has no footer row, so one is appended to the scrollgrid by hand.
 // The row mirrors the markup of the column header so that it inherits its column widths.

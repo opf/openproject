@@ -38,14 +38,11 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
-import { html, render } from 'lit-html';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { clockIconData, toDOMString } from '@openproject/octicons-angular';
-import { renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
+import { render } from 'lit-html';
+import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
-const WORKING_HOURS_CLASS_NAME = 'te-stack--working-hours';
 
 // The stack is a timeGrid abused as a stacked bar chart, so these bound an axis of hours
 // logged rather than clock times, and the scale ratio compresses a day that exceeds them.
@@ -53,7 +50,6 @@ const MIN_HOUR = 1;
 const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
 const MS_PER_HOUR = 60 * 60 * 1000;
-const DAY_IN_MS = 24 * MS_PER_HOUR;
 
 // A bar thinner than this leaves no room for its own duration once the card is padded.
 // Applied after the scale ratio, so that it stays a constant height on screen.
@@ -164,8 +160,8 @@ export default class MyTimeTrackingStackController extends Controller {
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
       slotLabelFormat: (info:VerboseFormattingArg) => displayDuration((MAX_HOUR - info.date.hour) / this.scaleRatio),
-      events: (fetchInfo, successCallback) => successCallback(this.buildEvents(fetchInfo.startStr, fetchInfo.endStr)),
-      eventOverlap: (stillEvent) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
+      businessHours: { daysOfWeek: this.workingDaysValue, startTime: '00:00', endTime: '24:00' },
+      events: (_fetchInfo, successCallback) => successCallback(this.buildTimeEntryEvents()),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
       eventClick: (info) => this.handleEventClick(info.event.extendedProps, info.jsEvent),
       selectable: this.canCreateValue,
@@ -175,10 +171,6 @@ export default class MyTimeTrackingStackController extends Controller {
     this.calendar.render();
     this.addTotalFooter();
     this.observeResize();
-  }
-
-  private buildEvents(startStr:string, endStr:string):EventInput[] {
-    return this.buildTimeEntryEvents().concat(this.buildWorkingHoursEvents(startStr, endStr));
   }
 
   private buildTimeEntryEvents():EventInput[] {
@@ -219,49 +211,14 @@ export default class MyTimeTrackingStackController extends Controller {
     return entry.start.slice(0, 10);
   }
 
-  private buildWorkingHoursEvents(startStr:string, endStr:string):EventInput[] {
-    return this.daysBetween(startStr, endStr)
-      .filter((day) => (this.workingHoursValue[day] || 0) > 0)
-      .map((day) => this.workingHoursEvent(day, this.workingHoursValue[day]));
-  }
-
-  private workingHoursEvent(day:string, scheduled:number):EventInput {
-    return {
-      start: this.slotTime(day, Math.max(MAX_HOUR - (scheduled * this.scaleRatio), 0)),
-      end: this.slotTime(day, MAX_HOUR),
-      display: 'background' as const,
-      classNames: [WORKING_HOURS_CLASS_NAME],
-    };
-  }
-
   private addTotalFooter():void {
     const dateSums = this.calculateDateSums();
 
-    renderFooterTotals(this.element, (day) => this.footerContent(dateSums[day] || 0, this.workingHoursValue[day] || 0));
+    renderFooterTotals(this.element, (day) => renderDayTotal(dateSums[day] || 0, this.workingHoursValue[day] || 0));
 
     // The footer is appended after FullCalendar has laid the view out, so without this the
     // slots keep the full height and run underneath it.
     this.calendar.updateSize();
-  }
-
-  private footerContent(logged:number, scheduled:number):Node {
-    const clock = toDOMString(clockIconData, 'small', {
-      'aria-hidden': 'true',
-      class: 'octicon',
-    });
-
-    const wrapper = document.createElement('div');
-    render(
-      html`
-        <div class="te-stack--footer">
-          <span class="te-stack--footer-icon">${unsafeHTML(clock)}</span>
-          <span>${displayDuration(logged)}</span>
-          ${scheduled > 0 ? html`<span class="te-stack--footer-scheduled">${displayDuration(scheduled)}</span>` : ''}
-        </div>`,
-      wrapper,
-    );
-
-    return wrapper;
   }
 
   private timeEntryEvent(entry:TimeEntryEvent, day:string, startHour:number, endHour:number):EventInput {
@@ -363,19 +320,6 @@ export default class MyTimeTrackingStackController extends Controller {
     const pad = (value:number) => value.toString().padStart(2, '0');
 
     return `${day}T${pad(Math.floor(seconds / 3600))}:${pad(Math.floor(seconds / 60) % 60)}:${pad(seconds % 60)}`;
-  }
-
-  // Walked in UTC so that neither the browser's time zone nor a DST transition can drop
-  // or duplicate a day.
-  private daysBetween(startStr:string, endStr:string):string[] {
-    const days:string[] = [];
-    const end = Date.parse(`${endStr.slice(0, 10)}T00:00:00Z`);
-
-    for (let day = Date.parse(`${startStr.slice(0, 10)}T00:00:00Z`); day < end; day += DAY_IN_MS) {
-      days.push(new Date(day).toISOString().slice(0, 10));
-    }
-
-    return days;
   }
 
   // The stack has no month view; the controller sends a month request to the work week.

@@ -33,6 +33,7 @@ module My
     class StackEntriesComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ScheduledHours
 
       options time_entries: [],
               mode: :week,
@@ -53,21 +54,6 @@ module My
           "my--time-tracking-stack-working-hours-value" => working_hours.to_json,
           "my--time-tracking-stack-time-zone-value" => User.current.time_zone.name
         }
-      end
-
-      def working_hours
-        ResourceAllocations::WorkingTimeCalendar
-          .new(user: User.current, range: displayed_dates)
-          .each_day
-          .to_h { |day, minutes| [day.iso8601, (minutes / 60.0).round(2)] }
-      end
-
-      # FullCalendar lays out the whole week for both week modes and merely hides the days
-      # that are not worked, so the work week covers the same range as the week.
-      def displayed_dates
-        return date..date if mode == :day
-
-        date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
       end
 
       def time_entries_json
