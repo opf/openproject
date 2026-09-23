@@ -37,6 +37,8 @@ module WorkPackages
 
         LISTABLE_IDS = 250 # the max IDs that fit in an URL
 
+        SHOWN_PROBLEMS = 500 # a table nobody scrolls past, the download carries the rest
+
         def initialize(status:, project:)
           super(status)
           @status = status
@@ -76,9 +78,11 @@ module WorkPackages
             .with_content(file_problems.pluck("message").join(" "))
         end
 
-        def problems_omitted = payload["problems_omitted"].to_i
+        def shown_problems = @shown_problems ||= problems.first(SHOWN_PROBLEMS)
 
-        def problem_count = problems.size + problems_omitted
+        def problems_omitted = problems.size - shown_problems.size
+
+        def problem_count = problems.size
 
         def rejected_lines = problems.filter_map { |problem| problem["row"] }.uniq.size
 
@@ -109,7 +113,7 @@ module WorkPackages
         end
 
         def row_problems
-          problems.map do |problem|
+          shown_problems.map do |problem|
             [{ text: problem["row"], style: :muted },
              { text: caption(problem["attribute"]), style: :strong },
              { text: problem["value"], style: :code },
@@ -132,7 +136,7 @@ module WorkPackages
 
         def shown_count
           if problems_omitted.positive?
-            t("work_packages.import.report.problems.capped", count: problem_count, shown: problems.size)
+            t("work_packages.import.report.problems.capped", count: problem_count, shown: shown_problems.size)
           else
             t("work_packages.import.report.problems.all", count: problem_count)
           end

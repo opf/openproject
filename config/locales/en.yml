@@ -7602,9 +7602,7 @@ en:
           available:
             one: "1 available value"
             other: "%{count} available values"
-          capped:
-            one: "1 problem, %{shown} shown."
-            other: "%{count} problems, %{shown} shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: "Problems"
         rows_rejected:
           text: "Everything was rolled back. Correct the lines below and upload the file again."

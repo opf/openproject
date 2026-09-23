@@ -54,6 +54,14 @@ RSpec.describe WorkPackages::Import::CSV::ProblemReport do
     it "opens with a byte order mark, so a spreadsheet reads it as UTF-8" do
       expect(report(payload)).to start_with("﻿")
     end
+
+    it "carries every problem, including the ones the page does not show" do
+      problems = Array.new(WorkPackages::Import::CSV::ReportComponent::SHOWN_PROBLEMS + 40) do |index|
+        { "row" => index + 2, "attribute" => "subject", "value" => "", "message" => "can't be blank." }
+      end
+
+      expect(rows(payload.merge("problems" => problems)).size).to eq(problems.size + 1)
+    end
   end
 
   describe "a run whose file was rejected" do
