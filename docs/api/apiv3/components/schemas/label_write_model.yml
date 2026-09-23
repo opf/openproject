@@ -1,0 +1,13 @@
+# Schema: LabelWriteModel
+---
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    description: Label name. Matched case-insensitively against existing labels.
+    minLength: 1
+    maxLength: 255
+example:
+  name: Bug
