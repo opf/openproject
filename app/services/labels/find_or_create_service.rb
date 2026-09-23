@@ -46,11 +46,9 @@ module Labels
     private
 
     def create(name)
-      call = Label.transaction(requires_new: true) { CreateService.new(user:).call(name:) }
+      call = CreateService.new(user:).call(name:)
       return call if call.success? || call.errors.symbols_for(:name).exclude?(:taken)
 
-      existing(name)
-    rescue ActiveRecord::RecordNotUnique
       existing(name)
     end
 

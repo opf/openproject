@@ -30,5 +30,16 @@
 
 module Labels
   class CreateService < ::BaseServices::Create
+    protected
+
+    # The savepoint keeps a unique index violation from aborting a transaction the caller may already have open.
+    def persist(service_result)
+      Label.transaction(requires_new: true) { super }
+    rescue ActiveRecord::RecordNotUnique
+      service_result.result.errors.add(:name, :taken)
+      service_result.errors = service_result.result.errors
+      service_result.success = false
+      service_result
+    end
   end
 end
