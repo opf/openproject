@@ -65,6 +65,13 @@ module Projects
                  href: project_settings_backlog_multiple_active_sprints_path(project),
                  label: t("backlogs.multiple_active_sprints")
                }
+             end),
+            (if show_unit_tab?
+               {
+                 key: :estimation_unit,
+                 href: project_settings_backlog_estimation_unit_path(project),
+                 label: t("backlogs.estimation_unit")
+               }
              end)
           ].compact
         end
@@ -72,6 +79,11 @@ module Projects
         private
 
         attr_reader :project, :selected_tab
+
+        def show_unit_tab?
+          User.current.allowed_in_project?(:select_backlog_types_and_statuses, project) &&
+            OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
+        end
       end
     end
   end
