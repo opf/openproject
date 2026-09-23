@@ -637,6 +637,10 @@ module API
             "#{project(project_id)}/labels"
           end
 
+          def self.labels_by_workspace(workspace_id)
+            "#{workspace(workspace_id)}/labels"
+          end
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end

@@ -1255,7 +1255,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like "links to allowed values via collection link" do
           let(:path) { "labels" }
-          let(:href) { api_v3_paths.labels_by_project(work_package.project_id) }
+          let(:href) { api_v3_paths.labels_by_workspace(work_package.project_id) }
         end
 
         context "when not embedded" do

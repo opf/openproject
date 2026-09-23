@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,20 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module API
   module V3
-    module Workspaces
-      class NestedApis < ::API::OpenProjectAPI
-        mount API::V3::Workspaces::AvailableAssigneesAPI
-        mount API::V3::Types::TypesByWorkspaceAPI
-        mount API::V3::WorkPackages::WorkPackagesByWorkspaceAPI
-        mount API::V3::Categories::CategoriesByWorkspaceAPI
-        mount API::V3::Versions::VersionsByProjectAPI
-        mount API::V3::Labels::LabelsByWorkspaceAPI
-        mount API::V3::Queries::QueriesByWorkspaceAPI
-        mount API::V3::Favorites::FavoriteActionsAPI, with: { favorite_object_getter: ->(*) { @project } }
+    module Labels
+      class LabelsByWorkspaceAPI < ::API::OpenProjectAPI
+        resources :labels do
+          after_validation do
+            raise API::Errors::NotFound unless OpenProject::FeatureDecisions.work_package_labels_active?
+
+            authorize_in_project(:view_work_packages, project: @project)
+
+            @labels = Label.ordered_by_relevance_for(@project)
+          end
+
+          get do
+            ::API::V3::Utilities::ParamsToQuery.collection_response(@labels,
+                                                                    current_user,
+                                                                    params.except("id"),
+                                                                    self_link: api_v3_paths.labels_by_workspace(@project.id))
+          end
+        end
       end
     end
   end
