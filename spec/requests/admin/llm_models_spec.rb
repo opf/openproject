@@ -81,6 +81,19 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
       end
 
+      # ".icon:before" carries the padding and colour and "a.icon:hover" removes
+      # the underline, and both select the anchor, so the classes cannot sit on
+      # an inner <i> as op_icon would place them.
+      it "puts the icon classes on the action anchor itself" do
+        create(:llm_connection, :with_models, base_url:)
+        llm_model = LlmModel.find_by(external_id: "qwen3.6-27b")
+
+        get llm_models_path
+
+        expect(page).to have_css("a.icon.icon-edit[href='#{edit_llm_model_path(llm_model)}']", visible: :all)
+        expect(page).to have_css("a.icon.icon-edit .sr-only", text: I18n.t(:button_edit), visible: :all)
+      end
+
       it "warns that the list predates the current settings" do
         connection = create(:llm_connection, :with_models, base_url:)
         connection.update!(connection_fingerprint: connection.settings_fingerprint)
