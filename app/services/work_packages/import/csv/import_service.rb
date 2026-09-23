@@ -34,14 +34,14 @@ module WorkPackages
       class ImportService
         include Redmine::I18n
 
-        Report = Data.define(:row_count, :created_count, :query_id, :assignee_count, :dated_count,
+        Report = Data.define(:row_count, :created_count, :query_id, :account_count, :dated_count,
                              :counts, :problems, :available, :created_ids)
 
         COUNTED = %i[type status priority category].freeze
 
         CONTRACT_ATTRIBUTES = { target_versions: :version }.freeze
 
-        Progress = Struct.new(:created_count, :counts, :problems, :assignees, :dated, :created_ids)
+        Progress = Struct.new(:created_count, :counts, :problems, :accounts, :dated, :created_ids)
         private_constant :Progress
 
         def initialize(user:, project:)
@@ -91,7 +91,7 @@ module WorkPackages
           Report.new(row_count:,
                      created_count: progress.created_count,
                      query_id: nil,
-                     assignee_count: progress.assignees.size,
+                     account_count: progress.accounts.size,
                      dated_count: progress.dated,
                      counts: progress.counts,
                      problems: progress.problems,
@@ -111,7 +111,7 @@ module WorkPackages
             progress.created_count += 1
             progress.created_ids << created.result.id
             write_columns(created.result, columns)
-            summarise(progress, created.result)
+            summarise(progress, created.result, columns)
           else
             progress.problems.concat(problems_for(row, created.errors))
           end
@@ -158,10 +158,16 @@ module WorkPackages
 
         def view_name = I18n.t("work_packages.import.csv.view_name", datetime: format_time(Time.current))
 
-        def summarise(progress, work_package)
+        def summarise(progress, work_package, columns)
           count_values(progress.counts, work_package)
-          progress.assignees << work_package.assigned_to_id if work_package.assigned_to_id
+          progress.accounts.merge(accounts(work_package, columns))
           progress.dated += 1 if work_package.start_date || work_package.due_date
+        end
+
+        # The author the row did not name is the importing user, who was not matched from the file
+        # and is not one of the accounts it brought with it.
+        def accounts(work_package, columns)
+          [work_package.assigned_to_id, work_package.responsible_id, columns[:author_id]].compact
         end
 
         def count_values(counts, work_package)
