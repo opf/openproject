@@ -1879,8 +1879,6 @@ en:
         source_withdrawn: "Withdrawn"
         source_withdrawn_description: "No longer reported by the server"
         stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
-        status: "Available for use"
-        toggle_aria_label: "Make %{model} available to AI features"
       new:
         description: "Name a model this server can use but does not advertise, and describe what it can do."
         title: "Add a model"

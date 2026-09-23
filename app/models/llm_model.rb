@@ -47,13 +47,6 @@ class LlmModel < ApplicationRecord
   scope :manual, -> { where(manual: true) }
   scope :by_identifier, -> { order(:external_id) }
 
-  # What an administrator is willing to have chosen. Distinct from +active+,
-  # which the catalogue sync owns and rewrites on every refresh.
-  scope :deactivated, -> { where.not(deactivated_at: nil) }
-  scope :selectable, -> { active.where(deactivated_at: nil) }
-
-  def deactivated? = deactivated_at.present?
-
   # Everything that points at a model does so by its identifier string, so a
   # rename has to carry them along or it silently orphans them.
   #
@@ -75,12 +68,6 @@ class LlmModel < ApplicationRecord
     llm_connection.capability_verdicts.where(model_id: external_id).delete_all
     clear_connection_defaults
   end
-
-  # Offerable in a picker. Note that this is *not* what decides whether a model
-  # still resolves: a feature already bound to a deactivated model keeps working,
-  # and is surfaced as a warning instead. Switching a row off must never silently
-  # break a running feature.
-  def selectable? = active? && !deactivated?
 
   def name = display_name.presence || external_id
 
@@ -158,9 +145,9 @@ class LlmModel < ApplicationRecord
                   .first
   end
 
-  # Discovered models that the server stopped offering are deactivated rather
-  # than deleted, so a binding or verdict pointing at one still has something to
-  # name. Manual entries are never deactivated by a refresh: nothing confirms
+  # Discovered models the server stopped offering are switched off rather than
+  # deleted, so a binding or verdict pointing at one still has something to
+  # name. Manual entries are never switched off by a refresh: nothing confirms
   # them, so nothing can un-confirm them either.
   def withdrawn? = !active? && !manual?
 end
