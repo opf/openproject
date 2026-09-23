@@ -89,7 +89,7 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_test_selector("llm-settings--tabs")
 
-      within_test_selector("llm-settings--tabs") { click_on "LLMs" }
+      within_test_selector("llm-settings--tabs") { click_on "Models" }
 
       expect(page).to have_current_path(llm_models_path)
     end

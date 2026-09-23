@@ -1837,13 +1837,13 @@ en:
         server_group: "Server"
       show:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
-        description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+        description_enabled: "Once connected, review the models offered by the server on the [Models](models_url) tab."
       tabs:
         connection: "Connection"
-        models: "LLMs"
+        models: "Models"
       update:
         disabled: "Saved. LLM features are switched off for this instance."
-        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab."
         success: "Successfully connected to the LLM server."
     llm_models:
       index:
