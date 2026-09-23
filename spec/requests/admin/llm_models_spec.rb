@@ -197,7 +197,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(page).to have_no_button("Save")
       end
 
-      it "offers only models known to embed as the default embedding model" do
+      it "offers only models known to embed as the default embedding model",
+         with_flag: { llm_connection: true, semantic_search: true } do
         connection = create(:llm_connection, :with_models, base_url:)
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                                state: "supported", source: "probe", checked_at: Time.current)
@@ -210,7 +211,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       # An unconfirmed capability is not a capability: offering such a model
       # invites a choice that fails much later, at index time.
-      it "says how to make a model eligible while none is known to embed" do
+      it "says how to make a model eligible while none is known to embed",
+         with_flag: { llm_connection: true, semantic_search: true } do
         create(:llm_connection, :with_models, base_url:)
 
         get llm_models_path
@@ -219,7 +221,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       # Otherwise a save would silently blank a working configuration.
-      it "keeps the stored embedding default listed, flagged, once it is ruled out" do
+      it "keeps the stored embedding default listed, flagged, once it is ruled out",
+         with_flag: { llm_connection: true, semantic_search: true } do
         connection = create(:llm_connection, :with_models, base_url:)
         connection.update_column(:default_embedding_model_id, connection.models.find_by(external_id: "qwen3.6-27b").id)
 
@@ -456,7 +459,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(llm_model.context_window_source).to eq(:server)
       end
 
-      it "makes an asserted type satisfy a feature that requires it" do
+      it "makes an asserted type satisfy a feature that requires it",
+         with_flag: { llm_connection: true, semantic_search: true } do
         patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
 
         patch llm_feature_binding_path("semantic_search"),

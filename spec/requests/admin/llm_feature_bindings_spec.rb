@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf, :webmock,
-               type: :rails_request, with_flag: { llm_connection: true },
+               type: :rails_request, with_flag: { llm_connection: true, semantic_search: true },
                with_settings: { llm_features_enabled: true } do
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
@@ -73,6 +73,17 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include("Feature configuration")
         expect(response.body).to include("Description assistant")
         expect(response.body).to include("Semantic search")
+      end
+
+      # Semantic search is registered but not built, so it carries a flag of its
+      # own. Registration alone must not put it on the tab.
+      it "leaves out a feature whose own flag is off",
+         with_flag: { llm_connection: true, semantic_search: false } do
+        get llm_feature_bindings_path
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Description assistant")
+        expect(response.body).not_to include("Semantic search")
       end
 
       it "offers the tabs of the LLM settings page" do

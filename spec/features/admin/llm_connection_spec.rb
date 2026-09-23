@@ -223,7 +223,7 @@ RSpec.describe "LLM connection administration",
     end
   end
 
-  describe "the Feature configuration tab" do
+  describe "the Feature configuration tab", with_flag: { llm_connection: true, semantic_search: true } do
     let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     before do
