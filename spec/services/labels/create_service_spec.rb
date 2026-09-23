@@ -67,6 +67,17 @@ RSpec.describe Labels::CreateService, type: :model do
         expect(result.errors.symbols_for(:name)).to include(:taken)
       end
 
+      it "fails when the name is taken by an insert racing past validation" do
+        create(:label, name: "bug")
+        allow_any_instance_of(Label).to receive(:valid?).and_return(true) # rubocop:disable RSpec/AnyInstance
+
+        result = described_class.new(user:).call(name: "Bug")
+
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:name)).to include(:taken)
+        expect(Label.count).to eq(1)
+      end
+
       context "with a user lacking edit_work_packages in any project" do
         let(:user) { create(:user) }
 
