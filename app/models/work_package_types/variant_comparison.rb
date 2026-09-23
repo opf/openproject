@@ -31,12 +31,14 @@
 module WorkPackageTypes
   class VariantComparison
     FORM = TypeVariant::FORM_CONFIGURATION
-    WORKFLOWS = TypeVariant::WORKFLOWS
+
+    # Not an aspect: a variant carries a named workflow rather than inheriting one, so this only
+    # keys the rows that read the workflow digest.
+    WORKFLOWS = :workflows
 
     ASPECT_LABEL_KEYS = {
       TypeVariant::DEFAULTS => "types.edit.defaults.tab",
       FORM => "types.edit.form_configuration.tab",
-      WORKFLOWS => "types.edit.workflow.tab",
       TypeVariant::PROJECT_ATTRIBUTES => "types.edit.project_attributes.tab",
       TypeVariant::PDF_EXPORT => "types.edit.export_configuration.tab"
     }.freeze
@@ -137,7 +139,6 @@ module WorkPackageTypes
     def variants
       @variants ||= type.variants
                         .with_effective_source(FORM)
-                        .with_effective_source(WORKFLOWS)
                         .includes(:project, :custom_fields)
                         .in_display_order
                         .to_a

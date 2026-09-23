@@ -53,13 +53,14 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     end
   end
 
-  shared_let(:mobile) { create(:type_variant, type:, variant_name: "Mobile") }
-  shared_let(:clone) { create(:type_variant, type:, variant_name: "Clone") }
-  shared_let(:owned) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }
+  shared_let(:mobile) { create(:type_variant, type:, variant_name: "Mobile", workflow: create(:named_workflow)) }
+  shared_let(:clone) { create(:type_variant, type:, variant_name: "Clone", workflow: create(:named_workflow)) }
+  shared_let(:owned) do
+    create(:project_owned_type_variant, type:, project:, variant_name: "Ours", workflow: create(:named_workflow))
+  end
   shared_let(:twin) { create(:type_variant, type:, variant_name: "Twin") }
 
   let(:form) { TypeVariant::FORM_CONFIGURATION }
-  let(:workflows) { TypeVariant::WORKFLOWS }
 
   def within_row(section, key, &) = within("#comparison-#{section}-#{key}", &)
 
@@ -75,7 +76,7 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     link_configuration(clone, source: base, aspect: form, excluded: ["responsible"])
     link_configuration(owned, source: base, aspect: form)
     link_configuration(twin, source: base, aspect: form)
-    link_configuration(twin, source: base, aspect: workflows)
+    twin.update!(workflow: base.workflow)
 
     login_as(admin)
   end
@@ -137,10 +138,6 @@ RSpec.describe "Comparing the variants of a work package type", :js do
                                   href: edit_type_form_configuration_path(type_id: type.id, variant_id: base.id))
       end
       within_column(base) { expect(page).to have_text(I18n.t("types.edit.overview.mode.manual")) }
-    end
-
-    within_row(:configuration, TypeVariant::WORKFLOWS) do
-      within_column(mobile) { expect(page).to have_text(I18n.t("types.edit.overview.mode.manual")) }
     end
 
     within_row(:configuration, TypeVariant::PDF_EXPORT) do
@@ -233,7 +230,6 @@ RSpec.describe "Comparing the variants of a work package type", :js do
       case aspect
       when TypeVariant::DEFAULTS then edit_type_defaults_path(**args)
       when TypeVariant::FORM_CONFIGURATION then edit_type_form_configuration_path(**args)
-      when TypeVariant::WORKFLOWS then edit_type_workflow_path(**args)
       when TypeVariant::PROJECT_ATTRIBUTES then edit_type_project_attributes_path(**args)
       else edit_type_pdf_export_template_index_path(**args)
       end
