@@ -44,25 +44,12 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |dialog| %>
   <% dialog.with_confirmation_message do |message| %>
     <% message.with_heading(tag: :h2) { heading } %>
-    <% if changing_source? %>
-      <% message.with_description_content(
-           t(
-             "types.edit.reuse_mode.inherited.confirm_dialog.change_source.description_html",
-             source_name: tag.strong(source.name)
-           )
-         ) %>
-    <% else %>
-      <% message.with_description_content(
-           t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.description")
-         ) %>
-    <% end %>
+    <% message.with_description_content(
+         t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.description")
+       ) %>
   <% end %>
 
   <% dialog.with_confirmation_check_box do %>
     <%= t("types.edit.reuse_mode.inherited.confirm_dialog.check_box") %>
-  <% end %>
-
-  <% dialog.with_additional_details do %>
-    <%= hidden_field_tag :source_id, source.id %>
   <% end %>
 <% end %>

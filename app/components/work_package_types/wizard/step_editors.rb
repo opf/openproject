@@ -85,8 +85,6 @@ module WorkPackageTypes
       end
 
       class Workflows < Base
-        def aspect = TypeVariant::WORKFLOWS
-
         # The workflow matrix editor is not using a primer form, thus it does not consume the builder
         # It can internally switch what tab it is editing, those trigger a submit to its own controller action.
         # The submit of the final page happens through the wizard's continue button

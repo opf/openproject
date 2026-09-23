@@ -25,9 +25,9 @@ ru:
   activerecord:
     attributes:
       gitlab_branch:
-        gitlab_project: GitLab project
-        namespace: GitLab namespace
-        project_html_url: GitLab project URL
+        gitlab_project: Проект GitLab
+        namespace: Пространство имён GitLab
+        project_html_url: URL проекта GitLab
       gitlab_merge_request:
         labels: Метки
       gitlab_pipeline:
@@ -44,7 +44,7 @@ ru:
               invalid_schema: 'должен быть массив хэшей с помощью ключей: цвет, заголовок'
     models:
       gitlab_branch:
-        one: GitLab branch
+        one: Ветка GitLab
         few: GitLab branches
         many: GitLab branches
         other: GitLab branches

@@ -34,20 +34,19 @@ RSpec.describe "Work package type excluded elements",
                :skip_csrf,
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
-  shared_let(:source) { create(:type) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
   let(:type) { create(:type) }
-  let(:link) { variant_of(type) }
+  let(:link) { create(:type_variant, type:) }
 
   before { login_as admin }
 
   def toggle(value:, element: "assignee")
-    post type_excluded_element_toggle_path(type_id: type.id, aspect:, element:), params: { value: }
+    post type_excluded_element_toggle_path(type_id: type.id, variant_id: link.id, aspect:, element:), params: { value: }
   end
 
   context "when the type is Linked for the aspect" do
-    before { link_configuration(type, source:, aspect:) }
+    before { link_configuration(link, aspect:) }
 
     it "excludes the element when switched off", :aggregate_failures do
       toggle(value: "0")
@@ -66,11 +65,11 @@ RSpec.describe "Work package type excluded elements",
     end
 
     it "leaves the other aspects alone" do
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+      link_configuration(link, aspect: TypeVariant::PDF_EXPORT)
 
       toggle(value: "0")
 
-      expect(excluded_configuration_elements(type, aspect: TypeVariant::PDF_EXPORT))
+      expect(excluded_configuration_elements(link, aspect: TypeVariant::PDF_EXPORT))
         .to be_empty
     end
   end
@@ -92,7 +91,7 @@ RSpec.describe "Work package type excluded elements",
     before { login_as create(:user) }
 
     it "is forbidden" do
-      link_configuration(type, source:, aspect:)
+      link_configuration(link, aspect:)
 
       toggle(value: "0")
 

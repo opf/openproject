@@ -54,4 +54,38 @@ RSpec.describe Llm::Client, :llm_server_helpers, :webmock do
       expect { client.models }.to raise_error(Llm::Client::ParseError)
     end
   end
+
+  describe "the credentials it sends" do
+    it "sends the stored key as a bearer token" do
+      mock_llm_models_response(base_url)
+
+      client.models
+
+      expect(WebMock).to have_requested(:get, "#{base_url}/models")
+        .with(headers: { "Authorization" => "Bearer sk-test" })
+    end
+
+    # httpx's auth plugin appends rather than replaces, so building the request
+    # the other way round sent both values and a gateway expecting only its own
+    # token also received the stored key.
+    it "lets a connection's own Authorization header replace the key" do
+      mock_llm_models_response(base_url)
+
+      described_class.new(base_url:, api_key: "sk-test", headers: { "Authorization" => "Bearer gw-token" }).models
+
+      expect(WebMock).to have_requested(:get, "#{base_url}/models")
+        .with(headers: { "Authorization" => "Bearer gw-token" })
+      expect(WebMock).not_to(have_requested(:get, "#{base_url}/models")
+        .with { |request| request.headers["Authorization"].to_s.include?("sk-test") })
+    end
+
+    it "sends a connection's other headers alongside the key" do
+      mock_llm_models_response(base_url)
+
+      described_class.new(base_url:, api_key: "sk-test", headers: { "api-version" => "2024-02-01" }).models
+
+      expect(WebMock).to have_requested(:get, "#{base_url}/models")
+        .with(headers: { "Authorization" => "Bearer sk-test", "api-version" => "2024-02-01" })
+    end
+  end
 end

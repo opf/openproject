@@ -34,9 +34,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type) }
-  shared_let(:source_type) { create(:type, name: "Feature") }
-  shared_let(:source) { source_type.default_variant }
-  shared_let(:variant) { type.default_variant }
+  shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
@@ -65,7 +63,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
     it "links the switch action to the inheritance dialog" do
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(**variant.path_args, aspect:)}']",
-        text: "Inherit from another type"
+        text: "Inherit from parent"
       )
     end
   end
@@ -82,9 +80,9 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
     end
   end
 
-  context "when the aspect is linked" do
+  context "when the aspect is linked to its base" do
     before do
-      link_configuration(variant, source:, aspect:)
+      link_configuration(variant, aspect:)
 
       render_inline(component)
     end
@@ -93,51 +91,25 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
       expect(page).to have_css(".color-bg-accent.color-border-accent")
     end
 
-    it "shows the linked state with a link to the source variant" do
+    it "shows the linked state with a link to the parent" do
       expect(page).to have_text("Inherited configuration")
-      expect(page).to have_link(
-        "Feature",
-        href: edit_type_form_configuration_path(type_id: source.type_id, variant_id: source.id)
-      )
-      expect(page).to have_no_text("(parent)")
-    end
-
-    it "breaks the source link out of the reloadable configuration frame" do
-      expect(page).to have_css("a[data-turbo-frame='_top']", text: "Feature")
-    end
-
-    it "links the change-source and switch-to-independent actions to their dialogs" do
-      link_path = type_configuration_link_dialog_path(**variant.path_args, aspect:)
-      independence_path = type_configuration_independence_dialog_path(**variant.path_args, aspect:)
-
-      expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{link_path}']",
-        text: "Change source type"
-      )
-      expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{independence_path}']",
-        text: "Configure manually"
-      )
-    end
-  end
-
-  context "when the aspect is linked to the type's base variant" do
-    let(:named_variant) { create(:type_variant, type:, variant_name: "Hardware") }
-
-    subject(:component) { described_class.new(variant: named_variant, aspect:) }
-
-    before do
-      link_configuration(named_variant, source: type.default_variant, aspect:)
-
-      render_inline(component)
-    end
-
-    it "annotates the source as the parent" do
       expect(page).to have_link(
         type.name,
         href: edit_type_form_configuration_path(type_id: type.id, variant_id: type.default_variant.id)
       )
-      expect(page).to have_text("(parent)")
+    end
+
+    it "breaks the source link out of the reloadable configuration frame" do
+      expect(page).to have_css("a[data-turbo-frame='_top']", text: type.name)
+    end
+
+    it "links the switch-to-independent action to its dialog" do
+      independence_path = type_configuration_independence_dialog_path(**variant.path_args, aspect:)
+
+      expect(page).to have_css(
+        "a[data-controller='async-dialog'][href='#{independence_path}']",
+        text: "Configure manually"
+      )
     end
   end
 end

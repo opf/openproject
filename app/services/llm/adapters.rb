@@ -39,11 +39,9 @@ module Llm
   # Only the OpenAI adapter and its OpenRouter variant are implemented. The seam
   # exists so that adding one is a new class rather than a migration.
   module Adapters
-    class UnsupportedFormat < StandardError; end
-
-    # Formats an administrator can choose. "openai" covers OpenAI itself and the
-    # great majority of gateways and self-hosted inference servers.
-    OPENAI_COMPATIBLE = "openai"
+    # Inside the taxonomy, so a caller rescuing Llm::Errors::Error around
+    # Adapters.for(connection).models catches this too.
+    class UnsupportedFormat < Llm::Errors::ConfigurationError; end
 
     # Formats whose servers answer GET /models in the OpenAI shape, so the list
     # is what this endpoint actually serves. Perplexity subclasses RubyLLM's

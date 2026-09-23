@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Llm::Runtime, with_flag: { llm_connection: true },
+RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search: true },
                              with_settings: { llm_features_enabled: true } do
   subject(:resolution) { described_class.for(feature_key, override:) }
 

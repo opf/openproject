@@ -69,7 +69,7 @@ module WorkPackageTypes
 
       def source_active_field_ids
         @source_active_field_ids ||=
-          @variant.effective_source_for(ASPECT).own_project_custom_field_type_mappings.to_set(&:custom_field_id)
+          @variant.owner_of(ASPECT).own_project_custom_field_type_mappings.to_set(&:custom_field_id)
       end
 
       def wrapper_data_attributes

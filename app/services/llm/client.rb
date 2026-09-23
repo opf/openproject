@@ -59,11 +59,14 @@ module Llm
     # The global httpx defaults (connect 3s / read 3s / request 10s, all
     # writable: false) are tuned for storage and webhook calls and are far too
     # tight for an inference endpoint. Every call site must override them.
-    PROBE_TIMEOUT = {
+    # Named for what it is: httpx options spread into .with. Llm::Session has a
+    # PROBE_TIMEOUT of its own that is a plain number of seconds for Faraday, and
+    # passing one where the other is expected fails far from the cause.
+    PROBE_TIMEOUT_OPTIONS = {
       timeout: { connect_timeout: 5, read_timeout: 15, request_timeout: 20 }
     }.freeze
 
-    def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT, headers: {})
+    def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT_OPTIONS, headers: {})
       @base_url = base_url.to_s.chomp("/")
       @api_key = api_key
       @timeout = timeout
@@ -112,10 +115,14 @@ module Llm
       raise SsrfError, "Host resolves to a blocked address"
     end
 
+    # The key goes on first as a plain header so the connection's own headers can
+    # override it. httpx's auth plugin appends rather than replaces, so calling
+    # bearer_auth after .with(headers:) sent both values on one line and a
+    # gateway expecting only its own token also received the stored key.
     def session
       request = OpenProject.httpx.with(timeout)
-      request = request.with(headers:) if headers.any?
-      api_key.present? ? request.plugin(:auth).bearer_auth(api_key) : request
+      request = request.with(headers: { "authorization" => "Bearer #{api_key}" }) if api_key.present?
+      headers.any? ? request.with(headers:) : request
     end
 
     def uri_for(path, query = {})

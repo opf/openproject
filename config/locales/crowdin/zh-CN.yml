@@ -695,6 +695,13 @@ zh-CN:
               not_unique: 已被使用。请另选一个名称。
         jira:
           invalid_protocol: 请提供有效的协议（http 或 https）
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1615,6 +1622,34 @@ zh-CN:
       caption_with_maximum: '如果用户对工作包执行的操作（更改描述、状态、数值或编写评论）是在此时间段内完成的，则会将这些操作分为一组。此设置还控制通知和[网络钩子](webhook_link)延迟。最大值为 %{max} 分钟。
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Model Context Protocol 允许 AI 智能体向其用户提供此 OpenProject 实例所公开的工具和资源。此功能仍处于测试阶段。
@@ -3535,6 +3570,7 @@ zh-CN:
   label_journal_diff: 描述的对比
   label_jump_to_a_project: 跳转到一个项目...
   label_keyword_plural: 关键词
+  label_label_plural: Labels
   label_language: 语言
   label_language_based: 基于用户的语言
   label_languages: 语言
