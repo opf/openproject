@@ -44,7 +44,7 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
-import { openTimeEntryDialog } from 'core-stimulus/helpers/time-entry-dialog';
+import { openTimeEntryDialog, reloadTimeTrackingView } from 'core-stimulus/helpers/time-entry-dialog';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -408,19 +408,18 @@ export default class MyTimeTrackingController extends Controller {
     const { detail: { dialog, additional, submitted } } = event;
     if (dialog.id !== 'time-entry-dialog' || !submitted) { return; }
 
-    // we simply refresh the calendar page
     if (this.viewModeValue === 'calendar') {
-      window.location.reload();
+      reloadTimeTrackingView(this.element);
       return;
     }
 
     // list view replaces only the updated date
     if (this.viewModeValue === 'list') {
-      // we don't know what date we clicked, so we need to reload the whole page
+      // we don't know what date we clicked, so we need to reload the whole view
       if (additional?.spent_on) {
         void this.turboRequests.request(this.pathHelperService.myTimeTrackingRefresh(additional.spent_on, this.viewModeValue, this.modeValue), { method: 'GET' });
       } else {
-        window.location.reload();
+        reloadTimeTrackingView(this.element);
       }
     }
   }

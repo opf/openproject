@@ -41,7 +41,7 @@ import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 import { render } from 'lit-html';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
-import { openTimeEntryDialog } from 'core-stimulus/helpers/time-entry-dialog';
+import { openTimeEntryDialog, reloadTimeTrackingView } from 'core-stimulus/helpers/time-entry-dialog';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 
@@ -433,7 +433,7 @@ export default class MyTimeTrackingStackController extends Controller {
     const { detail: { dialog, submitted } } = event;
 
     if (dialog.id === 'time-entry-dialog' && submitted) {
-      window.location.reload();
+      reloadTimeTrackingView(this.element);
     }
   }
 }

@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { FrameElement } from '@hotwired/turbo';
 import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 // Every my time tracking view opens the one dialog with this id. Asking for it twice before
@@ -41,4 +42,17 @@ export function openTimeEntryDialog(turboRequests:TurboRequestsService, url:stri
     // The service reports what went wrong itself and rethrows; an abort is this helper
     // replacing the request and is not a failure at all.
     .catch(() => undefined);
+}
+
+export function reloadTimeTrackingView(element:Element):void {
+  const frame = element.closest<FrameElement>('turbo-frame');
+
+  if (!frame) {
+    window.location.reload();
+  } else if (frame.getAttribute('src')) {
+    void frame.reload();
+  } else {
+    // Setting the frame-src for the first time refreshes it
+    frame.setAttribute('src', window.location.href);
+  }
 }
