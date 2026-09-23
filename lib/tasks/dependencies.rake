@@ -52,7 +52,10 @@ namespace :openproject do
         out, = Open3.capture3("bundle", "outdated", "--parseable")
 
         gem_names = parse_capture(out) do |line|
-          line[/\A(\S+) \(newest /, 1]
+          next unless (name = line[/\A(\S+) \(newest /, 1])
+          next if line.include?("in cooldown for") && line.exclude?("newest out of cooldown")
+
+          name
         end
 
         gem_names.each do |gem_name|
