@@ -26,10 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { keyBy } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -37,6 +37,9 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
+import {
+  LabelsAutocompleterTemplateComponent,
+} from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter-template.component';
 
 export const labelsAutocompleterSelector = 'op-labels-autocompleter';
 
@@ -46,7 +49,7 @@ export interface ILabelAutocompleteItem {
   href:string|null;
 }
 
-interface IApiLabel {
+export interface IApiLabel {
   id:string|number;
   name:string;
   _links:{ self:{ href:string|null } };
@@ -58,8 +61,16 @@ interface IApiLabel {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabelAutocompleteItem> {
+export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabelAutocompleteItem> implements OnInit {
   getOptionsFn = this.getLabels.bind(this);
+
+  // Latest options from the server; results$ is cold and re-runs the request per subscriber.
+  public readonly loadedLabels$ = new BehaviorSubject<ILabelAutocompleteItem[]>([]);
+
+  ngOnInit():void {
+    super.ngOnInit();
+    this.applyTemplates(LabelsAutocompleterTemplateComponent);
+  }
 
   public getLabels(searchTerm?:string):Observable<ILabelAutocompleteItem[]> {
     const filterObject = keyBy(this.filters, 'name');
@@ -77,6 +88,7 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
       .get<IHALCollection<IApiLabel>>(filteredURL.toString())
       .pipe(
         map((res) => res._embedded.elements.map((label) => ({ id: label.id, name: label.name, href: label._links.self.href }))),
+        tap((labels) => this.loadedLabels$.next(labels)),
       );
   }
 
