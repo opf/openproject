@@ -152,5 +152,11 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
 
       expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
     end
+
+    it "fails rather than raising when a card cannot be stored" do
+      mock_llm_models_response(base_url, models: [{ id: "x" * 600, object: "model" }])
+
+      expect(described_class.new(connection).call).to be_failure
+    end
   end
 end

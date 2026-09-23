@@ -34,6 +34,10 @@ module LlmConnections
   # Kept separate from the contract probe so the same path serves the "Refresh
   # models" button, the update service and the environment seeder.
   class SyncModelsService
+    # A catalogue no administrator could read through anyway, and an upper bound
+    # on how many rows one unbounded response can write.
+    MAX_CARDS = 2_000
+
     def initialize(connection)
       @connection = connection
     end
@@ -44,20 +48,39 @@ module LlmConnections
       # deployment's models and verdicts under new credentials would be wrong.
       invalidate_a_different_deployment
 
-      store(adapter.models)
+      store(capped(adapter.models))
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
-      Rails.logger.info { "LLM model sync for #{connection.base_url} failed: #{e.class} #{e.message}" }
-      ServiceResult.failure(errors: e.message)
+      failed("failed: #{e.class} #{e.message}", e.message)
+    rescue ActiveRecord::ActiveRecordError => e
+      # An id longer than the btree index allows, or two syncs racing
+      # find_or_initialize_by into a uniqueness violation. Neither is worth a 500
+      # on the save path or an aborted run in the job.
+      failed("could not be stored: #{e.class}", e.class.to_s)
     end
 
     private
 
     attr_reader :connection
 
+    def failed(reason, errors)
+      Rails.logger.info { "LLM model sync for #{connection.base_url} #{reason}" }
+
+      ServiceResult.failure(errors:)
+    end
+
     def adapter
       @adapter ||= Llm::Adapters.for(connection)
+    end
+
+    def capped(cards)
+      return cards if cards.size <= MAX_CARDS
+
+      Rails.logger.warn do
+        "LLM server at #{connection.base_url} listed #{cards.size} models; storing the first #{MAX_CARDS}"
+      end
+      cards.first(MAX_CARDS)
     end
 
     def store(cards)

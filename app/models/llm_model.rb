@@ -37,7 +37,12 @@
 class LlmModel < ApplicationRecord
   belongs_to :llm_connection
 
-  validates :external_id, presence: true, uniqueness: { scope: :llm_connection_id }
+  # Bounded because the value is a btree index entry and comes from whatever the
+  # remote server chose to call its models.
+  validates :external_id,
+            presence: true,
+            length: { maximum: 512 },
+            uniqueness: { scope: :llm_connection_id }
 
   scope :active, -> { where(active: true) }
   scope :discovered, -> { where(manual: false) }
