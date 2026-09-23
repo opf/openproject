@@ -49,8 +49,6 @@ module LlmConnections
 
     attr_reader :connection
 
-    def initial_sort = %i[identifier asc]
-
     def has_footer? = false
 
     def mobile_title = I18n.t("admin.llm_connections.tabs.models")

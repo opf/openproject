@@ -30,7 +30,7 @@
 
 module LlmConnections
   module Models
-    # A turbo-frame around the model table, so filtering can replace just the
+    # A wrapper div around the model table, so filtering can replace just the
     # table rather than reloading the settings page.
     class IndexComponent < ApplicationComponent
       include OpTurbo::Streamable

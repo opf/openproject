@@ -53,7 +53,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       login_as create(:user)
       get llm_models_path
 
-      expect(response).not_to have_http_status(:ok)
+      expect(response).to have_http_status(:forbidden)
     end
 
     context "when logged in as admin" do
