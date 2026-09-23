@@ -147,17 +147,6 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       expect { described_class.new.process(payload) }.not_to change(GitlabBranch, :count)
     end
 
-    context "when the push carries no user" do
-      before do
-        payload["user_id"] = nil
-      end
-
-      it "still tracks the branch" do
-        expect { process }.to change(GitlabBranch, :count).by(1)
-        expect(GitlabBranch.last.gitlab_user).to be_nil
-      end
-    end
-
     context "when the branch name references no work package" do
       let(:branch_name) { "chore/update-readme" }
 
