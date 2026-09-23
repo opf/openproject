@@ -153,6 +153,17 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
     end
 
+    it "refuses a card that claims an administrator's context window" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "qwen3.6-27b", admin_context_window: 999, max_model_len: 4096 }])
+
+      described_class.new(connection).call
+
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      expect(llm_model.raw_metadata).not_to have_key("admin_context_window")
+      expect(llm_model.context_window_source).to eq(:server)
+    end
+
     it "fails rather than raising when a card cannot be stored" do
       mock_llm_models_response(base_url, models: [{ id: "x" * 600, object: "model" }])
 

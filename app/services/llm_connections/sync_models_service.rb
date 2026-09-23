@@ -170,8 +170,12 @@ module LlmConnections
     # The server names the model, but only when it says so: the administrator's
     # display name and context-window override are theirs, and a routine refresh
     # must not silently discard them.
+    #
+    # The incoming card is stripped of the override's key first. Without that, a
+    # server sending "admin_context_window" of its own would have it stored
+    # verbatim and reported as an administrator's.
     def merged_metadata(model, card)
-      raw = card.fetch(:raw, {})
+      raw = card.fetch(:raw, {}).except("admin_context_window")
       admin_window = model.raw_metadata["admin_context_window"]
 
       admin_window ? raw.merge("admin_context_window" => admin_window) : raw
