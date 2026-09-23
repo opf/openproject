@@ -563,7 +563,7 @@ GEM
     erblint-github (1.0.1)
     erubi (1.13.1)
     escape_utils (1.3.0)
-    et-orbi (1.4.0)
+    et-orbi (1.4.2)
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
@@ -1911,7 +1911,7 @@ CHECKSUMS
   erblint-github (1.0.1) sha256=9f28f7dc381a0dc68a0093ef7af3424ed9d2bb2b3e39bdc8e8cba86a0d31f2d0
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   escape_utils (1.3.0) sha256=dffb7010922880ace6ceed642156c64e2a64620f27e0849f43bc4f68fd3c2c09
-  et-orbi (1.4.0) sha256=6c7e3c90779821f9e3b324c5e96fda9767f72995d6ae435b96678a4f3e2de8bc
+  et-orbi (1.4.2) sha256=bb555dae668419cb24caa2a293a170e58be6d4df1e017c51f5030bdc133cd20c
   eventmachine (1.2.7) sha256=994016e42aa041477ba9cff45cbe50de2047f25dd418eba003e84f0d16560972
   eventmachine_httpserver (0.2.1) sha256=5db5e8a23754204d43592e5fcc2160457c57c870babe6307c4e61fc95019b809
   excon (1.7.1) sha256=dd2d870eece1b5ce4e4f9efd938e67a69ccd8c003c3825b638b937e1082eaac2
