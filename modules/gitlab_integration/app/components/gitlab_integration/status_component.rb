@@ -30,14 +30,23 @@
 
 module GitlabIntegration
   class StatusComponent < Primer::Component
-    attr_reader :scheme, :icon
+    attr_reader :status
 
-    def initialize(scheme:, icon:, **system_arguments)
+    delegate :icon, to: :status
+
+    def initialize(status:)
+      @status = status
       super()
+    end
 
-      @scheme = scheme
-      @icon = icon
-      @system_arguments = system_arguments
+    def classes
+      "__hl_background #{scheme_classes}"
+    end
+
+    private
+
+    def scheme_classes
+      "__hl_gitlab_#{status.type}_status_#{status.value}"
     end
   end
 end

@@ -37,29 +37,19 @@ module GitlabIntegration
 
     private
 
-    def state_scheme
+    def merge_request_status
       case merge_request.state.to_sym
       when :opened
-        :success
-      when :closed, :locked
-        :danger
-      when :merged
-        :done
-      else
-        raise ArgumentError, "Unsupported merge request state #{state}"
-      end
-    end
-
-    def state_icon
-      case merge_request.state.to_sym
-      when :opened
-        :"git-pull-request"
+        MergeRequestStatuses::OPEN
+      when :draft
+        MergeRequestStatuses::DRAFT
       when :closed
-        :"git-pull-request-closed"
+        MergeRequestStatuses::CLOSED
       when :locked
-        :lock
+        MergeRequestStatuses::LOCKED
       when :merged
-        :"git-merge"
+        MergeRequestStatuses::MERGED
+        :done
       else
         raise ArgumentError, "Unsupported merge request state #{state}"
       end
@@ -76,40 +66,37 @@ module GitlabIntegration
     def pipeline_status
       return nil unless latest_pipeline
 
-      latest_pipeline.status.to_sym
-    end
+      status = latest_pipeline.status.to_sym
 
-    def pipeline_status_scheme
-      case pipeline_status
+      case status
       when :success
-        :success
+        PipelineStatuses::SUCCESS
       when :failed
-        :danger
-      when :skipped, :created, :waiting_for_resource, :preparing, :waiting_for_callback, :pending, :scheduled
-        :attention
-      when :running
-        :done # TODO: BLUE!
-      else
-        :default
-      end
-    end
-
-    def pipeline_status_icon
-      case pipeline_status
-      when :success
-        :check
-      when :failed
-        :alert
-      when :created, :waiting_for_resource, :preparing, :waiting_for_callback, :pending, :scheduled
-        :clock
+        PipelineStatuses::FAILED
       when :skipped
-        :skip
+        PipelineStatuses::SKIPPED
+      when :created
+        PipelineStatuses::CREATED
+      when :waiting_for_resource
+        PipelineStatuses::WAITING_FOR_RESOURCE
+      when :preparing
+        PipelineStatuses::PREPARING
+      when :waiting_for_callback
+        PipelineStatuses::WAITING_FOR_CALLBACK
+      when :pending
+        PipelineStatuses::PENDING
+      when :scheduled
+        PipelineStatuses::SCHEDULED
       when :running
-        :loop
-      when :canceling, :canceled
-        :stop
+        PipelineStatuses::RUNNING
+      when :cancelling
+        PipelineStatuses::CANCELLING
+      when :cancelled
+        PipelineStatuses::CANCELLED
+      when :manual
+        PipelineStatuses::MANUAL
       else
-        :question
+        raise ArgumentError, "Unsupported pipeline state #{status}"
       end
     end
 

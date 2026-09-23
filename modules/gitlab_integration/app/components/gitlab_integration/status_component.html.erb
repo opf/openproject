@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Label.new(scheme:, bg: scheme, border: false, size: :large, **@system_arguments)) do %>
+<%= render(Primer::Beta::Label.new(size: :large, classes:)) do %>
   <%=
     render(
       Primer::Beta::Octicon.new(
