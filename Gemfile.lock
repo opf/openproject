@@ -468,8 +468,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.7)
-    css_parser (3.0.0)
+    css_parser (3.1.0)
       addressable
+      base64
       ssrf_filter (~> 1.5)
     csv (3.3.6)
     cuprite (0.18)
@@ -1874,7 +1875,7 @@ CHECKSUMS
   counter_culture (3.14.0) sha256=386f10ba78837123443597212284f166a498abf36af4b6e85e2f280b908760f3
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
-  css_parser (3.0.0) sha256=eaf0e9283fd581d06e815235ceef4f0910c0b394c606355dbc69f93e84443885
+  css_parser (3.1.0) sha256=ef68b7a629e88539fc8017fa2ecc066ad4b4d36004efdf7e58703034a519796f
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   cuprite (0.18) sha256=32c3203a492f25dbd5a3525716ae09610bcef8936ddd32ff39f34477a98062b2
   daemons (1.4.1) sha256=8fc76d76faec669feb5e455d72f35bd4c46dc6735e28c420afb822fac1fa9a1d
