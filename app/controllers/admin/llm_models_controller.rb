@@ -167,7 +167,11 @@ module Admin
         saved = true
       end
       saved
-    rescue ActiveRecord::RecordInvalid
+    # RecordNotUnique as well as RecordInvalid: two administrators renaming
+    # different models to the same free identifier both pass the uniqueness
+    # validation and one reaches the index, which is a 422 with the inline error
+    # rather than a 500.
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
       false
     end
 
@@ -200,7 +204,7 @@ module Admin
       end
 
       true
-    rescue ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
       false
     end
 
