@@ -48,7 +48,7 @@ ko:
         other: OpenID Connect 공급자
       openid_connect/user_token:
         other: OpenID Connect 토큰
-  logout_warning: '로그아웃되었습니다. 제출한 양식의 내용이 손실될 수 있습니다. [로그인]하십시오.
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -77,7 +77,7 @@ ko:
       display_name: 공급자 이름입니다. 로그인 버튼으로 표시되며 공급자 목록에 표시됩니다.
       endpoint_url: OpenID Connect 공급자가 귀하에게 제공한 엔드포인트 URL
       group_regexes: 라인별로 하나의 정규 표현식 패턴을 사용하세요. 작업 방법에 대한 자세한 내용은 [설명서](docs_url)를 참조하세요.
-      group_regexes_detail: 선택적으로 정규 표현식을 사용하여 그룹 클레임의 그룹 이름과 일치하는 패턴을 정의할 수 있습니다. 예를 들어, <code>^Level1/Level2/([\w/]+)$</code> 같은 패턴을 입력하면 응답에서 “Level1/Level2/GroupName/SubGroup”을 포함한 “Groupname/SubGroup” 그룹이 추출됩니다. 일치하는 패턴이 없으면 해당 그룹은 무시됩니다. 전체 그룹 이름을 사용하여 모든 그룹을 동기화하려면 비워 두세요.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: "'패턴 테스트'를 클릭하여 샘플 OIDC 사용자 정보에 대해 정규 표현식 패턴을 테스트하세요."
       group_sync: ID 공급자로부터 그룹 멤버십 정보를 자동으로 추출하고 동기화합니다.
       groups_claim: 사용자가 속한 그룹 이름을 나타내는 클레임의 이름을 지정합니다.
@@ -102,7 +102,7 @@ ko:
       oidc_information: 이러한 값은 OpenID Connect 공급자를 구성하는 데 필요합니다.
       post_logout_redirect_uri: 로그아웃 요청 후 OpenID Connect 공급자가 리디렉션해야 하는 URL입니다.
       scope: 사용자 지정 범위를 요청하려면 여기에 하나 이상의 범위 값을 공백으로 구분하여 추가할 수 있습니다. 자세한 내용은 [OpenID Connect 설명서](docs_url)를 참조하세요.
-      tenant: 해당되는 경우 기본 테넌트를 고유한 테넌트로 교체하세요. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">여기</a>를 참조하세요.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID 공급자
     providers:
       client_details_description: OIDC 클라이언트인 OpenProject의 구성 세부 정보

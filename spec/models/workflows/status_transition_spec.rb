@@ -35,21 +35,21 @@ RSpec.describe Workflows::StatusTransition do
     shared_let(:status0) { create(:status) }
     shared_let(:status1) { create(:status) }
     shared_let(:role) { create(:project_role) }
-    shared_let(:variant) { create(:type).default_variant }
+    shared_let(:source_workflow) { create(:named_workflow) }
     shared_let(:role_target) { create(:project_role) }
-    shared_let(:variant_target) { create(:type).default_variant }
+    shared_let(:target_workflow) { create(:named_workflow) }
     shared_let(:role_target2) { create(:project_role) }
-    shared_let(:variant_target2) { create(:type).default_variant }
+    shared_let(:target_workflow2) { create(:named_workflow) }
 
     shared_examples_for "copied workflow" do
-      let(:expected_variant) { variant_target }
+      let(:expected_workflow) { target_workflow }
       let(:expected_role) { role_target }
 
       it { expect(subject.old_status).to eq(workflow_src.old_status) }
 
       it { expect(subject.new_status).to eq(workflow_src.new_status) }
 
-      it { expect(expected_variant.workflow_id).to eq(subject.workflow_id) }
+      it { expect(subject.workflow).to eq(expected_workflow) }
 
       it { expect(subject.role).to eq(expected_role) }
 
@@ -63,11 +63,11 @@ RSpec.describe Workflows::StatusTransition do
         create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant: variant,
+               workflow: source_workflow,
                role:)
       end
 
-      before { described_class.copy(variant, role, variant_target, role_target) }
+      before { described_class.copy(source_workflow, role, target_workflow, role_target) }
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("id DESC")).first }
@@ -79,12 +79,12 @@ RSpec.describe Workflows::StatusTransition do
         create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant: variant,
+               workflow: source_workflow,
                role:,
                author: true)
       end
 
-      before { described_class.copy(variant, role, variant_target, role_target) }
+      before { described_class.copy(source_workflow, role, target_workflow, role_target) }
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("id DESC")).first }
@@ -96,12 +96,12 @@ RSpec.describe Workflows::StatusTransition do
         create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant: variant,
+               workflow: source_workflow,
                role:,
                assignee: true)
       end
 
-      before { described_class.copy(variant, role, variant_target, role_target) }
+      before { described_class.copy(source_workflow, role, target_workflow, role_target) }
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("id DESC")).first }
@@ -113,104 +113,62 @@ RSpec.describe Workflows::StatusTransition do
         create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant: variant,
+               workflow: source_workflow,
                role:)
       end
 
-      before { described_class.copy(variant, role, [variant_target, variant_target2], [role_target, role_target2]) }
+      before { described_class.copy(source_workflow, role, [target_workflow, target_workflow2], [role_target, role_target2]) }
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).first }
 
         let(:expected_role) { role_target2 }
-        let(:expected_variant) { variant_target2 }
+        let(:expected_workflow) { target_workflow2 }
       end
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).second }
 
         let(:expected_role) { role_target }
-        let(:expected_variant) { variant_target2 }
+        let(:expected_workflow) { target_workflow2 }
       end
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).third }
 
         let(:expected_role) { role_target2 }
-        let(:expected_variant) { variant_target }
+        let(:expected_workflow) { target_workflow }
       end
 
       it_behaves_like "copied workflow" do
         subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).fourth }
 
         let(:expected_role) { role_target }
-        let(:expected_variant) { variant_target }
+        let(:expected_workflow) { target_workflow }
       end
     end
 
-    context "when copying from one role to another of the same variant" do
+    context "when copying from one role to another of the same workflow" do
       let!(:workflow_src) do
         create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant: variant,
+               workflow: source_workflow,
                role:)
       end
 
-      let!(:original_workflow_id) { variant.workflow_id }
-
-      before { described_class.copy(variant, role, [variant], [role_target]) }
-
-      it "keeps the variant on its workflow" do
-        expect(variant.reload.workflow_id).to eq(original_workflow_id)
-      end
+      before { described_class.copy(source_workflow, role, [source_workflow], [role_target]) }
 
       it "keeps the transitions of the source role" do
-        expect(described_class.where(workflow_id: variant.workflow_id, role_id: role.id).pluck(:id))
+        expect(described_class.where(workflow: source_workflow, role_id: role.id).pluck(:id))
           .to contain_exactly(workflow_src.id)
       end
 
       it "copies the transitions onto the target role" do
-        expect(described_class.where(workflow_id: variant.workflow_id, role_id: role_target.id)
+        expect(described_class.where(workflow: source_workflow, role_id: role_target.id)
                               .pluck(:old_status_id, :new_status_id))
           .to contain_exactly([status0.id, status1.id])
       end
     end
-
-    context "when a target variant shares the source's workflow" do
-      let!(:workflow_src) do
-        create(:status_transition,
-               old_status: status0,
-               new_status: status1,
-               type_variant: variant,
-               role:)
-      end
-
-      before do
-        variant_target.update!(workflows_source: variant)
-        described_class.copy(variant, role, [variant_target], [role_target])
-      end
-
-      it "moves the target onto a workflow of its own" do
-        expect(variant_target.reload.workflow_id).not_to eq(variant.workflow_id)
-      end
-
-      it "leaves the source workflow untouched" do
-        expect(described_class.where(workflow_id: variant.workflow_id).pluck(:id))
-          .to contain_exactly(workflow_src.id)
-      end
-    end
-  end
-
-  describe "self.eligible_roles" do
-    subject { described_class.eligible_roles }
-
-    let!(:project_roles) { create_list(:project_role, 3) }
-
-    before do
-      create(:global_role)
-    end
-
-    it { is_expected.to match_array(project_roles) }
   end
 end

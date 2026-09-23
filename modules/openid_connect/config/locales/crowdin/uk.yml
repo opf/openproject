@@ -54,7 +54,7 @@ uk:
         few: Маркери OpenID Connect
         many: Маркери OpenID Connect
         other: Маркери OpenID Connect
-  logout_warning: 'Ви вийшли з системи. Вміст будь-якої форми, яку ви надішлете, може бути втрачено. Спробуйте, [увійти].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -83,7 +83,7 @@ uk:
       display_name: Ім’я постачальника послуг. Відображатиметься як кнопка входу й пункт у списку постачальників послуг.
       endpoint_url: URL-адреса кінцевої точки, надана вам постачальником послуг OpenID Connect
       group_regexes: Використовуйте один шаблон регулярного виразу на рядок. Щоб дізнатися більше про те, як це робити, перегляньте [документацію](docs_url).
-      group_regexes_detail: За потреби визначте шаблони, використовуючи регулярні вирази, щоб отримати відповідні назви груп із запиту груп. Наприклад, якщо ввести шаблон на зразок <code>^Level1/Level2/([\w/]+)$</code>, ви отримаєте групу Groupname/SubGroup із відповіді, що містить запис Level1/Level2/GroupName/SubGroup. Якщо немає шаблонів, які відповідають запису, відповідну групу буде проігноровано. Щоб синхронізувати всі групи, використовуючи їх повні назви, не вказуйте нічого.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Натисніть «Тестовий шаблон», щоб протестувати свій шаблон регулярного виразу на зразку інформації про користувача OIDC.
       group_sync: Автоматично отримувати й синхронізувати інформацію про членство в групі від постачальника ідентифікаційних даних.
       groups_claim: Укажіть назву запиту, яка має вказувати на назви груп, членом яких є користувач.
@@ -108,7 +108,7 @@ uk:
       oidc_information: Ці значення потрібні для налаштування постачальника OpenID Connect.
       post_logout_redirect_uri: URL-адреса, на яку постачальник послуг OpenID Connect має виконувати переспрямування після отримання запиту на вихід.
       scope: Якщо ви хочете запросити користувацькі області, ви можете додати одне або кілька значень областей, розділених пробілами, тут. Для отримання додаткової інформації дивіться [OpenID Connect documentation](docs_url).
-      tenant: Замініть клієнта за замовчуванням власним, якщо це можливо. Див. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">тут</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: Постачальники OpenID
     providers:
       client_details_description: Деталі конфігурації OpenProject як клієнта OIDC

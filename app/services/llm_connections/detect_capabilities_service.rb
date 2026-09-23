@@ -83,7 +83,7 @@ module LlmConnections
     # A model an administrator switched off is not going to be bound to a
     # feature, so a speculative probe against it is a request spent for nothing.
     def candidates
-      connection.selectable_model_ids
+      connection.available_model_ids
                 .grep(EMBEDDING_NAME_HINT)
                 .reject { |model_id| admin_asserted?(model_id) }
                 .first(BACKGROUND_LIMIT)

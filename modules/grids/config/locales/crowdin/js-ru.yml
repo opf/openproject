@@ -35,13 +35,13 @@ ru:
         project_timeline:
           accessible_date_range: "%{start} до %{end}"
           accessible_gate: 'Контрольная точка фазы %{name}: %{date}'
-          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_milestone: 'Этап %{name}: %{date}'
           accessible_phase: 'Фаза %{name}: %{date}'
-          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          accessible_sprint: 'Спринт %{name}: %{date}. Статус: %{status}'
           sprint_status:
-            active: Active
-            completed: Completed
-            in_planning: In planning
+            active: Активен
+            completed: Завершён
+            in_planning: В планировании
           tooltip_type_gate: Контрольная точка фазы
           tooltip_type_milestone: Веха
           tooltip_type_phase: Фаза

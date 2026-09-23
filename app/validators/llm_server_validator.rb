@@ -43,13 +43,23 @@ class LlmServerValidator < ActiveModel::EachValidator
 
   # Statuses that mean "this server has no model list here", as opposed to "this
   # server is broken". A gateway may route chat completions and nothing else.
-  MODELS_ENDPOINT_ABSENT = [404, 405, 501].freeze
+  #
+  # 405 and 501 say the path routed and the method or the feature is missing,
+  # which only a server that really does serve this URL can answer. 404 is
+  # deliberately not here: it is what a mistyped path and a missing version
+  # segment both return, and treating it as "reachable and authenticated" let a
+  # wrong URL save silently, along with an API key nothing had checked.
+  MODELS_ENDPOINT_ABSENT = [405, 501].freeze
 
+  # The address check and the model-list probe are independent: where the server
+  # lives is worth refusing whatever dialect it speaks, and a registry-backed
+  # format still has inference sent to this URL. Only the probe is skipped for
+  # the formats that have no catalogue here.
   def validate_each(contract, attribute, value)
     return if value.blank?
-    return unless queries_the_server?(contract)
     return unless connection_changed?(contract)
     return unless host_allowed?(contract, attribute, value)
+    return unless queries_the_server?(contract)
 
     probe(contract, attribute, value)
   end
@@ -66,9 +76,11 @@ class LlmServerValidator < ActiveModel::EachValidator
     contract.model.changed_attributes.keys.intersect?(CONNECTION_ATTRIBUTES)
   end
 
-  # A pre-flight check purely so the administrator gets an actionable message
-  # naming the environment variable, rather than a bare connection failure from
-  # the transport-level SSRF filter.
+  # The only SSRF guard a registry-backed connection gets: RubyLLM's Faraday
+  # stack carries chat and embeddings, and is not filtered the way
+  # OpenProject.httpx is. For the live-discovery formats it is also a pre-flight
+  # check, so the administrator gets a message naming the environment variable
+  # rather than a bare connection failure from the transport-level filter.
   def host_allowed?(contract, attribute, value)
     host = URI.parse(value).host
     return false if host.blank?
@@ -138,11 +150,18 @@ class LlmServerValidator < ActiveModel::EachValidator
   def add_api_error(contract, attribute, error)
     return if error.status.in?(MODELS_ENDPOINT_ABSENT)
 
+    return contract.errors.add(attribute, :models_endpoint_missing) if error.status == 404
+
     contract.errors.add(attribute, :not_openai_compatible)
   end
 
+  # Same headers inference sends, or the probe speaks a different dialect than
+  # the traffic it is meant to be proving: a gateway needing its own header would
+  # fail verification on every edit while working at runtime.
   def client(contract, base_url)
-    Llm::Client.new(base_url:, api_key: contract.model.api_key)
+    Llm::Client.new(base_url:,
+                    api_key: contract.model.api_key,
+                    headers: contract.model.custom_headers)
   end
 
   # The upstream message is logged but never surfaced: an OpenAI-compatible

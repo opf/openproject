@@ -36,20 +36,13 @@ module Storages::Admin
         label: I18n.t("activerecord.attributes.storages/storage.tenant"),
         visually_hide_label: false,
         required: true,
-        caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
+        caption: helpers.link_translate(
+          "storages.instructions.one_drive.tenant_id_html",
+          links: { application_link: %i[storage_docs one_drive_oauth_application] }
+        ),
         placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder"),
         input_width: :large
       )
-    end
-
-    private
-
-    def caption
-      href = ::OpenProject::Static::Links.url_for(:storage_docs, :one_drive_oauth_application)
-      I18n.t("storages.instructions.one_drive.tenant_id",
-             application_link_text: render(Primer::Beta::Link.new(href:, underline: true, target: "_blank")) do
-               I18n.t("storages.instructions.one_drive.application_link_text")
-             end)
     end
   end
 end

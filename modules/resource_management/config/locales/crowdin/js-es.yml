@@ -2,4 +2,4 @@
 es:
   js:
     resource_management:
-      create_placeholder_user: Create placeholder user with filter criteria
+      create_placeholder_user: Crear un usuario comodín con criterios de filtrado

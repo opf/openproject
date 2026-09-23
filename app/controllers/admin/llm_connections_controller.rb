@@ -38,6 +38,8 @@ module Admin
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
+    before_action :require_stored_connection,
+                  only: %i[disconnect disconnect_dialog delete_api_key delete_api_key_dialog]
 
     def show; end
 
@@ -46,7 +48,7 @@ module Admin
                  .new(user: current_user, model: @connection)
                  .call(**llm_connection_params)
 
-      result.on_success { redirect_after_save }
+      result.on_success { refresh_models_then_redirect(result.result) }
       result.on_failure { render_form_with_errors }
     end
 
@@ -77,6 +79,14 @@ module Admin
 
     private
 
+    # active_connection hands back an unsaved record when nothing is stored, and
+    # writing to that inserts a row that fails its own validations. The show page
+    # hides both menu entries behind persisted?; the routes do not, so a
+    # bookmarked or hand-typed URL arrives here.
+    def require_stored_connection
+      render_404 unless @connection.persisted?
+    end
+
     def set_connection
       @connection = LlmConnection.active_connection
     end
@@ -85,6 +95,17 @@ module Admin
     # must not accept writes just because somebody knows the URL.
     def require_feature
       render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
+    end
+
+    # Synchronous, because the flash below reports what the catalogue holds. The
+    # contract has already proven the server reachable when the credentials
+    # changed, so this cannot be the thing that fails the save: a sync failure is
+    # logged by the service and shows up as the "no models" warning.
+    def refresh_models_then_redirect(connection)
+      ::LlmConnections::SyncModelsService.new(connection).call if
+        ::LlmConnections::UpdateService.models_to_refresh?(connection)
+
+      redirect_after_save
     end
 
     # A connection can be perfectly usable without offering a model list, so the

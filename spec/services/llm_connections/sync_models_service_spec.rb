@@ -65,13 +65,40 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.reload).to be_models_stale
     end
 
-    it "keeps administrator assertions and re-activates what the new server reports" do
+    it "keeps administrator assertions and re-fetches what the new server reports" do
       mock_llm_models_response("https://elsewhere.example/v1")
 
       described_class.new(connection).call
 
       expect(connection.capability_verdicts.where(source: "admin").pluck(:capability)).to eq(["embeddings"])
       expect(connection.models.active.pluck(:external_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
+    end
+
+    # Switched off was not enough: the rows stayed in the list, and a list of a
+    # server this connection no longer talks to is a leftover, not a catalogue.
+    it "deletes the models the previous server offered" do
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      expect { service.call }.to change { connection.models.discovered.count }.to(0)
+    end
+
+    it "keeps a model an administrator entered by hand" do
+      create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(connection.models.manual.pluck(:external_id)).to eq(["hand-typed"])
+    end
+
+    # on_delete: :nullify on the two default_*_model_id foreign keys.
+    it "lets go of a connection default that named a model the previous server offered" do
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(connection.reload.default_chat_model_id).to be_nil
     end
   end
 
@@ -96,18 +123,38 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.reload.display_name).to eq("The house model")
     end
 
-    it "adopts the display name the adapter reports" do
+    # What the server calls a model is metadata; what an administrator calls it is
+    # the column. A refresh may update the first and never the second, which the
+    # registry-backed adapters used to break by naming every card.
+    it "keeps the administrator's name and files the reported one beside it" do
       llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
       llm_model.update!(display_name: "The house model")
       allow(Llm::Adapters).to receive(:for).and_return(
         instance_double(Llm::Adapters::RegistryBacked,
-                        models: [{ id: "qwen3.6-27b", display_name: "Qwen 3.6 27B", raw: {} }],
+                        models: [{ id: "qwen3.6-27b", raw: { "name" => "Qwen 3.6 27B" } }],
                         server_flavour: "anthropic")
       )
 
       described_class.new(connection).call
 
-      expect(llm_model.reload.display_name).to eq("Qwen 3.6 27B")
+      expect(llm_model.reload.display_name).to eq("The house model")
+      expect(llm_model.name).to eq("The house model")
+      expect(llm_model.raw_metadata["name"]).to eq("Qwen 3.6 27B")
+    end
+
+    # The everyday case: the same server still answers, one model is simply gone.
+    it "withdraws a model the server stopped reporting and drops its verdict" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      mock_llm_models_response(base_url, models: [{ id: "qwen3.6-27b", object: "model" }])
+
+      described_class.new(connection).call
+
+      expect(connection.models.find_by(external_id: "bge-m3")).to be_withdrawn
+      expect(connection.models.find_by(external_id: "qwen3.6-27b")).to be_active
+      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["qwen3.6-27b"])
     end
 
     it "drops every non-admin verdict when the catalogue comes back empty" do
@@ -122,6 +169,23 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       described_class.new(connection).call
 
       expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+    end
+
+    it "refuses a card that claims an administrator's context window" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "qwen3.6-27b", admin_context_window: 999, max_model_len: 4096 }])
+
+      described_class.new(connection).call
+
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      expect(llm_model.raw_metadata).not_to have_key("admin_context_window")
+      expect(llm_model.context_window_source).to eq(:server)
+    end
+
+    it "fails rather than raising when a card cannot be stored" do
+      mock_llm_models_response(base_url, models: [{ id: "x" * 600, object: "model" }])
+
+      expect(described_class.new(connection).call).to be_failure
     end
   end
 

@@ -46,8 +46,10 @@ module Storages::Admin::Forms
     end
 
     def storage_provider_credentials_instructions
-      I18n.t("storages.instructions.#{storage}.oauth_configuration",
-             application_link_text: send(:"#{storage}_integration_link")).html_safe
+      helpers.link_translate(
+        "storages.instructions.#{storage}.oauth_configuration_html",
+        links: { application_link: oauth_application_link }
+      )
     end
 
     private
@@ -56,19 +58,12 @@ module Storages::Admin::Forms
       options[:oauth_client] || storage.oauth_client
     end
 
-    def one_drive_integration_link(target: "_blank")
-      href = ::OpenProject::Static::Links.url_for(:storage_docs, :one_drive_oauth_application)
-      render(Primer::Beta::Link.new(href:, underline: true, target:)) { I18n.t("storages.instructions.one_drive.application_link_text") }
-    end
-
-    def sharepoint_integration_link(target: "_blank")
-      href = ::OpenProject::Static::Links.url_for(:storage_docs, :sharepoint_oauth_application)
-      render(Primer::Beta::Link.new(href:, underline: true, target:)) { I18n.t("storages.instructions.sharepoint.application_link_text") }
-    end
-
-    def nextcloud_integration_link(target: "_blank")
-      href = Storages::UrlBuilder.url(storage.uri, "settings/admin/openproject")
-      render(Primer::Beta::Link.new(href:, underline: true, target:)) { I18n.t("storages.instructions.nextcloud.integration") }
+    def oauth_application_link
+      if storage.provider_type_nextcloud?
+        Storages::UrlBuilder.url(storage.uri, "settings/admin/openproject")
+      else
+        [:storage_docs, :"#{storage}_oauth_application"]
+      end
     end
 
     def first_time_configuration?

@@ -95,8 +95,8 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "nomic-embed-text")
     end
 
-    it "leaves out a model an administrator switched off" do
-      create(:llm_model, :deactivated, llm_connection: connection, external_id: "nomic-embed-text")
+    it "leaves out a model the server has withdrawn" do
+      create(:llm_model, :withdrawn, llm_connection: connection, external_id: "nomic-embed-text")
 
       service.detect_likely_embedding_models
 
