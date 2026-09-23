@@ -1,5 +1,5 @@
 @if (autocompleter.loadedLabels$ | async; as items) {
-  @if (showCreateOption(items)) {
+  @if ((autocompleter.loading$ | async) !== true && showCreateOption(items)) {
     <button
       class="op-select-footer--label"
       type="button"
