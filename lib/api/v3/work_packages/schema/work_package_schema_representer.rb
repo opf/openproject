@@ -478,7 +478,7 @@ module API
           def labels_autocompleter
             project_id = represented.work_package&.project_id
 
-            api_v3_paths.labels_by_project(project_id) if project_id
+            api_v3_paths.labels_by_workspace(project_id) if project_id
           end
 
           def assignee_user_autocompleter

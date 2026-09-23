@@ -653,6 +653,8 @@ paths:
     "$ref": "./paths/workspace_work_packages_form.yml"
   "/api/v3/workspaces/{id}/versions":
     "$ref": "./paths/workspace_versions.yml"
+  "/api/v3/workspaces/{id}/labels":
+    "$ref": "./paths/workspace_labels.yml"
   "/api/v3/workspaces/schema":
     "$ref": "./paths/workspaces_schema.yml"
 

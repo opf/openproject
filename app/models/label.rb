@@ -32,8 +32,25 @@ class Label < ApplicationRecord
   belongs_to :author, class_name: "User"
   has_many :labelings, dependent: :delete_all
 
+  USAGE_COUNT_SQL = "(SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id)"
+
   scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
+    select("labels.*, #{USAGE_COUNT_SQL} AS usage_count")
+  }
+
+  scope :ordered_by_relevance_for, ->(project) {
+    used_in_project = Labeling
+                        .where(labelable_type: WorkPackage.name)
+                        .where(Labeling.arel_table[:label_id].eq(arel_table[:id]))
+                        .joins("INNER JOIN work_packages ON work_packages.id = labelings.labelable_id")
+                        .where(work_packages: { project_id: project })
+                        .arel
+                        .exists
+
+    with_usage_count
+      .order(used_in_project.desc)
+      .order(Arel.sql("#{USAGE_COUNT_SQL} DESC"))
+      .order(arel_table[:name].lower.asc)
   }
 
   normalizes :name, with: -> { it.squish }
