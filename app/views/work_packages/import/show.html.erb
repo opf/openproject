@@ -26,6 +26,7 @@
     }
   ) do
 %>
+  <%= render Primer::Box.new(id: "import_announcement", classes: "sr-only", aria: { live: :polite }) %>
   <%= render partial: "work_packages/import/report" %>
   <%= render partial: "work_packages/import/form" %>
 <% end %>

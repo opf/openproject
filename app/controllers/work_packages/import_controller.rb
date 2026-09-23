@@ -85,7 +85,17 @@ class WorkPackages::ImportController < ApplicationController
 
   def report_streams
     [turbo_stream.replace("import_report", partial: "work_packages/import/report"),
-     turbo_stream.replace("import_form", partial: "work_packages/import/form")]
+     turbo_stream.replace("import_form", partial: "work_packages/import/form"),
+     turbo_stream.update("import_announcement", import_announcement)]
+  end
+
+  # Empty while the run is under way: a line written into the live region on every poll would be
+  # read out every two seconds. It is filled once, by the poll that finds the run over.
+  def import_announcement
+    return @error.to_s if @error.present?
+    return "" if @status.blank? || import_running?
+
+    t("work_packages.import.report.announcement.#{import_outcome}")
   end
 
   def load_status
