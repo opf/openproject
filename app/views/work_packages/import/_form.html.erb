@@ -1,12 +1,3 @@
-<%
-  outcome = @status&.payload&.dig("outcome")
-  running = @status.present? && outcome.blank?
-  checked = outcome == "checked"
-  # A run that produced something leaves nothing to fill in: the report carries the next step.
-  # Unless the upload was just refused, which is the one case that needs the form back.
-  settled = %w[checked imported].include?(outcome) && @error.blank?
-%>
-
 <%= render Primer::Box.new(id: "import_form") do %>
   <% if @error.present? %>
     <%
@@ -24,9 +15,9 @@
     <%= render partial: "work_packages/import/guidance" %>
   <% end %>
 
-  <% unless running || settled %>
+  <% unless import_running? || import_settled? %>
     <%= form_with url: import_project_work_packages_path(@project), method: :post, multipart: true do |f| %>
-      <%= hidden_field_tag :job, @status&.job_id if checked %>
+      <%= hidden_field_tag :job, @status&.job_id if import_checked? %>
 
       <%= render Primer::Box.new(mb: 3) do %>
         <%= f.label :file, t("work_packages.import.file_label"), class: "form--label" %>
@@ -69,7 +60,7 @@
       <%= render Primer::Box.new(mb: 3) do %>
         <%=
           f.check_box :dry_run,
-                      checked: !checked,
+                      checked: !import_checked?,
                       data: { work_packages__csv_import_target: "dryRun",
                               action: "change->work-packages--csv-import#nameTheAction" }
         %>
@@ -90,7 +81,7 @@
         )
       %>
       <%= render Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2") do %>
-        <%= render(button) { checked ? t("work_packages.import.import_file") : t("work_packages.import.check_file") } %>
+        <%= render(button) { import_checked? ? t("work_packages.import.import_file") : t("work_packages.import.check_file") } %>
 
         <% if @status.present? || @error.present? %>
           <%
