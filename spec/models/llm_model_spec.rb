@@ -70,4 +70,19 @@ RSpec.describe LlmModel do
       expect(model).not_to be_withdrawn
     end
   end
+
+  describe "a feature binding", :llm_server_helpers, :webmock,
+           with_flag: { llm_connection: true }, with_settings: { llm_features_enabled: true } do
+    let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
+
+    it "keeps the bound model available and resolves the feature to it" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      resolution = Llm::Runtime.for(:description_assistant)
+
+      expect(connection.available_model_ids).to include("qwen3.6-27b")
+      expect(resolution).to be_ready
+      expect(resolution.model_id).to eq("qwen3.6-27b")
+    end
+  end
 end
