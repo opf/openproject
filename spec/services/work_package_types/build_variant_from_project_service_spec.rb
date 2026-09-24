@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
   shared_let(:admin) { create(:admin) }
 
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
@@ -100,7 +100,7 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
     it "excludes only the disabled custom field from the form configuration" do
       variant = service_call.result
 
-      expect(variant.effective_excluded_elements(form_configuration))
+      expect(variant.excluded_elements(form_configuration))
         .to contain_exactly(dropped_field.attribute_name)
     end
 
@@ -213,17 +213,15 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
       expect(service_call.result.variant_name).to eq("Regression - Website Relaunch")
     end
 
-    it "links every aspect to the source variant" do
+    it "links every aspect to the type's base variant" do
       variant = service_call.result
 
       TypeVariant::ASPECTS.each do |aspect|
-        expect(variant.source_for(aspect)).to eq(source)
+        expect(variant.source_for(aspect)).to eq(type.default_variant)
       end
     end
 
-    # The source is a global variant and the new one is a project's. That is the combination a
-    # variant may borrow from, so the links above have to survive validation.
-    it "owns the variant while borrowing a configuration nobody owns" do
+    it "owns the variant while inheriting the type's configuration" do
       expect(service_call.result.project).to eq(project)
       expect(source.project).to be_nil
     end
@@ -231,7 +229,7 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
     it "accumulates the source variant's exclusions with the project's" do
       variant = service_call.result
 
-      expect(variant.effective_excluded_elements(form_configuration))
+      expect(variant.excluded_elements(form_configuration))
         .to contain_exactly(dropped_field.attribute_name, third_field.attribute_name)
       expect(variant.custom_fields).to contain_exactly(kept_field)
     end

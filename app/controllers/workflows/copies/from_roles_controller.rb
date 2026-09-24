@@ -51,7 +51,8 @@ class Workflows::Copies::FromRolesController < ApplicationController
       )
       @turbo_status = :unprocessable_entity
     else
-      Workflow.copy(@source_variant, @source_role, [@source_variant], @target_roles)
+      workflow = @source_variant.workflow
+      Workflows::StatusTransition.copy(workflow, @source_role, [workflow], @target_roles)
 
       close_dialog_via_turbo_stream("copy_from_type_dialog")
       render_success_flash_message_via_turbo_stream(
@@ -86,6 +87,6 @@ class Workflows::Copies::FromRolesController < ApplicationController
   end
 
   def eligible_roles
-    @eligible_roles ||= Workflow.eligible_roles
+    @eligible_roles ||= Workflows::StatusTransition.eligible_roles
   end
 end

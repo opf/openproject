@@ -193,6 +193,7 @@ Rails.application.routes.draw do
         member do
           put :drop
           put :move
+          put :toggle_required
         end
       end
     end
@@ -207,7 +208,6 @@ Rails.application.routes.draw do
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog
-      post :confirm
       post :switch
     end
 
@@ -232,13 +232,18 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      get :change_dialog
+      patch :change
+
+      get :create_dialog
+      post :create
+
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
       end
 
       resource :copy, only: %i[new], controller: "/workflows/copies" do
-        resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
     end
@@ -263,7 +268,7 @@ Rails.application.routes.draw do
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
   end
 
-  resources :types, module: "work_package_types", except: [:update] do
+  resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
       post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
@@ -271,6 +276,7 @@ Rails.application.routes.draw do
 
     member do
       get :menu
+      get :deletion_dialog
       put :drop
       post :duplicate
     end
@@ -284,10 +290,16 @@ Rails.application.routes.draw do
     nested do
       scope "(in-project/:in_project_id)" do
         resources :variants, controller: "variants", only: %i[index destroy] do
+          collection do
+            get :comparison
+          end
+
           member do
             get :menu
             post :make_default
             post :remove_default
+            get :convert_to_global_dialog
+            post :convert_to_global
             get :deletion_dialog
             post :deletion_preview
           end
@@ -307,7 +319,28 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :statuses, except: :show
+  resources :statuses, except: :show do
+    member do
+      put :move
+    end
+  end
+
+  resources :workflows, only: %i[index], controller: "workflows/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    member do
+      get :edit_dialog
+    end
+
+    resource :matrix, only: %i[show update], controller: "workflows/matrix" do
+      get :status_dialog
+      post :confirm_statuses
+    end
+  end
 
   get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
@@ -482,8 +515,6 @@ Rails.application.routes.draw do
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
-            patch :bulk_update, on: :collection
-
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end
@@ -590,10 +621,11 @@ Rails.application.routes.draw do
       get "(/:tab)" => "work_packages#show", on: :member, as: "",
           constraints: { id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT, state: /(?!(shares|copy|dialog)).+/ }
 
-      # states managed by client-side routing on work_package#index
-      get "(/*state)" => "work_packages#index", on: :collection, as: "", constraints: { state: /(?!(dialog|new)).+/ }
+      get "details/:work_package_id(/:tab)" => "work_packages#split_view", on: :collection, as: :details,
+          defaults: { tab: "overview" }, work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
-      get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
+      get "/create_new" => "work_packages#split_create", on: :collection, as: "new_split", work_package_split_create: true
     end
 
     namespace :work_packages do
@@ -696,6 +728,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/roles/:role_id/permissions_dialog" => "roles/permissions_dialogs#show", as: :role_permissions_dialog
+
   scope "admin" do
     resource :announcements, only: %i[edit update]
 
@@ -758,6 +792,7 @@ Rails.application.routes.draw do
 
     resources :roles, except: %i[show] do
       member do
+        get :deletion_dialog
         put :drop
       end
 
@@ -1024,6 +1059,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :labels, only: %i[index create update destroy] do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        get :new_dialog, defaults: { format: :turbo_stream }
+      end
+      member do
+        get :edit_dialog, defaults: { format: :turbo_stream }
+        get :deletion_dialog, defaults: { format: :turbo_stream }
+      end
+    end
+
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
         get :reset_token_dialog
@@ -1033,6 +1079,8 @@ Rails.application.routes.draw do
         post :delete_token
       end
     end
+
+    resources :members, only: %i[index]
 
     resources :departments,
               only: %i[index show edit update destroy] do
@@ -1089,8 +1137,9 @@ Rails.application.routes.draw do
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
 
-    # states managed by client-side routing on work_package#index
-    get "details/*state" => "work_packages#index", on: :collection, as: :details
+    get "details/:work_package_id(/:tab)" => "work_packages#split_view", on: :collection, as: :details,
+        defaults: { tab: "overview" }, work_package_split_view: true,
+        constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
     resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
       member do
@@ -1110,6 +1159,10 @@ Rails.application.routes.draw do
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"
+
+    resources :children, only: %i[new create], controller: "work_package_children" do
+      post :refresh_form, on: :collection
+    end
 
     resource :progress, only: %i[edit update], controller: "work_packages/progress" do
       get :preview, on: :member
@@ -1163,7 +1216,7 @@ Rails.application.routes.draw do
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
-    get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
+    get "/create_new" => "work_packages#split_create", on: :collection, as: "new_split", work_package_split_create: true
 
     get "/share_upsell" => "work_packages#share_upsell", on: :collection, as: "share_upsell"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
@@ -1225,6 +1278,8 @@ Rails.application.routes.draw do
     member do
       get "/edit(/:tab)" => "placeholder_users#edit", as: "edit"
       get :deletion_info
+      get :update_criteria
+      post :toggle_criteria
     end
   end
 

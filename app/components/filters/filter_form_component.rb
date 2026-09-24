@@ -75,6 +75,11 @@
 # embedded in a Primer dialog so the overlays the filter inputs open (ng-select
 # dropdowns and flatpickr calendars) are portalled into the dialog instead of
 # being clipped by it or rendered behind it.
+#
+# The inputs are capped at a readable width by default. Pass `full_width: true`
+# where they should instead stretch to the full width of whatever contains the
+# component. Only meaningful together with `wrap_with_controller: true`; without
+# it the host's wrapper decides.
 class Filters::FilterFormComponent < ApplicationComponent
   include OpPrimer::AttributesHelper
   include Primer::FetchOrFallbackHelper
@@ -89,6 +94,7 @@ class Filters::FilterFormComponent < ApplicationComponent
                  hidden_input_name: nil,
                  output_format: nil,
                  dialog_id: nil,
+                 full_width: false,
                  **wrapper_arguments)
     super()
     @builder = builder
@@ -102,6 +108,7 @@ class Filters::FilterFormComponent < ApplicationComponent
     @wrapper_arguments[:tag] ||= :div
     @wrapper_arguments[:classes] = class_names(
       "op-filters-form -expanded",
+      ("op-filters-form--full-width" if full_width),
       @wrapper_arguments[:classes]
     )
     @wrapper_arguments[:data] = merge_data(

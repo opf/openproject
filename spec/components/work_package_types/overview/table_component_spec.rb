@@ -31,8 +31,7 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Overview::TableComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { type.default_variant }
 
@@ -40,7 +39,7 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
     [
       { name: TypesHelper::SETTINGS_TAB, path: "/overview", label: "Overview", aspect: nil },
       { name: "details", path: "/details", label: "Details", aspect: nil },
-      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::WORKFLOWS }
+      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::DEFAULTS }
     ]
   end
 

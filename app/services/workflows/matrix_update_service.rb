@@ -29,33 +29,25 @@
 #++
 
 module Workflows
-  # Rewrites one tab of a variant's transition matrix for every selected role, delegating
-  # the per-role write to BulkUpdateService so that either all roles are updated or none.
-  #
-  # Accepts the matrix straight from the submitted form, so that every context showing
-  # the matrix — the workflow tab, the type creation wizard — persists it identically.
   class MatrixUpdateService
-    def initialize(variant:, roles:, tab:)
-      @variant = variant
+    def initialize(workflow:, roles:, tab:)
+      @workflow = workflow
       @roles = roles
       @tab = tab
     end
 
-    # A linked variant reuses its source's transitions and must never have its own rewritten.
     def call(status: nil, indeterminate_status: nil)
-      return ServiceResult.success if variant.linked?(TypeVariant::WORKFLOWS)
-
       persist(transitions: matrix(status), indeterminate: matrix(indeterminate_status))
     end
 
     private
 
-    attr_reader :variant, :roles, :tab
+    attr_reader :workflow, :roles, :tab
 
     def persist(transitions:, indeterminate:)
       results = []
 
-      Workflow.transaction do
+      Workflows::StatusTransition.transaction do
         results = roles.map { update_role(it, transitions, indeterminate) }
         raise ActiveRecord::Rollback unless results.all?(&:success?)
       end
@@ -70,7 +62,7 @@ module Workflows
                            restore_indeterminate(transitions, indeterminate, role)
                          end
 
-      BulkUpdateService.new(role:, variant:, tab:).call(role_transitions)
+      BulkUpdateService.new(role:, workflow:, tab:).call(role_transitions)
     end
 
     # With several roles selected, a transition only some of them share renders as an
@@ -97,8 +89,9 @@ module Workflows
     # read once up front rather than per cell. Safe to reuse across roles even as they are
     # written: a role's write only ever touches its own rows.
     def saved_transitions
-      @saved_transitions ||= Workflow
-                               .where(type_variant_id: variant.id, role_id: roles.map(&:id), author: author?, assignee: assignee?)
+      @saved_transitions ||= Workflows::StatusTransition
+                               .where(workflow_id: workflow.id, role_id: roles.map(&:id),
+                                      author: author?, assignee: assignee?)
                                .pluck(:role_id, :old_status_id, :new_status_id)
                                .to_set
     end

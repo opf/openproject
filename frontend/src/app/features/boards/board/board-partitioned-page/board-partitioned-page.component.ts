@@ -60,6 +60,7 @@ import { EMPTY, ReplaySubject } from 'rxjs';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import * as Turbo from '@hotwired/turbo';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -216,7 +217,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
 
         const url = new URL(window.location.href);
         url.searchParams.delete('query_props');
-        window.history.pushState({}, '', url);
+        Turbo.session.history.push(url);
         this.showToolbarSaveButton = false;
 
         this.toolbarDisabled = true;

@@ -142,15 +142,14 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "with a Linked source", with_flag: { type_variants: true } do
-    let(:owner) { create(:type).default_variant }
+  describe "with a Linked source" do
+    let(:source_type) { create(:type) }
+    let(:source) { create(:type_variant, type: source_type) }
 
     before do
-      owner.attribute_groups = [["owner group", %w[assignee]]]
-      owner.save!
-      owner.reload
+      source_type.default_variant.update!(attribute_groups: [["owner group", %w[assignee]]])
 
-      link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(source, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "copies the configuration the source effectively presents" do
@@ -160,12 +159,16 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "when the variant's link excludes elements", with_flag: { type_variants: true } do
+  describe "when the variant's link excludes elements" do
+    let(:source_type) { create(:type) }
+    let(:source) { source_type.default_variant }
+    let(:variant) { create(:type_variant, type: source_type) }
+
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:solo_field) { create(:work_package_custom_field, field_format: "string") }
 
-    def own_groups
+    let(:own_groups) do
       TypeVariant::ASPECTS.each { unlink_configuration(variant, aspect: it) }
 
       variant.reload.attribute_groups.to_h { |group| [group.key, group.attributes] }
@@ -183,7 +186,6 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
 
       link_configuration(
         variant,
-        source: source,
         aspect: TypeVariant::FORM_CONFIGURATION,
         excluded: [excluded_field.attribute_name, solo_field.attribute_name]
       )
@@ -209,32 +211,6 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
         .to contain_exactly("numbers", "solo", "people")
       expect(source.custom_field_ids)
         .to contain_exactly(kept_field.id, excluded_field.id, solo_field.id)
-    end
-
-    context "with exclusions accumulated over a chain" do
-      let(:owner) { create(:type).default_variant }
-
-      before do
-        # Rebuild as owner <- source <- type, each link dropping a little more.
-        TypeVariant::ASPECTS.each { unlink_configuration(variant, aspect: it) }
-        owner.attribute_groups = source.attribute_groups.map { |g| [g.key, g.attributes] }
-        owner.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
-        owner.save!
-
-        source.update!(attribute_groups: [])
-        link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION,
-                                   excluded: [excluded_field.attribute_name])
-        link_configuration(variant, source: source, aspect: TypeVariant::FORM_CONFIGURATION,
-                                    excluded: [solo_field.attribute_name])
-      end
-
-      it "applies every link's exclusions, not just the nearest one" do
-        expect(service_call).to be_success
-
-        expect(variant.reload.custom_field_ids).to contain_exactly(kept_field.id)
-        expect(own_groups.keys).to contain_exactly("numbers", "people")
-        expect(own_groups["numbers"]).to eq([kept_field.attribute_name])
-      end
     end
 
     context "with an excluded query group" do
@@ -265,22 +241,24 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "copying from an unrelated Linked type", with_flag: { type_variants: true } do
-    let(:owner) { create(:type).default_variant }
+  describe "copying from an unrelated Linked type" do
+    let(:source_type) { create(:type) }
+    let(:source) { create(:type_variant, type: source_type) }
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
 
     before do
-      owner.attribute_groups = [["numbers", [kept_field.attribute_name, excluded_field.attribute_name]]]
-      owner.custom_field_ids = [kept_field.id, excluded_field.id]
-      owner.save!
-      owner.reload
+      source_type.default_variant.update!(
+        attribute_groups: [["numbers", [kept_field.attribute_name, excluded_field.attribute_name]]],
+        custom_field_ids: [kept_field.id, excluded_field.id]
+      )
 
-      link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION,
+      link_configuration(source, aspect: TypeVariant::FORM_CONFIGURATION,
                                  excluded: [excluded_field.attribute_name])
     end
 
-    # `type` is Independent here, so its own groups are what the reader returns already.
+    # `variant` does not inherit from `source`, so the copy reads `source`'s own presentation,
+    # which already resolves through its link (dropping the excluded field).
     it "copies what that type presents, not the owner's full configuration" do
       expect(service_call).to be_success
 

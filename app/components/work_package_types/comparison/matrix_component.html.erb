@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= content_tag(:div, class: "type-variant-comparison--scroll", data: { test_selector: "variant-comparison" }) do %>
+  <div class="type-variant-comparison--grid type-variant-comparison--head" style="<%= grid_style %>">
+    <div class="type-variant-comparison--label"></div>
+    <% columns.each do |profile| %>
+      <div data-test-selector="comparison-column-<%= profile.id %>">
+        <%= render(
+              WorkPackageTypes::Comparison::ColumnHeaderComponent.new(
+                profile:, duplicates: duplicates_of(profile), same_as_type: same_as_type?(profile)
+              )
+            ) %>
+      </div>
+    <% end %>
+  </div>
+
+  <% sections.each do |section, rows| %>
+    <%= render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "comparison-#{section}",
+            padding: :condensed,
+            header_padding: :condensed,
+            collapsible: true,
+            mb: 3,
+            test_selector: "comparison-section-#{section}"
+          )
+        ) do |list| %>
+      <% list.with_header(title: section_label(section)) %>
+
+      <% rows.each do |row| %>
+        <% list.with_item(
+             id: row_id(row),
+             classes: "type-variant-comparison--grid",
+             style: grid_style
+           ) do %>
+          <div class="<%= row_classes(row) %>"><%= row_label(row) %></div>
+          <% columns.each do |profile| %>
+            <div data-test-selector="comparison-cell-<%= profile.id %>">
+              <%= render(
+                    WorkPackageTypes::Comparison::CellComponent.new(
+                      cell: comparison.cell(profile, row)
+                    )
+                  ) %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

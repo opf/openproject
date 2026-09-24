@@ -48,6 +48,7 @@ class WorkPackage < ApplicationRecord
   include ::Scopes::Scoped
   include HasMembers
   include Remindable
+  include Labelable
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -129,6 +130,7 @@ class WorkPackage < ApplicationRecord
 
   scopes :covering_dates_or_days_of_week,
          :allowed_to,
+         :allowed_to_via_share_only,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
@@ -175,7 +177,7 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
-  # makes virtual modal WorkPackageHierarchy available
+  # makes virtual model WorkPackageHierarchy available
   has_closure_tree
 
   # Add on_destroy paper trail
@@ -591,13 +593,15 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
-  # Match custom fields on the variant that owns the form configuration,
-  # excluding fields that are hidden somewhere in the source
+  # Match custom fields on the variant that owns the form configuration, excluding the ones it hides.
   def self.form_configuration_custom_fields_join(variant_ids)
-    source_table, source_variant_id, excluded = TypeVariant::FormConfigurationSql.source_table(variant_ids)
+    values = variant_ids.map { |id| "(#{id})" }.join(", ")
+    driving_table = "JOIN (VALUES #{values}) AS wp_variants(own_id) ON TRUE"
+    join, source_variant_id, excluded =
+      TypeVariant.effective_configuration_join("wp_variants.own_id", TypeVariant::FORM_CONFIGURATION)
     exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
-    "#{source_table} " \
+    "#{driving_table} #{join} " \
       "JOIN custom_fields_types cft " \
       "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
       "AND #{exclusion}"
@@ -612,6 +616,21 @@ class WorkPackage < ApplicationRecord
 
   def custom_field_cache_key
     [project_id, type_id]
+  end
+
+  ##
+  # Check whether the custom field is either required globally
+  # or in the active type/variant form configuration
+  def custom_field_required?(custom_field)
+    super || required_custom_field_ids.include?(custom_field.id)
+  end
+
+  def required_custom_field_ids
+    return [] unless project_id && type_id
+
+    RequestStore.fetch(:"work_package_required_custom_fields_#{project_id}_#{type_id}") do
+      type_variant&.required_custom_field_ids || []
+    end
   end
 
   protected

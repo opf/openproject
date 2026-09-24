@@ -27,6 +27,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Ng2StateDeclaration } from '@uirouter/angular';
 import { take } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -34,6 +35,7 @@ import { QueryParamListenerService } from 'core-app/features/work-packages/compo
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
+  ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import { WorkPackageCreateButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
@@ -49,7 +51,7 @@ import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadc
 
 @Component({
   selector: 'wp-view-page',
-  templateUrl: '../partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
     '../partitioned-query-space-page/partitioned-query-space-page.component.sass',
@@ -68,6 +70,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: of(this.stateName),
+        routedFromAngular: false,
       },
     },
     {
@@ -148,8 +151,14 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
   }
 
-  protected shouldUpdateHtmlTitle():boolean {
-    return this.$state.current.name === 'work-packages.partitioned.list';
+  /**
+   * Neither /work_packages nor /gantt register a uiRouter '.details'/'.new' sub-state
+   * anymore (the split view/create form render via a Rails Turbo frame instead), so
+   * the partition is derived from the URL rather than from state data.
+   */
+  protected override setPartition(_state:Ng2StateDeclaration):void {
+    const partition:ViewPartitionState = window.location.pathname.includes('/details/') ? '-split' : '-left-only';
+    this.currentPartition = partition;
   }
 
   private get stateName() {
@@ -161,6 +170,6 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   }
 
   private get isGantt() {
-    return this.$state.current.name?.includes('gantt');
+    return window.location.pathname.includes('/gantt');
   }
 }

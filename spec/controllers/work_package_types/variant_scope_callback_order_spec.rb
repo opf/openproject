@@ -56,7 +56,6 @@ RSpec.describe "Variant configuration callback order" do # rubocop:disable RSpec
     WorkPackageTypes::CreationWizardController,
     Workflows::MatrixController,
     Workflows::CopiesController,
-    Workflows::Copies::FromVariantsController,
     Workflows::Copies::FromRolesController
   ]
 
@@ -98,8 +97,7 @@ RSpec.describe "Variant configuration callback order" do # rubocop:disable RSpec
       it "runs its own callbacks only after the scope is resolved" do
         guard = filters.index(:authorize)
         inherited = before_filters(ApplicationController) +
-                    %i[reject_administration_only_screen require_admin find_project_by_in_project_id
-                       authorize require_type_variants_feature]
+                    %i[reject_administration_only_screen require_admin find_project_by_in_project_id authorize]
 
         (filters - inherited).each do |filter|
           next unless filters.index(filter) # symbols only; inline blocks have no name

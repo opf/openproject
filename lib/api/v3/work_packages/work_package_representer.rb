@@ -42,7 +42,8 @@ module API
         include TimestampedRepresenter
 
         cached_representer key_parts: %i(project),
-                           disabled: false
+                           disabled: false,
+                           dependencies: -> { historic_state? }
 
         attr_accessor :timestamps, :query
 
@@ -64,6 +65,8 @@ module API
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
@@ -78,6 +81,8 @@ module API
 
         link :updateImmediately,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
@@ -661,6 +666,29 @@ module API
                                represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
+        associated_resources :labels,
+                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? },
+                             getter: ->(*) {
+                               next unless embed_link?(:labels)
+
+                               represented.effective_labels.map do |label|
+                                 ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
+
+                               represented.effective_labels.map do |label|
+                                 ::API::Decorators::LinkObject
+                                   .new(label,
+                                        property_name: :itself,
+                                        path: :label,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             }
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
@@ -751,6 +779,10 @@ module API
           return @current_user_watcher if defined?(@current_user_watcher)
 
           @current_user_watcher = represented.watchers.any? { |w| w.user_id == current_user.id }
+        end
+
+        def historic_state?
+          timestamps.last&.historic? || false
         end
 
         def current_user_update_allowed?
@@ -886,7 +918,8 @@ module API
                                 attachments
                                 budget
                                 target_versions
-                                observed_in_versions]
+                                observed_in_versions
+                                labels]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

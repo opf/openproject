@@ -2386,6 +2386,27 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
+  describe "labels attributes" do
+    it "extracts label_ids into replacements" do
+      instance.call(label_ids: ["3", 4])
+
+      expect(work_package.label_id_replacements).to eq [3, 4]
+    end
+
+    it "leaves replacements nil when not passed" do
+      instance.call(subject: "foo")
+
+      expect(work_package.label_id_replacements).to be_nil
+    end
+
+    it "sets empty array as override (does not set to nil)" do
+      instance.call(label_ids: [])
+
+      expect(work_package.label_id_replacements).to eq []
+      expect(work_package.override_labels?).to be true
+    end
+  end
+
   describe "setting the templated description when the type changes on a new work package" do
     subject(:service_result) { instance.call(call_attributes) }
 
@@ -2432,7 +2453,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    context "when the project resolves the type to a variant" do
       let(:family_root) { create(:type, default_work_package_description: "Root template") }
       let(:variant) { create(:type_variant, type: family_root) }
       let(:variant_project) { create(:project, types: [variant]) }

@@ -30,9 +30,8 @@
 
 require "spec_helper"
 
-# End-to-end resolution of a form configuration down a chain of links: the groups come from
-# the type owning the aspect, narrowed by the exclusions accumulated on every link between
-# it and the type being read.
+# End-to-end resolution of a form configuration: A named variant inherits its base's groups,
+# narrowed by the variant's own excluded elements.
 RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusions" do
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
@@ -41,9 +40,10 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
   let(:field_c) { create(:integer_wp_custom_field) }
   let(:field_d) { create(:integer_wp_custom_field) }
 
-  # owner ← middle ← leaf, each link dropping a little more of the owner's configuration.
-  let(:owner) do
-    create(:type).default_variant.tap do |variant|
+  let(:type_record) { create(:type) }
+  # The base owns the form, the named variant inherits it and drops fields via its own exclusions.
+  let(:base) do
+    type_record.default_variant.tap do |variant|
       variant.attribute_groups = [
         ["details", [field_a.attribute_name, field_b.attribute_name]],
         ["people", %W[assignee #{field_c.attribute_name}]],
@@ -53,131 +53,105 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
       variant.save!
     end
   end
-
-  let(:middle) { create(:type).default_variant }
-  let(:leaf) { create(:type).default_variant }
+  let(:variant) { create(:type_variant, type: type_record) }
 
   before do
-    middle.update!(form_configuration_source: owner,
-                   form_configuration_excluded_elements: [field_a.attribute_name])
-    leaf.update!(form_configuration_source: middle,
-                 form_configuration_excluded_elements: ["assignee", field_d.attribute_name])
+    base
+    variant.link!(aspect)
   end
 
-  def groups_of(variant)
-    variant.attribute_groups.to_h { |group| [group.key, group.attributes] }
+  def groups_of(record)
+    record.attribute_groups.to_h { |group| [group.key, group.attributes] }
   end
 
-  it "leaves the owning variant's own configuration untouched" do
-    expect(groups_of(owner)).to eq(
+  it "leaves the base's own configuration untouched" do
+    variant.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+
+    expect(groups_of(base)).to eq(
       "details" => [field_a.attribute_name, field_b.attribute_name],
       "people" => ["assignee", field_c.attribute_name],
       "solo" => [field_d.attribute_name]
     )
-    expect(owner.custom_fields).to contain_exactly(field_a, field_b, field_c, field_d)
+    expect(base.custom_fields).to contain_exactly(field_a, field_b, field_c, field_d)
   end
 
-  it "applies one link's exclusions to the intermediate variant" do
-    expect(groups_of(middle)).to eq(
-      "details" => [field_b.attribute_name],
-      "people" => ["assignee", field_c.attribute_name],
-      "solo" => [field_d.attribute_name]
-    )
-    expect(middle.custom_fields).to contain_exactly(field_b, field_c, field_d)
-  end
+  it "applies the variant's exclusions to what it inherits and drops an emptied group" do
+    variant.update!(form_configuration_excluded_elements:
+      [field_a.attribute_name, "assignee", field_d.attribute_name])
 
-  it "applies the whole chain's exclusions to the leaf and drops the emptied group" do
-    expect(groups_of(leaf)).to eq(
+    expect(groups_of(variant)).to eq(
       "details" => [field_b.attribute_name],
       "people" => [field_c.attribute_name]
     )
-    expect(groups_of(leaf).keys).not_to include("solo")
-    expect(leaf.custom_fields).to contain_exactly(field_b, field_c)
+    expect(groups_of(variant).keys).not_to include("solo")
+    expect(variant.custom_fields).to contain_exactly(field_b, field_c)
   end
 
   it "excludes a non-custom-field attribute without touching the custom fields" do
-    expect(groups_of(leaf)["people"]).not_to include("assignee")
-    expect(leaf.custom_fields).to include(field_c)
+    variant.update!(form_configuration_excluded_elements: ["assignee"])
+
+    expect(groups_of(variant)["people"]).not_to include("assignee")
+    expect(variant.custom_fields).to include(field_c)
   end
 
-  it "keeps a group whose remaining attributes are unchanged identical to the owner's" do
-    expect(groups_of(middle)["people"]).to eq(groups_of(owner)["people"])
+  it "keeps a group it does not touch identical to the base's" do
+    variant.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+
+    expect(groups_of(variant)["people"]).to eq(groups_of(base)["people"])
+    expect(groups_of(variant)["solo"]).to eq(groups_of(base)["solo"])
   end
 
-  it "does not corrupt the owner's memoized groups when narrowing them" do
-    groups_of(leaf)
+  it "does not corrupt the base's memoized groups when narrowing them" do
+    variant.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+    groups_of(variant)
 
-    expect(groups_of(owner)["details"])
-      .to eq([field_a.attribute_name, field_b.attribute_name])
-    expect(groups_of(owner).keys).to include("solo")
+    expect(groups_of(base)["details"]).to eq([field_a.attribute_name, field_b.attribute_name])
+    expect(groups_of(base).keys).to include("solo")
   end
 
-  it "resolves the same configuration when the variant came from the preloading scope" do
-    preloaded = TypeVariant.with_effective_source(aspect).find(leaf.id)
+  it "reads its own configuration once switched to independent" do
+    variant.attribute_groups = [["own", %w[assignee]]]
+    variant.save!
+    variant.unlink!(aspect)
 
-    expect(groups_of(preloaded)).to eq(groups_of(leaf))
-    expect(preloaded.effective_source_for(aspect)).to eq(owner)
-    expect(preloaded.effective_excluded_elements(aspect))
-      .to contain_exactly(field_a.attribute_name, field_d.attribute_name, "assignee")
+    expect(groups_of(variant.reload)).to eq("own" => ["assignee"])
   end
 
-  it "reads its own configuration once switched to Independent" do
-    leaf.attribute_groups = [["own", %w[assignee]]]
-    leaf.save!
-    leaf.update!(form_configuration_source: nil, form_configuration_excluded_elements: [])
-
-    expect(groups_of(leaf.reload)).to eq("own" => ["assignee"])
-  end
-
-  context "with a query group in the owner's configuration" do
+  context "with a query group in the base's configuration" do
     let(:query) { create(:query) }
 
-    def query_group_of(variant)
-      variant.attribute_groups.detect { |group| group.group_type == :query }
+    def query_group_of(record)
+      record.attribute_groups.detect { |group| group.group_type == :query }
     end
 
     before do
-      owner.attribute_groups = [
+      base.attribute_groups = [
         ["details", [field_a.attribute_name, field_b.attribute_name]],
         ["Related work packages", [query]]
       ]
-      owner.save!
+      base.save!
     end
 
     it "passes the query group through when it is not excluded" do
-      expect(query_group_of(leaf)).to be_present
-      expect(query_group_of(leaf).query).to eq(query)
-      expect(groups_of(leaf)["details"]).to eq([field_b.attribute_name])
+      variant.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+
+      expect(query_group_of(variant)).to be_present
+      expect(query_group_of(variant).query).to eq(query)
+      expect(groups_of(variant)["details"]).to eq([field_b.attribute_name])
     end
 
-    it "drops the whole section when the query is excluded on the variant's own link" do
-      leaf.update!(form_configuration_excluded_elements: ["query_#{query.id}"])
+    it "drops the whole section when the query is excluded" do
+      variant.update!(form_configuration_excluded_elements: ["query_#{query.id}"])
 
-      expect(query_group_of(leaf)).to be_nil
-      expect(leaf.attribute_groups.map(&:key)).not_to include("Related work packages")
+      expect(query_group_of(variant)).to be_nil
+      expect(variant.attribute_groups.map(&:key)).not_to include("Related work packages")
     end
 
-    it "drops it for the leaf when an ancestor's link excludes the query" do
-      middle.update!(form_configuration_excluded_elements: [field_a.attribute_name, "query_#{query.id}"])
+    it "leaves the base's query group in place" do
+      variant.update!(form_configuration_excluded_elements: ["query_#{query.id}"])
 
-      expect(query_group_of(middle)).to be_nil
-      expect(query_group_of(leaf)).to be_nil
-    end
-
-    it "leaves the owning variant's query group in place" do
-      leaf.update!(form_configuration_excluded_elements: ["query_#{query.id}"])
-
-      expect(query_group_of(owner)).to be_present
-      expect(query_group_of(owner).query).to eq(query)
-    end
-  end
-
-  context "with the flag off", with_flag: { type_variants: false } do
-    it "resolves links and exclusions the same" do
-      expect(groups_of(leaf)).to eq(
-        "details" => [field_b.attribute_name],
-        "people" => [field_c.attribute_name]
-      )
+      expect(query_group_of(base)).to be_present
+      expect(query_group_of(base).query).to eq(query)
     end
   end
 end

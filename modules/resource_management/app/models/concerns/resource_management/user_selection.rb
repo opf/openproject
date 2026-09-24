@@ -56,7 +56,7 @@ module ResourceManagement
       query = effective_query
       return if query.nil?
 
-      query.results.in_project(project)
+      project ? query.results.in_project(project) : query.results
     end
 
     def manually_picked?

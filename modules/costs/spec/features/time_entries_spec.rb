@@ -84,8 +84,8 @@ RSpec.describe "Work Package table time entries", :js do
     check("Spent time")
     click_on "Apply"
 
-    wp1 = time_entry1.work_package
-    wp2 = time_entry2.work_package
+    wp1 = time_entry1.entity
+    wp2 = time_entry2.entity
     expect(page).to have_css(".op-activity-list--item-title", text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
     expect(page).to have_css(".op-activity-list--item-title", text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
   end

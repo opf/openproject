@@ -178,7 +178,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
     end
   end
 
-  describe "DELETE /work_packages/:work_package_id/children/:id" do
+  describe "DELETE /work_packages/:work_package_id/hierarchy_relations/:id" do
     def send_delete_request(related:)
       delete("destroy",
              params: { work_package_id: work_package.id,

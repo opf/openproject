@@ -1451,13 +1451,13 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+  describe "when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:base_variant) { family_root.default_variant }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
         TypeVariant::ASPECTS.each do |aspect|
-          link_configuration(named, source: base_variant, aspect:)
+          link_configuration(named, aspect:)
         end
       end
     end

@@ -46,6 +46,7 @@ import { StateService, UIRouterGlobals } from '@uirouter/core';
 import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import {
   WorkPackageCardViewService,
 } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
@@ -74,10 +75,8 @@ import {
 import {
   KeepTabService
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
-
-const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   selector: 'wp-single-card',
@@ -132,12 +131,15 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   readonly $state = inject(StateService);
   readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
+
+  readonly selectionGestures = inject(WorkPackageViewSelectionGesturesService);
   readonly wpTableFocus = inject(WorkPackageViewFocusService);
   readonly cardView = inject(WorkPackageCardViewService);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly timezoneService = inject(TimezoneService);
   readonly schemaCache = inject(SchemaCacheService);
   readonly keepTabService = inject(KeepTabService);
+  readonly urlParams = inject(UrlParamsService);
 
   public uiStateLinkClass:string = uiStateLinkClass;
 
@@ -186,8 +188,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
             // In non-router views (e.g. Team Planner, Calendar):
             // Use URL-based detection so that closing the split view (which changes the URL
             // but does not clear the selection service) correctly deselects the card.
-            const urlMatch = DETAILS_URL_PATTERN.exec(window.location.pathname);
-            return matchesRoutingId(this.workPackage, urlMatch?.[1]);
+            const routingId = this.urlParams.currentDetailsRouteParams()?.routingId;
+            return matchesRoutingId(this.workPackage, routingId);
           }
 
           return this.wpTableSelection.isSelected(this.workPackage.id!);
@@ -209,10 +211,9 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return;
     }
 
-    const classIdentifier = this.classIdentifier(wp);
     const stateToEmit = detail ? 'split' : 'show';
 
-    this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
+    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards);
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
     event.preventDefault();

@@ -82,6 +82,22 @@ describe('My time tracking controller', () => {
     return ctx.getController<MyTimeTrackingControllerType>('my--time-tracking');
   }
 
+  // The calendar itself needs FullCalendar, which only starts with a target; without one the
+  // view mode still picks the branch that brings the view back after logging time.
+  async function renderCalendarViewInFrame(frameAttributes = '') {
+    await ctx.mount(`
+      <turbo-frame id="my-time-tracking-view" ${frameAttributes}>
+        <div data-controller="my--time-tracking"
+             data-my--time-tracking-view-mode-value="calendar"
+             data-my--time-tracking-mode-value="week"></div>
+      </turbo-frame>
+    `);
+    const controller = ctx.getController<MyTimeTrackingControllerType>('my--time-tracking');
+    await waitFor(() => { expect(controller.turboRequests).toBeDefined(); });
+
+    return ctx.container.querySelector('turbo-frame')!;
+  }
+
   function dialogClosed(detail:object) {
     document.dispatchEvent(new CustomEvent('dialog:close', { detail }));
   }
@@ -103,6 +119,9 @@ describe('My time tracking controller', () => {
       expect(request).toHaveBeenCalledWith(
         '/time_entries/dialog?onlyMe=true&date=2026-06-01',
         { method: 'GET' },
+        false,
+        // named, so that clicking twice before the dialog arrives drops the first request
+        'time-entry-dialog',
       );
     });
   });
@@ -121,6 +140,29 @@ describe('My time tracking controller', () => {
       expect(request).toHaveBeenCalledWith('/my/time_tracking/refresh?date=2026-06-01', { method: 'GET' });
     });
     expect(myTimeTrackingRefresh).toHaveBeenCalledWith('2026-06-01', 'list', 'week');
+  });
+
+  it('brings the calendar back through its frame instead of reloading the page', async () => {
+    const frame = await renderCalendarViewInFrame();
+
+    dialogClosed({ dialog: { id: 'time-entry-dialog' }, submitted: true });
+
+    await waitFor(() => {
+      expect(frame.getAttribute('src')).toEqual(window.location.href);
+    });
+  });
+
+  it('reloads a frame that already knows its own source, as the my page widget does', async () => {
+    const frame = await renderCalendarViewInFrame('src="/widgets/time_entries_current_user"');
+    // Turbo is not registered here, so the element never upgraded and has no reload of its own.
+    const reload = vi.fn();
+    (frame as unknown as { reload:() => void }).reload = reload;
+
+    dialogClosed({ dialog: { id: 'time-entry-dialog' }, submitted: true });
+
+    await waitFor(() => { expect(reload).toHaveBeenCalled(); });
+    // its own source, not the page it happens to sit on
+    expect(frame.getAttribute('src')).toEqual('/widgets/time_entries_current_user');
   });
 
   it('ignores dialog close events arriving before the context resolves', async () => {

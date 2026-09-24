@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_variants: true } do
+RSpec.describe "Type creation wizard workflows step", :js do
   include Toasts::Expectations
   include Workflows::EditHelpers
 
@@ -56,7 +56,7 @@ RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_var
   end
 
   def workflows_for(type, role)
-    Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id)
+    Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id)
   end
 
   it "persists the matrix and advances when clicking 'Continue'" do
@@ -142,7 +142,7 @@ RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_var
     end
   end
 
-  describe "when the workflow is linked from a source" do
+  describe "when another type shares the workflow" do
     let(:source_type) { create(:type) }
     let!(:source_workflow) do
       create(:workflow, role_id: role.id,
@@ -154,45 +154,16 @@ RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_var
     end
 
     before do
-      link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
+      type.default_variant.update!(workflow: source_type.default_variant.workflow)
       visit_workflow_wizard(roles: [role])
     end
 
-    it "shows the source's transitions read-only without editing actions" do
-      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
-      expect(page).to have_field(workflow_checkbox(1, 0), disabled: true)
+    it "shows the shared transitions and keeps them editable" do
+      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: false)
       expect(page).to have_no_button "Save"
 
       within "#workflow-table" do
-        expect(page).to have_no_link "Status"
-        expect(page).to have_no_link "Copy"
-      end
-    end
-  end
-
-  describe "reuse mode boxes" do
-    context "when the workflow configuration is independent" do
-      before { visit_workflow_wizard(roles: [role]) }
-
-      it "shows the manual box offering to inherit from another type, or to copy from one" do
-        expect(page).to have_text("Manual configuration")
-        expect(page).to have_link("Inherit from another type")
-        expect(page).to have_link("Copy from another type")
-      end
-    end
-
-    context "when the workflow configuration is linked to a source" do
-      let(:source_type) { create(:type, name: "Feature") }
-
-      before do
-        link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
-        visit_workflow_wizard(roles: [role])
-      end
-
-      it "shows the inherited box naming the source with change and switch actions" do
-        expect(page).to have_text("Inherited configuration")
-        expect(page).to have_link("Change source type")
-        expect(page).to have_link("Configure manually")
+        expect(page).to have_link "Status"
       end
     end
   end

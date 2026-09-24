@@ -410,27 +410,6 @@ RSpec.describe PermittedParams do
     end
   end
 
-  describe "#projects_type_ids" do
-    let(:attribute) { :projects_type_ids }
-    let(:hash_key) { "project" }
-
-    let(:hash) do
-      { "type_ids" => ["1", "", "2"] }
-    end
-
-    let(:expected_permitted) do
-      [1, 2]
-    end
-
-    include_context "with prepare params comparison"
-
-    it do
-      actual = described_class.new(params, user).send(attribute)
-
-      expect(actual).to eq(expected_permitted)
-    end
-  end
-
   describe "#color" do
     let(:attribute) { :color }
 

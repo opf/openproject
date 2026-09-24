@@ -29,12 +29,11 @@
 #++
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type, name: "Task") }
   shared_let(:variant) { type.default_variant }
-  shared_let(:borrowing_type) { create(:type, name: "Feature") }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
@@ -56,8 +55,8 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
 
   context "when other variants borrow the aspect" do
     before do
-      link_configuration(borrowing_type.default_variant, source: variant, aspect:)
-      link_configuration(create(:type_variant, type: borrowing_type, variant_name: "Hardware"), source: variant, aspect:)
+      link_configuration(create(:type_variant, type:, variant_name: "Mobile"), aspect:)
+      link_configuration(create(:type_variant, type:, variant_name: "Hardware"), aspect:)
 
       render_inline(component)
     end
@@ -81,7 +80,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
 
   context "when a single variant borrows the aspect" do
     before do
-      link_configuration(borrowing_type.default_variant, source: variant, aspect:)
+      link_configuration(create(:type_variant, type:, variant_name: "Mobile"), aspect:)
 
       render_inline(component)
     end
@@ -92,26 +91,9 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
     end
   end
 
-  context "when a variant borrows through another variant" do
-    before do
-      link_configuration(borrowing_type.default_variant, source: variant, aspect:)
-      link_configuration(create(:type, name: "Bug").default_variant, source: borrowing_type.default_variant, aspect:)
-
-      render_inline(component)
-    end
-
-    it "counts the whole chain as one total" do
-      expect(page).to have_text("2 dependent types")
-    end
-
-    it "warns about them" do
-      expect(page).to have_css(".color-bg-attention")
-    end
-  end
-
   context "when another aspect is borrowed instead" do
     before do
-      link_configuration(borrowing_type.default_variant, source: variant, aspect: TypeVariant::WORKFLOWS)
+      link_configuration(create(:type_variant, type:, variant_name: "Mobile"), aspect: TypeVariant::DEFAULTS)
 
       render_inline(component)
     end

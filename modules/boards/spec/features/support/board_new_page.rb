@@ -31,6 +31,15 @@ module Pages
                           wait_for_fetched_options: false)
     end
 
+    # Types +query+ into the project autocompleter without selecting anything
+    # and returns the open dropdown, so that its options can be tested.
+    def search_project(query)
+      search_autocomplete(find('[data-test-selector="project_id"]'),
+                          query:,
+                          results_selector: "body",
+                          wait_for_fetched_options: false)
+    end
+
     def set_board_type(board_type)
       choose board_type, match: :first
     end

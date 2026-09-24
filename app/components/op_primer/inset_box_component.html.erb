@@ -37,24 +37,42 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do %>
   <% if title? || title_icon? %>
-    <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 2, classes: "gap-2")) do %>
+    <div class="op-inset-box--title-container">
       <%= title_icon %>
       <%= title %>
-    <% end %>
+    </div>
   <% end %>
-  <%= content %>
-  <% if actions.any? %>
-    <%= render(
-          Primer::Box.new(
-            display: :flex,
-            align_items: :center,
-            flex_wrap: :wrap,
-            mt: 2,
-            classes: "gap-2"
-          )
-        ) do %>
-      <% actions.each do |action| %>
-        <%= action %>
+
+  <%= grid_layout(
+        "op-inset-box--body",
+        tag: :div
+      ) do |grid| %>
+
+    <% if clipboard_copy_button?
+         grid.with_area(:clip_board_copy) do
+           render clipboard_copy_button
+         end
+       end %>
+
+    <% grid.with_area(:content) do
+         content
+       end %>
+
+    <% if actions.any? %>
+      <% grid.with_area(:actions) do %>
+        <%= render(
+              Primer::Box.new(
+                display: :flex,
+                align_items: :center,
+                flex_wrap: :wrap,
+                mt: 2,
+                classes: "gap-2"
+              )
+            ) do %>
+          <% actions.each do |action| %>
+            <%= action %>
+          <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

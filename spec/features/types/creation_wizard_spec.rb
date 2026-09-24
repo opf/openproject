@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } do
+RSpec.describe "Type creation wizard", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:project_role) { create(:project_role) }
 
@@ -83,7 +83,8 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes, linked: false)
 
-    expect(page).to have_text("Manual configuration")
+    expect(page).to have_heading("Workflows")
+    expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
     expect_step_saved(:workflows, linked: false)
 
