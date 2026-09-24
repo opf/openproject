@@ -312,7 +312,7 @@ When a filter is defined, synchronization happens directly during seeding for en
 In an automated deployment setup, such as installing OpenProject using our Helm chart, you might want to provide the custom design through environment variables.
 
 > [!NOTE]
-> Setting these variables will not have an effect on the Community Edition.
+> Setting these variables will not have an effect on the Community edition.
 
 **Setting design colors**
 
