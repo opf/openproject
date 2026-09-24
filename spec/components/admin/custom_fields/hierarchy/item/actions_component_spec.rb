@@ -54,30 +54,48 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
     expect(page).to have_link("Clear default value")
   end
 
-  # A list custom field on a UserCustomField or ProjectCustomField must keep every
-  # action inside its own admin area, not the generic /custom_fields/... routes that
-  # would throw the admin out of /admin/settings/user_custom_fields/... entirely.
-  describe "for a user custom field" do
-    let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    it "keeps the edit and set default links under the user custom field admin area" do
-      render_inline(described_class.new(item))
-
-      expect(page).to have_link("Edit", href: %r{/admin/settings/user_custom_fields/})
-      expect(page).to have_link("Set as default value", href: %r{/admin/settings/user_custom_fields/})
+  describe "item action routes" do
+    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
+    let(:root) { custom_field.hierarchy_root }
+    let(:item) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "First").value!
     end
-  end
 
-  describe "for a project custom field" do
-    let(:custom_field) { create(:list_project_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
+    before do
+      item
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Second")
+      render_inline(described_class.new(item.reload))
+    end
 
-    it "keeps the edit and set default links under the project custom field admin area" do
-      render_inline(described_class.new(item))
+    shared_examples "routing every action under" do |base|
+      let(:items_path) { "#{base}/#{custom_field.id}/items" }
 
-      expect(page).to have_link("Edit", href: %r{/admin/settings/project_custom_fields/})
-      expect(page).to have_link("Set as default value", href: %r{/admin/settings/project_custom_fields/})
+      it "links every action under #{base}" do
+        expect(page).to have_link("Edit", href: "#{items_path}/#{item.id}/edit")
+        expect(page).to have_link("Add item above", href: "#{items_path}/#{root.id}/new_child?position=0")
+        expect(page).to have_link("Add item below", href: "#{items_path}/#{root.id}/new_child?position=1")
+        expect(page).to have_link("Add sub-item", href: "#{items_path}/#{item.id}/new_child?position=0")
+        expect(page).to have_link("Set as default value", href: "#{items_path}/#{item.id}/set_default")
+        expect(page).to have_link("Change parent", href: "#{items_path}/#{item.id}/change_parent")
+        expect(page).to have_css("form[action='#{items_path}/#{item.id}/move']", text: "Move down")
+        expect(page).to have_link("Delete", href: "#{items_path}/#{item.id}/delete")
+      end
+    end
+
+    context "for a work package custom field" do
+      it_behaves_like "routing every action under", "/custom_fields"
+    end
+
+    context "for a project custom field" do
+      let(:custom_field) { create(:hierarchy_project_custom_field) }
+
+      it_behaves_like "routing every action under", "/admin/settings/project_custom_fields"
+    end
+
+    context "for a user custom field" do
+      let(:custom_field) { create(:user_custom_field, :hierarchy) }
+
+      it_behaves_like "routing every action under", "/admin/settings/user_custom_fields"
     end
   end
 end
