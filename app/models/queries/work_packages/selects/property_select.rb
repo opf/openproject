@@ -239,6 +239,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       groupable: false
     },
     labels: {
+      if: -> { OpenProject::FeatureDecisions.work_package_labels_active? },
       sortable: labels_sortable,
       groupable: labels_groupable
     }
