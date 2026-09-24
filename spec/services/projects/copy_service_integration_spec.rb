@@ -164,10 +164,12 @@ RSpec.describe(
 
       context "when the source owns the variant" do
         shared_let(:owned_type) { create(:type, name: "Owned root") }
-        shared_let(:workflow_source) { create(:type_variant, type: owned_type, variant_name: "Shared workflow") }
+        shared_let(:workflow_source) do
+          create(:type_variant, type: owned_type, variant_name: "Shared workflow", workflow: create(:named_workflow))
+        end
         shared_let(:owned_variant) do
           create(:project_owned_type_variant, type: owned_type, project: source,
-                                              variant_name: "Source only", workflows_source: workflow_source)
+                                              variant_name: "Source only", workflow: workflow_source.workflow)
         end
 
         before { source.project_types.create!(type: owned_type, variant: owned_variant) }
@@ -186,14 +188,15 @@ RSpec.describe(
         end
 
         it "keeps the narrowing the source variant expressed" do
-          owned_variant.update!(form_configuration_excluded_elements: %w[assignee])
+          owned_variant.update!(linked_aspects: [TypeVariant::FORM_CONFIGURATION],
+                                form_configuration_excluded_elements: %w[assignee])
 
           expect(subject).to be_success
 
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
           expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
-          expect(copied.form_configuration_source).to eq(owned_variant.form_configuration_source)
+          expect(copied).to be_linked(TypeVariant::FORM_CONFIGURATION)
         end
 
         it "lets the copy reference the same workflow" do
@@ -206,9 +209,9 @@ RSpec.describe(
         end
 
         context "when the source variant owns its workflow" do
-          before { owned_variant.update!(workflows_source: nil) }
+          before { owned_variant.update!(workflow: create(:project_owned_workflow, project: source)) }
 
-          it "copies the project", pending: "Blocked until variants reference named workflows" do
+          it "copies the project", pending: "Blocked until project copying supports project-owned workflows" do
             expect(owned_variant.reload.workflow).to be_project_specific
 
             expect(subject).to be_success
