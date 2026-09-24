@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,30 +26,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Projects::Settings::BacklogEstimationUnitsController < Projects::SettingsController
-  menu_item :settings_backlogs
+##
+# Intended to be used by the ApplicationController to provide authorization helpers
+module Accounts::FeatureFlagGuard
+  extend ActiveSupport::Concern
 
-  guard_feature_flag :project_settings_estimation_unit
-
-  def update
-    call = Projects::UpdateService
-      .new(model: @project, user: current_user, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
-      .call(backlog_settings_params)
-
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_backlog_estimation_unit_path(@project)
-    else
-      flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
+  class_methods do
+    ##
+    # Adds a before_action check to test a feature flag status
+    # @param feature_flag [String, Symbol] the name of the feature flag to check
+    #
+    # If a block is passed, it will be executed if the feature is not available.
+    def guard_feature_flag(feature_flag, **action_args, &)
+      before_action(**action_args) do
+        perform_feature_flag_guard(feature_flag, &)
+      end
     end
   end
 
   private
 
-  def backlog_settings_params
-    params.expect(project: %i[estimation_unit])
+  def perform_feature_flag_guard(feature_flag, &)
+    return if OpenProject::FeatureDecisions.send("#{feature_flag}_active?")
+
+    if block_given?
+      instance_eval(&)
+    else
+      render_404
+    end
   end
 end
