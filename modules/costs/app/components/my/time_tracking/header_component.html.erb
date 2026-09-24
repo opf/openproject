@@ -11,6 +11,11 @@
           tab.with_text { I18n.t(:label_list) }
           tab.with_icon(icon: "op-view-list")
         end
+
+        nav.with_tab(selected: view_mode == :stack, href: view_mode_switch_link(:stack)) do |tab|
+          tab.with_text { I18n.t(:label_stack) }
+          tab.with_icon(icon: :stack)
+        end
       end
 
       header.with_action_zen_mode_button

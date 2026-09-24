@@ -30,17 +30,33 @@
 
 module My
   module TimeTrackingHelper
-    def week_date_range(date) # rubocop:disable Metrics/AbcSize
-      start_day = OpenProject::Internationalization::Date.beginning_of_week
-      bow = date.beginning_of_week(start_day)
-      eow = date.end_of_week(start_day)
+    def week_date_range(date)
+      date_range(week_days(date).first, week_days(date).last)
+    end
 
-      if bow.year == eow.year && bow.month == eow.month
-        [I18n.l(bow, format: "%d."), I18n.l(eow, format: "%d. %B %Y")].join(" - ")
-      elsif bow.year == eow.year
-        [I18n.l(bow, format: "%d. %B"), I18n.l(eow, format: "%d. %B %Y")].join(" - ")
+    # The work week leaves out the days that are not worked, so it is the range it covers
+    # rather than the week around it that names it.
+    def workweek_date_range(date)
+      date_range(workweek_days(date).first, workweek_days(date).last)
+    end
+
+    def week_days(date)
+      date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
+    end
+
+    def workweek_days(date)
+      worked = Setting.working_days.map { |day| day % 7 }
+
+      week_days(date).select { |day| worked.include?(day.wday) }
+    end
+
+    def date_range(from, to)
+      if from.year == to.year && from.month == to.month
+        [I18n.l(from, format: "%d."), I18n.l(to, format: "%d. %B %Y")].join(" - ")
+      elsif from.year == to.year
+        [I18n.l(from, format: "%d. %B"), I18n.l(to, format: "%d. %B %Y")].join(" - ")
       else
-        [I18n.l(bow, format: "%d. %B %Y"), I18n.l(eow, format: "%d. %B %Y")].join(" - ")
+        [I18n.l(from, format: "%d. %B %Y"), I18n.l(to, format: "%d. %B %Y")].join(" - ")
       end
     end
   end

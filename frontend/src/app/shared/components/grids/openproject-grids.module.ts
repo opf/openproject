@@ -73,12 +73,6 @@ import {
 } from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import {
-  WidgetTimeEntriesCurrentUserMenuComponent,
-} from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component';
-import {
-  TimeEntriesCurrentUserConfigurationModalComponent,
-} from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
-import {
   WidgetFavoriteProjectsComponent,
 } from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
@@ -136,8 +130,6 @@ import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blank
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,
-    WidgetTimeEntriesCurrentUserMenuComponent,
-    TimeEntriesCurrentUserConfigurationModalComponent,
 
     AddGridWidgetModalComponent,
 

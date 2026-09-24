@@ -242,6 +242,7 @@ ja:
   label_show: 表示
   label_specific_day: "%{day}日目"
   label_specific_month: "%{month}月"
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 完了しました
   label_time: 時間

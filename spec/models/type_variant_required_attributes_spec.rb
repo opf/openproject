@@ -66,15 +66,15 @@ RSpec.describe TypeVariant, "required attributes" do
   end
 
   describe "a variant linking its form configuration" do
-    let(:leaf) { create(:type).default_variant }
+    let(:leaf) { create(:type_variant, type: owner.type) }
 
-    before { link_configuration(leaf, source: owner, aspect:) }
+    before { link_configuration(leaf, aspect:) }
 
     it "inherits the source's required attributes" do
       expect(leaf.required_attributes).to contain_exactly(field_a.attribute_name, field_b.attribute_name)
     end
 
-    it "drops what the chain excludes, because an absent field cannot be demanded" do
+    it "drops what it excludes, because an absent field cannot be demanded" do
       leaf.update!(form_configuration_excluded_elements: [field_a.attribute_name])
 
       expect(leaf.required_attributes).to contain_exactly(field_b.attribute_name)

@@ -275,6 +275,10 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/labels":
+    "$ref": "./paths/labels.yml"
+  "/api/v3/labels/{id}":
+    "$ref": "./paths/label.yml"
   "/api/v3/meetings":
     "$ref": "./paths/meetings.yml"
   "/api/v3/meetings/{id}":
@@ -672,6 +676,8 @@ components:
       $ref: "./components/examples/hierarchy_item_collection_response.yml"
     HierarchyItemResponse:
       $ref: "./components/examples/hierarchy_item_response.yml"
+    LabelCollection:
+      $ref: "./components/examples/label_collection.yml"
     MeetingCollectionSimpleResponse:
       $ref: "./components/examples/meeting_collection_simple_response.yml"
     MeetingSimpleResponse:
@@ -920,6 +926,10 @@ components:
       "$ref": "./components/schemas/hourly_rate_collection_model.yml"
     HourlyRateModel:
       "$ref": "./components/schemas/hourly_rate_model.yml"
+    LabelCollectionModel:
+      "$ref": "./components/schemas/label_collection_model.yml"
+    LabelModel:
+      "$ref": "./components/schemas/label_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -1226,6 +1236,7 @@ tags:
   - "$ref": "./tags/groups.yml"
   - "$ref": "./tags/help_texts.yml"
   - "$ref": "./tags/hourly_rates.yml"
+  - "$ref": "./tags/labels.yml"
   - "$ref": "./tags/memberships.yml"
   - "$ref": "./tags/news.yml"
   - "$ref": "./tags/notifications.yml"

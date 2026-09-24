@@ -134,7 +134,7 @@ module Import
       jira_project_for_log = project.slice(:identifier)
       jira_issue_for_log = work_package.slice(:identifier)
       attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
-      OpenProject.logger.error(
+      Rails.logger.error(
         "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
         "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
       )

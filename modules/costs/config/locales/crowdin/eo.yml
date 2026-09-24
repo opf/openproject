@@ -251,6 +251,7 @@ eo:
   label_show: Montri
   label_specific_day: Tago %{day}
   label_specific_month: Monato %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Finita
   label_time: Tempo

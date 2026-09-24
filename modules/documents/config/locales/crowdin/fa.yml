@@ -64,9 +64,9 @@ fa:
           invalid_scheme: باید از پروتکل WebSocket (ws:// یا wss://) استفاده شود.
           label: URL سرور Hocuspocus
         page_header:
-          description: |-
-            در صورت فعال‌بودن، همکاری بلادرنگ به چند کاربر اجازه می‌دهد یک سند را هم‌زمان ویرایش کنند.
-            برای کارکرد به یک %{hocuspocus_server_link} فعال نیاز دارد.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: می‌دانم که ممکن است داده‌ها را برای همیشه از دست بدهم
         confirmation_message: |-
@@ -121,7 +121,7 @@ fa:
       currently_offline: در حال حاضر آفلاین هستید.
     label_attachment_author: نویسنده پیوست
     label_categories: دسته‌بندی‌ها
-    last_updated_at: آخرین ذخیره %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: همه اسناد
       collaboration_settings: همکاری بلادرنگ
