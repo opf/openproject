@@ -136,8 +136,6 @@ module WorkPackages
           attributes.merge(target_version_ids: [version.id])
         end
 
-        # The attribute travels as its own name rather than as a caption: the run is written in
-        # the importing user's language and read in the reader's.
         def problem(row, attribute, raw, message)
           Problem.new(row: row.number, attribute: attribute.to_s, value: raw, message:)
         end
@@ -160,8 +158,6 @@ module WorkPackages
           end
         end
 
-        # Once per attribute rather than once per failing cell, and read off the report as a whole
-        # rather than copied onto every problem it explains.
         def record_candidates(attribute)
           available[attribute.to_s] ||= index(attribute).values.map(&:name)
         end

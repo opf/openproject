@@ -63,17 +63,12 @@ module WorkPackages
           @dry_run.nil? ? queued[:dry_run] : @dry_run
         end
 
-        # The queued and started statuses are written before #perform, and the page will not show a
-        # report it cannot tie to the project in the route, so the identity goes in from the first
-        # write rather than only with the result.
         def build_status_attributes(attributes)
           super.tap do |attrs|
             attrs[:payload] = identity.merge(attrs[:payload] || {})
           end
         end
 
-        # What the page needs to show a queued run: which project it belongs to, so the report is
-        # tied to the route, which file it is working through, and whether it will create anything.
         def identity
           @identity ||= {
             project_id: (@project || queued[:project])&.id,

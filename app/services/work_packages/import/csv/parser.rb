@@ -43,8 +43,7 @@ module WorkPackages
           @file = file
         end
 
-        # @return [ServiceResult] success carries an array of Row, failure an array of
-        #   HeaderMap::Problem
+        # @return [ServiceResult] success carries an array of Row, failure an array of HeaderMap::Problem
         def call
           problems = header_problems
           return ServiceResult.failure(result: problems) if problems.any?

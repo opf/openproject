@@ -66,8 +66,6 @@ module WorkPackages
           columns.map { |attribute| WorkPackage.human_attribute_name(attribute) }
         end
 
-        # Offering a column the parser is configured to reject would hand back a template that
-        # fails its own import on the instance that served it.
         def columns
           return HeaderMap::ATTRIBUTES unless WorkPackage.status_based_mode?
 
@@ -95,8 +93,6 @@ module WorkPackages
           I18n.t("work_packages.import.csv.template.examples.#{example[:key]}.#{field}")
         end
 
-        # Naming a type the project does not have would hand back a template that fails its own
-        # import on the instance that served it.
         def type_name = @type_name ||= Type.enabled_in(project).pick(:name)
       end
     end

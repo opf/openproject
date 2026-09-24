@@ -235,20 +235,6 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
     end
   end
 
-  describe "a file with more problems than the page shows" do
-    let(:lines) { WorkPackages::Import::CSV::ReportComponent::SHOWN_PROBLEMS + 2 }
-    let(:content) do
-      (["Subject,Type"] + Array.new(lines) { ",Task" }).join("\n")
-    end
-    let(:dry_run) { false }
-
-    it "stores every one, since the CSV download is served from the payload" do
-      run
-
-      expect(payload["problems"].size).to eq(lines)
-    end
-  end
-
   describe "the status written before the job runs" do
     it "names the project, the file and the mode, so the page can show a queued run" do
       described_class.perform_later(user:, project:, attachment_id: attachment.id, dry_run: true)

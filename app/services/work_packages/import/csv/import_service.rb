@@ -124,8 +124,6 @@ module WorkPackages
           correct_creation_journal(work_package, columns)
         end
 
-        # The creation journal records who brought the work package into existence and when, so it
-        # follows whatever the row said about either.
         def correct_creation_journal(work_package, columns)
           changes = journal_columns(columns)
           return if changes.empty?
