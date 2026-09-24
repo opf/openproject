@@ -610,13 +610,13 @@ RSpec.describe Query,
           .to receive_messages(all: [valid_status], exists?: true)
 
         query.filters.clear
-        query.add_filter("status_id", "=", values)
+        query.add_filter("status_id", "=", status_id_values)
 
         query.valid_subset!
       end
 
       context "for a status filter having valid and invalid values" do
-        let(:values) { [valid_status.id.to_s, "99999"] }
+        let(:status_id_values) { [valid_status.id.to_s, "99999"] }
 
         it "leaves the filter" do
           expect(query.filters.length).to eq 1
@@ -629,7 +629,7 @@ RSpec.describe Query,
       end
 
       context "for a status filter having only invalid values" do
-        let(:values) { ["99999"] }
+        let(:status_id_values) { ["99999"] }
 
         it "removes the filter" do
           expect(query.filters.length).to eq 0
@@ -637,7 +637,7 @@ RSpec.describe Query,
       end
 
       context "for an unavailable filter" do
-        let(:values) { [valid_status.id.to_s] }
+        let(:status_id_values) { [valid_status.id.to_s] }
 
         before do
           query.add_filter("cf_0815", "=", ["1"])
