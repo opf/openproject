@@ -31,80 +31,88 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper(tag: "turbo-frame", class: "custom-fields-hierarchy-page--wrapper", refresh: :morph, data: { turbo_action: :advance }) do
-    render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "custom-fields-hierarchy-page")) do |content|
-      content.with_main(overflow: :auto) do
-        flex_layout do |container|
-          container.with_row do
-            render(Primer::OpenProject::SubHeader.new) do |subheader|
-              subheader.with_action_button(
-                tag: :a,
-                scheme: :secondary,
-                href: reorder_alphabetical_path,
-                data: { turbo_method: :post, turbo_confirm: t("custom_fields.reorder_confirmation") }
-              ) do
-                t("custom_fields.reorder_alphabetical")
-              end
+    main_content = capture do
+      flex_layout do |container|
+        container.with_row do
+          render(Primer::OpenProject::SubHeader.new) do |subheader|
+            subheader.with_action_button(
+              tag: :a,
+              scheme: :secondary,
+              leading_icon: :"sort-asc",
+              label: t("custom_fields.reorder_alphabetical"),
+              href: reorder_alphabetical_path,
+              data: { turbo_method: :post, turbo_confirm: t("custom_fields.reorder_confirmation") }
+            ) do
+              t("custom_fields.reorder_alphabetical")
+            end
 
-              subheader.with_action_button(
-                tag: :a,
-                scheme: :primary,
-                leading_icon: :plus,
-                label: t(:label_item),
-                href: new_item_path
-              ) do
-                I18n.t(:label_item)
-              end
+            subheader.with_action_button(
+              tag: :a,
+              scheme: :primary,
+              leading_icon: :plus,
+              label: t(:label_item),
+              href: new_item_path
+            ) do
+              I18n.t(:label_item)
             end
           end
+        end
 
-          container.with_row(mb: 3) do
-            render(Primer::Beta::BorderBox.new) do |box|
-              box.with_header { item_header }
+        container.with_row(mb: 3) do
+          render(Primer::Beta::BorderBox.new) do |box|
+            box.with_header { item_header }
 
-              if children.empty?
-                box.with_row do
-                  render(Primer::Beta::Blankslate.new(test_selector: "op-custom-fields--hierarchy-items-blankslate")) do |component|
-                    component.with_visual_icon(icon: blank_icon)
+            if children.empty?
+              box.with_row do
+                render(Primer::Beta::Blankslate.new(test_selector: "op-custom-fields--hierarchy-items-blankslate")) do |component|
+                  component.with_visual_icon(icon: blank_icon)
 
-                    component.with_heading(tag: :h3).with_content(I18n.t(blank_header_text))
-                    component.with_description { I18n.t(blank_description_text) }
-                    component.with_primary_action(href: new_item_path) do |button|
-                      button.with_leading_visual_icon(icon: :plus)
-                      I18n.t(:label_item)
-                    end
+                  component.with_heading(tag: :h3).with_content(I18n.t(blank_header_text))
+                  component.with_description { I18n.t(blank_description_text) }
+                  component.with_primary_action(href: new_item_path) do |button|
+                    button.with_leading_visual_icon(icon: :plus)
+                    I18n.t(:label_item)
                   end
                 end
-              else
-                children.each do |item|
-                  drag_controls = if item.persisted?
-                                    {
-                                      "data-controller": "admin--hierarchy-item",
-                                      "data-action": "dragstart->admin--hierarchy-item#dragstart
-                                                  dragenter->admin--hierarchy-item#dragenter
-                                                  dragleave->admin--hierarchy-item#dragleave
-                                                  dragend->admin--hierarchy-item#dragend
-                                                  drop->admin--hierarchy-item#drop",
-                                      "data-hierarchy-item-id": item.id,
-                                      "data-sort-order": item.sort_order,
-                                      "data-frame-id": Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key,
-                                      "data-move-url": move_custom_field_item_url(root.custom_field_id, item),
-                                      "data-index-url": custom_field_item_url(root.custom_field_id, item.parent)
-                                    }
-                                  else
-                                    {}
-                                  end
+              end
+            else
+              children.each do |item|
+                drag_controls = if item.persisted?
+                                  {
+                                    "data-controller": "admin--hierarchy-item",
+                                    "data-action": "dragstart->admin--hierarchy-item#dragstart
+                                                dragenter->admin--hierarchy-item#dragenter
+                                                dragleave->admin--hierarchy-item#dragleave
+                                                dragend->admin--hierarchy-item#dragend
+                                                drop->admin--hierarchy-item#drop",
+                                    "data-hierarchy-item-id": item.id,
+                                    "data-sort-order": item.sort_order,
+                                    "data-frame-id": Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key,
+                                    "data-move-url": move_custom_field_item_url(root.custom_field_id, item),
+                                    "data-index-url": custom_field_item_url(root.custom_field_id, item.parent)
+                                  }
+                                else
+                                  {}
+                                end
 
-                  box.with_row(**drag_controls) do
-                    render Admin::CustomFields::Hierarchy::ItemComponent.new(item: item, custom_field: root.custom_field)
-                  end
+                box.with_row(**drag_controls) do
+                  render Admin::CustomFields::Hierarchy::ItemComponent.new(item: item, custom_field: root.custom_field)
                 end
               end
             end
           end
         end
       end
+    end
 
-      unless root.custom_field.list?
+    # A single-level list has no tree to navigate, and Primer::Alpha::Layout#render? requires
+    # both a main and a sidebar slot to render anything at all — so it must not wrap main content here.
+    if root.custom_field.list?
+      main_content
+    else
+      render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "custom-fields-hierarchy-page")) do |content|
+        content.with_main(overflow: :auto) { main_content }
+
         content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "custom-fields-hierarchy-page--sidebar") do
           render Admin::CustomFields::Hierarchy::TreeViewComponent.new(custom_field: root.custom_field, active_item: model)
         end
