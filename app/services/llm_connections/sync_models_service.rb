@@ -48,7 +48,7 @@ module LlmConnections
       # deployment's models and verdicts under new credentials would be wrong.
       invalidate_a_different_deployment
 
-      store(capped(storable(adapter.models)))
+      store(fetched_cards)
       Llm::DetectCapabilitiesJob.perform_later
 
       ServiceResult.success(result: connection)
@@ -71,6 +71,10 @@ module LlmConnections
 
     def adapter
       @adapter ||= Llm::Adapters.for(connection)
+    end
+
+    def fetched_cards
+      capped(storable(adapter.models))
     end
 
     def storable(cards)
