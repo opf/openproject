@@ -51,7 +51,15 @@ module API
               .first
           end
 
+          def add_eager_loading_extension(name, &block)
+            eager_loading_extensions[name] = block
+          end
+
           private
+
+          def eager_loading_extensions
+            @eager_loading_extensions ||= {}
+          end
 
           def wrap_and_apply(work_packages, container_classes, timestamps:, query:)
             containers = container_classes
@@ -92,7 +100,7 @@ module API
 
             # The eager loading on status is required for the readonly? check in the
             # work package schema
-            scope
+            eager_scope = scope
               .joins(spent_time_subquery(scope, current_user).join_sources)
               .joins(derived_dates_subquery(scope).join_sources)
               .joins(material_scope.arel.join_sources)
@@ -105,6 +113,14 @@ module API
               .select(material_scope.select_values)
               .select(labor_scope.select_values)
               .distinct
+
+            apply_eager_loading_extensions(eager_scope, scope, current_user)
+          end
+
+          def apply_eager_loading_extensions(eager_scope, scope, current_user)
+            eager_loading_extensions.values.inject(eager_scope) do |extended_scope, extension|
+              extension.call(extended_scope, scope, current_user)
+            end
           end
 
           def spent_time_subquery(scope, current_user)
