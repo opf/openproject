@@ -48,12 +48,8 @@ module WorkPackageTypes
       attr_reader :variant, :aspect
 
       def dependents
-        @dependents ||= variant.dependents_for(aspect).preload("#{aspect}_source": :type)
+        @dependents ||= variant.dependents_for(aspect).preload(:type)
       end
-
-      def direct_dependents = @direct_dependents ||= dependents.select { |d| d.dependent_depth == 1 }
-
-      def indirect_dependents = @indirect_dependents ||= dependents.reject { |d| d.dependent_depth == 1 }
 
       def dependent_path(dependent) = helpers.aspect_edit_path(dependent, aspect)
 
@@ -66,19 +62,9 @@ module WorkPackageTypes
       end
 
       def relation(dependent)
-        i18n_args = { type_name: content_tag(:b, dependent.type.name) }
-
-        if dependent.dependent_depth == 1
-          t("types.edit.reuse_mode.dependents.dialog.variant_of_html", **i18n_args) unless dependent.default?
-        elsif dependent.default?
-          t("types.edit.reuse_mode.dependents.dialog.via_html", source_name: source_link(dependent))
-        else
-          t("types.edit.reuse_mode.dependents.dialog.variant_of_via_html",
-            **i18n_args, source_name: source_link(dependent))
-        end
+        t("types.edit.reuse_mode.dependents.dialog.variant_of_html",
+          type_name: content_tag(:b, dependent.type.name))
       end
-
-      def source_link(dependent) = dependent_link(dependent.source_for(aspect))
     end
   end
 end

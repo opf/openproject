@@ -3,7 +3,7 @@ pt-BR:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Critérios de filtragem
+        user_filter: Critérios do filtro
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
@@ -12,7 +12,7 @@ pt-BR:
         entity: Entidade
         placeholder_or_user: Responsável
         placeholder_user: Usuário substituto
-        principal: Atribuição
+        principal: Responsável
         start_date: Data de início
         state: Estado
       resource_planner:
@@ -29,6 +29,8 @@ pt-BR:
           attributes:
             end_date:
               greater_than_start_date: deve ser após a data de início.
+            principal:
+              not_a_member: não é membro do projeto do pacote de trabalho.
         resource_planner:
           attributes:
             end_date:
@@ -69,11 +71,15 @@ pt-BR:
         title: Gerenciamento de recursos
   label_resource_management: Gerenciamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
-  permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
+  permission_allocate_user_resources_explanation: Permite que os usuários criem, atualizem e excluam alocações de recursos em um planejador de recursos. Isso inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo alocado e o intervalo de datas.
   permission_assign_users_to_generic_allocations: Atribuir usuários a alocações genéricas
   permission_assign_users_to_generic_allocations_explanation: Permite que os usuários usem a visualização de alocação de equipe para atribuir usuários reais a alocações de recursos genéricas (baseadas em filtros) que ainda não possuem um usuário. Não permite criar ou editar alocações.
+  permission_manage_public_global_resource_planners: Gerenciar planejadores de recursos globais públicos
+  permission_manage_public_global_resource_planners_explanation: Permite que os usuários publiquem seus próprios planejadores de recursos globais e gerenciem planejadores de recursos globais que outros usuários compartilharam publicamente. Não permite que os usuários visualizem planejadores de recursos globais que não tenham sido compartilhados publicamente.
   permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
   permission_manage_public_resource_planners_explanation: Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
+  permission_view_global_resource_planners: Ver planejadores de recursos globais
+  permission_view_global_resource_planners_explanation: Permite que os usuários acessem a seção de planejadores de recursos globais, onde recursos e alocações de vários projetos podem ser planejados em conjunto. Permite criar e gerenciar seus próprios planejadores de recursos globais e visualizar os planejadores públicos. Os usuários sempre veem apenas os projetos, recursos e alocações que têm permissão para visualizar.
   permission_view_resource_planners: Ver planejadores de recursos
   permission_view_resource_planners_explanation: Permite que os usuários acessem planejadores de recursos. Permite criar e gerenciar seus próprios planejadores de recursos e visualizar planejadores de recursos públicos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
   plugin_openproject_resource_management:
@@ -93,8 +99,8 @@ pt-BR:
         empty: Nenhum critério definido.
         label: Critério
       missing_working_hours:
-        none: O usuário selecionado não tem horário de trabalho configurado para essas datas; portanto, considera-se que ele não tem disponibilidade.
-        partial: O usuário selecionado não possui horário de trabalho configurado para %{dates}; portanto, esses dias são considerados como sem disponibilidade.
+        none: O usuário selecionado não tem horário de trabalho configurado para essas datas, portanto é considerado sem capacidade disponível.
+        partial: O usuário selecionado não tem horário de trabalho configurado para %{dates}, portanto esses dias são considerados sem capacidade disponível.
       outside_dates:
         description: As datas do recurso selecionado (%{resource_dates}) estão fora do período do pacote de trabalho (%{work_package_dates}).
       overbooking:
@@ -128,6 +134,7 @@ pt-BR:
       title: Atribuir %{filter_name}
     blankslate:
       desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
+      global_desc: Crie um planejador de recursos para começar a planejar a capacidade entre os projetos.
       title: Ainda não há planejadores de recursos
     configure_view_dialog:
       delete_confirmation: Tem certeza que quer excluir esta visualização? Esta ação é irreversível.
@@ -142,12 +149,15 @@ pt-BR:
       title: Configurar exibição
     create_placeholder_user_dialog:
       submit: Criar
-      title: Criar usuário de espaço reservado
+      title: Criar usuário substituto
     edit_allocation_dialog:
       submit: Salvar
       success_message: Alocação de recursos atualizada.
       title: Editar alocação
     favorite_caption: Adicionar esta visualização aos favoritos para exibi-la na seção superior do menu lateral.
+    filters:
+      resource_management_enabled: Gerenciamento de recursos habilitado
+    global_public_caption: Torne esta visualização pública para todos que tiverem permissão para visualizar os planejadores de recursos globais. Isso não afeta a visibilidade dos pacotes de trabalho, que continua dependendo das permissões de cada usuário.
     label_edit_resource_planner: Editar planejador de recursos
     label_new_resource_planner: Novo planejador de recursos
     label_resource_planner: Planejador de recursos
@@ -172,7 +182,7 @@ pt-BR:
         work_package: Pacote de trabalho
       context_menu_label: Ações de alocação
       delete_confirmation: Tem certeza de que deseja excluir esta alocação?
-      menu_item: Pessoal
+      menu_item: Contratação
       starts_in_past: Esta alocação já começou e ainda não foi atribuída.
       success_message: Usuário atribuído.
       title: Pessoal
@@ -192,13 +202,16 @@ pt-BR:
         add: Adicionar
         allocate: Alocar
         settings: Configurar exibição
+      undisclosed:
+        tooltip: Você não tem permissão para ver este recurso alocado
+        work_package: Pacote de trabalho não visível para você
     user_allocations_dialog:
       allocate_work_package: Alocar pacote de trabalho
       blank: Este usuário não possui pacotes de trabalho alocados.
-      other_work_packages:
-        one: 1 outro pacote de trabalho
-        other: "%{count} outros pacotes de trabalho"
+      blank_in_timeframe: Este usuário não tem pacotes de trabalho alocados no período selecionado.
+      hidden_work_package: Pacote de trabalho não visível para você
       title: Utilização
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: Adicionar usuário
@@ -244,7 +257,7 @@ pt-BR:
         label: Lista de cartões de utilizadores
       resource_user_timeline:
         caption: Crie uma visualização baseada em usuários e veja suas alocações ao longo do tempo em uma linha do tempo
-        label: Timeline dos usuários
+        label: Linha do tempo dos usuários
       resource_work_package_list:
         caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista
         label: Lista de pacotes de trabalho

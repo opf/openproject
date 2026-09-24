@@ -41,7 +41,7 @@ module WorkPackageTypes
       def digest_for(aspect)
         case aspect
         when TypeVariant::FORM_CONFIGURATION then form_digest
-        when TypeVariant::WORKFLOWS then workflow_digest
+        when WORKFLOWS then workflow_digest
         end
       end
 

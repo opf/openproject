@@ -33,7 +33,6 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  let(:source) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
   before { login_as(create(:admin)) }
@@ -62,9 +61,10 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
 
   describe "sidebar step markers" do
     it "marks the current and pending steps, and completed steps by reuse mode" do
-      link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
+      variant = create(:type_variant, type:)
+      link_configuration(variant, aspect: TypeVariant::DEFAULTS)
 
-      render_inline(described_class.new(type:, current_step: :workflows))
+      render_inline(described_class.new(type:, current_step: :workflows, variant:))
 
       expect(find_test_selector("wizard-step-details")).to have_css(".octicon-pencil")
       expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-link")

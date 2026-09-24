@@ -134,33 +134,11 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
   end
 
-  describe "#available_custom_fields with a linked form configuration" do
-    let(:source_type) { create(:type) }
-    let(:linked_type) { create(:type) }
-    let(:project) { create(:project, types: [linked_type]) }
-    let!(:source_cf) do
-      create(:integer_wp_custom_field).tap do |cf|
-        project.work_package_custom_fields << cf
-        source_type.default_variant.custom_fields << cf
-      end
-    end
-
-    subject { described_class.new(project:, type: linked_type) }
-
-    before do
-      link_configuration(linked_type, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
-    end
-
-    it "intersects the project's fields with the effective source type's fields" do
-      expect(subject.available_custom_fields).to include(source_cf)
-    end
-  end
-
   describe "#available_custom_fields when the project resolves a variant" do
     let(:root_type) { create(:type) }
     let(:variant) do
       create(:type_variant, type: root_type).tap do |named|
-        link_configuration(named, source: root_type, aspect: TypeVariant::FORM_CONFIGURATION)
+        link_configuration(named, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
     let(:project) { create(:project, types: [variant]) }

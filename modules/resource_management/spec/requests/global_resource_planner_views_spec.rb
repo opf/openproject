@@ -38,10 +38,13 @@ RSpec.describe "Global resource planner views requests",
     create(:project, name: "Invisible", enabled_module_names: %w[resource_management work_package_tracking])
   end
 
+  shared_let(:unmanaged) { create(:project, name: "Unmanaged", enabled_module_names: %w[work_package_tracking]) }
+
   shared_let(:user) do
     create(:user,
            member_with_permissions: { alpha => %i[view_resource_planners view_work_packages],
-                                      beta => %i[view_resource_planners view_work_packages] },
+                                      beta => %i[view_resource_planners view_work_packages],
+                                      unmanaged => %i[view_work_packages] },
            global_permissions: %i[view_global_resource_planners])
   end
 
@@ -50,6 +53,7 @@ RSpec.describe "Global resource planner views requests",
   shared_let(:alpha_wp) { create(:work_package, project: alpha, subject: "Alpha work") }
   shared_let(:beta_wp) { create(:work_package, project: beta, subject: "Beta work") }
   shared_let(:invisible_wp) { create(:work_package, project: invisible, subject: "Secret work") }
+  shared_let(:unmanaged_wp) { create(:work_package, project: unmanaged, subject: "Unmanaged work") }
 
   before { login_as(user) }
 
@@ -93,13 +97,22 @@ RSpec.describe "Global resource planner views requests",
       expect(response.body).to include(project_overview_path(beta))
     end
 
-    it "accepts a work package from any project the user can see" do
+    it "accepts a work package from any resource managed project the user can see" do
       post work_packages_resource_planner_view_path(planner, view),
            params: { work_package_id: beta_wp.id },
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(view.reload.work_packages).to include(beta_wp)
+    end
+
+    it "rejects a work package from a project without the resource management module" do
+      post work_packages_resource_planner_view_path(planner, view),
+           params: { work_package_id: unmanaged_wp.id },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:bad_request)
+      expect(view.reload.work_packages).not_to include(unmanaged_wp)
     end
 
     it "rejects a work package from a project the user cannot see" do

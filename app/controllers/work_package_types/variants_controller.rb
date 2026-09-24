@@ -98,15 +98,7 @@ module WorkPackageTypes
     end
 
     def convert_to_global_dialog
-      variant = named_variant
-      service_call = ConvertToGlobalService.new(variant:).validate
-
-      if service_call.errors.added?(:base, :inherits_from_project_owned)
-        refuse_blocked_convert(service_call)
-      else
-        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
-      end
-
+      dialog_via_turbo_stream(component: convert_confirm_dialog(named_variant))
       respond_with_turbo_streams
     end
 
@@ -191,18 +183,11 @@ module WorkPackageTypes
     end
 
     def handle_failed_convert(service_call)
-      if service_call.errors.added?(:base, :inherits_from_project_owned)
-        refuse_blocked_convert(service_call)
-      elsif params.key?(:type_variant)
+      if params.key?(:type_variant)
         repaint_rename_form(service_call)
       else
         open_rename_dialog
       end
-    end
-
-    def refuse_blocked_convert(service_call)
-      flash[:error] = service_call.errors.full_messages
-      reload_page_via_turbo_stream
     end
 
     def open_rename_dialog

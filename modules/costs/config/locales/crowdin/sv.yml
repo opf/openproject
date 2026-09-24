@@ -251,6 +251,7 @@ sv:
   label_show: Visa
   label_specific_day: Dag %{day}
   label_specific_month: Månad %{month}
+  label_stack: Stack
   label_start_and_finished: Start- och sluttider
   label_status_finished: Avslutad
   label_time: Tid

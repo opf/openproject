@@ -46,6 +46,7 @@ module ResourceAllocations
           invalid: entity_error.present?,
           validation_message: entity_error,
           autocomplete_options: {
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_work_packages,
             openDirectly: false,
             focusDirectly: false,
             dropdownPosition: "bottom",
