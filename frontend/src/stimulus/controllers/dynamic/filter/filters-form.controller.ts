@@ -27,7 +27,12 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage, visit, type TurboBeforeMorphAttributeEvent } from '@hotwired/turbo';
+import {
+  renderStreamMessage,
+  visit,
+  type TurboBeforeMorphAttributeEvent,
+  type TurboBeforeMorphElementEvent,
+} from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
 import {
   hideElement,
@@ -53,6 +58,20 @@ type FilterFunc<T> = (_value:T) => boolean;
 // Marks a row the user added that holds no value yet. It is not part of any request, so a
 // re-render of the form would hide it again; the morph guard keeps marked rows as they are.
 const PENDING_ATTRIBUTE = 'data-filter-pending';
+
+// Turbo's page snapshot keeps live control values, so a hidden row would otherwise still
+// carry the draft the user typed and submit it the moment the filter is added again.
+function resetControls(row:HTMLElement) {
+  row.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input, select, textarea').forEach((control) => {
+    if (control instanceof HTMLSelectElement) {
+      Array.from(control.options).forEach((option) => { option.selected = option.defaultSelected; });
+    } else if (control instanceof HTMLInputElement && (control.type === 'checkbox' || control.type === 'radio')) {
+      control.checked = control.defaultChecked;
+    } else {
+      control.value = control.defaultValue;
+    }
+  });
+}
 
 export default class FiltersFormController extends Controller {
   static targets = [
@@ -132,7 +151,8 @@ export default class FiltersFormController extends Controller {
 
     const clearButton = document.getElementById(this.clearButtonIdValue);
     clearButton?.addEventListener('click', (event) => this.clearInputWithButton(event), { signal });
-    this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingRows, { signal });
+    this.element.addEventListener('turbo:before-morph-element', this.keepPendingRows, { signal });
+    this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingOptionsTaken, { signal });
 
     // A restored page brings its markup back but not this controller's model, so a marker
     // already in the DOM here belongs to whoever was cached.
@@ -372,41 +392,52 @@ export default class FiltersFormController extends Controller {
     return this.filterTargets.filter((row) => row.hasAttribute(PENDING_ATTRIBUTE));
   }
 
+  private releaseSubmittedPendingRows() {
+    const submitted = new Set(this.parseFilters().map((filter) => filter.name));
+    this.pendingRows()
+      .filter((row) => submitted.has(row.dataset.filterName!))
+      .forEach((row) => this.releasePendingRow(row, { hide: false }));
+  }
+
   private releasePendingRow(row:HTMLElement, { hide }:{ hide:boolean }) {
     row.removeAttribute(PENDING_ATTRIBUTE);
     if (hide) {
       row.setAttribute('hidden', '');
       this.setFilterOptionTaken(row.dataset.filterName!, false);
-      this.resetControls(row);
+      resetControls(row);
+      this.showValueForOperator(row.dataset.filterName!);
     }
   }
 
-  // Turbo's page snapshot keeps live control values, so a hidden row would otherwise still
-  // carry the draft the user typed and submit it the moment the filter is added again.
-  private resetControls(row:HTMLElement) {
-    row.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input, select, textarea').forEach((control) => {
-      if (control instanceof HTMLSelectElement) {
-        Array.from(control.options).forEach((option) => { option.selected = option.defaultSelected; });
-      } else if (control instanceof HTMLInputElement && (control.type === 'checkbox' || control.type === 'radio')) {
-        control.checked = control.defaultChecked;
-      } else {
-        control.value = control.defaultValue;
-      }
-    });
+  // Which picker is shown, and whether the value container is shown at all, follows the
+  // operator through attributes that a reset of control values leaves untouched.
+  private showValueForOperator(filterName:string) {
+    const operator = this.findTargetByName(filterName, this.operatorTargets);
+    if (operator) {
+      this.setValueVisibility({ target: operator, params: { filterName } });
+    }
   }
 
-  private readonly keepPendingRows = (event:TurboBeforeMorphAttributeEvent) => {
+  // The server does not know a pending row, so its response would hide the row and put its
+  // operator, draft value and active picker back to defaults. The row is left out of the morph.
+  private readonly keepPendingRows = (event:TurboBeforeMorphElementEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (this.filterTargets.includes(target) && target.hasAttribute(PENDING_ATTRIBUTE)) {
+      event.preventDefault();
+    }
+  };
+
+  private readonly keepPendingOptionsTaken = (event:TurboBeforeMorphAttributeEvent) => {
     const { attributeName } = event.detail;
     const target = event.target as HTMLElement;
 
-    const isPendingRow = this.filterTargets.includes(target) && target.hasAttribute(PENDING_ATTRIBUTE);
-    const keepsRow = isPendingRow && (attributeName === 'hidden' || attributeName === PENDING_ATTRIBUTE);
     const keepsOptionTaken = attributeName === 'disabled'
       && target instanceof HTMLOptionElement
       && target.closest('select') === this.addFilterSelectTarget
       && this.pendingRows().some((row) => row.dataset.filterName === target.value);
 
-    if (keepsRow || keepsOptionTaken) {
+    if (keepsOptionTaken) {
       event.preventDefault();
     }
   };
@@ -511,10 +542,7 @@ export default class FiltersFormController extends Controller {
   }
 
   sendForm() {
-    const submitted = new Set(this.parseFilters().map((filter) => filter.name));
-    this.pendingRows()
-      .filter((row) => submitted.has(row.dataset.filterName!))
-      .forEach((row) => this.releasePendingRow(row, { hide: false }));
+    this.releaseSubmittedPendingRows();
 
     // When we want the filter content to be written to a hidden input, do this.
     // When we do not also want the turbo requests, we can exit early here. Otherwise the automatic redirect
