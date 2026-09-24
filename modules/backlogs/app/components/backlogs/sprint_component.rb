@@ -117,6 +117,30 @@ module Backlogs
       work_packages.filter_map(&:story_points).sum
     end
 
+    def estimated_hours_total
+      work_packages.filter_map(&:estimated_hours).sum
+    end
+
+    def show_velocity?
+      case project.estimation_unit
+      when Project::NONE
+        false
+      when Project::TIME
+        estimated_hours_total.positive?
+      else
+        true
+      end
+    end
+
+    def velocity_text
+      case project.estimation_unit
+      when Project::TIME
+        DurationConverter.output(estimated_hours_total)
+      else
+        "#{story_points_total} #{t(:"backlogs.points_label", count: story_points_total)}"
+      end
+    end
+
     # Starting a sprint can be blocked by three independent rules:
     # - `project` is set to receive shared sprints and `sprint` is one of its
     #   own (see StartContract) - unconditionally, regardless of

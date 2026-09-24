@@ -60,8 +60,10 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center)) do %>
           <%= render(Backlogs::SprintStatusBadgeComponent.new(sprint:)) %>
 
-          <%= render(Primer::Beta::Text.new(classes: "velocity", aria: { live: "polite" })) do %>
-            <%= story_points_total %>&nbsp;<%= t(:"backlogs.points_label", count: story_points_total) %>
+          <% if show_velocity? %>
+            <%= render(Primer::Beta::Text.new(classes: "velocity", aria: { live: "polite" })) do %>
+              <%= velocity_text %>
+            <% end %>
           <% end %>
 
           <% if sprint.date_range_set? %>

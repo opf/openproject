@@ -57,6 +57,52 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered_component).to have_css(".sr-only", text: "5 story points")
   end
 
+  context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+    before { project.update!(estimation_unit: "time") }
+
+    let(:work_package) do
+      create(:work_package,
+             project:,
+             type: type_feature,
+             story_points: 5,
+             estimated_hours: 8,
+             subject: "Backlogs card")
+    end
+
+    it "renders the estimated hours as the card metric instead of story points" do
+      expect(rendered_component).to have_no_css(".sr-only", text: "5 story points")
+      expect(rendered_component).to have_css(".sr-only", text: "Work")
+    end
+
+    context "when estimated_hours is blank" do
+      let(:work_package) do
+        create(:work_package, project:, type: type_feature, story_points: 5, estimated_hours: nil, subject: "Backlogs card")
+      end
+
+      it "shows no metric at all" do
+        expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+      end
+    end
+
+    context "when estimated_hours is zero" do
+      let(:work_package) do
+        create(:work_package, project:, type: type_feature, story_points: 5, estimated_hours: 0, subject: "Backlogs card")
+      end
+
+      it "shows no metric at all" do
+        expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+      end
+    end
+  end
+
+  context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+    before { project.update!(estimation_unit: "none") }
+
+    it "shows no metric at all" do
+      expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+    end
+  end
+
   it "supports caller-provided metric content" do
     rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
       card.with_metric { "Custom metric" }

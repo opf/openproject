@@ -85,6 +85,38 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_text("8 points", normalize_ws: true)
       end
 
+      context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+        before do
+          project.update!(estimation_unit: "time")
+          work_package1.update!(estimated_hours: 5)
+          work_package2.update!(estimated_hours: 3)
+        end
+
+        it "renders the estimated hours total instead of the story points total" do
+          expect(rendered_component).to have_no_text("points")
+          expect(rendered_component).to have_text(DurationConverter.output(8))
+        end
+
+        context "when the estimated hours total is zero" do
+          before do
+            work_package1.update!(estimated_hours: nil)
+            work_package2.update!(estimated_hours: nil)
+          end
+
+          it "renders no velocity total" do
+            expect(rendered_component).to have_no_css(".velocity")
+          end
+        end
+      end
+
+      context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+        before { project.update!(estimation_unit: "none") }
+
+        it "renders no velocity total" do
+          expect(rendered_component).to have_no_css(".velocity")
+        end
+      end
+
       it "renders the inferred work-package count in the header" do
         expect(rendered_component).to have_css(
           ".Counter",
