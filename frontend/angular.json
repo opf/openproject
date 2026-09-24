@@ -114,14 +114,7 @@
         "serve": {
           "builder": "@angular-builders/custom-esbuild:dev-server",
           "options": {
-            "servePath": "/assets/frontend",
-            "prebundle": {
-              "exclude": [
-                "@blocknote/react",
-                "@blocknote/mantine",
-                "op-blocknote-extensions"
-              ]
-            }
+            "servePath": "/assets/frontend"
           },
           "configurations": {
             "production": {
