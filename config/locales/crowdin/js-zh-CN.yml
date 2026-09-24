@@ -805,30 +805,30 @@ zh-CN:
       sorting_disabled: 排序被禁用
     sortable_lists:
       announcements:
-        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
+        batch_too_large: 无法一次性移动 %{count} 个条目。选择的条目数量不得超过 %{max} 个。
         fallback_item_label: 条目
         fallback_list_name: 另一个列表
         move_failed_check_position: 移动失败。请检查该条目的当前位置。
         move_failed_check_positions_batch:
-          other: Move failed. Check the items' current positions.
+          other: 移动失败。请检查条目的当前位置。
         move_failed_rolled_back: 移动失败。%{label} 已回到其先前位置。
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} items returned to their previous positions.
+          other: 移动失败。%{count} 个条目已回到其先前位置。
         moved: "%{label} 已移至位置 %{position}，总计 %{total}"
         moved_batch:
-          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} 个条目已被移至位置 %{first} 到 %{last}，总计 %{total}"
         moved_batch_to_list:
-          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} 个条目已被移至 %{list} 的位置 %{first} 到 %{last}，总计 %{total}"
         moved_to_list: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
       selection:
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        cleared: 选择已清除。
+        not_selectable: 选择未更改。此条目不参与此列表的排序。
+        range_blocked: 选择未更改。该范围包含不参与此列表排序的条目。
         range_restarted:
-          other: Could not extend the range. %{count} items selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          other: 无法扩展范围。已选择 %{count} 个条目。
+        range_unavailable: 选择未更改。扩展此列表，以选择该范围。
         selected:
-          other: "%{count} items selected."
+          other: 已选择 %{count} 个条目。
     spot:
       drop_modal:
         close: 关闭模式
