@@ -46,7 +46,7 @@ module EnvData
         result = LlmConnections::EnvSyncService.new(config).call
         raise result.errors.full_messages.join(", ") if result.failure?
 
-        Llm::SyncModelsJob.perform_later if result.result.catalogue_fetched_at.nil?
+        Llm::SyncModelsJob.perform_later if result.result.last_synced_at.nil?
       end
     end
 
