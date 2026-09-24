@@ -73,11 +73,15 @@ module Admin
           root.custom_field.is_a?(ProjectCustomField)
         end
 
+        def user_custom_field_context?
+          root.custom_field.is_a?(UserCustomField)
+        end
+
         def new_record? = model.new_record?
 
         def custom_field_id = root.custom_field_id
 
-        def url # rubocop:disable Metrics/AbcSize
+        def url # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
           parent = model.parent
           position = model.sort_order
           if project_custom_field_context?
@@ -85,6 +89,12 @@ module Admin
               new_child_admin_settings_project_custom_field_item_path(custom_field_id, parent, position:)
             else
               admin_settings_project_custom_field_item_path(custom_field_id, model)
+            end
+          elsif user_custom_field_context?
+            if new_record?
+              new_child_admin_settings_user_custom_field_item_path(custom_field_id, parent, position:)
+            else
+              admin_settings_user_custom_field_item_path(custom_field_id, model)
             end
           elsif new_record?
             new_child_custom_field_item_path(custom_field_id, parent, position:)
