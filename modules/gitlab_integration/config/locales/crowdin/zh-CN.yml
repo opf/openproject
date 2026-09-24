@@ -25,9 +25,9 @@ zh-CN:
   activerecord:
     attributes:
       gitlab_branch:
-        gitlab_project: GitLab project
-        namespace: GitLab namespace
-        project_html_url: GitLab project URL
+        gitlab_project: GitLab 项目
+        namespace: GitLab 命名空间
+        project_html_url: GitLab 项目 URL
       gitlab_merge_request:
         labels: 标签
       gitlab_pipeline:
@@ -44,7 +44,7 @@ zh-CN:
               invalid_schema: 必须是键为“颜色，标题”的哈希数组
     models:
       gitlab_branch:
-        other: GitLab branches
+        other: GitLab 分支
       gitlab_issue:
         other: GitLab 问题
       gitlab_merge_request:

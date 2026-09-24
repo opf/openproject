@@ -251,6 +251,7 @@ hu:
   label_show: Mutat
   label_specific_day: Nap %{day}
   label_specific_month: Hónap %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Kész
   label_time: Idő

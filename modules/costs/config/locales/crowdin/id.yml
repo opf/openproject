@@ -242,6 +242,7 @@ id:
   label_show: Tampilkan
   label_specific_day: Hari %{day}
   label_specific_month: Bulan %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Selesai
   label_time: Waktu
