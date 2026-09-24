@@ -66,8 +66,7 @@ RSpec.describe AI::TextTransforms::CreateRun,
       expect(call).to be_failure
       expect(AI::TextTransformRun.count).to eq(0)
       expect(call.errors.details[:base]).to eq([{ error: :not_available, reason: :action_inactive }])
-      expect(call.errors.full_messages)
-        .to eq([I18n.t("api_v3.errors.ai_text_transform.action_not_available")])
+      expect(call.errors.full_messages).to eq(["This action is not available."])
     end
   end
 

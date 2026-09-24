@@ -101,10 +101,13 @@ post:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
-                message: This action is not available for this work package. (llm_unavailable)
+                message: This action is not available.
+                _embedded:
+                  details:
+                    reason: llm_unavailable
       description: |-
         Returned if the content is blank or too long, or if the action cannot run in this context.
-        In the latter case the message ends with the reason in parentheses:
+        In the latter case `_embedded.details.reason` carries a stable, untranslated code:
 
         * `feature_disabled`: the feature flag `ai_text_transform_actions` is off
         * `assistant_disabled`: the administrative setting is off

@@ -67,9 +67,8 @@ module API
               unavailable = errors.details[:base].find { |detail| detail[:error] == :not_available }
               raise ::API::Errors::ErrorBase.create_and_merge_errors(errors) unless unavailable
 
-              raise ::API::Errors::UnprocessableContent.new(
-                "#{I18n.t('api_v3.errors.ai_text_transform.action_not_available')} (#{unavailable[:reason]})"
-              )
+              raise ::API::Errors::UnprocessableContent.new(errors.full_messages_for(:base).first,
+                                                            details: { reason: unavailable[:reason] })
             end
           end
 

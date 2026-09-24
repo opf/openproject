@@ -630,6 +630,10 @@ en:
         user_in_ldap_managed_department: "This user belongs to a department managed by LDAP synchronization and cannot be moved."
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: "This action is not available."
         attachment:
           attributes:
             content_type:
@@ -2095,8 +2099,6 @@ en:
           `targetVersions` accepts at most one value and must not be written together
           with `version` in the same request.
     errors:
-      ai_text_transform:
-        action_not_available: "This action is not available for this work package."
       bad_request:
         emoji_reactions_activity_type_not_supported: "This activity type does not support emoji reactions."
         invalid_link: "The link under key '%{key}' is not valid."

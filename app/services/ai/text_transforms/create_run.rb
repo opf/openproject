@@ -53,10 +53,7 @@ module AI
       attr_reader :user, :action, :context, :content, :availability
 
       def unavailable(run)
-        run.errors.add(:base,
-                       :not_available,
-                       message: I18n.t("api_v3.errors.ai_text_transform.action_not_available"),
-                       reason: unavailable_reason)
+        run.errors.add(:base, :not_available, reason: unavailable_reason)
         ServiceResult.failure(result: run, errors: run.errors)
       end
 

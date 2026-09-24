@@ -62,13 +62,12 @@ RSpec.describe API::V3::AI::TextTransformRunsAPI,
   end
 
   shared_examples "action not available" do |reason|
-    it "answers 422 with the reason and creates nothing" do
-      expect(last_response).to have_http_status(:unprocessable_entity)
-      expect(last_response.body)
-        .to be_json_eql("urn:openproject-org:api:v3:errors:UnprocessableContent".to_json).at_path("errorIdentifier")
-      expect(last_response.body)
-        .to be_json_eql("#{I18n.t('api_v3.errors.ai_text_transform.action_not_available')} (#{reason})".to_json)
-        .at_path("message")
+    it_behaves_like "error response", 422, "UnprocessableContent" do
+      let(:message) { "This action is not available." }
+    end
+
+    it "carries the reason and creates nothing" do
+      expect(last_response.body).to be_json_eql(reason.to_s.to_json).at_path("_embedded/details/reason")
       expect(AI::TextTransformRun.count).to eq(0)
     end
   end
