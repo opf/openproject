@@ -40,8 +40,6 @@ RSpec.describe Queries::LlmModels::Filters::NameFilter do
     LlmModel.where(filter.where).pluck(:external_id)
   end
 
-  # BaseQuery applies a filter without asking whether it is valid, so every
-  # operator the :string strategy allows has to resolve to a condition.
   it "resolves every operator it accepts" do
     operators = described_class.create!(operator: "~", values: ["x"]).available_operators.map(&:symbol)
     expect(operators).to include("=", "!", "~", "!~")
