@@ -86,6 +86,7 @@ describe('Filters form pending rows', () => {
       <div data-filter-name="subject" data-filter-type="string" hidden data-filter--filters-form-target="filter">
         <select aria-label="Subject operator" data-filter-name="subject" data-filter--filters-form-target="operator">
           <option value="~">contains</option>
+          <option value="!~">does not contain</option>
         </select>
         <div data-filter-name="subject" data-filter--filters-form-target="filterValueContainer">
           <input type="text" name="value" value="" aria-label="Subject value"
@@ -108,7 +109,7 @@ describe('Filters form pending rows', () => {
   // getByRole returns HTMLElement; the generic narrows it where `.value` is read or written.
   const addFilterSelect = () => ctx.screen.getByRole<HTMLSelectElement>('combobox', { name: 'Add filter' });
   const statusOperator = () => ctx.screen.getByRole('combobox', { name: 'Status operator', hidden: true });
-  const subjectOperator = () => ctx.screen.getByRole('combobox', { name: 'Subject operator', hidden: true });
+  const subjectOperator = () => ctx.screen.getByRole<HTMLSelectElement>('combobox', { name: 'Subject operator', hidden: true });
   const subjectRow = () => subjectOperator().closest<HTMLElement>('[data-filter--filters-form-target="filter"]')!;
   const statusOption = () => ctx.screen.getByRole<HTMLOptionElement>('option', { name: 'Status', hidden: true });
   const subjectOption = () => ctx.screen.getByRole<HTMLOptionElement>('option', { name: 'Subject', hidden: true });
@@ -122,6 +123,17 @@ describe('Filters form pending rows', () => {
 
   function selectStatus(id:string) {
     statusValue().value = id;
+  }
+
+  // Turbo's snapshot clone carries live control values, not just markup. `element` is not
+  // part of the published typings.
+  async function restoreCachedPage() {
+    const { element: cached } = Turbo.PageSnapshot.fromElement(host()).clone() as unknown as { element:HTMLElement };
+    ctx.dispose();
+    ctx = await setupStimulusTest({ controllers: { 'filter--filters-form': Controller } });
+    ctx.container.append(cached);
+    await ctx.nextFrame();
+    return ctx.getController<FiltersFormControllerType>('filter--filters-form');
   }
 
   function rerenderFromServer(statusRow:StatusRow) {
@@ -145,6 +157,20 @@ describe('Filters form pending rows', () => {
 
     expect(statusOperator()).toBeVisible();
     expect(statusOption()).toBeDisabled();
+  });
+
+  it("keeps a pending row's operator and draft through a re-render that does not know it", async () => {
+    const controller = await mount();
+    addFilterSelect().value = 'subject';
+    controller.addFilterByName('subject');
+    subjectOperator().value = '!~';
+    subjectValue().value = 'draft';
+
+    rerenderFromServer(UNKNOWN_TO_SERVER);
+
+    expect(subjectOperator()).toBeVisible();
+    expect(subjectOperator()).toHaveValue('!~');
+    expect(subjectValue()).toHaveValue('draft');
   });
 
   it('hands the row to the server once it has been submitted with a value', async () => {
@@ -236,14 +262,7 @@ describe('Filters form pending rows', () => {
     controller.addFilterByName('subject');
     subjectValue().value = 'unsent draft';
 
-    // Turbo's snapshot clone carries live control values, not just markup. `element` is not
-    // part of the published typings.
-    const { element: cached } = Turbo.PageSnapshot.fromElement(host()).clone() as unknown as { element:HTMLElement };
-    ctx.dispose();
-    ctx = await setupStimulusTest({ controllers: { 'filter--filters-form': Controller } });
-    ctx.container.append(cached);
-    await ctx.nextFrame();
-    const restored = ctx.getController<FiltersFormControllerType>('filter--filters-form');
+    const restored = await restoreCachedPage();
 
     expect(subjectOperator()).not.toBeVisible();
     expect(subjectValue()).toHaveValue('');
@@ -326,6 +345,96 @@ describe('Filters form pending rows', () => {
 
       expect(rangeOperator()).not.toBeVisible();
       expect(controller.serializedFiltersWith()).toBe('');
+    });
+  });
+
+  describe('with a date row that swaps its picker per operator', () => {
+    const FILTER_NAME = 'created_at';
+
+    beforeAll(async () => {
+      await import('@primer/view-components/app/lib/primer/forms/primer_multi_input');
+    });
+
+    // Mirrors Filters::Inputs::DateForm: one picker per operator inside a primer-multi-input,
+    // with the inactive one hidden and disabled by activateField().
+    function dateRow() {
+      return `<div data-controller="filter--filters-form"
+        data-filter--filters-form-turbo-frame-request-value="backlogs_container">
+        <select aria-label="Add filter" data-filter--filters-form-target="addFilterSelect">
+          <option value=""></option>
+          <option value="${FILTER_NAME}">Created on</option>
+        </select>
+        <div data-filter-name="${FILTER_NAME}" data-filter-type="datetime_past" hidden data-filter--filters-form-target="filter">
+          <select aria-label="Created on operator" data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="operator">
+            <option value="=d">on</option>
+            <option value="<>d">between</option>
+          </select>
+          <div data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="filterValueContainer">
+            <primer-multi-input>
+              <div>
+                <input id="${FILTER_NAME}" value=""
+                  data-targets="primer-multi-input.fields" data-name="singleDay"
+                  data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="singleDay">
+              </div>
+              <div hidden>
+                <input id="${FILTER_NAME}" value="-" hidden disabled
+                  data-targets="primer-multi-input.fields" data-name="dateRange"
+                  data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="dateRange">
+              </div>
+            </primer-multi-input>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    const dateOperator = () => ctx.screen.getByRole<HTMLSelectElement>('combobox', { name: 'Created on operator', hidden: true });
+    // An input carrying `hidden` drops out of the role tree, so the pickers are found by name.
+    const dayInput = () => ctx.container.querySelector<HTMLInputElement>('[data-name="singleDay"]')!;
+    const rangeInput = () => ctx.container.querySelector<HTMLInputElement>('[data-name="dateRange"]')!;
+
+    function addCreatedOn(controller:FiltersFormControllerType) {
+      addFilterSelect().value = FILTER_NAME;
+      controller.addFilterByName(FILTER_NAME);
+    }
+
+    function switchOperatorTo(controller:FiltersFormControllerType, operator:string) {
+      dateOperator().value = operator;
+      controller.setValueVisibility({ target: dateOperator(), params: { filterName: FILTER_NAME } });
+    }
+
+    function rerenderCreatedOn() {
+      const template = document.createElement('template');
+      template.innerHTML = dateRow();
+      Turbo.morphElements(host(), template.content.firstElementChild!);
+    }
+
+    it('keeps the picker of a chosen operator through a re-render that does not know the row', async () => {
+      const controller = await mount(dateRow());
+      addCreatedOn(controller);
+      switchOperatorTo(controller, '<>d');
+
+      rerenderCreatedOn();
+
+      expect(dateOperator()).toHaveValue('<>d');
+      expect(rangeInput()).toBeVisible();
+      expect(dayInput()).not.toBeVisible();
+    });
+
+    it('shows the picker of the default operator again after a cached page is restored', async () => {
+      const controller = await mount(dateRow());
+      addCreatedOn(controller);
+      switchOperatorTo(controller, '<>d');
+
+      expect(rangeInput()).toBeVisible();
+      expect(dayInput()).not.toBeVisible();
+
+      const restored = await restoreCachedPage();
+      addCreatedOn(restored);
+
+      expect(dateOperator()).toHaveValue('=d');
+      expect(dayInput()).toBeVisible();
+      expect(dayInput()).toBeEnabled();
+      expect(rangeInput()).not.toBeVisible();
     });
   });
 
