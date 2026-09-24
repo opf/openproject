@@ -34,6 +34,9 @@ RSpec.describe Queries::LlmModels::Filters::NameFilter do
   let(:connection) { create(:llm_connection, base_url: "https://example.com/v1") }
   let!(:qwen) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
   let!(:named) { create(:llm_model, llm_connection: connection, external_id: "bge-m3", display_name: "Embedder") }
+  let!(:reported) do
+    create(:llm_model, llm_connection: connection, external_id: "google/gemma-4", raw_metadata: { "name" => "Gemma Four" })
+  end
 
   def matches(operator, value)
     filter = described_class.create!(operator:, values: Array(value))
@@ -54,18 +57,31 @@ RSpec.describe Queries::LlmModels::Filters::NameFilter do
     expect(matches("~", "embed")).to contain_exactly("bge-m3")
   end
 
-  it "excludes a substring, keeping rows that have no display name" do
-    expect(matches("!~", "qwen")).to contain_exactly("bge-m3")
+  it "matches a substring of the name the server or a registry reports" do
+    expect(matches("~", "four")).to contain_exactly("google/gemma-4")
+  end
+
+  it "excludes a substring, keeping rows that have no display name or reported name" do
+    expect(matches("!~", "qwen")).to contain_exactly("bge-m3", "google/gemma-4")
+  end
+
+  it "excludes a substring of the reported name" do
+    expect(matches("!~", "four")).to contain_exactly("qwen3.6-27b", "bge-m3")
   end
 
   it "matches an exact identifier or display name" do
     expect(matches("=", "qwen3.6-27b")).to contain_exactly("qwen3.6-27b")
     expect(matches("=", "Embedder")).to contain_exactly("bge-m3")
+    expect(matches("=", "Gemma Four")).to contain_exactly("google/gemma-4")
     expect(matches("=", "qwen")).to be_empty
   end
 
-  it "excludes an exact identifier, keeping rows that have no display name" do
-    expect(matches("!", "qwen3.6-27b")).to contain_exactly("bge-m3")
+  it "excludes an exact identifier, keeping rows that have no display name or reported name" do
+    expect(matches("!", "qwen3.6-27b")).to contain_exactly("bge-m3", "google/gemma-4")
+  end
+
+  it "excludes an exact reported name" do
+    expect(matches("!", "Gemma Four")).to contain_exactly("qwen3.6-27b", "bge-m3")
   end
 
   it "matches nothing rather than raising on an empty term" do
