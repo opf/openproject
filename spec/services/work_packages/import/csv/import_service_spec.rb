@@ -250,7 +250,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       journal = WorkPackage.sole.journals.first
 
       expect(journal).to have_attributes(created_at:, updated_at: created_at)
-      expect(journal.validity_period).to eq(created_at..)
+      expect(journal.validity_period).to eq(created_at...updated_at)
     end
 
     it "exists for a baseline asked about a moment after it was created" do
@@ -313,6 +313,15 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(result.result.problems.sole).to have_attributes(attribute: "author", value: "ghost@example.com")
     end
 
+    it "records the user in the journal snapshot, so a later change is not read as an author change" do
+      import([row({ subject: "From elsewhere", author: original.mail })])
+
+      work_package = WorkPackage.sole
+      WorkPackages::UpdateService.new(user:, model: work_package).call(subject: "Renamed")
+
+      expect(work_package.journals.last.details).not_to include("author_id")
+    end
+
     it "keeps the back-dating it arrives with" do
       created_at = Time.utc(2024, 3, 4, 9, 30)
       import([row({ subject: "Both", author: original.mail, created_at: created_at.iso8601 })])
@@ -320,8 +329,50 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       work_package = WorkPackage.sole
 
       expect(work_package).to have_attributes(author: original, created_at:)
-      expect(work_package.journals.first)
-        .to have_attributes(user: original, created_at:, validity_period: (created_at..))
+      expect(work_package.journals.first).to have_attributes(user: original, created_at:)
+      expect(work_package.journals.first.validity_period.begin).to eq(created_at)
+    end
+  end
+
+  describe "the import entry" do
+    let(:created_at) { Time.utc(2024, 3, 4, 9, 30) }
+    let(:updated_at) { Time.utc(2024, 5, 6, 11, 15) }
+
+    def import_journal = WorkPackage.sole.journals.last
+
+    it "follows the creation with an entry of its own, so the activity shows it" do
+      import([row({ subject: "Imported" })])
+
+      expect(WorkPackage.sole.journals.count).to eq(2)
+      expect(import_journal.cause).to eq("type" => "import", "csv" => true)
+    end
+
+    # An entry by the importing user lands inside the aggregation window of the creation journal
+    # it follows, which would merge the two and leave the activity showing only the creation.
+    it "writes the entry as the system user, so it is not merged into the creation" do
+      import([row({ subject: "Imported" })])
+
+      expect(import_journal.user).to eq(User.system)
+    end
+
+    it "carries nothing but the mark" do
+      import([row({ subject: "Imported" })])
+
+      expect(import_journal.details).to eq("cause" => [nil, { "type" => "import", "csv" => true }])
+    end
+
+    it "keeps the Updated on the row gave the work package" do
+      import([row({ subject: "Imported", updated_at: updated_at.iso8601 })])
+
+      expect(WorkPackage.sole.updated_at).to eq(updated_at)
+    end
+
+    it "sits after a back-dated creation" do
+      import([row({ subject: "Imported",
+                    created_at: created_at.iso8601,
+                    updated_at: updated_at.iso8601 })])
+
+      expect(import_journal.created_at).to be > created_at
     end
   end
 
