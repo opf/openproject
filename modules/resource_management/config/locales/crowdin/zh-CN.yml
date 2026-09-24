@@ -3,15 +3,15 @@ zh-CN:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: 筛选条件
       resource_allocation:
         allocated_hours: 小时
         allocated_time: 分配时间
         date_range: 日期
         end_date: 结束日期
         entity: 实体
-        placeholder_or_user: Assignee
-        placeholder_user: Placeholder user
+        placeholder_or_user: 受理人
+        placeholder_user: 占位符用户
         principal: 受理人
         start_date: 开始日期
         state: 地区
@@ -30,7 +30,7 @@ zh-CN:
             end_date:
               greater_than_start_date: 必须在开始日期之后。
             principal:
-              not_a_member: is not a member of the work package's project.
+              not_a_member: 不是工作包项目的成员。
         resource_planner:
           attributes:
             end_date:
@@ -68,12 +68,12 @@ zh-CN:
   permission_allocate_user_resources_explanation: 允许用户在资源规划工具中创建、更新和删除资源分配。这包括为规划工具分配用户（或用户筛选器），以及调整分配的时间和日期范围。
   permission_assign_users_to_generic_allocations: 将用户指定给通用分配
   permission_assign_users_to_generic_allocations_explanation: 允许用户使用“人员配置”视图，将真实用户指定给尚未拥有用户的通用（基于筛选器的）资源分配。该功能不支持创建或编辑分配。
-  permission_manage_public_global_resource_planners: Manage public global resource planners
-  permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
+  permission_manage_public_global_resource_planners: 管理公开的全局资源规划工具
+  permission_manage_public_global_resource_planners_explanation: 允许用户发布自己的全局资源规划工具，并管理其他用户已公开共享的全局资源规划工具。不允许用户查看未公开共享的全局资源规划工具。
   permission_manage_public_resource_planners: 管理公开的资源规划工具
   permission_manage_public_resource_planners_explanation: 允许用户创建和管理公开的资源规划工具。用户可以查看、创建、管理和发布自己的资源规划工具，但不可以查看其他用户创建的未公开共享的资源规划工具。
-  permission_view_global_resource_planners: View global resource planners
-  permission_view_global_resource_planners_explanation: Allows users to access the global resource planner section, where resources and allocations from several projects can be planned together. It allows them to create and manage their own global resource planners and view public ones. Users only ever see the projects, resources and allocations they are permitted to view.
+  permission_view_global_resource_planners: 查看全局资源规划工具
+  permission_view_global_resource_planners_explanation: 允许用户访问“全局资源规划工”分区，可以在此处对多个项目的资源和分配进行统一规划。允许用户创建和管理自己的全局资源规划工具，并允许其查看公共的全局资源规划工具。用户仅能查看其有权查看的项目、资源和分配。
   permission_view_resource_planners: 查看资源规划工具
   permission_view_resource_planners_explanation: 允许用户访问资源规划工具。用户可以创建和管理自己的资源规划工具，并查看公开的资源规划工具，但不可以查看其他用户创建的未公开共享的资源规划工具。
   plugin_openproject_resource_management:
@@ -90,11 +90,11 @@ zh-CN:
       unfavorite: 取消收藏
     allocate_resource_dialog:
       criteria:
-        empty: No criteria set.
-        label: Criteria
+        empty: 尚未设置条件。
+        label: 条件
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: 所选用户在这些日期没有配置工作时数，因此被计为没有产能。
+        partial: 所选用户在 %{dates}没有配置工作时数，因此这些日期被计为没有产能。
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:
@@ -128,7 +128,7 @@ zh-CN:
       title: 指定 %{filter_name}
     blankslate:
       desc: 创建资源规划工具以开始规划此项目的容量。
-      global_desc: Create a resource planner to start planning capacity across projects.
+      global_desc: 创建资源规划工具，以开始规划项目的产能。
       title: 暂无资源规划工具
     configure_view_dialog:
       delete_confirmation: 确定要删除此视图吗？此操作无法撤消。
@@ -142,16 +142,16 @@ zh-CN:
           label: 人工挑选
       title: 配置视图
     create_placeholder_user_dialog:
-      submit: Create
-      title: Create placeholder user
+      submit: 创建
+      title: 创建占位符用户
     edit_allocation_dialog:
       submit: 保存
       success_message: 资源分配已更新。
       title: 编辑分配
     favorite_caption: 将此视图标记为收藏项，并添加到边栏菜单的顶部。
     filters:
-      resource_management_enabled: Resource management enabled
-    global_public_caption: Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of work packages which still depends on each user permission.
+      resource_management_enabled: 资源管理已启用
+    global_public_caption: 向有权查看全局资源规划工具的所有成员公开此视图。这不会影响工作包的可见性，工作包的可见性仍然取决于每位用户的权限。
     label_edit_resource_planner: 编辑资源规划工具
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
@@ -197,15 +197,15 @@ zh-CN:
         allocate: 分配
         settings: 配置视图
       undisclosed:
-        tooltip: You don't have permissions to see this allocated resource
-        work_package: Work package not visible to you
+        tooltip: 您无权查看此分配资源
+        work_package: 工作包对您不可见
     user_allocations_dialog:
       allocate_work_package: 分配工作包
       blank: 此用户没有分配的工作包。
-      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
-      hidden_work_package: Work package not visible to you
+      blank_in_timeframe: 此用户在所选时间范围中没有分配的工作包。
+      hidden_work_package: 工作包对您不可见
       title: 使用情况
-      total_time: "%{hours} total"
+      total_time: 总计 %{hours}
     user_card_list:
       add_user_dialog:
         title: 添加用户

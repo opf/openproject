@@ -385,16 +385,13 @@ de:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
-        defaults_source: Standardquelle
         enabled_in_new_projects: Aktiv in neuen Projekten
-        form_configuration_source: Formularquelle
+        linked_aspects: Inherited configuration
         patterns: Muster
-        pdf_export_source: Quelle für den PDF-Export
-        project_attributes_source: Quelle der Projektattribute
         project_types: Projekte mit dieser Variante
         variant: Variante
         variant_name: Name
-        workflows_source: Quelle für Workflows
+        workflow: Workflow
       user:
         admin: Administrator
         auth_source: Authentifizierungsquelle
@@ -527,6 +524,10 @@ de:
         work_package: Arbeitspaket
       work_package_version:
         kind: Art
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: muss akzeptiert werden.
@@ -883,38 +884,19 @@ de:
               group_without_name: Gruppenname darf nicht leer sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             base:
-              borrowed_by_variants: Kann nicht gelöscht werden, solange die Konfiguration noch von %{names} verwendet wird.
-              inherits_from_project_owned: 'Diese Variante leitet sich derzeit von einer projektspezifischen Variante ab und kann nicht in eine globale Variante umgewandelt werden.
-
-                '
               is_default_variant: Die Standardkonfiguration eines Typs kann nicht gelöscht werden.
               project_variants_not_allowed: Bei diesem Typ ist die Erstellung von Varianten innerhalb von Projekten nicht zulässig.
               restrict_dependent_destroy:
                 has_many: Kann nicht gelöscht werden, solange es noch in Projekten verwendet wird.
-            defaults_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: kann nicht für eine Variante festgelegt werden, die zu einem Projekt gehört.
               taken: ist bereits für eine andere Variante dieses Typs aktiv.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             patterns:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: Es muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             variant:
               must_belong_to_the_type: muss eine Variante dieses Typs sein.
             workflow:
               not_available_to_this_variant: muss ein Workflow sein, den dieses Projekt nutzen kann.
-            workflows_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
         user:
           attributes:
             base:
@@ -3574,6 +3556,7 @@ de:
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_item: "(gelöschter Eintrag)"
   label_deleted_custom_option: "(gelöschte Option)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organisation
   label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
 
@@ -6690,12 +6673,8 @@ de:
             other: Die folgende Konfiguration wird von%{count} anderen Typen oder Varianten geerbt. Alle Änderungen, die Sie hier vornehmen, betreffen auch den Abhängigen.
           dialog:
             description: Diese Typen und Varianten übernehmen die Konfiguration dieses Abschnitts. Eine Änderung, die Sie hier vornehmen, gilt für alle diese Typen und Varianten.
-            direct_heading: Direkt Abhängige
-            indirect_heading: Indirekt Abhängige über andere Typen
             title: Abhängige Typen
             variant_of_html: Variante von %{type_name}
-            variant_of_via_html: Variante von %{type_name}, vererbt über %{source_name}
-            via_html: Vererbung über %{source_name}
           title:
             one: 1 abhängiger Typ
             other: "%{count} abhängige Typen"
@@ -6704,27 +6683,15 @@ de:
           not_inherited: Diese Konfiguration wird geerbt, sodass nichts auszuschließen ist. Bearbeiten Sie die Konfiguration stattdessen direkt.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         inherited:
-          change_source: Quellentyp ändern
           configure_manually: Manuell konfigurieren
           confirm_dialog:
-            change_source:
-              description_html: Durch das Wechseln des Quelltyps von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
-              heading: Quellentyp ändern?
-              title: Quellentyp ändern
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             from_manual:
               description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
               heading: Konfigurationsmodus wechseln?
               title: Konfigurationsmodus wechseln
-          description: Diese Konfiguration wird vom Quelltyp [%{source_name}](source_url)%{source_suffix} geerbt.
-          description_unlinked: Diese Konfiguration wird vom Quelltyp %{source_name}%{source_suffix} geerbt.
-          dialog:
-            description: Diese Konfiguration wird von einem Quelltyp geerbt. Jede Änderung der Konfiguration der Quelle gilt auch hier.
-            source_label: Quellentyp
-            source_placeholder: Typ oder Variante auswählen
-            submit: Wechseln
-            title: Von einem anderen Typ erben
-          invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ geerbt werden. Bitte wählen Sie einen anderen Quelltyp aus.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Vererbte Konfiguration
         manual:
@@ -6738,7 +6705,7 @@ de:
           dialog:
             submit: Wechseln
             title: Manuell konfigurieren
-          inherit_from_type: Von einem anderen Typ erben
+          inherit_from_type: Inherit from parent
           invalid_mode: Der ausgewählte Modus ist für diese Konfiguration nicht verfügbar. Bitte wählen Sie einen anderen Modus aus.
           modes:
             copy:
@@ -7319,6 +7286,12 @@ de:
       one: Ein untergeordnetes Arbeitspaket
       other: "%{count} untergeordnete Arbeitspakete"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7331,6 +7304,14 @@ de:
       new:
         title: Workflow von "%{source_type}" kopieren
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Workflow-Matrix
       matrix_caption_assignee: Workflow-Matrix für Zugewiesene
       matrix_caption_author: Workflow-Matrix für den Autor
@@ -7339,12 +7320,76 @@ de:
       matrix_check_uncheck_all_in_row_label_html: Übergänge von <em>%{old_status}</em> auf alle neuen Status umschalten
       matrix_checkbox_label: Übergang von %{old_status} zu %{new_status} erlauben
       matrix_uncheck_all_label: Alle Übergänge verbieten
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Typen nach Name filtern…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Konfigurieren Sie die Statusübergänge für jeden Arbeitspaket-Typ.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          one: Used in 1 other place
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Arbeitstage ändern
     dialog:
