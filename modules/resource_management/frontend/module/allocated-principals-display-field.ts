@@ -32,9 +32,8 @@ import {
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
 import { buildShowAllocationsButton, showAllocationsLink } from './show-allocations-button';
-
-const UNDISCLOSED_HREF = 'urn:openproject-org:api:v3:undisclosed';
 
 export class AllocatedPrincipalsDisplayField extends MultipleLinesUserFieldModule {
   @LazyInject() turboRequests:TurboRequestsService;
@@ -42,7 +41,7 @@ export class AllocatedPrincipalsDisplayField extends MultipleLinesUserFieldModul
   protected renderValues(values:UserResource[], element:HTMLElement) {
     const link = showAllocationsLink(this.resource);
     const container = link ? buildShowAllocationsButton(link, this.turboRequests) : element;
-    const undisclosed = values.find((value) => value.href === UNDISCLOSED_HREF);
+    const undisclosed = values.find((value) => value.href === URN_UNDISCLOSED);
 
     this.principalRenderer.renderMultiple(
       container,
