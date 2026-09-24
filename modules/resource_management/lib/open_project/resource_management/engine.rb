@@ -178,6 +178,17 @@ module OpenProject::ResourceManagement
         project.nil? || project.module_enabled?(:resource_management)
       }
 
+      ::Exports::Register.register do
+        formatter WorkPackage, WorkPackage::Exports::Formatters::AllocatedTime
+        formatter WorkPackage, WorkPackage::Exports::Formatters::AllocatedPrincipals
+      end
+
+      ::WorkPackage::Exports::Attributes
+        .add_attribute_visibility_check(:allocated_time, :allocated_principals) do |work_package|
+          EnterpriseToken.allows_to?(:resource_management) &&
+            User.current.allowed_in_project?(:view_resource_planners, work_package.project)
+        end
+
       ::TypeVariant.add_default_mapping(:estimates_and_progress, :allocated_time, :allocated_principals)
       ::TypeVariant.add_constraint :allocated_time, resource_management_constraint
       ::TypeVariant.add_constraint :allocated_principals, resource_management_constraint
