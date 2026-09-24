@@ -112,7 +112,7 @@ which needs access to the server the instance runs on.
 A CSV import creates work packages. It currently does not do any of the following.
 
 - **Change existing work packages**: Every line creates a new work package. There is no way to address one that already exists.
-- **Create hierarchies** Parents and children have to be set after the import.
+- **Create hierarchies**: Parents and children have to be set after the import.
 - **Create relations**: Predecessors, successors and the other relation types are not read.
 - **Fill custom fields** Only the columns listed above are accepted.
 - **Set watchers or attachments**
