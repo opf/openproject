@@ -167,11 +167,12 @@ module Admin
         saved = true
       end
       saved
-    # RecordNotUnique as well as RecordInvalid: two administrators renaming
-    # different models to the same free identifier both pass the uniqueness
-    # validation and one reaches the index, which is a 422 with the inline error
-    # rather than a 500.
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordInvalid
+      false
+    # Two administrators saving the same free identifier both pass the
+    # uniqueness validation, and only the index rejects the second.
+    rescue ActiveRecord::RecordNotUnique
+      llm_model.errors.add(:external_id, :taken)
       false
     end
 
@@ -204,7 +205,10 @@ module Admin
       end
 
       true
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordInvalid
+      false
+    rescue ActiveRecord::RecordNotUnique
+      llm_model.errors.add(:external_id, :taken)
       false
     end
 

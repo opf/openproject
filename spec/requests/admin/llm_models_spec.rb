@@ -680,6 +680,36 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    # Two administrators saving the same free identifier both pass the
+    # uniqueness validation, so the second save only fails at the index.
+    describe "an identifier taken after the uniqueness validation passed" do
+      let(:taken) { I18n.t("activerecord.errors.messages.taken") }
+
+      before do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "taken-meanwhile")
+        uniqueness = LlmModel.validators_on(:external_id).grep(ActiveRecord::Validations::UniquenessValidator).first
+        allow(uniqueness).to receive(:validate_each)
+      end
+
+      it "re-renders the new model form with the error" do
+        post llm_models_path, params: { llm_model: { external_id: "taken-meanwhile" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(taken)
+        expect(connection.models.where(external_id: "taken-meanwhile").count).to eq(1)
+      end
+
+      it "re-renders the edit form with the error" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken-meanwhile" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(taken)
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+      end
+    end
+
     describe "how an inherited capability verdict is shown" do
       let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "qwen3.6-27b") }
 
