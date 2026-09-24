@@ -189,7 +189,7 @@ module Admin
 
         def create_contract
           case @custom_field.field_format
-          when "hierarchy"
+          when "hierarchy", "list"
             ::CustomFields::Hierarchy::InsertListItemContract
           when "weighted_item_list"
             ::CustomFields::Hierarchy::InsertWeightedItemContract
@@ -200,7 +200,7 @@ module Admin
 
         def update_contract
           case @custom_field.field_format
-          when "hierarchy"
+          when "hierarchy", "list"
             ::CustomFields::Hierarchy::UpdateListItemContract
           when "weighted_item_list"
             ::CustomFields::Hierarchy::UpdateWeightedItemContract

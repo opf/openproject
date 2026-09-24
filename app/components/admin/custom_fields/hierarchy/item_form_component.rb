@@ -55,6 +55,8 @@ module Admin
             :short
           when "weighted_item_list"
             :weight
+          when "list"
+            nil
           else
             raise ArgumentError, "Unsupported field format: #{field_format}"
           end
