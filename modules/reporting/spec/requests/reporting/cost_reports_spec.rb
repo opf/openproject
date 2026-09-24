@@ -221,6 +221,28 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
 
       expect(export_params("xls")).to include("filters" => "")
     end
+
+    context "when applying filters, which only reloads the result table frame" do
+      let(:header_stream_selector) do
+        "turbo-stream[action='update'][target='#{CostReports::IndexPageHeaderComponent.wrapper_key}']"
+      end
+
+      it "replaces the page header so the export links carry the applied filters" do
+        get project_reporting_cost_reports_path(export_project, filters: 'user_id = "me"'),
+            headers: { "Turbo-Frame" => "result-table" }
+
+        stream = response.parsed_body.at_css(header_stream_selector)
+
+        expect(stream).to be_present
+        expect(stream.inner_html).to include("cost_reports.xls?filters=user_id+%3D+%22me%22")
+      end
+
+      it "leaves the header alone on a full page load" do
+        get project_reporting_cost_reports_path(export_project, filters: 'user_id = "me"')
+
+        expect(response.parsed_body.at_css(header_stream_selector)).to be_nil
+      end
+    end
   end
 
   describe "a session left over from before filters lived on the url" do
