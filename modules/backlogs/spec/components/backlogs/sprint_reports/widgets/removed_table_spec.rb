@@ -36,16 +36,19 @@ RSpec.describe Backlogs::SprintReports::Widgets::RemovedTable,
                with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
   include_context "with a sprint report work package table"
 
+  shared_let(:work_packages) { create_list(:work_package, 2, project:) }
+
   let(:widget_name) { "Sprint scope decrease" }
-  let(:removed_after_start_ids) { [15, 16] }
+  let(:removed_after_start_ids) { work_packages.map(&:id) }
   let(:breakdown_stubs) do
     { removed_after_start_ids: }
   end
 
+  let(:expected_filter_ids) { work_packages.map { it.id.to_s } }
   let(:expected_filters) do
     [
       { sprintId: { operator: "=", values: [sprint.id.to_s] } },
-      { id: { operator: "=", values: %w[15 16] } }
+      { id: { operator: "=", values: expected_filter_ids } }
     ]
   end
 
@@ -84,5 +87,21 @@ RSpec.describe Backlogs::SprintReports::Widgets::RemovedTable,
     let(:expected_timestamps) { "#{started_at.iso8601},#{completed_at.iso8601}" }
 
     include_examples "renders a work packages table"
+  end
+
+  context "when some ids no longer point at a work package in this project" do
+    shared_let(:work_package_in_other_project) { create(:work_package) }
+
+    let(:removed_after_start_ids) { super() + [work_package_in_other_project.id] }
+    let(:expected_timestamps) { "#{started_at.iso8601},PT0S" }
+
+    include_examples "renders a work packages table"
+  end
+
+  context "when no work package is available in the project by historical ids" do
+    let(:removed_after_start_ids) { super().map { it + 1000 } }
+
+    include_examples "renders a blankslate",
+                     description: "Work packages that were removed after the sprint start date will appear here."
   end
 end
