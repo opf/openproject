@@ -48,6 +48,14 @@ module Workflows
 
     def prefix = "#{I18n.t('admin.workflows.workflow_selector.prefix')}:"
 
+    def same_as_type_text = I18n.t("admin.workflows.workflow_selector.same_as_type")
+
+    def same_as_type?
+      return false if variant.is_default_variant?
+
+      variant.workflow_id == variant.type.default_variant.workflow_id
+    end
+
     def selected = @selected || variant.workflow_id
 
     def change_path(candidate)

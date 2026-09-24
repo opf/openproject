@@ -84,6 +84,35 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).to have_css("[data-test-selector='workflow-create-new']")
   end
 
+  describe "a variant of its own" do
+    shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
+
+    def get_matrix
+      get type_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
+                                    tab: "always", role_ids: [role.id]),
+          headers: { "Turbo-Frame" => "workflow-table" }
+    end
+
+    it "says the workflow is the one its type uses" do
+      variant.update!(workflow: type.default_variant.workflow)
+
+      get_matrix
+
+      expect(response.body).to have_css("[data-test-selector='workflow-selector']",
+                                        text: I18n.t("admin.workflows.workflow_selector.same_as_type"))
+    end
+
+    it "says nothing of the sort once it has a workflow of its own" do
+      variant.update!(workflow: create(:named_workflow, name: "Mobile flow"))
+
+      get_matrix
+
+      expect(response.body).to have_css("[data-test-selector='workflow-selector']", text: "Mobile flow")
+      expect(response.body).to have_no_css("[data-test-selector='workflow-selector']",
+                                           text: I18n.t("admin.workflows.workflow_selector.same_as_type"))
+    end
+  end
+
   it "rests on reusing a workflow until the step says which one it started" do
     get type_creation_wizard_path(type, step: :workflows)
 

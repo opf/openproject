@@ -38,7 +38,11 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |panel|
     panel.with_show_button(scheme: :secondary, test_selector: "workflow-selector") do |button|
       button.with_trailing_visual_icon(icon: :"triangle-down")
-      safe_join([render(Primer::Beta::Text.new(color: :muted)) { prefix }, name], " ")
+
+      parts = [render(Primer::Beta::Text.new(color: :muted)) { prefix }, name]
+      parts << render(Primer::Beta::Text.new(color: :muted)) { same_as_type_text } if same_as_type?
+
+      safe_join(parts, " ")
     end
 
     candidates.each do |candidate|

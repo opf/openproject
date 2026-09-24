@@ -2070,6 +2070,7 @@ en:
       workflow_button: "Workflow"
       workflow_selector:
         prefix: "Workflow"
+        same_as_type: "(same as type)"
         title: "Select workflow"
   ai:
     text_transform:
