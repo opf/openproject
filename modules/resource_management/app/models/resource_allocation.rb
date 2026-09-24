@@ -78,6 +78,10 @@ class ResourceAllocation < ApplicationRecord
 
   scope :needs_principal_assignment, -> { where.not(placeholder_user_id: nil).where(principal_id: nil) }
   scope :for_principal, ->(principal) { where(principal:) }
+  scope :with_visible_placeholder_or_user, ->(user = User.current) {
+    where.not(placeholder_user_id: nil)
+      .or(where(principal_id: Principal.visible(user).select(:id)))
+  }
   scope :for_project, ->(project_or_project_id) {
     project_id = project_or_project_id.is_a?(Project) ? project_or_project_id.id : project_or_project_id
     joins = ENTITY_PROJECT_JOINS.values.pluck(:join)

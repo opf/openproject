@@ -31,6 +31,13 @@
 module OpenProject::ResourceManagement::Patches::WorkPackagePatch
   extend ActiveSupport::Concern
 
+  included do
+    has_many :visible_allocated_resource_allocations,
+             -> { allocated.with_visible_placeholder_or_user },
+             class_name: "ResourceAllocation",
+             as: :entity
+  end
+
   class_methods do
     def include_allocated_time(work_package_scope)
       sums_table = Arel::Table.new(:allocated_time_sums)
@@ -58,5 +65,9 @@ module OpenProject::ResourceManagement::Patches::WorkPackagePatch
     else
       ResourceAllocation.allocated.where(entity: self).sum(:allocated_time)
     end
+  end
+
+  def allocated_principals
+    visible_allocated_resource_allocations.map(&:placeholder_or_user).uniq
   end
 end

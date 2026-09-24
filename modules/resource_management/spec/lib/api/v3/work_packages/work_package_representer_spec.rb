@@ -132,4 +132,29 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, with_ee: %i[resour
       it { is_expected.not_to have_json_path("allocatedTime") }
     end
   end
+
+  describe "_links/allocatedPrincipals" do
+    let!(:user_allocation) { create(:resource_allocation, entity: work_package, principal: user) }
+    let!(:placeholder_allocation) { create(:resource_allocation, :with_user_filter, entity: work_package) }
+
+    it "links the allocated users and placeholders" do
+      placeholder = placeholder_allocation.placeholder_user
+
+      expect(generated)
+        .to be_json_eql([
+          { href: "/api/v3/users/#{user.id}", title: user.name },
+          { href: "/api/v3/placeholder_users/#{placeholder.id}", title: placeholder.name }
+        ].to_json).at_path("_links/allocatedPrincipals")
+    end
+
+    context "without the view_resource_planners permission" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it { is_expected.not_to have_json_path("_links/allocatedPrincipals") }
+    end
+
+    context "without an enterprise token", with_ee: false do
+      it { is_expected.not_to have_json_path("_links/allocatedPrincipals") }
+    end
+  end
 end

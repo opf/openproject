@@ -169,10 +169,18 @@ module OpenProject::ResourceManagement
           eager_scope.include_allocated_time(work_package_scope)
         end
 
-      ::TypeVariant.add_default_mapping(:estimates_and_progress, :allocated_time)
-      ::TypeVariant.add_constraint :allocated_time, ->(_type, project: nil) {
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:allocated_principals) do |eager_scope, _work_package_scope, _current_user|
+          eager_scope.preload(visible_allocated_resource_allocations: %i[placeholder_user principal])
+        end
+
+      resource_management_constraint = ->(_type, project: nil) {
         project.nil? || project.module_enabled?(:resource_management)
       }
+
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :allocated_time, :allocated_principals)
+      ::TypeVariant.add_constraint :allocated_time, resource_management_constraint
+      ::TypeVariant.add_constraint :allocated_principals, resource_management_constraint
     end
 
     add_api_path :allocatable_principals do
@@ -220,6 +228,18 @@ module OpenProject::ResourceManagement
                if: ->(*) { resource_allocations_visible? },
                uncacheable: true
 
+      links :allocatedPrincipals,
+            uncacheable: true do
+        next unless resource_allocations_visible?
+
+        represented.allocated_principals.map do |principal|
+          {
+            href: api_v3_paths.send(API::V3::Principals::PrincipalType.for(principal), principal.id),
+            title: principal.name
+          }
+        end
+      end
+
       send(:define_method, :resource_allocations_visible?) do
         EnterpriseToken.allows_to?(:resource_management) &&
           current_user.allowed_in_project?(:view_resource_planners, represented.project)
@@ -227,14 +247,23 @@ module OpenProject::ResourceManagement
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      resource_allocations_visible = ->(*) {
+        EnterpriseToken.allows_to?(:resource_management) &&
+          current_user.allowed_in_project?(:view_resource_planners, represented.project)
+      }
+
       schema :allocated_time,
              type: "Duration",
              required: false,
              writable: false,
-             show_if: ->(*) {
-               EnterpriseToken.allows_to?(:resource_management) &&
-                 current_user.allowed_in_project?(:view_resource_planners, represented.project)
-             }
+             show_if: resource_allocations_visible
+
+      schema :allocated_principals,
+             type: "[]User",
+             location: :link,
+             required: false,
+             writable: false,
+             show_if: resource_allocations_visible
     end
   end
 end

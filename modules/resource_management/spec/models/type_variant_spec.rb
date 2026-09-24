@@ -30,30 +30,34 @@
 
 require "spec_helper"
 
-RSpec.describe TypeVariant, "allocated time attribute" do
+RSpec.describe TypeVariant, "resource management attributes" do
   let(:type_variant) { build_stubbed(:type_variant) }
 
-  it "places the allocated time in the estimates and progress group by default" do
+  it "places the allocated principals right after the allocated time in the estimates and progress group" do
     estimates_group = type_variant.default_attribute_groups.to_h[:estimates_and_progress]
 
-    expect(estimates_group).to include("allocated_time")
+    expect(estimates_group.last(2)).to eq(%w[allocated_time allocated_principals])
   end
 
   describe "#passes_attribute_constraint?" do
-    it "is available in projects with resource management" do
-      project = build_stubbed(:project, enabled_module_names: %w[resource_management])
+    %i[allocated_time allocated_principals].each do |attribute|
+      context "for #{attribute}" do
+        it "is available in projects with resource management" do
+          project = build_stubbed(:project, enabled_module_names: %w[resource_management])
 
-      expect(type_variant.passes_attribute_constraint?(:allocated_time, project:)).to be(true)
-    end
+          expect(type_variant.passes_attribute_constraint?(attribute, project:)).to be(true)
+        end
 
-    it "is unavailable in projects without resource management" do
-      project = build_stubbed(:project, enabled_module_names: %w[work_package_tracking])
+        it "is unavailable in projects without resource management" do
+          project = build_stubbed(:project, enabled_module_names: %w[work_package_tracking])
 
-      expect(type_variant.passes_attribute_constraint?(:allocated_time, project:)).to be(false)
-    end
+          expect(type_variant.passes_attribute_constraint?(attribute, project:)).to be(false)
+        end
 
-    it "is available without a project context" do
-      expect(type_variant.passes_attribute_constraint?(:allocated_time)).to be(true)
+        it "is available without a project context" do
+          expect(type_variant.passes_attribute_constraint?(attribute)).to be(true)
+        end
+      end
     end
   end
 end

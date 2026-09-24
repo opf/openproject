@@ -63,4 +63,21 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
       it { is_expected.not_to have_json_path("allocatedTime") }
     end
   end
+
+  describe "allocatedPrincipals" do
+    it "is a read-only list of users located in the links" do
+      expect(generated).to be_json_eql("[]User".to_json).at_path("allocatedPrincipals/type")
+      expect(generated).to be_json_eql("_links".to_json).at_path("allocatedPrincipals/location")
+      expect(generated).to be_json_eql(false.to_json).at_path("allocatedPrincipals/writable")
+      expect(generated)
+        .to be_json_eql(I18n.t("activerecord.attributes.work_package.allocated_principals").to_json)
+        .at_path("allocatedPrincipals/name")
+    end
+
+    context "without the view_resource_planners permission" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it { is_expected.not_to have_json_path("allocatedPrincipals") }
+    end
+  end
 end
