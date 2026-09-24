@@ -164,10 +164,10 @@ RSpec.describe(
 
       context "when the source owns the variant" do
         shared_let(:owned_type) { create(:type, name: "Owned root") }
-        shared_let(:workflow_source) { create(:type_variant, type: owned_type, variant_name: "Shared workflow") }
+        shared_let(:shared_workflow) { create(:named_workflow, name: "Shared workflow") }
         shared_let(:owned_variant) do
           create(:project_owned_type_variant, type: owned_type, project: source,
-                                              variant_name: "Source only", workflows_source: workflow_source)
+                                              variant_name: "Source only", workflow: shared_workflow)
         end
 
         before { source.project_types.create!(type: owned_type, variant: owned_variant) }
@@ -193,7 +193,7 @@ RSpec.describe(
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
           expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
-          expect(copied.form_configuration_source).to eq(owned_variant.form_configuration_source)
+          expect(copied.source_for(:form_configuration)).to eq(owned_variant.source_for(:form_configuration))
         end
 
         it "lets the copy reference the same workflow" do
@@ -201,12 +201,12 @@ RSpec.describe(
 
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
-          expect(copied.workflow).to eq(workflow_source.workflow)
+          expect(copied.workflow).to eq(shared_workflow)
           expect(copied.workflow).not_to be_project_specific
         end
 
         context "when the source variant owns its workflow" do
-          before { owned_variant.update!(workflows_source: nil) }
+          before { owned_variant.update!(workflow: create(:project_owned_workflow, project: source)) }
 
           it "copies the project", pending: "Blocked until variants reference named workflows" do
             expect(owned_variant.reload.workflow).to be_project_specific

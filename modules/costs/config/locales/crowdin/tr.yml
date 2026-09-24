@@ -251,6 +251,7 @@ tr:
   label_show: Göster
   label_specific_day: Gün %{day}
   label_specific_month: Ay %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Tamamlandı
   label_time: Zaman

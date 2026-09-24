@@ -31,6 +31,7 @@
 class WorkPackageRelationsController < ApplicationController
   include OpTurbo::ComponentStream
   include OpTurbo::FlashStreamHelper
+  include WorkPackageRelationsTab::UpdateResponses
 
   before_action :set_work_package
   before_action :set_relation, only: %i[edit update]
@@ -112,19 +113,6 @@ class WorkPackageRelationsController < ApplicationController
   end
 
   private
-
-  def respond_with_relations_tab_update(service_result, **)
-    if service_result.success?
-      @work_package.reload
-      component = WorkPackageRelationsTab::IndexComponent.new(work_package: @work_package, **)
-      replace_via_turbo_stream(component:)
-      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
-
-      respond_with_turbo_streams
-    else
-      respond_with_turbo_streams(status: :unprocessable_entity)
-    end
-  end
 
   def set_work_package
     @work_package = WorkPackage.visible.find(params[:work_package_id])

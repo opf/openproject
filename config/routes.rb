@@ -1180,6 +1180,10 @@ Rails.application.routes.draw do
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"
 
+    resources :children, only: %i[new create], controller: "work_package_children" do
+      post :refresh_form, on: :collection
+    end
+
     resource :progress, only: %i[edit update], controller: "work_packages/progress" do
       get :preview, on: :member
     end
