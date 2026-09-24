@@ -47,7 +47,7 @@ class Label < ApplicationRecord
                         .arel
                         .exists
 
-    order(used_in_project.desc)
+    reorder(used_in_project.desc)
       .order(Arel.sql("#{USAGE_COUNT_SQL} DESC"))
       .order("LOWER(labels.name) ASC")
   }

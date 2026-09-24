@@ -37,16 +37,12 @@ module API
             raise API::Errors::NotFound unless OpenProject::FeatureDecisions.work_package_labels_active?
 
             authorize_in_project(:view_work_packages, project: @project)
-
-            @labels = Label.ordered_by_relevance_for(@project)
           end
 
-          get do
-            ::API::V3::Utilities::ParamsToQuery.collection_response(@labels,
-                                                                    current_user,
-                                                                    params.except("id"),
-                                                                    self_link: api_v3_paths.labels_by_workspace(@project.id))
-          end
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Label,
+                                                          scope: -> { Label.ordered_by_relevance_for(@project) },
+                                                          self_path: -> { api_v3_paths.labels_by_workspace(@project.id) })
+                                                     .mount
         end
       end
     end
