@@ -90,6 +90,16 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemFormComponent, type: :compone
     end
   end
 
+  describe "cancel link" do
+    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
+
+    it "replaces the whole items frame, which the items page response contains" do
+      render_inline(described_class.new(custom_field.hierarchy_root.children.build(label: "Stormtroopers")))
+
+      expect(page).to have_css("a[data-turbo-frame='admin-custom-fields-hierarchy-items-component']", text: "Cancel")
+    end
+  end
+
   describe "#secondary_input_format" do
     def item_for(custom_field)
       custom_field.hierarchy_root.children.build(label: "Stormtroopers")
