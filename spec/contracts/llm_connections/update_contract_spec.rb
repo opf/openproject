@@ -160,6 +160,39 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     end
   end
 
+  # Inference goes through RubyLLM's unfiltered stack, which may connect to any
+  # of the addresses a name resolves to, so one private address is enough.
+  context "when the host resolves to both a public and a private address" do
+    before { stub_llm_dns(addresses: { "example.com" => ["93.184.216.34", "10.0.0.5"] }) }
+
+    include_examples "contract is invalid", base_url: :ssrf_filtered
+
+    it "does not contact the server" do
+      contract.validate
+
+      expect(models_request).not_to have_been_made
+    end
+  end
+
+  context "when the base URL is a loopback IPv6 literal" do
+    let(:base_url) { "https://[::1]/v1" }
+
+    include_examples "contract is invalid", base_url: :ssrf_filtered
+
+    it "does not contact the server" do
+      contract.validate
+
+      expect(models_request).not_to have_been_made
+    end
+  end
+
+  context "when the host resolves only to an allowlisted private address",
+          with_ssrf_ip_allowlist: ["10.0.0.0/8"] do
+    before { stub_llm_dns(addresses: { "example.com" => ["10.0.0.5"] }) }
+
+    include_examples "contract is valid"
+  end
+
   context "when the base URL is not a URL at all" do
     let(:base_url) { "not a url" }
 
