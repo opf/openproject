@@ -36,8 +36,7 @@ class Queries::LlmModels::LlmModelQuery
     LlmModel
   end
 
-  # There is exactly one LLM connection, so every model belongs to it.
   def default_scope
-    LlmModel.by_identifier
+    LlmModel.where(llm_connection: LlmConnection.active).by_identifier
   end
 end

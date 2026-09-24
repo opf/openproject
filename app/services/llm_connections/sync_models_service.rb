@@ -48,16 +48,14 @@ module LlmConnections
       # deployment's models and verdicts under new credentials would be wrong.
       invalidate_a_different_deployment
 
-      store(capped(adapter.models))
+      store(capped(storable(adapter.models)))
       Llm::DetectCapabilitiesJob.perform_later
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
       failed("failed: #{e.class} #{e.message}", e.message)
     rescue ActiveRecord::ActiveRecordError => e
-      # An id longer than the btree index allows, or two syncs racing
-      # find_or_initialize_by into a uniqueness violation. Neither is worth a 500
-      # on the save path or an aborted run in the job.
+      # Two syncs racing find_or_initialize_by can hit a uniqueness violation.
       failed("could not be stored: #{e.class}", e.class.to_s)
     end
 
@@ -73,6 +71,17 @@ module LlmConnections
 
     def adapter
       @adapter ||= Llm::Adapters.for(connection)
+    end
+
+    def storable(cards)
+      oversized, fitting = cards.partition { |card| card.fetch(:id).to_s.length > LlmModel::MAX_EXTERNAL_ID_LENGTH }
+      return cards if oversized.empty?
+
+      Rails.logger.warn do
+        "LLM server at #{connection.base_url} listed #{oversized.size} models with an id longer than " \
+          "#{LlmModel::MAX_EXTERNAL_ID_LENGTH} characters; skipping them"
+      end
+      fitting
     end
 
     def capped(cards)
@@ -99,7 +108,7 @@ module LlmConnections
       now = Time.current
 
       {
-        catalogue_fetched_at: now,
+        last_synced_at: now,
         last_connected_at: now,
         connection_fingerprint: fingerprint,
         options: connection.options.merge("server_flavour" => adapter.server_flavour)

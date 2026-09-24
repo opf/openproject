@@ -30,11 +30,8 @@
 
 require "spec_helper"
 
-# The markup on these pages is hand-written rather than generated, so this spec
-# exists mainly to put it through axe.
 # :selenium is required, not incidental: axe-core-api drives the browser through
-# Selenium's #manage API, so be_axe_clean does not work under cuprite. Every other
-# axe spec in this repository is tagged the same way for the same reason.
+# Selenium's #manage API, so be_axe_clean does not work under cuprite.
 RSpec.describe "LLM connection administration",
                :js, :llm_server_helpers, :selenium, :webmock,
                driver: :firefox_de,
@@ -45,9 +42,6 @@ RSpec.describe "LLM connection administration",
 
   current_user { admin }
 
-  # The kebab is a Primer ActionMenu: clicking it before its behaviour is
-  # attached silently does nothing, so wait for the page to settle first and
-  # for the item itself to become visible.
   def offered_default_models
     items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
     ids = JSON.parse(items).pluck("id").compact_blank
@@ -55,6 +49,9 @@ RSpec.describe "LLM connection administration",
     LlmModel.where(id: ids).pluck(:external_id)
   end
 
+  # The kebab is a Primer ActionMenu: clicking it before its behaviour is
+  # attached silently does nothing, so wait for the page to settle first and
+  # for the item itself to become visible.
   def choose_action(item)
     expect(page).to have_test_selector("llm-connection--actions")
     find_test_selector("llm-connection--actions").click
