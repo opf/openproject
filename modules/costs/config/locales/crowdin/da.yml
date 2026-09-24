@@ -251,6 +251,7 @@ da:
   label_show: Vis
   label_specific_day: Dag %{day}
   label_specific_month: Måned %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Afsluttet
   label_time: Tidspunkt
