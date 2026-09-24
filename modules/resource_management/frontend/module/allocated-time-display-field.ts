@@ -30,6 +30,9 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { html, render } from 'lit-html';
+import type { TemplateResult } from 'lit-html';
+import { styleMap } from 'lit-html/directives/style-map.js';
 import { buildShowAllocationsButton, showAllocationsLink } from './show-allocations-button';
 
 export class AllocatedTimeDisplayField extends DisplayField {
@@ -48,12 +51,7 @@ export class AllocatedTimeDisplayField extends DisplayField {
     const container = link ? buildShowAllocationsButton(link, this.turboRequests) : document.createElement('span');
     container.classList.add('d-flex', 'flex-items-center');
 
-    if (this.workDuration) {
-      container.appendChild(this.buildProgressBar());
-      container.appendChild(this.buildSummary(displayText, this.workDuration));
-    } else {
-      container.appendChild(document.createTextNode(displayText));
-    }
+    render(this.workDuration ? this.progressTemplate(displayText, this.workDuration) : displayText, container);
 
     element.appendChild(container);
   }
@@ -79,30 +77,17 @@ export class AllocatedTimeDisplayField extends DisplayField {
     return this.ratio === 100 ? 'color-bg-success-emphasis' : 'color-bg-accent-emphasis';
   }
 
-  private buildProgressBar():HTMLElement {
-    const bar = document.createElement('span');
-    bar.classList.add('Progress', 'op-rm-allocated-time--bar');
+  private progressTemplate(displayText:string, workDuration:string):TemplateResult {
+    const work = this.timezoneService.formattedChronicDuration(workDuration);
 
-    const item = document.createElement('span');
-    item.classList.add('Progress-item', this.barColorClass);
-    item.style.width = `${Math.min(this.ratio, 100)}%`;
-
-    bar.appendChild(item);
-
-    return bar;
-  }
-
-  private buildSummary(displayText:string, workDuration:string):HTMLElement {
-    const summary = document.createElement('span');
-    summary.classList.add('ml-2', 'flex-shrink-0');
-    summary.textContent = `${displayText} / ${this.timezoneService.formattedChronicDuration(workDuration)} `;
-
-    const percentage = document.createElement('span');
-    percentage.classList.add('color-fg-muted');
-    percentage.textContent = `(${this.ratio}%)`;
-
-    summary.appendChild(percentage);
-
-    return summary;
+    return html`
+      <span class="Progress op-rm-allocated-time--bar">
+        <span
+          class="Progress-item ${this.barColorClass}"
+          style=${styleMap({ width: `${Math.min(this.ratio, 100)}%` })}
+        ></span>
+      </span>
+      <span class="ml-2 flex-shrink-0">${displayText} / ${work} <span class="color-fg-muted">(${this.ratio}%)</span></span>
+    `;
   }
 }

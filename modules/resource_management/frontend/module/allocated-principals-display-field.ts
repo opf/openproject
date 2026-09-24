@@ -33,6 +33,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
+import { html, render } from 'lit-html';
 import { buildShowAllocationsButton, showAllocationsLink } from './show-allocations-button';
 
 export class AllocatedPrincipalsDisplayField extends MultipleLinesUserFieldModule {
@@ -63,22 +64,16 @@ export class AllocatedPrincipalsDisplayField extends MultipleLinesUserFieldModul
 
   private buildUndisclosedPrincipal(title:string):HTMLElement {
     const label = this.I18n.t('js.resource_management.hidden_user');
+    const initials = label.split(' ').map((word) => word[0]).join('').slice(0, 2).toUpperCase();
+    const host = document.createElement('div');
 
-    const principal = document.createElement('span');
-    principal.classList.add('op-principal', 'op-principal--multi-line');
-    principal.title = title;
+    render(html`
+      <span class="op-principal op-principal--multi-line" title=${title}>
+        <span class="op-principal--avatar op-avatar op-avatar_medium color-bg-emphasis" aria-hidden="true">${initials}</span>
+        <span class="op-principal--name">${label}</span>
+      </span>
+    `, host);
 
-    const avatar = document.createElement('span');
-    avatar.classList.add('op-principal--avatar', 'op-avatar', 'op-avatar_medium', 'color-bg-emphasis');
-    avatar.setAttribute('aria-hidden', 'true');
-    avatar.textContent = label.split(' ').map((word) => word[0]).join('').slice(0, 2).toUpperCase();
-
-    const name = document.createElement('span');
-    name.classList.add('op-principal--name');
-    name.textContent = label;
-
-    principal.append(avatar, name);
-
-    return principal;
+    return host.firstElementChild as HTMLElement;
   }
 }
