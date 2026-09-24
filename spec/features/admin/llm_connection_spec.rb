@@ -30,14 +30,10 @@
 
 require "spec_helper"
 
-# The markup on these pages is hand-written rather than generated, so this spec
-# exists mainly to put it through axe. The row toggle in particular has no
-# accessible name of its own and depends on an explicit aria-label.
 # :selenium is required, not incidental: axe-core-api drives the browser through
-# Selenium's #manage API, so be_axe_clean does not work under cuprite. Every other
-# axe spec in this repository is tagged the same way for the same reason.
+# Selenium's #manage API, so be_axe_clean does not work under cuprite.
 RSpec.describe "LLM connection administration",
-               :js, :llm_server_helpers, :selenium, :webmock,
+               :js, :selenium,
                driver: :firefox_de,
                with_flag: { llm_connection: true } do
   shared_let(:admin) { create(:admin) }

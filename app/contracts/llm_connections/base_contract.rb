@@ -30,26 +30,17 @@
 
 module LlmConnections
   # Validations that hold for every write, including provisioning from the
-  # environment. Deliberately makes no network request -- see UpdateContract.
+  # environment. Deliberately makes no network request; see UpdateContract.
   class BaseContract < ModelContract
     attribute :llm_features_enabled
     attribute :api_format
     attribute :base_url
     attribute :api_key
-    attribute :default_chat_model_id
-    attribute :default_embedding_model_id
 
     validates :base_url, presence: true
     validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
-    # Bedrock and Vertex AI can be discovered against, but not called: they need
-    # a secret key and region, or a project and location, and there is one
-    # api_key column. Offering them would only fail at request time.
     validates :api_format, exclusion: { in: Llm::Session::UNSUPPORTED_FORMATS, message: :not_supported },
                            unless: -> { api_format.blank? }
-    # Resolves to the validate_url gem, which defaults to http and https. Plain
-    # http is deliberately allowed: an on-premise LLM server on an internal
-    # network commonly terminates TLS elsewhere, or not at all.
-    validates :base_url, url: { message: :invalid_url }, unless: -> { base_url.blank? }
 
     validate :features_require_connection
 

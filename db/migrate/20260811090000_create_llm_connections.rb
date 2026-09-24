@@ -46,14 +46,8 @@ class CreateLlmConnections < ActiveRecord::Migration[8.1]
       # api-version or a gateway's own key header.
       t.jsonb :custom_headers, null: false, default: {}
       t.jsonb :options, null: false, default: {}
-      # Raw /v1/models payload plus any server-specific metadata, stored verbatim.
-      t.jsonb :catalogue, null: false, default: {}
-      t.datetime :catalogue_fetched_at
+      t.datetime :last_synced_at
       t.string :connection_fingerprint
-      # Model references are strings, never foreign keys: a selection must survive
-      # the model disappearing from the remote catalogue.
-      t.string :default_chat_model_id
-      t.string :default_embedding_model_id
       t.datetime :last_connected_at
 
       t.timestamps null: false
