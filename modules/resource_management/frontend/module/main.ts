@@ -32,6 +32,7 @@ import {
   WorkPackageAction,
 } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { AllocatedTimeDisplayField } from './allocated-time-display-field';
+import { AllocatedPrincipalsDisplayField } from './allocated-principals-display-field';
 
 const ALLOCATIONS_CHANGED_EVENT = 'op-dispatched:resource-allocations:changed';
 
@@ -61,6 +62,8 @@ export function initializeResourceManagementPlugin() {
     }));
 
     pluginContext.services.displayField.addFieldType(AllocatedTimeDisplayField, 'allocatedTime', ['allocatedTime']);
+    pluginContext.services.displayField
+      .addFieldType(AllocatedPrincipalsDisplayField, 'allocatedPrincipals', ['allocatedPrincipals']);
 
     document.addEventListener(ALLOCATIONS_CHANGED_EVENT, (event:CustomEvent<{ work_package_id:number }>) => {
       const workPackageId = event.detail.work_package_id.toString();

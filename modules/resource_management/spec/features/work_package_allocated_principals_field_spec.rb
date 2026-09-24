@@ -30,43 +30,33 @@
 
 require "spec_helper"
 
-RSpec.describe "Allocated time field on the work package page", :js, with_ee: %i[resource_management] do
+RSpec.describe "Allocated resources field on the work package page", :js, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user,
-           member_with_permissions: { project => %i[view_work_packages view_resource_planners allocate_user_resources] })
+           member_with_permissions: { project => %i[view_work_packages view_resource_planners] })
   end
-  shared_let(:work_package) { create(:work_package, project:, estimated_hours: 16) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
-  let(:allocated_time_field) { EditField.new(page, "allocatedTime") }
+  let(:allocated_principals_field) { EditField.new(page, "allocatedPrincipals") }
 
-  before do
-    create(:resource_allocation, entity: work_package, principal: user, allocated_time: 8 * 60)
-    create(:resource_allocation, entity: work_package, principal: user, allocated_time: 4 * 60)
+  it "lists the allocated users and placeholders and opens the allocations dialog" do
+    create(:resource_allocation, entity: work_package, principal: user)
+    placeholder = create(:resource_allocation, :with_user_filter, entity: work_package).placeholder_user
 
     login_as(user)
     wp_page.visit!
-  end
 
-  it "shows the allocated time against the work and opens the allocations dialog" do
-    allocated_time_field.expect_state_text("12h / 16h (75%)")
+    allocated_principals_field.expect_state_text(user.name)
+    allocated_principals_field.expect_state_text(placeholder.name)
 
-    within(allocated_time_field.field_container) { click_button I18n.t("js.resource_management.show_allocations") }
+    within(allocated_principals_field.field_container) do
+      click_button I18n.t("js.resource_management.show_allocations")
+    end
 
     within("##{ResourceAllocations::ListDialogComponent::DIALOG_ID}") do
       expect(page).to have_text(I18n.t("resource_management.work_package_allocations_dialog.title"))
     end
-  end
-
-  it "updates after an allocation is removed in the dialog" do
-    within(allocated_time_field.field_container) { click_button I18n.t("js.resource_management.show_allocations") }
-
-    within("##{ResourceAllocations::ListDialogComponent::DIALOG_ID}") do
-      all(:button) { it.has_selector?("svg.octicon-kebab-horizontal") }.first.click
-    end
-    accept_confirm { find(:menuitem, I18n.t(:button_delete)).click }
-
-    allocated_time_field.expect_state_text("4h / 16h (25%)")
   end
 end

@@ -30,16 +30,12 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { buildShowAllocationsButton, showAllocationsLink } from './show-allocations-button';
 
 export class AllocatedTimeDisplayField extends DisplayField {
   @LazyInject() timezoneService:TimezoneService;
 
   @LazyInject() turboRequests:TurboRequestsService;
-
-  private text = {
-    showAllocations: this.I18n.t('js.resource_management.show_allocations'),
-  };
 
   public get valueString():string {
     return this.timezoneService.formattedChronicDuration(this.value as string);
@@ -48,7 +44,8 @@ export class AllocatedTimeDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {
     element.innerHTML = '';
 
-    const container = this.showAllocationsLink ? this.buildButton() : document.createElement('span');
+    const link = showAllocationsLink(this.resource);
+    const container = link ? buildShowAllocationsButton(link, this.turboRequests) : document.createElement('span');
     container.classList.add('d-flex', 'flex-items-center');
 
     if (this.workDuration) {
@@ -59,10 +56,6 @@ export class AllocatedTimeDisplayField extends DisplayField {
     }
 
     element.appendChild(container);
-  }
-
-  private get showAllocationsLink():HalLink|undefined {
-    return this.resource.showResourceAllocations as HalLink|undefined;
   }
 
   private get workDuration():string|null {
@@ -84,20 +77,6 @@ export class AllocatedTimeDisplayField extends DisplayField {
     }
 
     return this.ratio === 100 ? 'color-bg-success-emphasis' : 'color-bg-accent-emphasis';
-  }
-
-  private buildButton():HTMLButtonElement {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.title = this.text.showAllocations;
-    button.classList.add('p-0', 'border-0', 'bgColor-transparent', 'color-fg-default', 'text-left');
-    button.addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      void this.turboRequests.requestStream(this.showAllocationsLink!.href!);
-    });
-
-    return button;
   }
 
   private buildProgressBar():HTMLElement {
