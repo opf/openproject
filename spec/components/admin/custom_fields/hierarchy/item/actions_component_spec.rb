@@ -53,4 +53,31 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
 
     expect(page).to have_link("Clear default value")
   end
+
+  # A list custom field on a UserCustomField or ProjectCustomField must keep every
+  # action inside its own admin area, not the generic /custom_fields/... routes that
+  # would throw the admin out of /admin/settings/user_custom_fields/... entirely.
+  describe "for a user custom field" do
+    let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[Only Other]) }
+    let(:item) { custom_field.hierarchy_root.children.first }
+
+    it "keeps the edit and set default links under the user custom field admin area" do
+      render_inline(described_class.new(item))
+
+      expect(page).to have_link("Edit", href: %r{/admin/settings/user_custom_fields/})
+      expect(page).to have_link("Set as default value", href: %r{/admin/settings/user_custom_fields/})
+    end
+  end
+
+  describe "for a project custom field" do
+    let(:custom_field) { create(:list_project_custom_field, possible_values: %w[Only Other]) }
+    let(:item) { custom_field.hierarchy_root.children.first }
+
+    it "keeps the edit and set default links under the project custom field admin area" do
+      render_inline(described_class.new(item))
+
+      expect(page).to have_link("Edit", href: %r{/admin/settings/project_custom_fields/})
+      expect(page).to have_link("Set as default value", href: %r{/admin/settings/project_custom_fields/})
+    end
+  end
 end
