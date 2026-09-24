@@ -190,10 +190,12 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
 
     before { login_as(exporting_user) }
 
-    def export_params(format)
-      href = response.parsed_body.at_css("a[href*='cost_reports.#{format}']")["href"]
+    def export_href(format)
+      response.parsed_body.at_css("a[data-controller='costs--export'][href*='.#{format}']")["href"]
+    end
 
-      Rack::Utils.parse_query(URI(href).query)
+    def export_params(format)
+      Rack::Utils.parse_query(URI(export_href(format)).query)
     end
 
     it "carries the filters and unit of the requested report" do
@@ -206,14 +208,47 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
       end
     end
 
-    it "carries the filters of a saved report" do
-      query = CostReportQuery.new.tap { it.where("work_package_id", "=", ["42"]) }
-      report = CostReport.create!(name: "Saved", principal: exporting_user, public: true, project: export_project,
-                                  query:)
+    it "leaves an unsaved report's timesheet to its default title" do
+      expect do
+        get project_reporting_cost_reports_path(export_project, format: :pdf, filters: ""),
+            headers: { "Accept" => "application/json" }
+      end.to have_enqueued_job(CostReports::PDF::ExportTimesheetJob)
+        .with(hash_including(options: hash_including(report_name: nil)))
+    end
 
-      get project_reporting_cost_report_path(export_project, report)
+    context "with a saved report" do
+      let(:report) do
+        query = CostReportQuery.new.tap { it.where("work_package_id", "=", ["42"]) }
+        CostReport.create!(name: "Saved", principal: exporting_user, public: true, project: export_project, query:)
+      end
 
-      expect(export_params("xls")["filters"]).to eq('work_package_id = "42"')
+      it "exports the report itself with its filters" do
+        get project_reporting_cost_report_path(export_project, report)
+
+        expect(URI(export_href("xls")).path).to eq(project_reporting_cost_report_path(export_project, report, format: :xls))
+        expect(export_params("xls")["filters"]).to eq('work_package_id = "42"')
+      end
+
+      it "names the exported timesheet after the report" do
+        expect do
+          get project_reporting_cost_report_path(export_project, report, format: :pdf, filters: 'user_id = "me"'),
+              headers: { "Accept" => "application/json" }
+        end.to have_enqueued_job(CostReports::PDF::ExportTimesheetJob)
+          .with(hash_including(query: hash_including(filters: 'user_id = "me"'),
+                               options: hash_including(report_name: "Saved")))
+      end
+
+      it "replaces the page header with export links carrying the applied filters" do
+        get project_reporting_cost_report_path(export_project, report, filters: 'user_id = "me"'),
+            headers: { "Turbo-Frame" => "result-table" }
+
+        stream = response.parsed_body.at_css(
+          "turbo-stream[target='#{CostReports::IndexPageHeaderComponent.wrapper_key}']"
+        )
+
+        expect(stream.inner_html)
+          .to include("#{project_reporting_cost_report_path(export_project, report, format: :xls)}?filters=user_id+%3D")
+      end
     end
 
     it "keeps an empty filter set instead of falling back to the defaults" do

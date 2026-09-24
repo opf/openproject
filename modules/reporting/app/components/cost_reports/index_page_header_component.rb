@@ -74,7 +74,9 @@ module CostReports
     end
 
     def export_path(format)
-      url_for({ controller: "cost_reports", action: :index, format:, project_id: @project, **@query.to_query_params })
+      report_location = @query.persisted? ? { action: :show, id: @query.id } : { action: :index }
+
+      url_for({ controller: "cost_reports", **report_location, format:, project_id: @project, **@query.to_query_params })
     end
 
     def module_path
