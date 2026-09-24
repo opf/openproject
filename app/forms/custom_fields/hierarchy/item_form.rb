@@ -51,8 +51,10 @@ module CustomFields
             short_input_field(input_group)
           when :weight
             weight_input_field(input_group)
+          when nil
+            # list items carry only a label
           else
-            raise ArgumentError, "Unsupported secondary input format: #{secondary_input_format}"
+            raise ArgumentError, "Unsupported secondary input format: #{@secondary_input_format}"
           end
         end
 

@@ -79,4 +79,39 @@ RSpec.describe "List custom field items administration", :js do
     expect(page).to have_no_link("Add sub-item")
     expect(page).to have_no_link("Change parent")
   end
+
+  it "creates a new entry" do
+    click_on "Item"
+    fill_in "Item label", with: "banana"
+    click_on "Save"
+
+    expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "banana")
+  end
+
+  it "edits an entry's label" do
+    open_actions_for("pear")
+    click_on "Edit"
+
+    fill_in "Item label", with: "", fill_options: { clear: :backspace }
+    fill_in "Item label", with: "peach"
+    click_on "Save"
+
+    expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "peach")
+    expect(page).to have_no_test_selector("op-custom-fields--hierarchy-item", text: "pear")
+  end
+
+  it "offers no short name input when creating an entry" do
+    click_on "Item"
+
+    expect(page).to have_test_selector("op-custom-fields--new-item-form")
+    expect(page).to have_no_field("Short name")
+  end
+
+  it "offers no short name input when editing an entry" do
+    open_actions_for("pear")
+    click_on "Edit"
+
+    expect(page).to have_field("Item label", with: "pear")
+    expect(page).to have_no_field("Short name")
+  end
 end
