@@ -39,11 +39,11 @@ module Projects
             name: :estimation_unit,
             label: ""
           ) do |group|
-            group_radio_button(group, unit: Project::BACKLOG_UNITS_STORY_POINTS)
+            group_radio_button(group, unit: Project::BACKLOGS_UNIT_STORY_POINTS)
 
-            group_radio_button(group, unit: Project::BACKLOG_UNITS_TIME)
+            group_radio_button(group, unit: Project::BACKLOGS_UNIT_TIME)
 
-            group_radio_button(group, unit: Project::BACKLOG_UNITS_NONE)
+            group_radio_button(group, unit: Project::BACKLOGS_UNIT_NONE)
           end
 
           f.submit(
