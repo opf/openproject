@@ -34,7 +34,7 @@ FactoryBot.define do
     base_url { "https://example.com/v1" }
     api_key { "sk-test-key" }
     trait :with_models do
-      catalogue_fetched_at { Time.current }
+      last_synced_at { Time.current }
       last_connected_at { Time.current }
 
       after(:create) do |connection|
