@@ -1,0 +1,22 @@
+diff --git a/node_modules/@blocknote/react/dist/blocknote-react.js b/node_modules/@blocknote/react/dist/blocknote-react.js
+index 8e2ad69..df2105c 100644
+--- a/node_modules/@blocknote/react/dist/blocknote-react.js
++++ b/node_modules/@blocknote/react/dist/blocknote-react.js
+@@ -4283,7 +4283,7 @@ function ha(e, t, n) {
+ function ga(e, t, n) {
+ 	return n && n.draggedCellOrientation === "col" ? new DOMRect(n.mousePos, t.y, 0, t.height) : new DOMRect(e.x, t.y, e.width, t.height);
+ }
+-function _a(e) {
++function _aBnRect(e) {
+ 	return new DOMRect(e.x, e.y, e.width, 0);
+ }
+ function va(e, t, n, r, i) {
+@@ -4302,7 +4302,7 @@ function va(e, t, n, r, i) {
+ 		r,
+ 		o
+ 	]), D(() => {
+-		n === null || r === null || i && e === "cell" || a.setReference({ getBoundingClientRect: () => (e === "row" ? ha : e === "col" ? ga : _a)(n, r, i) });
++		n === null || r === null || i && e === "cell" || a.setReference({ getBoundingClientRect: () => (e === "row" ? ha : e === "col" ? ga : _aBnRect)(n, r, i) });
+ 	}, [
+ 		i,
+ 		e,
