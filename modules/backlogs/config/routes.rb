@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       resource :backlog_multiple_active_sprints, only: %i[show] do
         post :toggle_multiple_active_sprints
       end
+      resource :backlog_estimation_unit, only: %i[show update]
     end
   end
 
