@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
+RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
   subject { described_class.new }
 
   # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods

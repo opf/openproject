@@ -43,7 +43,7 @@ RSpec.describe "Work package filtering by hierarchy custom field", :js, with_ee:
     end
   end
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+  let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
   let!(:luke) { service.insert_item(contract_class:, parent: hierarchy_root, label: "luke").value! }
   let!(:leia) { service.insert_item(contract_class:, parent: hierarchy_root, label: "leia").value! }
 

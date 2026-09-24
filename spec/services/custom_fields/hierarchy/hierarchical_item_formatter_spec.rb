@@ -36,7 +36,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemFormatter,
 
   # rubocop:disable Layout/LineLength
   let(:hierarchy_custom_field) { create(:custom_field, :hierarchy, name: "Galactic Location") }
-  let(:hierarchy_contract) { CustomFields::Hierarchy::InsertListItemContract }
+  let(:hierarchy_contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }
   let(:hierarchy_root) { hierarchy_custom_field.hierarchy_root }
   let(:milky_way) { service.insert_item(contract_class: hierarchy_contract, parent: hierarchy_root, label: "Milky Way").value! }
   let(:sol) { service.insert_item(contract_class: hierarchy_contract, parent: milky_way, label: "Sol").value! }

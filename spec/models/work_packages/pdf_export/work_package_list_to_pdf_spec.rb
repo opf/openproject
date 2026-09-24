@@ -349,7 +349,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       let!(:hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
         %w[Berlin Lisbon].map do |label|
-          service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+          service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                               parent: hierarchy_custom_field.hierarchy_root,
                               label:).value!
         end
@@ -404,7 +404,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       let!(:multi_hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
         %w[Berlin Lisbon].map do |label|
-          service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+          service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                               parent: multi_hierarchy_custom_field.hierarchy_root,
                               label:).value!
         end

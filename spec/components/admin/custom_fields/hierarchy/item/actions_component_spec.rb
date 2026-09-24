@@ -35,7 +35,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
   let(:item) do
     CustomFields::Hierarchy::HierarchicalItemService
       .new
-      .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+      .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                    parent: custom_field.hierarchy_root,
                    label: "Only").value!
   end
@@ -58,12 +58,12 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
     let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let(:root) { custom_field.hierarchy_root }
     let(:item) do
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "First").value!
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label: "First").value!
     end
 
     before do
       item
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Second")
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label: "Second")
       render_inline(described_class.new(item.reload))
     end
 

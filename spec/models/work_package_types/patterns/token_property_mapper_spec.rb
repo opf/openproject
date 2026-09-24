@@ -283,7 +283,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       let!(:hierarchy_custom_field) do
         create(:hierarchy_wp_custom_field).tap do |custom_field|
           service = CustomFields::Hierarchy::HierarchicalItemService.new
-          contract_class = CustomFields::Hierarchy::InsertListItemContract
+          contract_class = CustomFields::Hierarchy::InsertHierarchyItemContract
           item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value",
                                      short: "IV").value!
 

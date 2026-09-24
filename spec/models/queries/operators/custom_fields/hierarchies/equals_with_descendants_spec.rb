@@ -35,7 +35,7 @@ RSpec.describe Queries::Operators::CustomFields::Hierarchies::EqualsWithDescenda
 
   let(:custom_field) { create(:hierarchy_wp_custom_field) }
   let!(:root) { custom_field.hierarchy_root }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+  let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
   let!(:germany) { service.insert_item(contract_class:, parent: root, label: "Germany", short: "DE").value! }
   let!(:berlin) { service.insert_item(contract_class:, parent: germany, label: "Berlin").value! }
   let!(:munich) { service.insert_item(contract_class:, parent: germany, label: "Munich").value! }
