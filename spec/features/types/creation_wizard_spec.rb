@@ -36,26 +36,26 @@ RSpec.describe "Type creation wizard", :js do
 
   before { login_as(admin) }
 
-  # There is no flash message; a step's sidebar marker resolving to its reuse-mode icon
-  # is what tells us its submission was accepted. A completed step shows the chain icon
-  # when its aspect is Linked and the pencil when Independent. Asserting the completed step's own
-  # state (rather than the next step's content) keeps the specs correct if the order changes.
-  def expect_step_saved(step, linked: true)
+  # There is no flash message; a completed step's sidebar marker turning into the check is what
+  # tells us its submission was accepted. Asserting the completed step's own state (rather than
+  # the next step's content) keeps the specs correct if the order changes.
+  def expect_step_saved(step)
     within_test_selector("wizard-step-#{step}") do
-      expect(page).to have_css(linked ? ".octicon-link" : ".octicon-pencil")
+      expect(page).to have_css(".octicon-check-circle-fill")
     end
   end
 
   def start_wizard
     visit types_path
     click_on I18n.t("activerecord.attributes.work_package.type")
+    click_on I18n.t("types.creation_wizard.start.submit")
   end
 
   def complete_details_step(name)
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:details, linked: false)
+    expect_step_saved(:details)
 
     Type.find_by!(name:)
   end
@@ -69,30 +69,26 @@ RSpec.describe "Type creation wizard", :js do
     type = complete_details_step("Incident")
 
     expect(page).to have_text(I18n.t("types.edit.defaults.description.label"))
-    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
-    expect_step_saved(:defaults, linked: false)
+    expect_step_saved(:defaults)
 
     expect(page).to have_heading("Form")
-    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
-    expect_step_saved(:form_configuration, linked: false)
+    expect_step_saved(:form_configuration)
 
     expect(page).to have_heading("Project attributes")
-    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
-    expect_step_saved(:project_attributes, linked: false)
+    expect_step_saved(:project_attributes)
 
     expect(page).to have_heading("Workflows")
     expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
-    expect_step_saved(:workflows, linked: false)
+    expect_step_saved(:workflows)
 
     click_on I18n.t(:button_continue)
-    expect_step_saved(:projects, linked: false)
+    expect_step_saved(:projects)
 
     expect(page).to have_heading("PDF generation")
-    expect(page).to have_text("Manual configuration")
     click_on I18n.t("types.creation_wizard.finish")
 
     expect_flash(message: I18n.t("types.creation_wizard.success"))
@@ -110,7 +106,7 @@ RSpec.describe "Type creation wizard", :js do
     check Type.human_attribute_name(:is_milestone)
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:details, linked: false)
+    expect_step_saved(:details)
     expect(Type.find_by(name: "Incident")).to have_attributes(is_milestone: true)
   end
 
@@ -123,7 +119,7 @@ RSpec.describe "Type creation wizard", :js do
     Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:defaults, linked: false)
+    expect_step_saved(:defaults)
     expect(type.default_variant.reload.default_work_package_description).to eq("Reproduce the bug first")
   end
 
@@ -133,6 +129,7 @@ RSpec.describe "Type creation wizard", :js do
     def start_variant_wizard
       visit type_variants_path(type_id: bug_type.id)
       find_test_selector("add-type-variant").click
+      click_on I18n.t("types.creation_wizard.start.submit")
     end
 
     it "keeps the wizard on the variant when a sidebar step is clicked" do
@@ -141,7 +138,7 @@ RSpec.describe "Type creation wizard", :js do
       fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
       click_on I18n.t(:button_continue)
 
-      expect_step_saved(:details, linked: false)
+      expect_step_saved(:details)
       variant = bug_type.variants.reload.find_by!(variant_name: "Hardware")
 
       within_test_selector("wizard-step-details") { click_on I18n.t("types.creation_wizard.steps.details") }
@@ -160,7 +157,7 @@ RSpec.describe "Type creation wizard", :js do
       fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
       click_on I18n.t(:button_continue)
 
-      expect_step_saved(:details, linked: false)
+      expect_step_saved(:details)
       click_on I18n.t(:button_back)
 
       expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))

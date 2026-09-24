@@ -38,6 +38,8 @@ class TypeVariant < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
     DEFAULTS = "defaults",
+    # TODO: Form reuse should move to named forms (cross-type), replacing the generic inherit/manual
+    # mode selector and the dropped one-time "copy from another type". Revisit all Form-related wiring.
     FORM_CONFIGURATION = "form_configuration",
     PROJECT_ATTRIBUTES = "project_attributes"
   ].freeze
