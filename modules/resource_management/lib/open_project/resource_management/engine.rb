@@ -184,7 +184,7 @@ module OpenProject::ResourceManagement
              EnterpriseToken.allows_to?(:resource_management) &&
                current_user.allowed_in_project?(:allocate_user_resources, represented.project)
            } do
-        next if represented.new_record?
+        next if represented.new_record? || represented.project.nil?
 
         {
           href: new_project_resource_allocation_path(represented.project, work_package_id: represented.id),

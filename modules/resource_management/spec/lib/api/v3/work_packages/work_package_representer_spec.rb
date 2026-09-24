@@ -68,6 +68,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, with_ee: %i[resour
       it { is_expected.not_to have_json_path("_links/allocateResource") }
     end
 
+    context "for a work package without a project" do
+      let(:work_package) { build_stubbed(:work_package, project: nil) }
+
+      it { is_expected.not_to have_json_path("_links/allocateResource") }
+    end
+
     context "without an enterprise token", with_ee: false do
       it { is_expected.not_to have_json_path("_links/allocateResource") }
     end
