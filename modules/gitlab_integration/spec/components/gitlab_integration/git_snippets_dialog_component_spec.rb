@@ -111,27 +111,30 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent, type: :component d
     end
   end
 
-  # rubocop:disable-next Style/StringConcatenation
   describe "create branch command" do
     it "renders the expected CLI command" do
-      command_text = "git switch -c responsibility/#{work_package.id}-stormtrooper-training && \\" +
-                     "  git commit --allow-empty \\" +
-                     "  -m 'OP##{work_package.id} Stormtrooper Training' \\" +
-                     "  -m 'http://localhost:3000/wp/#{work_package.id}'"
+      command_text_lines = ["git switch -c responsibility/#{work_package.id}-stormtrooper-training && \\",
+                            "  git commit --allow-empty \\",
+                            "  -m 'OP##{work_package.id} Stormtrooper Training' \\",
+                            "  -m 'http://localhost:3000/wp/#{work_package.id}'"]
 
-      expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: command_text)
+      command_text_lines.each do |line|
+        expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)
+      end
     end
 
     context "if the work package type contains non-word characters" do
       let(:work_package_type) { create(:type, name: "Difficult Task") }
 
       it "renders the expected CLI command" do
-        command_text = "git switch -c difficult-task/#{work_package.id}-stormtrooper-training && \\" +
-                       "  git commit --allow-empty \\" +
-                       "  -m 'OP##{work_package.id} Stormtrooper Training' \\" +
-                       "  -m 'http://localhost:3000/wp/#{work_package.id}'"
+        command_text_lines = ["git switch -c difficult-task/#{work_package.id}-stormtrooper-training && \\",
+                              "  git commit --allow-empty \\",
+                              "  -m 'OP##{work_package.id} Stormtrooper Training' \\",
+                              "  -m 'http://localhost:3000/wp/#{work_package.id}'"]
 
-        expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: command_text)
+        command_text_lines.each do |line|
+          expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)
+        end
       end
     end
 
@@ -139,24 +142,28 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent, type: :component d
       let(:work_package_subject) { "Stormtroopers' Training & Drill" }
 
       it "renders the expected CLI command" do
-        command_text = "git switch -c responsibility/#{work_package.id}-stormtroopers-training-and-drill && \\" +
-                       "  git commit --allow-empty \\" +
-                       "  -m 'OP##{work_package.id} Stormtroopers\\' Training & Drill' \\" +
-                       "  -m 'http://localhost:3000/wp/#{work_package.id}'"
+        command_text_lines = ["git switch -c responsibility/#{work_package.id}-stormtroopers-training-and-drill && \\",
+                              "  git commit --allow-empty \\",
+                              "  -m 'OP##{work_package.id} Stormtroopers\\' Training & Drill' \\",
+                              "  -m 'http://localhost:3000/wp/#{work_package.id}'"]
 
-        expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: command_text)
+        command_text_lines.each do |line|
+          expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)
+        end
       end
     end
 
     context "if semantic identifiers are configured", with_settings: { work_packages_identifier: "semantic" } do
       it "renders the expected CLI command" do
         wp_id = work_package.identifier
-        command_text = "git switch -c responsibility/#{wp_id.downcase}-stormtrooper-training && \\" +
-                       "  git commit --allow-empty \\" +
-                       "  -m 'OP##{wp_id} Stormtrooper Training' \\" +
-                       "  -m 'http://localhost:3000/wp/#{wp_id}'"
+        command_text_lines = ["git switch -c responsibility/#{wp_id.downcase}-stormtrooper-training && \\",
+                              "  git commit --allow-empty \\",
+                              "  -m 'OP##{wp_id} Stormtrooper Training' \\",
+                              "  -m 'http://localhost:3000/wp/#{wp_id}'"]
 
-        expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: command_text)
+        command_text_lines.each do |line|
+          expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)
+        end
       end
     end
   end
