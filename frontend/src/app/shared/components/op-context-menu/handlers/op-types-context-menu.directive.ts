@@ -129,8 +129,14 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
     }
   }
 
+  /**
+   * The full work package view loads no collection, so it authorises against the single work
+   * package it shows; every other context authorises against the collection it lists.
+   */
   private get importAllowed():boolean {
-    return !!this.projectIdentifier && this.authorisationService.can('work_packages', 'import');
+    const model = this.fullView ? 'work_package' : 'work_packages';
+
+    return !!this.projectIdentifier && this.authorisationService.can(model, 'import');
   }
 
   /**

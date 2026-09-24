@@ -182,6 +182,17 @@ module API
           }
         end
 
+        link :import,
+             cache_if: -> { current_user.allowed_in_project?(:import_work_packages, represented.project) } do
+          next if represented.project.nil?
+
+          {
+            href: import_project_work_packages_path(represented.project),
+            type: "text/html",
+            title: I18n.t("work_packages.import.title")
+          }
+        end
+
         link :configureForm,
              cache_if: -> { current_user.admin? } do
           next unless represented.type_id
