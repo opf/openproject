@@ -43,6 +43,7 @@ class LlmConnection < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   validates :base_url, presence: true
+  validate :base_url_is_absolute_http, if: -> { base_url.present? }
   # The column is NOT NULL and +active_connection+ hands back an unsaved record
   # with no identifier, so without this a save raises NotNullViolation instead of
   # surfacing an error a caller can render.
@@ -85,6 +86,15 @@ class LlmConnection < ApplicationRecord
   end
 
   private
+
+  def base_url_is_absolute_http
+    uri = URI.parse(base_url)
+    return if uri.is_a?(URI::HTTP) && uri.host.present?
+
+    errors.add(:base_url, :invalid_url)
+  rescue URI::InvalidURIError
+    errors.add(:base_url, :invalid_url)
+  end
 
   def single_active_connection
     return unless self.class.active.where.not(id:).exists?
