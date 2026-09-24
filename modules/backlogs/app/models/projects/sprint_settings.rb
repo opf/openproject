@@ -38,11 +38,11 @@ module Projects::SprintSettings
 
   SPRINT_SHARING_MODES = [NO_SHARING, SHARE_ALL_PROJECTS, SHARE_SUBPROJECTS, RECEIVE_SHARED].freeze
 
-  STORY_POINTS = "story_points"
-  TIME = "time"
-  NONE = "none"
+  BACKLOGS_UNIT_STORY_POINTS = "story_points"
+  BACKLOGS_UNIT_TIME = "time"
+  BACKLOGS_UNIT_NONE = "none"
 
-  ESTIMATION_UNITS = [STORY_POINTS, TIME, NONE].freeze
+  ESTIMATION_UNITS = [BACKLOGS_UNIT_STORY_POINTS, BACKLOGS_UNIT_TIME, BACKLOGS_UNIT_NONE].freeze
 
   included do
     store_attribute :settings, :sprint_sharing, :string
@@ -139,9 +139,9 @@ module Projects::SprintSettings
 
   def estimation_unit
     if OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
-      super || STORY_POINTS
+      super || BACKLOGS_UNIT_STORY_POINTS
     else
-      STORY_POINTS
+      BACKLOGS_UNIT_STORY_POINTS
     end
   end
 
