@@ -385,16 +385,13 @@ ko:
       type_variant:
         attribute_groups: 양식
         default_work_package_description: 설명의 기본 텍스트
-        defaults_source: 기본값 소스
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
-        form_configuration_source: 양식 소스
+        linked_aspects: Inherited configuration
         patterns: 패턴
-        pdf_export_source: PDF 내보내기 소스
-        project_attributes_source: 프로젝트 특성 소스
         project_types: 이 변형을 사용하는 프로젝트
         variant: 변형
         variant_name: 이름
-        workflows_source: 워크플로 소스
+        workflow: Workflow
       user:
         admin: 관리자
         auth_source: 인증 소스
@@ -527,6 +524,10 @@ ko:
         work_package: 작업 패키지
       work_package_version:
         kind: 종류
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -698,10 +699,10 @@ ko:
         label:
           attributes:
             name:
-              blank: Name cannot be empty.
+              blank: 이름은 비워둘 수 없습니다.
               format: "%{message}"
-              taken: A label with this name already exists. Please use another one.
-              too_long: Name is too long (maximum is %{count} characters).
+              taken: 이 이름의 레이블이 이미 있습니다. 다른 이름을 사용해 주세요.
+              too_long: 이름이 너무 깁니다(최대 %{count}자).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -882,38 +883,19 @@ ko:
               group_without_name: 그룹 이름은 비워둘 수 없습니다.
               query_invalid: '포함된 쿼리 ''%{group}''이(가) 잘못되었습니다: %{details}'
             base:
-              borrowed_by_variants: "%{names}에서 해당 구성을 재사용하고 있는 동안에는 삭제할 수 없습니다."
-              inherits_from_project_owned: '현재 이 변형은 프로젝트별 변형에서 상속받으며 글로벌 변형으로 변환할 수 없습니다.
-
-                '
               is_default_variant: 유형의 기본 구성은 삭제할 수 없습니다.
               project_variants_not_allowed: 이 유형은 프로젝트 내에서 변형 생성을 허용하지 않습니다.
               restrict_dependent_destroy:
                 has_many: 프로젝트에서 계속 사용 중인 동안에는 삭제할 수 없습니다.
-            defaults_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             enabled_in_new_projects:
               not_available_to_project_owned_variant: "- 프로젝트가 소유한 변형에는 설정할 수 없습니다."
               taken: "- 이미 이 유형의 다른 구성에 대해 설정되어 있습니다."
-            form_configuration_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             patterns:
               invalid_tokens: 필드 내의 특성이 하나 이상 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
-            project_attributes_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             variant:
               must_belong_to_the_type: "- 이 유형의 변형이어야 합니다."
             workflow:
               not_available_to_this_variant: "- 이 프로젝트가 사용할 수 있는 워크플로여야 합니다."
-            workflows_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
         user:
           attributes:
             base:
@@ -1331,7 +1313,7 @@ ko:
         primary-button-color: 기본 버튼
       custom_colors: 사용자 정의 색상
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: 애플리케이션의 다른 곳에서 사용할 색상 팔레트를 정의합니다. 예를 들어, 상태나 유형을 나타낼 색상을 선택할 때 이러한 색상을 사용할 수 있습니다.
       edit_color: "%{color} 편집"
       fonts:
         file_is_invalid: "- 유효한 TTF 글꼴 파일이 아닙니다."
@@ -1624,32 +1606,32 @@ ko:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
-        heading: Delete this label?
-        title: Delete this label?
+        confirmation: 이 작업은 되돌릴 수 없음을 이해합니다
+        description_html: 이렇게 하면 모든 프로젝트의 모든 작업 패키지에서 <strong>%{name}</strong> 레이블이 제거됩니다.
+        heading: 이 레이블을 삭제하시겠습니까?
+        title: 이 레이블을 삭제하시겠습니까?
       dialog_component:
-        create_title: Create label
-        rename_title: Rename "%{name}"
+        create_title: 레이블 만들기
+        rename_title: '"%{name}" 이름 바꾸기'
       index:
-        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+        description: 작업 패키지를 편집할 수 있는 모든 사용자는 기존 레이블을 사용하여 작업 패키지에 자유롭게 태그를 지정하거나, 즉시 새로운 레이블을 생성할 수 있습니다. 여기에는 모든 프로젝트에서 사용자가 생성한 모든 레이블이 포함됩니다.
       row_component:
         used_in_work_packages:
-          other: "%{count} work packages"
+          other: "%{count}개 작업 패키지"
       sub_header_component:
-        button_add: Label
-        label_add: Add label
-        search_placeholder: Type here to search
+        button_add: 레이블
+        label_add: 레이블 추가
+        search_placeholder: 검색하려면 여기에 입력하세요
       table_component:
         blank_slate:
-          description: Labels created by users on work packages will appear here.
-          title: No labels yet
+          description: 사용자가 작업 패키지에서 생성한 레이블이 여기에 표시됩니다.
+          title: 아직 레이블 없음
         headers:
-          name: Label
-          usage: Used in
+          name: 레이블
+          usage: '다음에서 사용됨:'
         no_matches:
-          description: Try a different search term.
-          title: No labels match your search
+          description: 다른 검색어를 사용해 보세요.
+          title: 검색 조건과 일치하는 레이블 없음
     mcp_configurations:
       index:
         description: 모델 컨텍스트 프로토콜을 통해 AI 에이전트는 이 OpenProject 인스턴스에 의해 노출된 도구와 리소스를 사용자에게 제공할 수 있습니다. 이 기능은 아직 베타 버전입니다.
@@ -3146,14 +3128,14 @@ ko:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: 문서에서 바로 작업 패키지를 생성합니다.
+            line_1: 백로그에서 작업 패키지를 검색하고 필터링합니다.
+            line_2: 작업 패키지를 삭제할 때 하위 항목을 유지할지 여부를 선택합니다.
+            line_3: MCP 서버를 사용하여 시간을 추적하고, 해당 표시 ID로 작업 패키지를 검색하는 등의 작업을 수행합니다(Professional 플랜).
+            line_4: 계획된 노동 시간을 시간, 일, 주 또는 월 단위로 입력합니다.
+            line_5: Jira Migrator를 사용할 때 가져오기 진행률을 확인합니다.
+            line_6: Community Edition에서 날짜 알림을 사용합니다.
+          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
 
             '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
@@ -3326,7 +3308,7 @@ ko:
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_projects: 사용 가능한 프로젝트
-  label_backtrace: Backtrace
+  label_backtrace: 백트레이스
   label_backup: 백업
   label_basic_details: 기본 세부 정보
   label_between: 사이에
@@ -3446,6 +3428,7 @@ ko:
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_item: "(삭제된 항목)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_deleted_version: "(deleted version)"
   label_departments: 조직
   label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 부서 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
 
@@ -3584,7 +3567,7 @@ ko:
   label_journal_diff: 설명 비교
   label_jump_to_a_project: 프로젝트로 이동...
   label_keyword_plural: 키워드
-  label_label_plural: Labels
+  label_label_plural: 레이블
   label_language: 언어
   label_language_based: 사용자 언어에 따름
   label_languages: 언어
@@ -5612,7 +5595,7 @@ ko:
   setting_default_language: 기본 언어
   setting_default_projects_modules: 새 프로젝트에 대해 기본적으로 활성화된 모듈
   setting_default_projects_public: 새 프로젝트는 기본적으로 공용입니다.
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: 기본적으로 새 프로젝트에 대해 위키 기능을 활성화합니다.
   setting_diff_max_lines_displayed: 표시되는 최대 차이점 줄 수
   setting_disable_password_login: 암호 인증 비활성화
   setting_display_subprojects_work_packages: 기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시
@@ -6304,7 +6287,7 @@ ko:
     comparison:
       action: 변형 비교
       blankslate:
-        description: 이 유형에 두 번째 변형을 추가하여 두 변형의 차이점을 확인하세요.
+        description: 이 유형에 두 번째 변형을 추가하여 두 변형의 차이점을 확인합니다.
         title: 아직 비교할 항목이 없습니다
       description: 이 유형의 변형을 부모 유형과 비교하세요.
       labels:
@@ -6318,7 +6301,7 @@ ko:
         form:
           fields: 필드
           groups: 섹션
-          required: "/ 필수 항목"
+          required: 필수 항목
           same_as_base: 부모 유형과 동일
         scope:
           availability: '사용 가능:'
@@ -6450,7 +6433,7 @@ ko:
         rename_group: 섹션 이름 바꾸기
         required:
           already_required_globally: 이 사용자 지정 필드는 모든 유형에서 필수입니다.
-          for_variant: 이 유형에서 필수
+          for_variant: 이 유형에서 필요함
           globally: 필수
           globally_hint: 사용자 지정 필드에서 이 항목을 변경하세요
           mark: 이 유형에서 필요
@@ -6523,46 +6506,30 @@ ko:
           success: 구성이 복사되었습니다.
         dependents:
           blank:
-            description: 이 구성에서 상속받는 다른 유형이나 변형은 없습니다
+            description: 이 구성에서 상속되는 다른 유형이나 변형이 없습니다
             title: 종속 유형 없음
           description:
             other: 다음 구성은 %{count}개의 기타 유형이나 변형에 상속됩니다. 여기서 변경하는 사항은 종속 항목에도 영향을 미칩니다.
           dialog:
             description: 이러한 유형 및 변형은 이 섹션의 구성을 상속합니다. 여기서 변경하는 사항은 모든 항목에 적용됩니다.
-            direct_heading: 직접 종속 항목
-            indirect_heading: 기타 유형을 통한 종속 항목
             title: 종속 유형
             variant_of_html: "%{type_name}의 변형"
-            variant_of_via_html: "%{type_name}의 변형, %{source_name}을(를) 통해 상속"
-            via_html: "%{source_name}을(를) 통해 상속"
           title:
-            other: "%{count} dependent types"
+            other: "%{count}개 종속 유형"
           view: 종속 유형 보기
         exclusions:
           not_inherited: 이 구성은 상속되지 않으므로, 제외할 항목이 없습니다. 대신 구성을 직접 편집하세요.
           unknown_aspect: 알 수 없는 구성 섹션 "%{aspect}"입니다.
         inherited:
-          change_source: 소스 유형 변경
           configure_manually: 수동으로 구성
           confirm_dialog:
-            change_source:
-              description_html: 소스 유형을 %{source_name}(으)로 변경하면 현재 설정을 덮어쓰게 되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
-              heading: 소스 유형 변경?
-              title: 소스 유형 변경
             check_box: 본인은 이렇게 하면 현재 설정이 재정의된다는 것을 이해합니다
             from_manual:
               description: 현재 선택된 모든 설정이 재정의되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
               heading: 구성 모드 전환?
               title: 구성 모드 전환
-          description: 이 구성은 소스 유형 [%{source_name}](source_url)%{source_suffix}에서 상속됩니다.
-          description_unlinked: 이 구성은 소스 유형 %{source_name}%{source_suffix}에서 상속됩니다.
-          dialog:
-            description: 소스 유형에서 이 구성을 상속합니다. 소스에 추가된 새로운 구성도 여기에서 적용됩니다.
-            source_label: 소스 유형
-            source_placeholder: 유형 또는 변형 선택
-            submit: 전환
-            title: 다른 유형에서 상속
-          invalid_source: 선택한 유형에서 이 구성을 상속할 수 없습니다. 다른 소스 유형을 선택하세요.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: 구성 모드가 전환되었습니다.
           title: 상속된 구성
         manual:
@@ -6576,7 +6543,7 @@ ko:
           dialog:
             submit: 전환
             title: 수동으로 구성
-          inherit_from_type: 다른 유형에서 상속
+          inherit_from_type: Inherit from parent
           invalid_mode: 선택한 모드는 이 구성에 사용할 수 없습니다. 다른 모드를 선택하세요.
           modes:
             copy:
@@ -6617,10 +6584,10 @@ ko:
       convert_to_global: 글로벌 변형으로 변환
       convert_to_global_dialog:
         confirm: 변환
-        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+        text: '이렇게 하면 이 프로젝트별 변형이 모든 프로젝트에 사용 가능한 글로벌 변형이 됩니다. 프로젝트 관리자는 더 이상 이 변형을 편집할 수 없게 됩니다.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+        workflow_text: '해당 워크플로 "%{name}"은(는) 이 프로젝트에 속하고, 또한 글로벌 워크플로가 됩니다.
 
           '
       convert_to_global_notice: "%{name}은(는) 이제 글로벌 변형입니다."
@@ -6646,7 +6613,7 @@ ko:
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
       project_variants_count:
-        other: "%{count} project-specific variants"
+        other: "%{count}개 프로젝트별 변형"
       remove_default: 새 프로젝트에서 활성화 안 함
       remove_default_notice: "%{name}이(가) 새 프로젝트에서 더 이상 활성화되지 않습니다."
       type_label: 유형
@@ -6837,9 +6804,9 @@ ko:
   version_status_open: 열기
   versions:
     filter_status_labels:
-      closed: Closed
-      locked: Locked
-      open: Open
+      closed: 닫음
+      locked: 잠김
+      open: 열림
     index:
       filter_label: 버전 검색
     overview:
@@ -7032,8 +6999,8 @@ ko:
         question: 하위 항목이 있는 작업 패키지를 삭제하려고 합니다. 해당 하위 항목도 함께 삭제하시겠습니까?
         self_only_caption: 이렇게 하면 하위 항목이 삭제되지 않지만, 계층적 관계는 제거됩니다.
         self_only_label: 선택된 작업 패키지만 삭제
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
-        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: 이렇게 하면 내게 표시되는 모든 자식 작업 패키지가 삭제됩니다. 다음 단계에서 전체 목록을 검토할 수 있습니다.
+        with_descendants_label: 선택한 작업 패키지 및 해당 하위 항목 삭제
       description: 선택한 작업 패키지 및 모든 관련 데이터를 삭제하시겠습니까?
       description_with_all_descendants: 선택한 작업 패키지 및 모든 해당 하위 항목을 삭제하시겠습니까?
       description_with_descendants: 선택한 작업 패키지 및 다음의 모든 하위 항목을 삭제하시겠습니까?
@@ -7099,8 +7066,8 @@ ko:
         question: 이 작업 패키지에는 하위 항목이 있습니다. 이 항목도 함께 삭제하시겠습니까?
         self_only_caption: 이렇게 하면 하위 항목이 삭제되지 않지만, 계층적 관계는 제거됩니다.
         self_only_label: 이 작업 패키지만 삭제
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
-        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: 이렇게 하면 내게 표시되는 모든 자식 작업 패키지가 삭제됩니다. 다음 단계에서 전체 목록을 검토할 수 있습니다.
+        with_descendants_label: 이 작업 패키지 및 하위 항목 삭제
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
@@ -7145,6 +7112,12 @@ ko:
     x_descendants:
       other: "%{count}개 작업 패키지 하위 항목"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7156,6 +7129,14 @@ ko:
       new:
         title: '"%{source_type}"의 워크플로 복사'
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: 워크플로 매트릭스
       matrix_caption_assignee: 담당자에 대한 워크플로 매트릭스
       matrix_caption_author: 작성자에 대한 워크플로 매트릭스
@@ -7164,12 +7145,69 @@ ko:
       matrix_check_uncheck_all_in_row_label_html: "<em>%{old_status}</em>에서 모든 새로운 상태로 전환 토글"
       matrix_checkbox_label: "%{old_status}에서 %{new_status}(으)로 전환 허용"
       matrix_uncheck_all_label: 모든 전환 허용 안 함
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      roles_count:
+        other: "%{count} roles"
       type_filter:
         label: 유형 이름으로 필터링…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: 각 작업 패키지 유형에 대한 상태 전환을 구성합니다.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: 근무일 변경
     dialog:

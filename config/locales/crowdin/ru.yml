@@ -385,16 +385,13 @@ ru:
       type_variant:
         attribute_groups: Форма
         default_work_package_description: Текст для описания по умолчанию
-        defaults_source: Источник по умолчанию
         enabled_in_new_projects: Активно в новых проектах
-        form_configuration_source: Источник формы
+        linked_aspects: Inherited configuration
         patterns: Шаблоны
-        pdf_export_source: Источник экспорта PDF
-        project_attributes_source: Источник атрибутов проекта
         project_types: Проекты, в которых используется данный вариант
         variant: Вариант
         variant_name: Название
-        workflows_source: Источник рабочих процессов
+        workflow: Workflow
       user:
         admin: Администратор
         auth_source: Источник аутентификации
@@ -527,6 +524,10 @@ ru:
         work_package: Пакет работ
       work_package_version:
         kind: Вид
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -701,10 +702,10 @@ ru:
         label:
           attributes:
             name:
-              blank: Name cannot be empty.
+              blank: Имя не может быть пустым.
               format: "%{message}"
-              taken: A label with this name already exists. Please use another one.
-              too_long: Name is too long (maximum is %{count} characters).
+              taken: Метка с таким именем уже существует. Пожалуйста, используйте другое имя.
+              too_long: Имя слишком длинное (максимум %{count} символов).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -885,38 +886,19 @@ ru:
               group_without_name: Имя группы не может быть пустым.
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
             base:
-              borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
-              inherits_from_project_owned: 'Данный вариант наследуется от варианта, относящегося к конкретному проекту, и не может быть преобразован в глобальный вариант.
-
-                '
               is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
               project_variants_not_allowed: Этот тип не позволяет создавать варианты внутри проектов.
               restrict_dependent_destroy:
                 has_many: Невозможно удалить, пока он используется в проектах.
-            defaults_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: не может быть установлен на вариант, принадлежащий проекту.
               taken: уже настроен для другой конфигурации данного типа.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
             variant:
               must_belong_to_the_type: должен быть вариантом данного типа.
             workflow:
               not_available_to_this_variant: должен быть рабочим процессом, который может использовать проект.
-            workflows_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
         user:
           attributes:
             base:
@@ -1969,35 +1951,35 @@ ru:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
-        heading: Delete this label?
-        title: Delete this label?
+        confirmation: Я понимаю, что это действие нельзя отменить
+        description_html: Это удалит метку <strong>%{name}</strong> из всех пакетов работ во всех проектах.
+        heading: Удалить эту метку?
+        title: Удалить эту метку?
       dialog_component:
-        create_title: Create label
-        rename_title: Rename "%{name}"
+        create_title: Создать метку
+        rename_title: Переименовать "%{name}"
       index:
-        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+        description: Все пользователи, способные редактировать пакеты работ, могут свободно помечать пакеты работ как существующими, так и сразу создавать новые. Сюда входят все метки, созданные пользователями во всех проектах.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
+          one: "%{count} пакет работ"
           few: "%{count} work packages"
           many: "%{count} work packages"
-          other: "%{count} work packages"
+          other: "%{count} пакетов работ"
       sub_header_component:
-        button_add: Label
-        label_add: Add label
-        search_placeholder: Type here to search
+        button_add: Метка
+        label_add: Добавить метку
+        search_placeholder: Введите текст для поиска
       table_component:
         blank_slate:
-          description: Labels created by users on work packages will appear here.
-          title: No labels yet
+          description: Здесь появятся ярлыки, созданные пользователями на пакетах работ.
+          title: Пока нет меток
         headers:
-          name: Label
-          usage: Used in
+          name: Метка
+          usage: Используется в
         no_matches:
-          description: Try a different search term.
-          title: No labels match your search
+          description: Попробуйте изменить поисковой запрос.
+          title: Нет меток, соответствующих вашему запросу
     mcp_configurations:
       index:
         description: Протокол контекста модели позволяет агентам ИИ предоставлять своим пользователям инструменты и ресурсы, открытые данным экземпляром OpenProject. Эта функция пока находится в стадии бета-версии.
@@ -3868,6 +3850,7 @@ ru:
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_deleted_version: "(deleted version)"
   label_departments: Департаменты
   label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
 
@@ -4006,7 +3989,7 @@ ru:
   label_journal_diff: Описание сравнения
   label_jump_to_a_project: Перейти к проекту...
   label_keyword_plural: Ключевые слова
-  label_label_plural: Labels
+  label_label_plural: Метки
   label_language: Язык
   label_language_based: Основанный на языке пользователя
   label_languages: Языки
@@ -7015,12 +6998,8 @@ ru:
             other: Следующая конфигурация унаследована %{count} другими типами или вариантами. Любые изменения, внесенные здесь, также повлияют на зависимости.
           dialog:
             description: Эти типы и варианты наследуют конфигурацию этого раздела. Внесенные вами изменения применяются ко всем из них.
-            direct_heading: Прямые зависимые
-            indirect_heading: Зависимости от других типов
             title: Зависимые типы
             variant_of_html: Вариант %{type_name}
-            variant_of_via_html: Вариант %{type_name}, унаследованный от %{source_name}
-            via_html: Наследование от %{source_name}
           title:
             one: 1 зависимый тип
             few: "%{count} dependent types"
@@ -7031,27 +7010,15 @@ ru:
           not_inherited: Данная конфигурация не наследуется, поэтому исключать ничего не нужно. Вместо этого отредактируйте конфигурацию напрямую.
           unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
         inherited:
-          change_source: Изменить источник типа
           configure_manually: Настройка вручную
           confirm_dialog:
-            change_source:
-              description_html: Изменив тип источника на %{source_name}, вы перезапишете текущие настройки, что может повлиять на имеющуюся информацию о рабочих пакетах данного типа.
-              heading: Изменить тип источника?
-              title: Изменить тип источника
             check_box: Я понимаю, что это переопределит текущие настройки
             from_manual:
               description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
               heading: Переключить режим конфигурации?
               title: Переключить режим конфигурации
-          description: Данная конфигурация наследуется от исходного типа [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Данная конфигурация унаследована от исходного типа %{source_name}%{source_suffix}.
-          dialog:
-            description: Наследовать эту конфигурацию из исходного типа. Любая новая конфигурация, добавленная в источник, также применяется здесь.
-            source_label: Исходный тип
-            source_placeholder: Выберите тип или вариант
-            submit: Переключить
-            title: Наследовать от другого типа
-          invalid_source: Конфигурация не может быть унаследована от выбранного типа. Пожалуйста, выберите другой тип источника.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: Режим конфигурации переключен.
           title: Наследуемая конфигурация
         manual:
@@ -7065,7 +7032,7 @@ ru:
           dialog:
             submit: Переключить
             title: Настройка вручную
-          inherit_from_type: Наследовать от другого типа
+          inherit_from_type: Inherit from parent
           invalid_mode: Выбранный режим недоступен для этой конфигурации. Пожалуйста, выберите другой режим.
           modes:
             copy:
@@ -7678,6 +7645,12 @@ ru:
       many: 'Пакетов работ, являющихся потомками: %{count}'
       other: 'Пакетов работ, являющихся потомками: %{count}'
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7692,6 +7665,14 @@ ru:
       new:
         title: Копировать рабочий процесс из типа "%{source_type}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Матрица рабочего процесса
       matrix_caption_assignee: Матрица рабочего процесса для назначенного
       matrix_caption_author: Матрица рабочего процесса для автора
@@ -7700,12 +7681,90 @@ ru:
       matrix_check_uncheck_all_in_row_label_html: Переключить переходы от <em>%{old_status}</em> ко всем новым статусам
       matrix_checkbox_label: Разрешить переход от %{old_status} к %{new_status}
       matrix_uncheck_all_label: Запретить все переходы
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        few: "%{count} roles"
+        many: "%{count} roles"
+        other: "%{count} roles"
       type_filter:
         label: Фильтр по имени типа…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        few: "%{count} types"
+        many: "%{count} types"
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Настроить переходы статусов для каждого типа пакета работ.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          one: Used in 1 other place
+          few: Used in %{count} other places
+          many: Used in %{count} other places
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        few: This workflow is used by %{count} types. Changes apply to all of them.
+        many: This workflow is used by %{count} types. Changes apply to all of them.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        few: This workflow is used by %{count} types and variants.
+        many: This workflow is used by %{count} types and variants.
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Изменить рабочие дни
     dialog:
