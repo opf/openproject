@@ -72,6 +72,10 @@ module CostReports
       @user.allowed_in_any_work_package?(:export_work_packages, in_project: @project)
     end
 
+    def export_path(format)
+      url_for({ controller: "cost_reports", action: :index, format:, project_id: @project, **@query.to_query_params })
+    end
+
     def module_path
       @project.present? ? cost_reports_path(@project) : global_cost_reports_path
     end

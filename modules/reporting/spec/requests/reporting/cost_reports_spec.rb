@@ -180,6 +180,49 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     end
   end
 
+  describe "the export links" do
+    shared_let(:export_project) { create(:project, enabled_module_names: %i[costs work_package_tracking]) }
+    shared_let(:exporting_user) do
+      create(:user, member_with_permissions: {
+               export_project => %i[view_cost_entries view_time_entries export_work_packages]
+             })
+    end
+
+    before { login_as(exporting_user) }
+
+    def export_params(format)
+      href = response.parsed_body.at_css("a[href*='cost_reports.#{format}']")["href"]
+
+      Rack::Utils.parse_query(URI(href).query)
+    end
+
+    it "carries the filters and unit of the requested report" do
+      get project_reporting_cost_reports_path(export_project,
+                                              filters: 'work_package_id =_child_work_packages "42"', unit: "-1")
+
+      %w[xls pdf].each do |format|
+        expect(export_params(format)).to include("filters" => 'work_package_id =_child_work_packages "42"',
+                                                 "unit" => "-1")
+      end
+    end
+
+    it "carries the filters of a saved report" do
+      query = CostReportQuery.new.tap { it.where("work_package_id", "=", ["42"]) }
+      report = CostReport.create!(name: "Saved", principal: exporting_user, public: true, project: export_project,
+                                  query:)
+
+      get project_reporting_cost_report_path(export_project, report)
+
+      expect(export_params("xls")["filters"]).to eq('work_package_id = "42"')
+    end
+
+    it "keeps an empty filter set instead of falling back to the defaults" do
+      get project_reporting_cost_reports_path(export_project, filters: "")
+
+      expect(export_params("xls")).to include("filters" => "")
+    end
+  end
+
   describe "a session left over from before filters lived on the url" do
     let(:legacy_session) do
       { filters: { operators: { spent_on: ">d", user_id: "=" },
