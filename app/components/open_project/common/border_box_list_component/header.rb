@@ -178,6 +178,7 @@ module OpenProject
         #   with a toggle button.
         # @param show_drag_handle [Boolean] whether the header renders a leading
         #   drag handle. Defaults to `false`.
+        # @param drag_handle_arguments [Hash] forwarded to `Primer::OpenProject::DragHandle`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
           title: nil,

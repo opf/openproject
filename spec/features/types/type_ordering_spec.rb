@@ -58,7 +58,7 @@ RSpec.describe "Paginated type ordering", :js, :selenium,
         within(".Box-header") do
           find(:button, accessible_name: I18n.t(:label_actions)).click
           click_on I18n.t(:button_move)
-          click_on I18n.t(direction)
+          click_on direction
         end
       end
     end
@@ -97,21 +97,21 @@ RSpec.describe "Paginated type ordering", :js, :selenium,
 
   it "moves up across pages and refreshes the next lazy menu" do
     visit types_path(page: 2, per_page: 2)
-    move_type(types[2], :label_sort_higher)
+    move_type(types[2], "Move up")
 
     expect_page_types("B", "D")
     expect_order("A", "C", "B", "D", "E")
-    expect(page).to have_text(I18n.t(:notice_successful_update))
+    expect(page).to have_text("Successful update.")
     expect(page).to have_current_path(types_path(page: 2, per_page: 2))
 
-    move_type(types[1], :label_sort_higher)
+    move_type(types[1], "Move up")
     expect_page_types("C", "D")
     expect_order("A", "B", "C", "D", "E")
   end
 
   it "moves to the global top while keeping index pagination links" do
     visit types_path(page: 2, per_page: 2)
-    move_type(types[3], :label_sort_highest)
+    move_type(types[3], "Move to top")
 
     expect_page_types("B", "C")
     expect_order("D", "A", "B", "C", "E")
@@ -125,7 +125,7 @@ RSpec.describe "Paginated type ordering", :js, :selenium,
 
   it "moves down into the next page" do
     visit types_path(page: 2, per_page: 2)
-    move_type(types[3], :label_sort_lower)
+    move_type(types[3], "Move down")
 
     expect_page_types("C", "E")
     expect_order("A", "B", "C", "E", "D")
@@ -133,7 +133,7 @@ RSpec.describe "Paginated type ordering", :js, :selenium,
 
   it "moves to the global bottom" do
     visit types_path(page: 2, per_page: 2)
-    move_type(types[2], :label_sort_lowest)
+    move_type(types[2], "Move to bottom")
 
     expect_page_types("D", "E")
     expect_order("A", "B", "D", "E", "C")

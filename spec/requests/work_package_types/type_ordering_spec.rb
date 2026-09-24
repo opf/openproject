@@ -30,8 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe "Type ordering", :skip_csrf, type: :rails_request,
-                                            with_settings: { per_page_options: "2,100" } do
+RSpec.describe "Type ordering", :skip_csrf,
+               type: :rails_request,
+               with_settings: { per_page_options: "2,100" } do
   current_user { create(:admin) }
 
   let!(:types) { %w[A B C D E].map { |name| create(:type, name:) } }
@@ -41,19 +42,26 @@ RSpec.describe "Type ordering", :skip_csrf, type: :rails_request,
     expect(Type.order(:position).pluck(:name)).to eq(names)
   end
 
-  def drop(type, request_params = drag_params, page: 2)
-    put drop_type_path(type, page:, per_page: 2), params: request_params,
-                                                  as: :json, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+  def drop(type, request_params = drag_params, page: 2, **context)
+    put drop_type_path(type, page:, per_page: 2, **context),
+        params: request_params,
+        as: :json,
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
   end
 
   [nil, ""].each do |anchor|
     it "moves to page two's beginning for #{anchor.inspect}" do
-      drop(types[3], drag_params.merge(prev_id: anchor))
+      drop(types[3], drag_params.merge(prev_id: anchor), expand: types[3].id)
 
       expect(response).to have_http_status(:ok)
       expect_order("A", "B", "D", "C", "E")
       expect(response.body).to have_css('turbo-stream[action="update"][method="morph"]' \
                                         '[target="work-package-types-types-grouped-list-component"]')
+      html = Nokogiri::HTML(response.parsed_body).css("turbo-stream[action=update] template").map(&:inner_html).join
+      fragment = Capybara.string(html)
+      expect(fragment).to have_link("1", href: types_path(page: 1, per_page: 2, expand: types[3].id))
+      expect(fragment).to have_link("3", href: types_path(page: 3, per_page: 2, expand: types[3].id))
+      expect(fragment).to have_no_css("[href*='/drop']")
     end
 
     it "moves to the global beginning on page one for #{anchor.inspect}" do
@@ -156,6 +164,13 @@ RSpec.describe "Type ordering", :skip_csrf, type: :rails_request,
       expect(response).to have_http_status(:unprocessable_entity)
       expect_order("A", "B", "C", "D", "E")
     end
+  end
+
+  it "ignores a non-scalar expansion parameter when dropping" do
+    drop(types[3], expand: ["1"])
+
+    expect(response).to have_http_status(:ok)
+    expect_order("A", "B", "D", "C", "E")
   end
 
   it "keeps page context in the lazy menu forms" do

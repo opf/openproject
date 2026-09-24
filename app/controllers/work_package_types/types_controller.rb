@@ -106,7 +106,7 @@ module WorkPackageTypes
     end
 
     def expanded_type_id
-      params[:expand].presence&.to_i
+      Integer(params[:expand].to_s, exception: false)
     end
 
     def ordering_component
@@ -117,8 +117,8 @@ module WorkPackageTypes
 
     def render_ordering_result(moved, error_key:)
       if moved
-        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
         update_via_turbo_stream(component: ordering_component, method: :morph)
+        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
       else
         render_error_flash_message_via_turbo_stream(message: I18n.t(error_key))
       end

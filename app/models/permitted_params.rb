@@ -241,10 +241,6 @@ class PermittedParams
     whitelisted
   end
 
-  def type_move
-    params.require(:type).permit(*self.class.permitted_attributes[:move_to])
-  end
-
   def enumerations_move
     params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
   end

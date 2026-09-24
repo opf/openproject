@@ -70,7 +70,11 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if @types.any? %>
-  <%= render WorkPackageTypes::Types::GroupedListComponent.new(types: @types, expanded_type_id: @expanded_type_id, page_args: @page_args) %>
+  <%= render WorkPackageTypes::Types::GroupedListComponent.new(
+        types: @types,
+        expanded_type_id: @expanded_type_id,
+        page_args: @page_args
+      ) %>
 <% else %>
   <%=
     no_results_box(

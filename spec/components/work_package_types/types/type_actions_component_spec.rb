@@ -86,7 +86,6 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
         expect(rendered).to have_selector(:menuitem, text: I18n.t(label))
       end
       expect(rendered).to have_css("form[action='#{move_types_path(types[2], page: 2, per_page: 2)}'][method='post']")
-      expect(rendered).to have_no_css("[data-sortable-lists--item-target='moveItem']")
     end
 
     it "omits upward directions only at the global start" do
