@@ -136,10 +136,4 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
 
     include_context "with labels by workspace"
   end
-
-  context "for projects/:id/labels" do
-    let(:get_path) { api_v3_paths.labels_by_project project.id }
-
-    include_context "with labels by workspace"
-  end
 end
