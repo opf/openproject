@@ -243,7 +243,9 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
       expect(wp.type_id).to eq type_bug.id
       expect(wp.status_id).to eq closed_status.id
 
-      Pages::PrimerizedSplitWorkPackage.new(wp, project).close
+      split_view = Pages::PrimerizedSplitWorkPackage.new(wp, project)
+      split_view.close
+      split_view.expect_closed
 
       # When the chosen type (type_task) does not have a workflow for the status (closed_status)
       # of the filter, it uses the default status instead (Regression #36719)
