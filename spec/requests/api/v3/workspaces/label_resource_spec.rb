@@ -78,6 +78,38 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
       end
     end
 
+    context "with a page size smaller than the number of labels" do
+      current_user { permitted_user }
+
+      before do
+        get "#{get_path}?pageSize=2"
+      end
+
+      it_behaves_like "API V3 collection response", 3, 2, "Label" do
+        let(:elements) { [local_label, popular_elsewhere] }
+      end
+
+      it "links to the next page" do
+        expect(response.body).to have_json_path("_links/nextByOffset/href")
+      end
+    end
+
+    context "with pageSize -1 requesting the maximum page size" do
+      current_user { permitted_user }
+
+      before do
+        get "#{get_path}?pageSize=-1"
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3, "Label" do
+        let(:elements) { [local_label, popular_elsewhere, unused_label] }
+      end
+
+      it "resolves to the configured maximum page size" do
+        expect(response.body).to be_json_eql(Setting.apiv3_max_page_size.to_i.to_json).at_path("pageSize")
+      end
+    end
+
     context "for a user without permission to view work packages" do
       current_user { unpermitted_user }
 
