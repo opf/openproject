@@ -6858,7 +6858,6 @@ en:
         untitled_group: "Untitled group"
       overview:
         configuration_mode: "Configuration mode"
-        dependents: "Dependent types and variants"
         mode:
           always_manual: "Always manual"
           inheriting_from_html: "Inheriting from %{source_name}"
@@ -6912,21 +6911,6 @@ en:
             title: "Copy configuration"
           invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
           success: "The configuration was copied."
-        dependents:
-          blank:
-            description: "No other type or variant inherits from this configuration"
-            title: "No dependent types"
-          description:
-            one: "This configuration is inherited by 1 other type or variant. Any changes you make to this page will also be reflected there."
-            other: "This configuration is inherited by %{count} other types or variants. Any changes you make to this page will also be reflected there."
-          dialog:
-            description: "These types and variants inherit the configuration of this section. A change you make here applies to all of them."
-            title: "Dependent types"
-            variant_of_html: "Variant of %{type_name}"
-          title:
-            one: "1 dependent type"
-            other: "%{count} dependent types"
-          view: "View dependent types"
         exclusions:
           not_inherited: "This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead."
           unknown_aspect: 'Unknown configuration section "%{aspect}".'
