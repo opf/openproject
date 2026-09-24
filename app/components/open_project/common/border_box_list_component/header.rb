@@ -150,7 +150,8 @@ module OpenProject
                     :interactive,
                     :collapsed,
                     :collapsible,
-                    :show_drag_handle
+                    :show_drag_handle,
+                    :drag_handle_arguments
 
         alias_method :show_drag_handle?, :show_drag_handle
 
@@ -190,6 +191,7 @@ module OpenProject
           collapsed: false,
           collapsible: false,
           show_drag_handle: false,
+          drag_handle_arguments: {},
           **system_arguments
         )
           super()
@@ -206,6 +208,7 @@ module OpenProject
           @collapsed = collapsed
           @collapsible = collapsible
           @show_drag_handle = show_drag_handle
+          @drag_handle_arguments = drag_handle_arguments
           @system_arguments = system_arguments
         end
 

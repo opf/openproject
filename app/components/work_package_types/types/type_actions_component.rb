@@ -37,10 +37,12 @@ module WorkPackageTypes
         "type-#{type.id}-action-menu"
       end
 
-      def initialize(type:)
+      def initialize(type:, page_args: {}, expanded_type_id: nil)
         super()
 
         @type = type
+        @page_args = page_args
+        @expanded_type_id = expanded_type_id
       end
 
       def menu_id
@@ -49,7 +51,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type
+      attr_reader :type, :page_args, :expanded_type_id
 
       def type_actions(menu)
         configure_action(menu)
@@ -174,8 +176,9 @@ module WorkPackageTypes
       def move_item(submenu, move_to, label, icon)
         submenu.with_item(
           label:,
-          href: move_types_path(type, type: { move_to: }),
-          form_arguments: { method: :post }
+          tag: :button,
+          href: move_types_path(type, **page_args, expand: expanded_type_id),
+          form_arguments: { method: :post, inputs: [{ name: "type[move_to]", value: move_to.to_s }] }
         ) do |item|
           item.with_leading_visual_icon(icon:)
         end

@@ -75,4 +75,34 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
       end
     end
   end
+
+  describe "paginated moves" do
+    let!(:types) { %w[A B C D E].map { |name| create(:type, name:) } }
+
+    it "keeps all global directions available for a page's first type" do
+      rendered = render_inline(described_class.new(type: types[2], page_args: { page: 2, per_page: 2 }))
+
+      %i[label_sort_highest label_sort_higher label_sort_lower label_sort_lowest].each do |label|
+        expect(rendered).to have_selector(:menuitem, text: I18n.t(label))
+      end
+      expect(rendered).to have_css("form[action='#{move_types_path(types[2], page: 2, per_page: 2)}'][method='post']")
+      expect(rendered).to have_no_css("[data-sortable-lists--item-target='moveItem']")
+    end
+
+    it "omits upward directions only at the global start" do
+      rendered = render_inline(described_class.new(type: root_type))
+
+      expect(rendered).to have_no_selector(:menuitem, text: I18n.t(:label_sort_highest))
+      expect(rendered).to have_no_selector(:menuitem, text: I18n.t(:label_sort_higher))
+      expect(rendered).to have_selector(:menuitem, text: I18n.t(:label_sort_lowest))
+    end
+
+    it "omits downward directions only at the global end" do
+      rendered = render_inline(described_class.new(type: types.last))
+
+      expect(rendered).to have_selector(:menuitem, text: I18n.t(:label_sort_highest))
+      expect(rendered).to have_no_selector(:menuitem, text: I18n.t(:label_sort_lower))
+      expect(rendered).to have_no_selector(:menuitem, text: I18n.t(:label_sort_lowest))
+    end
+  end
 end

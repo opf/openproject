@@ -43,7 +43,8 @@ module WorkPackageTypes
     end
 
     def index
-      @expanded_type_id = params[:expand].presence&.to_i
+      @expanded_type_id = expanded_type_id
+      @page_args = page_args
       @types = types_for_index
     end
 
@@ -52,12 +53,10 @@ module WorkPackageTypes
     end
 
     def move
-      if @type.update(permitted_params.type_move)
-        flash[:notice] = I18n.t(:notice_successful_update)
-      else
-        flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
-      end
-      redirect_to types_path
+      type_params = params[:type]
+      direction = type_params[:move_to] if type_params.is_a?(ActionController::Parameters)
+      moved = direction.in?(%w[highest higher lower lowest]) && @type.update(move_to: direction)
+      render_ordering_result(moved, error_key: :error_type_could_not_be_saved)
     end
 
     def destroy
@@ -93,22 +92,66 @@ module WorkPackageTypes
     end
 
     def drop
-      unless @type.update(params.permit(:position))
-        render_error_flash_message_via_turbo_stream(message: @type.errors.full_messages.to_sentence)
-      end
-
-      update_via_turbo_stream(component: Types::GroupedListComponent.new(types: types_for_index))
-      respond_to_with_turbo_streams
+      render_ordering_result(move_after_anchor, error_key: :error_invalid_list_move_anchor)
     end
 
     def menu
-      render Types::TypeActionsComponent.new(type: @type), layout: false
+      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:), layout: false
     end
 
     protected
 
+    def page_args
+      { page: page_param, per_page: per_page_param }
+    end
+
+    def expanded_type_id
+      params[:expand].presence&.to_i
+    end
+
+    def ordering_component
+      Types::GroupedListComponent.new(types: types_for_index,
+                                      page_args:,
+                                      expanded_type_id:)
+    end
+
+    def render_ordering_result(moved, error_key:)
+      if moved
+        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+        update_via_turbo_stream(component: ordering_component, method: :morph)
+      else
+        render_error_flash_message_via_turbo_stream(message: I18n.t(error_key))
+      end
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+    end
+
+    def valid_drop_request?
+      params[:list_type] == ::Type.model_name.param_key &&
+        (params[:list_id].nil? || params[:list_id] == "") &&
+        params.key?(:prev_id)
+    end
+
+    def move_after_anchor
+      return false unless valid_drop_request?
+
+      predecessor = params[:prev_id]
+      if predecessor.nil? || predecessor == ""
+        move_to_page_start
+      else
+        @type.move_after_anchor(predecessor, scope: ::Type.all)
+      end
+    end
+
+    def move_to_page_start
+      current_page = ::Type.page(page_param).per_page(per_page_param)
+      return false if current_page.empty?
+
+      predecessor = ::Type.offset(current_page.offset - 1).pick(:id) if current_page.offset.positive?
+      @type.move_after_anchor(predecessor, scope: ::Type.all)
+    end
+
     def find_type
-      @type = ::Type.find(params[:id])
+      @type = ::Type.find(params.expect(:id))
     end
 
     def types_for_index
