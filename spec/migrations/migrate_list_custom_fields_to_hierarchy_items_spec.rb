@@ -251,6 +251,22 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       expect(conn.table_exists?(:custom_options)).to be(false)
     end
 
+    it "keeps new item ids above the highest option id ever issued, even if that option was later deleted" do
+      cf = insert_list_cf("Watermark")
+      insert_option(cf, "kept", 1)
+      conn.execute("SELECT setval('custom_options_id_seq', 500000)")
+      deleted_id = insert_option(cf, "gone", 2)
+      conn.execute("DELETE FROM custom_options WHERE id = #{deleted_id}")
+
+      migrate!
+
+      new_ids = conn.select_values(<<~SQL.squish)
+        SELECT id FROM hierarchical_items
+        WHERE custom_field_id = #{cf} OR parent_id IN (SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf})
+      SQL
+      expect(new_ids).to all(be > deleted_id)
+    end
+
     it "keeps new item ids above the highest item id ever issued, even if that item was later deleted" do
       cf = insert_list_cf("Item watermark")
       insert_option(cf, "kept", 1)
@@ -265,6 +281,47 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
         WHERE custom_field_id = #{cf} OR parent_id IN (SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf})
       SQL
       expect(new_ids).to all(be > deleted_id)
+    end
+
+    it "does not rewrite a value that matches another field's option id" do
+      cf_a = insert_list_cf("FieldA")
+      cf_b = insert_list_cf("FieldB")
+      insert_option(cf_a, "a-value", 1)
+      option_b = insert_option(cf_b, "b-value", 1)
+      wp = create(:work_package)
+      conn.execute(<<~SQL.squish)
+        INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
+        VALUES ('WorkPackage', #{wp.id}, #{cf_a}, '#{option_b}')
+      SQL
+
+      migrate!
+
+      value = conn.select_value("SELECT value FROM custom_values WHERE custom_field_id = #{cf_a}")
+      expect(value).to eq(option_b.to_s)
+    end
+  end
+
+  describe "#assert_ids_disjoint!" do
+    it "raises when a legacy option id collides with a migrated item id of the same field" do
+      cf = insert_list_cf("Overlap")
+      root_id = conn.select_value(<<~SQL.squish)
+        INSERT INTO hierarchical_items (custom_field_id, children_count, created_at, updated_at)
+        VALUES (#{cf}, 1, NOW(), NOW())
+        RETURNING id
+      SQL
+      item_id = conn.select_value(<<~SQL.squish)
+        INSERT INTO hierarchical_items (parent_id, sort_order, label, children_count, created_at, updated_at)
+        VALUES (#{root_id}, 0, 'colliding', 0, NOW(), NOW())
+        RETURNING id
+      SQL
+      conn.execute(<<~SQL.squish)
+        INSERT INTO legacy_custom_option_mappings (custom_option_id, hierarchical_item_id, custom_field_id)
+        VALUES (#{item_id}, #{item_id}, #{cf})
+      SQL
+
+      migration = described_class.new
+      expect { migration.send(:assert_ids_disjoint!) }
+        .to raise_error(ActiveRecord::MigrationError, /collide/)
     end
   end
 

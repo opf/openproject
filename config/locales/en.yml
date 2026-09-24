@@ -650,7 +650,6 @@ en:
           only_one_allowed: "(%{name}) only one value is allowed."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
         custom_field:
-          at_least_one_custom_option: "At least one option needs to be available."
           attributes:
             formula:
               blank: "Formula can't be blank."
@@ -2166,7 +2165,6 @@ en:
     created_at: "Created on"
     creator: "Creator"
     custom_field: "Custom field"
-    custom_options: "Possible values"
     custom_values: "Custom fields"
     customized: "Customized"
     date: "Date"
@@ -2601,7 +2599,7 @@ en:
     no_role_assigment: "No role assignment"
     placeholder_version_select: "Work package or project selection is required first"
     reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Are you sure you want to continue?"
     semantic_keys:
       job_title: "Job title"
       none: "None"
@@ -3647,7 +3645,6 @@ en:
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_item: "(deleted item)"
-  label_deleted_custom_option: "(deleted option)"
   label_departments: "Organization"
   label_departments_description_html: >
     Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you
@@ -4793,7 +4790,6 @@ en:
   notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
   notice_bad_request: "Bad Request."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
-  notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
   notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"

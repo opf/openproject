@@ -337,6 +337,24 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         preordered_descendants = root.reload.self_and_descendants_preordered.pluck(:label)
         expect(root.self_and_descendants.reorder(:position_cache).pluck(:label)).to eq(preordered_descendants)
       end
+
+      context "for a list custom field" do
+        let!(:list_custom_field) { create(:custom_field, field_format: "list") }
+        let(:list_root) { list_custom_field.hierarchy_root }
+        let!(:apple) do
+          service.insert_item(contract_class:, parent: list_root, label: "Apple").value!
+        end
+        let!(:pear) do
+          service.insert_item(contract_class:, parent: list_root, label: "Pear").value!
+        end
+
+        it "refuses to nest a list item under one of its siblings" do
+          result = service.move_item(item: pear, new_parent: apple)
+
+          expect(result).to be_failure
+          expect(pear.reload.parent).to eq(list_root)
+        end
+      end
     end
 
     describe "#reorder_item" do

@@ -579,6 +579,32 @@ RSpec.describe CustomField do
     end
   end
 
+  describe "#possible_values=" do
+    context "on a persisted custom field" do
+      let(:field) { create(:custom_field, :list, possible_values: ["Existing"]) }
+
+      it "raises instead of silently discarding the new values" do
+        expect { field.possible_values = ["New"] }
+          .to raise_error(/possible_values=/)
+
+        expect(field.possible_values.pluck(:label)).to contain_exactly("Existing")
+      end
+    end
+  end
+
+  describe "#flush_buffered_possible_values" do
+    it "raises when the hierarchy service rejects one of the buffered values" do
+      real_service = CustomFields::Hierarchy::HierarchicalItemService.new
+      service = instance_double(CustomFields::Hierarchy::HierarchicalItemService)
+      allow(CustomFields::Hierarchy::HierarchicalItemService).to receive(:new).and_return(service)
+      allow(service).to receive(:generate_root) { |cf| real_service.generate_root(cf) }
+      allow(service).to receive(:insert_item).and_return(Dry::Monads::Failure.new(:boom))
+
+      expect { create(:custom_field, field_format: "list", possible_values: ["Only"]) }
+        .to raise_error(/Could not insert possible value/)
+    end
+  end
+
   describe "#multi_value_possible?" do
     context "with a wp list cf" do
       let(:field) { build_stubbed(:list_wp_custom_field) }
@@ -865,6 +891,15 @@ RSpec.describe CustomField do
         second.update!(default_value: true)
 
         expect(custom_field.default_value).to contain_exactly(first.id.to_s, second.id.to_s)
+      end
+
+      it "orders the marked ids by position, not by the order they were marked" do
+        third = service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                                    parent: custom_field.hierarchy_root, label: "Third").value!
+        third.update!(default_value: true)
+        first.update!(default_value: true)
+
+        expect(custom_field.default_value).to eq([first.id.to_s, third.id.to_s])
       end
     end
   end

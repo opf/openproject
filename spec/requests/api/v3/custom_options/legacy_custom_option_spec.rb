@@ -58,6 +58,12 @@ RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
     expect(JSON.parse(last_response.body)).to include("_type" => "CustomOption", "id" => legacy_id, "value" => "pear")
   end
 
+  it "carries a self link so HAL clients following it do not break" do
+    self_link = JSON.parse(last_response.body).dig("_links", "self")
+
+    expect(self_link).to eq("href" => api_v3_paths.custom_option(legacy_id), "title" => "pear")
+  end
+
   it "announces the deprecation without committing to a removal date" do
     expect(last_response.headers["Deprecation"]).to eq("true")
     expect(last_response.headers).not_to have_key("Sunset")

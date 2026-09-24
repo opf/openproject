@@ -123,6 +123,9 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
     if (context.container === 'single-view' && isMultilineHierarchyItemsField && allowsNesting) {
       return new MultipleLinesHierarchyItemDisplayField(fieldName, context);
     }
+    if (context.container === 'single-view' && isMultilineHierarchyItemsField && !allowsNesting) {
+      return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
+    }
 
     // Separate class seems not needed (merge with []CustomOption above?)
     const isVersionMultiLinesField = ['[]Version'].includes(schema.type);

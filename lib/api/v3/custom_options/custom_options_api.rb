@@ -110,7 +110,17 @@ module API
               header "Deprecation", "true"
               header "Link", "<#{api_v3_paths.custom_field_item(mapping.hierarchical_item_id)}>; rel=\"successor-version\""
 
-              { _type: "CustomOption", id: mapping.custom_option_id, value: mapping.hierarchical_item.label }
+              {
+                _type: "CustomOption",
+                id: mapping.custom_option_id,
+                value: mapping.hierarchical_item.label,
+                _links: {
+                  self: {
+                    href: api_v3_paths.custom_option(mapping.custom_option_id),
+                    title: mapping.hierarchical_item.label
+                  }
+                }
+              }
             end
           end
         end

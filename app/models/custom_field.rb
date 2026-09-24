@@ -218,7 +218,16 @@ class CustomField < ApplicationRecord
 
   # Items need a persisted root, which CreateService only builds after save, so
   # the values are buffered and flushed by #flush_buffered_possible_values.
+  #
+  # Updating the hierarchy items of a persisted custom field this way is not
+  # supported: the only flush point is the after_create callback, so a later
+  # assignment would otherwise buffer values that are silently never applied.
   def possible_values=(arg)
+    if persisted?
+      raise "possible_values= cannot update a persisted custom field; " \
+            "edit its hierarchy items via CustomFields::Hierarchy::HierarchicalItemService instead"
+    end
+
     @buffered_possible_values = possible_values_from_arg(arg)
   end
 
@@ -230,9 +239,14 @@ class CustomField < ApplicationRecord
     service = CustomFields::Hierarchy::HierarchicalItemService.new
 
     values.each do |value|
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
-                          parent: hierarchy_root,
-                          label: value)
+      result = service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                                   parent: hierarchy_root,
+                                   label: value)
+
+      if result.failure?
+        raise "Could not insert possible value #{value.inspect} for custom field #{id.inspect}: " \
+              "#{result.failure.inspect}"
+      end
     end
   end
 
@@ -455,7 +469,7 @@ class CustomField < ApplicationRecord
   def default_hierarchy_item_ids
     return [] if hierarchy_root.nil?
 
-    hierarchy_root.descendants.where(default_value: true).pluck(:id).map(&:to_s)
+    hierarchy_root.descendants.where(default_value: true).order(:sort_order).pluck(:id).map(&:to_s)
   end
 
   def possible_versions(obj, options: {})
