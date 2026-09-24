@@ -39,7 +39,7 @@ FactoryBot.define do
         default_embedding_model_identifier { nil }
       end
 
-      catalogue_fetched_at { Time.current }
+      last_synced_at { Time.current }
       last_connected_at { Time.current }
 
       after(:create) do |connection, evaluator|

@@ -29,6 +29,9 @@
 #++
 
 class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::LlmModelFilter
+  REPORTED_NAME = "llm_models.raw_metadata->>'name'"
+  private_constant :REPORTED_NAME
+
   def self.key
     :name
   end
@@ -41,12 +44,7 @@ class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::Llm
     I18n.t("admin.llm_models.index.filter_label")
   end
 
-  # Matches the identifier the server uses and the friendly name an
-  # administrator may have given it, since either is what someone types.
-  #
-  # Every operator the :string strategy allows has a branch. BaseQuery applies
-  # filters without asking whether they are valid, so a missing one is a 500 on
-  # a hand-written filter parameter rather than a validation error.
+  # Needs a branch for every operator the :string strategy supports.
   def where
     return "1=0" if values.first.blank?
 
@@ -63,20 +61,25 @@ class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::Llm
   def term = ActiveRecord::Base.sanitize_sql_like(values.first)
 
   def contains
-    ["llm_models.external_id ILIKE :q OR llm_models.display_name ILIKE :q", { q: "%#{term}%" }]
+    ["llm_models.external_id ILIKE :q OR llm_models.display_name ILIKE :q OR #{REPORTED_NAME} ILIKE :q",
+     { q: "%#{term}%" }]
   end
 
   def excludes_substring
-    ["llm_models.external_id NOT ILIKE :q AND (llm_models.display_name IS NULL OR llm_models.display_name NOT ILIKE :q)",
+    ["llm_models.external_id NOT ILIKE :q " \
+     "AND (llm_models.display_name IS NULL OR llm_models.display_name NOT ILIKE :q) " \
+     "AND (#{REPORTED_NAME} IS NULL OR #{REPORTED_NAME} NOT ILIKE :q)",
      { q: "%#{term}%" }]
   end
 
   def equals
-    ["llm_models.external_id = :q OR llm_models.display_name = :q", { q: values.first }]
+    ["llm_models.external_id = :q OR llm_models.display_name = :q OR #{REPORTED_NAME} = :q", { q: values.first }]
   end
 
   def differs
-    ["llm_models.external_id <> :q AND (llm_models.display_name IS NULL OR llm_models.display_name <> :q)",
+    ["llm_models.external_id <> :q " \
+     "AND (llm_models.display_name IS NULL OR llm_models.display_name <> :q) " \
+     "AND (#{REPORTED_NAME} IS NULL OR #{REPORTED_NAME} <> :q)",
      { q: values.first }]
   end
 end

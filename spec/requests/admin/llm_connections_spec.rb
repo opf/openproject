@@ -48,6 +48,26 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       patch llm_connection_path, params: { llm_connection: { base_url: } }
       expect(response).to have_http_status(:not_found)
     end
+
+    context "with a connection stored" do
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+
+      it "does not disconnect" do
+        post disconnect_llm_connection_path
+
+        expect(response).to have_http_status(:not_found)
+        expect(connection.reload.api_key).to eq("sk-original")
+        expect(connection.base_url).to eq(base_url)
+      end
+
+      it "does not remove the key" do
+        delete api_key_llm_connection_path
+
+        expect(response).to have_http_status(:not_found)
+        expect(connection.reload.api_key).to eq("sk-original")
+        expect(connection.base_url).to eq(base_url)
+      end
+    end
   end
 
   describe "GET /admin/llm_connection" do
@@ -374,8 +394,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.reload.api_key).to eq("sk-original")
     end
 
-    # The one action that wipes a credential deserves to name the guard that
-    # stops it rather than to pass on any non-200.
     it "is refused to a non-admin" do
       connection = create(:llm_connection, base_url:, api_key: "sk-original")
       login_as create(:user)
@@ -383,15 +401,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       delete api_key_llm_connection_path
 
       expect(response).to have_http_status(:forbidden)
-      expect(connection.reload.api_key).to eq("sk-original")
-    end
-
-    it "is refused while the feature flag is off", with_flag: { llm_connection: false } do
-      connection = create(:llm_connection, base_url:, api_key: "sk-original")
-
-      delete api_key_llm_connection_path
-
-      expect(response).to have_http_status(:not_found)
       expect(connection.reload.api_key).to eq("sk-original")
     end
 

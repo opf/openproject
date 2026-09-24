@@ -163,9 +163,7 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
   context "when the base URL is not a URL at all" do
     let(:base_url) { "not a url" }
 
-    # The validate_url gem always records :url in errors.details; the
-    # message: :invalid_url option controls the rendered text, not the symbol.
-    include_examples "contract is invalid", base_url: :url
+    include_examples "contract is invalid", base_url: :invalid_url
 
     it "does not contact the server" do
       contract.validate
@@ -244,6 +242,19 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       end
 
       include_examples "contract is invalid", default_chat_model_id: :cannot_chat
+    end
+
+    context "with a stored default the server has since withdrawn" do
+      before do
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection)
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+        connection.llm_features_enabled = true
+      end
+
+      it "still accepts an unrelated change" do
+        expect(connection.changed).not_to include("default_chat_model_id")
+        expect_contract_valid
+      end
     end
   end
 end
