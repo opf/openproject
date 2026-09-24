@@ -175,6 +175,16 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(offered_default_models).to contain_exactly("qwen3.6-27b")
       end
 
+      it "keeps offering a stored default the server has since withdrawn" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "retired-model")
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+
+        get llm_models_path
+
+        expect(offered_default_models).to contain_exactly("qwen3.6-27b", "bge-m3", "retired-model")
+      end
+
       it "asks for no default while the connection has no model to offer" do
         create(:llm_connection, base_url:)
 

@@ -245,5 +245,18 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
       include_examples "contract is invalid", default_chat_model_id: :cannot_chat
     end
+
+    context "with a stored default the server has since withdrawn" do
+      before do
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection)
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+        connection.llm_features_enabled = true
+      end
+
+      it "still accepts an unrelated change" do
+        expect(connection.changed).not_to include("default_chat_model_id")
+        expect_contract_valid
+      end
+    end
   end
 end
