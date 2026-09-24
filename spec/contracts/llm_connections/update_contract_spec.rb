@@ -163,9 +163,7 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
   context "when the base URL is not a URL at all" do
     let(:base_url) { "not a url" }
 
-    # The validate_url gem always records :url in errors.details; the
-    # message: :invalid_url option controls the rendered text, not the symbol.
-    include_examples "contract is invalid", base_url: :url
+    include_examples "contract is invalid", base_url: :invalid_url
 
     it "does not contact the server" do
       contract.validate
