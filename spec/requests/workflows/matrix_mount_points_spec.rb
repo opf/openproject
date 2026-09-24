@@ -57,30 +57,61 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).not_to include("<form")
   end
 
-  it "renders the type edit page shell with the form and Save around the lazy frame" do
+  it "renders the type edit page shell around the lazy frame, with nothing to submit" do
     get edit_type_workflow_path(type)
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("turbo-frame")
-    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type, tab: 'always')}\"")
-    expect(response.body).to have_css(".workflow-save-bar button[type=submit]", text: I18n.t(:button_save))
+    expect(response.body).to have_no_css(".workflow-save-bar")
   end
 
-  it "keeps the Save bar while another type shares the workflow" do
-    create(:type).default_variant.update!(workflow: type.default_variant.workflow)
+  it "says where the transitions are edited instead" do
+    get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
+        headers: { "Turbo-Frame" => "workflow-table" }
 
-    get edit_type_workflow_path(type)
+    workflow_page = edit_workflow_path(type.default_variant.workflow)
 
-    expect(response).to have_http_status(:ok)
-    expect(response.body).to include("workflow-save-bar")
+    expect(response.body).to have_css("[data-test-selector='workflow-read-only']")
+    expect(response.body).to have_css("[data-test-selector='workflow-read-only'] a[href='#{workflow_page}']")
   end
 
-  it "says which other variants the workflow reaches" do
-    other = create(:type, name: "Shared with")
-    other.default_variant.update!(workflow: type.default_variant.workflow)
+  it "offers the workflow picker and the create action" do
+    get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
+        headers: { "Turbo-Frame" => "workflow-table" }
 
-    get edit_type_workflow_path(type)
+    expect(response.body).to have_css("[data-test-selector='workflow-selector']",
+                                      text: type.default_variant.workflow.name)
+    expect(response.body).to have_css("[data-test-selector='workflow-create-new']")
+  end
 
-    expect(response.body).to have_css("[data-test-selector='workflow-usage-box']", text: "Shared with")
+  it "rests on reusing a workflow until the step says which one it started" do
+    get type_creation_wizard_path(type, step: :workflows)
+
+    expect(response.body).to have_css("[data-test-selector='workflow-choice-existing'][checked]")
+    expect(response.body).to have_css("[data-test-selector='workflow-panel']")
+
+    get type_creation_wizard_path(type, step: :workflows,
+                                        started_workflow_id: type.default_variant.workflow_id)
+
+    expect(response.body).to have_css("[data-test-selector='workflow-choice-new'][checked]")
+    expect(response.body).to have_no_css("[data-test-selector='workflow-panel']")
+  end
+
+  it "leaves the picker and the create action out of the wizard's matrix" do
+    get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id], wizard: true),
+        headers: { "Turbo-Frame" => "workflow-table" }
+
+    expect(response.body).to have_no_css("[data-test-selector='workflow-selector']")
+    expect(response.body).to have_no_css("[data-test-selector='workflow-create-new']")
+  end
+
+  it "names the workflow in force in the wizard once another variant shares it" do
+    create(:type, name: "Shared with").default_variant.update!(workflow: type.default_variant.workflow)
+
+    get type_creation_wizard_path(type, step: :workflows)
+
+    expect(response.body).to have_css("[data-test-selector='workflow-choice-existing'][checked]")
+    expect(response.body).to have_css("[data-test-selector='workflow-selector']",
+                                      text: type.default_variant.workflow.name)
   end
 end

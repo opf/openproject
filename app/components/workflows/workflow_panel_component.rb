@@ -29,35 +29,31 @@
 #++
 
 module Workflows
-  module ChangeWorkflow
-    class DialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+  class WorkflowPanelComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-      DIALOG_ID = "change-workflow-dialog"
-      FORM_ID = "change-workflow-form"
+    def initialize(variant:, candidates:, name:, selected: nil, back_url: nil)
+      super()
 
-      def initialize(variant:, back_url: nil)
-        super()
+      @variant = variant
+      @candidates = candidates
+      @name = name
+      @selected = selected
+      @back_url = back_url
+    end
 
-        @variant = variant
-        @back_url = back_url
-      end
+    private
 
-      private
+    attr_reader :variant, :candidates, :name, :back_url
 
-      attr_reader :variant, :back_url
+    def prefix = "#{I18n.t('admin.workflows.workflow_selector.prefix')}:"
 
-      def title = I18n.t("workflows.change.title")
+    def selected = @selected || variant.workflow_id
 
-      def form_arguments
-        {
-          id: FORM_ID,
-          url: url_helpers.change_type_workflow_path(**variant.path_args.merge(back_url:).compact),
-          method: :patch,
-          data: { turbo: false }
-        }
-      end
+    def change_path(candidate)
+      url_helpers.change_type_workflow_path(
+        **variant.path_args.merge(workflow_id: candidate.id, back_url:).compact
+      )
     end
   end
 end
