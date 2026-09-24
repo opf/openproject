@@ -102,7 +102,8 @@ class Workflows::MatrixController < ApplicationController
       tab: params[:tab],
       role_ids: params[:role_ids],
       status_ids: params[:status_ids],
-      displayed_status_ids: params[:displayed_status_ids]
+      displayed_status_ids: params[:displayed_status_ids],
+      wizard: params[:wizard].present?
     )
   end
 

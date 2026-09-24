@@ -28,33 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
+module Workflows
   module Wizard
-    # The matrix renders no form of its own, so its inputs are submitted by the wizard form
-    # that PageComponent wraps around this, and persisted by CreationWizardController.
-    class WorkflowsStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+    class ChoiceForm < ApplicationForm
+      def initialize(existing:, new_workflow:, group_data:)
+        super()
 
-      def initialize(variant:)
-        super(variant)
+        @existing = existing
+        @new_workflow = new_workflow
+        @group_data = group_data
       end
 
-      private
-
-      def variant = model
-
-      def matrix_url
-        helpers.type_workflow_matrix_path(
-          **variant.path_args,
-          wizard: true,
-          tab: helpers.params[:tab],
-          role_ids: roles.map(&:id),
-          status_ids: helpers.params[:status_ids]
-        )
-      end
-
-      def roles
-        Workflows::StatusTransition.selected_roles(helpers.params[:role_ids])
+      form do |choice_form|
+        choice_form.advanced_radio_button_group(name: :workflow_choice, data: @group_data) do |group|
+          group.radio_button(**@existing)
+          group.radio_button(**@new_workflow)
+        end
       end
     end
   end
