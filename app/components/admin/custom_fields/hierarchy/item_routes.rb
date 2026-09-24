@@ -31,30 +31,39 @@
 module Admin
   module CustomFields
     module Hierarchy
-      class DeleteItemDialogComponent < ApplicationComponent
-        include OpTurbo::Streamable
-        include ItemRoutes
-
-        TEST_SELECTOR = "op-custom-fields--delete-item-dialog"
-
-        def initialize(custom_field:, hierarchy_item:)
-          super
-          @custom_field = custom_field
-          @hierarchy_item = hierarchy_item
-        end
-
-        def form_arguments
-          {
-            action: url,
-            method: :delete
-          }
-        end
-
+      module ItemRoutes
         private
 
-        attr_reader :custom_field
+        def custom_field
+          raise SubclassResponsibilityError
+        end
 
-        def url = hierarchy_item_path(@hierarchy_item)
+        def hierarchy_items_path
+          item_route_helpers.public_send(:"#{item_route_prefix}custom_field_items_path", custom_field.id)
+        end
+
+        def hierarchy_item_path(item, action = nil, **)
+          hierarchy_item_route(:path, item, action, **)
+        end
+
+        def hierarchy_item_url(item, action = nil, **)
+          hierarchy_item_route(:url, item, action, **)
+        end
+
+        def hierarchy_item_route(type, item, action, **)
+          name = [action, "#{item_route_prefix}custom_field_item", type].compact.join("_")
+          item_route_helpers.public_send(name, custom_field.id, item, **)
+        end
+
+        def item_route_prefix
+          case custom_field
+          when ProjectCustomField then "admin_settings_project_"
+          when UserCustomField then "admin_settings_user_"
+          else ""
+          end
+        end
+
+        def item_route_helpers = self
       end
     end
   end

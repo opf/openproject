@@ -96,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
                                 end
 
                 box.with_row(**drag_controls) do
-                  render Admin::CustomFields::Hierarchy::ItemComponent.new(item: item, custom_field: root.custom_field)
+                  render Admin::CustomFields::Hierarchy::ItemComponent.new(item: item, custom_field:)
                 end
               end
             end
@@ -107,14 +107,14 @@ See COPYRIGHT and LICENSE files for more details.
 
     # A single-level list has no tree to navigate, and Primer::Alpha::Layout#render? requires
     # both a main and a sidebar slot to render anything at all — so it must not wrap main content here.
-    if root.custom_field.list?
+    if custom_field.list?
       content_tag(:div, main_content, class: "custom-fields-hierarchy-page")
     else
       render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "custom-fields-hierarchy-page")) do |content|
         content.with_main(overflow: :auto) { main_content }
 
         content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "custom-fields-hierarchy-page--sidebar") do
-          render Admin::CustomFields::Hierarchy::TreeViewComponent.new(custom_field: root.custom_field, active_item: model)
+          render Admin::CustomFields::Hierarchy::TreeViewComponent.new(custom_field:, active_item: model)
         end
       end
     end

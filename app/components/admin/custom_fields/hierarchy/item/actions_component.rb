@@ -34,6 +34,7 @@ module Admin
       module Item
         class ActionsComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
+          include ItemRoutes
 
           def initialize(item)
             super
@@ -84,28 +85,12 @@ module Admin
             item.sort_order == item.parent.children.length - 1
           end
 
-          def project_custom_field_context?
-            @root.custom_field.is_a?(ProjectCustomField)
-          end
+          def custom_field = @root.custom_field
 
-          def user_custom_field_context?
-            @root.custom_field.is_a?(UserCustomField)
-          end
-
-          def list? = @root.custom_field.list?
-
-          def custom_field_id = @root.custom_field_id
+          def list? = custom_field.list?
 
           def edit_action_item(menu)
-            href = if project_custom_field_context?
-                     edit_admin_settings_project_custom_field_item_path(custom_field_id, item)
-                   elsif user_custom_field_context?
-                     edit_admin_settings_user_custom_field_item_path(custom_field_id, item)
-                   else
-                     edit_custom_field_item_path(custom_field_id, item)
-                   end
-
-            menu.with_item(label: I18n.t(:button_edit), tag: :a, href:) do |item|
+            menu.with_item(label: I18n.t(:button_edit), tag: :a, href: hierarchy_item_path(item, :edit)) do |item|
               item.with_leading_visual_icon(icon: :pencil)
             end
           end
@@ -113,13 +98,7 @@ module Admin
           def add_above_action_item(menu)
             parent = item.parent
             position = item.sort_order
-            href = if project_custom_field_context?
-                     new_child_admin_settings_project_custom_field_item_path(custom_field_id, parent, position:)
-                   elsif user_custom_field_context?
-                     new_child_admin_settings_user_custom_field_item_path(custom_field_id, parent, position:)
-                   else
-                     new_child_custom_field_item_path(custom_field_id, parent, position:)
-                   end
+            href = hierarchy_item_path(parent, :new_child, position:)
 
             menu.with_item(
               label: I18n.t(:button_add_item_above),
@@ -132,13 +111,7 @@ module Admin
           def add_below_action_item(menu)
             parent = item.parent
             position = item.sort_order + 1
-            href = if project_custom_field_context?
-                     new_child_admin_settings_project_custom_field_item_path(custom_field_id, parent, position:)
-                   elsif user_custom_field_context?
-                     new_child_admin_settings_user_custom_field_item_path(custom_field_id, parent, position:)
-                   else
-                     new_child_custom_field_item_path(custom_field_id, parent, position:)
-                   end
+            href = hierarchy_item_path(parent, :new_child, position:)
 
             menu.with_item(
               label: I18n.t(:button_add_item_below),
@@ -151,13 +124,7 @@ module Admin
           def add_sub_item_action_item(menu)
             children = item.children
             position = children.any? ? children.maximum(:sort_order) + 1 : 0
-            href = if project_custom_field_context?
-                     new_child_admin_settings_project_custom_field_item_path(custom_field_id, item, position:)
-                   elsif user_custom_field_context?
-                     new_child_admin_settings_user_custom_field_item_path(custom_field_id, item, position:)
-                   else
-                     new_child_custom_field_item_path(custom_field_id, item, position:)
-                   end
+            href = hierarchy_item_path(item, :new_child, position:)
 
             menu.with_item(
               label: I18n.t(:button_add_sub_item),
@@ -170,13 +137,7 @@ module Admin
           def default_action_item(menu)
             label = item.default_value ? I18n.t(:button_clear_default_value) : I18n.t(:button_set_as_default_value)
             action = item.default_value ? :clear_default : :set_default
-            href = if project_custom_field_context?
-                     send(:"#{action}_admin_settings_project_custom_field_item_path", custom_field_id, item)
-                   elsif user_custom_field_context?
-                     send(:"#{action}_admin_settings_user_custom_field_item_path", custom_field_id, item)
-                   else
-                     send(:"#{action}_custom_field_item_path", custom_field_id, item)
-                   end
+            href = hierarchy_item_path(item, action)
 
             menu.with_item(label:, tag: :a, href:, content_arguments: { data: { turbo_method: :post } }) do |entry|
               entry.with_leading_visual_icon(icon: :check)
@@ -184,37 +145,17 @@ module Admin
           end
 
           def change_parent_item(menu)
-            href = if project_custom_field_context?
-                     change_parent_admin_settings_project_custom_field_item_path(project_custom_field_id: custom_field_id,
-                                                                                 id: item.id)
-                   elsif user_custom_field_context?
-                     change_parent_admin_settings_user_custom_field_item_path(user_custom_field_id: custom_field_id,
-                                                                              id: item.id)
-                   else
-                     change_parent_custom_field_item_path(custom_field_id:, id: item.id)
-                   end
-
             menu.with_item(
               label: I18n.t(:label_change_parent),
               tag: :a,
-              href:,
+              href: hierarchy_item_path(item, :change_parent),
               content_arguments: { data: { controller: "async-dialog" } }
             ) { it.with_leading_visual_icon(icon: "arrow-switch") }
           end
 
-          def move_item_path
-            if project_custom_field_context?
-              move_admin_settings_project_custom_field_item_path(custom_field_id, item)
-            elsif user_custom_field_context?
-              move_admin_settings_user_custom_field_item_path(custom_field_id, item)
-            else
-              move_custom_field_item_path(custom_field_id, item)
-            end
-          end
-
           def move_to_top_action_item(menu)
             form_inputs = [{ name: "new_sort_order", value: 0 }]
-            href = move_item_path
+            href = hierarchy_item_path(item, :move)
 
             menu.with_item(label: I18n.t(:label_sort_highest),
                            tag: :button,
@@ -227,7 +168,7 @@ module Admin
 
           def move_up_action_item(menu)
             form_inputs = [{ name: "new_sort_order", value: item.sort_order - 1 }]
-            href = move_item_path
+            href = hierarchy_item_path(item, :move)
 
             menu.with_item(label: I18n.t(:label_sort_higher),
                            tag: :button,
@@ -240,7 +181,7 @@ module Admin
 
           def move_down_action_item(menu)
             form_inputs = [{ name: "new_sort_order", value: item.sort_order + 2 }]
-            href = move_item_path
+            href = hierarchy_item_path(item, :move)
 
             menu.with_item(label: I18n.t(:label_sort_lower),
                            tag: :button,
@@ -253,7 +194,7 @@ module Admin
 
           def move_to_bottom_action_item(menu)
             form_inputs = [{ name: "new_sort_order", value: item.parent.children.length + 1 }]
-            href = move_item_path
+            href = hierarchy_item_path(item, :move)
 
             menu.with_item(label: I18n.t(:label_sort_lowest),
                            tag: :button,
@@ -265,20 +206,10 @@ module Admin
           end
 
           def deletion_action_item(menu)
-            href = if project_custom_field_context?
-                     delete_admin_settings_project_custom_field_item_path(project_custom_field_id: custom_field_id,
-                                                                          id: item.id)
-                   elsif user_custom_field_context?
-                     delete_admin_settings_user_custom_field_item_path(user_custom_field_id: custom_field_id,
-                                                                       id: item.id)
-                   else
-                     delete_custom_field_item_path(custom_field_id:, id: item.id)
-                   end
-
             menu.with_item(label: I18n.t(:button_delete),
                            scheme: :danger,
                            tag: :a,
-                           href:,
+                           href: hierarchy_item_path(item, :delete),
                            content_arguments: { data: { controller: "async-dialog" } }) do |item|
               item.with_leading_visual_icon(icon: :trash)
             end
