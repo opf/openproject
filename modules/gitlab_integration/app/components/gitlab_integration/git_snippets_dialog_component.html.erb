@@ -63,7 +63,11 @@ See COPYRIGHT and LICENSE files for more details.
             box.with_clipboard_copy_button(value: create_branch_command, aria: { label: t(".copy_create_branch_command") })
 
             create_branch_command_text.each do |line|
-              concat(render(Primer::Beta::Text.new(tag: :div, classes: "git-command-line")) { line })
+              concat(
+                render(Primer::Beta::Truncate.new(tag: :div)) do |truncate|
+                  truncate.with_item(tag: :div, classes: "git-command-line") { line }
+                end
+              )
             end
           end
         end
