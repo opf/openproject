@@ -23,6 +23,8 @@ en:
         name: Name
         public: Public
         start_date: Start date
+      work_package:
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:

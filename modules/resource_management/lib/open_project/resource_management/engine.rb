@@ -36,7 +36,7 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    patches %i[PlaceholderUser]
+    patches %i[PlaceholderUser WorkPackage]
 
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]
@@ -163,6 +163,16 @@ module OpenProject::ResourceManagement
         filter ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
         exclude ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
       end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:allocated_time) do |eager_scope, work_package_scope, _current_user|
+          eager_scope.include_allocated_time(work_package_scope)
+        end
+
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :allocated_time)
+      ::TypeVariant.add_constraint :allocated_time, ->(_type, project: nil) {
+        project.nil? || project.module_enabled?(:resource_management)
+      }
     end
 
     add_api_path :allocatable_principals do
@@ -192,6 +202,39 @@ module OpenProject::ResourceManagement
           title: "Allocate resource to '#{represented.subject}'"
         }
       end
+
+      link :showResourceAllocations,
+           cache_if: -> { resource_allocations_visible? } do
+        next if represented.new_record? || represented.project.nil?
+
+        {
+          href: project_work_package_resource_allocations_path(represented.project, represented.id),
+          type: "text/vnd.turbo-stream.html",
+          title: "Resource allocations of '#{represented.subject}'"
+        }
+      end
+
+      property :allocated_time,
+               exec_context: :decorator,
+               getter: ->(*) { datetime_formatter.format_duration_from_hours(represented.allocated_minutes / 60.0) },
+               if: ->(*) { resource_allocations_visible? },
+               uncacheable: true
+
+      send(:define_method, :resource_allocations_visible?) do
+        EnterpriseToken.allows_to?(:resource_management) &&
+          current_user.allowed_in_project?(:view_resource_planners, represented.project)
+      end
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema :allocated_time,
+             type: "Duration",
+             required: false,
+             writable: false,
+             show_if: ->(*) {
+               EnterpriseToken.allows_to?(:resource_management) &&
+                 current_user.allowed_in_project?(:view_resource_planners, represented.project)
+             }
     end
   end
 end

@@ -23,40 +23,40 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module McpOutputFilters
-  class RemoveWorkPackageActionLinks < RemoveLinks
-    def initialize
-      super(%w[
-        update
-        updateImmediately
-        delete
-        logTime
-        move
-        copy
-        generate_pdf
-        configureForm
-        availableWatchers
-        watch
-        unwatch
-        addWatcher
-        removeWatcher
-        addRelation
-        addChild
-        changeParent
-        addComment
-        addAttachment
-        previewMarkup
-        timeEntries
-        showCosts
-        addFileLink
-        allocateResource
-        showResourceAllocations
-      ])
+module OpenProject::ResourceManagement::Patches::WorkPackagePatch
+  extend ActiveSupport::Concern
+
+  class_methods do
+    def include_allocated_time(work_package_scope)
+      sums_table = Arel::Table.new(:allocated_time_sums)
+      join = arel_table
+               .outer_join(allocated_time_sums(work_package_scope).arel.as(sums_table.name))
+               .on(arel_table[:id].eq(sums_table[:entity_id]))
+
+      joins(join.join_sources).select(sums_table[:allocated_minutes])
+    end
+
+    private
+
+    def allocated_time_sums(work_package_scope)
+      ResourceAllocation
+        .allocated
+        .where(entity_type: "WorkPackage", entity_id: work_package_scope.select(:id))
+        .group(:entity_id)
+        .select(:entity_id, "SUM(allocated_time) AS allocated_minutes")
+    end
+  end
+
+  def allocated_minutes
+    if has_attribute?(:allocated_minutes)
+      self[:allocated_minutes].to_i
+    else
+      ResourceAllocation.allocated.where(entity: self).sum(:allocated_time)
     end
   end
 end
