@@ -31,7 +31,6 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  ViewChild,
   ViewEncapsulation,
   afterNextRender,
   computed,
@@ -39,6 +38,7 @@ import {
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
@@ -65,7 +65,7 @@ export type { ProjectTimelineItem } from './project-timeline-item.builder';
   providers: [ProjectTimelineItemBuilder, ProjectTimelineTooltipBuilder],
 })
 export class ProjectTimelineGraphComponent {
-  @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
+  readonly containerRef = viewChild.required<ElementRef<HTMLDivElement>>('container');
 
   readonly phasesData = input.required<string>();
   readonly milestonesData = input.required<string>();
@@ -120,7 +120,7 @@ export class ProjectTimelineGraphComponent {
     this.itemsDataset = new DataSet(items);
 
     this.timeline = new Timeline(
-      this.containerRef.nativeElement,
+      this.containerRef().nativeElement,
       this.itemsDataset as unknown as DataSet<DataItem>,
       new DataSet(groups),
       {
@@ -144,7 +144,7 @@ export class ProjectTimelineGraphComponent {
       },
     );
 
-    this.tooltipPopover = new ProjectTimelineTooltipPopover(this.timeline, this.containerRef.nativeElement, this.tooltip);
+    this.tooltipPopover = new ProjectTimelineTooltipPopover(this.timeline, this.containerRef().nativeElement, this.tooltip);
     this.timeline.on('click', ({ item }:{ item:string | null }) => this.openItem(item));
   }
 
@@ -181,9 +181,9 @@ export class ProjectTimelineGraphComponent {
     if (!item) return;
 
     if (item.itemType === 'milestone' && item.workPackageId) {
-      window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
+      Turbo.visit(this.pathHelper.workPackagePath(String(item.workPackageId)));
     } else if (item.itemType === 'sprint' && item.href) {
-      window.location.href = item.href;
+      Turbo.visit(item.href);
     }
   }
 

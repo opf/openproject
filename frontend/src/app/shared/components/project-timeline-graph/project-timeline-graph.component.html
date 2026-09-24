@@ -1,6 +1,6 @@
 <div class="op-project-timeline-graph--wrapper" [class.op-project-timeline-graph--wrapper_loading]="!ready()">
   @if (accessibleItems().length > 0) {
-    <ul class="op-project-timeline-graph--accessible-list">
+    <ul class="op-project-timeline-graph--accessible-list" role="list">
       @for (item of accessibleItems(); track item.id) {
         <li>
           @if (item.href) {
