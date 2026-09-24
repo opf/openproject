@@ -90,9 +90,9 @@ it:
         label_oauth_client_id: ID client OAuth
         replace_oauth_client: Sostituisci l'applicazione XWiki OAuth
       redirect_uri_info_component:
-        description: The redirect URI is generated once the wiki OAuth client is configured.
+        description: L'URI di reindirizzamento viene generato dopo la configurazione del client OAuth della wiki.
         label_uri: URI
-        show_redirect_uri: Show redirect URI
+        show_redirect_uri: Mostra URI di reindirizzamento
       side_panel:
         health_status_component:
           last_check: 'Ultimo controllo: %{datetime}'
@@ -114,11 +114,11 @@ it:
         name_caption: Assegna un nome al provider wiki, così gli utenti potranno distinguerlo da altre piattaforme wiki.
         name_placeholder: Base di conoscenza XWiki
         new_provider_html: Consulta la nostra documentazione su come [configurare un'integrazione con XWiki](docs_url) per maggiori informazioni.
-        successful_setup: Wiki provider configured successfully!
+        successful_setup: Provider wiki configurato correttamente!
         oauth:
           openproject_oauth: OpenProject OAuth
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          redirect_uri: URI di reindirizzamento
+          redirect_uri_caption: Copia questo valore nel campo URI di reindirizzamento della registrazione del client OIDC di XWiki.
         sections:
           general_information: Informazioni generali
           oauth_configuration: Configurazione OAuth

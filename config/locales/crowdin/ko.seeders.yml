@@ -253,14 +253,14 @@ ko:
               wiki:
                 title: 릴리스 1.0
                 content: |
-                  ### Release 1.0
+                  ### 릴리스 1.0
 
-                  _Please document here what this release contains._
+                  _이 릴리스에 포함된 사항을 여기에 작성해 주세요._
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * 이 릴리스의 작업 패키지는 대상 버전이 1.0인 패키지입니다.
+                  * 릴리스 날짜는 *릴리스 v1.0* 마일스톤의 날짜입니다.
+                  * 모든 버전의 진행 상황을 확인하려면 [로드맵]({{opSetting:base_url}}/projects/your-scrum-project/roadmap)을 열어보세요.
+                  * 버전에 다른 위키 페이지를 연결하려면 [프로젝트 설정 &rightarrow; 버전]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions)을 열어주세요.
           categories:
             item_0: 카테고리 1(프로젝트 설정에서 변경)
           queries:
@@ -295,21 +295,21 @@ ko:
                 options:
                   name: 시작하기
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    참여해 주셔서 감사합니다! OpenProject에서 시작하려면 몇 가지 작업을 시도해 보는 것이 좋습니다.
 
-                    _Try the following steps:_
+                    _다음 단계를 수행해 보세요._
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *프로젝트에 새 멤버 초대*: &rightarrow; 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/your-scrum-project/members)로 이동합니다.
+                    2. *제품 백로그 및 스프린트 백로그 보기*: &rightarrow; 프로젝트 탐색에서 [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다.
+                    3. *스프린트 생성*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동하고 “+ 스프린트”를 클릭하여 새 스프린트를 생성합니다. 백로그에서 작업 패키지를 스프린트로 이동하고 수행할 작업을 계획합니다. 준비가 되면 “스프린트 시작”을 클릭합니다.
+                    4. *스프린트 보드 보기*: &rightarrow; [보드]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다. &rightarrow; 스프린트 이름을 클릭하여 스프린트 보드를 엽니다.
+                    5. *새 작업 패키지 만들기*: &rightarrow; [작업 패키지 &rightarrow; 만들기]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)로 이동합니다.
+                    6. *프로젝트 계획 만들기 및 업데이트*: &rightarrow; 프로젝트 탐색에서 [프로젝트 계획](##query:scrum_project__query__project_plan)으로 이동합니다.
+                    7. *추가 모듈 활성화*: &rightarrow; [프로젝트 설정 &rightarrow; 모듈]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules)로 이동합니다.
 
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    여기에서 [사용자 가이드](https://www.openproject.org/docs/user-guide/)를 확인할 수 있습니다.
+                    질문이 있거나 지원이 필요하면 언제든지 알려주세요. 연락처: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: 작업 패키지
