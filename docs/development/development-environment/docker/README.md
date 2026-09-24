@@ -26,7 +26,7 @@ cd openproject
 cp .env.example .env
 ```
 
-Optional: In case you want to develop on the OpenProject _BIM Edition_ you need to set the
+Optional: In case you want to develop on the OpenProject _BIM edition_ you need to set the
 environmental variable accordingly in your `.env` file.
 
 ```shell
@@ -49,7 +49,7 @@ docker compose run --rm frontend npm install
 docker compose up -d backend
 ```
 
-Optional: In case you want to develop on the OpenProject _BIM Edition_ you need
+Optional: In case you want to develop on the OpenProject _BIM edition_ you need
 to install all the required dependencies and command line tools to convert IFC
 files into XKT files, so that the BIM models can be viewed via the _Xeokit_
 BIM viewer. As the conversions are done by background jobs you need install
@@ -566,7 +566,7 @@ docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake
 
 ## Keycloak Service
 
-> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise edition Token` which is restricted to the domain `openproject.local`
+> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an Enterprise edition token which is restricted to the domain `openproject.local`
 
 Within `docker/dev/keycloak` a compose file is provided for running local keycloak instance with TLS support. This provides
 a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.local`.
