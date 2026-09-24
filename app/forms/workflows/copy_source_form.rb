@@ -29,35 +29,37 @@
 #++
 
 module Workflows
-  class DialogComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
-    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
+  class CopySourceForm < ApplicationForm
+    def initialize(candidates:, selected:)
       super()
 
-      @workflow = workflow
-      @variant = variant
-      @back_url = back_url
-      @copy_from_id = copy_from_id
-      @ask_copy_source = ask_copy_source
-      @url = url
+      @candidates = candidates
+      @selected = selected
+    end
+
+    form do |source_form|
+      source_form.autocompleter(
+        name: :copy_from_id,
+        label: I18n.t("workflows.start.copy.panel_label"),
+        visually_hide_label: true,
+        required: true,
+        autocomplete_options: {
+          placeholder: I18n.t("workflows.form.copy_from.placeholder"),
+          decorated: true,
+          multiple: false,
+          focusDirectly: false,
+          append_to: "##{::Workflows::FormComponent::DIALOG_ID}",
+          data: { test_selector: "workflow-copy-source" }
+        }
+      ) do |list|
+        candidates.each do |candidate|
+          list.option(value: candidate.id, label: candidate.name, selected: candidate.id == selected)
+        end
+      end
     end
 
     private
 
-    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
-
-    def dialog_id = FormComponent::DIALOG_ID
-
-    def form_id = FormComponent::FORM_ID
-
-    def title
-      workflow.persisted? ? I18n.t("workflows.form.edit_title") : I18n.t("workflows.form.new_title")
-    end
-
-    def submit_label
-      workflow.persisted? ? I18n.t(:button_save) : I18n.t(:button_create)
-    end
+    attr_reader :candidates, :selected
   end
 end

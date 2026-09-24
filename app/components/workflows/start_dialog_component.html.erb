@@ -26,12 +26,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper do %>
-  <%= primer_form_with(**form_arguments) do |form| %>
-    <% if error_message.present? %>
-      <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mb: 3)) { error_message } %>
+
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <% dialog.with_body do %>
+    <% if error.present? %>
+      <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mb: 3)) { error } %>
     <% end %>
 
-    <%= render(Workflows::Form.new(form, copy_from_id:, ask_copy_source:)) %>
+    <%= primer_form_with(**form_arguments) do |form| %>
+      <%= render(Workflows::StartForm.new(form, candidates:)) %>
+    <% end %>
+  <% end %>
+
+  <% dialog.with_footer(show_divider: true) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)) { t(:button_continue) } %>
   <% end %>
 <% end %>

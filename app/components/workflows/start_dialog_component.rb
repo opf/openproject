@@ -29,35 +29,30 @@
 #++
 
 module Workflows
-  class DialogComponent < ApplicationComponent
+  class StartDialogComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
+    FORM_ID = "workflow-start-form"
+
+    def initialize(url:, candidates:, error: nil)
       super()
 
-      @workflow = workflow
-      @variant = variant
-      @back_url = back_url
-      @copy_from_id = copy_from_id
-      @ask_copy_source = ask_copy_source
       @url = url
+      @candidates = candidates
+      @error = error
     end
 
     private
 
-    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
+    attr_reader :url, :candidates, :error
 
-    def dialog_id = FormComponent::DIALOG_ID
+    def dialog_id = ::Workflows::FormComponent::DIALOG_ID
 
-    def form_id = FormComponent::FORM_ID
+    def title = I18n.t("workflows.start.title")
 
-    def title
-      workflow.persisted? ? I18n.t("workflows.form.edit_title") : I18n.t("workflows.form.new_title")
-    end
-
-    def submit_label
-      workflow.persisted? ? I18n.t(:button_save) : I18n.t(:button_create)
+    def form_arguments
+      { id: FORM_ID, url:, method: :post, data: { turbo: true } }
     end
   end
 end
