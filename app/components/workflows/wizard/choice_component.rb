@@ -89,7 +89,9 @@ module Workflows
                                               back_url:)
       end
 
-      def reuses_existing? = !variant.workflow.used_by_one_variant?
+      def reuses_existing? = variant.workflow_id != started_workflow_id
+
+      def started_workflow_id = helpers.params[:started_workflow_id].presence&.to_i
 
       def candidates
         @candidates ||= begin

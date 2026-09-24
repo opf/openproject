@@ -85,9 +85,26 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
     it "names the workflow after the type and returns to the step" do
       expect { start(start: "scratch") }.to change(Workflow, :count).by(1)
 
-      expect(response).to redirect_to(step_url)
+      expect(response).to redirect_to(%r{/creation_wizard\?started_workflow_id=#{assigned.id}&step=workflows})
       expect(assigned.name).to eq("Bug workflow (2)")
       expect(transitions_of(assigned)).to be_empty
+    end
+
+    it "marks the workflow it started, so the step knows which card to select" do
+      start(start: "scratch")
+
+      get response.location
+
+      expect(response.body).to have_css("[data-test-selector='workflow-choice-new'][checked]", visible: :all)
+      expect(response.body).to have_no_css("[data-test-selector='workflow-choice-existing'][checked]", visible: :all)
+    end
+
+    it "rests on reusing once the step is opened without that mark" do
+      start(start: "scratch")
+
+      get step_url
+
+      expect(response.body).to have_css("[data-test-selector='workflow-choice-existing'][checked]", visible: :all)
     end
 
     it "copies the transitions of the workflow it was told to start from" do

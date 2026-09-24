@@ -76,12 +76,11 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
     end
   end
 
-  it "offers both starting points and starts a new type on a workflow of its own" do
+  it "offers both starting points and rests on reusing one until a workflow is started" do
     visit_step
 
-    expect(page).to have_test_selector("workflow-choice-existing")
-    expect_chosen("new")
-    expect(variant.workflow).to be_used_by_one_variant
+    expect(page).to have_test_selector("workflow-choice-new")
+    expect_chosen("existing")
   end
 
   it "keeps the picker and the create action out of the matrix, which has them on the tab" do
@@ -103,17 +102,10 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
   end
 
   describe "reusing an existing workflow" do
-    it "keeps the picker out of the card while a new workflow is configured" do
+    it "offers the picker on the active card and assigns what is picked" do
       visit_step
 
-      expect_chosen("new")
-      expect(page).to have_no_test_selector("workflow-selector")
-    end
-
-    it "offers the picker once the card is active, and assigns what is picked" do
-      visit_step
-
-      switch_to_existing("Standard flow")
+      switch_workflow_to "Standard flow"
 
       expect(page).to have_current_path(/step=workflows/)
       expect(variant.reload.workflow).to eq(existing)
@@ -124,7 +116,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
     it "offers no way to change the transitions another type is already using" do
       visit_step
 
-      switch_to_existing("Standard flow")
+      switch_workflow_to "Standard flow"
 
       within("#workflow-table") do
         expect(page).to have_no_link(I18n.t("admin.workflows.status_button"))
@@ -135,7 +127,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
     it "leaves the transitions of the reused workflow alone on the way out" do
       visit_step
 
-      switch_to_existing("Standard flow")
+      switch_workflow_to "Standard flow"
       click_on I18n.t(:button_continue)
 
       expect(page).to have_current_path(/step=projects/)
@@ -145,7 +137,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
     it "says nothing about a successful switch, the step speaks for itself" do
       visit_step
 
-      switch_to_existing("Standard flow")
+      switch_workflow_to "Standard flow"
 
       expect(page).to have_current_path(/step=workflows/)
       expect(page).to have_no_text(I18n.t(:notice_successful_update))
@@ -154,6 +146,36 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
   describe "configuring a new workflow" do
     before { variant.update!(workflow: existing) }
+
+    it "marks the card of the workflow it started, and hides the picker with it" do
+      visit_step
+      choose_option("new")
+
+      within_dialog start_title do
+        choose_workflow_start("scratch")
+        click_on I18n.t(:button_continue)
+      end
+
+      expect(page).to have_current_path(/started_workflow_id=#{variant.reload.workflow_id}/)
+      expect_chosen("new")
+      expect(page).to have_no_test_selector("workflow-selector")
+    end
+
+    it "returns to reusing when the card is clicked back" do
+      visit_step
+      choose_option("new")
+
+      within_dialog start_title do
+        choose_workflow_start("scratch")
+        click_on I18n.t(:button_continue)
+      end
+
+      switch_to_existing("Standard flow")
+
+      expect(variant.reload.workflow).to eq(existing)
+      expect_chosen("existing")
+      expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
+    end
 
     it "starts from scratch without asking for a name yet" do
       visit_step

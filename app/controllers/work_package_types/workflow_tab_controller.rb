@@ -82,7 +82,7 @@ module WorkPackageTypes
       return render_form_errors(service_call.result) unless service_call.success?
 
       assign(service_call.result)
-      redirect_to back_url || edit_workflow_path(service_call.result), status: :see_other
+      redirect_to return_to(service_call.result), status: :see_other
     end
 
     private
@@ -91,6 +91,15 @@ module WorkPackageTypes
       assign(workflow)
 
       redirect_to back_url || edit_type_workflow_path(**@variant.path_args), status: :see_other
+    end
+
+    def return_to(workflow)
+      return edit_workflow_path(workflow) if back_url.nil?
+
+      uri = URI.parse(back_url)
+      uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
+                             .merge("started_workflow_id" => workflow.id).to_query
+      uri.to_s
     end
 
     def start_workflow
