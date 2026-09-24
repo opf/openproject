@@ -251,6 +251,7 @@ da:
   label_show: Vis
   label_specific_day: Dag %{day}
   label_specific_month: Måned %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Afsluttet
   label_time: Tidspunkt
@@ -280,6 +281,10 @@ da:
   permission_edit_rates: Redigér satser
   permission_log_costs: Reservationsenhedsomkostninger
   permission_log_own_costs: Reservationsenhedsomkostninger for sig selv
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Se reservationsomkostninger
   permission_view_cost_rates: Se omostningssatser
   permission_view_hourly_rates: Se alle timesatser

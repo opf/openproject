@@ -34,7 +34,7 @@ RSpec.describe TypeVariant do
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:task) { create(:type, name: "Task") }
 
-  let(:aspect) { described_class::WORKFLOWS }
+  let(:aspect) { described_class::DEFAULTS }
 
   describe "the base variant" do
     it "is created with its type and carries no name" do
@@ -44,7 +44,8 @@ RSpec.describe TypeVariant do
     end
 
     it "is the only one a type may have" do
-      duplicate = bug.variants.new(is_default_variant: true, variant_name: nil)
+      duplicate = bug.variants.new(is_default_variant: true, variant_name: nil,
+                                   workflow: bug.default_variant.workflow)
 
       expect { duplicate.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
     end
@@ -81,121 +82,105 @@ RSpec.describe TypeVariant do
   end
 
   describe "resolving an aspect" do
-    let(:owner) { task.default_variant }
-    let(:middle) { bug.default_variant }
+    let(:base) { bug.default_variant }
     let(:leaf) { create(:type_variant, type: bug, variant_name: "Hardware") }
 
     it "is itself while it owns the aspect" do
-      expect(leaf.effective_source_for(aspect)).to eq(leaf)
+      expect(leaf.owner_of(aspect)).to eq(leaf)
       expect(leaf).not_to be_linked(aspect)
     end
 
-    it "walks the chain to the variant that owns it" do
-      middle.update!(workflows_source: owner)
-      leaf.update!(workflows_source: middle)
+    it "resolves to its type's base while it inherits the aspect" do
+      leaf.link!(aspect)
 
       expect(leaf).to be_linked(aspect)
-      expect(leaf.effective_source_for(aspect)).to eq(owner)
-    end
-
-    it "resolves to itself on a cycle rather than looping" do
-      leaf.update!(workflows_source: middle)
-      middle.update_columns(workflows_source_id: leaf.id)
-
-      expect(leaf.effective_source_for(aspect)).to eq(leaf)
-      expect(leaf.effective_excluded_elements(aspect)).to be_empty
-    end
-  end
-
-  describe "cycle prevention" do
-    let(:one) { bug.default_variant }
-    let(:two) { create(:type_variant, type: bug, variant_name: "Hardware") }
-
-    it "rejects a variant sourcing itself" do
-      one.workflows_source = one
-
-      expect(one).not_to be_valid
-    end
-
-    it "rejects a source whose own chain reaches back" do
-      two.update!(workflows_source: one)
-      one.workflows_source = two
-
-      expect(one).not_to be_valid
-      expect(one.errors).to be_of_kind(:workflows_source_id, :would_create_cycle)
-    end
-
-    it "rejects a source further along a chain that reaches back" do
-      three = create(:type_variant, type: bug, variant_name: "Firmware")
-      two.update!(workflows_source: one)
-      three.update!(workflows_source: two)
-      one.workflows_source = three
-
-      expect(one).not_to be_valid
-      expect(one.errors).to be_of_kind(:workflows_source_id, :would_create_cycle)
-    end
-
-    it "allows a link that joins a chain without closing it" do
-      three = create(:type_variant, type: bug, variant_name: "Firmware")
-      two.update!(workflows_source: one)
-
-      expect(three.tap { it.workflows_source = two }).to be_valid
-    end
-
-    it "allows the same pair on a different aspect" do
-      two.update!(workflows_source: one)
-      one.pdf_export_source = two
-
-      expect(one).to be_valid
+      expect(leaf.source_for(aspect)).to eq(base)
+      expect(leaf.owner_of(aspect)).to eq(base)
     end
   end
 
   describe "exclusions" do
     let(:aspect) { TypeVariant::FORM_CONFIGURATION }
-    let(:owner) { task.default_variant }
-    let(:middle) { bug.default_variant }
     let(:leaf) { create(:type_variant, type: bug, variant_name: "Hardware") }
 
-    it "accumulate over the whole chain" do
-      middle.update!(form_configuration_source: owner, form_configuration_excluded_elements: ["custom_field_7"])
-      leaf.update!(form_configuration_source: middle, form_configuration_excluded_elements: ["assignee"])
+    it "are the variant's own exclusions for an inherited aspect" do
+      leaf.link!(aspect)
+      leaf.update!(form_configuration_excluded_elements: %w[assignee custom_field_7])
 
-      expect(leaf.effective_excluded_elements(aspect)).to match_array(%w[assignee custom_field_7])
-    end
-
-    it "leave the variant above unaffected" do
-      middle.update!(form_configuration_source: owner)
-      leaf.update!(form_configuration_source: middle, form_configuration_excluded_elements: ["assignee"])
-
-      expect(middle.effective_excluded_elements(aspect)).to be_empty
+      expect(leaf.excluded_elements(aspect)).to match_array(%w[assignee custom_field_7])
     end
 
     it "report a repeated element once" do
-      middle.update!(form_configuration_source: owner, form_configuration_excluded_elements: ["assignee"])
-      leaf.update!(form_configuration_source: middle, form_configuration_excluded_elements: ["assignee"])
+      leaf.link!(aspect)
+      leaf.update!(form_configuration_excluded_elements: %w[assignee assignee])
 
-      expect(leaf.effective_excluded_elements(aspect)).to eq(["assignee"])
+      expect(leaf.excluded_elements(aspect)).to eq(["assignee"])
     end
 
     it "are empty for an aspect that cannot be narrowed" do
-      middle.update!(workflows_source: owner)
+      leaf.link!(TypeVariant::DEFAULTS)
 
-      expect(middle.effective_excluded_elements(TypeVariant::WORKFLOWS)).to be_empty
+      expect(leaf.excluded_elements(TypeVariant::DEFAULTS)).to be_empty
     end
   end
 
   describe "the aspect allowlist" do
     it "accepts every known aspect" do
       described_class::ASPECTS.each do |known|
-        expect { described_class.effective_source_id_subquery(1, known) }.not_to raise_error
+        expect { described_class.validated_configuration_aspect(known) }.not_to raise_error
       end
     end
 
     it "refuses anything else" do
-      expect { described_class.effective_source_id_subquery(1, "workflows; DROP TABLE types") }
+      expect { described_class.validated_configuration_aspect("workflows; DROP TABLE types") }
         .to raise_error(ArgumentError)
-      expect { described_class.effective_configuration_lateral("1", :nope) }
+      expect { described_class.validated_configuration_aspect(:nope) }
         .to raise_error(ArgumentError)
+    end
+  end
+
+  describe "the excludable aspect allowlist" do
+    it "accepts every excludable aspect" do
+      described_class::EXCLUDABLE_ASPECTS.each do |excludable|
+        expect { described_class.validated_excludable_aspect(excludable) }.not_to raise_error
+      end
+    end
+
+    it "refuses an aspect that cannot be narrowed" do
+      expect { described_class.validated_excludable_aspect(TypeVariant::DEFAULTS) }
+        .to raise_error(ArgumentError)
+    end
+
+    it "refuses anything else" do
+      expect { described_class.validated_excludable_aspect("form_configuration; DROP TABLE types") }
+        .to raise_error(ArgumentError)
+      expect { described_class.validated_excludable_aspect(:nope) }
+        .to raise_error(ArgumentError)
+    end
+  end
+
+  describe "linked_aspects validation" do
+    let(:variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+
+    it "accepts a known aspect" do
+      variant.linked_aspects = [TypeVariant::DEFAULTS]
+
+      expect(variant).to be_valid
+    end
+
+    it "rejects an unknown aspect" do
+      variant.linked_aspects = ["workflows; DROP TABLE types"]
+
+      expect(variant).not_to be_valid
+      expect(variant.errors).to be_added(:linked_aspects, :inclusion)
+    end
+
+    it "rejects any linked aspect on the base variant" do
+      base = bug.default_variant
+      base.linked_aspects = [TypeVariant::DEFAULTS]
+
+      expect(base).not_to be_valid
+      expect(base.errors).to be_added(:linked_aspects, :present)
     end
   end
 
@@ -260,24 +245,31 @@ RSpec.describe TypeVariant do
     end
   end
 
-  describe "#inherits_from_project_owned_variant?" do
+  describe "the workflow a variant references" do
     shared_let(:project) { create(:project) }
-    let(:variant) { create(:project_owned_type_variant, type: bug, project:, variant_name: "Hardware") }
+    shared_let(:other_project) { create(:project) }
 
-    it "is false when the variant holds no reuse links" do
-      expect(variant).not_to be_inherits_from_project_owned_variant
+    it "may be a global workflow" do
+      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
+                                                   workflow: create(:named_workflow))
+
+      expect(variant).to be_valid
     end
 
-    it "is false when every source is global" do
-      variant.update!(workflows_source: create(:type_variant, type: bug, variant_name: "Base config"))
+    it "may not belong to another project" do
+      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
+                                                   workflow: create(:project_owned_workflow, project: other_project))
 
-      expect(variant).not_to be_inherits_from_project_owned_variant
+      expect(variant).not_to be_valid
+      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
     end
 
-    it "is true when an aspect is sourced from a project-owned variant" do
-      variant.update!(workflows_source: create(:project_owned_type_variant, type: bug, project:, variant_name: "Sibling"))
+    it "may not belong to a project when the variant is global" do
+      variant = build(:type_variant, type: bug, variant_name: "Hardware",
+                                     workflow: create(:project_owned_workflow, project:))
 
-      expect(variant).to be_inherits_from_project_owned_variant
+      expect(variant).not_to be_valid
+      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
     end
   end
 
@@ -286,28 +278,17 @@ RSpec.describe TypeVariant do
     shared_let(:old_status) { create(:status) }
     shared_let(:new_status) { create(:status) }
 
-    let(:variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+    let(:type) { create(:type, name: "Throwaway") }
+    let(:variant) { type.default_variant }
 
     before do
       create(:status_transition, type_variant: variant, role:, old_status:, new_status:)
     end
 
-    it "discards the workflow it was the last to reference" do
+    it "leaves the workflow behind for an admin to reuse or delete" do
       workflow_id = variant.workflow_id
 
-      variant.destroy!
-
-      expect(Workflow.where(id: workflow_id)).to be_empty
-      expect(Workflows::StatusTransition.where(workflow_id:)).to be_empty
-    end
-
-    it "keeps a workflow another variant still references" do
-      workflow_id = variant.workflow_id
-      borrowing = create(:type_variant, type: bug, variant_name: "Software", workflows_source: variant)
-
-      expect(borrowing.workflow_id).to eq(workflow_id)
-
-      borrowing.destroy!
+      type.destroy!
 
       expect(Workflow.where(id: workflow_id)).to be_present
       expect(Workflows::StatusTransition.where(workflow_id:).count).to eq(1)

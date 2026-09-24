@@ -156,21 +156,22 @@ module WorkPackageTypes
     # The matrix submits its inputs with the wizard form, along with the roles and
     # transition tab it was showing, so that only that slice is rewritten.
     def update_workflows
-      matrix_context = ::Workflows::MatrixContext.new(
-        variant: @variant,
-        tab: params[:tab],
-        role_ids: params[:role_ids]
-      )
-
-      service_call = ::Workflows::MatrixUpdateService
-                       .new(variant: @variant, roles: matrix_context.roles, tab: matrix_context.tab)
-                       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
-
-      if service_call.success?
+      if update_matrix.success?
         advance
       else
         render :show, status: :unprocessable_entity
       end
+    end
+
+    def update_matrix
+      context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
+                                               variant: @variant,
+                                               tab: params[:tab],
+                                               role_ids: params[:role_ids])
+
+      ::Workflows::MatrixUpdateService
+        .new(workflow: @variant.workflow, roles: context.roles, tab: context.tab)
+        .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
     end
 
     def advance

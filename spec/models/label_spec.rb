@@ -48,6 +48,12 @@ RSpec.describe Label do
     end
   end
 
+  describe "normalizations" do
+    subject { build(:label) }
+
+    it { is_expected.to normalize(:name).from("  Machine   Learning ").to("Machine Learning") }
+  end
+
   describe ".with_usage_count" do
     it "counts the labelings of each label, including unused ones" do
       used = create(:label)
@@ -57,6 +63,31 @@ RSpec.describe Label do
       counts = described_class.with_usage_count.index_by(&:id).transform_values(&:usage_count)
 
       expect(counts).to eq(used.id => 2, unused.id => 0)
+    end
+
+    it "keeps a scalar total when paginated" do
+      create_list(:label, 2)
+      create(:labeling, label: described_class.first)
+
+      expect(described_class.with_usage_count.paginate(page: 1, per_page: 1).total_entries)
+        .to eq(described_class.count)
+    end
+  end
+
+  describe ".page_of" do
+    let!(:alpha) { create(:label, name: "Alpha") }
+    let!(:bravo) { create(:label, name: "bravo") }
+    let!(:charlie) { create(:label, name: "Charlie") }
+    let!(:zulu) { create(:label, name: "Zulu") }
+
+    it "returns the 1-based page the label falls on when ordered case-insensitively by name" do
+      expect(described_class.page_of(alpha, per_page: 2)).to eq(1)
+      expect(described_class.page_of(charlie, per_page: 2)).to eq(2)
+      expect(described_class.page_of(zulu, per_page: 2)).to eq(2)
+    end
+
+    it "sorts case-insensitively, placing bravo between alpha and charlie" do
+      expect(described_class.page_of(bravo, per_page: 1)).to eq(2)
     end
   end
 

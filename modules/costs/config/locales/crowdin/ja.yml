@@ -242,6 +242,7 @@ ja:
   label_show: 表示
   label_specific_day: "%{day}日目"
   label_specific_month: "%{month}月"
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 完了しました
   label_time: 時間
@@ -271,6 +272,10 @@ ja:
   permission_edit_rates: 率の編集
   permission_log_costs: 単価の予約
   permission_log_own_costs: 自分の単価の予約
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: 予約したコストの表示
   permission_view_cost_rates: コスト率の表示
   permission_view_hourly_rates: 全ての時給の表示

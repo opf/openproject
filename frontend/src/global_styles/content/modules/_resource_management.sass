@@ -152,6 +152,19 @@
       overflow: hidden
       text-overflow: ellipsis
 
+      // Stands in for a work package in a project the viewer cannot open.
+      &.-undisclosed
+        font-style: italic
+        color: var(--fgColor-muted, #59636e)
+
+    // On a global planner the bar names the project its work package sits in.
+    &--project
+      flex: 0 0 auto
+      color: var(--fgColor-muted, #59636e)
+      max-inline-size: 40%
+      overflow: hidden
+      text-overflow: ellipsis
+
     &--badge
       flex: 0 0 auto
 

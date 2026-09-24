@@ -3,15 +3,15 @@ pl:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: Kryteria filtrowania
       resource_allocation:
         allocated_hours: Godziny
         allocated_time: Przydzielony czas
         date_range: Daty
         end_date: Data zakończenia
         entity: Pole
-        placeholder_or_user: Assignee
-        placeholder_user: Placeholder user
+        placeholder_or_user: Przypisana osoba
+        placeholder_user: Użytkownik zastępczy
         principal: Przypisana osoba
         start_date: Data rozpoczęcia
         state: Stan
@@ -29,6 +29,8 @@ pl:
           attributes:
             end_date:
               greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+            principal:
+              not_a_member: is not a member of the work package's project.
         resource_planner:
           attributes:
             end_date:
@@ -84,8 +86,12 @@ pl:
   permission_allocate_user_resources_explanation: Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
   permission_assign_users_to_generic_allocations: Przypisz użytkowników do ogólnych alokacji
   permission_assign_users_to_generic_allocations_explanation: Umożliwia użytkownikom korzystanie z widoku Obsada, aby przypisywać rzeczywistych użytkowników do ogólnych (opartych na filtrach) przydziałów zasobów, które nie mają jeszcze przypisanego użytkownika. Nie pozwala natomiast na tworzenie ani edytowanie przydziałów.
+  permission_manage_public_global_resource_planners: Manage public global resource planners
+  permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Zarządzaj publicznymi planistami zasobów
   permission_manage_public_resource_planners_explanation: Umożliwia użytkownikom tworzenie planistów zasobów oraz zarządzanie nimi. Pozwala im na przeglądanie, tworzenie, zarządzanie i publikowanie własnych planistów zasobów. Nie pozwala użytkownikom przeglądać nieudostępnionych publicznie planistów zasobów utworzonych przez innych użytkowników.
+  permission_view_global_resource_planners: View global resource planners
+  permission_view_global_resource_planners_explanation: Allows users to access the global resource planner section, where resources and allocations from several projects can be planned together. It allows them to create and manage their own global resource planners and view public ones. Users only ever see the projects, resources and allocations they are permitted to view.
   permission_view_resource_planners: Wyświetl planistów zasobów
   permission_view_resource_planners_explanation: Umożliwia użytkownikom dostęp do planistów zasobów. Pozwala im tworzyć własnych planistów zasobów i zarządzać nimi oraz wyświetlać publicznych planistów zasobów. Nie pozwala użytkownikom na przeglądanie nieudostępnionych publicznie planistów zasobów utworzonych przez innych użytkowników.
   plugin_openproject_resource_management:
@@ -102,11 +108,11 @@ pl:
       unfavorite: Usuń z ulubionych
     allocate_resource_dialog:
       criteria:
-        empty: No criteria set.
-        label: Criteria
+        empty: Nie ustawiono kryteriów.
+        label: Kryteria
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: Dla wybranego użytkownika nie skonfigurowano godzin pracy w tych terminach, dlatego uznaje się, że nie ma on dostępności.
+        partial: Dla wybranego użytkownika nie skonfigurowano godzin pracy w terminach %{dates}, dlatego dni te są traktowane jako dni bez dostępności.
       outside_dates:
         description: Wybrane daty zasobów, %{resource_dates}, wykraczają poza daty pakietu roboczego, %{work_package_dates}.
       overbooking:
@@ -140,6 +146,7 @@ pl:
       title: Przypisz %{filter_name}
     blankslate:
       desc: Utwórz planistę zasobów, aby rozpocząć planowanie obciążeń dla tego projektu.
+      global_desc: Create a resource planner to start planning capacity across projects.
       title: Nie ma jeszcze planistów zasobów
     configure_view_dialog:
       delete_confirmation: Czy na pewno chcesz usunąć ten widok? Nie można tego cofnąć.
@@ -153,13 +160,16 @@ pl:
           label: Ręczny wybór
       title: Konfiguruj widok
     create_placeholder_user_dialog:
-      submit: Create
-      title: Create placeholder user
+      submit: Utwórz
+      title: Utwórz użytkownika zastępczego
     edit_allocation_dialog:
       submit: Zapisz
       success_message: Zaktualizowano przydział zasobów.
       title: Edytuj przydział
     favorite_caption: Ustaw ten widok jako ulubiony, aby dodać go do górnej części menu paska bocznego.
+    filters:
+      resource_management_enabled: Resource management enabled
+    global_public_caption: Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of work packages which still depends on each user permission.
     label_edit_resource_planner: Edytuj planistę zasobów
     label_new_resource_planner: Nowy planista zasobów
     label_resource_planner: Planista zasobów
@@ -204,15 +214,16 @@ pl:
         add: Dodaj
         allocate: Przydziel
         settings: Konfiguruj widok
+      undisclosed:
+        tooltip: You don't have permissions to see this allocated resource
+        work_package: Work package not visible to you
     user_allocations_dialog:
       allocate_work_package: Przydziel pakiet roboczy
       blank: Temu użytkownikowi nie przydzielono żadnych pakietów roboczych.
-      other_work_packages:
-        one: 1 inny pakiet roboczy
-        few: "%{count} inne pakiety robocze"
-        many: "%{count} innych pakietów roboczych"
-        other: "%{count} innego pakietu roboczego"
+      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
+      hidden_work_package: Work package not visible to you
       title: Wykorzystanie
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: Dodaj użytkownika

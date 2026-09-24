@@ -32,3 +32,4 @@ danger.import_dangerfile(path: ".github/dangerfiles/release_migrations/Dangerfil
 danger.import_dangerfile(path: ".github/dangerfiles/project_id_contract/Dangerfile")
 danger.import_dangerfile(path: ".github/dangerfiles/op_primer_changes/Dangerfile")
 danger.import_dangerfile(path: ".github/dangerfiles/migration_index_names/Dangerfile")
+danger.import_dangerfile(path: ".github/dangerfiles/html_safe/Dangerfile")

@@ -242,6 +242,7 @@ id:
   label_show: Tampilkan
   label_specific_day: Hari %{day}
   label_specific_month: Bulan %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Selesai
   label_time: Waktu
@@ -271,6 +272,10 @@ id:
   permission_edit_rates: Edit rate
   permission_log_costs: Biaya unit pada buku
   permission_log_own_costs: Biaya unit buku untuk dirinya sendiri
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Tampilkan booked biaya
   permission_view_cost_rates: Tampilkan rate biaya
   permission_view_hourly_rates: Tampilkan semua rate per-jam

@@ -75,7 +75,7 @@ fa:
         rate:
           attributes:
             principal:
-              invalid: must be a user or a placeholder user.
+              invalid: باید یک کاربر یا کاربر فرضی باشد.
         time_entry:
           attributes:
             entity:
@@ -211,7 +211,7 @@ fa:
   label_costlog: هزینه‌های واحد ثبت‌شده
   label_costs: هزینه‌ها
   label_costs_per_page: هزینه‌ها در هر صفحه
-  label_current: Current
+  label_current: فعلی
   label_current_default_rate: ضریب پرداخت پیشفرض فعلی
   label_date_on: در
   label_day: روز
@@ -238,8 +238,8 @@ fa:
   label_next_week: هفته بعد
   label_next_workweek: هفته کاری بعدی
   label_no: خیر
-  label_no_default_rate: No default rate set
-  label_no_project_rate: No rate set for this project
+  label_no_default_rate: نرخ پیش‌فرضی تعیین نشده است
+  label_no_project_rate: برای این پروژه نرخی تعیین نشده است
   label_no_time: زمانی ثبت نشده است
   label_option_plural: گزینه‌ها
   label_overall_costs: هزینه‌های کل
@@ -251,6 +251,7 @@ fa:
   label_show: نمایش
   label_specific_day: "%{day} روز"
   label_specific_month: ماه %{month}
+  label_stack: Stack
   label_start_and_finished: زمان‌های شروع و پایان
   label_status_finished: پایان‌یافته
   label_time: زمان
@@ -260,7 +261,7 @@ fa:
   label_today_capitalized: امروز
   label_units: واحدهای هزینه
   label_until: تا
-  label_using_current_default_rate: Using current default rate
+  label_using_current_default_rate: استفاده از نرخ پیش‌فرض فعلی
   label_valid_from: معتبر از
   label_view_mode_switcher: تغییر نما
   label_work_package_filter_add: افزودن فیلتر پکیج‌کاری
@@ -280,6 +281,10 @@ fa:
   permission_edit_rates: ویرایش نرخ (ضرایب پرداختی)
   permission_log_costs: رزرو هزینه‌های واحد
   permission_log_own_costs: رزرو هزینه‌های واحد برای خود
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: مشاهده هزینه‌های رزرو شده
   permission_view_cost_rates: مشاهده نرخ‌های هزینه
   permission_view_hourly_rates: مشاهده تمامی نرخ‌های ساعتی
@@ -317,11 +322,11 @@ fa:
   text_destroy_cost_entries_question: "%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
   text_destroy_time_and_cost_entries: ساعت ها و هزینه های گزارش شده را حذف کنید
   text_destroy_time_and_cost_entries_question: "%{hours} ,%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
-  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
-  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
-  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
-  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
-  text_no_project_rate: This project will use the current default rate.
+  text_hourly_rate_destroy_confirmation: نرخ %{rate} که از %{valid_from} معتبر است حذف خواهد شد. هزینه‌های ثبت‌شده بر مبنای آن با نرخی که پس از آن اعمال می‌شود دوباره محاسبه خواهند شد.
+  text_hourly_rate_destroy_confirmation_checkbox_label: می‌دانم که این اقدام قابل بازگشت نیست.
+  text_hourly_rate_recalculation: این نرخ از تاریخ شروع اعتبار خود تا زمانی که نرخ بعدی اعمال شود معتبر است. تغییر آن همچنین ورودی‌های زمان و بودجه‌های موجود در آن بازه را دوباره محاسبه می‌کند.
+  text_no_default_rate: نرخ پیش‌فرض در همه پروژه‌هایی استفاده می‌شود که برای کاربر نرخ خاصی تنظیم نشده است.
+  text_no_project_rate: این پروژه از نرخ پیش‌فرض فعلی استفاده خواهد کرد.
   text_reassign_time_and_cost_entries: تخصیص ساعت‌ها و هزینه‌های گزارش شده به پروژه
   text_warning_hidden_elements: ممکن است برخی ورودی‌ها از تجمیع حذف شده باشند.
   total_times:

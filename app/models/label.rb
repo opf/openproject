@@ -33,13 +33,17 @@ class Label < ApplicationRecord
   has_many :labelings, dependent: :delete_all
 
   scope :with_usage_count, -> {
-    left_joins(:labelings)
-      .select("labels.*, COUNT(labelings.id) AS usage_count")
-      .group(:id)
+    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
   }
+
+  normalizes :name, with: -> { it.squish }
 
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+
+  def self.page_of(label, per_page:)
+    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+  end
 end

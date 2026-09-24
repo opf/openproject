@@ -269,6 +269,7 @@ cs:
   label_show: Zobrazit
   label_specific_day: Den %{day}
   label_specific_month: Měsíc %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Ukončeno
   label_time: Čas
@@ -298,6 +299,10 @@ cs:
   permission_edit_rates: Upravit sazby
   permission_log_costs: Jednotkové náklady na knihu
   permission_log_own_costs: Knihovní jednotkové náklady
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Zobrazit rezervované náklady
   permission_view_cost_rates: Zobrazit nákladové sazby
   permission_view_hourly_rates: Zobrazit všechny hodinové sazby

@@ -30,6 +30,7 @@
 
 require_relative "../toasts/expectations"
 require_relative "../flash/expectations"
+require_relative "../capybara/sub_header_helpers"
 require_relative "../capybara/wait_helpers"
 
 module Pages
@@ -42,6 +43,7 @@ module Pages
     include Toasts::Expectations
     include Flash::Expectations
     include RSpec::Wait
+    include SubHeaderHelpers
     include WaitHelpers
 
     def current_page?

@@ -34,7 +34,7 @@ nl:
         work_package: Werkpakket
       cost_type:
         default: Kostensoort als standaard
-        for_all_projects: For all projects
+        for_all_projects: Voor alle projecten
         rates: Rates
         unit: Naam eenheid
         unit_plural: Vermeerderde eenheid naam
@@ -177,10 +177,10 @@ nl:
     settings:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
-        heading: Cost types
+        heading: Soort kosten
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
         none_active: No cost types are currently active in this project.
-      time_and_costs: Time and costs
+      time_and_costs: Tijd en kosten
   costs:
     widgets:
       actual_costs:
@@ -251,11 +251,12 @@ nl:
   label_show: Toon
   label_specific_day: Dag %{day}
   label_specific_month: Maand %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Afgewerkt
   label_time: Tijd
   label_time_entry_activity_form_description: Wijzigingen in deze tijdregistratie activiteit worden weergegeven in alle projecten waar het is ingeschakeld.
-  label_time_entry_restrictions: Limits
+  label_time_entry_restrictions: Limieten
   label_timer_since: Begonnen op %{time}
   label_today_capitalized: Vandaag
   label_units: Kosten eenheden
@@ -280,6 +281,10 @@ nl:
   permission_edit_rates: Tarieven bewerken
   permission_log_costs: Kosten per eenheid boeken
   permission_log_own_costs: Kosten per eenheid boeken voor zichzelf
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Geboekte kosten bekijken
   permission_view_cost_rates: Bekijk kostentarieven
   permission_view_hourly_rates: Bekijk alle uurtarieven

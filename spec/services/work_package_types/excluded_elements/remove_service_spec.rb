@@ -34,8 +34,9 @@ RSpec.describe WorkPackageTypes::ExcludedElements::RemoveService do
   shared_let(:admin) { create(:admin) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
-  let(:source) { create(:type).default_variant }
-  let(:variant) { create(:type).default_variant }
+  let(:type) { create(:type) }
+  let(:base) { type.default_variant }
+  let(:variant) { create(:type_variant, type:) }
 
   subject(:service_call) { described_class.new(user: admin, variant:).call(aspect:, elements: %w[custom_field_1]) }
 
@@ -45,7 +46,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::RemoveService do
 
   context "when the variant is Linked for the aspect" do
     let!(:link) do
-      link_configuration(variant, source:, aspect: aspect, excluded: %w[custom_field_1 assignee])
+      link_configuration(variant, aspect: aspect, excluded: %w[custom_field_1 assignee])
     end
 
     it "lets the element be inherited again" do
@@ -69,38 +70,19 @@ RSpec.describe WorkPackageTypes::ExcludedElements::RemoveService do
     end
 
     it "restores the element to what the type inherits" do
-      source.update!(attribute_groups: [["numbers", %w[assignee responsible]]])
+      base.update!(attribute_groups: [["numbers", %w[assignee responsible]]])
       described_class.new(user: admin, variant:).call(aspect:, elements: %w[assignee])
 
       expect(variant.reload.attribute_groups.first.attributes).to eq(%w[assignee responsible])
     end
 
     it "does not touch another aspect's link" do
-      link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES, excluded: %w[custom_field_1])
+      link_configuration(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES, excluded: %w[custom_field_1])
 
       service_call
 
       expect(excluded_configuration_elements(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES))
         .to contain_exactly("custom_field_1")
-    end
-  end
-
-  context "when an ancestor's link excludes the element" do
-    let(:owner) { create(:type).default_variant }
-
-    before do
-      link_configuration(source, source: owner, aspect:, excluded: %w[assignee])
-      link_configuration(variant, source:, aspect:)
-    end
-
-    it "does not remove it from the ancestor's link" do
-      owner.update!(attribute_groups: [["numbers", %w[assignee responsible]]])
-
-      result = described_class.new(user: admin, variant:).call(aspect:, elements: %w[assignee])
-
-      expect(result).to be_success
-      expect(excluded_configuration_elements(source, aspect:)).to contain_exactly("assignee")
-      expect(variant.reload.effective_excluded_elements(aspect)).to contain_exactly("assignee")
     end
   end
 
@@ -114,7 +96,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::RemoveService do
 
   context "with an unknown aspect" do
     let!(:link) do
-      link_configuration(variant, source:, aspect: aspect, excluded: %w[custom_field_1])
+      link_configuration(variant, aspect: aspect, excluded: %w[custom_field_1])
     end
 
     it "fails rather than writing anything" do

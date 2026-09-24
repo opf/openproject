@@ -236,7 +236,7 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
         .and_return([option(10200, "Red")])
       allow(jira_client).to receive(:custom_field_options)
         .with(10264, project_ids: [jira_project_id], issue_type_ids: ["10200"])
-        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500))
+        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500, response_body: "", response_headers: {}))
 
       expect { fetch_custom_fields }.not_to raise_error
       expect(context_groups.map { |group| group["allowedValues"].pluck("value") }).to eq([["Red"]])
@@ -268,7 +268,7 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
     # editmeta over it would quietly import the poorer option sets; failing lets the job retry.
     it "fails instead of falling back when the very first options request errors" do
       allow(jira_client).to receive(:custom_field_options)
-        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500))
+        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500, response_body: "", response_headers: {}))
 
       expect { fetch_custom_fields }.to raise_error(Import::JiraClient::ApiError)
       expect(jira_client).not_to have_received(:issue_editmeta)
@@ -456,7 +456,7 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
     it "keeps going when editmeta fails for one of the sampled issues" do
       issue(key: "#{jira_project_key}-2", issuetype_id: "10200")
       allow(jira_client).to receive(:issue_editmeta).with("#{jira_project_key}-1")
-        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500))
+        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500, response_body: "", response_headers: {}))
 
       expect { fetch_custom_fields }.not_to raise_error
       expect(select_field.reload.payload["contextGroups"].pluck("issuetypes")).to eq([["10200"]])

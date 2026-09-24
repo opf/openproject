@@ -269,6 +269,7 @@ lt:
   label_show: Rodyti
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Baigta
   label_time: Laikas
@@ -298,6 +299,10 @@ lt:
   permission_edit_rates: Redaguoti koeficientus
   permission_log_costs: Įrašyti vieneto kaštus
   permission_log_own_costs: Įrašyti vieneto kaštus už save
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Peržiūrėti įrašytus kaštus
   permission_view_cost_rates: Peržiūrėti išlaidų koeficientus
   permission_view_hourly_rates: Peržiūrėti visus valandinius koeficientus

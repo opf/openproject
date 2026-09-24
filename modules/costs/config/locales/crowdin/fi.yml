@@ -251,6 +251,7 @@ fi:
   label_show: Näytä
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Valmis
   label_time: Aika
@@ -280,6 +281,10 @@ fi:
   permission_edit_rates: Tuntihintojen muokkaus
   permission_log_costs: Kirjaa kustannuksia
   permission_log_own_costs: Kirjaa kustannuksia itselle
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Kirjattujen kustannusten tarkisteleminen
   permission_view_cost_rates: Hintojen tarkisteleminen
   permission_view_hourly_rates: Kaikkien tuntihintojen tarkiseleminen

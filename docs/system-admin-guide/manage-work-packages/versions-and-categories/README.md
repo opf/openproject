@@ -39,9 +39,8 @@ The conversion happens in one of three ways:
 
 While the conversion is still pending, the **Target versions** section provides an **Enable multiple values** button. Selecting it opens a confirmation dialog explaining that the change cannot be reversed. The conversion runs as a background job, and the page automatically shows its progress and completion. On most instances, the conversion finishes within seconds.
 
-   ![Versions and categories settings page in the action required state](openproject_system_admin_guide_target_versions_action_required.png)
+![Versions and categories settings page in the action required state](openproject_system_admin_guide_target_versions_action_required.png)
 
-   ![Confirmation dialog for enabling multiple target versions](openproject_system_admin_guide_target_versions_dialog.png)
 
 2. **Through the configuration.** The 'work_package_multiple_versions' setting can also be configured through the configuration file or an environment variable, like any other setting (see [advanced configuration](../../../installation-and-operations/configuration/)). When overridden this way, the settings page indicates that the setting is controlled through the configuration, and the **Enable multiple values** button is not available.
 

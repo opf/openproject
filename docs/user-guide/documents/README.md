@@ -151,7 +151,30 @@ Copy a work package URL ad paste directly into a document. You can use either th
 ![Pasting a work package link into a document in OpenProject](openproject_user_guide_documents_wp_url.png)
 
 > [!NOTE]
-> The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If its pasted into an existing paragraph, the work package is linked as a regular size ( same as when using ###).
+> The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If it is pasted into an existing paragraph, the work package is linked as a regular inline link (the same as using **###**).
+
+### Create a new work package from within a document
+
+To create new work packages from within a document, type **/** to open the slash menu, then select **Create a new work package** from the list of available options.
+
+![Create a new work package in documents](openproject_user_guide_documents_create_new_wp.png)
+
+In the form that is displayed, enter the **Subject** for the work package, choose a **Project** in which the work package should be created, pick an **Assignee** (optionaal) and the **Type**. Click **Create** to create the work package and automatically add a link to the document.
+
+![Form to create new work package in documents](openproject_user_guide_documents_create_new_wp_form.png)
+
+For a quicker way to create a work package, you can use existing text in your document as the work package subject:
+
+- Highlight the text you want to use as the work package subject.
+- In the formatting toolbar that appears, click the **+** icon on the right.
+- Select **Create a new work package**.
+
+![Alternative option to create new work package in documents](openproject_user_guide_documents_create_new_wp_alternative.png)
+
+This can save time, as the highlighted text is automatically used as the work package subject. 
+
+![Work package form with the highlighted text pre-filled as the subject](openproject_user_guide_documents_create_new_wp_form_subject_prefilled.png)
+
 
 ## Delete a project document
 

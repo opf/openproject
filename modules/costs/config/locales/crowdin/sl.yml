@@ -271,6 +271,7 @@ sl:
   label_show: Pokaži
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Končano
   label_time: Čas
@@ -300,6 +301,10 @@ sl:
   permission_edit_rates: Uredite cene
   permission_log_costs: Stroški knjižne enote
   permission_log_own_costs: Stroški knjižne enote zase
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Oglejte si rezervirane stroške
   permission_view_cost_rates: Oglejte si stopnje stroškov
   permission_view_hourly_rates: Oglejte si vse urne postavke

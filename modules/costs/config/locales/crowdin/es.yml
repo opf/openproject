@@ -75,7 +75,7 @@ es:
         rate:
           attributes:
             principal:
-              invalid: must be a user or a placeholder user.
+              invalid: debe ser un usuario o un usuario comodín.
         time_entry:
           attributes:
             entity:
@@ -211,7 +211,7 @@ es:
   label_costlog: Costos unitarios registrados
   label_costs: Costes
   label_costs_per_page: Costos por página
-  label_current: Current
+  label_current: Actual
   label_current_default_rate: tasa de morosidad actual
   label_date_on: en
   label_day: Día
@@ -238,8 +238,8 @@ es:
   label_next_week: La próxima semana
   label_next_workweek: Próxima semana laboral
   label_no: 'No'
-  label_no_default_rate: No default rate set
-  label_no_project_rate: No rate set for this project
+  label_no_default_rate: No se ha establecido ninguna tarifa predeterminada
+  label_no_project_rate: No se ha establecido ninguna tarifa para este proyecto
   label_no_time: No hay tiempo seguido
   label_option_plural: Opciones
   label_overall_costs: Costos totales
@@ -251,6 +251,7 @@ es:
   label_show: Mostrar
   label_specific_day: Día %{day}
   label_specific_month: Mes %{month}
+  label_stack: Stack
   label_start_and_finished: Horas de inicio y finalización
   label_status_finished: Acabado
   label_time: Hora
@@ -260,7 +261,7 @@ es:
   label_today_capitalized: Hoy
   label_units: Unidades de costo
   label_until: hasta
-  label_using_current_default_rate: Using current default rate
+  label_using_current_default_rate: Utilizando la tarifa predeterminada actual
   label_valid_from: Válido desde
   label_view_mode_switcher: Cambia vista
   label_work_package_filter_add: Añadir filtro del paquete de trabajo
@@ -280,6 +281,10 @@ es:
   permission_edit_rates: Editar tasas
   permission_log_costs: Reservar los costos unitarios
   permission_log_own_costs: Reservar los costos unitarios para uno mismo
+  permission_manage_default_hourly_rates: Administrar tarifas por hora predeterminadas
+  permission_manage_default_hourly_rates_explanation: 'Permite añadir, modificar y eliminar las tarifas por hora predeterminadas de los usuarios y usuarios comodines.
+
+    '
   permission_view_cost_entries: Ver los costos reservados
   permission_view_cost_rates: Ver tasas de costos
   permission_view_hourly_rates: Ver todas las tarifas por hora
@@ -317,11 +322,11 @@ es:
   text_destroy_cost_entries_question: "%{cost_entries} fueron reportados en los paquetes de trabajo que van a eliminar. ¿Qué quieres hacer?"
   text_destroy_time_and_cost_entries: Eliminar horas reportadas y costos
   text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} fueron reportados en el paquete de trabajo que va a eliminar.¿Qué quieres hacer?"
-  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
-  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
-  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
-  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
-  text_no_project_rate: This project will use the current default rate.
+  text_hourly_rate_destroy_confirmation: Se eliminará la tarifa de %{rate} vigente a partir del %{valid_from}. Los costes contabilizados con dicha tarifa se volverán a calcular según la tarifa vigente en ese momento.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Entiendo que esta acción es irreversible.
+  text_hourly_rate_recalculation: Esta tarifa se aplica desde su fecha de entrada en vigor hasta que entre en vigor una tarifa posterior. Si se modifica, también se volverán a calcular las entradas de tiempo y los presupuestos existentes correspondientes a ese periodo.
+  text_no_default_rate: La tarifa predeterminada se aplica en todos los proyectos en los que el usuario no tenga configurada una tarifa específica.
+  text_no_project_rate: En este proyecto se utilizará la tarifa predeterminada actual.
   text_reassign_time_and_cost_entries: 'Reasignar horas y costos reportados para este paquete de trabajo:'
   text_warning_hidden_elements: Algunas entradas han sido excluidas de la agregación.
   total_times:

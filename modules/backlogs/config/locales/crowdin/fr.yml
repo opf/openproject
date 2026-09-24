@@ -119,7 +119,7 @@ fr:
         other: Sprints
         zero: Tous les sprints
       select_panel_title: Sélectionner les éléments
-    blankslate_filtered_title: Aucun lot de travail ne correspond aux critères de filtrage.
+    blankslate_filtered_title: Aucun lot de travaux ne correspond aux critères de filtrage.
     bucket_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -163,7 +163,7 @@ fr:
         other: Afficher %{count} éléments supplémentaires
       title: Boîte de réception
     index_subheader_component:
-      label_search_by_subject: Rechercher des lots de travail par thème
+      label_search_by_subject: Rechercher des lots de travaux par objet
     label_burndown_chart: Graphique burndown
     label_is_done_status: Le statut %{status_name} signifie fait
     label_sprint_board: Tableau de sprint
@@ -184,7 +184,7 @@ fr:
     remaining_hours: Travail restant
     sharing: Partage de sprint
     show_burndown_chart: Graphique burndown
-    show_work_package_overview: Work packages within the sprint
+    show_work_package_overview: Lots de travaux du sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -212,29 +212,29 @@ fr:
         title: Rapport de %{sprint}
       widgets:
         work_package_graph:
-          title: Work packages graph
+          title: Graphique des lots de travaux
         work_package_overview:
           blankslate:
-            description: Set start and end date for the sprint to generate the work package overview.
-            heading: No sprint data available
+            description: Définissez les dates de début et de fin du sprint pour générer la vue d'ensemble des lots de travaux.
+            heading: Aucune donnée de sprint disponible
           blocks:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
-              heading: Scope change
+              heading: Modification du périmètre
               story_points_change: "+%{added} / -%{removed} story points"
             completed:
-              heading: Completed
+              heading: Terminés
             initially_planned:
-              heading: Initially planned
+              heading: Initialement prévus
             unfinished:
-              heading: Unfinished
+              heading: Non terminés
           breakdown_block:
             blocks:
-              show_all: View all
-          closed_work_packages: Closed work packages
+              show_all: Tout afficher
+          closed_work_packages: Lots de travaux fermés
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage}% (%{resolved} sur %{total} lot de travaux)"
+            other: "%{percentage}% (%{resolved} sur %{total} lots de travaux)"
     sprints:
       row_component:
         action_menu:
@@ -276,18 +276,18 @@ fr:
         invalid_target: La destination à laquelle vous essayez d'ajouter cet élément n'est pas valide.
         target_not_found: Le sprint ou le backlog auquel vous essayez d'ajouter des éléments n'a pas été trouvé.
       batch_update_service:
-        mixed_projects: All work packages of a batch must belong to the same project.
-        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
-        stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
-        unavailable_target: The destination list is no longer available. Please reload the page and try again.
-        unexpected_failure: The work packages could not be moved. Please try again.
+        mixed_projects: Tous les lots de travaux traités ensemble doivent appartenir au même projet.
+        stale_batch: Au moins un lot de travaux a été modifié pendant la préparation du déplacement. Vérifiez les positions actuelles et réessayez.
+        stale_predecessor: Le lot de travaux après lequel l'insertion devait avoir lieu a été déplacé ailleurs. Vérifiez les positions actuelles et réessayez.
+        unavailable_target: La liste de destination n'est plus disponible. Rechargez la page et réessayez.
+        unexpected_failure: Les lots de travaux n'ont pas pu être déplacés. Réessayez.
       move:
         moved_announcement: "%{label} a été déplacé vers %{list}, à la position %{position} sur %{total}"
       move_collection:
-        invalid_ids: The list of work packages to move is invalid.
-        member_failed: "%{work_package}: %{reason}"
-        too_many_work_packages: No more than %{max} work packages can be moved at once.
-        work_packages_not_found: At least one work package could not be found in this project.
+        invalid_ids: La liste des lots de travaux à déplacer n'est pas valide.
+        member_failed: "%{work_package} : %{reason}"
+        too_many_work_packages: Il est impossible de déplacer plus de %{max} lots de travaux à la fois.
+        work_packages_not_found: Au moins un lot de travaux est introuvable dans ce projet.
       update_service:
         invalid_target_type: 'list_type doit être l''une des valeurs suivantes : backlog_bucket avec un list_id, sprint avec un list_id ou inbox sans list_id.'
         missing_target: list_type ou list_id doit être présent.
@@ -324,10 +324,10 @@ fr:
   notice_unsuccessful_start: Le sprint n'a pas pu démarrer.
   notice_unsuccessful_start_with_reason: 'Le sprint n''a pas pu être démarré : %{reason}'
   notice_work_package_invisible_after_move:
-    one: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+    one: 'Le lot de travaux a été déplacé vers %{backlog}, mais il n''est pas visible car son type ou son statut est exclu du backlog.
 
       '
-    other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
+    other: "%{count} lots de travaux ont été déplacés vers %{backlog}, mais ne sont pas visibles car leur type ou leur statut est exclu du backlog.\n"
   permission_create_sprints: Créer des sprints
   permission_manage_sprint_items: Gérer les éléments du sprint
   permission_select_backlog_types_and_statuses: Sélectionner les types et les statuts du backlog

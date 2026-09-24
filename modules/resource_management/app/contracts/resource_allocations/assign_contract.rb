@@ -37,10 +37,10 @@ module ResourceAllocations
 
     private
 
-    # This action is gated on its own permission rather than `allocate_user_resources`.
+    # This action is gated on its own permission rather than `allocate_user_resources`,
+    # and on the project of the allocation's own work package.
     def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:assign_users_to_generic_allocations, model.project)
+      return if model.project && user.allowed_in_project?(:assign_users_to_generic_allocations, model.project)
 
       errors.add :base, :error_unauthorized
     end

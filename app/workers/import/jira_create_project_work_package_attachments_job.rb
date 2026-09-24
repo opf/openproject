@@ -94,13 +94,13 @@ module Import
                 end
               end
             end
+            journal_service = Import::JiraImportJournals.new(work_package:)
+            journal_service.backfill_attachments
+            # This is the last stage touching a work package, so the migration entry closes its
+            # activity behind everything the import journalized.
+            journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
           end
 
-          journal_service = Import::JiraImportJournals.new(work_package:)
-          journal_service.backfill_attachments
-          # This is the last stage touching a work package, so the migration entry closes its
-          # activity behind everything the import journalized.
-          journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
         end
       end
     end
@@ -134,7 +134,7 @@ module Import
       jira_project_for_log = project.slice(:identifier)
       jira_issue_for_log = work_package.slice(:identifier)
       attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
-      OpenProject.logger.error(
+      Rails.logger.error(
         "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
         "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
       )

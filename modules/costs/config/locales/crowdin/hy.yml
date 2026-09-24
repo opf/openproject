@@ -251,6 +251,7 @@ hy:
   label_show: Ցուցադրել
   label_specific_day: Օր %{day}
   label_specific_month: Ամիս %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Ավարտված
   label_time: Ժամ
@@ -280,6 +281,10 @@ hy:
   permission_edit_rates: Խմբագրել դրույքները
   permission_log_costs: Հաշվառել միավորի ծախսեր
   permission_log_own_costs: Հաշվառել միավորի ծախսեր սեփական անձի համար
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Դիտել հաշվառված ծախսերը
   permission_view_cost_rates: Դիտել ծախսի դրույքները
   permission_view_hourly_rates: Դիտել բոլոր ժամային դրույքները

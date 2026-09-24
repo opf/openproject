@@ -75,7 +75,7 @@ uk:
         rate:
           attributes:
             principal:
-              invalid: must be a user or a placeholder user.
+              invalid: має бути користувачем або умовним користувачем.
         time_entry:
           attributes:
             entity:
@@ -229,7 +229,7 @@ uk:
   label_costlog: Записані витрати на одиницю продукції
   label_costs: Витрати
   label_costs_per_page: Витрати на сторінку
-  label_current: Current
+  label_current: Поточний
   label_current_default_rate: Поточна ставка за промовчанням
   label_date_on: на
   label_day: День
@@ -256,8 +256,8 @@ uk:
   label_next_week: Наступний тиждень
   label_next_workweek: Наступний робочий тиждень
   label_no: Ні
-  label_no_default_rate: No default rate set
-  label_no_project_rate: No rate set for this project
+  label_no_default_rate: Ставка за промовчанням не встановлена
+  label_no_project_rate: Для цього проєкту ставка не встановлена
   label_no_time: Час не зафіксовано
   label_option_plural: Опції
   label_overall_costs: Загальні витрати
@@ -269,6 +269,7 @@ uk:
   label_show: Показати
   label_specific_day: День %{day}
   label_specific_month: Місяць %{month}
+  label_stack: Stack
   label_start_and_finished: Час початку й завершення
   label_status_finished: Готово
   label_time: Час
@@ -278,7 +279,7 @@ uk:
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат
   label_until: до
-  label_using_current_default_rate: Using current default rate
+  label_using_current_default_rate: Використовується ставка за промовчанням
   label_valid_from: Діє з
   label_view_mode_switcher: Змінити подання
   label_work_package_filter_add: Додати фільтр робочого пакета
@@ -298,6 +299,10 @@ uk:
   permission_edit_rates: Редагувати ставки
   permission_log_costs: Книжкова одиниця витрат
   permission_log_own_costs: Книга одиничних витрат для себе
+  permission_manage_default_hourly_rates: Управління погодинними ставками за промовчанням
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Переглянути замовлені витрати
   permission_view_cost_rates: Переглянути тарифи на витрати
   permission_view_hourly_rates: Переглянути всі погодинні тарифи

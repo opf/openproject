@@ -2,4 +2,4 @@
 fa:
   js:
     resource_management:
-      create_placeholder_user: Create placeholder user with filter criteria
+      create_placeholder_user: ایجاد کاربر فرضی با معیارهای فیلتر

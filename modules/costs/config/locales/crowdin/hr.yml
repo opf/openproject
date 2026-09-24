@@ -260,6 +260,7 @@ hr:
   label_show: Prikaži
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Završeno
   label_time: Vrijeme
@@ -289,6 +290,10 @@ hr:
   permission_edit_rates: Uređivanje satnica
   permission_log_costs: Zabilježite jedinice troškova
   permission_log_own_costs: Zabilježite jedinice troškova za sebe
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Pogledajte zabilježene troškove
   permission_view_cost_rates: Pogledaj troškove satnica
   permission_view_hourly_rates: Pogledaj sve cijene po satu

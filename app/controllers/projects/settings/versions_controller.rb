@@ -32,6 +32,26 @@ class Projects::Settings::VersionsController < Projects::SettingsController
   menu_item :settings_versions
 
   def show
-    @versions = @project.shared_versions
+    @query = build_query
+    @versions = @query.results.merge(@project.shared_versions)
+
+    render layout: !turbo_frame_request?
+  end
+
+  private
+
+  def build_query
+    query = ParamsToQueryService
+      .new(Version, current_user, query_class: Queries::Versions::VersionQuery)
+      .call(params)
+
+    apply_default_status_filter_and_sort(query)
+
+    query
+  end
+
+  def apply_default_status_filter_and_sort(query)
+    status_filter = query.filters.find { |f| f.name == :status }
+    query.where(:status, Queries::Operators::Equals.symbol, ["open"]) if status_filter.nil?
   end
 end
