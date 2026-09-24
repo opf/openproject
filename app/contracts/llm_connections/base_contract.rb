@@ -36,8 +36,6 @@ module LlmConnections
     attribute :api_format
     attribute :base_url
     attribute :api_key
-    attribute :default_chat_model_id
-    attribute :default_embedding_model_id
 
     validates :base_url, presence: true
     # Resolves to the validate_url gem, which defaults to http and https. Plain
