@@ -54,6 +54,20 @@ type FilterFunc<T> = (_value:T) => boolean;
 // re-render of the form would hide it again; the morph guard keeps marked rows as they are.
 const PENDING_ATTRIBUTE = 'data-filter-pending';
 
+// Turbo's page snapshot keeps live control values, so a hidden row would otherwise still
+// carry the draft the user typed and submit it the moment the filter is added again.
+function resetControls(row:HTMLElement) {
+  row.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input, select, textarea').forEach((control) => {
+    if (control instanceof HTMLSelectElement) {
+      Array.from(control.options).forEach((option) => { option.selected = option.defaultSelected; });
+    } else if (control instanceof HTMLInputElement && (control.type === 'checkbox' || control.type === 'radio')) {
+      control.checked = control.defaultChecked;
+    } else {
+      control.value = control.defaultValue;
+    }
+  });
+}
+
 export default class FiltersFormController extends Controller {
   static targets = [
     'filterFormToggle',
@@ -377,22 +391,8 @@ export default class FiltersFormController extends Controller {
     if (hide) {
       row.setAttribute('hidden', '');
       this.setFilterOptionTaken(row.dataset.filterName!, false);
-      this.resetControls(row);
+      resetControls(row);
     }
-  }
-
-  // Turbo's page snapshot keeps live control values, so a hidden row would otherwise still
-  // carry the draft the user typed and submit it the moment the filter is added again.
-  private resetControls(row:HTMLElement) {
-    row.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input, select, textarea').forEach((control) => {
-      if (control instanceof HTMLSelectElement) {
-        Array.from(control.options).forEach((option) => { option.selected = option.defaultSelected; });
-      } else if (control instanceof HTMLInputElement && (control.type === 'checkbox' || control.type === 'radio')) {
-        control.checked = control.defaultChecked;
-      } else {
-        control.value = control.defaultValue;
-      }
-    });
   }
 
   private readonly keepPendingRows = (event:TurboBeforeMorphAttributeEvent) => {
