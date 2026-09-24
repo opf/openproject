@@ -93,7 +93,7 @@ export class WorkPackageContextMenuHelperService {
     // remove some actions on Gantt
     if (this.wpViewTimeline.isVisible) {
       allowedActions = allowedActions.filter((el) => {
-        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs'];
+        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs', 'allocate_resource'];
         return !(ganttNotAllowedActions.includes(el.key));
       });
     }
