@@ -92,7 +92,7 @@ class LlmServerValidator < ActiveModel::EachValidator
       return false
     end
 
-    return true if addresses.any? { |address| OpenProject::SsrfProtection.safe_ip?(address) }
+    return true if addresses.all? { |address| OpenProject::SsrfProtection.safe_ip?(address) }
 
     contract.errors.add(attribute, :ssrf_filtered, env_name: ssrf_allowlist_env_name)
     false
