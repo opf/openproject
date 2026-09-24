@@ -79,15 +79,11 @@ module Admin
       end
 
       def sortable_list_type
-        enumeration_class.model_name.param_key
-      end
-
-      def enumeration_class
-        enumerations.klass
+        enumerations.model_name.param_key
       end
 
       def enumeration_title
-        enumeration_class.model_name.human(count: :other)
+        enumerations.model_name.human(count: :other)
       end
 
       def item_component_class
