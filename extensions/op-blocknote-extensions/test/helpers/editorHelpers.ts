@@ -154,7 +154,10 @@ function caretOffset():number | null {
   return selection.anchorOffset;
 }
 
-async function waitForCaret(reached:(at:number | null) => boolean, timeout = 300):Promise<boolean> {
+const caretPlacementTimeout = 2000;
+const keyPressSettleTimeout = 100;
+
+async function waitForCaret(reached:(at:number | null) => boolean, timeout:number):Promise<boolean> {
   const deadline = Date.now() + timeout;
   for (;;) {
     if (reached(caretOffset())) return true;
@@ -164,24 +167,27 @@ async function waitForCaret(reached:(at:number | null) => boolean, timeout = 300
 }
 
 // BlockNote 0.54 drops caret keys that arrive before the editor has settled, so a
-// batched `{Home}{ArrowRight>N}` loses presses. Stepping from the caret's real
-// position rather than counting presses also absorbs a press that was merely slow.
+// batched `{Home}{ArrowRight>N}` loses presses. Each key is repeated until the caret
+// has actually moved, and the whole placement is bounded by time, not by a press count.
 export async function placeCaretAtOffset(offset:number) {
-  await userEvent.keyboard('{Home}');
-  if (!await waitForCaret((at) => at === 0)) {
-    throw new Error(`Caret did not reach the start of the block: at ${caretOffset()}`);
+  const deadline = Date.now() + caretPlacementTimeout;
+
+  while (caretOffset() !== 0) {
+    if (Date.now() >= deadline) {
+      throw new Error(`Caret did not reach the start of the block: at ${caretOffset()}`);
+    }
+    await userEvent.keyboard('{Home}');
+    await waitForCaret((at) => at === 0, keyPressSettleTimeout);
   }
 
-  for (let press = 0; press < offset * 2 + 5; press += 1) {
-    const at = caretOffset();
-    if (at === offset) return;
+  for (let at = caretOffset(); at !== offset; at = caretOffset()) {
     if (at === null || at > offset) {
       throw new Error(`Caret overshot while moving to offset ${offset}: now at ${at}`);
     }
-
+    if (Date.now() >= deadline) {
+      throw new Error(`Caret did not reach offset ${offset}: at ${at}`);
+    }
     await userEvent.keyboard('{ArrowRight}');
-    await waitForCaret((now) => now !== null && now > at);
+    await waitForCaret((now) => now !== null && now > at, keyPressSettleTimeout);
   }
-
-  throw new Error(`Caret did not reach offset ${offset}: at ${caretOffset()}`);
 }
