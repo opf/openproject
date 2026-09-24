@@ -94,6 +94,40 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe ".available?" do
+    context "with the feature flag and the setting on",
+            with_flag: { llm_connection: true },
+            with_settings: { llm_features_enabled: true } do
+      it "is true when an active connection is stored" do
+        create(:llm_connection)
+
+        expect(described_class).to be_available
+      end
+
+      it "is false when only an inactive connection is stored" do
+        create(:llm_connection, active: false)
+
+        expect(described_class).not_to be_available
+      end
+    end
+
+    it "is false with the feature flag off",
+       with_flag: { llm_connection: false },
+       with_settings: { llm_features_enabled: true } do
+      create(:llm_connection)
+
+      expect(described_class).not_to be_available
+    end
+
+    it "is false with the setting off",
+       with_flag: { llm_connection: true },
+       with_settings: { llm_features_enabled: false } do
+      create(:llm_connection)
+
+      expect(described_class).not_to be_available
+    end
+  end
+
   # The environment seeder and direct writes reach the model without the
   # contract, so these have to hold on the model itself.
   describe "validations" do
