@@ -358,6 +358,21 @@ module Components
         expect_and_dismiss_flash(message: "Successful update.")
       end
 
+      def create_new_child(subject)
+        SeleniumHubWaiter.wait
+
+        retry_block do
+          select_relation_type "Create new child"
+        end
+
+        within "#create-work-package-dialog" do
+          fill_in "Subject", with: subject
+          click_link_or_button "Create"
+        end
+
+        expect_and_dismiss_flash(message: "New work package created and added as a child")
+      end
+
       def add_parent_relation(work_package)
         SeleniumHubWaiter.wait
 

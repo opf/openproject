@@ -22,7 +22,7 @@ Every migrated project is created **private** and **active**, with no parent —
 
 | Jira field                                         | Becomes in OpenProject    | What you should know                                         |
 | -------------------------------------------------- | ------------------------- | ------------------------------------------------------------ |
-| Affects Versions                                   | **Not migrated**          | —                                                            |
+| Affects Versions                                   | Observed in Versions      | —                                                            |
 | Assignee                                           | Assignee                  | —                                                            |
 | Attachments                                        | Attachments               | Re-uploaded to the work package, original author preserved where possible |
 | Change history (status changes, field edits, etc.) | Activity entries          | Preserved, but grouped more coarsely than Jira's own history — see the [Post-Migration checklist](../post-migration-checklist/) |
@@ -32,7 +32,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Description                                        | Description               | Converted from Jira's markup to OpenProject's — headings, bold/italic, links, code/quote blocks, and tables all convert. Some elements don't: `{info}`/`{warning}`/`{note}`/`{tip}` boxes, `{toc}`, and `{expand}`/`{section}`/`{column}` layouts aren't recognized at all — their content is kept, but the raw `{macro}` tag text is left behind, visible and unconverted, rather than being cleanly stripped or styled. Bare issue-key links like `[PROJECT-123]` and attachment links like `[^file.pdf]` are also left as literal, non-clickable text. See the [Pre-Migration checklist](../pre-migration-checklist/) and [Post-Migration checklist](../post-migration-checklist/) |
 | Due date                                           | Due date                  | -                                                            |
 | Environment                                        | **Not migrated**          | —                                                            |
-| Fix Versions                                       | **Not migrated**          | — (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154)) |
+| Fix Versions                                       | Target versions           | -                                                            |
 | Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189)) |
 | Issue id                                           | **Not migrated**          | Internal Jira ID (planned: [JIM-8](https://community.openproject.org/projects/JIM/work_packages/JIM-8)) |
 | Issue key (e.g. `PROJECT-123`)                     | Work package identifier   | Old/renamed issue keys also keep working afterward, the same way as project keys |
