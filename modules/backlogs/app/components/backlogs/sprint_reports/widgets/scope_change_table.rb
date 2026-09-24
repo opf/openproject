@@ -34,16 +34,32 @@ module Backlogs
       class ScopeChangeTable < WorkPackageTable
         private
 
-        def empty? = work_package_ids.empty?
+        def empty? = visible_work_package_ids.empty?
 
         def work_package_ids = raise SubclassResponsibilityError
+
+        # Filter work package ids to those that still belong to this project and
+        # are visible to this user. Without this the id filter will fail
+        # validation or, with valid_subset param, will be removed completely if
+        # all ids are invalid and all sprint work packages will be shown in the
+        # removed/added tables.
+        def visible_work_package_ids
+          @visible_work_package_ids ||=
+            WorkPackage.visible
+                       .where(
+                         project: project.self_and_descendants, # same as in FilterForWpMixin#visible_scope
+                         id: work_package_ids
+                       )
+                       .ids
+                       .sort
+        end
 
         def timestamps
           [breakdown.reference_start, breakdown.reference_finish]
         end
 
         def filters
-          [*super, { id: { operator: "=", values: work_package_ids.map(&:to_s) } }]
+          [*super, { id: { operator: "=", values: visible_work_package_ids.map(&:to_s) } }]
         end
       end
     end
