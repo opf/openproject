@@ -7606,7 +7606,7 @@ en:
             one: "Successfully copied workflow to '%{role_name}' role."
             other: "Successfully copied workflow to %{count} roles."
       new:
-        title: 'Copy workflow of "%{source}"'
+        dialog_title: 'Copy workflow of "%{source}"'
     form:
       copy_from:
         caption: "The new workflow starts with a copy of that workflow's status transitions."
