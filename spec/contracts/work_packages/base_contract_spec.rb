@@ -1257,6 +1257,26 @@ RSpec.describe WorkPackages::BaseContract do
           expect(contract.errors).to be_empty
         end
       end
+
+      context "when the override assigns the versions already assigned" do
+        let(:permissions) do
+          %i(view_work_packages edit_work_packages)
+        end
+
+        before do
+          allow(work_package).to receive(:assigned_version_ids).with("target").and_return([assignable_version.id])
+          allow(work_package).to receive(:assigned_version_ids).with("observed_in").and_return([])
+
+          work_package.target_version_ids_replacements = [assignable_version.id]
+          work_package.observed_in_version_ids_replacements = []
+
+          contract.validate
+        end
+
+        it "is valid (no permission error)" do
+          expect(contract.errors).to be_empty
+        end
+      end
     end
 
     describe "target versions assignability" do
