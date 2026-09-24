@@ -269,6 +269,7 @@ pl:
   label_show: Pokaż
   label_specific_day: Dzień %{day}
   label_specific_month: Miesiąc %{month}
+  label_stack: Stack
   label_start_and_finished: Godziny rozpoczęcia i zakończenia
   label_status_finished: Zakończone
   label_time: Czas

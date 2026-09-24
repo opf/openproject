@@ -269,6 +269,7 @@ cs:
   label_show: Zobrazit
   label_specific_day: Den %{day}
   label_specific_month: Měsíc %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Ukončeno
   label_time: Čas

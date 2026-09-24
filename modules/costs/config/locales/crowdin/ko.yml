@@ -242,6 +242,7 @@ ko:
   label_show: 표시
   label_specific_day: "%{day}일"
   label_specific_month: "%{month}월"
+  label_stack: Stack
   label_start_and_finished: 시작 및 완료 시간
   label_status_finished: 마침
   label_time: 시간

@@ -48,7 +48,7 @@ zh-CN:
         other: OpenID Connect 提供商
       openid_connect/user_token:
         other: OpenID Connect 令牌
-  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
+  logout_warning_link: '您已退出登录。您提交的任何表单的内容可能丢失。请[登录](login)。
 
     '
   openid_connect:
@@ -77,7 +77,7 @@ zh-CN:
       display_name: 提供商的名称。这将显示为登录按钮以及提供商列表中的名称。
       endpoint_url: OpenID Connect 提供商给您的端点 URL
       group_regexes: 每行一个正则表达式模式。有关如何操作的更多信息，请阅读[文档](docs_url)。
-      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
+      group_regexes_detail_html: 可以选择使用正则表达式定义模式，以匹配群组声明中的群组名称。例如，输入类似 <code>^Level1/Level2/([\w/]+)$</code> 的模式将从包含“Level1/Level2/GroupName/SubGroup”的响应中提取群组“Groupname/SubGroup”。如果没有模式匹配，则会忽略该群组。留空可使用完整群组名称同步所有群组。
       group_regexes_testing: 点击“测试模式”，以根据样本 OIDC 用户信息测试正则表达式模式。
       group_sync: 自动从身份提供商提取并同步群组成员信息。
       groups_claim: 指定预期表示用户所属群组名称的声明的名称。
@@ -102,7 +102,7 @@ zh-CN:
       oidc_information: 配置 OpenID Connect 提供商需要使用这些值。
       post_logout_redirect_uri: OpenID Connect 提供商在注销请求后应重定向到的 URL。
       scope: 如果你需要自定义场景值，可以在这里添加一个值，或者用空格分开的多个值。详情参考 [OpenID 连接文档](docs_url)。
-      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+      tenant_html: 在适用情况下，请将默认租户替换为您自己的租户。请参阅<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">此处</a>。
     menu_title: OpenID 提供商
     providers:
       client_details_description: OpenProject 作为 OIDC 客户端的配置详细信息
