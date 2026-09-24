@@ -137,6 +137,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const { link } = action;
     const id = this.workPackage.id!;
 
+    if (action.turboRequest) {
+      void this.turboRequests.requestStream(link!);
+      return;
+    }
+
     switch (action.key) {
       case 'delete':
         this.deleteSelectedWorkPackages();

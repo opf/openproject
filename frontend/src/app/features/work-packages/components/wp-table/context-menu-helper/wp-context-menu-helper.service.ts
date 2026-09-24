@@ -106,6 +106,7 @@ export class WorkPackageContextMenuHelperService {
         text: allowedAction.text,
         icon: allowedAction.icon,
         link: this.linkForAction(workPackage, allowedAction),
+        turboRequest: allowedAction.turboRequest,
       });
     });
 
