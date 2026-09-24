@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       id: container_id,
       classes: container_class,
       role: :table,
-      aria: { label: mobile_title, colcount: column_count },
+      aria: { label: mobile_title, colcount: column_count, rowcount: row_count },
       data: container_data,
       list_arguments: { tag: :div, role: :rowgroup, classes: rows_container_class },
       test_selector:
@@ -47,7 +47,8 @@ See COPYRIGHT and LICENSE files for more details.
           tag: :div,
           color: :muted,
           classes: [grid_class, "#{grid_class}--has-mobile-header"],
-          role: :row
+          role: :row,
+          aria: { rowindex: 1 }
         )
       ) do
         render(
@@ -66,7 +67,8 @@ See COPYRIGHT and LICENSE files for more details.
           tag: :div,
           color: :muted,
           classes: [grid_class, "#{grid_class}--has-headers"],
-          role: :row
+          role: :row,
+          aria: { rowindex: 1 }
         )
       ) do
     %>
@@ -103,7 +105,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if rows.empty? %>
     <%
-      component.with_row(scheme: :default, tag: :div, role: :row) do
+      component.with_row(scheme: :default, tag: :div, role: :row, aria: { rowindex: 2 }) do
         render(Primer::BaseComponent.new(tag: :div, role: :cell, aria: { colspan: column_count })) do
           render_blank_slate
         end
@@ -111,7 +113,7 @@ See COPYRIGHT and LICENSE files for more details.
     %>
   <% else %>
     <%
-      rows.each do |row|
+      rows.each.with_index do |row, index|
         row_instance = row_class.new(row: row, table: self)
         component.with_row(
           scheme: row_instance.scheme,
@@ -119,7 +121,8 @@ See COPYRIGHT and LICENSE files for more details.
           id: row_instance.row_css_id,
           classes: [grid_class, row_instance.row_css_class],
           data: row_instance.row_data,
-          role: :row
+          role: :row,
+          aria: { rowindex: row_index(index) }
         ) do
           render(row_instance)
         end
@@ -130,7 +133,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% if has_footer? %>
       <%
         component.with_footer(role: :rowgroup) do
-          render(Primer::BaseComponent.new(tag: :div, color: :muted, classes: grid_class, role: :row)) do
+          render(
+            Primer::BaseComponent.new(tag: :div, color: :muted, classes: grid_class, role: :row, aria: { rowindex: row_count })
+          ) do
             render(Primer::BaseComponent.new(tag: :div, role: :cell, aria: { colspan: column_count })) do
               footer
             end
