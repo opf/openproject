@@ -83,6 +83,7 @@ module LlmModels
           test_selector: "llm-model--type"
         }
       ) do |select|
+        select.option(value: "", label: I18n.t("admin.llm_models.form.model_type_unspecified")) if new_record?
         select.option(value: "chat", label: I18n.t("admin.llm_models.form.model_type_chat"))
         select.option(value: "embedding", label: I18n.t("admin.llm_models.form.model_type_embedding"))
       end
@@ -94,7 +95,7 @@ module LlmModels
         data: {
           show_when_value_selected_target: "effect",
           target_name: "llm_model_type",
-          value: "chat",
+          not_value: "embedding",
           test_selector: "llm-model--chat-capabilities"
         }
       ) do |chat|

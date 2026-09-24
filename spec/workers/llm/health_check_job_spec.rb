@@ -62,6 +62,20 @@ RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { 
       end
     end
 
+    context "with an inactive connection stored alongside the active one" do
+      let!(:inactive) { create(:llm_connection, :with_models, base_url:, active: false) }
+      let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+      before { mock_llm_models_response(base_url) }
+
+      it "reports on the active connection only" do
+        described_class.perform_now
+
+        expect(connection.health_reports.count).to eq(1)
+        expect(inactive.health_reports).to be_empty
+      end
+    end
+
     it "does nothing without a connection" do
       expect { described_class.perform_now }.not_to change(HealthReport, :count)
     end

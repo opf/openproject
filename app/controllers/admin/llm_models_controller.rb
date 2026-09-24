@@ -36,6 +36,9 @@ module Admin
     layout "admin"
     menu_item :llm_connection
 
+    IDENTIFIER_INDEX = "index_llm_models_on_llm_connection_id_and_external_id"
+    private_constant :IDENTIFIER_INDEX
+
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
@@ -182,11 +185,10 @@ module Admin
         saved = true
       end
       saved
-    # RecordNotUnique as well as RecordInvalid: two administrators renaming
-    # different models to the same free identifier both pass the uniqueness
-    # validation and one reaches the index, which is a 422 with the inline error
-    # rather than a 500.
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordInvalid
+      false
+    rescue ActiveRecord::RecordNotUnique => e
+      add_uniqueness_error(llm_model, e)
       false
     end
 
@@ -219,8 +221,23 @@ module Admin
       end
 
       true
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordInvalid
       false
+    rescue ActiveRecord::RecordNotUnique => e
+      add_uniqueness_error(llm_model, e)
+      false
+    end
+
+    # Two administrators saving the same free identifier both pass the
+    # uniqueness validation, and only the index rejects the second. A rename also
+    # carries verdicts along, and those may collide with verdicts left under the
+    # new identifier by a model that no longer exists.
+    def add_uniqueness_error(llm_model, error)
+      llm_model.errors.add(:external_id, identifier_taken?(error) ? :taken : :conflicting_capabilities)
+    end
+
+    def identifier_taken?(error)
+      error.cause.try(:result)&.error_field(PG::Result::PG_DIAG_CONSTRAINT_NAME) == IDENTIFIER_INDEX
     end
 
     # Stored as admin-sourced verdicts, which survive re-detection: an

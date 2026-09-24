@@ -56,7 +56,7 @@ module Llm
       end
 
       def catalogue_fresh
-        fetched_at = subject.catalogue_fetched_at
+        fetched_at = subject.last_synced_at
 
         if fetched_at.blank?
           warn_check(:catalogue_fresh, :catalogue_never_fetched)

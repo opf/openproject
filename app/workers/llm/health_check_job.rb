@@ -63,10 +63,7 @@ module Llm
     def perform
       return unless self.class.runnable?
 
-      # .first, not .instance: the latter builds an unsaved record, and the
-      # validator writes through the health_reports association.
-      connection = LlmConnection.first
-      report = Llm::Validators::ConnectionValidator.new(connection).call
+      report = Llm::Validators::ConnectionValidator.new(LlmConnection.active_connection).call
       report.save!
       report
     end
