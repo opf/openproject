@@ -40,20 +40,20 @@ module API
           def wrap(ids_in_order, current_user, timestamps: nil, query: nil)
             work_packages = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
 
-            wrap_and_apply(work_packages, eager_loader_classes_all, timestamps:, query:)
+            wrap_and_apply(work_packages, eager_loader_classes_all, current_user:, timestamps:, query:)
               .sort_by { |wp| ids_in_order.index(wp.id) }
           end
 
-          def wrap_one(work_package, _current_user, timestamps: nil, query: nil)
+          def wrap_one(work_package, current_user, timestamps: nil, query: nil)
             return work_package if work_package.respond_to?(:wrapped?)
 
-            wrap_and_apply([work_package], eager_loader_classes_all, timestamps:, query:)
+            wrap_and_apply([work_package], eager_loader_classes_all, current_user:, timestamps:, query:)
               .first
           end
 
           private
 
-          def wrap_and_apply(work_packages, container_classes, timestamps:, query:)
+          def wrap_and_apply(work_packages, container_classes, current_user:, timestamps:, query:)
             containers = container_classes
                          .map { |klass| klass.new(work_packages, timestamps:, query:) }
 
@@ -66,6 +66,11 @@ module API
                 container.apply(work_package)
               end
             end
+
+            permission_contexts = work_packages.flat_map do |work_package|
+              [work_package, work_package.parent, *work_package.children]
+            end
+            current_user&.preload_entity_permissions(permission_contexts)
 
             work_packages
           end

@@ -86,14 +86,51 @@ module Authorization
       end
     end
 
+    def preload_entity_permissions(contexts)
+      contexts = Array(contexts)
+                   .filter_map { |context| permission_context(context) }
+                   .select { |context| Member.can_be_member_of?(context) }
+                   .uniq
+      return if contexts.empty? || user.admin?
+
+      contexts.group_by(&:class).each_value do |group|
+        preload_permissions_for_group(group)
+      end
+    end
+
     private
 
-    def cached_permissions(context)
-      @cached_permissions ||= Hash.new do |hash, context_key|
-        hash[context_key] = user.all_permissions_for(context_key)
-      end
+    def preload_permissions_for_group(contexts)
+      permissions_by_id = preloaded_permissions_by_id(contexts)
+      contexts.each { |context| cache_preloaded_permissions(context, permissions_by_id) }
+    end
 
-      @cached_permissions[context]
+    def preloaded_permissions_by_id(contexts)
+      Member
+        .where(user_id: user.id,
+               entity_type: contexts.first.class.name,
+               entity_id: contexts.map(&:id))
+        .joins(member_roles: { role: :role_permissions })
+        .pluck(:entity_id, "role_permissions.permission")
+        .group_by(&:first)
+    end
+
+    def cache_preloaded_permissions(context, permissions_by_id)
+      rows = permissions_by_id.fetch(context.id, [])
+      cached_permissions_by_context[context] = rows.filter_map { |_, permission| permission&.to_sym }.uniq
+    end
+
+    def cached_permissions(context)
+      context = permission_context(context)
+      cached_permissions_by_context[context] ||= user.all_permissions_for(context)
+    end
+
+    def cached_permissions_by_context
+      @cached_permissions_by_context ||= {}
+    end
+
+    def permission_context(context)
+      context.is_a?(SimpleDelegator) ? context.__getobj__ : context
     end
 
     def cached_in_any_project?(permissions)

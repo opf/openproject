@@ -498,6 +498,31 @@ RSpec.describe Authorization::UserPermissibleService do
     end
   end
 
+  describe "#preload_entity_permissions" do
+    let(:permission) { :view_work_packages }
+    let!(:other_work_package) { create(:work_package, project:) }
+    let(:role) { create(:work_package_role, permissions: [permission]) }
+
+    before do
+      create(:work_package_member, user:, project:, entity: work_package, roles: [role])
+    end
+
+    it "loads entity permissions in bulk" do
+      expect do
+        service.preload_entity_permissions([SimpleDelegator.new(work_package), other_work_package])
+      end.to have_a_query_limit(1)
+
+      allow(user).to receive(:all_permissions_for).and_call_original
+
+      expect(service).to be_allowed_in_entity(permission, work_package, WorkPackage)
+      expect(service).not_to be_allowed_in_entity(permission, other_work_package, WorkPackage)
+      expect { service.allowed_in_entity?(permission, [work_package, other_work_package], WorkPackage) }
+        .to have_a_query_limit(0)
+      expect(user).not_to have_received(:all_permissions_for).with(work_package)
+      expect(user).not_to have_received(:all_permissions_for).with(other_work_package)
+    end
+  end
+
   describe "#allowed_in_any_entity?" do
     context "when asking for a permission that is not defined" do
       let(:permission) { :not_defined }

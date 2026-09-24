@@ -79,6 +79,7 @@ module Users::PermissionChecks
            :allowed_in_any_project?,
            :allowed_in_entity?,
            :allowed_in_any_entity?,
+           :preload_entity_permissions,
            to: :user_permissible_service
 
   # Return user's roles for project
