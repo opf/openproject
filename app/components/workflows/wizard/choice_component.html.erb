@@ -27,6 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= primer_form_with(url: "#", method: :get, data: { turbo: false }) do |f| %>
-  <%= render(Workflows::Wizard::ChoiceForm.new(f, existing: existing_option, new_workflow: new_workflow_option, group_data:)) %>
+<%= render(Primer::BaseComponent.new(tag: :div, mb: 3)) do %>
+  <%= primer_form_with(url: "#", method: :get, data: { turbo: false }) do |f| %>
+    <%= render(Workflows::Wizard::ChoiceForm.new(f, existing: existing_option, new_workflow: new_workflow_option, group_data:)) %>
+  <% end %>
 <% end %>
