@@ -107,7 +107,7 @@ module LlmConnections
       now = Time.current
 
       {
-        catalogue_fetched_at: now,
+        last_synced_at: now,
         last_connected_at: now,
         connection_fingerprint: fingerprint,
         options: connection.options.merge("server_flavour" => adapter.server_flavour)

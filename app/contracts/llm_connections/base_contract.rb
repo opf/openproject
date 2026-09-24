@@ -36,6 +36,8 @@ module LlmConnections
     attribute :api_format
     attribute :base_url
     attribute :api_key
+    attribute :default_chat_model_id
+    attribute :default_embedding_model_id
 
     validates :base_url, presence: true
     validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
