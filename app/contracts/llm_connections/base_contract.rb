@@ -30,7 +30,7 @@
 
 module LlmConnections
   # Validations that hold for every write, including provisioning from the
-  # environment. Deliberately makes no network request -- see UpdateContract.
+  # environment. Deliberately makes no network request; see UpdateContract.
   class BaseContract < ModelContract
     attribute :llm_features_enabled
     attribute :api_format
