@@ -399,6 +399,16 @@ export default class FiltersFormController extends Controller {
       row.setAttribute('hidden', '');
       this.setFilterOptionTaken(row.dataset.filterName!, false);
       resetControls(row);
+      this.showValueForOperator(row.dataset.filterName!);
+    }
+  }
+
+  // Which picker is shown, and whether the value container is shown at all, follows the
+  // operator through attributes that a reset of control values leaves untouched.
+  private showValueForOperator(filterName:string) {
+    const operator = this.findTargetByName(filterName, this.operatorTargets);
+    if (operator) {
+      this.setValueVisibility({ target: operator, params: { filterName } });
     }
   }
 
