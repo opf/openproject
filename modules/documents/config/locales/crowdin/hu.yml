@@ -64,9 +64,9 @@ hu:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: Hocuspocus szerver URL címe
         page_header:
-          description: |-
-            Ha engedélyezve van, a valós idejű együttműködés lehetővé teszi, hogy több felhasználó egyszerre szerkesszen egy dokumentumot.
-            Ehhez egy működő %{hocuspocus_server_link} kiszolgálóra van szükség.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Tudomásul veszem, hogy véglegesen elveszíthetem az adatokat
         confirmation_message: |-
@@ -121,7 +121,7 @@ hu:
       currently_offline: Jelenleg offline vagy.
     label_attachment_author: Melléklet szerzője
     label_categories: Kategóriák
-    last_updated_at: 'Utolsó mentés: %{time}.'
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Összes dokumentum
       collaboration_settings: Valós idejű együttműködés

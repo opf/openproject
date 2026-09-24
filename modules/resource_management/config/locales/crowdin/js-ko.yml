@@ -1,0 +1,5 @@
+---
+ko:
+  js:
+    resource_management:
+      create_placeholder_user: 필터 기준을 사용하여 플레이스홀더 사용자 만들기

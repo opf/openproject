@@ -222,6 +222,7 @@ pt-PT:
         title: Título
       member:
         blocked: Bloqueado
+        principal_type: Tipo de membro
         roles: Funções
       notification:
         read_ian: Ler na aplicação
@@ -234,6 +235,7 @@ pt-PT:
         position: Posição
       persisted_query:
         filters: Filtros
+        group_bys: Agrupar resultados por
         name: Nome
         orders: Pedidos
         selects: Seleciona
@@ -383,16 +385,13 @@ pt-PT:
       type_variant:
         attribute_groups: Formulário
         default_work_package_description: Texto padrão para a descrição
-        defaults_source: Origem das predefinições
         enabled_in_new_projects: Ativo em novos projetos
-        form_configuration_source: Origem do formulário
+        linked_aspects: Inherited configuration
         patterns: Padrões
-        pdf_export_source: Origem da exportação para PDF
-        project_attributes_source: Origem dos atributos do projeto
         project_types: Projetos que utilizam esta variante
         variant: Variante
         variant_name: Nome
-        workflows_source: Origem dos fluxos de trabalho
+        workflow: Workflow
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
@@ -440,6 +439,13 @@ pt-PT:
         time_zone: Fuso horário
         warn_on_leaving_unsaved: Alertar-me quando sair de um pacote de trabalho sem guardar as alterações
         workdays: Dias úteis
+      user_resource:
+        description: Descrição
+        name: Nome
+        user_filter: Filtro de utilizador
+      user_resource_detail:
+        description: Descrição
+        user_filter: Filtro de utilizador
       user_working_hours:
         availability_factor: Fator de disponibilidade
         days: Dias úteis
@@ -518,6 +524,10 @@ pt-PT:
         work_package: Pacote de trabalho
       work_package_version:
         kind: Tipo
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: deve ser aceite.
@@ -687,6 +697,13 @@ pt-PT:
               not_unique: já está a ser utilizado. Escolha outro nome.
         jira:
           invalid_protocol: Forneça um protocolo válido (http ou https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -742,7 +759,6 @@ pt-PT:
             types:
               cannot_assign_multiple_variants_of_parent: Só é possível ativar uma única variante de um Tipo no projeto
               cannot_assign_variant_and_parent: 'Não é possível atribuir uma variante e o seu elemento pai '
-              cannot_assign_variants_yet: Ainda não é possível ativar variantes num projeto. Ative o indicador de funcionalidade para experimentar as variantes
               in_use_by_work_packages: 'ainda em uso por pacotes de trabalho: %{types}'
               switch_target_blank: Selecione a variante para a qual pretende mudar
               switch_target_identical: O tipo de destino deve ser diferente do tipo que o projeto utiliza atualmente
@@ -855,6 +871,10 @@ pt-PT:
               blank: Forneça um nome de token
               format: "%{message}"
               in_use: Este nome de token já está a ser utilizado, selecione um diferente
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: Este tipo não pode ser eliminado enquanto ainda houver pacotes de trabalho que o utilizem.
         type_variant:
           attributes:
             attribute_groups:
@@ -864,33 +884,19 @@ pt-PT:
               group_without_name: O nome do grupo não pode ficar em branco
               query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
             base:
-              borrowed_by_variants: Não pode ser eliminado enquanto a sua configuração for reutilizada por %{names}.
               is_default_variant: A configuração predefinida de um tipo não pode ser eliminada.
               project_variants_not_allowed: Este tipo não permite a criação de variantes no interior dos projetos.
               restrict_dependent_destroy:
                 has_many: Não pode ser eliminada enquanto houver projetos a utilizá-la.
-            defaults_source_id:
-              must_be_available_to_the_variant: tem de ser uma configuração que este projeto possa utilizar.
-              would_create_cycle: ligaria estas configurações num loop.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: não pode ser definido numa variante pertencente a um projeto.
               taken: já está definida para outra configuração deste tipo.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: tem de ser uma configuração que este projeto possa utilizar.
-              would_create_cycle: ligaria estas configurações num loop.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de os guardar.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: tem de ser uma configuração que este projeto possa utilizar.
-              would_create_cycle: ligaria estas configurações num loop.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: tem de ser uma configuração que este projeto possa utilizar.
-              would_create_cycle: ligaria estas configurações num loop.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
-            workflows_source_id:
-              must_be_available_to_the_variant: tem de ser uma configuração que este projeto possa utilizar.
-              would_create_cycle: ligaria estas configurações num circuito.
+            workflow:
+              not_available_to_this_variant: tem de ser um fluxo de trabalho que este projeto possa utilizar.
         user:
           attributes:
             base:
@@ -1713,6 +1719,35 @@ pt-PT:
       caption_with_maximum: 'As ações do utilizador num pacote de trabalho (alterar a descrição, o estado, os valores ou escrever comentários) são agrupadas se forem realizadas neste período. Este período também controla os atrasos nas notificações e no [webhook](webhook_link). O máximo é de %{max} minutos.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: O protocolo de contexto do modelo permite que os agentes de IA forneçam aos seus utilizadores ferramentas e recursos expostos por esta instância do OpenProject. Esta funcionalidade ainda está em fase beta.
@@ -1743,6 +1778,14 @@ pt-PT:
       update:
         failure: Não foi possível atualizar a configuração MCP.
         success: A configuração da MCP foi atualizada com êxito.
+    members:
+      index:
+        blank_description: Não há nenhuma adesão que corresponda ao filtro atual.
+        blank_title: Sem adesões
+        filter_label: Pesquisar utilizadores
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Adesões
     plugins:
       no_results_content_text: Para mais informações, consulte a nossa página de integrações e plugins.
       no_results_title_text: Atualmente não há plugins instalados.
@@ -1988,6 +2031,13 @@ pt-PT:
           assignee: Transições adicionais disponíveis para o encarregado pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor pelo pacote de trabalho.
         menu_label: Transições apresentadas
+  ai:
+    text_transform:
+      errors:
+        connection_failed: Não foi possível aceder ao serviço de IA.
+        not_available: O assistente de IA não está disponível.
+        timeout: O serviço de IA não respondeu a tempo.
+        upstream_error: O serviço de IA apresentou um erro.
   announcements:
     is_active: atualmente exibidos
     is_inactive: não exibidos atualmente
@@ -2050,10 +2100,6 @@ pt-PT:
       not_found:
         reminder: O lembrete que procura não pode ser encontrado ou foi eliminado.
         work_package: O pacote de trabalho que procura não foi encontrado ou foi eliminado.
-      render:
-        context_not_parsable: O contexto fornecido não é um link para um recurso.
-        context_object_not_found: Não é possível encontrar o recurso dado como contexto.
-        unsupported_context: Não há suporte para o recurso dado como contexto.
       unable_to_create_attachment: Não foi possível criar o anexo
       unable_to_create_attachment_permissions: Não foi possível guardar o anexo devido a falta de permissões no sistema de ficheiros
       user:
@@ -3460,10 +3506,10 @@ pt-PT:
   label_copy_target: Destino
   label_copy_workflow_from: Copiar Fluxo de Trabalho de
   label_copy_workflow_from_role: Copiar para outras funções
-  label_copy_workflow_from_type: Copiar para outro tipo
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
+  label_criteria: Critérios
   label_current_status: Estado atual
   label_current_version: Versão atual
   label_custom_comment: "%{name} comentário"
@@ -3651,6 +3697,7 @@ pt-PT:
   label_journal_diff: Comparação de descrição
   label_jump_to_a_project: Saltar para um projeto...
   label_keyword_plural: Palavras-chave
+  label_label_plural: Labels
   label_language: Idioma
   label_language_based: Com base no idioma do utilizador
   label_languages: Idiomas
@@ -4039,6 +4086,8 @@ pt-PT:
   label_wiki_start: Página inicial
   label_wiki_toc: Índice
   label_wiki_toc_empty: A Tabela de Conteúdo está vazia, pois não está presente nenhum cabeçalho.
+  label_with_criteria: Com critérios
+  label_without_criteria: Sem critérios
   label_work: Trabalho
   label_work_package: Pacote de trabalho
   label_work_package_attachments: Anexos do pacote de trabalho
@@ -4865,8 +4914,6 @@ pt-PT:
       not_found: não encontrado.
       respond_to?: não implementa o método requerido.
       rules:
-        copy_workflow_from:
-          workflow_missing: não tem um fluxo de trabalho próprio.
         custom_field:
           format_not_supported: o formato '%{field_format}' não é suportado.
         item:
@@ -4886,7 +4933,6 @@ pt-PT:
     or: ou
     rules:
       blueprint: Plano do padrão
-      copy_workflow_from: Tipo de cópia do fluxo de trabalho
       depth: Profundidade
       enabled: Ativado
       item: Elemento
@@ -5089,6 +5135,16 @@ pt-PT:
   permission_work_package_assigned: Torne-se responsável
   permission_work_package_assigned_explanation: Os pacotes de trabalho podem ser atribuídos a utilizadores e grupos com deste papel nos respetivos projetos
   placeholder_users:
+    criteria:
+      activate: Ativar critérios de filtragem
+      activate_caption: 'Permite adicionar um conjunto de filtros a este utilizador de substituição, utilizado para definir os utilizadores que correspondem aos critérios pretendidos.
+
+        '
+      enable: Encontrar utilizadores por critérios
+      enable_caption: Descreva o tipo de utilizador que este utilizador de marcador de posição representa, para que possam ser sugeridos utilizadores que correspondam aos critérios.
+      matching_users: Utilizadores que correspondem aos critérios de filtragem
+      no_matching_users: Nenhum utilizador corresponde a estes critérios.
+      show_all_matching_users: Mostrar todos os %{count} utilizadores correspondentes
     delete_tooltip: Eliminar utilizador de espaço reservado
     deletion_info:
       data_consequences: 'Todas as ocorrências do utilizador de espaço reservado (por exemplo, como responsável, competente ou outros valores de utilizador) serão reatribuídas a uma conta chamada "Utilizador eliminado". Como os dados de todas as contas eliminadas são reatribuídos a esta conta, não será possível diferenciar os dados criados pelo utilizador a partir de dados de outra conta eliminada.
@@ -5382,7 +5438,7 @@ pt-PT:
         variants_not_allowed: Este tipo não permite a criação de variantes no interior dos projetos.
       versions:
         no_results_content_text: Crie uma nova versão
-        no_results_title_text: Atualmente, não existem versões para o projeto.
+        no_results_title_text: Não foram encontradas versões correspondentes aos critérios de filtragem deste projeto.
         show_work_packages: Mostrar pacotes de trabalho
         work_packages_graph: Gráfico de pacotes de trabalho
       work_package_priorities:
@@ -5537,6 +5593,31 @@ pt-PT:
     warnings:
       cannot_annotate: Este ficheiro não pode ser anotado.
   roles:
+    delete_dialog:
+      confirm: Tem a certeza de que quer eliminar esta função?
+      entry_projects:
+        one: "(Projeto: %{projects})"
+        other: "(Projetos: %{projects})"
+      entry_projects_truncated:
+        one: "(Projetos: %{projects} e mais 1)"
+        other: "(Projetos: %{projects} e %{count} outros)"
+      heading:
+        one: 'Esta função continua atribuída a 1 membro:'
+        other: 'Esta função continua atribuída a %{count} membros:'
+      heading_unused: Tem a certeza de que quer eliminar a função "%{name}"?
+      losing_project_access:
+        one: Destes utilizadores, 1 perderá o acesso aos projetos em que esta era a sua única função. Tem a certeza de que pretende eliminar esta função?
+        other: Destes utilizadores, %{count} perderão o acesso aos projetos em que esta era a sua única função. Tem a certeza de que pretende eliminar esta função?
+        zero: Nenhum destes utilizadores perderá o acesso a nenhum dos seus projetos. Tem a certeza de que pretende eliminar esta função?
+      show_memberships: Mostrar todas as adesões a esta função
+      summary: "%{users} em %{projects}"
+      summary_projects:
+        one: 1 projeto
+        other: "%{count} projetos"
+      summary_users:
+        one: 1 utilizador
+        other: "%{count} utilizadores"
+      title: Eliminar função
     edit:
       default_for_new_projects_warning: 'Esta função está configurada como função predefinida atribuída aos utilizadores não administradores que criam um projeto. Não remova as seguintes permissões, caso contrário os criadores não conseguirão concluir a configuração dos seus projetos recém-criados:'
     index:
@@ -5548,6 +5629,16 @@ pt-PT:
     permissions:
       section_check_all_label: Atribua todas as permissões de %{module}
       section_uncheck_all_label: Anular a atribuição de todas as permissões de %{module}
+    permissions_dialog:
+      edit_permissions: Editar permissões de função
+      implicit_permission: Sempre concedido
+      no_permissions: Esta função não concede permissões.
+      permission_count:
+        one: 1 permissão
+        other: "%{count} permissões"
+      preview_action: Ver permissões
+      preview_aria_label: Ver as permissões de %{role}
+      title: Permissões de "%{name}"
     report:
       matrix_caption: Matriz de permissões para o módulo %{module}
       matrix_check_all_label: Atribuir todas as permissões %{module} a todas as funções
@@ -6123,13 +6214,14 @@ pt-PT:
         <br>
         <strong>Nota</strong>: Valores herdados (p. ex.,: por crianças ou relações) ainda serão aplicados.
     index:
+      could_not_be_moved: Não foi possível mover o estado.
       headers:
-        excluded_from_totals: Excluído dos totais
         is_closed: Fechado
-        is_default: Predefinido
         is_readonly: Só de leitura
+      no_filter_results_title_text: Não existe nenhum estado que corresponda ao filtro atual.
       no_results_content_text: Adicione um novo estado
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
+      status_actions: Ações de estado
   support:
     array:
       sentence_connector: e
@@ -6338,6 +6430,47 @@ pt-PT:
   tree_view:
     label_empty_sub_tree: Nenhum elemento
   types:
+    comparison:
+      action: Comparar variantes
+      blankslate:
+        description: Adicione uma segunda variante a este tipo para ver o que as distingue.
+        title: Ainda não há nada para comparar
+      description: Compare as variantes deste tipo com o tipo pai.
+      labels:
+        duplicate: Possível duplicado
+        duplicate_of: Configurado exatamente como %{names}
+        duplicate_of_more:
+          one: "%{names} e mais 1"
+          other: "%{names} e mais %{count}"
+        parent_type: Tipo de pai
+        same_as_type: Igual ao tipo pai
+      rows:
+        form:
+          fields: Campos
+          groups: Secções
+          required: Dos quais obrigatórios
+          same_as_base: Igual ao tipo pai
+        scope:
+          availability: Disponível para
+          enabled_in_new_projects: Ativo em novos projetos
+          projects: Projetos
+        workflows:
+          roles: Funções envolvidas
+          same_as_base: Igual ao tipo pai
+          statuses: Estados
+          transitions: Transições
+      sections:
+        configuration: Síntese da configuração
+        form: Formulário
+        scope: Âmbito
+        workflows: Fluxos de trabalho
+      title: Comparar variantes
+      title_for_type: Comparar variantes de %{name}
+      values:
+        global: Todos os projetos
+        inheriting_from: A herdar de
+        project_specific: Específico do projeto ([%{project}](project_url))
+        same_as_base: Idêntico ao tipo pai
     creation_wizard:
       add_variant: Adicionar uma variante a %{name}
       create_type: Criar tipo
@@ -6445,6 +6578,15 @@ pt-PT:
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da secção
         rename_group: Mudar o nome da secção
+        required:
+          already_required_globally: Este campo personalizado é obrigatório para todos os tipos.
+          for_variant: Obrigatório neste tipo
+          globally: Obrigatório
+          globally_hint: Altere isto no campo personalizado
+          mark: Exigir neste tipo
+          not_a_custom_field: Apenas um campo personalizado pode ser definido como obrigatório para um único tipo.
+          not_available_when_linked: Esta configuração é herdada. Configure-a manualmente para alterar o que for necessário.
+          unmark: Não exigir neste tipo
         reset_description: 'Isto irá redefinir os atributos para o seu grupo predefinido e desativar TODOS os campos personalizados.
 
           '
@@ -6518,12 +6660,8 @@ pt-PT:
             other: A configuração seguinte é herdada por %{count} outros tipos ou variantes. As alterações que efetuar aqui afetarão igualmente os elementos dependentes.
           dialog:
             description: Estes tipos e variantes herdam a configuração desta secção. Qualquer alteração que efetuar aqui aplica-se a todos eles.
-            direct_heading: Dependentes diretos
-            indirect_heading: Dependentes através de outros tipos
             title: Tipos dependentes
             variant_of_html: Variante de %{type_name}
-            variant_of_via_html: Variante de %{type_name}, herdada através de %{source_name}
-            via_html: A herdar via %{source_name}
           title:
             one: 1 tipo dependente
             other: "%{count} tipos dependentes"
@@ -6532,27 +6670,15 @@ pt-PT:
           not_inherited: Esta configuração não é herdada, pelo que não há nada a excluir. Em vez disso, edite a configuração diretamente.
           unknown_aspect: Secção de configuração desconhecida "%{aspect}".
         inherited:
-          change_source: Alterar o tipo de origem
           configure_manually: Configurar manualmente
           confirm_dialog:
-            change_source:
-              description_html: Ao alterar o tipo de fonte para %{source_name}, irá substituir as definições atuais, o que pode afetar as informações existentes nos pacotes de trabalho deste tipo.
-              heading: Alterar o tipo de origem?
-              title: Alterar o tipo de origem
             check_box: Compreendo que isto vai substituir as definições atuais
             from_manual:
               description: Todas as definições selecionadas serão substituídas, e poderão afetar as informações existentes relativas aos pacotes de trabalho deste tipo.
               heading: Alterar o modo de configuração?
               title: Alterar o modo de configuração
-          description: Esta configuração é herdada do tipo de origem [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Esta configuração é herdada do tipo de origem %{source_name}%{source_suffix}.
-          dialog:
-            description: Herdar esta configuração de um tipo de origem. Qualquer nova configuração adicionada à origem aplica-se também aqui.
-            source_label: Tipo de origem
-            source_placeholder: Selecione um tipo ou uma variante
-            submit: Trocar
-            title: Herdar de outro tipo
-          invalid_source: A configuração não pode ser herdada a partir do tipo selecionado. Selecione um tipo de origem diferente.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: O modo de configuração foi alterado.
           title: Configuração herdada
         manual:
@@ -6566,7 +6692,7 @@ pt-PT:
           dialog:
             submit: Trocar
             title: Configurar manualmente
-          inherit_from_type: Herdar de outro tipo
+          inherit_from_type: Inherit from parent
           invalid_mode: O modo selecionado não está disponível para esta configuração. Escolha um modo diferente.
           modes:
             copy:
@@ -6595,7 +6721,7 @@ pt-PT:
         filter_no_results: Nenhuma variante corresponde a este filtro
         global_section:
           description: Estas variantes estão disponíveis em todos os projetos.
-          title: Variantes
+          title: Variantes globais
         project_specific_section:
           description: Estas variantes só estão disponíveis nos projetos em que foram criadas.
           title: Variantes específicas do projeto
@@ -6604,6 +6730,28 @@ pt-PT:
     index:
       add_variant: Adicionar uma variante a %{name}
       add_variant_action: Adicionar variante
+      convert_to_global: Converter para variante global
+      convert_to_global_dialog:
+        confirm: Converter
+        text: 'Isto tornará esta variante específica do projeto numa variante global, disponível para todos os projetos. O administrador do projeto deixará de poder editá-la.
+
+          '
+        workflow_text: 'O seu fluxo de trabalho "%{name}" faz parte deste projeto e passa também a ser global.
+
+          '
+      convert_to_global_notice: "%{name} é agora uma variante global."
+      convert_to_global_rename:
+        confirm: Converter
+        text: Já existe uma variante global com este nome. Escolha um nome diferente.
+        title: Escolha outro nome para esta variante
+      delete:
+        description: O tipo será eliminado definitivamente. Esta ação não pode ser anulada.
+        description_with_variants: O tipo e todas as suas variantes serão eliminados de forma definitiva. Esta ação não pode ser revertida.
+        heading: Eliminar o tipo '%{name}'?
+        projects:
+          one: 'O tipo será removido de 1 projeto:'
+          other: 'O tipo será removido de %{count} projetos:'
+        title: Eliminar tipo
       description: 'Cada área de configuração dentro dos tipos e variantes pode ser configurada de forma independente, limitada em relação a outro tipo, ou totalmente associada a uma fonte.
 
         '
@@ -6808,6 +6956,12 @@ pt-PT:
   version_status_locked: bloqueado
   version_status_open: aberto
   versions:
+    filter_status_labels:
+      closed: Fechada
+      locked: Bloqueada
+      open: Aberta
+    index:
+      filter_label: Pesquisar versões
     overview:
       no_results_title_text: Atualmente não existem pacotes de trabalho atribuídos para esta versão.
       work_packages_in_archived_projects: A versão é partilhada com projetos arquivados que ainda têm pacotes de trabalho atribuídos a esta versão. Estes são contabilizados, mas não irão aparecer nas vistas vinculadas.
@@ -6997,10 +7151,10 @@ pt-PT:
       descendants_choice:
         heading: Eliminar também todos os elementos descendentes?
         question: Está a tentar eliminar pacotes de trabalho que têm elementos descendentes. Deseja eliminá-los também?
-        self_only_label: Eliminar apenas os pacotes de trabalho selecionados
         self_only_caption: Isto não eliminará os descendentes, mas removerá as relações hierárquicas.
-        with_descendants_label: Elimine os pacotes de trabalho selecionados e os seus descendentes
+        self_only_label: Eliminar apenas os pacotes de trabalho selecionados
         with_descendants_caption: Isto irá eliminar todos os pacotes de trabalho secundários visíveis para si. Terá a oportunidade de rever a lista completa no próximo passo.
+        with_descendants_label: Elimine os pacotes de trabalho selecionados e os seus descendentes
       description: Tem a certeza de que quer eliminar os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem a certeza de que pretende eliminar os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem a certeza de que pretende eliminar os pacotes de trabalho selecionados e todos os descendentes seguintes?
@@ -7068,10 +7222,10 @@ pt-PT:
       descendants_choice:
         heading: Eliminar também todos os elementos descendentes?
         question: Este pacote de trabalho tem elementos descendentes. Pretende eliminá-los também?
-        self_only_label: Eliminar apenas este pacote de trabalho
         self_only_caption: Isto não eliminará os descendentes, mas removerá as relações hierárquicas.
-        with_descendants_label: Elimine este pacote de trabalho e os seus descendentes
+        self_only_label: Eliminar apenas este pacote de trabalho
         with_descendants_caption: Isto irá eliminar todos os pacotes de trabalho secundários visíveis para si. Terá a oportunidade de rever a lista completa no próximo passo.
+        with_descendants_label: Elimine este pacote de trabalho e os seus descendentes
       description: Tem a certeza de que quer eliminar "%{name}"?
       heading: Eliminar permanentemente este pacote de trabalho?
       hidden_descendants_only_warning:
@@ -7121,34 +7275,32 @@ pt-PT:
       one: Um pacote de trabalho descendente
       other: "%{count} pacotes de trabalho descendentes"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copie o fluxo de trabalho atual para uma ou mais funções dentro do mesmo tipo de pacote de trabalho. Se a função selecionada já tiver um fluxo de trabalho, o atual será substituído.
-            label: Copiar para outras funções
-          from_type:
-            caption: Copie o fluxo de trabalho atual para outro tipo de pacote de trabalho. Se o tipo selecionado já tiver um fluxo de trabalho, o atual será substituído. Isto afeta todas as funções.
-            label: Copiar para outro tipo
-        source_role_id:
-          label: Função de origem
         target_role_ids:
           label: Funções de destino
-        target_variant_ids:
-          label: Tipos de destino
       from_roles:
         create:
           notice:
             one: O fluxo de trabalho foi copiado com sucesso para a função '%{role_name}'.
             other: O fluxo de trabalho foi copiado com sucesso para %{count} funções.
-      from_variants:
-        create:
-          notice:
-            one: O fluxo de trabalho foi copiado com sucesso para '%{type_name}'.
-            other: O fluxo de trabalho foi copiado com sucesso para %{count} tipos.
       new:
         title: Copiar fluxo de trabalho de "%{source_type}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Matriz de fluxo de trabalho
       matrix_caption_assignee: Matriz de fluxo de trabalho para o encarregado
       matrix_caption_author: Matriz de fluxo de trabalho para autor
@@ -7157,12 +7309,76 @@ pt-PT:
       matrix_check_uncheck_all_in_row_label_html: Alternar as transições de <em>%{old_status}</em> para todos os novos estatutos
       matrix_checkbox_label: Permitir transição de %{old_status} para %{new_status}
       matrix_uncheck_all_label: Proibir todas as transições
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Filtrar por tipo de nome…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Configurar transições de estado para cada tipo de pacote de trabalho.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          one: Used in 1 other place
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Alterar dias úteis
     dialog:

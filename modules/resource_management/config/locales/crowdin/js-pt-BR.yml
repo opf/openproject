@@ -1,0 +1,5 @@
+---
+pt-BR:
+  js:
+    resource_management:
+      create_placeholder_user: Criar usuário substituto com critérios de filtro

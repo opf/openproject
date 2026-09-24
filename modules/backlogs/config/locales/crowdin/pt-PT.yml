@@ -184,6 +184,7 @@ pt-PT:
     remaining_hours: Trabalho restante
     sharing: Partilha de sprint
     show_burndown_chart: Gráfico de burndown
+    show_work_package_overview: Pacotes de trabalho dentro do sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Adicionar um pacote de trabalho existente
@@ -209,6 +210,31 @@ pt-PT:
       page_header_component:
         breadcrumb: Relatório
         title: "%{sprint} relatório"
+      widgets:
+        work_package_graph:
+          title: Gráfico de pacotes de trabalho
+        work_package_overview:
+          blankslate:
+            description: Defina as datas de início e fim do sprint para gerar a síntese do pacote de trabalho.
+            heading: Não há dados de sprint disponíveis
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Alteração de âmbito
+              story_points_change: "+%{added} / -%{removed} pontos de história"
+            completed:
+              heading: Concluído
+            initially_planned:
+              heading: Inicialmente previsto
+            unfinished:
+              heading: Inacabado
+          breakdown_block:
+            blocks:
+              show_all: Ver tudo
+          closed_work_packages: Pacotes de trabalho fechados
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} de %{total} pacote de trabalho)"
+            other: "%{percentage}% (%{resolved} de %{total} pacotes de trabalho)"
     sprints:
       row_component:
         action_menu:
@@ -249,8 +275,19 @@ pt-PT:
       add_existing_dialog:
         invalid_target: O destino a que está a tentar adicionar não é válido.
         target_not_found: O sprint ou backlog a que está a tentar adicionar não foi encontrado.
+      batch_update_service:
+        mixed_projects: Todos os pacotes de trabalho de um lote devem pertencer ao mesmo projeto.
+        stale_batch: Pelo menos um pacote de trabalho sofreu alterações enquanto se preparava a mudança. Verifique as posições atuais e tente novamente.
+        stale_predecessor: O pacote de trabalho a inserir a seguir foi movido para outro local. Verifique as posições atuais e tente novamente.
+        unavailable_target: A lista de destinos já não está disponível. Recarregue a página e tente novamente.
+        unexpected_failure: Não foi possível mover os pacotes de trabalho. Tente novamente.
       move:
         moved_announcement: "%{label} transferido para %{list}, cargo %{position} de %{total}"
+      move_collection:
+        invalid_ids: A lista de pacotes de trabalho a mover não é válida.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Não é possível transferir mais do que %{max} pacotes de trabalho de uma só vez.
+        work_packages_not_found: Não foi possível encontrar pelo menos um pacote de trabalho neste projeto.
       update_service:
         invalid_target_type: 'list_type deve ser um de: backlog_bucket com um list_id, sprint com um list_id, ou caixa de entrada sem um list_id.'
         missing_target: list_type ou list_id deve estar presente.
@@ -286,9 +323,11 @@ pt-PT:
   notice_unsuccessful_finish_with_reason: 'Não foi possível concluir o sprint: %{reason}'
   notice_unsuccessful_start: Não foi possível iniciar o sprint.
   notice_unsuccessful_start_with_reason: 'Não foi possível iniciar o sprint: %{reason}'
-  notice_work_package_invisible_after_move: 'O pacote de trabalho foi movido para %{backlog}, mas não é visível porque o seu tipo ou estado está excluído do backlog.
+  notice_work_package_invisible_after_move:
+    one: 'O pacote de trabalho foi movido para %{backlog}, mas não é visível porque o seu tipo ou estado está excluído do backlog.
 
-    '
+      '
+    other: "%{count} pacotes de trabalho foram movidos para %{backlog}, mas não são visíveis porque o seu tipo ou estado está excluído do backlog.\n"
   permission_create_sprints: Criar sprints
   permission_manage_sprint_items: Gerir elementos de sprint
   permission_select_backlog_types_and_statuses: Selecionar tipos e estados de backlog

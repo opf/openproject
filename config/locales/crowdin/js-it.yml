@@ -806,12 +806,32 @@ it:
       sorting_disabled: ordinamento disabilitato
     sortable_lists:
       announcements:
+        batch_too_large: Non è possibile spostare %{count} elementi alla volta. Selezionane al massimo %{max}.
         fallback_item_label: Elemento
         fallback_list_name: un'altra lista
         move_failed_check_position: Spostamento non riuscito. Verifica la posizione attuale dell'elemento.
+        move_failed_check_positions_batch:
+          other: Spostamento non riuscito. Controlla le posizioni attuali degli elementi.
         move_failed_rolled_back: Spostamento non riuscito. %{label} è tornato alla posizione precedente.
+        move_failed_rolled_back_batch:
+          other: Spostamento non riuscito. %{count} elementi sono tornati alle posizioni precedenti.
         moved: "%{label} spostato in posizione %{position} di %{total}"
+        moved_batch:
+          other: "%{count} elementi spostati nelle posizioni da %{first} a %{last} di %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementi spostati in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
         moved_to_list: "%{label} spostato in %{list}, posizione %{position} di %{total}"
+      selection:
+        cleared: Selezione azzerata.
+        not_selectable: Selezione invariata. Questo elemento non partecipa all'ordinamento di questo elenco.
+        range_blocked: Selezione invariata. L'intervallo contiene un elemento che non partecipa all'ordinamento di questo elenco.
+        range_restarted:
+          one: Non è stato possibile estendere l'intervallo. 1 elemento selezionato.
+          other: Non è stato possibile estendere l'intervallo. %{count} elementi selezionati.
+        range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
+        selected:
+          one: 1 elemento selezionato.
+          other: "%{count} elementi selezionati."
     spot:
       drop_modal:
         close: Chiusura modale

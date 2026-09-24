@@ -1,0 +1,5 @@
+---
+zh-CN:
+  js:
+    resource_management:
+      create_placeholder_user: 使用筛选条件创建占位符用户

@@ -184,6 +184,7 @@ fr:
     remaining_hours: Travail restant
     sharing: Partage de sprint
     show_burndown_chart: Graphique burndown
+    show_work_package_overview: Lots de travaux du sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -209,6 +210,31 @@ fr:
       page_header_component:
         breadcrumb: Rapport
         title: Rapport de %{sprint}
+      widgets:
+        work_package_graph:
+          title: Graphique des lots de travaux
+        work_package_overview:
+          blankslate:
+            description: Définissez les dates de début et de fin du sprint pour générer la vue d'ensemble des lots de travaux.
+            heading: Aucune donnée de sprint disponible
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Modification du périmètre
+              story_points_change: "+%{added} / -%{removed} story points"
+            completed:
+              heading: Terminés
+            initially_planned:
+              heading: Initialement prévus
+            unfinished:
+              heading: Non terminés
+          breakdown_block:
+            blocks:
+              show_all: Tout afficher
+          closed_work_packages: Lots de travaux fermés
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} sur %{total} lot de travaux)"
+            other: "%{percentage}% (%{resolved} sur %{total} lots de travaux)"
     sprints:
       row_component:
         action_menu:
@@ -249,8 +275,19 @@ fr:
       add_existing_dialog:
         invalid_target: La destination à laquelle vous essayez d'ajouter cet élément n'est pas valide.
         target_not_found: Le sprint ou le backlog auquel vous essayez d'ajouter des éléments n'a pas été trouvé.
+      batch_update_service:
+        mixed_projects: Tous les lots de travaux traités ensemble doivent appartenir au même projet.
+        stale_batch: Au moins un lot de travaux a été modifié pendant la préparation du déplacement. Vérifiez les positions actuelles et réessayez.
+        stale_predecessor: Le lot de travaux après lequel l'insertion devait avoir lieu a été déplacé ailleurs. Vérifiez les positions actuelles et réessayez.
+        unavailable_target: La liste de destination n'est plus disponible. Rechargez la page et réessayez.
+        unexpected_failure: Les lots de travaux n'ont pas pu être déplacés. Réessayez.
       move:
         moved_announcement: "%{label} a été déplacé vers %{list}, à la position %{position} sur %{total}"
+      move_collection:
+        invalid_ids: La liste des lots de travaux à déplacer n'est pas valide.
+        member_failed: "%{work_package} : %{reason}"
+        too_many_work_packages: Il est impossible de déplacer plus de %{max} lots de travaux à la fois.
+        work_packages_not_found: Au moins un lot de travaux est introuvable dans ce projet.
       update_service:
         invalid_target_type: 'list_type doit être l''une des valeurs suivantes : backlog_bucket avec un list_id, sprint avec un list_id ou inbox sans list_id.'
         missing_target: list_type ou list_id doit être présent.
@@ -286,9 +323,11 @@ fr:
   notice_unsuccessful_finish_with_reason: 'Le sprint n''a pas pu être achevé : %{reason}'
   notice_unsuccessful_start: Le sprint n'a pas pu démarrer.
   notice_unsuccessful_start_with_reason: 'Le sprint n''a pas pu être démarré : %{reason}'
-  notice_work_package_invisible_after_move: 'Le lot de travaux a été déplacé vers %{backlog}, mais il n''est pas visible, car son type ou son statut est exclu du backlog.
+  notice_work_package_invisible_after_move:
+    one: 'Le lot de travaux a été déplacé vers %{backlog}, mais il n''est pas visible car son type ou son statut est exclu du backlog.
 
-    '
+      '
+    other: "%{count} lots de travaux ont été déplacés vers %{backlog}, mais ne sont pas visibles car leur type ou leur statut est exclu du backlog.\n"
   permission_create_sprints: Créer des sprints
   permission_manage_sprint_items: Gérer les éléments du sprint
   permission_select_backlog_types_and_statuses: Sélectionner les types et les statuts du backlog

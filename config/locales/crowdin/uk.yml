@@ -222,6 +222,7 @@ uk:
         title: Заголовок
       member:
         blocked: Заблоковано
+        principal_type: Member type
         roles: Роль
       notification:
         read_ian: Читайте в додатку
@@ -234,6 +235,7 @@ uk:
         position: Позиція
       persisted_query:
         filters: Фільтри
+        group_bys: Group results by
         name: Назва
         orders: Порядок
         selects: Вибране
@@ -383,16 +385,13 @@ uk:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Стандартний текст опису
-        defaults_source: Джерело стандартних значень
         enabled_in_new_projects: Активовано в нових проєктах
-        form_configuration_source: Form source
+        linked_aspects: Inherited configuration
         patterns: Шаблони
-        pdf_export_source: Джерело експорту в PDF
-        project_attributes_source: Джерело атрибутів проєкту
         project_types: Проєкти, у яких використовується цей варіант
         variant: Варіант
         variant_name: Назва
-        workflows_source: Джерело робочих процесів
+        workflow: Workflow
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
@@ -440,6 +439,13 @@ uk:
         time_zone: Часовий пояс
         warn_on_leaving_unsaved: Попереджати мене, коли залишив робочий пакет із незбереженими змінами
         workdays: Робочі дні
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Коефіцієнт доступності
         days: Робочі дні
@@ -518,6 +524,10 @@ uk:
         work_package: Робочий пакет
       work_package_version:
         kind: Вид
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: повинні бути прийняті.
@@ -693,6 +703,13 @@ uk:
               not_unique: уже використовується. Виберіть інше ім’я.
         jira:
           invalid_protocol: Укажіть дійсний протокол (http або https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -748,7 +765,6 @@ uk:
             types:
               cannot_assign_multiple_variants_of_parent: На рівні проєкту можна ввімкнути лише один варіант типу
               cannot_assign_variant_and_parent: 'Неможливо призначити варіант і його батьківський об’єкт '
-              cannot_assign_variants_yet: Зараз на рівні проєкту не можна вмикати варіанти. Активуйте прапорець функції, щоб випробувати варіанти.
               in_use_by_work_packages: 'як і раніше використовуються робочі пакети: %{types}'
               switch_target_blank: Виберіть варіант, на який потрібно перемкнутися
               switch_target_identical: Цільовий тип має відрізнятися від типу, що використовується в проєкті зараз
@@ -861,6 +877,10 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -870,33 +890,19 @@ uk:
               group_without_name: Ім’я групи не може бути порожнім.
               query_invalid: 'Вбудований запит «%{group}» недійсний: %{details}'
             base:
-              borrowed_by_variants: Не можна видалити, оскільки відповідну конфігурацію повторно використовують %{names}.
               is_default_variant: Стандартну конфігурацію типу не можна видалити.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Не можна видалити, поки використовується в проєктах.
-            defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: уже налаштовано для іншої конфігурації такого типу.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
             patterns:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
             variant:
               must_belong_to_the_type: має бути варіантом цього типу.
-            workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1947,6 +1953,37 @@ uk:
       caption_with_maximum: 'Дії користувача над пакетом робіт (зміни опису, статусу чи значень або написання коментарів) групуються, якщо їх було виконано протягом цього періоду. Це налаштування також керує сповіщеннями й затримками [вебхука](webhook_link). Максимальне значення — %{max} хв.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          few: "%{count} work packages"
+          many: "%{count} work packages"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Протокол контексту моделі дає змогу агентам ШІ надавати користувачам інструменти й ресурси, доступні в цьому екземплярі OpenProject. Ця функція досі доступна лише в бета-версії.
@@ -1977,6 +2014,14 @@ uk:
       update:
         failure: Не вдалось оновити конфігурацію MCP.
         success: Конфігурацію MCP оновлено.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Щоб дізнатися більше, ознайомтеся з нашою сторінкою інтеграцій і планів.
       no_results_title_text: Зараз немає встановлених плагінів.
@@ -2232,6 +2277,13 @@ uk:
           assignee: Додаткові переходи, доступні для виконавця пакета робіт.
           author: Додаткові переходи, доступні для автора пакета робіт.
         menu_label: Показані переходи
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: наразі відображається
     is_inactive: наразі не відображається
@@ -2294,10 +2346,6 @@ uk:
       not_found:
         reminder: Нагадування, яке ви шукаєте, не вдалося знайти. Можливо, його видалено.
         work_package: Пакет робіт, який ви шукаєте, не можна знайти або його видалено.
-      render:
-        context_not_parsable: Контексті не посилання на ресурс.
-        context_object_not_found: Не можу знайти ресурс з урахуванням контексту.
-        unsupported_context: Даний ресурс не підтримується як контекст.
       unable_to_create_attachment: Не вдалося створити вкладення
       unable_to_create_attachment_permissions: Вкладення не вдалося зберегти через відсутність дозволів на файлову систему
       user:
@@ -3756,10 +3804,10 @@ uk:
   label_copy_target: Ціль
   label_copy_workflow_from: Копіювати робочий процес з
   label_copy_workflow_from_role: Копіювати в інші ролі
-  label_copy_workflow_from_type: Копіювати в інший тип
   label_core_build: Збірка ядра
   label_core_version: Версія ядра
   label_created_by: Створено %{user}
+  label_criteria: Criteria
   label_current_status: Поточний статус
   label_current_version: Поточна версія
   label_custom_comment: Коментар до атрибута «%{name}»
@@ -3930,7 +3978,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції із встановлення
+  label_installation_guides: Інструкції зі встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -3947,6 +3995,7 @@ uk:
   label_journal_diff: Опис Порівняння
   label_jump_to_a_project: Перейти до проекту...
   label_keyword_plural: Ключові слова
+  label_label_plural: Labels
   label_language: Мова
   label_language_based: На основі мови користувача
   label_languages: Мови
@@ -4335,6 +4384,8 @@ uk:
   label_wiki_start: Початкова сторінка
   label_wiki_toc: Зміст
   label_wiki_toc_empty: Зміст пустий, оскільки немає заголовків.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Робота
   label_work_package: Робочий пакет
   label_work_package_attachments: Додатки до робочого пакету
@@ -5188,8 +5239,6 @@ uk:
       not_found: "— не знайдено."
       respond_to?: не реалізує потрібний метод.
       rules:
-        copy_workflow_from:
-          workflow_missing: не має власного робочого процесу.
         custom_field:
           format_not_supported: формат «%{field_format}» не підтримується.
         item:
@@ -5209,7 +5258,6 @@ uk:
     or: або
     rules:
       blueprint: Структура шаблону
-      copy_workflow_from: Тип копії робочого процесу
       depth: Глибина
       enabled: Увімкнено
       item: Об’єкт
@@ -5412,6 +5460,16 @@ uk:
   permission_work_package_assigned: Стати виконавцем / відповідальним
   permission_work_package_assigned_explanation: Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Видалити прототип користувача
     deletion_info:
       data_consequences: 'Усі екземпляри прототипу користувача (наприклад, виконавець, відповідальний тощо) буде перепризначено обліковому запису з назвою «Видалений користувач». Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, відрізнити дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
@@ -5713,7 +5771,7 @@ uk:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Створіть нову версію
-        no_results_title_text: Наразі не існує версій для проекту.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Показати пакети робіт
         work_packages_graph: Графік робочих пакетів
       work_package_priorities:
@@ -5882,6 +5940,41 @@ uk:
     warnings:
       cannot_annotate: Цей файл не може бути анотований.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        few: "(Projects: %{projects})"
+        many: "(Projects: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        few: "(Projects: %{projects} and %{count} others)"
+        many: "(Projects: %{projects} and %{count} others)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        few: 'This role is still attributed to %{count} members:'
+        many: 'This role is still attributed to %{count} members:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        few: "%{count} users"
+        many: "%{count} users"
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Відповідно до налаштувань, ця роль за умовчанням надається користувачам, які створюють проєкт, але не є адміністраторами. Не вилучайте вказані далі права, інакше автори не зможуть завершити налаштування новостворених проєктів:'
     index:
@@ -5893,6 +5986,18 @@ uk:
     permissions:
       section_check_all_label: Призначити всі дозволи модуля «%{module}»
       section_uncheck_all_label: Скасувати призначення всіх дозволів модуля «%{module}»
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Матриця дозволів для модуля «%{module}»
       matrix_check_all_label: Призначити всі дозволи модуля «%{module}» усім ролям
@@ -6466,13 +6571,14 @@ uk:
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Виключено з підсумків
         is_closed: Закрито
-        is_default: За замовчуванням
         is_readonly: Лише для перегляду
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: і
@@ -6681,6 +6787,49 @@ uk:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          few: "%{names} and %{count} more"
+          many: "%{names} and %{count} more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Створити тип
@@ -6788,6 +6937,15 @@ uk:
         query_group_label: Таблиця пов’язаних робочих пакетів
         remove_attribute: Вилучити з розділу
         rename_group: Перейменувати розділ
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
@@ -6863,12 +7021,8 @@ uk:
             other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
             description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
             title: Dependent types
             variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
           title:
             one: 1 dependent type
             few: "%{count} dependent types"
@@ -6879,27 +7033,15 @@ uk:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Невідомий розділ конфігурації «%{aspect}».
         inherited:
-          change_source: Change source type
           configure_manually: Configure manually
           confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
-          dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: The configuration mode was switched.
           title: Inherited configuration
         manual:
@@ -6913,7 +7055,7 @@ uk:
           dialog:
             submit: Switch
             title: Configure manually
-          inherit_from_type: Inherit from another type
+          inherit_from_type: Inherit from parent
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
@@ -6942,7 +7084,7 @@ uk:
         filter_no_results: Немає варіантів, які відповідають фільтру
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6951,6 +7093,30 @@ uk:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Додати варіант
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '
@@ -7161,6 +7327,12 @@ uk:
   version_status_locked: Заблоковано
   version_status_open: відкрити
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
       work_packages_in_archived_projects: Доступ до цієї версії надано в архівних проєктах, які досі містять пакети робіт, призначені цій версії. Їх враховано, але вони не відображаються в пов’язаних поданнях.
@@ -7350,10 +7522,10 @@ uk:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Справді видалити вибрані пакети робіт і всі пов’язані з ними дані?
       description_with_all_descendants: Справді видалити вибрані пакети робіт разом зі всіма їх нащадками?
       description_with_descendants: Справді видалити вибрані пакети робіт разом зі всіма нащадками, наведеними нижче?
@@ -7429,10 +7601,10 @@ uk:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Справді видалити обʼєкт «%{name}»?
       heading: Видалити цей пакет робіт остаточно?
       hidden_descendants_only_warning:
@@ -7492,21 +7664,16 @@ uk:
       many: "%{count} нащадки робочого пакета"
       other: "%{count} нащадки робочого пакета"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
-        mode:
-          from_role:
-            caption: Скопіюйте поточний робочий процес в одну або кілька ролей у межах одного типу пакетів робіт. Якщо у вибраної ролі вже є робочий процес, поточний буде перезаписано.
-            label: Копіювати в інші ролі
-          from_type:
-            caption: Скопіюйте поточний робочий процес в інший тип пакетів робіт. Якщо вибраний тип уже має робочий процес, поточний буде перезаписано. Це впливає на всі ролі.
-            label: Копіювати в інший тип
-        source_role_id:
-          label: Вихідна роль
         target_role_ids:
           label: Цільові ролі
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
@@ -7514,16 +7681,17 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            few: Successfully copied workflow to %{count} types.
-            many: Successfully copied workflow to %{count} types.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Скопіювати робочий процес типу «%{source_type}»
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Матриця робочого процесу
       matrix_caption_assignee: Матриця робочого процесу для виконавця
       matrix_caption_author: Матриця робочого процесу для автора
@@ -7532,12 +7700,90 @@ uk:
       matrix_check_uncheck_all_in_row_label_html: Перемикач зміни статусу <em>%{old_status}</em> на всі нові статуси
       matrix_checkbox_label: Дозволити зміну статусу «%{old_status}» на «%{new_status}»
       matrix_uncheck_all_label: Заборонити всі зміни
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        few: "%{count} roles"
+        many: "%{count} roles"
+        other: "%{count} roles"
       type_filter:
         label: Фільтрувати за назвою типу…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        few: "%{count} types"
+        many: "%{count} types"
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Налаштуйте переходи статусів для кожного типу пакета робіт.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          one: Used in 1 other place
+          few: Used in %{count} other places
+          many: Used in %{count} other places
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        few: This workflow is used by %{count} types. Changes apply to all of them.
+        many: This workflow is used by %{count} types. Changes apply to all of them.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        few: This workflow is used by %{count} types and variants.
+        many: This workflow is used by %{count} types and variants.
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Змінити робочі дні
     dialog:

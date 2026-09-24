@@ -50,7 +50,7 @@ fr:
       openid_connect/user_token:
         one: Jeton OpenID Connect
         other: Jetons OpenID Connect
-  logout_warning: 'Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -79,7 +79,7 @@ fr:
       display_name: Le nom du fournisseur. Il sera affiché comme bouton de connexion et dans la liste des fournisseurs.
       endpoint_url: L'URL du point de terminaison qui vous a été communiquée par le fournisseur OpenID Connect
       group_regexes: Un motif d'expression régulière par ligne. Veuillez lire [la documentation](docs_url) pour en savoir plus sur la manière de procéder.
-      group_regexes_detail: Vous pouvez également définir des motifs à l'aide d'expressions régulières pour faire correspondre les noms de groupes aux revendications de groupes. Par exemple, si vous saisissez un motif tel que <code>^Level1/Level2/([\w/]+)$</code>, le groupe « Groupname/SubGroup » sera extrait d'une réponse comprenant « Level1/Level2/GroupName/SubGroup ». Si aucun motif ne correspond, le groupe est ignoré. Laissez le champ vide pour synchroniser tous les groupes en utilisant leur nom complet.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Cliquez sur « Tester le modèle » pour tester votre expression régulière par rapport aux informations userinfo OIDC.
       group_sync: Extraire et synchroniser automatiquement les informations relatives à l'appartenance à un groupe à partir du fournisseur d'identité.
       groups_claim: Indiquez le nom de la revendication censée indiquer les noms des groupes dont l'utilisateur est membre.
@@ -104,7 +104,7 @@ fr:
       oidc_information: Ces valeurs sont nécessaires pour configurer le fournisseur OpenID Connect.
       post_logout_redirect_uri: L'URL vers laquelle le fournisseur OpenID Connect doit rediriger le client après une demande de déconnexion.
       scope: Si vous voulez demander des portées personnalisées, vous pouvez ajouter une ou plusieurs valeurs de portée séparées par des espaces. Consultez voir la [documentation OpenID Connect](docs_url) pour obtenir plus d'informations.
-      tenant: Veuillez remplacer le locataire par défaut par le vôtre, le cas échéant. Vous pouvez en savoir plus <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">ici</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: Fournisseurs OpenID
     providers:
       client_details_description: Détails de la configuration d'OpenProject en tant que client OIDC
