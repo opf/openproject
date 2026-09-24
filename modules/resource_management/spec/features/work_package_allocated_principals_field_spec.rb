@@ -59,4 +59,16 @@ RSpec.describe "Allocated resources field on the work package page", :js, with_e
       expect(page).to have_text(I18n.t("resource_management.work_package_allocations_dialog.title"))
     end
   end
+
+  it "shows users the current user may not see as hidden" do
+    outsider = create(:user, firstname: "Secret", lastname: "Agent",
+                             member_with_permissions: { create(:project) => %i[view_work_packages] })
+    create(:resource_allocation, entity: work_package, principal: outsider)
+
+    login_as(user)
+    wp_page.visit!
+
+    allocated_principals_field.expect_state_text(I18n.t("js.resource_management.hidden_user"))
+    expect(allocated_principals_field.field_container).to have_no_text(outsider.name)
+  end
 end

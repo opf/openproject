@@ -32,8 +32,8 @@ module OpenProject::ResourceManagement::Patches::WorkPackagePatch
   extend ActiveSupport::Concern
 
   included do
-    has_many :visible_allocated_resource_allocations,
-             -> { allocated.with_visible_placeholder_or_user },
+    has_many :allocated_resource_allocations,
+             -> { allocated },
              class_name: "ResourceAllocation",
              as: :entity
   end
@@ -68,6 +68,20 @@ module OpenProject::ResourceManagement::Patches::WorkPackagePatch
   end
 
   def allocated_principals
-    visible_allocated_resource_allocations.map(&:placeholder_or_user).uniq
+    allocated_resources.compact.uniq
+  end
+
+  def undisclosed_allocated_principals?
+    allocated_resources.include?(nil)
+  end
+
+  private
+
+  # Hidden users resolve to nil, as `visible_principal` only loads principals
+  # visible to the current user.
+  def allocated_resources
+    allocated_resource_allocations.map do |allocation|
+      allocation.principal_id ? allocation.visible_principal : allocation.placeholder_user
+    end
   end
 end

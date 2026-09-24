@@ -52,6 +52,8 @@ class ResourceAllocation < ApplicationRecord
   # request stays readable.
   belongs_to :placeholder_user, optional: true, inverse_of: :resource_allocations, autosave: true
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
+  belongs_to :visible_principal, -> { visible }, class_name: "User", foreign_key: :principal_id, optional: true,
+                                                 inverse_of: false
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
   belongs_to :principal_assigned_by, class_name: "User", optional: true
@@ -78,10 +80,6 @@ class ResourceAllocation < ApplicationRecord
 
   scope :needs_principal_assignment, -> { where.not(placeholder_user_id: nil).where(principal_id: nil) }
   scope :for_principal, ->(principal) { where(principal:) }
-  scope :with_visible_placeholder_or_user, ->(user = User.current) {
-    where.not(placeholder_user_id: nil)
-      .or(where(principal_id: Principal.visible(user).select(:id)))
-  }
   scope :for_project, ->(project_or_project_id) {
     project_id = project_or_project_id.is_a?(Project) ? project_or_project_id.id : project_or_project_id
     joins = ENTITY_PROJECT_JOINS.values.pluck(:join)

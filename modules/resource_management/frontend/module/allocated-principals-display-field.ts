@@ -34,27 +34,52 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { buildShowAllocationsButton, showAllocationsLink } from './show-allocations-button';
 
+const UNDISCLOSED_HREF = 'urn:openproject-org:api:v3:undisclosed';
+
 export class AllocatedPrincipalsDisplayField extends MultipleLinesUserFieldModule {
   @LazyInject() turboRequests:TurboRequestsService;
 
   protected renderValues(values:UserResource[], element:HTMLElement) {
     const link = showAllocationsLink(this.resource);
+    const container = link ? buildShowAllocationsButton(link, this.turboRequests) : element;
+    const undisclosed = values.find((value) => value.href === UNDISCLOSED_HREF);
 
-    if (!link) {
-      super.renderValues(values, element);
-      return;
-    }
-
-    const button = buildShowAllocationsButton(link, this.turboRequests);
     this.principalRenderer.renderMultiple(
-      button,
-      values,
+      container,
+      values.filter((value) => value !== undisclosed),
       { hide: false, link: false },
       { hide: false, size: 'medium' },
-      { isActivated: false },
+      { isActivated: !link },
       true,
     );
 
-    element.appendChild(button);
+    if (undisclosed) {
+      container.appendChild(this.buildUndisclosedPrincipal(undisclosed.name));
+    }
+
+    if (link) {
+      element.appendChild(container);
+    }
+  }
+
+  private buildUndisclosedPrincipal(title:string):HTMLElement {
+    const label = this.I18n.t('js.resource_management.hidden_user');
+
+    const principal = document.createElement('span');
+    principal.classList.add('op-principal', 'op-principal--multi-line');
+    principal.title = title;
+
+    const avatar = document.createElement('span');
+    avatar.classList.add('op-principal--avatar', 'op-avatar', 'op-avatar_medium', 'color-bg-emphasis');
+    avatar.setAttribute('aria-hidden', 'true');
+    avatar.textContent = label.split(' ').map((word) => word[0]).join('').slice(0, 2).toUpperCase();
+
+    const name = document.createElement('span');
+    name.classList.add('op-principal--name');
+    name.textContent = label;
+
+    principal.append(avatar, name);
+
+    return principal;
   }
 }

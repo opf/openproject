@@ -147,6 +147,23 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, with_ee: %i[resour
         ].to_json).at_path("_links/allocatedPrincipals")
     end
 
+    context "with allocated users the current user may not see" do
+      before do
+        2.times do
+          outsider = create(:user, member_with_permissions: { create(:project) => %i[view_work_packages] })
+          create(:resource_allocation, entity: work_package, principal: outsider)
+        end
+      end
+
+      it "adds a single undisclosed entry without revealing who they are" do
+        expect(generated)
+          .to be_json_eql(
+            { href: API::V3::URN_UNDISCLOSED, title: I18n.t("api_v3.undisclosed.allocatedPrincipal") }.to_json
+          ).at_path("_links/allocatedPrincipals/2")
+        expect(generated).to have_json_size(3).at_path("_links/allocatedPrincipals")
+      end
+    end
+
     context "without the view_resource_planners permission" do
       let(:permissions) { %i[view_work_packages] }
 

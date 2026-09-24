@@ -171,7 +171,7 @@ module OpenProject::ResourceManagement
 
       ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
         .add_eager_loading_extension(:allocated_principals) do |eager_scope, _work_package_scope, _current_user|
-          eager_scope.preload(visible_allocated_resource_allocations: %i[placeholder_user principal])
+          eager_scope.preload(allocated_resource_allocations: %i[placeholder_user visible_principal])
         end
 
       resource_management_constraint = ->(_type, project: nil) {
@@ -232,12 +232,21 @@ module OpenProject::ResourceManagement
             uncacheable: true do
         next unless resource_allocations_visible?
 
-        represented.allocated_principals.map do |principal|
+        principal_links = represented.allocated_principals.map do |principal|
           {
             href: api_v3_paths.send(API::V3::Principals::PrincipalType.for(principal), principal.id),
             title: principal.name
           }
         end
+
+        if represented.undisclosed_allocated_principals?
+          principal_links << {
+            href: API::V3::URN_UNDISCLOSED,
+            title: I18n.t("api_v3.undisclosed.allocatedPrincipal")
+          }
+        end
+
+        principal_links
       end
 
       send(:define_method, :resource_allocations_visible?) do

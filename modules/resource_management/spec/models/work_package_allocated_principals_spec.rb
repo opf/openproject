@@ -54,17 +54,11 @@ RSpec.describe WorkPackage, "allocated principals" do
       expect(work_package.allocated_principals).to be_empty
     end
 
-    it "shows the placeholder a generic allocation was requested for, even once staffed" do
+    it "shows the staffed user of a generic allocation instead of its placeholder" do
       allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
       allocation.update!(principal: member)
 
-      expect(work_package.allocated_principals).to contain_exactly(allocation.placeholder_user)
-    end
-
-    it "omits users the viewer may not see" do
-      create(:resource_allocation, entity: work_package, principal: outsider)
-
-      expect(work_package.allocated_principals).to be_empty
+      expect(work_package.allocated_principals).to contain_exactly(member)
     end
 
     it "always lists placeholders" do
@@ -74,18 +68,40 @@ RSpec.describe WorkPackage, "allocated principals" do
     end
   end
 
+  describe "#undisclosed_allocated_principals?" do
+    it "is true for an allocated user the viewer may not see, who is left out of the list" do
+      create(:resource_allocation, entity: work_package, principal: outsider)
+
+      expect(work_package.allocated_principals).to be_empty
+      expect(work_package.undisclosed_allocated_principals?).to be(true)
+    end
+
+    it "is false when every allocated user is visible" do
+      create(:resource_allocation, entity: work_package, principal: member)
+
+      expect(work_package.undisclosed_allocated_principals?).to be(false)
+    end
+  end
+
   describe "collection eager loading" do
     shared_let(:other_work_package) { create(:work_package, project:) }
 
     it "preloads the allocated principals in the wrapped collection query" do
       create(:resource_allocation, entity: work_package, principal: member)
+      create(:resource_allocation, entity: work_package, principal: outsider)
       placeholder_allocation = create(:resource_allocation, :with_user_filter, entity: other_work_package)
 
       wrapped = API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
                   .wrap([work_package.id, other_work_package.id], viewer)
 
-      expect { wrapped.map(&:allocated_principals) }.to have_a_query_limit(0)
+      expect do
+        wrapped.each do |wp|
+          wp.allocated_principals
+          wp.undisclosed_allocated_principals?
+        end
+      end.to have_a_query_limit(0)
       expect(wrapped.map(&:allocated_principals)).to eq([[member], [placeholder_allocation.placeholder_user]])
+      expect(wrapped.map(&:undisclosed_allocated_principals?)).to eq([true, false])
     end
   end
 end

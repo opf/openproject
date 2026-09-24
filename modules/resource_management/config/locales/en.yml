@@ -64,6 +64,9 @@ en:
       resource_work_package_timeline:
         one: Work packages timeline
         other: Work packages timelines
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Next
   ee:
     features:
