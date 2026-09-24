@@ -6,6 +6,9 @@ description: How to create many work packages at once from a CSV file
 keywords: work package import, CSV import, import work packages, bulk create
 ---
 
+> [!IMPORTANT]
+> This import functionality is available on our Dev branch.
+
 # Import work packages from a CSV file
 
 You can create many work packages at once by uploading a CSV file. Existing work packages are never changed by an import, and no notifications are sent for the work packages it creates.
