@@ -49,11 +49,11 @@ module Pages
     end
 
     def git_actions_copy_branch_name_button
-      find(".git-actions-menu .copy-button:not([disabled])", match: :first)
+      find("clipboard-copy#copy_branch_name")
     end
 
     def git_actions_copy_commit_message_button
-      all(".git-actions-menu .copy-button:not([disabled])")[1]
+      find("#{test_selector('gitlab-snippets-commit-message')} clipboard-copy")
     end
 
     def issues_collapse_button
