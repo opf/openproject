@@ -602,13 +602,10 @@ RSpec.describe Query,
   end
 
   describe "#valid_subset!" do
-    let(:valid_status) { build_stubbed(:status) }
+    shared_let(:valid_status) { create(:status) }
 
     context "with filters" do
       before do
-        allow(Status)
-          .to receive_messages(all: [valid_status], exists?: true)
-
         query.filters.clear
         query.add_filter("status_id", "=", status_id_values)
 
@@ -633,6 +630,29 @@ RSpec.describe Query,
 
         it "removes the filter" do
           expect(query.filters.length).to eq 0
+        end
+      end
+
+      context "for a work package id filter having only invalid values" do
+        let(:status_id_values) { [valid_status.id.to_s] }
+        let(:visible_work_package) { create(:work_package) }
+        let(:query) { build(:query, project: visible_work_package.project) }
+
+        current_user do
+          create(:user, member_with_permissions: { visible_work_package.project => %i[view_work_packages] })
+        end
+
+        before do
+          query.add_filter("id", "=", ["12345"])
+
+          query.valid_subset!
+        end
+
+        it "keeps the filter so it matches nothing, rather than dropping it" do
+          expect(query.filters).to match([
+                                           having_attributes(name: :status_id),
+                                           having_attributes(name: :id, operator: "=", values: [])
+                                         ])
         end
       end
 

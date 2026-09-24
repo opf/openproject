@@ -42,7 +42,7 @@ class Queries::Filters::Base
 
   self.filter_params = %i(operator values)
 
-  attr_accessor :context, *filter_params
+  attr_accessor :context, :allow_empty_values, *filter_params
   attr_reader :name
   alias :field :name
 
@@ -214,6 +214,8 @@ class Queries::Filters::Base
   end
 
   def validate_presence_of_values
+    return if allow_empty_values
+
     if operator_strategy&.requires_value? && (values.nil? || values.compact_blank.empty?)
       errors.add(:values, I18n.t("activerecord.errors.messages.blank"))
     end

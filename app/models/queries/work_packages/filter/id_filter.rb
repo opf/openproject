@@ -28,7 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::IdFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+class Queries::WorkPackages::Filter::IdFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   include ::Queries::WorkPackages::Filter::FilterForWpMixin
+
+  # Keep the filter valid even if all ids are removed
+  def valid_values!
+    self.allow_empty_values = true
+    super
+  end
 end
