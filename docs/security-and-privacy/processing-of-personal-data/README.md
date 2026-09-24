@@ -13,7 +13,8 @@ Status of this document: 2024-09-22
 
 This document outlines how personal data flows through the OpenProject software and aims to assist data controllers in organizations using OpenProject on their own infrastructure in creating GDPR-compliant data protection documentation.
 
-> **Note:** Customers of the [OpenProject GmbH](https://www.openproject.org/legal/imprint/) that subscribed to the [OpenProject Enterprise edition Cloud](https://www.openproject.org/enterprise-edition/) (a software-as-a-service) please check the following legal documents:
+> [!NOTE]
+> Customers of the [OpenProject GmbH](https://www.openproject.org/legal/imprint/) that subscribed to the [OpenProject Enterprise Cloud edition](https://www.openproject.org/enterprise-edition/) (a software-as-a-service) please check the following legal documents:
 >
 > - [Privacy Policy](https://www.openproject.org/legal/privacy/)
 > - [Data Processing Agreement](https://www.openproject.org/legal/data-processing-agreement/)
