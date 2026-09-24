@@ -33,6 +33,7 @@ module Admin
     module Hierarchy
       class ItemFormComponent < ApplicationComponent
         include OpTurbo::Streamable
+        include ItemRoutes
 
         def item_options
           {
@@ -50,7 +51,7 @@ module Admin
         end
 
         def secondary_input_format
-          field_format = root.custom_field.field_format
+          field_format = custom_field.field_format
           case field_format
           when "hierarchy"
             :short
@@ -69,37 +70,15 @@ module Admin
           @root ||= new_record? ? model.parent.root : model.root
         end
 
-        def project_custom_field_context?
-          root.custom_field.is_a?(ProjectCustomField)
-        end
-
-        def user_custom_field_context?
-          root.custom_field.is_a?(UserCustomField)
-        end
+        def custom_field = root.custom_field
 
         def new_record? = model.new_record?
 
-        def custom_field_id = root.custom_field_id
-
-        def url # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-          parent = model.parent
-          position = model.sort_order
-          if project_custom_field_context?
-            if new_record?
-              new_child_admin_settings_project_custom_field_item_path(custom_field_id, parent, position:)
-            else
-              admin_settings_project_custom_field_item_path(custom_field_id, model)
-            end
-          elsif user_custom_field_context?
-            if new_record?
-              new_child_admin_settings_user_custom_field_item_path(custom_field_id, parent, position:)
-            else
-              admin_settings_user_custom_field_item_path(custom_field_id, model)
-            end
-          elsif new_record?
-            new_child_custom_field_item_path(custom_field_id, parent, position:)
+        def url
+          if new_record?
+            hierarchy_item_path(model.parent, :new_child, position: model.sort_order)
           else
-            custom_field_item_path(custom_field_id, model)
+            hierarchy_item_path(model)
           end
         end
       end
