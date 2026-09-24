@@ -82,7 +82,7 @@ module API
             all_or_none_of :projectId, :typeId
           end
           post do
-            raise ::API::Errors::Unauthorized unless current_user.logged?
+            authorize_logged_in
 
             context = context_from_params
             action = ::AI::TextTransformAction.find_by(id: params[:actionId])
