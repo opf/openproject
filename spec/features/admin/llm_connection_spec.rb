@@ -42,9 +42,6 @@ RSpec.describe "LLM connection administration",
 
   current_user { admin }
 
-  # The kebab is a Primer ActionMenu: clicking it before its behaviour is
-  # attached silently does nothing, so wait for the page to settle first and
-  # for the item itself to become visible.
   def offered_default_models
     items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
     ids = JSON.parse(items).pluck("id").compact_blank
@@ -52,6 +49,9 @@ RSpec.describe "LLM connection administration",
     LlmModel.where(id: ids).pluck(:external_id)
   end
 
+  # The kebab is a Primer ActionMenu: clicking it before its behaviour is
+  # attached silently does nothing, so wait for the page to settle first and
+  # for the item itself to become visible.
   def choose_action(item)
     expect(page).to have_test_selector("llm-connection--actions")
     find_test_selector("llm-connection--actions").click
