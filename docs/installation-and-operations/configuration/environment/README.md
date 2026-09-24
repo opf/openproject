@@ -240,6 +240,7 @@ OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE (default=true) Allow
 OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE (default=false)
 OPENPROJECT_FEATURE__LLM__CONNECTION__ACTIVE (default=false) Enables the administration page connecting OpenProject to an OpenAI-API-compatible LLM server, and the AI features built on it.
 OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE (default=false) Allow exporting a meeting with FITKO styling. See #65124 for details.
+OPENPROJECT_FEATURE__SEMANTIC__SEARCH__ACTIVE (default=false) Enables the semantic search AI feature, which indexes work packages as embeddings so they can be found by meaning rather than by keyword.
 OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE (default=false) Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress.
 OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE (default=false)
 OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE (default=true) Enables Wiki enhancements, such as the Wikis tab and XWiki integration.
