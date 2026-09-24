@@ -102,6 +102,7 @@ module WorkPackageTypes
         {
           key: token.key,
           label: token.label,
+          context: token.context,
           label_with_context: token.label_with_context,
           enabled:
         }
