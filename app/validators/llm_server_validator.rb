@@ -82,7 +82,7 @@ class LlmServerValidator < ActiveModel::EachValidator
   # check, so the administrator gets a message naming the environment variable
   # rather than a bare connection failure from the transport-level filter.
   def host_allowed?(contract, attribute, value)
-    host = URI.parse(value).host
+    host = URI.parse(value).hostname
     return false if host.blank?
 
     addresses = resolve(host)
