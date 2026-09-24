@@ -44,6 +44,7 @@ export interface WorkPackageAction {
   link?:string;
   href?:string;
   hidden?:boolean;
+  turboRequest?:boolean;
 }
 
 @Injectable()
@@ -92,7 +93,7 @@ export class WorkPackageContextMenuHelperService {
     // remove some actions on Gantt
     if (this.wpViewTimeline.isVisible) {
       allowedActions = allowedActions.filter((el) => {
-        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs'];
+        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs', 'allocate_resource'];
         return !(ganttNotAllowedActions.includes(el.key));
       });
     }
@@ -105,6 +106,7 @@ export class WorkPackageContextMenuHelperService {
         text: allowedAction.text,
         icon: allowedAction.icon,
         link: this.linkForAction(workPackage, allowedAction),
+        turboRequest: allowedAction.turboRequest,
       });
     });
 
@@ -116,6 +118,9 @@ export class WorkPackageContextMenuHelperService {
     switch (action.key) {
       case 'copy_link_to_clipboard':
         link = this.PathHelper.workPackageShortPath(workPackage.displayId);
+        break;
+      case 'log_time':
+        link = this.PathHelper.timeEntryWorkPackageDialog(workPackage.id!);
         break;
       default:
         link = action.link ? (workPackage[action.link] as HalLink).href! : undefined;

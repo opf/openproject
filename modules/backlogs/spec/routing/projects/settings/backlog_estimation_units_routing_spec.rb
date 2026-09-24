@@ -28,8 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomValue::WeightedItemListStrategy < CustomValue::HierarchyStrategy
-  def typed_value
-    cached_ar_object&.weight
+require "spec_helper"
+
+RSpec.describe Projects::Settings::BacklogEstimationUnitsController do
+  describe "routing" do
+    it {
+      expect(get("/projects/project_42/settings/backlog_estimation_unit")).to route_to(
+        controller: "projects/settings/backlog_estimation_units",
+        action: "show",
+        project_id: "project_42"
+      )
+    }
+
+    it {
+      expect(patch("/projects/project_42/settings/backlog_estimation_unit")).to route_to(
+        controller: "projects/settings/backlog_estimation_units",
+        action: "update",
+        project_id: "project_42"
+      )
+    }
   end
 end
