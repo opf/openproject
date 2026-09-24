@@ -34,7 +34,7 @@ module API
       class TextTransformActionsAPI < ::API::OpenProjectAPI
         resources :ai_text_transform_actions do
           get do
-            raise ::API::Errors::Unauthorized unless current_user.logged?
+            authorize_logged_in
 
             context = ::AI::TextTransforms::Context.none
             actions = ::AI::TextTransforms::Availability.new.actions_for(context)

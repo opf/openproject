@@ -86,7 +86,7 @@ RSpec.describe API::V3::AI::TextTransformActionsAPI,
     context "for an anonymous user" do
       current_user { User.anonymous }
 
-      it_behaves_like "unauthenticated access"
+      it_behaves_like "forbidden response based on login_required"
     end
   end
 end
