@@ -29,18 +29,15 @@
 #++
 
 module WorkPackage::Exports
-  module Attributes
-    mattr_accessor :attribute_visibility_checks, default: {}
+  module Formatters
+    class AllocatedTime < ::Exports::Formatters::Default
+      def self.apply?(name, _export_format)
+        name.to_sym == :allocated_time
+      end
 
-    def self.add_attribute_visibility_check(*attribute_names, &check)
-      attribute_names.each { |name| attribute_visibility_checks[name.to_sym] = check }
-    end
-
-    def allowed_to_view_attribute?(obj, attribute_name)
-      return true unless obj.is_a?(WorkPackage)
-
-      check = attribute_visibility_checks[attribute_name.to_sym]
-      check.nil? || check.call(obj)
+      def format(work_package, **)
+        DurationConverter.output(work_package.allocated_minutes / 60.0)
+      end
     end
   end
 end

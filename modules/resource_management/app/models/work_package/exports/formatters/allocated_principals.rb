@@ -29,18 +29,24 @@
 #++
 
 module WorkPackage::Exports
-  module Attributes
-    mattr_accessor :attribute_visibility_checks, default: {}
+  module Formatters
+    class AllocatedPrincipals < ::Exports::Formatters::Default
+      def self.apply?(name, _export_format)
+        name.to_sym == :allocated_principals
+      end
 
-    def self.add_attribute_visibility_check(*attribute_names, &check)
-      attribute_names.each { |name| attribute_visibility_checks[name.to_sym] = check }
-    end
+      def format(work_package, **)
+        names = work_package.allocated_principals.map(&:name)
+        names << hidden_user_label if work_package.undisclosed_allocated_principals?
 
-    def allowed_to_view_attribute?(obj, attribute_name)
-      return true unless obj.is_a?(WorkPackage)
+        names.join(", ")
+      end
 
-      check = attribute_visibility_checks[attribute_name.to_sym]
-      check.nil? || check.call(obj)
+      private
+
+      def hidden_user_label
+        I18n.t("resource_management.work_package_allocations_dialog.hidden_user")
+      end
     end
   end
 end

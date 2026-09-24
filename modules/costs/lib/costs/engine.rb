@@ -424,6 +424,24 @@ module Costs
         filter ::Queries::Projects::Filters::AvailableCostTypesProjectsFilter
       end
 
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:material_costs) do |eager_scope, work_package_scope, _current_user|
+          material_scope = ::WorkPackage::MaterialCosts.new.add_to_work_package_collection(work_package_scope.dup)
+
+          eager_scope
+            .joins(material_scope.arel.join_sources)
+            .select(material_scope.select_values)
+        end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:labor_costs) do |eager_scope, work_package_scope, _current_user|
+          labor_scope = ::WorkPackage::LaborCosts.new.add_to_work_package_collection(work_package_scope.dup)
+
+          eager_scope
+            .joins(labor_scope.arel.join_sources)
+            .select(labor_scope.select_values)
+        end
+
       McpTools.register McpTools::CreateTimeEntry,
                         McpTools::DeleteTimeEntry,
                         McpTools::SearchTimeEntries,
