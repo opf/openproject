@@ -110,7 +110,7 @@ module CustomFields
         )
       end
 
-      def cancel_href # rubocop:disable Metrics/AbcSize
+      def cancel_href # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         custom_field = root.custom_field
         item_is_top_level = @target_item.parent.root?
         if custom_field.is_a?(ProjectCustomField)
@@ -118,6 +118,12 @@ module CustomFields
             url_helpers.admin_settings_project_custom_field_items_path(custom_field.id)
           else
             url_helpers.admin_settings_project_custom_field_item_path(custom_field.id, @target_item.parent)
+          end
+        elsif custom_field.is_a?(UserCustomField)
+          if item_is_top_level
+            url_helpers.admin_settings_user_custom_field_items_path(custom_field.id)
+          else
+            url_helpers.admin_settings_user_custom_field_item_path(custom_field.id, @target_item.parent)
           end
         elsif item_is_top_level
           url_helpers.custom_field_items_path(custom_field.id)
