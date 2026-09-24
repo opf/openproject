@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
           line.with_column(mr: 2) do
             render(Primer::Beta::Text.new(font_size: :small, color: status_color)) { status_text }
           end
-          if error_code.present? && docs_href.present?
+          if error_code.present?
             line.with_column do
               render(Primer::Beta::Label.new(scheme: status_color)) { error_code }
             end
