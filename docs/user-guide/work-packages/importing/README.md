@@ -50,7 +50,7 @@ Once the import has run, the report links to the work packages it created. The l
 **Clear** puts the report away and gives you the empty form back. It is offered beside the button in every state, so a report you have finished with, or a file that was refused, never has to be left on the page.
 
 > [!TIP]
-> The checked file is kept for a few hours, so importing it does not need a second upload. If you come back to the report later and the file has expired, upload it again. It is checked once more before anything is created.
+> The checked file is kept for a few hours, so you do not need to upload it again when importing. If you come back to the report later and the file has expired, upload it again. It is checked once more before anything is created.
 
 You can clear the **Check the file first, without importing** checkbox to import straight away. The button then reads **Import file**, so it always names what will happen.
 
