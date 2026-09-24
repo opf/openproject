@@ -1917,7 +1917,7 @@ es:
     text_transform_actions:
       delete_dialog_component:
         description: Los usuarios ya no podrán ejecutar esta acción en el editor de texto enriquecido.
-        heading: "¿Seguro de que quiere eliminar la acción «%{label}»?"
+        heading: "¿Seguro que quiere eliminar la acción «%{label}»?"
         title: Eliminar la acción de transformación de texto
       form:
         injects_type_template_caption: Si marca esta opción, la plantilla de descripción del tipo de paquete de trabajo se añade automáticamente a la instrucción. La instrucción debe contener indicaciones sobre cómo utilizar la plantilla.
@@ -3504,6 +3504,7 @@ es:
   label_deleted_custom_field: "(campo personalizado borrado)"
   label_deleted_custom_item: "(elemento eliminado)"
   label_deleted_custom_option: "(opción eliminada)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organización
   label_departments_description_html: 'Define la estructura de tu empresa creando departamentos y subdepartamentos de forma jerárquica. Esto te permite reflejar las líneas jerárquicas y mantener una visión general clara y estructurada de tu organización dentro de OpenProject. También puedes importar una estructura organizativa ya existente mediante la [sincronización de departamentos por LDAP](ldap_docs_article).
 
@@ -6497,7 +6498,7 @@ es:
             description_html: Al copiar los datos de %{source_name}, se sobrescribirán los ajustes actuales y podría verse afectada la información existente sobre los paquetes de trabajo de este tipo.
             title: "¿Copiar la configuración?"
           dialog:
-            description: Copie la configuración de un tipo de origen y utilícela como base puntual. La configuración seguirá siendo manual y no heredará los cambios posteriores de la fuente.
+            description: Copie la configuración de un tipo de fuente y utilícela como base puntual. La configuración seguirá siendo manual y no heredará los cambios posteriores de la fuente.
             source_label: Tipo de fuente
             source_placeholder: Selecciona un tipo o una variante
             submit: Guardar y copiar
@@ -6593,7 +6594,7 @@ es:
           title: Variantes
         project_specific_section:
           description: Estas variantes solo están disponibles en los proyectos en los que se crearon.
-          title: Variante específicas del proyecto
+          title: Variantes específicas del proyecto
       workflow:
         tab: Flujos de trabajo
     index:

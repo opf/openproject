@@ -3508,6 +3508,7 @@ hy:
   label_deleted_custom_field: "(ջնջված հատուկ դաշտ)"
   label_deleted_custom_item: "(ջնջված տարր)"
   label_deleted_custom_option: "(ջնջված ընտրանք)"
+  label_deleted_version: "(deleted version)"
   label_departments: Կազմակերպություն
   label_departments_description_html: 'Սահմանեք Ձեր ընկերության կառուցվածքը՝ հիերարխիկ կերպով ստեղծելով ստորաբաժանումներ և ենթաստորաբաժանումներ։ Սա թույլ է տալիս արտացոլել հաշվետվողականության կապերը և OpenProject-ում պահպանել Ձեր կազմակերպության հստակ ու կառուցվածքային պատկերը։ Կարող եք նաև ներմուծել առկա կազմակերպական կառուցվածքը [LDAP ստորաբաժանումների համաժամացման](ldap_docs_article) միջոցով։
 

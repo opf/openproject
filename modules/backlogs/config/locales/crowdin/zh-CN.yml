@@ -74,7 +74,7 @@ zh-CN:
               unfinished_work_packages:
                 other: 此冲刺中有 %{count} 个未完成的工作包。
             status:
-              not_active: 未激活，无法关闭。
+              not_active: 未处于有效状态，因此无法关闭。
         sprint_goal:
           project_already_has_goal: 已为此冲刺设定目标。
         work_package:
@@ -186,7 +186,7 @@ zh-CN:
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
       drop_zone_label: 拖放到此处以添加此条目
-      label_actions: 冲刺行动
+      label_actions: 冲刺操作
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。

@@ -217,9 +217,9 @@ et:
         port: Port
         tls_certificate_string: LDAP server SSL certificate
       mcp_configuration:
-        description: Description
-        enabled: Enabled
-        title: Title
+        description: Kirjeldus
+        enabled: Sees
+        title: Pealkiri
       member:
         blocked: Blocked
         roles: Rollid
@@ -268,7 +268,7 @@ et:
           title: Nähtavus
           true: public
         queries: Päringuid
-        status_code: Status
+        status_code: Staatus
         status_codes:
           at_risk: On ohus
           discontinued: Lopetatud
@@ -276,7 +276,7 @@ et:
           not_started: Pole alustatud
           off_track: Pole graafikus
           on_track: Graafikus
-        status_explanation: Status description
+        status_explanation: Staatuse kirjeldus
         template: Template
         templated: Template project
         templated_value:
@@ -395,7 +395,7 @@ et:
         workflows_source: Workflows source
       user:
         admin: Administraator
-        auth_source: Authentication source
+        auth_source: Autentimise allikas
         consented_at: Consented at
         current_password: Praegune parool
         department: Department
@@ -436,7 +436,7 @@ et:
         increase_contrast_caption: Enables high-contrast mode for the chosen colour mode.
         increase_theme_contrast: Increase theme contrast
         mode_guideline: Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support.
-        theme: Color mode
+        theme: Värvirežiim
         time_zone: Ajavöönd
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved changes
         workdays: Tööpäevad
@@ -968,7 +968,7 @@ et:
               must_be_set_when_remaining_work_and_percent_complete_are_set: required when Remaining work and % Complete are set.
               not_a_number: is not a valid duration.
             id:
-              blank: ID can't be blank.
+              blank: ID ei tohi olla tühi.
               cannot_add_child_because_of_lack_of_permission: Cannot add child because you don't have permissions to edit the selected work package.
               format: "%{message}"
             identifier:
@@ -1576,7 +1576,7 @@ et:
               title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
-            confirm_button: Start import
+            confirm_button: Alusta importimist
             description: 'Imports change your OpenProject configuration. After the import you will have the opportunity to review the changes. While in review, you have an option to revert or approve the import. After approving the import reverting will no longer be possible. Therefore, please, make sure that you have [a backup of your OpenProject instance](link) before proceeding.
 
               '
@@ -1631,7 +1631,7 @@ et:
             groups_and_users:
               title: Groups and Users
             import_result:
-              button_done: Approve import
+              button_done: Kiida importimine heaks
               button_revert: Revert import
               caption: Review import run or revert import
               info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
@@ -1672,9 +1672,9 @@ et:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
-                permissions: Permissions
-                project_ids: Project identifiers
-                projects: Projects
+                permissions: Õigused
+                project_ids: Projekti identifikaator
+                projects: Projektid
                 relations: Relations between issues
                 schemes: Schemas
                 sprints: Sprint assignments
@@ -1720,7 +1720,7 @@ et:
         resources_heading: Resources
         resources_submit: Update resources
         tools_description: OpenProject implements the following tools. Each can be enabled, renamed and described as you want. For more information, please refer to the [documentation on MCP tools](docs_url).
-        tools_heading: Tools
+        tools_heading: Tööriistad
         tools_submit: Update tools
       multi_update:
         success: MCP configurations were updated successfully.
@@ -2105,7 +2105,7 @@ et:
     dates_interval: Kuupäevavahemik
     default_columns: Vaikimisi veerud
     derived_due_date: Derived finish date
-    derived_estimated_hours: Total work
+    derived_estimated_hours: Töö kogumaht
     derived_start_date: Derived start date
     description: Teave
     direction: Suund
@@ -2117,7 +2117,7 @@ et:
     estimated_hours: Töö
     estimated_time: Töö
     exact_match: Exact match
-    expires_at: Expires on
+    expires_at: Aegub
     filter: Filter
     firstname: Eesnimi
     group: Grupp
@@ -2131,7 +2131,7 @@ et:
     journal: Päevik
     journal_notes: Kommentaar
     lastname: Perekonnanimi
-    lock_version: Lock version
+    lock_version: Lukusta versioon
     login: Kasutajanimi
     mail: E-posti aadress
     name: Nimi
@@ -2235,7 +2235,7 @@ et:
   button_add_non_working_time: Time off
   button_add_sub_item: Add sub-item
   button_add_watcher: Lisa jälgija
-  button_all_filters: All filters
+  button_all_filters: Kõik filtrid
   button_annotate: Annoteeri
   button_apply: Rakenda
   button_apply_changes: Rakenda muudatused
@@ -2643,7 +2643,7 @@ et:
         other: tundi
       minute_abbreviated:
         one: min
-        other: mins
+        other: min
   departments:
     add_department: Add department
     add_department_form:
@@ -3512,6 +3512,7 @@ et:
   label_deleted_custom_field: "(kustutatud lisaväli)"
   label_deleted_custom_item: "(deleted item)"
   label_deleted_custom_option: "(deleted option)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
@@ -5275,7 +5276,7 @@ et:
       header_details: Põhiandmed
       header_identifier: Identifier
       header_relations: Project relations
-      header_status: Status
+      header_status: Staatus
       identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
@@ -5297,7 +5298,7 @@ et:
         actions:
           label_disable_single: Inactive in this project, click to enable
           label_enable_single: Active in this project, click to disable
-          remove_from_project: Remove from project
+          remove_from_project: Eemalda projektist
         enabled_via_assignee_when_submitted_html: This project attribute cannot be disabled since it is set as <a href=%{pir_submission_url} target="_blank">assignee when submitted</a> for project initiation requests.
         filter:
           label: Search project attribute
@@ -5334,8 +5335,8 @@ et:
 
             '
           excluded_roles_label: Roles to exclude when template is applied
-        menu_title: Template
-        title: Template settings
+        menu_title: Mall
+        title: Malli seaded
       types:
         add_dialog:
           description: The project uses one member of each type family. Pick the type or the variant this project should use.
@@ -5389,7 +5390,7 @@ et:
       work_package_priorities:
         new_label: New priority
     status:
-      button_edit: Edit status
+      button_edit: Muuda staatust
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
@@ -5422,7 +5423,7 @@ et:
     name_or_identifier: Name or identifier
     only_subproject_id: Ainult alamprojekt
     shared_with_me: Shared with me
-    shared_with_user: Shared with users
+    shared_with_user: Jagatud kasutajatega
     subproject_id: Including subproject
   reactions:
     action_title: Reageeri
@@ -5569,8 +5570,8 @@ et:
       matrix_checkbox_label: Assign %{permission} permission to %{role} role
       matrix_uncheck_all_label: Unassign all %{module} permissions from all roles
   scheduling:
-    automatic: set to Automatic
-    manual: set to Manual
+    automatic: määra automaatseks
+    manual: määra käsitsi
   search_input_placeholder: Search ...
   setting_accessibility_mode_for_anonymous: Võimalda külalistel kasutada hõlbustus- ja juurdepääsetavusrežiimi
   setting_activity_days_default: Projektide ajalugu näidatakse
@@ -6408,7 +6409,7 @@ et:
           label: Automatic artefact export
           off_mode:
             caption: No PDF is generated automatically.
-            label: 'Off'
+            label: Väljas
           section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
@@ -6501,8 +6502,8 @@ et:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
-        enable_all: Enable for all projects
-        select_projects: Select projects
+        enable_all: Luba kõigi projektide puhul
+        select_projects: Vali projektid
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projektid
       reuse_mode:
@@ -6605,7 +6606,7 @@ et:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Variandid
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6656,7 +6657,7 @@ et:
     deleted: Kustutatud kasutaja
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     error_admin_change_on_non_admin: Only administrators can change the status of administrator users.
-    error_cannot_delete_user: User cannot be deleted
+    error_cannot_delete_user: Kasutajat ei saa kustutada
     error_status_change_failed: 'Kasutaja oleku muutmine nurjus järgmiste tõrgete tõttu: %{errors}'
     error_status_change_self: You cannot change your own user status.
     identity_url_text: The internal unique identifier provided by the authentication provider.
@@ -6872,13 +6873,13 @@ et:
     permissions:
       comment: Kommentaar
       comment_description: Can view and comment this work package.
-      comment_verb: comment
+      comment_verb: kommentaar
       edit: Muuda
       edit_description: Can view, comment and edit this work package.
-      edit_verb: edit
+      edit_verb: muuda
       view: Kuva
       view_description: Can view this work package.
-      view_verb: view
+      view_verb: vaata
     progress:
       derivation_hints:
         done_ratio:

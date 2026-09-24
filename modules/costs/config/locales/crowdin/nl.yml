@@ -34,7 +34,7 @@ nl:
         work_package: Werkpakket
       cost_type:
         default: Kostensoort als standaard
-        for_all_projects: For all projects
+        for_all_projects: Voor alle projecten
         rates: Rates
         unit: Naam eenheid
         unit_plural: Vermeerderde eenheid naam
@@ -173,10 +173,10 @@ nl:
     settings:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
-        heading: Cost types
+        heading: Soort kosten
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
         none_active: No cost types are currently active in this project.
-      time_and_costs: Time and costs
+      time_and_costs: Tijd en kosten
   costs:
     widgets:
       actual_costs:
@@ -248,7 +248,7 @@ nl:
   label_status_finished: Afgewerkt
   label_time: Tijd
   label_time_entry_activity_form_description: Wijzigingen in deze tijdregistratie activiteit worden weergegeven in alle projecten waar het is ingeschakeld.
-  label_time_entry_restrictions: Limits
+  label_time_entry_restrictions: Limieten
   label_timer_since: Begonnen op %{time}
   label_today_capitalized: Vandaag
   label_units: Kosten eenheden

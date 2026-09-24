@@ -3802,6 +3802,7 @@ ru:
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_deleted_version: "(deleted version)"
   label_departments: Департаменты
   label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
 

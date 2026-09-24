@@ -3512,6 +3512,7 @@ sv:
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_item: "(borttagen post)"
   label_deleted_custom_option: "(borttaget alternativ)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organisation
   label_departments_description_html: 'Definiera företagets struktur genom att skapa avdelningar och underavdelningar hierarkiskt. Det gör att du kan återspegla rapporteringsvägar och behålla en tydlig, strukturerad översikt över organisationen i OpenProject. Du kan också importera en befintlig organisationsstruktur via [LDAP-synkronisering av avdelningar](ldap_docs_article).
 

@@ -1419,7 +1419,7 @@ it:
         primary-button-color: Pulsante principale
       custom_colors: Colori personalizzati
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: Definisci una tavolozza di colori da utilizzare in altre parti dell'applicazione. Questi colori saranno disponibili, ad esempio, quando scegli un colore per rappresentare uno stato o un tipo.
       edit_color: Modifica %{color}
       fonts:
         file_is_invalid: non è un file font TTF valido.
@@ -3214,14 +3214,14 @@ it:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Crea macro-attività direttamente nei Documenti.
+            line_1: Cerca e filtra le macro-attività nei Backlog.
+            line_2: Scegli se mantenere i discendenti quando elimini una macro-attività.
+            line_3: Usa MCP Server per registrare il tempo, cercare macro-attività in base al relativo ID visualizzato e altro ancora (piano Professional).
+            line_4: Inserisci il lavoro pianificato in ore, giorni, settimane o mesi.
+            line_5: Visualizza l'avanzamento dell'importazione quando utilizzi Jira Migrator.
+            line_6: Usa gli avvisi sulle date nella Community Edition.
+          new_features_title: 'Questa versione include diverse nuove funzionalità e miglioramenti, tra cui:
 
             '
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
@@ -3514,6 +3514,7 @@ it:
   label_deleted_custom_field: "(campo personalizzato eliminato)"
   label_deleted_custom_item: "(elemento eliminato)"
   label_deleted_custom_option: "(opzione eliminata)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organizzazione
   label_departments_description_html: 'Definisci la struttura della tua azienda creando reparti e sottoreparti in modo gerarchico. In questo modo puoi rispecchiare le linee di riporto e mantenere una panoramica chiara e strutturata della tua organizzazione in OpenProject. Puoi anche importare una struttura organizzativa esistente tramite la [Sincronizzazione dei dipartimenti LDAP](ldap_docs_article).
 
@@ -5369,21 +5370,21 @@ it:
             status_count:
               one: 1 macro-attività
               other: "%{count} macro-attività"
-            table_suffix: "(table)"
+            table_suffix: "(tabella)"
             value_count:
-              one: 1 work package has a value
-              other: "%{count} work packages have a value"
+              one: 1 macro-attività ha un valore
+              other: "%{count} macro-attività hanno un valore"
             work_packages:
-              one: 1 work package will use the new configuration
-              other: "%{count} work packages will use the new configuration"
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
+              one: 1 macro-attività utilizzerà la nuova configurazione
+              other: "%{count} macro-attività utilizzeranno la nuova configurazione"
+          success: Il progetto ora utilizza %{type}.
+          target_label: Variante
+          title: "%{type}: cambia variante"
         type_not_found: Impossibile trovare il tipo selezionato.
-        use_in_project: Use in this project
-        variant_in_use: Variant in this project
-        variant_label: Variant
-        variants_not_allowed: This type does not allow creation of variants inside projects.
+        use_in_project: Usa in questo progetto
+        variant_in_use: Variante in questo progetto
+        variant_label: Variante
+        variants_not_allowed: Questo tipo non consente di creare varianti all'interno dei progetti.
       versions:
         no_results_content_text: Crea una nuova versione
         no_results_title_text: Al momento non esistono versioni per il progetto.
@@ -5396,7 +5397,7 @@ it:
     wizard:
       create_artifact_storage_error: Impossibile salvare l'artefatto nell'archivio file esterno
       create_artifact_work_package_error: Creazione della macro-attività dell'artefatto non riuscita
-      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
+      no_custom_fields_html: Questo progetto non ha attributi di progetto abilitati per la procedura guidata. Abilitane almeno uno nelle <a href="%{link}">impostazioni del progetto</a>.
       no_help_text: Questo attributo non ha un testo guida definito.
       progress_label: "%{current} di %{total}"
       sections: Sezioni
@@ -5554,11 +5555,11 @@ it:
     edit:
       default_for_new_projects_warning: 'Questo ruolo è configurato come ruolo predefinito assegnato agli utenti non amministratori che creano un progetto. Non rimuovere le seguenti autorizzazioni, altrimenti i creatori di progetto non potranno completare la configurazione dei progetti appena creati:'
     index:
-      filter_label: Search roles
+      filter_label: Cerca ruoli
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Tutti i ruoli
+        global: Ruoli globali
+        project: Ruoli di progetto
     permissions:
       section_check_all_label: Assegna tutti i permessi di %{module}
       section_uncheck_all_label: Annulla l'assegnazione di tutti i permessi di %{module}
@@ -5583,7 +5584,7 @@ it:
   setting_after_login_default_redirect_url_example_html: 'Imposta un percorso predefinito per reindirizzare gli utenti dopo l''accesso, se non è stato fornito alcun link di ritorno. Reindirizza alla home page se non impostato. <br/> Esempio: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
+  setting_ai_text_transform_actions_enabled: Abilita azioni di trasformazione del testo
   setting_allowed_link_protocols: Protocolli di collegamento consentiti
   setting_allowed_link_protocols_text_html: Consenti che questi protocolli vengano visualizzati come link nelle descrizioni delle macro-attività, nei campi di testo lunghi e nei commenti. Ad esempio, %{tel_code} o %{element_code}. Inserisci un protocollo per riga. <br/> I protocolli %{http_code}, %{https_code} e %{mailto_code} sono sempre consentiti.
   setting_antivirus_scan_action: Azione sul file infetto
@@ -5663,7 +5664,7 @@ it:
   setting_default_language: Lingua predefinita
   setting_default_projects_modules: Moduli abilitati in automatico su nuovi progetti
   setting_default_projects_public: I nuovi progetti sono pubblici come impostazione predefinita
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Abilita la funzionalità wiki per impostazione predefinita nei nuovi progetti
   setting_diff_max_lines_displayed: Numero massimo di linee diff visualizzate
   setting_disable_password_login: Disabilita l'autenticazione con password
   setting_display_subprojects_work_packages: Visualizza le macro-attività dei sotto-progetti nei progetti principali come impostazione predefinita
@@ -5711,14 +5712,14 @@ it:
   setting_password_active_rules: Requisiti per la password
   setting_password_count_former_banned: Numero delle password usate più di recente delle quali è vietato il riutilizzo
   setting_password_days_valid: Numero di giorni, dopo il quale forzare la richiesta di modifica della password
-  setting_password_login: Password login
-  setting_password_login_all: Allow for everyone
-  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login: Accesso tramite password
+  setting_password_login_all: Consenti a tutti
+  setting_password_login_all_caption: Chiunque disponga di una password interna può usarla per accedere, inclusi gli utenti collegati a un provider di identità.
+  setting_password_login_bypass_principal_ids: Utenti e gruppi che possono continuare a usare una password
+  setting_password_login_except_sso: Non consentire agli utenti SSO
+  setting_password_login_except_sso_caption: Gli utenti collegati a un provider di identità non possono accedere con la propria password interna. Gli altri utenti possono continuare a usarla.
+  setting_password_login_none: Non consentire a nessuno
+  setting_password_login_none_caption_html: Il modulo per la password è nascosto. Solo gli utenti e i gruppi elencati di seguito possono accedere con una password tramite %{internal_login_link}.
   setting_password_min_length: Lunghezza minima
   setting_per_page_options: Opzioni degli oggetti per pagina
   setting_percent_complete_on_status_closed: "% completamento quando lo stato è chiuso"
@@ -5855,13 +5856,13 @@ it:
       omniauth_direct_login_hint_html: 'Se questa opzione è attiva, le richieste di accesso saranno reindirizzate al fornitore omniauth configurato. Il menu a tendina di accesso e la pagina di accesso saranno disabilitate. <br/> <strong>Nota:</strong> a meno che non si disabiliti anche l''accesso con password, con questa opzione abilitata, gli utenti possono ancora accedere internamente visitando la pagina di accesso <code>%{internal_path}</code>.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Anche quando l''accesso tramite password è disabilitato, questi utenti e gruppi potranno usare la propria password per accedere. Ciò è utile, ad esempio, se il provider di identità non è disponibile. Se includi un gruppo, l''accesso verrà esteso a tutti gli utenti del gruppo.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'Le seguenti impostazioni sono configurate tramite l''ambiente e non possono essere modificate qui:
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'Le restrizioni sull''accesso tramite password non sono disponibili perché al momento non è abilitato alcun provider SSO. Configura e abilita un provider SSO prima di modificare queste impostazioni.
 
         '
       registration: Registrazione
@@ -6346,10 +6347,10 @@ it:
     help_and_support: Guida e Assistenza
   total_progress: Progresso totale
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: Nessun elemento
   types:
     creation_wizard:
-      add_variant: Add a variant to %{name}
+      add_variant: Aggiungi una variante a %{name}
       create_type: Crea tipo
       create_variant: Crea variante
       fields:
@@ -6360,7 +6361,7 @@ it:
       steps:
         defaults: Predefiniti
         details: Dettagli
-        form_configuration: Form
+        form_configuration: Modulo
         pdf: Generazione PDF
         project_attributes: Attributi del progetto
         projects: Progetti
@@ -6390,11 +6391,11 @@ it:
             work_package: Macro-attività
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
-        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        allow_project_variants_caption: Per gli amministratori di progetto autorizzati a gestire le varianti, questo tipo può essere esteso o modificato all'interno di un progetto.
         inherited_from_type_html: Ereditato dal tipo <b>%{type}</b>.
         tab: Dettagli
         type_color_text: Il colore selezionato distingue diverse tipologie nei diagrammi Gantt o nelle tabelle delle macro-attività. Si consiglia quindi di utilizzare colori forti.
-        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
+        variant_name_caption_html: Questo è un nome interno visibile solo agli amministratori. Le varianti sostituiscono il tipo principale originale, quindi se questa variante viene utilizzata in un progetto, apparirà come <b>%{type}</b> a tutti i membri.
       export_configuration:
         artefact_export:
           attachment:
@@ -6423,16 +6424,16 @@ it:
           readonly_error: Cannot be changed while linked to a source type.
           section_title: Modelli di esportazione PDF
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
-            title: 'Settings: %{template}'
+            edit_link: Modifica le impostazioni
+            reset_to_default: Ripristina impostazioni predefinite
+            title: 'Impostazioni: %{template}'
       form_configuration:
         add_attribute_group: Sezione
         add_query_group: Tabella di macro-attività correlate
         blankslate_description: Aggiungi gruppi utilizzando il pulsante sopra oppure trascina gli attributi dal pannello di sinistra.
         blankslate_title: Ancora nessun gruppo
         confirm_delete_group: Vuoi davvero eliminare questa sezione? Questa azione non può essere annullata automaticamente.
-        confirm_reset: Are you sure you want to reset the form?
+        confirm_reset: Vuoi ripristinare il modulo?
         custom_field: Campo personalizzato
         delete_group: Elimina sezione
         drag_to_activate: Trascina i campi da qui per attivarli
@@ -6447,42 +6448,42 @@ it:
         group_actions: Azioni di sezione
         group_name_label: Nome sezione
         inactive_attributes_heading: Attributi inattivi
-        invalid_attribute_groups: The form payload is invalid.
+        invalid_attribute_groups: Il payload del modulo non è valido.
         invalid_query: La configurazione della query incorporata non è valida.
         label_group: Sezione
         no_inactive_attributes: Nessun attributo inattivo
-        not_found: The requested form item could not be found.
+        not_found: Non è stato possibile trovare l'elemento del modulo richiesto.
         query_group_label: Tabella di macro-attività correlate
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
-        reset_title: Reset form
+        reset_title: Resetta modulo
         reset_to_defaults: Azzera modulo
         row_actions: Azioni sulle righe
-        tab: Form
+        tab: Modulo
         untitled_group: Gruppo senza titolo
       overview:
-        configuration_mode: Configuration mode
-        dependents: Dependent types and variants
+        configuration_mode: Modalità di configurazione
+        dependents: Tipi e varianti dipendenti
         mode:
-          always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
-          manual: Manually configured
-        settings: Settings
-        tab: Overview
+          always_manual: Sempre manuale
+          inheriting_from_html: Eredita da %{source_name}
+          manual: Configurato manualmente
+        settings: Impostazioni
+        tab: Panoramica
       project_attributes:
         actions:
           label_disable_all: Disabilita tutto
           label_enable_all: Abilita tutto
         blankslate:
           inherited:
-            description: This type does not have any project attributes associated with it.
-            title: No project attributes configured
+            description: Questo tipo non ha attributi del progetto associati.
+            title: Nessun attributo del progetto configurato
           manual:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            description: Dopo aver [creato gli attributi del progetto](administration_url), saranno visibili qui e potranno essere aggiunti a un tipo.
+            title: Nessun attributo del progetto disponibile
         description: Seleziona gli attributi del progetto da abilitare per questo tipo di macro-attività. Gli attributi abilitati vengono visualizzati in una scheda separata nelle macro-attività di questo tipo. Gli utenti con le autorizzazioni necessarie possono visualizzarli e modificarli in tale scheda.
         disabled: Disabilitato
         exclusions:
@@ -6512,8 +6513,8 @@ it:
             description_html: Copiando i dati da %{source_name}, sovrascriverai le impostazioni attuali e potresti modificare le informazioni esistenti nelle macro-attività di questo tipo.
             title: Copiare la configurazione?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
-            source_label: Source type
+            description: Copia la configurazione da un tipo di origine e usala come base una tantum. La configurazione rimane manuale e non eredita le modifiche successive apportate all'origine.
+            source_label: Tipo di origine
             source_placeholder: Seleziona un tipo o una variante
             submit: Salva e copia
             title: Copia configurazione
@@ -6521,75 +6522,75 @@ it:
           success: La configurazione è stata copiata.
         dependents:
           blank:
-            description: No other type or variant inherits from this configuration
-            title: No dependent types
+            description: Nessun altro tipo o variante eredita da questa configurazione
+            title: Nessun tipo dipendente
           description:
-            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            one: La seguente configurazione è ereditata da 1 altro tipo o variante. Qualsiasi modifica apportata qui influirà anche sull'elemento dipendente.
+            other: La seguente configurazione è ereditata da altri %{count} tipi o varianti. Qualsiasi modifica apportata qui influirà anche sugli elementi dipendenti.
           dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
+            description: Questi tipi e varianti ereditano la configurazione di questa sezione. Le modifiche apportate qui si applicano a tutti.
+            direct_heading: Dipendenti diretti
+            indirect_heading: Dipendenti tramite altri tipi
+            title: Tipi dipendenti
+            variant_of_html: Variante di %{type_name}
+            variant_of_via_html: Variante di %{type_name}, che eredita tramite %{source_name}
+            via_html: Eredita tramite %{source_name}
           title:
-            one: 1 dependent type
-            other: "%{count} dependent types"
-          view: View dependent types
+            one: 1 tipo dipendente
+            other: "%{count} tipi dipendenti"
+          view: Visualizza tipi dipendenti
         exclusions:
-          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: Questa configurazione non è ereditata, quindi non c'è nulla da escludere. Modifica direttamente la configurazione.
           unknown_aspect: Sezione di configurazione "%{aspect}" sconosciuta.
         inherited:
-          change_source: Change source type
-          configure_manually: Configure manually
+          change_source: Cambia tipo di origine
+          configure_manually: Configura manualmente
           confirm_dialog:
             change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
-            check_box: I understand that this will override the current settings
+              description_html: Cambiando il tipo di origine in %{source_name}, sovrascriverai le impostazioni attuali e potresti influire sulle informazioni esistenti nelle macro-attività di questo tipo.
+              heading: Cambiare il tipo di origine?
+              title: Cambia tipo di origine
+            check_box: Ho compreso che questa operazione sovrascriverà le impostazioni attuali
             from_manual:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+              description: Tutte le impostazioni attualmente selezionate verranno sovrascritte e ciò potrebbe influire sulle informazioni esistenti nelle macro-attività di questo tipo.
+              heading: Cambiare modalità di configurazione?
+              title: Cambia modalità di configurazione
+          description: Questa configurazione è ereditata dal tipo di origine [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: Questa configurazione è ereditata dal tipo di origine %{source_name}%{source_suffix}.
           dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          title: Inherited configuration
+            description: Eredita questa configurazione da un tipo di origine. Qualsiasi nuova configurazione aggiunta all'origine verrà applicata anche qui.
+            source_label: Tipo di origine
+            source_placeholder: Seleziona un tipo o una variante
+            submit: Cambia
+            title: Eredita da un altro tipo
+          invalid_source: La configurazione non può essere ereditata dal tipo selezionato. Seleziona un tipo di origine diverso.
+          success: La modalità di configurazione è stata cambiata.
+          title: Configurazione ereditata
         manual:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copy from another type
-          description: No settings are inherited. You can still copy the settings from another type one time.
+            check_box: Ho compreso che questa operazione sovrascriverà le impostazioni attuali
+            description: Tutte le impostazioni attualmente selezionate verranno sovrascritte e ciò potrebbe influire sulle informazioni esistenti nelle macro-attività di questo tipo.
+            heading: Cambiare modalità di configurazione?
+            title: Cambia modalità di configurazione
+          copy_from_type: Copia da un altro tipo
+          description: Nessuna impostazione viene ereditata. Puoi comunque copiare una sola volta le impostazioni da un altro tipo.
           dialog:
-            submit: Switch
-            title: Configure manually
-          inherit_from_type: Inherit from another type
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+            submit: Cambia
+            title: Configura manualmente
+          inherit_from_type: Eredita da un altro tipo
+          invalid_mode: La modalità selezionata non è disponibile per questa configurazione. Scegli una modalità diversa.
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Inizia con una copia una tantum delle impostazioni attualmente ereditate da questa configurazione.
+              label: Copia impostazioni ereditate
             default:
-              caption: Use the default settings for new types.
-              label: Default settings
+              caption: Usa le impostazioni predefinite per i nuovi tipi.
+              label: Impostazioni predefinite
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
-          success: The configuration mode was switched.
-          title: Manual configuration
+              caption: Configura tutto da zero, partendo da una configurazione vuota.
+              label: Vuota
+          success: La modalità di configurazione è stata cambiata.
+          title: Configurazione manuale
         parent_suffix: " (genitore)"
       variants:
         blankslate:
@@ -6597,22 +6598,22 @@ it:
 
             '
           title: Non esistono varianti per questo tipo
-        created_in_html: Created in %{project}
+        created_in_html: Creata in %{project}
         delete:
-          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
-          title: Delete %{name}
+          description: Prima di eliminare questa variante, i progetti che la utilizzano passeranno alla variante scelta di seguito.
+          title: Elimina %{name}
         filter: Filtra per testo
         filter_no_results: Nessuna variante corrisponde a questo filtro
         global_section:
-          description: These variants are available across all projects.
-          title: Variants
+          description: Queste varianti sono disponibili in tutti i progetti.
+          title: Varianti
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          description: Queste varianti sono disponibili solo nei progetti in cui sono state create.
+          title: Varianti specifiche del progetto
       workflow:
         tab: Flussi di lavoro
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Aggiungi una variante a %{name}
       add_variant_action: Aggiungi variante
       description: 'Ogni area di configurazione dei tipi e delle varianti può essere configurata in modo indipendente, vincolata da un altro tipo oppure completamente collegata a un''origine.
 
@@ -6625,8 +6626,8 @@ it:
       no_results_content_text: Crea un nuovo tipo
       no_results_title_text: Al momento non esistono tipi.
       project_variants_count:
-        one: 1 project-specific variant
-        other: "%{count} project-specific variants"
+        one: 1 variante specifica del progetto
+        other: "%{count} varianti specifiche del progetto"
       remove_default: Non attivare nei nuovi progetti
       remove_default_notice: "%{name} non è più attivo in nuovi progetti."
       type_label: Tipo
@@ -7005,12 +7006,12 @@ it:
       confirm_descendants_deletion: Confermo anche che tutti i discendenti sopra elencati saranno cancellati.
       cross_project_warning_html: 'Queste macro-attività comprendono più progetti: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Eliminare anche tutti i discendenti?
+        question: Stai tentando di eliminare macro-attività che hanno discendenti. Vuoi eliminare anche questi ultimi?
+        self_only_label: Elimina solo le macro-attività selezionate
+        self_only_caption: I discendenti non verranno eliminati, ma verranno rimosse le relazioni gerarchiche.
+        with_descendants_label: Elimina le macro-attività selezionate e i relativi discendenti
+        with_descendants_caption: Verranno eliminate tutte le macro-attività figlie visibili. Potrai esaminare l'elenco completo nel passaggio successivo.
       description: Vuoi davvero eliminare le macro-attività selezionate e tutti i dati associati?
       description_with_all_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i loro discendenti?
       description_with_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i seguenti discendenti?
@@ -7076,12 +7077,12 @@ it:
       confirm_descendants_deletion: Confermo anche che tutti i discendenti sopra elencati saranno cancellati.
       cross_project_warning_html: 'Le macro-attività dei seguenti progetti saranno eliminate: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Eliminare anche tutti i discendenti?
+        question: Questa macro-attività ha dei discendenti. Vuoi eliminare anche questi ultimi?
+        self_only_label: Elimina solo questa macro-attività
+        self_only_caption: I discendenti non verranno eliminati, ma verranno rimosse le relazioni gerarchiche.
+        with_descendants_label: Elimina questa macro-attività e i relativi discendenti
+        with_descendants_caption: Verranno eliminate tutte le macro-attività figlie visibili. Potrai esaminare l'elenco completo nel passaggio successivo.
       description: Vuoi davvero eliminare "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
       hidden_descendants_only_warning:
@@ -7145,7 +7146,7 @@ it:
         target_role_ids:
           label: Ruoli di destinazione
         target_variant_ids:
-          label: Target types
+          label: Tipi di destinazione
       from_roles:
         create:
           notice:
@@ -7154,8 +7155,8 @@ it:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Flusso di lavoro copiato correttamente in '%{type_name}'.
+            other: Flusso di lavoro copiato correttamente in %{count} tipi.
       new:
         title: Copia il flusso di lavoro di "%{source_type}"
     form:

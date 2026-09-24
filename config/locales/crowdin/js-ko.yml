@@ -809,7 +809,7 @@ ko:
         fallback_list_name: 다른 목록
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
-        moved: "%{label}이(가) 위치 %{position}/%{total}(으)로 이동됨"
+        moved: "%{label}이(가) %{total}개 중 %{position} 위치로 이동됨"
         moved_to_list: "%{label}이(가) %{list}(으)로 이동됨, 위치 %{position}/%{total}"
     spot:
       drop_modal:

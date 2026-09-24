@@ -48,7 +48,7 @@ zh-CN:
         other: OpenID Connect 提供商
       openid_connect/user_token:
         other: OpenID Connect 令牌
-  logout_warning: '您已退出。您提交的任何表单的内容可能丢失。请[登录]。
+  logout_warning: '您已退出登录。您提交的任何表单的内容可能丢失。请[登录]。
 
     '
   openid_connect:
@@ -77,7 +77,7 @@ zh-CN:
       display_name: 提供商的名称。这将显示为登录按钮以及提供商列表中的名称。
       endpoint_url: OpenID Connect 提供商给您的端点 URL
       group_regexes: 每行一个正则表达式模式。有关如何操作的更多信息，请阅读[文档](docs_url)。
-      group_regexes_detail: 可选择使用正则表达式定义模式，以匹配群组声明中的群组名称。例如，输入类似 <code>^Level1/Level2/([\w/]+)$</code> 的模式将从包含“Level1/Level2/GroupName/SubGroup”的响应中提取群组“Groupname/SubGroup”。如果没有模式匹配，则会忽略该群组。留空可使用完整群组名称同步所有群组。
+      group_regexes_detail: 可以选择使用正则表达式定义模式，以匹配群组声明中的群组名称。例如，输入类似 <code>^Level1/Level2/([\w/]+)$</code> 的模式将从包含“Level1/Level2/GroupName/SubGroup”的响应中提取群组“Groupname/SubGroup”。如果没有模式匹配，则会忽略该群组。留空可使用完整群组名称同步所有群组。
       group_regexes_testing: 点击“测试模式”，以根据样本 OIDC 用户信息测试正则表达式模式。
       group_sync: 自动从身份提供商提取并同步群组成员信息。
       groups_claim: 指定预期表示用户所属群组名称的声明的名称。

@@ -90,8 +90,8 @@ zh-CN:
           caption: 为特定用户分配小时数。
           label: 用户
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: 所选用户在这些日期没有配置工作时数，因此被计为没有产能。
+        partial: 所选用户在 %{dates}没有配置工作时数，因此这些日期被计为没有产能。
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:

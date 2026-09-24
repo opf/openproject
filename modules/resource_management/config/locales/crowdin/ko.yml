@@ -90,8 +90,8 @@ ko:
           caption: 특정 사용자에 대한 시간을 할당합니다.
           label: 사용자
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: 선택한 사용자는 해당 날짜에 구성된 근무 시간이 없으므로 근무 가능 시간이 없는 것으로 간주됩니다.
+        partial: 선택한 사용자는 %{dates}에 구성된 근무 시간이 없으므로 해당 날짜에 근무 가능 시간이 없는 것으로 간주됩니다.
       outside_dates:
         description: 선택된 리소스 날짜(%{resource_dates})가 작업 패키지 날짜(%{work_package_dates}) 범위를 벗어납니다.
       overbooking:

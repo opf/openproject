@@ -1307,7 +1307,7 @@ ko:
         primary-button-color: 기본 버튼
       custom_colors: 사용자 정의 색상
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: 애플리케이션의 다른 곳에서 사용할 색상 팔레트를 정의합니다. 예를 들어, 상태나 유형을 나타낼 색상을 선택할 때 이러한 색상을 사용할 수 있습니다.
       edit_color: "%{color} 편집"
       fonts:
         file_is_invalid: "- 유효한 TTF 글꼴 파일이 아닙니다."
@@ -3083,14 +3083,14 @@ ko:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: 문서에서 바로 작업 패키지를 생성합니다.
+            line_1: 백로그에서 작업 패키지를 검색하고 필터링합니다.
+            line_2: 작업 패키지를 삭제할 때 하위 항목을 유지할지 여부를 선택합니다.
+            line_3: MCP 서버를 사용하여 시간을 추적하고, 해당 표시 ID로 작업 패키지를 검색하는 등의 작업을 수행합니다(Professional 플랜).
+            line_4: 계획된 노동 시간을 시간, 일, 주 또는 월 단위로 입력합니다.
+            line_5: Jira Migrator를 사용할 때 가져오기 진행률을 확인합니다.
+            line_6: Community Edition에서 날짜 알림을 사용합니다.
+          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
 
             '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
@@ -3263,7 +3263,7 @@ ko:
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_projects: 사용 가능한 프로젝트
-  label_backtrace: Backtrace
+  label_backtrace: 백트레이스
   label_backup: 백업
   label_basic_details: 기본 세부 정보
   label_between: 사이에
@@ -3383,6 +3383,7 @@ ko:
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_item: "(삭제된 항목)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_deleted_version: "(deleted version)"
   label_departments: 조직
   label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 부서 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
 
@@ -5510,7 +5511,7 @@ ko:
   setting_default_language: 기본 언어
   setting_default_projects_modules: 새 프로젝트에 대해 기본적으로 활성화된 모듈
   setting_default_projects_public: 새 프로젝트는 기본적으로 공용입니다.
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: 기본적으로 새 프로젝트에 대해 위키 기능을 활성화합니다.
   setting_diff_max_lines_displayed: 표시되는 최대 차이점 줄 수
   setting_disable_password_login: 암호 인증 비활성화
   setting_display_subprojects_work_packages: 기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시
@@ -6371,7 +6372,7 @@ ko:
           success: 구성이 복사되었습니다.
         dependents:
           blank:
-            description: 이 구성에서 상속받는 다른 유형이나 변형은 없습니다
+            description: 이 구성에서 상속되는 다른 유형이나 변형이 없습니다
             title: 종속 유형 없음
           description:
             other: 다음 구성은 %{count}개의 기타 유형이나 변형에 상속됩니다. 여기서 변경하는 사항은 종속 항목에도 영향을 미칩니다.
@@ -6384,7 +6385,7 @@ ko:
             variant_of_via_html: "%{type_name}의 변형, %{source_name}을(를) 통해 상속"
             via_html: "%{source_name}을(를) 통해 상속"
           title:
-            other: "%{count} dependent types"
+            other: "%{count}개 종속 유형"
           view: 종속 유형 보기
         exclusions:
           not_inherited: 이 구성은 상속되지 않으므로, 제외할 항목이 없습니다. 대신 구성을 직접 편집하세요.
@@ -6473,7 +6474,7 @@ ko:
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
       project_variants_count:
-        other: "%{count} project-specific variants"
+        other: "%{count}개 프로젝트별 변형"
       remove_default: 새 프로젝트에서 활성화 안 함
       remove_default_notice: "%{name}이(가) 새 프로젝트에서 더 이상 활성화되지 않습니다."
       type_label: 유형
@@ -6853,8 +6854,8 @@ ko:
         question: 하위 항목이 있는 작업 패키지를 삭제하려고 합니다. 해당 하위 항목도 함께 삭제하시겠습니까?
         self_only_label: 선택된 작업 패키지만 삭제
         self_only_caption: 이렇게 하면 하위 항목이 삭제되지 않지만, 계층적 관계는 제거됩니다.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: 선택한 작업 패키지 및 해당 하위 항목 삭제
+        with_descendants_caption: 이렇게 하면 내게 표시되는 모든 자식 작업 패키지가 삭제됩니다. 다음 단계에서 전체 목록을 검토할 수 있습니다.
       description: 선택한 작업 패키지 및 모든 관련 데이터를 삭제하시겠습니까?
       description_with_all_descendants: 선택한 작업 패키지 및 모든 해당 하위 항목을 삭제하시겠습니까?
       description_with_descendants: 선택한 작업 패키지 및 다음의 모든 하위 항목을 삭제하시겠습니까?
@@ -6920,8 +6921,8 @@ ko:
         question: 이 작업 패키지에는 하위 항목이 있습니다. 이 항목도 함께 삭제하시겠습니까?
         self_only_label: 이 작업 패키지만 삭제
         self_only_caption: 이렇게 하면 하위 항목이 삭제되지 않지만, 계층적 관계는 제거됩니다.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: 이 작업 패키지 및 하위 항목 삭제
+        with_descendants_caption: 이렇게 하면 내게 표시되는 모든 자식 작업 패키지가 삭제됩니다. 다음 단계에서 전체 목록을 검토할 수 있습니다.
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:

@@ -3371,6 +3371,7 @@ zh-TW:
   label_deleted_custom_field: "(已刪除的客製欄位)"
   label_deleted_custom_item: "(刪除項目)"
   label_deleted_custom_option: "(刪除的選項)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 

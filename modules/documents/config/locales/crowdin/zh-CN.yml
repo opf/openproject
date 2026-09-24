@@ -108,7 +108,7 @@ zh-CN:
       label_legacy: 旧版
       name: 名称
       type: 类型
-      updated_at: 上次编辑
+      updated_at: 上次编辑时间
     info_line:
       connection_restored: 您已恢复在线状态。
       currently_offline: 您目前处于离线状态。
@@ -135,7 +135,7 @@ zh-CN:
       tabs: "“文档”选项卡"
     subheader:
       filter:
-        label: 文档名称过滤器
+        label: 文档名称筛选器
         placeholder: 在此输入搜索文档名称
     text_collaboration_disabled_notice:
       description: |-

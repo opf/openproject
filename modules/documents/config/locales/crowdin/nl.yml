@@ -123,7 +123,7 @@ nl:
     label_categories: Categorieën
     last_updated_at: Last saved %{time}.
     menu:
-      all: All documents
+      all: Alle documenten
       collaboration_settings: Real-time collaboration
       types: Typen
     new_category: Nieuwe categorie

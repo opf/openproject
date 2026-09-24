@@ -3512,6 +3512,7 @@ pt-PT:
   label_deleted_custom_field: "(campo personalizado apagado)"
   label_deleted_custom_item: "(item eliminado)"
   label_deleted_custom_option: "(opção eliminada)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organização
   label_departments_description_html: 'Defina a estrutura da sua empresa criando departamentos e sub-departamentos de forma hierárquica. Isto permite refletir as linhas de reporte e manter uma visão geral clara e estruturada da sua organização no OpenProject. Também pode importar uma estrutura organizacional existente através da [sincronização de departamento LDAP](ldap_docs_article).
 

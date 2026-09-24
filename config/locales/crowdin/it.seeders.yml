@@ -73,13 +73,13 @@ it:
           name: Ruolo globale standard
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Correggi la grammatica
         item_1:
-          label: Make concise
+          label: Rendi conciso
         item_2:
-          label: Translate to English
+          label: Traduci in inglese
         item_3:
-          label: Sort into template
+          label: Organizza nel modello
     standard:
       project_phases:
         item_0:
