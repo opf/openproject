@@ -30,11 +30,12 @@
 
 module Workflows
   class CopySourceForm < ApplicationForm
-    def initialize(candidates:, selected:)
+    def initialize(candidates:, selected:, type_workflow_id: nil)
       super()
 
       @candidates = candidates
       @selected = selected
+      @type_workflow_id = type_workflow_id
     end
 
     form do |source_form|
@@ -53,13 +54,19 @@ module Workflows
         }
       ) do |list|
         candidates.each do |candidate|
-          list.option(value: candidate.id, label: candidate.name, selected: candidate.id == selected)
+          list.option(value: candidate.id, label: label_for(candidate), selected: candidate.id == selected)
         end
       end
     end
 
     private
 
-    attr_reader :candidates, :selected
+    attr_reader :candidates, :selected, :type_workflow_id
+
+    def label_for(candidate)
+      return candidate.name unless candidate.id == type_workflow_id
+
+      "#{candidate.name} #{I18n.t('admin.workflows.workflow_selector.same_as_type')}"
+    end
   end
 end

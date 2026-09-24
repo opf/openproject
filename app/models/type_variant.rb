@@ -134,6 +134,11 @@ class TypeVariant < ApplicationRecord
     project_id.nil? ? args : args.merge(in_project_id: project)
   end
 
+  # The workflow the type itself uses, for a variant that is not the type.
+  def type_workflow
+    type.default_variant.workflow unless is_default_variant?
+  end
+
   # Full variant name, e.g., "Bug: Hardware"
   def composite_name
     is_default_variant? ? type.name : "#{type.name}: #{variant_name}"

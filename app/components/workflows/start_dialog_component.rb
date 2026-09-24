@@ -35,17 +35,18 @@ module Workflows
 
     FORM_ID = "workflow-start-form"
 
-    def initialize(url:, candidates:, error: nil)
+    def initialize(url:, candidates:, error: nil, type_workflow_id: nil)
       super()
 
       @url = url
       @candidates = candidates
       @error = error
+      @type_workflow_id = type_workflow_id
     end
 
     private
 
-    attr_reader :url, :candidates, :error
+    attr_reader :url, :candidates, :error, :type_workflow_id
 
     def dialog_id = ::Workflows::FormComponent::DIALOG_ID
 

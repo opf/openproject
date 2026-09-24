@@ -50,11 +50,7 @@ module Workflows
 
     def same_as_type_text = I18n.t("admin.workflows.workflow_selector.same_as_type")
 
-    def same_as_type?
-      return false if variant.is_default_variant?
-
-      variant.workflow_id == variant.type.default_variant.workflow_id
-    end
+    def same_as_type? = variant.type_workflow&.id == variant.workflow_id
 
     def selected = @selected || variant.workflow_id
 

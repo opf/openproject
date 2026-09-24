@@ -136,7 +136,8 @@ module WorkPackageTypes
       ::Workflows::StartDialogComponent.new(
         url:,
         candidates: Workflow.available_in(@variant.project).in_display_order.to_a,
-        error:
+        error:,
+        type_workflow_id: @variant.type_workflow&.id
       )
     end
 

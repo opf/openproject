@@ -52,6 +52,14 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
 
   def transitions_of(workflow) = workflow.status_transitions.pluck(:old_status_id, :new_status_id)
 
+  def same_as_type = I18n.t("admin.workflows.workflow_selector.same_as_type")
+
+  # The autocompleter carries its options as JSON rather than as option elements.
+  def copy_source_labels
+    items = streamed.find("[data-test-selector='workflow-copy-source']", visible: :all)["data-items"]
+    JSON.parse(items).pluck("name")
+  end
+
   describe "the starting point dialog" do
     it "offers a copy and a blank start, with the source to copy from" do
       get start_dialog_type_workflow_path(type_id: type.id, back_url: step_url), headers: turbo
@@ -66,6 +74,21 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
       get start_dialog_type_workflow_path(type_id: type.id, back_url: step_url), headers: turbo
 
       expect(streamed).to have_css("form[action^='#{start_type_workflow_path(type_id: type.id)}']", visible: :all)
+    end
+
+    it "marks the workflow the type uses when a variant is the one starting" do
+      variant = create(:type_variant, type:, variant_name: "Mobile")
+
+      get start_dialog_type_workflow_path(type_id: type.id, variant_id: variant.id), headers: turbo
+
+      expect(copy_source_labels)
+        .to include("#{type.default_variant.workflow.name} #{same_as_type}")
+    end
+
+    it "marks nothing when the type itself is starting" do
+      get start_dialog_type_workflow_path(type_id: type.id), headers: turbo
+
+      expect(copy_source_labels).not_to include(a_string_including(same_as_type))
     end
 
     it "submits to the naming step everywhere else" do

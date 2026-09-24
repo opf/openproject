@@ -33,10 +33,11 @@ module Workflows
     COPY = "copy"
     SCRATCH = "scratch"
 
-    def initialize(candidates:)
+    def initialize(candidates:, type_workflow_id: nil)
       super()
 
       @candidates = candidates
+      @type_workflow_id = type_workflow_id
     end
 
     form do |start_form|
@@ -59,7 +60,7 @@ module Workflows
               classes: "mt-2",
               data: { "workflows--start-choice-target": "copySource" }
             ) do |builder|
-              CopySourceForm.new(builder, candidates:, selected: candidates.first.id)
+              CopySourceForm.new(builder, candidates:, selected: candidates.first.id, type_workflow_id:)
             end
           end
         end
@@ -76,7 +77,7 @@ module Workflows
 
     private
 
-    attr_reader :candidates
+    attr_reader :candidates, :type_workflow_id
 
     def group_data
       {
