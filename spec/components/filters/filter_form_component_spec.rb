@@ -104,6 +104,30 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
       end
     end
 
+    context "when the query itself registers the filter as excluded" do
+      around do |example|
+        excluded = Queries::Register.excluded_filters[UserQuery]
+        previously_excluded = excluded.dup
+
+        example.run
+      ensure
+        excluded.replace(previously_excluded)
+      end
+
+      before do
+        Queries::Register.exclude(UserQuery, Queries::Users::Filters::StatusFilter)
+      end
+
+      it "drops it without the component being told to" do
+        render_form
+
+        expect(page).to have_select "add_filter_select", with_options: %w[Name Username]
+        expect(page).to have_select "add_filter_select" do |select|
+          expect(select).to have_no_selector :option, text: "Status"
+        end
+      end
+    end
+
     it "hides a filter even when it is already active on the query" do
       query.where(:status, "=", ["active"])
       render_form(query:, excluded_filters: [:status])
@@ -123,21 +147,25 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
   describe "filters that are never user selectable" do
     let(:query) { Query.new }
 
-    it "drops the internal autocompleter and search filters" do
+    it "defines a set of filters that are never advertised" do
+      expect(described_class::NEVER_ADVERTISED_FILTER_NAMES).to match_array %i[search subject_or_id typeahead]
+    end
+
+    it "drops the internal autocompleter and search filters", :aggregate_failures do
       render_form(query:)
 
       described_class::NEVER_ADVERTISED_FILTER_NAMES.each do |name|
-        expect(page).to have_no_css("option[value='#{name}']")
-        expect(page).to have_no_css("[data-filter-name='#{name}']", visible: :all)
+        expect(page).to have_no_element(:option, value: name, visible: :all)
+        expect(page).to have_no_element("data-filter-name": name, visible: :all)
       end
     end
 
-    it "drops the filters modules registered as excluded" do
+    it "drops the filters modules registered as excluded", :aggregate_failures do
       render_form(query:)
 
       query.class.excluded_filters.each do |filter_class|
-        expect(page).to have_no_css("option[value='#{filter_class.key}']")
-        expect(page).to have_no_css("[data-filter-name='#{filter_class.key}']", visible: :all)
+        expect(page).to have_no_element(:option, value: filter_class.key, visible: :all)
+        expect(page).to have_no_element("data-filter-name": filter_class.key, visible: :all)
       end
     end
   end
