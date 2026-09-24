@@ -86,6 +86,7 @@ describe('Filters form pending rows', () => {
       <div data-filter-name="subject" data-filter-type="string" hidden data-filter--filters-form-target="filter">
         <select aria-label="Subject operator" data-filter-name="subject" data-filter--filters-form-target="operator">
           <option value="~">contains</option>
+          <option value="!~">does not contain</option>
         </select>
         <div data-filter-name="subject" data-filter--filters-form-target="filterValueContainer">
           <input type="text" name="value" value="" aria-label="Subject value"
@@ -108,7 +109,7 @@ describe('Filters form pending rows', () => {
   // getByRole returns HTMLElement; the generic narrows it where `.value` is read or written.
   const addFilterSelect = () => ctx.screen.getByRole<HTMLSelectElement>('combobox', { name: 'Add filter' });
   const statusOperator = () => ctx.screen.getByRole('combobox', { name: 'Status operator', hidden: true });
-  const subjectOperator = () => ctx.screen.getByRole('combobox', { name: 'Subject operator', hidden: true });
+  const subjectOperator = () => ctx.screen.getByRole<HTMLSelectElement>('combobox', { name: 'Subject operator', hidden: true });
   const subjectRow = () => subjectOperator().closest<HTMLElement>('[data-filter--filters-form-target="filter"]')!;
   const statusOption = () => ctx.screen.getByRole<HTMLOptionElement>('option', { name: 'Status', hidden: true });
   const subjectOption = () => ctx.screen.getByRole<HTMLOptionElement>('option', { name: 'Subject', hidden: true });
@@ -156,6 +157,20 @@ describe('Filters form pending rows', () => {
 
     expect(statusOperator()).toBeVisible();
     expect(statusOption()).toBeDisabled();
+  });
+
+  it("keeps a pending row's operator and draft through a re-render that does not know it", async () => {
+    const controller = await mount();
+    addFilterSelect().value = 'subject';
+    controller.addFilterByName('subject');
+    subjectOperator().value = '!~';
+    subjectValue().value = 'draft';
+
+    rerenderFromServer(UNKNOWN_TO_SERVER);
+
+    expect(subjectOperator()).toBeVisible();
+    expect(subjectOperator()).toHaveValue('!~');
+    expect(subjectValue()).toHaveValue('draft');
   });
 
   it('hands the row to the server once it has been submitted with a value', async () => {
@@ -386,6 +401,24 @@ describe('Filters form pending rows', () => {
       dateOperator().value = operator;
       controller.setValueVisibility({ target: dateOperator(), params: { filterName: FILTER_NAME } });
     }
+
+    function rerenderCreatedOn() {
+      const template = document.createElement('template');
+      template.innerHTML = dateRow();
+      Turbo.morphElements(host(), template.content.firstElementChild!);
+    }
+
+    it('keeps the picker of a chosen operator through a re-render that does not know the row', async () => {
+      const controller = await mount(dateRow());
+      addCreatedOn(controller);
+      switchOperatorTo(controller, '<>d');
+
+      rerenderCreatedOn();
+
+      expect(dateOperator()).toHaveValue('<>d');
+      expect(rangeInput()).toBeVisible();
+      expect(dayInput()).not.toBeVisible();
+    });
 
     it('shows the picker of the default operator again after a cached page is restored', async () => {
       const controller = await mount(dateRow());

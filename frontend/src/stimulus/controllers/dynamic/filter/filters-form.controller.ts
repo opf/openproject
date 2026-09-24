@@ -27,7 +27,12 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage, visit, type TurboBeforeMorphAttributeEvent } from '@hotwired/turbo';
+import {
+  renderStreamMessage,
+  visit,
+  type TurboBeforeMorphAttributeEvent,
+  type TurboBeforeMorphElementEvent,
+} from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
 import {
   hideElement,
@@ -146,7 +151,8 @@ export default class FiltersFormController extends Controller {
 
     const clearButton = document.getElementById(this.clearButtonIdValue);
     clearButton?.addEventListener('click', (event) => this.clearInputWithButton(event), { signal });
-    this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingRows, { signal });
+    this.element.addEventListener('turbo:before-morph-element', this.keepPendingRows, { signal });
+    this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingOptionsTaken, { signal });
 
     // A restored page brings its markup back but not this controller's model, so a marker
     // already in the DOM here belongs to whoever was cached.
@@ -412,18 +418,26 @@ export default class FiltersFormController extends Controller {
     }
   }
 
-  private readonly keepPendingRows = (event:TurboBeforeMorphAttributeEvent) => {
+  // The server does not know a pending row, so its response would hide the row and put its
+  // operator, draft value and active picker back to defaults. The row is left out of the morph.
+  private readonly keepPendingRows = (event:TurboBeforeMorphElementEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (this.filterTargets.includes(target) && target.hasAttribute(PENDING_ATTRIBUTE)) {
+      event.preventDefault();
+    }
+  };
+
+  private readonly keepPendingOptionsTaken = (event:TurboBeforeMorphAttributeEvent) => {
     const { attributeName } = event.detail;
     const target = event.target as HTMLElement;
 
-    const isPendingRow = this.filterTargets.includes(target) && target.hasAttribute(PENDING_ATTRIBUTE);
-    const keepsRow = isPendingRow && (attributeName === 'hidden' || attributeName === PENDING_ATTRIBUTE);
     const keepsOptionTaken = attributeName === 'disabled'
       && target instanceof HTMLOptionElement
       && target.closest('select') === this.addFilterSelectTarget
       && this.pendingRows().some((row) => row.dataset.filterName === target.value);
 
-    if (keepsRow || keepsOptionTaken) {
+    if (keepsOptionTaken) {
       event.preventDefault();
     }
   };
