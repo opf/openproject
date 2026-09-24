@@ -43,15 +43,22 @@ module Backlogs
 
     def call
       render(card) do |common_card|
-        unless common_card.metric?
-          common_card.with_metric do
-            render(Backlogs::StoryPointsComponent.new(work_package:))
-          end
-        end
+        render_metric(common_card) unless common_card.metric?
       end
     end
 
     private
+
+    def render_metric(common_card)
+      case work_package.project.estimation_unit
+      when Project::BACKLOGS_UNIT_STORY_POINTS
+        common_card.with_metric { render(Backlogs::StoryPointsComponent.new(work_package:)) }
+      when Project::BACKLOGS_UNIT_TIME
+        return unless work_package.estimated_hours.to_f.positive?
+
+        common_card.with_metric { render(Backlogs::EstimatedHoursComponent.new(work_package:)) }
+      end
+    end
 
     def card
       @card ||= OpPrimer::WorkPackageCardComponent.new(
