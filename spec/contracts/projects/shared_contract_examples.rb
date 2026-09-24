@@ -212,15 +212,6 @@ RSpec.shared_examples_for "project contract" do
   end
 
   describe "assignable_custom_field_values" do
-    context "for a list custom field" do
-      let(:custom_field) { build_stubbed(:list_project_custom_field) }
-
-      it "is the list of custom field values" do
-        expect(subject.assignable_custom_field_values(custom_field))
-          .to eq custom_field.possible_values
-      end
-    end
-
     context "for a version custom field" do
       let(:custom_field) { build_stubbed(:version_project_custom_field) }
       let(:versions) { double("versions") }

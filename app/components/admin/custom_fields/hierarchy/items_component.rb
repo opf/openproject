@@ -44,12 +44,14 @@ module Admin
           @root ||= model.root? ? model : model.root
         end
 
-        def new_item_path
+        def new_item_path # rubocop:disable Metrics/AbcSize
           position = model.children.any? ? model.children.last.sort_order + 1 : 0
           custom_field_id = root.custom_field_id
 
           if project_custom_field_context?
             new_child_admin_settings_project_custom_field_item_path(custom_field_id, model, position:)
+          elsif user_custom_field_context?
+            new_child_admin_settings_user_custom_field_item_path(custom_field_id, model, position:)
           else
             new_child_custom_field_item_path(custom_field_id, model, position:)
           end
@@ -60,8 +62,34 @@ module Admin
 
           if project_custom_field_context?
             reorder_alphabetical_admin_settings_project_custom_field_item_path(custom_field_id, model)
+          elsif user_custom_field_context?
+            reorder_alphabetical_admin_settings_user_custom_field_item_path(custom_field_id, model)
           else
             reorder_alphabetical_custom_field_item_path(custom_field_id, model)
+          end
+        end
+
+        def move_item_url(item)
+          custom_field_id = root.custom_field_id
+
+          if project_custom_field_context?
+            move_admin_settings_project_custom_field_item_url(custom_field_id, item)
+          elsif user_custom_field_context?
+            move_admin_settings_user_custom_field_item_url(custom_field_id, item)
+          else
+            move_custom_field_item_url(custom_field_id, item)
+          end
+        end
+
+        def index_item_url(item)
+          custom_field_id = root.custom_field_id
+
+          if project_custom_field_context?
+            admin_settings_project_custom_field_item_url(custom_field_id, item)
+          elsif user_custom_field_context?
+            admin_settings_user_custom_field_item_url(custom_field_id, item)
+          else
+            custom_field_item_url(custom_field_id, item)
           end
         end
 
@@ -112,11 +140,15 @@ module Admin
           root.custom_field.is_a?(ProjectCustomField)
         end
 
+        def user_custom_field_context?
+          root.custom_field.is_a?(UserCustomField)
+        end
+
         def branch(item)
           ::CustomFields::Hierarchy::HierarchicalItemService.new.get_branch(item:).value!
         end
 
-        def slices # rubocop:disable Metrics/AbcSize
+        def slices # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
           custom_field = root.custom_field
 
           branch(model).map do |item|
@@ -125,6 +157,12 @@ module Admin
                 { href: admin_settings_project_custom_field_items_path(custom_field.id), label: custom_field.name }
               else
                 { href: admin_settings_project_custom_field_item_path(custom_field.id, item), label: item.label }
+              end
+            elsif user_custom_field_context?
+              if item.root?
+                { href: admin_settings_user_custom_field_items_path(custom_field.id), label: custom_field.name }
+              else
+                { href: admin_settings_user_custom_field_item_path(custom_field.id, item), label: item.label }
               end
             elsif item.root?
               { href: custom_field_items_path(custom_field.id), label: custom_field.name }

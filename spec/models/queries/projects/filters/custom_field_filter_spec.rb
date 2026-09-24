@@ -386,16 +386,16 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
         end
 
         it "returns an array with custom classes" do
-          expect(instance.value_objects)
-            .to contain_exactly(custom_field.possible_values.last, custom_field.possible_values.first)
+          expect(instance.value_objects.map(&:id))
+            .to contain_exactly(custom_field.possible_values.last.id, custom_field.possible_values.first.id)
         end
 
         it "ignores invalid values" do
           instance.values = ["invalid",
                              custom_field.possible_values.last.id]
 
-          expect(instance.value_objects)
-            .to contain_exactly(custom_field.possible_values.last)
+          expect(instance.value_objects.map(&:id))
+            .to contain_exactly(custom_field.possible_values.last.id)
         end
       end
     end

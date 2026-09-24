@@ -124,6 +124,9 @@ module CostQuery::CustomFieldMixin
       FROM #{custom_values_table} cv
       INNER JOIN #{items_table} item
       ON cv.value = item.id::VARCHAR
+      INNER JOIN #{items_table} root
+      ON root.id = item.parent_id
+      AND cv.custom_field_id = root.custom_field_id
     ) AS #{db_field}
     ON #{db_field}.customized_type = 'WorkPackage'
 

@@ -138,6 +138,10 @@ module CustomFields
       # @param new_parent [CustomField::Hierarchy::Item] the new parent of the node
       # @return [Success(CustomField::Hierarchy::Item)]
       def move_item(item:, new_parent:)
+        if new_parent.root&.custom_field&.list? && !new_parent.root?
+          return Failure(I18n.t("op_dry_validation.errors.rules.parent.nesting_not_allowed"))
+        end
+
         updated_item = new_parent.append_child(item)
         update_position_cache(new_parent.root)
 

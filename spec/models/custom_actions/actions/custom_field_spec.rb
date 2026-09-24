@@ -710,6 +710,31 @@ RSpec.describe CustomActions::Actions::CustomField do
         expect(other_work_package.custom_values_to_validate).to be_empty
       end
 
+      context "for a list custom field carrying a legacy option id", with_ee: [:custom_field_hierarchies] do
+        let(:custom_field) { create(:list_wp_custom_field) }
+        let(:root) { custom_field.hierarchy_root }
+        let(:migrated_item) do
+          CustomFields::Hierarchy::HierarchicalItemService
+            .new
+            .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Kept").value!
+        end
+
+        before do
+          CustomField::LegacyOptionMapping.create!(custom_option_id: 999,
+                                                   hierarchical_item_id: migrated_item.id,
+                                                   custom_field_id: custom_field.id)
+        end
+
+        it "resolves the legacy id to the migrated item id before assigning it" do
+          action_instance = described_class.for(custom_field.attribute_name).new
+          action_instance.values = [999]
+
+          action_instance.apply(work_package)
+
+          expect(work_package.custom_value_for(custom_field).value).to eq(migrated_item.id.to_s)
+        end
+      end
+
       context "with multiple custom actions" do
         let(:another_custom_field) { create(:string_wp_custom_field) }
         let(:another_instance) { described_class.for(another_custom_field.attribute_name).new }

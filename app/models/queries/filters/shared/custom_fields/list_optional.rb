@@ -41,6 +41,7 @@ module Queries::Filters::Shared
           ::Version.where(id: values)
         when "list"
           custom_field.possible_values.where(id: values)
+                       .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
         else
           super
         end

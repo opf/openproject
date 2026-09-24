@@ -88,8 +88,8 @@ See COPYRIGHT and LICENSE files for more details.
                                     "data-hierarchy-item-id": item.id,
                                     "data-sort-order": item.sort_order,
                                     "data-frame-id": Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key,
-                                    "data-move-url": move_custom_field_item_url(root.custom_field_id, item),
-                                    "data-index-url": custom_field_item_url(root.custom_field_id, item.parent)
+                                    "data-move-url": move_item_url(item),
+                                    "data-index-url": index_item_url(item.parent)
                                   }
                                 else
                                   {}
@@ -108,7 +108,7 @@ See COPYRIGHT and LICENSE files for more details.
     # A single-level list has no tree to navigate, and Primer::Alpha::Layout#render? requires
     # both a main and a sidebar slot to render anything at all — so it must not wrap main content here.
     if root.custom_field.list?
-      main_content
+      content_tag(:div, main_content, class: "custom-fields-hierarchy-page")
     else
       render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "custom-fields-hierarchy-page")) do |content|
         content.with_main(overflow: :auto) { main_content }
