@@ -39,7 +39,7 @@ The file must be a UTF-8 or UTF-16 encoded `.csv` file. Comma, semicolon and tab
 1. Select the file under **CSV file**.
 2. Leave **Check the file first, without importing** selected. Every line is then validated and reported, but nothing is created.
 3. Select **Check file**.
-4. Read the report. If the file has problems, each one is listed with the line it is on, the column, the value and what is wrong with it. A file with a great many problems shows the first 500 on the page; the CSV download beside the list always has all of them, to work through in your spreadsheet application.
+4. Read the report. If the file has problems, each one is listed with the line it is on, the column, the value and what is wrong with it. A file with a many problems shows the first 500 on the page; the CSV download beside the list always contains all of them, so you can work through them in your spreadsheet application.”
 5. Correct the file and check it again, until the report shows no problems.
 6. Select the **Import** button, which names how many work packages will be created, to create them.
 
