@@ -95,23 +95,16 @@ module API
           end
 
           def add_eager_loading(scope, current_user)
-            material_scope = work_package_material_scope(scope)
-            labor_scope = work_package_labor_scope(scope)
-
             # The eager loading on status is required for the readonly? check in the
             # work package schema
             eager_scope = scope
               .joins(spent_time_subquery(scope, current_user).join_sources)
               .joins(derived_dates_subquery(scope).join_sources)
-              .joins(material_scope.arel.join_sources)
-              .joins(labor_scope.arel.join_sources)
               .includes(WorkPackageRepresenter.to_eager_load)
               .includes(:status)
               .select("work_packages.*")
               .select("spent_time_hours.hours")
               .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
-              .select(material_scope.select_values)
-              .select(labor_scope.select_values)
               .distinct
 
             apply_eager_loading_extensions(eager_scope, scope, current_user)
@@ -147,18 +140,6 @@ module API
             wp_table
               .outer_join(dates_scope.arel.as("derived_dates"))
               .on(wp_table[:id].eq(dates_scope.arel_table.alias("derived_dates")[:id]))
-          end
-
-          def work_package_material_scope(scope)
-            WorkPackage::MaterialCosts
-              .new
-              .add_to_work_package_collection(scope.dup)
-          end
-
-          def work_package_labor_scope(scope)
-            WorkPackage::LaborCosts
-              .new
-              .add_to_work_package_collection(scope.dup)
           end
         end
 
