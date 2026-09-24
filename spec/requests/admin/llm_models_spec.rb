@@ -710,6 +710,30 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    # Administrator verdicts outlive the discovered models a deployment change
+    # purges, so an identifier no model owns can still carry some.
+    describe "renaming onto an identifier with leftover verdicts" do
+      let(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+      before do
+        %w[hand-typed purged].each do |model_id|
+          connection.capability_verdicts.create!(model_id:, capability: "vision", state: "supported",
+                                                 source: "admin", checked_at: Time.current)
+        end
+      end
+
+      it "re-renders the edit form saying the assertions conflict, not that the name is taken" do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "purged" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to include(I18n.t("activerecord.errors.models.llm_model.attributes.external_id.conflicting_capabilities"))
+        expect(response.body).not_to include(I18n.t("activerecord.errors.messages.taken"))
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+        expect(connection.capability_verdicts.for_model("hand-typed").count).to eq(1)
+      end
+    end
+
     describe "how an inherited capability verdict is shown" do
       let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "qwen3.6-27b") }
 

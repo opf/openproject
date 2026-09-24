@@ -756,6 +756,10 @@ en:
               invalid: "must map header names to plain text values."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: "has capability assertions stored under it that conflict with those of this model."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
