@@ -1549,7 +1549,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       context "with format hierarchy" do
         let(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
         let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+        let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
         let(:item) do
           service
             .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")

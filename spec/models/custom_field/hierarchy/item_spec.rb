@@ -37,7 +37,7 @@ RSpec.describe CustomField::Hierarchy::Item, :model, with_ee: [:custom_field_hie
   let(:root) { custom_field.hierarchy_root }
 
   context "when custom field is deleted" do
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+    let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
     let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke").value! }
     let!(:mara) { service.insert_item(contract_class:, parent: luke, label: "mara").value! }
     let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia").value! }

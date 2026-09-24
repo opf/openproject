@@ -681,7 +681,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       before do
         root = hierarchy_cf.hierarchy_root
         service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
+        contract = CustomFields::Hierarchy::InsertHierarchyItemContract
         critical = service.insert_item(contract_class: contract, parent: root, label: "Critical").value!
         service.insert_item(contract_class: contract, parent: critical, label: "Security")
         service.insert_item(contract_class: contract, parent: critical, label: "Performance")

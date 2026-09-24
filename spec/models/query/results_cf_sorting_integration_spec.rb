@@ -351,7 +351,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
       let(:custom_field) { create(:hierarchy_wp_custom_field) }
       let(:root) { custom_field.hierarchy_root }
       let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-      let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+      let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
 
       let!(:item_first) { service.insert_item(contract_class:, parent: root, label: "aa item").value! }
       let!(:item_a) { service.insert_item(contract_class:, parent: root, label: "item_a").value! }

@@ -362,7 +362,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
     let!(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let!(:root) { custom_field.hierarchy_root }
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+    let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
     let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke", short: "LS").value! }
     let!(:mara) { service.insert_item(contract_class:, parent: luke, label: "mara").value! }
 

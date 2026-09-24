@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
+RSpec.describe CustomFields::Hierarchy::UpdateHierarchyItemContract do
   subject { described_class.new }
 
   # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
@@ -126,7 +126,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
       let(:child) do
         CustomFields::Hierarchy::HierarchicalItemService
           .new
-          .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Top")
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label: "Top")
           .value!
       end
       let(:grandchild) { child.children.create!(label: "Nested") }

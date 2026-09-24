@@ -63,7 +63,7 @@ RSpec.describe McpTools::SearchCustomFieldItems do
       service = CustomFields::Hierarchy::HierarchicalItemService.new
       root = cf.hierarchy_root
       hierarchy_items.each do |label|
-        service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label:)
+        service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label:)
       end
     end
   end
@@ -74,7 +74,7 @@ RSpec.describe McpTools::SearchCustomFieldItems do
       service = CustomFields::Hierarchy::HierarchicalItemService.new
       root = cf.hierarchy_root
       unrelated_items.each do |label|
-        service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label:)
+        service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label:)
       end
     end
   end

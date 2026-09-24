@@ -442,7 +442,7 @@ module Import
         return unless root
 
         service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
+        contract = CustomFields::Hierarchy::InsertHierarchyItemContract
 
         context_group_allowed_values.each do |parent_option|
           insert_hierarchy_option(service, contract, root, parent_option)

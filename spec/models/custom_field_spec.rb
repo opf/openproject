@@ -865,11 +865,11 @@ RSpec.describe CustomField do
     let(:custom_field) { create(:hierarchy_wp_custom_field) }
     let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let!(:first) do
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                           parent: custom_field.hierarchy_root, label: "First").value!
     end
     let!(:second) do
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                           parent: custom_field.hierarchy_root, label: "Second").value!
     end
 
@@ -894,7 +894,7 @@ RSpec.describe CustomField do
       end
 
       it "orders the marked ids by position, not by the order they were marked" do
-        third = service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+        third = service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                                     parent: custom_field.hierarchy_root, label: "Third").value!
         third.update!(default_value: true)
         first.update!(default_value: true)

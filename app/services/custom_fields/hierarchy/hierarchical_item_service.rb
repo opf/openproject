@@ -45,7 +45,7 @@ module CustomFields
       end
 
       # Insert a new node on the hierarchy tree at a desired position or at the end if no sort_order is passed.
-      # @param contract_class [Class<CustomFields::Hierarchy::InsertListItemContract>, Class<CustomFields::Hierarchy::InsertWeightedItemContract>]
+      # @param contract_class [Class<CustomFields::Hierarchy::InsertHierarchyItemContract>, Class<CustomFields::Hierarchy::InsertWeightedItemContract>]
       #   the params validation contract class
       # @param parent [CustomField::Hierarchy::Item] the parent of the node
       # @param label [String] the node label/name that must be unique at the same tree level
@@ -63,7 +63,7 @@ module CustomFields
       end
 
       # Updates an item/node
-      # @param contract_class [Class<CustomFields::Hierarchy::UpdateListItemContract>, Class<CustomFields::Hierarchy::UpdateWeightedItemContract>]
+      # @param contract_class [Class<CustomFields::Hierarchy::UpdateHierarchyItemContract>, Class<CustomFields::Hierarchy::UpdateWeightedItemContract>]
       #   the params validation contract class
       # @param item [CustomField::Hierarchy::Item] the item to be updated
       # @param label [String] the node label/name that must be unique at the same tree level

@@ -239,7 +239,7 @@ class CustomField < ApplicationRecord
     service = CustomFields::Hierarchy::HierarchicalItemService.new
 
     values.each do |value|
-      result = service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+      result = service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                                    parent: hierarchy_root,
                                    label: value)
 
