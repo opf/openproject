@@ -54,7 +54,7 @@ Watch the following video to see how you can customize your work packages with c
 > [!IMPORTANT]
 > This feature is currently available on the **Dev branch**.
 
-You can make a work package custom field required for specific work package types.
+Administrators can define which custom fields are mandatory for a specific work package type.
 
 To make a custom field required, select the **More (⋯)** menu at the right end of the custom field row and select **Require in this type**.
 
