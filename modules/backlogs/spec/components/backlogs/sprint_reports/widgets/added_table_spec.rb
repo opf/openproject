@@ -49,6 +49,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::AddedTable,
     ]
   end
 
+  let(:expected_extra_query_props) { { "valid_subset" => true } }
+
   it_behaves_like "a pro sprint report widget"
 
   context "when the sprint has no dates set" do

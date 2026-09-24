@@ -53,6 +53,8 @@ RSpec.shared_context "with a sprint report work package table" do
   let(:table_element) { rendered_component.at("opce-embedded-work-package-table") }
   let(:query_props) { JSON.parse(table_element["data-query-props"]) }
 
+  let(:expected_extra_query_props) { {} }
+
   shared_examples "renders the sprint report widget box" do
     it "renders a full width widget box" do
       expect(rendered_component).to have_css("div.widget-box.widget-box_full-width.op-sprint-report-wp-table")
@@ -93,7 +95,8 @@ RSpec.shared_context "with a sprint report work package table" do
         "sortBy" => [%w[position asc]].to_json,
         "columns[]" => %w[id subject type status assigned_to story_points],
         "showHierarchies" => false,
-        "includeSubprojects" => false
+        "includeSubprojects" => false,
+        **expected_extra_query_props
       }.compact)
     end
   end
