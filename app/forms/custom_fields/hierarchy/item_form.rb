@@ -65,7 +65,7 @@ module CustomFields
                               tag: :a,
                               label: I18n.t(:button_cancel),
                               scheme: :default,
-                              data: { turbo_target: "admin-custom-fields-hierarchy-items-component" },
+                              data: { turbo_frame: Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key },
                               href: cancel_href)
           button_group.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
         end
