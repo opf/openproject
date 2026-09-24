@@ -291,6 +291,23 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(connection.available_model_ids).to include("qwen3.6-35b-a3b")
       end
 
+      # Posts every field the new-model form renders with the value it renders
+      # it with, which is what a browser submits when only the identifier is typed.
+      it "pins no type when the form is submitted untouched" do
+        get new_llm_model_path
+        form = response.parsed_body.at_css("[data-test-selector='llm-model--add-form']")
+        fields = form.css("input[name^='llm_model['], select[name^='llm_model[']").to_h do |field|
+          value = field.name == "select" ? (field.at_css("option[selected]") || field.at_css("option"))["value"] : field["value"]
+          [field["name"][/\[(.+)\]/, 1], value.to_s]
+        end
+
+        post llm_models_path, params: { llm_model: fields.merge("external_id" => "text-embedding-3-small") }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(fields).to include("model_type" => "")
+        expect(connection.capability_verdicts.for_model("text-embedding-3-small")).to be_empty
+      end
+
       it "rejects a duplicate" do
         create(:llm_model, llm_connection: connection, external_id: "already-there")
 

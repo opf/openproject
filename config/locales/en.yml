@@ -1870,6 +1870,7 @@ en:
         model_type_caption: "Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url)."
         model_type_chat: "Chat model"
         model_type_embedding: "Embedding model"
+        model_type_unspecified: "Not specified"
         state_inherited: "Inherit from server (%{state})"
         state_supported: "Supported"
         state_unsupported: "Not supported"

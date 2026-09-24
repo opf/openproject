@@ -149,7 +149,13 @@ class LlmModel < ApplicationRecord
   # chat model otherwise. There is no third kind, and no model is both.
   def embedding? = verdict_for(:embeddings)&.state == "supported"
 
-  def model_type = @model_type || (embedding? ? :embedding : :chat)
+  # A model being added has no type until an administrator picks one, so the
+  # form offers no preselected type to submit as if it had been chosen.
+  def model_type
+    return @model_type if @model_type || new_record?
+
+    embedding? ? :embedding : :chat
+  end
 
   def model_type=(value)
     @model_type = value.presence&.to_sym
