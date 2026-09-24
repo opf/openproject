@@ -177,5 +177,21 @@ module OpenProject::ResourceManagement
       mount ::API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI
       mount ::API::V3::AllocatableWorkPackages::AllocatableWorkPackagesAPI
     end
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      link :allocateResource,
+           cache_if: -> {
+             EnterpriseToken.allows_to?(:resource_management) &&
+               current_user.allowed_in_project?(:allocate_user_resources, represented.project)
+           } do
+        next if represented.new_record? || represented.project.nil?
+
+        {
+          href: new_project_resource_allocation_path(represented.project, work_package_id: represented.id),
+          type: "text/vnd.turbo-stream.html",
+          title: "Allocate resource to '#{represented.subject}'"
+        }
+      end
+    end
   end
 end

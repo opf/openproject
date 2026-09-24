@@ -39,6 +39,7 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
     key: 'log_time',
     link: 'logTime',
+    turboRequest: true,
   },
   {
     key: 'change_project',
@@ -68,6 +69,7 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     key: 'generate_pdf',
     link: 'generate_pdf',
     icon: 'icon-export-pdf-with-descriptions',
+    turboRequest: true,
   },
   {
     key: 'export-atom',
