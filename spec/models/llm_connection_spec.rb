@@ -131,6 +131,40 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe ".available?" do
+    context "with the feature flag and the setting on",
+            with_flag: { llm_connection: true },
+            with_settings: { llm_features_enabled: true } do
+      it "is true when an active connection is stored" do
+        create(:llm_connection)
+
+        expect(described_class).to be_available
+      end
+
+      it "is false when only an inactive connection is stored" do
+        create(:llm_connection, active: false)
+
+        expect(described_class).not_to be_available
+      end
+    end
+
+    it "is false with the feature flag off",
+       with_flag: { llm_connection: false },
+       with_settings: { llm_features_enabled: true } do
+      create(:llm_connection)
+
+      expect(described_class).not_to be_available
+    end
+
+    it "is false with the setting off",
+       with_flag: { llm_connection: true },
+       with_settings: { llm_features_enabled: false } do
+      create(:llm_connection)
+
+      expect(described_class).not_to be_available
+    end
+  end
+
   # The environment seeder and direct writes reach the model without the
   # contract, so these have to hold on the model itself.
   describe "validations" do
@@ -165,6 +199,28 @@ RSpec.describe LlmConnection do
 
     it "refuses a header value carrying a line break" do
       expect(build(:llm_connection, custom_headers: { "x-gateway" => "one\r\nInjected: two" })).not_to be_valid
+    end
+
+    it "accepts an absolute http or https base URL", :aggregate_failures do
+      %w[https://example.com/v1 http://10.0.0.5:8000/v1].each do |base_url|
+        expect(build(:llm_connection, base_url:)).to be_valid, base_url
+      end
+    end
+
+    it "refuses a base URL without an http scheme or a host", :aggregate_failures do
+      %w[//host/path http:host http:// localhost:8080/v1 ftp://example.com].each do |base_url|
+        connection = build(:llm_connection, base_url:)
+
+        expect(connection).not_to be_valid, base_url
+        expect(connection.errors).to be_of_kind(:base_url, :invalid_url)
+      end
+    end
+
+    it "refuses a base URL that cannot be parsed" do
+      connection = build(:llm_connection, base_url: "https://example.com/a b")
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:base_url, :invalid_url)
     end
   end
 end

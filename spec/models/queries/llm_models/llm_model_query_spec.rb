@@ -28,29 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CreateLlmConnections < ActiveRecord::Migration[8.1]
-  def change
-    create_table :llm_connections do |t|
-      t.string :identifier, null: false, index: { unique: true }
-      # Which of the stored connections features resolve against, not the
-      # instance-wide AI switch, which is Setting.llm_features_enabled. The
-      # partial index allows one row at a time to carry it.
-      t.boolean :active, null: false, default: true, index: { unique: true, where: "active" }
-      t.string :base_url, null: false
-      # Nullable: an unauthenticated self-hosted server needs no key.
-      t.string :api_key
-      # Which dialect the server speaks. Only a subset is implemented; the column
-      # exists so that adding a format is a new adapter rather than a migration.
-      t.string :api_format, null: false, default: "openai"
-      # Provider-specific headers sent with every request, e.g. Azure's
-      # api-version or a gateway's own key header.
-      t.jsonb :custom_headers, null: false, default: {}
-      t.jsonb :options, null: false, default: {}
-      t.datetime :last_synced_at
-      t.string :connection_fingerprint
-      t.datetime :last_connected_at
+require "spec_helper"
 
-      t.timestamps null: false
-    end
+RSpec.describe Queries::LlmModels::LlmModelQuery do
+  subject(:results) { described_class.new.results.pluck(:external_id) }
+
+  let(:active_connection) { create(:llm_connection) }
+  let(:inactive_connection) { create(:llm_connection, active: false) }
+
+  before do
+    create(:llm_model, llm_connection: active_connection, external_id: "qwen3.6-27b")
+    create(:llm_model, llm_connection: active_connection, external_id: "bge-m3")
+    create(:llm_model, llm_connection: inactive_connection, external_id: "e5-large")
+  end
+
+  it "lists the models of the active connection by identifier" do
+    expect(results).to eq(["bge-m3", "qwen3.6-27b"])
+  end
+
+  it "leaves out the models of an inactive connection" do
+    expect(results).not_to include("e5-large")
   end
 end

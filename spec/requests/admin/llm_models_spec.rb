@@ -175,6 +175,16 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(offered_default_models).to contain_exactly("qwen3.6-27b")
       end
 
+      it "keeps offering a stored default the server has since withdrawn" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "retired-model")
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+
+        get llm_models_path
+
+        expect(offered_default_models).to contain_exactly("qwen3.6-27b", "bge-m3", "retired-model")
+      end
+
       it "asks for no default while the connection has no model to offer" do
         create(:llm_connection, base_url:)
 
@@ -335,6 +345,21 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         llm_model = connection.models.find_by(external_id: "qwen3.6-35b-a3b")
         expect(llm_model).to be_manual
         expect(connection.available_model_ids).to include("qwen3.6-35b-a3b")
+      end
+
+      it "pins no type when the form is submitted untouched" do
+        get new_llm_model_path
+        form = response.parsed_body.at_css("[data-test-selector='llm-model--add-form']")
+        fields = form.css("input[name^='llm_model['], select[name^='llm_model[']").to_h do |field|
+          value = field.name == "select" ? (field.at_css("option[selected]") || field.at_css("option"))["value"] : field["value"]
+          [field["name"][/\[(.+)\]/, 1], value.to_s]
+        end
+
+        post llm_models_path, params: { llm_model: fields.merge("external_id" => "text-embedding-3-small") }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(fields).to include("model_type" => "")
+        expect(connection.capability_verdicts.for_model("text-embedding-3-small")).to be_empty
       end
 
       it "rejects a duplicate" do
@@ -706,6 +731,60 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
 
         expect(discovered.reload.external_id).to eq("server-named")
+      end
+    end
+
+    # Two administrators saving the same free identifier both pass the
+    # uniqueness validation, so the second save only fails at the index.
+    describe "an identifier taken after the uniqueness validation passed" do
+      let(:taken) { I18n.t("activerecord.errors.messages.taken") }
+
+      before do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "taken-meanwhile")
+        uniqueness = LlmModel.validators_on(:external_id).grep(ActiveRecord::Validations::UniquenessValidator).first
+        allow(uniqueness).to receive(:validate_each)
+      end
+
+      it "re-renders the new model form with the error" do
+        post llm_models_path, params: { llm_model: { external_id: "taken-meanwhile" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(taken)
+        expect(connection.models.where(external_id: "taken-meanwhile").count).to eq(1)
+      end
+
+      it "re-renders the edit form with the error" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken-meanwhile" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(taken)
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+      end
+    end
+
+    # Administrator verdicts outlive the discovered models a deployment change
+    # purges, so an identifier no model owns can still carry some.
+    describe "renaming onto an identifier with leftover verdicts" do
+      let(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+      before do
+        %w[hand-typed purged].each do |model_id|
+          connection.capability_verdicts.create!(model_id:, capability: "vision", state: "supported",
+                                                 source: "admin", checked_at: Time.current)
+        end
+      end
+
+      it "re-renders the edit form saying the assertions conflict, not that the name is taken" do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "purged" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to include(I18n.t("activerecord.errors.models.llm_model.attributes.external_id.conflicting_capabilities"))
+        expect(response.body).not_to include(I18n.t("activerecord.errors.messages.taken"))
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+        expect(connection.capability_verdicts.for_model("hand-typed").count).to eq(1)
       end
     end
 
