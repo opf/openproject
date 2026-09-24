@@ -385,16 +385,13 @@ ka:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
-        defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form source
+        linked_aspects: Inherited configuration
         patterns: Patterns
-        pdf_export_source: PDF export source
-        project_attributes_source: Project attributes source
         project_types: Projects using this variant
         variant: Variant
         variant_name: Name
-        workflows_source: Workflows source
+        workflow: Workflow
       user:
         admin: ადმინისტრატორი
         auth_source: Authentication source
@@ -527,6 +524,10 @@ ka:
         work_package: Work package
       work_package_version:
         kind: Kind
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: must be accepted.
@@ -883,38 +884,19 @@ ka:
               group_without_name: Group name can't be blank.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
-              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
-              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
-
-                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
-            defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflow:
               not_available_to_this_variant: must be a workflow this project can use.
-            workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -3576,6 +3558,7 @@ ka:
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_item: "(deleted item)"
   label_deleted_custom_option: "(deleted option)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
@@ -6694,12 +6677,8 @@ ka:
             other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
             description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
             title: Dependent types
             variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
           title:
             one: 1 dependent type
             other: "%{count} dependent types"
@@ -6708,27 +6687,15 @@ ka:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
-          change_source: Change source type
           configure_manually: Configure manually
           confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
-          dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: The configuration mode was switched.
           title: Inherited configuration
         manual:
@@ -6742,7 +6709,7 @@ ka:
           dialog:
             submit: Switch
             title: Configure manually
-          inherit_from_type: Inherit from another type
+          inherit_from_type: Inherit from parent
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
@@ -7325,6 +7292,12 @@ ka:
       one: One descendant work package
       other: "%{count} work package descendants"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7337,6 +7310,14 @@ ka:
       new:
         title: Copy workflow of "%{source_type}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Workflow matrix
       matrix_caption_assignee: Workflow matrix for assignee
       matrix_caption_author: Workflow matrix for author
@@ -7345,12 +7326,76 @@ ka:
       matrix_check_uncheck_all_in_row_label_html: Toggle transitions from <em>%{old_status}</em> to all new statuses
       matrix_checkbox_label: Allow transition from %{old_status} to %{new_status}
       matrix_uncheck_all_label: Disallow all transitions
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Filter by type name…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Configure status transitions for each work package type.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          one: Used in 1 other place
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Change working days
     dialog:

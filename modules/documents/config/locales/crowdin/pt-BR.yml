@@ -65,8 +65,8 @@ pt-BR:
           label: URL do servidor Hocuspocus
         page_header:
           description_html: |-
-            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
+            Quando ativada, a colaboração em tempo real permite que vários usuários editem um documento simultaneamente.
+            Para funcionar, é necessário um [servidor Hocuspocus](hocuspocus_server_link) em funcionamento.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Entendo que posso perder dados permanentemente
         confirmation_message: Todos os documentos existentes podem se tornar inacessíveis. Faça isso apenas se tiver certeza de que deseja desabilitar a colaboração em tempo real e o editor BlockNote nesta instância.
@@ -116,7 +116,7 @@ pt-BR:
       currently_offline: Você está offline no momento.
     label_attachment_author: Autor do anexo
     label_categories: Categorias
-    last_updated_at_html: Last saved %{time}.
+    last_updated_at_html: Última gravação %{time}.
     menu:
       all: Todos os documentos
       collaboration_settings: Colaboração em tempo real
