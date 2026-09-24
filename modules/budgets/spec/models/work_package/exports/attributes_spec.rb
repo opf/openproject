@@ -28,19 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::Exports
-  module Attributes
-    mattr_accessor :attribute_visibility_checks, default: {}
+require "spec_helper"
 
-    def self.add_attribute_visibility_check(*attribute_names, &check)
-      attribute_names.each { |name| attribute_visibility_checks[name.to_sym] = check }
+RSpec.describe WorkPackage::Exports::Attributes, "budget" do
+  shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking budgets]) }
+  shared_let(:work_package) { create(:work_package, project:) }
+
+  let(:exporter) { Class.new { include WorkPackage::Exports::Attributes }.new }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+
+  before { login_as(user) }
+
+  context "without the view_budgets permission" do
+    let(:permissions) { %i[view_work_packages] }
+
+    it "hides the budget" do
+      expect(exporter.allowed_to_view_attribute?(work_package, :budget)).to be(false)
     end
+  end
 
-    def allowed_to_view_attribute?(obj, attribute_name)
-      return true unless obj.is_a?(WorkPackage)
+  context "with the view_budgets permission" do
+    let(:permissions) { %i[view_work_packages view_budgets] }
 
-      check = attribute_visibility_checks[attribute_name.to_sym]
-      check.nil? || check.call(obj)
+    it "shows the budget" do
+      expect(exporter.allowed_to_view_attribute?(work_package, :budget)).to be(true)
     end
   end
 end
