@@ -33,9 +33,6 @@ module WorkPackageTypes
     class ModeBoxComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      INHERITED_ICON = :"arrow-down-right"
-      MANUAL_ICON = :tools
-
       def initialize(variant:, aspect:)
         @aspect = aspect
         super(variant)
@@ -44,6 +41,8 @@ module WorkPackageTypes
       private
 
       attr_reader :aspect
+
+      def render? = !variant.is_default_variant?
 
       def variant = model
 
@@ -57,15 +56,8 @@ module WorkPackageTypes
         {
           value: "inherited",
           checked: linked?,
-          label: inherited_label,
-          title_link: inherited_title_link,
-          caption: t("types.edit.reuse_mode.inherited.mode_description"),
-          leading_icon: INHERITED_ICON,
-          action: {
-            text: t("types.edit.reuse_mode.inherited.change_source"),
-            href: link_dialog_path,
-            data: { controller: "async-dialog", test_selector: "reuse-mode-change-source" }
-          },
+          label: t("types.edit.reuse_mode.inherited.mode_label"),
+          caption: inherited_caption,
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": link_dialog_path,
@@ -78,10 +70,8 @@ module WorkPackageTypes
         {
           value: "manual",
           checked: !linked?,
-          label: t("types.edit.reuse_mode.manual.title"),
+          label: t("types.edit.reuse_mode.manual.mode_label"),
           caption: t("types.edit.reuse_mode.manual.mode_description"),
-          leading_icon: MANUAL_ICON,
-          action: manual_action,
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": independent_dialog_path,
@@ -90,37 +80,19 @@ module WorkPackageTypes
         }
       end
 
-      def manual_action
-        return nil unless copy_supported?
+      def inherited_caption
+        return t("types.edit.reuse_mode.inherited.mode_description_unlinked") if source_path.nil?
 
-        {
-          text: t("types.edit.reuse_mode.manual.copy_from_type"),
-          href: copy_dialog_path,
-          data: { controller: "async-dialog", test_selector: "reuse-mode-copy-from-variant" }
-        }
-      end
-
-      def inherited_label
-        if inherited_title_link
-          t("types.edit.reuse_mode.inherited.mode_label_with_source")
-        else
-          t("types.edit.reuse_mode.inherited.mode_label")
-        end
-      end
-
-      def inherited_title_link
-        return nil unless linked? && source_path
-
-        {
-          text: "#{source.composite_name}#{parent_suffix}",
-          href: source_path,
+        helpers.link_translate(
+          "types.edit.reuse_mode.inherited.mode_description",
+          i18n_args: { source_name: source.composite_name },
+          links: { source_url: source_path },
+          external: false,
           data: { turbo_frame: "_top" }
-        }
+        )
       end
 
-      def source = variant.source_for(aspect)
-
-      def source_is_default? = source.present? && source == variant.type.default_variant
+      def source = variant.type.default_variant
 
       def source_path
         return nil unless source_reachable?
@@ -135,19 +107,11 @@ module WorkPackageTypes
         source.project_id == helpers.variant_scope_project.id
       end
 
-      def copy_supported? = CopyConfiguration.supported?(aspect)
-
-      def copy_dialog_path = type_configuration_copy_dialog_path(**dialog_path_args)
-
       def link_dialog_path = type_configuration_link_dialog_path(**dialog_path_args)
 
       def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
 
       def dialog_path_args = variant.path_args.merge(aspect:)
-
-      def parent_suffix
-        source_is_default? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
-      end
     end
   end
 end

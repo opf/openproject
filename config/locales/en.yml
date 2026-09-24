@@ -6927,11 +6927,6 @@ en:
               description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
               heading: "Switch configuration mode?"
               title: "Switch configuration mode"
-          description: "This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}."
-          description_unlinked: "This configuration is inherited from the source type %{source_name}%{source_suffix}."
-          mode_description: "This page inherits existing configuration from another type. Changes to the source are automatically reflected here."
-          mode_label: "Inherit configuration"
-          mode_label_with_source: "Inherit configuration from"
           dialog:
             description: "Inherit this configuration from a source type. Any new configuration added to the source also applies here."
             source_label: "Source type"
@@ -6939,6 +6934,9 @@ en:
             submit: "Switch"
             title: "Inherit from another type"
           invalid_source: "The configuration cannot be inherited from the selected type. Please select a different source type."
+          mode_description: "This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here."
+          mode_description_unlinked: "This variant will use the same settings as the type. Any changes there will automatically reflect here."
+          mode_label: "Use the same settings as the type"
           success: "The configuration mode was switched."
           title: "Inherited configuration"
         manual:
@@ -6947,14 +6945,14 @@ en:
             description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
             heading: "Switch configuration mode?"
             title: "Switch configuration mode"
-          copy_from_type: "Copy from another type"
           description: "No settings are inherited. You can still copy the settings from another type one time."
           dialog:
             submit: "Switch"
             title: "Configure manually"
           inherit_from_type: "Inherit from parent"
           invalid_mode: "The selected mode is not available for this configuration. Please choose a different mode."
-          mode_description: "You can configure this page freely as you wish or copy over configuration from another type."
+          mode_description: "Manually configure this page. Changes to the parent type will no longer affect it."
+          mode_label: "Configure this page manually"
           modes:
             copy:
               caption: "Start with a one-time copy of the settings that this configuration inherits now."
