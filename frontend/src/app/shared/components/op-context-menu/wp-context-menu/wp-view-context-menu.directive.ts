@@ -119,6 +119,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const { link } = action;
     const id = this.workPackage.id!;
 
+    if (action.turboRequest) {
+      void this.turboRequests.requestStream(link!);
+      return;
+    }
+
     switch (action.key) {
       case 'delete':
         this.deleteSelectedWorkPackages();
@@ -151,14 +156,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         Turbo.visit(`${this.urlParams.splitCreatePath()}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
         break;
       }
-
-      case 'log_time':
-        this.logTimeForSelectedWorkPackage();
-        break;
-
-      case 'generate_pdf':
-        void this.turboRequests.requestStream(String(link));
-        break;
 
       case 'relations': {
         const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}/relations${window.location.search}`;
@@ -198,10 +195,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     if (selected[0].id) {
       window.location.href = this.pathHelper.workPackageCopyPath(selected[0].project.id, selected[0].id);
     }
-  }
-
-  private logTimeForSelectedWorkPackage() {
-    void this.turboRequests.request(this.pathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
   }
 
   private getSelectedWorkPackages() {

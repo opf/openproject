@@ -31,10 +31,24 @@
 module WorkPackageTypes
   module Patterns
     class TokenPropertyMapper
-      STRING_OR_NIL = ->(v) { v&.to_s }
-      ARRAY = ->(v) { v.compact.presence&.join(", ") }
-      DATE = ->(v) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
-      DURATION = ->(v) { DurationConverter.output(v) }
+      STRING_OR_NIL = ->(v, _) { v&.to_s }
+      ARRAY = ->(v, _) { v.compact.presence&.join(", ") }
+      DATE = ->(v, _) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
+      DURATION = ->(v, _) { DurationConverter.output(v) }
+      HIERARCHY = ->(item, format) {
+        return nil if item.nil?
+
+        case format
+        when "label"
+          item.label
+        when "short"
+          item.short
+        when "weight"
+          NumberFormatHelper.number_with_limit(item.weight)
+        else
+          item.to_s
+        end
+      }
 
       class StaticAttributeDSL
         def initialize(context:, label_model:)
@@ -95,8 +109,10 @@ module WorkPackageTypes
                         ARRAY
                       elsif format == "date"
                         DATE
+                      elsif %w[hierarchy weighted_item_list].include?(format)
+                        HIERARCHY
                       else
-                        ->(v) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v) }
+                        ->(v, format) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v, format) }
                       end
           AttributeToken.new(
             :"#{prefix}custom_field_#{id}",

@@ -28,43 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  # Not BaseContract: that one is the type's, and requires an instance administrator.
-  class UpdateDefaultsContract < ::ModelContract
-    include AuthorizesVariantAuthoring
+module SortableLists
+  module MoveMenu
+    Direction = Data.define(:label, :direction, :icon) do
+      def item_data
+        {
+          sortable_lists__item_target: "moveItem",
+          sortable_lists__item_direction_param: direction,
+          action: "click->sortable-lists--item#move"
+        }
+      end
+    end
 
-    def self.model = TypeVariant
-
-    attribute :patterns
-    attribute :default_work_package_description
-
-    validate :enterprise_edition
-    validate :validate_subject_generation_pattern
+    DIRECTIONS = [
+      Direction.new(label: :label_sort_highest, direction: "top", icon: :"move-to-top"),
+      Direction.new(label: :label_sort_higher, direction: "up", icon: :"chevron-up"),
+      Direction.new(label: :label_sort_lower, direction: "down", icon: :"chevron-down"),
+      Direction.new(label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom")
+    ].freeze
 
     private
 
-    def enterprise_edition
-      action = :work_package_subject_generation
-      if model.patterns.subject&.enabled && !EnterpriseToken.allows_to?(action)
-        errors.add(:patterns, :error_enterprise_only, action: action.to_s.titleize)
+    # The `data:` hash must live on the item level so Primer renders it on the ActionList
+    # `<li>`, which is what the item controller targets to compute availability and to
+    # handle the bubbled click.
+    def with_move_items(menu)
+      DIRECTIONS.each do |move|
+        menu.with_item(label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
+          item.with_leading_visual_icon(icon: move.icon)
+        end
       end
-    end
-
-    def validate_subject_generation_pattern
-      blueprint = model.patterns.subject&.blueprint
-      return if blueprint.nil?
-
-      valid_tokens = flat_valid_token_list
-      invalid_tokens = WorkPackageTypes::Patterns::PatternToken.scan_tokens(blueprint).reject { |t| valid_tokens.include?(t.key) }
-
-      if invalid_tokens.any?
-        errors.add(:patterns, :invalid_tokens)
-      end
-    end
-
-    def flat_valid_token_list
-      enabled, _disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(model)
-      enabled.map(&:key)
     end
   end
 end

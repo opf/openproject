@@ -108,6 +108,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   public triggerContextMenuAction(action:WorkPackageAction, key:string) {
     const { link } = action;
 
+    if (action.turboRequest) {
+      void this.turboRequests.requestStream(link!);
+      return;
+    }
+
     switch (key) {
       case 'copy_to_other_project':
         window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id!}`;
@@ -131,12 +136,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         );
         break;
       }
-      case 'log_time':
-        void this.turboRequests.request(this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
-        break;
-      case 'generate_pdf':
-        void this.turboRequests.requestStream(link!);
-        break;
       case 'copy_link_to_clipboard': {
         const url = new URL(String(link), window.location.origin);
         this.copyToClipboardService.copy(url.toString());
@@ -222,7 +221,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       // Rendering it as a link would show a misleading link preview on hover and
       // make the clipboard copy originate from an anchor, so render it as a
       // button (no href).
-      const href = key === 'copy_numeric_id_to_clipboard' ? undefined : action.link;
+      const href = key === 'copy_numeric_id_to_clipboard' || action.turboRequest ? undefined : action.link;
 
       return {
         disabled: false,

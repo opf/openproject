@@ -26,53 +26,42 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { NgModule } from '@angular/core';
+import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import {
   WorkPackageAction,
 } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 
-export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
-  {
-    key: 'copy_link_to_clipboard',
-    icon: 'icon-clipboard',
-    link: 'id',
+const TIME_AND_COST_ACTION_KEYS = ['log_time', 'start_timer', 'stop_timer', 'log_costs'];
+
+const allocateResourceAction:WorkPackageAction = {
+  key: 'allocate_resource',
+  icon: 'icon-user-plus',
+  link: 'allocateResource',
+  turboRequest: true,
+  indexBy(actions:WorkPackageAction[]) {
+    const index = actions.reduce(
+      (last, action, i) => (TIME_AND_COST_ACTION_KEYS.includes(action.key) ? i : last),
+      -1,
+    );
+    return index !== -1 ? index + 1 : actions.length;
   },
-  {
-    key: 'log_time',
-    link: 'logTime',
-    turboRequest: true,
-  },
-  {
-    key: 'change_project',
-    icon: 'icon-move',
-    link: 'move',
-  },
-  {
-    key: 'duplicate',
-    icon: 'icon-copy',
-    link: 'copy',
-  },
-  {
-    key: 'copy_to_other_project',
-    link: 'copy',
-    icon: 'icon-project-types',
-  },
-  {
-    key: 'delete',
-    link: 'delete',
-  },
-  {
-    key: 'copy_numeric_id_to_clipboard',
-    icon: 'icon-code-tag',
-    link: 'id',
-  },
-  {
-    key: 'generate_pdf',
-    link: 'generate_pdf',
-    icon: 'icon-export-pdf-with-descriptions',
-    turboRequest: true,
-  },
-  {
-    key: 'export-atom',
-    link: 'atom',
-  },
-];
+};
+
+export function initializeResourceManagementPlugin() {
+  void window.OpenProject.getPluginContext().then((pluginContext:OpenProjectPluginContext) => {
+    pluginContext.hooks.workPackageSingleContextMenu(():WorkPackageAction => allocateResourceAction);
+
+    pluginContext.hooks.workPackageTableContextMenu(():WorkPackageAction => ({
+      ...allocateResourceAction,
+      text: I18n.t('js.button_allocate_resource'),
+    }));
+  });
+}
+
+@NgModule({})
+export class PluginModule {
+  constructor() {
+    initializeResourceManagementPlugin();
+  }
+}
