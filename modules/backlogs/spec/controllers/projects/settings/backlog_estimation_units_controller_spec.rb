@@ -31,16 +31,13 @@
 require "spec_helper"
 
 RSpec.describe Projects::Settings::BacklogEstimationUnitsController do
-  shared_let(:user) { create(:admin) }
-  let(:project) { build_stubbed(:project, estimation_unit: "story_points") }
+  let(:user) do
+    create(:user,
+           member_with_permissions: { project => %w[view_work_packages select_backlog_types_and_statuses] })
+  end
+  let(:project) { create(:project, estimation_unit: "story_points") }
 
   current_user { user }
-
-  before do
-    visible_relation = instance_double(ActiveRecord::Relation)
-    allow(Project).to receive(:visible).and_return(visible_relation)
-    allow(visible_relation).to receive(:find).with(project.identifier).and_return(project)
-  end
 
   context "when the feature flag is inactive", with_flag: { project_settings_estimation_unit: false } do
     describe "GET #show" do

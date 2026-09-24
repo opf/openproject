@@ -97,8 +97,8 @@ module Projects
         end
 
         def show_unit_tab?
-          User.current.allowed_in_project?(:select_backlog_types_and_statuses, project) &&
-            OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
+          OpenProject::FeatureDecisions.project_settings_estimation_unit_active? &&
+            User.current.allowed_in_project?(:select_backlog_types_and_statuses, project)
         end
       end
     end
