@@ -119,6 +119,9 @@ export class WorkPackageContextMenuHelperService {
       case 'copy_link_to_clipboard':
         link = this.PathHelper.workPackageShortPath(workPackage.displayId);
         break;
+      case 'log_time':
+        link = this.PathHelper.timeEntryWorkPackageDialog(workPackage.id!);
+        break;
       default:
         link = action.link ? (workPackage[action.link] as HalLink).href! : undefined;
     }

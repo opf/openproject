@@ -178,14 +178,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         }
         break;
 
-      case 'log_time':
-        this.logTimeForSelectedWorkPackage();
-        break;
-
-      case 'generate_pdf':
-        void this.turboRequests.requestStream(String(link));
-        break;
-
       case 'relations':
         if (this.hasUiRouterContext) {
           void this.$state.go(
@@ -230,10 +222,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     if (selected[0].id) {
       window.location.href = this.pathHelper.workPackageCopyPath(selected[0].project.id, selected[0].id);
     }
-  }
-
-  private logTimeForSelectedWorkPackage() {
-    void this.turboRequests.request(this.pathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
   }
 
   private getSelectedWorkPackages() {

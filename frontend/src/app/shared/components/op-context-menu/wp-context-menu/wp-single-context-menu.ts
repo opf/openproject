@@ -142,12 +142,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         );
         break;
       }
-      case 'log_time':
-        void this.turboRequests.request(this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
-        break;
-      case 'generate_pdf':
-        void this.turboRequests.requestStream(link!);
-        break;
       case 'copy_link_to_clipboard': {
         const url = new URL(String(link), window.location.origin);
         this.copyToClipboardService.copy(url.toString());
