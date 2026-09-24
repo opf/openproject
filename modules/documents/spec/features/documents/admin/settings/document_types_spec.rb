@@ -29,40 +29,21 @@
 #++
 
 require "spec_helper"
+require_relative "../../../../support/pages/admin/document_types"
 
 RSpec.describe "Document types admin", :js do
   include Flash::Expectations
-  include EnumerationAdminHelpers
 
   current_user { create(:admin) }
-
-  def enumeration_list_selector = "#document-types-table > .op-border-box-table--rows"
-  def enumeration_item_selector = :row
-  def enumeration_actions_label = I18n.t("documents.document_type_actions")
-
-  def within_document_type_row(document_type, &)
-    within_enumeration_list { within(:row, document_type.name, &) }
-  end
-
-  def drag_document_type(document_type, after:)
-    handle = enumeration_drag_handle(document_type)
-    target = enumeration_row(after)
-    offset_y = (target.native.rect.height / 2) - [6, target.native.rect.height / 4].min
-
-    perform_native_drag(source: handle, target:, offset_y: offset_y.round)
-
-    # Assert Pragmatic DnD tore down its own honey-pot overlay, so a regression
-    # leaving it stuck is caught here rather than as an unrelated click failure.
-    expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
-  end
+  let(:list_page) { Pages::Admin::DocumentTypes.new }
 
   context "when managing document types" do
     let!(:default_document_type) { create(:document_type, is_default: true, name: "Note") }
 
     it "can be managed (created, updated, deleted)" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      within_document_type_row(default_document_type) do
+      list_page.within_row(default_document_type) do
         expect(page).to have_text("Note")
         expect(page).to have_text("Default")
       end
@@ -83,13 +64,13 @@ RSpec.describe "Document types admin", :js do
       new_document_type = DocumentType.last
 
       # The new document type is shown in the list as the default document type
-      within_document_type_row(new_document_type) do
+      list_page.within_row(new_document_type) do
         expect(page).to have_text("Documentation")
         expect(page).to have_text("Default")
       end
 
       # Since the new document type is now the default, the former default looses that flag
-      within_document_type_row(default_document_type) do
+      list_page.within_row(default_document_type) do
         expect(page).to have_text("Note")
         expect(page).to have_no_text("Default")
       end
@@ -104,7 +85,7 @@ RSpec.describe "Document types admin", :js do
 
       expect_and_dismiss_flash(message: "Successful update.")
 
-      within_document_type_row(new_document_type.reload) do
+      list_page.within_row(new_document_type.reload) do
         expect(page).to have_text("Report")
         expect(page).to have_text("Default")
       end
@@ -113,8 +94,8 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Documentation")
 
       # It allows deleting document types
-      within_enumeration_menu(new_document_type) do |menu|
-        menu.find(:menuitem, I18n.t(:button_delete)).click
+      list_page.within_menu(new_document_type) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Delete document type") do
@@ -130,7 +111,7 @@ RSpec.describe "Document types admin", :js do
       expect(page).to have_no_text("Report")
 
       # Since the old default is deleted another is now the default.
-      within_document_type_row(default_document_type) do
+      list_page.within_row(default_document_type) do
         expect(page).to have_text("Note")
         expect(page).to have_no_text("Default")
       end
@@ -144,10 +125,10 @@ RSpec.describe "Document types admin", :js do
     let!(:document) { create(:document, type: type_with_documents) }
 
     it "reassigns documents when deleting a document type" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      within_enumeration_menu(type_with_documents) do |menu|
-        menu.find(:menuitem, I18n.t(:button_delete)).click
+      list_page.within_menu(type_with_documents) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Delete document type") do
@@ -164,13 +145,13 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Type with documents")
       expect(document.reload.type).to eq another_type
 
-      within_document_type_row(another_type) do
+      list_page.within_row(another_type) do
         expect(page).to have_css("[role='cell'][aria-colindex='2']", exact_text: "1", normalize_ws: true)
       end
 
       # It allows deleting unused document types
-      within_enumeration_menu(unused_type) do |menu|
-        menu.find(:menuitem, I18n.t(:button_delete)).click
+      list_page.within_menu(unused_type) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Delete document type") do
@@ -186,8 +167,8 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Unused type")
 
       # Last remaining type cannot be deleted
-      within_enumeration_menu(another_type) do |menu|
-        menu.find(:menuitem, I18n.t(:button_delete)).click
+      list_page.within_menu(another_type) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Cannot delete document type") do
@@ -214,47 +195,47 @@ RSpec.describe "Document types admin", :js do
     # The moved row's menu is reopened after the morph: only a refreshed menu
     # hides the directions that stopped being available.
     it "reorders through the move menu twice across a morph" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      expect_enumeration_order("Alpha", "Beta", "Gamma")
+      list_page.expect_order("Alpha", "Beta", "Gamma")
 
-      move_enumeration(gamma, I18n.t(:label_sort_highest))
+      list_page.move(gamma, I18n.t(:label_sort_highest))
 
-      expect_enumeration_move_settled("Gamma", "Alpha", "Beta")
+      list_page.expect_move_settled("Gamma", "Alpha", "Beta")
 
-      within_enumeration_move_submenu(gamma) do |submenu|
+      list_page.within_move_submenu(gamma) do |submenu|
         expect(submenu).to have_no_selector(:menuitem, I18n.t(:label_sort_highest))
         expect(submenu).to have_no_selector(:menuitem, I18n.t(:label_sort_higher))
         expect(submenu).to have_selector(:menuitem, I18n.t(:label_sort_lower))
         submenu.find(:menuitem, I18n.t(:label_sort_lowest)).click
       end
 
-      expect_enumeration_move_settled("Alpha", "Beta", "Gamma")
+      list_page.expect_move_settled("Alpha", "Beta", "Gamma")
 
       refresh
 
-      expect_enumeration_order("Alpha", "Beta", "Gamma")
+      list_page.expect_order("Alpha", "Beta", "Gamma")
     end
 
     # The second drag runs without a reload on purpose: the sortable root
     # re-registers Pragmatic's drop targets after a morph, and only a drag that
     # follows a completed morph exercises that repair.
     it "reorders by dragging twice across a morph", :selenium do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      expect_enumeration_order("Alpha", "Beta", "Gamma")
+      list_page.expect_order("Alpha", "Beta", "Gamma")
 
-      drag_document_type(alpha, after: beta)
+      list_page.drag(alpha, after: beta)
 
-      expect_enumeration_move_settled("Beta", "Alpha", "Gamma")
+      list_page.expect_move_settled("Beta", "Alpha", "Gamma")
 
-      drag_document_type(beta, after: gamma)
+      list_page.drag(beta, after: gamma)
 
-      expect_enumeration_move_settled("Alpha", "Gamma", "Beta")
+      list_page.expect_move_settled("Alpha", "Gamma", "Beta")
 
       refresh
 
-      expect_enumeration_order("Alpha", "Gamma", "Beta")
+      list_page.expect_order("Alpha", "Gamma", "Beta")
     end
   end
 
@@ -262,11 +243,11 @@ RSpec.describe "Document types admin", :js do
     let!(:only_type) { create(:document_type, name: "Only type") }
 
     it "hides the Move submenu and renders one separator" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      within_enumeration_menu(only_type) do |menu|
-        expect(menu).to have_selector(:menuitem, I18n.t(:button_edit))
-        expect(menu).to have_selector(:menuitem, I18n.t(:button_delete))
+      list_page.within_menu(only_type) do |menu|
+        expect(menu).to have_selector(:menuitem, "Edit")
+        expect(menu).to have_selector(:menuitem, "Delete")
         expect(menu).to have_no_selector(:menuitem, I18n.t(:button_move))
         expect(menu).to have_css("li.ActionList-sectionDivider", count: 1)
       end
@@ -277,7 +258,7 @@ RSpec.describe "Document types admin", :js do
     current_user { create(:user) }
 
     it "is not accessible" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
       expect(page).to have_text("You are not authorized to access this page.")
     end
