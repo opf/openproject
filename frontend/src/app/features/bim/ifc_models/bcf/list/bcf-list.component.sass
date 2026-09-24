@@ -1,11 +1,5 @@
 @import "helpers"
 
-// Custom element tags default to display:inline, which would make offsetWidth
-// (what WpResizerComponent measures/resizes via the host class above) reflect
-// content width rather than the full pane width.
-:host
-  display: block
-
 .op-bcf-list
   &--result-overlay
     @include overlay-background
