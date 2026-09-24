@@ -386,6 +386,13 @@ export default class FiltersFormController extends Controller {
     return this.filterTargets.filter((row) => row.hasAttribute(PENDING_ATTRIBUTE));
   }
 
+  private releaseSubmittedPendingRows() {
+    const submitted = new Set(this.parseFilters().map((filter) => filter.name));
+    this.pendingRows()
+      .filter((row) => submitted.has(row.dataset.filterName!))
+      .forEach((row) => this.releasePendingRow(row, { hide: false }));
+  }
+
   private releasePendingRow(row:HTMLElement, { hide }:{ hide:boolean }) {
     row.removeAttribute(PENDING_ATTRIBUTE);
     if (hide) {
@@ -511,10 +518,7 @@ export default class FiltersFormController extends Controller {
   }
 
   sendForm() {
-    const submitted = new Set(this.parseFilters().map((filter) => filter.name));
-    this.pendingRows()
-      .filter((row) => submitted.has(row.dataset.filterName!))
-      .forEach((row) => this.releasePendingRow(row, { hide: false }));
+    this.releaseSubmittedPendingRows();
 
     // When we want the filter content to be written to a hidden input, do this.
     // When we do not also want the turbo requests, we can exit early here. Otherwise the automatic redirect
