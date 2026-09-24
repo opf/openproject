@@ -28,34 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module TextTransformActions
-    class RowComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include SortableLists::MoveMenu
-
-      options toggles_enabled: true
-
-      alias_method :text_transform_action, :model
-
-      def wrapper_uniq_by
-        text_transform_action.id
+module SortableLists
+  module MoveMenu
+    Direction = Data.define(:label, :direction, :icon) do
+      def item_data
+        {
+          sortable_lists__item_target: "moveItem",
+          sortable_lists__item_direction_param: direction,
+          action: "click->sortable-lists--item#move"
+        }
       end
+    end
 
-      private
+    DIRECTIONS = [
+      Direction.new(label: :label_sort_highest, direction: "top", icon: :"move-to-top"),
+      Direction.new(label: :label_sort_higher, direction: "up", icon: :"chevron-up"),
+      Direction.new(label: :label_sort_lower, direction: "down", icon: :"chevron-down"),
+      Direction.new(label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom")
+    ].freeze
 
-      def scope_text
-        if text_transform_action.specific_work_package_types?
-          t(".scope_specific_work_package_types", count: text_transform_action.types.size)
-        else
-          t("admin.text_transform_actions.usage_scopes.#{text_transform_action.usage_scope}")
+    private
+
+    # The `data:` hash must live on the item level so Primer renders it on the ActionList
+    # `<li>`, which is what the item controller targets to compute availability and to
+    # handle the bubbled click.
+    def with_move_items(menu)
+      DIRECTIONS.each do |move|
+        menu.with_item(label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
+          item.with_leading_visual_icon(icon: move.icon)
         end
-      end
-
-      def toggle_label
-        t(".label_toggle", label: text_transform_action.label)
       end
     end
   end
