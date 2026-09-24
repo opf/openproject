@@ -16,11 +16,15 @@
     list-style: none
 
   &--accessible-link
-    top: var(--base-size-8)
-    left: var(--base-size-8)
     padding: var(--base-size-4) var(--base-size-8)
     border-radius: var(--borderRadius-default)
     background: var(--bgColor-default)
+
+    &:focus
+      position: static !important
+      display: inline-block
+      max-width: calc(100% - var(--base-size-16))
+      margin: var(--base-size-8)
 
   // Timeline border and grid lines
   .vis-timeline
@@ -146,9 +150,9 @@
       color: var(--fgColor-onEmphasis)
       border-color: var(--bgColor-accent-emphasis)
 
-  .vis-item.vis-range.op-timeline-sprint.op-timeline-item-focus
+  .vis-item.vis-range.op-timeline-sprint.vis-selected
     border: var(--borderWidth-thick) solid var(--fgColor-accent) !important
 
-  .vis-item.vis-point.op-timeline-milestone.op-timeline-item-focus
+  .vis-item.vis-point.op-timeline-milestone.vis-selected
     .vis-dot
       border: var(--borderWidth-thick) solid var(--fgColor-accent) !important

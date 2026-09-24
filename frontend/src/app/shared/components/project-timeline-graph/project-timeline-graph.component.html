@@ -9,7 +9,7 @@
               [href]="item.href"
               [textContent]="item.text"
               (focus)="highlightAccessibleItem(item.id)"
-              (blur)="clearAccessibleItemHighlight(item.id)"
+              (blur)="clearAccessibleItemHighlight()"
             ></a>
           } @else {
             <span class="sr-only" [textContent]="item.text"></span>

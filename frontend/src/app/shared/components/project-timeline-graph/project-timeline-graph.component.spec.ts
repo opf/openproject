@@ -641,7 +641,8 @@ describe('ProjectTimelineGraphComponent', () => {
       fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
       fixture.detectChanges();
 
-      const links = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('.op-project-timeline-graph--accessible-list a');
+      const element = fixture.nativeElement as HTMLElement;
+      const links = element.querySelectorAll<HTMLAnchorElement>('.op-project-timeline-graph--accessible-list a');
       expect(links).toHaveLength(2);
       expect(links[0].classList).toContain('show-on-focus');
       expect(links[0].textContent).toBe('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
@@ -652,6 +653,9 @@ describe('ProjectTimelineGraphComponent', () => {
       links[0].focus();
       expect(document.activeElement).toBe(links[0]);
       expect(getComputedStyle(links[0]).width).not.toBe('1px');
+      expect(getComputedStyle(links[0]).position).toBe('static');
+      expect(links[0].getBoundingClientRect().bottom)
+        .toBeLessThanOrEqual(element.querySelector('.op-project-timeline-graph')!.getBoundingClientRect().top);
     });
 
     it('highlights the visual item related to a focused accessible link', async () => {
@@ -662,17 +666,26 @@ describe('ProjectTimelineGraphComponent', () => {
       const element = fixture.nativeElement as HTMLElement;
       await vi.waitUntil(() => {
         fixture.detectChanges();
-        return element.querySelector('[data-id="sprint-20"]') !== null;
+        return element.querySelector('.vis-item.op-timeline-sprint') !== null
+          && element.querySelector('.vis-item.op-timeline-milestone') !== null;
       });
 
       const sprintLink = element.querySelector<HTMLAnchorElement>(`a[href="${sprint.href}"]`)!;
-      const sprintItem = element.querySelector<HTMLElement>('[data-id="sprint-20"]')!;
+      const milestoneLink = element.querySelector<HTMLAnchorElement>('a[href="/work_packages/10"]')!;
+      const sprintItem = element.querySelector<HTMLElement>('.vis-item.op-timeline-sprint')!;
+      const milestoneItem = element.querySelector<HTMLElement>('.vis-item.op-timeline-milestone')!;
 
       sprintLink.focus();
-      expect(sprintItem.classList).toContain('op-timeline-item-focus');
+      expect(sprintItem.classList).toContain('vis-selected');
 
       sprintLink.blur();
-      expect(sprintItem.classList).not.toContain('op-timeline-item-focus');
+      expect(sprintItem.classList).not.toContain('vis-selected');
+
+      milestoneLink.focus();
+      expect(milestoneItem.classList).toContain('vis-selected');
+
+      milestoneLink.blur();
+      expect(milestoneItem.classList).not.toContain('vis-selected');
     });
 
     it('hides the loading skeleton once the initial draw completes', async () => {
