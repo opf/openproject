@@ -3,13 +3,14 @@
     primer_form_with(
       scope: :work_package,
       model: work_package,
-      url: project_work_packages_dialog_path(project),
+      url: submit_url,
       method: :post,
       html: {
         id: "create-work-package-form",
         data: {
           controller: "work-packages--create-dialog",
-          "work-packages--create-dialog-refresh-url-value": refresh_form_project_work_packages_dialog_path(project)
+          "work-packages--create-dialog-refresh-url-value": refresh_url,
+          update_work_package: true
         }
       }
     ) do |f|
