@@ -199,6 +199,12 @@ paths:
     "$ref": "./paths/activity_emoji_reactions.yml"
   "/api/v3/ai_text_transform_actions":
     "$ref": "./paths/ai_text_transform_actions.yml"
+  "/api/v3/ai_text_transform_runs":
+    "$ref": "./paths/ai_text_transform_runs.yml"
+  "/api/v3/ai_text_transform_runs/{id}":
+    "$ref": "./paths/ai_text_transform_run.yml"
+  "/api/v3/ai_text_transform_runs/{id}/cancel":
+    "$ref": "./paths/ai_text_transform_run_cancel.yml"
   "/api/v3/attachments":
     "$ref": "./paths/attachments.yml"
   "/api/v3/attachments/prepare":
@@ -824,6 +830,10 @@ components:
       "$ref": "./components/schemas/ai_text_transform_action_model.yml"
     AITextTransformActionCollectionModel:
       "$ref": "./components/schemas/ai_text_transform_action_collection_model.yml"
+    AITextTransformRunModel:
+      "$ref": "./components/schemas/ai_text_transform_run_model.yml"
+    AITextTransformRunWriteModel:
+      "$ref": "./components/schemas/ai_text_transform_run_write_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
     AttachmentPrepareUploadWriteModel:

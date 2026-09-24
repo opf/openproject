@@ -3,7 +3,7 @@ name: AI
 description: |-
   The AI endpoints expose the description assistant: admin-managed text transform actions that
   rewrite the text of a work package description field with the configured LLM. This tag covers
-  listing the actions available in a given context. Running an action is added in a later release.
+  listing the actions available in a given context and running an action on a text.
 
   All AI endpoints are behind the feature flag `ai_text_transform_actions` and the
   administrative setting *AI text transform actions enabled*. When either one is off, or when no
