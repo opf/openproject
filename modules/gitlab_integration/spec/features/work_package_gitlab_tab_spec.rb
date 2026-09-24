@@ -55,6 +55,9 @@ RSpec.describe "Open the Gitlab tab", :js do
 
   let(:issue) { create(:gitlab_issue, :open, work_packages: [work_package], title: "A Test Issue title") }
   let(:merge_request) { create(:gitlab_merge_request, :open, work_packages: [work_package], title: "A Test MR title") }
+  let(:commit) do
+    create(:gitlab_commit, work_packages: [work_package], message: "A Test commit message\n\nWith a much longer description")
+  end
 
   let(:pipeline) do
     create(:gitlab_pipeline, gitlab_merge_request: merge_request, name: "a pipeline name")
@@ -66,6 +69,8 @@ RSpec.describe "Open the Gitlab tab", :js do
     before do
       issue
       pipeline
+      commit
+
       login_as(user)
     end
 
@@ -90,7 +95,7 @@ RSpec.describe "Open the Gitlab tab", :js do
         gitlab_tab.wait_for_tab_loaded
       end
 
-      it "shows the issues and merge requests associated with the work package" do
+      it "shows the issues, merge requests and commits associated with the work package" do
         tabs.expect_counter(gitlab_tab_element, 2)
 
         gitlab_tab.issues_collapse_button.click
@@ -103,6 +108,12 @@ RSpec.describe "Open the Gitlab tab", :js do
         within("#merge_requests") do
           expect(page).to have_text("A Test MR title")
           expect(page).to have_text("Open")
+        end
+
+        gitlab_tab.commits_collapse_button.click
+        within("#commits") do
+          expect(page).to have_text("A Test commit message")
+          expect(page).to have_no_text("With a much longer description")
         end
       end
 
@@ -139,6 +150,7 @@ RSpec.describe "Open the Gitlab tab", :js do
       let(:pipeline) { nil }
       let(:merge_request) { nil }
       let(:issue) { nil }
+      let(:commit) { nil }
 
       before do
         work_package_page.visit!

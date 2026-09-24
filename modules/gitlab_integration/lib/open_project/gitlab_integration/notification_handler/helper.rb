@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -126,6 +128,8 @@ module OpenProject::GitlabIntegration
           @payload.dup
         end
 
+        delegate :[], :to_hash, to: :@payload
+
         def method_missing(name, *args, &block)
           super unless args.empty? && block.nil?
 
@@ -136,6 +140,7 @@ module OpenProject::GitlabIntegration
                   end
 
           return Payload.new(value) if value.is_a?(Hash)
+          return value.map { |i| Payload.new(i) } if value.is_a?(Array)
 
           value
         end

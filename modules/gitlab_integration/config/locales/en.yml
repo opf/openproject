@@ -76,6 +76,11 @@ en:
     gitlab_user_avatar_url: "GitLab avatar URL"
     gitlab_username: "GitLab username"
   gitlab_integration:
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: <empty commit message>
     git_snippets_dialog_component:
       branch_name: Branch name
       commit_message: Commit message
