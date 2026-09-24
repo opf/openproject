@@ -173,7 +173,7 @@ class LlmConnection < ApplicationRecord
       api_format:,
       llm_features_enabled: Setting.llm_features_enabled?,
       server_flavour:,
-      catalogue_fetched_at:,
+      last_synced_at:,
       last_connected_at:,
       model_count: models.count,
       manual_model_count: models.where(manual: true).count
