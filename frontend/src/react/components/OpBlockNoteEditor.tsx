@@ -134,10 +134,9 @@ export function OpBlockNoteEditor({
   type EditorType = typeof editor;
   const theme = useOpTheme();
 
-  // Works around a BlockNote/Yjs bootstrap race where the first block can render with
-  // stale transition-tracking CSS state (e.g. a heading rendering at body-text size)
-  // until the next transaction. Re-applying its own props once, before first paint,
-  // forces that state to recompute cleanly.
+  // Works around a BlockNote/Yjs bootstrap race (COMMS-909): the initial sync leaves BlockNote's
+  // `data-prev-type` transition decoration stuck on the first block, so a heading renders at
+  // body-text size until the next transaction clears it. Dispatch one before first paint.
   const forcedInitialBlockRefreshRef = useRef(false);
   useLayoutEffect(() => {
     if (!hocuspocusProvider || forcedInitialBlockRefreshRef.current) {
@@ -145,10 +144,7 @@ export function OpBlockNoteEditor({
     }
 
     forcedInitialBlockRefreshRef.current = true;
-    const firstBlock = editor.document[0];
-    if (firstBlock?.id === 'initialBlockId') {
-      editor.updateBlock(firstBlock, { props: { ...firstBlock.props } });
-    }
+    editor.transact((tr) => tr.setMeta('addToHistory', false));
   }, [editor, hocuspocusProvider]);
 
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
