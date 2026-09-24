@@ -444,10 +444,22 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                            project_created_on_this_week,
                                            project_created_on_fixed_date)
 
+      # a range row without dates yet is not a filter: the list and the URL stay as they are.
+      # The operator change submits behind a 300 ms debounce, so the quiet period must outlast it
+      # for the assertions below to see a request that should not have happened.
       projects_page.set_filter("created_at",
                                "Created on",
-                               "between",
-                               ["2017-11-10", "2017-11-12"])
+                               "between")
+      wait_for_network_idle(duration: 0.5)
+
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+      expect(page).to have_no_current_path(/created_at/)
+
+      projects_page.within_filter("created_at") do
+        projects_page.set_datetime_filter("created_at", "between", ["2017-11-10", "2017-11-12"])
+      end
 
       projects_page.expect_projects_not_listed(project_created_on_today)
       projects_page.expect_projects_listed(project_created_on_fixed_date)
