@@ -35,13 +35,15 @@
 # deployment calls the model -- provider-specific and not comparable across
 # vendors, which is why it is never used as a lookup key into a public catalogue.
 class LlmModel < ApplicationRecord
-  belongs_to :llm_connection
-
   # Bounded because the value is a btree index entry and comes from whatever the
   # remote server chose to call its models.
+  MAX_EXTERNAL_ID_LENGTH = 512
+
+  belongs_to :llm_connection
+
   validates :external_id,
             presence: true,
-            length: { maximum: 512 },
+            length: { maximum: MAX_EXTERNAL_ID_LENGTH },
             uniqueness: { scope: :llm_connection_id }
 
   scope :active, -> { where(active: true) }
