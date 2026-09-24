@@ -44,6 +44,7 @@ export interface WorkPackageAction {
   link?:string;
   href?:string;
   hidden?:boolean;
+  turboRequest?:boolean;
 }
 
 @Injectable()
