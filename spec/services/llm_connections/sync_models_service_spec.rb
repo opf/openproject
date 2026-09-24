@@ -180,13 +180,16 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
 
     it "skips a card whose id is too long to store and keeps the rest" do
-      oversized = "x" * (LlmModel::MAX_EXTERNAL_ID_LENGTH + 1)
+      longest = "x" * LlmModel::MAX_EXTERNAL_ID_LENGTH
+      oversized = "#{longest}x"
       mock_llm_models_response(base_url, models: [{ id: oversized, object: "model" },
+                                                  { id: longest, object: "model" },
                                                   { id: "qwen3.6-27b", object: "model" },
                                                   { id: "bge-m3", object: "model" }])
 
       expect(described_class.new(connection).call).to be_success
-      expect(connection.models.active.pluck(:external_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
+      expect(connection.models.active.pluck(:external_id)).to contain_exactly(longest, "qwen3.6-27b", "bge-m3")
+      expect(connection.models.find_by(external_id: oversized)).to be_nil
     end
 
     it "fails rather than raising when a card cannot be stored" do

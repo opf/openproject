@@ -54,8 +54,7 @@ module LlmConnections
     rescue Llm::Client::Error => e
       failed("failed: #{e.class} #{e.message}", e.message)
     rescue ActiveRecord::ActiveRecordError => e
-      # Two syncs racing find_or_initialize_by into a uniqueness violation is
-      # not worth a 500 on the save path or an aborted run in the job.
+      # Two syncs racing find_or_initialize_by can hit a uniqueness violation.
       failed("could not be stored: #{e.class}", e.class.to_s)
     end
 
