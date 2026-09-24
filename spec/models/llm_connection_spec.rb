@@ -178,5 +178,12 @@ RSpec.describe LlmConnection do
         expect(connection.errors).to be_of_kind(:base_url, :invalid_url)
       end
     end
+
+    it "refuses a base URL that cannot be parsed" do
+      connection = build(:llm_connection, base_url: "https://example.com/a b")
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:base_url, :invalid_url)
+    end
   end
 end
