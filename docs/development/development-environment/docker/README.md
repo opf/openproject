@@ -566,7 +566,7 @@ docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake
 
 ## Keycloak Service
 
-> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise Edition Token` which is restricted to the domain `openproject.local`
+> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise edition Token` which is restricted to the domain `openproject.local`
 
 Within `docker/dev/keycloak` a compose file is provided for running local keycloak instance with TLS support. This provides
 a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.local`.
