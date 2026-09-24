@@ -32,11 +32,11 @@ require "spec_helper"
 RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:custom_field_hierarchies] do
   subject(:service) { described_class.new }
 
-  context "with ListItemContract" do
+  context "with HierarchyItemContract" do
     let!(:custom_field) do
       create(:custom_field, field_format: "hierarchy")
     end
-    let!(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+    let!(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
 
     let(:root) { custom_field.hierarchy_root }
     let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke", short: "LS").value! }
@@ -140,7 +140,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
     describe "#update_item" do
       context "with valid parameters" do
         it "updates the item with new attributes" do
-          update_contract = CustomFields::Hierarchy::UpdateListItemContract
+          update_contract = CustomFields::Hierarchy::UpdateHierarchyItemContract
           result = service.update_item(contract_class: update_contract, item: luke, label: "Luke Skywalker", short: "LS")
           expect(result).to be_success
         end
@@ -150,7 +150,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia").value! }
 
         it "refuses to update the item with new attributes" do
-          update_contract = CustomFields::Hierarchy::UpdateListItemContract
+          update_contract = CustomFields::Hierarchy::UpdateHierarchyItemContract
           result = service.update_item(contract_class: update_contract, item: leia, label: "luke", short: "LS")
           expect(result).to be_failure
 
@@ -452,7 +452,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       create(:custom_field, field_format: "hierarchy")
     end
     let(:root) { custom_field.hierarchy_root }
-    let(:described_class_contract) { CustomFields::Hierarchy::InsertListItemContract }
+    let(:described_class_contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }
     let!(:first) do
       service.insert_item(contract_class: described_class_contract, parent: root, label: "First").value!
     end
@@ -494,7 +494,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       create(:custom_field, field_format: "hierarchy")
     end
     let!(:item) do
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                           parent: custom_field.hierarchy_root, label: "Only").value!
     end
 
@@ -512,7 +512,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       create(:custom_field, field_format: "hierarchy")
     end
     let(:root) { custom_field.hierarchy_root }
-    let(:contract) { CustomFields::Hierarchy::InsertListItemContract }
+    let(:contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }
 
     before do
       ["banana", "Apple", "cherry"].each do |label|

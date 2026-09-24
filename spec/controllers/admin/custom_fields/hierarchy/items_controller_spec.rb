@@ -34,7 +34,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemsController, with_ee: [:custo
   let(:custom_field) { create(:custom_field, field_format: "hierarchy") }
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
   let(:root) { custom_field.hierarchy_root }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+  let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
   let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke").value! }
 
   current_user { user }
@@ -146,7 +146,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemsController, with_ee: [:custo
 
   describe "PUT #move" do
     before do
-      contract_class = CustomFields::Hierarchy::InsertListItemContract
+      contract_class = CustomFields::Hierarchy::InsertHierarchyItemContract
       service.insert_item(contract_class:, parent: root, label: "not relevant")
       service.insert_item(contract_class:, parent: root, label: "not important")
       service.insert_item(contract_class:, parent: root, label: "unused")
