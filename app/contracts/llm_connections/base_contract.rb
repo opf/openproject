@@ -40,13 +40,13 @@ module LlmConnections
     attribute :default_embedding_model_id
 
     validates :base_url, presence: true
-    validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
-    validates :api_format, exclusion: { in: Llm::Session::UNSUPPORTED_FORMATS, message: :not_supported },
-                           unless: -> { api_format.blank? }
     # Resolves to the validate_url gem, which defaults to http and https. Plain
     # http is deliberately allowed: an on-premise LLM server on an internal
     # network commonly terminates TLS elsewhere, or not at all.
     validates :base_url, url: { message: :invalid_url }, unless: -> { base_url.blank? }
+    validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
+    validates :api_format, exclusion: { in: Llm::Session::UNSUPPORTED_FORMATS, message: :not_supported },
+                           unless: -> { api_format.blank? }
 
     validate :features_require_connection
 
