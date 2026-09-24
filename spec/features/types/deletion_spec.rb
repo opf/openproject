@@ -40,9 +40,12 @@ RSpec.describe "Deleting a work package type", :js do
   def click_delete(type)
     visit types_path
 
-    within("[data-draggable-id='#{type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t(:button_delete)
+    group = find(:link, type.name, href: type_settings_path(type_id: type.id)).ancestor(:list_item)
+    within(group) do
+      within(".Box-header") do
+        find(:button, accessible_name: I18n.t(:label_actions)).click
+        click_on I18n.t(:button_delete)
+      end
     end
   end
 
