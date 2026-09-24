@@ -55,6 +55,9 @@ module Admin
           if @custom_field.is_a?(ProjectCustomField)
             admin_settings_project_custom_field_item_path(project_custom_field_id: @custom_field.id,
                                                           id: @hierarchy_item.id)
+          elsif @custom_field.is_a?(UserCustomField)
+            admin_settings_user_custom_field_item_path(user_custom_field_id: @custom_field.id,
+                                                       id: @hierarchy_item.id)
           else
             custom_field_item_path(custom_field_id: @custom_field.id, id: @hierarchy_item.id)
           end

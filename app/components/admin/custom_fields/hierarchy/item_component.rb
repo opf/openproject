@@ -67,6 +67,8 @@ module Admin
         def item_link
           if project_custom_field_context?
             admin_settings_project_custom_field_item_path(custom_field_id, model)
+          elsif user_custom_field_context?
+            admin_settings_user_custom_field_item_path(custom_field_id, model)
           else
             custom_field_item_path(custom_field_id, model)
           end
@@ -75,6 +77,8 @@ module Admin
         def item_actions_href
           if project_custom_field_context?
             item_actions_admin_settings_project_custom_field_item_path(custom_field_id, model)
+          elsif user_custom_field_context?
+            item_actions_admin_settings_user_custom_field_item_path(custom_field_id, model)
           else
             item_actions_custom_field_item_path(custom_field_id, model)
           end
@@ -92,6 +96,10 @@ module Admin
 
         def project_custom_field_context?
           @project_custom_field_context ||= @custom_field.is_a?(ProjectCustomField)
+        end
+
+        def user_custom_field_context?
+          @user_custom_field_context ||= @custom_field.is_a?(UserCustomField)
         end
 
         def custom_field_id = @custom_field.id
