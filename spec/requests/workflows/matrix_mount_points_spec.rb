@@ -66,12 +66,21 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).to have_css(".workflow-save-bar button[type=submit]", text: I18n.t(:button_save))
   end
 
-  it "omits the Save bar while the workflows aspect is linked to another type" do
-    link_configuration(type, source: create(:type), aspect: TypeVariant::WORKFLOWS)
+  it "keeps the Save bar while another type shares the workflow" do
+    create(:type).default_variant.update!(workflow: type.default_variant.workflow)
 
     get edit_type_workflow_path(type)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).not_to include("workflow-save-bar")
+    expect(response.body).to include("workflow-save-bar")
+  end
+
+  it "says which other variants the workflow reaches" do
+    other = create(:type, name: "Shared with")
+    other.default_variant.update!(workflow: type.default_variant.workflow)
+
+    get edit_type_workflow_path(type)
+
+    expect(response.body).to have_css("[data-test-selector='workflow-usage-box']", text: "Shared with")
   end
 end

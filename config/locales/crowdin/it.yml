@@ -66,8 +66,8 @@ it:
 
       '
     login_with_auth_provider: o accedi con il tuo account esistente
-    omniauth_direct_login_continue: Continue to sign in
-    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
+    omniauth_direct_login_continue: Continua per accedere
+    omniauth_direct_login_redirecting: Reindirizzamento al provider di identità…
     omniauth_login: Accedi per attivare il tuo account.
     signup_title: Crea un account in %{app_title}
     signup_with_external_account: Registrati con un account esterno
@@ -79,27 +79,27 @@ it:
   activerecord:
     attributes:
       ai/text_transform_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
+        active: Attivo
+        injects_type_template: Inserisci il modello del tipo di macro-attività
+        label: Etichetta
         prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        types: Tipi di macro-attività
+        usage_scope: Ambito
       ai/text_transform_run:
-        action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
+        action: Azione
+        cancel_requested: Annullamento richiesto
+        error_message: Messaggio di errore
+        finished_at: Completato il
         input: Input
-        status: Status
-        system_prompt: System prompt
-        user: User
+        status: Stato
+        system_prompt: Prompt di sistema
+        user: Utente
         uuid: UUID
       ai/text_transform_run_event:
-        kind: Kind
+        kind: Tipo
         payload: Payload
-        run: Run
-        seq: Sequence number
+        run: Esecuzione
+        seq: Numero progressivo
       announcements:
         show_until: Visualizza fino a
       attachment:
@@ -142,9 +142,9 @@ it:
         is_for_all: Per tutti i progetti
         is_required: Richiesto
         max_length: Lunghezza massima
-        max_value: Maximum value
+        max_value: Valore massimo
         min_length: Lunghezza minima
-        min_value: Minimum value
+        min_value: Valore minimo
         multi_value: Consenti selezione multipla
         possible_values: Valori possibili
         regexp: Espressione regolare
@@ -222,7 +222,7 @@ it:
         title: Titolo
       member:
         blocked: Bloccato
-        principal_type: Member type
+        principal_type: Tipo di membro
         roles: Ruoli
       notification:
         read_ian: Leggi in app
@@ -235,7 +235,7 @@ it:
         position: Posizione
       persisted_query:
         filters: Filtri
-        group_bys: Group results by
+        group_bys: Raggruppa i risultati per
         name: Nome
         orders: Ordini
         selects: Seleziona
@@ -374,7 +374,7 @@ it:
       token/named:
         token_name: Nome del token
       type:
-        allow_project_variants: Allow project-specific variants
+        allow_project_variants: Consenti varianti specifiche del progetto
         color: Colore
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_milestone: È un traguardo
@@ -383,11 +383,11 @@ it:
       type/configuration_link:
         source: Tipo di origine
       type_variant:
-        attribute_groups: Form
+        attribute_groups: Modulo
         default_work_package_description: Testo predefinito per la descrizione
         defaults_source: Origine dei valori predefiniti
         enabled_in_new_projects: Attivo nei nuovi progetti
-        form_configuration_source: Form source
+        form_configuration_source: Origine del modulo
         patterns: Pattern
         pdf_export_source: Origine dell'esportazione PDF
         project_attributes_source: Origine degli attributi del progetto
@@ -443,12 +443,12 @@ it:
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività non salvata
         workdays: Giorni lavorativi
       user_resource:
-        description: Description
-        name: Name
-        user_filter: User filter
+        description: Descrizione
+        name: Nome
+        user_filter: Filtro utenti
       user_resource_detail:
-        description: Description
-        user_filter: User filter
+        description: Descrizione
+        user_filter: Filtro utenti
       user_working_hours:
         availability_factor: Fattore di disponibilità
         days: Giorni lavorativi
@@ -500,7 +500,7 @@ it:
           true: includi giorni non lavorativi
         journal_internal: Diario interno
         notify: Notifica
-        observed_in_versions: Observed in versions
+        observed_in_versions: Osservato nelle versioni
         parent: Superiore
         parent_issue: Superiore
         parent_work_package: Superiore
@@ -576,8 +576,8 @@ it:
         is_for_all_cannot_modify: è per tutti i progetti e non può quindi essere modificato.
         ldap_managed: Questo dipartimento è gestito dalla sincronizzazione LDAP e non può essere modificato manualmente.
         less_than_or_equal_to: deve essere inferiore o uguale a %{count}.
-        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
-        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
+        migration_failed: 'Non è stato possibile cambiare la variante per il progetto ''%{project}'': %{reason}'
+        migration_target_invalid: La variante selezionata deve essere un'altra variante dello stesso tipo utilizzabile da tutti i progetti interessati.
         not_a_date: non è una data valida.
         not_a_datetime: non è un'orario valido.
         not_a_number: non è un numero.
@@ -599,7 +599,7 @@ it:
         regex_list_invalid: Le righe %{invalid_lines} non possono essere analizzate come espressione regolare.
         regex_match_failed: non corrisponde all'espressione regolare %{expression}.
         smaller_than_or_equal_to_max_length: deve essere minore o uguale alla lunghezza massima.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: deve essere minore o uguale al valore massimo.
         ssrf_filtered: viola i criteri SSRF di questa istanza di OpenProject.
         status_transition_invalid: non è valido perché non esiste una transizione valida dal vecchio al nuovo stato per i ruoli dell'utente corrente.
         system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
@@ -696,6 +696,13 @@ it:
               not_unique: è già in uso. Sei pregato di selezionare un altro nome.
         jira:
           invalid_protocol: Fornisci un protocollo valido (http o https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -772,7 +779,7 @@ it:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_be_owned_by_the_project: non deve essere una variante appartenente a un altro progetto.
               must_belong_to_the_type: deve essere una variante del tipo utilizzato dal progetto.
         queries/filters/base:
           attributes:
@@ -845,7 +852,7 @@ it:
               hours_per_day_are_missing: Deve essere definito il numero di ore al giorno.
               hours_per_day_is_out_of_bounds: Le ore al giorno non possono essere più di 24.
               journal_aggregation_time_minutes_is_out_of_bounds: Il periodo di aggregazione deve essere compreso tra %{min} e %{max} minuti.
-              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
+              password_login_requires_sso_provider: Le restrizioni sull'accesso tramite password richiedono almeno un provider SSO disponibile.
               previous_working_day_changes_unprocessed: Le modifiche precedenti alla configurazione dei giorni lavorativi non sono ancora state applicate.
               working_days_are_missing: Almeno un giorno della settimana deve essere impostato giorno lavorativo.
         status:
@@ -866,7 +873,7 @@ it:
         type:
           attributes:
             base:
-              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
+              in_use_by_work_packages: Questo tipo non può essere eliminato finché è ancora utilizzato da macro-attività.
         type_variant:
           attributes:
             attribute_groups:
@@ -877,36 +884,36 @@ it:
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
             base:
               borrowed_by_variants: Non può essere eliminata mentre la sua configurazione è riutilizzata da %{names}.
-              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+              inherits_from_project_owned: 'Questa variante eredita attualmente da una variante specifica del progetto e non può essere convertita in una variante globale.
 
                 '
               is_default_variant: La configurazione predefinita di un tipo non può essere eliminata.
-              project_variants_not_allowed: This type does not allow creation of variants inside projects.
+              project_variants_not_allowed: Questo tipo non consente di creare varianti all'interno dei progetti.
               restrict_dependent_destroy:
                 has_many: Non può essere eliminata mentre è ancora utilizzata da alcuni progetti.
             defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              not_available_to_project_owned_variant: non può essere impostata su una variante appartenente a un progetto.
               taken: è già impostato per un'altra configurazione di questo tipo.
             form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             patterns:
               invalid_tokens: Uno o più attributi all'interno del campo non sono validi. Correggi gli attributi prima di salvare.
             pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             variant:
               must_belong_to_the_type: deve essere una variante di questo tipo.
             workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
+              not_available_to_this_variant: deve essere un flusso di lavoro utilizzabile da questo progetto.
             workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
         user:
           attributes:
@@ -1037,14 +1044,14 @@ it:
         one: Azione
         other: Azioni
       ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+        one: Azione di trasformazione del testo
+        other: Azioni di trasformazione del testo
       ai/text_transform_run:
-        one: Text transform run
-        other: Text transform runs
+        one: Esecuzione della trasformazione del testo
+        other: Esecuzioni della trasformazione del testo
       ai/text_transform_run_event:
-        one: Text transform run event
-        other: Text transform run events
+        one: Evento di esecuzione della trasformazione del testo
+        other: Eventi di esecuzione della trasformazione del testo
       announcement:
         one: Annuncio
         other: Annunci
@@ -1422,11 +1429,11 @@ it:
       environment_configured_readonly: Questi valori sono configurati tramite variabili ambiente e non possono essere modificati qui.
     custom_styles:
       color_groups:
-        base_colors: Base colors
-        main_menu: Main lateral menu
-        top_header_colors: Top header colors
+        base_colors: Colori di base
+        main_menu: Menu laterale principale
+        top_header_colors: Colori dell'intestazione superiore
       color_theme: Tema a colori
-      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
+      color_theme_caption: Usa uno dei temi OpenProject predefiniti oppure crea un tema personalizzato con i tuoi colori selezionando Tema personalizzato.
       color_theme_custom: "(Personalizzato)"
       colors:
         accent-color: Accento
@@ -1435,15 +1442,17 @@ it:
         main-menu-bg-selected-background: Menu principale quando selezionato
         primary-button-color: Pulsante principale
       custom_colors: Colori personalizzati
-      edit_color: Edit %{color}
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+      edit_color: Modifica %{color}
       fonts:
         file_is_invalid: non è un file font TTF valido.
         file_too_large: è troppo grande (la dimensione massima è %{count} MB).
       instructions:
         accent-color: Colore per i link e altri elementi ben evidenziati.
-        header-bg-color: Default background color of the app header.
+        header-bg-color: Colore di sfondo predefinito dell'intestazione dell'app.
         main-menu-bg-color: Colore di sfondo del menu a sinistra.
-        main-menu-bg-selected-background: Background color of menu items when selected.
+        main-menu-bg-selected-background: Colore di sfondo delle voci di menu quando sono selezionate.
         primary-button-color: Colore forte, utilizzato per far risaltare il pulsante principale sullo schermo.
       manage_colors: Modifica opzioni di selezione del colore
       tab_branding: Branding
@@ -1511,7 +1520,7 @@ it:
         ssl_error: 'Errore di connessione SSL al server Jira: %{message}'
         ssrf_block_doc_link: Consulta la nostra [documentazione](docs_url).
         ssrf_blocked: 'Connessione bloccata: l''host Jira viene risolto in un indirizzo IP privato. Se la tua istanza Jira è in esecuzione su una rete interna, autorizza il suo IP tramite la variabile d''ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
-        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
+        unsupported_endpoint: L'API Jira non dispone di un endpoint in %{path} (stato %{status})
       columns:
         added: Aggiunta
         creator: Autore
@@ -1563,7 +1572,7 @@ it:
           finalizing: Finalizzazione
           finalizing_done: Completata
           finalizing_error: Errore durante la finalizzazione
-          import_aborting: Aborting
+          import_aborting: Interruzione in corso
           import_error: Errore nell'importazione
           import_scope: Seleziona l'ambito
           imported: Modalità di revisione
@@ -1578,10 +1587,10 @@ it:
           revert_error: Errore durante il ripristino
           reverted: Ripristinato
           reverting: Ripristino
-        step_not_available: This action is not available for the current state of the import run.
+        step_not_available: Questa azione non è disponibile nello stato attuale dell'esecuzione dell'importazione.
         title: Importa esecuzione
         wizard:
-          button_abort: Abort
+          button_abort: Interrompi
           button_retry: Riprova
           finalize_dialog:
             confirm: Comprendo che questa azione non può essere annullata
@@ -1625,14 +1634,14 @@ it:
             title: Annullare definitivamente questa importazione?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Importazione dei dati
+              button_revert: Annulla l'importazione
               button_start: Avvia l'importazione
               caption: Controlla le impostazioni dell'importazione e avviala
               caption_done: Completato
               caption_done_info: Tutti i dati sono stati importati
               description: Stai per avviare un'importazione con le seguenti impostazioni.
-              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
+              info_importing: L'importazione è in corso. La chiusura di questa scheda non la interromperà e potrai sempre consultarne nuovamente lo stato aprendo l'esecuzione.
               label_available_data: Dati da importare
               label_import_data: Importazione in corso
               label_progress: Importazione in corso...
@@ -1653,7 +1662,7 @@ it:
               button_done: Approva importazione
               button_revert: Annulla l'importazione
               caption: Rivedi l'esecuzione dell'importazione o annulla l'importazione
-              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              info: I dati importati sono attualmente in modalità di revisione. Fai clic su "Approva importazione" per rendere permanente l'importazione oppure su "Annulla importazione" per annullare tutte le modifiche apportate durante questa esecuzione.
               label_finalize_import: Approva importazione
               label_finalizing: Approvazione importazione...
               label_finalizing_done: Importazione approvata.
@@ -1732,6 +1741,35 @@ it:
       caption_with_maximum: 'Le azioni degli utenti su una macro-attività, come modificare descrizione, stato o valori, oppure aggiungere commenti, vengono raggruppate se eseguite entro questo intervallo. Questo controlla anche i ritardi delle notifiche e dei [webhook](webhook_link). Il massimo è %{max} minuti.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Il protocollo di contesto del modello consente agli agenti di intelligenza artificiale di fornire ai propri utenti strumenti e risorse esposti da questa istanza di OpenProject. Questa funzionalità è ancora in versione beta.
@@ -1764,12 +1802,12 @@ it:
         success: La configurazione MCP è stata aggiornata correttamente.
     members:
       index:
-        blank_description: No membership matches the current filter.
-        blank_title: No memberships
-        filter_label: Search users
+        blank_description: Nessuna iscrizione corrisponde al filtro attuale.
+        blank_title: Nessuna iscrizione
+        filter_label: Cerca utenti
         inheritance_source: "%{type} %{name}"
-        inherited_via: "(via: %{source})"
-        title: Memberships
+        inherited_via: "(tramite: %{source})"
+        title: Iscrizioni
     plugins:
       no_results_content_text: Per maggiori informazioni, consulta la pagina delle integrazioni e dei plugin.
       no_results_title_text: Al momento non vi sono plugin installati.
@@ -1943,39 +1981,39 @@ it:
         success_banner: Formato degli identificatori delle macro-attività aggiornato correttamente.
     text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        description: Gli utenti non potranno più eseguire questa azione nell'editor di testo RTF.
+        heading: Vuoi eliminare l'azione "%{label}"?
+        title: Elimina azione di trasformazione del testo
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: Se selezionato, il modello di descrizione del tipo di macro-attività viene aggiunto automaticamente al prompt. Il prompt deve contenere istruzioni su cosa fare con il modello.
+        label_caption: Questo è il nome che sarà visibile agli utenti nell'editor.
+        select_types: Seleziona tipi
+        types_caption: Aggiungi i tipi di macro-attività per i quali questa azione deve essere disponibile. Tutte le varianti disponibili verranno incluse automaticamente.
+        usage_scope_caption: 'Puoi limitare dove è visibile questa azione: ovunque (inclusi commenti, wiki e campi personalizzati), per tutti i tipi di macro-attività o per determinati tipi di macro-attività.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add text transform action
+        description: Le azioni di trasformazione del testo offrono agli utenti azioni basate su LLM per scrivere, organizzare e revisionare il testo ovunque venga utilizzato l'editor di testo RTF, ad esempio nelle descrizioni delle macro-attività, nei commenti e nelle pagine wiki. Puoi creare nuove azioni usando prompt e istruzioni personalizzati.
+        label_add_action: Azione
+        label_aria_add_action: Aggiungi azione di trasformazione del testo
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Actions
+          description: Aggiungi un'azione per visualizzarla qui
+          title: Non è stata ancora configurata alcuna azione di trasformazione del testo
+        disabled_warning: Le azioni di trasformazione del testo sono disabilitate. Le seguenti azioni non saranno disponibili in alcun punto.
+        label_disable_all: Disabilita tutto
+        label_enable_all: Abilita tutto
+        title: Azioni
       new:
-        title: New text transform action
+        title: Nuova azione di trasformazione del testo
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Menu azioni
+        label_toggle: Attiva/disattiva %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} tipo di macro-attività"
+          other: "%{count} tipi di macro-attività"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: Tutti i tipi di macro-attività
+        everywhere: Ovunque
+        specific_work_package_types: Tipi di macro-attività specifici
     workflows:
       blankslate:
         description: Aggiungi stati per iniziare a configurare i flussi di lavoro per questo ruolo
@@ -2018,10 +2056,10 @@ it:
   ai:
     text_transform:
       errors:
-        connection_failed: The AI service could not be reached.
-        not_available: The AI assistant is not available.
-        timeout: The AI service did not respond in time.
-        upstream_error: The AI service returned an error.
+        connection_failed: Non è stato possibile raggiungere il servizio IA.
+        not_available: L'assistente IA non è disponibile.
+        timeout: Il servizio IA non ha risposto in tempo.
+        upstream_error: Il servizio IA ha restituito un errore.
   announcements:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
@@ -2230,7 +2268,7 @@ it:
     label_delete_token: Elimina token di backup
     label_reset_token: Ripristina token di backup
     label_token_users: I seguenti utenti hanno token di backup attivi
-    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+    missing_attachments_notice_html: '<br/> <b>Non è stato possibile leggere %{file_count}</b> file, che sono stati esclusi da questo backup. L''archivio è stato rinominato con il suffisso "-incomplete" per indicare che mancano alcuni allegati.
 
       '
     reset_token:
@@ -2524,8 +2562,8 @@ it:
         all: 0 significa nessuna restrizione
         project: 0 significa nessuna restrizione
       min_max_value:
-        all: Leave blank for no restriction
-        project: Leave blank for no restriction
+        all: Lascia vuoto per non applicare restrizioni
+        project: Lascia vuoto per non applicare restrizioni
       multi_select:
         all: Consente all'utente di assegnare più valori a questo campo personalizzato.
         project: Consente all'utente di assegnare più valori a questo attributo.
@@ -2869,7 +2907,7 @@ it:
         more_info: 'Nota: il logo utilizzato sarà accessibile al pubblico.'
         title: Tema e logo a colori personalizzati
       edit_attribute_groups:
-        description: 'Customize the form with these additional add-ons:'
+        description: 'Personalizza il modulo con le seguenti aggiunte:'
         features:
           groups: Aggiungi nuove sezioni di attributi
           related: Aggiungi una tabella delle relative macro-attività
@@ -3238,16 +3276,16 @@ it:
     blocks:
       community: Comunità di OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Azioni assistite dall'IA su macro-attività, commenti e relazioni con il server MCP (piano Professional).
-            line_1: Più versioni di destinazione per le macro-attività.
-            line_2: Limiti e restrizioni globali per le registrazioni orarie (piano Professional).
-            line_3: Miglioramenti Agile per la modifica in blocco e il trascinamento delle schede dei backlog in applicazioni esterne.
-            line_4: Macro wiki disponibili in più editor di testo.
-            line_5: Ricerca migliorata degli identificatori delle macro-attività.
-            line_6: 'Disponibile nella Community: visualizzazione delle relazioni nelle tabelle delle macro-attività.'
-          new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
@@ -3293,7 +3331,7 @@ it:
         field_set: "%{field} impostato su %{value}"
         field_updated: "%{field} aggiornato"
         header: modifiche di %{author}
-        migrated: from Jira
+        migrated: da Jira
         set_with_diff: "%{field} impostato (%{link})"
       meeting_cancelled: "(annullata)"
       meeting_deleted: "(eliminata)"
@@ -3312,7 +3350,7 @@ it:
         progress_calculation_adjusted_from_disabled_mode: Il calcolo dei progressi è <a href="%{href}" target="_blank">impostato automaticamente in modalità basata sul lavoro e modificato con l'aggiornamento della versione</a>.
         scheduling_mode_adjusted: Modalità di programmazione regolata automaticamente con aggiornamento della versione.
         sprint_migration: La versione '%{version_name}' è stata copiata come sprint.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: La versione di destinazione obsoleta è stata rimossa automaticamente. Era stata riaggiunta erroneamente quando erano state abilitate più versioni di destinazione.
         target_versions_repaired: Le versioni di destinazione sono state sincronizzate automaticamente con il campo Versione prima dell'abilitazione di più versioni di destinazione.
         totals_removed_from_childless_work_packages: I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
       total_percent_complete_mode_changed_to_simple_average: I valori di Lavoro delle macro-attività figlie vengono ignorati.
@@ -3491,7 +3529,7 @@ it:
   label_core_build: Core build
   label_core_version: Versione core
   label_created_by: Creato da %{user}
-  label_criteria: Criteria
+  label_criteria: Criteri
   label_current_status: Stato attuale
   label_current_version: Versione corrente
   label_custom_comment: Commento di %{name}
@@ -3678,6 +3716,7 @@ it:
   label_journal_diff: Confronto Descrizione
   label_jump_to_a_project: Salta ad altro progetto...
   label_keyword_plural: Parole chiave
+  label_label_plural: Labels
   label_language: Lingua
   label_language_based: Basato sulla lingua dell'utente
   label_languages: Lingue
@@ -4066,8 +4105,8 @@ it:
   label_wiki_start: Pagina iniziale
   label_wiki_toc: Sommario
   label_wiki_toc_empty: La tabella dei contenuti è vuota in quanto non è presente nessuna intestazione.
-  label_with_criteria: With criteria
-  label_without_criteria: Without criteria
+  label_with_criteria: Con criteri
+  label_without_criteria: Senza criteri
   label_work: Lavoro
   label_work_package: Macro-attività
   label_work_package_attachments: Allegati macro-attività
@@ -4315,7 +4354,7 @@ it:
   mail_body_account_information: Informazioni sul tuo account
   mail_body_account_information_external: Puoi usare il tuo %{value} account per accedere.
   mail_body_backup_ready: 'Il backup da te richiesto è pronto. Puoi scaricarlo qui:'
-  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+  mail_body_backup_ready_incomplete: 'Non è stato possibile leggere %{file_count} file, che sono stati esclusi da questo backup. L''archivio scaricato è denominato con il suffisso "-incomplete" per indicare che mancano alcuni allegati.
 
     '
   mail_body_backup_token_info: Il token precedente non è più valido.
@@ -4456,7 +4495,7 @@ it:
       mail_notification: Notifiche email
       mails_and_notifications: Email e notifiche
       mcp_configurations: Modello di protocollo contestuale (MCP - Model Context Protocol)
-      text_transform_actions: Text transform actions
+      text_transform_actions: Azioni di trasformazione del testo
     quick_add:
       label: Aggiungi…
   more_actions: Altre funzioni
@@ -4642,7 +4681,7 @@ it:
   notice_account_already_activated: L'account è già stato attivato.
   notice_account_invalid_credentials: Utente o password non validi
   notice_account_invalid_credentials_or_blocked: Utente o password non validi oppure l'account è bloccato a causa di molteplici tentativi di accesso non riusciti. Se così è, sarà sbloccato a breve automaticamente.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: Se il tuo account è configurato per il Single Sign-On, usa il tuo provider di identità per accedere.
   notice_account_invalid_token: Token di attivazione non valido
   notice_account_lost_email_sent: Un'email con le istruzioni per scegliere una nuova password ti è stata inviata.
   notice_account_new_password_forced: Viene richiesta una nuova password.
@@ -4945,17 +4984,17 @@ it:
     prev_page: Pagina precedente
   pdf_generator:
     budgets_table:
-      cost_per_unit: Cost per unit
-      description: Description
-      labor: Labor costs
-      material: Unit costs
-      sum: Sum
-      total: Total
+      cost_per_unit: Costo per unità
+      description: Descrizione
+      labor: Costi del lavoro
+      material: Costi unitari
+      sum: Somma
+      total: Totale
     dialog:
       footer_center:
         caption: Questo testo apparirà in ogni pagina al centro del piè di pagina.
-        default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_project_name: Se lasciato vuoto, viene usato per impostazione predefinita il nome del progetto.
+        default_hint_subject: Se lasciato vuoto, viene usato per impostazione predefinita l'oggetto della macro-attività.
         label: Testo del piè di pagina
       footer_right:
         caption: Questo testo apparirà in ogni pagina a destra nel piè di pagina.
@@ -4966,11 +5005,11 @@ it:
       hyphenation_language:
         label: Lingua e trattini
       include_budget:
-        caption: Include the project's budgets with their planned unit and labor cost items.
-        label: Project budgets
+        caption: Includi i budget del progetto con le relative voci pianificate dei costi unitari e del lavoro.
+        label: Budget del progetto
       include_lifecycle:
-        caption: Include the project's phases and their date ranges.
-        label: Project lifecycle
+        caption: Includi le fasi del progetto e i relativi intervalli di date.
+        label: Ciclo di vita del progetto
       page_orientation:
         caption: Seleziona l'orientamento delle pagine nel documento PDF.
         label: Orientamento pagina
@@ -4990,7 +5029,7 @@ it:
       caption: Dettagli della macro-attività visualizzati come artefatto PMflex.
       label: Artefatto PMflex
     template_attributes:
-      caption: All the attributes present in the current form using the default template.
+      caption: Tutti gli attributi presenti nel modulo attuale utilizzando il modello predefinito.
       label: Attributi e descrizione
     template_contract:
       caption: Dettagli della macro-attività formattati nel modulo di contratto standard tedesco.
@@ -5064,7 +5103,7 @@ it:
     '
   permission_manage_placeholder_user: Crea, modifica ed elimina utenti del segnaposto
   permission_manage_project_activities: Gestire le attività del progetto
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Gestisci le varianti di tipo proprie del progetto
   permission_manage_public_bcf_queries: Gestisci query BCF pubbliche
   permission_manage_public_project_queries: Gestisci elenchi di progetti pubblici
   permission_manage_public_queries: Gestisci viste pubbliche
@@ -5119,15 +5158,15 @@ it:
   permission_work_package_assigned_explanation: È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto
   placeholder_users:
     criteria:
-      activate: Activate filter criteria
-      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+      activate: Attiva criteri di filtro
+      activate_caption: 'Consente di aggiungere a questo utente segnaposto un insieme di filtri usati per definire i possibili utenti che soddisfano i criteri desiderati.
 
         '
-      enable: Match users by criteria
-      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
-      matching_users: Users meeting the filter criteria
-      no_matching_users: No user meets these criteria.
-      show_all_matching_users: Show all %{count} matching users
+      enable: Abbina utenti in base ai criteri
+      enable_caption: Descrivi il tipo di utente rappresentato da questo segnaposto, in modo che possano essere suggeriti utenti corrispondenti.
+      matching_users: Utenti che soddisfano i criteri di filtro
+      no_matching_users: Nessun utente soddisfa questi criteri.
+      show_all_matching_users: Mostra tutti i %{count} utenti corrispondenti
     delete_tooltip: Elimina utente segnaposto
     deletion_info:
       data_consequences: 'Tutte le occorrenze dell''utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato". Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall''utente dai dati di un altro account eliminato.
@@ -5383,27 +5422,27 @@ it:
           type_label: Tipo
           type_placeholder: Seleziona un tipo
         add_type: Aggiungi tipo
-        add_variant: Add a project-specific variant
-        base_type_in_use: Base type used in this project
+        add_variant: Aggiungi una variante specifica del progetto
+        base_type_in_use: Tipo di base utilizzato in questo progetto
         empty_state:
           description: Aggiungi un tipo per consentire agli utenti di creare macro-attività di quel tipo in questo progetto.
           title: Nessun tipo è attivo in questo progetto
         form:
           enable_type_in_project: Abilita il tipo "%{type}"
         no_results_title_text: Al momento non sono disponibili tipi.
-        project_specific_variant: Project-specific variant
+        project_specific_variant: Variante specifica del progetto
         remove_from_project: Rimuovi dal progetto
         switch:
-          apply: Apply
+          apply: Applica
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
-            nothing_affected: No fields or statuses are affected.
+            hidden_heading: Campi che non verranno più visualizzati
+            missing_statuses_description: Il flusso di lavoro a cui stai passando non prevede alcuna transizione in uscita da questi stati, quindi nessuno potrà far avanzare queste macro-attività.
+            missing_statuses_heading: Macro-attività che rimarranno bloccate
+            new_heading: Campi che diventano disponibili
+            nothing_affected: Nessun campo o stato è interessato.
             status_count:
-              one: 1 work package
-              other: "%{count} work packages"
+              one: 1 macro-attività
+              other: "%{count} macro-attività"
             table_suffix: "(table)"
             value_count:
               one: 1 work package has a value
@@ -5421,7 +5460,7 @@ it:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Crea una nuova versione
-        no_results_title_text: Al momento non esistono versioni per il progetto.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Mostra macro-attività
         work_packages_graph: Grafico delle macro-attività
       work_package_priorities:
@@ -6416,7 +6455,50 @@ it:
     getting_started: Per cominciare
     help_and_support: Guida e Assistenza
   total_progress: Progresso totale
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Crea tipo
@@ -6918,6 +7000,12 @@ it:
   version_status_locked: bloccato
   version_status_open: aperte
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
       work_packages_in_archived_projects: La versione è condivisa con progetti archiviati che hanno ancora macro-attività assegnate a questa versione. Queste vengono conteggiate, ma non appariranno nelle viste collegate.

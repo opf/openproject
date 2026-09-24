@@ -78,10 +78,13 @@ module ResourceAllocations
              .presence
       end
 
+      # Without a project (a global planner whose work package is not picked yet)
+      # the membership narrowing cannot be resolved, so the picker offers every
+      # allocatable principal; the contract still requires the permission on the
+      # chosen work package's project.
       def principal_filters
-        filters = [
-          { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] }
-        ]
+        filters = []
+        filters << { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] } if @project
         filters.concat(@view.allocation_principal_filters) if @view&.allocation_principal_filters
         filters
       end

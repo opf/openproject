@@ -69,7 +69,7 @@ module MailLayoutHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag("td", "&nbsp;".html_safe, style:)
+    content_tag("td", "\u00A0", style:)
   end
 
   def user_salutation(user)

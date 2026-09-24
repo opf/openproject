@@ -81,6 +81,11 @@ en:
       create_merge_request: Create merge request
       created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: <empty commit message>
     git_snippets_dialog_component:
       branch_name: Branch name
       commit_message: Commit message

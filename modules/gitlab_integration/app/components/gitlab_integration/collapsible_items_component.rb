@@ -52,6 +52,8 @@ module GitlabIntegration
       case item
       when GitlabBranch
         BranchComponent.new(item)
+      when GitlabCommit
+        CommitComponent.new(item)
       when GitlabIssue
         IssueComponent.new(item)
       when GitlabMergeRequest

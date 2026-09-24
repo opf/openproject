@@ -694,6 +694,13 @@ fa:
               not_unique: از قبل استفاده می‌شود. لطفاً نام دیگری انتخاب کنید.
         jira:
           invalid_protocol: لطفاً یک پروتکل معتبر (http یا https) ارائه کنید.
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1429,6 +1436,8 @@ fa:
         main-menu-bg-selected-background: منوی اصلی در حالت انتخاب
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
@@ -1726,6 +1735,35 @@ fa:
       caption_with_maximum: 'اقدامات کاربر روی یک بسته کاری (تغییر توضیحات، وضعیت، مقادیر یا نوشتن دیدگاه) اگر در این بازه انجام شوند در یک گروه قرار می‌گیرند. این بازه همچنین تأخیر اعلان‌ها و [Webhook](webhook_link) را کنترل می‌کند. حداکثر مقدار %{max} دقیقه است.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Model Context Protocol به Agentهای هوش مصنوعی اجازه می‌دهد ابزارها و منابع ارائه‌شده توسط این نمونه OpenProject را در اختیار کاربرانشان قرار دهند. این قابلیت هنوز در مرحله Beta است.
@@ -3232,16 +3270,16 @@ fa:
     blocks:
       community: جامعه OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: اقدام‌های مبتنی بر هوش مصنوعی روی بسته‌های کاری، دیدگاه‌ها و روابط با MCP Server (طرح Professional).
-            line_1: چند نسخه هدف برای بسته‌های کاری.
-            line_2: محدودیت‌ها و قیود سراسری برای ورودی‌های زمان (طرح Professional).
-            line_3: بهبودهای Agile برای ویرایش گروهی و Drag کردن کارت‌های بک‌لاگ به برنامه‌های خارجی.
-            line_4: Macroهای Wiki در ویرایشگرهای متن بیشتری در دسترس هستند.
-            line_5: جستجوی بهبودیافته برای شناسه‌های بسته کاری.
-            line_6: 'منتشرشده برای Community: نمایش روابط در جدول‌های بسته کاری.'
-          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید مختلفی است، از جمله:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -3672,6 +3710,7 @@ fa:
   label_journal_diff: مقایسه توضیحات
   label_jump_to_a_project: رفتن به یک پروژه...
   label_keyword_plural: کلیدواژه‌ها
+  label_label_plural: Labels
   label_language: زبان
   label_language_based: براساس زبان کاربر
   label_languages: زبان‌ها
@@ -5414,7 +5453,7 @@ fa:
         variants_not_allowed: این نوع اجازه ایجاد گونه درون پروژه‌ها را نمی‌دهد.
       versions:
         no_results_content_text: ایجاد نسخه جدید
-        no_results_title_text: در حال حاضر هیچ نسخه‌ای برای پروژه وجود ندارد.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: نمایش بسته‌های کاری
         work_packages_graph: گراف بسته‌های کاری
       work_package_priorities:
@@ -6416,7 +6455,50 @@ fa:
     getting_started: شروع کار
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: افزودن یک گونه به %{name}
       create_type: ایجاد نوع
@@ -6918,6 +7000,12 @@ fa:
   version_status_locked: قفل‌شده
   version_status_open: باز
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: در حال حاضر هیچ بسته کاری به این نسخه تخصیص نیافته است.
       work_packages_in_archived_projects: این نسخه با پروژه‌های بایگانی‌شده‌ای به اشتراک گذاشته شده که هنوز بسته کاری به آن تخصیص یافته است. این موارد شمرده می‌شوند، اما در نماهای پیوندشده ظاهر نمی‌شوند.

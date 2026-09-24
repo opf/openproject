@@ -806,6 +806,7 @@ module Pages
     end
 
     def apply_subject_filter(text)
+      expand_sub_header_search("Search work packages by subject")
       fill_in "Search work packages by subject", with: text
       wait_for_network_idle
     end
@@ -818,6 +819,16 @@ module Pages
     def apply_status_filter(status, operator: "is (OR)")
       open_filters
       set_filter("status_id", "Status", operator, [status.name])
+      wait_for_network_idle
+    end
+
+    def apply_milestone_filter(value)
+      open_filters
+      if page.has_css?(filter_selector("is_milestone"), wait: 0)
+        within(filter_selector("is_milestone")) { set_toggle_filter([value.to_s]) }
+      else
+        set_filter("is_milestone", "Is milestone", nil, [value.to_s])
+      end
       wait_for_network_idle
     end
 
@@ -1087,6 +1098,10 @@ module Pages
     end
 
     private
+
+    def boolean_filter?(filter)
+      filter.to_s == "is_milestone"
+    end
 
     # Node::Element#click takes the held key and positional options, so no
     # action chain is needed. The offset avoids the card's centre, where the

@@ -127,7 +127,7 @@ pl:
         other: Sprinty
         zero: Wszystkie sprinty
       select_panel_title: Wybierz elementy
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Żadne pakiety robocze nie spełniają kryteriów filtrowania.
     bucket_component:
       action_menu:
         add_existing_work_package: Dodaj istniejący pakiet roboczy
@@ -173,7 +173,7 @@ pl:
         other: Pokaż jeszcze %{count} elementu
       title: Skrzynka odbiorcza
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Wyszukaj pakiety robocze według tematu
     label_burndown_chart: Wykres spalania (burndown)
     label_is_done_status: Status %{status_name} oznacza zrobiony
     label_sprint_board: Tablica sprintu
@@ -196,7 +196,7 @@ pl:
     remaining_hours: Pozostała praca
     sharing: Udostępnianie sprintu
     show_burndown_chart: Wykres spalania (burndown)
-    show_work_package_overview: Work packages within the sprint
+    show_work_package_overview: Pakiety robocze w ramach sprintu
     sprint_component:
       action_menu:
         add_existing_work_package: Dodaj istniejący pakiet roboczy
@@ -224,31 +224,31 @@ pl:
         title: Raport dotyczący %{sprint}
       widgets:
         work_package_graph:
-          title: Work packages graph
+          title: Wykres pakietów roboczych
         work_package_overview:
           blankslate:
-            description: Set start and end date for the sprint to generate the work package overview.
-            heading: No sprint data available
+            description: Ustaw datę rozpoczęcia i zakończenia sprintu, aby wygenerować przegląd pakietów roboczych.
+            heading: Brak dostępnych danych sprintu
           blocks:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
-              heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              heading: Zmiana zakresu
+              story_points_change: "+%{added} / -%{removed} pkt. historii"
             completed:
-              heading: Completed
+              heading: Ukończone
             initially_planned:
-              heading: Initially planned
+              heading: Pierwotnie planowano
             unfinished:
-              heading: Unfinished
+              heading: Niedokończone
           breakdown_block:
             blocks:
-              show_all: View all
-          closed_work_packages: Closed work packages
+              show_all: Wyświetl wszystkie
+          closed_work_packages: Zamknięte pakiety robocze
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            few: "%{percentage}% (%{resolved} of %{total} work packages)"
-            many: "%{percentage}% (%{resolved} of %{total} work packages)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage}% (Pakiet roboczy %{resolved} z %{total})"
+            few: "%{percentage}% (%{resolved} z %{total} pakietów roboczych)"
+            many: "%{percentage}% (%{resolved} z %{total} pakietów roboczych)"
+            other: "%{percentage}% (%{resolved} z %{total} pakietu roboczego)"
     sprints:
       row_component:
         action_menu:
@@ -292,18 +292,18 @@ pl:
         invalid_target: Cel, do którego próbujesz dodać, jest nieprawidłowy.
         target_not_found: Nie znaleziono sprint lub backlogu, do którego próbujesz dodać.
       batch_update_service:
-        mixed_projects: All work packages of a batch must belong to the same project.
-        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
-        stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
-        unavailable_target: The destination list is no longer available. Please reload the page and try again.
-        unexpected_failure: The work packages could not be moved. Please try again.
+        mixed_projects: Wszystkie pakiety robocze wsadu muszą należeć do tego samego projektu.
+        stale_batch: Podczas przygotowań do przeniesienia nastąpiła zmiana co najmniej jednego pakietu roboczego. Sprawdź bieżące pozycje i spróbuj ponownie.
+        stale_predecessor: Pakiet roboczy do wstawienia po przeniesieniu w inne miejsce. Sprawdź bieżące pozycje i spróbuj ponownie.
+        unavailable_target: Lista miejsc docelowych nie jest już dostępna. Załaduj ponownie stronę i ponów próbę.
+        unexpected_failure: Nie udało się przenieść pakietów roboczych. Spróbuj ponownie.
       move:
         moved_announcement: "%{label} przeniesiono do %{list}, pozycja %{position} z %{total}"
       move_collection:
-        invalid_ids: The list of work packages to move is invalid.
+        invalid_ids: Lista pakietów roboczych do przeniesienia jest nieprawidłowa.
         member_failed: "%{work_package}: %{reason}"
-        too_many_work_packages: No more than %{max} work packages can be moved at once.
-        work_packages_not_found: At least one work package could not be found in this project.
+        too_many_work_packages: Jednorazowo można przenieść nie więcej pakietów roboczych niż %{max}.
+        work_packages_not_found: W tym projekcie nie udało się znaleźć co najmniej jednego pakietu roboczego.
       update_service:
         invalid_target_type: 'Atrybut list_type musi mieć jedną z następujących wartości: backlog_bucket z list_id, sprint z list_id lub inbox bez list_id.'
         missing_target: Atrybut list_type lub list_id muszą być obecne.
@@ -340,12 +340,12 @@ pl:
   notice_unsuccessful_start: Nie można rozpocząć sprintu.
   notice_unsuccessful_start_with_reason: 'Nie można rozpocząć sprintu: %{reason}'
   notice_work_package_invisible_after_move:
-    one: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+    one: 'Pakiet roboczy został przeniesiony do %{backlog}, ale nie jest widoczny, ponieważ jego typ lub status są wykluczone z backlogu.
 
       '
-    few: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
-    many: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
-    other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
+    few: "%{count} pakiety robocze zostały przeniesione do %{backlog}, ale nie są widoczne, ponieważ ich typ lub status są wykluczone z backlogu.\n"
+    many: "%{count} pakietów roboczych zostało przeniesionych do %{backlog}, ale nie są widoczne, ponieważ ich typ lub status są wykluczone z backlogu.\n"
+    other: "%{count} pakietu roboczego zostało przeniesione do %{backlog}, ale nie jest widoczne, ponieważ ich typ lub status są wykluczone z backlogu.\n"
   permission_create_sprints: Utwórz sprinty
   permission_manage_sprint_items: Zarządzaj elementami sprintu
   permission_select_backlog_types_and_statuses: Wybierz typy i statusy backlogu

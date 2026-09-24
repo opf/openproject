@@ -56,6 +56,9 @@ RSpec.describe "Open the Gitlab tab", :js do
   let(:issue) { create(:gitlab_issue, :open, work_packages: [work_package], title: "A Test Issue title") }
   let(:merge_request) { create(:gitlab_merge_request, :open, work_packages: [work_package], title: "A Test MR title") }
   let(:branch) { create(:gitlab_branch, work_package:, name: "feature/a-test-branch") }
+  let(:commit) do
+    create(:gitlab_commit, work_packages: [work_package], message: "A Test commit message\n\nWith a much longer description")
+  end
 
   let(:pipeline) do
     create(:gitlab_pipeline, gitlab_merge_request: merge_request, name: "a pipeline name")
@@ -68,6 +71,8 @@ RSpec.describe "Open the Gitlab tab", :js do
       issue
       pipeline
       branch
+      commit
+
       login_as(user)
     end
 
@@ -92,7 +97,7 @@ RSpec.describe "Open the Gitlab tab", :js do
         gitlab_tab.wait_for_tab_loaded
       end
 
-      it "shows the issues, merge requests and branches associated with the work package" do
+      it "shows the issues, merge requests, commits and branches associated with the work package" do
         tabs.expect_counter(gitlab_tab_element, expected_tab_count)
 
         gitlab_tab.issues_collapse_button.click
@@ -113,12 +118,18 @@ RSpec.describe "Open the Gitlab tab", :js do
           expect(page).to have_css("clipboard-copy[value='feature/a-test-branch']")
           expect(page).to have_link("Create merge request", href: branch.new_merge_request_url)
         end
+
+        gitlab_tab.commits_collapse_button.click
+        within("#commits") do
+          expect(page).to have_text("A Test commit message")
+          expect(page).to have_no_text("With a much longer description")
+        end
       end
 
       it "allows the user to copy the branch name to the clipboard" do
         pending "In headless mode, the clipboard content is not copied to the clipboard, how to fix?"
 
-        gitlab_tab.git_actions_menu_button.click
+        page.click_on "Git snippets"
         gitlab_tab.git_actions_copy_branch_name_button.click
 
         expect(page).to have_text("Copied!")
@@ -126,16 +137,17 @@ RSpec.describe "Open the Gitlab tab", :js do
       end
 
       it "shows a commit message with newlines between title and link" do
-        gitlab_tab.git_actions_menu_button.click
+        page.click_on "Git snippets"
 
-        commit_message_input_text = page.find_field("Commit message").value
-        expect(commit_message_input_text)
-          .to eq("OP##{work_package.id} A test work_package\n\n#{work_package_short_url(work_package)}")
+        within_dialog do
+          commit_message = "OP##{work_package.id} A test work_package\n#{work_package_short_url(work_package)}"
+          expect(page).to have_test_selector("gitlab-snippets-commit-message", text: commit_message)
+        end
       end
 
       it "allows the user to copy a commit message with newlines between title and link to the clipboard" do
         pending "In headless mode, the clipboard content is not copied to the clipboard, how to fix?"
-        gitlab_tab.git_actions_menu_button.click
+        page.click_on "Git snippets"
         gitlab_tab.git_actions_copy_commit_message_button.click
 
         expect(page).to have_text("Copied!")
@@ -148,6 +160,7 @@ RSpec.describe "Open the Gitlab tab", :js do
       let(:merge_request) { nil }
       let(:issue) { nil }
       let(:branch) { nil }
+      let(:commit) { nil }
 
       before do
         work_package_page.visit!

@@ -806,29 +806,29 @@ pt-BR:
       sorting_disabled: ordenação está desativada
     sortable_lists:
       announcements:
-        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
+        batch_too_large: Não é possível mover %{count} itens de uma vez. Selecione no máximo %{max}.
         fallback_item_label: Item
         fallback_list_name: outra lista
         move_failed_check_position: Falha ao mover. Verifique a posição atual do item.
         move_failed_check_positions_batch:
-          other: Falha ao Mover. Verifique as posições atuais dos itens.
+          other: Falha ao mover. Verifique as posições atuais dos itens.
         move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
         move_failed_rolled_back_batch:
-          other: Falha ao mover. %{count} itens retornaram para suas posições anteriores.
+          other: Falha ao mover. %{count} pacotes de trabalho retornaram às suas posições anteriores.
         moved: "%{label} foi movido para a posição %{position} de %{total}"
         moved_batch:
-          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} itens movidos para as posições %{first} a %{last} de %{total}"
         moved_batch_to_list:
-          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} itens movidos para %{list}, posições %{first} a %{last} de %{total}"
         moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
       selection:
-        cleared: Seleção limpa.
-        not_selectable: Seleção inalterada. Este item não influencia a ordenação desta lista.
-        range_blocked: Seleção inalterada. Esse intervalo contém um item que não influencia a ordenação desta lista.
+        cleared: Seleção removida.
+        not_selectable: Seleção inalterada. Este item não faz parte da ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um item que não faz parte da ordenação desta lista.
         range_restarted:
           one: Não foi possível ampliar o intervalo. 1 item selecionado.
           other: Não foi possível ampliar o intervalo. %{count} itens selecionados.
-        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
+        range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
         selected:
           one: 1 item selecionado.
           other: "%{count} itens selecionados."

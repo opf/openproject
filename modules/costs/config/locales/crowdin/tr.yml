@@ -34,7 +34,7 @@ tr:
         work_package: İş paketi
       cost_type:
         default: Varsayılan maliyet türü
-        for_all_projects: For all projects
+        for_all_projects: Tüm projeler için
         rates: Rates
         unit: Birim adı
         unit_plural: Birimin çoğul adı
@@ -211,7 +211,7 @@ tr:
   label_costlog: Günlüğe kaydedilen birim maliyetler
   label_costs: Maliyetler
   label_costs_per_page: Her sayfa için maliyet
-  label_current: Current
+  label_current: Mevcut
   label_current_default_rate: Güncel varsayılan oran
   label_date_on: tarihinde
   label_day: Gün
@@ -307,7 +307,7 @@ tr:
   setting_enforce_without_allow: Başlangıç ve bitiş saatlerini zorunlu tutmak, bunlara izin vermeden mümkün değildir
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
   setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day: Günde en fazla saat sayısı
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
   setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.

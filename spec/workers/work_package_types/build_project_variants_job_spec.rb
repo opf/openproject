@@ -138,13 +138,13 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob do
       end
     end
 
-    it "builds the new variant from the applied variant rather than the base one" do
+    it "narrows against the applied variant's configuration, not just the base's" do
       run_job
 
       built = applied_variant(narrowing_project)
 
       expect(built.variant_name).to eq("Regression - Website Relaunch")
-      expect(built.source_for(TypeVariant::FORM_CONFIGURATION)).to eq(variant)
+      expect(built.source_for(TypeVariant::FORM_CONFIGURATION)).to eq(type.default_variant)
       expect(built.custom_fields).to contain_exactly(kept_field)
     end
   end

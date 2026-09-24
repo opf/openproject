@@ -24,6 +24,10 @@
 ko:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab 프로젝트
+        namespace: GitLab 네임스페이스
+        project_html_url: GitLab 프로젝트 URL
       gitlab_merge_request:
         labels: 레이블
       gitlab_pipeline:
@@ -39,6 +43,8 @@ ko:
             labels:
               invalid_schema: '키가 있는 해시 배열이어야 합니다: color, title'
     models:
+      gitlab_branch:
+        other: GitLab 브랜치
       gitlab_issue:
         other: GitLab 이슈
       gitlab_merge_request:

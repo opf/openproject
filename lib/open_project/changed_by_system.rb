@@ -113,9 +113,11 @@ module OpenProject
     # (Redmine::Acts::Customizable::InstanceMethods) plugin.
     # Ideally we would override the `ActiveRecord::Base#changes`, but adding the custom field attributes
     # to the `ActiveRecord::Base#changes` may produce some unwanted side effects.
+    # - Same as above for labels
     def model_changes
       changes.tap do |c|
         c.merge!(custom_field_changes) if respond_to?(:custom_field_changes)
+        c.merge!(label_changes) if respond_to?(:label_changes)
         c
       end
     end

@@ -34,14 +34,7 @@ module ResourcePlannerViews
       next true if user.active_admin?
 
       planner = model.parent
-      next false if planner.nil? || planner.project.nil?
-
-      owns_planner = planner.principal == user &&
-                     user.allowed_in_project?(:view_resource_planners, planner.project)
-      can_manage_public = planner.public? &&
-                          user.allowed_in_project?(:manage_public_resource_planners, planner.project)
-
-      owns_planner || can_manage_public
+      planner.is_a?(ResourcePlanner) && planner.manageable_by?(user)
     end)
   end
 end

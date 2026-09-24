@@ -50,7 +50,7 @@ sv:
       openid_connect/user_token:
         one: OpenID Connect-token
         other: OpenID Connect-token
-  logout_warning: 'Du har loggats ut. Innehållet i alla formulär du skickar kan försvinna. Vänligen [logga in].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -79,7 +79,7 @@ sv:
       display_name: Namnet på leverantören. Detta kommer att visas som inloggningsknapp och i listan över leverantörer.
       endpoint_url: Slutpunkts-URL:en som du fått av OpenID Connect-leverantören
       group_regexes: Ett mönster med reguljärt uttryck per rad. Läs [dokumentationen](docs_url) för mer information om hur du gör detta.
-      group_regexes_detail: Du kan valfritt definiera mönster med reguljära uttryck för att matcha gruppnamn från gruppanspråket. Om du till exempel anger mönstret <code>^Level1/Level2/([\w/]+)$</code> extraheras gruppen ”Groupname/SubGroup” från ett svar som innehåller ”Level1/Level2/GroupName/SubGroup”. Om inget mönster matchar ignoreras gruppen. Lämna tomt för att synkronisera alla grupper med deras fullständiga gruppnamn.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Klicka på ”Testa mönster” för att testa ditt reguljära uttryck mot exempeldata från OIDC userinfo.
       group_sync: Extrahera och synkronisera automatiskt information om gruppmedlemskap från identitetsleverantören.
       groups_claim: Ange namnet på det anspråk som förväntas innehålla namnen på de grupper som användaren är medlem i.
@@ -104,7 +104,7 @@ sv:
       oidc_information: Dessa värden behövs för att konfigurera OpenID Connect-leverantören.
       post_logout_redirect_uri: Den URL som OpenID Connect-leverantören ska omdirigera till efter en begäran om utloggning.
       scope: Om du vill begära anpassade omfattningar, kan du lägga till ett eller flera omfattningsvärden separerade med mellanslag här. För mer information, se [OpenID Connect dokumentation](docs_url).
-      tenant: Ersätt standardklientorganisationen med din egen om det är tillämpligt. Se <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">detta</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID leverantörer
     providers:
       client_details_description: Konfigurationsinformation för OpenProject som OIDC-klient

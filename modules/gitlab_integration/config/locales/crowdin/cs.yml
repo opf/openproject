@@ -24,6 +24,10 @@
 cs:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Štítky
       gitlab_pipeline:
@@ -39,6 +43,11 @@ cs:
             labels:
               invalid_schema: 'musí být pole hashů s klíči: barva, název'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        few: GitLab branches
+        many: GitLab branches
+        other: GitLab branches
       gitlab_issue:
         one: GitLab issue
         few: GitLab issues

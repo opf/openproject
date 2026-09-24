@@ -24,6 +24,10 @@
 lt:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab project
+        namespace: GitLab namespace
+        project_html_url: GitLab project URL
       gitlab_merge_request:
         labels: Labels
       gitlab_pipeline:
@@ -39,6 +43,11 @@ lt:
             labels:
               invalid_schema: 'turi būti masyvas raktų: spalva, antraštė'
     models:
+      gitlab_branch:
+        one: GitLab branch
+        few: GitLab branches
+        many: GitLab branches
+        other: GitLab branches
       gitlab_issue:
         one: GitLab issue
         few: GitLab issues
