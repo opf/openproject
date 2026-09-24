@@ -111,6 +111,7 @@ module WorkPackages
             progress.created_count += 1
             progress.created_ids << created.result.id
             write_columns(created.result, columns)
+            mark_as_imported(created.result, columns)
             summarise(progress, created.result, columns)
           else
             progress.problems.concat(problems_for(row, created.errors))
@@ -125,10 +126,12 @@ module WorkPackages
         end
 
         def correct_creation_journal(work_package, columns)
-          changes = journal_columns(columns)
-          return if changes.empty?
+          journal = work_package.journals.first
+          return if journal.nil?
 
-          work_package.journals.first&.update_columns(changes)
+          changes = journal_columns(columns)
+          journal.update_columns(changes) if changes.any?
+          journal.data.update_columns(columns.slice(:author_id)) if columns.key?(:author_id)
         end
 
         def journal_columns(columns)
@@ -140,6 +143,24 @@ module WorkPackages
 
         def create_work_package(attributes)
           WorkPackages::CreateService.new(user:).call(project:, **attributes)
+        end
+
+        # The activity tab renders no details for a creation journal, so the mark needs an entry of
+        # its own. It is written as the system user because an entry by the importing user would be
+        # aggregated into the creation journal it follows.
+        def mark_as_imported(work_package, columns)
+          work_package.add_journal(user: User.system, notes: "", cause: Journal::CausedByImport.new(csv: true))
+          work_package.save_journals
+
+          restore_update_time(work_package, columns)
+        end
+
+        # Journalizing stamps the work package with the time the entry was written, which must not
+        # displace the Updated on the row gave it.
+        def restore_update_time(work_package, columns)
+          return if columns[:updated_at].blank?
+
+          work_package.update_column(:updated_at, columns[:updated_at])
         end
 
         def saved_view(ids)
