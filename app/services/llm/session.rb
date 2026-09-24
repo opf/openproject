@@ -32,14 +32,15 @@ module Llm
   # Turns an LlmConnection into something that can issue requests.
   #
   # Every inference request in OpenProject goes through here, so that the
-  # administrator's stored settings -- endpoint, credential, custom headers --
-  # are applied in exactly one place.
+  # administrator's stored settings (endpoint, credential, custom headers) are
+  # applied in exactly one place.
   #
   # Note that RubyLLM builds its own Faraday connection over net_http and so
   # does *not* pass through OpenProject.httpx and its SSRF filter. Inference
   # traffic to an administrator-supplied base URL is therefore not SSRF
-  # filtered. This is a deliberate, recorded decision. Model discovery
-  # deliberately stays on Llm::Client, which is filtered.
+  # filtered; routing it through the filter is tracked in AI-145
+  # (https://community.openproject.org/wp/AI-145). Model discovery stays on
+  # Llm::Client, which is filtered.
   class Session
     # RubyLLM exposes a single Faraday timeout rather than Llm::Client's
     # connect/read/request triple, so those three values collapse to one.
