@@ -83,6 +83,7 @@ module Queries::WorkPackages
     filter Filter::RelatableFilter
     filter Filter::MilestoneFilter
     filter Filter::TypeaheadFilter
+    filter Filter::TrashedFilter
     filter Filter::DurationFilter
     exclude Filter::RelatableFilter
 

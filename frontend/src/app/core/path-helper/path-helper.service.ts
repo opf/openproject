@@ -417,6 +417,18 @@ export class PathHelperService {
     return `${this.workPackagesPath(null)}/bulk/delete_dialog?${params}${backParam}`;
   }
 
+  public workPackagesBulkRestoreDialogPath(ids:string[], backUrl?:string) {
+    const params = ids.map((id) => `ids[]=${encodeURIComponent(id)}`).join('&');
+    const backParam = backUrl ? `&back_url=${encodeURIComponent(backUrl)}` : '';
+    return `${this.workPackagesPath(null)}/bulk/restore_dialog?${params}${backParam}`;
+  }
+
+  public workPackagesBulkPurgeDialogPath(ids:string[], backUrl?:string) {
+    const params = ids.map((id) => `ids[]=${encodeURIComponent(id)}`).join('&');
+    const backParam = backUrl ? `&back_url=${encodeURIComponent(backUrl)}` : '';
+    return `${this.workPackagesPath(null)}/bulk/purge_dialog?${params}${backParam}`;
+  }
+
   public workPackagesBulkReassignmentPath() {
     return `${this.workPackagesPath(null)}/bulk/reassign`;
   }

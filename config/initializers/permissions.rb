@@ -471,11 +471,25 @@ Rails.application.reloader.to_prepare do
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,
-                       "work_packages/bulk": %i[delete_dialog confirm_delete destroy reassign]
+                       "work_packages/bulk": %i[delete_dialog confirm_delete destroy reassign purge purge_dialog]
                      },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_work_packages
+
+      wpt.permission :view_work_packages_in_trash,
+                     {},
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :view_work_packages
+
+      wpt.permission :manage_work_package_trash,
+                     {
+                       "work_packages/bulk": %i[delete_dialog confirm_delete destroy reassign restore restore_dialog]
+                     },
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: %i[view_work_packages view_work_packages_in_trash]
 
       wpt.permission :manage_work_package_relations,
                      {

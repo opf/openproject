@@ -49,6 +49,12 @@ module WorkPackages
         User.current
       end
 
+      def confirm_button_text
+        key = WorkPackages::TrashFeature.enabled? ? "work_packages.trash.move_to_trash" : :button_delete_permanently
+
+        I18n.t(key)
+      end
+
       # The dialogs always show the full cascade, the user's actual choice is applied later by
       # WorkPackages::DeleteService.
       def include_descendants?
@@ -70,6 +76,16 @@ module WorkPackages
                              label: t_dialog("descendants_choice.with_descendants_label"),
                              caption: t_dialog("descendants_choice.with_descendants_caption"))
         end
+      end
+
+      def deletable?(descendant)
+        permission = if WorkPackages::TrashFeature.enabled?
+                       :manage_work_package_trash
+                     else
+                       :delete_work_packages
+                     end
+
+        descendant.project && deletion_user.allowed_in_project?(permission, descendant.project)
       end
 
       def variant

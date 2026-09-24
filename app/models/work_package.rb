@@ -61,6 +61,7 @@ class WorkPackage < ApplicationRecord
   belongs_to :author, class_name: "User"
   belongs_to :assigned_to, class_name: "Principal", optional: true
   belongs_to :responsible, class_name: "Principal", optional: true
+  belongs_to :deleted_by, class_name: "User", optional: true
   belongs_to :project_phase_definition, class_name: "Project::PhaseDefinition", optional: true
   belongs_to :priority, class_name: "IssuePriority"
   belongs_to :category, class_name: "Category", optional: true
@@ -85,7 +86,14 @@ class WorkPackage < ApplicationRecord
     order(updated_at: :desc)
   }
 
-  scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
+  scope :active, -> { where(deleted_at: nil) }
+  scope :with_trashed, -> { unscope(where: :deleted_at) }
+  scope :trashed, -> { with_trashed.where.not(deleted_at: nil) }
+
+  scope :visible, ->(user = User.current) { active.allowed_to(user, :view_work_packages) }
+  scope :visible_in_trash, ->(user = User.current) {
+    trashed.where(project_id: Project.allowed_to(user, :view_work_packages_in_trash))
+  }
 
   scope :in_status, ->(*args) do
     where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
@@ -177,6 +185,10 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
+  def self.search(...)
+    active.scoping { super }
+  end
+
   # makes virtual model WorkPackageHierarchy available
   has_closure_tree
 
@@ -209,6 +221,10 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
+  def trashed?
+    has_attribute?(:deleted_at) && deleted_at.present?
+  end
+
   def self.status_based_mode?
     Setting.work_package_done_ratio == "status"
   end
@@ -231,7 +247,11 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = User.current)
-    usr.allowed_in_work_package?(:view_work_packages, self)
+    if trashed?
+      usr.allowed_in_project?(:view_work_packages_in_trash, project)
+    else
+      usr.allowed_in_work_package?(:view_work_packages, self)
+    end
   end
 
   # RELATIONS

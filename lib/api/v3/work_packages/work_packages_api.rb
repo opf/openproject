@@ -71,11 +71,10 @@ module API
             end
 
             after_validation do
-              @work_package = WorkPackage.visible.find(declared_params[:id])
+              @work_package = WorkPackage.visible.find_by_display_id(declared_params[:id])
+              @work_package ||= WorkPackage.visible_in_trash.find_by_display_id(declared_params[:id]) if trash_available?
 
-              authorize_in_work_package(:view_work_packages, work_package: @work_package) do
-                raise API::Errors::NotFound.new model: :work_package
-              end
+              raise API::Errors::NotFound.new(model: :work_package) unless @work_package
             end
 
             get &API::V3::WorkPackages::ShowEndPoint.new(model: WorkPackage).mount
@@ -88,8 +87,34 @@ module API
                                                                })
                                                           .mount
 
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage)
-                                                           .mount
+            delete do
+              raise API::Errors::NotFound.new(model: :work_package) if trash_available? && @work_package.trashed?
+
+              service = if trash_available?
+                          ::WorkPackages::TrashService
+                        else
+                          ::WorkPackages::DeleteService
+                        end
+              call = service.new(user: current_user, model: @work_package).call
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) unless call.success?
+
+              status 204
+            end
+
+            post :move_to_trash do
+              call_trash_service(::WorkPackages::TrashService)
+            end
+
+            post :restore do
+              call_trash_service(::WorkPackages::RestoreService)
+            end
+
+            delete :delete_permanently do
+              call = ::WorkPackages::PurgeService.new(user: current_user, model: @work_package).call
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) unless call.success?
+
+              status 204
+            end
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI
@@ -105,6 +130,19 @@ module API
           end
 
           mount ::API::V3::WorkPackages::CreateFormAPI
+        end
+
+        helpers do
+          def trash_available?
+            ::WorkPackages::TrashFeature.enabled?
+          end
+
+          def call_trash_service(service)
+            call = service.new(user: current_user, model: @work_package).call
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) unless call.success?
+
+            ::API::V3::WorkPackages::WorkPackageRepresenter.new(call.result, current_user:)
+          end
         end
       end
     end

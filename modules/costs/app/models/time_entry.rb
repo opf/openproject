@@ -34,7 +34,7 @@ class TimeEntry < ApplicationRecord
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip
   belongs_to :project
-  belongs_to :entity, polymorphic: true
+  belongs_to :entity, -> { unscope(where: :deleted_at) }, polymorphic: true
   belongs_to :user
   belongs_to :activity, class_name: "TimeEntryActivity"
   belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: "Rate"

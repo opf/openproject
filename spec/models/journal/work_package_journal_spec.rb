@@ -65,6 +65,22 @@ RSpec.describe Journal::WorkPackageJournal do
       expect(rendered).to include(I18n.t(:text_journal_permission_denied))
     end
 
+    describe "trash details" do
+      shared_let(:trash_user) { create(:user, firstname: "Trash", lastname: "Manager") }
+
+      it "renders the time at which the work package was moved to the trash" do
+        rendered = journal.render_detail(["deleted_at", [nil, Time.zone.parse("2026-09-21 10:00")]])
+
+        expect(rendered).to include("Moved to trash on")
+      end
+
+      it "renders the user who moved the work package to the trash" do
+        rendered = journal.render_detail(["deleted_by_id", [nil, trash_user.id]])
+
+        expect(rendered).to include("Moved to trash by", trash_user.name)
+      end
+    end
+
     describe "the backing visibility check (N+1 guard)" do
       let(:formatter) { OpenProject::JournalFormatter::CustomField::Plain.new(journal) }
 

@@ -49,6 +49,18 @@ RSpec.describe WorkPackages::BulkDeleteDialogComponent, type: :component do
     User.current = user
   end
 
+  describe "the confirmation button" do
+    before do
+      allow(WorkPackages::TrashFeature).to receive(:enabled?).and_return(true)
+      render_inline(component)
+    end
+
+    it "labels the confirmation as moving to trash" do
+      expect(page).to have_button "Move to trash"
+      expect(page).to have_no_button "Delete permanently"
+    end
+  end
+
   describe "#projects" do
     context "when all work packages belong to the same project and have no descendants" do
       it "returns only that project" do

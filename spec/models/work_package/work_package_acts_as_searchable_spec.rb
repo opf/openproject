@@ -57,7 +57,13 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
       end
 
       it "returns the work package" do
-        expect(WorkPackage.search(wp_subject.split).first).to include(work_package)
+        expect(described_class.search(wp_subject.split).first).to include(work_package)
+      end
+
+      it "does not return a trashed work package" do
+        work_package.update_columns(deleted_at: Time.current, deletion_group: SecureRandom.uuid)
+
+        expect(described_class.search(wp_subject.split).first).not_to include(work_package)
       end
     end
 
@@ -77,7 +83,7 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
       end
 
       it "returns the work package if the offset is before the work packages created at value" do
-        expect(WorkPackage.search(wp_subject.split, nil, offset:).first).to include(work_package)
+        expect(described_class.search(wp_subject.split, nil, offset:).first).to include(work_package)
       end
     end
   end

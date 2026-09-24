@@ -39,7 +39,9 @@
       <% end %>
       <%= render(Primer::Alpha::Dialog::Footer.new) do %>
         <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": id })) { t(:button_cancel) } %>
-        <%= render(Primer::Beta::Button.new(scheme: :danger, type: :submit)) { t(:button_delete) } %>
+        <%= render(Primer::Beta::Button.new(scheme: :danger, type: :submit)) do %>
+          <%= t(WorkPackages::TrashFeature.enabled? ? "work_packages.trash.move_to_trash" : :button_delete) %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
@@ -49,6 +51,7 @@
           id:,
           title:,
           form_arguments: { action: form_action, method: :delete, data: { turbo: false } },
+          confirm_button_text:,
           size: :medium_portrait
         )
       ) do |dialog| %>

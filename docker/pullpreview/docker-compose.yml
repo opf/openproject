@@ -25,6 +25,8 @@ x-defaults: &defaults
     - "OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=secret12345"
     - "OPENPROJECT_ADDITIONAL__HOSTS=web"
     - "RAILS_ENV=production"
+    - "MIGRATE=true"
+    - "OPENPROJECT_ENABLE_WORK_PACKAGE_TRASH=true"
     - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
   networks:
     - backend

@@ -244,6 +244,13 @@ class Query < ApplicationRecord
     name.parameterize.underscore
   end
 
+  def trash?
+    filters.any? do |filter|
+      filter.is_a?(Queries::WorkPackages::Filter::TrashedFilter) &&
+        filter.values == [OpenProject::Database::DB_VALUE_TRUE]
+    end
+  end
+
   def available_columns
     if @available_columns &&
        (@available_columns_project == (project&.cache_key_with_version || 0))

@@ -95,8 +95,14 @@ module API
                                                                                      title_attribute:,
                                                                                      getter:))
 
-            entity.is_a?(WorkPackage) ? link.merge(displayId: entity.display_id.to_s) : link
+            API::V3::TimeEntries::EntityRepresenterFactory.enrich_link(link, entity)
           }
+        end
+
+        def enrich_link(link, entity)
+          return link unless entity.is_a?(WorkPackage)
+
+          link.merge(displayId: entity.display_id.to_s, title: work_package_title(entity))
         end
 
         # Renders the deprecated `workPackage` link, gated on work package visibility.
@@ -105,11 +111,12 @@ module API
             entity = represented.entity
             next unless entity.is_a?(WorkPackage)
 
-            unless entity.visible?(current_user)
+            unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(entity, current_user)
               next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
             end
 
-            { href: api_v3_paths.work_package(entity.id), title: entity.subject }
+            title = API::V3::TimeEntries::EntityRepresenterFactory.work_package_title(entity)
+            { href: api_v3_paths.work_package(entity.id), title: }
           }
         end
 
@@ -126,7 +133,16 @@ module API
         end
 
         def entity_visible?(entity, user)
-          !entity.is_a?(WorkPackage) || entity.visible?(user)
+          return true unless entity.is_a?(WorkPackage)
+
+          permission = entity.trashed? ? :view_work_packages_in_trash : :view_work_packages
+          user.allowed_in_work_package?(permission, entity)
+        end
+
+        def work_package_title(entity)
+          return entity.subject unless entity.trashed?
+
+          "#{entity.subject} (#{I18n.t('work_packages.trash.in_trash')})"
         end
 
         def undisclosed_link

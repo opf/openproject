@@ -28,59 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  class DeleteDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include WorkPackages::DeleteDialogs::Descendants
+require "spec_helper"
 
-    DIALOG_ID = "wp-delete-dialog"
-
-    attr_reader :work_package
-
-    def initialize(work_package:, back_url: nil)
-      super
-      @work_package = work_package
-      @back_url = back_url
+RSpec.describe WorkPackages::TrashFeature do
+  describe ".enabled?" do
+    it "is disabled without an entitlement or explicit preview opt-in" do
+      expect(described_class).not_to be_enabled
     end
 
-    private
-
-    def id = DIALOG_ID
-
-    def i18n_scope
-      if WorkPackages::TrashFeature.enabled?
-        "work_packages.trash.move_dialog"
-      else
-        "work_packages.delete_dialog"
-      end
+    it "is not enabled by an unrelated Enterprise entitlement", with_ee: %i[mcp_server] do
+      expect(described_class).not_to be_enabled
     end
 
-    def deletion_roots = [work_package]
-
-    def title
-      t_dialog(has_descendants? ? "descendants_choice.heading" : "title")
+    it "is enabled by its Enterprise entitlement", with_ee: %i[work_package_trash] do
+      expect(described_class).to be_enabled
     end
 
-    def heading
-      t_dialog(has_descendants? ? "descendants_choice.heading" : "heading")
-    end
-
-    def description
-      return t_dialog("descendants_choice.question") if has_descendants?
-
-      t_dialog("description", name: work_package.to_s)
-    end
-
-    def confirmation_checkbox_text
-      t_dialog("confirm_deletion")
-    end
-
-    def form_action
-      helpers.work_packages_bulk_path(ids: [work_package.id], delete_descendants: false, back_url: @back_url)
-    end
-
-    def confirm_delete_path
-      helpers.confirm_delete_work_packages_bulk_path(ids: [work_package.id], back_url: @back_url)
+    it "can be enabled explicitly for prototype environments",
+       with_env: { "OPENPROJECT_ENABLE_WORK_PACKAGE_TRASH" => "true" } do
+      expect(described_class).to be_enabled
     end
   end
 end

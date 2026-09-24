@@ -492,6 +492,8 @@ en:
         begin_deletion: "Begin of the deletion"
         begin_insertion: "Begin of the insertion"
         children: "Subelements"
+        deleted_at: "Moved to trash on"
+        deleted_by: "Moved to trash by"
         derived_done_ratio: "Total % complete"
         derived_remaining_hours: "Total remaining work"
         derived_remaining_time: "Total remaining work"
@@ -5178,6 +5180,8 @@ en:
   permission_delete_timelines: "Delete timelines"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
+  permission_manage_work_package_trash: "Move and restore work packages in the trash"
+  permission_view_work_packages_in_trash: "View work packages in the trash"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
   permission_edit_messages: "Edit messages"
   permission_edit_others_internal_comments: "Moderate internal comments"
@@ -5630,6 +5634,7 @@ en:
     shared_with_me: "Shared with me"
     shared_with_user: "Shared with users"
     subproject_id: "Including subproject"
+    trashed: "In trash"
   reactions:
     action_title: "React"
     add_reaction: "Add reaction"
@@ -7391,6 +7396,99 @@ en:
       requires_description: "Marks the related work package as a requirement to this one"
 
   work_packages:
+    # yamllint disable rule:key-ordering
+    trash:
+      already_in_trash: "The work package is already in the trash."
+      enterprise_only: "The work package trash is an Enterprise feature."
+      in_trash: "in trash"
+      keep_bookings: "Keep time and cost entries attached to the work package"
+      move_to_trash: "Move to trash"
+      not_in_trash: "The work package is not in the trash."
+      moved_successfully:
+        one: "Successfully moved 1 work package to the trash."
+        other: "Successfully moved %{count} work packages to the trash."
+      restoration_successful:
+        one: "Successfully restored 1 work package."
+        other: "Successfully restored %{count} work packages."
+      purge_successful:
+        one: "Permanently deleted 1 work package."
+        other: "Permanently deleted %{count} work packages."
+      restore_dialog:
+        title: "Restore work packages"
+        heading:
+          one: "Restore this work package?"
+          other: "Restore these %{count} work packages?"
+        description:
+          one: "The work package and all work packages moved to the trash with it will be restored."
+          other: "The selected deletion groups will be restored, including their original internal hierarchies."
+        button: "Restore"
+      purge_dialog:
+        title: "Permanently delete work packages"
+        heading:
+          one: "Permanently delete this work package?"
+          other: "Permanently delete these %{count} work packages?"
+        description:
+          one: "This cannot be undone. The work package and all retained associated data will be deleted."
+          other: "This cannot be undone. The selected deletion groups and all retained associated data will be deleted."
+        button: "Delete permanently"
+      move_dialog:
+        children_label: "The following descendants will also be moved to the trash:"
+        descendants_choice:
+          heading: "Move all descendants to the trash too?"
+          question: "This work package has descendants. Do you want to move them to the trash as well?"
+          self_only_caption: "The descendants will remain active and their hierarchical relations will be removed."
+          self_only_label: "Move just this work package to the trash"
+          with_descendants_caption: "All child work packages visible to you will be included. You can review the full list next."
+          with_descendants_label: "Move this work package and its descendants to the trash"
+        title: "Move work package to trash"
+        heading: "Move this work package to the trash?"
+        description: 'Are you sure you want to move "%{name}" to the trash?'
+        confirm_deletion: "I confirm that the work package will be moved to the trash."
+        confirm_descendants_deletion: "I confirm that all descendants listed above will also be moved to the trash."
+        cross_project_warning_html: "Work packages from the following projects will be moved to the trash: %{projects}"
+        hidden_descendants_only_warning:
+          one: "This work package has one descendant that you cannot see. It will remain active and the hierarchical relation will be removed."
+          other: "This work package has %{count} descendants that you cannot see. They will remain active and their hierarchical relations will be removed."
+        hidden_descendants_warning:
+          one: "Visible descendants will be moved to the trash. One hidden descendant will remain active and be detached."
+          other: "Visible descendants will be moved to the trash. %{count} hidden descendants will remain active and be detached."
+        undeletable_descendants_warning:
+          one: "One descendant cannot be moved to the trash. It will remain active and be detached."
+          other: "%{count} descendants cannot be moved to the trash. They will remain active and be detached."
+        undeletable_descendants_warning_html:
+          one: "One descendant in %{projects} cannot be moved to the trash. It will remain active and be detached."
+          other: "%{count} descendants in %{projects} cannot be moved to the trash. They will remain active and be detached."
+      bulk_move_dialog:
+        children_label: "The following descendants will also be moved to the trash:"
+        descendants_choice:
+          heading: "Move all descendants to the trash too?"
+          question: "The selected work packages have descendants. Do you want to move them to the trash as well?"
+          self_only_caption: "The descendants will remain active and their hierarchical relations will be removed."
+          self_only_label: "Move just the selected work packages to the trash"
+          with_descendants_caption: "All child work packages visible to you will be included. You can review the full list next."
+          with_descendants_label: "Move the selected work packages and descendants to the trash"
+        title: "Move %{count} work packages to trash"
+        heading: "Move these %{count} work packages to the trash?"
+        description: "Are you sure you want to move the selected work packages to the trash?"
+        description_with_all_descendants: "The selected work packages and all their descendants will be moved to the trash."
+        description_with_descendants: "The selected work packages and the listed descendants will be moved to the trash."
+        description_with_visible_descendants: "The selected work packages and all visible descendants will be moved to the trash."
+        confirm_deletion: "I confirm that the selected work packages will be moved to the trash."
+        confirm_descendants_deletion: "I confirm that all descendants listed above will also be moved to the trash."
+        cross_project_warning_html: "These work packages span multiple projects: %{projects}"
+        hidden_descendants_only_warning:
+          one: "One hidden descendant will remain active and be detached."
+          other: "%{count} hidden descendants will remain active and be detached."
+        hidden_descendants_warning:
+          one: "Visible descendants will be moved to the trash. One hidden descendant will remain active and be detached."
+          other: "Visible descendants will be moved to the trash. %{count} hidden descendants will remain active and be detached."
+        undeletable_descendants_warning:
+          one: "One descendant cannot be moved to the trash. It will remain active and be detached."
+          other: "%{count} descendants cannot be moved to the trash. They will remain active and be detached."
+        undeletable_descendants_warning_html:
+          one: "One descendant in %{projects} cannot be moved to the trash. It will remain active and be detached."
+          other: "%{count} descendants in %{projects} cannot be moved to the trash. They will remain active and be detached."
+    # yamllint enable rule:key-ordering
     bulk:
       copy_failed: "The work packages could not be copied."
       could_not_be_deleted: "The following work packages could not be deleted:"

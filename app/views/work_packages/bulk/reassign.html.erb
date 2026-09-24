@@ -69,6 +69,14 @@ See COPYRIGHT and LICENSE files for more details.
         label: helpers.t("work_package.destroy.title"),
         visually_hide_label: true
       ) do |group|
+        if WorkPackages::TrashFeature.enabled?
+          group.radio_button(
+            value: "keep",
+            label: helpers.t("work_packages.trash.keep_bookings"),
+            checked: true,
+            data: { show_when_value_selected_target: "cause", target_name: "action" }
+          )
+        end
         group.radio_button(
           value: "destroy",
           label: helpers.t(:text_destroy),
@@ -106,7 +114,11 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       form.group(layout: :horizontal) do |row|
-        row.submit(name: :submit, label: helpers.t(:button_delete), scheme: :danger)
+        row.submit(
+          name: :submit,
+          label: helpers.t(WorkPackages::TrashFeature.enabled? ? "work_packages.trash.move_to_trash" : :button_delete),
+          scheme: :danger
+        )
         row.button(name: :cancel, tag: :a, label: helpers.t(:button_cancel), href: cancel_url)
       end
     end

@@ -47,7 +47,9 @@ module WorkPackages
 
     def id = DIALOG_ID
 
-    def i18n_scope = "work_packages.delete_dialog"
+    def i18n_scope
+      WorkPackages::TrashFeature.enabled? ? "work_packages.trash.move_dialog" : "work_packages.delete_dialog"
+    end
 
     def deletion_roots = [work_package]
 

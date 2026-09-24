@@ -70,6 +70,17 @@ RSpec.describe WorkPackages::DeleteDialogComponent, type: :component do
       expect(subject).to have_text t("confirm_deletion")
       expect(subject).to have_no_text "descendant"
     end
+
+    context "when the trash feature is enabled" do
+      before do
+        allow(WorkPackages::TrashFeature).to receive(:enabled?).and_return(true)
+      end
+
+      it "labels the confirmation as moving to trash" do
+        expect(subject).to have_button "Move to trash"
+        expect(subject).to have_no_button "Delete permanently"
+      end
+    end
   end
 
   context "with descendants" do

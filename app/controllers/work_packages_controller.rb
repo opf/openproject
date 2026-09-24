@@ -289,6 +289,9 @@ class WorkPackagesController < ApplicationController
     return @work_package if defined?(@work_package)
 
     @work_package = WorkPackage.visible(current_user).find_by_display_id(params[:id])
+    @work_package ||= if WorkPackages::TrashFeature.enabled?
+                        WorkPackage.visible_in_trash(current_user).find_by_display_id(params[:id])
+                      end
   end
 
   def journals

@@ -99,13 +99,19 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
   delete():Promise<any>;
 
+  deletePermanently():Promise<unknown>;
+
   logTime():Promise<any>;
 
   startTimer():Promise<unknown>;
 
   move():Promise<any>;
 
+  moveToTrash():Promise<unknown>;
+
   removeWatcher():Promise<any>;
+
+  restore():Promise<unknown>;
 
   self():Promise<WorkPackageResource>;
 
