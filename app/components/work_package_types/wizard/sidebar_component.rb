@@ -52,16 +52,6 @@ module WorkPackageTypes
         pdf: :file
       }.freeze
 
-      INHERITED_ICON = :"arrow-down-right"
-      MANUAL_ICON = :tools
-
-      ASPECTS = {
-        defaults: TypeVariant::DEFAULTS,
-        form_configuration: TypeVariant::FORM_CONFIGURATION,
-        project_attributes: TypeVariant::PROJECT_ATTRIBUTES,
-        pdf: TypeVariant::PDF_EXPORT
-      }.freeze
-
       private
 
       attr_reader :current_step, :variant, :back_url
@@ -80,14 +70,7 @@ module WorkPackageTypes
         record_persisted? && Steps.index(step) < Steps.index(current_step)
       end
 
-      def mode_step?(step) = ASPECTS.key?(step)
-
-      def mode_icon(step) = linked?(step) ? INHERITED_ICON : MANUAL_ICON
-
-      def linked?(step)
-        aspect = ASPECTS[step]
-        aspect.present? && variant&.linked?(aspect)
-      end
+      def status_step?(step) = step != Steps.first
 
       def href_for(step)
         type_creation_wizard_path(**variant_path_args, step:, back_url:) if record_persisted?

@@ -27,31 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:lead) } %>
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:type_description) } %>
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 4)) { t_start(:step_by_step) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:lead) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:description) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 4)) { t_scoped(:step_by_step) } %>
 
-<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 2)) { t_start(:reuse_heading) } %>
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_description) } %>
+<% if show_reuse? %>
+  <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 2)) { t_start(:reuse_heading) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_description) } %>
 
-<%= flex_layout(align_items: :stretch, classes: "gap-3", direction: [:column, nil, :row]) do |modes| %>
-  <% modes.with_box(flex: 1) do %>
-    <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
-      <% box.with_title_icon(icon: WorkPackageTypes::Wizard::StartComponent::INHERIT_ICON) %>
-      <% box.with_title { t_start(:inherit_title) } %>
-      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:inherit_description) } %>
-      <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
-      <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+  <%= flex_layout(align_items: :stretch, classes: "gap-3", direction: [:column, nil, :row]) do |modes| %>
+    <% modes.with_box(flex: 1) do %>
+      <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
+        <% box.with_title { t_start(:inherit_title) } %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:inherit_description) } %>
+        <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
+        <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+      <% end %>
     <% end %>
-  <% end %>
 
-  <% modes.with_box(flex: 1) do %>
-    <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
-      <% box.with_title_icon(icon: WorkPackageTypes::Wizard::StartComponent::MANUAL_ICON) %>
-      <% box.with_title { t_start(:manual_title) } %>
-      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:manual_description) } %>
-      <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
-      <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+    <% modes.with_box(flex: 1) do %>
+      <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
+        <% box.with_title { t_start(:manual_title) } %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:manual_description) } %>
+        <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
+        <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

@@ -30,22 +30,21 @@
 
 module WorkPackageTypes
   module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+    class StepDescriptionComponent < ApplicationComponent
+      def initialize(step:)
+        super()
+        @step = step
+      end
 
-      def initialize(variant:)
-        super(variant)
+      def render? = text.present?
+
+      def call
+        render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3)) { text }
       end
 
       private
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
-      end
-
-      def reload_url
-        type_creation_wizard_path(**model.path_args, step: :project_attributes)
-      end
+      def text = Steps.description(@step)
     end
   end
 end

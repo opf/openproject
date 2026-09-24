@@ -41,9 +41,15 @@ module WorkPackageTypes
       # only ever be used there, for an administrator too.
       OWNED_EXCLUDED = %i[projects].freeze
 
+      DESCRIBED = %i[defaults form_configuration project_attributes projects pdf].freeze
+
       module_function
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
+
+      def description(step)
+        I18n.t("types.creation_wizard.descriptions.#{step}") if DESCRIBED.include?(step)
+      end
 
       def all = ALL
 
