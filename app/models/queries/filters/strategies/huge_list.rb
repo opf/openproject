@@ -51,6 +51,7 @@ module Queries::Filters::Strategies
     end
 
     def valid_values!
+      filter.allow_empty_values = true
       filter.values = allowed_values_subset
     end
   end

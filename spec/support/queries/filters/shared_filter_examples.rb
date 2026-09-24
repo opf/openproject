@@ -657,6 +657,17 @@ RSpec.shared_examples_for "filter by work package id" do
 
           expect(instance).not_to be_valid
         end
+
+        it "is valid without values if valid_values! was used" do
+          instance.values = [invisible_wp.id.to_s]
+
+          allow(instance).to receive(:allowed_values_subset).and_return([])
+
+          instance.valid_values!
+
+          expect(instance.values).to be_empty
+          expect(instance).to be_valid
+        end
       end
 
       context "outside of a project" do
