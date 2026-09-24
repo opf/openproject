@@ -28,52 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Workflows::CopiesController < ApplicationController
-  include WorkPackageTypes::AddressesVariant
-  include ::WorkPackageTypes::ConfiguredInScope
-  include OpTurbo::ComponentStream
+module Workflows
+  class WorkflowPanelComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-  before_action :set_source_variant
-  before_action :set_source_role
-  before_action :set_all_roles
+    def initialize(variant:, candidates:, name:, selected: nil, back_url: nil)
+      super()
 
-  helper_method :copy_source_name, :copy_submit_path
-
-  def new; end
-
-  private
-
-  def standalone? = params[:workflow_id].present?
-
-  def set_source_variant
-    @source_variant = addressed_variant unless standalone?
-  end
-
-  def workflow
-    @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : @source_variant.workflow
-  end
-
-  def copy_source_name
-    standalone? ? workflow.name : @source_variant.composite_name
-  end
-
-  def copy_submit_path
-    if standalone?
-      workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
-    else
-      type_workflow_copy_from_role_path(**@source_variant.path_args, source_role_id: @source_role&.id)
+      @variant = variant
+      @candidates = candidates
+      @name = name
+      @selected = selected
+      @back_url = back_url
     end
-  end
 
-  def set_source_role
-    @source_role = eligible_roles.find_by(id: params[:source_role_id])
-  end
+    private
 
-  def set_all_roles
-    @all_roles = eligible_roles
-  end
+    attr_reader :variant, :candidates, :name, :back_url
 
-  def eligible_roles
-    @eligible_roles ||= Workflows::StatusTransition.eligible_roles
+    def prefix = "#{I18n.t('admin.workflows.workflow_selector.prefix')}:"
+
+    def same_as_type_text = I18n.t("admin.workflows.workflow_selector.same_as_type")
+
+    def same_as_type? = variant.type_workflow&.id == variant.workflow_id
+
+    def selected = @selected || variant.workflow_id
+
+    def change_path(candidate)
+      url_helpers.change_type_workflow_path(
+        **variant.path_args.merge(workflow_id: candidate.id, back_url:).compact
+      )
+    end
   end
 end

@@ -26,18 +26,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= render(OpPrimer::InsetBoxComponent.new(scheme:, h: :full, test_selector: "workflow-reuse-mode")) do |box| %>
-  <% box.with_title_icon(icon:) %>
-  <% box.with_title { title } %>
-  <% box.with_action_button(
-       tag: :a,
-       href: change_dialog_path,
-       data: { controller: "async-dialog", test_selector: "workflow-change-source" }
-     ) { t("workflows.reuse_mode.change_workflow") } %>
-  <% box.with_action_button(
-       tag: :a,
-       href: create_dialog_path,
-       data: { controller: "async-dialog", test_selector: "workflow-create-new" }
-     ) { t("workflows.reuse_mode.create_workflow") } %>
-  <%= description %>
-<% end %>
+
+<%=
+  render(
+    Primer::Alpha::SelectPanel.new(
+      select_variant: :single,
+      fetch_strategy: :local,
+      title: t("admin.workflows.workflow_selector.title"),
+      test_selector: "workflow-panel"
+    )
+  ) do |panel|
+    panel.with_show_button(scheme: :secondary, test_selector: "workflow-selector") do |button|
+      button.with_trailing_visual_icon(icon: :"triangle-down")
+
+      parts = [render(Primer::Beta::Text.new(color: :muted)) { prefix }, name]
+      parts << render(Primer::Beta::Text.new(color: :muted)) { same_as_type_text } if same_as_type?
+
+      safe_join(parts, " ")
+    end
+
+    candidates.each do |candidate|
+      panel.with_item(
+        label: candidate.name,
+        active: candidate.id == selected,
+        href: change_path(candidate),
+        content_arguments: { data: { turbo: true, turbo_method: :patch, turbo_frame: "_top" } }
+      ) do |item|
+        item.with_description { candidate.description } if candidate.description.present?
+      end
+    end
+  end
+%>

@@ -28,52 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Workflows::CopiesController < ApplicationController
-  include WorkPackageTypes::AddressesVariant
-  include ::WorkPackageTypes::ConfiguredInScope
-  include OpTurbo::ComponentStream
+module Workflows
+  class CopySourceForm < ApplicationForm
+    def initialize(candidates:, selected:, type_workflow_id: nil)
+      super()
 
-  before_action :set_source_variant
-  before_action :set_source_role
-  before_action :set_all_roles
-
-  helper_method :copy_source_name, :copy_submit_path
-
-  def new; end
-
-  private
-
-  def standalone? = params[:workflow_id].present?
-
-  def set_source_variant
-    @source_variant = addressed_variant unless standalone?
-  end
-
-  def workflow
-    @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : @source_variant.workflow
-  end
-
-  def copy_source_name
-    standalone? ? workflow.name : @source_variant.composite_name
-  end
-
-  def copy_submit_path
-    if standalone?
-      workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
-    else
-      type_workflow_copy_from_role_path(**@source_variant.path_args, source_role_id: @source_role&.id)
+      @candidates = candidates
+      @selected = selected
+      @type_workflow_id = type_workflow_id
     end
-  end
 
-  def set_source_role
-    @source_role = eligible_roles.find_by(id: params[:source_role_id])
-  end
+    form do |source_form|
+      source_form.autocompleter(
+        name: :copy_from_id,
+        label: I18n.t("workflows.start.copy.panel_label"),
+        visually_hide_label: true,
+        required: true,
+        autocomplete_options: {
+          placeholder: I18n.t("workflows.form.copy_from.placeholder"),
+          decorated: true,
+          multiple: false,
+          focusDirectly: false,
+          append_to: "##{::Workflows::FormComponent::DIALOG_ID}",
+          data: { test_selector: "workflow-copy-source" }
+        }
+      ) do |list|
+        candidates.each do |candidate|
+          list.option(value: candidate.id, label: label_for(candidate), selected: candidate.id == selected)
+        end
+      end
+    end
 
-  def set_all_roles
-    @all_roles = eligible_roles
-  end
+    private
 
-  def eligible_roles
-    @eligible_roles ||= Workflows::StatusTransition.eligible_roles
+    attr_reader :candidates, :selected, :type_workflow_id
+
+    def label_for(candidate)
+      return candidate.name unless candidate.id == type_workflow_id
+
+      "#{candidate.name} #{I18n.t('admin.workflows.workflow_selector.same_as_type')}"
+    end
   end
 end

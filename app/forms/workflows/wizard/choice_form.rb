@@ -29,17 +29,22 @@
 #++
 
 module Workflows
-  module ReuseMode
-    class SectionComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  module Wizard
+    class ChoiceForm < ApplicationForm
+      def initialize(existing:, new_workflow:, group_data:)
+        super()
 
-      def initialize(variant:)
-        super(variant)
+        @existing = existing
+        @new_workflow = new_workflow
+        @group_data = group_data
       end
 
-      private
-
-      def variant = model
+      form do |choice_form|
+        choice_form.advanced_radio_button_group(name: :workflow_choice, data: @group_data) do |group|
+          group.radio_button(**@existing)
+          group.radio_button(**@new_workflow)
+        end
+      end
     end
   end
 end

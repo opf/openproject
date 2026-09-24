@@ -28,52 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Workflows::CopiesController < ApplicationController
-  include WorkPackageTypes::AddressesVariant
-  include ::WorkPackageTypes::ConfiguredInScope
-  include OpTurbo::ComponentStream
+module Workflows
+  class StartDialogComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-  before_action :set_source_variant
-  before_action :set_source_role
-  before_action :set_all_roles
+    FORM_ID = "workflow-start-form"
 
-  helper_method :copy_source_name, :copy_submit_path
+    def initialize(url:, candidates:, error: nil, type_workflow_id: nil)
+      super()
 
-  def new; end
-
-  private
-
-  def standalone? = params[:workflow_id].present?
-
-  def set_source_variant
-    @source_variant = addressed_variant unless standalone?
-  end
-
-  def workflow
-    @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : @source_variant.workflow
-  end
-
-  def copy_source_name
-    standalone? ? workflow.name : @source_variant.composite_name
-  end
-
-  def copy_submit_path
-    if standalone?
-      workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
-    else
-      type_workflow_copy_from_role_path(**@source_variant.path_args, source_role_id: @source_role&.id)
+      @url = url
+      @candidates = candidates
+      @error = error
+      @type_workflow_id = type_workflow_id
     end
-  end
 
-  def set_source_role
-    @source_role = eligible_roles.find_by(id: params[:source_role_id])
-  end
+    private
 
-  def set_all_roles
-    @all_roles = eligible_roles
-  end
+    attr_reader :url, :candidates, :error, :type_workflow_id
 
-  def eligible_roles
-    @eligible_roles ||= Workflows::StatusTransition.eligible_roles
+    def dialog_id = ::Workflows::FormComponent::DIALOG_ID
+
+    def title = I18n.t("workflows.start.title")
+
+    def form_arguments
+      { id: FORM_ID, url:, method: :post, data: { turbo: true } }
+    end
   end
 end

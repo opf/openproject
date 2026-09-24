@@ -26,8 +26,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= render(OpPrimer::InsetBoxComponent.new(scheme:, h: :full, test_selector: "workflow-usage-box")) do |box| %>
-  <% box.with_title_icon(icon:) %>
-  <% box.with_title { title } %>
-  <%= description %>
+
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <% dialog.with_body do %>
+    <% if error.present? %>
+      <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mb: 3)) { error } %>
+    <% end %>
+
+    <%= primer_form_with(**form_arguments) do |form| %>
+      <%= render(Workflows::StartForm.new(form, candidates:, type_workflow_id:)) %>
+    <% end %>
+  <% end %>
+
+  <% dialog.with_footer(show_divider: true) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)) { t(:button_continue) } %>
+  <% end %>
 <% end %>

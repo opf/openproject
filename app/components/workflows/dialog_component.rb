@@ -33,16 +33,20 @@ module Workflows
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(workflow:, variant: nil)
+    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
       super()
 
       @workflow = workflow
       @variant = variant
+      @back_url = back_url
+      @copy_from_id = copy_from_id
+      @ask_copy_source = ask_copy_source
+      @url = url
     end
 
     private
 
-    attr_reader :workflow, :variant
+    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
 
     def dialog_id = FormComponent::DIALOG_ID
 

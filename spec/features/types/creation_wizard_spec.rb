@@ -60,6 +60,35 @@ RSpec.describe "Type creation wizard", :js do
     Type.find_by!(name:)
   end
 
+  it "starts the new type on a workflow that already exists" do
+    existing = create(:type, name: "Feature").default_variant.workflow
+    existing.update!(name: "Standard flow")
+
+    start_wizard
+    type = complete_details_step("Incident")
+
+    expect(type.default_variant.workflow).to eq(existing)
+    expect(Workflow.where(name: "Incident workflow")).to be_empty
+  end
+
+  it "starts the new type on a workflow another type already uses" do
+    create(:named_workflow, name: "Aardvark flow")
+    shared = create(:type, name: "Feature").default_variant.workflow
+    shared.update!(name: "Standard flow")
+    create(:type, name: "Task").default_variant.update!(workflow: shared)
+
+    start_wizard
+    type = complete_details_step("Incident")
+
+    expect(type.default_variant.workflow).to eq(shared)
+    expect(Workflow.where(name: "Incident workflow")).to be_empty
+
+    visit type_creation_wizard_path(type, step: :workflows)
+
+    expect(page).to have_css("[data-test-selector='workflow-choice-existing']:checked", visible: :all)
+    expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
+  end
+
   it "guides the admin through creating a type" do
     start_wizard
 
@@ -86,6 +115,12 @@ RSpec.describe "Type creation wizard", :js do
     expect(page).to have_heading("Workflows")
     expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
+
+    within_dialog I18n.t("workflows.form.edit_title") do
+      fill_in "Workflow name", with: "Incident flow"
+      click_on I18n.t(:button_save)
+    end
+
     expect_step_saved(:workflows, linked: false)
 
     click_on I18n.t(:button_continue)
