@@ -43,12 +43,15 @@ RSpec.describe Queries::LlmModels::Filters::NameFilter do
     LlmModel.where(filter.where).pluck(:external_id)
   end
 
-  # BaseQuery applies a filter without asking whether it is valid, so every
-  # operator the :string strategy allows has to resolve to a scope rather than
-  # reach a raise.
   it "resolves every operator it accepts" do
-    described_class.create!(operator: "~", values: ["x"]).available_operators.each do |operator|
-      expect { matches(operator.to_s, "qwen3.6-27b") }.not_to raise_error
+    operators = described_class.create!(operator: "~", values: ["x"]).available_operators.map(&:symbol)
+    expect(operators).to include("=", "!", "~", "!~")
+
+    operators.each do |operator|
+      filter = described_class.create!(operator:, values: ["qwen3.6-27b"])
+
+      expect(filter.where).to be_present, "operator #{operator} has no condition"
+      expect { matches(operator, "qwen3.6-27b") }.not_to raise_error
     end
   end
 

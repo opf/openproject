@@ -38,13 +38,15 @@ class LlmModel < ApplicationRecord
   # The connection columns that reference a model row, cleared when it goes.
   CONNECTION_DEFAULTS = %i[default_chat_model_id default_embedding_model_id].freeze
 
-  belongs_to :llm_connection
-
   # Bounded because the value is a btree index entry and comes from whatever the
   # remote server chose to call its models.
+  MAX_EXTERNAL_ID_LENGTH = 512
+
+  belongs_to :llm_connection
+
   validates :external_id,
             presence: true,
-            length: { maximum: 512 },
+            length: { maximum: MAX_EXTERNAL_ID_LENGTH },
             uniqueness: { scope: :llm_connection_id }
 
   scope :active, -> { where(active: true) }
