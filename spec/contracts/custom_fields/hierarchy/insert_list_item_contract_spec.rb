@@ -28,32 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module Hierarchy
-    class UpdateHierarchyItemContract < DryApplicationContract
-      params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
-        required(:label).filled(:string)
-        required(:short).maybe(:string)
-      end
+require "spec_helper"
 
-      rule(:item) do
-        key.failure(:not_persisted) if value.new_record?
-        key.failure(:root_item) if value.root?
-      end
+RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
+  subject(:contract) { described_class.new }
 
-      rule(:label) do
-        next if schema_error?(:item)
+  let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Top Other]) }
+  let(:root) { custom_field.hierarchy_root }
+  let(:top) { root.children.find_by!(label: "Top") }
 
-        key.failure(:not_unique) if values[:item].siblings.exists?(label: value)
-      end
+  it "accepts an item directly under the root" do
+    expect(contract.call(parent: root, label: "Sibling")).to be_success
+  end
 
-      rule(:short) do
-        next if schema_error?(:item)
-        next if value.nil?
+  it "drops a short, which list items do not carry" do
+    expect(contract.call(parent: root, label: "Sibling", short: "SI").to_h).not_to have_key(:short)
+  end
 
-        key.failure(:not_unique) if values[:item].siblings.exists?(short: value)
-      end
-    end
+  it "rejects an item under another item" do
+    result = contract.call(parent: top, label: "Nested")
+
+    expect(result.errors[:parent]).to include("cannot have sub-items for this custom field.")
+  end
+
+  it "rejects a label already used by a sibling" do
+    result = contract.call(parent: root, label: "Top")
+
+    expect(result.errors[:label]).to include("must be unique within the same hierarchy level.")
   end
 end

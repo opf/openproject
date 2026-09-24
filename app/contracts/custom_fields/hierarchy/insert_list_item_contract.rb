@@ -30,29 +30,23 @@
 
 module CustomFields
   module Hierarchy
-    class UpdateHierarchyItemContract < DryApplicationContract
+    class InsertListItemContract < DryApplicationContract
       params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
+        required(:parent).filled(type?: CustomField::Hierarchy::Item)
         required(:label).filled(:string)
-        required(:short).maybe(:string)
       end
 
-      rule(:item) do
-        key.failure(:not_persisted) if value.new_record?
-        key.failure(:root_item) if value.root?
+      rule(:parent) do
+        next if schema_error?(:parent)
+
+        key.failure("must exist") unless value.persisted?
+        key.failure(:nesting_not_allowed) unless value.root?
       end
 
       rule(:label) do
-        next if schema_error?(:item)
+        next if schema_error?(:parent)
 
-        key.failure(:not_unique) if values[:item].siblings.exists?(label: value)
-      end
-
-      rule(:short) do
-        next if schema_error?(:item)
-        next if value.nil?
-
-        key.failure(:not_unique) if values[:item].siblings.exists?(short: value)
+        key.failure(:not_unique) if values[:parent].children.exists?(label: value)
       end
     end
   end
