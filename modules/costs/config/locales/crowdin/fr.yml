@@ -72,6 +72,10 @@ fr:
           attributes:
             project_ids:
               blank: Veuillez sélectionner un projet.
+        rate:
+          attributes:
+            principal:
+              invalid: doit être un utilisateur ou un utilisateur fictif.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ fr:
   label_costlog: Coûts unitaires consignés
   label_costs: Coûts
   label_costs_per_page: Coûts par page
+  label_current: Actuel
   label_current_default_rate: Taux par défaut actuel
   label_date_on: le
   label_day: Jour
@@ -233,6 +238,8 @@ fr:
   label_next_week: Semaine suivante
   label_next_workweek: Prochaine semaine de travail
   label_no: Non
+  label_no_default_rate: Aucun taux par défaut défini
+  label_no_project_rate: Aucun taux défini pour ce projet
   label_no_time: Aucun temps saisi
   label_option_plural: Options
   label_overall_costs: Coûts globaux
@@ -244,6 +251,7 @@ fr:
   label_show: Afficher
   label_specific_day: Jour %{day}
   label_specific_month: Mois %{month}
+  label_stack: Stack
   label_start_and_finished: Heures de début et de fin
   label_status_finished: Terminé
   label_time: Heure 
@@ -253,6 +261,7 @@ fr:
   label_today_capitalized: Aujourd'hui
   label_units: Unités de coût
   label_until: jusque
+  label_using_current_default_rate: Utilisation du taux par défaut actuel
   label_valid_from: Valable à partir du
   label_view_mode_switcher: Changer la vue
   label_work_package_filter_add: Ajouter filtre de lot de travaux
@@ -272,6 +281,10 @@ fr:
   permission_edit_rates: Éditer les tarifs
   permission_log_costs: Réserver des coûts unitaires
   permission_log_own_costs: Réserver coûts unitaires propres
+  permission_manage_default_hourly_rates: Gérer les taux horaires par défaut
+  permission_manage_default_hourly_rates_explanation: 'Permet d''ajouter, de modifier et de supprimer les taux horaires par défaut des utilisateurs et des utilisateurs fictifs.
+
+    '
   permission_view_cost_entries: Afficher coûts réservés
   permission_view_cost_rates: Voir les coûts horaires
   permission_view_hourly_rates: Voir tous les tarifs horaires
@@ -309,6 +322,11 @@ fr:
   text_destroy_cost_entries_question: "%{cost_entries} ont été consignés sur les lots de travaux que vous êtes sur le point de supprimer. Que voulez-vous faire ?"
   text_destroy_time_and_cost_entries: Supprimer les heures et coûts consignés
   text_destroy_time_and_cost_entries_question: "%{hours} heures, %{cost_entries} ont été consignés sur les lots de travaux que vous êtes sur le point de supprimer. Que voulez-vous faire ?"
+  text_hourly_rate_destroy_confirmation: Le taux de %{rate}, valable à partir du %{valid_from}, sera supprimé. Les coûts comptabilisés sur cette base seront recalculés avec le taux alors applicable.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Je comprends que cette action est irréversible.
+  text_hourly_rate_recalculation: Ce taux s'applique à partir de sa date de début de validité jusqu'à ce qu'un taux ultérieur entre en vigueur. Le modifier recalculera également les saisies de temps et les budgets existants pour cette période.
+  text_no_default_rate: Le taux par défaut est utilisé dans tous les projets pour lesquels aucun taux spécifique n'est défini pour l'utilisateur.
+  text_no_project_rate: Ce projet utilisera le taux par défaut actuel.
   text_reassign_time_and_cost_entries: 'Réassigner les heures et coûts consignés à ce lot de travaux :'
   text_warning_hidden_elements: Certaines entrées peuvent avoir été exclues de l'agrégation.
   total_times:

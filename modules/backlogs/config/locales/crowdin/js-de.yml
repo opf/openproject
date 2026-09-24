@@ -23,6 +23,22 @@
 de:
   js:
     backlogs:
+      announcements:
+        batch_too_large: Es ist nicht möglich, %{count} Arbeitspakete auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
+        fallback_item_label: Arbeitspaket
+        fallback_list_name: andere Liste
+        move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
+        move_failed_check_positions_batch:
+          other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
+        move_failed_rolled_back: Verschieben fehlgeschlagen. %{label} ist wieder an seiner vorherigen Position.
+        move_failed_rolled_back_batch:
+          other: Die Verschiebung ist fehlgeschlagen. %{count} Arbeitspakete wurden an ihre ursprünglichen Positionen zurückgesetzt.
+        moved: "%{label} verschoben auf Position %{position} von %{total}"
+        moved_batch:
+          other: "%{count} Arbeitspakete auf die Positionen %{first} bis %{last} von %{total} verschoben"
+        moved_batch_to_list:
+          other: "%{count} Arbeitspakete zu %{list} auf die Positionen %{first} bis %{last} von %{total} verschoben"
+        moved_to_list: "%{label} verschoben zu %{list}, Position %{position} von %{total}"
       selection:
         card_state: Ausgewählt
         cleared: Auswahl aufgehoben.

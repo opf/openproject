@@ -121,7 +121,93 @@ module Backlogs
       render_update_turbo_streams(call)
     end
 
+    def move_collection # rubocop:disable Metrics/AbcSize
+      contract = Backlogs::WorkPackages::BatchMoveParamsContract.new(@project, current_user, params: move_collection_params)
+      return render_move_collection_error(contract.errors.full_messages.join(" ")) unless contract.valid?
+
+      work_packages = find_collection_work_packages(move_collection_params[:ids])
+      return render_move_collection_error(t(".work_packages_not_found")) unless work_packages
+
+      # Snapshot before the call: move_after reloads mid-method and destroys
+      # dirty tracking, exactly as the member action's comment explains.
+      source_targets = work_packages.to_h { |wp| [wp.id, Backlogs::Target.for_work_package(wp)] }
+
+      call = ::Backlogs::WorkPackages::BatchUpdateService
+        .new(user: current_user, work_packages:)
+        .call(**collection_move_service_params)
+
+      if optimistic_same_list_batch_move?(call, source_targets)
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_ids: call.result.map(&:id) }
+        )
+        return respond_with_turbo_streams(status: call)
+      end
+
+      render_update_collection_turbo_streams(call)
+    end
+
     private
+
+    def render_update_collection_turbo_streams(call)
+      if call.success?
+        reload_frame_via_turbo_stream("backlogs_container")
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_ids: call.result.map(&:id) }
+        )
+        render_invisible_after_move_batch_flash(call.result)
+      else
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: batch_failure_reason(call))
+        )
+      end
+
+      respond_with_turbo_streams(status: call)
+    end
+
+    # A member failure is reported with the member: the batch's own message
+    # is empty then, and the flash would not say which work package refused.
+    def batch_failure_reason(call)
+      failed = call.dependent_results.find(&:failure?)
+      return call.message unless failed
+
+      work_package = failed.result
+      return failed.message unless work_package.is_a?(WorkPackage)
+
+      t("backlogs.work_packages.move_collection.member_failed",
+        work_package: work_package.to_fs(:caption), reason: failed.message)
+    end
+
+    def optimistic_same_list_batch_move?(call, source_targets)
+      return false unless optimistic_move? && call.success? && call.result.any?
+
+      destination = Backlogs::Target.for_work_package(call.result.first)
+      call.result.all? { |wp| source_targets[wp.id] == destination } &&
+        requested_block_honored?(call.result)
+    end
+
+    # The batch form of requested_anchor_honored?: the first member sits where
+    # the request anchored it and every further member directly below its
+    # predecessor, which is the client's optimistic block.
+    def requested_block_honored?(results) # rubocop:disable Metrics/AbcSize
+      return false unless move_collection_params.key?(:prev_id)
+
+      # One anchor query; the rest of the block is checked in memory.
+      # BatchUpdateService reloads every moved member before returning and
+      # the members share one target scope, so adjacent positions prove
+      # adjacency. A gap from elsewhere fails this check falsely, degrading
+      # to the full frame reload rather than skipping a needed one.
+      prev_id = move_collection_params[:prev_id].presence
+      first = results.first
+      anchor_honored = prev_id ? first.higher_item&.id == prev_id.to_i : first.higher_item.nil?
+
+      anchor_honored && results.each_cons(2).all? { |above, below| below.position == above.position + 1 }
+    end
+
+    def collection_move_service_params
+      move_collection_params.to_h.symbolize_keys.except(:ids).compact
+    end
 
     def render_update_turbo_streams(call)
       if call.success?
@@ -149,8 +235,22 @@ module Backlogs
       return unless work_package_invisible_after_move?(work_package)
 
       render_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_work_package_invisible_after_move, backlog: target_list_name(work_package))
+        message: I18n.t(:notice_work_package_invisible_after_move, count: 1, backlog: target_list_name(work_package))
       )
+    end
+
+    # A member's own type or status can hide it independently of its
+    # list-mates, so the first member cannot answer this for the batch.
+    def render_invisible_after_move_batch_flash(results)
+      invisible = results.select { |wp| work_package_invisible_after_move?(wp) }
+      return if invisible.empty?
+
+      render_flash_message_via_turbo_stream(message: invisible_after_move_batch_message(invisible))
+    end
+
+    def invisible_after_move_batch_message(invisible)
+      I18n.t(:notice_work_package_invisible_after_move,
+             count: invisible.size, backlog: target_list_name(invisible.first))
     end
 
     # A dialog move (never flagged optimistic) is announced by the server; the
@@ -203,6 +303,32 @@ module Backlogs
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position
       @work_package = @work_packages.find(params.expect(:id))
+    end
+
+    # Every submitted id must resolve to a distinct, visible work package of
+    # this project, in the submitted order: silently dropping a member would
+    # break the client's optimistic block. Nil when any id does not resolve.
+    def find_collection_work_packages(ids)
+      found = WorkPackage.visible.where(project: @project, id: ids).index_by { |wp| wp.id.to_s }
+      ordered = ids.map { |id| found[id.to_s] }
+
+      ordered.any?(&:nil?) ? nil : ordered
+    end
+
+    def render_move_collection_error(reason)
+      render_error_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_unsuccessful_update_with_reason, reason:)
+      )
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
+
+    # params.expect guarantees a present, non-empty array of scalar ids; the
+    # optional placement and target fields go through permit instead.
+    def move_collection_params
+      @move_collection_params ||= begin
+        ids = params.expect(ids: [])
+        params.permit(:prev_id, :list_type, :list_id).merge(ids:)
+      end
     end
 
     def move_path

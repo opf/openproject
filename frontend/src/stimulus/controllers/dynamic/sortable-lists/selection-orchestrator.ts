@@ -36,7 +36,7 @@ import {
   liveOrderableListItems,
   neighbourItem,
   orderedItemElements,
-  orderedSelectedItems,
+  orderedSelectedItemElements,
   resolveCandidate,
   resolveRangeItems,
   type SelectionCandidate,
@@ -58,6 +58,15 @@ export interface SelectionHost {
   // list's rows are.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
+
+export type ActionScope =
+  | { kind:'batch'; items:HTMLElement[] }
+  | { kind:'refused'; items:[] };
+
+// What resolving an action scope does to the selection: nothing, replace it
+// with the card alone only when the card is outside it, or replace it
+// unconditionally.
+type ScopeMutation = 'none'|'replace-if-unselected'|'replace';
 
 /**
  * Batch selection: gestures in, model and presentation out.
@@ -88,30 +97,66 @@ export class SelectionOrchestrator {
 
   constructor(private readonly host:SelectionHost) {}
 
-  // Live ordered membership, for AGILE-278's batch move.
-  selectedIds():string[] {
-    return orderedSelectedItems(this.host.rootElement, this.selection.keys).map((item) => item.id);
+  get hasSelection():boolean {
+    return this.selection.size > 0;
   }
 
-  // A menu move relocates exactly one card, so it collapses like a drag.
-  collapseForMove(itemElement:HTMLElement):void {
-    this.collapseForDrag(itemElement);
+  // The cards an action invoked from this card applies to, without touching
+  // the selection: the batch when the card is a member, the card alone
+  // otherwise. Consulted while a drag payload is built, before the batch is
+  // frozen.
+  actionScopeFor(itemElement:HTMLElement):ActionScope {
+    return this.resolveActionScope(itemElement, 'none');
   }
 
-  collapseForDrag(itemElement:HTMLElement):void {
-    // Nothing selected is nothing to collapse: a drag must not manufacture
-    // a one-card batch.
-    if (this.selection.size === 0) {
-      return;
-    }
+  // Same, but an unselected orderable card becomes the selection first, so
+  // a drag or a menu action on it leaves one consistent state behind.
+  selectForAction(itemElement:HTMLElement):ActionScope {
+    return this.resolveActionScope(itemElement, 'replace-if-unselected');
+  }
 
+  // A menu action relocates exactly this card, so a wider batch collapses
+  // onto it rather than outliving the move. It must not manufacture a
+  // selection where the user made none: a failed move would otherwise leave
+  // that card selected.
+  collapseForAction(itemElement:HTMLElement):ActionScope {
+    return this.resolveActionScope(itemElement, this.hasSelection ? 'replace' : 'none');
+  }
+
+  private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
     const candidate = resolveCandidate(this.host.rootElement, itemElement);
     if (!candidate?.orderable) {
+      return { kind: 'refused', items: [] };
+    }
+
+    const key = { type: candidate.type, id: candidate.id };
+    if (mutation === 'replace' || (mutation === 'replace-if-unselected' && !this.selection.has(key))) {
+      this.selection.replace(key, candidate.listKey);
+      // Painted now, not once the drag starts, so the page never shows a
+      // batch the drag no longer contains. Speaks only when a wider batch
+      // actually collapsed: selecting the card a gesture landed on is not a
+      // loss the user needs read back.
+      this.renderSelection('navigation');
+    }
+
+    const items = this.selection.has(key)
+      ? orderedSelectedItemElements(this.host.rootElement, this.selection.keys)
+      : [candidate.itemElement];
+
+    return { kind: 'batch', items };
+  }
+
+  // Silent: the move announcement is the feedback, and "Selection cleared."
+  // on top of it would be noise. Also drops an anchor a deselect left
+  // behind, which a later Shift gesture would otherwise range from.
+  clearSilently():void {
+    if (this.selection.size === 0 && this.selection.anchor === null) {
       return;
     }
 
-    this.selection.replace({ type: candidate.type, id: candidate.id }, candidate.listKey);
-    this.renderSelection('selection');
+    this.selection.clear();
+    this.syncSelectionPresentation();
+    this.lastRenderedKeys = this.selection.keys;
   }
 
   // The platform's one multi-select modifier: ⌘ on Apple platforms, Ctrl
@@ -174,7 +219,6 @@ export class SelectionOrchestrator {
       this.extendSelectionTo(candidate);
     } else {
       this.toggleWithinCohort(candidate);
-      this.renderSelection('selection');
     }
   };
 
@@ -247,7 +291,6 @@ export class SelectionOrchestrator {
       this.extendSelectionTo(candidate);
     } else {
       this.toggleWithinCohort(candidate);
-      this.renderSelection('selection');
     }
   }
 
@@ -451,9 +494,9 @@ export class SelectionOrchestrator {
   // plain click) speaks only when it collapsed a batch, since the details
   // pane it opens is its own feedback for the card itself; `selection`
   // speaks on any membership change.
-  private renderSelection(kind:'navigation'|'selection'):void {
+  private renderSelection(kind:'navigation'|'selection', fullRepair = false):void {
     const previous = this.lastRenderedKeys;
-    this.syncSelectionPresentation();
+    this.syncSelectionPresentation(fullRepair);
 
     const current = this.selection.keys;
     this.lastRenderedKeys = current;
@@ -467,8 +510,14 @@ export class SelectionOrchestrator {
     }
   }
 
-  private syncSelectionPresentation():void {
-    applySelectionPresentation(this.host.rootElement, this.selection.keys, this.host.descriptionId);
+  private syncSelectionPresentation(fullRepair = false):void {
+    const current = this.selection.keys;
+    const changedKeys = fullRepair ? undefined : new Set([
+      ...[...this.lastRenderedKeys].filter((key) => !current.has(key)),
+      ...[...current].filter((key) => !this.lastRenderedKeys.has(key)),
+    ]);
+
+    applySelectionPresentation(this.host.rootElement, current, this.host.descriptionId, changedKeys);
   }
 
   private announceSelection(key:'selected'|'cleared'|'not_selectable'|'range_unavailable'|'range_blocked'|'range_restarted'):void {
@@ -485,7 +534,7 @@ export class SelectionOrchestrator {
   reconcile():void {
     this.selection.prune(liveOrderableKeys(this.host.rootElement));
     this.rebindAnchorList();
-    this.renderSelection('selection');
+    this.renderSelection('selection', true);
   }
 
   // The anchor's list key is stamped when the anchor is set — drag *start*

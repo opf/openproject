@@ -238,7 +238,7 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
   def new_relation_path(relation_type)
     case relation_type
     when "new_child"
-      new_project_work_packages_dialog_path(work_package.project, parent_id: work_package.id)
+      new_work_package_child_path(work_package)
     when Relation::TYPE_CHILD, Relation::TYPE_PARENT
       new_work_package_hierarchy_relation_path(work_package, relation_type:)
     when *Relation::TYPES.keys

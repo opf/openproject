@@ -49,8 +49,7 @@ class ResourcePlanner < PersistedView
   validates :parent, absence: true
   validates :query, absence: true
 
-  validates :principal, :project,
-            presence: true
+  validates :principal, presence: true
 
   validate :end_date_after_start_date
   validate :dates_set_together
@@ -58,9 +57,67 @@ class ResourcePlanner < PersistedView
   include ResourceManagement::Categorized
   include ResourceManagement::DateRangeAttribute
 
+  # Reaching the global section does not require the global permission: a member
+  # of a project granting `view_resource_planners` keeps getting there, they just
+  # find no global planners listed.
+  def self.section_visible_to?(user)
+    user.allowed_globally?(:view_global_resource_planners) ||
+      user.allowed_in_any_project?(:view_resource_planners)
+  end
+
+  # `visible` only separates public from own planners, so the permission for the
+  # scope the planner lives in has to be checked on top of it.
+  def self.visible_to(user, project)
+    return none unless viewable_by?(user, project)
+
+    visible(user).where(project:)
+  end
+
+  def self.viewable_by?(user, project)
+    if project
+      user.allowed_in_project?(:view_resource_planners, project)
+    else
+      user.allowed_globally?(:view_global_resource_planners)
+    end
+  end
+
+  # Whether to offer the allocate affordances at all. A global planner cannot
+  # name a project up front, so holding the permission anywhere is enough to
+  # start; the contract then checks it against the chosen work package's project.
+  def self.allocatable_by?(user, project)
+    if project
+      user.allowed_in_project?(:allocate_user_resources, project)
+    else
+      user.allowed_in_any_project?(:allocate_user_resources)
+    end
+  end
+
+  def self.public_manageable_by?(user, project)
+    if project
+      user.allowed_in_project?(:manage_public_resource_planners, project)
+    else
+      user.allowed_globally?(:manage_public_global_resource_planners)
+    end
+  end
+
+  def global?
+    project_id.nil?
+  end
+
+  def viewable_by?(user)
+    self.class.viewable_by?(user, project)
+  end
+
+  def public_manageable_by?(user)
+    self.class.public_manageable_by?(user, project)
+  end
+
+  def manageable_by?(user)
+    (principal == user && viewable_by?(user)) || (public? && public_manageable_by?(user))
+  end
+
   def visible?(user)
-    return false if project.nil?
-    return false unless user.allowed_in_project?(:view_resource_planners, project)
+    return false unless viewable_by?(user)
 
     public? || principal == user
   end

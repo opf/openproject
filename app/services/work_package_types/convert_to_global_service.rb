@@ -35,8 +35,6 @@ module WorkPackageTypes
     end
 
     def call(name: nil)
-      return blocked if blocked?
-
       assign(name)
       variant.save!
 
@@ -46,26 +44,22 @@ module WorkPackageTypes
       ServiceResult.failure(result: variant)
     end
 
-    def validate
-      return blocked if blocked?
-
-      ServiceResult.success(result: variant)
-    end
-
     private
 
     attr_reader :variant
 
-    def blocked? = variant.inherits_from_project_owned_variant?
-
-    def blocked
-      variant.errors.add(:base, :inherits_from_project_owned)
-      ServiceResult.failure(result: variant)
-    end
-
     def assign(name)
+      convert_own_workflow
       variant.project = nil
       variant.variant_name = name unless name.nil?
+    end
+
+    def convert_own_workflow
+      workflow = variant.workflow
+      return unless workflow&.project_specific? && workflow.project_id == variant.project_id
+
+      workflow.project = nil
+      workflow.name = Workflow.available_name(workflow.name)
     end
   end
 end

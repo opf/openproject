@@ -25,11 +25,11 @@ zh-CN:
     errors:
       models:
         cost_report:
-          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+          pivot_axes_do_not_match_group_bys: 行和列必须共同精确覆盖查询的分组条件。
     models:
-      cost_report:
-        other: Cost reports
       cost_query:
+        other: 成本报告
+      cost_report:
         other: 成本报告
   button_save_report_as: 报表另存为...
   comments: 注释

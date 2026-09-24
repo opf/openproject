@@ -23,18 +23,34 @@
 it:
   js:
     backlogs:
+      announcements:
+        batch_too_large: Non è possibile spostare %{count} macro-attività alla volta. Selezionane al massimo %{max}.
+        fallback_item_label: Macro-attività
+        fallback_list_name: un'altra lista
+        move_failed_check_position: Spostamento non riuscito. Controlla la posizione attuale della macro-attività.
+        move_failed_check_positions_batch:
+          other: Spostamento non riuscito. Controlla le posizioni attuali delle macro-attività.
+        move_failed_rolled_back: Spostamento non riuscito. %{label} è tornata alla posizione precedente.
+        move_failed_rolled_back_batch:
+          other: Spostamento non riuscito. %{count} macro-attività sono tornate alle posizioni precedenti.
+        moved: "%{label} spostata alla posizione %{position} di %{total}"
+        moved_batch:
+          other: "%{count} macro-attività spostate nelle posizioni da %{first} a %{last} di %{total}"
+        moved_batch_to_list:
+          other: "%{count} macro-attività spostate in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
+        moved_to_list: "%{label} spostata in %{list}, alla posizione %{position} di %{total}"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: Selezionato
+        cleared: Selezione azzerata.
+        not_selectable: Selezione invariata. Questa macro-attività non partecipa all'ordinamento di questo elenco.
+        range_blocked: Selezione invariata. L'intervallo contiene una macro-attività che non partecipa all'ordinamento di questo elenco.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: Non è stato possibile estendere l'intervallo. 1 macro-attività selezionata.
+          other: Non è stato possibile estendere l'intervallo. %{count} macro-attività selezionate.
+        range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
         selected:
-          one: 1 work package selected.
-          other: "%{count} work packages selected."
+          one: 1 macro-attività selezionata.
+          other: "%{count} macro-attività selezionate."
     burndown:
       day: Giorno
       points: Punti

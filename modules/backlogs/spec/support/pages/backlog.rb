@@ -806,6 +806,7 @@ module Pages
     end
 
     def apply_subject_filter(text)
+      expand_sub_header_search("Search work packages by subject")
       fill_in "Search work packages by subject", with: text
       wait_for_network_idle
     end
@@ -818,6 +819,29 @@ module Pages
     def apply_status_filter(status, operator: "is (OR)")
       open_filters
       set_filter("status_id", "Status", operator, [status.name])
+      wait_for_network_idle
+    end
+
+    def apply_observed_in_version_filter(version, operator: "is (OR)")
+      open_filters
+      set_filter("observed_in_version_id", "Observed in versions", operator, [version.name])
+      wait_for_network_idle
+    end
+
+    def expect_observed_in_version_option(version, grouped_under:)
+      open_filters
+      selected_filter = select_filter("observed_in_version_id", "Observed in versions")
+      within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+      expect_ng_option(selected_filter, version.name, grouping: grouped_under)
+    end
+
+    def apply_milestone_filter(value)
+      open_filters
+      if page.has_css?(filter_selector("is_milestone"), wait: 0)
+        within(filter_selector("is_milestone")) { set_toggle_filter([value.to_s]) }
+      else
+        set_filter("is_milestone", "Is milestone", nil, [value.to_s])
+      end
       wait_for_network_idle
     end
 
@@ -887,6 +911,29 @@ module Pages
       retry
     end
 
+    # Drags expecting a rejection: drag_work_package waits on the frame
+    # reload a successful cross-list move causes, while a rejected move only
+    # streams an error flash, so this settles on the stream render instead.
+    def drag_work_package_expecting_failure(moved, after:)
+      # See pick_up_and_release_work_package for the retry rationale.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(work_package_selector(moved))
+        target_element = find(work_package_selector(after))
+
+        wait_for_backlogs_turbo_stream(frame_reload: false) do
+          drag_backlogs_item(source: moved_element, target: target_element, edge: :bottom)
+        end
+      end
+    end
+
     # Drags a confined card over another sprint's list body and releases it
     # there. The release must resolve to nothing: no drop indicator over the
     # target, no row of it accepting, no move request. The card's unchanged
@@ -906,7 +953,7 @@ module Pages
         target_element = find(list_body_selector(sprint_selector(into)))
         install_backlogs_move_request_probe
         begin
-          drag_backlogs_item(source: moved_element, target: target_element)
+          drag_backlogs_item(source: moved_element, target: target_element, dwell: true)
         ensure
           stop_backlogs_move_request_probe
         end
@@ -918,20 +965,25 @@ module Pages
 
     # The refusal must be observable, or the assertions above would also pass
     # for a drag that never engaged. The drop has to reach the controller —
-    # the foreign container stays an accepted drop target so the drag keeps
+    # the refused container stays an accepted drop target so the drag keeps
     # the standard cursor, so it may appear in the drop's target list, but no
-    # row of it may — and the final dragover, the one over the foreign
-    # container, must show no drop position and mark that container refused
-    # (the muted danger outline) rather than active. Earlier dragovers may
-    # legitimately show indicators while the pointer is still crossing the
-    # card's own list, which keeps accepting it for real.
+    # row of it may — and the last container feedback the drag painted must be
+    # a refusal (the muted danger outline) rather than an active outline.
+    # Container state is read across the whole event stream, not from the
+    # final dragover: the drop engine paints on an animation frame, so a
+    # refusal can land on a later dragenter than the last dragover. Earlier
+    # feedback may legitimately be active while the pointer is still crossing
+    # a list that accepts the drag for real.
     def expect_backlogs_drag_refused
       refusal = page.evaluate_script(<<~JS)
         (() => {
           const state = window.__opBacklogsDndProbeState;
           const call = state?.handleDropCalls?.at(-1);
-          const lastDragover = (state?.events ?? [])
-            .filter((event) => event.type === 'dragover')
+          const events = state?.events ?? [];
+          const lastDragover = events.filter((event) => event.type === 'dragover').at(-1);
+          const lastContainers = events
+            .map((event) => event.dropContainers)
+            .filter((containers) => containers.length > 0)
             .at(-1);
 
           return {
@@ -939,7 +991,7 @@ module Pages
             dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? [],
             observedDragover: Boolean(lastDragover),
             dropPositions: lastDragover?.dropPositions ?? null,
-            dropContainers: lastDragover?.dropContainers ?? null
+            dropContainers: lastContainers ?? null
           };
         })()
       JS
@@ -1060,6 +1112,10 @@ module Pages
 
     private
 
+    def boolean_filter?(filter)
+      filter.to_s == "is_milestone"
+    end
+
     # Node::Element#click takes the held key and positional options, so no
     # action chain is needed. The offset avoids the card's centre, where the
     # subject link or actions menu button sits: the selection root ignores a
@@ -1149,8 +1205,8 @@ module Pages
       "[aria-label='#{Status.human_attribute_name(:is_readonly)}']"
     end
 
-    def drag_backlogs_item(source:, target:, edge: nil)
-      selenium_drag_backlogs_item(source:, target:, edge:)
+    def drag_backlogs_item(source:, target:, edge: nil, dwell: false)
+      selenium_drag_backlogs_item(source:, target:, edge:, dwell:)
     end
 
     def pick_up_and_release_backlogs_item(source)
@@ -1208,11 +1264,11 @@ module Pages
       scroll_to_element(source, block: :nearest)
     end
 
-    def selenium_drag_backlogs_item(source:, target:, edge: nil)
+    def selenium_drag_backlogs_item(source:, target:, edge: nil, dwell: false)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
       offset_x, offset_y = selenium_target_offset(target.native.rect, edge:)
-      perform_native_drag(source:, target:, offset_x:, offset_y:)
+      perform_native_drag(source:, target:, offset_x:, offset_y:, dwell:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here

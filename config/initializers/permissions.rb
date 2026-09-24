@@ -103,7 +103,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_placeholder_user,
                      {
-                       placeholder_users: %i[index show new create edit update deletion_info destroy],
+                       placeholder_users: %i[index show new create edit update toggle_criteria update_criteria
+                                             deletion_info destroy],
                        "placeholder_users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },
@@ -263,7 +264,7 @@ Rails.application.reloader.to_prepare do
                          %i[create edit update destroy add_group cancel_edit drop move update_query],
                        "work_package_types/project_attributes_tab":
                          %i[edit toggle enable_all_of_section disable_all_of_section],
-                       "work_package_types/workflow_tab": %i[edit],
+                       "work_package_types/workflow_tab": %i[edit change_dialog change create_dialog create],
                        "work_package_types/pdf_export_template":
                          %i[edit toggle drop enable_all disable_all update_artefact_export
                             edit_settings update_settings],
@@ -485,7 +486,8 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :manage_subtasks,
                      {
-                       work_package_hierarchy_relations: %i[new create destroy]
+                       work_package_hierarchy_relations: %i[new create destroy],
+                       work_package_children: %i[new create refresh_form]
                      },
                      permissible_on: :project,
                      dependencies: :view_work_packages

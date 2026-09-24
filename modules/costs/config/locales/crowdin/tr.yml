@@ -34,7 +34,7 @@ tr:
         work_package: İş paketi
       cost_type:
         default: Varsayılan maliyet türü
-        for_all_projects: For all projects
+        for_all_projects: Tüm projeler için
         rates: Rates
         unit: Birim adı
         unit_plural: Birimin çoğul adı
@@ -72,6 +72,10 @@ tr:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ tr:
   label_costlog: Günlüğe kaydedilen birim maliyetler
   label_costs: Maliyetler
   label_costs_per_page: Her sayfa için maliyet
+  label_current: Mevcut
   label_current_default_rate: Güncel varsayılan oran
   label_date_on: tarihinde
   label_day: Gün
@@ -233,6 +238,8 @@ tr:
   label_next_week: Gelecek hafta
   label_next_workweek: Sonraki çalışma haftası
   label_no: Hayır
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Zaman takibi yok
   label_option_plural: Ayarlar
   label_overall_costs: Tüm maliyetler
@@ -244,6 +251,7 @@ tr:
   label_show: Göster
   label_specific_day: Gün %{day}
   label_specific_month: Ay %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Tamamlandı
   label_time: Zaman
@@ -253,6 +261,7 @@ tr:
   label_today_capitalized: Bugün
   label_units: Maliyet birimleri
   label_until: kadar
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Geçerlilik
   label_view_mode_switcher: Görünümü değiştir
   label_work_package_filter_add: İş paketi filtresi ekle
@@ -272,6 +281,10 @@ tr:
   permission_edit_rates: Oranları düzenle
   permission_log_costs: Kitap birimi maliyetleri
   permission_log_own_costs: Kendiniz için kitap birimi masrafları
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Rezervasyon maliyetlerini görüntüle
   permission_view_cost_rates: Maliyet oranları görüntüleme
   permission_view_hourly_rates: Tüm saatlik oranları görüntüle
@@ -295,7 +308,7 @@ tr:
   setting_enforce_without_allow: Başlangıç ve bitiş saatlerini zorunlu tutmak, bunlara izin vermeden mümkün değildir
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
   setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day: Günde en fazla saat sayısı
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
   setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
@@ -309,6 +322,11 @@ tr:
   text_destroy_cost_entries_question: "%{cost_entries} silmek üzere olduğunuz iş paketleri hakkında rapor edildi. Ne yapmak istiyorsun ?"
   text_destroy_time_and_cost_entries: Raporlanan saat ve masrafları sil
   text_destroy_time_and_cost_entries_question: "% {hours} saat,% {maliyet_entries}, silmek üzere olduğunuz iş paketlerinde bildirildi. Ne yapmak istiyorsun ? %{hours} %{cost_entries}"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Raporlanan saatleri ve maliyetleri bu iş paketine yeniden atayın:'
   text_warning_hidden_elements: Bazı girdiler toplama işleminden dışlanmış olabilir.
   total_times:

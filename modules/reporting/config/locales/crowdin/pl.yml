@@ -25,18 +25,18 @@ pl:
     errors:
       models:
         cost_report:
-          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+          pivot_axes_do_not_match_group_bys: Wiersze i kolumny muszą łącznie dokładnie odpowiadać kryteriom grupowania z zapytania.
     models:
-      cost_report:
-        one: Cost report
-        few: Cost reports
-        many: Cost reports
-        other: Cost reports
       cost_query:
         one: Raport kosztów
         few: Raporty kosztów
         many: Raporty kosztów
         other: Raporty kosztów
+      cost_report:
+        one: Raport dotyczący kosztów
+        few: Raporty dotyczące kosztów
+        many: Raporty dotyczące kosztów
+        other: Raporty dotyczące kosztów
   button_save_report_as: Zapisz raport jako...
   comments: Komentarz
   cost_reports_title: Czas i koszty

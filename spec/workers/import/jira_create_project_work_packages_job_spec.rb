@@ -59,6 +59,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(work_package.estimated_hours).to eq(120.0)
         expect(work_package.remaining_hours).to eq(11.0)
         expect(work_package.status.name).to eq("In Progress")
+        expect(work_package.status.is_closed).to be false
         expect(work_package.priority.name).to eq("Highest")
         expect(work_package.assigned_to).to eq(op_user)
         expect(work_package.identifier).to eq("DPPP-6")
@@ -68,8 +69,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(work_package.semantic_aliases.pluck(:identifier).sort).to eq(["DP-6", "DPPP-1", "DPPP-6", "KIWNEU1-8"])
       end
 
+      it "takes the work package timestamps from the jira issue" do
+        create_work_packages
+
+        work_package = WorkPackage.find("DPPP-6")
+        expect(work_package.created_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["created"]))
+        expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
+      end
+
       # rubocop:disable Layout/LineLength
-      # rubocop:disable RSpec/ExampleLength
+      # rubocop:disable-next RSpec/ExampleLength
       it "creates appropriate comments on the work package" do
         create_work_packages
 
@@ -114,12 +123,38 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                    }] }
         expect(work_package.journals.where(cause: cause5).count).to be 1
       end
-      # rubocop:enable RSpec/ExampleLength
       # rubocop:enable Layout/LineLength
 
       it "creates references for imported entities" do
         expect { create_work_packages }
           .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
+      end
+
+      context "when the issue carries no updated timestamp" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"].delete("updated") }
+        end
+
+        it "still replays the changelog and the comments" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.journals.count).to be 17
+          expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
+        end
+      end
+
+      context "if Jira status is done" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" }
+        end
+
+        it "creates workpackage with closed status" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.is_closed).to be true
+        end
       end
 
       context "if priority is nil or hidden in jira filed configuration" do
@@ -174,14 +209,139 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       context "when the import is aborting" do
         before do
-          # rubocop:disable RSpec/AnyInstance
+          # rubocop:disable-next RSpec/AnyInstance
           allow_any_instance_of(Import::JiraImport)
             .to receive(:in_state?).with(:import_aborting).and_return(true)
-          # rubocop:enable RSpec/AnyInstance
         end
 
         it "stops iterating and reports the abortion" do
           expect { create_work_packages }.to raise_error(Import::ProgressableJob::AbortionError)
+        end
+      end
+
+      context "when a referenced jira user is not found in the import data" do
+        before do
+          jira_user.destroy!
+          jira_user_reference.destroy!
+          allow(Rails.logger).to receive(:info)
+        end
+
+        it "uses DeletedUser as a fallback for author and assignee" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.author).to eq(DeletedUser.first)
+          expect(work_package.assigned_to).to eq(DeletedUser.first)
+        end
+
+        it "logs an info message about the missing user" do
+          create_work_packages
+
+          expect(Rails.logger).to have_received(:info).with(
+            /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
+          ).at_least(:once)
+        end
+      end
+
+      context "with version assignments" do
+        let(:op_project) { Project.find_by!(identifier: jira_project_key) }
+
+        let!(:jira_fix_version) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10001",
+                 payload: { "id" => "10001", "name" => "v1.0" })
+        end
+
+        let!(:jira_affected_version) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10002",
+                 payload: { "id" => "10002", "name" => "v0.9" })
+        end
+
+        let!(:target_version) { create(:version, name: "v1.0", project: op_project) }
+        let!(:observed_in_version) { create(:version, name: "v0.9", project: op_project) }
+
+        let(:jira_issue_payload) do
+          super().deep_merge(
+            "fields" => {
+              "fixVersions" => [{ "id" => "10001", "name" => "v1.0" }],
+              "versions" => [{ "id" => "10002", "name" => "v0.9" }]
+            }
+          )
+        end
+
+        before do
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: jira_fix_version.class.to_s,
+                 jira_entity_id: jira_fix_version.id.to_s,
+                 op_entity_class: target_version.class.to_s,
+                 op_entity_id: target_version.id.to_s)
+
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: jira_affected_version.class.to_s,
+                 jira_entity_id: jira_affected_version.id.to_s,
+                 op_entity_class: observed_in_version.class.to_s,
+                 op_entity_id: observed_in_version.id.to_s)
+        end
+
+        it "assigns target versions from fixVersions" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.target_versions).to include(target_version)
+        end
+
+        it "assigns observed_in versions from versions" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.observed_in_versions).to include(observed_in_version)
+        end
+      end
+
+      context "when fixVersions and versions are empty" do
+        let(:jira_issue_payload) do
+          super().deep_merge("fields" => { "fixVersions" => [], "versions" => [] })
+        end
+
+        it "creates work package without versions" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.target_versions).to be_empty
+          expect(work_package.observed_in_versions).to be_empty
+        end
+      end
+
+      context "when version reference is not found" do
+        let!(:jira_fix_version) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10001",
+                 payload: { "id" => "10001", "name" => "v1.0" })
+        end
+
+        let(:jira_issue_payload) do
+          super().deep_merge(
+            "fields" => {
+              "fixVersions" => [{ "id" => "10001", "name" => "v1.0" }],
+              "versions" => []
+            }
+          )
+        end
+
+        it "creates work package without that version when no reference exists" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.target_versions).to be_empty
         end
       end
     end

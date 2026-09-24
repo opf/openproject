@@ -53,27 +53,27 @@ RSpec.describe OpPrimer::InsetBoxComponentPreview, type: :component do
   end
 
   it "renders the playground with a single action button" do
-    render_preview(:playground, from: described_class, params: { action: :button })
+    render_preview(:playground, from: described_class, params: { action_type: :button })
 
     expect(page).to have_button("Primary action")
   end
 
   it "renders the playground with two action buttons" do
-    render_preview(:playground, from: described_class, params: { action: :buttons })
+    render_preview(:playground, from: described_class, params: { action_type: :buttons })
 
     expect(page).to have_button("Secondary action")
     expect(page).to have_button("Primary action")
   end
 
   it "renders the playground with an action menu" do
-    render_preview(:playground, from: described_class, params: { action: :menu })
+    render_preview(:playground, from: described_class, params: { action_type: :menu })
 
     expect(page).to have_button("Actions")
     expect(page).to have_text("First action")
   end
 
   it "renders the playground without an action" do
-    render_preview(:playground, from: described_class, params: { action: :none })
+    render_preview(:playground, from: described_class, params: { action_type: :none })
 
     expect(page).to have_no_button
   end
@@ -83,6 +83,18 @@ RSpec.describe OpPrimer::InsetBoxComponentPreview, type: :component do
 
     expect(page).to have_css("h3", text: "Inset box title")
     expect(page).to have_no_css(".octicon")
+  end
+
+  it "renders the playground with a clipboard copy button" do
+    render_preview(:playground, from: described_class, params: { clipboard_copy_button: true })
+
+    expect(page).to have_css("clipboard-copy")
+  end
+
+  it "renders the playground without a clipboard copy button by default" do
+    render_preview(:playground, from: described_class)
+
+    expect(page).to have_no_css("clipboard-copy")
   end
 
   it "renders the scheme previews" do
@@ -122,5 +134,11 @@ RSpec.describe OpPrimer::InsetBoxComponentPreview, type: :component do
 
     expect(page).to have_button("Actions")
     expect(page).to have_text("View dependent types")
+  end
+
+  it "renders the clipboard copy button preview" do
+    render_preview(:with_clipboard_copy_button, from: described_class)
+
+    expect(page).to have_css("clipboard-copy[value='s3cr3t-token']")
   end
 end

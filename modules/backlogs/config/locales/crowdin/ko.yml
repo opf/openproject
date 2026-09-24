@@ -115,7 +115,7 @@ ko:
         other: 스프린트
         zero: 모든 스프린트
       select_panel_title: 항목 선택
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: 필터 기준에 맞는 작업 패키지가 없습니다.
     bucket_component:
       action_menu:
         add_existing_work_package: 기존 작업 패키지 추가
@@ -158,7 +158,7 @@ ko:
         other: "%{count}개 항목 더 보기"
       title: 받은 편지함
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: 주제별로 작업 패키지 검색
     label_burndown_chart: 번다운 차트
     label_is_done_status: "%{status_name} 상태는 완료를 의미합니다."
     label_sprint_board: 스프린트 보드
@@ -178,6 +178,7 @@ ko:
     remaining_hours: 남은 작업
     sharing: 스프린트 공유
     show_burndown_chart: 번다운 차트
+    show_work_package_overview: 스프린트 내의 작업 패키지
     sprint_component:
       action_menu:
         add_existing_work_package: 기존 작업 패키지 추가
@@ -203,6 +204,30 @@ ko:
       page_header_component:
         breadcrumb: 보고서
         title: "%{sprint} 보고서"
+      widgets:
+        work_package_graph:
+          title: 작업 패키지 그래프
+        work_package_overview:
+          blankslate:
+            description: 스프린트의 시작 날짜와 종료 날짜를 설정하여 작업 패키지 개요를 생성합니다.
+            heading: 사용 가능한 스프린트 데이터 없음
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: 범위 변경
+              story_points_change: "+%{added} / -%{removed} 스토리 포인트"
+            completed:
+              heading: 완료
+            initially_planned:
+              heading: 초기 계획
+            unfinished:
+              heading: 미완료
+          breakdown_block:
+            blocks:
+              show_all: 모두 보기 
+          closed_work_packages: 마감된 작업 패키지
+          resolved_summary:
+            other: "%{percentage}%(%{resolved}/%{total} 작업 패키지)"
     sprints:
       row_component:
         action_menu:
@@ -242,8 +267,19 @@ ko:
       add_existing_dialog:
         invalid_target: 추가하려는 대상이 유효하지 않습니다.
         target_not_found: 추가하려는 스프린트 또는 백로그를 찾을 수 없습니다.
+      batch_update_service:
+        mixed_projects: 배치에 포함된 모든 작업 패키지는 동일한 프로젝트에 속해야 합니다.
+        stale_batch: 이동을 준비하는 동안 하나 이상의 작업 패키지가 변경되었습니다. 현재 위치를 확인하고 다시 시도해 주세요.
+        stale_predecessor: 뒤에 삽입할 작업 패키지가 다른 곳으로 이동되었습니다. 현재 위치를 확인하고 다시 시도해 주세요.
+        unavailable_target: 대상 목록을 더 이상 사용할 수 없습니다. 페이지를 다시 로드하고 다시 시도해 주세요.
+        unexpected_failure: 작업 패키지를 이동할 수 없습니다. 다시 시도해 주세요.
       move:
         moved_announcement: "%{label}이(가) %{list}(으)로 이동됨, 위치 %{position}/%{total}"
+      move_collection:
+        invalid_ids: 이동할 작업 패키지 목록이 유효하지 않습니다.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: 한 번에 이동할 수 있는 작업 패키지는 %{max}개를 초과할 수 없습니다.
+        work_packages_not_found: 이 프로젝트에서 하나 이상의 작업 패키지를 찾을 수 없습니다.
       update_service:
         invalid_target_type: 'list_type은 다음 중 하나여야 합니다: list_id가 있는 backlog_bucket, list_id가 있는 sprint 또는 list_id가 없는 inbox.'
         missing_target: list_type 또는 list_id가 있어야 합니다.
@@ -279,9 +315,8 @@ ko:
   notice_unsuccessful_finish_with_reason: '스프린트를 완료할 수 없습니다: %{reason}'
   notice_unsuccessful_start: 스프린트를 시작할 수 없습니다.
   notice_unsuccessful_start_with_reason: '스프린트를 시작할 수 없습니다: %{reason}'
-  notice_work_package_invisible_after_move: '작업 패키지가 %{backlog}(으)로 이동되었지만 해당 유형이나 상태가 백로그에서 제외되었으므로 표시되지 않습니다.
-
-    '
+  notice_work_package_invisible_after_move:
+    other: "%{count}개 작업 패키지가 %{backlog}(으)로 이동되었지만 해당 유형이나 상태가 백로그에서 제외되었으므로 표시되지 않습니다.\n"
   permission_create_sprints: 스프린트 만들기
   permission_manage_sprint_items: 스프린트 항목 관리
   permission_select_backlog_types_and_statuses: 백로그 유형 및 상태 선택

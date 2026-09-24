@@ -90,9 +90,9 @@ fa:
         label_oauth_client_id: شناسهٔ کلاینت OAuth
         replace_oauth_client: جایگزینی برنامهٔ OAuth در XWiki
       redirect_uri_info_component:
-        description: The redirect URI is generated once the wiki OAuth client is configured.
+        description: URI تغییرمسیر پس از پیکربندی کلاینت OAuth ویکی ایجاد می‌شود.
         label_uri: URI
-        show_redirect_uri: Show redirect URI
+        show_redirect_uri: نمایش URI تغییرمسیر
       side_panel:
         health_status_component:
           last_check: 'آخرین بررسی: %{datetime}'
@@ -114,11 +114,11 @@ fa:
         name_caption: برای ارائه‌دهندهٔ ویکی نامی تعیین کنید تا کاربران بتوانند چند پلتفرم ویکی را از یکدیگر تشخیص دهند.
         name_placeholder: پایگاه دانش XWiki
         new_provider_html: برای اطلاعات بیشتر، مستندات ما دربارهٔ [راه‌اندازی یکپارچه‌سازی XWiki](docs_url) را مطالعه کنید.
-        successful_setup: Wiki provider configured successfully!
+        successful_setup: ارائه‌دهنده ویکی با موفقیت پیکربندی شد!
         oauth:
           openproject_oauth: OAuth اوپن‌پروجکت
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          redirect_uri: URI تغییرمسیر
+          redirect_uri_caption: این مقدار را در فیلد Redirect URI ثبت کلاینت OIDC در XWiki کپی کنید.
         sections:
           general_information: اطلاعات عمومی
           oauth_configuration: پیکربندی OAuth

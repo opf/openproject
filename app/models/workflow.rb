@@ -29,127 +29,79 @@
 #++
 
 class Workflow < ApplicationRecord
-  belongs_to :role
-  belongs_to :old_status, class_name: "Status"
-  belongs_to :new_status, class_name: "Status"
-  belongs_to :type_variant, inverse_of: "own_workflows"
+  # The project owning this workflow, or nil for a workflow every project may use.
+  belongs_to :project, optional: true
 
-  validates :role, :old_status, :new_status, presence: true
+  has_many :type_variants, dependent: :restrict_with_error, inverse_of: :workflow
+  has_many :status_transitions,
+           class_name: "Workflows::StatusTransition",
+           inverse_of: :workflow,
+           dependent: :delete_all
 
-  # Returns workflow transitions count by variant and role
-  def self.count_by_type_variant_and_role # rubocop:disable Metrics/AbcSize
-    counts = connection.select_all(
-      "SELECT role_id, type_variant_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_variant_id"
-    )
-    roles = Role.order(Arel.sql("builtin, position"))
-    variants = ::TypeVariant.joins(:type).merge(::Type.order(Arel.sql("position"))).in_display_order
+  validates :name, presence: true, length: { maximum: 255 }
+  validates :name, uniqueness: { scope: :project_id, case_sensitive: false }
+  validates :description, length: { maximum: 255 }
 
-    variants.map do |variant|
-      counts_per_role = roles.map do |role|
-        row = counts.detect do |c|
-          c["role_id"].to_s == role.id.to_s && c["type_variant_id"].to_s == variant.id.to_s
-        end
-        [role, (row.nil? ? 0 : row["c"].to_i)]
-      end
+  scope :in_display_order, -> { order(Arel.sql("LOWER(name) ASC")) }
 
-      [variant, counts_per_role]
-    end
+  scope :global, -> { where(project_id: nil) }
+  scope :project_owned, -> { where.not(project_id: nil) }
+  scope :owned_by, ->(project) { where(project:) }
+  scope :available_in, ->(project) { where(project: [nil, project]) }
+
+  scope :with_name_like, ->(query) {
+    where("name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
+  def self.build_with_available_name(base, project: nil, **attributes)
+    new(name: available_name(base, project:), project:, **attributes)
   end
 
-  # Gets all work flows originating from the provided status that are defined for any of the roles.
-  # Workflows specific to author or assignee are ignored unless author and/or assignee are set to true. In
-  # such a case, those work flows are additionally returned.
-  def self.from_status(old_status_id, role_ids, author: false, assignee: false)
-    workflows = where(old_status_id:, role_id: role_ids)
+  # A name only has to be free within the scope that will hold it, so a project may reuse one
+  # administration already has.
+  def self.available_name(base, project: nil)
+    base = base.to_s.strip.presence || I18n.t("workflows.name.fallback")
+    taken = owned_by(project)
+    return base unless taken.exists?(["LOWER(name) = LOWER(?)", base])
 
-    if author && assignee
-      workflows
-    elsif author || assignee
-      workflows
-        .merge(Workflow.where(author:).or(Workflow.where(assignee:)))
+    suffix = 2
+    suffix += 1 while taken.exists?(["LOWER(name) = LOWER(?)", "#{base} (#{suffix})"])
+    "#{base} (#{suffix})"
+  end
+
+  def self.statuses(workflows, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
+    transition_table, status_table = [Workflows::StatusTransition, Status].map(&:arel_table)
+    ids = workflows.respond_to?(:arel) ? workflows.arel : workflows
+    old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
+      subquery = transition_table.project(transition_table[foreign_key])
+                                 .where(transition_table[:workflow_id].in(ids))
+      subquery = subquery.where(transition_table[:role_id].eq(role.id)) if role
+      subquery = apply_tab_condition(subquery, transition_table, tab) if tab
+      subquery
+    end
+    Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
+  end
+
+  def self.apply_tab_condition(subquery, transition_table, tab)
+    case tab
+    when "author"
+      subquery.where(transition_table[:author].eq(true))
+    when "assignee"
+      subquery.where(transition_table[:assignee].eq(true))
     else
-      workflows
-        .where(author:)
-        .where(assignee:)
+      subquery.where(transition_table[:author].eq(false).and(transition_table[:assignee].eq(false)))
     end
   end
 
-  # Find potential statuses the user could be allowed to switch issues to
-  def self.available_statuses(project, user = User.current)
-    Workflow
-      .includes(:new_status)
-      .where(role_id: user.roles_for_project(project).map(&:id))
-      .filter_map(&:new_status)
-      .uniq
-      .sort
+  def statuses(role: nil, tab: nil)
+    return Status.none if new_record?
+
+    self.class.statuses([id], role:, tab:)
   end
 
-  # Copies workflows from source to targets
-  def self.copy(source_variant, source_role, target_variants, target_roles) # rubocop:disable Metrics/PerceivedComplexity
-    unless source_variant.is_a?(::TypeVariant) || source_role.is_a?(Role)
-      raise ArgumentError.new("source_variant or source_role must be specified")
-    end
-
-    target_variants = Array(target_variants)
-    target_variants = ::TypeVariant.all if target_variants.empty?
-
-    target_roles = Array(target_roles)
-    target_roles = Role.all if target_roles.empty?
-
-    target_variants.each do |target_variant|
-      target_roles.each do |target_role|
-        copy_one(source_variant || target_variant,
-                 source_role || target_role,
-                 target_variant,
-                 target_role)
-      end
-    end
+  def used_by_one_variant?
+    type_variants.one?
   end
 
-  # Copies a single set of workflows from source to target.
-  # Returns false when source and target are the same, true after a successful copy.
-  def self.copy_one(source_variant, source_role, target_variant, target_role) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Naming/PredicateMethod
-    unless source_variant.is_a?(::TypeVariant) && !source_variant.new_record? &&
-           source_role.is_a?(Role) && !source_role.new_record? &&
-           target_variant.is_a?(::TypeVariant) && !target_variant.new_record? &&
-           target_role.is_a?(Role) && !target_role.new_record?
-
-      raise ArgumentError.new("arguments can not be nil or unsaved objects")
-    end
-
-    if source_variant == target_variant && source_role == target_role
-      false
-    else
-      transaction do
-        where(type_variant_id: target_variant.id, role_id: target_role.id).delete_all
-        connection.insert <<~SQL.squish
-          INSERT INTO #{Workflow.table_name} (type_variant_id, role_id, old_status_id, new_status_id, author, assignee)
-          SELECT #{target_variant.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee
-          FROM #{Workflow.table_name}
-          WHERE type_variant_id = #{source_variant.id} AND role_id = #{source_role.id}
-        SQL
-      end
-      true
-    end
-  end
-
-  def self.eligible_roles
-    roles = Role.where(type: ProjectRole.name)
-
-    if EnterpriseToken.allows_to?(:work_package_sharing)
-      roles.or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
-    else
-      roles
-    end
-  end
-
-  def self.ordered_eligible_roles
-    eligible_roles.order(:builtin, :position)
-  end
-
-  def self.selected_roles(role_ids)
-    ordered = ordered_eligible_roles
-    selected = ordered.where(id: role_ids)
-    selected.any? ? selected : [ordered.first].compact
-  end
+  def project_specific? = project_id.present?
 end

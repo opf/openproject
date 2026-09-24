@@ -44,7 +44,7 @@ module ResourcePlannerViews::UserTimeline
 
     def add_entity_item(menu)
       menu.with_item(label: t("resource_management.user_timeline.subheader.add_user"), tag: :a,
-                     href: new_user_project_resource_planner_view_path(@project, @resource_planner, @view),
+                     href: new_planner_view_user_path(@resource_planner, @view),
                      content_arguments: { data: { controller: "async-dialog" } }) do |item|
         item.with_leading_visual_icon(icon: :person)
       end

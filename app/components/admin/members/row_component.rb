@@ -40,7 +40,11 @@ module Admin
       end
 
       def user
-        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
+        render(Users::AvatarComponent.new(user: principal,
+                                          size: :mini,
+                                          link: true,
+                                          show_name: true,
+                                          classes: "op-principal_flex"))
       end
 
       def project
@@ -89,6 +93,8 @@ module Admin
 
       def role_links
         member.roles.sort_by(&:name).map do |role|
+          next role.name unless role.visible?
+
           render(Primer::Beta::Link.new(href: edit_role_path(role), underline: false)) { role.name }
         end
       end

@@ -28,8 +28,8 @@
 
 import {
   captureRowPositions,
-  isConfinedItem,
   isOrderableItem,
+  itemAcceptsDestination,
   itemMobility,
   reorderRows,
   sortableItemMobilityAttribute,
@@ -89,7 +89,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'), showMoreRow(), itemRow('2'), itemRow('3'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '3', rowsContainer: list })).toEqual('2');
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['3']) }, rowsContainer: list })).toEqual('2');
     });
 
     it('returns null when the list has no other items', () => {
@@ -97,7 +97,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, rowsContainer: list })).toBeNull();
     });
 
     it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
@@ -113,7 +113,19 @@ describe('sortable lists DOM helpers', () => {
       list.append(placeholder);
       outerItem.append(list);
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['field-1']) }, rowsContainer: list })).toBeNull();
+    });
+
+    it('appends after the last row not in the excluded set', () => {
+      // rows: A, B, C — excluded {B, C} → append lands after A.
+      const rowsContainer = listElement();
+
+      rowsContainer.append(itemRow('A'), itemRow('B'), itemRow('C'));
+
+      expect(resolveListAppendPreviousItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['B', 'C']) },
+        rowsContainer,
+      })).toBe('A');
     });
   });
 
@@ -416,14 +428,30 @@ describe('itemMobility', () => {
     expect(itemMobility(itemWith(''))).toBe('fixed');
   });
 
-  it('derives orderable and confined from the union', () => {
+  it('derives orderable from the union', () => {
     expect(isOrderableItem(itemWith('free'))).toBe(true);
     expect(isOrderableItem(itemWith('confined'))).toBe(true);
     expect(isOrderableItem(itemWith('fixed'))).toBe(false);
+  });
+});
 
-    expect(isConfinedItem(itemWith('confined'))).toBe(true);
-    expect(isConfinedItem(itemWith('free'))).toBe(false);
-    expect(isConfinedItem(itemWith('fixed'))).toBe(false);
+describe('itemAcceptsDestination', () => {
+  const sprint1 = { type: 'sprint', id: '1' };
+  const sprint2 = { type: 'sprint', id: '2' };
+
+  function item(mobility:'fixed'|'confined'|'free' = 'free'):HTMLElement {
+    const element = document.createElement('li');
+    element.setAttribute(sortableItemMobilityAttribute, mobility);
+    return element;
+  }
+
+  it('answers for one item which destinations it accepts', () => {
+    const ownerDestinationOf = () => sprint1;
+
+    expect(itemAcceptsDestination(item(), sprint2, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('fixed'), sprint1, ownerDestinationOf)).toBe(false);
+    expect(itemAcceptsDestination(item('confined'), sprint1, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('confined'), sprint2, ownerDestinationOf)).toBe(false);
   });
 });
 

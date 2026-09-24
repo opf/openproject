@@ -126,11 +126,27 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).to include(edit_role_path(other_role))
     end
 
+    it "does not include entity shares in the list" do
+      share_role = create(:view_project_query_role)
+      create(:project_query_member, principal: user, roles: [share_role])
+
+      get admin_members_path
+
+      expect(response.body).not_to include(share_role.name)
+    end
+
     it "does not link archived projects" do
       get admin_members_path
 
       expect(response.body).to include("Gemini")
       expect(response.body).not_to include(project_path(archived_project))
+    end
+
+    it "keeps a long principal name inside its column" do
+      get admin_members_path
+
+      # inline-flex would size the principal to the full name and overflow the grid column.
+      expect(response.parsed_body.css("opce-principal.op-principal_flex")).not_to be_empty
     end
 
     it "does not mark directly assigned memberships as inherited" do

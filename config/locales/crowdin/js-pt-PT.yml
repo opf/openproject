@@ -806,23 +806,32 @@ pt-PT:
       sorting_disabled: ordenação desativada
     sortable_lists:
       announcements:
+        batch_too_large: Não é possível mover %{count} elementos de uma só vez. Selecione, no máximo, %{max}.
         fallback_item_label: Elemento
         fallback_list_name: outra lista
         move_failed_check_position: Erro ao mover. Verifique a posição atual do elemento.
+        move_failed_check_positions_batch:
+          other: Erro ao mover. Verifique as posições atuais dos elementos.
         move_failed_rolled_back: Erro ao mover. %{label} voltou à sua posição anterior.
+        move_failed_rolled_back_batch:
+          other: Erro ao mover. %{count} elementos voltaram às suas posições anteriores.
         moved: "%{label} movido para a posição %{position} de %{total}"
+        moved_batch:
+          other: "%{count} elementos foram transferidos para as posições %{first} até %{last} de %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementos transferidos para %{list}, posições %{first} até %{last} de %{total}"
         moved_to_list: "%{label} transferido para %{list}, cargo %{position} de %{total}"
       selection:
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        cleared: Seleção limpa.
+        not_selectable: Seleção inalterada. Este elemento não tem qualquer influência na ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um elemento que não intervém na ordenação desta lista.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
-          other: Could not extend the range. %{count} items selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: Não foi possível alargar o âmbito. Foi selecionado 1 elemento.
+          other: Não foi possível alargar o âmbito.  Foram selecionados %{count} elementos.
+        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
         selected:
-          one: 1 item selected.
-          other: "%{count} items selected."
+          one: 1 elemento selecionado
+          other: "%{count} elementos selecionados."
     spot:
       drop_modal:
         close: Fechar modal

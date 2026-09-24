@@ -1,13 +1,15 @@
 <% helpers.html_title t(:label_my_time_tracking), "#{t("label_#{mode}")} #{t(:label_calendar)} #{I18n.l(date)}" -%>
-<%= flex_layout(data: wrapper_data, classes: "my-time-tracking-calendar-view") do |calendar_page| %>
-  <% calendar_page.with_row { render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :calendar)) } %>
-  <% calendar_page.with_row { render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :calendar)) } %>
-  <% calendar_page.with_row(classes: "op-fc-wrapper", data: { "my--time-tracking-target" => "calendar" }) %>
+<%= render(My::TimeTracking::ViewFrameComponent.new) do %>
+  <%= flex_layout(data: wrapper_data, classes: "my-time-tracking-calendar-view") do |calendar_page| %>
+    <% calendar_page.with_row { render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :calendar)) } %>
+    <% calendar_page.with_row { render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :calendar)) } %>
+    <% calendar_page.with_row(classes: "op-fc-wrapper", data: { "my--time-tracking-target" => "calendar" }) %>
 
-  <% if mode != :day %>
-    <% calendar_page.with_row do %>
-      <%= flex_layout(align_items: :flex_end) do |flex| %>
-        <% flex.with_row(mt: 2, font_weight: :bold) { total_hours } %>
+    <% if mode != :day %>
+      <% calendar_page.with_row do %>
+        <%= flex_layout(align_items: :flex_end) do |flex| %>
+          <% flex.with_row(mt: 2, font_weight: :bold) { total_hours } %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

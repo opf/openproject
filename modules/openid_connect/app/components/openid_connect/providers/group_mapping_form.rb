@@ -67,7 +67,7 @@ module OpenIDConnect
           )
 
           group.html_content do
-            render(Primer::Beta::Text.new) { I18n.t("openid_connect.instructions.group_regexes_detail").html_safe }
+            render(Primer::Beta::Text.new) { helpers.t("openid_connect.instructions.group_regexes_detail_html") }
           end
 
           group.text_area(

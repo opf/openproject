@@ -48,12 +48,30 @@ module Pages
       end
 
       def delete(type)
-        within_header(type) { find("action-menu > button").click }
+        open_actions(type)
 
-        accept_confirm { click_button I18n.t(:button_delete) }
+        click_link I18n.t(:button_delete)
+
+        expect(page).to have_css("##{deletion_dialog_id}[open]")
+
+        within("##{deletion_dialog_id}") { click_button I18n.t(:button_delete) }
+      end
+
+      def delete_expecting_refusal(type)
+        open_actions(type)
+
+        click_link I18n.t(:button_delete)
       end
 
       private
+
+      def open_actions(type)
+        within_header(type) { find("action-menu > button").click }
+      end
+
+      def deletion_dialog_id
+        WorkPackageTypes::Types::TypeDeletionDialogComponent::DIALOG_ID
+      end
 
       def within_header(type)
         header = page.find(".Box-header", text: canonical_name(type))

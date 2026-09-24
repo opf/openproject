@@ -23,18 +23,34 @@
 fr:
   js:
     backlogs:
+      announcements:
+        batch_too_large: Impossible de déplacer %{count} lots de travaux à la fois. Sélectionnez-en au maximum %{max}.
+        fallback_item_label: Lot de travaux
+        fallback_list_name: une autre liste
+        move_failed_check_position: Échec du déplacement. Vérifiez la position actuelle du lot de travaux.
+        move_failed_check_positions_batch:
+          other: Échec du déplacement. Vérifiez les positions actuelles des lots de travaux.
+        move_failed_rolled_back: Échec du déplacement. %{label} a retrouvé sa position précédente.
+        move_failed_rolled_back_batch:
+          other: Échec du déplacement. %{count} lots de travaux ont retrouvé leurs positions précédentes.
+        moved: "%{label} déplacé à la position %{position} sur %{total}"
+        moved_batch:
+          other: "%{count} lots de travaux déplacés aux positions %{first} à %{last} sur %{total}"
+        moved_batch_to_list:
+          other: "%{count} lots de travaux déplacés vers %{list}, aux positions %{first} à %{last} sur %{total}"
+        moved_to_list: "%{label} déplacé vers %{list}, à la position %{position} sur %{total}"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: Sélectionné
+        cleared: Sélection effacée.
+        not_selectable: Sélection inchangée. Ce lot de travaux n'est pas pris en compte dans l'ordre de cette liste.
+        range_blocked: Sélection inchangée. Cette plage contient un lot de travaux qui n'est pas pris en compte dans l'ordre de cette liste.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: Impossible d'étendre la plage. 1 lot de travaux sélectionné.
+          other: Impossible d'étendre la plage. %{count} lots de travaux sélectionnés.
+        range_unavailable: Sélection inchangée. Dépliez cette liste pour sélectionner cette plage.
         selected:
-          one: 1 work package selected.
-          other: "%{count} work packages selected."
+          one: 1 lot de travaux sélectionné.
+          other: "%{count} lots de travaux sélectionnés."
     burndown:
       day: Jour
       points: Points

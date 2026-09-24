@@ -182,17 +182,12 @@ Rails.application.routes.draw do
 
     resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
       get :reset_dialog
-      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
-        collection do
-          post :add_group
-        end
-
-        member do
-          post :cancel_edit
-          put :drop
-          put :move
-          patch :update_query
-        end
+      resource :group, only: %i[create edit update destroy], controller: "form_configuration_groups_tab" do
+        post :add_group
+        post :cancel_edit
+        put :drop
+        put :move
+        patch :update_query
       end
       resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
         member do
@@ -213,7 +208,6 @@ Rails.application.routes.draw do
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog
-      post :confirm
       post :switch
     end
 
@@ -238,6 +232,12 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      get :change_dialog
+      patch :change
+
+      get :create_dialog
+      post :create
+
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
@@ -276,6 +276,7 @@ Rails.application.routes.draw do
 
     member do
       get :menu
+      get :deletion_dialog
       put :drop
       post :duplicate
     end
@@ -289,6 +290,10 @@ Rails.application.routes.draw do
     nested do
       scope "(in-project/:in_project_id)" do
         resources :variants, controller: "variants", only: %i[index destroy] do
+          collection do
+            get :comparison
+          end
+
           member do
             get :menu
             post :make_default
@@ -317,6 +322,23 @@ Rails.application.routes.draw do
   resources :statuses, except: :show do
     member do
       put :move
+    end
+  end
+
+  resources :workflows, only: %i[index], controller: "workflows/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    member do
+      get :edit_dialog
+    end
+
+    resource :matrix, only: %i[show update], controller: "workflows/matrix" do
+      get :status_dialog
+      post :confirm_statuses
     end
   end
 
@@ -706,6 +728,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/roles/:role_id/permissions_dialog" => "roles/permissions_dialogs#show", as: :role_permissions_dialog
+
   scope "admin" do
     resource :announcements, only: %i[edit update]
 
@@ -1035,6 +1059,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :labels, only: %i[index create update destroy] do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        get :new_dialog, defaults: { format: :turbo_stream }
+      end
+      member do
+        get :edit_dialog, defaults: { format: :turbo_stream }
+        get :deletion_dialog, defaults: { format: :turbo_stream }
+      end
+    end
+
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
         get :reset_token_dialog
@@ -1124,6 +1159,10 @@ Rails.application.routes.draw do
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"
+
+    resources :children, only: %i[new create], controller: "work_package_children" do
+      post :refresh_form, on: :collection
+    end
 
     resource :progress, only: %i[edit update], controller: "work_packages/progress" do
       get :preview, on: :member
@@ -1239,6 +1278,8 @@ Rails.application.routes.draw do
     member do
       get "/edit(/:tab)" => "placeholder_users#edit", as: "edit"
       get :deletion_info
+      get :update_criteria
+      post :toggle_criteria
     end
   end
 
@@ -1384,7 +1425,6 @@ Rails.application.routes.draw do
 
   scope :notifications do
     get "/share_upsell" => "notifications#share_upsell", as: "notifications_share_upsell"
-    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsell"
     get "/", to: "notifications#index", as: :notifications_center
   end
 

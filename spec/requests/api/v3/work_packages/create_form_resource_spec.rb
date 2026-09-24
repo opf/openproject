@@ -149,6 +149,29 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
     end
   end
 
+  describe "with empty version links and no project (as sent back by the global creation form)" do
+    let(:parameters) do
+      {
+        _links: {
+          type: {
+            href: api_v3_paths.type(type.id)
+          },
+          targetVersions: [],
+          observedInVersions: []
+        },
+        subject: "lorem ipsum"
+      }
+    end
+
+    it "has 1 validation error" do
+      expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
+    end
+
+    it "has a validation error on project" do
+      expect(subject.body).to have_json_path("_embedded/validationErrors/project")
+    end
+  end
+
   describe "custom fields" do
     context "when the custom field is required" do
       shared_let(:required_custom_field) do

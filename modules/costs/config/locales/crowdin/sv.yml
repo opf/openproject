@@ -72,6 +72,10 @@ sv:
           attributes:
             project_ids:
               blank: Vänligen välj ett projekt.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ sv:
   label_costlog: Loggade enhetskostnader
   label_costs: Kostnader
   label_costs_per_page: Kostnader per sida
+  label_current: Current
   label_current_default_rate: Nuvarande standardtimpris
   label_date_on: den
   label_day: Dag
@@ -233,6 +238,8 @@ sv:
   label_next_week: Nästa vecka
   label_next_workweek: Nästa arbetsvecka
   label_no: Nej
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Ingen tid spårad
   label_option_plural: Alternativ
   label_overall_costs: Totalkostnader
@@ -244,6 +251,7 @@ sv:
   label_show: Visa
   label_specific_day: Dag %{day}
   label_specific_month: Månad %{month}
+  label_stack: Stack
   label_start_and_finished: Start- och sluttider
   label_status_finished: Avslutad
   label_time: Tid
@@ -253,6 +261,7 @@ sv:
   label_today_capitalized: I dag
   label_units: Kostnadsenheter
   label_until: fram till
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Gäller från
   label_view_mode_switcher: Ändra vy
   label_work_package_filter_add: Lägg till arbetspaketsfilter
@@ -272,6 +281,10 @@ sv:
   permission_edit_rates: Redigera priser
   permission_log_costs: Boka enhetskostnader
   permission_log_own_costs: Boka enhetskostnader för sig själv
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Visa bokade kostnader
   permission_view_cost_rates: Visa enhetspriser
   permission_view_hourly_rates: Visa alla timpriser
@@ -309,6 +322,11 @@ sv:
   text_destroy_cost_entries_question: "%{cost_entries} rapporterades på de arbetspaket som du håller på och tar bort. Vad vill du göra?"
   text_destroy_time_and_cost_entries: Ta bort rapporterade timmar och kostnader
   text_destroy_time_and_cost_entries_question: "%{hours} timmar, %{cost_entries} rapporterades på de arbetspaket som du håller på att ta bort. Vad vill du göra?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Tilldela rapporterade timmar och kostnader på detta arbetspaket:'
   text_warning_hidden_elements: Vissa poster kan ha undantagits från summeringen.
   total_times:

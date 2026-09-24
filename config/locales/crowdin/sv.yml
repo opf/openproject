@@ -385,16 +385,13 @@ sv:
       type_variant:
         attribute_groups: Formulär
         default_work_package_description: Standardtext för beskrivning
-        defaults_source: Källa för standardvärden
         enabled_in_new_projects: Aktiv i nya projekt
-        form_configuration_source: Källa för formulär
+        linked_aspects: Inherited configuration
         patterns: Mönster
-        pdf_export_source: Källa för PDF-export
-        project_attributes_source: Källa för projektattribut
         project_types: Projekt som använder den här varianten
         variant: Variant
         variant_name: Namn
-        workflows_source: Källa för arbetsflöden
+        workflow: Workflow
       user:
         admin: Administratör
         auth_source: Källa för autentisering
@@ -442,6 +439,13 @@ sv:
         time_zone: Tidszon
         warn_on_leaving_unsaved: Varna mig när jag lämnar ett arbetspaket med osparade ändringar
         workdays: Arbetsdagar
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Tillgänglighetsfaktor
         days: Arbetsdagar
@@ -520,6 +524,10 @@ sv:
         work_package: Arbetspaket
       work_package_version:
         kind: Typ
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: måste accepteras.
@@ -689,6 +697,13 @@ sv:
               not_unique: används redan. Välj ett annat namn.
         jira:
           invalid_protocol: Ange ett giltigt protokoll (http eller https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -856,6 +871,10 @@ sv:
               blank: Ange ett tokennamn
               format: "%{message}"
               in_use: Tokennamnet används redan. Välj ett annat
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -865,36 +884,19 @@ sv:
               group_without_name: Gruppnamnet får inte vara tomt.
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
             base:
-              borrowed_by_variants: Kan inte tas bort medan dess konfiguration återanvänds av %{names}.
-              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
-
-                '
               is_default_variant: Standardkonfigurationen för en typ kan inte tas bort.
               project_variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
               restrict_dependent_destroy:
                 has_many: Kan inte tas bort medan projekt fortfarande använder den.
-            defaults_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: kan inte anges för en variant som ägs av ett projekt.
               taken: är redan angivet för en annan konfiguration av den här typen.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             patterns:
               invalid_tokens: Ett eller flera attribut i fältet är ogiltiga. Korrigera attributen innan du sparar.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             variant:
               must_belong_to_the_type: måste vara en variant av den här typen.
-            workflows_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1418,6 +1420,8 @@ sv:
         main-menu-bg-selected-background: Huvudmeny när vald
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
@@ -1494,6 +1498,7 @@ sv:
         ssl_error: 'SSL-fel vid anslutning till Jira-servern: %{message}'
         ssrf_block_doc_link: Se vår [dokumentation](docs_url).
         ssrf_blocked: 'Anslutningen blockerades: Jira-värden matchar en privat IP-adress. Om Jira-instansen körs i ett internt nätverk tillåter du dess IP-adress via miljövariabeln OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Tillagd
         creator: Skapare
@@ -1714,6 +1719,35 @@ sv:
       caption_with_maximum: 'Användaråtgärder på ett arbetspaket (ändringar av beskrivning, status eller värden samt kommentarer) grupperas om de utförs inom den här perioden. Den styr även fördröjningar för aviseringar och [webhooks](webhook_link). Högsta värdet är %{max} minuter.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Model Context Protocol gör det möjligt för AI-agenter att ge sina användare verktyg och resurser som exponeras av den här OpenProject-instansen. Funktionen är fortfarande i betaversion.
@@ -1997,6 +2031,13 @@ sv:
           assignee: Ytterligare övergångar som är tillgängliga för den som tilldelats arbetspaketet.
           author: Ytterligare övergångar som är tillgängliga för arbetspaketets författare.
         menu_label: Visade övergångar
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
@@ -2763,7 +2804,6 @@ sv:
       custom_actions: Anpassade åtgärder
       custom_field_hierarchies: Hierarkier
       customize_life_cycle: Anpassa livscykeln
-      date_alerts: Datumaviseringar
       define_custom_style: Anpassat tema och logotyp
       edit_attribute_groups: Redigera attributgrupper
       gantt_pdf_export: PDF-export av Gantt
@@ -2840,8 +2880,6 @@ sv:
         description: Hierarkiska anpassade fält gör det möjligt att organisera hierarkiska strukturer i arbetspaket och projekt med hjälp av flernivålistor.
       customize_life_cycle:
         description: Skapa och organisera andra projektfaser än de som tillhandahålls av PM2:s projektcykelplanering.
-      date_alerts:
-        description: Med datumaviseringar får du meddelanden om kommande start- eller slutdatum så att du aldrig missar eller glömmer en viktig tidsfrist.
       define_custom_style:
         description: Anpassa din OpenProject-installation med din egen logotyp och dina egna färger.
         more_info: 'Obs: logotypen som används kommer att vara allmänt tillgänglig.'
@@ -3218,16 +3256,16 @@ sv:
     blocks:
       community: OpenProject community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisterade åtgärder för arbetspaket, kommentarer och relationer med MCP Server (Professional-planen).
-            line_1: Flera målversioner för arbetspaket.
-            line_2: Globala gränser och begränsningar för tidsregistreringar (Professional-planen).
-            line_3: Agila förbättringar för massredigering och dragning av backloggkort till externa program.
-            line_4: Wiki-makron tillgängliga i fler textredigerare.
-            line_5: Förbättrad sökning efter arbetspaketsidentifierare.
-            line_6: 'Släppt till Community: Visa relationer i arbetspaketstabeller.'
-          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, till exempel:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Läs om nya funktioner och produktuppdateringar.
@@ -3273,6 +3311,7 @@ sv:
         field_set: "%{field} angavs till %{value}"
         field_updated: "%{field} uppdaterades"
         header: ändringar av %{author}
+        migrated: from Jira
         set_with_diff: "%{field} angavs (%{link})"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
@@ -3470,6 +3509,7 @@ sv:
   label_core_build: Kärnbygge
   label_core_version: Kärnversion
   label_created_by: Skapad av %{user}
+  label_criteria: Criteria
   label_current_status: Nuvarande status
   label_current_version: Aktuell version
   label_custom_comment: "%{name}-kommentar"
@@ -3518,6 +3558,7 @@ sv:
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_item: "(borttagen post)"
   label_deleted_custom_option: "(borttaget alternativ)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organisation
   label_departments_description_html: 'Definiera företagets struktur genom att skapa avdelningar och underavdelningar hierarkiskt. Det gör att du kan återspegla rapporteringsvägar och behålla en tydlig, strukturerad översikt över organisationen i OpenProject. Du kan också importera en befintlig organisationsstruktur via [LDAP-synkronisering av avdelningar](ldap_docs_article).
 
@@ -3656,6 +3697,7 @@ sv:
   label_journal_diff: Jämför beskrivning
   label_jump_to_a_project: Hoppa till projekt...
   label_keyword_plural: Nyckelord
+  label_label_plural: Labels
   label_language: Språk
   label_language_based: Baserat på användarens språk
   label_languages: Språk
@@ -4044,6 +4086,8 @@ sv:
   label_wiki_start: Startsida
   label_wiki_toc: Innehållsförteckning
   label_wiki_toc_empty: Innehållsförteckningen är tom eftersom det inte finns några rubriker.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Arbete
   label_work_package: Arbetspaket
   label_work_package_attachments: Bilagor till arbetspaket
@@ -4919,6 +4963,13 @@ sv:
     prev: Föregående
     prev_page: Föregående sida
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Denna text visas på varje sida i mitten av sidfoten.
@@ -4933,6 +4984,12 @@ sv:
         label: Avstavning
       hyphenation_language:
         label: Språk och avstavning
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Välj sidorientering för PDF-dokumentet.
         label: Sidorientering
@@ -5080,6 +5137,16 @@ sv:
   permission_work_package_assigned: Bli tilldelad/ansvarig
   permission_work_package_assigned_explanation: Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Ta bort platshållaranvändare
     deletion_info:
       data_consequences: 'Alla förekomster av platshållaranvändaren (t.ex. som tilldelad, ansvarig eller andra användarvärden) tilldelas på nytt till ett konto som heter "Borttagen användare". Eftersom data från varje borttaget konto tilldelas detta konto går det inte att skilja data som användaren skapade från data som skapats av ett annat borttaget konto.
@@ -5373,7 +5440,7 @@ sv:
         variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
       versions:
         no_results_content_text: Skapa en ny version
-        no_results_title_text: Det finns för närvarande inga versioner av projektet.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Visa arbetspaket
         work_packages_graph: Graf för arbetspaket
       work_package_priorities:
@@ -5383,6 +5450,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
@@ -5565,6 +5633,16 @@ sv:
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Behörighetsmatris för modulen %{module}
       matrix_check_all_label: Tilldela alla %{module}-behörigheter till alla roller
@@ -6348,7 +6426,50 @@ sv:
     getting_started: Komma igång
     help_and_support: Hjälp och support
   total_progress: Totalt klart
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Lägg till en variant till %{name}
       create_type: Skapa typ
@@ -6538,12 +6659,8 @@ sv:
             other: Följande konfiguration ärvs av %{count} andra typer eller varianter. Alla ändringar du gör här påverkar även de beroende typerna och varianterna.
           dialog:
             description: Dessa typer och varianter ärver konfigurationen för det här avsnittet. En ändring du gör här tillämpas på dem alla.
-            direct_heading: Direkta beroenden
-            indirect_heading: Beroenden via andra typer
             title: Beroende typer
             variant_of_html: Variant av %{type_name}
-            variant_of_via_html: Variant av %{type_name}, ärver via %{source_name}
-            via_html: Ärver via %{source_name}
           title:
             one: 1 beroende typ
             other: "%{count} beroende typer"
@@ -6552,27 +6669,15 @@ sv:
           not_inherited: Den här konfigurationen ärvs inte, så det finns inget att undanta. Redigera konfigurationen direkt i stället.
           unknown_aspect: Okänt konfigurationsavsnitt "%{aspect}".
         inherited:
-          change_source: Byt källtyp
           configure_manually: Konfigurera manuellt
           confirm_dialog:
-            change_source:
-              description_html: Genom att byta källtyp till %{source_name} skriver du över de aktuella inställningarna och kan påverka befintlig information i arbetspaket av den här typen.
-              heading: Byta källtyp?
-              title: Byt källtyp
             check_box: Jag förstår att detta åsidosätter de aktuella inställningarna
             from_manual:
               description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
               heading: Byta konfigurationsläge?
               title: Byt konfigurationsläge
-          description: Den här konfigurationen ärvs från källtypen [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Den här konfigurationen ärvs från källtypen %{source_name}%{source_suffix}.
-          dialog:
-            description: Ärv denna konfiguration från en källtyp. All ny konfiguration som läggs till i källan tillämpas även här.
-            source_label: Källtyp
-            source_placeholder: Välj en typ eller variant
-            submit: Byt
-            title: Ärv från en annan typ
-          invalid_source: Konfigurationen kan inte ärvas från den valda typen. Välj en annan källtyp.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: Konfigurationsläget har bytts.
           title: Ärvd konfiguration
         manual:
@@ -6586,7 +6691,7 @@ sv:
           dialog:
             submit: Byt
             title: Konfigurera manuellt
-          inherit_from_type: Ärv från en annan typ
+          inherit_from_type: Inherit from parent
           invalid_mode: Det valda läget är inte tillgängligt för den här konfigurationen. Välj ett annat läge.
           modes:
             copy:
@@ -6630,11 +6735,22 @@ sv:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
         '
@@ -6839,6 +6955,12 @@ sv:
   version_status_locked: låst
   version_status_open: öppen
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade till denna version.
       work_packages_in_archived_projects: Versionen delas med arkiverade projekt som fortfarande har arbetspaket tilldelade till den här versionen. De räknas med men visas inte i de länkade vyerna.
@@ -7152,6 +7274,12 @@ sv:
       one: Ett underliggande arbetspaket
       other: "%{count} underliggande arbetspaket"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7164,6 +7292,14 @@ sv:
       new:
         title: Kopiera arbetsflödet för "%{source_type}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Arbetsflödesmatris
       matrix_caption_assignee: Arbetsflödesmatris för tilldelad
       matrix_caption_author: Arbetsflödesmatris för upphovsperson
@@ -7172,12 +7308,76 @@ sv:
       matrix_check_uncheck_all_in_row_label_html: Växla övergångar från <em>%{old_status}</em> till alla nya statusar
       matrix_checkbox_label: Tillåt övergång från %{old_status} till %{new_status}
       matrix_uncheck_all_label: Tillåt inga övergångar
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Filtrera efter typnamn…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Konfigurera statusövergångar för varje arbetspaketstyp.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          one: Used in 1 other place
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Ändra arbetsdagar
     dialog:

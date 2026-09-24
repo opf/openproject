@@ -23,18 +23,34 @@
 es:
   js:
     backlogs:
+      announcements:
+        batch_too_large: No se pueden trasladar %{count} paquetes de trabajo a la vez. Seleccione no más de %{max}.
+        fallback_item_label: Paquete de trabajo
+        fallback_list_name: otra lista
+        move_failed_check_position: No se pudo trasladar. Compruebe la posición actual del paquete de trabajo.
+        move_failed_check_positions_batch:
+          other: No se pudo trasladar. Compruebe las posiciones actuales de los paquetes de trabajo.
+        move_failed_rolled_back: No se pudo trasladar. %{label} regresó a su posición anterior.
+        move_failed_rolled_back_batch:
+          other: No se pudo trasladar. %{count} paquetes de trabajo regresaron a sus posiciones anteriores.
+        moved: "%{label} se trasladó a la posición %{position} de %{total}"
+        moved_batch:
+          other: "%{count} paquetes de trabajo se han trasladado a las posiciones %{first}-%{last} de %{total}"
+        moved_batch_to_list:
+          other: "%{count} paquetes de trabajo se han trasladado a %{list}, a las posiciones %{first}-%{last} de %{total}"
+        moved_to_list: "%{label} se trasladó a %{list}, a la posición %{position} de %{total}"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: Seleccionado
+        cleared: Selección eliminada.
+        not_selectable: La selección no ha cambiado. Este paquete de trabajo no influye en el orden de esta lista.
+        range_blocked: La selección no ha cambiado. Ese rango contiene un paquete de trabajo que no influye en el orden de esta lista.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: No se pudo ampliar el rango. Se seleccionó 1 paquete de trabajo.
+          other: No se pudo ampliar el rango. Se seleccionaron %{count} paquetes de trabajo.
+        range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
-          one: 1 work package selected.
-          other: "%{count} work packages selected."
+          one: Se ha seleccionado 1 paquete de trabajo.
+          other: Se han seleccionado %{count} paquetes de trabajo.
     burndown:
       day: Día
       points: Puntos

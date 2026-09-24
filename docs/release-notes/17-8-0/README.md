@@ -1,7 +1,7 @@
 ---
 title: OpenProject 17.8.0
 sidebar_navigation:
-title: 17.8.0
+    title: 17.8.0
 release_version: 17.8.0
 release_date: 2026-09-02
 ---

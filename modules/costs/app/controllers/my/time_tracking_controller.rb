@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +31,7 @@
 module My
   class TimeTrackingController < ApplicationController
     include OpTurbo::ComponentStream
+    include My::TimeTrackingHelper
 
     before_action :require_login, :view_mode, :mode, :date
 
@@ -43,6 +44,8 @@ module My
     helper_method :list_view_component
 
     def index
+      remember_view
+
       case mode
       when :day then load_time_entries(date)
       when :workweek then load_time_entries(workweek)
@@ -75,8 +78,7 @@ module My
     end
 
     def workweek
-      workdays_normalized = Setting.working_days.map { |day| day % 7 }.sort
-      date.all_week(week_start_day).select { |d| workdays_normalized.include?(d.wday) }
+      workweek_days(date)
     end
 
     def parsed_date
@@ -93,19 +95,36 @@ module My
       end
     end
 
+    def remember_view
+      return if params[:view_mode].blank?
+
+      preference = User.current.pref
+      return if preference.my_work_view_mode == view_mode.to_s && preference.my_work_mode == mode.to_s
+
+      preference.update(my_work_view_mode: view_mode.to_s, my_work_mode: mode.to_s)
+    end
+
+    # A narrow screen has no room for a week, so regardless of settings we default to the day view
     def default_mode
-      if mobile?
-        "day"
-      else
-        "workweek"
-      end
+      return "day" if mobile?
+
+      User.current.pref.my_work_mode.presence || "workweek"
     end
 
     def mode
-      @mode ||= (params[:mode].presence || default_mode).to_sym
+      @mode ||= begin
+        requested = (params[:mode].presence || default_mode).to_sym
+
+        # The mode switcher already hides the month for the stack; this covers a URL
+        # asking for one directly.
+        requested == :month && view_mode == :stack ? :workweek : requested
+      end
     end
 
     def default_view_mode
+      remembered = User.current.pref.my_work_view_mode
+      return remembered if remembered.present?
+
       if TimeEntry.can_track_start_and_end_time?
         "calendar"
       else
@@ -122,35 +141,17 @@ module My
     end
 
     def load_time_entries(time_scope)
-      @time_entries = TimeEntry
-        .preload(:project, :activity, :entity)
-        .where(project_id: Project.visible.select(:id))
-        .where(user: User.current, spent_on: time_scope)
-        .order(:spent_on, :start_time, :hours)
+      @time_entries = My::TimeTracking::EntriesQuery.call(user: User.current, dates: time_scope)
     end
 
     def list_view_component
-      if view_mode == :list
-        My::TimeTracking::ListComponent.new(
-          time_entries: @time_entries,
-          mode: mode,
-          date: date
-        )
-      else
-        My::TimeTracking::CalendarComponent.new(
-          time_entries: @time_entries,
-          mode: mode,
-          date: date
-        )
-      end
-    end
+      component_class = case view_mode
+                        when :list then My::TimeTracking::ListComponent
+                        when :stack then My::TimeTracking::StackComponent
+                        else My::TimeTracking::CalendarComponent
+                        end
 
-    def week_start_day
-      case Setting.start_of_week
-      when 6 then :saturday
-      when 7 then :sunday
-      else :monday
-      end
+      component_class.new(time_entries: @time_entries, mode: mode, date: date)
     end
 
     def mobile?

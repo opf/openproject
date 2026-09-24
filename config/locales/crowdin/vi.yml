@@ -385,16 +385,13 @@ vi:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
-        defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form source
+        linked_aspects: Inherited configuration
         patterns: Patterns
-        pdf_export_source: PDF export source
-        project_attributes_source: Project attributes source
         project_types: Projects using this variant
         variant: Variant
         variant_name: Name
-        workflows_source: Workflows source
+        workflow: Workflow
       user:
         admin: Người Quản lý
         auth_source: Nguồn xác thực
@@ -442,6 +439,13 @@ vi:
         time_zone: Múi giờ
         warn_on_leaving_unsaved: Cảnh báo tôi khi rời khỏi gói công việc có những thay đổi chưa được lưu
         workdays: Ngày làm việc
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -520,6 +524,10 @@ vi:
         work_package: Gói công việc (Work Package)
       work_package_version:
         kind: Kind
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: phải được đồng ý
@@ -688,6 +696,13 @@ vi:
               not_unique: đã được sử dụng. Vui lòng chọn tên khác.
         jira:
           invalid_protocol: Please provide a valid protocol (http or https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -855,6 +870,10 @@ vi:
               blank: Vui lòng cung cấp tên mã thông báo
               format: "%{message}"
               in_use: Tên mã thông báo này đã được sử dụng, vui lòng chọn tên khác
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -864,36 +883,19 @@ vi:
               group_without_name: Group name can't be blank.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
-              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
-              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
-
-                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
-            defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1310,6 +1312,8 @@ vi:
         main-menu-bg-selected-background: Menu chính khi được chọn
         primary-button-color: Nút chính
       custom_colors: Tùy chỉnh màu sắc
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: không phải là tệp phông chữ TTF hợp lệ.
@@ -1386,6 +1390,7 @@ vi:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -1599,6 +1604,34 @@ vi:
       caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -1877,6 +1910,13 @@ vi:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
@@ -2623,7 +2663,6 @@ vi:
       custom_actions: Hành động tùy chỉnh
       custom_field_hierarchies: hệ thống phân cấp
       customize_life_cycle: Tùy chỉnh vòng đời
-      date_alerts: Cảnh báo ngày
       define_custom_style: Chủ đề và logo tùy chỉnh
       edit_attribute_groups: Chỉnh sửa nhóm thuộc tính
       gantt_pdf_export: Xuất PDF Gantt
@@ -2699,8 +2738,6 @@ vi:
         description: Các trường tùy chỉnh phân cấp cho phép tổ chức các cấu trúc phân cấp trong các gói công việc và dự án bằng cách sử dụng danh sách chọn nhiều cấp.
       customize_life_cycle:
         description: Tạo và tổ chức các giai đoạn dự án khác với các giai đoạn được cung cấp bởi việc lập kế hoạch chu trình dự án PM2.
-      date_alerts:
-        description: Với tính năng cảnh báo ngày, bạn sẽ được thông báo về ngày bắt đầu hoặc ngày kết thúc sắp tới để không bao giờ bỏ lỡ hoặc quên thời hạn quan trọng.
       define_custom_style:
         description: Tùy chỉnh cài đặt OpenProject bằng logo và màu sắc của riêng bạn.
         more_info: 'Lưu ý: logo được sử dụng sẽ có thể truy cập công khai.'
@@ -3073,15 +3110,15 @@ vi:
     blocks:
       community: Cộng đồng OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3128,6 +3165,7 @@ vi:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -3325,6 +3363,7 @@ vi:
   label_core_build: Xây dựng cốt lõi
   label_core_version: Phiên bản lõi
   label_created_by: Được tạo bởi %{user}
+  label_criteria: Criteria
   label_current_status: Tình trạng hiện tại
   label_current_version: Phiên bản hiện tại
   label_custom_comment: "%{name} comment"
@@ -3373,6 +3412,7 @@ vi:
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_item: "(mục đã bị xóa)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
@@ -3511,6 +3551,7 @@ vi:
   label_journal_diff: So sánh mô tả
   label_jump_to_a_project: Chuyển đến một dự án...
   label_keyword_plural: Từ khóa
+  label_label_plural: Labels
   label_language: ngôn ngữ
   label_language_based: Dựa trên ngôn ngữ của người dùng
   label_languages: ngôn ngữ
@@ -3899,6 +3940,8 @@ vi:
   label_wiki_start: Trang bắt đầu
   label_wiki_toc: Bảng mục lục
   label_wiki_toc_empty: Mục lục trống vì không có tiêu đề nào.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: làm việc
   label_work_package: Work Package
   label_work_package_attachments: Phần đính kèm công việc
@@ -4771,6 +4814,13 @@ vi:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
@@ -4785,6 +4835,12 @@ vi:
         label: Dấu gạch nối
       hyphenation_language:
         label: Ngôn ngữ và dấu gạch nối
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Chọn hướng của các trang trong tài liệu PDF.
         label: Hướng trang
@@ -4932,6 +4988,16 @@ vi:
   permission_work_package_assigned: Trở thành người được giao/chịu trách nhiệm
   permission_work_package_assigned_explanation: Các gói công việc có thể được chỉ định cho người dùng và nhóm có vai trò này trong dự án tương ứng
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Xóa người dùng giữ chỗ
     deletion_info:
       data_consequences: 'Tất cả các lần xuất hiện của người dùng giữ chỗ (ví dụ: với tư cách là người được chuyển nhượng, người chịu trách nhiệm hoặc giá trị người dùng khác) sẽ được chỉ định lại cho tài khoản có tên "Người dùng đã xóa". Vì dữ liệu của mọi tài khoản đã xóa được gán lại cho tài khoản này nên sẽ không thể phân biệt dữ liệu người dùng đã tạo với dữ liệu của tài khoản đã xóa khác.
@@ -5221,7 +5287,7 @@ vi:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Tạo ra một phiên bản mới
-        no_results_title_text: Hiện đang có phiên bản dự án.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Hiển thị các gói công việc
         work_packages_graph: Biểu đồ gói công việc
       work_package_priorities:
@@ -5231,6 +5297,7 @@ vi:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Thuộc tính này không có văn bản trợ giúp được xác định.
       progress_label: "%{current} trong số %{total}"
       sections: phần
@@ -5417,6 +5484,15 @@ vi:
     permissions:
       section_check_all_label: Gán tất cả các quyền %{module}
       section_uncheck_all_label: Bỏ gán tất cả quyền %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Ma trận quyền cho mô-đun %{module}
       matrix_check_all_label: Gán tất cả các quyền %{module} cho tất cả các vai trò
@@ -6206,7 +6282,49 @@ vi:
     getting_started: Bắt đầu
     help_and_support: Trợ giúp và hỗ trợ
   total_progress: Tổng tiến độ
+  tree_view:
+    label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Create type
@@ -6395,12 +6513,8 @@ vi:
             other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
             description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
             title: Dependent types
             variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
           title:
             other: "%{count} dependent types"
           view: View dependent types
@@ -6408,27 +6522,15 @@ vi:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
-          change_source: Change source type
           configure_manually: Configure manually
           confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
-          dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: The configuration mode was switched.
           title: Inherited configuration
         manual:
@@ -6442,7 +6544,7 @@ vi:
           dialog:
             submit: Switch
             title: Configure manually
-          inherit_from_type: Inherit from another type
+          inherit_from_type: Inherit from parent
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
@@ -6486,11 +6588,21 @@ vi:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
@@ -6692,6 +6804,12 @@ vi:
   version_status_locked: bị khóa
   version_status_open: mở
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Hiện tại không có gói công việc nào được gán cho phiên bản này.
       work_packages_in_archived_projects: Phiên bản này được chia sẻ với các dự án đã lưu trữ vẫn có các gói công việc được gán cho phiên bản này. Những nội dung này được tính nhưng sẽ không xuất hiện trong các chế độ xem được liên kết.
@@ -6995,6 +7113,12 @@ vi:
     x_descendants:
       other: "%{count} gói sản phẩm phụ thuộc"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7006,6 +7130,14 @@ vi:
       new:
         title: Copy workflow of "%{source_type}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Ma trận quy trình công việc
       matrix_caption_assignee: Ma trận quy trình công việc cho người được giao
       matrix_caption_author: Ma trận quy trình làm việc cho tác giả
@@ -7014,12 +7146,69 @@ vi:
       matrix_check_uncheck_all_in_row_label_html: Chuyển đổi các chuyển đổi từ <em>%{old_status}</em> sang tất cả các trạng thái mới
       matrix_checkbox_label: Cho phép chuyển đổi từ %{old_status} sang %{new_status}
       matrix_uncheck_all_label: Không cho phép tất cả các chuyển đổi
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      roles_count:
+        other: "%{count} roles"
       type_filter:
         label: Filter by type name…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
     page_headers:
       index_component:
         description: Configure status transitions for each gói công việc (work package) type.
+    reuse_mode:
+      change_workflow: Change workflow
+      create_workflow: Create new workflow
+      independent:
+        description: Only this type or variant uses [%{name}](workflow_url).
+        title: Independent configuration
+      shared:
+        description: Other types and variants use this workflow as well.
+        title: Reuses workflow [%{name}](workflow_url)
+      usage:
+        blank:
+          description: A change to these transitions applies to this type or variant only.
+          title: Not used anywhere else
+        description: 'A change to these transitions also applies to:'
+        title:
+          other: Used in %{count} other places
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This workflow is used by %{count} types and variants.
   working_days:
     change_button: Thay đổi ngày làm việc
     dialog:

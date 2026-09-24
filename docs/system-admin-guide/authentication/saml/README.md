@@ -308,8 +308,8 @@ OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="saml" # This value should be the 
 
 With the direct login feature activated, accessing the page without authentication will immediately redirect the user to your Single Sign-On (SSO) portal.
 
-A dedicated route `/login/internal` is available for internal authentication, which does not redirect to the SSO portal.
-**We strongly advise** you to maintain an internal administrative login, as you won’t be able to access the application otherwise.
+A dedicated route `/login/internal` can provide internal authentication without redirecting to the SSO portal. Its availability and who may authenticate there depend on the configured [Password login policy](../login-registration-settings/#single-sign-on-sso-settings). When password login is disabled for everyone, configure a break-glass user or group before relying on this route.
+**We strongly advise** you to maintain break-glass administrative access, as you may otherwise be unable to access the application if the SSO provider is unavailable.
 
 ## Instructions for common SAML providers
 

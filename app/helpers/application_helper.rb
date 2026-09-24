@@ -131,6 +131,7 @@ module ApplicationHelper
                            class: :user_status_class)
   end
 
+  # An optional block is rendered next to each label, e.g. to attach a per-entry action.
   def labeled_check_box_tags(name, collection, options = {}) # rubocop:disable Metrics/AbcSize
     fields = collection.sort.map do |object|
       id = name.gsub(/[\[\]]+/, "_") + object.id.to_s
@@ -141,11 +142,14 @@ module ApplicationHelper
       end
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
+      object_options[:class] += %w(pr-0) if block_given?
 
-      content_tag :div, class: "form--field" do
-        label_tag(id, object, object_options) do
+      content_tag :div, class: class_names("form--field", "d-flex flex-items-center gap-1" => block_given?) do
+        label = label_tag(id, object, object_options) do
           styled_check_box_tag(name, object.id, false, id:) + object.to_s
         end
+
+        block_given? ? safe_join([label, capture { yield object }]) : label
       end
     end
 
@@ -194,6 +198,7 @@ module ApplicationHelper
   def syntax_highlight(name, content)
     highlighted = OpenProject::SyntaxHighlighting.highlight_by_filename(content, name)
     highlighted.each_line do |line|
+      # OG: each_line drops SafeBuffer; lines are already escaped Rouge HTML.
       yield highlighted.html_safe? ? line.html_safe : line
     end
   end

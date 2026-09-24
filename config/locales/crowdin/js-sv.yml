@@ -806,11 +806,20 @@ sv:
       sorting_disabled: sortering är inaktiverad
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Objekt
         fallback_list_name: en annan lista
         move_failed_check_position: Flytten misslyckades. Kontrollera postens aktuella position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Flytten misslyckades. %{label} återställdes till sin tidigare position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} flyttades till position %{position} av %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} flyttades till %{list}, position %{position} av %{total}"
       selection:
         cleared: Selection cleared.

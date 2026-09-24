@@ -371,7 +371,7 @@ et:
       clear_selection: Clear selection
       include_subprojects: Include all sub-projects
       no_results: No project matches your search criteria.
-      search_placeholder: Search projects...
+      search_placeholder: Otsi projekte...
       selected_filter:
         all: Kõik projektid
         selected: Only selected
@@ -648,9 +648,9 @@ et:
         overdue: Overdue
         overdue_since: for %{difference_in_days}.
         property_is: is in %{difference_in_days}.
-        property_is_deleted: is deleted.
-        property_today: is today.
-        property_was: was %{difference_in_days} ago.
+        property_is_deleted: on kustutatud.
+        property_today: on täna.
+        property_was: oli %{difference_in_days} päeva tagasi.
       no_unread: No unread notifications
       reasons:
         assigned: Määratud tegija
@@ -708,15 +708,15 @@ et:
         network_off: There is a network problem.
         network_on: Network is back. We are trying.
       waiting_title:
-        timeout: Timeout
+        timeout: Aegumine
     pagination:
       no_other_page: You are on the only page.
-      page_navigation: Pagination navigation
+      page_navigation: Lehekülgede navigeerimine
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
       pages_skipped: Pages skipped.
-      per_page_navigation: Items per page selection
+      per_page_navigation: Kirjeid lehel
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
@@ -746,7 +746,7 @@ et:
       add_new_relation: Create new relation
       add_parent: Add existing parent
       add_predecessor: Add predecessor
-      add_successor: Add successor
+      add_successor: Lisa järglane
       change_parent: Change parent
       create_new: Create new
       group_by_relation_type: Group by relation type
@@ -806,11 +806,20 @@ et:
       sorting_disabled: sorting is disabled
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
       selection:
         cleared: Selection cleared.
@@ -927,7 +936,7 @@ et:
         removal_label: Removed from view within the comparison time period
       bulk_actions:
         delete: Bulk delete
-        duplicate: Bulk duplicate
+        duplicate: Hulgi dobleerimine
         edit: Bulk edit
         move: Bulk change of project
       button_clear: Tühjenda

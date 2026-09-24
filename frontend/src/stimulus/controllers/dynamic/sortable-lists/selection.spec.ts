@@ -35,7 +35,7 @@ import {
   liveOrderableListItems,
   neighbourItem,
   orderedItemElements,
-  orderedSelectedItems,
+  orderedSelectedItemElements,
   resolveCandidate,
   resolveRangeItems,
 } from './selection';
@@ -185,10 +185,10 @@ describe('sortable-lists selection adapter', () => {
     expect(orderedItemElements(root)).not.toContain(inner);
   });
 
-  it('orders selected items by live document order across lists', () => {
+  it('returns selected item elements in live document order', () => {
     const keys = new Set(['4', '1', '3'].map((id) => selectionKey({ type: 'work_package', id })));
 
-    expect(orderedSelectedItems(root, keys).map((item) => item.id)).toEqual(['1', '3', '4']);
+    expect(orderedSelectedItemElements(root, keys)).toEqual([itemFor('1'), itemFor('3'), itemFor('4')]);
   });
 
   it('lists only live orderable items', () => {
@@ -309,6 +309,56 @@ describe('sortable-lists selection adapter', () => {
     const candidate = resolveCandidate(root, strayItem)!;
 
     expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: false, reason: 'unavailable' });
+  });
+
+  it('writes only changed members during an incremental render', () => {
+    const key1 = selectionKey({ type: 'work_package', id: '1' });
+    const key3 = selectionKey({ type: 'work_package', id: '3' });
+    applySelectionPresentation(root, new Set([key1]), 'selected-description');
+    const observer = new MutationObserver(vi.fn());
+    observer.observe(root, { attributes: true, subtree: true });
+
+    applySelectionPresentation(root, new Set([key1, key3]), 'selected-description', new Set([key3]));
+
+    const mutations = observer.takeRecords();
+    observer.disconnect();
+    expect(mutations.length).toBeGreaterThan(0);
+    expect(mutations.every((mutation) => mutation.target === itemFor('3'))).toBe(true);
+    expect(itemFor('3').hasAttribute(batchSelectedAttribute)).toBe(true);
+    expect(itemFor('3').getAttribute('aria-describedby')).toBe('selected-description');
+  });
+
+  it('does not traverse or write when no membership changed', () => {
+    const query = vi.spyOn(root, 'querySelectorAll');
+    applySelectionPresentation(root, new Set(), 'selected-description', new Set());
+    expect(query).not.toHaveBeenCalled();
+    query.mockRestore();
+  });
+
+  it('removes only its description when a changed member is deselected', () => {
+    const key = selectionKey({ type: 'work_package', id: '1' });
+    itemFor('1').setAttribute('aria-describedby', 'own-description');
+    applySelectionPresentation(root, new Set([key]), 'selected-description');
+
+    applySelectionPresentation(root, new Set(), 'selected-description', new Set([key]));
+
+    expect(itemFor('1').hasAttribute(batchSelectedAttribute)).toBe(false);
+    expect(itemFor('1').getAttribute('aria-describedby')).toBe('own-description');
+  });
+
+  it('filters changed keys by type and leaves nested roots alone', () => {
+    const section = itemFor('1').cloneNode(true) as HTMLElement;
+    section.setAttribute('data-sortable-lists--item-type-value', 'section');
+    root.append(section);
+    const nested = root.cloneNode(true) as HTMLElement;
+    root.append(nested);
+    const key = selectionKey({ type: 'work_package', id: '1' });
+
+    applySelectionPresentation(root, new Set([key]), 'selected-description', new Set([key]));
+
+    expect(itemFor('1').hasAttribute(batchSelectedAttribute)).toBe(true);
+    expect(section.hasAttribute(batchSelectedAttribute)).toBe(false);
+    expect(nested.querySelectorAll('[data-batch-selected]')).toHaveLength(0);
   });
 
   it('applies and clears the batch presentation', () => {

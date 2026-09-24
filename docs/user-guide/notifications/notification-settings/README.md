@@ -16,7 +16,7 @@ Notification settings are divided into four sections:
 | Topic                                               | Description                                                                                                                          |
 |-----------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
 | [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher).  |
-| [Date alerts](#date-alerts-enterprise-add-on)       | Be notified of approaching start or end dates, and when things are overdue.                                                          |
+| [Date alerts](#date-alerts)                         | Be notified of approaching start or end dates, and when things are overdue.                                                          |
 | [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating.                                                       |
 | [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects.                                                            |
 
@@ -35,13 +35,9 @@ You cannot disable notifications for when you are mentioned since the goal of me
 > [!NOTE]
 > Modifying these settings may cause you to miss updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
 
-## Date alerts (Enterprise add-on)
+## Date alerts
 
-Starting with 12.4, OpenProject offers notification for date alerts.
-
-[feature: date_alerts ]
-
-Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher).
+Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are an assignee, accountable or a watcher).
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
