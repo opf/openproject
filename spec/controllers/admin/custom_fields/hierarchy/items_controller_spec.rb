@@ -146,6 +146,23 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemsController, with_ee: [:custo
     end
   end
 
+  context "for a list custom field" do
+    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[luke]) }
+    let!(:luke) { root.children.find_by!(label: "luke") }
+
+    it "creates an item without a short" do
+      post :create, params: { custom_field_id: custom_field.id, parent_id: root.id, label: "Leia", short: "L" }
+
+      expect(root.children.find_by!(label: "Leia").short).to be_nil
+    end
+
+    it "updates an item without a short" do
+      post :update, params: { custom_field_id: custom_field.id, id: luke.id, label: "Luke", short: "L" }
+
+      expect(luke.reload).to have_attributes(label: "Luke", short: nil)
+    end
+  end
+
   describe "PUT #move" do
     before do
       contract_class = CustomFields::Hierarchy::InsertHierarchyItemContract

@@ -341,11 +341,12 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       context "for a list custom field" do
         let!(:list_custom_field) { create(:custom_field, field_format: "list") }
         let(:list_root) { list_custom_field.hierarchy_root }
+        let(:list_contract) { CustomFields::Hierarchy::InsertListItemContract }
         let!(:apple) do
-          service.insert_item(contract_class:, parent: list_root, label: "Apple").value!
+          service.insert_item(contract_class: list_contract, parent: list_root, label: "Apple").value!
         end
         let!(:pear) do
-          service.insert_item(contract_class:, parent: list_root, label: "Pear").value!
+          service.insert_item(contract_class: list_contract, parent: list_root, label: "Pear").value!
         end
 
         it "refuses to nest a list item under one of its siblings" do

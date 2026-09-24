@@ -151,27 +151,6 @@ RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
         ].each { |params| expect(subject.call(params)).to be_failure }
       end
     end
-
-    context "when the custom field is a list" do
-      let(:custom_field) { create(:list_wp_custom_field) }
-      let(:root) { custom_field.hierarchy_root }
-      let(:child) do
-        CustomFields::Hierarchy::HierarchicalItemService
-          .new
-          .insert_item(contract_class: described_class, parent: root, label: "Top").value!
-      end
-
-      it "accepts an item directly under the root" do
-        expect(described_class.new.call(parent: root, label: "Sibling", short: nil)).to be_success
-      end
-
-      it "rejects an item under another item" do
-        result = described_class.new.call(parent: child, label: "Nested", short: nil)
-
-        expect(result).to be_failure
-        expect(result.errors.to_h[:parent]).to include("cannot have sub-items for this custom field.")
-      end
-    end
   end
   # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
 end

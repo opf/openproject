@@ -36,7 +36,7 @@ RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hie
   let(:item) do
     CustomFields::Hierarchy::HierarchicalItemService
       .new
-      .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label: "Kept").value!
+      .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Kept").value!
   end
 
   before do
