@@ -6745,16 +6745,20 @@ en:
         inherit_title: "Use the same settings as the type"
         manual_description: "You can configure this page freely as you wish or copy over configuration from another type."
         manual_title: "Manual configuration"
-        reuse_description: "For each of the pages, you can decide on what relationship it has with the main type. If you don't want the variant to differ from the type, you can choose to use the same settings as the type; if you want the variant to differ from the type, you can configure it manually."
         reuse_heading: "Reuse existing configuration type configuration"
+        reuse_inherit: "For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference."
+        reuse_intro: "For each of the pages, you can decide on what relationship it has with the main type."
+        reuse_named: "For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one."
         submit: "Start"
         type:
           description: "A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects."
-          lead: "You are about to create a new type in your instance."
+          heading: "Create a new type"
+          lead_html: "You are about to create a new type in your instance."
           step_by_step: "You will configure a new type step-by-step in the following pages."
         variant:
           description: "A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type."
-          lead: "You are about to create a new variant in your instance."
+          heading: "Create a new variant"
+          lead_html: "You are about to create a new variant of <b>%{type_name}</b> in your instance."
           step_by_step: "You will configure this new variant step-by-step in the following pages."
       steps:
         defaults: "Defaults"

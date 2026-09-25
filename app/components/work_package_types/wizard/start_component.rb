@@ -33,23 +33,24 @@ module WorkPackageTypes
     class StartComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(adding_variant:)
+      def initialize(adding_variant:, type_name:)
         super()
         @adding_variant = adding_variant
+        @type_name = type_name
       end
 
       private
 
-      attr_reader :adding_variant
+      attr_reader :adding_variant, :type_name
       alias_method :adding_variant?, :adding_variant
 
       def show_reuse? = adding_variant?
 
       def scope = adding_variant? ? "variant" : "type"
 
-      def t_start(key) = I18n.t("types.creation_wizard.start.#{key}")
+      def t_start(key) = helpers.t("types.creation_wizard.start.#{key}", type_name:)
 
-      def t_scoped(key) = I18n.t("types.creation_wizard.start.#{scope}.#{key}")
+      def t_scoped(key) = helpers.t("types.creation_wizard.start.#{scope}.#{key}", type_name:)
     end
   end
 end

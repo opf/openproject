@@ -27,13 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:lead) } %>
+<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_scoped(:heading) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:lead_html) } %>
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:description) } %>
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 4)) { t_scoped(:step_by_step) } %>
 
 <% if show_reuse? %>
   <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 2)) { t_start(:reuse_heading) } %>
-  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_description) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_intro) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_named) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_inherit) } %>
 
   <%= flex_layout(align_items: :stretch, classes: "gap-3", direction: [:column, nil, :row]) do |modes| %>
     <% modes.with_box(flex: 1) do %>
