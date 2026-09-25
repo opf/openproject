@@ -28,8 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper do
-    flex_layout(data: wrapper_data_attributes) do |flex|
+  component_wrapper(data: wrapper_data_attributes) do
+    flex_layout do |flex|
       flex.with_row do
         render EnterpriseEdition::BannerComponent.new(
           :customize_life_cycle,
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
             position: :relative,
             mb: 3,
             empty_state_behavior: :dynamic,
-            data: drop_target_config
+            data: list_data
           )
         ) do |list|
           list.with_header(title: I18n.t("settings.project_phase_definitions.section_header"))
@@ -88,15 +88,11 @@ See COPYRIGHT and LICENSE files for more details.
               test_selector: "project-phase-definition",
               data: {
                 "projects--settings--border-box-filter-target": "searchItem",
-                **draggable_item_config(definition)
+                **item_data(definition)
               }
             ) do
               render(
-                Settings::ProjectPhaseDefinitions::RowComponent.new(
-                  definition,
-                  first?: definition == definitions.first,
-                  last?: definition == definitions.last
-                )
+                Settings::ProjectPhaseDefinitions::RowComponent.new(definition)
               )
             end
           end

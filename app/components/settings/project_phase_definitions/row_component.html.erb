@@ -34,7 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
         title_container.with_column do
           render(
             Primer::OpenProject::DragHandle.new(
-              data: { "projects--settings--border-box-filter-target": "hideWhenFiltering" }
+              data: {
+                "projects--settings--border-box-filter-target": "hideWhenFiltering",
+                sortable_lists__item_target: "handle"
+              }
             )
           )
         end
@@ -58,35 +61,9 @@ See COPYRIGHT and LICENSE files for more details.
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:button_actions), scheme: :invisible)
 
-          menu.with_item(
-            label: t(:label_edit),
-            href: edit_admin_settings_project_phase_definition_path(definition)
-          ) do |item|
-            item.with_leading_visual_icon(icon: :pencil)
-          end
-
-          unless first?
-            move_action(menu:, move_to: :highest, label: t("label_agenda_item_move_to_top"), icon: "move-to-top")
-            move_action(menu:, move_to: :higher, label: t("label_agenda_item_move_up"), icon: "chevron-up")
-          end
-          unless last?
-            move_action(menu:, move_to: :lower, label: t("label_agenda_item_move_down"), icon: "chevron-down")
-            move_action(menu:, move_to: :lowest, label: t("label_agenda_item_move_to_bottom"), icon: "move-to-bottom")
-          end
-
-          menu.with_item(
-            label: t(:text_destroy),
-            scheme: :danger,
-            href: admin_settings_project_phase_definition_path(definition),
-            form_arguments: {
-              method: :delete,
-              data: {
-                turbo_confirm: t("text_are_you_sure_with_project_life_cycle_step")
-              }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
+          edit_phase_definition(menu)
+          move_phase_definition(menu)
+          destroy_phase_definition(menu)
         end
       end
     end

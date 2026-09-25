@@ -6293,6 +6293,7 @@ en:
         heading: "New phase"
       no_gate: "No gate"
       non_defined: "No phases are currently defined."
+      order_changed: "Order successfully changed."
       phase_gates: "Phase gates"
       section_header: "Phases"
       start_gate: "Start gate"

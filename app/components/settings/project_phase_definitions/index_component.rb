@@ -35,30 +35,51 @@ module Settings
       include OpTurbo::Streamable
       include Projects::PhaseDefinitionHelper
 
-      options :definitions
+      def initialize(definitions:)
+        super()
+        @definitions = definitions
+      end
 
       private
 
+      attr_reader :definitions
+
       def wrapper_data_attributes
         {
-          controller: "projects--settings--border-box-filter generic-drag-and-drop"
+          controller: "projects--settings--border-box-filter sortable-lists",
+          sortable_lists_move_url_template_value: move_url_template,
+          sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+          sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
         }
       end
 
-      def drop_target_config
+      # Built from the route helper with a sentinel so relative-URL-root
+      # installations keep working; {id} is expanded client-side.
+      def move_url_template
+        id_placeholder = "__id__"
+        helpers.url_for(action: :move, id: id_placeholder).sub(id_placeholder, "{id}")
+      end
+
+      def list_data
         {
-          generic_drag_and_drop_target: "container",
-          target_container_accessor: ":scope > ul",
-          target_allowed_drag_type: "life-cycle-step-definition"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: sortable_list_type,
+          sortable_lists__list_accepted_type_value: sortable_list_type,
+          sortable_lists__list_name_value: I18n.t("settings.project_phase_definitions.section_header")
         }
       end
 
-      def draggable_item_config(definition)
+      def item_data(definition)
         {
-          draggable_id: definition.id,
-          draggable_type: "life-cycle-step-definition",
-          drop_url: drop_admin_settings_project_phase_definition_path(definition)
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: definition.id,
+          sortable_lists__item_type_value: sortable_list_type,
+          sortable_lists__item_label_value: definition.name
         }
+      end
+
+      def sortable_list_type
+        Project::PhaseDefinition.model_name.param_key
       end
     end
   end
