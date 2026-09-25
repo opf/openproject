@@ -271,9 +271,9 @@ describe('registerWorkPackageDeselectAll', () => {
     return { root, clear, destroy };
   }
 
-  function keydown(target:EventTarget, init:KeyboardEventInit):KeyboardEvent {
-    const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init });
-    target.dispatchEvent(event);
+  function keydown(target:Element, init:KeyboardEventInit):KeyboardEvent {
+    const event = createEvent.keyDown(target, init) as KeyboardEvent;
+    fireEvent(target, event);
     return event;
   }
 

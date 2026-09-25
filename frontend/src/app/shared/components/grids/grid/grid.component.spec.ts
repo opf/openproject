@@ -28,6 +28,7 @@
 
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { type Mock } from 'vitest';
+import { fireEvent } from '@testing-library/dom';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
@@ -75,11 +76,7 @@ describe('GridComponent', () => {
     fixture.destroy();
   });
 
-  function escape(type:'keydown'|'keyup', target:EventTarget = document.body):KeyboardEvent {
-    const event = new KeyboardEvent(type, { key: 'Escape', bubbles: true, cancelable: true });
-    target.dispatchEvent(event);
-    return event;
-  }
+  const escape = { key: 'Escape' };
 
   describe.each([
     ['a widget drag', () => { drag.currentlyDragging = true; }, () => drag.abort],
@@ -91,14 +88,13 @@ describe('GridComponent', () => {
       document.body.appendChild(button);
 
       try {
-        const keydown = escape('keydown', button);
-        expect(keydown.defaultPrevented).toBe(true);
+        expect(fireEvent.keyDown(button, escape)).toBe(false);
         expect(clear).not.toHaveBeenCalled();
 
-        escape('keyup', button);
+        fireEvent.keyUp(button, escape);
         expect(abort()).toHaveBeenCalledOnce();
 
-        escape('keydown', button);
+        fireEvent.keyDown(button, escape);
         expect(clear).toHaveBeenCalledOnce();
       } finally {
         button.remove();
@@ -107,9 +103,7 @@ describe('GridComponent', () => {
   });
 
   it('leaves Escape to the selections while idle', () => {
-    const keydown = escape('keydown');
-
-    expect(keydown.defaultPrevented).toBe(true);
+    expect(fireEvent.keyDown(document.body, escape)).toBe(false);
     expect(clear).toHaveBeenCalledOnce();
     expect(drag.abort).not.toHaveBeenCalled();
   });
@@ -118,7 +112,7 @@ describe('GridComponent', () => {
     fixture.destroy();
     drag.currentlyDragging = true;
 
-    escape('keydown');
+    fireEvent.keyDown(document.body, escape);
 
     expect(clear).toHaveBeenCalledOnce();
   });

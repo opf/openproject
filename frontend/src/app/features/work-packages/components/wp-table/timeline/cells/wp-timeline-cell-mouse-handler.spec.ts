@@ -27,6 +27,7 @@
 //++
 
 import moment from 'moment';
+import { fireEvent } from '@testing-library/dom';
 import { type Mock } from 'vitest';
 import { clearSelectionOnEscape } from 'core-common/selection-escape';
 import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
@@ -112,19 +113,15 @@ describe('registerWorkPackageMouseHandler', () => {
     cell.remove();
   });
 
-  function escape(type:'keydown'|'keyup'):KeyboardEvent {
-    const event = new KeyboardEvent(type, { key: 'Escape', bubbles: true, cancelable: true });
-    document.body.dispatchEvent(event);
-    return event;
-  }
+  const escape = { key: 'Escape' };
 
   function startBarDrag() {
-    bar.dispatchEvent(new MouseEvent('mousedown', { button: 0, bubbles: true, clientX: 0 }));
+    fireEvent.mouseDown(bar, { button: 0, clientX: 0 });
   }
 
   function startEmptyCellDrag() {
-    cell.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: 0 }));
-    cell.dispatchEvent(new MouseEvent('mousedown', { button: 0, bubbles: true, clientX: 0 }));
+    fireEvent.mouseMove(cell, { clientX: 0 });
+    fireEvent.mouseDown(cell, { button: 0, clientX: 0 });
   }
 
   describe.each([
@@ -134,30 +131,26 @@ describe('registerWorkPackageMouseHandler', () => {
     it('keeps the Escape keydown from clearing the selection', () => {
       startDrag();
 
-      const keydown = escape('keydown');
-
-      expect(keydown.defaultPrevented).toBe(true);
+      expect(fireEvent.keyDown(document.body, escape)).toBe(false);
       expect(clear).not.toHaveBeenCalled();
     });
 
     it('still cancels the drag on keyup and frees the next Escape', () => {
       startDrag();
-      escape('keydown');
+      fireEvent.keyDown(document.body, escape);
 
-      escape('keyup');
+      fireEvent.keyUp(document.body, escape);
       expect(change.clear).toHaveBeenCalledOnce();
       expect(renderer.onMouseDownEnd).toHaveBeenCalledOnce();
       expect(save).not.toHaveBeenCalled();
 
-      escape('keydown');
+      fireEvent.keyDown(document.body, escape);
       expect(clear).toHaveBeenCalledOnce();
     });
   });
 
   it('lets Escape clear the selection when no drag is active', () => {
-    const keydown = escape('keydown');
-
+    expect(fireEvent.keyDown(document.body, escape)).toBe(false);
     expect(clear).toHaveBeenCalledOnce();
-    expect(keydown.defaultPrevented).toBe(true);
   });
 });
