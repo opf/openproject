@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(OpenProject::Common::BorderBoxListComponent.new(container: @container_id, collapsible: true, padding: :condensed)) do |list|
-    list.with_header(title: heading, count: items.count, collapsed: true)
+    list.with_header(title: heading, count: items.count)
     list.with_empty_state(**@empty_state) if @empty_state.present?
 
     items.each do |item|
