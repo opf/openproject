@@ -27,6 +27,7 @@
 //++
 
 import Mousetrap from 'mousetrap';
+import { createEvent, fireEvent } from '@testing-library/dom';
 import { clearSelectionOnEscape } from './selection-escape';
 
 describe('clearSelectionOnEscape', () => {
@@ -50,7 +51,7 @@ describe('clearSelectionOnEscape', () => {
   }
 
   function keydown(key = 'Escape'):KeyboardEvent {
-    return new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+    return createEvent.keyDown(document, { key }) as KeyboardEvent;
   }
 
   function dispatch(target:EventTarget, event:KeyboardEvent, hasState = true) {
@@ -58,7 +59,7 @@ describe('clearSelectionOnEscape', () => {
     const listener = (received:Event) => clearSelectionOnEscape(received as KeyboardEvent, () => hasState, clear);
     document.addEventListener('keydown', listener);
     try {
-      target.dispatchEvent(event);
+      fireEvent(target as Element, event);
     } finally {
       document.removeEventListener('keydown', listener);
     }
@@ -69,7 +70,7 @@ describe('clearSelectionOnEscape', () => {
     const first = vi.fn();
     const second = vi.fn();
     const event = keydown();
-    document.body.dispatchEvent(event);
+    fireEvent(document.body, event);
     clearSelectionOnEscape(event, () => true, first);
     clearSelectionOnEscape(event, () => true, second);
     expect(first).toHaveBeenCalledOnce();
@@ -163,7 +164,7 @@ describe('clearSelectionOnEscape', () => {
       reset();
     });
     try {
-      const event = new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, which: 27, bubbles: true, cancelable: true });
+      const event = createEvent.keyDown(row, { key: 'Escape', keyCode: 27, which: 27 }) as KeyboardEvent;
       const { clear } = dispatch(row, event);
       expect(reset).toHaveBeenCalledOnce();
       expect(clear).not.toHaveBeenCalled();

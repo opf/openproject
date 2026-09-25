@@ -29,6 +29,7 @@
 import { createEnvironmentInjector, EnvironmentInjector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
+import { fireEvent } from '@testing-library/dom';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -91,12 +92,10 @@ describe('SelectionTransformer', () => {
     new SelectionTransformer(injector, table);
     const row = root.querySelector<HTMLElement>('.wp-table--row')!;
 
-    row.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 'a', ctrlKey: true, bubbles: true, cancelable: true,
-    }));
+    fireEvent.keyDown(row, { key: 'a', ctrlKey: true });
     expect(selection.selectAll).toHaveBeenCalledOnce();
 
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+    fireEvent.keyDown(document.body, { key: 'Escape' });
     expect(selection.reset).toHaveBeenCalledOnce();
 
     selection.selectAll.mockClear();
@@ -106,14 +105,12 @@ describe('SelectionTransformer', () => {
     const sharedStop = vi.spyOn(stopAllSubscriptions, 'next');
     injector.destroy();
 
-    row.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 'a', ctrlKey: true, bubbles: true, cancelable: true,
-    }));
+    fireEvent.keyDown(row, { key: 'a', ctrlKey: true });
     selectionChanged.next();
     focusChanged.next();
     tableRendered.next(renderedRows);
 
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+    fireEvent.keyDown(document.body, { key: 'Escape' });
 
     expect(sharedStop).not.toHaveBeenCalled();
     expect(selection.selectAll).not.toHaveBeenCalled();
@@ -142,7 +139,7 @@ describe('SelectionTransformer', () => {
     const second = build();
 
     first.injector.destroy();
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+    fireEvent.keyDown(document.body, { key: 'Escape' });
 
     expect(first.reset).not.toHaveBeenCalled();
     expect(second.reset).toHaveBeenCalledOnce();
@@ -171,12 +168,11 @@ describe('SelectionTransformer', () => {
     new SelectionTransformer(injector, { injector, tableAndTimelineContainer: root, renderedRows: [] } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
-    const event = new KeyboardEvent('keydown', {
-      key: 'd', keyCode: 68, which: 68, bubbles: true, cancelable: true, ...modifier,
+    const allowed = fireEvent.keyDown(root.firstElementChild!, {
+      key: 'd', keyCode: 68, which: 68, ...modifier,
     });
-    root.firstElementChild!.dispatchEvent(event);
 
-    expect(event.defaultPrevented).toBe(false);
+    expect(allowed).toBe(true);
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
     injector.destroy();
     root.remove();
