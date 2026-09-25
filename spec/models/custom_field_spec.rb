@@ -594,10 +594,8 @@ RSpec.describe CustomField do
 
   describe "#flush_buffered_possible_values" do
     it "raises when the hierarchy service rejects one of the buffered values" do
-      real_service = CustomFields::Hierarchy::HierarchicalItemService.new
       service = instance_double(CustomFields::Hierarchy::HierarchicalItemService)
       allow(CustomFields::Hierarchy::HierarchicalItemService).to receive(:new).and_return(service)
-      allow(service).to receive(:generate_root) { |cf| real_service.generate_root(cf) }
       allow(service).to receive(:insert_item).and_return(Dry::Monads::Failure.new(:boom))
 
       expect { create(:custom_field, field_format: "list", possible_values: ["Only"]) }
@@ -904,15 +902,30 @@ RSpec.describe CustomField do
     end
   end
 
-  describe "#generate_hierarchy_root" do
-    it "raises and rolls back the field when the root cannot be created" do
-      service = instance_double(CustomFields::Hierarchy::HierarchicalItemService,
-                                generate_root: Dry::Monads::Failure.new(:boom))
-      allow(CustomFields::Hierarchy::HierarchicalItemService).to receive(:new).and_return(service)
+  describe "#hierarchy_root" do
+    it "is saved along with a new list field" do
+      field = create(:custom_field, field_format: "list")
 
-      expect { create(:custom_field, field_format: "list") }
-        .to raise_error(/Could not generate a hierarchy root/)
-        .and not_change(described_class, :count)
+      expect(field.hierarchy_root.reload).to have_attributes(custom_field_id: field.id, parent: nil)
+    end
+
+    it "is there as soon as a new field is given a list format, so its values read as blank" do
+      field = WorkPackageCustomField.new
+
+      expect { field.field_format = "list" }.to change(field, :hierarchy_root).from(nil)
+      expect(field.default_value).to be_nil
+      expect(field.possible_values).to be_empty
+    end
+
+    it "is not built for a format without items" do
+      expect(WorkPackageCustomField.new(field_format: "string").hierarchy_root).to be_nil
+    end
+
+    it "rolls the field back when the root cannot be saved" do
+      field = build(:custom_field, field_format: "list")
+      allow(field.hierarchy_root).to receive(:save).and_return(false)
+
+      expect { field.save }.not_to change(described_class, :count)
     end
   end
 end
