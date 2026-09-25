@@ -34,6 +34,7 @@ module Admin
       class ChangeItemParentDialogComponent < ApplicationComponent
         include OpTurbo::Streamable
         include CustomFieldHierarchyTreeViewHelper
+        include ItemRoutes
 
         TEST_SELECTOR = "op-custom-fields--change-item-parent-dialog"
 
@@ -66,14 +67,9 @@ module Admin
           CustomField::Hierarchy::Forms::NewParentFormModel.new(new_parent: [])
         end
 
-        def url
-          if @custom_field.is_a?(ProjectCustomField)
-            change_parent_admin_settings_project_custom_field_item_path(project_custom_field_id: @custom_field.id,
-                                                                        id: @hierarchy_item.id)
-          else
-            change_parent_custom_field_item_path(custom_field_id: @custom_field.id, id: @hierarchy_item.id)
-          end
-        end
+        attr_reader :custom_field
+
+        def url = hierarchy_item_path(@hierarchy_item, :change_parent)
       end
     end
   end

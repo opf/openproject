@@ -33,6 +33,7 @@ module Admin
     module Hierarchy
       class TreeViewComponent < ApplicationComponent
         include CustomFieldHierarchyTreeViewHelper
+        include ItemRoutes
 
         def initialize(custom_field:, active_item:)
           super
@@ -41,13 +42,11 @@ module Admin
           @active_item = active_item
         end
 
-        def href_for(item)
-          if @custom_field.is_a?(ProjectCustomField)
-            admin_settings_project_custom_field_item_path(@custom_field.id, item)
-          else
-            custom_field_item_path(@custom_field.id, item)
-          end
-        end
+        def href_for(item) = hierarchy_item_path(item)
+
+        private
+
+        attr_reader :custom_field
       end
     end
   end
