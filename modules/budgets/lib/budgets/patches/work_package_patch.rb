@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,16 +26,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Costs::Patches::WorkPackagePatch
+module Budgets::Patches::WorkPackagePatch
   extend ActiveSupport::Concern
 
   included do
-    include WorkPackages::Costs
-    include WorkPackages::SpentTime
+    belongs_to :budget, inverse_of: :work_packages, optional: true
 
-    scopes :allowed_to_log_time,
-           :include_spent_time
+    validate :validate_budget
+  end
+
+  def validate_budget
+    # Also re-validate when the work package is moved to another project, since
+    # the set of valid budgets is project-scoped. Otherwise a budget belonging
+    # to the source project would silently survive the move.
+    if (budget_id_changed? || project_id_changed?) &&
+       !(budget_id.blank? || project.budget_ids.include?(budget_id))
+      errors.add :budget, :inclusion
+    end
+  end
+
+  # Wraps the association to get the Cost Object subject.  Needed for the
+  # Query and filtering
+  def budget_subject
+    budget&.subject
   end
 end

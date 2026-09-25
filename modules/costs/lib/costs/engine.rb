@@ -271,6 +271,38 @@ module Costs
       include ActionView::Helpers::NumberHelper
       prepend API::V3::CostsApiUserPermissionCheck
 
+      link :logTime,
+           cache_if: -> { log_time_allowed? } do
+        next if represented.new_record?
+
+        {
+          href: api_v3_paths.time_entries,
+          title: "Log time on work package '#{represented.subject}'"
+        }
+      end
+
+      link :timeEntries,
+           cache_if: -> { view_time_entries_allowed? } do
+        next if represented.new_record?
+
+        filters = [
+          { entity_type: { operator: "=", values: ["WorkPackage"] } },
+          { entity_id: { operator: "=", values: [represented.id.to_s] } }
+        ]
+
+        {
+          href: api_v3_paths.path_for(:time_entries, filters:),
+          title: "Time entries"
+        }
+      end
+
+      property :spent_time,
+               exec_context: :decorator,
+               getter: ->(*) { datetime_formatter.format_duration_from_hours(represented.spent_hours) },
+               setter: ->(*) {},
+               if: ->(*) { spent_time_visible? },
+               uncacheable: true
+
       link :logCosts,
            cache_if: -> {
              current_user.allowed_in_project?(:log_costs, represented.project) ||
@@ -360,6 +392,14 @@ module Costs
         instance_exec(&costs_visible) && represented.project.cost_types_available?
       }
 
+      schema :spent_time,
+             type: "Duration",
+             required: false,
+             show_if: ->(*) {
+               current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                 current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
+             }
+
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
       # format and not a string like "10 EUR"
       schema :overall_costs,
@@ -398,6 +438,7 @@ module Costs
       ##
       # Add a new group
       cost_attributes = %i(costs_by_type labor_costs material_costs overall_costs)
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :spent_time)
       ::TypeVariant.add_default_group(:costs, :label_cost_plural)
       ::TypeVariant.add_default_mapping(:costs, *cost_attributes)
 
@@ -423,6 +464,23 @@ module Costs
       ::Queries::Register.register(::ProjectQuery) do
         filter ::Queries::Projects::Filters::AvailableCostTypesProjectsFilter
       end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:spent_time) do |eager_scope, work_package_scope, current_user|
+          time_scope = work_package_scope
+                         .dup
+                         .include_spent_time(current_user)
+                         .select(:id)
+
+          wp_table = ::WorkPackage.arel_table
+          spent_time_join = wp_table
+                              .outer_join(time_scope.arel.as("spent_time_hours"))
+                              .on(wp_table[:id].eq(time_scope.arel_table.alias("spent_time_hours")[:id]))
+
+          eager_scope
+            .joins(spent_time_join.join_sources)
+            .select("spent_time_hours.hours")
+        end
 
       ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
         .add_eager_loading_extension(:material_costs) do |eager_scope, work_package_scope, _current_user|
