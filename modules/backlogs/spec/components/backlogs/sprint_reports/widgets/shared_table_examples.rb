@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.shared_context "with a sprint report work package table" do
   shared_let(:project) { create(:project) }
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints] }) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
 
   let(:start_date) { 7.days.ago }
   let(:finish_date) { 7.days.from_now }
