@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +26,44 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Documents
   module Admin
     module DocumentTypes
-      class ItemComponent < ::Admin::Enumerations::ItemComponent
-        alias_method :document_type, :enumeration
+      class TableComponent < OpPrimer::BorderBoxTableComponent
+        columns :name, :documents_count
+        main_column :name
+        mobile_columns :name
 
-        def deletion_enumeration(menu)
-          menu.with_item(
-            label: I18n.t(:button_delete),
-            scheme: :danger,
-            tag: :a,
-            content_arguments: {
-              data: { controller: "async-dialog" }
-            },
-            href: delete_dialog_admin_settings_document_type_path(document_type)
-          ) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
+        def row_class = ::Documents::Admin::DocumentTypes::RowComponent
+
+        def has_actions? = true
+
+        def mobile_title = DocumentType.model_name.human(count: :other)
+
+        def container_id = "document-types-table"
+
+        def headers
+          [
+            [:name, { caption: I18n.t("documents.index_page.type") }],
+            [:documents_count, { caption: I18n.t(:label_documents) }]
+          ]
         end
 
-        def colored?
-          false
+        def blank_title = I18n.t(:no_results_title_text)
+
+        def blank_description = nil
+
+        def container_data
+          {
+            controller: "sortable-lists--list",
+            sortable_lists__list_type_value: DocumentType.model_name.param_key,
+            sortable_lists__list_accepted_type_value: DocumentType.model_name.param_key,
+            sortable_lists__list_name_value: DocumentType.model_name.human(count: :other),
+            # The rows sit in a div, not in the `ul` the list controller looks for by default.
+            sortable_lists__list_rows_container_element: ":scope > .#{rows_container_class}"
+          }
         end
       end
     end

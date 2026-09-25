@@ -29,29 +29,23 @@
 #++
 
 require "spec_helper"
+require_relative "../../../../support/pages/admin/document_types"
 
 RSpec.describe "Document types admin", :js do
   include Flash::Expectations
-  include EnumerationAdminHelpers
 
   current_user { create(:admin) }
-
-  def enumeration_list_selector = "#documents-admin-document-types-index-component"
-  def enumeration_actions_label = I18n.t("documents.document_type_actions")
-
-  def within_enumeration_item(type, &)
-    page.within("#documents-admin-document-types-item-component-#{type.id}", &)
-  end
+  let(:list_page) { Pages::Admin::DocumentTypes.new }
 
   context "when managing document types" do
     let!(:default_document_type) { create(:document_type, is_default: true, name: "Note") }
 
     it "can be managed (created, updated, deleted)" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      within_enumeration_item(default_document_type) do
-        expect(page).to have_content("Note")
-        expect(page).to have_content("Default")
+      list_page.within_row(default_document_type) do
+        expect(page).to have_text("Note")
+        expect(page).to have_text("Default")
       end
 
       within_test_selector("admin-document-types-subheader") do
@@ -70,15 +64,15 @@ RSpec.describe "Document types admin", :js do
       new_document_type = DocumentType.last
 
       # The new document type is shown in the list as the default document type
-      within_enumeration_item(new_document_type) do
-        expect(page).to have_content("Documentation")
-        expect(page).to have_content("Default")
+      list_page.within_row(new_document_type) do
+        expect(page).to have_text("Documentation")
+        expect(page).to have_text("Default")
       end
 
       # Since the new document type is now the default, the former default looses that flag
-      within_enumeration_item(default_document_type) do
-        expect(page).to have_content("Note")
-        expect(page).to have_no_content("Default")
+      list_page.within_row(default_document_type) do
+        expect(page).to have_text("Note")
+        expect(page).to have_no_text("Default")
       end
 
       click_link "Documentation"
@@ -91,36 +85,35 @@ RSpec.describe "Document types admin", :js do
 
       expect_and_dismiss_flash(message: "Successful update.")
 
-      within_enumeration_item(new_document_type) do
-        expect(page).to have_content("Report")
-        expect(page).to have_content("Default")
+      list_page.within_row(new_document_type.reload) do
+        expect(page).to have_text("Report")
+        expect(page).to have_text("Default")
       end
 
       expect(DocumentType).to exist(name: "Report")
       expect(DocumentType).not_to exist(name: "Documentation")
 
       # It allows deleting document types
-      within_enumeration_item(new_document_type) do
-        click_on accessible_name: "Document type actions"
-        click_on("Delete")
+      list_page.within_menu(new_document_type) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Delete document type") do
         expect(page).to have_heading "Delete this document type?"
-        expect(page).to have_content 'The type "Report" is currently unused. ' \
-                                     "Deleting this type will have no effect on existing documents."
+        expect(page).to have_text 'The type "Report" is currently unused. ' \
+                                  "Deleting this type will have no effect on existing documents."
 
         click_on "Delete permanently"
       end
 
       expect_and_dismiss_flash(message: "Successful deletion.")
 
-      expect(page).to have_no_content("Report")
+      expect(page).to have_no_text("Report")
 
       # Since the old default is deleted another is now the default.
-      within_enumeration_item(default_document_type) do
-        expect(page).to have_content("Note")
-        expect(page).to have_no_content("Default")
+      list_page.within_row(default_document_type) do
+        expect(page).to have_text("Note")
+        expect(page).to have_no_text("Default")
       end
     end
   end
@@ -132,17 +125,16 @@ RSpec.describe "Document types admin", :js do
     let!(:document) { create(:document, type: type_with_documents) }
 
     it "reassigns documents when deleting a document type" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      within_enumeration_item(type_with_documents) do
-        click_on accessible_name: "Document type actions"
-        click_on("Delete")
+      list_page.within_menu(type_with_documents) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Delete document type") do
         expect(page).to have_heading "Delete this document type?"
-        expect(page).to have_content 'The type "Type with documents" is currently being used in 1 document. ' \
-                                     "Please select which type to reassign them to."
+        expect(page).to have_text 'The type "Type with documents" is currently being used in 1 document. ' \
+                                  "Please select which type to reassign them to."
 
         select another_type.name, from: "Reassign documents to"
         click_on "Delete permanently"
@@ -153,20 +145,19 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Type with documents")
       expect(document.reload.type).to eq another_type
 
-      within_enumeration_item(another_type) do
-        expect(page).to have_test_selector("documents-count", text: "1")
+      list_page.within_row(another_type) do
+        expect(page).to have_css("[role='cell'][aria-colindex='2']", exact_text: "1", normalize_ws: true)
       end
 
       # It allows deleting unused document types
-      within_enumeration_item(unused_type) do
-        click_on accessible_name: "Document type actions"
-        click_on("Delete")
+      list_page.within_menu(unused_type) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Delete document type") do
         expect(page).to have_heading "Delete this document type?"
-        expect(page).to have_content 'The type "Unused type" is currently unused. ' \
-                                     "Deleting this type will have no effect on existing documents."
+        expect(page).to have_text 'The type "Unused type" is currently unused. ' \
+                                  "Deleting this type will have no effect on existing documents."
 
         click_on "Delete permanently"
       end
@@ -176,15 +167,14 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Unused type")
 
       # Last remaining type cannot be deleted
-      within_enumeration_item(another_type) do
-        click_on accessible_name: "Document type actions"
-        click_on("Delete")
+      list_page.within_menu(another_type) do |menu|
+        menu.find(:menuitem, "Delete").click
       end
 
       within_dialog("Cannot delete document type") do
         expect(page).to have_heading "Cannot delete the last document type"
-        expect(page).to have_content "There must always be at least one document type configured. " \
-                                     "Create another one first if you want to delete this one."
+        expect(page).to have_text "There must always be at least one document type configured. " \
+                                  "Create another one first if you want to delete this one."
 
         click_on "Close"
       end
@@ -202,28 +192,60 @@ RSpec.describe "Document types admin", :js do
       alpha.move_to_top
     end
 
-    it "reorders through the move menu" do
-      visit admin_settings_document_types_path
+    # The moved row's menu is reopened after the morph: only a refreshed menu
+    # hides the directions that stopped being available.
+    it "reorders through the move menu twice across a morph" do
+      list_page.visit!
 
-      expect_enumeration_order("Alpha", "Beta", "Gamma")
+      list_page.expect_order("Alpha", "Beta", "Gamma")
 
-      move_enumeration(gamma, I18n.t(:label_sort_highest))
+      list_page.move(gamma, I18n.t(:label_sort_highest))
 
-      expect_enumeration_move_settled("Gamma", "Alpha", "Beta")
+      list_page.expect_move_settled("Gamma", "Alpha", "Beta")
+
+      list_page.within_move_submenu(gamma) do |submenu|
+        expect(submenu).to have_no_selector(:menuitem, I18n.t(:label_sort_highest))
+        expect(submenu).to have_no_selector(:menuitem, I18n.t(:label_sort_higher))
+        expect(submenu).to have_selector(:menuitem, I18n.t(:label_sort_lower))
+        submenu.find(:menuitem, I18n.t(:label_sort_lowest)).click
+      end
+
+      list_page.expect_move_settled("Alpha", "Beta", "Gamma")
 
       refresh
 
-      expect_enumeration_order("Gamma", "Alpha", "Beta")
+      list_page.expect_order("Alpha", "Beta", "Gamma")
+    end
+
+    # The second drag runs without a reload on purpose: the sortable root
+    # re-registers Pragmatic's drop targets after a morph, and only a drag that
+    # follows a completed morph exercises that repair.
+    it "reorders by dragging twice across a morph", :selenium do
+      list_page.visit!
+
+      list_page.expect_order("Alpha", "Beta", "Gamma")
+
+      list_page.drag(alpha, after: beta)
+
+      list_page.expect_move_settled("Beta", "Alpha", "Gamma")
+
+      list_page.drag(beta, after: gamma)
+
+      list_page.expect_move_settled("Alpha", "Gamma", "Beta")
+
+      refresh
+
+      list_page.expect_order("Alpha", "Gamma", "Beta")
     end
   end
 
   context "with a single document type" do
     let!(:only_type) { create(:document_type, name: "Only type") }
 
-    it "shows a single separator (no duplicate) in the more menu" do
-      visit admin_settings_document_types_path
+    it "hides the Move submenu and renders one separator" do
+      list_page.visit!
 
-      within_enumeration_menu(only_type) do |menu|
+      list_page.within_menu(only_type) do |menu|
         expect(menu).to have_selector(:menuitem, "Edit")
         expect(menu).to have_selector(:menuitem, "Delete")
         expect(menu).to have_no_selector(:menuitem, I18n.t(:button_move))
@@ -236,9 +258,9 @@ RSpec.describe "Document types admin", :js do
     current_user { create(:user) }
 
     it "is not accessible" do
-      visit admin_settings_document_types_path
+      list_page.visit!
 
-      expect(page).to have_content("You are not authorized to access this page.")
+      expect(page).to have_text("You are not authorized to access this page.")
     end
   end
 end
