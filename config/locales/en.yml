@@ -7687,6 +7687,12 @@ en:
         label: "Start from scratch"
       title: "Configure a new workflow"
     usage:
+      dialog:
+        button: "View dependent types"
+        caption_html: "The workflow %{name} is used in the following types and variants."
+        title: "Workflow used in types"
+        variant_of: "Variant of %{type}"
+        variants: "Variants"
       unused: "No type or variant uses this workflow yet."
       used_by_types:
         one: "This workflow is used by 1 type. Changes apply to it."
