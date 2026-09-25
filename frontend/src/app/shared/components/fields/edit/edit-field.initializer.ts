@@ -104,11 +104,9 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'Category',
         'BacklogBucket',
         'Sprint',
-        'CustomOption',
         'CustomField::Hierarchy::Item',
       ])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
-        '[]CustomOption',
         '[]User',
         '[]Version',
         '[]CustomField::Hierarchy::Item',
