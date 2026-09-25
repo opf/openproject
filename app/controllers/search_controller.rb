@@ -123,19 +123,30 @@ class SearchController < ApplicationController
                           projects_to_search,
                           limit: (LIMIT + 1),
                           offset:,
-                          before: search_params[:previous].nil?)
+                          before: search_params[:previous].nil?,
+                          rank_by_similarity: true)
 
       results += r
       results_count[scope] += c
     end
 
-    results = sort_by_event_datetime(results)
+    results = sort_by_relevance(results)
 
     [results, results_count]
   end
 
-  def sort_by_event_datetime(results)
-    results.sort { |a, b| b.event_datetime <=> a.event_datetime }
+  def sort_by_relevance(results)
+    results.sort do |a, b|
+      # Sort by similarity score (descending) if available, otherwise by date
+      score_a = a.respond_to?(:search_similarity_score) ? (a.search_similarity_score || 0) : 0
+      score_b = b.respond_to?(:search_similarity_score) ? (b.search_similarity_score || 0) : 0
+
+      if score_a != score_b
+        score_b <=> score_a
+      else
+        b.event_datetime <=> a.event_datetime
+      end
+    end
   end
 
   def search_types

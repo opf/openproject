@@ -37,8 +37,17 @@ module Queries::Operators::Concerns
         values
           .first
           .split(/\s+/)
-          .map { |token| "#{db_table}.#{db_field} ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(token)}%'" }
+          .map { |token| fuzzy_match_sql(db_table, db_field, token) }
           .join(" AND ")
+      end
+
+      def fuzzy_match_sql(db_table, db_field, token)
+        sanitized_token = OpenProject::SqlSanitization.quoted_sanitized_sql_like(token)
+        escaped_token = ActiveRecord::Base.connection.quote(token.downcase)
+
+        # Use word_similarity (%>) for fuzzy matching, with ILIKE fallback for exact substring matches
+        "(#{db_table}.#{db_field} %> #{escaped_token} OR " \
+          "#{db_table}.#{db_field} ILIKE '%#{sanitized_token}%')"
       end
     end
   end
