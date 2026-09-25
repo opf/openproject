@@ -36,8 +36,7 @@ module WorkPackages::Scopes::InBacklogFor
       WorkPackage
         .visible
         .where(project:, sprint_id: nil)
-        .without_excluded_type
-        .without_status_considered_closed
+        .backlog_eligible
         .order_by_position
         .order(id: :asc)
     end
