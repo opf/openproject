@@ -31,7 +31,7 @@
 module Import
   class JiraFetchUsersJob < ApplicationJob
     def text
-      "Fetch users"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)
@@ -107,7 +107,7 @@ module Import
       collect_mentions_from_node(ast, mention_usernames)
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def collect_mentions_from_node(node, mention_usernames)
       case node
       when JiraWikiMarkup::Nodes::Mention
@@ -123,7 +123,6 @@ module Import
         node.children.each { |child| collect_mentions_from_node(child, mention_usernames) }
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def build_users_upsert_data(user_keys, jira_import)
       jira_client = jira_import.client
