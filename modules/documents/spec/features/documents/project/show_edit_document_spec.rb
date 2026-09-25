@@ -49,6 +49,11 @@ RSpec.describe "Show/Edit Document View",
 
   current_user { member }
 
+  def open_active_editors_list
+    click_on "1 active editor"
+    expect(page).to have_text("Active editors")
+  end
+
   it "renders a collaborative document",
      with_settings: { real_time_text_collaboration_enabled: true } do
     visit document_path(document)
@@ -59,6 +64,23 @@ RSpec.describe "Show/Edit Document View",
       within_test_selector("live-events") do
         expect(page).to have_content("1 active editor")
       end
+    end
+
+    aggregate_failures "closes the active editors list on an outside click, Escape and the close button" do
+      open_active_editors_list
+
+      find("body").click
+      expect(page).to have_no_text("Active editors")
+
+      open_active_editors_list
+
+      page.send_keys(:escape)
+      expect(page).to have_no_text("Active editors")
+
+      open_active_editors_list
+
+      click_button accessible_name: "Close"
+      expect(page).to have_no_text("Active editors")
     end
 
     aggregate_failures "can edit document title" do

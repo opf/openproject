@@ -34,13 +34,13 @@
     tag: "turbo-frame", refresh: :morph,
     data: {
       controller: "documents--live-events",
-      action: "click->documents--live-events#toggle_popover",
+      action: "click@window->documents--live-events#closeOnClickOutside keydown.esc@window->documents--live-events#closePopover",
       "test-selector": "live-events"
     }
   ) do
     render Primer::BaseComponent.new(tag: :div, position: :relative) do
       concat(
-        flex_layout do |flex_container|
+        flex_layout(data: { action: "click->documents--live-events#togglePopover:prevent" }) do |flex_container|
           flex_container.with_column do
             render Primer::OpenProject::AvatarStack.new(
               data: { "documents--live-events-target": "users" }
@@ -63,23 +63,46 @@
           display: :none, # hidden by default
           data: { "documents--live-events-target": "popover" }
         ) do |component|
-          component.with_heading { I18n.t("documents.active_editors") }
           component.with_body(caret: :top_left) do
-            flex_layout do |container|
-              users.each do |user|
-                container.with_row(mb: 2) do
-                  flex_layout(align_items: :center) do |user_row|
-                    user_row.with_column do
-                      render Primer::OpenProject::AvatarWithFallback.new(**avatar_options_for(user))
-                    end
+            concat(
+              flex_layout(justify_content: :space_between, align_items: :center, mb: 2) do |header|
+                header.with_column do
+                  render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t("documents.active_editors") }
+                end
 
-                    user_row.with_column(ml: 2) do
-                      render(Primer::Beta::Text.new(color: :subtle)) { user.name }
+                header.with_column(ml: 2) do
+                  render(
+                    Primer::Beta::IconButton.new(
+                      icon: :x,
+                      scheme: :invisible,
+                      size: :small,
+                      mt: -1,
+                      mb: -1,
+                      mr: -2,
+                      aria: { label: I18n.t(:button_close) },
+                      data: { action: "documents--live-events#closePopover" }
+                    )
+                  )
+                end
+              end
+            )
+            concat(
+              flex_layout do |container|
+                users.each do |user|
+                  container.with_row(mb: 2) do
+                    flex_layout(align_items: :center) do |user_row|
+                      user_row.with_column do
+                        render Primer::OpenProject::AvatarWithFallback.new(**avatar_options_for(user))
+                      end
+
+                      user_row.with_column(ml: 2) do
+                        render(Primer::Beta::Text.new(color: :subtle)) { user.name }
+                      end
                     end
                   end
                 end
               end
-            end
+            )
           end
         end
       )
