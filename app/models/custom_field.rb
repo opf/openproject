@@ -254,6 +254,9 @@ class CustomField < ApplicationRecord
               "#{result.failure.inspect}"
       end
     end
+
+    # Inserting loads the root's children; #default_hierarchy_item_ids would otherwise keep answering from that snapshot.
+    hierarchy_root.children.reset
   end
 
   def custom_field_hierarchy_items
@@ -462,6 +465,11 @@ class CustomField < ApplicationRecord
   end
 
   def default_hierarchy_item_ids
+    # A list's items are exactly its root's children, so preloaded children answer without a query.
+    if list? && hierarchy_root.association(:children).loaded?
+      return hierarchy_root.children.select(&:default_value).map { |item| item.id.to_s }
+    end
+
     hierarchy_root.descendants.where(default_value: true).order(:sort_order).pluck(:id).map(&:to_s)
   end
 

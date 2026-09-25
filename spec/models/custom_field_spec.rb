@@ -859,6 +859,20 @@ RSpec.describe CustomField do
     end
   end
 
+  describe "#default_value for a list with preloaded items" do
+    let(:field) { create(:list_wp_custom_field, possible_values: %w[pear apple]) }
+    let(:preloaded) { WorkPackageCustomField.includes(hierarchy_root: :children).find(field.id) }
+
+    before { field.possible_values.find_by!(label: "apple").update!(default_value: true) }
+
+    it "answers from the preloaded items without querying" do
+      preloaded
+
+      expect { preloaded.default_value }.to have_a_query_limit(0)
+      expect(preloaded.default_value).to eq(field.possible_values.find_by!(label: "apple").id.to_s)
+    end
+  end
+
   describe "#default_value for hierarchical formats", with_ee: [:custom_field_hierarchies] do
     let(:custom_field) { create(:hierarchy_wp_custom_field) }
     let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
