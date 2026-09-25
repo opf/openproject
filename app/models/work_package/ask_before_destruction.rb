@@ -33,13 +33,13 @@ module WorkPackage::AskBeforeDestruction
 
   DestructionRegistration = Struct.new(:klass, :check, :action)
 
-  def self.included(base)
-    base.extend(ClassMethods)
-
-    base.class_attribute :registered_associated_to_ask_before_destruction
+  included do
+    cattr_accessor :registered_associated_to_ask_before_destruction,
+                   instance_accessor: false,
+                   default: []
   end
 
-  module ClassMethods
+  class_methods do
     def cleanup_action_required_before_destructing?(work_packages)
       !associated_to_ask_before_destruction_of(work_packages).empty?
     end
@@ -75,11 +75,7 @@ module WorkPackage::AskBeforeDestruction
     end
 
     def associated_to_ask_before_destruction(klass, check, action)
-      self.registered_associated_to_ask_before_destruction ||= []
-
-      registration = DestructionRegistration.new(klass, check, action)
-
-      registered_associated_to_ask_before_destruction << registration
+      registered_associated_to_ask_before_destruction << DestructionRegistration.new(klass, check, action)
     end
 
     def cleanup_each_associated_class(work_packages, user, to_do)
