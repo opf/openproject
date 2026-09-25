@@ -42,13 +42,10 @@ RSpec.describe Queries::RecurringMeetings::Filters::ProjectFilter do
     end
 
     describe "#allowed_values" do
-      let(:project) { build_stubbed(:project) }
-
-      let(:visible_scope) { instance_double(ActiveRecord::Relation) }
+      let(:project) { create(:project) }
 
       before do
-        allow(Project).to receive(:visible).and_return(visible_scope)
-        allow(visible_scope).to receive(:pluck).with(:id).and_return([project.id])
+        allow(Project).to receive(:visible).and_return(Project.where(id: project))
       end
 
       it "returns an array of [id, id_string] pairs for visible projects" do

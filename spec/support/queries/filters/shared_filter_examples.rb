@@ -140,6 +140,36 @@ RSpec.shared_examples_for "list query filter" do |scope: true|
   end
 end
 
+RSpec.shared_context "with visible projects" do
+  let(:project1) { create(:project) }
+  let(:project2) { create(:project) }
+
+  before do
+    allow(Project).to receive(:visible).and_return(Project.where(id: [project1, project2]))
+  end
+end
+
+RSpec.shared_examples_for "project_id list_optional filter" do
+  it_behaves_like "basic query filter" do
+    let(:class_key) { :project_id }
+    let(:type) { :list_optional }
+    let(:name) { model.human_attribute_name(:project) }
+
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
+        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
+
+        expect(instance.allowed_values).to match_array(expected)
+      end
+    end
+  end
+
+  it_behaves_like "list_optional query filter" do
+    let(:attribute) { :project_id }
+    let(:valid_values) { [project1.id.to_s] }
+  end
+end
+
 RSpec.shared_examples_for "list_optional query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }

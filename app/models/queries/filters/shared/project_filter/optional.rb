@@ -40,6 +40,10 @@ module Queries::Filters::Shared::ProjectFilter::Optional
       @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
     end
 
+    def values=(values)
+      super(::Queries::Filters::Shared::ProjectFilter.replace_identifiers_with_ids(values))
+    end
+
     def value_objects
       Project.visible.where(id: values)
     end
@@ -53,7 +57,7 @@ module Queries::Filters::Shared::ProjectFilter::Optional
       # to see we only check that the value is an integer.  Non valid ids
       # will then simply create an empty result but will not cause any
       # harm.
-      @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+      @type_strategy ||= ::Queries::Filters::Strategies::ProjectListOptional.new(self)
     end
 
     def autocomplete_options
