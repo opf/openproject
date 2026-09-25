@@ -81,5 +81,14 @@ class Workflow < ApplicationRecord
     self.class.statuses([id], role:, tab:)
   end
 
+  def statuses_missing_in(other, roles:)
+    statuses_used_by(roles).where.not(id: other.statuses_used_by(roles).select(:id))
+  end
+
+  def statuses_used_by(roles)
+    transitions = status_transitions.where(role: roles)
+    Status.where(id: transitions.select(:old_status_id)).or(Status.where(id: transitions.select(:new_status_id)))
+  end
+
   def project_specific? = project_id.present?
 end

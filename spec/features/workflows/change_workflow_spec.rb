@@ -69,6 +69,69 @@ RSpec.describe "Choosing the workflow a type uses", :js do
     within_test_selector("workflow-selector") { expect(page).to have_text("Standard flow") }
   end
 
+  describe "picking a workflow that lacks statuses the current one uses" do
+    let(:status_closed) { create(:status, name: "Closed") }
+    let(:other_role) { create(:project_role) }
+    let(:confirm_dialog) { find_test_selector("change-workflow-confirm-dialog") }
+
+    before do
+      create(:status_transition, workflow: variant.workflow, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow: variant.workflow, role:, old_status: status_b, new_status: status_closed)
+      create(:status_transition, workflow: variant.workflow, role: other_role, old_status: status_b, new_status: status_closed)
+      create(:status_transition,
+             workflow: variant.workflow, role: create(:work_package_role), old_status: status_b, new_status: status_closed)
+    end
+
+    it "lists the statuses that get lost and assigns only once confirmed" do
+      previous = variant.workflow
+      visit edit_type_workflow_path(type_id: type.id)
+
+      switch_workflow_to "Standard flow"
+
+      within(confirm_dialog) do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        expect(page).to have_text("The following statuses don’t exist in the workflow you have selected (\"Standard flow\"):")
+
+        within_test_selector("change-workflow-missing-statuses") do
+          expect(page).to have_css("span.text-bold", text: "Closed")
+          expect(page).to have_text("2 transitions for 2 roles")
+          expect(page).to have_no_text("In progress")
+        end
+
+        expect(page).to have_text("Existing work packages with these statuses will not be affected.")
+        click_on I18n.t(:button_cancel)
+      end
+
+      expect(page).to have_no_test_selector("change-workflow-confirm-dialog")
+      expect(variant.reload.workflow).to eq(previous)
+
+      switch_workflow_to "Standard flow"
+      within(confirm_dialog) { click_on I18n.t(:button_confirm) }
+
+      expect(page).to have_text(I18n.t(:notice_successful_update))
+      expect(variant.reload.workflow).to eq(shared_workflow)
+    end
+
+    it "says every transition goes when the picked workflow has none, without listing the statuses" do
+      create(:named_workflow, name: "Empty flow")
+      visit edit_type_workflow_path(type_id: type.id)
+
+      switch_workflow_to "Empty flow"
+
+      within(confirm_dialog) do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        expect(page).to have_text("The workflow you have selected (\"Empty flow\") has no transitions. " \
+                                  "All status transitions of Bug will be removed.")
+        expect(page).to have_no_test_selector("change-workflow-missing-statuses")
+
+        click_on I18n.t(:button_confirm)
+      end
+
+      expect(page).to have_text(I18n.t(:notice_successful_update))
+      expect(variant.reload.workflow.name).to eq("Empty flow")
+    end
+  end
+
   it "asks for the name before it creates, then opens the workflow's own page" do
     visit edit_type_workflow_path(type_id: type.id)
 
