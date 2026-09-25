@@ -41,12 +41,6 @@ class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::Llm
     I18n.t("admin.llm_models.index.filter_label")
   end
 
-  # Matches the identifier the server uses and the friendly name an
-  # administrator may have given it, since either is what someone types.
-  #
-  # Every operator the :string strategy allows has a branch. BaseQuery applies
-  # filters without asking whether they are valid, so a missing one is a 500 on
-  # a hand-written filter parameter rather than a validation error.
   def where
     return "1=0" if values.first.blank?
 
