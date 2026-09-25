@@ -177,16 +177,16 @@ en:
     work_package_gitlab_tab_component:
       blank_slates:
         branches:
-          description_html: Link an existing branch by adding the code %{code} to the branch name, for example %{example}.
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
           title: No branches
         commits:
-          description_html: Link an existing commit by adding the code %{code} to the message.
+          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
           title: No commits
         issues:
-          description_html: Link an existing issue by adding the code %{code} to the title or description.
+          description_html: Link an issue by adding the code %{code} to the title or description.
           title: No issues
         merge_requests:
-          description_html: Link an existing merge request by adding the code %{code} to the title or description.
+          description_html: Link a merge request by adding the code %{code} to the title or description.
           title: No merge requests
       branches: Branches
       commits: Commits
