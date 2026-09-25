@@ -28,51 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DocumentType < ApplicationRecord
-  include ::Documents::EnumerationModel
-  include Lists::MoveAfterAnchor
+require "spec_helper"
 
-  default_scope { order(:position) }
-  acts_as_list
+RSpec.describe Documents::Admin::DocumentTypes::IndexComponent, type: :component do
+  let!(:first_type) { create(:document_type, name: "Note") }
+  let!(:second_type) { create(:document_type, name: "Report") }
 
-  has_many :documents, foreign_key: :type_id,
-                       dependent: :nullify,
-                       inverse_of: :type
-
-  normalizes :name, with: ->(name) { name.strip }
-
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-  before_destroy :prevent_deletion_of_last_type
-
-  def self.default
-    where(is_default: true).first || first
-  end
-
-  def only_remaining_record?
-    self.class.where.not(id: id).none?
-  end
-
-  alias :destroy_without_reassign :destroy
-
-  def destroy(reassign_to = nil)
-    if reassign_to.is_a?(DocumentType)
-      transfer_relations(reassign_to)
-    end
-    destroy_without_reassign
-  end
-
-  private
-
-  def prevent_deletion_of_last_type
-    if only_remaining_record?
-      errors.add(:base, :one_or_more_required)
-      throw(:abort)
+  subject(:rendered_component) do
+    with_request_url("/admin/settings/document_types") do
+      render_inline(described_class.new(enumerations: DocumentType.reorder(:position)))
     end
   end
 
-  def transfer_relations(to)
-    documents.update_all(type_id: to.id)
-    to.update_column(:documents_count, to.documents.count)
+  it_behaves_like "a sortable-lists root",
+                  wrapper_id: "documents-admin-document-types-index-component",
+                  move_url_template: "/admin/settings/document_types/{id}/move"
+  it_behaves_like "a sortable-lists list",
+                  list_type: "document_type",
+                  name: DocumentType.model_name.human(count: :other)
+  it_behaves_like "a Border Box sortable list", row_count: 2
+  it_behaves_like "sortable-lists items", list_type: "document_type" do
+    let(:sortable_records) { [first_type, second_type] }
+  end
+  it_behaves_like "no legacy drag-and-drop wiring"
+
+  it "keeps the two-column grid" do
+    expect(rendered_component).to have_css(".op-documents-types-list--header", visible: :all)
+    expect(rendered_component).to have_css(".op-documents-types-list--item", count: 2, visible: :all)
   end
 end

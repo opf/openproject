@@ -28,51 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DocumentType < ApplicationRecord
-  include ::Documents::EnumerationModel
-  include Lists::MoveAfterAnchor
+require "spec_helper"
 
-  default_scope { order(:position) }
-  acts_as_list
+RSpec.describe "Time entry activities", :skip_csrf, type: :rails_request do
+  shared_let(:admin) { create(:admin) }
 
-  has_many :documents, foreign_key: :type_id,
-                       dependent: :nullify,
-                       inverse_of: :type
+  current_user { admin }
 
-  normalizes :name, with: ->(name) { name.strip }
+  describe "PUT /admin/settings/time_entry_activities/:id/move" do
+    let!(:first_record) { create(:time_entry_activity, name: "Alpha") }
+    let!(:second_record) { create(:time_entry_activity, name: "Beta") }
+    let!(:third_record) { create(:time_entry_activity, name: "Gamma") }
+    let!(:sibling_record) { create(:issue_priority) }
+    let(:list_type) { "time_entry_activity" }
+    let(:morph_target) { "admin-enumerations-index-component" }
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-  before_destroy :prevent_deletion_of_last_type
-
-  def self.default
-    where(is_default: true).first || first
-  end
-
-  def only_remaining_record?
-    self.class.where.not(id: id).none?
-  end
-
-  alias :destroy_without_reassign :destroy
-
-  def destroy(reassign_to = nil)
-    if reassign_to.is_a?(DocumentType)
-      transfer_relations(reassign_to)
+    before do
+      third_record.move_to_top
+      second_record.move_to_top
+      first_record.move_to_top
     end
-    destroy_without_reassign
-  end
 
-  private
-
-  def prevent_deletion_of_last_type
-    if only_remaining_record?
-      errors.add(:base, :one_or_more_required)
-      throw(:abort)
+    def move_path(record)
+      move_admin_settings_time_entry_activity_path(record)
     end
-  end
 
-  def transfer_relations(to)
-    documents.update_all(type_id: to.id)
-    to.update_column(:documents_count, to.documents.count)
+    def ordered_names
+      TimeEntryActivity.reorder(:position).where(name: %w[Alpha Beta Gamma]).pluck(:name)
+    end
+
+    it_behaves_like "an anchor-only enumeration move endpoint"
+    # IssuePriority and TimeEntryActivity are STI siblings on the enumerations table.
+    it_behaves_like "an enumeration move endpoint refusing sibling-class anchors"
   end
 end

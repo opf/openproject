@@ -28,51 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DocumentType < ApplicationRecord
-  include ::Documents::EnumerationModel
-  include Lists::MoveAfterAnchor
+require "spec_helper"
 
-  default_scope { order(:position) }
-  acts_as_list
+RSpec.describe "Time entry activities admin", :js do
+  include Flash::Expectations
+  include EnumerationAdminHelpers
 
-  has_many :documents, foreign_key: :type_id,
-                       dependent: :nullify,
-                       inverse_of: :type
+  current_user { create(:admin) }
 
-  normalizes :name, with: ->(name) { name.strip }
+  let!(:alpha) { create(:time_entry_activity, name: "Alpha") }
+  let!(:beta) { create(:time_entry_activity, name: "Beta") }
+  let!(:gamma) { create(:time_entry_activity, name: "Gamma") }
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-  before_destroy :prevent_deletion_of_last_type
-
-  def self.default
-    where(is_default: true).first || first
+  before do
+    gamma.move_to_top
+    beta.move_to_top
+    alpha.move_to_top
   end
 
-  def only_remaining_record?
-    self.class.where.not(id: id).none?
-  end
+  def enumeration_list_selector = "#admin-enumerations-index-component"
+  def enumeration_actions_label = "Actions"
 
-  alias :destroy_without_reassign :destroy
+  it "reorders through the move menu" do
+    visit admin_settings_time_entry_activities_path
 
-  def destroy(reassign_to = nil)
-    if reassign_to.is_a?(DocumentType)
-      transfer_relations(reassign_to)
-    end
-    destroy_without_reassign
-  end
+    expect_enumeration_order("Alpha", "Beta", "Gamma")
 
-  private
+    move_enumeration(gamma, I18n.t(:label_sort_highest))
 
-  def prevent_deletion_of_last_type
-    if only_remaining_record?
-      errors.add(:base, :one_or_more_required)
-      throw(:abort)
-    end
-  end
+    expect_enumeration_move_settled("Gamma", "Alpha", "Beta")
 
-  def transfer_relations(to)
-    documents.update_all(type_id: to.id)
-    to.update_column(:documents_count, to.documents.count)
+    refresh
+
+    expect_enumeration_order("Gamma", "Alpha", "Beta")
   end
 end
