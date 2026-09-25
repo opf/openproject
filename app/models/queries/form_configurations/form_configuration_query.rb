@@ -28,6 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+class Queries::FormConfigurations::FormConfigurationQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
+  def self.model
+    FormConfiguration
+  end
+
+  def default_scope
+    FormConfiguration.in_display_order
+  end
 end

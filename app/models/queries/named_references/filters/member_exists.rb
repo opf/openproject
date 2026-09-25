@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Workflows::Filters::MemberExists
+module Queries::NamedReferences::Filters::MemberExists
   private
 
   def member_exists(condition, binds, extra_joins: nil)
@@ -41,7 +41,7 @@ module Queries::Workflows::Filters::MemberExists
         SELECT 1
         FROM type_variants members
         #{extra_joins}
-        WHERE members.workflow_id = workflows.id
+        WHERE members.#{model.named_reference_kind.association}_id = #{model.table_name}.id
           AND #{condition}
       )
     SQL

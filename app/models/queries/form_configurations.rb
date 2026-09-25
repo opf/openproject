@@ -28,6 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module Queries::FormConfigurations
+  ::Queries::Register.register(FormConfigurationQuery) do
+    filter Filters::NameFilter
+    filter Filters::TypeFilter
+    filter Filters::ProjectFilter
+  end
 end

@@ -29,23 +29,52 @@
 #++
 
 module WorkPackageTypes
-  class AssignWorkflowService
-    def initialize(variant:)
-      @variant = variant
-    end
+  module NamedReferences
+    class NameFormComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-    def call(workflow:)
-      variant.workflow = workflow
+      def self.dialog_id(kind) = "#{kind.dom_key}-dialog"
 
-      if variant.save
-        ServiceResult.success(result: variant)
-      else
-        ServiceResult.failure(result: variant, errors: variant.errors)
+      def self.form_id(kind) = "#{kind.dom_key}-form"
+
+      def initialize(record:, kind:, copy_from_id: nil, ask_copy_source: true, url: nil)
+        super()
+
+        @record = record
+        @kind = kind
+        @copy_from_id = copy_from_id
+        @ask_copy_source = ask_copy_source
+        @url = url
+      end
+
+      def form_arguments
+        {
+          id: self.class.form_id(kind),
+          model: record,
+          scope: record.model_name.param_key,
+          url: form_url,
+          method: record.persisted? ? :patch : :post,
+          data: { turbo: true }
+        }
+      end
+
+      private
+
+      attr_reader :record, :kind, :copy_from_id, :ask_copy_source, :url
+
+      def form_url
+        return url if url.present?
+        return url_helpers.polymorphic_path(record) if record.persisted?
+
+        url_helpers.polymorphic_path(kind.route_key)
+      end
+
+      def error_message
+        return if record.errors.empty?
+
+        record.errors.full_messages.to_sentence
       end
     end
-
-    private
-
-    attr_reader :variant
   end
 end

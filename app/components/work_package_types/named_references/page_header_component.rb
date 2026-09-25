@@ -28,16 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class TypeFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
-      def initialize(query:)
-        super(name: ::Type.model_name.human, query:, filter_key: :type_id, path_args: [:workflows])
+module WorkPackageTypes
+  module NamedReferences
+    class PageHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-        ::Type.order(:position).each do |type|
-          with_item(label: type.name, value: type.id)
-        end
+      def initialize(record:, kind:)
+        super()
+
+        @record = record
+        @kind = kind
       end
+
+      private
+
+      attr_reader :record, :kind
+
+      def breadcrumbs
+        [{ href: helpers.admin_index_path, text: t("label_administration") },
+         { href: helpers.admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+         { href: helpers.polymorphic_path(kind.route_key), text: kind.t(:label_plural) },
+         record.name]
+      end
+
+      def test_selector(part) = "#{kind.dom_key}-#{part}"
     end
   end
 end

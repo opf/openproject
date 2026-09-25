@@ -28,52 +28,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class WorkflowUsageComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+class Queries::NamedReferences::Filters::NameFilter < Queries::Filters::Base
+  def type
+    :string
+  end
 
-    def initialize(workflow:, list_users: true)
-      super()
+  def human_name
+    model.named_reference_kind.t("index.filters.name")
+  end
 
-      @workflow = workflow
-      @list_users = list_users
+  def self.key
+    :name
+  end
+
+  def where
+    case operator
+    when "~", "**"
+      where_contains
+    when "!~"
+      where_not(where_contains)
+    when "="
+      where_equal
+    when "!"
+      where_not(where_equal)
+    end
+  end
+
+  private
+
+  def columns
+    ["#{model.table_name}.name", "COALESCE(#{model.table_name}.description, '')"]
+  end
+
+  def where_contains
+    match(columns.map { |column| "LOWER(#{column}) LIKE ?" }) { |value| "%#{value.downcase}%" }
+  end
+
+  def where_equal
+    match(columns.map { |column| "LOWER(#{column}) = ?" }, &:downcase)
+  end
+
+  def match(conditions)
+    joined = []
+    assignments = []
+
+    values.each do |value|
+      joined << conditions.join(" OR ")
+      assignments += Array.new(conditions.size) { yield(value) }
     end
 
-    private
+    ["(#{joined.join(') OR (')})", *assignments]
+  end
 
-    attr_reader :workflow
-
-    def variants
-      @variants ||= workflow.type_variants.includes(:type).in_display_order
-    end
-
-    def unused? = variants.empty?
-
-    def list_users? = @list_users && !unused?
-
-    def variants_only? = variants.any? { !it.is_default_variant? }
-
-    def caption
-      return I18n.t("workflows.usage.unused") if unused?
-      return I18n.t("workflows.usage.used_by_variants", count: variants.size) if variants_only?
-
-      I18n.t("workflows.usage.used_by_types", count: variants.size)
-    end
-
-    def types = variants.select(&:is_default_variant?)
-
-    def named_variants = variants.reject(&:is_default_variant?)
-
-    def banner_scheme = unused? ? :default : :warning
-
-    def dialog_id = "workflow-usage-dialog"
-
-    def dialog_caption
-      t("workflows.usage.dialog.caption_html", name: content_tag(:strong, workflow.name))
-    end
-
-    def variant_link(variant)
-      render(Primer::Beta::Link.new(href: helpers.edit_type_workflow_path(**variant.path_args))) { variant.display_name }
-    end
+  def where_not(condition)
+    ["NOT(#{condition.first})", *condition.drop(1)]
   end
 end

@@ -110,7 +110,7 @@ module WorkPackageTypes
     end
 
     def assign(workflow)
-      report(::WorkPackageTypes::AssignWorkflowService.new(variant: @variant).call(workflow:))
+      report(NamedReferences::AssignService.new(variant: @variant, kind: NamedReferences::Kind::WORKFLOW).call(workflow))
     end
 
     def report(service_call)
@@ -152,11 +152,11 @@ module WorkPackageTypes
     end
 
     def naming_dialog(workflow, copy_from_id:)
-      ::Workflows::DialogComponent.new(workflow:,
-                                       variant: @variant,
-                                       copy_from_id:,
-                                       ask_copy_source: false,
-                                       url: type_workflow_path(**dialog_args))
+      NamedReferences::NameDialogComponent.new(record: workflow,
+                                               kind: NamedReferences::Kind::WORKFLOW,
+                                               copy_from_id:,
+                                               ask_copy_source: false,
+                                               url: type_workflow_path(**dialog_args))
     end
 
     def workflow_params
@@ -165,11 +165,11 @@ module WorkPackageTypes
 
     def render_form_errors(workflow)
       update_via_turbo_stream(
-        component: ::Workflows::FormComponent.new(workflow:,
-                                                  variant: @variant,
-                                                  copy_from_id: params.dig(:workflow, :copy_from_id).presence,
-                                                  ask_copy_source: false,
-                                                  url: type_workflow_path(**dialog_args)),
+        component: NamedReferences::NameFormComponent.new(record: workflow,
+                                                          kind: NamedReferences::Kind::WORKFLOW,
+                                                          copy_from_id: params.dig(:workflow, :copy_from_id).presence,
+                                                          ask_copy_source: false,
+                                                          url: type_workflow_path(**dialog_args)),
         status: :unprocessable_entity
       )
       respond_with_turbo_streams

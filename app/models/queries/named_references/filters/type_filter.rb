@@ -28,51 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class FormComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+class Queries::NamedReferences::Filters::TypeFilter < Queries::Filters::Base
+  include Queries::NamedReferences::Filters::MemberExists
 
-    DIALOG_ID = "workflow-dialog"
-    FORM_ID = "workflow-form"
+  def type
+    :list
+  end
 
-    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
-      super()
+  def human_name
+    ::Type.model_name.human
+  end
 
-      @workflow = workflow
-      @variant = variant
-      @back_url = back_url
-      @copy_from_id = copy_from_id
-      @ask_copy_source = ask_copy_source
-      @url = url
-    end
+  def self.key
+    :type_id
+  end
 
-    def form_arguments
-      {
-        id: FORM_ID,
-        model: workflow,
-        scope: :workflow,
-        url: form_url,
-        method: workflow.persisted? ? :patch : :post,
-        data: { turbo: true }
-      }
-    end
+  def allowed_values
+    @allowed_values ||= ::Type.order(:position).pluck(:id, :name).map { |id, name| [name, id.to_s] }
+  end
 
-    private
+  def value_objects
+    ::Type.where(id: values)
+  end
 
-    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
-
-    def form_url
-      return url if url.present?
-      return url_helpers.workflow_path(workflow) if workflow.persisted?
-
-      url_helpers.workflows_path
-    end
-
-    def error_message
-      return if workflow.errors.empty?
-
-      workflow.errors.full_messages.to_sentence
-    end
+  def where
+    member_exists("members.type_id IN (:type_ids)", { type_ids: integer_values })
   end
 end

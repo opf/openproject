@@ -28,55 +28,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class SubHeaderComponent < ApplicationComponent
+module WorkPackageTypes
+  module NamedReferences
+    class UsageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
 
-      def initialize(query:)
+      def initialize(record:, kind:, list_users: true)
         super()
 
-        @query = query
-      end
-
-      def filters_form_attributes
-        {
-          controller: "filter--filters-form",
-          "filter--filters-form-turbo-stream-request-value": true,
-          "filter--filters-form-clear-button-id-value": clear_button_id,
-          "filter--filters-form-current-filters-value": serialized_filters
-        }
-      end
-
-      def name_filter_attributes
-        {
-          "filter-name": name_filter_key,
-          "filter-type": "string",
-          "filter-operator": "~",
-          "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
-        }
-      end
-
-      def name_filter_key = ::Queries::Workflows::Filters::NameFilter.key.to_s
-
-      def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
-
-      def serialized_filters = OpPrimer::QuickFilter.serialize(query.filters).to_json
-
-      def clear_button_id = "workflows-filters-clear-button"
-
-      def type_filter_component
-        TypeFilterComponent.new(query:)
-      end
-
-      def projects_filter_component
-        ProjectsFilterComponent.new(query:)
+        @record = record
+        @kind = kind
+        @list_users = list_users
       end
 
       private
 
-      attr_reader :query
+      attr_reader :record, :kind
+
+      def variants
+        @variants ||= record.type_variants.includes(:type).in_display_order
+      end
+
+      def unused? = variants.empty?
+
+      def list_users? = @list_users && !unused?
+
+      def variants_only? = variants.any? { !it.is_default_variant? }
+
+      def caption
+        return kind.t("usage.unused") if unused?
+        return kind.t("usage.used_by_variants", count: variants.size) if variants_only?
+
+        kind.t("usage.used_by_types", count: variants.size)
+      end
+
+      def types = variants.select(&:is_default_variant?)
+
+      def named_variants = variants.reject(&:is_default_variant?)
+
+      def banner_scheme = unused? ? :default : :warning
+
+      def dialog_id = "#{kind.dom_key}-usage-dialog"
+
+      def test_selector(part) = "#{kind.dom_key}-usage-#{part}"
+
+      def dialog_caption
+        kind.t("usage.dialog.caption_html", name: content_tag(:strong, record.name))
+      end
+
+      def variant_link(variant)
+        href = helpers.public_send(:"edit_type_#{kind.association}_path", **variant.path_args)
+
+        render(Primer::Beta::Link.new(href:)) { variant.display_name }
+      end
     end
   end
 end

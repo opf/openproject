@@ -28,6 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+class Queries::FormConfigurations::Filters::TypeFilter < Queries::NamedReferences::Filters::TypeFilter
+  self.model = FormConfiguration
 end

@@ -28,36 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class DialogComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class TypeFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+        def initialize(query:, kind:)
+          super(name: ::Type.model_name.human, query:, filter_key: :type_id, path_args: [kind.route_key])
 
-    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
-      super()
-
-      @workflow = workflow
-      @variant = variant
-      @back_url = back_url
-      @copy_from_id = copy_from_id
-      @ask_copy_source = ask_copy_source
-      @url = url
-    end
-
-    private
-
-    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
-
-    def dialog_id = FormComponent::DIALOG_ID
-
-    def form_id = FormComponent::FORM_ID
-
-    def title
-      workflow.persisted? ? I18n.t("workflows.form.edit_title") : I18n.t("workflows.form.new_title")
-    end
-
-    def submit_label
-      workflow.persisted? ? I18n.t(:button_save) : I18n.t(:button_create)
+          ::Type.order(:position).each do |type|
+            with_item(label: type.name, value: type.id)
+          end
+        end
+      end
     end
   end
 end

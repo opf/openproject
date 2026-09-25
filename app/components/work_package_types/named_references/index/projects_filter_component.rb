@@ -28,27 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class ResultsComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class ProjectsFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+        FIELD_NAME = "project_ids"
 
-      def initialize(workflows:, variants:, role_counts:, filtered: false)
-        super()
+        def self.dialog_id(kind) = "#{kind.dom_key}s-projects-filter-dialog"
 
-        @workflows = workflows
-        @variants = variants
-        @role_counts = role_counts
-        @filtered = filtered
-      end
+        def initialize(query:, kind:)
+          super(name: ::Project.model_name.human(count: 2), query:, filter_key: :project_id, path_args: [kind.route_key])
 
-      private
+          @kind = kind
+        end
 
-      attr_reader :workflows, :variants, :role_counts, :filtered
+        def render? = true
 
-      def table_component
-        TableComponent.new(workflows:, variants:, role_counts:, filtered:)
+        private
+
+        attr_reader :kind
+
+        def dialog_id = self.class.dialog_id(kind)
+
+        def tree_src
+          helpers.polymorphic_path([:projects_tree, kind.route_key], name: FIELD_NAME, checked_ids: current_values)
+        end
       end
     end
   end

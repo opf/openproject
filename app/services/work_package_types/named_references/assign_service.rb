@@ -28,10 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Workflows
-  module Filters
-    class WorkflowFilter < Queries::Filters::Base
-      self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    class AssignService
+      def initialize(variant:, kind:)
+        @variant = variant
+        @kind = kind
+      end
+
+      def call(record)
+        variant.public_send(:"#{kind.association}=", record)
+
+        if variant.save
+          ServiceResult.success(result: variant)
+        else
+          ServiceResult.failure(result: variant, errors: variant.errors)
+        end
+      end
+
+      private
+
+      attr_reader :variant, :kind
     end
   end
 end

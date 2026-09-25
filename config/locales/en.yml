@@ -3300,6 +3300,9 @@ en:
     include_sub_items: "Include sub-items"
     no_results_text: "No results"
   forms:
+    index:
+      filters:
+        name: "Form"
     name:
       fallback: "Form"
       implicit: "%{name} form"

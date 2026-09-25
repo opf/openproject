@@ -48,7 +48,9 @@ module Workflows
 
     attr_reader :url, :candidates, :error, :type_workflow_id
 
-    def dialog_id = ::Workflows::FormComponent::DIALOG_ID
+    def dialog_id
+      WorkPackageTypes::NamedReferences::NameFormComponent.dialog_id(WorkPackageTypes::NamedReferences::Kind::WORKFLOW)
+    end
 
     def title = I18n.t("workflows.start.title")
 

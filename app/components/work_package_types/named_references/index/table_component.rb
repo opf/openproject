@@ -28,6 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class TableComponent < OpPrimer::BorderBoxTableComponent
+        columns :name, :types_and_variants, :projects
+        main_column :name
+        mobile_labels :types_and_variants, :projects
+
+        def initialize(records:, variants:, kind:, filtered: false)
+          super(rows: records)
+
+          @variants = variants
+          @kind = kind
+          @filtered = filtered
+        end
+
+        attr_reader :kind
+
+        def mobile_title = kind.model_class.model_name.human(count: 2)
+
+        def pagination_params = { allowed_params: %w[filters] }
+
+        def headers
+          columns.map { |column| [column, { caption: kind.t("index.columns.#{column}") }] }
+        end
+
+        def has_actions? = true
+
+        def variants_for(record) = @variants.fetch(record.id, [])
+
+        def blank_title
+          @filtered ? kind.t("index.blank_slate.filtered_title") : kind.t("index.blank_slate.title")
+        end
+
+        def blank_description
+          @filtered ? kind.t("index.blank_slate.filtered_description") : kind.t("index.blank_slate.description")
+        end
+
+        def blank_icon = kind.icon
+      end
+    end
+  end
 end
