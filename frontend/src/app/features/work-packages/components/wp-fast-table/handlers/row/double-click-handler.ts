@@ -31,7 +31,6 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { States } from 'core-app/core/states/states.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -43,8 +42,6 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 export class RowDoubleClickHandler implements TableEventHandler {
   // Injections
   @LazyInject() public states:States;
-
-  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
@@ -88,7 +85,6 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Save the currently focused work package
-    this.wpTableSelection.ensureSelected(wpId);
     this.wpTableFocus.updateFocus(wpId);
 
     view.itemClicked.emit({ workPackageId: wpId, double: true });

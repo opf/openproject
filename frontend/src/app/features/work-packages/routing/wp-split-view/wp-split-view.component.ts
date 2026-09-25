@@ -34,9 +34,6 @@ import {
   KeepTabService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {
-  WorkPackageViewSelectionService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import {
   WorkPackageSingleViewBase,
 } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -63,7 +60,6 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
   keepTab = inject(KeepTabService);
-  wpTableSelection = inject(WorkPackageViewSelectionService);
   wpTableFocus = inject(WorkPackageViewFocusService);
   recentItemsService = inject(RecentItemsService);
   readonly urlParams = inject(UrlParamsService);
@@ -96,8 +92,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   protected override init():void {
     super.init();
     const numericId = this.workPackage.id!;
-    this.wpTableSelection.ensureSelected(numericId);
-    this.wpTableFocus.updateFocus(numericId, false);
+    this.wpTableFocus.initializeSelectionAndFocus(numericId, false);
 
     this.recentItemsService.add(numericId);
   }
