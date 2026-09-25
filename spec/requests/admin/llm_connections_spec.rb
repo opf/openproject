@@ -171,6 +171,22 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(connection).not_to be_models_stale
         end
 
+        it "refreshes the catalogue but keeps the models and defaults when only the API key is rotated" do
+          chat_model = connection.models.find_by!(external_id: "qwen3.6-27b")
+          embedding_model = connection.models.find_by!(external_id: "bge-m3")
+          connection.update!(default_chat_model: chat_model, default_embedding_model: embedding_model)
+          model_ids = connection.models.order(:id).pluck(:id)
+
+          expect { patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-rotated" } } }
+            .to change { connection.reload.last_synced_at }
+
+          expect(connection.api_key).to eq("sk-rotated")
+          expect(connection.models.order(:id).pluck(:id)).to eq(model_ids)
+          expect(connection.default_chat_model_id).to eq(chat_model.id)
+          expect(connection.default_embedding_model_id).to eq(embedding_model.id)
+          expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+        end
+
         it "keeps a model an administrator entered by hand" do
           elsewhere = "https://elsewhere.example/v1"
           create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")

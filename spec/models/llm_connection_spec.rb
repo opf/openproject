@@ -105,8 +105,8 @@ RSpec.describe LlmConnection do
       expect { connection.base_url = "https://elsewhere.example/v1" }.to change(connection, :settings_fingerprint)
     end
 
-    it "changes with the API key" do
-      expect { connection.api_key = "sk-rotated" }.to change(connection, :settings_fingerprint)
+    it "does not change with the API key" do
+      expect { connection.api_key = "sk-rotated" }.not_to change(connection, :settings_fingerprint)
     end
   end
 
@@ -125,9 +125,16 @@ RSpec.describe LlmConnection do
 
     it "is true once a connection setting changed" do
       connection.update!(connection_fingerprint: connection.settings_fingerprint)
-      connection.update!(api_key: "sk-rotated")
+      connection.update!(base_url: "https://elsewhere.example/v1")
 
       expect(connection).to be_models_stale
+    end
+
+    it "stays false when only the API key is rotated" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+      connection.update!(api_key: "sk-rotated")
+
+      expect(connection).not_to be_models_stale
     end
   end
 

@@ -99,8 +99,12 @@ class LlmConnection < ApplicationRecord
 
   # Identifies the deployment the models were fetched from. Recorded by
   # LlmConnections::SyncModelsService as +connection_fingerprint+.
+  #
+  # Must not cover the API key. A rotated key still addresses the same server,
+  # and a changed fingerprint deletes the discovered models together with the
+  # default models that reference them.
   def settings_fingerprint
-    Digest::SHA256.hexdigest("#{api_format}\0#{base_url}\0#{api_key}")
+    Digest::SHA256.hexdigest("#{api_format}\0#{base_url}")
   end
 
   # The stored models were fetched from another deployment than the one
