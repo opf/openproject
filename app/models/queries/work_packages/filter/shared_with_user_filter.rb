@@ -30,8 +30,15 @@
 
 class Queries::WorkPackages::Filter::SharedWithUserFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
+  SHAREABLE_TYPES = %w[User Group].freeze
+  SHAREABLE_STATUSES = [Principal.statuses[:active], Principal.statuses[:invited]].freeze
+
   def available?
     super && view_shared_work_packages_allowed?
+  end
+
+  def allowed_values
+    @allowed_values ||= me_allowed_value + shareable_principals.pluck(:id).map { |id| [nil, id.to_s] }
   end
 
   def apply_to(query_scope)
@@ -60,6 +67,21 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   end
 
   private
+
+  # A work package can be shared with any visible user or group, not just with members of
+  # its project. Mirrors the candidate set of the share dialog, app/forms/shares/invitee.rb,
+  # except for the me value, which this filter supports via +querying_for_self?+.
+  def autocomplete_filters
+    [{ name: "type", operator: "=", values: SHAREABLE_TYPES },
+     { name: "status", operator: "=", values: SHAREABLE_STATUSES }]
+  end
+
+  def shareable_principals
+    Principal
+      .visible
+      .not_builtin
+      .where(type: SHAREABLE_TYPES, status: SHAREABLE_STATUSES)
+  end
 
   def view_shared_work_packages_allowed?
     if project
