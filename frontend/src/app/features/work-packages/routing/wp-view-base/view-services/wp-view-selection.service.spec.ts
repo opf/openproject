@@ -63,7 +63,7 @@ describe('WorkPackageViewSelectionService', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '10']);
   });
   it('accepts calendar selection without a rendered anchor', () => {
-    selection.setSelection('2', -1);
+    selection.replaceSelection('2');
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
     gestures.handleClick('4', rows, { shiftKey: true });
     expect(selection.getSelectedWorkPackageIds()).toEqual(['4']);
@@ -93,7 +93,7 @@ describe('WorkPackageViewSelectionService', () => {
 
   it.each(['reset', 'clear'] as const)('does not resurrect pristine members after %s', (operation) => {
     selection.initializeSelection(['1']);
-    selection.setRowState('2', true);
+    gestures.handleClick('2', rows, { ctrlKey: true });
     if (operation === 'clear') selection.clear('query changed');
     else selection.reset();
     expect(selection.getSelectedWorkPackageIds()).toEqual([]);
@@ -102,7 +102,7 @@ describe('WorkPackageViewSelectionService', () => {
     const snapshots:string[][] = [];
     const subscription = selection.live$().subscribe(({ selected }) => snapshots.push(Object.keys(selected)));
     expect(snapshots.every((ids) => ids.length === 0)).toBe(true);
-    selection.toggleRow('3');
+    gestures.handleClick('3', rows, { ctrlKey: true });
     expect(selection.getSelectedWorkPackageIds()).toEqual(['3']);
     subscription.unsubscribe();
   });
@@ -172,9 +172,79 @@ describe('WorkPackageViewSelectionService', () => {
     const emitted = vi.fn();
     selection.live$().subscribe(emitted);
     emitted.mockClear();
-    selection.ngOnDestroy();
+    TestBed.resetTestingModule();
     expect(selection.isEmpty).toBe(true);
     expect(emitted).not.toHaveBeenCalled();
+  });
+
+  it('ranges from the toggled-off occurrence after focus-free gestures', () => {
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('2', rows, { ctrlKey: true });
+    expect(selection.isEmpty).toBe(true);
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+  });
+
+  it('initializes an empty selection even when an anchor remains, and drops that anchor', () => {
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('2', rows, { ctrlKey: true });
+    selection.ensureSelected('3');
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['3']);
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['4']);
+  });
+
+  it('leaves an existing batch, anchor and range session alone when initializing', () => {
+    gestures.handleClick('1', rows, {});
+    gestures.handleClick('3', rows, { shiftKey: true });
+    selection.ensureSelected('4');
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
+    gestures.handleClick('2', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+  });
+
+  it('clears an anchor-only state on reset', () => {
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('2', rows, { ctrlKey: true });
+    selection.reset();
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['4']);
+  });
+
+  it('keeps the anchor through a transient rendered clear and drops it on the next snapshot', () => {
+    gestures.handleClick('2', rows, {});
+    querySpace.tableRendered.clear('re-initializing');
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+    querySpace.tableRendered.putValue(rows.filter((row) => row.workPackageId !== '2'));
+    gestures.handleClick('1', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1']);
+  });
+
+  it('drops the anchor when its exact occurrence disappears although the id survives', () => {
+    const relation = { ...rows[1], classIdentifier: 'relation-2' };
+    const rendered = [rows[0], rows[1], relation, rows[2], rows[3]];
+    querySpace.tableRendered.putValue(rendered);
+    gestures.handleClick('2', rendered, {}, 'relation-2');
+    querySpace.tableRendered.putValue(rows);
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['4']);
+  });
+
+  it('keeps the anchor when its occurrence merely moves', () => {
+    gestures.handleClick('2', rows, {});
+    const reordered = [rows[3], rows[2], rows[1], rows[0]];
+    querySpace.tableRendered.putValue(reordered);
+    gestures.handleClick('4', reordered, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+  });
+
+  it('resizes a range repeatedly from one anchor', () => {
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('4', rows, { shiftKey: true });
+    gestures.handleClick('3', rows, { shiftKey: true });
+    gestures.handleClick('1', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
   });
 
 });
