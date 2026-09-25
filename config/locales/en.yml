@@ -6745,7 +6745,7 @@ en:
         inherit_title: "Use the same settings as the type"
         manual_description: "You can configure this page freely as you wish or copy over configuration from another type."
         manual_title: "Manual configuration"
-        reuse_heading: "Reuse existing configuration type configuration"
+        reuse_heading: "Reuse existing type configuration"
         reuse_inherit: "For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference."
         reuse_intro: "For each of the pages, you can decide on what relationship it has with the main type."
         reuse_named: "For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one."
