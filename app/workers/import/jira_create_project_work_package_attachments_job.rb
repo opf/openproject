@@ -32,19 +32,20 @@ module Import
   class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Download work package attachments for '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
         total = issues.count
-        position = issues.where(id: ..cursor).count
-        (position.to_f / total * 100).round(2)
+        current = issues.where(id: ..cursor).count
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: 0, percentage: 0 }
       end
     end
 
@@ -72,12 +73,13 @@ module Import
     end
 
     # rubocop:disable-next Metrics/AbcSize
-    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
+    def each_iteration(jira_issue, jira_import_id, jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
+      Rails.logger.tagged("jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project_id}",
                           "jira_issue_key:#{jira_issue_key}") do
-      Journal::NotificationConfiguration.with(false) do
-        Journal::EventConfiguration.with(false) do
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
             Rails.logger.debug "Creating work package attachment"
             work_package = JiraOpenProjectReference.find_by!(
               jira_entity_id: jira_issue.id,
@@ -99,8 +101,8 @@ module Import
             # This is the last stage touching a work package, so the migration entry closes its
             # activity behind everything the import journalized.
             journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
+            @jira_import.set_job_cursor(self, jira_issue.id)
           end
-
         end
       end
     end
