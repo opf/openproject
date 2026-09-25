@@ -219,6 +219,78 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
     end
   end
 
+  describe "#allowed_values" do
+    shared_let(:project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:invisible_project) { create(:project) }
+    shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+
+    shared_let(:filtering_user) do
+      create(:user, member_with_roles: { project => role, other_project => role })
+    end
+    shared_let(:member_of_the_queried_project) { create(:user, member_with_roles: { project => role }) }
+    shared_let(:non_member_of_the_queried_project) { create(:user, member_with_roles: { other_project => role }) }
+    shared_let(:group) { create(:group, member_with_roles: { other_project => role }) }
+    shared_let(:placeholder_user) { create(:placeholder_user, member_with_roles: { other_project => role }) }
+    shared_let(:locked_user) { create(:user, status: :locked, member_with_roles: { other_project => role }) }
+    shared_let(:invisible_user) { create(:user, member_with_roles: { invisible_project => role }) }
+
+    let(:query) { build_stubbed(:query, project:) }
+    let(:instance) { described_class.create!(context: query) }
+
+    current_user { filtering_user }
+
+    def allowed_ids = instance.allowed_values.map(&:last)
+
+    it "offers every visible user and group a work package can be shared with" do
+      expect(allowed_ids)
+        .to include(member_of_the_queried_project.id.to_s,
+                    non_member_of_the_queried_project.id.to_s,
+                    group.id.to_s)
+    end
+
+    it "offers the me value" do
+      expect(allowed_ids).to include("me")
+    end
+
+    it "omits principals that cannot be shared with" do
+      expect(allowed_ids)
+        .not_to include(placeholder_user.id.to_s, locked_user.id.to_s)
+    end
+
+    it "omits principals the current user cannot see" do
+      expect(allowed_ids).not_to include(invisible_user.id.to_s)
+    end
+  end
+
+  describe "#autocomplete_options" do
+    let(:project) { build_stubbed(:project) }
+    let(:query) { build_stubbed(:query, project:) }
+    let(:instance) { described_class.create!(context: query) }
+
+    current_user { build_stubbed(:user) }
+
+    it "renders an autocompleter against the principals API" do
+      expect(instance.autocomplete_options)
+        .to include(component: "opce-user-autocompleter",
+                    resource: "principals",
+                    url: "/api/v3/principals",
+                    searchKey: "any_name_attribute")
+    end
+
+    it "offers the users and groups a work package can be shared with, regardless of the project" do
+      expect(instance.autocomplete_options[:filters])
+        .to contain_exactly({ name: "type", operator: "=", values: %w[User Group] },
+                            { name: "status", operator: "=", values: [Principal.statuses[:active],
+                                                                      Principal.statuses[:invited]] })
+    end
+
+    it "offers the me value alongside the API results" do
+      expect(instance.autocomplete_options[:additionalOptions])
+        .to contain_exactly({ id: "me", name: I18n.t(:label_me) })
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:type) { :shared_with_user_list_optional }
     let(:class_key) { :shared_with_user }

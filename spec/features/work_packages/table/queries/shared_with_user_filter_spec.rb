@@ -39,6 +39,11 @@ RSpec.describe "Work package filtering",
   shared_let(:invisible_project) do
     create(:project_with_types)
   end
+  # A second project of the filtering user, so that its members are visible to them
+  # without having anything to do with the project the filter is applied in.
+  shared_let(:unrelated_project) do
+    create(:project_with_types)
+  end
 
   shared_let(:project_role_with_sufficient_permissions) do
     create(:project_role,
@@ -59,7 +64,8 @@ RSpec.describe "Work package filtering",
     create(:user,
            firstname: "Bruce",
            lastname: "Wayne",
-           member_with_roles: { visible_project => project_role_with_sufficient_permissions })
+           member_with_roles: { visible_project => project_role_with_sufficient_permissions,
+                                unrelated_project => project_role_with_insufficient_permissions })
   end
   shared_let(:user_with_insufficient_permissions) do
     create(:user,
@@ -67,11 +73,20 @@ RSpec.describe "Work package filtering",
            lastname: "Pennyworth",
            member_with_roles: { visible_project => project_role_with_insufficient_permissions })
   end
-  shared_let(:user_with_shared_work_package) do
+  # Not a member of the project. The work package share below is this user's only tie to
+  # it, which is also what makes them visible to the user applying the filter.
+  shared_let(:non_member_with_shared_work_package) do
     create(:user,
            firstname: "Clark",
-           lastname: "Kent",
-           member_with_roles: { visible_project => project_role_with_insufficient_permissions })
+           lastname: "Kent")
+  end
+  # Visible, but with no relation whatsoever to the project the filter is applied in.
+  # A work package can be shared with them, so they have to be offered.
+  shared_let(:user_without_project_access) do
+    create(:user,
+           firstname: "Lois",
+           lastname: "Lane",
+           member_with_roles: { unrelated_project => project_role_with_insufficient_permissions })
   end
   shared_let(:invisible_user) do
     create(:user,
@@ -85,7 +100,7 @@ RSpec.describe "Work package filtering",
            project: visible_project) do |wp|
       create(:member,
              project: visible_project,
-             user: user_with_shared_work_package,
+             user: non_member_with_shared_work_package,
              entity: wp,
              roles: [work_package_role])
     end
@@ -113,10 +128,17 @@ RSpec.describe "Work package filtering",
                                                "sharedWithUser")
       end
 
-      aggregate_failures "operator filtering" do
+      aggregate_failures "Anybody visible can be shared a work package, member or not" do
+        filters.expect_filter_value_by("Shared with user",
+                                       "is (OR)",
+                                       [user_without_project_access.name],
+                                       "sharedWithUser")
+      end
+
+      aggregate_failures "a user the work package is shared with, but who is no project member" do
         filters.add_filter_by("Shared with user",
                               "is (OR)",
-                              [user_with_shared_work_package.name],
+                              [non_member_with_shared_work_package.name],
                               "sharedWithUser")
 
         wp_table.ensure_work_package_not_listed!(non_shared_work_package)
