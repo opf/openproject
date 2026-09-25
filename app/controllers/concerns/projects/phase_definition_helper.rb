@@ -34,4 +34,8 @@ module Projects::PhaseDefinitionHelper
   def allowed_to_customize_life_cycle?
     EnterpriseToken.allows_to?(:customize_life_cycle)
   end
+
+  def sortable_list_type
+    Project::PhaseDefinition.model_name.param_key
+  end
 end
