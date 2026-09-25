@@ -26,7 +26,7 @@ pt-BR:
     attributes:
       gitlab_branch:
         gitlab_project: Projeto GitLab
-        namespace: GitLab namespace
+        namespace: Namespace do GitLab
         project_html_url: URL do projeto GitLab
       gitlab_merge_request:
         labels: Rótulos
@@ -44,8 +44,8 @@ pt-BR:
               invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
     models:
       gitlab_branch:
-        one: GitLab branch
-        other: GitLab branches
+        one: Branch do GitLab
+        other: Branches do GitLab
       gitlab_issue:
         one: Problema do GitLab
         other: Problemas do GitLab
@@ -59,7 +59,7 @@ pt-BR:
         one: Usuário do GitLab
         other: Usuários do GitLab
   attributes:
-    commit: Confirmar
+    commit: Commit
     gitlab: Identificador do GitLab
     gitlab_avatar_url: URL da imagem de perfil
     gitlab_html_url: 'URL de HTML do GitLab  '

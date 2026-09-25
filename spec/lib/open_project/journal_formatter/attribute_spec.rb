@@ -43,7 +43,7 @@ RSpec.describe JournalFormatter::Attribute do
         expect(instance.render("name", [old_value, new_value]))
           .to eq(I18n.t(:text_journal_changed_plain,
                         label: "<strong>Name</strong>",
-                        linebreak: "<br/>",
+                        linebreak: "<br>",
                         old: "<i>#{old_value}</i>",
                         new: "<i>#{new_value}</i>"))
 

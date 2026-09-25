@@ -48,7 +48,7 @@ module WorkPackageTypes
       project = params[:project]
 
       elements = elements_to_exclude(project)
-      return ServiceResult.success(result: source) if elements.empty?
+      return ServiceResult.success(result: source) if elements.empty? || already_narrowed?(elements)
 
       build_variant(project, elements)
     end
@@ -57,6 +57,12 @@ module WorkPackageTypes
 
     attr_reader :source, :user
 
+    # Re-running the migration hands back the variant a project already resolved to, so the run
+    # stays idempotent instead of stacking a fresh variant on top of the last one.
+    def already_narrowed?(elements)
+      source.excluded_elements(TypeVariant::FORM_CONFIGURATION).sort == elements.sort
+    end
+
     def build_variant(project, elements)
       result = nil
 
@@ -64,10 +70,7 @@ module WorkPackageTypes
         result = create_variant(project)
         raise ActiveRecord::Rollback if result.failure?
 
-        variant = result.result
-        link_aspects_to_source(variant)
-
-        exclusion = exclude_elements(variant, elements)
+        exclusion = exclude_elements(result.result, elements)
         if exclusion.failure?
           result = exclusion
           raise ActiveRecord::Rollback
@@ -83,28 +86,19 @@ module WorkPackageTypes
         .call(variant_name: variant_name(project), project:)
     end
 
-    # A new variant starts out linked to its type's base configuration. When the project resolved
-    # to a named variant instead, that one is what this has to inherit, so its own exclusions
-    # accumulate with the ones added below.
-    def link_aspects_to_source(variant)
-      return if source.is_default_variant?
-
-      TypeVariant::ASPECTS.each { |aspect| variant.link!(aspect, source:) }
-    end
-
     def exclude_elements(variant, elements)
       ExcludedElements::AddService
         .new(user:, variant:)
         .call(aspect: TypeVariant::FORM_CONFIGURATION, elements:)
     end
 
-    # `source.custom_fields` is the set the form configuration puts on a work package, already
-    # resolved through the source's own links and exclusions. Whatever of it the project has not
-    # enabled is exactly what disabling single fields used to hide.
+    # The new variant inherits from its type's base, so what it must hide is measured against the
+    # base's custom fields: whatever of them the project has not enabled is exactly what disabling
+    # single fields used to hide.
     def elements_to_exclude(project)
       active_ids = project.all_work_package_custom_fields.pluck(:id)
 
-      source.custom_fields
+      source.type.default_variant.custom_fields
             .reject { active_ids.include?(it.id) }
             .map(&:attribute_name)
     end

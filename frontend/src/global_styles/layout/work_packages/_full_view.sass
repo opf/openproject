@@ -133,10 +133,6 @@
     #toolbar-items
       margin-left: 0
 
-@media only screen and (max-width: $breakpoint-md)
-  .work-packages--subject-type-row
-    flex-wrap: wrap
-
 #work-packages-index
   .op-uc-link_permalink
     display: none
@@ -149,9 +145,16 @@
       font-weight: var(--base-text-weight-bold)
 
 .work-packages--subject-type-row
-  display: flex
+  display: grid
+  grid-template-columns: fit-content(33%) 1fr
+  align-items: center
   position: relative
   line-height: 24px
+
+@media only screen and (max-width: $breakpoint-md)
+  .work-packages--subject-type-row
+    display: flex
+    flex-wrap: wrap
 
 .work-packages--type-selector:not(.wp-new-top-row--element)
   max-width: 100%

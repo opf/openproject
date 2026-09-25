@@ -23,12 +23,17 @@ fa:
         name: نام
         public: عمومی
         start_date: تاریخ شروع
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: باید بعد از تاریخ شروع باشد.
+            principal:
+              not_a_member: is not a member of the work package's project.
         resource_planner:
           attributes:
             end_date:
@@ -59,6 +64,9 @@ fa:
       resource_work_package_timeline:
         one: خط زمانی بسته‌های کاری
         other: خطوط زمانی بسته‌های کاری
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: بعدی
   ee:
     features:
@@ -72,8 +80,12 @@ fa:
   permission_allocate_user_resources_explanation: به کاربران اجازه می‌دهد تخصیص منابع را در برنامه‌ریز منابع ایجاد، به‌روزرسانی و حذف کنند. این شامل تخصیص کاربران یا فیلتر کاربران و تنظیم زمان و بازهٔ تاریخ تخصیص است.
   permission_assign_users_to_generic_allocations: اختصاص کاربران به تخصیص‌های عمومی
   permission_assign_users_to_generic_allocations_explanation: به کاربران اجازه می‌دهد در نمای Staffing کاربران واقعی را به تخصیص‌های عمومی منابع (مبتنی بر فیلتر) که هنوز کاربر ندارند اختصاص دهند. اجازهٔ ایجاد یا ویرایش تخصیص‌ها را نمی‌دهد.
+  permission_manage_public_global_resource_planners: Manage public global resource planners
+  permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: مدیریت برنامه‌ریزهای منابع عمومی
   permission_manage_public_resource_planners_explanation: به کاربران اجازه می‌دهد برنامه‌ریز منابع عمومی ایجاد و مدیریت کنند؛ شامل مشاهده، ایجاد، مدیریت و انتشار برنامه‌ریزهای خودشان. اجازهٔ مشاهدهٔ برنامه‌ریزهای خصوصی سایر کاربران را نمی‌دهد.
+  permission_view_global_resource_planners: View global resource planners
+  permission_view_global_resource_planners_explanation: Allows users to access the global resource planner section, where resources and allocations from several projects can be planned together. It allows them to create and manage their own global resource planners and view public ones. Users only ever see the projects, resources and allocations they are permitted to view.
   permission_view_resource_planners: مشاهدهٔ برنامه‌ریزهای منابع
   permission_view_resource_planners_explanation: به کاربران اجازهٔ دسترسی به برنامه‌ریز منابع را می‌دهد. آن‌ها می‌توانند برنامه‌ریز خود را ایجاد و مدیریت و برنامه‌ریزهای عمومی را مشاهده کنند، اما برنامه‌ریزهای خصوصی سایر کاربران را نمی‌بینند.
   plugin_openproject_resource_management:
@@ -128,6 +140,7 @@ fa:
       title: اختصاص %{filter_name}
     blankslate:
       desc: برای شروع برنامه‌ریزی ظرفیت این پروژه، یک برنامه‌ریز منابع ایجاد کنید.
+      global_desc: Create a resource planner to start planning capacity across projects.
       title: هنوز برنامه‌ریز منابعی وجود ندارد
     configure_view_dialog:
       delete_confirmation: آیا مطمئنید می‌خواهید این نما را حذف کنید؟ این عمل قابل بازگشت نیست.
@@ -148,6 +161,9 @@ fa:
       success_message: تخصیص منبع به‌روزرسانی شد.
       title: ویرایش تخصیص
     favorite_caption: این نما را به موارد دلخواه اضافه کنید تا در بخش بالایی منوی کناری نمایش داده شود.
+    filters:
+      resource_management_enabled: Resource management enabled
+    global_public_caption: Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of work packages which still depends on each user permission.
     label_edit_resource_planner: ویرایش برنامه‌ریز منابع
     label_new_resource_planner: برنامه‌ریز منابع جدید
     label_resource_planner: برنامه‌ریز منابع
@@ -192,13 +208,16 @@ fa:
         add: افزودن
         allocate: تخصیص
         settings: پیکربندی نما
+      undisclosed:
+        tooltip: You don't have permissions to see this allocated resource
+        work_package: Work package not visible to you
     user_allocations_dialog:
       allocate_work_package: تخصیص بستهٔ کاری
       blank: هیچ بستهٔ کاری‌ای به این کاربر تخصیص داده نشده است.
-      other_work_packages:
-        one: ۱ بستهٔ کاری دیگر
-        other: "%{count} بستهٔ کاری دیگر"
+      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
+      hidden_work_package: Work package not visible to you
       title: میزان استفاده
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: افزودن کاربر

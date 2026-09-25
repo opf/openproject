@@ -3,15 +3,15 @@ de:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: Filterkriterien
       resource_allocation:
         allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
         date_range: Daten
         end_date: Endtermin
         entity: Entität
-        placeholder_or_user: Assignee
-        placeholder_user: Placeholder user
+        placeholder_or_user: Zugewiesene Person
+        placeholder_user: Platzhalter-Benutzer
         principal: Zugewiesen an
         start_date: Anfangstermin
         state: Status
@@ -23,12 +23,17 @@ de:
         name: Name
         public: Öffentlich
         start_date: Anfangstermin
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: muss nach dem Anfangstermin liegen.
+            principal:
+              not_a_member: ist kein Mitglied des Projekts des Arbeitspakets.
         resource_planner:
           attributes:
             end_date:
@@ -59,6 +64,9 @@ de:
       resource_work_package_timeline:
         one: Arbeitspaket-Zeitleiste
         other: Arbeitspaket-Zeitleisten
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Weiter
   ee:
     features:
@@ -72,8 +80,12 @@ de:
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
   permission_assign_users_to_generic_allocations: Benutzer an generische Zuweisungen zuordnen
   permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer generischen (filterbasierten) Ressourcenzuweisungen zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
+  permission_manage_public_global_resource_planners: Öffentliche projektübergreifende Ressourcenplaner verwalten
+  permission_manage_public_global_resource_planners_explanation: Ermöglicht es Benutzern, ihre eigenen projektübergreifenden Ressourcenplaner zu veröffentlichen und projektübergreifende Ressourcenplaner zu verwalten, die andere Benutzer öffentlich freigegeben haben. Es ist Benutzern nicht gestattet, projektübergreifende Ressourcenplaner einzusehen, die nicht öffentlich freigegeben sind.
   permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
   permission_manage_public_resource_planners_explanation: Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
+  permission_view_global_resource_planners: Projektübergreifende Ressourcenplaner anzeigen
+  permission_view_global_resource_planners_explanation: Ermöglicht Benutzern den Zugriff auf den Bereich der projektübergreifende Ressourcenplaner, in dem Ressourcen und Allokationen aus mehreren Projekten gemeinsam geplant werden können. Es erlaubt ihnen, eigene projektübergreifende Ressourcenplaner zu erstellen und zu verwalten und öffentliche zu sehen. Benutzer sehen immer nur die Projekte, Ressourcen und Allokationen, die sie sehen dürfen.
   permission_view_resource_planners: Ressourcenplaner anzeigen
   permission_view_resource_planners_explanation: Ermöglicht Benutzern den Zugang zu Ressourcenplanern. Sie können damit eigenen Ressourcenplaner erstellen, verwalten und öffentliche Ressourcenplaner einsehen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
   plugin_openproject_resource_management:
@@ -90,11 +102,11 @@ de:
       unfavorite: Aus Favoriten entfernen
     allocate_resource_dialog:
       criteria:
-        empty: No criteria set.
-        label: Criteria
+        empty: Es wurden keine Kriterien festgelegt.
+        label: Kriterien
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: Für den ausgewählten Benutzer sind für den ausgewählten Zeitraum keine Arbeitszeiten konfiguriert, daher kann keine Kapazität ermittelt werden.
+        partial: Für den ausgewählten Benutzer sind für den Zeitraum %{dates} keine Arbeitszeiten konfiguriert, daher kann keine Kapazität ermittelt werden.
       outside_dates:
         description: Die ausgewählten Zeiten (%{resource_dates}) liegen außerhalb der geplanten Zeiten des Arbeitspakets (%{work_package_dates}).
       overbooking:
@@ -128,6 +140,7 @@ de:
       title: "%{filter_name} zuweisen"
     blankslate:
       desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
+      global_desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten projektübergreifend zu planen.
       title: Keine Ressourcenplaner vorhanden
     configure_view_dialog:
       delete_confirmation: Sind Sie sicher, dass Sie diese Ansicht löschen möchten? Dies kann nicht rückgängig gemacht werden.
@@ -141,13 +154,16 @@ de:
           label: Manuell ausgewählt
       title: Ansicht konfigurieren
     create_placeholder_user_dialog:
-      submit: Create
-      title: Create placeholder user
+      submit: Erstellen
+      title: Neuer Platzhalter-Benutzer
     edit_allocation_dialog:
       submit: Speichern
       success_message: Ressourcenzuordnung aktualisiert.
       title: Zuweisung bearbeiten
     favorite_caption: Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
+    filters:
+      resource_management_enabled: Ressourcenmanagement aktiviert
+    global_public_caption: Machen Sie diese Ansicht für Nutzer öffentlich, die zur Einsicht in globale Ressourcenplaner berechtigt sind. Dies hat keine Auswirkungen auf die Sichtbarkeit der Arbeitspakete, die weiterhin von den jeweiligen Benutzerberechtigungen abhängt.
     label_edit_resource_planner: Ressourcenplaner bearbeiten
     label_new_resource_planner: Ressourcenplaner erstellen
     label_resource_planner: Ressourcenplaner
@@ -192,13 +208,16 @@ de:
         add: Hinzufügen
         allocate: Zuweisen
         settings: Ansicht konfigurieren
+      undisclosed:
+        tooltip: Sie verfügen nicht über die erforderlichen Berechtigungen, um diese zugewiesene Ressource einzusehen
+        work_package: Nicht sichtbares Arbeitspaket
     user_allocations_dialog:
       allocate_work_package: Arbeitspakete zuweisen
       blank: Diesem Benutzer wurden keine Arbeitspakete zugewiesen.
-      other_work_packages:
-        one: ein anderes Arbeitspaket
-        other: "%{count} andere Arbeitspakete"
+      blank_in_timeframe: Diesem Benutzer wurden im ausgewählten Zeitraum keine Arbeitspakete zugewiesen.
+      hidden_work_package: Nicht sichtbares Arbeitspaket
       title: Auslastung
+      total_time: "%{hours} insgesamt"
     user_card_list:
       add_user_dialog:
         title: Benutzer hinzufügen

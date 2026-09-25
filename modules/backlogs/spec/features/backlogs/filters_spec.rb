@@ -117,6 +117,34 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     backlogs_page.expect_inbox_work_package_count(1)
   end
 
+  context "with version filtering" do
+    shared_let(:version) { create(:version, project:, name: "Release 1.0") }
+    shared_let(:observed_bucket_wp) { create_bucket_wp(subject: "Observed in the release") }
+
+    before_all do
+      create(:work_package_version, work_package: observed_bucket_wp, version:, kind: :observed_in)
+    end
+
+    it "offers versions by name and keeps the selection after a reload" do
+      backlogs_page.apply_observed_in_version_filter(version)
+
+      backlogs_page.expect_bucket_items(bucket, items: observed_bucket_wp)
+      backlogs_page.expect_no_bucket_items(bucket, items: [matching_bucket_wp, excluded_bucket_wp])
+      backlogs_page.expect_backlog_bucket_work_package_count(bucket, 1)
+
+      page.refresh
+
+      backlogs_page.open_filters
+      backlogs_page.expect_filter_set("observed_in_version_id", value: "Release 1.0")
+      backlogs_page.expect_bucket_items(bucket, items: observed_bucket_wp)
+      backlogs_page.expect_no_bucket_items(bucket, items: [matching_bucket_wp, excluded_bucket_wp])
+    end
+
+    it "groups versions by project" do
+      backlogs_page.expect_observed_in_version_option(version, grouped_under: project.name)
+    end
+  end
+
   context "with milestone filtering" do
     shared_let(:milestone_type) { create(:type, is_milestone: true) }
 
@@ -262,6 +290,37 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.expect_bucket_items_in_order(
         empty_target_bucket, items: [draggable_wp, existing_wp]
       )
+    end
+  end
+
+  context "with an expanded filtered inbox" do
+    shared_let(:needle_inbox_items) do
+      create_list(:work_package, 6, project:, subject: "Expansion needle", status: status_a)
+    end
+
+    before do
+      # Truncates the inbox above 5 items: see pagination_state_spec.rb.
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 3)
+    end
+
+    it "restores truncation after quick search and advanced filter changes" do
+      backlogs_page.apply_subject_filter("Expansion needle")
+      backlogs_page.expect_no_inbox_items(items: matching_inbox_wp)
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_no_inbox_show_more
+
+      backlogs_page.clear_subject_filter
+      backlogs_page.expect_inbox_items(items: matching_inbox_wp)
+      backlogs_page.expect_inbox_show_more
+      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_no_inbox_show_more
+
+      backlogs_page.apply_status_filter(status_a)
+      backlogs_page.expect_no_inbox_items(items: status_b_inbox_wp)
+      backlogs_page.expect_inbox_show_more
+      expect(page).to have_no_current_path(/[?&]all=/, url: true)
     end
   end
 end

@@ -1,5 +1,8 @@
 ---
 pl:
   js:
+    button_allocate_resource: Allocate resource
     resource_management:
-      create_placeholder_user: Create placeholder user with filter criteria
+      create_placeholder_user: Utwórz użytkownika zastępczego przy użyciu kryteriów filtrowania
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations

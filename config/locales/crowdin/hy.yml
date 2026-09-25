@@ -385,16 +385,13 @@ hy:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
-        defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form source
+        linked_aspects: Inherited configuration
         patterns: Patterns
-        pdf_export_source: PDF export source
-        project_attributes_source: Project attributes source
         project_types: Projects using this variant
         variant: Variant
         variant_name: Name
-        workflows_source: Workflows source
+        workflow: Workflow
       user:
         admin: Ադմինիստրատոր
         auth_source: Նույնականացման աղբյուր
@@ -499,6 +496,7 @@ hy:
           title: Աշխատանքային օրեր
           true: ներառել ոչ աշխատանքային օրերը
         journal_internal: Ներքին մատյան
+        labels: Labels
         notify: Ծանուցել
         observed_in_versions: Observed in versions
         parent: Ծնող
@@ -527,6 +525,10 @@ hy:
         work_package: Աշխատանքային փաթեթ
       work_package_version:
         kind: Տիպ
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: պետք է ընդունվի։
@@ -619,6 +621,10 @@ hy:
         user_in_ldap_managed_department: Այս օգտատերը պատկանում է LDAP համաժամացմամբ կառավարվող ստորաբաժանման և չի կարող տեղափոխվել։
         wrong_length: սխալ երկարություն ունի (պետք է լինի %{count} նշան)։
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -696,6 +702,13 @@ hy:
               not_unique: արդեն օգտագործվում է։ Խնդրում ենք ընտրել այլ անվանում։
         jira:
           invalid_protocol: Խնդրում ենք նշել վավեր պրոտոկոլ (http կամ https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -876,38 +889,19 @@ hy:
               group_without_name: Group name can't be blank.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
-              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
-              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
-
-                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
-            defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflow:
               not_available_to_this_variant: must be a workflow this project can use.
-            workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1730,6 +1724,35 @@ hy:
       caption_with_maximum: 'Աշխատանքային փաթեթի վրա օգտատիրոջ գործողությունները (նկարագրության, կարգավիճակի, արժեքների փոփոխում կամ մեկնաբանությունների գրում) խմբավորվում են, եթե կատարվում են այս ժամանակահատվածում։ Այն նաև կարգավորում է ծանուցումների և [վեբհուքի](webhook_link) ուշացումները։ Առավելագույնը %{max} րոպե է։
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Model Context Protocol-ը թույլ է տալիս AI գործակալներին իրենց օգտատերերին տրամադրել այս OpenProject համակարգի կողմից բացահայտված գործիքներ և ռեսուրսներ։ Այս հնարավորությունը դեռ բետա փուլում է։
@@ -1982,6 +2005,11 @@ hy:
         ignore: Անտեսել փոփոխությունները
         save: Պահպանել փոփոխությունները և շարունակել
         title: Պահպանե՞լ փոփոխությունները շարունակելուց առաջ։
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: Դեր՝ %{role}
         no_role: Ընտրեք դեր
@@ -2011,6 +2039,11 @@ hy:
           assignee: Աշխատանքային փաթեթի պատասխանատուին հասանելի լրացուցիչ անցումներ։
           author: Աշխատանքային փաթեթի հեղինակին հասանելի լրացուցիչ անցումներ։
         menu_label: Ցուցադրվող անցումներ
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -3536,6 +3569,7 @@ hy:
   label_deleted_custom_field: "(ջնջված հատուկ դաշտ)"
   label_deleted_custom_item: "(ջնջված տարր)"
   label_deleted_custom_option: "(ջնջված ընտրանք)"
+  label_deleted_version: "(deleted version)"
   label_departments: Կազմակերպություն
   label_departments_description_html: 'Սահմանեք Ձեր ընկերության կառուցվածքը՝ հիերարխիկ կերպով ստեղծելով ստորաբաժանումներ և ենթաստորաբաժանումներ։ Սա թույլ է տալիս արտացոլել հաշվետվողականության կապերը և OpenProject-ում պահպանել Ձեր կազմակերպության հստակ ու կառուցվածքային պատկերը։ Կարող եք նաև ներմուծել առկա կազմակերպական կառուցվածքը [LDAP ստորաբաժանումների համաժամացման](ldap_docs_article) միջոցով։
 
@@ -3674,6 +3708,7 @@ hy:
   label_journal_diff: Նկարագրության համեմատություն
   label_jump_to_a_project: Անցնել նախագծի...
   label_keyword_plural: Հիմնաբառեր
+  label_label_plural: Labels
   label_language: Լեզու
   label_language_based: Ըստ օգտատիրոջ լեզվի
   label_languages: Լեզուներ
@@ -5416,7 +5451,7 @@ hy:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Ստեղծել նոր տարբերակ
-        no_results_title_text: Ներկայումս նախագծում տարբերակներ չկան։
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Ցուցադրել աշխատանքային փաթեթները
         work_packages_graph: Աշխատանքային փաթեթների գծապատկեր
       work_package_priorities:
@@ -6419,6 +6454,47 @@ hy:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Ստեղծել տեսակ
@@ -6608,12 +6684,8 @@ hy:
             other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
             description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
             title: Dependent types
             variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
           title:
             one: 1 dependent type
             other: "%{count} dependent types"
@@ -6622,27 +6694,15 @@ hy:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
-          change_source: Change source type
           configure_manually: Configure manually
           confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
-          dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: The configuration mode was switched.
           title: Inherited configuration
         manual:
@@ -6656,7 +6716,7 @@ hy:
           dialog:
             submit: Switch
             title: Configure manually
-          inherit_from_type: Inherit from another type
+          inherit_from_type: Inherit from parent
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
@@ -6734,6 +6794,13 @@ hy:
       type_label: Տեսակ
       variant_label: Տարատեսակ
     milestone_indicator: Հանգրվան
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Անտեսել այս նախազգուշացումը։
     message: Այս էջում Դուք կարող եք բախվել սխալների և օգտագործման որակի վատթարացման։
@@ -6920,6 +6987,12 @@ hy:
   version_status_locked: կողպված
   version_status_open: բաց
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Ներկայումս այս տարբերակին նշանակված աշխատանքային փաթեթներ չկան։
       work_packages_in_archived_projects: Տարբերակը համօգտագործվում է արխիվացված նախագծերի հետ, որոնք դեռևս ունեն այս տարբերակին նշանակված աշխատանքային փաթեթներ։ Դրանք հաշվառվում են, սակայն չեն ցուցադրվի կապակցված տեսքերում։
@@ -7233,6 +7306,12 @@ hy:
       one: Մեկ հետնորդ աշխատանքային փաթեթ
       other: "%{count} հետնորդ աշխատանքային փաթեթ"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7243,8 +7322,16 @@ hy:
             one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{role_name}' դերին։
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
       new:
-        title: Պատճենել "%{source_type}"-ի աշխատանքային հոսքը
+        dialog_title: Copy workflow of "%{source}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Աշխատանքային հոսքի մատրից
       matrix_caption_assignee: Աշխատանքային հոսքի մատրից պատասխանատուի համար
       matrix_caption_author: Աշխատանքային հոսքի մատրից հեղինակի համար
@@ -7253,12 +7340,79 @@ hy:
       matrix_check_uncheck_all_in_row_label_html: Փոխարկել անցումները <em>%{old_status}</em>-ից դեպի բոլոր նոր կարգավիճակները
       matrix_checkbox_label: Թույլատրել անցումը %{old_status}-ից դեպի %{new_status}
       matrix_uncheck_all_label: Արգելել բոլոր անցումները
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Զտել ըստ տեսակի անվանման…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Կազմաձևեք կարգավիճակների անցումները աշխատանքային փաթեթի յուրաքանչյուր տեսակի համար։
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Փոխել աշխատանքային օրերը
     dialog:

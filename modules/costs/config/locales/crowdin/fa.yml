@@ -251,6 +251,7 @@ fa:
   label_show: نمایش
   label_specific_day: "%{day} روز"
   label_specific_month: ماه %{month}
+  label_stack: Stack
   label_start_and_finished: زمان‌های شروع و پایان
   label_status_finished: پایان‌یافته
   label_time: زمان

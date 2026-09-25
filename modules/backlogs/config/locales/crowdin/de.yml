@@ -26,6 +26,7 @@ de:
       project:
         allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
+        estimation_unit: Unit
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
       sprint:
@@ -137,6 +138,7 @@ de:
       show:
         blankslate_description: Legen Sie Start- und Enddatum für den Sprint fest, um ein Burndown-Diagramm zu erstellen.
         blankslate_title: Keine Burndown-Daten verfügbar
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Wählen Sie, welche Arbeitspaket-Typen Sie aus dem Backlog ausblenden möchten. Elemente der ausgewählten Typen erscheinen nicht automatisch im Backlog und sind so auf die Arbeit konzentriert, die für Ihr Team wichtig ist. Typen wie Epics oder Milestones, die auf einer höheren Ebene verwaltet werden, können beispielsweise ausgeblendet werden, damit sich das Backlog auf umsetzbare Aufgaben konzentriert.
 
       '
@@ -184,7 +186,7 @@ de:
     remaining_hours: Verbleibender Aufwand
     sharing: Sprints teilen
     show_burndown_chart: Burndown-Diagramm
-    show_work_package_overview: Work packages within the sprint
+    show_work_package_overview: Arbeitspakete innerhalb des Sprints
     sprint_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -212,29 +214,29 @@ de:
         title: "%{sprint} Bericht"
       widgets:
         work_package_graph:
-          title: Work packages graph
+          title: Arbeitspaket-Graph
         work_package_overview:
           blankslate:
-            description: Set start and end date for the sprint to generate the work package overview.
-            heading: No sprint data available
+            description: Legen Sie Start- und Enddatum für den Sprint fest, um die Arbeitspaket-Übersicht zu erstellen.
+            heading: Keine Sprintdaten verfügbar
           blocks:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
-              heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              heading: Scope-Änderungen
+              story_points_change: "+%{added} / -%{removed} Story-Punkte"
             completed:
-              heading: Completed
+              heading: Abgeschlossen
             initially_planned:
-              heading: Initially planned
+              heading: Ursprünglich geplant
             unfinished:
-              heading: Unfinished
+              heading: Unvollendet
           breakdown_block:
             blocks:
-              show_all: View all
-          closed_work_packages: Closed work packages
+              show_all: Alle anzeigen
+          closed_work_packages: Abgeschlossene Arbeitspakete
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage}% (%{resolved} von %{total} Arbeitspaket)"
+            other: "%{percentage}% (%{resolved} von %{total} Arbeitspaketen)"
     sprints:
       row_component:
         action_menu:
@@ -276,18 +278,18 @@ de:
         invalid_target: Das Ziel, zu dem Sie hinzufügen möchten, ist ungültig.
         target_not_found: Der Sprint oder das Backlog, zu dem Sie hinzufügen möchten, wurde nicht gefunden.
       batch_update_service:
-        mixed_projects: All work packages of a batch must belong to the same project.
-        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
-        stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
-        unavailable_target: The destination list is no longer available. Please reload the page and try again.
-        unexpected_failure: The work packages could not be moved. Please try again.
+        mixed_projects: Alle Arbeitspakete eines Vorgangs müssen zum selben Projekt gehören.
+        stale_batch: Mindestens ein Arbeitspaket hat sich während der Vorbereitungen fürs Verschieben geändert. Bitte überprüfen Sie die aktuellen Positionen und versuchen Sie es erneut.
+        stale_predecessor: Das Arbeitspaket, hinter welches eingefügt werden sollte wurde verschoben. Bitte überprüfen Sie die aktuellen Positionen und versuchen Sie es erneut.
+        unavailable_target: Der Zielcontainer ist nicht mehr verfügbar. Bitte laden Sie die Seite neu und versuchen Sie es erneut.
+        unexpected_failure: Die Arbeitspakete konnten nicht verschoben werden. Bitte versuchen Sie es erneut.
       move:
         moved_announcement: "%{label} verschoben nach %{list}, Position %{position} von %{total}"
       move_collection:
-        invalid_ids: The list of work packages to move is invalid.
+        invalid_ids: Die Liste der zu verschiebenden Arbeitspakete ist ungültig.
         member_failed: "%{work_package}: %{reason}"
-        too_many_work_packages: No more than %{max} work packages can be moved at once.
-        work_packages_not_found: At least one work package could not be found in this project.
+        too_many_work_packages: Es können nicht mehr als %{max} Arbeitspakete gleichzeitig verschoben werden.
+        work_packages_not_found: In diesem Projekt konnte mindestens ein Arbeitspaket nicht gefunden werden.
       update_service:
         invalid_target_type: "„list_type“ muss einer der folgenden Werte sein: „backlog_bucket“ mit einer „list_id“, „sprint“ mit einer „list_id“ oder „inbox“ ohne „list_id“."
         missing_target: "„list_type“ oder „list_id“ muss vorhanden sein."
@@ -324,10 +326,10 @@ de:
   notice_unsuccessful_start: Der Sprint konnte nicht gestartet werden.
   notice_unsuccessful_start_with_reason: 'Der Sprint konnte nicht gestartet werden: %{reason}'
   notice_work_package_invisible_after_move:
-    one: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+    one: 'Das Arbeitspaket wurde zu %{backlog} verschoben, ist aber nicht sichtbar, weil sein Typ oder Status gemäß Konfiguration im Backlog ausgeblendet wird.
 
       '
-    other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
+    other: "%{count} Arbeitspakete wurden zu %{backlog} verschoben, sind aber nicht sichtbar, weil ihr Typ oder Status gemäß Konfiguration im Backlog ausgeblendet wird.\n"
   permission_create_sprints: Sprints erstellen
   permission_manage_sprint_items: Sprint-Elemente verwalten
   permission_select_backlog_types_and_statuses: Typen und Status für Backlogs wählen
@@ -346,6 +348,18 @@ de:
       backlog_buckets: Backlog Buckets
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -366,6 +380,9 @@ de:
             label: Unterprojekte
         sprint_sharing: Sprints teilen
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Standardmäßig kann pro Projekt jeweils nur ein Sprint aktiv sein. Sie können diese Einstellung ändern, sodass in diesem Projekt mehrere Sprints parallel aktiv sein können.
           heading: Anzahl der aktiven Sprints

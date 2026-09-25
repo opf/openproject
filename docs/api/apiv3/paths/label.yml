@@ -1,0 +1,65 @@
+# /api/v3/labels/{id}
+---
+get:
+  parameters:
+  - description: Label id
+    example: 1
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/labels/1"
+                    title: Bug
+                _type: Label
+                id: 1
+                name: Bug
+                createdAt: '2014-08-29T12:40:53.373Z'
+                updatedAt: '2014-08-29T12:40:53.373Z'
+          schema:
+            "$ref": "../components/schemas/label_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package (on any project)
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the label does not exist.
+      headers: {}
+  tags:
+  - Labels
+  description: ''
+  operationId: View_Label
+  summary: View Label

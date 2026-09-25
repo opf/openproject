@@ -63,6 +63,12 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 ./node_modules/.bin/ng test --watch
 ```
 
+CI additionally typechecks the application and spec sources with `tsc`, which reports errors that the build and the test run can miss. To reproduce that locally, run the following in the `frontend/` folder:
+
+```shell
+npm run typecheck
+```
+
 ## Unit tests
 
 After following the prerequisites, use the following command to run individual specs:

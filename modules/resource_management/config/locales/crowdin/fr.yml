@@ -3,15 +3,15 @@ fr:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: Critères de filtrage
       resource_allocation:
         allocated_hours: Heures
         allocated_time: Temps affecté
         date_range: Dates
         end_date: Date de fin
         entity: Entité
-        placeholder_or_user: Assignee
-        placeholder_user: Placeholder user
+        placeholder_or_user: Personne assignée
+        placeholder_user: Utilisateur fictif
         principal: Personne assignée
         start_date: Date de début
         state: État
@@ -23,12 +23,17 @@ fr:
         name: Nom
         public: Public
         start_date: Date de début
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: doit être postérieure à la date de début.
+            principal:
+              not_a_member: n'est pas membre du projet du lot de travaux.
         resource_planner:
           attributes:
             end_date:
@@ -59,6 +64,9 @@ fr:
       resource_work_package_timeline:
         one: Chronologie des lots de travaux
         other: Chronologies des lots de travaux
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Suivant
   ee:
     features:
@@ -72,8 +80,12 @@ fr:
   permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer des affectations de ressources dans un planificateur de ressources. Cela inclut l'attribution d'utilisateurs (ou de filtres d'utilisateurs) à un planificateur ainsi que l'ajustement du temps affecté et de la période.
   permission_assign_users_to_generic_allocations: Affecter des utilisateurs à des affectations génériques
   permission_assign_users_to_generic_allocations_explanation: Permet d'utiliser la vue « Effectifs » pour affecter des utilisateurs réels à des affectations de ressources génériques (basées sur des filtres) qui ne sont pas encore associées à un utilisateur. Cette autorisation ne permet pas de créer ni de modifier des affectations.
+  permission_manage_public_global_resource_planners: Gérer les planificateurs de ressources globaux publics
+  permission_manage_public_global_resource_planners_explanation: Permet aux utilisateurs de rendre publics leurs propres planificateurs de ressources globaux et de gérer ceux que d'autres utilisateurs ont partagés publiquement. Cela ne leur permet pas de consulter les planificateurs de ressources globaux qui ne sont pas partagés publiquement.
   permission_manage_public_resource_planners: Gérer les planificateurs de ressources publiques
   permission_manage_public_resource_planners_explanation: Permet aux utilisateurs de créer et de gérer des planificateurs de ressources publics. Cela leur permet de visualiser, de créer, de gérer et de publier leurs propres planificateurs de ressources. Cela ne leur permet pas de visualiser les planificateurs de ressources qui ont été créés par d'autres utilisateurs et qui ne sont pas partagés publiquement.
+  permission_view_global_resource_planners: Voir les planificateurs de ressources globaux
+  permission_view_global_resource_planners_explanation: Permet aux utilisateurs d'accéder à la section des planificateurs de ressources globaux, où les ressources et les affectations de plusieurs projets peuvent être planifiées ensemble. Ils peuvent créer et gérer leurs propres planificateurs de ressources globaux et consulter ceux qui sont publics. Les utilisateurs ne voient que les projets, les ressources et les affectations qu'ils sont autorisés à consulter.
   permission_view_resource_planners: Voir les planificateurs de ressources
   permission_view_resource_planners_explanation: Permet aux utilisateurs d'accéder aux planificateurs de ressources. Cela leur permet de créer et de gérer leurs propres planificateurs de ressources et de consulter les planificateurs de ressources publics. Cela ne leur permet pas de consulter les planificateurs de ressources qui ont été créés par d'autres utilisateurs et qui ne sont pas partagés publiquement.
   plugin_openproject_resource_management:
@@ -90,11 +102,11 @@ fr:
       unfavorite: Supprimer des favoris
     allocate_resource_dialog:
       criteria:
-        empty: No criteria set.
-        label: Criteria
+        empty: Aucun critère défini.
+        label: Critères
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: Aucun horaire de travail n'est configuré pour l'utilisateur sélectionné à ces dates. Sa capacité est donc considérée comme nulle.
+        partial: 'Aucun horaire de travail n''est configuré pour l''utilisateur sélectionné aux dates suivantes : %{dates}. Sa capacité est donc considérée comme nulle pour ces jours.'
       outside_dates:
         description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travaux, %{work_package_dates}.
       overbooking:
@@ -128,6 +140,7 @@ fr:
       title: Affecter %{filter_name}
     blankslate:
       desc: Créez un planificateur de ressources pour commencer à planifier la capacité de ce projet.
+      global_desc: Créez un planificateur de ressources pour commencer à planifier les capacités entre plusieurs projets.
       title: Aucun planificateur de ressources pour le moment
     configure_view_dialog:
       delete_confirmation: Voulez-vous vraiment supprimer cette vue ? Cette action est irréversible.
@@ -141,13 +154,16 @@ fr:
           label: Sélection manuelle
       title: Configurer la vue
     create_placeholder_user_dialog:
-      submit: Create
-      title: Create placeholder user
+      submit: Créer
+      title: Créer un utilisateur fictif
     edit_allocation_dialog:
       submit: Enregistrer
       success_message: Attribution des ressources mise à jour.
       title: Modifier l'attribution
     favorite_caption: Faites de cette vue un favori pour l'ajouter à la section supérieure du menu de la barre latérale.
+    filters:
+      resource_management_enabled: Gestion des ressources activée
+    global_public_caption: Rendre cette vue publique pour toutes les personnes autorisées à consulter les planificateurs de ressources globaux. Cela n'affecte pas la visibilité des lots de travaux, qui dépend toujours des autorisations de chaque utilisateur.
     label_edit_resource_planner: Modifier le planificateur de ressources
     label_new_resource_planner: Nouveau planificateur de ressources
     label_resource_planner: Planificateur de ressources
@@ -192,13 +208,16 @@ fr:
         add: Ajouter
         allocate: Affecter
         settings: Configurer la vue
+      undisclosed:
+        tooltip: Vous n'avez pas l'autorisation de voir cette ressource affectée
+        work_package: Lot de travaux non visible pour vous
     user_allocations_dialog:
       allocate_work_package: Attribuer un lot de travaux
       blank: Cet utilisateur n'a aucun lot de travaux qui lui a été attribué.
-      other_work_packages:
-        one: 1 autre lot de travaux
-        other: "%{count} autres lots de travaux"
+      blank_in_timeframe: Aucun lot de travaux n'est affecté à cet utilisateur dans la période sélectionnée.
+      hidden_work_package: Lot de travaux non visible pour vous
       title: Utilisation
+      total_time: "%{hours} au total"
     user_card_list:
       add_user_dialog:
         title: Ajouter un utilisateur

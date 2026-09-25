@@ -2,19 +2,8 @@
   [name]="widgetName"
   [editable]="isEditable">
 
-  <widget-time-entries-current-user-menu slot="menu"
-    [resource]="resource"
-    (onConfigured)="updateConfiguration($event)" />
+  <widget-menu slot="menu"
+    [resource]="resource" />
 </widget-header>
 
-<div class="op-widget-box--body">
-  <op-time-entries-calendar (entries)="updateEntries($event)"
-    [displayedDays]="displayedDays"
-   />
-
-  <ng-container>
-    <div class="total-hours">
-      <p><span [textContent]="total"></span></p>
-    </div>
-  </ng-container>
-</div>
+<turbo-frame class="grid--widget-content" [id]="frameId" [src]="src" loading="lazy" />

@@ -1457,7 +1457,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
         TypeVariant::ASPECTS.each do |aspect|
-          link_configuration(named, source: base_variant, aspect:)
+          link_configuration(named, aspect:)
         end
       end
     end

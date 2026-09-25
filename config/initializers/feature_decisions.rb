@@ -63,3 +63,7 @@ OpenProject::FeatureDecisions.add :ai_text_transform_actions,
 OpenProject::FeatureDecisions.add :work_package_labels,
                                   description: "Enables labels on work packages, the labels API and the labels administration. " \
                                                "See FND-5 for details."
+
+OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
+                                  description: "Enables project settings for the unit of velocity, effort and capacity. " \
+                                               "See AGILE-198 for details."

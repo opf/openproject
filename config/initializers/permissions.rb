@@ -264,7 +264,9 @@ Rails.application.reloader.to_prepare do
                          %i[create edit update destroy add_group cancel_edit drop move update_query],
                        "work_package_types/project_attributes_tab":
                          %i[edit toggle enable_all_of_section disable_all_of_section],
-                       "work_package_types/workflow_tab": %i[edit],
+                       "work_package_types/workflow_tab":
+                         %i[edit change_dialog change create configure_dialog configure
+                            start_dialog start],
                        "work_package_types/pdf_export_template":
                          %i[edit toggle drop enable_all disable_all update_artefact_export
                             edit_settings update_settings],
@@ -486,7 +488,8 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :manage_subtasks,
                      {
-                       work_package_hierarchy_relations: %i[new create destroy]
+                       work_package_hierarchy_relations: %i[new create destroy],
+                       work_package_children: %i[new create refresh_form]
                      },
                      permissible_on: :project,
                      dependencies: :view_work_packages

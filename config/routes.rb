@@ -208,7 +208,6 @@ Rails.application.routes.draw do
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog
-      post :confirm
       post :switch
     end
 
@@ -233,6 +232,16 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      get :change_dialog
+      patch :change
+
+      get :start_dialog
+      post :start
+
+      get :configure_dialog
+      post :configure
+      post :create
+
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
@@ -320,7 +329,35 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :workflows, only: %i[index], controller: "workflows/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    collection do
+      get :configure_dialog
+      post :configure
+    end
+
+    member do
+      get :edit_dialog
+    end
+
+    resource :matrix, only: %i[show update], controller: "workflows/matrix" do
+      get :status_dialog
+      post :confirm_statuses
+    end
+
+    resource :copy, only: %i[new], controller: "workflows/copies" do
+      resource :from_role, only: %i[create], controller: "workflows/copies/from_roles"
+    end
+  end
+
   get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",
+
+  get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
       constraints: {
         field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s)),
@@ -1040,6 +1077,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :labels, only: %i[index create update destroy] do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        get :new_dialog, defaults: { format: :turbo_stream }
+      end
+      member do
+        get :edit_dialog, defaults: { format: :turbo_stream }
+        get :deletion_dialog, defaults: { format: :turbo_stream }
+      end
+    end
+
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
         get :reset_token_dialog
@@ -1129,6 +1177,10 @@ Rails.application.routes.draw do
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"
+
+    resources :children, only: %i[new create], controller: "work_package_children" do
+      post :refresh_form, on: :collection
+    end
 
     resource :progress, only: %i[edit update], controller: "work_packages/progress" do
       get :preview, on: :member

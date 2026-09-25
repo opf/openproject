@@ -1,0 +1,59 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= render(Primer::Alpha::Banner.new(scheme: banner_scheme, mb: 3, test_selector: "workflow-usage-banner")) do |banner| %>
+  <% if list_users? %>
+    <% banner.with_action_content do %>
+      <%= render(Primer::Alpha::Dialog.new(id: dialog_id, title: t("workflows.usage.dialog.title"), subtitle: dialog_caption, size: :medium_portrait)) do |dialog| %>
+        <% dialog.with_show_button { t("workflows.usage.dialog.button") } %>
+        <% dialog.with_body do %>
+          <% if types.any? %>
+            <%= render(Primer::Beta::BorderBox.new(mb: 3, test_selector: "workflow-usage-types")) do |box| %>
+              <% box.with_header { t(:label_type_plural) } %>
+              <% types.each do |variant| %>
+                <% box.with_row { variant_link(variant) } %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if named_variants.any? %>
+            <%= render(Primer::Beta::BorderBox.new(test_selector: "workflow-usage-variants")) do |box| %>
+              <% box.with_header { t("workflows.usage.dialog.variants") } %>
+              <% named_variants.each do |variant| %>
+                <% box.with_row do %>
+                  <%= variant_link(variant) %>
+                  <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) { t("workflows.usage.dialog.variant_of", type: variant.type.name) } %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= caption %>
+<% end %>

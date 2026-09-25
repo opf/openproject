@@ -224,6 +224,9 @@ You can either:
 
 If you set a password manually, share it with the user using a secure communication channel. You can also enable **Enforce password change on next login** to require the user to create a new password when they next sign in.
 
+> [!NOTE]
+> Assigning or resetting a password does not necessarily allow the user to authenticate with it. If an administrator has [restricted password login for SSO](../../authentication/login-registration-settings/#single-sign-on-sso-settings), SSO-linked users or all non-allowlisted users may be prevented from using internal or LDAP passwords. Password-related administration controls may also be unavailable depending on the configured policy.
+
 ![Authentication settings under user settings in OpenProject administrations](openproject_system_guide_general_tab_authentication.png)
 
 ### Preferences

@@ -312,7 +312,7 @@ When a filter is defined, synchronization happens directly during seeding for en
 In an automated deployment setup, such as installing OpenProject using our Helm chart, you might want to provide the custom design through environment variables.
 
 > [!NOTE]
-> Setting these variables will not have an effect on the Community Edition.
+> Setting these variables will not have an effect on the Community edition.
 
 **Setting design colors**
 
@@ -341,16 +341,31 @@ OPENPROJECT_SEED_DESIGN_EXPORT__LOGO="..."
 OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 ```
 
+**Applying the design only on first seed**
+
+By default, these variables are re-applied on every seed (including upgrades), which overwrites any design changes made in the administration UI.
+
+To seed an initial design once and then leave it under admin control, set:
+
+```shell
+OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY="true"
+```
+
+When this flag is true, the seeder runs only if no custom design (`CustomStyle`) exists yet. Omit the flag or set it to `false` to keep the default always-reapply behavior.
+
+> [!NOTE]
+> On BIM edition, the BIM theme seeder already creates a custom design during first install. With `ONLY__WHEN__EMPTY=true`, the environment design will therefore not be applied on BIM first install.
+
 ## Examples for common use cases
 
-- `attachments_storage_path`
+- [`attachments_storage_path`](#attachments-storage-path)
 - `autologin_cookie_name` (default: 'autologin'),
 - `autologin_cookie_path` (default: '/')
 - `database_cipher_key`     (default: nil)
 - `scm_git_command` (default: 'git')
 - `scm_subversion_command` (default: 'svn')
 - [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
-- `force_help_link` (default: nil)
+- [`force_help_link`](#force-help-link) (default: nil)
 - `drop_old_sessions_on_logout` (default: true)
 - `drop_old_sessions_on_login` (default: false)
 - [`auth_source_sso`](#auth-source-sso) (default: nil)
@@ -407,13 +422,13 @@ To disable, set the configuration option:
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
 ```
 
-### Attachments storage
+### Attachments storage path
 
 You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
 
 To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
 
-#### Attachment storage type
+#### Attachments storage
 
 Attachments can be stored using e.g. Amazon S3, In order to set these values through ENV variables, add to the file :
 
@@ -765,7 +780,7 @@ OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP="false"
 ##### Mail recipient limits (disabled by default)
 
 Limits how many distinct email addresses OpenProject will send mail to per day.
-`0` (the default) disables this form of rate limiting. 
+`0` (the default) disables this form of rate limiting.
 
 Addresses exceeding this are dropped before delivery, so this covers every mailer (registration, invitations, shares, meetings, notifications).
 

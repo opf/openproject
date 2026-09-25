@@ -140,11 +140,14 @@ RSpec.describe Workflows::MatrixController do
     # it rather than through a status_ids/displayed_status_ids fixture.
     let(:matrix_context) do
       instance_double(Workflows::MatrixContext,
+                      workflow: variant.workflow,
                       variant:,
+                      readonly?: false,
                       tab: "always",
                       roles: [role],
                       requested_status_ids: [status.id],
-                      removed_displayed_status_ids:)
+                      removed_displayed_status_ids:,
+                      matrix_path: "/types/1/workflow/matrix")
     end
 
     def submit_statuses
@@ -200,7 +203,7 @@ RSpec.describe Workflows::MatrixController do
       instance_double(Workflows::MatrixUpdateService, call: call_result).tap do |dbl|
         allow(Workflows::MatrixUpdateService)
           .to receive(:new)
-                .with(variant:, roles:, tab: "always")
+                .with(workflow: variant.workflow, roles:, tab: "always")
                 .and_return(dbl)
       end
     end
@@ -208,7 +211,8 @@ RSpec.describe Workflows::MatrixController do
     # Statuses remain, so the response is the flash alone — the blankslate replacement is
     # covered by the feature specs.
     let(:matrix_context) do
-      instance_double(Workflows::MatrixContext, roles:, tab: "always", statuses: [build_stubbed(:status)])
+      instance_double(Workflows::MatrixContext, roles:, tab: "always", readonly?: false,
+                                                statuses: [build_stubbed(:status)])
     end
 
     def submit_matrix
@@ -251,7 +255,7 @@ RSpec.describe Workflows::MatrixController do
         submit_matrix
 
         expect(Workflows::MatrixUpdateService)
-          .to have_received(:new).with(variant:, roles:, tab: "always")
+          .to have_received(:new).with(workflow: variant.workflow, roles:, tab: "always")
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       end
     end

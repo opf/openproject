@@ -54,6 +54,8 @@ module McpOutputFilters
         timeEntries
         showCosts
         addFileLink
+        allocateResource
+        showResourceAllocations
       ])
     end
   end
