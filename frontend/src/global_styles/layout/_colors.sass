@@ -107,7 +107,7 @@
 
 @mixin hl_color_variables
   @include hl_lightness_switch(0.453)
-  --hl-lighten-by: -10
+  --hl-lighten-by: -20
 
   body[data-color-mode="dark"] &
     @include hl_lightness_switch(0.6)
@@ -124,7 +124,9 @@
     border: 1px solid hsl(from var(--hl-color) h s calc(l - 75)) !important
 
   body[data-color-mode="dark"] &
-    @include hl_background_muted_styles
+    color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+    background: rgb(from var(--hl-color) r g b / 0.18) !important
+    border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
 
   body[data-dark-theme="dark_high_contrast"] &
     color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
@@ -136,6 +138,12 @@
   color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
   background: rgb(from var(--hl-color) r g b / 0.18) !important
   border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+
+  body[data-dark-theme="dark_high_contrast"] &
+  body[data-light-theme="light_high_contrast"] &
+    color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+    background: rgb(from var(--hl-color) r g b / 0.18) !important
+    border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
 
 // Darkened in light mode, lightened in dark mode, so the color stays legible as text.
 @mixin hl_foreground_styles
@@ -156,7 +164,6 @@
 
 .__hl_background_muted
   @include hl_color_variables
-  @include hl_background_styles
   @include hl_background_muted_styles
 
 .__hl_foreground
