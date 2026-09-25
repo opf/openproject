@@ -49,7 +49,7 @@ export class AllocatedPrincipalsDisplayField extends MultipleLinesUserFieldModul
       values.filter((value) => value !== undisclosed),
       { hide: false, link: false },
       { hide: false, size: 'medium' },
-      { isActivated: !link },
+      { isActivated: true },
       true,
     );
 
