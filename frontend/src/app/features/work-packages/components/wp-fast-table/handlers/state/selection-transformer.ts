@@ -38,7 +38,10 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { paintRowSelection } from '../../builders/rows/row-selection-painter';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { registerWorkPackageSelectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
+import {
+  registerWorkPackageDeselectAll,
+  registerWorkPackageSelectAll,
+} from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
@@ -90,14 +93,21 @@ export class SelectionTransformer {
       rendered: () => table.renderedRows,
       selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
     });
+    const unregisterDeselectAll = registerWorkPackageDeselectAll({
+      root: table.tableAndTimelineContainer,
+      hasState: () => this.wpTableSelection.hasSelectionState,
+      clear: () => this.wpTableSelection.reset(),
+    });
     this.querySpace.stopAllSubscriptions
       .pipe(
         take(1),
         takeUntilDestroyed(destroyRef),
-        finalize(unregisterSelectAll),
+        finalize(() => {
+          unregisterSelectAll();
+          unregisterDeselectAll();
+        }),
       )
       .subscribe();
-    this.wpTableSelection.registerDeselectAllListener();
   }
 
   private paintRows():void {
