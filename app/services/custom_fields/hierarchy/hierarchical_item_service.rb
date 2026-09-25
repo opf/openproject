@@ -33,17 +33,6 @@ module CustomFields
     class HierarchicalItemService
       include Dry::Monads[:result]
 
-      # Generate the root item for the CustomField of type hierarchy
-      # @param custom_field [CustomField] custom field of type hierarchy
-      # @return [Success(CustomField::Hierarchy::Item), Failure(Dry::Validation::Result), Failure(ActiveModel::Errors)]
-      def generate_root(custom_field)
-        CustomFields::Hierarchy::GenerateRootContract
-          .new
-          .call(custom_field:)
-          .to_monad
-          .bind { |validation| create_root_item(validation[:custom_field]) }
-      end
-
       # Insert a new node on the hierarchy tree at a desired position or at the end if no sort_order is passed.
       # @param contract_class [Class<InsertHierarchyItemContract, InsertListItemContract, InsertWeightedItemContract>]
       #   the params validation contract class
@@ -219,14 +208,6 @@ module CustomFields
       end
 
       private
-
-      def create_root_item(custom_field)
-        item = CustomField::Hierarchy::Item.create(custom_field: custom_field)
-        return Failure(item.errors) if item.new_record?
-
-        update_position_cache(item)
-        Success(item)
-      end
 
       def create_child_item(validation:, before:)
         item = CustomField::Hierarchy::Item.new(**validation.to_h.except(:parent))

@@ -43,56 +43,6 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
     let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke", short: "LS").value! }
     let!(:mara) { service.insert_item(contract_class:, parent: luke, label: "mara").value! }
 
-    describe "#generate_root" do
-      # no tree needed for this section, but creation would fail due to non-existing root
-      let!(:luke) { nil }
-      let!(:mara) { nil }
-
-      context "with valid hierarchy custom field" do
-        let!(:custom_field) { create(:custom_field, field_format: "hierarchy") }
-
-        it "creates a root item successfully" do
-          custom_field.hierarchy_root.destroy
-          custom_field.reload
-
-          expect(service.generate_root(custom_field)).to be_success
-        end
-      end
-
-      context "with invalid custom field type" do
-        let!(:custom_field) { create(:custom_field, field_format: "text", hierarchy_root: nil) }
-
-        it "requires a custom field of type hierarchy" do
-          result = service.generate_root(custom_field).failure
-
-          expect(result.errors[:custom_field]).to eq(["format 'text' is unsupported."])
-        end
-      end
-
-      context "with persistence of hierarchy root fails" do
-        let!(:custom_field) { create(:custom_field, field_format: "hierarchy") }
-
-        it "fails to create a root item" do
-          custom_field.hierarchy_root.destroy
-          custom_field.reload
-
-          allow(CustomField::Hierarchy::Item)
-            .to receive(:create)
-                  .and_return(instance_double(CustomField::Hierarchy::Item, new_record?: true, errors: "some errors"))
-
-          result = service.generate_root(custom_field)
-          expect(result).to be_failure
-        end
-      end
-
-      context "with already existing hierarchy root" do
-        it "fails to create a root item" do
-          result = service.generate_root(custom_field)
-          expect(result).to be_failure
-        end
-      end
-    end
-
     describe "#insert_item" do
       let(:label) { "Child Item" }
       let(:short) { "Short Description" }
