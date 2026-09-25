@@ -1705,7 +1705,7 @@ en:
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
               label_coming_later: "Coming later"
-              label_coming_soon: "Coming soon (Q3 2026)"
+              label_coming_soon: "Coming soon"
               label_import: "Select which projects you would like to import."
               label_info: "Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now."
               label_progress: "Fetching data"
