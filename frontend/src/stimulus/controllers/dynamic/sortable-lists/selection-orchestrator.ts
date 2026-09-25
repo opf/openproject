@@ -43,6 +43,7 @@ import {
 } from './selection';
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isApplePlatform } from 'core-common/platform';
+import { clearSelectionOnEscape } from 'core-common/selection-escape';
 import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
 
 /**
@@ -72,10 +73,6 @@ type ScopeMutation = 'none'|'replace-if-unselected'|'replace';
 /**
  * Batch selection: gestures in, model and presentation out.
  */
-// Every root listens for Escape at the document, so the first to clear
-// would otherwise look to the next like an overlay that consumed the key.
-const escapesClearedBySelection = new WeakSet<Event>();
-
 export class SelectionOrchestrator {
   private readonly selection = new BatchSelection();
 
@@ -365,47 +362,17 @@ export class SelectionOrchestrator {
   // At the document, in the bubble phase: focus routinely sits off the root
   // after a mouse selection, and an overlay's own Escape must run first.
   readonly handleEscape = (event:KeyboardEvent):void => {
-    // A consumed Escape already answered the keystroke — unless it was
-    // another root's selection that consumed it, in which case this root's
-    // batch still has to go.
-    if (event.key !== 'Escape' || (event.defaultPrevented && !escapesClearedBySelection.has(event))) {
-      return;
-    }
-
-    if (!this.escapeConcernsSelection(event.target)) {
-      return;
-    }
-
     // BatchSelection#toggle re-bases the anchor even on a deselect, so an
     // emptied selection can still leave one behind for Escape to drop.
-    const hadSelection = this.selection.size > 0;
-    if (!hadSelection && this.selection.anchor === null) {
-      return;
-    }
-
-    event.preventDefault();
-    escapesClearedBySelection.add(event);
-    this.selection.clear();
-    this.renderSelection('selection');
+    clearSelectionOnEscape(
+      event,
+      () => this.selection.size > 0 || this.selection.anchor !== null,
+      () => {
+        this.selection.clear();
+        this.renderSelection('selection');
+      },
+    );
   };
-
-  // Escape drops the selection from wherever focus sits, except where the
-  // key already means "dismiss this thing": an open overlay anywhere — focus
-  // can still sit on its invoker for a frame after it opens — or a field
-  // whose widget owns it (a picker, an inline editor, an autocompleter).
-  private escapeConcernsSelection(target:EventTarget|null):boolean {
-    if (document.querySelector('dialog[open], :popover-open')) {
-      return false;
-    }
-
-    if (!(target instanceof Element)) {
-      return true;
-    }
-
-    return target.closest(
-      '[role="dialog"], [role="menu"], [role="listbox"], input, textarea, select, [contenteditable]',
-    ) === null;
-  }
 
   // A batch holds one item type: "all of these together" has no meaning
   // across two kinds of thing, and a collection move sends one list of ids

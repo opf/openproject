@@ -340,6 +340,52 @@ describe('SelectionOrchestrator', () => {
     expect(selectedIds()).toEqual(['1']);
   });
 
+  // The legacy menu never focuses into itself and its host outlives the
+  // menu, so only mounted menu content may hold Escape.
+  it('leaves Escape to a mounted legacy context menu, then clears once it is gone', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1')));
+    const host = document.createElement('div');
+    host.className = 'op-context-menu--overlay';
+    host.innerHTML = '<div role="menu"><span role="menuitem">Item</span></div>';
+    document.body.appendChild(host);
+
+    try {
+      const owned = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      Object.defineProperty(owned, 'target', { value: document.body });
+      orchestrator.handleEscape(owned);
+      expect(selectedIds()).toEqual(['1']);
+      expect(owned.defaultPrevented).toBe(false);
+
+      host.querySelector('[role="menu"]')!.remove();
+      const free = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      Object.defineProperty(free, 'target', { value: document.body });
+      orchestrator.handleEscape(free);
+      expect(selectedIds()).toEqual([]);
+      expect(free.defaultPrevented).toBe(true);
+    } finally {
+      host.remove();
+    }
+  });
+
+  it('leaves Escape to an active legacy modal overlay', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1')));
+    const overlay = document.createElement('div');
+    overlay.className = 'spot-modal-overlay spot-modal-overlay_active';
+    document.body.appendChild(overlay);
+
+    try {
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'target', { value: document.body });
+      orchestrator.handleEscape(event);
+      expect(selectedIds()).toEqual(['1']);
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      overlay.remove();
+    }
+  });
+
   describe('announcements', () => {
     const spoken = () => announceSpy.mock.calls.map((call) => call[0]);
 
