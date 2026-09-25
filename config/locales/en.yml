@@ -1110,9 +1110,6 @@ en:
       custom_field_section:
         one: "Custom field section"
         other: "Custom field sections"
-      custom_option:
-        one: "Custom field option"
-        other: "Custom field options"
       custom_style:
         one: "Design"
         other: "Designs"

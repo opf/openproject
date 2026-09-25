@@ -140,7 +140,7 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
       designer.save!(validate: false)
     end
 
-    it "filters users matching the selected custom option" do
+    it "filters users matching the selected list item" do
       instance.values = [developer_option.id.to_s]
 
       expect(instance.apply_to(User.user)).to contain_exactly(developer)

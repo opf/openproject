@@ -98,7 +98,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     context "with a multi-value list custom field with default value of 1 option" do
       let(:custom_field) { create(:wp_custom_field, :multi_list, default_options: ["B"]) }
 
-      it "returns an array with a CustomValue whose value is the stringified id of the default custom option" do
+      it "returns an array with a CustomValue whose value is the stringified id of the default list item" do
         option_b = custom_field.possible_values.find_by(label: "B")
         expect(work_package.custom_field_values)
           .to match([
@@ -111,7 +111,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     context "with a multi-value list custom field with default value of multiple options" do
       let(:custom_field) { create(:wp_custom_field, :multi_list, default_options: ["D", "B", "F"]) }
 
-      it "returns an array with CustomValues whose values are the stringified ids of the default custom options" do
+      it "returns an array with CustomValues whose values are the stringified ids of the default list items" do
         option_d = custom_field.possible_values.find_by(label: "D")
         option_b = custom_field.possible_values.find_by(label: "B")
         option_f = custom_field.possible_values.find_by(label: "F")

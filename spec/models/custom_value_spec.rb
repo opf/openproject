@@ -619,10 +619,10 @@ RSpec.describe CustomValue do
 
     context "for a list custom field" do
       let(:custom_field) { create(:custom_field, field_format: "list", possible_values: %w[value1 value2]) }
-      let(:custom_option1) { custom_field.possible_values.find_by(label: "value1") }
+      let(:list_item1) { custom_field.possible_values.find_by(label: "value1") }
 
       context "with a value from the list" do
-        let(:value) { custom_option1.id }
+        let(:value) { list_item1.id }
 
         it "is valid" do
           expect(custom_value)

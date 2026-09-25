@@ -136,7 +136,7 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
       let!(:list_custom_field) do
         create(:user_custom_field, :list)
       end
-      let(:custom_option_href) { api_v3_paths.custom_field_item(list_custom_field.possible_values.first.id) }
+      let(:list_item_href) { api_v3_paths.custom_field_item(list_custom_field.possible_values.first.id) }
 
       let(:payload) do
         {
@@ -144,7 +144,7 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
           custom_field.attribute_name(:camel_case) => "A custom value",
           _links: {
             list_custom_field.attribute_name(:camel_case) => {
-              href: custom_option_href
+              href: list_item_href
             }
           }
         }
@@ -175,7 +175,7 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
                 .at_path("_embedded/payload/customField#{custom_field.id}")
 
         expect(body)
-          .to be_json_eql(custom_option_href.to_json)
+          .to be_json_eql(list_item_href.to_json)
                 .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/href")
 
         expect(body)

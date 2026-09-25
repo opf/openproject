@@ -265,7 +265,7 @@ describe('UrlParamsHelper', () => {
       expect(v3Params).toEqual(expected);
     });
 
-    it('decodes custom options filters', () => {
+    it('decodes list custom field filters', () => {
       const filter1 = {
         id: 'customField1',
         operator: {
@@ -276,14 +276,14 @@ describe('UrlParamsHelper', () => {
         },
         values: [
           {
-            _type: 'CustomOption',
-            value: 'cde',
-            href: '/api/v3/custom_options/2',
+            _type: 'CustomField::Hierarchy::Item',
+            name: 'cde',
+            href: '/api/v3/custom_field_items/2',
           },
           {
-            _type: 'CustomOption',
-            value: 'abc',
-            href: '/api/v3/custom_options/7',
+            _type: 'CustomField::Hierarchy::Item',
+            name: 'abc',
+            href: '/api/v3/custom_field_items/7',
           },
         ],
       };
