@@ -1528,8 +1528,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       let(:available_custom_fields) { [custom_field] }
       let(:custom_field_values) { [build_stubbed(:custom_value, custom_field:, value:)] }
 
-      context "with format weighted item list" do
-        let(:custom_field) { build_stubbed(:weighted_item_list_wp_custom_field) }
+      context "with format weighted item list", with_ee: %i[weighted_item_lists] do
+        let(:custom_field) { create(:weighted_item_list_wp_custom_field) }
         let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
         let(:contract_class) { CustomFields::Hierarchy::InsertWeightedItemContract }
         let(:weighted_item) do
@@ -1546,8 +1546,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      context "with format hierarchy" do
-        let(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
+      context "with format hierarchy", with_ee: %i[custom_field_hierarchies] do
+        let(:custom_field) { create(:hierarchy_wp_custom_field) }
         let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
         let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
         let(:item) do

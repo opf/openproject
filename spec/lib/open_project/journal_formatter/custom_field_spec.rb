@@ -358,7 +358,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
   end
 
   context "for hierarchy custom field", with_ee: [:custom_field_hierarchies] do
-    let!(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
+    let!(:custom_field) { create(:hierarchy_wp_custom_field) }
 
     let!(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let!(:root) { custom_field.hierarchy_root }
