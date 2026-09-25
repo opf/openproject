@@ -79,21 +79,22 @@ module WorkPackage::AskBeforeDestruction
 
       registration = DestructionRegistration.new(klass, check, action)
 
-      self.registered_associated_to_ask_before_destruction << registration
+      registered_associated_to_ask_before_destruction << registration
     end
 
     def cleanup_each_associated_class(work_packages, user, to_do)
-      ret = false
+      all_succeeded = true
 
       transaction do
-        associated_to_ask_before_destruction_of(work_packages).each do |_klass, method|
-          ret = method.call(work_packages, user, to_do)
+        associated_to_ask_before_destruction_of(work_packages).each_value do |method|
+          succeeded = method.call(work_packages, user, to_do)
+          all_succeeded &&= succeeded
         end
 
-        raise ActiveRecord::Rollback unless ret
+        raise ActiveRecord::Rollback unless all_succeeded
       end
 
-      ret
+      all_succeeded
     end
   end
 end
