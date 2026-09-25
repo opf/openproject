@@ -36,30 +36,34 @@ See COPYRIGHT and LICENSE files for more details.
   )
 %>
 
-<%= styled_form_tag(
-      admin_settings_attachments_path,
+<%= settings_primer_form_with(
+      url: admin_settings_attachments_path,
+      scope: :settings,
       method: :patch
-    ) do %>
-  <section class="form--section">
-    <div class="form--field">
-      <%= setting_check_box :show_work_package_attachments, container_class: "-slim" %>
-      <div class="form--field-instructions">
-        <%= t("settings.attachments.show_work_package_attachments") %>
-      </div>
-    </div>
-    <div class="form--field">
-      <%= setting_text_field :attachment_max_size, size: 6, unit: t(:"number.human.storage_units.units.kb"), container_class: "-slim" %>
-    </div>
-    <div class="form--field">
-      <%= setting_text_area :attachment_whitelist, rows: 5, container_class: "-wide" %>
-      <div class="form--field-instructions">
-        <%= t(
-              "settings.attachments.whitelist_text_html",
-              ext_example: "*.jpg",
-              mime_example: "image/jpeg"
-            ) %>
-      </div>
-    </div>
-  </section>
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+    ) do |f|
+      render_inline_settings_form(f) do |form|
+        form.check_box(
+          name: :show_work_package_attachments,
+          caption: t("settings.attachments.show_work_package_attachments")
+        )
+
+        form.text_field(
+          name: :attachment_max_size,
+          size: 6,
+          input_width: :xsmall,
+          trailing_visual: { text: { text: t(:"number.human.storage_units.units.kb") } }
+        )
+
+        form.text_area(
+          name: :attachment_whitelist,
+          caption: t(
+            "settings.attachments.whitelist_text_html",
+            ext_example: "*.jpg",
+            mime_example: "image/jpeg"
+          ),
+          rows: 5
+        )
+
+        form.submit
+      end
+    end %>
