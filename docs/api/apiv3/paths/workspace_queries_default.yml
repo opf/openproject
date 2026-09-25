@@ -53,7 +53,7 @@ get:
       in: query
       required: false
       schema:
-        default: '[["id", "asc"]]'
+        default: '[["id", "desc"]]'
         type: string
     - name: groupBy
       description: The column to group by. The grouping criteria is applied to the to
