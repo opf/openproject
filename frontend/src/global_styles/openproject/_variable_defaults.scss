@@ -126,7 +126,8 @@
   --list-item-hover--color: var(--accent-color);
   --link-text-decoration: none;
   --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-  --split-screen-width: 430px;
+  --split-screen-width: 430px; // this variable is going to be updated via JS when the split screen is changed
+  --split-screen-min-width: 430px; // a default which will not be changed
   --full-view-split-right-width: 430px;
   --gantt-split-width: 50%;
   --enterprise-upsell-color: #CE4C00;
