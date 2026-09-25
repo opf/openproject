@@ -395,11 +395,36 @@ export const PickerControl = styled(TextControl)<{ $namesPick?:boolean }>`
   `}
 `;
 
-export const DisabledControl = styled(TextControl)`
+const generatedTextStyles = css`
   && {
+    grid-area: 1 / 1;
+    min-height: 0;
+    overflow: hidden;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-style: italic;
+  }
+`;
+
+export const GeneratedField = styled.div`
+  display: grid;
+`;
+
+export const GeneratedText = styled.span.attrs({ 'aria-hidden': true })`
+  ${controlStyles}
+  ${generatedTextStyles}
+  && {
+    visibility: hidden;
+  }
+`;
+
+export const GeneratedControl = styled.textarea`
+  ${controlStyles}
+  ${generatedTextStyles}
+  && {
+    resize: none;
     background: var(--op-create-wp-neutral);
     color: var(--op-create-wp-muted);
-    font-style: italic;
     cursor: default;
   }
 `;
