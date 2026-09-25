@@ -55,6 +55,7 @@ RSpec.describe "Open the Gitlab tab", :js do
 
   let(:issue) { create(:gitlab_issue, :open, work_packages: [work_package], title: "A Test Issue title") }
   let(:merge_request) { create(:gitlab_merge_request, :open, work_packages: [work_package], title: "A Test MR title") }
+  let(:branch) { create(:gitlab_branch, work_package:, name: "feature/a-test-branch") }
   let(:commit) do
     create(:gitlab_commit, work_packages: [work_package], message: "A Test commit message\n\nWith a much longer description")
   end
@@ -69,6 +70,7 @@ RSpec.describe "Open the Gitlab tab", :js do
     before do
       issue
       pipeline
+      branch
       commit
 
       login_as(user)
@@ -95,8 +97,8 @@ RSpec.describe "Open the Gitlab tab", :js do
         gitlab_tab.wait_for_tab_loaded
       end
 
-      it "shows the issues, merge requests and commits associated with the work package" do
-        tabs.expect_counter(gitlab_tab_element, 2)
+      it "shows the issues, merge requests, commits and branches associated with the work package" do
+        tabs.expect_counter(gitlab_tab_element, expected_tab_count)
 
         gitlab_tab.issues_collapse_button.click
         within("#issues") do
@@ -108,6 +110,13 @@ RSpec.describe "Open the Gitlab tab", :js do
         within("#merge_requests") do
           expect(page).to have_text("A Test MR title")
           expect(page).to have_text("Open")
+        end
+
+        gitlab_tab.branches_collapse_button.click
+        within("#branches") do
+          expect(page).to have_link("feature/a-test-branch", href: branch.html_url)
+          expect(page).to have_css("clipboard-copy[value='feature/a-test-branch']")
+          expect(page).to have_link("Create merge request", href: branch.new_merge_request_url)
         end
 
         gitlab_tab.commits_collapse_button.click
@@ -150,6 +159,7 @@ RSpec.describe "Open the Gitlab tab", :js do
       let(:pipeline) { nil }
       let(:merge_request) { nil }
       let(:issue) { nil }
+      let(:branch) { nil }
       let(:commit) { nil }
 
       before do
@@ -163,21 +173,25 @@ RSpec.describe "Open the Gitlab tab", :js do
 
         gitlab_tab.issues_collapse_button.click
         expect(page).to have_text("No issues")
+        expect(page).to have_css(".octicon-issue-opened")
         expect(page).to have_text("Link an existing issue by adding the code OP##{work_package.id} to " \
                                   "the title or description.")
 
         gitlab_tab.merge_requests_collapse_button.click
         expect(page).to have_text("No merge requests")
+        expect(page).to have_css(".octicon-git-pull-request")
         expect(page).to have_text("Link an existing merge request by adding the code OP##{work_package.id} to " \
                                   "the title or description.")
 
         gitlab_tab.branches_collapse_button.click
         expect(page).to have_text("No branches")
-        expect(page).to have_text("Link an existing branch by adding the code OP##{work_package.id} to " \
-                                  "the branch name.")
+        expect(page).to have_css(".octicon-git-branch")
+        expect(page).to have_text("Link an existing branch by adding the code #{work_package.display_id} to " \
+                                  "the branch name, for example feature/#{work_package.display_id.to_s.downcase}.")
 
         gitlab_tab.commits_collapse_button.click
         expect(page).to have_text("No commits")
+        expect(page).to have_css(".octicon-git-commit")
         expect(page).to have_text("Link an existing commit by adding the code OP##{work_package.id} to " \
                                   "the message.")
       end
@@ -210,6 +224,7 @@ RSpec.describe "Open the Gitlab tab", :js do
 
   describe "work package full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:expected_tab_count) { 2 }
 
     it_behaves_like "a gitlab tab"
   end
@@ -218,6 +233,7 @@ RSpec.describe "Open the Gitlab tab", :js do
     let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
     let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
     let(:gitlab_tab_element) { "gitlab" }
+    let(:expected_tab_count) { 3 }
 
     it_behaves_like "a gitlab tab"
   end

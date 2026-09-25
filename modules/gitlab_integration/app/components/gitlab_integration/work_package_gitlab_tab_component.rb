@@ -43,5 +43,13 @@ module GitlabIntegration
     def linking_code
       "OP##{work_package.display_id}"
     end
+
+    def branch_code
+      work_package.display_id
+    end
+
+    def branch_example
+      "feature/#{work_package.display_id.to_s.downcase}"
+    end
   end
 end
