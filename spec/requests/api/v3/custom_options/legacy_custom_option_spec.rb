@@ -65,4 +65,9 @@ RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
     expect(last_response.headers["Deprecation"]).to eq("true")
     expect(last_response.headers).not_to have_key("Sunset")
   end
+
+  it "points at the custom field item that replaces it" do
+    expect(last_response.headers["Link"])
+      .to eq(%(<#{api_v3_paths.custom_field_item(mapping.hierarchical_item_id)}>; rel="successor-version"))
+  end
 end
