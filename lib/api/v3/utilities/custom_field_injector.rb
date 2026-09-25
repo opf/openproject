@@ -260,15 +260,11 @@ module API
           # The setter block is instance_exec'd on the represented resource, not on
           # this injector, so a bound Method is captured here rather than relying
           # on an implicit self inside the block.
-          parse_href = method(:parse_custom_field_href)
+          parse_hrefs = method(:parse_custom_field_hrefs)
 
           ->(fragment:, represented:, **) {
-            values = Array([fragment].flatten).flat_map do |link|
-              href = link["href"]
-              value = parse_href.call(href, custom_field, property, expected_namespace) if href
-
-              [value].compact
-            end
+            hrefs = Array([fragment].flatten).filter_map { |link| link["href"] }
+            values = parse_hrefs.call(hrefs, custom_field, property, expected_namespace)
 
             represented.send(custom_field.attribute_setter, values)
           }
@@ -278,16 +274,16 @@ module API
         # /api/v3/custom_options one, so bookmarked filters and forms built before
         # the migration keep resolving. LegacyOptionIdResolver is a no-op for an id
         # that already names an item, so this never double-translates.
-        def parse_custom_field_href(href, custom_field, property, expected_namespace)
+        def parse_custom_field_hrefs(hrefs, custom_field, property, expected_namespace)
           namespace = custom_field.list? ? Array(expected_namespace) + ["custom_options"] : expected_namespace
 
-          id = ::API::Utilities::ResourceLinkParser.parse_id(
-            href, property:, expected_version: "3", expected_namespace: namespace
-          )
+          ids = hrefs.filter_map do |href|
+            ::API::Utilities::ResourceLinkParser.parse_id(href, property:, expected_version: "3", expected_namespace: namespace)
+          end
 
-          return id unless custom_field.list?
+          return ids unless custom_field.list?
 
-          ::CustomFields::LegacyOptionIdResolver.resolve(custom_field:, id:)
+          ::CustomFields::LegacyOptionIdResolver.resolve_all(custom_field:, ids:)
         end
 
         def embedded_link_value_getter(custom_field)
