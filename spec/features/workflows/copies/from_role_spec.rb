@@ -47,25 +47,24 @@ RSpec.describe "Workflow copy from role", :js do
       click_button "Copy"
 
       expect(page).to have_css(".flash-success", text: "Successfully copied workflow to 2 roles.")
-      # Copying to other roles stays within the same type, so the current path is kept
       current_path = if host == :wizard
                        type_creation_wizard_path(type_id: type,
                                                  step: :workflows)
                      else
-                       edit_type_workflow_path(type_id: type)
+                       edit_workflow_path(type.default_variant.workflow)
                      end
       expect(page).to have_current_path(current_path)
       expect(page).to have_text("2 roles selected")
     end
   end
 
-  describe "from the workflow tab" do
+  describe "from the workflow page" do
     before do
-      visit edit_type_workflow_path(type_id: type)
+      visit edit_workflow_path(type.default_variant.workflow)
       within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
-    it_behaves_like "a copy-to-other-roles dialog", host: :tab
+    it_behaves_like "a copy-to-other-roles dialog", host: :page
   end
 
   describe "from the creation wizard" do

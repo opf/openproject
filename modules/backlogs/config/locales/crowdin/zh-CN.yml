@@ -26,6 +26,7 @@ zh-CN:
       project:
         allow_multiple_active_sprints: 允许多个处于有效状态的冲刺
         backlog_excluded_types: 排除的工作包类型
+        estimation_unit: Unit
         sprint_sharing: 冲刺共享
         statuses_considered_closed: 被视为已关闭的状态
       sprint:
@@ -74,7 +75,7 @@ zh-CN:
               unfinished_work_packages:
                 other: 此冲刺中有 %{count} 个未完成的工作包。
             status:
-              not_active: 未激活，无法关闭。
+              not_active: 未处于有效状态，因此无法关闭。
         sprint_goal:
           project_already_has_goal: 已为此冲刺设定目标。
         work_package:
@@ -133,6 +134,7 @@ zh-CN:
       show:
         blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
         blankslate_title: 没有可用的燃尽数据
+    estimation_unit: Units
     excluded_work_package_types_caption: '选择要从积压工作中隐藏的工作包类型。所选类型的项目不会自动出现在积压工作中，从而聚焦于对您团队真正重要的工作。例如，可以隐藏长篇故事或里程碑等在更高级别管理的类型，使积压工作聚焦于可执行的项目。
 
       '
@@ -178,7 +180,7 @@ zh-CN:
     remaining_hours: 剩余工时
     sharing: 冲刺共享
     show_burndown_chart: 燃尽图
-    show_work_package_overview: Work packages within the sprint
+    show_work_package_overview: 冲刺内的工作包
     sprint_component:
       action_menu:
         add_existing_work_package: 添加现有工作包
@@ -187,7 +189,7 @@ zh-CN:
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
       drop_zone_label: 拖放到此处以添加此条目
-      label_actions: 冲刺行动
+      label_actions: 冲刺操作
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。
@@ -206,26 +208,26 @@ zh-CN:
         title: "%{sprint}报告"
       widgets:
         work_package_graph:
-          title: Work packages graph
+          title: 工作包图表
         work_package_overview:
           blankslate:
-            description: Set start and end date for the sprint to generate the work package overview.
-            heading: No sprint data available
+            description: 设置冲刺的开始和结束日期，以生成工作包概述。
+            heading: 没有可用的冲刺数据
           blocks:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
-              heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              heading: 范围更改
+              story_points_change: "+%{added} / -%{removed} 故事点"
             completed:
-              heading: Completed
+              heading: 已完成
             initially_planned:
-              heading: Initially planned
+              heading: 已初步规划
             unfinished:
-              heading: Unfinished
+              heading: 未完成
           breakdown_block:
             blocks:
-              show_all: View all
-          closed_work_packages: Closed work packages
+              show_all: 查看全部
+          closed_work_packages: 已关闭的工作包
           resolved_summary:
             other: "%{percentage}% (%{resolved} of %{total} work packages)"
     sprints:
@@ -268,18 +270,18 @@ zh-CN:
         invalid_target: 您尝试添加到的目标无效。
         target_not_found: 您尝试添加到的冲刺或积压工作未找到。
       batch_update_service:
-        mixed_projects: All work packages of a batch must belong to the same project.
-        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
-        stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
-        unavailable_target: The destination list is no longer available. Please reload the page and try again.
-        unexpected_failure: The work packages could not be moved. Please try again.
+        mixed_projects: 一个批次的所有工作包必须属于同一个项目。
+        stale_batch: 在准备移动时，至少有一个工作包发生了变化。请检查当前位置并重试。
+        stale_predecessor: 要插入到后方的工作包已移至其他位置。请检查当前位置并重试。
+        unavailable_target: 目标列表不再可用。 请重新加载页面并重试。
+        unexpected_failure: 无法移动工作包。请重试。
       move:
         moved_announcement: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
       move_collection:
-        invalid_ids: The list of work packages to move is invalid.
-        member_failed: "%{work_package}: %{reason}"
-        too_many_work_packages: No more than %{max} work packages can be moved at once.
-        work_packages_not_found: At least one work package could not be found in this project.
+        invalid_ids: 要移动的工作包列表无效。
+        member_failed: "%{work_package}：%{reason}"
+        too_many_work_packages: 一次移动的工作包数量不能超过 %{max} 个。
+        work_packages_not_found: 至少有一个工作包在此项目中无法找到。
       update_service:
         invalid_target_type: list_type 必须是下列一项：带有 list_id 的 backlog_bucket、带有 list_id 的 sprint，或者不带 list_id 的 inbox。
         missing_target: list_type 或 list_id 必须存在。
@@ -335,6 +337,18 @@ zh-CN:
       backlog_buckets: 积压工作存储桶
       sprints: 冲刺
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -355,6 +369,9 @@ zh-CN:
             label: 子项目
         sprint_sharing: 共享冲刺
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: 默认情况下，每个项目中一次只能有一个冲刺处于有效状态。您可以更改此设置，使此项目中能够同时有多个冲刺处于有效状态。
           heading: 有效冲刺的数量

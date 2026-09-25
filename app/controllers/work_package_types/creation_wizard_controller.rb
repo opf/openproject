@@ -33,6 +33,7 @@ module WorkPackageTypes
   class CreationWizardController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
+    include OpTurbo::ComponentStream
 
     layout "no_menu"
 
@@ -87,11 +88,28 @@ module WorkPackageTypes
       @type = @variant = service_call.result
 
       if service_call.success?
+        reuse_existing_workflow
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
+    end
+
+    def reuse_existing_workflow
+      variant = @type.default_variant
+      started_id = variant.workflow_id
+      reusable = reusable_workflow(started_id)
+      return if reusable.nil?
+
+      variant.update!(workflow: reusable)
+      # Read back rather than reusing the built instance, whose type_variants are still in memory.
+      Workflow.find(started_id).destroy
+    end
+
+    def reusable_workflow(started_id)
+      candidates = Workflow.global.where.not(id: started_id).in_display_order
+      candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
     end
 
     def create_variant
@@ -153,15 +171,31 @@ module WorkPackageTypes
       end
     end
 
-    # The matrix submits its inputs with the wizard form, along with the roles and
-    # transition tab it was showing, so that only that slice is rewritten.
     def update_workflows
-      if update_matrix.success?
-        advance
-      else
-        render :show, status: :unprocessable_entity
-      end
+      return name_workflow if params[:workflow].present?
+      return advance unless editing_own_workflow?
+      return render :show, status: :unprocessable_entity unless update_matrix.success?
+
+      respond_with_dialog(naming_dialog(@variant.workflow)) { |format| format.html { advance } }
     end
+
+    def name_workflow
+      service_call = ::Workflows::UpdateService.new(user: current_user, model: @variant.workflow).call(**naming_params)
+      return advance if service_call.success?
+
+      respond_with_dialog naming_dialog(service_call.result), status: :unprocessable_entity
+    end
+
+    def editing_own_workflow? = @variant.workflow&.used_by_one_variant?
+
+    def naming_dialog(workflow)
+      ::Workflows::DialogComponent.new(workflow:,
+                                       variant: @variant,
+                                       ask_copy_source: false,
+                                       url: type_creation_wizard_path(**variant_path_args, step: :workflows))
+    end
+
+    def naming_params = params.expect(workflow: %i[name description]).to_h.symbolize_keys
 
     def update_matrix
       context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,

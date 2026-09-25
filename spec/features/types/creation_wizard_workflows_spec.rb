@@ -59,7 +59,16 @@ RSpec.describe "Type creation wizard workflows step", :js do
     Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id)
   end
 
-  it "persists the matrix and advances when clicking 'Continue'" do
+  def name_workflow_and_continue(name)
+    click_on I18n.t(:button_continue)
+
+    within_dialog I18n.t("workflows.form.edit_title") do
+      fill_in "Workflow name", with: name
+      click_on I18n.t(:button_save)
+    end
+  end
+
+  it "persists the matrix, names the workflow and advances when clicking 'Continue'" do
     visit_workflow_wizard(roles: [role])
 
     expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -68,10 +77,43 @@ RSpec.describe "Type creation wizard workflows step", :js do
     check workflow_checkbox(1, 0)
 
     expect(page).to have_no_button "Save"
-    click_on I18n.t(:button_continue)
+    name_workflow_and_continue("Bug flow")
 
     expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
     expect(workflows_for(type, role).count).to be 2
+    expect(type.default_variant.reload.workflow.name).to eq("Bug flow")
+  end
+
+  describe "naming the workflow on the way out" do
+    it "opens on the name the workflow carries until someone changes it" do
+      visit_workflow_wizard(roles: [role])
+      click_on I18n.t(:button_continue)
+
+      within_dialog I18n.t("workflows.form.edit_title") do
+        expect(page).to have_field("Workflow name", with: "#{type.name} workflow")
+      end
+    end
+
+    it "stays on the step and says why when the name is taken" do
+      create(:named_workflow, name: "Taken flow")
+
+      visit_workflow_wizard(roles: [role])
+      name_workflow_and_continue("Taken flow")
+
+      expect(page).to have_text("Name has already been taken")
+      expect(page).to have_current_path(/step=workflows/)
+    end
+
+    it "asks for no name when the workflow belongs to another type as well" do
+      other = create(:type, name: "Feature")
+      type.default_variant.update!(workflow: other.default_variant.workflow)
+
+      visit_workflow_wizard(roles: [role])
+      click_on I18n.t(:button_continue)
+
+      expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+      expect(other.default_variant.reload.workflow.name).to be_present
+    end
   end
 
   context "when switching tabs" do
@@ -135,7 +177,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
 
       click_button "2 roles selected"
       find("[data-item-id='#{role2.id}']").click
-      within("select-panel") { click_button "Apply" }
+      within_test_selector("role-panel") { click_button "Apply" }
 
       expect(page).to have_no_text("2 roles selected")
       expect(page).to have_button(role.name)
@@ -158,12 +200,12 @@ RSpec.describe "Type creation wizard workflows step", :js do
       visit_workflow_wizard(roles: [role])
     end
 
-    it "shows the shared transitions and keeps them editable" do
-      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: false)
+    it "shows the shared transitions but does not let the step change them" do
+      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
       expect(page).to have_no_button "Save"
 
       within "#workflow-table" do
-        expect(page).to have_link "Status"
+        expect(page).to have_no_link "Status"
       end
     end
   end

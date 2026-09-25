@@ -45,7 +45,7 @@ export default class ModeSwitchRadioController extends ApplicationController {
     if (!radio.checked || radio === this.committed) return;
 
     const url = radio.dataset.dialogUrl;
-    
+
     if (this.committed) this.committed.checked = true;
 
     if (url) this.openDialog(url);

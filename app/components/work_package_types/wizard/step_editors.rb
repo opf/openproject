@@ -35,20 +35,21 @@ module WorkPackageTypes
     # object it binds to, and any reuse mode — so PageComponent stays a shell that only
     # asks for those, never for a particular step.
     module StepEditors
-      def self.for(step, variant)
+      def self.for(step, variant, step_url:)
         case step
-        when :details then Details.new(variant)
-        when :defaults then Defaults.new(variant)
-        when :workflows then Workflows.new(variant)
+        when :details then Details.new(variant, step_url:)
+        when :defaults then Defaults.new(variant, step_url:)
+        when :workflows then Workflows.new(variant, step_url:)
         end
       end
 
       class Base
-        def initialize(variant)
+        def initialize(variant, step_url:)
           @variant = variant
+          @step_url = step_url
         end
 
-        attr_reader :variant
+        attr_reader :variant, :step_url
 
         def aspect = nil
 
@@ -65,6 +66,12 @@ module WorkPackageTypes
         def reload_from_location? = false
 
         def readonly? = linkable_aspect? && variant.linked?(aspect)
+
+        def reuse_section
+          return unless linkable_aspect?
+
+          WorkPackageTypes::ReuseMode::SectionComponent.new(variant:, aspect:)
+        end
       end
 
       class Details < Base
@@ -93,6 +100,10 @@ module WorkPackageTypes
         # The matrix keeps the selected roles and transition tab in the page URL, which a
         # reload from the step path would discard.
         def reload_from_location? = true
+
+        def reuse_section
+          ::Workflows::Wizard::ChoiceComponent.new(variant:, back_url: step_url)
+        end
       end
     end
   end

@@ -251,6 +251,7 @@ eu:
   label_show: Show
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Finished
   label_time: Ordua

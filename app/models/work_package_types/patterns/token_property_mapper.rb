@@ -31,18 +31,13 @@
 module WorkPackageTypes
   module Patterns
     class TokenPropertyMapper
-      STRING_OR_NIL = ->(v) { v&.to_s }
-      ARRAY = ->(v) { v.compact.presence&.join(", ") }
-      DATE = ->(v) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
-      DURATION = ->(v) { DurationConverter.output(v) }
-
       class StaticAttributeDSL
         def initialize(context:, label_model:)
           @context = context
           @label_model = label_model
         end
 
-        def add(key, value_fn, formatter = STRING_OR_NIL, label: key)
+        def add(key, value_fn, formatter = Formatters::DefaultFormatter, label: key)
           label_fn = label
           unless label_fn.respond_to?(:call)
             raise ArgumentError, "label must be passed as function when no label_model is provided" if @label_model.nil?
@@ -92,11 +87,15 @@ module WorkPackageTypes
       def tokenize(custom_field_scope, context_name, prefix = nil)
         custom_field_scope.pluck(:name, :id, :field_format, :multi_value).map do |name, id, format, multiple|
           formatter = if multiple
-                        ARRAY
+                        Formatters::ArrayFormatter
                       elsif format == "date"
-                        DATE
+                        Formatters::DateFormatter
+                      elsif format == "hierarchy"
+                        Formatters::HierarchyFormatter
+                      elsif format == "weighted_item_list"
+                        Formatters::WeightedItemListFormatter
                       else
-                        ->(v) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v) }
+                        Formatters::DefaultFormatter
                       end
           AttributeToken.new(
             :"#{prefix}custom_field_#{id}",

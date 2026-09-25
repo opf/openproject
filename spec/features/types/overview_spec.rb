@@ -67,18 +67,6 @@ RSpec.describe "The overview of a work package type",
     end
   end
 
-  it "counts the dependents of a setting and lists them in a dialog" do
-    link_configuration(variant, aspect: TypeVariant::DEFAULTS)
-
-    visit type_settings_path(type_id: type.id)
-
-    within("#overview-workflow") { expect(page).to have_text("-") }
-    within("#overview-defaults") { click_on "1 dependent type" }
-
-    expect(page).to have_text("These types and variants inherit the configuration of this section")
-    within_test_selector("dependents-list") { expect(page).to have_link(variant.display_name) }
-  end
-
   it "drops the variants tab from a named variant" do
     visit type_settings_path(**variant.path_args)
 

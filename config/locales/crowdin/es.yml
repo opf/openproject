@@ -385,16 +385,13 @@ es:
       type_variant:
         attribute_groups: Formulario
         default_work_package_description: Texto predeterminado para descripción
-        defaults_source: Fuente de los valores predeterminados
         enabled_in_new_projects: Activo en nuevos proyectos
-        form_configuration_source: Fuente del formulario
+        linked_aspects: Inherited configuration
         patterns: Patrones
-        pdf_export_source: Fuente de exportación de PDF
-        project_attributes_source: Fuente de atributos del proyecto
         project_types: Proyectos que utilizan esta variante
         variant: Variante
         variant_name: Nombre
-        workflows_source: Fuente de flujos de trabajo
+        workflow: Workflow
       user:
         admin: Administrador
         auth_source: Fuente de autentificación
@@ -499,6 +496,7 @@ es:
           title: Días laborables
           true: incluir días no laborables
         journal_internal: Diario interno
+        labels: Labels
         notify: Notificar
         observed_in_versions: Ovservado en versiones
         parent: Padre
@@ -527,6 +525,10 @@ es:
         work_package: Paquete de trabajo
       work_package_version:
         kind: Tipo
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: debe ser aceptado.
@@ -619,6 +621,10 @@ es:
         user_in_ldap_managed_department: TEste usuario pertenece a un departamento gestionado mediante sincronización LDAP y no se puede trasladar.
         wrong_length: la longitud es incorrecta (debe ser %{count} caracteres).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -883,38 +889,19 @@ es:
               group_without_name: El nombre del grupo no puede estar vacío.
               query_invalid: 'La consulta insertada «%{group}» no es válida: %{details}'
             base:
-              borrowed_by_variants: No se puede eliminar mientras %{names} esté reutilizando su configuración.
-              inherits_from_project_owned: 'Esta variante actualmente hereda de una variante específica del proyecto y no se puede convertir en una variante global.
-
-                '
               is_default_variant: La configuración predeterminada de un tipo no se puede eliminar.
               project_variants_not_allowed: Este tipo no permite crear variantes dentro de los proyectos.
               restrict_dependent_destroy:
                 has_many: No se puede eliminar mientras haya proyectos que aún lo estén utilizando.
-            defaults_source_id:
-              must_be_available_to_the_variant: debe ser una configuración que este proyecto pueda usar.
-              would_create_cycle: enlazaría estas configuraciones en un bucle.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: no se puede establecer en una variante de un proyecto propio.
               taken: ya está establecido para otra configuración de este tipo.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: debe ser una configuración que este proyecto pueda usar.
-              would_create_cycle: enlazaría estas configuraciones en un bucle.
             patterns:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: debe ser una configuración que este proyecto pueda usar.
-              would_create_cycle: enlazaría estas configuraciones en un bucle.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: debe ser una configuración que este proyecto pueda usar.
-              would_create_cycle: enlazaría estas configuraciones en un bucle.
             variant:
               must_belong_to_the_type: debe ser una variante de este tipo.
             workflow:
               not_available_to_this_variant: debe ser un flujo de trabajo que este proyecto pueda utilizar.
-            workflows_source_id:
-              must_be_available_to_the_variant: debe ser una configuración que este proyecto pueda usar.
-              would_create_cycle: enlazaría estas configuraciones en un bucle.
         user:
           attributes:
             base:
@@ -1978,7 +1965,7 @@ es:
     text_transform_actions:
       delete_dialog_component:
         description: Los usuarios ya no podrán ejecutar esta acción en el editor de texto enriquecido.
-        heading: "¿Seguro de que quiere eliminar la acción «%{label}»?"
+        heading: "¿Seguro que quiere eliminar la acción «%{label}»?"
         title: Eliminar la acción de transformación de texto
       form:
         injects_type_template_caption: Si marca esta opción, la plantilla de descripción del tipo de paquete de trabajo se añade automáticamente a la instrucción. La instrucción debe contener indicaciones sobre cómo utilizar la plantilla.
@@ -2020,6 +2007,11 @@ es:
         ignore: Descartar cambios
         save: Guardar cambios y continuar
         title: "¿Guardar los cambios antes de continuar?"
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Rol: %{role}'
         no_role: Seleccionar rol
@@ -2049,6 +2041,11 @@ es:
           assignee: Transiciones adicionales a disposición del responsable del paquete de trabajo.
           author: Transiciones adicionales a disposición del autor del paquete de trabajo.
         menu_label: Transiciones mostradas
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -3568,6 +3565,7 @@ es:
   label_deleted_custom_field: "(campo personalizado borrado)"
   label_deleted_custom_item: "(elemento eliminado)"
   label_deleted_custom_option: "(opción eliminada)"
+  label_deleted_version: "(deleted version)"
   label_departments: Organización
   label_departments_description_html: 'Define la estructura de tu empresa creando departamentos y subdepartamentos de forma jerárquica. Esto te permite reflejar las líneas jerárquicas y mantener una visión general clara y estructurada de tu organización dentro de OpenProject. También puedes importar una estructura organizativa ya existente mediante la [sincronización de departamentos por LDAP](ldap_docs_article).
 
@@ -6478,7 +6476,7 @@ es:
         scope: Alcance
         workflows: Flujos de trabajo
       title: Comparar variantes
-      title_for_type: Compare las variantes de %{name}
+      title_for_type: Comparar las variantes de %{name}
       values:
         global: Todos los proyectos
         inheriting_from: Heredando de
@@ -6657,7 +6655,7 @@ es:
             description_html: Al copiar los datos de %{source_name}, se sobrescribirán los ajustes actuales y podría verse afectada la información existente sobre los paquetes de trabajo de este tipo.
             title: "¿Copiar la configuración?"
           dialog:
-            description: Copie la configuración de un tipo de origen y utilícela como base puntual. La configuración seguirá siendo manual y no heredará los cambios posteriores de la fuente.
+            description: Copie la configuración de un tipo de fuente y utilícela como base puntual. La configuración seguirá siendo manual y no heredará los cambios posteriores de la fuente.
             source_label: Tipo de fuente
             source_placeholder: Selecciona un tipo o una variante
             submit: Guardar y copiar
@@ -6673,12 +6671,8 @@ es:
             other: La siguiente configuración la heredan %{count} otros tipos o variantes. Cualquier cambio que realice aquí también afectará a los elementos dependientes.
           dialog:
             description: Estos tipos y variantes heredan la configuración de esta sección. Cualquier cambio que realice aquí se aplicará a todos ellos.
-            direct_heading: Dependientes directos
-            indirect_heading: Dependientes a través de otros tipos
             title: Tipos dependientes
             variant_of_html: Variante de %{type_name}
-            variant_of_via_html: Variante de %{type_name} que hereda a través de %{source_name}
-            via_html: Heredando de %{source_name}
           title:
             one: 1 tipo dependiente
             other: "%{count} tipos dependientes"
@@ -6687,27 +6681,15 @@ es:
           not_inherited: Esta configuración no se hereda, por lo que no hay nada que excluir. En su lugar, edite la configuración directamente.
           unknown_aspect: Sección de configuración desconocida «%{aspect}».
         inherited:
-          change_source: Cambiar el tipo de fuente
           configure_manually: Configurar manualmente
           confirm_dialog:
-            change_source:
-              description_html: Al cambiar el tipo de fuente a %{source_name}, se sobrescribirán los ajustes actuales y podría verse afectada la información existente sobre los paquetes de trabajo de este tipo.
-              heading: "¿Cambiar el tipo de fuente?"
-              title: Cambiar el tipo de fuente
             check_box: Entiendo que esto reemplazará la configuración actual
             from_manual:
               description: Se sobrescribirán todos los ajustes seleccionados actualmente y esto podría afectar a la información existente sobre los paquetes de trabajo de este tipo.
               heading: "¿Cambiar al modo de configuración?"
               title: Cambiar al modo de configuración
-          description: Esta configuración se hereda del tipo de fuente [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Esta configuración se hereda del tipo de fuente %{source_name}%{source_suffix}.
-          dialog:
-            description: Heredar esta configuración de un tipo de fuente. Cualquier configuración nueva que se añada a la fuente también se aplicará aquí.
-            source_label: Tipo de fuente
-            source_placeholder: Seleccione un tipo o una variante
-            submit: Cambiar
-            title: Heredar de otro tipo
-          invalid_source: No se puede heredar la configuración del tipo seleccionado. Seleccione otro tipo de fuente.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: Se ha cambiado el modo de configuración.
           title: Configuración heredada
         manual:
@@ -6721,7 +6703,7 @@ es:
           dialog:
             submit: Cambiar
             title: Configurar manualmente
-          inherit_from_type: Heredar de otro tipo
+          inherit_from_type: Inherit from parent
           invalid_mode: El modo seleccionado no está disponible para esta configuración. Elija otro modo.
           modes:
             copy:
@@ -6753,7 +6735,7 @@ es:
           title: Variantes globales
         project_specific_section:
           description: Estas variantes solo están disponibles en los proyectos en los que se crearon.
-          title: Variante específicas del proyecto
+          title: Variantes específicas del proyecto
       workflow:
         tab: Flujos de trabajo
     index:
@@ -6779,7 +6761,7 @@ es:
         heading: "¿Eliminar el tipo «%{name}»?"
         projects:
           one: 'El tipo se eliminará de 1 proyecto:'
-          other: 'El tipo se eliminará de %{count} proyecto:'
+          other: 'El tipo se eliminará de %{count} proyectos:'
         title: Eliminar tipo
       description: 'Cada área de configuración dentro de los tipos y variantes puede configurarse de forma independiente, limitarse con respecto a otro tipo o vincularse por completo a una fuente.
 
@@ -6799,6 +6781,13 @@ es:
       type_label: Tipo
       variant_label: Variante
     milestone_indicator: Hito
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Ignore esta advertencia.
     message: Podrás experimentar errores y una experiencia de mala calidad en esta página.
@@ -7302,6 +7291,12 @@ es:
       one: Un paquete de trabajo descendiente
       other: "%{count} paquetes de trabajo descendientes"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
         target_role_ids:
@@ -7312,8 +7307,16 @@ es:
             one: Se ha copiado correctamente el flujo de trabajo al rol «%{role_name}».
             other: Se ha copiado correctamente el flujo de trabajo a %{count} roles.
       new:
-        title: Copiar el flujo de trabajo de «%{source_type}»
+        dialog_title: Copy workflow of "%{source}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Matriz de flujo de trabajo
       matrix_caption_assignee: Matriz de flujo de trabajo para el asignado
       matrix_caption_author: Matriz de flujo de trabajo para el autor
@@ -7322,12 +7325,79 @@ es:
       matrix_check_uncheck_all_in_row_label_html: Conmutar transiciones de <em>%{old_status}</em> a todos los nuevos estados
       matrix_checkbox_label: Permitir la transición de %{old_status} a %{new_status}
       matrix_uncheck_all_label: No permitir todas las transiciones
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Filtrar por nombre de tipo…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Configura las transiciones de estado para cada tipo de paquete de trabajo.
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Cambiar los días laborables
     dialog:

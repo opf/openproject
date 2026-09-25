@@ -50,6 +50,13 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     end
   end
 
+  it "offers to create a new child from within the relations tab" do
+    render_component
+
+    expect(page).to have_link "Create new child",
+                              href: "/work_packages/#{work_package.id}/children/new"
+  end
+
   context "with parent relation" do
     shared_let_work_packages(<<~TABLE)
       hierarchy      | MTWTFSS | scheduling mode |
