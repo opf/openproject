@@ -232,7 +232,7 @@ module OpenProject::Plugins
                             ar_name:,
                             writable_for: %i[create update],
                             writable: true,
-                            &block)
+                            &)
         config.to_prepare do
           model_name = on.to_s.camelize
           namespace = model_name.pluralize
@@ -240,7 +240,7 @@ module OpenProject::Plugins
             # attribute is generally writable
             # overrides might be defined in the more specific contract implementations
             contract_class = "::#{namespace}::#{action.to_s.camelize}Contract".constantize
-            contract_class.attribute ar_name, { writable: }, &block
+            contract_class.attribute(ar_name, { writable: }, &)
           end
         end
       end
@@ -327,6 +327,20 @@ module OpenProject::Plugins
       def replace_principal_references(attributes_by_class_name)
         config.to_prepare do
           Principals::ReplaceReferencesService.add_replacements(attributes_by_class_name)
+        end
+      end
+
+      # Adds action option for custom actions
+      def add_custom_action(class_name)
+        config.to_prepare do
+          CustomActions::Register.add(:action, class_name)
+        end
+      end
+
+      # Adds condition for custom actions
+      def add_custom_action_condition(class_name)
+        config.to_prepare do
+          CustomActions::Register.add(:condition, class_name)
         end
       end
     end
