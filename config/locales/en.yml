@@ -2084,6 +2084,7 @@ en:
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
   announcements:
+    content: "Content"
     is_active: currently displayed
     is_inactive: currently not displayed
     show_until: Show until
