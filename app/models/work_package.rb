@@ -42,7 +42,6 @@ class WorkPackage < ApplicationRecord
   # version rows that the journal snapshot then reads.
   include WorkPackage::Versions
   include WorkPackages::DerivedDates
-  include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
   include HasMembers

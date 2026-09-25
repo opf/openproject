@@ -56,6 +56,7 @@ module Budgets
            icon: "op-budget"
     end
 
+    patches %i[WorkPackage]
     patch_with_namespace :Projects, :RowComponent
 
     # Allow assigning a budget when moving work packages

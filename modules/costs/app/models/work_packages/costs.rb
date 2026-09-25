@@ -32,11 +32,7 @@ module WorkPackages::Costs
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :budget, inverse_of: :work_packages, optional: true
     has_many :cost_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
-
-    # disabled for now, implements part of ticket blocking
-    validate :validate_budget
 
     after_update :move_cost_entries
 
@@ -46,16 +42,6 @@ module WorkPackages::Costs
 
     def costs_enabled?
       project&.costs_enabled?
-    end
-
-    def validate_budget
-      # Also re-validate when the work package is moved to another project, since
-      # the set of valid budgets is project-scoped. Otherwise a budget belonging
-      # to the source project would silently survive the move.
-      if (budget_id_changed? || project_id_changed?) &&
-         !(budget_id.blank? || project.budget_ids.include?(budget_id))
-        errors.add :budget, :inclusion
-      end
     end
 
     def material_costs
@@ -76,12 +62,6 @@ module WorkPackages::Costs
 
     def overall_costs
       labor_costs + material_costs
-    end
-
-    # Wraps the association to get the Cost Object subject.  Needed for the
-    # Query and filtering
-    def budget_subject
-      budget&.subject
     end
 
     def move_cost_entries
