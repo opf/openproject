@@ -111,7 +111,7 @@ RSpec.describe "Select work package row", :js, :selenium do
   end
 
   def uncheck_all
-    find("body").send_keys [:control, "d"]
+    find("body").send_keys :escape
     expect_row_unchecked(1, 2, 3)
     expect(page).to have_no_css "#work-package-context-menu"
   end
@@ -137,6 +137,12 @@ RSpec.describe "Select work package row", :js, :selenium do
     # select different row with right click
     select_work_package_row(3, :right)
     expect_row_unchecked(1, 2)
+    expect_row_checked(3)
+
+    # Escape closes the context menu first and leaves the selection alone
+    expect(page).to have_css "#work-package-context-menu"
+    find("body").send_keys :escape
+    expect(page).to have_no_css "#work-package-context-menu"
     expect_row_checked(3)
 
     ###
@@ -198,6 +204,19 @@ RSpec.describe "Select work package row", :js, :selenium do
     select_work_package_row(3, :right)
     expect_row_checked(1, 3)
     expect_row_unchecked(2)
+  end
+
+  it "clears the selection with the Escape after a cancelled inline create" do
+    check_all
+    wp_table.click_inline_create
+
+    # The first Escape cancels the create row and hands focus back to the button
+    find_by_id("wp-new-inline-edit--field-subject").send_keys :escape
+    expect(page).to have_no_css(".wp-inline-create-row")
+    expect_row_checked(1, 2, 3)
+
+    find('[data-test-selector="op-wp-inline-create"]').send_keys :escape
+    expect_row_unchecked(1, 2, 3)
   end
 
   describe "opening work package full screen view" do

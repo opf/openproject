@@ -129,7 +129,7 @@ module Pages
     end
 
     def deselect_all_work_packages
-      find("body").send_keys [:control, "d"]
+      find("body").send_keys :escape
       expect(page).to have_no_css "#work-package-context-menu"
     end
 
