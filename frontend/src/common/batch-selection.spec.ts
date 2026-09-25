@@ -262,4 +262,51 @@ describe('BatchSelection', () => {
       expect(selection.anchor).toBeNull();
     });
   });
+
+  describe('occurrence keys', () => {
+    const wp = (id:string) => ({ type: 'work_package', id });
+
+    it('anchors a replace at the supplied occurrence', () => {
+      selection.replace(wp('1'), 'view', 'wp-row-1');
+
+      expect(selection.anchor).toEqual({ type: 'work_package', id: '1', listKey: 'view', occurrenceKey: 'wp-row-1' });
+    });
+
+    it('anchors a toggle at the supplied occurrence, including a toggle off', () => {
+      selection.replace(wp('1'), 'view', 'wp-row-1');
+      selection.toggle(wp('1'), 'view', 'relation-1');
+
+      expect(selection.size).toBe(0);
+      expect(selection.anchor).toEqual({ type: 'work_package', id: '1', listKey: 'view', occurrenceKey: 'relation-1' });
+    });
+
+    it('carries no occurrence property when none is supplied', () => {
+      selection.replace(wp('1'), 'sprint:7');
+
+      expect(Object.keys(selection.anchor!)).toEqual(['type', 'id', 'listKey']);
+    });
+  });
+
+  describe('#replaceItems', () => {
+    const wp = (id:string) => ({ type: 'work_package', id });
+
+    it('replaces membership and drops the anchor and range session', () => {
+      selection.replace(wp('1'), 'view', 'wp-row-1');
+      selection.range([wp('1'), wp('2')]);
+      selection.replaceItems([wp('3'), wp('4')]);
+
+      expect(selection.items()).toEqual([wp('3'), wp('4')]);
+      expect(selection.anchor).toBeNull();
+      selection.range([wp('5')]);
+      expect(selection.items()).toEqual([wp('3'), wp('4'), wp('5')]);
+    });
+
+    it('accepts an empty import', () => {
+      selection.replace(wp('1'), 'view', 'wp-row-1');
+      selection.replaceItems([]);
+
+      expect(selection.size).toBe(0);
+      expect(selection.anchor).toBeNull();
+    });
+  });
 });
