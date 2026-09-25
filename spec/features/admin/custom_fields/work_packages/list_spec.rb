@@ -29,6 +29,7 @@
 # ++
 
 require "spec_helper"
+require_relative "../shared_list_custom_field_journey"
 
 RSpec.describe "work package list custom fields", :js do
   let(:user) { create(:admin) }
@@ -63,6 +64,15 @@ RSpec.describe "work package list custom fields", :js do
         expect(page).to have_css(".breadcrumb-item", text: "Work packages")
         expect(page).to have_css(".breadcrumb-item.breadcrumb-item-selected", text: "Platform")
       end
+    end
+  end
+
+  it_behaves_like "list custom field journey" do
+    let(:section) { nil }
+
+    def open_new_list_field_form
+      cf_page.visit_page "Work packages"
+      cf_page.click_to_create_new_custom_field "List"
     end
   end
 end
