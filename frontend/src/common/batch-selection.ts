@@ -56,9 +56,21 @@ export function selectionKey({ type, id }:SelectionItem):SelectionKey {
  * `listKey` is opaque here: the model records which list a range may span
  * without learning what a list is. Its holder decides how to derive it, and
  * rebinds it through {@link BatchSelection#rebindAnchor} when the item moves.
+ *
+ * `occurrenceKey` is equally opaque: a consumer that renders one item more
+ * than once names which rendering anchors the range. Consumers that do not
+ * distinguish occurrences leave it out.
  */
 export interface SelectionAnchor extends SelectionItem {
   listKey:string;
+  occurrenceKey?:string;
+}
+
+/** Builds an anchor that carries `occurrenceKey` only when one was supplied. */
+function anchorAt(item:SelectionItem, listKey:string, occurrenceKey?:string):SelectionAnchor {
+  return occurrenceKey === undefined
+    ? { ...item, listKey }
+    : { ...item, listKey, occurrenceKey };
 }
 
 /**
@@ -92,15 +104,15 @@ export class BatchSelection {
     return this.selectedItems.has(selectionKey(item));
   }
 
-  replace(item:SelectionItem, listKey:string):void {
+  replace(item:SelectionItem, listKey:string, occurrenceKey?:string):void {
     this.rangeBaseline = null;
     this.selectedItems = new Map([[selectionKey(item), item]]);
-    this.selectionAnchor = { ...item, listKey };
+    this.selectionAnchor = anchorAt(item, listKey, occurrenceKey);
   }
 
   // Re-bases the anchor even when the toggle deselects: the user's last
   // touched card is where they expect the next range to start from.
-  toggle(item:SelectionItem, listKey:string):void {
+  toggle(item:SelectionItem, listKey:string, occurrenceKey?:string):void {
     this.rangeBaseline = null;
     const key = selectionKey(item);
 
@@ -110,7 +122,21 @@ export class BatchSelection {
       this.selectedItems.set(key, item);
     }
 
-    this.selectionAnchor = { ...item, listKey };
+    this.selectionAnchor = anchorAt(item, listKey, occurrenceKey);
+  }
+
+  /**
+   * Replaces membership programmatically: a route, a board's cross-selection,
+   * the calendar.
+   *
+   * @remarks
+   * Nothing was touched, so nothing anchors: the anchor and the range
+   * session are dropped, and the next Shift gesture starts at its target.
+   */
+  replaceItems(items:readonly SelectionItem[]):void {
+    this.rangeBaseline = null;
+    this.selectedItems = new Map(items.map((item) => [selectionKey(item), item]));
+    this.selectionAnchor = null;
   }
 
   // The anchor stays put so repeated Shift gestures resize one range rather
