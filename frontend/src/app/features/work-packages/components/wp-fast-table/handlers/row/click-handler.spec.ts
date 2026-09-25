@@ -173,20 +173,22 @@ describe('RowClickHandler', () => {
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
   });
 
-  it.each([false, true])('initializes selection before double-click focus (selected: %s)', (alreadySelected) => {
-    if (alreadySelected) harness.selection.initializeSelection(['1']);
-    const expected = alreadySelected ? ['1'] : ['2'];
+  it('focuses on double-click without touching an empty selection', () => {
     const focusStates:string[] = [];
-    const observedMembers:string[][] = [];
     harness.focus.updates$().subscribe((state) => {
-      observedMembers.push(harness.selection.getSelectedWorkPackageIds());
       expect(state).toEqual({ workPackageId: '2', focusAfterRender: false, navigate: true });
       focusStates.push(state.workPackageId);
     });
     fireEvent.doubleClick(harness.row('2').querySelector('td')!);
-    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(expected);
+    expect(harness.selection.isEmpty).toBe(true);
     expect(focusStates).toEqual(['2']);
-    expect(observedMembers).toEqual([expected]);
+  });
+
+  it('keeps the row selected by the click that precedes a double-click', () => {
+    harness.click('2');
+    fireEvent.doubleClick(harness.row('2').querySelector('td')!);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    expect(harness.focus.focusedWorkPackage).toBe('2');
   });
 
   it('marks the clicked row as the current work package', () => {

@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { createEnvironmentInjector, EnvironmentInjector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of, Subject } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
@@ -38,6 +39,7 @@ import { WorkPackagesViewBase } from '../work-packages-view.base';
 import { WorkPackageCreateComponent } from '../../../components/wp-new/wp-create.component';
 import { WorkPackageInlineCreateComponent } from '../../../components/wp-inline-create/wp-inline-create.component';
 import { WorkPackageViewSelectionService } from './wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from './wp-view-selection-gestures.service';
 import { WorkPackageViewFocusService, WPFocusState } from './wp-view-focus.service';
 
 function fromPrototype<T extends object>(prototype:T, properties:Record<string, unknown>):T {
@@ -55,6 +57,7 @@ describe('WorkPackageViewFocusService', () => {
         States,
         IsolatedQuerySpace,
         WorkPackageViewSelectionService,
+        WorkPackageViewSelectionGesturesService,
         WorkPackageViewFocusService,
         { provide: OPContextMenuService, useValue: { close: () => undefined } },
       ],
@@ -64,13 +67,70 @@ describe('WorkPackageViewFocusService', () => {
     states = TestBed.inject(States);
   });
 
-  it('keeps initialization and focus membership responsibilities separate', () => {
+  const rows:RenderedWorkPackage[] = ['1', '2', '3', '4'].map((id) => ({
+    workPackageId: id, classIdentifier: `wp-row-${id}`, hidden: false,
+  }));
+
+  it('never selects through an ordinary focus update', () => {
     focus.updateFocus('2');
     expect(selection.isEmpty).toBe(true);
-    selection.ensureSelected('1');
-    selection.ensureSelected('2');
-    focus.updateFocus('2');
+  });
+
+  it('initializes selection only when empty and publishes it before focus', () => {
+    const membersAtFocus:string[][] = [];
+    focus.live$().subscribe(() => membersAtFocus.push(selection.getSelectedWorkPackageIds()));
+    focus.initializeSelectionAndFocus('1');
+    focus.initializeSelectionAndFocus('2');
     expect(selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    expect(membersAtFocus).toEqual([['1'], ['1']]);
+  });
+
+  it('keeps a deliberate empty selection through focus and ranges from its anchor', () => {
+    const gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('2', rows, { ctrlKey: true });
+    focus.updateFocus('3');
+    expect(selection.isEmpty).toBe(true);
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+  });
+
+  it('selects a created work package after the last member was toggled off', () => {
+    const gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('2', rows, { ctrlKey: true });
+    focus.initializeSelectionAndFocus('3', false, false);
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['3']);
+    expect(focus.isFocused('3')).toBe(true);
+  });
+
+  it('leaves a batch untouched when a work package is created into it', () => {
+    const gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
+    gestures.handleClick('1', rows, {});
+    gestures.handleClick('3', rows, { shiftKey: true });
+    focus.initializeSelectionAndFocus('4');
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
+    gestures.handleClick('2', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+  });
+
+  it('initializes a detail scope without touching the list scope', () => {
+    const gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
+    gestures.handleClick('2', rows, {});
+    gestures.handleClick('2', rows, { ctrlKey: true });
+
+    const detailInjector = createEnvironmentInjector(
+      [IsolatedQuerySpace, WorkPackageViewSelectionService, WorkPackageViewFocusService],
+      TestBed.inject(EnvironmentInjector),
+    );
+    const detailSelection = detailInjector.get(WorkPackageViewSelectionService);
+    detailInjector.get(WorkPackageViewFocusService).initializeSelectionAndFocus('2', false);
+
+    expect(detailSelection.getSelectedWorkPackageIds()).toEqual(['2']);
+    expect(selection.isEmpty).toBe(true);
+    gestures.handleClick('4', rows, { shiftKey: true });
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+    detailInjector.destroy();
   });
 
   describe.each([false, true])('initialization with existing selection: %s', (alreadySelected) => {
@@ -86,6 +146,11 @@ describe('WorkPackageViewFocusService', () => {
     beforeEach(() => {
       const initial = alreadySelected ? ['1'] : [];
       selection.initializeSelection(initial);
+      if (!alreadySelected) {
+        const gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
+        gestures.handleClick('3', rows, {});
+        gestures.handleClick('3', rows, { ctrlKey: true });
+      }
       expected = initial.length ? initial : ['2'];
       observed = [];
       observedMembers = [];
@@ -96,7 +161,18 @@ describe('WorkPackageViewFocusService', () => {
     });
 
     function focusResult() {
-      return { members: selection.getSelectedWorkPackageIds(), atFocus: observedMembers, states: observed };
+      return {
+        members: selection.getSelectedWorkPackageIds(),
+        atFocus: observedMembers,
+        states: observed,
+        rangeAfter: rangeAfterInitialization(),
+      };
+    }
+
+    function rangeAfterInitialization():string[] {
+      const gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
+      gestures.handleClick('4', rows, { shiftKey: true });
+      return selection.getSelectedWorkPackageIds();
     }
 
     function expectedFocus(navigate = true) {
@@ -104,6 +180,7 @@ describe('WorkPackageViewFocusService', () => {
         members: expected,
         atFocus: [expected],
         states: [{ workPackageId: '2', focusAfterRender: false, navigate }],
+        rangeAfter: ['4'],
       };
     }
 
@@ -145,7 +222,6 @@ describe('WorkPackageViewFocusService', () => {
       states.workPackages.get('2').putValue(workPackage);
       const component = fromPrototype(WorkPackagesViewBase.prototype, {
         states,
-        selectionForCreation: selection,
         wpTableFocus: focus,
         urlParams: { currentDetailsRouteParams: () => ({ routingId: 'PROJ-2' }) },
       });
