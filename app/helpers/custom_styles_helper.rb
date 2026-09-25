@@ -115,16 +115,21 @@ module CustomStylesHelper
   end
 
   def mobile_logo_modes
-    mobile_fields = CustomStyle::LOGO_FIELDS.fetch(:mobile)
+    modes = CustomStyle::LOGO_FIELDS.fetch(:mobile).keys
     style = CustomStyle.current
-    return mobile_fields.keys unless style && desktop_logo_present?(style)
+    return modes unless style
 
-    mobile_fields.keys.select do |mode|
-      style.logo_for(
-        color_mode: mode == :dark ? :dark : :light,
-        high_contrast: mode == :light_high_contrast,
+    modes.select do |mode|
+      color_mode = mode == :dark ? :dark : :light
+      high_contrast = mode == :light_high_contrast
+      mobile_logo = style.logo_for(
+        color_mode:,
+        high_contrast:,
         mobile: true
-      ).present?
+      )
+      desktop_logo = style.logo_for(color_mode:, high_contrast:)
+
+      mobile_logo.present? || desktop_logo.blank?
     end
   end
 
@@ -194,12 +199,6 @@ module CustomStylesHelper
   end
 
   private
-
-  def desktop_logo_present?(style)
-    style.theme_logo.present? || CustomStyle::LOGO_FIELDS.fetch(:desktop).values.any? do |field|
-      style.public_send(field).present?
-    end
-  end
 
   def color_theme(current_theme)
     OpenProject::CustomStyles::ColorThemes.themes.find do |theme|

@@ -143,23 +143,33 @@ RSpec.describe CustomStylesHelper do
   end
 
   describe ".mobile_logo_modes" do
-    let(:dark_mobile_logo) do
-      Rack::Test::UploadedFile.new(Rails.root.join("spec/support/custom_styles/logos/logo_image.png"))
-    end
-
-    context "with a desktop logo and only a dark mobile logo" do
-      let(:current_theme) { build(:custom_style_with_logo, logo_mobile_dark: dark_mobile_logo) }
-
-      it "returns only dark mode" do
-        expect(helper.mobile_logo_modes).to eq([:dark])
+    context "without a custom style" do
+      it "keeps the default mobile logo available in every mode" do
+        expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast dark])
       end
     end
 
-    context "without a desktop logo" do
+    context "with only a built-in theme logo" do
+      let(:current_theme) { build_stubbed(:custom_style, theme_logo: "logo_openproject.png") }
+
+      it "keeps the default mobile logo available in every mode" do
+        expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast dark])
+      end
+    end
+
+    context "with only a dark mobile logo" do
       let(:current_theme) { build(:custom_style_with_logo_mobile_dark) }
 
-      it "keeps the mobile logo available in every mode" do
+      it "keeps the default mobile logo where the desktop uses its default" do
         expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast dark])
+      end
+    end
+
+    context "with only a dark desktop logo" do
+      let(:current_theme) { build(:custom_style_with_logo_dark) }
+
+      it "hides the mobile logo only where the custom desktop logo is used" do
+        expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast])
       end
     end
   end

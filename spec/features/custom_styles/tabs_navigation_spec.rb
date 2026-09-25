@@ -194,7 +194,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
         .to include(ActionController::Base.helpers.asset_path("logo_openproject_white_big.png"))
     end
 
-    context "with only a dark mobile logo", :js do
+    context "with a desktop logo and only a dark mobile logo", :js do
       before do
         custom_style.update!(
           logo_mobile_dark: Rack::Test::UploadedFile.new(
