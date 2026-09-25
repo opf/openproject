@@ -159,17 +159,15 @@ module Admin
       submitted = llm_model_params
       pin_type = type_chosen?(llm_model, submitted)
 
-      saved = false
       ActiveRecord::Base.transaction do
         previous_external_id = llm_model.external_id
         llm_model.assign_attributes(updatable_attributes(llm_model, submitted))
-        raise ActiveRecord::Rollback unless llm_model.save
-
+        llm_model.save!
         llm_model.cascade_rename!(previous_external_id)
         apply_capabilities(llm_model, submitted, pin_type:)
-        saved = true
       end
-      saved
+
+      true
     rescue ActiveRecord::RecordInvalid
       false
     rescue ActiveRecord::RecordNotUnique => e
