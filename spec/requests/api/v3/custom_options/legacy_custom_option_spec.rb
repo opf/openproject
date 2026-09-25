@@ -39,13 +39,10 @@ RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[pear], types: [type]) }
 
-  let(:item) { custom_field.possible_values.first }
-  let(:legacy_id) { 4242 }
+  let(:mapping) { create(:legacy_option_mapping, custom_field:) }
+  let(:legacy_id) { mapping.custom_option_id }
 
   before do
-    CustomField::LegacyOptionMapping.create!(custom_option_id: legacy_id,
-                                             hierarchical_item_id: item.id,
-                                             custom_field_id: custom_field.id)
     login_as(user)
     get api_v3_paths.custom_option(legacy_id)
   end
