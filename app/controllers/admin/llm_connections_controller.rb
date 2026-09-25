@@ -79,10 +79,6 @@ module Admin
 
     private
 
-    # active_connection hands back an unsaved record when nothing is stored, and
-    # writing to that inserts a row that fails its own validations. The show page
-    # hides both menu entries behind persisted?; the routes do not, so a
-    # bookmarked or hand-typed URL arrives here.
     def require_stored_connection
       render_404 unless @connection.persisted?
     end

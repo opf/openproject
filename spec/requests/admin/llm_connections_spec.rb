@@ -272,9 +272,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.reload.api_key).to eq("sk-original")
     end
 
-    # active_connection returns an unsaved record when nothing is stored, and
-    # writing to that inserted a row that failed its own validations, so the
-    # request 500'd instead of saying there is nothing here.
     it "answers 404 on an instance with no connection stored" do
       delete api_key_llm_connection_path
 
