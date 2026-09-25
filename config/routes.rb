@@ -462,6 +462,7 @@ Rails.application.routes.draw do
     resources :projects, only: :index do
       collection do
         get :frame
+        get :children
       end
     end
   end
