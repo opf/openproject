@@ -44,6 +44,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::AddedTable,
 
   let(:expected_filters) do
     [
+      { project: { operator: "=", values: [project.id.to_s] } },
       { sprintId: { operator: "=", values: [sprint.id.to_s] } },
       { id: { operator: "=", values: %w[12 13] } }
     ]
