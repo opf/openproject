@@ -372,7 +372,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     };
 
     this._viewParameters.selectionModeStart = start;
-    Mousetrap.bind('esc', () => this.resetSelectionMode());
+    Mousetrap.bind('esc', (event) => {
+      event.preventDefault();
+      this.resetSelectionMode();
+    });
     this.selectionParams.notification = this.toastService.addNotice(this.text.selectionMode);
 
     this.element.classList.add('active-selection-mode');
