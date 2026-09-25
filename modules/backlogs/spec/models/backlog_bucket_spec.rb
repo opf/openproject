@@ -96,6 +96,16 @@ RSpec.describe BacklogBucket do
     end
   end
 
+  describe "order by name" do
+    it "orders numbers naturally" do
+      bucket10 = create(:backlog_bucket, project:, name: "Bucket 10")
+      bucket2 = create(:backlog_bucket, project:, name: "Bucket 2")
+      bucket1 = create(:backlog_bucket, project:, name: "Bucket 1")
+
+      expect(described_class.order(:name)).to eq([bucket1, bucket2, bucket10])
+    end
+  end
+
   describe ".order_alphabetically" do
     it "returns buckets sorted by name" do
       bucket3 = create(:backlog_bucket, project:, name: "foo")
@@ -103,6 +113,14 @@ RSpec.describe BacklogBucket do
       bucket2 = create(:backlog_bucket, project:, name: "baz")
 
       expect(described_class.order_alphabetically).to eq([bucket1, bucket2, bucket3])
+    end
+
+    it "orders numbers naturally" do
+      bucket10 = create(:backlog_bucket, project:, name: "Bucket 10")
+      bucket2 = create(:backlog_bucket, project:, name: "Bucket 2")
+      bucket1 = create(:backlog_bucket, project:, name: "Bucket 1")
+
+      expect(described_class.order_alphabetically).to eq([bucket1, bucket2, bucket10])
     end
   end
 
