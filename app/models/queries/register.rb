@@ -31,52 +31,47 @@
 module Queries::Register
   class << self
     def filter(query, filter)
-      @filters ||= Hash.new do |hash, filter_key|
-        hash[filter_key] = []
-      end
-
-      @filters[query] << filter
+      filters[query] << filter
     end
 
-    # Exclude filter from filters collection representer.
-    def exclude(filter)
-      @excluded_filters ||= []
-      @excluded_filters << filter
+    # Mark a registered filter as not to be offered to the user. It keeps working when set
+    # programmatically or on a stored query, but is left out of the filters collection
+    # representer and of the filter form.
+    def exclude(query, filter)
+      excluded_filters[query] << filter
     end
 
     def order(query, order)
-      @orders ||= Hash.new do |hash, order_key|
-        hash[order_key] = []
-      end
-
-      @orders[query] << order
+      orders[query] << order
     end
 
     def group_by(query, group_by)
-      @group_bys ||= Hash.new do |hash, group_key|
-        hash[group_key] = []
-      end
-
-      @group_bys[query] << group_by
+      group_bys[query] << group_by
     end
 
     def select(query, select)
-      @selects ||= Hash.new do |hash, select_key|
-        hash[select_key] = []
-      end
-
-      @selects[query] << select
+      selects[query] << select
     end
 
     def register(query, &)
       Registration.new(query).instance_exec(&)
     end
 
-    attr_accessor :filters,
-                  :excluded_filters,
-                  :orders,
-                  :selects,
-                  :group_bys
+    def filters = @filters ||= registry
+
+    def excluded_filters = @excluded_filters ||= registry
+
+    def orders = @orders ||= registry
+
+    def selects = @selects ||= registry
+
+    def group_bys = @group_bys ||= registry
+
+    private
+
+    def registry
+      Hash.new { |hash, query| hash[query] = [] }
+    end
   end
 
   class Registration
@@ -90,9 +85,8 @@ module Queries::Register
       Queries::Register.filter(query, filter)
     end
 
-    # Exclude filter from filters collection representer.
     def exclude(filter)
-      Queries::Register.exclude(filter)
+      Queries::Register.exclude(query, filter)
     end
 
     def order(order)
