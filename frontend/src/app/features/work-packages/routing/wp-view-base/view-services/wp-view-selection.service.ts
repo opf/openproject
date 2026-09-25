@@ -34,7 +34,6 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import Mousetrap from 'mousetrap';
 
 import { BatchSelection, SelectionItem } from 'core-common/batch-selection';
 import {
@@ -85,15 +84,13 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     this.querySpace.tableRendered.values$()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((rows) => this.reconcileAnchor(rows));
-    this.destroyRef.onDestroy(() => {
-      this.model.clear();
-      Mousetrap.unbind(['command+d', 'ctrl+d']);
-    });
+    this.destroyRef.onDestroy(() => this.model.clear());
   }
 
   public isSelected(id:string):boolean { return this.model.has(this.item(id)); }
   public get selectionCount():number { return this.model.size; }
   public get isEmpty():boolean { return this.model.size === 0; }
+  public get hasSelectionState():boolean { return this.model.size > 0 || this.model.anchor !== null; }
   public getSelectedWorkPackageIds():string[] { return Object.keys(this.snapshot().selected); }
 
   public reset():void {
@@ -177,17 +174,6 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
 
   public getSelectedWorkPackages():WorkPackageResource[] {
     return this.getSelectedWorkPackageIds().map((id) => this.states.workPackages.get(id).value!);
-  }
-
-  public registerDeselectAllListener() {
-    // Bind CTRL+D to deselect all work packages
-    Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
-      this.reset();
-      e.preventDefault();
-
-      this.opContextMenu.close();
-      return false;
-    });
   }
 
   valueFromQuery(_query:QueryResource, _results:WorkPackageCollectionResource):WorkPackageViewSelectionState|undefined {

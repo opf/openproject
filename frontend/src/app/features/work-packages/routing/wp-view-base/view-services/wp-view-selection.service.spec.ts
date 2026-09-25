@@ -203,6 +203,22 @@ describe('WorkPackageViewSelectionService', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
   });
 
+  it('reports selection state while only an anchor remains', () => {
+    selection.toggleOccurrence(rows[1]);
+    expect(selection.hasSelectionState).toBe(true);
+    selection.toggleOccurrence(rows[1]);
+    expect(selection.isEmpty).toBe(true);
+    expect(selection.hasSelectionState).toBe(true);
+
+    selection.reset();
+    expect(selection.hasSelectionState).toBe(false);
+
+    selection.toggleOccurrence(rows[1]);
+    selection.toggleOccurrence(rows[1]);
+    selection.initializeSelection([]);
+    expect(selection.hasSelectionState).toBe(false);
+  });
+
   it('clears an anchor-only state on reset', () => {
     gestures.handleClick('2', rows, {});
     gestures.handleClick('2', rows, { ctrlKey: true });
