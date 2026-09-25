@@ -5009,7 +5009,6 @@ en:
     errors:
       array?: "must be an array."
       decimal?: "must be a decimal."
-      defined: "must not be defined."
       eql?: "must be equal to %{left}."
       filled?: "must be filled."
       format?: "is in invalid format."
@@ -5025,8 +5024,6 @@ en:
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:
-        custom_field:
-          format_not_supported: "format '%{field_format}' is unsupported."
         item:
           nesting_not_allowed: "cannot have sub-items for this custom field."
           not_persisted: "must be an already existing item."
