@@ -115,4 +115,18 @@ RSpec.describe CustomFields::CreateService, type: :model do
       end
     end
   end
+
+  describe "#call for a list custom field" do
+    shared_let(:user) { create(:admin) }
+
+    current_user { user }
+
+    it "creates the field together with its hierarchy root" do
+      call = described_class.new(user:).call(type: "WorkPackageCustomField", field_format: "list",
+                                             name: "Operating system", multi_value: true)
+
+      expect(call).to be_success
+      expect(call.result.hierarchy_root).to be_persisted
+    end
+  end
 end

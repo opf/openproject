@@ -39,7 +39,8 @@ class CustomField < ApplicationRecord
   has_one :hierarchy_root,
           class_name: "CustomField::Hierarchy::Item",
           dependent: :destroy,
-          inverse_of: "custom_field"
+          inverse_of: "custom_field",
+          autosave: true
 
   attr_readonly :field_format
 
@@ -86,7 +87,7 @@ class CustomField < ApplicationRecord
 
   before_validation :check_searchability
 
-  after_create :generate_hierarchy_root, if: :hierarchical_list?
+  after_create :flush_buffered_possible_values, if: :hierarchical_list?
   after_destroy :destroy_help_text
 
   def visible?(usr = User.current, **)
@@ -208,7 +209,7 @@ class CustomField < ApplicationRecord
     when "version"
       possible_versions(obj).pluck(:id).map(&:to_s)
     when "list"
-      hierarchy_root ? hierarchy_root.children.order(:sort_order) : CustomField::Hierarchy::Item.none
+      hierarchy_root.children.order(:sort_order)
     when "hierarchy", "weighted_item_list"
       custom_field_hierarchy_items
     else
@@ -216,8 +217,13 @@ class CustomField < ApplicationRecord
     end
   end
 
-  # Items need a persisted root, which CreateService only builds after save, so
-  # the values are buffered and flushed by #flush_buffered_possible_values.
+  def field_format=(value)
+    super
+    build_missing_hierarchy_root
+  end
+
+  # Items need a persisted root, so the values are buffered and flushed by
+  # #flush_buffered_possible_values once the field and its root are saved.
   #
   # Updating the hierarchy items of a persisted custom field this way is not
   # supported: the only flush point is the after_create callback, so a later
@@ -451,24 +457,11 @@ class CustomField < ApplicationRecord
 
   private
 
-  def generate_hierarchy_root
-    return if hierarchy_root.present?
-
-    result = CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(self)
-    unless result.success?
-      raise "Could not generate a hierarchy root for custom field #{id.inspect}: #{result.failure.inspect}"
-    end
-
-    # Prime the cache directly rather than #reload: the root's foreign key is only assigned
-    # once this record is inserted, and a full reload pulls in unrelated framework hooks
-    # (e.g. ActiveStorage's) that some tests stub away at the class level.
-    association(:hierarchy_root).target = result.value!
-    flush_buffered_possible_values
+  def build_missing_hierarchy_root
+    build_hierarchy_root if new_record? && hierarchical_list? && hierarchy_root.nil?
   end
 
   def default_hierarchy_item_ids
-    return [] if hierarchy_root.nil?
-
     hierarchy_root.descendants.where(default_value: true).order(:sort_order).pluck(:id).map(&:to_s)
   end
 
