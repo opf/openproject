@@ -110,10 +110,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'BacklogBucket',
         'Sprint',
         'CustomField::Hierarchy::Item',
-        'CustomOption',
         'Workspace'])
       .addFieldType(ProjectPhaseDisplayField, 'projectPhase', ['ProjectPhase'])
-      .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption', '[]CustomField::Hierarchy::Item'])
+      .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomField::Hierarchy::Item'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]Version'])
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
