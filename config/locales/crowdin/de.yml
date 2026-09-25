@@ -222,6 +222,7 @@ de:
         title: Titel
       member:
         blocked: Gesperrt
+        principal_type: Mitgliedschaftstyp
         roles: Rollen
       notification:
         read_ian: In-App lesen
@@ -234,6 +235,7 @@ de:
         position: Position
       persisted_query:
         filters: Filter
+        group_bys: Gruppiere Ergebnisse nach
         name: Name
         orders: Sortierungen
         selects: Ausgewählte Attribute
@@ -306,7 +308,7 @@ de:
       project_type:
         variant: Variante
       query:
-        child_work_packages: Unteraufgaben
+        child_work_packages: Kinder
         column_names: Spalten
         columns: Spalten
         display_representation: Anzeigemodus
@@ -383,16 +385,13 @@ de:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
-        defaults_source: Standardquelle
         enabled_in_new_projects: Aktiv in neuen Projekten
-        form_configuration_source: Formularquelle
+        linked_aspects: Inherited configuration
         patterns: Muster
-        pdf_export_source: Quelle für den PDF-Export
-        project_attributes_source: Quelle der Projektattribute
         project_types: Projekte mit dieser Variante
         variant: Variante
         variant_name: Name
-        workflows_source: Quelle für Workflows
+        workflow: Workflow
       user:
         admin: Administrator
         auth_source: Authentifizierungsquelle
@@ -440,6 +439,13 @@ de:
         time_zone: Zeitzone
         warn_on_leaving_unsaved: Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen
         workdays: Arbeitstage
+      user_resource:
+        description: Beschreibung
+        name: Name
+        user_filter: Benutzerfilter
+      user_resource_detail:
+        description: Beschreibung
+        user_filter: Benutzerfilter
       user_working_hours:
         availability_factor: Verfügbarkeitsfaktor
         days: Arbeitstage
@@ -490,6 +496,7 @@ de:
           title: Werktage
           true: Mit Wochenenden
         journal_internal: Internes Journal
+        labels: Labels
         notify: Benachrichtigung
         observed_in_versions: Festgestellt in Versionen
         parent: Übergeordnetes Arbeitspaket
@@ -518,6 +525,10 @@ de:
         work_package: Arbeitspaket
       work_package_version:
         kind: Art
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: muss akzeptiert werden.
@@ -610,6 +621,10 @@ de:
         user_in_ldap_managed_department: Dieser Benutzer gehört zu einer Abteilung, die über die LDAP synchronisiert wird, und kann nicht verschoben werden.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -687,6 +702,13 @@ de:
               not_unique: ist bereits in Gebrauch. Bitte wählen Sie einen anderen Namen aus.
         jira:
           invalid_protocol: Bitte geben Sie ein gültiges Protokoll an (http oder https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -742,7 +764,6 @@ de:
             types:
               cannot_assign_multiple_variants_of_parent: Nur eine einzige Variante eines Typs kann im Projekt aktiv sein
               cannot_assign_variant_and_parent: 'Eine Variante und deren übergeordnete Variante können nicht beide aktiv sein '
-              cannot_assign_variants_yet: Varianten können derzeit noch nicht auf Projektebene aktiviert werden. Aktivieren Sie das Feature Flag, um Varianten auszuprobieren
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen: %{types}'
               switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
               switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
@@ -855,6 +876,10 @@ de:
               blank: Bitte geben Sie einen Namen für den Token an
               format: "%{message}"
               in_use: Dieser Token-Name ist bereits in Verwendung, bitte wählen Sie einen anderen
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: Dieser Typ kann nicht gelöscht werden, während Arbeitspakete ihn noch verwenden.
         type_variant:
           attributes:
             attribute_groups:
@@ -864,33 +889,19 @@ de:
               group_without_name: Gruppenname darf nicht leer sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             base:
-              borrowed_by_variants: Kann nicht gelöscht werden, solange die Konfiguration noch von %{names} verwendet wird.
               is_default_variant: Die Standardkonfiguration eines Typs kann nicht gelöscht werden.
               project_variants_not_allowed: Bei diesem Typ ist die Erstellung von Varianten innerhalb von Projekten nicht zulässig.
               restrict_dependent_destroy:
                 has_many: Kann nicht gelöscht werden, solange es noch in Projekten verwendet wird.
-            defaults_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: kann nicht für eine Variante festgelegt werden, die zu einem Projekt gehört.
               taken: ist bereits für eine andere Variante dieses Typs aktiv.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             patterns:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: Es muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             variant:
               must_belong_to_the_type: muss eine Variante dieses Typs sein.
-            workflows_source_id:
-              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
-              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
+            workflow:
+              not_available_to_this_variant: muss ein Workflow sein, den dieses Projekt nutzen kann.
         user:
           attributes:
             base:
@@ -1002,7 +1013,7 @@ de:
               status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in diesem Typ vorhanden ist.
               status_transition_invalid: ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
             type:
-              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unteraufgaben besitzt.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
@@ -1434,7 +1445,7 @@ de:
       tab_pdf_export_styles: PDF-Exportstile
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      add_token: Enterprise-Edition Support Token hochladen
+      add_token: Enterprise edition Support Token hochladen
       book_now: Jetzt buchen
       buttons:
         contact: Kontaktieren Sie uns für eine Demo
@@ -1451,9 +1462,9 @@ de:
       enterprise_link: Klicken Sie hier für weitere Informationen.
       get_quote: Angebot anfordern
       order: Enterprise on-premises bestellen
-      paste: Enterprise-Edition Support Token hier einfügen
+      paste: Enterprise edition Support Token hier einfügen
       replace_token: Aktuellen Enterprise edition Support Token ersetzen
-      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar.
+      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar.
       start_trial: Kostenlose Testversion starten
       status:
         expired: Abgelaufen
@@ -1713,6 +1724,35 @@ de:
       caption_with_maximum: 'Benutzeraktionen an einem Arbeitspaket (Ändern der Beschreibung, des Status, der Werte oder Schreiben von Kommentaren) werden gruppiert, wenn sie innerhalb dieses Zeitraums durchgeführt werden. Sie steuert auch die Verzögerungen bei Benachrichtigungen und [webhook](webhook_link). Der maximal zulässige Wert ist %{max} Minuten.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: Das Model Context Protocol ermöglicht es KI-Agenten, ihren Nutzern Tools und Ressourcen bereitzustellen, die diese OpenProject-Instanz zur Verfügung stellt. Die Funktion befindet sich noch in der Beta-Phase.
@@ -1743,6 +1783,14 @@ de:
       update:
         failure: Die MCP-Konfiguration konnte nicht aktualisiert werden.
         success: Die MCP-Konfiguration wurde erfolgreich aktualisiert.
+    members:
+      index:
+        blank_description: Keine Mitgliedschaft entspricht dem aktuellen Filter.
+        blank_title: Keine Mitgliedschaften
+        filter_label: Benutzer suchen
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Mitgliedschaften
     plugins:
       no_results_content_text: Weitere Informationen finden Sie auf unserer Seite für Integrationen und Plugins.
       no_results_title_text: Es sind derzeit keine Plugins installiert.
@@ -1959,6 +2007,11 @@ de:
         ignore: Änderungen ignorieren
         save: Änderungen speichern und fortfahren
         title: Änderungen speichern, bevor Sie fortfahren?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Rolle: %{role}'
         no_role: Rolle auswählen
@@ -1988,6 +2041,18 @@ de:
           assignee: Zusätzliche Übergänge, die dem zugewiesenen Benutzer des Arbeitspakets zur Verfügung stehen.
           author: Zusätzliche Übergänge, die dem Author des Arbeitspakets zur Verfügung stehen.
         menu_label: Dargestellte Übergänge
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
+  ai:
+    text_transform:
+      errors:
+        connection_failed: Der KI-Dienst konnte nicht erreicht werden.
+        not_available: Der KI-Assistent ist nicht verfügbar.
+        timeout: Der KI-Dienst hat nicht rechtzeitig geantwortet.
+        upstream_error: Der KI-Dienst hat eine Fehlermeldung zurückgegeben.
   announcements:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
@@ -2050,10 +2115,6 @@ de:
       not_found:
         reminder: Die Erinnerung konnte nicht gefunden werden oder wurde gelöscht.
         work_package: Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht.
-      render:
-        context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
-        context_object_not_found: Die als Kontext übergebene Ressource konnte nicht gefunden werden.
-        unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.
       unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
       unable_to_create_attachment_permissions: Der Anhang konnte aufgrund fehlender Dateisystemberechtigungen nicht gespeichert werden
       user:
@@ -2937,7 +2998,7 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten.
   error_enterprise_plan_needed: Sie benötigen den Enterprise-Plan %{plan}, um diese Aktion durchzuführen.
-  error_enterprise_token_invalid_domain: Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
+  error_enterprise_token_invalid_domain: Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
   error_external_authentication_failed_message: 'Die externe Authentifizierung ist fehlgeschlagen: %{message}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
@@ -3270,7 +3331,7 @@ de:
       meeting_series_backlog_html: Backlog der Terminserie %{link}
       meeting_series_template_html: Vorlage der Terminserie %{link}
       meeting_template_html: Besprechungsvorlage %{link}
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
@@ -3458,10 +3519,10 @@ de:
   label_copy_target: Ziel
   label_copy_workflow_from: Workflow kopieren von
   label_copy_workflow_from_role: In andere Rollen kopieren
-  label_copy_workflow_from_type: In einen anderen Typ kopieren
   label_core_build: Core-Buildinformation
   label_core_version: Core Version
   label_created_by: Erstellt von %{user}
+  label_criteria: Kriterium
   label_current_status: Gegenwärtiger Status
   label_current_version: Gegenwärtige Version
   label_custom_comment: "%{name} Kommentar"
@@ -3545,7 +3606,7 @@ de:
   label_end_to_start: Ende - Anfang
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: Enterprise Edition
+  label_enterprise_edition: Enterprise edition
   label_enterprise_support: Enterprise Support
   label_enumeration_new: Neuer Aufzählungswert
   label_enumeration_value: Aufzählungswert
@@ -3649,6 +3710,7 @@ de:
   label_journal_diff: Beschreibungsvergleich
   label_jump_to_a_project: Zu einem Projekt springen...
   label_keyword_plural: Schlüsselwörter
+  label_label_plural: Labels
   label_language: Sprache
   label_language_based: Sprachabhängig
   label_languages: Sprachen
@@ -4037,6 +4099,8 @@ de:
   label_wiki_start: Hauptseite
   label_wiki_toc: Inhaltsverzeichnis
   label_wiki_toc_empty: Inhaltsverzeichnis ist leer, da keine Überschriften vorhanden sind.
+  label_with_criteria: Mit Kriterien
+  label_without_criteria: Ohne Kriterien
   label_work: Aufwand
   label_work_package: Arbeitspaket
   label_work_package_attachments: Anhänge des Arbeitspakets
@@ -4870,8 +4934,6 @@ de:
       not_found: nicht gefunden.
       respond_to?: die erforderliche Methode nicht implementiert.
       rules:
-        copy_workflow_from:
-          workflow_missing: hat keinen eigenen Workflow.
         custom_field:
           format_not_supported: format '%{field_format}' wird nicht unterstützt.
         item:
@@ -4891,7 +4953,6 @@ de:
     or: oder
     rules:
       blueprint: Blaupause für Muster
-      copy_workflow_from: Typ für Workflow-Kopie
       depth: Tiefe
       enabled: Aktiviert
       item: Element
@@ -5094,6 +5155,16 @@ de:
   permission_work_package_assigned: Zugewiesener/Verantwortlicher werden
   permission_work_package_assigned_explanation: Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden
   placeholder_users:
+    criteria:
+      activate: Filterkriterien aktivieren
+      activate_caption: 'Diesem Platzhalternutzer kann eine Reihe von Filtern hinzuzufügen, um die möglichen Benutzer zu definieren, die den gewünschten Kriterien entsprechen.
+
+        '
+      enable: Benutzer nach Kriterien zuordnen
+      enable_caption: Beschreiben Sie die Art von Nutzer, für die dieser Platzhalter steht, damit passende Nutzer dafür vorgeschlagen werden können.
+      matching_users: Benutzer, die die Filterkriterien erfüllen
+      no_matching_users: Kein Benutzer passt zu diesen Kriterien.
+      show_all_matching_users: Zeige alle %{count} passenden Benutzer
     delete_tooltip: Platzhalter löschen
     deletion_info:
       data_consequences: 'Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen. Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
@@ -5387,7 +5458,7 @@ de:
         variants_not_allowed: Bei diesem Typ ist die Erstellung von Varianten innerhalb von Projekten nicht zulässig.
       versions:
         no_results_content_text: Neue Version erstellen
-        no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
+        no_results_title_text: Für dieses Projekt wurden keine Versionen gefunden, die den Filterkriterien entsprechen.
         show_work_packages: Arbeitspakete anzeigen
         work_packages_graph: Arbeitspaket-Graph
       work_package_priorities:
@@ -5528,7 +5599,7 @@ de:
       not_available: Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar.
       oauth_application_details_html: 'Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:'
       oauth_application_details_link_text: Zu den Einstellungen gehen
-      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: '
+      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: '
       setup_documentation_details_link_text: Dateispeicher einrichten
       show_warning_details: Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren.
       update_timeout: |-
@@ -5552,6 +5623,31 @@ de:
     warnings:
       cannot_annotate: Diese Datei kann nicht kommentiert werden.
   roles:
+    delete_dialog:
+      confirm: Sind Sie sicher, dass Sie diese Rolle löschen möchten?
+      entry_projects:
+        one: "(Projekt: %{projects})"
+        other: "(Projekte: %{projects})"
+      entry_projects_truncated:
+        one: "(Projekte: %{projects} und 1 weiter)"
+        other: "(Projekte: %{projects} und %{count} weitere)"
+      heading:
+        one: 'Diese Rolle ist noch einem Mitglied zugewiesen:'
+        other: 'Diese Rolle ist noch %{count} Mitgliedern zugewiesen:'
+      heading_unused: Bist du sicher, dass Sie die Rolle „%{name}“ löschen möchten?
+      losing_project_access:
+        one: Von diesen Benutzern verliert einer den Zugriff auf Projekte, in denen dies ihre einzige Rolle war. Möchten Sie diese Rolle wirklich löschen?
+        other: Von diesen Benutzern verliert %{count} den Zugriff auf Projekte, in denen dies ihre einzige Rolle war. Möchten Sie diese Rolle wirklich löschen?
+        zero: Keiner dieser Benutzer wird den Zugriff auf seine Projekte verlieren. Möchten Sie diese Rolle wirklich löschen?
+      show_memberships: Zeige alle Mitgliedschaften mit dieser Rolle
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 Projekt
+        other: "%{count} Projekte"
+      summary_users:
+        one: 1 Benutzer
+        other: "%{count} Benutzer"
+      title: Rolle löschen
     edit:
       default_for_new_projects_warning: 'Diese Rolle ist als Standardrolle für diejenigen Benutzer konfiguriert, die ein Projekt erstellen und keine Administratoren sind. Entfernen Sie die folgenden Berechtigungen nicht, sonst können die Projekt-Ersteller die Einrichtung ihrer neu erstellten Projekte nicht abschließen:'
     index:
@@ -5563,6 +5659,16 @@ de:
     permissions:
       section_check_all_label: Alle %{module} Berechtigungen zuweisen
       section_uncheck_all_label: Alle %{module} Berechtigungen zuweisen
+    permissions_dialog:
+      edit_permissions: Rollenberechtigungen bearbeiten
+      implicit_permission: Immer gewährt
+      no_permissions: Diese Rolle gewährt keinerlei Berechtigungen.
+      permission_count:
+        one: 1 Berechtigung
+        other: "%{count} Berechtigungen"
+      preview_action: Berechtigungen anzeigen
+      preview_aria_label: Berechtigungen von %{role} anzeigen
+      title: Berechtigungen von „%{name}“
     report:
       matrix_caption: Berechtigungsmatrix für das Modul %{module}
       matrix_check_all_label: Alle %{module} Berechtigungen zuweisen
@@ -6136,13 +6242,14 @@ de:
         <br>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Unteraufgaben oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
     index:
+      could_not_be_moved: Status konnte nicht verschoben werden.
       headers:
-        excluded_from_totals: Von Gesamtsumme auschließen
         is_closed: Erledigt
-        is_default: Standard
         is_readonly: Schreibgeschützt
+      no_filter_results_title_text: Kein Status entspricht dem aktuellen Filter.
       no_results_content_text: Neuen Status hinzufügen
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
+      status_actions: Statusaktionen
   support:
     array:
       sentence_connector: und
@@ -6349,6 +6456,47 @@ de:
   tree_view:
     label_empty_sub_tree: Keine Einträge
   types:
+    comparison:
+      action: Varianten vergleichen
+      blankslate:
+        description: Fügen Sie eine zweite Variante hinzu, um zu sehen, worin sie sich unterscheiden.
+        title: Es gibt noch nichts zu vergleichen
+      description: Vergleichen Sie die Varianten dieses Typs mit dem übergeordneten Typ.
+      labels:
+        duplicate: Mögliches Duplikat
+        duplicate_of: Genau so konfiguriert wie %{names}
+        duplicate_of_more:
+          one: "%{names} und eins mehr"
+          other: "%{names} und %{count} mehr"
+        parent_type: Übergeordneter Typ
+        same_as_type: Entspricht dem übergeordneten Typ
+      rows:
+        form:
+          fields: Felder
+          groups: Abschnitte
+          required: Davon erforderlich
+          same_as_base: Entspricht dem übergeordneten Typ
+        scope:
+          availability: Verfügbar für
+          enabled_in_new_projects: Aktiv in neuen Projekten
+          projects: Projekte
+        workflows:
+          roles: Teilnehmende Rollen
+          same_as_base: Entspricht dem übergeordneten Typ
+          statuses: Status
+          transitions: Übergänge
+      sections:
+        configuration: Konfigurationsübersicht
+        form: Formular
+        scope: Scope
+        workflows: Workflows
+      title: Varianten vergleichen
+      title_for_type: Varianten von %{name} vergleichen
+      values:
+        global: Alle Projekte
+        inheriting_from: Erbt von
+        project_specific: Projektspezifisch ([%{project}](project_url))
+        same_as_base: Identisch zum übergeordneten Typ
     creation_wizard:
       add_variant: Variante zu %{name} hinzufügen
       create_type: Typ erstellen
@@ -6458,6 +6606,15 @@ de:
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
+        required:
+          already_required_globally: Dieses benutzerdefinierte Feld ist für alle Typen ein Pflichtfeld.
+          for_variant: Bei diesem Typ erforderlich
+          globally: Erforderlich
+          globally_hint: Ändern Sie dies im benutzerdefinierten Feld
+          mark: Bei diesem Typ erforderlich
+          not_a_custom_field: Nur ein benutzerdefiniertes Feld kann für einen einzelnen Typ als Pflichtfeld festgelegt werden.
+          not_available_when_linked: Diese Konfiguration ist vererbt. Konfigurieren Sie sie manuell, um Pflichtfelder festzulegen.
+          unmark: Bei diesem Typ kein Pflichtfeld
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
@@ -6531,12 +6688,8 @@ de:
             other: Die folgende Konfiguration wird von%{count} anderen Typen oder Varianten geerbt. Alle Änderungen, die Sie hier vornehmen, betreffen auch den Abhängigen.
           dialog:
             description: Diese Typen und Varianten übernehmen die Konfiguration dieses Abschnitts. Eine Änderung, die Sie hier vornehmen, gilt für alle diese Typen und Varianten.
-            direct_heading: Direkt Abhängige
-            indirect_heading: Indirekt Abhängige über andere Typen
             title: Abhängige Typen
             variant_of_html: Variante von %{type_name}
-            variant_of_via_html: Variante von %{type_name}, vererbt über %{source_name}
-            via_html: Vererbung über %{source_name}
           title:
             one: 1 abhängiger Typ
             other: "%{count} abhängige Typen"
@@ -6545,27 +6698,15 @@ de:
           not_inherited: Diese Konfiguration wird geerbt, sodass nichts auszuschließen ist. Bearbeiten Sie die Konfiguration stattdessen direkt.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         inherited:
-          change_source: Quellentyp ändern
           configure_manually: Manuell konfigurieren
           confirm_dialog:
-            change_source:
-              description_html: Durch das Wechseln des Quelltyps von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
-              heading: Quellentyp ändern?
-              title: Quellentyp ändern
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             from_manual:
               description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
               heading: Konfigurationsmodus wechseln?
               title: Konfigurationsmodus wechseln
-          description: Diese Konfiguration wird vom Quelltyp [%{source_name}](source_url)%{source_suffix} geerbt.
-          description_unlinked: Diese Konfiguration wird vom Quelltyp %{source_name}%{source_suffix} geerbt.
-          dialog:
-            description: Diese Konfiguration wird von einem Quelltyp geerbt. Jede Änderung der Konfiguration der Quelle gilt auch hier.
-            source_label: Quellentyp
-            source_placeholder: Typ oder Variante auswählen
-            submit: Wechseln
-            title: Von einem anderen Typ erben
-          invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ geerbt werden. Bitte wählen Sie einen anderen Quelltyp aus.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Vererbte Konfiguration
         manual:
@@ -6579,7 +6720,7 @@ de:
           dialog:
             submit: Wechseln
             title: Manuell konfigurieren
-          inherit_from_type: Von einem anderen Typ erben
+          inherit_from_type: Inherit from parent
           invalid_mode: Der ausgewählte Modus ist für diese Konfiguration nicht verfügbar. Bitte wählen Sie einen anderen Modus aus.
           modes:
             copy:
@@ -6608,7 +6749,7 @@ de:
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
           description: Diese Varianten sind in allen Projekten verfügbar.
-          title: Varianten
+          title: Globale Varianten
         project_specific_section:
           description: Diese Varianten sind nur innerhalb der Projekte verfügbar, in denen sie erstellt wurden.
           title: Projektspezifische Varianten
@@ -6617,6 +6758,28 @@ de:
     index:
       add_variant: Variante zu %{name} hinzufügen
       add_variant_action: Variante hinzufügen
+      convert_to_global: In globale Variante umwandeln
+      convert_to_global_dialog:
+        confirm: Umwandeln
+        text: 'Dadurch wird diese projektspezifische Variante zu einer globalen Variante, die für alle Projekte verfügbar ist. Der Projektadministrator kann sie dann nicht mehr bearbeiten.
+
+          '
+        workflow_text: 'Der Workflow "%{name}" gehört zu diesem Projekt und wird ebenfalls global.
+
+          '
+      convert_to_global_notice: "%{name} ist jetzt eine globale Variante."
+      convert_to_global_rename:
+        confirm: Umwandeln
+        text: Eine globale Variante mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.
+        title: Wählen Sie einen anderen Namen für diese Variante
+      delete:
+        description: Der Typ wird endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
+        description_with_variants: Der Typ und alle seine Varianten werden endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
+        heading: Typ "%{name}" löschen?
+        projects:
+          one: 'Der Typ wird aus einem Projekt entfernt:'
+          other: 'Der Typ wird aus %{count} Projekten entfernt:'
+        title: Typ löschen
       description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
         '
@@ -6635,6 +6798,13 @@ de:
       type_label: Typ
       variant_label: Variante
     milestone_indicator: Meilenstein
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Diese Warnung ignorieren.
     message: Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein.
@@ -6821,6 +6991,12 @@ de:
   version_status_locked: gesperrt
   version_status_open: offen
   versions:
+    filter_status_labels:
+      closed: Geschlossen
+      locked: Gesperrt
+      open: Offen
+    index:
+      filter_label: Versionen suchen
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
       work_packages_in_archived_projects: Die Version wird mit archivierten Projekten geteilt, die immer noch Arbeitspakete auf diese Version zugewiesen haben. Die Arbeitspakete werden beim Zählen berücksichtigt, erscheinen aber nicht in den verknüpften Ansichten.
@@ -6850,7 +7026,7 @@ de:
   warning_user_limit_reached_admin_html: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte [aktualisieren Sie Ihr Abonnement](upgrade_url) um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
 
     '
-  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
 
     '
   wiki:
@@ -6930,7 +7106,7 @@ de:
       blocked_by_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocked_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocks_description: Das verknüpfte Arbeitspaket kann erst geschlossen werden, wenn dieses Arbeitspaket geschlossen ist
-      child: Unteraufgabe
+      child: Kind
       child_description: Macht das zugehörige Arbeitspaket zu einer Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
       duplicated_by_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
       duplicated_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
@@ -7008,10 +7184,10 @@ de:
       descendants_choice:
         heading: Auch alle untergeordneten Arbeitspakete löschen?
         question: Sie versuchen, Arbeitspakete zu löschen, die untergeordnete Arbeitspakete haben. Möchten Sie diese ebenfalls löschen?
-        self_only_label: Nur die ausgewählten Arbeitspakete löschen
         self_only_caption: Dadurch werden zwar keine untergeordneten Arbeitspakete gelöscht, jedoch werden die hierarchischen Beziehungen aufgehoben.
-        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
+        self_only_label: Nur die ausgewählten Arbeitspakete löschen
         with_descendants_caption: Dadurch werden alle Ihnen sichtbaren untergeordneten Arbeitspakete gelöscht. Im nächsten Schritt haben Sie die Möglichkeit, die vollständige Liste zu überprüfen.
+        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
       description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
       description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
       description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
@@ -7041,7 +7217,7 @@ de:
           manual_with_children: Hat Unteraufgaben aber ihre Startdaten werden ignoriert.
         title:
           automatic_mobile: Automatisch geplant.
-          automatic_with_children: Unteraufgaben bestimmen Termine.
+          automatic_with_children: Die Termine sind durch untergeordnete Arbeitspakete bestimmt.
           automatic_with_predecessor: Der Anfangstermin wird von einem Vorgänger festgelegt.
           manual_mobile: Manuell geplant.
           manually_scheduled: Manuell geplant – Daten unabhängig von Beziehungen.
@@ -7079,10 +7255,10 @@ de:
       descendants_choice:
         heading: Sollen auch alle untergeordneten Arbeitspakete gelöscht werden?
         question: Dieses Arbeitspaket hat untergeordnete Arbeitspakete. Möchten Sie diese ebenfalls löschen?
-        self_only_label: Nur dieses Arbeitspaket löschen
         self_only_caption: Dadurch werden zwar keine untergeordneten Arbeitspakete gelöscht, jedoch werden die hierarchischen Beziehungen aufgehoben.
-        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
+        self_only_label: Nur dieses Arbeitspaket löschen
         with_descendants_caption: Dadurch werden alle Ihnen sichtbaren untergeordneten Arbeitspakete gelöscht. Im nächsten Schritt haben Sie die Möglichkeit, die vollständige Liste zu überprüfen.
+        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
       description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:
@@ -7132,34 +7308,32 @@ de:
       one: Ein untergeordnetes Arbeitspaket
       other: "%{count} untergeordnete Arbeitspakete"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
-        mode:
-          from_role:
-            caption: Kopieren Sie den aktuellen Workflow auf eine oder mehrere Rollen in demselben Typ. Wenn die ausgewählte Rolle bereits über einen Workflow verfügt, wird der aktuelle Workflow überschrieben.
-            label: In andere Rollen kopieren
-          from_type:
-            caption: Kopieren Sie den aktuellen Workflow auf einen anderen Arbeitspaket-Typ. Wenn dieser bereits einen Workflow besitzt, wird der aktuelle überschrieben. Dies betrifft alle Rollen.
-            label: In einen anderen Typ kopieren
-        source_role_id:
-          label: Ausgehende Rolle
         target_role_ids:
           label: Zielrollen
-        target_variant_ids:
-          label: Zieltypen
       from_roles:
         create:
           notice:
             one: Workflow erfolgreich in die Rolle '%{role_name}' kopiert.
             other: Workflow erfolgreich in %{count} Rollen kopiert.
-      from_variants:
-        create:
-          notice:
-            one: Workflow erfolgreich für den Typ '%{type_name}' kopiert.
-            other: Workflow erfolgreich für %{count} Typen kopiert.
       new:
-        title: Workflow von "%{source_type}" kopieren
+        dialog_title: Copy workflow of "%{source}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Workflow-Matrix
       matrix_caption_assignee: Workflow-Matrix für Zugewiesene
       matrix_caption_author: Workflow-Matrix für den Autor
@@ -7168,12 +7342,79 @@ de:
       matrix_check_uncheck_all_in_row_label_html: Übergänge von <em>%{old_status}</em> auf alle neuen Status umschalten
       matrix_checkbox_label: Übergang von %{old_status} zu %{new_status} erlauben
       matrix_uncheck_all_label: Alle Übergänge verbieten
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Typen nach Name filtern…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Konfigurieren Sie die Statusübergänge für jeden Arbeitspaket-Typ.
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Arbeitstage ändern
     dialog:

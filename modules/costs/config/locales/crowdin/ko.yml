@@ -72,6 +72,10 @@ ko:
           attributes:
             project_ids:
               blank: 프로젝트를 선택하세요.
+        rate:
+          attributes:
+            principal:
+              invalid: "- 사용자이거나 플레이스홀더 사용자여야 합니다."
         time_entry:
           attributes:
             entity:
@@ -198,6 +202,7 @@ ko:
   label_costlog: 기록된 단위 비용
   label_costs: 비용
   label_costs_per_page: 페이지당 비용
+  label_current: 현재
   label_current_default_rate: 현재 기본 요금
   label_date_on: "-"
   label_day: 일
@@ -224,6 +229,8 @@ ko:
   label_next_week: 다음 주
   label_next_workweek: 다음 근무 주
   label_no: 아니요
+  label_no_default_rate: 기본 요금 설정 안 됨
+  label_no_project_rate: 이 프로젝트에 대한 요금 설정 안 됨
   label_no_time: 추적된 시간 없음
   label_option_plural: 옵션
   label_overall_costs: 전체 비용
@@ -235,6 +242,7 @@ ko:
   label_show: 표시
   label_specific_day: "%{day}일"
   label_specific_month: "%{month}월"
+  label_stack: Stack
   label_start_and_finished: 시작 및 완료 시간
   label_status_finished: 마침
   label_time: 시간
@@ -244,6 +252,7 @@ ko:
   label_today_capitalized: 오늘
   label_units: 단위 비용
   label_until: '다음까지:'
+  label_using_current_default_rate: 현재 기본 요금 사용
   label_valid_from: 다음부터 유효함
   label_view_mode_switcher: 보기 변경
   label_work_package_filter_add: 작업 패키지 필터 추가
@@ -263,6 +272,10 @@ ko:
   permission_edit_rates: 요금 편집
   permission_log_costs: 단위 비용 예약
   permission_log_own_costs: 자신에 대한 단위 비용 예약
+  permission_manage_default_hourly_rates: 기본 시간당 요금 관리
+  permission_manage_default_hourly_rates_explanation: '사용자 및 플레이스홀더 사용자의 기본 시간당 요금을 추가, 변경 및 삭제할 수 있습니다.
+
+    '
   permission_view_cost_entries: 예약된 비용 보기
   permission_view_cost_rates: 비용 요금 보기
   permission_view_hourly_rates: 모든 시간당 요금 보기
@@ -300,6 +313,11 @@ ko:
   text_destroy_cost_entries_question: "%{cost_entries}은(는) 삭제하려는 작업 패키지에서 보고되었습니다. 어떻게 하시겠습니까?"
   text_destroy_time_and_cost_entries: 보고된 시간 및 비용 삭제
   text_destroy_time_and_cost_entries_question: "%{hours}시간, %{cost_entries}은(는) 삭제하려는 작업 패키지에서 보고되었습니다. 어떻게 하시겠습니까?"
+  text_hourly_rate_destroy_confirmation: "%{valid_from}부터 유효한 %{rate} 요금이 삭제됩니다. 해당 요금으로 예약된 비용은 그 시점에 적용되는 요금으로 다시 계산됩니다."
+  text_hourly_rate_destroy_confirmation_checkbox_label: 이 작업은 되돌릴 수 없음을 이해합니다.
+  text_hourly_rate_recalculation: 이 요금은 유효한 시작일부터 이후 요금이 유효할 때까지 적용됩니다. 이 요금을 변경하면 해당 기간의 기존 시간 항목 및 예산도 다시 계산됩니다.
+  text_no_default_rate: 사용자가 특정 요금을 설정하지 않은 모든 프로젝트에서는 기본 요금이 사용됩니다.
+  text_no_project_rate: 이 프로젝트는 현재 기본 요금을 사용합니다.
   text_reassign_time_and_cost_entries: '보고된 시간 및 비용을 이 작업 패키지에 다시 할당:'
   text_warning_hidden_elements: 일부 항목이 집계에서 제외되었을 수 있습니다.
   total_times:

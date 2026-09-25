@@ -72,6 +72,10 @@ da:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ da:
   label_costlog: Registrerede enhedsomkostninger
   label_costs: Omkostninger
   label_costs_per_page: Omkostninger pr. side
+  label_current: Current
   label_current_default_rate: Nuværende standardsats
   label_date_on: d.
   label_day: Dag
@@ -233,6 +238,8 @@ da:
   label_next_week: Næste uge
   label_next_workweek: Næste arbejdsuge
   label_no: Nej
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Ingen tid registreret
   label_option_plural: Valgmuligheder
   label_overall_costs: Samlede omkostninger
@@ -244,6 +251,7 @@ da:
   label_show: Vis
   label_specific_day: Dag %{day}
   label_specific_month: Måned %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Afsluttet
   label_time: Tidspunkt
@@ -253,6 +261,7 @@ da:
   label_today_capitalized: I dag
   label_units: Omkostningsenheder
   label_until: indtil
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Gældende fra
   label_view_mode_switcher: Skift visning
   label_work_package_filter_add: Tilføj arbejdspakkefilter
@@ -272,6 +281,10 @@ da:
   permission_edit_rates: Redigér satser
   permission_log_costs: Reservationsenhedsomkostninger
   permission_log_own_costs: Reservationsenhedsomkostninger for sig selv
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Se reservationsomkostninger
   permission_view_cost_rates: Se omostningssatser
   permission_view_hourly_rates: Se alle timesatser
@@ -309,6 +322,11 @@ da:
   text_destroy_cost_entries_question: "%{cost_entries} blev indberettet for de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
   text_destroy_time_and_cost_entries: Slet indberettede timer og omkostninger
   text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} blev indberettet på de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Gentildel indberettede timer og omkostninger til denne arbejdspakke:'
   text_warning_hidden_elements: Visse angivelser kan været blevet ekskluderet fra sammenlægning.
   total_times:

@@ -1,0 +1,8 @@
+---
+fa:
+  js:
+    button_allocate_resource: Allocate resource
+    resource_management:
+      create_placeholder_user: ایجاد کاربر فرضی با معیارهای فیلتر
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations

@@ -24,6 +24,10 @@
 uk:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Проєкт GitLab
+        namespace: Простір імен GitLab
+        project_html_url: URL-адреса проєкту GitLab
       gitlab_merge_request:
         labels: Мітки
       gitlab_pipeline:
@@ -39,6 +43,11 @@ uk:
             labels:
               invalid_schema: 'має бути масивом гешів із ключами: color, title'
     models:
+      gitlab_branch:
+        one: Гілка GitLab
+        few: Гілки GitLab
+        many: Гілки GitLab
+        other: Гілки GitLab
       gitlab_issue:
         one: Задача GitLab
         few: Задачі GitLab
@@ -63,7 +72,6 @@ uk:
     commit: Коміт
     gitlab: Ідентифікатор GitLab
     gitlab_avatar_url: URL-адреса аватара
-    gitlab_email: Електронна адреса GitLab
     gitlab_html_url: URL-адреса HTML GitLab
     gitlab_merge_request: Запит на злиття
     gitlab_name: Назва GitLab

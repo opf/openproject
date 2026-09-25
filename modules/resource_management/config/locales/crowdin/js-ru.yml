@@ -1,0 +1,8 @@
+---
+ru:
+  js:
+    button_allocate_resource: Allocate resource
+    resource_management:
+      create_placeholder_user: Создать пользователя-заполнителя с критериями фильтрации
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations

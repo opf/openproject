@@ -72,6 +72,10 @@
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@
   label_costlog: Loggførte enhetskostnader
   label_costs: Kostnader
   label_costs_per_page: Kostnader per side
+  label_current: Current
   label_current_default_rate: Nåværende standardsats
   label_date_on: på
   label_day: Dag
@@ -233,6 +238,8 @@
   label_next_week: Neste uke
   label_next_workweek: Next work week
   label_no: Nei
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: No time tracked
   label_option_plural: Alternativer
   label_overall_costs: Samlede kostnader
@@ -244,6 +251,7 @@
   label_show: Vis
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Fullført
   label_time: Tidspunkt
@@ -253,6 +261,7 @@
   label_today_capitalized: I dag
   label_units: Kostenheter
   label_until: fram til
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Gyldig fra
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Legg til arbeidspakke-filter
@@ -272,6 +281,10 @@
   permission_edit_rates: Rediger satser
   permission_log_costs: Bokførte enhetskostnader
   permission_log_own_costs: Boklige enhetskostnader for seg selv
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Vis bokførte kostnader
   permission_view_cost_rates: Se kostnadsrater
   permission_view_hourly_rates: Vis alle timesatser
@@ -309,6 +322,11 @@
   text_destroy_cost_entries_question: "%{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva vil du gjøre ?"
   text_destroy_time_and_cost_entries: Slett rapporterte timer og kostnader
   text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva ønsker du å gjøre?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Overfør rapporterte timer og kostnader til denne arbeidspakken:'
   text_warning_hidden_elements: Noen oppføringer kan være utelatt fra aggregeringen.
   total_times:

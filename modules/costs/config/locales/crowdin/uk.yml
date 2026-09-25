@@ -72,6 +72,10 @@ uk:
           attributes:
             project_ids:
               blank: Виберіть проєкт.
+        rate:
+          attributes:
+            principal:
+              invalid: має бути користувачем або прототипом користувача.
         time_entry:
           attributes:
             entity:
@@ -225,6 +229,7 @@ uk:
   label_costlog: Записані витрати на одиницю продукції
   label_costs: Витрати
   label_costs_per_page: Витрати на сторінку
+  label_current: Поточний
   label_current_default_rate: Поточна ставка за промовчанням
   label_date_on: на
   label_day: День
@@ -251,6 +256,8 @@ uk:
   label_next_week: Наступний тиждень
   label_next_workweek: Наступний робочий тиждень
   label_no: Ні
+  label_no_default_rate: Ставка за промовчанням не встановлена
+  label_no_project_rate: Для цього проєкту ставка не встановлена
   label_no_time: Час не зафіксовано
   label_option_plural: Опції
   label_overall_costs: Загальні витрати
@@ -262,6 +269,7 @@ uk:
   label_show: Показати
   label_specific_day: День %{day}
   label_specific_month: Місяць %{month}
+  label_stack: Стос
   label_start_and_finished: Час початку й завершення
   label_status_finished: Готово
   label_time: Час
@@ -271,6 +279,7 @@ uk:
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат
   label_until: до
+  label_using_current_default_rate: Використовується ставка за промовчанням
   label_valid_from: Діє з
   label_view_mode_switcher: Змінити подання
   label_work_package_filter_add: Додати фільтр робочого пакета
@@ -290,6 +299,10 @@ uk:
   permission_edit_rates: Редагувати ставки
   permission_log_costs: Книжкова одиниця витрат
   permission_log_own_costs: Книга одиничних витрат для себе
+  permission_manage_default_hourly_rates: Управління погодинними ставками за промовчанням
+  permission_manage_default_hourly_rates_explanation: 'Дозволяє додавати, змінювати та видаляти погодинні ставки за промовчанням для користувачів та прототипів користувачів.
+
+    '
   permission_view_cost_entries: Переглянути замовлені витрати
   permission_view_cost_rates: Переглянути тарифи на витрати
   permission_view_hourly_rates: Переглянути всі погодинні тарифи
@@ -327,6 +340,11 @@ uk:
   text_destroy_cost_entries_question: "%{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
   text_destroy_time_and_cost_entries: Видаліть звітні години та витрати
   text_destroy_time_and_cost_entries_question: "%{hours} години, %{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
+  text_hourly_rate_destroy_confirmation: Ставку %{rate}, що діє з %{valid_from}, буде видалено. Витрати, занесені за цією ставкою, буде перераховано за ставкою, що застосовуватиметься після цього.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Я розумію, що цю дію не можна буде скасувати.
+  text_hourly_rate_recalculation: Ця ставка діє з дати набуття нею чинності до моменту набуття чинності новою ставкою. Її зміна також призведе до перерахунку існуючих записів про відпрацьований час і бюджетів за цей період.
+  text_no_default_rate: Ставка за промовчанням застосовується у всіх проєктах, де в користувача немає встановленої ставки.
+  text_no_project_rate: У цьому проєкті використовуватиметься ставка за промовчанням.
   text_reassign_time_and_cost_entries: 'Перепризначення повідомлених годин і витрат до цього робочого пакету :'
   text_warning_hidden_elements: Деякі записи можуть бути виключені з агрегації.
   total_times:

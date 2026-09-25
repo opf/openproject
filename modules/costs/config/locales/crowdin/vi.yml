@@ -72,6 +72,10 @@ vi:
           attributes:
             project_ids:
               blank: Vui lòng chọn một dự án.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -198,6 +202,7 @@ vi:
   label_costlog: Chi phí đơn vị được ghi lại
   label_costs: chi phí
   label_costs_per_page: Chi phí mỗi trang
+  label_current: Current
   label_current_default_rate: Tỷ lệ mặc định hiện tại
   label_date_on: trên
   label_day: ngày
@@ -224,6 +229,8 @@ vi:
   label_next_week: Tuần tới
   label_next_workweek: Tuần làm việc tiếp theo
   label_no: không
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Không theo dõi thời gian
   label_option_plural: tùy chọn
   label_overall_costs: Tổng chi phí
@@ -235,6 +242,7 @@ vi:
   label_show: Hiển thị
   label_specific_day: Ngày %{day}
   label_specific_month: Tháng %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Đã hoàn thành
   label_time: thời gian
@@ -244,6 +252,7 @@ vi:
   label_today_capitalized: hôm nay
   label_units: Đơn vị chi phí
   label_until: cho đến khi
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Có hiệu lực từ
   label_view_mode_switcher: Thay đổi chế độ xem
   label_work_package_filter_add: Thêm bộ lọc gói công việc
@@ -263,6 +272,10 @@ vi:
   permission_edit_rates: Chỉnh sửa giá
   permission_log_costs: Chi phí đơn vị sổ sách
   permission_log_own_costs: Đặt chi phí đơn vị cho chính mình
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Xem chi phí đã đặt
   permission_view_cost_rates: Xem mức chi phí
   permission_view_hourly_rates: Xem tất cả mức giá theo giờ
@@ -300,6 +313,11 @@ vi:
   text_destroy_cost_entries_question: "%{cost_entries} đã được báo cáo về các gói công việc bạn sắp xóa. Bạn muốn làm gì?"
   text_destroy_time_and_cost_entries: Xóa số giờ và chi phí được báo cáo
   text_destroy_time_and_cost_entries_question: "%{hours} giờ, %{cost_entries} đã được báo cáo về các gói công việc bạn sắp xóa. Bạn muốn làm gì?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Chỉ định lại số giờ và chi phí được báo cáo cho gói công việc này:'
   text_warning_hidden_elements: Một số mục có thể đã bị loại khỏi tổng hợp.
   total_times:

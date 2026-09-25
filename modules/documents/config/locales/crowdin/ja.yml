@@ -46,7 +46,7 @@ ja:
   documents:
     active_editors: アクティブな編集者
     active_editors_count:
-      other: "%{count} active editors"
+      other: "%{count} アクティブな編集者"
     admin:
       collaboration_settings:
         banner:
@@ -61,9 +61,9 @@ ja:
           invalid_scheme: WebSocketプロトコル（ws:// または wss://）を使用する必要があります。
           label: HocuspocusサーバーのURL
         page_header:
-          description: |-
-            この機能を有効にすると、リアルタイム共同編集により、複数のユーザーが同時にドキュメントを編集できるようになります。
-            この機能を利用するには、正常に動作する %{hocuspocus_server_link} が必要です。
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: データが永久に失われる可能性があることは承知しています
         confirmation_message: |-
@@ -117,7 +117,7 @@ ja:
       currently_offline: 現在、オフラインです。
     label_attachment_author: 添付ファイルの作成者
     label_categories: カテゴリ
-    last_updated_at: Last saved %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: 全てのドキュメント
       collaboration_settings: リアルタイムのコラボレーション

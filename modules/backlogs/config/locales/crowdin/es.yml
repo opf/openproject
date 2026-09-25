@@ -26,6 +26,7 @@ es:
       project:
         allow_multiple_active_sprints: Permitir varios sprints activos
         backlog_excluded_types: Tipos de paquetes de trabajo excluidos
+        estimation_unit: Unit
         sprint_sharing: Compartir Sprint
         statuses_considered_closed: Estados considerados cerrados
       sprint:
@@ -137,6 +138,7 @@ es:
       show:
         blankslate_description: Establezca la fecha de inicio y finalización del sprint para generar un gráfico de trabajo pendiente.
         blankslate_title: No hay datos de trabajo pendiente disponibles
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Elige qué tipos de paquetes de trabajo quieres ocultar en el backlog. Los elementos de los tipos seleccionados no aparecerán automáticamente en el backlog, lo que te permitirá centrarte en el trabajo que realmente importa a tu equipo. Por ejemplo, puedes ocultar tipos como «Épicos» o «Hitos», que se gestionan a un nivel superior, para que el backlog se centre en elementos sobre los que se pueda actuar.
 
       '
@@ -184,6 +186,7 @@ es:
     remaining_hours: Trabajo restante
     sharing: Compartir Sprint
     show_burndown_chart: Diagrama Burndown
+    show_work_package_overview: Paquetes de trabajo dentro del sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Añadir un paquete de trabajo existente
@@ -209,6 +212,31 @@ es:
       page_header_component:
         breadcrumb: Informe
         title: Informe de %{sprint}
+      widgets:
+        work_package_graph:
+          title: Gráfico de paquetes de trabajo
+        work_package_overview:
+          blankslate:
+            description: Establezca la fecha de inicio y finalización del sprint para generar un resumen del paquete de trabajo.
+            heading: No hay datos de sprints disponibles
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Cambio de alcance
+              story_points_change: "+%{added} / -%{removed} puntos de historia"
+            completed:
+              heading: Completado
+            initially_planned:
+              heading: Planeado inicialmente
+            unfinished:
+              heading: Sin terminar
+          breakdown_block:
+            blocks:
+              show_all: Ver todo
+          closed_work_packages: Paquetes de trabajo cerrados
+          resolved_summary:
+            one: "%{percentage} % (%{resolved} de %{total} paquete de trabajo)"
+            other: "%{percentage} % (%{resolved} de %{total} paquetes de trabajo)"
     sprints:
       row_component:
         action_menu:
@@ -249,8 +277,19 @@ es:
       add_existing_dialog:
         invalid_target: El destino al que quieres añadir no es válido.
         target_not_found: No se ha encontrado el sprint o el backlog al que intentas añadir.
+      batch_update_service:
+        mixed_projects: Todos los paquetes de trabajo de un lote deben pertenecer al mismo proyecto.
+        stale_batch: Al menos un paquete de trabajo ha sufrido cambios mientras se preparaba el traslado. Compruebe las posiciones actuales e inténtelo de nuevo.
+        stale_predecessor: El paquete de trabajo que debía insertarse a continuación se ha trasladado a otra ubicación. Compruebe las posiciones actuales e inténtelo de nuevo.
+        unavailable_target: La lista de destinos ya no está disponible. Actualice la página e inténtelo de nuevo.
+        unexpected_failure: No se pudieron trasladar los paquetes de trabajo. Inténtelo de nuevo.
       move:
         moved_announcement: "%{label} se movió a %{list}, posición %{position} de %{total}"
+      move_collection:
+        invalid_ids: La lista de paquetes de trabajo a trasladar no es válida.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: No se pueden trasladar más de %{max} paquetes de trabajo a la vez.
+        work_packages_not_found: Al menos un paquete de trabajo no se encontró en este proyecto.
       update_service:
         invalid_target_type: 'list_type debe ser uno de los siguientes: backlog_bucket con un list_id, sprint con un list_id, o inbox sin un list_id.'
         missing_target: list_type o list_id deben estar presentes.
@@ -286,9 +325,11 @@ es:
   notice_unsuccessful_finish_with_reason: 'El sprint no pudo completarse: %{reason}'
   notice_unsuccessful_start: El sprint no pudo iniciarse.
   notice_unsuccessful_start_with_reason: 'El sprint no pudo iniciarse: %{reason}'
-  notice_work_package_invisible_after_move: 'El paquete de trabajo se ha trasladado a %{backlog}, pero no se ve porque su tipo o estado están excluidos de la lista de tareas pendientes.
+  notice_work_package_invisible_after_move:
+    one: 'El paquete de trabajo se ha trasladado a %{backlog}, pero no se ve porque su tipo o estado están excluidos de la lista de trabajos pendientes.
 
-    '
+      '
+    other: "%{count} paquetes de trabajo se han trasladado a %{backlog}, pero no se ven porque su tipo o estado están excluidos de la lista de trabajos pendientes.\n"
   permission_create_sprints: Crear sprints
   permission_manage_sprint_items: Gestionar elementos de sprint
   permission_select_backlog_types_and_statuses: Selecciona los tipos y estados del backlog
@@ -307,6 +348,18 @@ es:
       backlog_buckets: Buckets de backlog
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -327,6 +380,9 @@ es:
             label: Subproyectos
         sprint_sharing: Compartir sprints
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Por defecto, solo puede haber un sprint activo a la vez por proyecto. Puedes cambiarlo para que haya varios sprints activos en paralelo en este proyecto.
           heading: Número de sprints activos

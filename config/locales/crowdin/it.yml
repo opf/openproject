@@ -222,6 +222,7 @@ it:
         title: Titolo
       member:
         blocked: Bloccato
+        principal_type: Tipo di membro
         roles: Ruoli
       notification:
         read_ian: Leggi in app
@@ -234,6 +235,7 @@ it:
         position: Posizione
       persisted_query:
         filters: Filtri
+        group_bys: Raggruppa i risultati per
         name: Nome
         orders: Ordini
         selects: Seleziona
@@ -383,16 +385,13 @@ it:
       type_variant:
         attribute_groups: Modulo
         default_work_package_description: Testo predefinito per la descrizione
-        defaults_source: Origine dei valori predefiniti
         enabled_in_new_projects: Attivo nei nuovi progetti
-        form_configuration_source: Origine del modulo
+        linked_aspects: Inherited configuration
         patterns: Pattern
-        pdf_export_source: Origine dell'esportazione PDF
-        project_attributes_source: Origine degli attributi del progetto
         project_types: Progetti che utilizzano questa variante
         variant: Variante
         variant_name: Nome
-        workflows_source: Origine dei flussi di lavoro
+        workflow: Workflow
       user:
         admin: Amministratore
         auth_source: Origine dell'autenticazione
@@ -440,6 +439,13 @@ it:
         time_zone: Fuso orario
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività non salvata
         workdays: Giorni lavorativi
+      user_resource:
+        description: Descrizione
+        name: Nome
+        user_filter: Filtro utenti
+      user_resource_detail:
+        description: Descrizione
+        user_filter: Filtro utenti
       user_working_hours:
         availability_factor: Fattore di disponibilità
         days: Giorni lavorativi
@@ -490,6 +496,7 @@ it:
           title: Giorni lavorativi
           true: includi giorni non lavorativi
         journal_internal: Diario interno
+        labels: Labels
         notify: Notifica
         observed_in_versions: Osservato nelle versioni
         parent: Superiore
@@ -518,6 +525,10 @@ it:
         work_package: Macro-attività
       work_package_version:
         kind: Tipo
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: deve essere accettato.
@@ -610,6 +621,10 @@ it:
         user_in_ldap_managed_department: Questo utente appartiene a un dipartimento gestito dalla sincronizzazione LDAP e non può essere spostato.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -687,6 +702,13 @@ it:
               not_unique: è già in uso. Sei pregato di selezionare un altro nome.
         jira:
           invalid_protocol: Fornisci un protocollo valido (http o https)
+        label:
+          attributes:
+            name:
+              blank: Il nome non può essere vuoto.
+              format: "%{message}"
+              taken: Esiste già un'etichetta con questo nome. Usane un'altra.
+              too_long: Il nome è troppo lungo (il massimo è di %{count} caratteri).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -742,7 +764,6 @@ it:
             types:
               cannot_assign_multiple_variants_of_parent: Nel progetto è possibile abilitare una sola variante di un tipo
               cannot_assign_variant_and_parent: 'Non è possibile assegnare una variante insieme al suo genitore '
-              cannot_assign_variants_yet: Non è ancora possibile abilitare le varianti in un progetto. Abilita il flag di funzionalità per provarle
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
               switch_target_blank: Seleziona la variante a cui passare
               switch_target_identical: Il tipo di destinazione deve essere diverso da quello attualmente utilizzato dal progetto
@@ -855,6 +876,10 @@ it:
               blank: Indica un nome per il token
               format: "%{message}"
               in_use: Questo nome di token è già utilizzato, scegline uno differente
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: Questo tipo non può essere eliminato finché è ancora utilizzato da macro-attività.
         type_variant:
           attributes:
             attribute_groups:
@@ -864,33 +889,19 @@ it:
               group_without_name: Il nome del gruppo non può essere vuoto.
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
             base:
-              borrowed_by_variants: Non può essere eliminata mentre la sua configurazione è riutilizzata da %{names}.
               is_default_variant: La configurazione predefinita di un tipo non può essere eliminata.
               project_variants_not_allowed: Questo tipo non consente di creare varianti all'interno dei progetti.
               restrict_dependent_destroy:
                 has_many: Non può essere eliminata mentre è ancora utilizzata da alcuni progetti.
-            defaults_source_id:
-              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
-              would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: non può essere impostata su una variante appartenente a un progetto.
               taken: è già impostato per un'altra configurazione di questo tipo.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
-              would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             patterns:
               invalid_tokens: Uno o più attributi all'interno del campo non sono validi. Correggi gli attributi prima di salvare.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
-              would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
-              would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             variant:
               must_belong_to_the_type: deve essere una variante di questo tipo.
-            workflows_source_id:
-              must_be_available_to_the_variant: deve essere una configurazione utilizzabile da questo progetto.
-              would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
+            workflow:
+              not_available_to_this_variant: deve essere un flusso di lavoro utilizzabile da questo progetto.
         user:
           attributes:
             base:
@@ -1717,6 +1728,35 @@ it:
       caption_with_maximum: 'Le azioni degli utenti su una macro-attività, come modificare descrizione, stato o valori, oppure aggiungere commenti, vengono raggruppate se eseguite entro questo intervallo. Questo controlla anche i ritardi delle notifiche e dei [webhook](webhook_link). Il massimo è %{max} minuti.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: Sono consapevole che questa azione è irreversibile
+        description_html: Questa operazione rimuoverà l'etichetta <strong>%{name}</strong> da tutte le macro-attività di tutti i progetti.
+        heading: Eliminare questa etichetta?
+        title: Eliminare questa etichetta?
+      dialog_component:
+        create_title: Crea etichetta
+        rename_title: Rinomina "%{name}"
+      index:
+        description: Tutti gli utenti che possono modificare le macro-attività possono assegnare liberamente alle macro-attività etichette esistenti o crearne subito di nuove. Sono incluse tutte le etichette create dagli utenti in tutti i progetti.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} macro-attività"
+          other: "%{count} macro-attività"
+      sub_header_component:
+        button_add: Etichetta
+        label_add: Aggiungi etichetta
+        search_placeholder: Digita per cercare
+      table_component:
+        blank_slate:
+          description: Le etichette create dagli utenti sulle macro-attività appariranno qui.
+          title: Ancora nessuna etichetta
+        headers:
+          name: Etichetta
+          usage: Usata in
+        no_matches:
+          description: Prova con un altro termine di ricerca.
+          title: Nessuna etichetta corrisponde alla tua ricerca
     mcp_configurations:
       index:
         description: Il protocollo di contesto del modello consente agli agenti di intelligenza artificiale di fornire ai propri utenti strumenti e risorse esposti da questa istanza di OpenProject. Questa funzionalità è ancora in versione beta.
@@ -1747,6 +1787,14 @@ it:
       update:
         failure: La configurazione MCP non può essere aggiornata.
         success: La configurazione MCP è stata aggiornata correttamente.
+    members:
+      index:
+        blank_description: Nessuna iscrizione corrisponde al filtro attuale.
+        blank_title: Nessuna iscrizione
+        filter_label: Cerca utenti
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(tramite: %{source})"
+        title: Iscrizioni
     plugins:
       no_results_content_text: Per maggiori informazioni, consulta la pagina delle integrazioni e dei plugin.
       no_results_title_text: Al momento non vi sono plugin installati.
@@ -1963,6 +2011,11 @@ it:
         ignore: Ignora le modifiche
         save: Salva le modifiche e continua
         title: Salvare le modifiche prima di continuare?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Ruolo: %{role}'
         no_role: Seleziona il ruolo
@@ -1992,6 +2045,18 @@ it:
           assignee: Ulteriori transizioni disponibili per l'assegnatario della macro-attività.
           author: Ulteriori transizioni disponibili per l'autore della macro-attività.
         menu_label: Transizioni visualizzate
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
+  ai:
+    text_transform:
+      errors:
+        connection_failed: Non è stato possibile raggiungere il servizio IA.
+        not_available: L'assistente IA non è disponibile.
+        timeout: Il servizio IA non ha risposto in tempo.
+        upstream_error: Il servizio IA ha restituito un errore.
   announcements:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
@@ -2054,10 +2119,6 @@ it:
       not_found:
         reminder: Il promemoria che stai cercando non può essere trovatoo è stato eliminato.
         work_package: La macro-attività che stai cercando non può essere trovata o è stata eliminata.
-      render:
-        context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
-        context_object_not_found: Impossibile trovare la risorsa indicata come contesto.
-        unsupported_context: La risorsa non è supportata come contesto.
       unable_to_create_attachment: Il tema potrebbe non essere creato
       unable_to_create_attachment_permissions: L'allegato non può essere salvato a causa della mancanza di permessi nel file system
       user:
@@ -3462,10 +3523,10 @@ it:
   label_copy_target: Destinazione
   label_copy_workflow_from: Copia flusso di lavoro da
   label_copy_workflow_from_role: Copia in altri ruoli
-  label_copy_workflow_from_type: Copia in un altro tipo
   label_core_build: Core build
   label_core_version: Versione core
   label_created_by: Creato da %{user}
+  label_criteria: Criteri
   label_current_status: Stato attuale
   label_current_version: Versione corrente
   label_custom_comment: Commento di %{name}
@@ -3653,6 +3714,7 @@ it:
   label_journal_diff: Confronto Descrizione
   label_jump_to_a_project: Salta ad altro progetto...
   label_keyword_plural: Parole chiave
+  label_label_plural: Etichette
   label_language: Lingua
   label_language_based: Basato sulla lingua dell'utente
   label_languages: Lingue
@@ -4041,6 +4103,8 @@ it:
   label_wiki_start: Pagina iniziale
   label_wiki_toc: Sommario
   label_wiki_toc_empty: La tabella dei contenuti è vuota in quanto non è presente nessuna intestazione.
+  label_with_criteria: Con criteri
+  label_without_criteria: Senza criteri
   label_work: Lavoro
   label_work_package: Macro-attività
   label_work_package_attachments: Allegati macro-attività
@@ -4870,8 +4934,6 @@ it:
       not_found: non trovato.
       respond_to?: non implementa il metodo richiesto.
       rules:
-        copy_workflow_from:
-          workflow_missing: non ha un proprio flusso di lavoro.
         custom_field:
           format_not_supported: il formato '%{field_format}' non è supportato.
         item:
@@ -4891,7 +4953,6 @@ it:
     or: oppure
     rules:
       blueprint: Schema del modello
-      copy_workflow_from: Tipo per la copia del flusso di lavoro
       depth: Profondità
       enabled: Attivata
       item: Elemento
@@ -5094,6 +5155,16 @@ it:
   permission_work_package_assigned: Diventa assegnatario/responsabile
   permission_work_package_assigned_explanation: È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto
   placeholder_users:
+    criteria:
+      activate: Attiva criteri di filtro
+      activate_caption: 'Consente di aggiungere a questo utente segnaposto un insieme di filtri usati per definire i possibili utenti che soddisfano i criteri desiderati.
+
+        '
+      enable: Abbina utenti in base ai criteri
+      enable_caption: Descrivi il tipo di utente rappresentato da questo segnaposto, in modo che possano essere suggeriti utenti corrispondenti.
+      matching_users: Utenti che soddisfano i criteri di filtro
+      no_matching_users: Nessun utente soddisfa questi criteri.
+      show_all_matching_users: Mostra tutti i %{count} utenti corrispondenti
     delete_tooltip: Elimina utente segnaposto
     deletion_info:
       data_consequences: 'Tutte le occorrenze dell''utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato". Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall''utente dai dati di un altro account eliminato.
@@ -5387,7 +5458,7 @@ it:
         variants_not_allowed: Questo tipo non consente di creare varianti all'interno dei progetti.
       versions:
         no_results_content_text: Crea una nuova versione
-        no_results_title_text: Al momento non esistono versioni per il progetto.
+        no_results_title_text: Non sono state trovate versioni corrispondenti ai criteri di filtro per questo progetto.
         show_work_packages: Mostra macro-attività
         work_packages_graph: Grafico delle macro-attività
       work_package_priorities:
@@ -5552,6 +5623,31 @@ it:
     warnings:
       cannot_annotate: Questo file non può essere annotato.
   roles:
+    delete_dialog:
+      confirm: Vuoi eliminare questo ruolo?
+      entry_projects:
+        one: "(Progetto: %{projects})"
+        other: "(Progetti: %{projects})"
+      entry_projects_truncated:
+        one: "(Progetti: %{projects} e 1 altro)"
+        other: "(Progetti: %{projects} e altri %{count})"
+      heading:
+        one: 'Questo ruolo è ancora assegnato a 1 membro:'
+        other: 'Questo ruolo è ancora assegnato a %{count} membri:'
+      heading_unused: Vuoi eliminare il ruolo "%{name}"?
+      losing_project_access:
+        one: Tra questi utenti, 1 perderà l'accesso ai progetti in cui questo era il suo unico ruolo. Vuoi eliminare questo ruolo?
+        other: Tra questi utenti, %{count} perderanno l'accesso ai progetti in cui questo era il loro unico ruolo. Vuoi eliminare questo ruolo?
+        zero: Nessuno di questi utenti perderà l'accesso ai propri progetti. Vuoi eliminare questo ruolo?
+      show_memberships: Mostra tutte le appartenenze con questo ruolo
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 progetto
+        other: "%{count} progetti"
+      summary_users:
+        one: 1 utente
+        other: "%{count} utenti"
+      title: Elimina ruolo
     edit:
       default_for_new_projects_warning: 'Questo ruolo è configurato come ruolo predefinito assegnato agli utenti non amministratori che creano un progetto. Non rimuovere le seguenti autorizzazioni, altrimenti i creatori di progetto non potranno completare la configurazione dei progetti appena creati:'
     index:
@@ -5563,6 +5659,16 @@ it:
     permissions:
       section_check_all_label: Assegna tutti i permessi di %{module}
       section_uncheck_all_label: Annulla l'assegnazione di tutti i permessi di %{module}
+    permissions_dialog:
+      edit_permissions: Modifica le autorizzazioni del ruolo
+      implicit_permission: Sempre concesse
+      no_permissions: Questo ruolo non concede alcuna autorizzazione.
+      permission_count:
+        one: 1 autorizzazione
+        other: "%{count} autorizzazioni"
+      preview_action: Visualizza le autorizzazioni
+      preview_aria_label: Visualizza le autorizzazioni di %{role}
+      title: Autorizzazioni di "%{name}"
     report:
       matrix_caption: Matrice dei permessi per il modulo %{module}
       matrix_check_all_label: Assegna tutti i permessi di %{module} a tutti i ruoli
@@ -6138,13 +6244,14 @@ it:
         <br>
         <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
     index:
+      could_not_be_moved: Non è stato possibile spostare lo stato.
       headers:
-        excluded_from_totals: Escluso dai totali
         is_closed: Chiuso
-        is_default: Predefinito
         is_readonly: Sola lettura
+      no_filter_results_title_text: Nessuno stato corrisponde al filtro attuale.
       no_results_content_text: Aggiungi un nuovo stato
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
+      status_actions: Azioni dello stato
   support:
     array:
       sentence_connector: e
@@ -6349,6 +6456,47 @@ it:
   tree_view:
     label_empty_sub_tree: Nessun elemento
   types:
+    comparison:
+      action: Confronta varianti
+      blankslate:
+        description: Aggiungi una seconda variante a questo tipo per vedere cosa le distingue.
+        title: Non c'è ancora nulla da confrontare
+      description: Confronta le varianti di questo tipo con il tipo principale.
+      labels:
+        duplicate: Possibile duplicato
+        duplicate_of: Configurato esattamente come %{names}
+        duplicate_of_more:
+          one: "%{names} e 1 altro"
+          other: "%{names} e altri %{count}"
+        parent_type: Tipo genitore
+        same_as_type: Uguale al tipo genitore
+      rows:
+        form:
+          fields: Campi
+          groups: Sezioni
+          required: Di cui obbligatori
+          same_as_base: Uguale al tipo genitore
+        scope:
+          availability: Disponibile per
+          enabled_in_new_projects: Attivo nei nuovi progetti
+          projects: Progetti
+        workflows:
+          roles: Ruoli coinvolti
+          same_as_base: Uguale al tipo genitore
+          statuses: Stati
+          transitions: Transizioni
+      sections:
+        configuration: Panoramica della configurazione
+        form: Modulo
+        scope: Ambito
+        workflows: Flussi di lavoro
+      title: Confronta varianti
+      title_for_type: Confronta le varianti di %{name}
+      values:
+        global: Tutti i progetti
+        inheriting_from: Eredita da
+        project_specific: Specifico del progetto ([%{project}](project_url))
+        same_as_base: Identico al tipo genitore
     creation_wizard:
       add_variant: Aggiungi una variante a %{name}
       create_type: Crea tipo
@@ -6456,6 +6604,15 @@ it:
         query_group_label: Tabella di macro-attività correlate
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
+        required:
+          already_required_globally: Questo campo personalizzato è obbligatorio per tutti i tipi.
+          for_variant: Obbligatorio in questo tipo
+          globally: Obbligatorio
+          globally_hint: Modifica questa impostazione nel campo personalizzato
+          mark: Rendi obbligatorio in questo tipo
+          not_a_custom_field: Solo un campo personalizzato può essere reso obbligatorio per un singolo tipo.
+          not_available_when_linked: Questa configurazione è ereditata. Configurala manualmente per modificare gli elementi obbligatori.
+          unmark: Non rendere obbligatorio in questo tipo
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
@@ -6529,12 +6686,8 @@ it:
             other: La seguente configurazione è ereditata da altri %{count} tipi o varianti. Qualsiasi modifica apportata qui influirà anche sugli elementi dipendenti.
           dialog:
             description: Questi tipi e varianti ereditano la configurazione di questa sezione. Le modifiche apportate qui si applicano a tutti.
-            direct_heading: Dipendenti diretti
-            indirect_heading: Dipendenti tramite altri tipi
             title: Tipi dipendenti
             variant_of_html: Variante di %{type_name}
-            variant_of_via_html: Variante di %{type_name}, che eredita tramite %{source_name}
-            via_html: Eredita tramite %{source_name}
           title:
             one: 1 tipo dipendente
             other: "%{count} tipi dipendenti"
@@ -6543,27 +6696,15 @@ it:
           not_inherited: Questa configurazione non è ereditata, quindi non c'è nulla da escludere. Modifica direttamente la configurazione.
           unknown_aspect: Sezione di configurazione "%{aspect}" sconosciuta.
         inherited:
-          change_source: Cambia tipo di origine
           configure_manually: Configura manualmente
           confirm_dialog:
-            change_source:
-              description_html: Cambiando il tipo di origine in %{source_name}, sovrascriverai le impostazioni attuali e potresti influire sulle informazioni esistenti nelle macro-attività di questo tipo.
-              heading: Cambiare il tipo di origine?
-              title: Cambia tipo di origine
             check_box: Ho compreso che questa operazione sovrascriverà le impostazioni attuali
             from_manual:
               description: Tutte le impostazioni attualmente selezionate verranno sovrascritte e ciò potrebbe influire sulle informazioni esistenti nelle macro-attività di questo tipo.
               heading: Cambiare modalità di configurazione?
               title: Cambia modalità di configurazione
-          description: Questa configurazione è ereditata dal tipo di origine [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Questa configurazione è ereditata dal tipo di origine %{source_name}%{source_suffix}.
-          dialog:
-            description: Eredita questa configurazione da un tipo di origine. Qualsiasi nuova configurazione aggiunta all'origine verrà applicata anche qui.
-            source_label: Tipo di origine
-            source_placeholder: Seleziona un tipo o una variante
-            submit: Cambia
-            title: Eredita da un altro tipo
-          invalid_source: La configurazione non può essere ereditata dal tipo selezionato. Seleziona un tipo di origine diverso.
+          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
+          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
           success: La modalità di configurazione è stata cambiata.
           title: Configurazione ereditata
         manual:
@@ -6577,7 +6718,7 @@ it:
           dialog:
             submit: Cambia
             title: Configura manualmente
-          inherit_from_type: Eredita da un altro tipo
+          inherit_from_type: Inherit from parent
           invalid_mode: La modalità selezionata non è disponibile per questa configurazione. Scegli una modalità diversa.
           modes:
             copy:
@@ -6606,7 +6747,7 @@ it:
         filter_no_results: Nessuna variante corrisponde a questo filtro
         global_section:
           description: Queste varianti sono disponibili in tutti i progetti.
-          title: Varianti
+          title: Varianti globali
         project_specific_section:
           description: Queste varianti sono disponibili solo nei progetti in cui sono state create.
           title: Varianti specifiche del progetto
@@ -6615,6 +6756,28 @@ it:
     index:
       add_variant: Aggiungi una variante a %{name}
       add_variant_action: Aggiungi variante
+      convert_to_global: Converti in variante globale
+      convert_to_global_dialog:
+        confirm: Converti
+        text: 'Questa operazione trasformerà la variante specifica del progetto in una variante globale disponibile per tutti i progetti. L''amministratore del progetto non potrà più modificarla.
+
+          '
+        workflow_text: 'Anche il relativo flusso di lavoro "%{name}" appartiene a questo progetto e diventerà globale.
+
+          '
+      convert_to_global_notice: "%{name} è ora una variante globale."
+      convert_to_global_rename:
+        confirm: Converti
+        text: Esiste già una variante globale con questo nome. Scegli un nome diverso.
+        title: Scegli un altro nome per questa variante
+      delete:
+        description: Il tipo verrà eliminato definitivamente. Questa azione non può essere annullata.
+        description_with_variants: Il tipo e tutte le relative varianti verranno eliminati definitivamente. Questa azione non può essere annullata.
+        heading: Eliminare il tipo '%{name}'?
+        projects:
+          one: 'Il tipo verrà rimosso da 1 progetto:'
+          other: 'Il tipo verrà rimosso da %{count} progetti:'
+        title: Elimina tipo
       description: 'Ogni area di configurazione dei tipi e delle varianti può essere configurata in modo indipendente, vincolata da un altro tipo oppure completamente collegata a un''origine.
 
         '
@@ -6633,6 +6796,13 @@ it:
       type_label: Tipo
       variant_label: Variante
     milestone_indicator: Milestone
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Ignora questo avviso.
     message: Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina.
@@ -6819,6 +6989,12 @@ it:
   version_status_locked: bloccato
   version_status_open: aperte
   versions:
+    filter_status_labels:
+      closed: Chiusa
+      locked: Bloccata
+      open: Aperta
+    index:
+      filter_label: Cerca versioni
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
       work_packages_in_archived_projects: La versione è condivisa con progetti archiviati che hanno ancora macro-attività assegnate a questa versione. Queste vengono conteggiate, ma non appariranno nelle viste collegate.
@@ -7008,10 +7184,10 @@ it:
       descendants_choice:
         heading: Eliminare anche tutti i discendenti?
         question: Stai tentando di eliminare macro-attività che hanno discendenti. Vuoi eliminare anche questi ultimi?
-        self_only_label: Elimina solo le macro-attività selezionate
         self_only_caption: I discendenti non verranno eliminati, ma verranno rimosse le relazioni gerarchiche.
-        with_descendants_label: Elimina le macro-attività selezionate e i relativi discendenti
+        self_only_label: Elimina solo le macro-attività selezionate
         with_descendants_caption: Verranno eliminate tutte le macro-attività figlie visibili. Potrai esaminare l'elenco completo nel passaggio successivo.
+        with_descendants_label: Elimina le macro-attività selezionate e i relativi discendenti
       description: Vuoi davvero eliminare le macro-attività selezionate e tutti i dati associati?
       description_with_all_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i loro discendenti?
       description_with_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i seguenti discendenti?
@@ -7079,10 +7255,10 @@ it:
       descendants_choice:
         heading: Eliminare anche tutti i discendenti?
         question: Questa macro-attività ha dei discendenti. Vuoi eliminare anche questi ultimi?
-        self_only_label: Elimina solo questa macro-attività
         self_only_caption: I discendenti non verranno eliminati, ma verranno rimosse le relazioni gerarchiche.
-        with_descendants_label: Elimina questa macro-attività e i relativi discendenti
+        self_only_label: Elimina solo questa macro-attività
         with_descendants_caption: Verranno eliminate tutte le macro-attività figlie visibili. Potrai esaminare l'elenco completo nel passaggio successivo.
+        with_descendants_label: Elimina questa macro-attività e i relativi discendenti
       description: Vuoi davvero eliminare "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
       hidden_descendants_only_warning:
@@ -7132,34 +7308,32 @@ it:
       one: Una macro-attività discendente
       other: "%{count} macro-attività discendenti"
   workflows:
+    change:
+      title: Change workflow
+      workflow:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copia il flusso di lavoro corrente in uno o più ruoli all'interno dello stesso tipo di macro-attività. Se il ruolo selezionato ha già un flusso di lavoro, quello corrente verrà sovrascritto.
-            label: Copia in altri ruoli
-          from_type:
-            caption: Copia il flusso di lavoro corrente in un altro tipo di macro-attività. Se il tipo selezionato ha già un flusso di lavoro, quello corrente verrà sovrascritto. Questa operazione interessa tutti i ruoli.
-            label: Copia in un altro tipo
-        source_role_id:
-          label: Ruolo origine
         target_role_ids:
           label: Ruoli di destinazione
-        target_variant_ids:
-          label: Tipi di destinazione
       from_roles:
         create:
           notice:
             one: Il flusso di lavoro è stato copiato con successo nel ruolo '%{role_name}'.
             other: Il flusso di lavoro è stato copiato con successo in %{count} ruoli.
-      from_variants:
-        create:
-          notice:
-            one: Flusso di lavoro copiato correttamente in '%{type_name}'.
-            other: Flusso di lavoro copiato correttamente in %{count} tipi.
       new:
-        title: Copia il flusso di lavoro di "%{source_type}"
+        dialog_title: Copy workflow of "%{source}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Matrice del flusso di lavoro
       matrix_caption_assignee: Matrice del flusso di lavoro per l'assegnatario
       matrix_caption_author: Matrice del flusso di lavoro per l'autore
@@ -7168,12 +7342,79 @@ it:
       matrix_check_uncheck_all_in_row_label_html: Attiva o disattiva le transizioni da <em>%{old_status}</em> a tutti i nuovi stati
       matrix_checkbox_label: Consenti la transizione da %{old_status} a %{new_status}
       matrix_uncheck_all_label: Non consentire tutte le transizioni
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      roles_count:
+        one: 1 role
+        other: "%{count} roles"
       type_filter:
         label: Filtra per nome tipo…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Configura le transizioni di stato per ciascun tipo di macro-attività.
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
+    usage:
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        one: This workflow is used by 1 type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This workflow is used by 1 type or variant.
+        other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Cambia giorni lavorativi
     dialog:

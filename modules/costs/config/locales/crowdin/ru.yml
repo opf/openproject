@@ -72,6 +72,10 @@ ru:
           attributes:
             project_ids:
               blank: Пожалуйста, выберите проект.
+        rate:
+          attributes:
+            principal:
+              invalid: должен быть либо пользователем, либо пользователем-заполнителем.
         time_entry:
           attributes:
             entity:
@@ -225,6 +229,7 @@ ru:
   label_costlog: Журналированные затраты на единицу
   label_costs: Затраты
   label_costs_per_page: Расходов на странице
+  label_current: Текущий
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
   label_day: День
@@ -251,6 +256,8 @@ ru:
   label_next_week: На следующей неделе
   label_next_workweek: Следующая рабочая неделя
   label_no: Нет
+  label_no_default_rate: Ставка по умолчанию не установлена
+  label_no_project_rate: Для данного проекта ставка не установлена
   label_no_time: Нет учтённого времени
   label_option_plural: Параметры
   label_overall_costs: Общие расходы
@@ -262,6 +269,7 @@ ru:
   label_show: Показать
   label_specific_day: День %{day}
   label_specific_month: Месяц %{month}
+  label_stack: Stack
   label_start_and_finished: Время начала и окончания
   label_status_finished: Завершенные
   label_time: Время
@@ -271,6 +279,7 @@ ru:
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
+  label_using_current_default_rate: Используется текущая ставка по умолчанию
   label_valid_from: Действует с
   label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы
@@ -290,6 +299,10 @@ ru:
   permission_edit_rates: Править тарифы
   permission_log_costs: Регистрировать затраты по количеству
   permission_log_own_costs: Регистрировать затраты по количеству для себя
+  permission_manage_default_hourly_rates: Управление почасовыми ставками по умолчанию
+  permission_manage_default_hourly_rates_explanation: 'Позволяет добавлять, изменять и удалять стандартные почасовые ставки пользователей и пользователей-заполнителей.
+
+    '
   permission_view_cost_entries: Просмотр зарегистрированных затрат
   permission_view_cost_rates: Просмотр тарифов по стоимости
   permission_view_hourly_rates: Просмотр всех почасовых тарифов
@@ -327,6 +340,11 @@ ru:
   text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
   text_destroy_time_and_cost_entries: Удалить отчеты о часах и расходах
   text_destroy_time_and_cost_entries_question: "%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?"
+  text_hourly_rate_destroy_confirmation: Ставка %{rate}, действительная от %{valid_from}, будет удалена. Затраты, списанные на эту ставку будут пересчитаны по новой активной ставке.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Я понимаю, что это действие нельзя отменить.
+  text_hourly_rate_recalculation: Данная ставка действует с даты вступления в силу до момента вступления в силу более поздней ставки. Её изменение повлечёт за собой перерасчёт существующих записей о затраченном времени и бюджетов за данный период.
+  text_no_default_rate: Ставка по умолчанию используется во всех проектах, где пользователь не имеет установленной ставки.
+  text_no_project_rate: Этот проект будет использовать текущий тариф по умолчанию.
   text_reassign_time_and_cost_entries: 'Переназначьте сообщенные часы и расходы на этот пакет работ:'
   text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
   total_times:

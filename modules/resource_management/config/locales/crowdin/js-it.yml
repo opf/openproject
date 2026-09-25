@@ -1,0 +1,8 @@
+---
+it:
+  js:
+    button_allocate_resource: Allocate resource
+    resource_management:
+      create_placeholder_user: Crea utente segnaposto con criteri di filtro
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations

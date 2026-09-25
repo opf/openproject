@@ -22,8 +22,17 @@
 ---
 ru:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Строки и столбцы в совокупности должны точно соответствовать критериям группировки запроса.
     models:
       cost_query:
+        one: Отчет о затратах
+        few: Cost reports
+        many: Cost reports
+        other: Отчеты о затратах
+      cost_report:
         one: Отчет о затратах
         few: Cost reports
         many: Cost reports
