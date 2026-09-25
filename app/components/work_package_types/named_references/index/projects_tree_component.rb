@@ -28,22 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class ProjectsFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
-      DIALOG_ID = "workflows-projects-filter-dialog"
-      FIELD_NAME = "project_ids"
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class ProjectsTreeComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
 
-      def initialize(query:)
-        super(name: ::Project.model_name.human(count: 2), query:, filter_key: :project_id, path_args: [:workflows])
-      end
+        def initialize(nodes:, builder:, form_name:, checked_ids: [])
+          super()
 
-      def render? = true
+          @nodes = nodes
+          @builder = builder
+          @form_name = form_name
+          @checked_ids = Array(checked_ids).map(&:to_s)
+        end
 
-      private
+        def build_tree(tree)
+          add_sub_tree(tree, nodes)
+        end
 
-      def tree_src
-        helpers.projects_tree_workflows_path(name: FIELD_NAME, checked_ids: current_values)
+        private
+
+        attr_reader :nodes, :builder, :form_name, :checked_ids
+
+        def add_sub_tree(parent, level)
+          level.each do |node|
+            if node[:children].any?
+              parent.with_sub_tree(select_strategy: :self, **item_options(node[:project])) do |sub_tree|
+                add_sub_tree(sub_tree, node[:children])
+              end
+            else
+              parent.with_leaf(**item_options(node[:project]))
+            end
+          end
+        end
+
+        def item_options(project)
+          {
+            label: project.name,
+            select_variant: :multiple,
+            checked: checked_ids.include?(project.id.to_s),
+            expanded: true,
+            data: { node_id: project.id }
+          }
+        end
       end
     end
   end

@@ -40,7 +40,7 @@ module Workflows
     menu_item :workflows
 
     def new
-      respond_with_dialog ::Workflows::DialogComponent.new(workflow: Workflow.new)
+      respond_with_dialog name_dialog(Workflow.new)
     end
 
     def configure_dialog
@@ -50,9 +50,7 @@ module Workflows
     def configure
       return reject_missing_copy_source if copying_without_a_source?
 
-      respond_with_dialog ::Workflows::DialogComponent.new(workflow: Workflow.new,
-                                                           copy_from_id: chosen_copy_from_id,
-                                                           ask_copy_source: false)
+      respond_with_dialog name_dialog(Workflow.new, copy_from_id: chosen_copy_from_id, ask_copy_source: false)
     end
 
     def edit
@@ -68,7 +66,7 @@ module Workflows
     end
 
     def edit_dialog
-      respond_with_dialog ::Workflows::DialogComponent.new(workflow: @workflow)
+      respond_with_dialog name_dialog(@workflow)
     end
 
     def update
@@ -129,9 +127,17 @@ module Workflows
       params.expect(workflow: %i[name description copy_from_id]).to_h.symbolize_keys
     end
 
+    def name_dialog(workflow, **)
+      WorkPackageTypes::NamedReferences::NameDialogComponent.new(record: workflow, kind:, **)
+    end
+
+    def kind = WorkPackageTypes::NamedReferences::Kind::WORKFLOW
+
     def render_form_errors(workflow)
-      update_via_turbo_stream(component: ::Workflows::FormComponent.new(workflow:),
-                              status: :unprocessable_entity)
+      update_via_turbo_stream(
+        component: WorkPackageTypes::NamedReferences::NameFormComponent.new(record: workflow, kind:),
+        status: :unprocessable_entity
+      )
       respond_with_turbo_streams
     end
   end

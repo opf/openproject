@@ -122,14 +122,16 @@ RSpec.describe "Workflows index", :js do
   def filter_by_projects(*projects, include_sub_items: false)
     find_test_selector("quick-filter-tree-panel-button").click
 
-    within("##{Workflows::Index::ProjectsFilterComponent::DIALOG_ID}") do
+    filter = WorkPackageTypes::NamedReferences::Index::ProjectsFilterComponent
+
+    within("##{filter.dialog_id(WorkPackageTypes::NamedReferences::Kind::WORKFLOW)}") do
       check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
 
       projects.each { |project| find("[role='treeitem'][data-node-id='#{project.id}']").click }
 
       selected = projects.flat_map { |project| include_sub_items ? project.self_and_descendants.ids : [project.id] }
       expect(page).to have_css(
-        "input[type='hidden'][name='#{Workflows::Index::ProjectsFilterComponent::FIELD_NAME}[]'][value^='{']",
+        "input[type='hidden'][name='#{filter::FIELD_NAME}[]'][value^='{']",
         count: selected.uniq.size,
         visible: :hidden
       )

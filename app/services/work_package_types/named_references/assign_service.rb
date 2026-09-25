@@ -29,23 +29,26 @@
 #++
 
 module WorkPackageTypes
-  class AssignWorkflowService
-    def initialize(variant:)
-      @variant = variant
-    end
-
-    def call(workflow:)
-      variant.workflow = workflow
-
-      if variant.save
-        ServiceResult.success(result: variant)
-      else
-        ServiceResult.failure(result: variant, errors: variant.errors)
+  module NamedReferences
+    class AssignService
+      def initialize(variant:, kind:)
+        @variant = variant
+        @kind = kind
       end
+
+      def call(record)
+        variant.public_send(:"#{kind.association}=", record)
+
+        if variant.save
+          ServiceResult.success(result: variant)
+        else
+          ServiceResult.failure(result: variant, errors: variant.errors)
+        end
+      end
+
+      private
+
+      attr_reader :variant, :kind
     end
-
-    private
-
-    attr_reader :variant
   end
 end

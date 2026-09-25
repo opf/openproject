@@ -29,5 +29,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::Alpha::ActionMenu.new(menu_id:, anchor_align: :end)) do |menu| %>
   <% menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": menu_label) %>
-  <% workflow_actions(menu) %>
+  <% record_actions(menu) %>
 <% end %>

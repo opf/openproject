@@ -28,34 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Workflows::Filters::MemberExists
-  private
+module WorkPackageTypes
+  module NamedReferences
+    class PageHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-  def member_exists(condition, binds, extra_joins: nil)
-    honouring_negation(member_exists_sql(condition, extra_joins:), binds)
-  end
+      def initialize(record:, kind:)
+        super()
 
-  def member_exists_sql(condition, extra_joins: nil)
-    <<~SQL.squish
-      EXISTS (
-        SELECT 1
-        FROM type_variants members
-        #{extra_joins}
-        WHERE members.workflow_id = workflows.id
-          AND #{condition}
-      )
-    SQL
-  end
+        @record = record
+        @kind = kind
+      end
 
-  def honouring_negation(sql, binds)
-    [negated? ? "NOT (#{sql})" : "(#{sql})", binds]
-  end
+      private
 
-  def negated?
-    operator_strategy == Queries::Operators::NotEquals
-  end
+      attr_reader :record, :kind
 
-  def integer_values
-    values.map(&:to_i)
+      def breadcrumbs
+        [{ href: helpers.admin_index_path, text: t("label_administration") },
+         { href: helpers.admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+         { href: helpers.polymorphic_path(kind.route_key), text: kind.t(:label_plural) },
+         record.name]
+      end
+
+      def test_selector(part) = "#{kind.dom_key}-#{part}"
+    end
   end
 end

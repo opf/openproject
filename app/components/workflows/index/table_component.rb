@@ -30,53 +30,18 @@
 
 module Workflows
   module Index
-    class TableComponent < OpPrimer::BorderBoxTableComponent
+    class TableComponent < WorkPackageTypes::NamedReferences::Index::TableComponent
       columns :name, :types_and_variants, :roles, :projects
       main_column :name
       mobile_labels :types_and_variants, :roles, :projects
 
-      def initialize(workflows:, variants:, role_counts:, filtered: false)
-        super(rows: workflows)
+      def initialize(role_counts:, **)
+        super(kind: WorkPackageTypes::NamedReferences::Kind::WORKFLOW, **)
 
-        @variants = variants
         @role_counts = role_counts
-        @filtered = filtered
       end
-
-      def mobile_title = I18n.t(:label_workflow_plural)
-
-      def row_class = RowComponent
-
-      def pagination_params = { allowed_params: %w[filters] }
-
-      def headers
-        [
-          [:name, { caption: I18n.t("workflows.index.columns.name") }],
-          [:types_and_variants, { caption: I18n.t("workflows.index.columns.types_and_variants") }],
-          [:roles, { caption: I18n.t("workflows.index.columns.roles") }],
-          [:projects, { caption: I18n.t("workflows.index.columns.projects") }]
-        ]
-      end
-
-      def has_actions? = true
-
-      def variants_for(workflow) = @variants.fetch(workflow.id, [])
 
       def role_count_for(workflow) = @role_counts.fetch(workflow.id, 0)
-
-      def blank_title
-        @filtered ? I18n.t("workflows.index.blank_slate.filtered_title") : I18n.t("workflows.index.blank_slate.title")
-      end
-
-      def blank_description
-        if @filtered
-          I18n.t("workflows.index.blank_slate.filtered_description")
-        else
-          I18n.t("workflows.index.blank_slate.description")
-        end
-      end
-
-      def blank_icon = :workflow
     end
   end
 end

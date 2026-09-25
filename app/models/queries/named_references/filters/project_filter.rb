@@ -28,28 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class ResultsComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+class Queries::NamedReferences::Filters::ProjectFilter < Queries::Filters::Base
+  include Queries::Filters::Shared::ProjectFilter::Optional
+  include Queries::NamedReferences::Filters::MemberExists
 
-      def initialize(workflows:, variants:, role_counts:, filtered: false)
-        super()
+  def human_name
+    ::Project.model_name.human(count: 2)
+  end
 
-        @workflows = workflows
-        @variants = variants
-        @role_counts = role_counts
-        @filtered = filtered
-      end
+  def where
+    used_in = member_exists_sql("applications.project_id IN (:project_ids)",
+                                extra_joins: "JOIN project_types applications ON applications.variant_id = members.id")
 
-      private
+    honouring_negation(conditions(used_in).join(" OR "), { project_ids: integer_values })
+  end
 
-      attr_reader :workflows, :variants, :role_counts, :filtered
+  private
 
-      def table_component
-        TableComponent.new(workflows:, variants:, role_counts:, filtered:)
-      end
-    end
+  def conditions(used_in)
+    return [used_in] unless model.named_reference_kind.project_owned
+
+    [used_in, "COALESCE(#{model.table_name}.project_id IN (:project_ids), FALSE)"]
   end
 end

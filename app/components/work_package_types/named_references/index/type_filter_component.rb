@@ -28,48 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class ProjectsTreeComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class TypeFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+        def initialize(query:, kind:)
+          super(name: ::Type.model_name.human, query:, filter_key: :type_id, path_args: [kind.route_key])
 
-      def initialize(nodes:, builder:, form_name:, checked_ids: [])
-        super()
-
-        @nodes = nodes
-        @builder = builder
-        @form_name = form_name
-        @checked_ids = Array(checked_ids).map(&:to_s)
-      end
-
-      def build_tree(tree)
-        add_sub_tree(tree, nodes)
-      end
-
-      private
-
-      attr_reader :nodes, :builder, :form_name, :checked_ids
-
-      def add_sub_tree(parent, level)
-        level.each do |node|
-          if node[:children].any?
-            parent.with_sub_tree(select_strategy: :self, **item_options(node[:project])) do |sub_tree|
-              add_sub_tree(sub_tree, node[:children])
-            end
-          else
-            parent.with_leaf(**item_options(node[:project]))
+          ::Type.order(:position).each do |type|
+            with_item(label: type.name, value: type.id)
           end
         end
-      end
-
-      def item_options(project)
-        {
-          label: project.name,
-          select_variant: :multiple,
-          checked: checked_ids.include?(project.id.to_s),
-          expanded: true,
-          data: { node_id: project.id }
-        }
       end
     end
   end

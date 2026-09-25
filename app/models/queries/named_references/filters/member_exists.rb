@@ -28,51 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class FormComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module Queries::NamedReferences::Filters::MemberExists
+  private
 
-    DIALOG_ID = "workflow-dialog"
-    FORM_ID = "workflow-form"
+  def member_exists(condition, binds, extra_joins: nil)
+    honouring_negation(member_exists_sql(condition, extra_joins:), binds)
+  end
 
-    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
-      super()
+  def member_exists_sql(condition, extra_joins: nil)
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1
+        FROM type_variants members
+        #{extra_joins}
+        WHERE members.#{model.named_reference_kind.association}_id = #{model.table_name}.id
+          AND #{condition}
+      )
+    SQL
+  end
 
-      @workflow = workflow
-      @variant = variant
-      @back_url = back_url
-      @copy_from_id = copy_from_id
-      @ask_copy_source = ask_copy_source
-      @url = url
-    end
+  def honouring_negation(sql, binds)
+    [negated? ? "NOT (#{sql})" : "(#{sql})", binds]
+  end
 
-    def form_arguments
-      {
-        id: FORM_ID,
-        model: workflow,
-        scope: :workflow,
-        url: form_url,
-        method: workflow.persisted? ? :patch : :post,
-        data: { turbo: true }
-      }
-    end
+  def negated?
+    operator_strategy == Queries::Operators::NotEquals
+  end
 
-    private
-
-    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
-
-    def form_url
-      return url if url.present?
-      return url_helpers.workflow_path(workflow) if workflow.persisted?
-
-      url_helpers.workflows_path
-    end
-
-    def error_message
-      return if workflow.errors.empty?
-
-      workflow.errors.full_messages.to_sentence
-    end
+  def integer_values
+    values.map(&:to_i)
   end
 end

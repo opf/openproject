@@ -26,29 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
 
-<%= component_wrapper do %>
-  <%= render(
-        Primer::OpenProject::SubHeader.new(
-          test_selector: "workflows-sub-header",
-          data: filters_form_attributes
-        )
-      ) do |sub_header| %>
-    <%
-      sub_header.with_filter_input(
-        name: name_filter_key,
-        label: t("workflows.index.filters.name"),
-        value: name_filter_value,
-        placeholder: t("workflows.index.filters.name_placeholder"),
-        leading_visual: { icon: :search, size: :small },
-        clear_button_id:,
-        data: name_filter_attributes
-      )
-    %>
+  <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
+    <%= render(WorkPackageTypes::NamedReferences::NameFormComponent.new(**form_arguments)) %>
+  <% end %>
 
-    <% sub_header.with_quick_filter(display: :flex, classes: "gap-2") do %>
-      <%= render(type_filter_component) %>
-      <%= render(projects_filter_component) %>
-    <% end %>
+  <% dialog.with_footer(show_divider: true) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, form: form_id, type: :submit)) { submit_label } %>
   <% end %>
 <% end %>

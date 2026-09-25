@@ -28,30 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::TypeFilter < Queries::Workflows::Filters::WorkflowFilter
-  include Queries::Workflows::Filters::MemberExists
-
-  def type
-    :list
-  end
-
-  def human_name
-    ::Type.model_name.human
-  end
-
-  def self.key
-    :type_id
-  end
-
-  def allowed_values
-    @allowed_values ||= ::Type.order(:position).pluck(:id, :name).map { |id, name| [name, id.to_s] }
-  end
-
-  def value_objects
-    ::Type.where(id: values)
-  end
-
-  def where
-    member_exists("members.type_id IN (:type_ids)", { type_ids: integer_values })
-  end
+class Queries::Workflows::Filters::TypeFilter < Queries::NamedReferences::Filters::TypeFilter
+  self.model = Workflow
 end

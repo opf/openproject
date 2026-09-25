@@ -28,15 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class TypeFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
-      def initialize(query:)
-        super(name: ::Type.model_name.human, query:, filter_key: :type_id, path_args: [:workflows])
+module WorkPackageTypes
+  module NamedReferences
+    class NameFormComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-        ::Type.order(:position).each do |type|
-          with_item(label: type.name, value: type.id)
-        end
+      def self.dialog_id(kind) = "#{kind.dom_key}-dialog"
+
+      def self.form_id(kind) = "#{kind.dom_key}-form"
+
+      def initialize(record:, kind:, copy_from_id: nil, ask_copy_source: true, url: nil)
+        super()
+
+        @record = record
+        @kind = kind
+        @copy_from_id = copy_from_id
+        @ask_copy_source = ask_copy_source
+        @url = url
+      end
+
+      def form_arguments
+        {
+          id: self.class.form_id(kind),
+          model: record,
+          scope: record.model_name.param_key,
+          url: form_url,
+          method: record.persisted? ? :patch : :post,
+          data: { turbo: true }
+        }
+      end
+
+      private
+
+      attr_reader :record, :kind, :copy_from_id, :ask_copy_source, :url
+
+      def form_url
+        return url if url.present?
+        return url_helpers.polymorphic_path(record) if record.persisted?
+
+        url_helpers.polymorphic_path(kind.route_key)
+      end
+
+      def error_message
+        return if record.errors.empty?
+
+        record.errors.full_messages.to_sentence
       end
     end
   end

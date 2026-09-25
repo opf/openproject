@@ -49,7 +49,7 @@ module Workflows
           decorated: true,
           multiple: false,
           focusDirectly: false,
-          append_to: "##{::Workflows::FormComponent::DIALOG_ID}",
+          append_to: "##{WorkPackageTypes::NamedReferences::NameFormComponent.dialog_id(WorkPackageTypes::NamedReferences::Kind::WORKFLOW)}",
           data: { test_selector: "workflow-copy-source" }
         }
       ) do |list|

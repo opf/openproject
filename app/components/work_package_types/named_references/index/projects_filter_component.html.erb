@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(
         Primer::Beta::Button.new(
           scheme: :secondary,
-          data: { "show-dialog-id": DIALOG_ID, test_selector: "quick-filter-tree-panel-button" }
+          data: { "show-dialog-id": dialog_id, test_selector: "quick-filter-tree-panel-button" }
         )
       ) do |button| %>
     <% button.with_trailing_visual_counter(count: current_values.size) if current_values.any? %>
@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= button_label %>
   <% end %>
 
-  <%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: @name, size: :medium_portrait)) do |dialog| %>
+  <%= render(Primer::Alpha::Dialog.new(id: dialog_id, title: @name, size: :medium_portrait)) do |dialog| %>
     <% dialog.with_header(variant: :large) %>
 
     <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
@@ -51,8 +51,8 @@ See COPYRIGHT and LICENSE files for more details.
               src: tree_src,
               filter_input_arguments: {
                 autocomplete: "off",
-                placeholder: t("workflows.index.filters.projects_placeholder"),
-                data: { test_selector: "workflows-projects-filter-search" }
+                placeholder: kind.t("index.filters.projects_placeholder"),
+                data: { test_selector: "#{kind.dom_key}s-projects-filter-search" }
               },
               no_results_node_arguments: { label: t("filterable_tree_view.no_results_text") }
             )

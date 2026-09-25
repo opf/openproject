@@ -28,36 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class DialogComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+class Queries::NamedReferences::Filters::TypeFilter < Queries::Filters::Base
+  include Queries::NamedReferences::Filters::MemberExists
 
-    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
-      super()
+  def type
+    :list
+  end
 
-      @workflow = workflow
-      @variant = variant
-      @back_url = back_url
-      @copy_from_id = copy_from_id
-      @ask_copy_source = ask_copy_source
-      @url = url
-    end
+  def human_name
+    ::Type.model_name.human
+  end
 
-    private
+  def self.key
+    :type_id
+  end
 
-    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
+  def allowed_values
+    @allowed_values ||= ::Type.order(:position).pluck(:id, :name).map { |id, name| [name, id.to_s] }
+  end
 
-    def dialog_id = FormComponent::DIALOG_ID
+  def value_objects
+    ::Type.where(id: values)
+  end
 
-    def form_id = FormComponent::FORM_ID
-
-    def title
-      workflow.persisted? ? I18n.t("workflows.form.edit_title") : I18n.t("workflows.form.new_title")
-    end
-
-    def submit_label
-      workflow.persisted? ? I18n.t(:button_save) : I18n.t(:button_create)
-    end
+  def where
+    member_exists("members.type_id IN (:type_ids)", { type_ids: integer_values })
   end
 end
