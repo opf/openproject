@@ -78,7 +78,8 @@ module OpenProject::GitlabIntegration
            badge: ->(work_package:, **) {
              work_package.gitlab_merge_requests.count +
                work_package.gitlab_issues.count +
-               work_package.gitlab_branches.count
+               work_package.gitlab_branches.count +
+               work_package.gitlab_commits.count
            },
            before: :watchers,
            caption: :project_module_github
