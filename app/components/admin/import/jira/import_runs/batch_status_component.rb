@@ -31,51 +31,45 @@
 module Admin::Import::Jira::ImportRuns
   class BatchStatusComponent < Primer::Component
     include OpPrimer::ComponentHelpers
+    include Admin::Import::Jira::ImportRunsHelper
+
+    JOB_PRIORITY = Hash.new(999).merge(running: 0, discarded: 1)
 
     STAGES = [
       {
         number: 1,
-        title: "Fetch Jira configuration",
         icon: :gear
       },
       {
         number: 2,
-        title: "Fetch project issues and versions",
         icon: :project
       },
       {
         number: 3,
-        title: "Fetch users and custom fields",
         icon: :people
       },
       {
         number: 4,
-        title: "Create users, groups and memberships",
         icon: :"person-add"
       },
       {
         number: 5,
-        title: "Create roles and custom fields",
         icon: :tools
       },
       {
         number: 6,
-        title: "Create projects",
         icon: :"op-include-projects"
       },
       {
         number: 7,
-        title: "Create project versions",
-        icon: :"op-work-packages"
+        icon: :versions
       },
       {
         number: 8,
-        title: "Create work packages",
         icon: :"op-work-packages"
       },
       {
         number: 9,
-        title: "Download attachments",
         icon: :paperclip
       }
     ].freeze
@@ -85,7 +79,7 @@ module Admin::Import::Jira::ImportRuns
       @batch = batch
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def call
       return if @batch.blank?
 
@@ -94,16 +88,25 @@ module Admin::Import::Jira::ImportRuns
         STAGES.each do |stage|
           stage_jobs = batch_jobs[Array("stage_#{stage[:number]}")] || []
           stage_jobs_count = stage_jobs.count
+          job_count_by_status = stage_jobs.inject(Hash.new(0)) do |h, e|
+            h[e.status] += 1
+            h
+          end
+          stage_in_progress = job_count_by_status[:running] > 0 || job_count_by_status[:queued] > 0
+          stage_discarded = job_count_by_status[:discarded] > 0 && job_count_by_status[:running] == 0
+          stage_succeeded = job_count_by_status.keys == [:succeeded] && job_count_by_status[:succeeded] > 0
           flex.with_row do
             render(Primer::Beta::BorderBox.new) do |box|
               box.with_header(display: :flex, align_items: :center, justify_content: :space_between) do
                 concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
                   concat(render(Primer::Beta::Counter.new(count: stage[:number])))
                   concat(render(Primer::Beta::Octicon.new(icon: stage[:icon], color: :muted)))
-                  concat(render(Primer::Beta::Text.new(font_weight: :bold)) { stage[:title] })
+                  concat(render(Primer::Beta::Text.new(font_weight: :bold)) do
+                    I18n.t(:"admin.jira.run.wizard.stages.#{stage[:number]}.title")
+                  end)
                   if stage_jobs_count > 0
                     concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do
-                      "#{stage_jobs_count} jobs"
+                      I18n.t(:"admin.jira.run.wizard.parts.jobs", count: stage_jobs_count)
                     end)
                   end
                 end)
@@ -112,33 +115,36 @@ module Admin::Import::Jira::ImportRuns
                     concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
                       bar.with_item(percentage: 0)
                     end)
-
-                  elsif stage_jobs.all? { |j| j.status == :succeeded }
+                  elsif stage_succeeded
                     concat(render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)))
                     concat(render(Primer::Beta::Text.new(color: :success)) { "Completed" })
                     concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
                       bar.with_item(percentage: 100)
                     end)
-                  elsif stage_jobs.any? { |j| j.status == :discarded }
-                    concat(render(Primer::Beta::Octicon.new(icon: :"x-circle-fill", color: :danger)))
-                    concat(render(Primer::Beta::Text.new(color: :muted, mr: 3)) { "Error" })
-                    concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
-                      bar.with_item(bg: :danger_emphasis, percentage: 50)
-                    end)
-                  else
+                  elsif stage_in_progress
                     concat(render(Primer::Beta::Spinner.new(size: :small, style: "margin-bottom: -2px; margin-right: 5px")))
-                    concat(render(Primer::Beta::Text.new(color: :muted, mr: 3)) { "In progress" })
+                    concat(render(Primer::Beta::Text.new(color: :muted)) do
+                      "Progress: #{job_count_by_status[:succeeded]}/#{stage_jobs_count}"
+                    end)
                     concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
-                      bar.with_item(percentage: 50)
+                      bar.with_item(percentage: job_count_by_status[:succeeded] * 100 / stage_jobs_count)
+                    end)
+                  elsif stage_discarded
+                    concat(render(Primer::Beta::Octicon.new(**job_status_icon(:discarded))))
+                    concat(render(Primer::Beta::Text.new(color: :muted)) do
+                      "Error: #{job_count_by_status[:succeeded]}/#{stage_jobs_count}"
+                    end)
+                    concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
+                      bar.with_item(bg: :danger_emphasis, percentage: job_count_by_status[:succeeded] * 100 / stage_jobs_count)
                     end)
                   end
                 end)
               end
-              stage_jobs.each do |job|
-                box.with_row do
-                  render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
-                end
-                if job.status == :discarded
+              if stage_discarded
+                stage_jobs.find_all { |job| job.status == :discarded }.each do |job|
+                  box.with_row do
+                    render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
+                  end
                   box.with_row(style: "background-color: #FFEBE9;") do
                     flex_layout(style: "gap: 16px;") do |flex|
                       flex.with_row do
@@ -206,11 +212,32 @@ module Admin::Import::Jira::ImportRuns
                   end
                 end
               end
+              if stage_in_progress
+                sorted_stage_jobs = stage_jobs.sort_by { |job| JOB_PRIORITY[job.status] }
+                sorted_stage_jobs.first(4).each do |job|
+                  box.with_row do
+                    render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
+                  end
+                end
+                if stage_jobs_count > 4
+                  if stage_jobs_count == 5
+                    box.with_row do
+                      render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job: sorted_stage_jobs[4]))
+                    end
+                  else
+                    box.with_row do
+                      render(Primer::Beta::Text.new(color: :muted)) do
+                        I18n.t(:"admin.jira.run.wizard.stages.#{stage[:number]}.rest_line_text",
+                               projects_number: stage_jobs_count - 4)
+                      end
+                    end
+                  end
+                end
+              end
             end
           end
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

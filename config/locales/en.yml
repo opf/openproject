@@ -1584,7 +1584,72 @@ en:
           reverting: "Reverting"
         step_not_available: "This action is not available for the current state of the import run."
         title: "Import run"
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: "Create custom fields"
+          JiraCreateProjectJob:
+            title: "Create project '%{jira_project_name}'"
+          JiraCreateProjectRoleJob:
+            title: "Create 'JiraMember' project role"
+          JiraCreateProjectVersionsJob:
+            title: "Create versions for '%{jira_project_name}'"
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: "Download work package attachments for '%{jira_project_name}'"
+          JiraCreateProjectWorkPackagesJob:
+            title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateUsersJob:
+            title: "Create users"
+          JiraFetchCustomFieldJob:
+            title: "Fetch custom fields"
+          JiraFetchIssueTypesJob:
+            title: "Fetch issue types"
+          JiraFetchPrioritiesJob:
+            title: "Fetch priorities"
+          JiraFetchProjectIssuesJob:
+            title: "Fetch issues for project '%{jira_project_name}'"
+          JiraFetchProjectsJob:
+            title: "Fetch projects"
+          JiraFetchProjectVersionsJob:
+            title: "Fetch versions for project '%{jira_project_name}'"
+          JiraFetchStatusesJob:
+            title: "Fetch statuses"
+          JiraFetchUsersJob:
+            title: "Fetch users"
+          JiraInstanceMetaDataJob:
+            title: "Fetching instance meta data"
+          JiraProjectsMetaDataJob:
+            title: "Fetching meta data about selected projects"
+          JiraRevertImportJob:
+            title: "Reverting this Jira import run"
         wizard:
+          stages:
+            "1":
+              title: "Fetch Jira configuration"
+              rest_line_text: ""
+            "2":
+              title: "Fetch project issues and versions"
+              rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
+            "3":
+              title: "Fetch users and custom fields"
+              rest_line_text: ""
+            "4": 
+              title: "Create users, groups and memberships"
+              rest_line_text: ""
+            "5":
+              title: "Create roles and custom fields"
+              rest_line_text: ""
+            "6":
+              title: "Create projects"
+              rest_line_text: "Creating %{projects_number} more projects"
+            "7": 
+              title: "Create project versions"
+              rest_line_text: "Creating versions for %{projects_number} more projects"
+            "8": 
+              title: "Create work packages"
+              rest_line_text: "Creating work packages for %{projects_number} more projects"
+            "9": 
+              title: "Download attachments"
+              rest_line_text: "Downloading attachments for %{projects_number} more projects"
           button_abort: "Abort"
           button_retry: "Retry"
           finalize_dialog:
@@ -1624,6 +1689,9 @@ en:
             work_packages:
               one: "1 work package"
               other: "%{count} work packages"
+            jobs:
+              one: "1 job"
+              other: "%{count} jobs"
           revert_dialog:
             confirm: "I understand that this reversion will delete data permanently"
             description: "This will delete all imported objects (including whole projects)."
@@ -1698,6 +1766,7 @@ en:
                 issues: "Issues"
                 permissions: "Permissions"
                 project_ids: "Project identifiers"
+                project_versions: "Project versions"
                 projects: "Projects"
                 relations: "Relations between issues"
                 schemes: "Schemas"
@@ -1705,7 +1774,7 @@ en:
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
               label_coming_later: "Coming later"
-              label_coming_soon: "Coming soon (Q3 2026)"
+              label_coming_soon: "Coming soon"
               label_import: "Select which projects you would like to import."
               label_info: "Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now."
               label_progress: "Fetching data"

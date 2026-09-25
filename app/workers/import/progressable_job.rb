@@ -38,7 +38,7 @@ module Import
       raise AbortionError, "Job was aborted" if @aborted
     end
 
-    def percentage
+    def progress
       raise "Must be implemented by the job itself"
     end
 
