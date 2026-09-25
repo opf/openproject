@@ -40,6 +40,7 @@ module GitlabIntegration
     end
 
     def classes
+      # TODO: Change to __hl_background_muted once https://github.com/opf/openproject/pull/25544 is merged
       "__hl_background #{scheme_classes}"
     end
 

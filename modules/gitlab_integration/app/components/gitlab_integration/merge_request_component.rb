@@ -101,7 +101,7 @@ module GitlabIntegration
     end
 
     def pipeline_status_label
-      t(".pipeline_statuses.#{pipeline_status}")
+      t(".pipeline_statuses.#{pipeline_status.value}")
     end
   end
 end
