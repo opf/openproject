@@ -10,24 +10,34 @@
   end
 %>
 
-<%= error_messages_for "announcement" %>
+<%=
+  settings_primer_form_with(model: @announcement, url: announcements_path, method: :patch) do |f|
+    render_inline_settings_form(f) do |form|
+      form.rich_text_area(
+        name: :text,
+        label: I18n.t(:label_announcement),
+        value: @announcement.text,
+        disabled: false,
+        rich_text_options: {
+          showAttachments: false
+        }
+      )
 
-<%= labelled_tabular_form_for @announcement,
-                              url: { action: :update },
-                              html: { method: :put } do |f| %>
-  <div class="form--field">
-    <%= f.text_area :text,
-                    cols: 80,
-                    rows: 5,
-                    label: t(:label_text),
-                    container_class: "-xxwide",
-                    with_text_formatting: true %>
-  </div>
-  <div class="form--field">
-    <%= f.date_picker :show_until, label: t("announcements.show_until") %>
-  </div>
-  <div class="form--field">
-    <%= f.check_box :active, label: t(:label_active) %>
-  </div>
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+      form.single_date_picker(
+        name: :show_until,
+        label: I18n.t("announcements.show_until"),
+        input_width: :small,
+        leading_visual: { icon: :calendar }
+      )
+
+      form.check_box(
+        name: :active,
+        label: I18n.t(:label_active),
+        checked: @announcement.active,
+        disabled: false
+      )
+
+      form.submit
+    end
+  end
+%>
