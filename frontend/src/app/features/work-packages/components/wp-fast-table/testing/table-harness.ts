@@ -82,6 +82,9 @@ import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
@@ -96,6 +99,8 @@ export interface TableHarnessOptions {
   configuration?:WorkPackageTableConfigurationObject;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
+  /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
+  editing?:{ formWritable?:boolean };
 }
 
 export interface TableHarness {
@@ -137,7 +142,7 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
 
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
-  TestBed.configureTestingModule({ providers: harnessProviders(dragService, options.dragAction) });
+  TestBed.configureTestingModule({ providers: harnessProviders(dragService, options) });
 
   const injector = TestBed.inject(Injector);
   TestBed.inject(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
@@ -291,7 +296,24 @@ class FakeDragAndDropService {
   }
 }
 
-function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial<TableDragActionService> = {}) {
+/** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
+class FakeEditingPortalService {
+  create(container:HTMLElement):Promise<EditFieldHandler> {
+    const input = document.createElement('input');
+    container.appendChild(input);
+    return Promise.resolve({
+      $onUserActivate: new Subject<void>(),
+      focus: () => input.focus(),
+      deactivate: () => input.remove(),
+    } as unknown as EditFieldHandler);
+  }
+}
+
+function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
+  const editable = !!options.editing;
+  const formWritable = options.editing?.formWritable ?? true;
+  const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+
   return [
     States,
     IsolatedQuerySpace,
@@ -313,7 +335,10 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       useFactory: (states:States) => ({
         work_packages: {
           cache: { current: (_id:string, fallback:unknown) => fallback },
-          id: (id:string) => ({ get: () => of(states.workPackages.get(id).value) }),
+          id: (id:string) => ({
+            get: () => of(states.workPackages.get(id).value),
+            requireAndStream: () => of(states.workPackages.get(id).value),
+          }),
         },
       }),
       deps: [States],
@@ -322,9 +347,9 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       provide: SchemaCacheService,
       useValue: {
         of: () => ({
-          ofProperty: (attribute:string) => (attribute === 'subject' ? { type: 'String' } : undefined),
+          ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
           mappedName: (attribute:string) => attribute,
-          isAttributeEditable: () => false,
+          isAttributeEditable: (attribute:string) => editable && attribute === 'subject',
         }),
       },
     },
@@ -335,6 +360,11 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       useValue: {
         typedState: () => ({ hasValue: () => false, value: undefined }),
         stopEditing: () => undefined,
+        changeFor: () => ({
+          schema: { ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(formWritable) : null) },
+          getForm: () => Promise.resolve(),
+          reset: () => undefined,
+        }),
       },
     },
     { provide: WorkPackageRelationsService, useValue: { state: () => ({ hasValue: () => false, value: undefined }) } },
@@ -348,13 +378,15 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
     { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
-    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined } },
+    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
+    { provide: CopyToClipboardService, useValue: {} },
     { provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: new Subject<string>() } },
     { provide: DragAndDropService, useValue: dragService },
     {
       provide: TableDragActionsRegistryService,
       useFactory: (querySpace:IsolatedQuerySpace, injector:Injector) => ({
-        get: () => Object.assign(new TableDragActionService(querySpace, injector), dragAction),
+        get: () => Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
       }),
       deps: [IsolatedQuerySpace, Injector],
     },
