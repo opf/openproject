@@ -282,6 +282,14 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(LlmConnection.count).to eq(0)
     end
 
+    it "refuses a non-admin before looking for a stored connection" do
+      login_as non_admin
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
     it "removes the key from a stored connection that no longer passes validation" do
       connection = create(:llm_connection, base_url:, api_key: "sk-original")
       connection.update_column(:base_url, "not a url")
@@ -338,6 +346,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
+    end
+
+    it "refuses a non-admin before looking for a stored connection" do
+      connection.destroy!
+      login_as non_admin
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
     end
 
     it "disconnects a stored connection that no longer passes validation" do
