@@ -106,9 +106,9 @@ module CustomStylesHelper
   end
 
   def mobile_logo_present?
-    style = CustomStyle.current
-    return false unless style
+    return false unless apply_custom_styles?
 
+    style = CustomStyle.current
     CustomStyle::LOGO_FIELDS.fetch(:mobile).values.any? do |field|
       style.public_send(field).present?
     end
@@ -116,8 +116,9 @@ module CustomStylesHelper
 
   def mobile_logo_modes
     modes = CustomStyle::LOGO_FIELDS.fetch(:mobile).keys
+    return modes unless apply_custom_styles?
+
     style = CustomStyle.current
-    return modes unless style
 
     modes.select do |mode|
       color_mode = mode == :dark ? :dark : :light

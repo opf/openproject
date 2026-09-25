@@ -129,14 +129,20 @@ RSpec.describe CustomStylesHelper do
   describe ".mobile_logo_present?" do
     subject { helper.mobile_logo_present? }
 
-    context "with only a light high contrast mobile logo" do
+    context "with only a light high contrast mobile logo", with_ee: %i[define_custom_style] do
       let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
 
       it { is_expected.to be true }
     end
 
-    context "without a mobile logo" do
+    context "without a mobile logo", with_ee: %i[define_custom_style] do
       let(:current_theme) { build_stubbed(:custom_style) }
+
+      it { is_expected.to be false }
+    end
+
+    context "with a stored mobile logo but without EE", with_ee: false do
+      let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
 
       it { is_expected.to be false }
     end
@@ -149,7 +155,7 @@ RSpec.describe CustomStylesHelper do
       end
     end
 
-    context "with only a built-in theme logo" do
+    context "with only a built-in theme logo", with_ee: %i[define_custom_style] do
       let(:current_theme) { build_stubbed(:custom_style, theme_logo: "logo_openproject.png") }
 
       it "keeps the default mobile logo available in every mode" do
@@ -157,7 +163,7 @@ RSpec.describe CustomStylesHelper do
       end
     end
 
-    context "with only a dark mobile logo" do
+    context "with only a dark mobile logo", with_ee: %i[define_custom_style] do
       let(:current_theme) { build(:custom_style_with_logo_mobile_dark) }
 
       it "keeps the default mobile logo where the desktop uses its default" do
@@ -165,11 +171,19 @@ RSpec.describe CustomStylesHelper do
       end
     end
 
-    context "with only a dark desktop logo" do
+    context "with only a dark desktop logo", with_ee: %i[define_custom_style] do
       let(:current_theme) { build(:custom_style_with_logo_dark) }
 
       it "hides the mobile logo only where the custom desktop logo is used" do
         expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast])
+      end
+    end
+
+    context "with a stored dark desktop logo but without EE", with_ee: false do
+      let(:current_theme) { build(:custom_style_with_logo_dark) }
+
+      it "ignores the stored logo and keeps the default mobile logo in every mode" do
+        expect(helper.mobile_logo_modes).to eq(%i[light light_high_contrast dark])
       end
     end
   end
