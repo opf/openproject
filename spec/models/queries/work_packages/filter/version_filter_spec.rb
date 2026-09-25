@@ -40,6 +40,12 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
 
   before { login_as(user) }
 
+  describe ".stored_key" do
+    it "is target_version_id" do
+      expect(described_class.stored_key).to eq(:target_version_id)
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:project) { actual_project }
     let(:type) { :list_optional }

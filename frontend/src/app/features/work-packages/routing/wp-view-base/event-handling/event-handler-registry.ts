@@ -46,8 +46,6 @@ export interface WorkPackageViewEventHandler<T> {
 }
 
 export interface WorkPackageViewOutputs {
-  // On selection updated
-  selectionChanged:EventEmitter<string[]>;
   // On row (double) clicked
   itemClicked:EventEmitter<{ workPackageId:string, double:boolean }>;
   // On work package link / details icon clicked

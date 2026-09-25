@@ -35,10 +35,49 @@ module Workflows
     end
 
     def visit_workflow_edit(roles: [], tab: nil)
+      visit edit_type_workflow_path(type, **matrix_params(roles:, tab:))
+    end
+
+    def visit_workflow_page(roles: [], tab: nil, workflow: nil)
+      visit edit_workflow_path(workflow || type.default_variant.workflow, **matrix_params(roles:, tab:))
+    end
+
+    def matrix_params(roles:, tab:)
       params = {}
       params[:role_ids] = roles.map(&:id) if roles.any?
       params[:tab] = tab if tab
-      visit edit_type_workflow_path(type, **params)
+      params
+    end
+
+    def switch_workflow_to(name)
+      open_workflow_picker
+      within_test_selector("workflow-panel") { click_link name }
+    end
+
+    def open_workflow_picker
+      page.find_test_selector("workflow-selector").click
+    end
+
+    def choose_workflow_start(name)
+      selected = "[data-test-selector='workflow-start-#{name}']:checked"
+
+      retry_block do
+        find_test_selector("workflow-start-#{name}").click
+        raise "The #{name} option did not take the click" unless page.has_css?(selected, visible: :all, wait: 2)
+      end
+    end
+
+    def run_workflow_start_dialog(start: "scratch")
+      within_dialog I18n.t("workflows.start.title") do
+        yield if block_given?
+        choose_workflow_start(start)
+        click_on I18n.t(:button_continue)
+      end
+    end
+
+    def open_workflow_create_dialog(start: "scratch", &)
+      wait_for_turbo_stream { page.find_test_selector("workflow-create-new").click }
+      run_workflow_start_dialog(start:, &)
     end
 
     def switch_transition_tab(label)
@@ -50,7 +89,14 @@ module Workflows
       click_button from_role.name
       find("[data-item-id='#{to_role.id}']").click
       find("[data-item-id='#{from_role.id}']").click
-      within("select-panel") { click_button "Apply" }
+      within_test_selector("role-panel") { click_button "Apply" }
+    end
+
+    # The reuse mode section offers "Copy from another type", so a bare "Copy" is ambiguous.
+    def open_copy_dialog
+      within "#workflow-table" do
+        click_link I18n.t(:label_copy_workflow_from_role)
+      end
     end
 
     def add_status_via_dialog(status)
@@ -97,7 +143,7 @@ module Workflows
     end
 
     def expect_transition(role, from_index, to_index, exist:, author: false, assignee: false)
-      expect(Workflow.exists?(role_id: role.id, type_variant_id: type.default_variant.id,
+      expect(Workflows::StatusTransition.exists?(role_id: role.id, workflow_id: type.default_variant.workflow_id,
                               old_status_id: statuses[from_index].id,
                               new_status_id: statuses[to_index].id,
                               author:, assignee:)).to be exist

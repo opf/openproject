@@ -51,17 +51,16 @@ RSpec.describe WorkPackageTypes::ProjectAttributes::IndexComponent, type: :compo
     end
   end
 
-  context "when the variant is linked for the aspect", with_flag: { type_variants: true } do
-    let(:source_type) { create(:type) }
-    let(:source) { source_type.default_variant }
+  context "when the variant is linked for the aspect" do
+    let(:variant) { create(:type_variant, type:) }
     let(:custom_field) { create(:project_custom_field) }
 
     before do
       custom_field
-      link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
+      link_configuration(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES)
     end
 
-    context "when the source enables no project attribute" do
+    context "when the base enables no project attribute" do
       it "renders the blankslate instead of the filter", :aggregate_failures do
         expect(rendered_component).to have_test_selector("type-project-attributes-blankslate",
                                                          text: blankslate_text(:inherited, :title))
@@ -70,9 +69,9 @@ RSpec.describe WorkPackageTypes::ProjectAttributes::IndexComponent, type: :compo
       end
     end
 
-    context "when the source enables a project attribute" do
+    context "when the base enables a project attribute" do
       before do
-        ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: custom_field)
+        ProjectCustomFieldTypeMapping.create!(type_variant: type.default_variant, project_custom_field: custom_field)
       end
 
       it "renders the sections and the filter", :aggregate_failures do

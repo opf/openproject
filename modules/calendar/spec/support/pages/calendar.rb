@@ -54,7 +54,7 @@ module Pages
 
       drag_n_drop_element(from: start_container, to: end_container)
 
-      ::Pages::SplitWorkPackageCreate.new project:
+      ::Pages::PrimerizedSplitWorkPackage.new project:
     end
 
     def resize_start_date(work_package, date)
@@ -110,7 +110,7 @@ module Pages
         .find(".fc-event", text: work_package.subject)
         .click
 
-      ::Pages::SplitWorkPackage.new(work_package, project)
+      ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
 
     def event(work_package)
@@ -132,6 +132,15 @@ module Pages
     def set_project(project)
       select_autocomplete(find('[data-test-selector="project_id"]'),
                           query: project,
+                          results_selector: "body",
+                          wait_for_fetched_options: false)
+    end
+
+    # Types +query+ into the project autocompleter without selecting anything
+    # and returns the open dropdown, so that its options can be tested.
+    def search_project(query)
+      search_autocomplete(find('[data-test-selector="project_id"]'),
+                          query:,
                           results_selector: "body",
                           wait_for_fetched_options: false)
     end

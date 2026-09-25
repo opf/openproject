@@ -559,32 +559,32 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
-  describe "linked form configuration", with_flag: { type_variants: true } do
-    let(:source_type) do
+  describe "inherited form configuration" do
+    let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
         variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
         variant.save!
       end
     end
-    # type_bug is looked up by name (see the factory's initialize_with), so a second
-    # plain create(:type_bug) here would resolve to the SAME row as source_type and
-    # make link! reject itself as a cycle. A distinct name keeps it a separate type.
-    let(:type) do
-      create(:type_bug, name: "Bug (linked)").tap do |t|
-        link_configuration(t, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
+    let(:variant) do
+      create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
+        link_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
+    let(:project) do
+      create(:project, name: "Artefact project", types: [variant], public: true, active: true)
+    end
 
-    it "renders the source type's groups for the linked type's work package" do
+    it "renders the base's groups for the inheriting variant's work package" do
       joined = pdf_strings.join(" ")
-      expect(joined).to include(source_type.default_variant.attribute_groups.find { |g|
+      expect(joined).to include(type.default_variant.attribute_groups.find { |g|
         g.key == "borrowed_group"
       }.translated_key)
     end
   end
 
-  describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
+  describe "form configuration when the project resolves a variant" do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant

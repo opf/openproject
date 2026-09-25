@@ -38,11 +38,15 @@ class HighlightingController < ApplicationController
     request.format = :css
 
     expires_in 1.year, public: true, must_revalidate: false
-    if stale?(last_modified: Time.zone.parse(@max_updated_at), etag: @highlight_version_tag, public: true)
-      OpenProject::Cache.fetch("highlighting/styles", @highlight_version_tag) do
-        render template: "highlighting/styles", formats: [:css]
-      end
+    return unless stale?(last_modified: Time.zone.parse(@max_updated_at), etag: @highlight_version_tag, public: true)
+
+    # The cached value has to be rendered explicitly. Rendering inside the block only
+    # populates the response on a miss, leaving a hit with nothing rendered at all.
+    css = OpenProject::Cache.fetch(["highlighting/styles", @highlight_version_tag]) do
+      render_to_string template: "highlighting/styles", formats: [:css]
     end
+
+    render plain: css, content_type: Mime[:css].to_s
   end
 
   private

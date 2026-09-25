@@ -35,9 +35,7 @@ module WorkPackageTypes
     end
 
     def index
-      unless type_variants_enabled?
-        redirect_to edit_type_details_path(**@variant.path_args)
-      end
+      redirect_to edit_type_details_path(type_id: @type.id) if @variant.nil? || @variant.is_default_variant?
     end
   end
 end

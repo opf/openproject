@@ -30,114 +30,65 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type) }
-  shared_let(:source_type) { create(:type, name: "Feature") }
-  shared_let(:source) { source_type.default_variant }
-  shared_let(:variant) { type.default_variant }
+  shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+  let(:source) { type.default_variant }
 
   subject(:component) { described_class.new(variant:, aspect:) }
 
-  context "when the aspect is independent" do
+  it "does not render for a base variant, which has no mode to choose" do
+    render_inline(described_class.new(variant: type.default_variant, aspect:))
+
+    expect(page).to have_no_text("Use the same settings as the type")
+    expect(page).to have_no_text("Configure this page manually")
+  end
+
+  context "when the aspect is manual (not inherited)" do
     before { render_inline(component) }
 
-    it "shows the independent state" do
-      expect(page).to have_text("Manual configuration")
-      expect(page).to have_text("No settings are inherited")
+    it "offers both modes with manual selected" do
+      expect(page).to have_text("Use the same settings as the type")
+      expect(page).to have_text("Configure this page manually")
+      expect(page).to have_css("input[type=radio][value='manual'][checked]")
+      expect(page).to have_no_css("input[type=radio][value='inherited'][checked]")
     end
 
-    it "keeps the neutral scheme" do
-      expect(page).to have_css(".color-bg-inset")
-      expect(page).to have_no_css(".color-bg-accent")
-    end
-
-    it "links the copy action to the copy dialog" do
-      expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{type_configuration_copy_dialog_path(**variant.path_args, aspect:)}']",
-        text: "Copy from another type"
-      )
-    end
-
-    it "links the switch action to the inheritance dialog" do
-      expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(**variant.path_args, aspect:)}']",
-        text: "Inherit from another type"
-      )
-    end
-  end
-
-  context "when the aspect has no copy service" do
-    before do
-      allow(WorkPackageTypes::CopyConfiguration).to receive(:supported?).with(aspect).and_return(false)
-    end
-
-    it "does not render the copy action" do
-      render_inline(component)
-
-      expect(page).to have_no_text("Copy from another type")
-    end
-  end
-
-  context "when the aspect is linked" do
-    before do
-      link_configuration(variant, source:, aspect:)
-
-      render_inline(component)
-    end
-
-    it "marks the linked state with the info scheme" do
-      expect(page).to have_css(".color-bg-accent.color-border-accent")
-    end
-
-    it "shows the linked state with a link to the source variant" do
-      expect(page).to have_text("Inherited configuration")
+    it "names the parent type in the inherit option, linking to that setting on it" do
       expect(page).to have_link(
-        "Feature",
-        href: edit_type_form_configuration_path(type_id: source.type_id, variant_id: source.id)
+        source.composite_name,
+        href: edit_type_form_configuration_path(type_id: type.id, variant_id: source.id)
       )
-      expect(page).to have_no_text("(parent)")
     end
 
-    it "breaks the source link out of the reloadable configuration frame" do
-      expect(page).to have_css("a[data-turbo-frame='_top']", text: "Feature")
+    it "breaks the parent link out of the reloadable configuration frame" do
+      expect(page).to have_css("a[data-turbo-frame='_top']", text: source.composite_name)
     end
 
-    it "links the change-source and switch-to-independent actions to their dialogs" do
-      link_path = type_configuration_link_dialog_path(**variant.path_args, aspect:)
-      independence_path = type_configuration_independence_dialog_path(**variant.path_args, aspect:)
-
+    it "wires each option to its switch dialog" do
       expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{link_path}']",
-        text: "Change source type"
+        "input[value='inherited'][data-dialog-url='#{type_configuration_link_dialog_path(**variant.path_args, aspect:)}']"
       )
       expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{independence_path}']",
-        text: "Configure manually"
+        "input[value='manual'][data-dialog-url='#{type_configuration_independence_dialog_path(**variant.path_args, aspect:)}']"
       )
     end
   end
 
-  context "when the aspect is linked to the type's base variant" do
-    let(:named_variant) { create(:type_variant, type:, variant_name: "Hardware") }
-
-    subject(:component) { described_class.new(variant: named_variant, aspect:) }
-
+  context "when the aspect is linked to its base" do
     before do
-      link_configuration(named_variant, source: type.default_variant, aspect:)
+      link_configuration(variant, aspect:)
 
       render_inline(component)
     end
 
-    it "annotates the source as the parent" do
-      expect(page).to have_link(
-        type.name,
-        href: edit_type_form_configuration_path(type_id: type.id, variant_id: type.default_variant.id)
-      )
-      expect(page).to have_text("(parent)")
+    it "selects the inherit option" do
+      expect(page).to have_css("input[type=radio][value='inherited'][checked]")
+      expect(page).to have_no_css("input[type=radio][value='manual'][checked]")
     end
   end
 end

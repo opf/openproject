@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::BuildProjectVariantsJob do
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
   let(:dropped_field) { create(:work_package_custom_field, is_for_all: false) }
 
@@ -138,13 +138,13 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
       end
     end
 
-    it "builds the new variant from the applied variant rather than the base one" do
+    it "narrows against the applied variant's configuration, not just the base's" do
       run_job
 
       built = applied_variant(narrowing_project)
 
       expect(built.variant_name).to eq("Regression - Website Relaunch")
-      expect(built.source_for(TypeVariant::FORM_CONFIGURATION)).to eq(variant)
+      expect(built.source_for(TypeVariant::FORM_CONFIGURATION)).to eq(type.default_variant)
       expect(built.custom_fields).to contain_exactly(kept_field)
     end
   end
@@ -161,13 +161,6 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
 
       expect(variant).not_to be_is_default_variant
       expect(variant.custom_fields).to contain_exactly(kept_field)
-    end
-  end
-
-  context "when the type_variants feature is inactive", with_flag: { type_variants: false } do
-    it "refuses to run, as exclusions would have no effect" do
-      expect { run_job }.to raise_error(/type_variants/)
-      expect(applied_variant(narrowing_project)).to eq(base)
     end
   end
 

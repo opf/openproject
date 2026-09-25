@@ -41,20 +41,40 @@ module Queries::WorkPackages::FilterSerializer
 
     filter_hash = YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}
 
-    Query::DeprecatedVersionFilter.normalize_filter_hash(filter_hash).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, no_memoization: true)
-      filter.operator = options["operator"]
-      filter.values = options["values"]
-      array << filter
-    end
+    collapse_to_offered_key(filter_hash)
+      .each_with_object([]) do |(field, options), array|
+        options = options.with_indifferent_access
+        filter = filter_for(field, no_memoization: true)
+        filter.operator = options["operator"]
+        filter.values = options["values"]
+        array << filter
+      end
   end
 
   def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+    merged = (filters || []).map(&:to_hash).reduce(:merge) || {}
+
+    YAML.dump collapse_to_stored_key(merged)
   end
 
   def self.registered_filters
     Queries::Register.filters[Query]
   end
+
+  def self.collapse_to_offered_key(filter_hash)
+    collapse_to_stored_key(filter_hash)
+      .transform_keys { Queries::WorkPackages::StoredNames.offered_filter(it) }
+  end
+  private_class_method :collapse_to_offered_key
+
+  def self.collapse_to_stored_key(filter_hash)
+    filter_hash.each_with_object({}) do |(key, options), collapsed|
+      stored_key = Queries::WorkPackages::StoredNames.stored_filter(key).to_s
+
+      next if collapsed.key?(stored_key) && stored_key != key.to_s
+
+      collapsed[stored_key] = options
+    end
+  end
+  private_class_method :collapse_to_stored_key
 end

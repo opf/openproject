@@ -91,7 +91,7 @@ module IncomingEmails::Handlers
         .call(container:, filename: attachment.filename, file:)
 
       call.on_failure do
-        log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
+        log "Failed to add attachment #{attachment.filename} for [#{user.mail}]: #{call.message}"
       end
 
       call.result

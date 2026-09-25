@@ -30,10 +30,8 @@
 
 module WorkPackageTypes
   class ConfigurationLinksController < BaseTabController
-    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_type_variants_feature
     before_action :require_valid_aspect
 
     current_menu_item do
@@ -41,22 +39,11 @@ module WorkPackageTypes
     end
 
     def dialog
-      respond_with_dialog ConfigurationLinks::DialogComponent.new(variant: @variant, aspect:)
-    end
-
-    def confirm
-      if source.nil?
-        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.inherited.invalid_source"))
-      else
-        close_dialog_via_turbo_stream(ConfigurationLinks::DialogComponent::DIALOG_ID)
-        dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
-      end
-
-      respond_with_turbo_streams
+      respond_with_dialog ConfigurationLinks::ConfirmDialogComponent.new(variant: @variant, aspect:)
     end
 
     def switch
-      result = SwitchToLinkedModeService.new(variant: @variant, aspect:).call(source:)
+      result = SwitchToLinkedModeService.new(variant: @variant, aspect:).call
 
       close_dialog_via_turbo_stream(ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID)
 
@@ -68,13 +55,6 @@ module WorkPackageTypes
     private
 
     def aspect = params[:aspect]
-
-    # Only what this variant may borrow from: everything global, plus the project's own.
-    def source
-      return @source if defined?(@source)
-
-      @source = TypeVariant.available_in(@variant.project).find_by(id: params[:source_id])
-    end
 
     def respond_to_switch(result)
       if result.success?

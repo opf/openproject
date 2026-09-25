@@ -247,6 +247,34 @@ RSpec.describe "Moving a work package through Rails view", :js do
     notes_editor.expect_value "Keep this note"
   end
 
+  describe "searching the target project by its identifier" do
+    let(:target_project) { project2 }
+    let(:control_project) { project }
+
+    before do
+      context_menu.open_for work_package
+      context_menu.choose "Move to another project"
+    end
+
+    def search_project(query)
+      search_autocomplete page.find_test_selector("new_project_id"),
+                          query:,
+                          results_selector: "body"
+    end
+
+    it_behaves_like "a project picker searchable by identifier"
+
+    it "selects the project found by its identifier" do
+      dropdown = search_project(target_project.identifier)
+
+      wait_for_turbo_stream do
+        dropdown.find(".ng-option", text: target_project.name).click
+      end
+
+      expect_current_autocompleter_value(page.find_test_selector("new_project_id"), target_project.name)
+    end
+  end
+
   describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
     let(:work_package2_status) { create(:status, is_readonly: true) }

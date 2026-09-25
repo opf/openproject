@@ -177,7 +177,9 @@ RSpec.describe "Open the Gitlab tab", :js do
   end
 
   describe "work package split view" do
-    let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+    let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
+    let(:gitlab_tab_element) { "gitlab" }
 
     it_behaves_like "a gitlab tab"
   end

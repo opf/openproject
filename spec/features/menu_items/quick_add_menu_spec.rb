@@ -177,7 +177,7 @@ RSpec.describe "Quick-add menu", :js do
     end
   end
 
-  context "with a project that has a variant enabled", with_flag: { type_variants: true } do
+  context "with a project that has a variant enabled" do
     let!(:root_type) { create(:type, name: "Task") }
     let!(:variant) { create(:type_variant, type: root_type, variant_name: "Bug") }
     let!(:add_role) { create(:project_role, permissions: %i[add_work_packages]) }

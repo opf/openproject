@@ -42,13 +42,57 @@ module WorkPackageTypes
 
       attr_reader :aspect
 
+      def render? = !variant.is_default_variant?
+
       def variant = model
 
       def linked? = variant.linked?(aspect)
 
-      def source = variant.source_for(aspect)
+      def group_data
+        { controller: "mode-switch-radio", action: "change->mode-switch-radio#select" }
+      end
 
-      def source_is_default? = source.present? && source == variant.type.default_variant
+      def inherited_option
+        {
+          value: "inherited",
+          checked: linked?,
+          label: t("types.edit.reuse_mode.inherited.mode_label"),
+          caption: inherited_caption,
+          data: {
+            "mode-switch-radio-target": "radio",
+            "dialog-url": link_dialog_path,
+            test_selector: "reuse-mode-option-inherited"
+          }
+        }
+      end
+
+      def manual_option
+        {
+          value: "manual",
+          checked: !linked?,
+          label: t("types.edit.reuse_mode.manual.mode_label"),
+          caption: t("types.edit.reuse_mode.manual.mode_description"),
+          data: {
+            "mode-switch-radio-target": "radio",
+            "dialog-url": independent_dialog_path,
+            test_selector: "reuse-mode-option-manual"
+          }
+        }
+      end
+
+      def inherited_caption
+        return t("types.edit.reuse_mode.inherited.mode_description_unlinked") if source_path.nil?
+
+        helpers.link_translate(
+          "types.edit.reuse_mode.inherited.mode_description",
+          i18n_args: { source_name: source.composite_name },
+          links: { source_url: source_path },
+          external: false,
+          data: { turbo_frame: "_top" }
+        )
+      end
+
+      def source = variant.type.default_variant
 
       def source_path
         return nil unless source_reachable?
@@ -63,38 +107,11 @@ module WorkPackageTypes
         source.project_id == helpers.variant_scope_project.id
       end
 
-      def copy_supported? = CopyConfiguration.supported?(aspect)
-
-      def copy_dialog_path = type_configuration_copy_dialog_path(**dialog_path_args)
-
       def link_dialog_path = type_configuration_link_dialog_path(**dialog_path_args)
 
       def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
 
       def dialog_path_args = variant.path_args.merge(aspect:)
-
-      def linked_description
-        return unlinked_description if source_path.nil?
-
-        helpers.link_translate(
-          "types.edit.reuse_mode.inherited.description",
-          i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
-          links: { source_url: source_path },
-          external: false,
-          # This is being rendered in a frame, so we need to break out of it here.
-          data: { turbo_frame: "_top" }
-        )
-      end
-
-      def unlinked_description
-        I18n.t("types.edit.reuse_mode.inherited.description_unlinked",
-               source_name: source.composite_name,
-               source_suffix: parent_suffix)
-      end
-
-      def parent_suffix
-        source_is_default? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
-      end
     end
   end
 end

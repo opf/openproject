@@ -35,6 +35,7 @@ import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
 import FormPreviewController from './controllers/form-preview.controller';
 import AsyncDialogController from './controllers/async-dialog.controller';
+import ModeSwitchRadioController from './controllers/mode-switch-radio.controller';
 import PollForChangesController from './controllers/poll-for-changes.controller';
 import TableHighlightingController from './controllers/table-highlighting.controller';
 import OpShowWhenCheckedController from './controllers/show-when-checked.controller';
@@ -59,6 +60,7 @@ import WorkingHoursFormController from './controllers/dynamic/users/working-hour
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
 import HeaderProjectSelectController from './controllers/header-project-select.controller';
 import ResourceTimelineController from './controllers/dynamic/resource-management/resource-timeline.controller';
+import CreatedPlaceholderUserController from './controllers/dynamic/resource-management/created-placeholder-user.controller';
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
@@ -87,6 +89,7 @@ declare global {
 
 OpenProjectStimulusApplication.preregister('application', OpApplicationController);
 OpenProjectStimulusApplication.preregister('async-dialog', AsyncDialogController);
+OpenProjectStimulusApplication.preregister('mode-switch-radio', ModeSwitchRadioController);
 OpenProjectStimulusApplication.preregister('disable-when-checked', OpDisableWhenCheckedController);
 OpenProjectStimulusApplication.preregister('disable-when-clicked', DisableWhenClickedController);
 OpenProjectStimulusApplication.preregister('disable-when-value-selected', OpDisableWhenValueSelectedController);
@@ -125,6 +128,7 @@ OpenProjectStimulusApplication.preregister('editable-page-header-title', Editabl
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);
 OpenProjectStimulusApplication.preregister('my--daily-reminders', DailyRemindersController);
 OpenProjectStimulusApplication.preregister('resource-management--resource-timeline', ResourceTimelineController);
+OpenProjectStimulusApplication.preregister('resource-management--created-placeholder-user', CreatedPlaceholderUserController);
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);

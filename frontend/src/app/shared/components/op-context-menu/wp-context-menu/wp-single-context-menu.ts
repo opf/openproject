@@ -99,7 +99,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
-      const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
+      const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper);
       const permittedActions = this.getPermittedActions(authorization);
 
       this.buildItems(permittedActions);
@@ -109,6 +109,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   public triggerContextMenuAction(action:WorkPackageAction, key:string) {
     const { link } = action;
+
+    if (action.turboRequest) {
+      void this.turboRequests.requestStream(link!);
+      return;
+    }
 
     switch (key) {
       case 'copy_to_other_project':
@@ -137,12 +142,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         );
         break;
       }
-      case 'log_time':
-        void this.turboRequests.request(this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
-        break;
-      case 'generate_pdf':
-        void this.turboRequests.requestStream(link!);
-        break;
       case 'copy_link_to_clipboard': {
         const url = new URL(String(link), window.location.origin);
         this.copyToClipboardService.copy(url.toString());
@@ -228,7 +227,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       // Rendering it as a link would show a misleading link preview on hover and
       // make the clipboard copy originate from an anchor, so render it as a
       // button (no href).
-      const href = key === 'copy_numeric_id_to_clipboard' ? undefined : action.link;
+      const href = key === 'copy_numeric_id_to_clipboard' || action.turboRequest ? undefined : action.link;
 
       return {
         disabled: false,

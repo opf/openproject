@@ -30,12 +30,12 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::ExcludedElements::AddService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ExcludedElements::AddService do
   shared_let(:admin) { create(:admin) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
-  let(:source) { create(:type).default_variant }
-  let(:variant) { create(:type).default_variant }
+  let(:variant) { create(:type_variant) }
+  let(:source) { variant.type.default_variant }
 
   subject(:service_call) { described_class.new(user: admin, variant:).call(aspect:, elements: %w[custom_field_1]) }
 
@@ -44,7 +44,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService, with_flag: { type
   end
 
   context "when the variant is Linked for the aspect" do
-    before { link_configuration(variant, source:, aspect:) }
+    before { link_configuration(variant, aspect:) }
 
     it "excludes the element" do
       expect(service_call).to be_success
@@ -97,12 +97,12 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService, with_flag: { type
       expect(variant.reload.attribute_groups.first.attributes).to eq(%w[responsible])
     end
 
-    it "leaves the link's source untouched" do
-      expect { service_call }.not_to change { variant.reload.form_configuration_source_id }
+    it "leaves the source's own configuration untouched" do
+      expect { service_call }.not_to change { source.reload.form_configuration_excluded_elements }
     end
 
     it "does not touch another aspect's link" do
-      link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
+      link_configuration(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES)
 
       service_call
 
@@ -119,7 +119,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService, with_flag: { type
   end
 
   context "with an unknown aspect" do
-    before { link_configuration(variant, source:, aspect:) }
+    before { link_configuration(variant, aspect:) }
 
     it "fails rather than writing anything" do
       result = described_class.new(user: admin, variant:).call(aspect: "bogus", elements: %w[custom_field_1])

@@ -251,5 +251,16 @@ RSpec.describe "Inline editing work packages", :js do
       project_field.search_for("Project")
       project_field.expect_option("Test Project", workspace_badge: false)
     end
+
+    it "finds a workspace by its identifier, which is never displayed itself" do
+      project_field = wp_table.edit_field(work_package, :project)
+      project_field.activate!
+
+      project_field.search_for(portfolio.identifier)
+
+      expect(project_field.dropdown).to have_no_text("Test Program")
+      expect(project_field.dropdown).to have_no_text("Test Project")
+      project_field.expect_option("Test Portfolio", workspace_badge: "Portfolio")
+    end
   end
 end

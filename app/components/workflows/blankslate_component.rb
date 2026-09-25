@@ -41,10 +41,6 @@ module Workflows
 
     attr_reader :context
 
-    delegate :variant, :tab, :roles, :readonly?, to: :context
-
-    def description_key
-      readonly? ? "admin.workflows.blankslate.linked_description" : "admin.workflows.blankslate.description"
-    end
+    delegate :variant, :workflow, :tab, :roles, :readonly?, to: :context
   end
 end

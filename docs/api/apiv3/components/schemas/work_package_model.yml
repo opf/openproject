@@ -134,6 +134,16 @@ allOf:
 
           **Permission** view time entries
         readOnly: true
+      allocatedTime:
+        type: string
+        format: duration
+        description: |-
+          The sum of the confirmed resource allocations of this work package
+
+          # Conditions
+
+          **Permission** view resource planners, requires the resource management module and an enterprise token
+        readOnly: true
       storyPoints:
         type:
           - "integer"
@@ -211,6 +221,16 @@ allOf:
                   # Conditions
 
                   **Permission**: add watcher
+                readOnly: true
+          allocateResource:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  A request returning the dialog to add a resource allocation to this work package. It is used by the frontend and not intended for API users.
+
+                  # Conditions
+
+                  **Permission**: allocate user resources, requires the resource management module and an enterprise token
                 readOnly: true
           customActions:
             type: array
@@ -335,6 +355,23 @@ allOf:
 
                   **Resource**: Schema
                 readOnly: true
+          allocatedPrincipals:
+            type: array
+            readOnly: true
+            items:
+              allOf:
+                - $ref: "./link.yml"
+                - description: |-
+                    A user or placeholder user with a confirmed resource allocation on this work package. Each principal
+                    is listed once. Allocated users the current user may not see are summarized in a single entry
+                    with the undisclosed urn `urn:openproject-org:api:v3:undisclosed` as its href.
+
+                    **Resource**: User or PlaceholderUser
+
+                    # Conditions
+
+                    **Permission** view resource planners, requires the resource management module and an enterprise token
+                  readOnly: true
           ancestors:
             type: array
             readOnly: true
@@ -459,6 +496,14 @@ allOf:
                   # Conditions
 
                   **Permission**: view_file_links
+          labels:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of labels attached to the work package
+
+              **Resource**: Collection of Label
           parent:
             allOf:
               - $ref: "./link.yml"
@@ -543,6 +588,18 @@ allOf:
                   # Conditions
 
                   **Permission** view sprints
+          showResourceAllocations:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  A request returning the dialog showing the resource allocations of this work package. It is used by the frontend and not intended for API users.
+
+                  **Resource**: N/A
+
+                  # Conditions
+
+                  **Permission** view resource planners, requires the resource management module and an enterprise token
+                readOnly: true
           timeEntries:
             allOf:
               - $ref: "./link.yml"
@@ -722,6 +779,11 @@ example:
     children:
       - href: "/api/v3/work_packages/1529"
         title: Write API documentation
+    labels:
+      - href: "/api/v3/labels/1"
+        title: Bug
+      - href: "/api/v3/labels/3"
+        title: Urgent
     ancestors:
       - href: "/api/v3/work_packages/1290"
         title: Root node of hierarchy

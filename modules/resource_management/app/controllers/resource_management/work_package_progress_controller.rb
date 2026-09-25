@@ -38,13 +38,14 @@ module ::ResourceManagement
     include OpTurbo::ComponentStream
     include FlashMessagesHelper
     include PlannerViewContent
+    include ResourceManagement::PlannerRoutes
     include WorkPackages::Progress::ModalParams
 
     menu_item :resource_management
 
     layout false
 
-    before_action :find_project_by_project_id
+    before_action :find_optional_project
     before_action :find_resource_planner
     before_action :find_view
     before_action :find_work_package
@@ -100,9 +101,7 @@ module ::ResourceManagement
     end
 
     def update_path
-      project_resource_planner_view_work_package_progress_path(
-        @project, @resource_planner, @view, @work_package
-      )
+      planner_view_work_package_progress_path(@resource_planner, @view, @work_package)
     end
 
     def find_view
@@ -110,14 +109,16 @@ module ::ResourceManagement
     end
 
     def find_work_package
-      @work_package = WorkPackage
-                        .visible(current_user)
-                        .where(project: @project)
-                        .find(params.expect(:work_package_id))
+      scope = WorkPackage.visible(current_user)
+      scope = scope.where(project: @project) if @project
+
+      @work_package = scope.find(params.expect(:work_package_id))
     end
 
+    # On a global planner the permission is checked against the work package's own
+    # project rather than the page's.
     def authorize_edit_work_package
-      deny_access unless User.current.allowed_in_project?(:edit_work_packages, @project)
+      deny_access unless User.current.allowed_in_project?(:edit_work_packages, @project || @work_package.project)
     end
   end
 end

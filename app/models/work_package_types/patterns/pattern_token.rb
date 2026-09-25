@@ -30,21 +30,14 @@
 
 module WorkPackageTypes
   module Patterns
-    PatternToken = Data.define(:pattern, :key) do
+    PatternToken = Data.define(:pattern, :key, :format) do
       private_class_method :new
 
-      def self.build(pattern)
-        new(pattern, pattern.tr("{}", "").to_sym)
-      end
+      class << self
+        self::TOKEN_REGEX = /({{(\w+)(?::([\w-]*))?}})/
 
-      def context
-        case key.to_s
-        when /^project_/
-          :project
-        when /^parent_/
-          :parent
-        else
-          :work_package
+        def scan_tokens(text)
+          text.scan(TOKEN_REGEX).map { |token, key, format| new(token, key.to_sym, format) }
         end
       end
     end

@@ -133,22 +133,22 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     end
   end
 
-  context "when the type links its form configuration to a source type", with_flag: { type_variants: true } do
+  context "when the variant inherits its form configuration from its base" do
     let(:source_cf) { create(:string_wp_custom_field) }
-    let(:source_type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [source_cf]) } }
-    let(:linked_type) { create(:type) }
-    let(:project) { create(:project, types: [linked_type], work_package_custom_fields: [source_cf]) }
+    let(:root_type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [source_cf]) } }
+    let(:variant) { create(:type_variant, type: root_type) }
+    let(:project) { create(:project, types: [variant], work_package_custom_fields: [source_cf]) }
     let(:subject_pattern) { "CF: {{custom_field_#{source_cf.id}}}" }
 
     let(:work_package) do
-      create(:work_package, type: linked_type, project:, custom_values: { source_cf.id => "Borrowed Value" })
+      create(:work_package, type: root_type, project:, custom_values: { source_cf.id => "Borrowed Value" })
     end
 
     before do
-      link_configuration(linked_type.default_variant, source: source_type.default_variant, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
-    it "resolves the custom field token via the linked source type" do
+    it "resolves the custom field token via the inherited configuration" do
       expect(subject.resolve(work_package)).to eq("CF: Borrowed Value")
     end
   end

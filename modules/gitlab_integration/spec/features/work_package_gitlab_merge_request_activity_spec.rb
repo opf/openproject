@@ -40,7 +40,7 @@ RSpec.describe "Work Package Activity Tab",
         "name" => merge_request_merging_user.gitlab_name,
         "username" => merge_request_merging_user.gitlab_username,
         "avatar_url" => merge_request_merging_user.gitlab_avatar_url,
-        "email" => merge_request_merging_user.gitlab_email
+        "email" => "[REDACTED]"
       },
       "object_attributes" => {
         "action" => gitlab_action,
@@ -68,7 +68,7 @@ RSpec.describe "Work Package Activity Tab",
     }
   end
 
-  let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   context "when there is a merge request event" do

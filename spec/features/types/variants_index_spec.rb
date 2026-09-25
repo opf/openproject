@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package variants index", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package variants index", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:feature_type) { create(:type, name: "Feature") }
@@ -100,7 +100,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       find("action-menu > button").click
       expect(page).to have_link(I18n.t(:button_configure))
       expect(page).to have_button(I18n.t(:button_move))
-      expect(page).to have_button(I18n.t(:button_delete))
+      expect(page).to have_link(I18n.t(:button_delete))
     end
   end
 
@@ -141,6 +141,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     end
 
     expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
     click_on I18n.t(:button_continue)
@@ -217,7 +218,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
         click_on I18n.t(:button_delete)
       end
 
-      within("##{WorkPackageTypes::Types::DeletionDialogComponent::DIALOG_ID}") do
+      within("##{WorkPackageTypes::Types::VariantDeletionDialogComponent::DIALOG_ID}") do
         select alfa_variant.composite_name, from: I18n.t("projects.settings.types.switch.target_label")
         click_on I18n.t(:button_delete)
       end

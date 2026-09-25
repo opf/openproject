@@ -42,7 +42,8 @@ module API
         include TimestampedRepresenter
 
         cached_representer key_parts: %i(project),
-                           disabled: false
+                           disabled: false,
+                           dependencies: -> { historic_state? }
 
         attr_accessor :timestamps, :query
 
@@ -64,6 +65,8 @@ module API
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
@@ -78,6 +81,8 @@ module API
 
         link :updateImmediately,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
@@ -89,16 +94,6 @@ module API
           {
             href: api_v3_paths.work_package(represented.id),
             method: :delete
-          }
-        end
-
-        link :logTime,
-             cache_if: -> { log_time_allowed? } do
-          next if represented.new_record?
-
-          {
-            href: api_v3_paths.time_entries,
-            title: "Log time on work package '#{represented.subject}'"
           }
         end
 
@@ -306,21 +301,6 @@ module API
           }
         end
 
-        link :timeEntries,
-             cache_if: -> { view_time_entries_allowed? } do
-          next if represented.new_record?
-
-          filters = [
-            { entity_type: { operator: "=", values: ["WorkPackage"] } },
-            { entity_id: { operator: "=", values: [represented.id.to_s] } }
-          ]
-
-          {
-            href: api_v3_paths.path_for(:time_entries, filters:),
-            title: "Time entries"
-          }
-        end
-
         links :children,
               uncacheable: true do
           next if visible_children.empty?
@@ -454,16 +434,6 @@ module API
                  render_nil: true
 
         property :ignore_non_working_days
-
-        property :spent_time,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_duration_from_hours(represented.spent_hours)
-                 end,
-                 if: ->(*) {
-                   view_time_entries_allowed?
-                 },
-                 uncacheable: true
 
         property :done_ratio,
                  as: :percentageDone,
@@ -661,6 +631,29 @@ module API
                                represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
+        associated_resources :labels,
+                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? },
+                             getter: ->(*) {
+                               next unless embed_link?(:labels)
+
+                               represented.effective_labels.map do |label|
+                                 ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
+
+                               represented.effective_labels.map do |label|
+                                 ::API::Decorators::LinkObject
+                                   .new(label,
+                                        property_name: :itself,
+                                        path: :label,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             }
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
@@ -753,38 +746,15 @@ module API
           @current_user_watcher = represented.watchers.any? { |w| w.user_id == current_user.id }
         end
 
+        def historic_state?
+          timestamps.last&.historic? || false
+        end
+
         def current_user_update_allowed?
           return @current_user_update_allowed if defined?(@current_user_update_allowed)
 
           @current_user_update_allowed = ::WorkPackages::UpdateContract.update_allowed?(user: current_user,
                                                                                         work_package: represented)
-        end
-
-        def view_time_entries_allowed?
-          return @view_time_entries_allowed if defined?(@view_time_entries_allowed)
-
-          @view_time_entries_allowed =
-            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-            view_own_time_entries_allowed?
-        end
-
-        def view_own_time_entries_allowed?
-          return @view_own_time_entries_allowed if defined?(@view_own_time_entries_allowed)
-
-          @view_own_time_entries_allowed = if represented.new_record?
-                                             current_user.allowed_in_any_work_package?(:view_own_time_entries,
-                                                                                       in_project: represented.project)
-                                           else
-                                             current_user.allowed_in_work_package?(:view_own_time_entries, represented)
-                                           end
-        end
-
-        def log_time_allowed?
-          return @log_time_allowed if defined?(@log_time_allowed)
-
-          @log_time_allowed =
-            current_user.allowed_in_project?(:log_time, represented.project) ||
-              current_user.allowed_in_work_package?(:log_own_time, represented)
         end
 
         def view_budgets_allowed?
@@ -863,10 +833,6 @@ module API
             datetime_formatter.parse_duration_to_hours(value, "derivedRemainingTime", allow_nil: true)
         end
 
-        def spent_time=(value)
-          # noop
-        end
-
         def duration=(value)
           represented.duration = datetime_formatter.parse_duration_to_days(value,
                                                                            "duration",
@@ -886,7 +852,8 @@ module API
                                 attachments
                                 budget
                                 target_versions
-                                observed_in_versions]
+                                observed_in_versions
+                                labels]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

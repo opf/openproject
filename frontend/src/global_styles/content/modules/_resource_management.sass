@@ -152,6 +152,19 @@
       overflow: hidden
       text-overflow: ellipsis
 
+      // Stands in for a work package in a project the viewer cannot open.
+      &.-undisclosed
+        font-style: italic
+        color: var(--fgColor-muted, #59636e)
+
+    // On a global planner the bar names the project its work package sits in.
+    &--project
+      flex: 0 0 auto
+      color: var(--fgColor-muted, #59636e)
+      max-inline-size: 40%
+      overflow: hidden
+      text-overflow: ellipsis
+
     &--badge
       flex: 0 0 auto
 
@@ -180,3 +193,10 @@
   // warning icon itself (with its tooltip) is rendered into the bar markup.
   .resource-allocation--overbooked .op-rm-timeline-bar
     border-top: 3px solid var(--borderColor-danger-emphasis, #cf222e)
+
+.op-rm-allocated-time--bar
+  flex-shrink: 0
+  inline-size: 12rem
+
+.op-rm-show-allocations
+  cursor: pointer

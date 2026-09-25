@@ -1,0 +1,70 @@
+<div id="sortable-lists-preview-siblings"
+     data-controller="sortable-lists"
+     data-sortable-lists-move-url-template-value="/lookbook/sortable-lists-preview/{id}/drop"
+     data-sortable-lists-sortable-lists--list-outlet="#sortable-lists-preview-siblings [data-controller~='sortable-lists--list']"
+     data-sortable-lists-sortable-lists--item-outlet="#sortable-lists-preview-siblings [data-controller~='sortable-lists--item']">
+  <%= render(Primer::Box.new(display: :flex, style: "gap: 16px")) do %>
+    <% { "todo" => ["Write the spec", "Review the design"], "done" => ["Ship it"] }.each do |list_id, titles| %>
+      <%= render(Primer::Box.new(flex: 1)) do %>
+        <%=
+          render(
+            OpenProject::Common::BorderBoxListComponent.new(
+              container: "sortable-lists-preview-#{list_id}",
+              data: {
+                controller: "sortable-lists--list",
+                sortable_lists__list_type_value: "task",
+                sortable_lists__list_accepted_type_value: "task",
+                sortable_lists__list_id_value: list_id,
+                sortable_lists__list_name_value: list_id.capitalize
+              }
+            )
+          ) do |list|
+            list.with_header(title: list_id.capitalize)
+            move_items = { "Move to top" => "top", "Move up" => "up", "Move down" => "down", "Move to bottom" => "bottom" }
+
+            titles.each do |title|
+              list.with_item(
+                data: {
+                  controller: "sortable-lists--item",
+                  sortable_lists__item_id_value: title.parameterize,
+                  sortable_lists__item_type_value: "task",
+                  sortable_lists__item_label_value: title
+                }
+              ) do
+                render(Primer::Box.new(display: :flex, align_items: :center)) do
+                  concat(
+                    render(
+                      Primer::OpenProject::DragHandle.new(
+                        classes: "handle",
+                        mr: 2,
+                        data: { sortable_lists__item_target: "handle" }
+                      )
+                    )
+                  )
+                  concat(render(Primer::Beta::Text.new(flex: 1)) { title })
+                  concat(
+                    render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu|
+                      menu.with_show_button(icon: "kebab-horizontal", "aria-label": "Actions for #{title}", scheme: :invisible)
+                      menu.with_divider(data: { sortable_lists__item_target: "moveDivider" })
+                      move_items.each do |label, direction|
+                        menu.with_item(
+                          label:,
+                          tag: :button,
+                          data: {
+                            sortable_lists__item_target: "moveItem",
+                            sortable_lists__item_direction_param: direction,
+                            action: "click->sortable-lists--item#move"
+                          }
+                        )
+                      end
+                    end
+                  )
+                end
+              end
+            end
+          end
+        %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
