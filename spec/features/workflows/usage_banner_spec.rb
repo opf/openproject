@@ -72,6 +72,29 @@ RSpec.describe "Workflow usage banner", :js do
 
       expect(page).to have_text("This workflow is used by 2 types and variants.")
     end
+
+    it "lists the dependent types and variants in a dialog that links to them" do
+      visit edit_workflow_path(workflow)
+      click_on "View dependent types"
+
+      within("dialog#workflow-usage-dialog") do
+        expect(page).to have_css("strong", text: workflow.name)
+
+        within_test_selector("workflow-usage-types") do
+          expect(page).to have_link("Bug")
+          expect(page).to have_no_link("Task")
+        end
+
+        within_test_selector("workflow-usage-variants") do
+          expect(page).to have_link("Hardware")
+          expect(page).to have_text("Variant of Task")
+        end
+
+        click_on "Hardware"
+      end
+
+      expect(page).to have_current_path(/types\/#{other_type.id}\/variants\/\d+\/workflow\/edit/)
+    end
   end
 
   context "when nothing uses the workflow" do
