@@ -36,7 +36,7 @@ class Tables::Sessions < Tables::Base
       t.string :session_id, null: false
       t.text :data
       t.datetime :updated_at, precision: nil, null: true
-      t.belongs_to :user, index: false
+      t.belongs_to :user
 
       t.index :session_id
       t.index :updated_at

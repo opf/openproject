@@ -21,7 +21,7 @@ The squashing mechanism is implemented through several parts:
 
 - **File per module with version reference**: Because they are migrations, each `aggregated_XYZ_migrations.rb` file has a timestamp prefixed to its name. That prefix follows the structure `10[two digits for the order]0[squashed version number]`. The order is necessary to ensure that dependencies are resolved. E.g. if a module adds a foreign key to a table of the core, the module needs to run after the core. Additionally, the order digits lead to unique names for the migration.
 - **File inherits from `SquashedMigration`**: The aggregation files inherit from the `SquashedMigration` superclass which in turn inherits from `ActiveRecord::Migration`. `SquashedMigration` comes with the necessary structure for describing the targeted structure as well as ensuring that the correct structure is migrated from. 
-- **`squashed_migrations` list**: Within each `aggregated_XYZ_migrations.rb` file, the `squashed_migrations` list the names of the migrations that are squashed by the file. This does only include the migrations squashed in this version. Migrations already squashed before will not be mentioned any more. E.g. The `1000016_aggregated_migrations.rb` file will reference all migrations squashed when moving from OP 16 to OP 17 but not those squashed in OP 16.
+- **`squashed_migrations` list**: Within each `aggregated_XYZ_migrations.rb` file, the `squashed_migrations` list the names of the migrations that are squashed by the file. This does only include the migrations squashed in this version. Migrations already squashed before will not be mentioned. E.g. The `1000016_aggregated_migrations.rb` file will reference all migrations squashed when moving from OP 16 to OP 17 but not those squashed in OP 16. The list is what `Migration::MigrationSquasher` compares against `schema_migrations` to decide whether the database is being migrated from a supported version, so it has to name every deleted migration exactly once.
 - **`tables` list**: Within each `aggregated_XYZ_migrations.rb` file, the `tables` list references all database tables (including columns, indices, constraints, ...) to be created. Each table receives its own file so that a file remains easily manageable. The table is described in full. Though changes to the table that come after the squashed state would not be included. A table file should always be in the module (or core) where the model file is located as well.
 - **`extensions` list**: Within each `aggregated_XYZ_migrations.rb` file, the `extensions` list references all database extensions to create. Those could be index mechanisms like `pg_trgm` or collations. Extensions are loaded first so that tables can access the extensions on their turn.
 - **`modifications` block**: Plugins can decide to modify a table via the `modifications` section in their `aggregated_XYZ_migrations.rb` file but that is an exemption. It makes sense to separate the modifications like this if the functionality strongly belongs into the module and is not used anywhere else.
@@ -34,27 +34,62 @@ When preparing for a new major version release, the following steps take place:
 
 2. **Prior aggregated migrations renamed**: Rename the timestamp part of each `aggregated_XYZ_migrations.rb` file so that it reflects the previous major version. E.g. on releasing OP 17.0, the `db/migrate/1000015_aggregated_migrations.rb` file would be renamed to `db/migrate/1000016_aggregated_migrations.rb`. If a module newly receives an aggregated_migrations file, add one and ensure that it does not conflict with the existing order digits. If an `aggregated_XYZ_migrations.rb` file exists, but no migrations need to be squashed, the file can be left untouched. It will not look 100% consistent but the effort is not worth it.
 
-3. **Migrations deleted**: All migrations up to and including the last patch of the previous major version are squashed. For OpenProject 16, which requires migrating from version 15, all migrations up to and including the last patch of OpenProject 14 are squashed. The squashed migrations are listed in the `aggregated_migrations.rb` files (`squashed_migrations` method). The first file to list there is the renamed filename (from step 2). E.g. after renaming `1000015_aggregated_migrations.rb` to `1000016_aggregated_migrations.rb`, the first item in the `squashed_migrations` list would be `1000015_aggregated_migrations`. After that, the file name of the other squashed migrations follow (although the order is not important). It is easier to remove migrations one at a time, so to carry out steps 4 - 7 for each squashed and therefore deleted migration file completely before moving to the next migration file to squash/delete.
+3. **Migrations deleted**: All migrations up to and including the last patch of the previous major version are squashed. For OpenProject 16, which requires migrating from version 15, all migrations up to and including the last patch of OpenProject 14 are squashed.
+
+   Do not determine that set with a timestamp cutoff, as it gets the boundary wrong in both directions. A migration may only be squashed if *every* installation of the version being migrated from has run it.
+
+   Note that migrations added during (N-1).0 development can carry a timestamp *below* the boundary and must be kept, which is why the intersection rather than a cutoff is needed. Exclude the `1XXXXXX_aggregated_*_migrations.rb` files from deletion (they are renamed in step 2 instead) and the good_job files (see [Particularities](#particularities)).
+
+   The squashed migrations are listed in the `aggregated_migrations.rb` files (`squashed_migrations` method). The first file to list there is the renamed filename (from step 2). E.g. after renaming `1000015_aggregated_migrations.rb` to `1000016_aggregated_migrations.rb`, the first item in the `squashed_migrations` list would be `1000015_aggregated_migrations`. After that, the file name of the other squashed migrations follow (although the order is not important). The previous contents of the list are *replaced*, not extended, as they refer to migrations squashed in an earlier version.
+
+   A migration is listed in the aggregated file of the module owning the tables it touches, which is not necessarily the directory the migration file sits in. Migrations misfiled in `db/migrate/` although they change a module's tables belong in that module's list. Conversely, a migration that only changes *data* in a core table on behalf of a module stays with the module.
+
+   It is easier to remove migrations one at a time, so to carry out steps 4 - 8 for each squashed and therefore deleted migration file completely before moving to the next migration file to squash/delete.
 
 4. **Create or adapt table classes**: Each database table is defined in a dedicated class in the `db/migrate/tables/` directory (or accordingly in a module). For example, `Tables::Announcements` defines the structure of the `announcements` table. When removing a squashed migration, move all table changes and creations into the appropriate table file. In some scenarios, when the columns strictly belong to a module, it makes sense to keep changes to a table in the `modifications` section of the module's aggregation file.
 
 5. **Create or adapt extensions**: Each extension is defined in a dedicated class in the `db/migrate/extensions/` directory (or accordingly in a module). When removing a squashed migration, move all extensions (i.e. indices and collations) into an appropriate extension file.
 
-6. **Ignore data changes**: Oftentimes, migration files not only include changes to the database structure but also include statements to move existing data from the old structure to the new. This code is no longer necessary as the `aggregated_XYZ_migrations` files only describe the database structure.
+6. **Ignore everything but the target state**: The `aggregated_XYZ_migrations` files describe only the structure to end up with, so everything a migration did to *get* there from an earlier state is dropped. Most obviously that covers the statements moving existing data into a new structure, but it equally covers:
 
-7. **Remove no longer referenced code**: Especially with data migrations, code in the application is sometimes referenced that after removing the migration is not referenced from anywhere else. This includes background jobs, libraries but could also be services or scopes. If they are not longer referenced from anywhere else, remove them.
+   - `algorithm: :concurrently` and the `disable_ddl_transaction!` it requires. There is no concurrent access to a table being created and no rows to scan. Keeping it would break the aggregated migration, which runs inside a transaction.
+   - A `default` that only existed to backfill rows before a `NOT NULL` column could be added, where the migration drops it again via `change_default`. The column is then described without a default.
+   - `bulk: true`, which only batches `ALTER TABLE` statements.
 
-8. **Minimum version is updated**: The `minimum_version` in the `SquashedMigration` class is increased to reflect the new required version for migration. For OP 16, that would be 15, for OP 17, that would be 16.
+   Note that some migrations mix the two: a `change_null`, `rename_column` or `remove_column` next to the data statements has to be carried over. Check the *whole* file for schema changes — they are easily missed below a long data migration.
+
+7. **Remove the migration's spec**: If the migration has a spec, delete it along with the migration; it would otherwise fail to load. Specs live in `spec/migrations/` and `modules/*/spec/migrations/`, and their file names do not reliably match the migration name, so search by class instead: `grep -rl "RSpec.describe TheMigrationClass\b" --include='*_spec.rb' spec modules/*/spec`.
+
+8. **Remove no longer referenced code**: Especially with data migrations, code in the application is sometimes referenced that after removing the migration is not referenced from anywhere else. This includes background jobs, libraries but could also be services or scopes. If they are no longer referenced from anywhere else, remove them.
+
+9. **Minimum version is updated**: The `minimum_version` in the `SquashedMigration` class is increased to reflect the new required version for migration. For OP 16, that would be 15, for OP 17, that would be 16.
 
 ## Verifying the squashing process
 
 To ensure that the squashing process hasn't introduced any schema changes, you can follow these steps:
 
-1. Before squashing, run: `rails db:drop db:create db:migrate`
-2. Rename the generated `db/structure.sql` file to something like `structure_unsquashed.sql`
-3. Perform the squashing process
-4. Run `rails db:drop db:create db:migrate` again to generate a new `structure.sql` file
-5. Compare the two structure files (e.g., using `diff`) - there should be no differences. This includes known shortcomings. The shortcomings could be addressed in separate migrations.
+1. Point the verification at a scratch database so the process never drops your working one: `export DATABASE_URL=postgres://[user_name]@localhost/openproject_squash_verify`
+2. Before squashing, run: `rm -f db/structure.sql && rails db:drop db:create db:migrate`
+3. Rename the generated `db/structure.sql` file to something like `structure_unsquashed.sql`
+4. Perform the squashing process
+5. Run `rm -f db/structure.sql && rails db:drop db:create db:migrate` again to generate a new `structure.sql` file
+6. Compare the two structure files (e.g., using `diff`) - there should be no differences. This includes known shortcomings. The shortcomings could be addressed in separate migrations but are not squashed at this point.
+
+Deleting `db/structure.sql` before each run is essential and not merely tidying up. On an empty database `db:migrate` loads an existing `db/structure.sql` instead of running the migrations, so the comparison silently ends up comparing the state with itself.
+
+When comparing, two kinds of difference are expected and acceptable:
+
+- **The trailing `INSERT INTO "schema_migrations"` block.** It legitimately changes, losing the versions of the squashed migrations and of the renamed aggregated files, and gaining the new aggregated versions. Split it off and compare it separately; "no differences" applies to the structure above it.
+- **Column ordering.** Folding a late `add_column` into a `create_table` necessarily places the column *before* any column that a module's `modifications` block appends, because the core aggregated migration runs first. The same happens for columns added by migrations that are not being squashed yet. The set of columns must be identical; only their order may differ. When checking this, strip trailing commas first — the last column of a `CREATE TABLE` carries none, so a column moving off the last position otherwise reads as a changed line rather than a moved one.
+
+Migrations that only change data cannot alter the schema, so they need no verification run of their own.
+
+The steps above only prove that a *fresh* installation ends up correct. To also check the upgrade path, and in particular that the `squashed_migrations` lists match what an installation of the previous major version has actually run:
+
+1. Create a database holding the pre-squash state, including its `schema_migrations` rows: `psql [database_name] < structure_unsquashed.sql`
+2. Run `rm -f db/structure.sql && rails db:migrate` against it with the squashing in place. It has to succeed. The aggregated migrations should report as migrated without applying any DDL, since every table already exists.
+3. Check `schema_migrations`: the versions of all squashed migrations and of the renamed aggregated files must be gone, and the new aggregated versions must be present.
+4. To confirm the guard against partial states, delete a single squashed version from `schema_migrations` and migrate again. It must abort with `Migration::MigrationSquasher::IncompleteMigrationsError`, name the missing migration and point at the correct minimum version.
 
 To also ensure that the data hasn't changed, it is ideal to find a database that has data in it. With that found, follow these steps:
 
