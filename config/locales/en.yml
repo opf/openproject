@@ -3284,6 +3284,10 @@ en:
       selected: "Selected"
     include_sub_items: "Include sub-items"
     no_results_text: "No results"
+  forms:
+    name:
+      fallback: "Form"
+      implicit: "%{name} form"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
