@@ -60,32 +60,12 @@ RSpec.describe "List custom field items administration", :js do
     )
   end
 
-  it "marks an entry as the default value and clears it again" do
-    open_actions_for("pear")
-    click_on "Set as default value"
-
-    expect(item_row("pear")).to have_text("Default")
-
-    open_actions_for("pear")
-    click_on "Clear default value"
-
-    expect(page).to have_no_text("Default")
-  end
-
   it "does not offer to nest entries" do
     open_actions_for("pear")
 
     expect(page).to have_link("Set as default value")
     expect(page).to have_no_link("Add sub-item")
     expect(page).to have_no_link("Change parent")
-  end
-
-  it "creates a new entry" do
-    click_on "Item"
-    fill_in "Item label", with: "banana"
-    click_on "Save"
-
-    expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "banana")
   end
 
   it "edits an entry's label" do

@@ -30,6 +30,7 @@
 
 require "spec_helper"
 require_relative "format_field_expectations"
+require_relative "../shared_list_custom_field_journey"
 
 RSpec.describe "users list custom fields", :js do
   let(:user) { create(:admin) }
@@ -40,18 +41,11 @@ RSpec.describe "users list custom fields", :js do
 
   before { section }
 
-  it "can create a multi-select list custom field" do
-    cf_page.visit!
-    cf_page.click_to_create_new_custom_field "List"
-
-    fill_in "custom_field_name", with: "Operating System"
-    select section.name, from: "custom_field_custom_field_section_id"
-    check "multi_value"
-
-    click_on "Save"
-
-    expect(page).to have_text("Successful creation")
-    expect(page).to have_field("multi_value", checked: true)
+  it_behaves_like "list custom field journey" do
+    def open_new_list_field_form
+      cf_page.visit!
+      cf_page.click_to_create_new_custom_field "List"
+    end
   end
 
   it_behaves_like "expected fields for the User custom field's format", "List"
