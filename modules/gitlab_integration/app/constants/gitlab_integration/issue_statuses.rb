@@ -23,33 +23,16 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module GitlabIntegration
-  class IssueComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  module IssueStatuses
+    OPEN = GitlabStatus.issue_status(code: :open, color: Color.new(hexcode: "#1A7F37"), icon: :"issue-opened")
+    CLOSED = GitlabStatus.issue_status(code: :closed, color: Color.new(hexcode: "#24292F"), icon: :"issue-closed")
 
-    alias_method :issue, :model
-
-    private
-
-    def status
-      case issue.state.to_sym
-      when :opened
-        IssueStatuses::OPEN
-      when :closed
-        IssueStatuses::CLOSED
-      else
-        raise ArgumentError, "Unsupported issue state #{state}"
-      end
-    end
-
-    def state_label
-      t(".states.#{issue.state}")
-    end
+    AVAILABLE = [OPEN, CLOSED].freeze
   end
 end

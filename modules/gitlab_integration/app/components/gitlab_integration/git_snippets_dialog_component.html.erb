@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::Alpha::Dialog.new(title: t(".title"), size: :medium_portrait)) do |dialog|
+    dialog.with_header(show_divider: true, variant: :large)
     dialog.with_body do
       flex_layout do |container|
         container.with_row(mb: 3) do
@@ -47,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        container.with_row { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".commit_message") } }
+        container.with_row(mb: 1) { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".commit_message") } }
         container.with_row(mb: 3) do
           render(OpPrimer::InsetBoxComponent.new(data: { test_selector: "gitlab-snippets-commit-message" })) do |box|
             box.with_clipboard_copy_button(value: commit_message, aria: { label: t(".copy_commit_message") })
@@ -57,7 +58,9 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        container.with_row { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".create_branch_with_empty_commit") } }
+        container.with_row(mb: 1) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { t(".create_branch_with_empty_commit") }
+        end
         container.with_row do
           render(OpPrimer::InsetBoxComponent.new(data: { test_selector: "gitlab-snippets-create-branch-command" })) do |box|
             box.with_clipboard_copy_button(value: create_branch_command, aria: { label: t(".copy_create_branch_command") })

@@ -37,29 +37,19 @@ module GitlabIntegration
 
     private
 
-    def state_scheme
+    def merge_request_status
       case merge_request.state.to_sym
       when :opened
-        :success
-      when :closed, :locked
-        :danger
-      when :merged
-        :done
-      else
-        raise ArgumentError, "Unsupported merge request state #{state}"
-      end
-    end
-
-    def state_icon
-      case merge_request.state.to_sym
-      when :opened
-        :"git-pull-request"
+        MergeRequestStatuses::OPEN
+      when :draft
+        MergeRequestStatuses::DRAFT
       when :closed
-        :"git-pull-request-closed"
+        MergeRequestStatuses::CLOSED
       when :locked
-        :lock
+        MergeRequestStatuses::LOCKED
       when :merged
-        :"git-merge"
+        MergeRequestStatuses::MERGED
+        :done
       else
         raise ArgumentError, "Unsupported merge request state #{state}"
       end
@@ -67,6 +57,51 @@ module GitlabIntegration
 
     def state_label
       t(".states.#{merge_request.state}")
+    end
+
+    def latest_pipeline
+      @latest_pipeline ||= merge_request.gitlab_pipelines.order(started_at: :asc).last
+    end
+
+    def pipeline_status
+      return nil unless latest_pipeline
+
+      status = latest_pipeline.status.to_sym
+
+      case status
+      when :success
+        PipelineStatuses::SUCCESS
+      when :failed
+        PipelineStatuses::FAILED
+      when :skipped
+        PipelineStatuses::SKIPPED
+      when :created
+        PipelineStatuses::CREATED
+      when :waiting_for_resource
+        PipelineStatuses::WAITING_FOR_RESOURCE
+      when :preparing
+        PipelineStatuses::PREPARING
+      when :waiting_for_callback
+        PipelineStatuses::WAITING_FOR_CALLBACK
+      when :pending
+        PipelineStatuses::PENDING
+      when :scheduled
+        PipelineStatuses::SCHEDULED
+      when :running
+        PipelineStatuses::RUNNING
+      when :cancelling
+        PipelineStatuses::CANCELLING
+      when :cancelled
+        PipelineStatuses::CANCELLED
+      when :manual
+        PipelineStatuses::MANUAL
+      else
+        raise ArgumentError, "Unsupported pipeline state #{status}"
+      end
+    end
+
+    def pipeline_status_label
+      t(".pipeline_statuses.#{pipeline_status.value}")
     end
   end
 end
