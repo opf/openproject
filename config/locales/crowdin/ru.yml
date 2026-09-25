@@ -386,12 +386,12 @@ ru:
         attribute_groups: Форма
         default_work_package_description: Текст для описания по умолчанию
         enabled_in_new_projects: Активно в новых проектах
-        linked_aspects: Inherited configuration
+        linked_aspects: Унаследованная конфигурация
         patterns: Шаблоны
         project_types: Проекты, в которых используется данный вариант
         variant: Вариант
         variant_name: Название
-        workflow: Workflow
+        workflow: Рабочий поток
       user:
         admin: Администратор
         auth_source: Источник аутентификации
@@ -496,6 +496,7 @@ ru:
           title: Рабочие дни
           true: включить нерабочие дни
         journal_internal: Внутренний журнал
+        labels: Labels
         notify: Уведомлять
         observed_in_versions: Наблюдается в версиях
         parent: Родитель
@@ -525,9 +526,9 @@ ru:
       work_package_version:
         kind: Вид
       workflow:
-        description: Description
-        name: Name
-        type_variants: Types and variants using this workflow
+        description: Описание
+        name: Имя
+        type_variants: Типы и варианты, использующие этот рабочий процесс
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -620,6 +621,10 @@ ru:
         user_in_ldap_managed_department: Этот пользователь принадлежит подразделению, управляемому LDAP синхронизацией, и не может быть перемещен.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -2240,6 +2245,11 @@ ru:
         ignore: Игнорировать изменения
         save: Сохранить изменения и продолжить
         title: Сохранить изменения, прежде чем продолжить?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Роль: %{role}'
         no_role: Выберите роль
@@ -2273,6 +2283,11 @@ ru:
           assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
           author: Дополнительные варианты перехода, доступные автору пакета работ.
         menu_label: Показаны переходы
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -3850,7 +3865,7 @@ ru:
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
-  label_deleted_version: "(deleted version)"
+  label_deleted_version: "(удаленная версия)"
   label_departments: Департаменты
   label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
 
@@ -7017,8 +7032,8 @@ ru:
               description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
               heading: Переключить режим конфигурации?
               title: Переключить режим конфигурации
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          from_parent: Эта конфигурация унаследована от родительского типа [%{source_name}](source_url).
+          from_parent_unlinked: Эта конфигурация унаследована от родительского типа %{source_name}.
           success: Режим конфигурации переключен.
           title: Наследуемая конфигурация
         manual:
@@ -7032,7 +7047,7 @@ ru:
           dialog:
             submit: Переключить
             title: Настройка вручную
-          inherit_from_type: Inherit from parent
+          inherit_from_type: Наследовать от родителя
           invalid_mode: Выбранный режим недоступен для этой конфигурации. Пожалуйста, выберите другой режим.
           modes:
             copy:
@@ -7114,6 +7129,13 @@ ru:
       type_label: Тип
       variant_label: Вариант
     milestone_indicator: Веха
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.
     message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
@@ -7646,11 +7668,11 @@ ru:
       other: 'Пакетов работ, являющихся потомками: %{count}'
   workflows:
     change:
-      title: Change workflow
+      title: Изменить рабочий процесс
       workflow:
-        caption: The type uses the status transitions of the workflow you pick here.
-        label: Workflow
-        placeholder: Select a workflow…
+        caption: Данный тип использует переходы между статусами рабочего процесса, который вы здесь выберете.
+        label: Рабочий процесс
+        placeholder: Выберите рабочий процесс…
     copies:
       form:
         target_role_ids:
@@ -7663,16 +7685,16 @@ ru:
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
       new:
-        title: Копировать рабочий процесс из типа "%{source_type}"
+        dialog_title: Copy workflow of "%{source}"
     form:
       copy_from:
-        caption: The new workflow starts with a copy of that workflow's status transitions.
-        label: Copy from
-        placeholder: Select a workflow…
+        caption: Новый рабочий процесс начинается с копии переходов статусов этого рабочего процесса.
+        label: Скопировать из
+        placeholder: Выберите рабочий процесс…
       description:
-        caption: Add a short description about where and how will this workflow be used.
-        label: Description
-      edit_title: Edit workflow
+        caption: Добавьте краткое описание того, где и как будет использоваться этот рабочий процесс.
+        label: Описание
+      edit_title: Редактирование рабочего процесса
       matrix_caption: Матрица рабочего процесса
       matrix_caption_assignee: Матрица рабочего процесса для назначенного
       matrix_caption_author: Матрица рабочего процесса для автора
@@ -7682,89 +7704,90 @@ ru:
       matrix_checkbox_label: Разрешить переход от %{old_status} к %{new_status}
       matrix_uncheck_all_label: Запретить все переходы
       name:
-        caption: Pick a name that will let you identify this workflow later in other places.
-        label: Workflow name
-      new_title: Create workflow
+        caption: Выберите название, которое позволит вам впоследствии идентифицировать этот рабочий процесс в других местах.
+        label: Название рабочего процесса
+      new_title: Создать рабочий процесс
     index:
       actions:
-        create: Workflow
-        edit: Edit transitions
-        menu: Actions for %{name}
-        rename: Edit name and description
+        create: Рабочий процесс
+        edit: Редактировать переходы
+        menu: Действия для %{name}
+        rename: Изменить имя и описание
       blank_slate:
-        description: Create a workflow to define the status transitions a type or variant may use.
-        filtered_description: No workflow matches the current filters.
-        filtered_title: No matching workflows
-        title: No workflows
+        description: Создайте рабочий процесс для определения статусных переходов, который может использовать тип или вариант.
+        filtered_description: Ни один рабочий процесс не соответствует текущим фильтрам.
+        filtered_title: Нет подходящих рабочих процессов
+        title: Нет рабочих процессов
       columns:
-        name: Workflow name
-        projects: Projects
-        roles: Roles
-        types_and_variants: Types and variants
-      description: Every named set of status transitions in this instance, with the types and variants using it.
+        name: Название рабочего процесса
+        projects: Проекты
+        roles: Роли
+        types_and_variants: Типы и варианты
+      description: Каждый именованный набор переходов статуса с использованием типов и вариантов.
       filters:
-        name: Workflow
-        name_placeholder: Filter by workflow name or description…
-        projects_placeholder: Filter projects…
+        name: Рабочий процесс
+        name_placeholder: Фильтр по имени рабочего процесса или описанию…
+        projects_placeholder: Фильтровать проекты…
       projects_count:
-        one: 1 project
+        one: 1 проект
         few: "%{count} projects"
         many: "%{count} projects"
-        other: "%{count} projects"
+        other: "%{count} проектов"
       roles_count:
-        one: 1 role
+        one: 1 роль
         few: "%{count} roles"
         many: "%{count} roles"
-        other: "%{count} roles"
+        other: "%{count} ролей"
       type_filter:
         label: Фильтр по имени типа…
-      types_and_variants_count: "%{types} (including %{variants})"
+      types_and_variants_count: "%{types} (в том числе %{variants})"
       types_count:
-        one: 1 type
+        one: 1 тип
         few: "%{count} types"
         many: "%{count} types"
-        other: "%{count} types"
+        other: "%{count} типов"
       variants_count:
-        one: 1 variant
+        one: 1 вариант
         few: "%{count} variants"
         many: "%{count} variants"
-        other: "%{count} variants"
+        other: "%{count} вариантов"
     name:
-      fallback: Workflow
+      fallback: Рабочий процесс
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Настроить переходы статусов для каждого типа пакета работ.
-    reuse_mode:
-      change_workflow: Change workflow
-      create_workflow: Create new workflow
-      independent:
-        description: Only this type or variant uses [%{name}](workflow_url).
-        title: Independent configuration
-      shared:
-        description: Other types and variants use this workflow as well.
-        title: Reuses workflow [%{name}](workflow_url)
-      usage:
-        blank:
-          description: A change to these transitions applies to this type or variant only.
-          title: Not used anywhere else
-        description: 'A change to these transitions also applies to:'
-        title:
-          one: Used in 1 other place
-          few: Used in %{count} other places
-          many: Used in %{count} other places
-          other: Used in %{count} other places
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
     usage:
-      unused: No type or variant uses this workflow yet.
+      unused: Этот рабочий процесс пока не использует ни тип, ни вариант.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: Этот рабочий процесс используется 1 тип. К нему применяются изменения.
         few: This workflow is used by %{count} types. Changes apply to all of them.
         many: This workflow is used by %{count} types. Changes apply to all of them.
-        other: This workflow is used by %{count} types. Changes apply to all of them.
+        other: Этот рабочий процесс используется %{count} типами. Изменения применяются ко всем им.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
+        one: Этот рабочий процесс используется 1 типом или вариантом.
         few: This workflow is used by %{count} types and variants.
         many: This workflow is used by %{count} types and variants.
         other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Изменить рабочие дни
     dialog:

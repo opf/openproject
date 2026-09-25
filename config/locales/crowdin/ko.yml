@@ -496,6 +496,7 @@ ko:
           title: 근무일
           true: 휴무일 포함
         journal_internal: 내부 저널
+        labels: Labels
         notify: 알림
         observed_in_versions: 다음 버전에서 확인됨
         parent: 부모
@@ -620,6 +621,10 @@ ko:
         user_in_ldap_managed_department: 이 사용자는 LDAP 동기화를 통해 관리되는 부서에 속해 있으므로 이동할 수 없습니다.
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -1881,6 +1886,11 @@ ko:
         ignore: 변경 사항 무시
         save: 변경 사항을 저장하고 계속하기
         title: 변경 사항을 저장한 후에 계속하시겠습니까?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: '역할: %{role}'
         no_role: 역할 선택
@@ -1908,6 +1918,11 @@ ko:
           assignee: 작업 패키지의 담당자가 사용할 수 있는 추가 전환입니다.
           author: 작업 패키지의 작성자가 사용할 수 있는 추가 전환입니다.
         menu_label: 표시된 전환
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -6619,6 +6634,13 @@ ko:
       type_label: 유형
       variant_label: 변형
     milestone_indicator: 마일스톤
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: 이 경고를 무시하십시오.
     message: 이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다.
@@ -7127,7 +7149,7 @@ ko:
           notice:
             other: 워크플로를 %{count}개 역할에 복사했습니다.
       new:
-        title: '"%{source_type}"의 워크플로 복사'
+        dialog_title: Copy workflow of "%{source}"
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
@@ -7183,31 +7205,35 @@ ko:
         other: "%{count} variants"
     name:
       fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: 각 작업 패키지 유형에 대한 상태 전환을 구성합니다.
-    reuse_mode:
-      change_workflow: Change workflow
-      create_workflow: Create new workflow
-      independent:
-        description: Only this type or variant uses [%{name}](workflow_url).
-        title: Independent configuration
-      shared:
-        description: Other types and variants use this workflow as well.
-        title: Reuses workflow [%{name}](workflow_url)
-      usage:
-        blank:
-          description: A change to these transitions applies to this type or variant only.
-          title: Not used anywhere else
-        description: 'A change to these transitions also applies to:'
-        title:
-          other: Used in %{count} other places
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
     usage:
       unused: No type or variant uses this workflow yet.
       used_by_types:
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
         other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: 근무일 변경
     dialog:

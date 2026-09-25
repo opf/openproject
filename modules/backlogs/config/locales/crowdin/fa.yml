@@ -26,6 +26,7 @@ fa:
       project:
         allow_multiple_active_sprints: اجازه دادن به چند اسپرینت فعال هم‌زمان
         backlog_excluded_types: انواع بسته‌های کاری مستثنی‌شده
+        estimation_unit: Unit
         sprint_sharing: اشتراک‌گذاری اسپرینت
         statuses_considered_closed: وضعیت‌هایی که بسته‌شده محسوب می‌شوند
       sprint:
@@ -137,6 +138,7 @@ fa:
       show:
         blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
         blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
+    estimation_unit: Units
     excluded_work_package_types_caption: 'انتخاب کنید کدام نوع‌های بسته کاری از بک‌لاگ پنهان شوند. موارد مربوط به نوع‌های انتخاب‌شده به‌صورت خودکار در بک‌لاگ نمایش داده نمی‌شوند تا بک‌لاگ روی کارهای مهم تیم متمرکز بماند. برای مثال، نوع‌هایی مانند Epic یا Milestone که در سطح بالاتری مدیریت می‌شوند، می‌توانند پنهان شوند تا بک‌لاگ روی موارد قابل اقدام متمرکز بماند.
 
       '
@@ -346,6 +348,18 @@ fa:
       backlog_buckets: سطل‌های بک‌لاگ
       sprints: اسپرینت‌ها
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -366,6 +380,9 @@ fa:
             label: زیرپروژه‌ها
         sprint_sharing: اشتراک‌گذاری اسپرینت‌ها
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: به‌طور پیش‌فرض، در هر پروژه فقط یک اسپرینت می‌تواند هم‌زمان فعال باشد. می‌توانید این تنظیم را تغییر دهید تا چند اسپرینت در این پروژه به‌صورت موازی فعال باشند.
           heading: تعداد اسپرینت‌های فعال

@@ -496,6 +496,7 @@ pl:
           title: Dni robocze
           true: włącz dni wolne od pracy
         journal_internal: Dziennik wewnętrzny
+        labels: Labels
         notify: Powiadom
         observed_in_versions: Zauważono w następujących wersjach
         parent: Rodzic
@@ -620,6 +621,10 @@ pl:
         user_in_ldap_managed_department: Ten użytkownik należy do działu zarządzanego za pomocą synchronizacji LDAP i nie można go przenieść.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -2240,6 +2245,11 @@ pl:
         ignore: Zignoruj zmiany
         save: Zapisz zmiany i kontynuuj
         title: Zapisać zmiany przed kontynuowaniem?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Rola: %{role}'
         no_role: Wybierz rolę
@@ -2273,6 +2283,11 @@ pl:
           assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
           author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
         menu_label: Pokazane przejścia
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -7118,6 +7133,13 @@ pl:
       type_label: Typ
       variant_label: Wariant
     milestone_indicator: Kamień milowy
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.
@@ -7663,7 +7685,7 @@ pl:
             many: Przepływ pracy został skopiowany do %{count} ról.
             other: Przepływ pracy został skopiowany do %{count} roli.
       new:
-        title: Kopiuj przepływ pracy z „%{source_type}”
+        dialog_title: Copy workflow of "%{source}"
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
@@ -7731,28 +7753,21 @@ pl:
         other: "%{count} variants"
     name:
       fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Skonfiguruj przejścia statusów dla każdego typu pakietu roboczego.
-    reuse_mode:
-      change_workflow: Change workflow
-      create_workflow: Create new workflow
-      independent:
-        description: Only this type or variant uses [%{name}](workflow_url).
-        title: Independent configuration
-      shared:
-        description: Other types and variants use this workflow as well.
-        title: Reuses workflow [%{name}](workflow_url)
-      usage:
-        blank:
-          description: A change to these transitions applies to this type or variant only.
-          title: Not used anywhere else
-        description: 'A change to these transitions also applies to:'
-        title:
-          one: Used in 1 other place
-          few: Used in %{count} other places
-          many: Used in %{count} other places
-          other: Used in %{count} other places
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
     usage:
       unused: No type or variant uses this workflow yet.
       used_by_types:
@@ -7765,6 +7780,14 @@ pl:
         few: This workflow is used by %{count} types and variants.
         many: This workflow is used by %{count} types and variants.
         other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Zmień dni robocze
     dialog:
