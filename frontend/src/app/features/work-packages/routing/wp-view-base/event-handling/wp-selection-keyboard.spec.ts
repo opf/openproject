@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { createEvent, fireEvent } from '@testing-library/dom';
 import { usePlatform } from 'core-common/testing/platform';
 import { registerWorkPackageSelectAll, WorkPackageSelectAllOptions } from './wp-selection-keyboard';
 
@@ -73,15 +74,8 @@ describe('registerWorkPackageSelectAll', () => {
     return destroy;
   }
 
-  function shortcut(target:HTMLElement):KeyboardEvent {
-    const event = new KeyboardEvent('keydown', {
-      key: 'a',
-      ctrlKey: true,
-      bubbles: true,
-      cancelable: true,
-    });
-    target.dispatchEvent(event);
-    return event;
+  function shortcut(target:HTMLElement):boolean {
+    return !fireEvent.keyDown(target, { key: 'a', ctrlKey: true });
   }
 
   it('selects all from the focused occurrence and disposes its listener', () => {
@@ -102,7 +96,7 @@ describe('registerWorkPackageSelectAll', () => {
 
     const handled = shortcut(row);
 
-    expect(handled.defaultPrevented).toBe(true);
+    expect(handled).toBe(true);
     expect(selectAll).toHaveBeenCalledExactlyOnceWith(rows, rows[0]);
 
     selectAll.mockClear();
@@ -110,7 +104,7 @@ describe('registerWorkPackageSelectAll', () => {
     destroyers = destroyers.filter((candidate) => candidate !== destroy);
     const afterDestroy = shortcut(row);
 
-    expect(afterDestroy.defaultPrevented).toBe(false);
+    expect(afterDestroy).toBe(false);
     expect(selectAll).not.toHaveBeenCalled();
   });
 
@@ -130,19 +124,17 @@ describe('registerWorkPackageSelectAll', () => {
     });
 
     root.querySelectorAll<HTMLElement>('input, button, a, [role="button"], [contenteditable]')
-      .forEach((target) => expect(shortcut(target).defaultPrevented).toBe(false));
+      .forEach((target) => expect(shortcut(target)).toBe(false));
     expect(selectAll).not.toHaveBeenCalled();
 
     const subject = root.querySelector<HTMLElement>('td span')!;
-    expect(shortcut(subject).defaultPrevented).toBe(true);
+    expect(shortcut(subject)).toBe(true);
     expect(selectAll).toHaveBeenCalledExactlyOnceWith(rendered, rendered[0]);
     selectAll.mockClear();
 
-    const alreadyPrevented = new KeyboardEvent('keydown', {
-      key: 'a', ctrlKey: true, bubbles: true, cancelable: true,
-    });
+    const alreadyPrevented = createEvent.keyDown(row, { key: 'a', ctrlKey: true });
     alreadyPrevented.preventDefault();
-    row.dispatchEvent(alreadyPrevented);
+    fireEvent(row, alreadyPrevented);
     expect(alreadyPrevented.defaultPrevented).toBe(true);
     expect(selectAll).not.toHaveBeenCalled();
 
@@ -152,13 +144,13 @@ describe('registerWorkPackageSelectAll', () => {
     const outsideFocus = document.createElement('div');
     root.append(outsideFocus);
     [group, outsideFocus].forEach((target) => {
-      expect(shortcut(target).defaultPrevented).toBe(false);
+      expect(shortcut(target)).toBe(false);
     });
 
     rendered.splice(0);
-    expect(shortcut(row).defaultPrevented).toBe(false);
+    expect(shortcut(row)).toBe(false);
     rendered.push({ workPackageId: '9', classIdentifier: 'wp-row-9', hidden: false });
-    expect(shortcut(row).defaultPrevented).toBe(false);
+    expect(shortcut(row)).toBe(false);
     expect(selectAll).not.toHaveBeenCalled();
   });
 
@@ -179,7 +171,7 @@ describe('registerWorkPackageSelectAll', () => {
     const target = root.querySelector<HTMLElement>('span[tabindex="0"]')!;
     const handled = shortcut(target);
 
-    expect(handled.defaultPrevented).toBe(true);
+    expect(handled).toBe(true);
     expect(selectAll).toHaveBeenCalledExactlyOnceWith(rendered, rendered[0]);
   });
 
@@ -217,13 +209,13 @@ describe('registerWorkPackageSelectAll', () => {
     register({ root: sibling, rendered: () => siblingRows, selectAll: siblingSelectAll, ...shared });
 
     const innerFocus = inner.querySelector<HTMLElement>('.focus')!;
-    expect(shortcut(innerFocus).defaultPrevented).toBe(true);
+    expect(shortcut(innerFocus)).toBe(true);
     expect(innerSelectAll).toHaveBeenCalledExactlyOnceWith(innerRows, innerRows[0]);
     expect(outerSelectAll).not.toHaveBeenCalled();
     expect(siblingSelectAll).not.toHaveBeenCalled();
 
     const siblingFocus = sibling.querySelector<HTMLElement>('.focus')!;
-    expect(shortcut(siblingFocus).defaultPrevented).toBe(true);
+    expect(shortcut(siblingFocus)).toBe(true);
     expect(siblingSelectAll).toHaveBeenCalledExactlyOnceWith(siblingRows, siblingRows[0]);
     expect(outerSelectAll).not.toHaveBeenCalled();
   });
@@ -245,7 +237,7 @@ describe('registerWorkPackageSelectAll', () => {
     destroyers = destroyers.filter((candidate) => candidate !== firstDestroy);
     register(options);
 
-    expect(shortcut(row).defaultPrevented).toBe(true);
+    expect(shortcut(row)).toBe(true);
     expect(selectAll).toHaveBeenCalledExactlyOnceWith(rows, rows[0]);
   });
 });
