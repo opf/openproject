@@ -1476,7 +1476,11 @@ en:
       tab_interface: "Interface"
       tab_pdf_export_font: "PDF export font"
       tab_pdf_export_styles: "PDF export styles"
-      theme_warning_confirmation: Changing the theme will overwrite your custom style. The design will then be lost.
+      theme_warning:
+        confirmation: "I understand that this action cannot be reversed"
+        description: "Changing the theme will overwrite the custom styles and colors. The created design values will be lost."
+        heading: "Change color theme?"
+        title: "Change color theme"
     enterprise:
       add_token: "Upload an Enterprise edition support token"
       book_now: "Book now"

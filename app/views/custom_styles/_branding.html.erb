@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::Beta::Subhead.new(spacious: true)) do |subhead| %>
-  <% subhead.with_heading(tag: :h3) { t("admin.custom_styles.branding.desktop.title") } %>
+  <% subhead.with_heading(tag: :h3, size: :medium) { t("admin.custom_styles.branding.desktop.title") } %>
   <% subhead.with_description { t("admin.custom_styles.branding.desktop.description") } %>
 <% end %>
 
@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <%= render(Primer::Beta::Subhead.new(spacious: true)) do |subhead| %>
-  <% subhead.with_heading(tag: :h3) { t("admin.custom_styles.branding.mobile.title") } %>
+  <% subhead.with_heading(tag: :h3, size: :medium) { t("admin.custom_styles.branding.mobile.title") } %>
   <% subhead.with_description { t("admin.custom_styles.branding.mobile.description") } %>
 <% end %>
 

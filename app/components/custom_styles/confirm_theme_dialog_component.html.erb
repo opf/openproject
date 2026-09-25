@@ -31,23 +31,20 @@ See COPYRIGHT and LICENSE files for more details.
   render(
     Primer::OpenProject::DangerDialog.new(
       id: "confirm-theme-dialog",
-      title: t("admin.custom_styles.color_theme"),
-      confirm_button_text: t(:button_apply),
+      title: t("admin.custom_styles.theme_warning.title"),
+      confirm_button_text: t(:button_change),
       form_arguments: {
-        action: helpers.update_design_themes_path(tab: @selected_tab_name),
+        action: helpers.update_design_themes_path(tab: @selected_tab_name, theme: @theme),
         method: :post,
         data: { turbo: false }
       }
     )
   ) do |dialog|
     dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { t(:text_are_you_sure_continue) }
+      message.with_heading(tag: :h2) { t("admin.custom_styles.theme_warning.heading") }
+      message.with_description_content(t("admin.custom_styles.theme_warning.description"))
     end
 
-    dialog.with_confirmation_check_box_content(t("admin.custom_styles.theme_warning_confirmation"))
-
-    dialog.with_additional_details do
-      hidden_field_tag(:theme, @theme)
-    end
+    dialog.with_confirmation_check_box_content(t("admin.custom_styles.theme_warning.confirmation"))
   end
 %>
