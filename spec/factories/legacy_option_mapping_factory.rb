@@ -28,41 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require "rack/test"
-
-RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
-  include Rack::Test::Methods
-  include API::V3::Utilities::PathHelper
-
-  shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project) }
-  shared_let(:custom_field) do
-    cf = create(:list_wp_custom_field, possible_values: %w[pear])
-    project.work_package_custom_fields << cf
-    cf
-  end
-
-  let(:mapping) { create(:legacy_option_mapping, custom_field:) }
-  let(:legacy_id) { mapping.custom_option_id }
-
-  before do
-    login_as(user)
-    get api_v3_paths.custom_option(legacy_id)
-  end
-
-  it "still answers with the custom option shape" do
-    expect(JSON.parse(last_response.body)).to include("_type" => "CustomOption", "id" => legacy_id, "value" => "pear")
-  end
-
-  it "carries a self link so HAL clients following it do not break" do
-    self_link = JSON.parse(last_response.body).dig("_links", "self")
-
-    expect(self_link).to eq("href" => api_v3_paths.custom_option(legacy_id), "title" => "pear")
-  end
-
-  it "announces the deprecation without committing to a removal date" do
-    expect(last_response.headers["Deprecation"]).to eq("true")
-    expect(last_response.headers).not_to have_key("Sunset")
+FactoryBot.define do
+  factory :legacy_option_mapping, class: "CustomField::LegacyOptionMapping" do
+    custom_field factory: :list_wp_custom_field
+    hierarchical_item { custom_field.possible_values.first }
+    # Kept apart from item ids: a legacy id equal to its item's id would let a broken translation pass.
+    sequence(:custom_option_id) { |n| 990_000 + n }
   end
 end

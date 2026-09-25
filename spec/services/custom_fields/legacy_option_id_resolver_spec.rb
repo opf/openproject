@@ -39,12 +39,11 @@ RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hie
       .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Kept").value!
   end
 
-  before do
-    CustomField::LegacyOptionMapping.create!(custom_option_id: 7, hierarchical_item_id: item.id, custom_field_id: custom_field.id)
-  end
+  let!(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: item) }
+  let(:legacy_id) { mapping.custom_option_id.to_s }
 
   it "translates a mapped legacy id" do
-    expect(described_class.resolve(custom_field:, id: "7")).to eq(item.id.to_s)
+    expect(described_class.resolve(custom_field:, id: legacy_id)).to eq(item.id.to_s)
   end
 
   it "leaves an unmapped id alone" do
@@ -54,16 +53,16 @@ RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hie
   it "leaves an id alone when it is mapped for a different custom field" do
     other = create(:list_wp_custom_field)
 
-    expect(described_class.resolve(custom_field: other, id: "7")).to eq("7")
+    expect(described_class.resolve(custom_field: other, id: legacy_id)).to eq(legacy_id)
   end
 
   it "leaves ids alone for a field that is not a list" do
     hierarchy_field = create(:hierarchy_wp_custom_field)
 
-    expect(described_class.resolve(custom_field: hierarchy_field, id: "7")).to eq("7")
+    expect(described_class.resolve(custom_field: hierarchy_field, id: legacy_id)).to eq(legacy_id)
   end
 
   it "translates a batch in one query, preserving order and unmapped entries" do
-    expect(described_class.resolve_all(custom_field:, ids: %w[999 7])).to eq(["999", item.id.to_s])
+    expect(described_class.resolve_all(custom_field:, ids: ["999", legacy_id])).to eq(["999", item.id.to_s])
   end
 end

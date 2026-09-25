@@ -869,10 +869,10 @@ RSpec.describe "API v3 Work package resource",
       context "when setting a list custom field through a legacy custom option href" do
         let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[pear]) }
         let(:item) { custom_field.possible_values.first }
-        let(:legacy_id) { 4242 }
+        let(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: item) }
         let(:params) do
           valid_params.merge(
-            _links: { custom_field.attribute_name.camelize(:lower) => { href: api_v3_paths.custom_option(legacy_id) } }
+            _links: { custom_field.attribute_name.camelize(:lower) => { href: api_v3_paths.custom_option(mapping.custom_option_id) } }
           )
         end
 
@@ -880,9 +880,6 @@ RSpec.describe "API v3 Work package resource",
           allow(User).to receive(:current).and_return current_user
           work_package.project.work_package_custom_fields << custom_field
           work_package.type.default_variant.custom_fields << custom_field
-          CustomField::LegacyOptionMapping.create!(custom_option_id: legacy_id,
-                                                   hierarchical_item_id: item.id,
-                                                   custom_field_id: custom_field.id)
         end
 
         include_context "patch request"

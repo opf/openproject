@@ -719,15 +719,11 @@ RSpec.describe CustomActions::Actions::CustomField do
             .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Kept").value!
         end
 
-        before do
-          CustomField::LegacyOptionMapping.create!(custom_option_id: 999,
-                                                   hierarchical_item_id: migrated_item.id,
-                                                   custom_field_id: custom_field.id)
-        end
+        let(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: migrated_item) }
 
         it "resolves the legacy id to the migrated item id before assigning it" do
           action_instance = described_class.for(custom_field.attribute_name).new
-          action_instance.values = [999]
+          action_instance.values = [mapping.custom_option_id]
 
           action_instance.apply(work_package)
 
