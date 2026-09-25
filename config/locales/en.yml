@@ -7596,6 +7596,18 @@ en:
 
   workflows:
     change:
+      confirm:
+        consequence: "Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible."
+        description: "The following statuses don’t exist in the workflow you have selected (\"%{name}\"):"
+        description_empty: "The workflow you have selected (\"%{name}\") has no transitions. All status transitions of %{type} will be removed."
+        roles:
+          one: "1 role"
+          other: "%{count} roles"
+        title: "Use a different workflow for %{name}?"
+        transitions:
+          one: "1 transition"
+          other: "%{count} transitions"
+        usage: "%{transitions} for %{roles}"
       title: "Change workflow"
       workflow:
         caption: "The type uses the status transitions of the workflow you pick here."

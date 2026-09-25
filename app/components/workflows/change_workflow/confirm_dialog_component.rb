@@ -30,33 +30,51 @@
 
 module Workflows
   module ChangeWorkflow
-    class DialogComponent < ApplicationComponent
+    class ConfirmDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      DIALOG_ID = "change-workflow-dialog"
-      FORM_ID = "change-workflow-form"
+      DIALOG_ID = "change-workflow-confirm-dialog"
 
-      def initialize(variant:, back_url: nil)
+      def initialize(variant:, workflow:, missing_statuses:, back_url: nil)
         super()
 
         @variant = variant
+        @workflow = workflow
+        @missing_statuses = missing_statuses
         @back_url = back_url
       end
 
       private
 
-      attr_reader :variant, :back_url
-
-      def title = I18n.t("workflows.change.title")
+      attr_reader :variant, :workflow, :missing_statuses, :back_url
 
       def form_arguments
         {
-          id: FORM_ID,
-          url: url_helpers.change_type_workflow_path(**variant.path_args.merge(back_url:).compact),
-          method: :patch
+          action: url_helpers.change_type_workflow_path(**variant.path_args.merge(back_url:).compact),
+          method: :patch,
+          data: { turbo: false }
         }
       end
+
+      def usage_summary(status)
+        transitions = current_transitions.where(old_status: status).or(current_transitions.where(new_status: status))
+
+        I18n.t("workflows.change.confirm.usage",
+               transitions: I18n.t("workflows.change.confirm.transitions", count: transitions.count),
+               roles: I18n.t("workflows.change.confirm.roles", count: transitions.distinct.count(:role_id)))
+      end
+
+      def description
+        key = target_empty? ? "description_empty" : "description"
+        I18n.t("workflows.change.confirm.#{key}", name: workflow.name, type: variant.composite_name)
+      end
+
+      def target_empty? = workflow.status_transitions.where(role: eligible_roles).none?
+
+      def current_transitions = variant.workflow.status_transitions.where(role: eligible_roles)
+
+      def eligible_roles = Workflows::StatusTransition.eligible_roles
     end
   end
 end

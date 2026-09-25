@@ -191,6 +191,32 @@ RSpec.describe Workflow do
     end
   end
 
+  describe "#statuses_missing_in" do
+    shared_let(:workflow) { create(:named_workflow) }
+    shared_let(:other) { create(:named_workflow) }
+    shared_let(:status_c) { create(:status) }
+    shared_let(:hidden_role) { create(:work_package_role) }
+
+    let(:roles) { Role.where(id: role) }
+
+    before do
+      create(:status_transition, workflow:, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow:, role: hidden_role, old_status: status_a, new_status: status_c)
+    end
+
+    it "lists what the given roles use here and not in the other, ignoring what only the other has" do
+      create(:status_transition, workflow: other, role:, old_status: status_a, new_status: status_c)
+
+      expect(workflow.statuses_missing_in(other, roles:)).to contain_exactly(status_b)
+    end
+
+    it "ignores the statuses the other workflow reaches only through roles outside the given ones" do
+      create(:status_transition, workflow: other, role: hidden_role, old_status: status_a, new_status: status_b)
+
+      expect(workflow.statuses_missing_in(other, roles:)).to contain_exactly(status_a, status_b)
+    end
+  end
+
   describe "when the owning project is deleted" do
     let(:doomed) { create(:project) }
 
