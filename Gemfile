@@ -201,7 +201,7 @@ gem "nokogiri", "~> 1.19.4"
 gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
-gem "ssrf_filter", "~> 1.3"
+gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
