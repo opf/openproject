@@ -49,7 +49,7 @@ export class GitActionsService {
     const formattedId = workPackage.formattedId;
     const title = workPackage.subject;
     const url = window.location.origin + workPackage.pathHelper.workPackageShortPath(id);
-    const description = '';
+    const description = workPackage.description?.raw || '';
 
     return { id, formattedId, type, title, url, description };
   }
@@ -65,7 +65,7 @@ export class GitActionsService {
 
   private commitMessageParts(workPackage:WorkPackageResource):string[] {
     const { title, formattedId, description, url } = this.formattingInput(workPackage);
-    return [`[${formattedId}] ${title}`, description, url].filter(Boolean);
+    return [`[${formattedId}] ${title}`, ...(description ? description.split("\n\n") : []), url];
   }
 
   public commitMessage(workPackage:WorkPackageResource):string {
