@@ -192,7 +192,7 @@ RSpec.describe CustomFieldFormBuilder do
       let(:custom_field) do
         create(:list_wp_custom_field, possible_values: ["my_option"])
       end
-      let(:custom_option) do
+      let(:list_item) do
         custom_field.possible_values.find_by(label: "my_option")
       end
 
@@ -207,7 +207,7 @@ RSpec.describe CustomFieldFormBuilder do
                   name="user[#{custom_field.id}]"
                   no_label="true"><option
                   value="" label=" "></option>
-                  <option value="#{custom_option.id}">my_option</option></select>
+                  <option value="#{list_item.id}">my_option</option></select>
         }).at_path("select")
       end
 
@@ -223,7 +223,7 @@ RSpec.describe CustomFieldFormBuilder do
                     name="user[#{custom_field.id}]"
                     no_label="true"><option value="">---
                     Please select ---</option>
-                    <option value="#{custom_option.id}">my_option</option></select>
+                    <option value="#{list_item.id}">my_option</option></select>
           }).at_path("select")
         end
       end
@@ -231,7 +231,7 @@ RSpec.describe CustomFieldFormBuilder do
       context "which is required and a default value" do
         before do
           custom_field.update(is_required: true)
-          custom_option.update(default_value: true)
+          list_item.update(default_value: true)
         end
 
         it "outputs element" do
@@ -240,7 +240,7 @@ RSpec.describe CustomFieldFormBuilder do
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true"><option
-                    value="#{custom_option.id}">my_option</option></select>
+                    value="#{list_item.id}">my_option</option></select>
           }).at_path("select")
         end
       end

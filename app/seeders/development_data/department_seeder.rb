@@ -133,10 +133,10 @@ module DevelopmentData
     def custom_value_for(field, raw_value)
       return raw_value unless field.list?
 
-      Array(raw_value).map { |label| custom_option_id(field, label) }
+      Array(raw_value).map { |label| list_item_id(field, label) }
     end
 
-    def custom_option_id(field, label)
+    def list_item_id(field, label)
       item = field.possible_values.find { |i| i.label == label }
       raise "Unknown option #{label.inspect} for user custom field #{field.name.inspect}" if item.nil?
 
