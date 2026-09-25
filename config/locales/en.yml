@@ -188,6 +188,16 @@ en:
         company: "Company"
       favorite:
         favorited: "Item"
+      form_configuration_attribute:
+        attribute_key: "Attribute"
+        custom_field: "Custom field"
+        group: "Group"
+        position: "Position"
+      form_configuration_group:
+        default_key: "Default group"
+        kind: "Kind"
+        label: "Label"
+        query: "Query"
       grids/grid:
         column_count: "Number of columns"
         page: "Page"

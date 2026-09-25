@@ -82,6 +82,17 @@ class TypeVariant < ApplicationRecord
   has_many :project_types, foreign_key: :variant_id, inverse_of: :variant, dependent: :restrict_with_error,
                            autosave: false
   has_many :projects, through: :project_types
+  # Memberships first: their composite foreign key onto the groups is checked at statement end,
+  # and destroying a group that still holds active members is refused at the model level.
+  has_many :form_attributes,
+           class_name: "FormConfigurationAttribute",
+           inverse_of: :type_variant,
+           dependent: :delete_all
+  has_many :form_groups,
+           -> { order(:position) },
+           class_name: "FormConfigurationGroup",
+           inverse_of: :type_variant,
+           dependent: :destroy
 
   validates :variant_name, length: { maximum: 255 }
   validates :variant_name,
