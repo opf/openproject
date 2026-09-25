@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2023 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -10,6 +10,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,33 +24,31 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module GitlabIntegration
-  class IssueComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  GitlabStatus = Data.define(:code, :color, :icon, :for_type) do
+    private_class_method :new
 
-    alias_method :issue, :model
+    def id = code&.to_s
 
-    private
+    def value = code&.to_s
 
-    def status
-      case issue.state.to_sym
-      when :opened
-        IssueStatuses::OPEN
-      when :closed
-        IssueStatuses::CLOSED
-      else
-        raise ArgumentError, "Unsupported issue state #{state}"
-      end
+    def type = for_type&.to_s
+
+    def self.issue_status(code:, color:, icon:)
+      new(code:, color:, icon:, for_type: :issue)
     end
 
-    def state_label
-      t(".states.#{issue.state}")
+    def self.merge_request_status(code:, color:, icon:)
+      new(code:, color:, icon:, for_type: :merge_request)
+    end
+
+    def self.pipeline_status(code:, color:, icon:)
+      new(code:, color:, icon:, for_type: :pipeline)
     end
   end
 end
