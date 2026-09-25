@@ -1552,11 +1552,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe "customActions" do
       it "has a collection of customActions" do
-        unassign_action = build_stubbed(:custom_action,
-                                        actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+        unassign_action = build_stubbed(:automation, :with_button_trigger,
+                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
                                         name: "Unassign")
         allow(work_package)
-          .to receive(:custom_actions)
+          .to receive(:automations)
                 .and_return([unassign_action])
 
         expected = [
@@ -1667,11 +1667,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe "customActions" do
       it "has an array of customActions" do
-        unassign_action = build_stubbed(:custom_action,
-                                        actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+        unassign_action = build_stubbed(:automation, :with_button_trigger,
+                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
                                         name: "Unassign")
         allow(work_package)
-          .to receive(:custom_actions)
+          .to receive(:automations)
                 .and_return([unassign_action])
 
         expect(subject)
