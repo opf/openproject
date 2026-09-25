@@ -49,4 +49,40 @@ RSpec.describe OpenProject::Plugins::ActsAsOpEngine do
 
     it { is_expected.to eq "ActsAsOpEngineTestEngine" }
   end
+
+  describe "#extend_api_response" do
+    let(:parent_representer) do
+      Class.new(Roar::Decorator) do
+        include Roar::JSON
+
+        property :original
+      end
+    end
+    let!(:loaded_child_representer) { Class.new(parent_representer) }
+
+    def property_names(representer)
+      representer.representable_attrs.keys
+    end
+
+    before do
+      stub_const("API::V3::ActsAsOpEngineTest::ParentRepresenter", parent_representer)
+      allow(engine.config).to receive(:to_prepare).and_yield
+
+      engine.extend_api_response(:v3, :acts_as_op_engine_test, :parent) do
+        property :added
+      end
+    end
+
+    it "adds the definitions to the extended representer" do
+      expect(property_names(parent_representer)).to include("original", "added")
+    end
+
+    it "adds the definitions to subclasses loaded before the extension" do
+      expect(property_names(loaded_child_representer)).to include("original", "added")
+    end
+
+    it "adds the definitions to subclasses loaded after the extension" do
+      expect(property_names(Class.new(parent_representer))).to include("original", "added")
+    end
+  end
 end
