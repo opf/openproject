@@ -79,6 +79,7 @@ RSpec.shared_context "with a sprint report work package table" do
 
     it "configures table to hide extra UI elements" do
       expect(table_element["data-configuration"]).to be_json_eql({
+        "projectContext" => false,
         "actionsColumnEnabled" => false,
         "columnMenuEnabled" => false,
         "contextMenuEnabled" => false,

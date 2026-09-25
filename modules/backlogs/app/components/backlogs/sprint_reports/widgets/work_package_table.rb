@@ -72,6 +72,7 @@ module Backlogs
 
         def table_configuration
           {
+            projectContext: false, # Project filter is added explicitly
             actionsColumnEnabled: false,
             columnMenuEnabled: false,
             contextMenuEnabled: false,
@@ -101,7 +102,12 @@ module Backlogs
         def i18n_scope = "backlogs.sprint_reports.widgets.work_package_table"
 
         def filters
-          [{ sprintId: { operator: "=", values: [sprint.id.to_s] } }]
+          [
+            # Project filter is added explicitly to allow showing WPs that moved
+            # to other project, but are still visible to current user
+            { project: { operator: "=", values: [project.id.to_s] } },
+            { sprintId: { operator: "=", values: [sprint.id.to_s] } }
+          ]
         end
 
         def timestamps = raise SubclassResponsibilityError
