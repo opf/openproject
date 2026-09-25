@@ -27,15 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(OpPrimer::InsetBoxComponent.new(scheme:, h: :full, test_selector: "reuse-mode-dependents")) do |box| %>
-  <% box.with_title_icon(icon:) %>
-  <% box.with_title { title } %>
-  <% if any_dependents? %>
-    <% box.with_action_button(
-         tag: :a,
-         href: dialog_path,
-         data: { controller: "async-dialog", test_selector: "reuse-mode-view-dependents" }
-       ) { t("types.edit.reuse_mode.dependents.view") } %>
-  <% end %>
-  <%= description %>
+<%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do %>
+  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: model, aspect: TypeVariant::PROJECT_ATTRIBUTES)) %>
+  <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: :project_attributes)) %>
+  <%= render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(variant: model, project_custom_field_sections:)) %>
 <% end %>

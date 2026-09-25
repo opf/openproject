@@ -27,14 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%# Inert form - It never submits, since selecting a mode is intercepted by the stimulus controller %>
-<%= primer_form_with(url: "#", method: :get, data: { turbo: false }) do |f| %>
-  <%= render(
-        WorkPackageTypes::ReuseMode::ModeSelectorForm.new(
-          f,
-          inherited: inherited_option,
-          manual: manual_option,
-          group_data:
-        )
-      ) %>
+<%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do %>
+  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: model, aspect: TypeVariant::FORM_CONFIGURATION)) %>
+  <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: :form_configuration)) %>
+  <%= render(WorkPackageTypes::FormConfigurationComponent.new(variant: model, form_attributes: helpers.form_configuration_groups(model), no_filter_query:)) %>
 <% end %>

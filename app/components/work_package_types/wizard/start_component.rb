@@ -29,46 +29,28 @@
 #++
 
 module WorkPackageTypes
-  module ReuseMode
-    class DependentsBoxComponent < ApplicationComponent
+  module Wizard
+    class StartComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, aspect:)
-        @aspect = aspect
-        super(variant)
+      def initialize(adding_variant:, type_name:)
+        super()
+        @adding_variant = adding_variant
+        @type_name = type_name
       end
 
       private
 
-      attr_reader :aspect
+      attr_reader :adding_variant, :type_name
+      alias_method :adding_variant?, :adding_variant
 
-      def variant = model
+      def show_reuse? = adding_variant?
 
-      def dependents_count
-        @dependents_count ||= variant.dependents_for(aspect).count(:all)
-      end
+      def scope = adding_variant? ? "variant" : "type"
 
-      def any_dependents? = dependents_count.positive?
+      def t_start(key) = helpers.t("types.creation_wizard.start.#{key}", type_name:)
 
-      def scheme = any_dependents? ? :warning : :default
-
-      def icon = any_dependents? ? :alert : :"git-branch"
-
-      def title
-        return t("types.edit.reuse_mode.dependents.blank.title") unless any_dependents?
-
-        t("types.edit.reuse_mode.dependents.title", count: dependents_count)
-      end
-
-      def description
-        return t("types.edit.reuse_mode.dependents.blank.description") unless any_dependents?
-
-        t("types.edit.reuse_mode.dependents.description", count: dependents_count)
-      end
-
-      def dialog_path
-        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
-      end
+      def t_scoped(key) = helpers.t("types.creation_wizard.start.#{scope}.#{key}", type_name:)
     end
   end
 end

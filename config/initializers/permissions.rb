@@ -274,7 +274,6 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/configuration_links": %i[dialog confirm switch],
                        "work_package_types/configuration_independence": %i[dialog confirm switch],
                        "work_package_types/configuration_copies": %i[dialog confirm copy],
-                       "work_package_types/configuration_dependents": %i[dialog],
                        "workflows/matrix": %i[show update status_dialog confirm_statuses],
                        "workflows/copies": %i[new],
                        "workflows/copies/from_roles": %i[create]

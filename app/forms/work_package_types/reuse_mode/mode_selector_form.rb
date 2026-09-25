@@ -29,41 +29,24 @@
 #++
 
 module WorkPackageTypes
-  module ConfigurationDependents
-    class DialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-
-      DIALOG_ID = "configuration-dependents-dialog"
-
-      def initialize(variant:, aspect:)
+  module ReuseMode
+    # The radios never submit - Selecting the other option is intercepted by the
+    # stimulus controller, which opens the selection/confirmation dialog flow.
+    # The real state changes only when the surrounding frame reloads after a successful switch.
+    class ModeSelectorForm < ApplicationForm
+      def initialize(inherited:, manual:, group_data:)
         super()
 
-        @variant = variant
-        @aspect = aspect
+        @inherited = inherited
+        @manual = manual
+        @group_data = group_data
       end
 
-      private
-
-      attr_reader :variant, :aspect
-
-      def dependents
-        @dependents ||= variant.dependents_for(aspect).preload(:type)
-      end
-
-      def dependent_path(dependent) = helpers.aspect_edit_path(dependent, aspect)
-
-      def dependent_link(dependent, bold_font: false)
-        render(Primer::Beta::Link.new(href: dependent_path(dependent),
-                                      font_weight: (bold_font ? :bold : :normal),
-                                      data: { turbo_frame: "_top" })) do
-          dependent.display_name
+      form do |mode_form|
+        mode_form.advanced_radio_button_group(name: :mode, data: @group_data) do |group|
+          group.radio_button(**@inherited)
+          group.radio_button(**@manual)
         end
-      end
-
-      def relation(dependent)
-        t("types.edit.reuse_mode.dependents.dialog.variant_of_html",
-          type_name: content_tag(:b, dependent.type.name))
       end
     end
   end

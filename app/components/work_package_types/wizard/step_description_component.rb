@@ -29,25 +29,22 @@
 #++
 
 module WorkPackageTypes
-  class ConfigurationDependentsController < BaseTabController
-    include OpTurbo::ComponentStream
+  module Wizard
+    class StepDescriptionComponent < ApplicationComponent
+      def initialize(step:)
+        super()
+        @step = step
+      end
 
-    before_action :require_valid_aspect
+      def render? = text.present?
 
-    current_menu_item do
-      :types
-    end
+      def call
+        render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3)) { text }
+      end
 
-    def dialog
-      respond_with_dialog ConfigurationDependents::DialogComponent.new(variant: @variant, aspect:)
-    end
+      private
 
-    private
-
-    def aspect = params[:aspect]
-
-    def require_valid_aspect
-      render_404 unless TypeVariant::ASPECTS.include?(aspect)
+      def text = Steps.description(@step)
     end
   end
 end

@@ -57,7 +57,7 @@ module WorkPackageTypes
         @type = Type.new
       end
 
-      @current_step = Wizard::Steps.first
+      @current_step = params[:step].to_s == Wizard::Steps::FIRST_EDITABLE.to_s ? Wizard::Steps::FIRST_EDITABLE : Wizard::Steps.first
       render :show
     end
 
@@ -89,9 +89,9 @@ module WorkPackageTypes
 
       if service_call.success?
         reuse_existing_workflow
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
-        @current_step = Wizard::Steps.first
+        @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
     end
@@ -120,9 +120,9 @@ module WorkPackageTypes
       @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
-        @current_step = Wizard::Steps.first
+        @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
     end
