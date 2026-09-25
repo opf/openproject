@@ -203,8 +203,10 @@ example:
     writable: true
     visibility: default
   customField31:
-    type: CustomOption
+    type: CustomField::Hierarchy::Item
     name: List project custom field
+    options:
+      allowsNesting: false
     required: false
     hasDefault: false
     writable: true
