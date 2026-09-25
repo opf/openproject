@@ -42,7 +42,6 @@ class WorkPackage < ApplicationRecord
   # version rows that the journal snapshot then reads.
   include WorkPackage::Versions
   include WorkPackages::DerivedDates
-  include WorkPackages::SpentTime
   include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
@@ -133,7 +132,6 @@ class WorkPackage < ApplicationRecord
          :allowed_to_via_share_only,
          :for_scheduling,
          :include_derived_dates,
-         :include_spent_time,
          :involving_user,
          :left_join_self_and_descendants,
          :relatable,

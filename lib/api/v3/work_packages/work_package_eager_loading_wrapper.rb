@@ -98,12 +98,10 @@ module API
             # The eager loading on status is required for the readonly? check in the
             # work package schema
             eager_scope = scope
-              .joins(spent_time_subquery(scope, current_user).join_sources)
               .joins(derived_dates_subquery(scope).join_sources)
               .includes(WorkPackageRepresenter.to_eager_load)
               .includes(:status)
               .select("work_packages.*")
-              .select("spent_time_hours.hours")
               .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
               .distinct
 
@@ -114,19 +112,6 @@ module API
             eager_loading_extensions.values.inject(eager_scope) do |extended_scope, extension|
               extension.call(extended_scope, scope, current_user)
             end
-          end
-
-          def spent_time_subquery(scope, current_user)
-            time_scope = scope
-                           .dup
-                           .include_spent_time(current_user)
-                           .select(:id)
-
-            wp_table = WorkPackage.arel_table
-
-            wp_table
-              .outer_join(time_scope.arel.as("spent_time_hours"))
-              .on(wp_table[:id].eq(time_scope.arel_table.alias("spent_time_hours")[:id]))
           end
 
           def derived_dates_subquery(scope)

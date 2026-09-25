@@ -32,6 +32,9 @@ module Costs::Patches::WorkPackagePatch
   extend ActiveSupport::Concern
 
   included do
-    scopes :allowed_to_log_time
+    include WorkPackages::SpentTime
+
+    scopes :allowed_to_log_time,
+           :include_spent_time
   end
 end
