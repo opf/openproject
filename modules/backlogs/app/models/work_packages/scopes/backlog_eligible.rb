@@ -28,17 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackages::Scopes::InBacklogFor
+module WorkPackages::Scopes::BacklogEligible
   extend ActiveSupport::Concern
 
   class_methods do
-    def in_backlog_for(project:)
-      WorkPackage
-        .visible
-        .where(project:, sprint_id: nil)
-        .backlog_eligible
-        .order_by_position
-        .order(id: :asc)
+    def backlog_eligible
+      without_excluded_type
+        .without_status_considered_closed
     end
   end
 end
