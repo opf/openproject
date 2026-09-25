@@ -100,26 +100,22 @@ RSpec.describe "Open the Gitlab tab", :js do
       it "shows the issues, merge requests, commits and branches associated with the work package" do
         tabs.expect_counter(gitlab_tab_element, expected_tab_count)
 
-        gitlab_tab.issues_collapse_button.click
         within("#issues") do
           expect(page).to have_text("A Test Issue title")
           expect(page).to have_text("Open")
         end
 
-        gitlab_tab.merge_requests_collapse_button.click
         within("#merge_requests") do
           expect(page).to have_text("A Test MR title")
           expect(page).to have_text("Open")
         end
 
-        gitlab_tab.branches_collapse_button.click
         within("#branches") do
           expect(page).to have_link("feature/a-test-branch", href: branch.html_url)
           expect(page).to have_css("clipboard-copy[value='feature/a-test-branch']")
           expect(page).to have_link("Create merge request", href: branch.new_merge_request_url)
         end
 
-        gitlab_tab.commits_collapse_button.click
         within("#commits") do
           expect(page).to have_text("A Test commit message")
           expect(page).to have_no_text("With a much longer description")
@@ -171,29 +167,25 @@ RSpec.describe "Open the Gitlab tab", :js do
       it "shows the gitlab tab with an empty message" do
         tabs.expect_no_counter(gitlab_tab_element)
 
-        gitlab_tab.issues_collapse_button.click
         expect(page).to have_text("No issues")
         expect(page).to have_css(".octicon-issue-opened")
-        expect(page).to have_text("Link an existing issue by adding the code OP##{work_package.id} to " \
+        expect(page).to have_text("Link an issue by adding the code OP##{work_package.id} to " \
                                   "the title or description.")
 
-        gitlab_tab.merge_requests_collapse_button.click
         expect(page).to have_text("No merge requests")
         expect(page).to have_css(".octicon-git-pull-request")
-        expect(page).to have_text("Link an existing merge request by adding the code OP##{work_package.id} to " \
+        expect(page).to have_text("Link a merge request by adding the code OP##{work_package.id} to " \
                                   "the title or description.")
 
-        gitlab_tab.branches_collapse_button.click
         expect(page).to have_text("No branches")
         expect(page).to have_css(".octicon-git-branch")
-        expect(page).to have_text("Link an existing branch by adding the code #{work_package.display_id} to " \
-                                  "the branch name, for example feature/#{work_package.display_id.to_s.downcase}.")
+        expect(page).to have_text("Link a branch by naming the branch, so that it starts with " \
+                                  "#{work_package.type.name.parameterize}/#{work_package.id} or only #{work_package.id}.")
 
-        gitlab_tab.commits_collapse_button.click
         expect(page).to have_text("No commits")
         expect(page).to have_css(".octicon-git-commit")
-        expect(page).to have_text("Link an existing commit by adding the code OP##{work_package.id} to " \
-                                  "the message.")
+        expect(page).to have_text("Link a commit by adding the code OP##{work_package.id} or the " \
+                                  "#{project_work_package_url(work_package.project, work_package)} to the commit message.")
       end
     end
 
@@ -233,7 +225,7 @@ RSpec.describe "Open the Gitlab tab", :js do
     let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
     let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
     let(:gitlab_tab_element) { "gitlab" }
-    let(:expected_tab_count) { 3 }
+    let(:expected_tab_count) { 4 }
 
     it_behaves_like "a gitlab tab"
   end
