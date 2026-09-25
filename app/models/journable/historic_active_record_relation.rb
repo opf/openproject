@@ -111,9 +111,12 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
   private
 
+  # NOT MATERIALIZED: PostgreSQL inlines a CTE automatically only when it is referenced once, and
+  # `visible` and the custom field filters reference the model table again. Without the hint the
+  # planner builds a snapshot of every journable before any filter is applied.
   def add_historic_model_cte(arel)
     historic_models_cte = Arel::Nodes::As.new(Arel::Table.new(model.table_name),
-                                              historic_models_statement.arel)
+                                              Arel.sql("NOT MATERIALIZED (#{historic_models_statement.to_sql})"))
 
     if arel.ast.with
       arel.ast.with.expr.unshift(historic_models_cte)
@@ -182,8 +185,10 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def substitute_custom_values_join_in_predicate(predicate)
     return unless predicate.is_a? String
 
-    customizable_journals = Journal::CustomizableJournal.table_name
     custom_values = CustomValue.table_name
+    return unless predicate.include?(custom_values)
+
+    customizable_journals = Journal::CustomizableJournal.table_name
     models = model.table_name
 
     predicate.gsub! /JOIN (?<!_)#{custom_values}/,
@@ -201,8 +206,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # Replace all occurrences of `custom_values.value` within the WHERE clause.
     # This handles operators like "is empty" which generate multiple references:
     # e.g. `WHERE custom_values.value IS NULL OR custom_values.value = ''`
-    predicate.gsub!(/WHERE.*#{Regexp.escape(custom_values)}\.value.*/) do |match|
-      match.gsub!("#{custom_values}.value", "#{customizable_journals}.value")
+    predicate.gsub!(/WHERE.*#{Regexp.escape(custom_values)}\.value.*/m) do |match|
+      match.gsub("#{custom_values}.value", "#{customizable_journals}.value")
     end
   end
 
