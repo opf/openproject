@@ -8,6 +8,7 @@ import {
   insertInlineWorkPackageViaHash,
   openInlineWorkPackagePopover,
   tapElement,
+  touchStartElement,
 } from '../../../helpers/editorHelpers';
 import { WpPreviewPopover } from '../../../../lib/components/WorkPackage/PreviewPopover';
 import { BlockCard } from '../../../../lib/components/BlockWorkPackage/BlockCard';
@@ -268,6 +269,30 @@ describe('Inline chip - XXS preview indicator (touch)', () => {
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
 
     document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
+  });
+
+  it('keeps the preview open while its text is being pressed to select it', async () => {
+    await renderChip();
+
+    tapElement(indicator().element());
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+
+    const subject = page.getByTestId('wp-preview').getByText('In Progress').element();
+    touchStartElement(subject);
+    await wait(100);
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+    expect(getComputedStyle(subject).webkitUserSelect).not.toBe('none');
+  });
+
+  it('closes the preview when the user touches outside', async () => {
+    await renderChip();
+
+    tapElement(indicator().element());
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+
+    touchStartElement(document.body);
     await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
   });
 

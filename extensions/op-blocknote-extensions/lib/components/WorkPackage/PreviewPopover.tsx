@@ -41,10 +41,12 @@ export const WpPreviewPopover = ({
 
   return (
     <PopoverPortal anchorEl={anchorEl}>
-      {/* Prevent editor/parent handlers from stealing focus while interacting with the preview */}
+      {/* Prevent editor/parent handlers from stealing focus while interacting with the preview.
+          Touch too, or pressing its text to select it counts as a press outside the chip. */}
       <PreviewContainer
         ref={containerRef}
         onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}

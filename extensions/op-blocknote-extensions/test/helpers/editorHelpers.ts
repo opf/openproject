@@ -3,18 +3,25 @@ import { page, userEvent } from 'vitest/browser';
 
 export const SEARCH_PLACEHOLDER = 'Search by work package ID or subject';
 
-export function tapElement(element:Element) {
+function touchAt(element:Element) {
   const rect = element.getBoundingClientRect();
-  const touch = new Touch({
+  return new Touch({
     identifier: 1,
     target: element,
     clientX: rect.left + rect.width / 2,
     clientY: rect.top + rect.height / 2,
   });
+}
 
+export function touchStartElement(element:Element, touch = touchAt(element)) {
   element.dispatchEvent(new TouchEvent('touchstart', {
     bubbles: true, cancelable: true, changedTouches: [touch], touches: [touch],
   }));
+}
+
+export function tapElement(element:Element) {
+  const touch = touchAt(element);
+  touchStartElement(element, touch);
   element.dispatchEvent(new TouchEvent('touchend', {
     bubbles: true, cancelable: true, changedTouches: [touch], touches: [],
   }));
