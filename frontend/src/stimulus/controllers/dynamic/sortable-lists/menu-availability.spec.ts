@@ -51,7 +51,7 @@ function fixture(hideUnavailable = true) {
     hideUnavailable,
     identifier: 'sortable-lists-item',
     availableDestinations: vi.fn(() => []),
-    moveAvailability: vi.fn(() => ({ top: true, up: true, down: false, bottom: false })),
+    moveAvailability: vi.fn(() => ({ top: false, up: false, down: false, bottom: false })),
   };
   return { input, divider, destination, moveMenu, moveItem };
 }
@@ -63,13 +63,13 @@ describe('menu availability projection', () => {
     for (const element of [divider, destination, moveMenu, moveItem]) {
       expect(element.hasAttribute('hidden')).toBe(true);
     }
-    expect(input.moveAvailability).not.toHaveBeenCalled();
+    expect(input.moveAvailability).toHaveBeenCalled();
   });
 
-  it('restores the position group when the live scope becomes a singleton', () => {
+  it('restores the position group when the batch becomes positionable', () => {
     const { input, divider, moveMenu, moveItem } = fixture();
     refreshMenuAvailability(input);
-    input.scope = { kind: 'batch', items: [document.createElement('div')] };
+    input.moveAvailability = vi.fn(() => ({ top: true, up: true, down: false, bottom: false }));
     refreshMenuAvailability(input);
     for (const element of [divider, moveMenu, moveItem]) {
       expect(element.hasAttribute('hidden')).toBe(false);
