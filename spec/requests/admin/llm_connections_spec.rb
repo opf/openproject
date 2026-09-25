@@ -281,6 +281,16 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
     end
+
+    it "removes the key from a stored connection that no longer passes validation" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      connection.update_column(:base_url, "not a url")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
+    end
   end
 
   describe "disconnecting" do
@@ -328,6 +338,16 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
+    end
+
+    it "disconnects a stored connection that no longer passes validation" do
+      connection.update_column(:base_url, "not a url")
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
+      expect(Setting.llm_features_enabled?).to be(false)
     end
   end
 end
