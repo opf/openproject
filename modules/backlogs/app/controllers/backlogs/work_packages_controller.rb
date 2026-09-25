@@ -36,15 +36,16 @@ module Backlogs
     # split view open on the moved work package (see split-view-sync.controller.ts).
     WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
 
-    before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
+    before_action :load_work_package, only: %i[menu move]
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
+      availability = destination_availability([@work_package])
       render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
                work_package: @work_package,
-               open_sprints_exist: target_open_sprints.exists?,
-               other_buckets_exist: target_buckets.exists?,
+               sprint_ids: availability.candidate_sprints.map(&:id),
+               bucket_ids: availability.candidate_buckets.map(&:id),
                current_user:
              ),
              layout: false)
@@ -60,27 +61,45 @@ module Backlogs
           container:
         )
       elsif target
-        render_error_flash_message_via_turbo_stream(message: t(".target_not_found"))
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t("backlogs.work_packages.add_existing_dialog.target_not_found")
+        )
         respond_with_turbo_streams(status: :not_found)
       else
-        render_error_flash_message_via_turbo_stream(message: t(".invalid_target"))
+        render_error_flash_message_via_turbo_stream(message: I18n.t("backlogs.work_packages.add_existing_dialog.invalid_target"))
         respond_with_turbo_streams(status: :unprocessable_entity)
       end
     end
 
     def move_to_sprint_dialog
+      work_packages = load_collection_work_packages
+      return if performed?
+
+      sprints = destination_availability(work_packages).sprints
+      if sprints.empty?
+        return render_move_collection_error(I18n.t("backlogs.work_packages.move_to_sprint_dialog.no_available_destinations"))
+      end
+
       respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
-        work_package: @work_package,
-        project: @project,
-        move_action: move_path
+        work_packages:,
+        sprints:,
+        move_action: move_collection_path
       )
     end
 
     def move_to_bucket_dialog
+      work_packages = load_collection_work_packages
+      return if performed?
+
+      buckets = destination_availability(work_packages).buckets
+      if buckets.empty?
+        return render_move_collection_error(I18n.t("backlogs.work_packages.move_to_bucket_dialog.no_available_destinations"))
+      end
+
       respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
-        work_package: @work_package,
-        project: @project,
-        move_action: move_path
+        work_packages:,
+        buckets:,
+        move_action: move_collection_path
       )
     end
 
@@ -126,7 +145,9 @@ module Backlogs
       return render_move_collection_error(contract.errors.full_messages.join(" ")) unless contract.valid?
 
       work_packages = find_collection_work_packages(move_collection_params[:ids])
-      return render_move_collection_error(t(".work_packages_not_found")) unless work_packages
+      unless work_packages
+        return render_move_collection_error(I18n.t("backlogs.work_packages.move_collection.work_packages_not_found"))
+      end
 
       # Snapshot before the call: move_after reloads mid-method and destroys
       # dirty tracking, exactly as the member action's comment explains.
@@ -156,7 +177,7 @@ module Backlogs
           WORK_PACKAGE_MOVED_EVENT,
           detail: { work_package_ids: call.result.map(&:id) }
         )
-        render_invisible_after_move_batch_flash(call.result)
+        render_collection_move_feedback(call.result)
       else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t(:notice_unsuccessful_update_with_reason, reason: batch_failure_reason(call))
@@ -164,6 +185,15 @@ module Backlogs
       end
 
       respond_with_turbo_streams(status: call)
+    end
+
+    def render_collection_move_feedback(results)
+      invisible = invisible_after_move(results)
+      if invisible.any?
+        render_invisible_after_move_batch_flash(invisible)
+      elsif !optimistic_move?
+        render_collection_move_announcement(results)
+      end
     end
 
     # A member failure is reported with the member: the batch's own message
@@ -175,8 +205,8 @@ module Backlogs
       work_package = failed.result
       return failed.message unless work_package.is_a?(WorkPackage)
 
-      t("backlogs.work_packages.move_collection.member_failed",
-        work_package: work_package.to_fs(:caption), reason: failed.message)
+      I18n.t("backlogs.work_packages.move_collection.member_failed",
+             work_package: work_package.to_fs(:caption), reason: failed.message)
     end
 
     def optimistic_same_list_batch_move?(call, source_targets)
@@ -184,21 +214,20 @@ module Backlogs
 
       destination = Backlogs::Target.for_work_package(call.result.first)
       call.result.all? { |wp| source_targets[wp.id] == destination } &&
-        requested_block_honored?(call.result)
+        requested_block_honored?(call.result, move_arguments: move_collection_params)
     end
 
-    # The batch form of requested_anchor_honored?: the first member sits where
-    # the request anchored it and every further member directly below its
-    # predecessor, which is the client's optimistic block.
-    def requested_block_honored?(results) # rubocop:disable Metrics/AbcSize
-      return false unless move_collection_params.key?(:prev_id)
+    # The first member occupies the requested anchor and any further members
+    # follow contiguously. This check serves both member and batch moves.
+    def requested_block_honored?(results, move_arguments:)
+      return false unless move_arguments.key?(:prev_id)
 
       # One anchor query; the rest of the block is checked in memory.
       # BatchUpdateService reloads every moved member before returning and
       # the members share one target scope, so adjacent positions prove
       # adjacency. A gap from elsewhere fails this check falsely, degrading
       # to the full frame reload rather than skipping a needed one.
-      prev_id = move_collection_params[:prev_id].presence
+      prev_id = move_arguments[:prev_id].presence
       first = results.first
       anchor_honored = prev_id ? first.higher_item&.id == prev_id.to_i : first.higher_item.nil?
 
@@ -232,19 +261,15 @@ module Backlogs
     end
 
     def render_invisible_after_move_flash(work_package)
-      return unless work_package_invisible_after_move?(work_package)
-
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_work_package_invisible_after_move, count: 1, backlog: target_list_name(work_package))
-      )
+      invisible = invisible_after_move([work_package])
+      render_invisible_after_move_batch_flash(invisible) if invisible.any?
     end
 
-    # A member's own type or status can hide it independently of its
-    # list-mates, so the first member cannot answer this for the batch.
-    def render_invisible_after_move_batch_flash(results)
-      invisible = results.select { |wp| work_package_invisible_after_move?(wp) }
-      return if invisible.empty?
+    def invisible_after_move(results)
+      results.select { |wp| work_package_invisible_after_move?(wp) }
+    end
 
+    def render_invisible_after_move_batch_flash(invisible)
       render_flash_message_via_turbo_stream(message: invisible_after_move_batch_message(invisible))
     end
 
@@ -272,12 +297,35 @@ module Backlogs
 
       render_live_region_update_message(
         message: t(
-          ".moved_announcement",
+          "backlogs.work_packages.move.moved_announcement",
           label: work_package.to_fs(:caption),
           list: target_list_name(work_package),
           position: index + 1,
           total: ids.size
         )
+      )
+    end
+
+    def render_collection_move_announcement(work_packages)
+      return render_move_announcement(work_packages.first) if work_packages.one?
+
+      scope_ids = announcement_list_scope(work_packages.first).pluck(:id)
+      first = scope_ids.index(work_packages.first.id)
+      return unless first
+
+      render_live_region_update_message(
+        message: collection_move_announcement_message(work_packages, first:, total: scope_ids.size)
+      )
+    end
+
+    def collection_move_announcement_message(work_packages, first:, total:)
+      I18n.t(
+        "backlogs.work_packages.move_collection.moved_announcement",
+        count: work_packages.size,
+        list: target_list_name(work_packages.first),
+        first: first + 1,
+        last: first + work_packages.size,
+        total:
       )
     end
 
@@ -301,15 +349,28 @@ module Backlogs
     end
 
     def load_work_package
-      @work_packages = WorkPackage.visible.where(project: @project).order_by_position
-      @work_package = @work_packages.find(params.expect(:id))
+      @work_package = WorkPackage.visible.where(project: @project).find(params.expect(:id))
+    end
+
+    # The dialogs validate the id list alone: they open before a destination
+    # is chosen, so BatchMoveParamsContract, which also requires a resolvable
+    # target, cannot speak for them. Renders its own error and returns nil,
+    # so callers test `performed?`.
+    def load_collection_work_packages
+      ids = move_collection_params[:ids]
+
+      contract = Backlogs::WorkPackages::CollectionIdsContract.new(@project, current_user, params: { ids: })
+      return render_move_collection_error(contract.errors.full_messages.join(" ")) unless contract.valid?
+
+      find_collection_work_packages(ids) ||
+        render_move_collection_error(I18n.t("backlogs.work_packages.move_collection.work_packages_not_found"))
     end
 
     # Every submitted id must resolve to a distinct, visible work package of
     # this project, in the submitted order: silently dropping a member would
     # break the client's optimistic block. Nil when any id does not resolve.
     def find_collection_work_packages(ids)
-      found = WorkPackage.visible.where(project: @project, id: ids).index_by { |wp| wp.id.to_s }
+      found = WorkPackage.visible.where(project: @project, id: ids).includes(:type, :status).index_by { |wp| wp.id.to_s }
       ordered = ids.map { |id| found[id.to_s] }
 
       ordered.any?(&:nil?) ? nil : ordered
@@ -322,6 +383,14 @@ module Backlogs
       respond_with_turbo_streams(status: :unprocessable_entity)
     end
 
+    def destination_availability(work_packages)
+      Backlogs::WorkPackages::DestinationAvailability.new(
+        project: @project,
+        user: current_user,
+        work_packages:
+      )
+    end
+
     # params.expect guarantees a present, non-empty array of scalar ids; the
     # optional placement and target fields go through permit instead.
     def move_collection_params
@@ -331,19 +400,8 @@ module Backlogs
       end
     end
 
-    def move_path
-      move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
-    end
-
-    def target_open_sprints
-      Sprint.for_project(@project)
-        .visible.not_completed
-        .where.not(id: @work_package.sprint_id)
-    end
-
-    def target_buckets
-      BacklogBucket.where(project: @project)
-        .where.not(id: @work_package.backlog_bucket_id)
+    def move_collection_path
+      move_project_backlogs_work_packages_path(@project, backlog_filter_params)
     end
 
     # After a move the work package might no longer be visible: the page's active
@@ -386,14 +444,8 @@ module Backlogs
     # so they reconcile via reload.
     def requested_anchor_honored?(work_package)
       return false if move_params[:position].present?
-      return false unless move_params.key?(:prev_id)
 
-      prev_id = move_params[:prev_id].presence
-      if prev_id
-        work_package.higher_item&.id == prev_id.to_i
-      else
-        work_package.higher_item.nil?
-      end
+      requested_block_honored?([work_package], move_arguments: move_params)
     end
 
     # Kept out of move_params: the service's keyword args reject it.

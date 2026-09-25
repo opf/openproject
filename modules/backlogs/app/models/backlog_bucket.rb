@@ -47,7 +47,7 @@ class BacklogBucket < ApplicationRecord
 
   scope :order_alphabetically, -> { order(:name) }
 
-  scopes :visible
+  scopes :visible, :assignable
 
   validates :name, :project, presence: true
 
