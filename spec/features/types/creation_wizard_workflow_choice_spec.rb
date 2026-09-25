@@ -177,6 +177,35 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
       expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
     end
 
+    it "asks before it returns to a workflow that lacks statuses the started one uses" do
+      visit_step
+      choose_option("new")
+
+      within_dialog start_title do
+        choose_workflow_start("scratch")
+        click_on I18n.t(:button_continue)
+      end
+
+      expect(page).to have_current_path(/started_workflow_id=/)
+      started = variant.reload.workflow
+      create(:status_transition, workflow: started, role:, old_status: status_a, new_status: create(:status, name: "Closed"))
+
+      switch_to_existing("Standard flow")
+
+      within_test_selector("change-workflow-confirm-dialog") do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        within_test_selector("change-workflow-missing-statuses") do
+          expect(page).to have_text("Closed")
+          expect(page).to have_text("1 transition for 1 role")
+        end
+        click_on I18n.t(:button_confirm)
+      end
+
+      expect(page).to have_current_path(/step=workflows/)
+      expect(variant.reload.workflow).to eq(existing)
+      expect_chosen("existing")
+    end
+
     it "starts from scratch without asking for a name yet" do
       visit_step
       choose_option("new")

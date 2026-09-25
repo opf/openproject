@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= render(
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        test_selector: DIALOG_ID,
+        size: :medium_portrait,
+        title: t("workflows.change.confirm.title", name: variant.composite_name),
+        confirm_button_text: t(:button_confirm),
+        form_arguments:
+      )
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { t("workflows.change.confirm.title", name: variant.composite_name) } %>
+    <% message.with_description_content(description) %>
+  <% end %>
+
+  <% dialog.with_additional_details(display: :block) do %>
+    <%= hidden_field_tag :workflow_id, workflow.id %>
+    <%= hidden_field_tag :confirmed, true %>
+
+    <% unless target_empty? %>
+      <%= render(OpPrimer::InsetBoxComponent.new(mb: 3, test_selector: "change-workflow-missing-statuses")) do %>
+        <% missing_statuses.each do |status| %>
+          <%= render(Primer::Beta::Text.new(tag: :div)) do %>
+            <%= render(Primer::Beta::Text.new(font_weight: :bold)) { status.name } %>
+            <%= render(Primer::Beta::Text.new(color: :muted)) { usage_summary(status) } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= render(Primer::Beta::Text.new(tag: :p)) { t("workflows.change.confirm.consequence") } %>
+  <% end %>
+<% end %>

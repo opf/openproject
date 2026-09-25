@@ -48,7 +48,11 @@ module WorkPackageTypes
     end
 
     def change
-      assign_and_redirect(Workflow.available_in(@variant.project).find(params.expect(:workflow_id)))
+      workflow = Workflow.available_in(@variant.project).find(params.expect(:workflow_id))
+      missing_statuses = statuses_lost_by_switching_to(workflow)
+      return confirm_change(workflow, missing_statuses) if missing_statuses.any? && !params[:confirmed]
+
+      assign_and_redirect(workflow)
     end
 
     def start_dialog
@@ -86,6 +90,18 @@ module WorkPackageTypes
     end
 
     private
+
+    def statuses_lost_by_switching_to(workflow)
+      return Status.none if @variant.workflow == workflow
+
+      @variant.workflow.statuses_missing_in(workflow, roles: ::Workflows::StatusTransition.eligible_roles).order(:position)
+    end
+
+    def confirm_change(workflow, missing_statuses)
+      respond_with_dialog ::Workflows::ChangeWorkflow::ConfirmDialogComponent.new(
+        variant: @variant, workflow:, missing_statuses:, back_url:
+      )
+    end
 
     def assign_and_redirect(workflow)
       assign(workflow)
