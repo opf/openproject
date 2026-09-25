@@ -30,7 +30,7 @@ require "spec_helper"
 RSpec.describe ReportingHelper do
   describe "#field_representation_map" do
     context "for a custom field" do
-      context "for which a custom option exists (e.g. a list field)" do
+      context "for a list field" do
         let(:custom_field) do
           create(
             :list_wp_custom_field,
@@ -39,7 +39,7 @@ RSpec.describe ReportingHelper do
           )
         end
 
-        it "returns the option value" do
+        it "returns the item label" do
           option = custom_field.possible_values.first
 
           expect(field_representation_map("custom_field#{custom_field.id}", option.id))
@@ -52,7 +52,7 @@ RSpec.describe ReportingHelper do
         end
       end
 
-      context "for which no custom option exists (e.g. a float field)" do
+      context "for a field without list items (e.g. a float field)" do
         let(:custom_field) do
           create(
             :float_wp_custom_field,
@@ -60,14 +60,14 @@ RSpec.describe ReportingHelper do
           )
         end
 
-        it "returns the option value" do
+        it "returns the value" do
           expect(field_representation_map("custom_field#{custom_field.id}", 3.0))
             .to eq "3.0"
         end
       end
     end
 
-    context "for which no custom option exists" do
+    context "for an unknown custom field" do
       it "returns the not found value" do
         expect(field_representation_map("custom_field12345", "345"))
           .to eql "345 not found"
