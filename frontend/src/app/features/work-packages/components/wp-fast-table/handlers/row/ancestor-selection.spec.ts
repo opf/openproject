@@ -93,8 +93,9 @@ describe('Ancestor row selection', () => {
     const row = harness.row('1');
     expect(row).toHaveAttribute('data-class-identifier', 'wp-ancestor-row-1');
     expect(row).toHaveClass('wp-row-1', 'wp-row-1-table', 'wp-ancestor-row-1', 'wp-ancestor-row-1-table');
-    expect(locateTableRowByIdentifier('wp-ancestor-row-1')).toBe(row);
-    expect(locateTableRowByIdentifier('wp-row-1')).toBe(row);
+    const root = harness.table.tableAndTimelineContainer;
+    expect(locateTableRowByIdentifier('wp-ancestor-row-1', root)).toBe(row);
+    expect(locateTableRowByIdentifier('wp-row-1', root)).toBe(row);
     expect(row).toHaveClass(rowId('1'));
     harness.click('1');
     const workPackage = harness.selection.getSelectedWorkPackages()[0];
