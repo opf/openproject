@@ -46,5 +46,9 @@ module LlmConnections
     def form_arguments
       { action: url_helpers.disconnect_llm_connection_path, method: :post }
     end
+
+    def bound_features
+      connection.feature_bindings.filter_map { |binding| binding.feature&.label if binding.model_id.present? }
+    end
   end
 end

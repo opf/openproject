@@ -123,7 +123,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "Models")
       end
 
-      it "offers the Models tab once the features are on",
+      it "offers the Models and Feature configuration tabs once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
@@ -131,6 +131,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(response.body).to include("llm-settings--tabs")
         expect(response.body).to include(llm_models_path)
+        expect(response.body).to include(llm_feature_bindings_path)
       end
 
       context "when an API key is stored" do
@@ -474,14 +475,19 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
 
     it "offers the confirmation, naming what is kept" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       get disconnect_dialog_llm_connection_path,
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Disconnect from the LLM server?")
+      expect(response.body).to include("Description assistant")
     end
 
     it "clears the credential and switches the connection off, keeping everything else" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       post disconnect_llm_connection_path
 
       connection.reload
@@ -489,6 +495,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(Setting.llm_features_enabled?).to be(false)
       expect(connection.base_url).to eq("https://example.com/v1")
       expect(connection.models.count).to eq(2)
+      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
     end
 
     it "refuses when the connection comes from the environment" do
@@ -543,10 +550,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
     before { login_as admin }
 
-    it "are chosen on the LLMs page, not here" do
-      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+    it "are chosen on the Models tab, not here" do
+      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b",
+                                                             default_embedding_model_id: "bge-m3" } }
 
-      expect(connection.reload.default_chat_model_id).to be_nil
+      connection.reload
+      expect(connection.default_chat_model_id).to be_nil
+      expect(connection.default_embedding_model_id).to be_nil
     end
   end
 end

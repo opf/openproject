@@ -53,6 +53,7 @@ class LlmConnection < ApplicationRecord
   belongs_to :default_chat_model, class_name: "LlmModel", optional: true
   belongs_to :default_embedding_model, class_name: "LlmModel", optional: true
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
+  has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
   validates :base_url, presence: true
   validate :base_url_is_absolute_http, if: -> { base_url.present? }
   # The column is NOT NULL and +active_connection+ hands back an unsaved record
@@ -126,11 +127,15 @@ class LlmConnection < ApplicationRecord
     available_models.reject(&:embedding?)
   end
 
-  def embedding_model_ids
-    embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
-
-    available_model_ids & embedding
+  def embedding_models
+    available_models.select(&:embedding?)
   end
+
+  def embedding_capable_model_ids
+    capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
+  end
+
+  def embedding_model_ids = available_model_ids & embedding_capable_model_ids
 
   def chat_model_ids = available_model_ids - embedding_model_ids
 

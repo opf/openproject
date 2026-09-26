@@ -23,22 +23,30 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnectionsHelper
-  # The tabs of the LLM settings page. With the AI features switched off there
-  # is nothing to configure beyond the settings themselves, and a single tab says
-  # nothing, so the nav stays empty until they are switched on.
-  def llm_settings_tabs
-    return [] unless Setting.llm_features_enabled?
+class CreateLlmFeatureBindings < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_feature_bindings do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      t.string :feature_key, null: false
+      # NULL means "use the connection default for this kind of model".
+      t.string :model_id
+      # Embedding features only. Frozen together with model_id once vectors exist.
+      t.integer :dimensions
+      t.string :input_prefix
+      t.string :query_prefix
+      # Set once the binding has data depending on it, after which the model
+      # cannot be swapped without a destructive re-index.
+      t.datetime :locked_at
+      t.datetime :last_seen_at
 
-    [
-      { name: "connection", path: llm_connection_path, label: t("admin.llm_connections.tabs.connection") },
-      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") },
-      { name: "features", path: llm_feature_bindings_path, label: t("admin.llm_connections.tabs.features") }
-    ]
+      t.timestamps null: false
+    end
+
+    add_index :llm_feature_bindings, %i[llm_connection_id feature_key], unique: true
   end
 end

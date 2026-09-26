@@ -23,22 +23,38 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnectionsHelper
-  # The tabs of the LLM settings page. With the AI features switched off there
-  # is nothing to configure beyond the settings themselves, and a single tab says
-  # nothing, so the nav stays empty until they are switched on.
-  def llm_settings_tabs
-    return [] unless Setting.llm_features_enabled?
+require "spec_helper"
 
-    [
-      { name: "connection", path: llm_connection_path, label: t("admin.llm_connections.tabs.connection") },
-      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") },
-      { name: "features", path: llm_feature_bindings_path, label: t("admin.llm_connections.tabs.features") }
-    ]
+RSpec.describe OpenProject::Llm::Features do
+  let(:key) { :spec_only_feature }
+
+  after { described_class.all.delete(key) }
+
+  describe ".register" do
+    it "refuses a capability the kind cannot have" do
+      expect { described_class.register(key, kind: :chat, requires: %i[embeddings]) }
+        .to raise_error(ArgumentError, /embeddings/)
+    end
+
+    it "refuses an unknown kind" do
+      expect { described_class.register(key, kind: :completion) }
+        .to raise_error(ArgumentError, /unknown kind/)
+    end
+
+    it "scopes the translations by the key unless told otherwise" do
+      described_class.register(key, kind: :chat)
+
+      expect(described_class[key].i18n_scope).to eq("llm.features.spec_only_feature")
+    end
+  end
+
+  it "registers semantic search as a pinned embedding feature" do
+    expect(described_class[:semantic_search])
+      .to have_attributes(kind: :embedding, pinned: true, requires: %i[embeddings])
   end
 end
