@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2023 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -10,6 +10,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,26 +24,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+class CreateGitlabCommits < ActiveRecord::Migration[8.1]
+  def change
+    create_table :gitlab_commits do |t|
+      t.references :gitlab_user
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, controller: "work_package_gitlab_tab", only: %i[] do
-        collection do
-          get :tab
-          get :git_snippets_dialog
-        end
-      end
+      t.string :sha, null: false
+      t.text :message, null: false, default: ""
+      t.string :author_name, null: false
+      t.string :author_email, null: false
+      t.datetime :authored_at, null: false, precision: nil
+      t.string :repository, null: false
+      t.string :gitlab_html_url, null: false
+
+      t.timestamps precision: nil
     end
   end
 end
