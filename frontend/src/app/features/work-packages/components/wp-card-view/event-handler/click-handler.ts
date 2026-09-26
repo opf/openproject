@@ -81,19 +81,19 @@ export class CardClickHandler implements CardEventHandler {
       return true;
     }
 
-    this.handleWorkPackage(card, wpId, evt);
+    this.handleWorkPackage(card, wpId, evt, element.dataset.classIdentifier);
 
     return false;
   }
 
-  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:string, evt:MouseEvent) {
-    this.setSelection(wpId, evt);
+  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:string, evt:MouseEvent, classIdentifier?:string) {
+    this.setSelection(wpId, evt, classIdentifier);
 
     card.itemClicked.emit({ workPackageId: wpId, double: false });
   }
 
-  protected setSelection(wpId:string, evt:MouseEvent) {
-    this.selectionGestures.handleClick(wpId, this.wpCardView.renderedCards, evt);
+  protected setSelection(wpId:string, evt:MouseEvent, classIdentifier?:string) {
+    this.selectionGestures.handleClick(wpId, this.wpCardView.renderedCards, evt, classIdentifier);
 
     this.wpTableFocus.updateFocus(wpId);
   }

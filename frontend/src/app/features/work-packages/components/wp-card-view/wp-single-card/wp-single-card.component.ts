@@ -213,7 +213,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
     const stateToEmit = detail ? 'split' : 'show';
 
-    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards);
+    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards, this.classIdentifier(wp));
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
     event.preventDefault();
