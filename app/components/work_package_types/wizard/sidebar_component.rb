@@ -42,6 +42,7 @@ module WorkPackageTypes
       end
 
       LEADING_ICONS = {
+        start: :rocket,
         details: :info,
         defaults: :"file-diff",
         form_configuration: :"list-unordered",
@@ -49,13 +50,6 @@ module WorkPackageTypes
         workflows: :"git-branch",
         projects: :table,
         pdf: :file
-      }.freeze
-
-      ASPECTS = {
-        defaults: TypeVariant::DEFAULTS,
-        form_configuration: TypeVariant::FORM_CONFIGURATION,
-        project_attributes: TypeVariant::PROJECT_ATTRIBUTES,
-        pdf: TypeVariant::PDF_EXPORT
       }.freeze
 
       private
@@ -76,10 +70,7 @@ module WorkPackageTypes
         record_persisted? && Steps.index(step) < Steps.index(current_step)
       end
 
-      def linked?(step)
-        aspect = ASPECTS[step]
-        aspect.present? && variant&.linked?(aspect)
-      end
+      def status_step?(step) = step != Steps.first
 
       def href_for(step)
         type_creation_wizard_path(**variant_path_args, step:, back_url:) if record_persisted?

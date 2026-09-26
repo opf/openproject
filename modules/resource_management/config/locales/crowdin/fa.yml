@@ -23,6 +23,9 @@ fa:
         name: نام
         public: عمومی
         start_date: تاریخ شروع
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
@@ -61,6 +64,9 @@ fa:
       resource_work_package_timeline:
         one: خط زمانی بسته‌های کاری
         other: خطوط زمانی بسته‌های کاری
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: بعدی
   ee:
     features:

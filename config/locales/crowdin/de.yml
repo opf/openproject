@@ -496,6 +496,7 @@ de:
           title: Werktage
           true: Mit Wochenenden
         journal_internal: Internes Journal
+        labels: Labels
         notify: Benachrichtigung
         observed_in_versions: Festgestellt in Versionen
         parent: Übergeordnetes Arbeitspaket
@@ -620,6 +621,10 @@ de:
         user_in_ldap_managed_department: Dieser Benutzer gehört zu einer Abteilung, die über die LDAP synchronisiert wird, und kann nicht verschoben werden.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -2002,6 +2007,11 @@ de:
         ignore: Änderungen ignorieren
         save: Änderungen speichern und fortfahren
         title: Änderungen speichern, bevor Sie fortfahren?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Rolle: %{role}'
         no_role: Rolle auswählen
@@ -2031,6 +2041,11 @@ de:
           assignee: Zusätzliche Übergänge, die dem zugewiesenen Benutzer des Arbeitspakets zur Verfügung stehen.
           author: Zusätzliche Übergänge, die dem Author des Arbeitspakets zur Verfügung stehen.
         menu_label: Dargestellte Übergänge
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -6486,11 +6501,37 @@ de:
       add_variant: Variante zu %{name} hinzufügen
       create_type: Typ erstellen
       create_variant: Variante erstellen
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Ein interner Name für die Variante von %{type}. Arbeitspakete werden in Projekten immer mit dem Namen %{type} angezeigt.
       finish: Beenden
       placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
       progress_label: Schritt %{number} von %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: Standardwerte
         details: Details
@@ -6498,6 +6539,7 @@ de:
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
+        start: Start
         workflows: Workflows
       success: Erfolgreich angelegt.
     edit:
@@ -6610,7 +6652,6 @@ de:
         untitled_group: Unbenannte Gruppe
       overview:
         configuration_mode: Konfigurationsmodus
-        dependents: Abhängige Typen und Varianten
         mode:
           always_manual: Immer manuell
           inheriting_from_html: Vererbt von %{source_name}
@@ -6664,21 +6705,6 @@ de:
             title: Konfiguration kopieren
           invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ kopiert werden. Bitte wählen Sie einen anderen Quelltyp aus.
           success: Die Konfiguration wurde kopiert.
-        dependents:
-          blank:
-            description: Kein anderer Typ oder Variante erbt von dieser Konfiguration
-            title: Keine abhängigen Typen
-          description:
-            one: Die folgende Konfiguration wird von einem anderen Typen oder Varianten geerbt. Alle Änderungen, die Sie hier vornehmen, betreffen auch den Abhängigen.
-            other: Die folgende Konfiguration wird von%{count} anderen Typen oder Varianten geerbt. Alle Änderungen, die Sie hier vornehmen, betreffen auch den Abhängigen.
-          dialog:
-            description: Diese Typen und Varianten übernehmen die Konfiguration dieses Abschnitts. Eine Änderung, die Sie hier vornehmen, gilt für alle diese Typen und Varianten.
-            title: Abhängige Typen
-            variant_of_html: Variante von %{type_name}
-          title:
-            one: 1 abhängiger Typ
-            other: "%{count} abhängige Typen"
-          view: Abhängige Typen ansehen
         exclusions:
           not_inherited: Diese Konfiguration wird geerbt, sodass nichts auszuschließen ist. Bearbeiten Sie die Konfiguration stattdessen direkt.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
@@ -6690,8 +6716,16 @@ de:
               description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
               heading: Konfigurationsmodus wechseln?
               title: Konfigurationsmodus wechseln
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          dialog:
+            description: Diese Konfiguration wird von einem Quelltyp geerbt. Jede Änderung der Konfiguration der Quelle gilt auch hier.
+            source_label: Quellentyp
+            source_placeholder: Typ oder Variante auswählen
+            submit: Wechseln
+            title: Von einem anderen Typ erben
+          invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ geerbt werden. Bitte wählen Sie einen anderen Quelltyp aus.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Vererbte Konfiguration
         manual:
@@ -6700,13 +6734,14 @@ de:
             description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
             heading: Konfigurationsmodus wechseln?
             title: Konfigurationsmodus wechseln
-          copy_from_type: Von einem anderen Typ kopieren
           description: Es werden keine Einstellungen geerbt. Sie können die Einstellungen jedoch einmalig von einem anderen Typ kopieren.
           dialog:
             submit: Wechseln
             title: Manuell konfigurieren
           inherit_from_type: Inherit from parent
           invalid_mode: Der ausgewählte Modus ist für diese Konfiguration nicht verfügbar. Bitte wählen Sie einen anderen Modus aus.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Beginnen Sie mit einer einmaligen Kopie der Einstellungen, die diese Konfiguration derzeit übernimmt.
@@ -6783,6 +6818,13 @@ de:
       type_label: Typ
       variant_label: Variante
     milestone_indicator: Meilenstein
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Diese Warnung ignorieren.
     message: Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein.
@@ -7302,7 +7344,7 @@ de:
             one: Workflow erfolgreich in die Rolle '%{role_name}' kopiert.
             other: Workflow erfolgreich in %{count} Rollen kopiert.
       new:
-        title: Workflow von "%{source_type}" kopieren
+        dialog_title: Copy workflow of "%{source}"
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
@@ -7362,27 +7404,28 @@ de:
         other: "%{count} variants"
     name:
       fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Konfigurieren Sie die Statusübergänge für jeden Arbeitspaket-Typ.
-    reuse_mode:
-      change_workflow: Change workflow
-      create_workflow: Create new workflow
-      independent:
-        description: Only this type or variant uses [%{name}](workflow_url).
-        title: Independent configuration
-      shared:
-        description: Other types and variants use this workflow as well.
-        title: Reuses workflow [%{name}](workflow_url)
-      usage:
-        blank:
-          description: A change to these transitions applies to this type or variant only.
-          title: Not used anywhere else
-        description: 'A change to these transitions also applies to:'
-        title:
-          one: Used in 1 other place
-          other: Used in %{count} other places
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.
@@ -7390,6 +7433,14 @@ de:
       used_by_variants:
         one: This workflow is used by 1 type or variant.
         other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Arbeitstage ändern
     dialog:

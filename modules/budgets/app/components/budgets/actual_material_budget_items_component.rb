@@ -36,7 +36,8 @@ class Budgets::ActualMaterialBudgetItemsComponent < ApplicationComponent # ruboc
       .cost_entries
       .visible(User.current)
       .includes(:cost_type)
-      .group_by(&:work_package)
+      .where(entity_type: "WorkPackage")
+      .group_by(&:entity)
       .each do |work_package, cost_entries|
         consolidate_cost_entries(cost_entries).each do |c|
           yield work_package, c

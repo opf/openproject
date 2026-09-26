@@ -105,8 +105,8 @@ RSpec.describe LlmConnection do
       expect { connection.base_url = "https://elsewhere.example/v1" }.to change(connection, :settings_fingerprint)
     end
 
-    it "changes with the API key" do
-      expect { connection.api_key = "sk-rotated" }.to change(connection, :settings_fingerprint)
+    it "does not change with the API key" do
+      expect { connection.api_key = "sk-rotated" }.not_to change(connection, :settings_fingerprint)
     end
   end
 
@@ -125,9 +125,16 @@ RSpec.describe LlmConnection do
 
     it "is true once a connection setting changed" do
       connection.update!(connection_fingerprint: connection.settings_fingerprint)
-      connection.update!(api_key: "sk-rotated")
+      connection.update!(base_url: "https://elsewhere.example/v1")
 
       expect(connection).to be_models_stale
+    end
+
+    it "stays false when only the API key is rotated" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+      connection.update!(api_key: "sk-rotated")
+
+      expect(connection).not_to be_models_stale
     end
   end
 
@@ -199,6 +206,23 @@ RSpec.describe LlmConnection do
 
     it "refuses a header value carrying a line break" do
       expect(build(:llm_connection, custom_headers: { "x-gateway" => "one\r\nInjected: two" })).not_to be_valid
+    end
+
+    it "refuses a header name carrying a line break" do
+      connection = build(:llm_connection, custom_headers: { "x-gateway\r\nInjected" => "two" })
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:custom_headers, :invalid)
+    end
+
+    it "refuses a header name that is not an HTTP token", :aggregate_failures do
+      ["x gateway", "x-gateway:", "x-gäteway", "(x-gateway)", ""].each do |name|
+        expect(build(:llm_connection, custom_headers: { name => "value" })).not_to be_valid, name.inspect
+      end
+    end
+
+    it "accepts a header name built from any HTTP token character" do
+      expect(build(:llm_connection, custom_headers: { "X-Gateway_1.v2!\#$%&'*+^`|~" => "value" })).to be_valid
     end
 
     it "accepts an absolute http or https base URL", :aggregate_failures do

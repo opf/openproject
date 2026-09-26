@@ -1,5 +1,8 @@
 ---
 fr:
   js:
+    button_allocate_resource: Allocate resource
     resource_management:
       create_placeholder_user: Créer un utilisateur fictif avec des critères de filtrage
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations
