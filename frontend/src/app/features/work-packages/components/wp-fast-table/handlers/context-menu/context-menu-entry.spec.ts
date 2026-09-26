@@ -30,6 +30,7 @@ import { fireEvent } from '@testing-library/dom';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('Context menu entry', () => {
@@ -84,5 +85,14 @@ describe('Context menu entry', () => {
 
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
     expect(opened).toHaveBeenCalledTimes(1);
+  });
+
+  it('targets only the menu row when it is outside the selection', () => {
+    harness.click('2');
+
+    new WorkPackageTableContextMenu(harness.injector, '1', harness.row('1'), {}, harness.table);
+
+    expect(menuTargets).toEqual([['1']]);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
   });
 });

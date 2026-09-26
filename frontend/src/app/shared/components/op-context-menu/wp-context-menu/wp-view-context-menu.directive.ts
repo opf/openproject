@@ -198,17 +198,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   private getSelectedWorkPackages() {
-    const selectedWorkPackages = this.wpTableSelection.getSelectedWorkPackages();
-
-    if (selectedWorkPackages.length === 0) {
+    if (!this.wpTableSelection.isSelected(this.workPackageId)) {
       return [this.workPackage];
     }
 
-    if (!selectedWorkPackages.includes(this.workPackage)) {
-      selectedWorkPackages.push(this.workPackage);
-    }
-
-    return selectedWorkPackages;
+    return this.wpTableSelection.getSelectedWorkPackages();
   }
 
   protected buildItems():OpContextMenuItem[] {
