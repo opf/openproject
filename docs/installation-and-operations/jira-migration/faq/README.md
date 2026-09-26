@@ -13,7 +13,7 @@ The questions below provide a starting point for a detailed fit-gap analysis. Pl
 
 > [!IMPORTANT]
 > The Jira Migrator is in beta and is continuously developed. Items on the [OpenProject roadmap](https://www.openproject.org/roadmap/) reflect our current development plans and priorities. While we are committed to delivering them, scope, status and target delivery dates may change.
-> 
+>
 ## Is OpenProject proven in large organizations?
 
 Yes. Many large organizations have been using OpenProject successfully for years. References and major deployments include Deutsche Bahn, Mercedes-AMG, Samsung, 3M, Charité, the German Federal Ministry for Digital Transformation and Government Modernisation (BMDS), and the [International Criminal Court (ICC)](https://www.openproject.org/blog/digital-sovereignty-government-germany-opendesk/) through openDesk.
@@ -127,7 +127,9 @@ Fields created by marketplace apps require special attention because their value
 
 ## How are users, groups, roles and permissions migrated?
 
-The current import covers user names, email addresses and project memberships. Newly created users remain locked while the import is in review and are activated when the import is approved.
+The current import covers user names, email addresses and project memberships. Newly created users remain locked while the import is in review and are activated when the import is approved. Users who are disabled in Jira are imported as locked users and remain locked after the import is approved.
+
+Locked users do not count towards your Enterprise license, so migrating disabled Jira users does not affect your seat count. See [How are users in OpenProject Enterprise counted?](../../../faq/#how-are-users-in-openproject-enterprise-counted) for more details.
 
 Jira roles, permission schemes, issue-security schemes and directory configuration are not reproduced automatically. This enables organizations to design a clearer target model using OpenProject's [roles and permissions](../../../system-admin-guide/users-permissions/roles-permissions/) and [groups](../../../system-admin-guide/users-permissions/groups/). Validate identity matching, inactive users, former employees, external users, groups, fallback ownership and access to sensitive issues before cutover.
 

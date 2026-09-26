@@ -28,6 +28,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { opGateIconData } from '@openproject/octicons-angular';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
@@ -86,6 +87,7 @@ export interface ProjectTimelineItem {
 export interface AccessibleProjectTimelineItem {
   id:string;
   text:string;
+  href?:string;
 }
 
 export const GROUP_GATES = 'gates';
@@ -96,6 +98,7 @@ export const GROUP_SPRINTS = 'sprints';
 @Injectable()
 export class ProjectTimelineItemBuilder {
   private readonly i18n = inject(I18nService);
+  private readonly pathHelper = inject(PathHelperService);
   private readonly timezone = inject(TimezoneService);
 
   buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):{items:ProjectTimelineItem[]; groups:{id:string; content:string}[]} {
@@ -249,6 +252,7 @@ export class ProjectTimelineItemBuilder {
       items.push({
         id: `milestone-${milestone.id}`,
         date: milestone.date,
+        href: this.pathHelper.workPackagePath(String(milestone.id)),
         text: this.i18n.t('js.grid.widgets.project_timeline.accessible_milestone', {
           name: milestone.subject,
           date: this.timezone.formattedDate(milestone.date),
@@ -260,6 +264,7 @@ export class ProjectTimelineItemBuilder {
       items.push({
         id: `sprint-${sprint.id}`,
         date: sprint.startDate,
+        href: sprint.href,
         text: this.i18n.t('js.grid.widgets.project_timeline.accessible_sprint', {
           name: sprint.name,
           date: this.accessibleDate(sprint.startDate, sprint.endDate),
@@ -270,7 +275,7 @@ export class ProjectTimelineItemBuilder {
 
     return items
       .sort((a, b) => a.date.localeCompare(b.date))
-      .map(({ id, text }) => ({ id, text }));
+      .map(({ id, text, href }) => ({ id, text, ...(href ? { href } : {}) }));
   }
 
   private accessibleDate(startDate:string, endDate:string):string {

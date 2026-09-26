@@ -46,6 +46,7 @@ module WorkPackageTypes
       def matrix_url
         helpers.type_workflow_matrix_path(
           **variant.path_args,
+          wizard: true,
           tab: helpers.params[:tab],
           role_ids: roles.map(&:id),
           status_ids: helpers.params[:status_ids]
