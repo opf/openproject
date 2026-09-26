@@ -28,26 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module FileLinks
-      module FileLinkRelationRepresenter
-        extend ActiveSupport::Concern
+require "spec_helper"
 
-        included do
-          link :fileLinks, cache_if: -> { current_user.allowed_in_project?(:view_file_links, represented.project) } do
-            {
-              href: api_v3_paths.file_links(represented.id)
-            }
-          end
+RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
+  def property_names(representer)
+    representer.representable_attrs.keys
+  end
 
-          link :addFileLink, cache_if: -> { current_user.allowed_in_project?(:manage_file_links, represented.project) } do
-            {
-              href: api_v3_paths.file_links(represented.id),
-              method: :post
-            }
-          end
-        end
+  def link_names(representer)
+    representer.representable_attrs["links"].link_configs.map { |config, _block| config[:rel].to_s }
+  end
+
+  [API::V3::WorkPackages::WorkPackagePayloadRepresenter,
+   API::V3::WorkPackages::WorkPackageAtTimestampRepresenter].each do |subclass|
+    describe subclass.name do
+      it "has all properties of the work package representer, including those added by modules" do
+        expect(property_names(subclass)).to include(*property_names(described_class))
+      end
+
+      it "has all links of the work package representer, including those added by modules" do
+        expect(link_names(subclass)).to include(*link_names(described_class))
       end
     end
   end
