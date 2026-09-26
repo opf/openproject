@@ -72,23 +72,38 @@ module LlmConnections
           input_width: :large
         )
 
-        fg.text_field(
-          name: :api_key,
-          label: LlmConnection.human_attribute_name(:api_key),
-          caption: api_key_caption,
-          placeholder: api_key_placeholder,
-          # Never a value, the way Rails' own password_field defaults to
-          # render_value: false. Echoing a typed key back put the plaintext in
-          # the response body of every failed save, where a proxy, an APM or a
-          # HAR capture keeps it and filter_parameters does not reach. The
-          # caption says it has to be typed again instead. A blank submission
-          # means "keep the current key", handled in the controller.
-          value: nil,
-          type: :password,
-          autocomplete: "off",
-          input_width: :large,
-          data: { "admin--llm-connection-form-target": "secretInput" }
-        )
+        fg.group(layout: :horizontal) do |row|
+          row.text_field(
+            name: :api_key,
+            label: LlmConnection.human_attribute_name(:api_key),
+            caption: api_key_caption,
+            placeholder: api_key_placeholder,
+            # Never a value, the way Rails' own password_field defaults to
+            # render_value: false. Echoing a typed key back put the plaintext in
+            # the response body of every failed save, where a proxy, an APM or a
+            # HAR capture keeps it and filter_parameters does not reach. The
+            # caption says it has to be typed again instead. A blank submission
+            # means "keep the current key", handled in the controller.
+            value: nil,
+            type: :password,
+            autocomplete: "off",
+            input_width: :large,
+            data: { "admin--llm-connection-form-target": "secretInput" }
+          )
+
+          if model.api_key_stored?
+            row.button(
+              name: :remove_api_key,
+              tag: :a,
+              label: I18n.t("admin.llm_connections.form.api_key_remove"),
+              scheme: :danger,
+              mt: 4,
+              href: url_helpers.delete_api_key_dialog_llm_connection_path,
+              data: { controller: "async-dialog" },
+              test_selector: "llm-connection--remove-api-key"
+            )
+          end
+        end
       end
 
       f.submit(

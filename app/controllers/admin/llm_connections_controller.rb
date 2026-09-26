@@ -38,6 +38,8 @@ module Admin
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
+    before_action :require_stored_connection,
+                  only: %i[disconnect disconnect_dialog delete_api_key delete_api_key_dialog]
 
     def show; end
 
@@ -50,7 +52,40 @@ module Admin
       result.on_failure { render_form_with_errors }
     end
 
+    def disconnect_dialog
+      respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
+    end
+
+    # Clears the credential and switches the AI features off, keeping the endpoint
+    # and the catalogue. Deliberately not a destroy.
+    def disconnect
+      ApplicationRecord.transaction do
+        clear_api_key
+        Setting.llm_features_enabled = false
+      end
+
+      redirect_with_notice(t(".success"))
+    end
+
+    def delete_api_key_dialog
+      respond_with_dialog LlmConnections::DeleteApiKeyDialogComponent.new(@connection)
+    end
+
+    def delete_api_key
+      clear_api_key
+
+      redirect_with_notice(t(".success"))
+    end
+
     private
+
+    def require_stored_connection
+      render_404 unless @connection.persisted?
+    end
+
+    def clear_api_key
+      @connection.update_columns(api_key: nil, updated_at: Time.current)
+    end
 
     def set_connection
       @connection = LlmConnection.active_connection
