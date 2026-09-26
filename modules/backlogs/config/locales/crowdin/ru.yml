@@ -26,6 +26,7 @@ ru:
       project:
         allow_multiple_active_sprints: Разрешить несколько активных спринтов
         backlog_excluded_types: Исключенные типы пакетов работ
+        estimation_unit: Unit
         sprint_sharing: Совместное использование спринта
         statuses_considered_closed: Статусы, считающиеся закрытыми
       sprint:
@@ -145,6 +146,7 @@ ru:
       show:
         blankslate_description: Установите дату начала и окончания спринта для создания диаграммы выгорания.
         blankslate_title: Нет данных о выгорании
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Выберите типы пакетов работ для скрытия из бэклога. Пакеты работ выбранных типов не будут отображаться в бэклоге автоматически, оставляя при этом основное внимание на работе, имеющей отношение к вашей команде. Например, такие типы, как "Эпик" или "Веха", которым управляется на более высоком уровне, могут быть скрыты, чтобы оставить бэклог сфокусирован на актуальных задачах.
 
       '
@@ -364,6 +366,18 @@ ru:
       backlog_buckets: Разделы бэклога
       sprints: Спринты
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -384,6 +398,9 @@ ru:
             label: Подпроекты
         sprint_sharing: Поделиться спринтами
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: По умолчанию в рамках одного проекта одновременно может быть активен только один спринт. Вы можете изменить это, чтобы в данном проекте одновременно могли быть активны несколько спринтов.
           heading: Количество активных спринтов

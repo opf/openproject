@@ -26,6 +26,7 @@ ja:
       project:
         allow_multiple_active_sprints: 複数のスプリントを同時に実行できるようにする
         backlog_excluded_types: 除外されるワークパッケージの種類
+        estimation_unit: Unit
         sprint_sharing: スプリントの共有
         statuses_considered_closed: "「完了」とみなされるステータス"
       sprint:
@@ -133,6 +134,7 @@ ja:
       show:
         blankslate_description: スプリントの開始日と終了日を設定して、バーンダウンチャートを生成します。
         blankslate_title: バーンダウンデータはありません
+    estimation_unit: Units
     excluded_work_package_types_caption: 'バックログから非表示にするワークパッケージの種類を選択してください。選択した種類のアイテムはバックログに自動的に表示されなくなるため、チームにとって重要な作業に焦点を絞ることができます。たとえば、より上位のレベルで管理される「エピック」や「マイルストーン」といった種類を非表示にすることで、バックログを実行可能なアイテムに集中させることができます。
 
       '
@@ -335,6 +337,18 @@ ja:
       backlog_buckets: バックログ・バケット
       sprints: スプリント
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -355,6 +369,9 @@ ja:
             label: サブプロジェクト
         sprint_sharing: スプリントを共有する
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
           heading: 進行中のスプリントの数

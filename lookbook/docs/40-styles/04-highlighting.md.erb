@@ -43,16 +43,18 @@ Generated, one per record. They carry no styling at all — only the two custom 
 
 Static, from `_colors.sass`. None of them work on their own — without a color class alongside they have no `--hl-color` to read.
 
-| Class | Effect |
-|---|---|
-| `__hl_background` | Color as background, with text flipped to black or white for contrast. Dark mode tints the background instead and lightens the text. |
-| `__hl_foreground` | Color as text, darkened in light mode and lightened in dark mode so it stays legible. |
-| `__hl_dot` | A 12px round `::before` dot in the color, ahead of the label. |
-| `__hl_dot_small` | Modifier on `__hl_dot`, shrinking it to 6px. |
-| `__hl_uppercase` | Uppercase and bold. Work package types only. |
-| `__hl_border_top` | 4px top border in the color. Used for time entry calendar events. |
+| Class                   | Effect                                                                                                                               |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `__hl_background`       | Color as background, with text flipped to black or white for contrast. Dark mode tints the background instead and lightens the text. |
+| `__hl_background_muted` | Semi transparent color as background, with text in the color.                                                                        |
+| `__hl_foreground`       | Color as text, darkened in light mode and lightened in dark mode so it stays legible.                                                |
+| `__hl_dot`              | A 12px round `::before` dot in the color, ahead of the label.                                                                        |
+| `__hl_dot_small`        | Modifier on `__hl_dot`, shrinking it to 6px.                                                                                         |
+| `__hl_uppercase`        | Uppercase and bold. Work package types only.                                                                                         |
+| `__hl_border`           | 1px border in the color.                                                                                                             |
+| `__hl_border_top`       | 4px top border in the color. Used for time entry calendar events.                                                                    |
 
-`__hl_background`, `__hl_foreground` and `__hl_dot` are mutually exclusive — pick the one that matches how the color should read.
+`__hl_background`, `__hl_background_muted`, `__hl_foreground` and `__hl_dot` are mutually exclusive — pick the one that matches how the color should read.
 
 <%= embed Colors::HighlightingPreview, :usage_classes %>
 

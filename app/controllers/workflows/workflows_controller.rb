@@ -43,6 +43,18 @@ module Workflows
       respond_with_dialog ::Workflows::DialogComponent.new(workflow: Workflow.new)
     end
 
+    def configure_dialog
+      respond_with_dialog start_dialog
+    end
+
+    def configure
+      return reject_missing_copy_source if copying_without_a_source?
+
+      respond_with_dialog ::Workflows::DialogComponent.new(workflow: Workflow.new,
+                                                           copy_from_id: chosen_copy_from_id,
+                                                           ask_copy_source: false)
+    end
+
     def edit
       @current_tab = params[:tab] || ::Workflows::MatrixContext::DEFAULT_TAB
       @roles = Workflows::StatusTransition.selected_roles(params[:role_ids])
@@ -71,16 +83,43 @@ module Workflows
     end
 
     def destroy
+      report_destruction
+
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.redirect_to(workflows_path) }
+        format.html { redirect_to workflows_path, status: :see_other }
+      end
+    end
+
+    private
+
+    def report_destruction
       if @workflow.destroy
         flash[:notice] = t(:notice_successful_delete)
       else
         flash[:error] = @workflow.errors.full_messages.to_sentence
       end
-
-      redirect_to workflows_path, status: :see_other
     end
 
-    private
+    def start_dialog(error: nil)
+      ::Workflows::StartDialogComponent.new(url: configure_workflows_path,
+                                            candidates: Workflow.global.in_display_order.to_a,
+                                            error:)
+    end
+
+    def copying_without_a_source?
+      params[:start] == ::Workflows::StartForm::COPY && params[:copy_from_id].blank?
+    end
+
+    def reject_missing_copy_source
+      respond_with_dialog start_dialog(error: t("workflows.start.copy.missing")), status: :unprocessable_entity
+    end
+
+    def chosen_copy_from_id
+      return unless params[:start] == ::Workflows::StartForm::COPY
+
+      params[:copy_from_id].presence
+    end
 
     def load_workflow
       @workflow = Workflow.find(params.expect(:id))

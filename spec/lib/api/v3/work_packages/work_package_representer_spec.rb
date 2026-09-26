@@ -1229,30 +1229,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "timeEntries" do
-      context "when the user has the permission to view time entries" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "timeEntries" }
-          let(:href) do
-            api_v3_paths.path_for(:time_entries,
-                                  filters: [
-                                    { entity_type: { operator: "=", values: ["WorkPackage"] } },
-                                    { entity_id: { operator: "=", values: [work_package.id.to_s] } }
-                                  ])
-          end
-          let(:title) { "Time entries" }
-        end
-      end
-
-      context "when the user does not have the permission to view time entries" do
-        let(:permissions) { all_permissions - [:view_time_entries] }
-
-        it "does not have a link to timeEntries" do
-          expect(subject).not_to have_json_path("_links/timeEntries/href")
-        end
-      end
-    end
-
     describe "linked relations" do
       let(:project) { create(:project, public: false) }
       let(:forbidden_project) { create(:project, public: false) }
@@ -1386,15 +1362,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       let(:href) { api_v3_paths.work_package(work_package.id) }
       let(:method) { :delete }
       let(:permission) { :delete_work_packages }
-    end
-
-    describe "logTime" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "logTime" }
-        let(:permission) { %i(log_time log_own_time) }
-        let(:href) { api_v3_paths.time_entries }
-        let(:title) { "Log time on work package '#{work_package.subject}'" }
-      end
     end
 
     describe "move" do
