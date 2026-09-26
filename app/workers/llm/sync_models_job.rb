@@ -28,28 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
-    end
-
-    private
-
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled
+module Llm
+  # Refreshes the cached model catalogue out of band.
+  #
+  # Used by the environment seeder, which must not block on -- or fail because of
+  # -- an LLM server that has not finished starting.
+  class SyncModelsJob < ApplicationJob
+    # One connection whose sync raises must not leave the connections after it
+    # without a catalogue.
+    def perform
+      LlmConnection.find_each do |connection|
+        LlmConnections::SyncModelsService.new(connection).call
+      rescue StandardError => e
+        Rails.logger.error { "LLM model sync failed for connection #{connection.id}: #{e.class}" }
       end
     end
   end

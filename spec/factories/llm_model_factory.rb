@@ -28,29 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
+FactoryBot.define do
+  factory :llm_model do
+    llm_connection
+    sequence(:external_id) { |n| "model-#{n}" }
+    active { true }
+    manual { false }
+    last_seen_at { Time.current }
+
+    trait :manual do
+      manual { true }
+      last_seen_at { nil }
     end
 
-    private
-
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled
-      end
+    trait :withdrawn do
+      active { false }
     end
   end
 end

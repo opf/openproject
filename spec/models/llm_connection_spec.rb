@@ -94,6 +94,50 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe "#settings_fingerprint" do
+    subject(:connection) { build(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    it "changes with the API format" do
+      expect { connection.api_format = "anthropic" }.to change(connection, :settings_fingerprint)
+    end
+
+    it "changes with the host URL" do
+      expect { connection.base_url = "https://elsewhere.example/v1" }.to change(connection, :settings_fingerprint)
+    end
+
+    it "does not change with the API key" do
+      expect { connection.api_key = "sk-rotated" }.not_to change(connection, :settings_fingerprint)
+    end
+  end
+
+  describe "#models_stale?" do
+    subject(:connection) { create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    it "is false while no model list has been fetched" do
+      expect(connection).not_to be_models_stale
+    end
+
+    it "is false while the settings still match the fetched list" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+
+      expect(connection).not_to be_models_stale
+    end
+
+    it "is true once a connection setting changed" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+      connection.update!(base_url: "https://elsewhere.example/v1")
+
+      expect(connection).to be_models_stale
+    end
+
+    it "stays false when only the API key is rotated" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+      connection.update!(api_key: "sk-rotated")
+
+      expect(connection).not_to be_models_stale
+    end
+  end
+
   describe ".available?" do
     context "with the feature flag and the setting on",
             with_flag: { llm_connection: true },

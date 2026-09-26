@@ -28,29 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
-    end
+require "spec_helper"
 
-    private
+RSpec.describe Llm::SyncModelsJob, :llm_server_helpers, :webmock do
+  let(:base_url) { "https://example.com/v1" }
 
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
+  it "refreshes the model list of every stored connection" do
+    connection = create(:llm_connection, base_url:)
+    request = mock_llm_models_response(base_url)
 
-        Setting.llm_features_enabled = model.llm_features_enabled
-      end
-    end
+    described_class.perform_now
+
+    expect(request).to have_been_made.once
+    expect(connection.reload.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+  end
+
+  it "does nothing while no connection is stored" do
+    expect { described_class.perform_now }.not_to raise_error
+  end
+
+  it "refreshes the connections after one whose sync raises" do
+    broken = create(:llm_connection, base_url: "https://broken.example/v1")
+    healthy = create(:llm_connection, base_url:, active: false)
+    request = mock_llm_models_response(base_url)
+    allow(LlmConnections::SyncModelsService).to receive(:new).and_call_original
+    allow(LlmConnections::SyncModelsService).to receive(:new).with(broken).and_raise("unexpected")
+
+    expect { described_class.perform_now }.not_to raise_error
+
+    expect(request).to have_been_made.once
+    expect(healthy.reload.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
   end
 end

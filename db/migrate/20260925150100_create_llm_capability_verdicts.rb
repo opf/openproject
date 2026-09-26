@@ -28,29 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
+class CreateLlmCapabilityVerdicts < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_capability_verdicts do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      # A plain string, not a foreign key: the catalogue is a cache of a remote
+      # list, and a model may vanish from it without invalidating what we learned.
+      t.string :model_id, null: false
+      t.string :capability, null: false
+      t.string :state, null: false
+      t.string :source, null: false
+      t.jsonb :detail, null: false, default: {}
+      t.datetime :checked_at, null: false
+
+      t.timestamps null: false
     end
 
-    private
-
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled
-      end
-    end
+    add_index :llm_capability_verdicts,
+              %i[llm_connection_id model_id capability],
+              unique: true,
+              name: "index_llm_capability_verdicts_on_connection_model_capability"
   end
 end

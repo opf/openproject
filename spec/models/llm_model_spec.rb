@@ -28,29 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
+require "spec_helper"
+
+RSpec.describe LlmModel do
+  let(:connection) { create(:llm_connection) }
+  let(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "bge-m3") }
+
+  describe "#model_type" do
+    it "is chat while nothing says the model embeds" do
+      expect(llm_model).not_to be_embedding
+      expect(llm_model.model_type).to eq(:chat)
     end
 
-    private
+    it "is embedding once the embeddings verdict says so" do
+      connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
+                                             state: "supported", source: "admin", checked_at: Time.current)
 
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
+      expect(llm_model).to be_embedding
+      expect(llm_model.model_type).to eq(:embedding)
+    end
 
-        Setting.llm_features_enabled = model.llm_features_enabled
-      end
+    it "is chat when the embeddings verdict is unknown" do
+      connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
+                                             state: "unknown", source: "metadata", checked_at: Time.current)
+
+      expect(llm_model.model_type).to eq(:chat)
     end
   end
 end
