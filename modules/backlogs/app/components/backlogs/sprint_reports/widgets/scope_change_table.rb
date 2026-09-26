@@ -29,13 +29,23 @@
 #++
 
 module Backlogs
-  class SprintReportsController < BaseController
-    current_menu_item %i[show] do
-      :all_sprints
-    end
+  module SprintReports
+    module Widgets
+      class ScopeChangeTable < WorkPackageTable
+        private
 
-    def show
-      @breakdown = SprintWorkPackageBreakdown.new(sprint: @sprint, project: @project)
+        def empty? = work_package_ids.empty?
+
+        def work_package_ids = raise SubclassResponsibilityError
+
+        def timestamps
+          [breakdown.reference_start, breakdown.reference_finish]
+        end
+
+        def filters
+          [*super, { id: { operator: "=", values: work_package_ids.map(&:to_s) } }]
+        end
+      end
     end
   end
 end

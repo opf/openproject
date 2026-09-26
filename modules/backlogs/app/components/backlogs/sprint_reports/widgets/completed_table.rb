@@ -29,13 +29,23 @@
 #++
 
 module Backlogs
-  class SprintReportsController < BaseController
-    current_menu_item %i[show] do
-      :all_sprints
-    end
+  module SprintReports
+    module Widgets
+      class CompletedTable < WorkPackageTable
+        private
 
-    def show
-      @breakdown = SprintWorkPackageBreakdown.new(sprint: @sprint, project: @project)
+        def i18n_key = :completed
+
+        def empty? = breakdown.completed.work_package_count.zero?
+
+        def timestamps
+          [breakdown.reference_finish]
+        end
+
+        def filters
+          [*super, status_filter("=")]
+        end
+      end
     end
   end
 end

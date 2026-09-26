@@ -29,13 +29,17 @@
 #++
 
 module Backlogs
-  class SprintReportsController < BaseController
-    current_menu_item %i[show] do
-      :all_sprints
-    end
+  module SprintReports
+    module Widgets
+      class RemovedTable < ScopeChangeTable
+        private
 
-    def show
-      @breakdown = SprintWorkPackageBreakdown.new(sprint: @sprint, project: @project)
+        def i18n_key = :removed
+
+        def work_package_ids
+          @work_package_ids ||= breakdown.removed_after_start_ids
+        end
+      end
     end
   end
 end

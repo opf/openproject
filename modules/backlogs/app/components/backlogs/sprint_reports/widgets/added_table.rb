@@ -26,16 +26,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module Backlogs
-  class SprintReportsController < BaseController
-    current_menu_item %i[show] do
-      :all_sprints
-    end
+  module SprintReports
+    module Widgets
+      class AddedTable < ScopeChangeTable
+        private
 
-    def show
-      @breakdown = SprintWorkPackageBreakdown.new(sprint: @sprint, project: @project)
+        def i18n_key = :added
+
+        def work_package_ids
+          @work_package_ids ||= breakdown.added_after_start_ids
+        end
+      end
     end
   end
 end

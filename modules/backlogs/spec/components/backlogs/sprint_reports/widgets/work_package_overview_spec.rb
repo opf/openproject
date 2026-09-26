@@ -39,7 +39,9 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
                                     started_at: 1.week.ago)
   end
 
-  subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
+  let(:breakdown) { SprintWorkPackageBreakdown.new(sprint:, project:) }
+
+  subject(:rendered_component) { render_inline(described_class.new(sprint, project, breakdown)) }
 
   context "when the sprint has started" do
     current_user { build_stubbed(:user) }
@@ -62,7 +64,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     before do
       mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
 
-      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
       allow(breakdown).to receive_messages(
         initially_planned: planned,
         changed_after_start: changed,
