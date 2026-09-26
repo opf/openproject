@@ -226,6 +226,13 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_connection:
+        api_format: "API format"
+        api_key: "API key"
+        base_url: "Host URL"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
+        # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        llm_features_enabled: "Enable LLMs for this instance"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -723,6 +730,25 @@ en:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: "needs credentials that OpenProject cannot store, such as a separate secret key or region."
+            api_key:
+              invalid_api_key: "was rejected by the LLM server."
+            base:
+              singleton: "Only one LLM connection can be active."
+            base_url:
+              cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
+              models_endpoint_missing: "has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1)."
+              not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
+              request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
+              ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."
+              ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            custom_headers:
+              invalid: "must map header names to plain text values."
+            llm_features_enabled:
+              requires_connection: "cannot be turned on before a connection has been configured."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
@@ -1777,6 +1803,24 @@ en:
         no_matches:
           description: "Try a different search term."
           title: "No labels match your search"
+    llm_connections:
+      form:
+        api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
+        api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_discarded: "The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key."
+        api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
+        api_key_placeholder_stored: "API key stored"
+        base_url_caption: "The base URL of the server, for example https://example.com/v1."
+        button_connect: "Connect"
+        label_connecting: "Contacting the LLM server…"
+        llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
+        server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
+        server_group: "Server"
+      show:
+        description: "Connect OpenProject to an LLM server so that AI features can use it."
+      update:
+        disabled: "Saved. LLM features are switched off for this instance."
+        success: "Successfully connected to the LLM server."
 
     mcp_configurations:
       index:
@@ -4356,6 +4400,21 @@ en:
     update:
       failure: "The modified list cannot be saved: %{errors}"
       success: "The modified list has been saved"
+  llm:
+    api_formats:
+      anthropic: "Anthropic"
+      azure: "Azure OpenAI"
+      bedrock: "AWS Bedrock"
+      deepseek: "DeepSeek"
+      gemini: "Google Gemini"
+      gpustack: "GPUStack"
+      mistral: "Mistral"
+      ollama: "Ollama"
+      openai: "OpenAI"
+      openrouter: "OpenRouter"
+      perplexity: "Perplexity"
+      vertexai: "Google Vertex AI"
+      xai: "xAI"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."
@@ -4604,6 +4663,7 @@ en:
       aggregation: "Aggregation"
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
+      llm_connection: "LLM settings"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
