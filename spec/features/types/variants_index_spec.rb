@@ -141,6 +141,7 @@ RSpec.describe "Work package variants index", :js do
     end
 
     expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
     click_on I18n.t(:button_continue)

@@ -60,7 +60,7 @@ Starting with OpenProject 12.5.6 we publish our containers for three architectur
 1. AMD64 (x86)
 2. ARM64
 
-However, the OpenProject **BIM Edition** is only supported on AMD64.
+However, the OpenProject **BIM edition** is only supported on AMD64.
 
 ### Can I install OpenProject offline?
 

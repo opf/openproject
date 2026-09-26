@@ -97,7 +97,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "warns that the list predates the current settings" do
         connection = create(:llm_connection, :with_models, base_url:)
         connection.update!(connection_fingerprint: connection.settings_fingerprint)
-        connection.update!(api_key: "rotated")
+        connection.update!(base_url: "https://elsewhere.example/v1")
 
         get llm_models_path
 

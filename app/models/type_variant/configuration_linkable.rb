@@ -96,16 +96,6 @@ class TypeVariant
       type.default_variant if linked?(aspect)
     end
 
-    def dependents_for(aspect)
-      aspect = self.class.validated_configuration_aspect(aspect)
-      return self.class.none unless is_default_variant?
-
-      self.class.where(type_id:).where.not(id:)
-          .where("? = ANY(linked_aspects)", aspect)
-          .preload(:type)
-          .in_display_order
-    end
-
     def link!(aspect)
       aspect = self.class.validated_configuration_aspect(aspect)
       return if linked_aspects.include?(aspect)
