@@ -67,7 +67,7 @@ module LlmConnections
       return if llm_model.blank?
       return unless model.changed_attributes.include?("default_chat_model_id")
 
-      errors.add(:default_chat_model_id, :cannot_chat) if model.default_chat_model&.embedding?
+      errors.add(:default_chat_model_id, :cannot_chat) if llm_model.embedding?
     end
 
     def features_require_connection
