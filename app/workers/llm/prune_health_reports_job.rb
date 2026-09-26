@@ -28,31 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
-    end
+module Llm
+  # Keeps the health report history bounded.
+  #
+  # Until the scheduled check existed, health_reports only grew when somebody
+  # clicked "Run checks", so nothing anywhere pruned the table. A four-times-daily
+  # writer changes that, and this is the first pruner it has had.
+  #
+  # Only ever prunes reports belonging to an LLM connection: storages and wikis
+  # share the table and still write a row only on demand.
+  class PruneHealthReportsJob < ApplicationJob
+    # Enough history to see a pattern in when a flaky server fails, without
+    # keeping a year of identical green reports.
+    KEEP = 50
+    MAX_AGE = 90.days
 
-    private
+    queue_with_priority :low
 
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
+    def perform
+      LlmConnection.find_each do |connection|
+        recent = connection.health_reports.order(created_at: :desc).limit(KEEP).pluck(:id)
 
-        Setting.llm_features_enabled = model.llm_features_enabled
-        # Switching the AI features on or off decides whether the scheduled
-        # health check has anything to do.
-        Llm::HealthCheckJob.toggle_cron_job
+        connection.health_reports
+                  .where.not(id: recent)
+                  .where(created_at: ...MAX_AGE.ago)
+                  .delete_all
       end
     end
   end

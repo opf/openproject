@@ -28,32 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
+module Llm
+  module Validators
+    # The health report for an LLM connection.
     #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
-    end
+    # Nothing here reads User.current: the whole report has to be reproducible
+    # from a background job, which is what lets the same code answer both the
+    # administrator's "Run checks" and the scheduled re-check.
+    class ConnectionValidator < HealthReports::Validator
+      register_group ConfigurationValidator
 
-    private
+      register_group ServerValidator,
+                     precondition: lambda { |connection, report|
+                       Llm::Adapters.live_discovery?(connection.api_format) &&
+                         report.group(:configuration).non_failure?
+                     }
 
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
+      # Costs a real completion, so it is not part of the scheduled run.
+      register_group InferenceValidator,
+                     precondition: lambda { |connection, report|
+                       connection.deep_health_check? && report.group(:configuration).non_failure?
+                     }
 
-        Setting.llm_features_enabled = model.llm_features_enabled
-        # Switching the AI features on or off decides whether the scheduled
-        # health check has anything to do.
-        Llm::HealthCheckJob.toggle_cron_job
-      end
+      register_group ModelValidator
+      register_group FeatureValidator
     end
   end
 end

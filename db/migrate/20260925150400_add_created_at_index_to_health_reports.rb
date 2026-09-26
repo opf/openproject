@@ -28,32 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
-    end
+# Every consumer of a health report reads the newest one for a subject
+# (`health_reports.order(created_at: :asc).last`), and the table has only a
+# [subject_type, subject_id] index, so that read sorts. Until now the table grew
+# a row per manual "Run checks" click; the LLM connection adds a scheduled check,
+# which makes it grow unattended and adds a pruning delete that filters on age.
+#
+# Storages and wikis benefit from this too.
+class AddCreatedAtIndexToHealthReports < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
 
-    private
-
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled
-        # Switching the AI features on or off decides whether the scheduled
-        # health check has anything to do.
-        Llm::HealthCheckJob.toggle_cron_job
-      end
-    end
+  def change
+    add_index :health_reports,
+              %i[subject_type subject_id created_at],
+              algorithm: :concurrently,
+              if_not_exists: true
   end
 end
