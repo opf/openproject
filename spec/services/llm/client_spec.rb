@@ -35,6 +35,26 @@ RSpec.describe Llm::Client, :llm_server_helpers, :webmock do
 
   let(:base_url) { "https://example.com/v1" }
 
+  describe "#models" do
+    it "reads a catalogue served in the documented envelope" do
+      mock_llm_models_response(base_url)
+
+      expect(client.models["data"].pluck("id")).to contain_exactly("qwen3.6-27b", "bge-m3")
+    end
+
+    it "reads a catalogue served as a bare array" do
+      mock_llm_models_response(base_url, body: LlmServerHelpers::DEFAULT_MODELS.to_json)
+
+      expect(client.models["data"].pluck("id")).to contain_exactly("qwen3.6-27b", "bge-m3")
+    end
+
+    it "refuses a body that is not a catalogue at all" do
+      mock_llm_models_response(base_url, body: { error: "no such route" }.to_json)
+
+      expect { client.models }.to raise_error(Llm::Client::ParseError)
+    end
+  end
+
   describe "the credentials it sends" do
     it "sends the stored key as a bearer token" do
       mock_llm_models_response(base_url)

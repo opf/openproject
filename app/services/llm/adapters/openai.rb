@@ -47,12 +47,7 @@ module Llm
       #
       # @return [Array<Hash>] cards with :id and :raw
       def models
-        @models ||= Array(client.models["data"]).filter_map do |card|
-          id = card["id"]
-          next if id.blank?
-
-          { id:, raw: card }
-        end
+        @models ||= fetch_models
       end
 
       # Which server we are talking to decides which non-standard metadata is
@@ -70,6 +65,19 @@ module Llm
       private
 
       attr_reader :connection
+
+      def fetch_models
+        cards(client.models)
+      end
+
+      def cards(body)
+        Array(body["data"]).filter_map do |card|
+          id = card["id"]
+          next if id.blank?
+
+          { id:, raw: card }
+        end
+      end
 
       def client
         @client ||= Llm::Client.new(base_url: connection.base_url,
