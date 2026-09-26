@@ -82,6 +82,8 @@ import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
@@ -111,6 +113,11 @@ export interface TableHarness {
   rows():HTMLTableRowElement[];
   row(workPackageId:string):HTMLTableRowElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
+  /** Fresh lookup; group headers are replaced on every collapse toggle. */
+  groupHeader(index:number):HTMLTableRowElement;
+  rowIds():string[];
+  /** Work-package entries of the rendered state, in order, as `[workPackageId, hidden]`. */
+  renderedState():[string, boolean][];
   click(workPackageId:string, init?:MouseEventInit):void;
   /** Tells the registered drag member a drag of the given row has begun. */
   dragStart(workPackageId:string):void;
@@ -133,6 +140,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   TestBed.configureTestingModule({ providers: harnessProviders(dragService, options.dragAction) });
 
   const injector = TestBed.inject(Injector);
+  TestBed.inject(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
   const querySpace = TestBed.inject(IsolatedQuerySpace);
   const states = TestBed.inject(States);
   const dom = buildDom();
@@ -205,6 +213,24 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     groupHeaderOf(row) {
       return locatePredecessorBySelector(row, `.${rowGroupClassName}`) as HTMLTableRowElement|null;
+    },
+
+    groupHeader(index) {
+      const header = dom.tbody.querySelector<HTMLTableRowElement>(`tr.${rowGroupClassName}[data-group-index="${index}"]`);
+      if (!header) {
+        throw new Error(`No rendered group header ${index}`);
+      }
+      return header;
+    },
+
+    rowIds() {
+      return this.rows().map((row) => row.dataset.workPackageId!);
+    },
+
+    renderedState() {
+      return (querySpace.tableRendered.value ?? [])
+        .filter(({ workPackageId }) => workPackageId !== null)
+        .map(({ workPackageId, hidden }):[string, boolean] => [workPackageId!, hidden]);
     },
 
     click(workPackageId, init = {}) {
@@ -294,7 +320,13 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
     },
     {
       provide: SchemaCacheService,
-      useValue: { of: () => ({ ofProperty: () => undefined, mappedName: (attribute:string) => attribute }) },
+      useValue: {
+        of: () => ({
+          ofProperty: (attribute:string) => (attribute === 'subject' ? { type: 'String' } : undefined),
+          mappedName: (attribute:string) => attribute,
+          isAttributeEditable: () => false,
+        }),
+      },
     },
     { provide: I18nService, useValue: { t: (key:string) => key, locale: 'en' } },
     { provide: HalResourceService, useValue: {} },
