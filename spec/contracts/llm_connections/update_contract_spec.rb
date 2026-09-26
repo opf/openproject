@@ -251,4 +251,43 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       expect(models_request).not_to have_been_made
     end
   end
+
+  describe "default model selection" do
+    let(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    context "with a model the server offers" do
+      before { connection.default_chat_model = connection.models.find_by(external_id: "bge-m3") }
+
+      include_examples "contract is valid"
+    end
+
+    context "with a model the server does not offer" do
+      before { connection.default_chat_model_id = LlmModel.maximum(:id).to_i + 1 }
+
+      include_examples "contract is invalid", default_chat_model_id: :not_available
+    end
+
+    context "with a model the server says is an embedding model" do
+      before do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.default_chat_model = connection.models.find_by(external_id: "bge-m3")
+      end
+
+      include_examples "contract is invalid", default_chat_model_id: :cannot_chat
+    end
+
+    context "with a stored default the server has since withdrawn" do
+      before do
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection)
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+        connection.llm_features_enabled = true
+      end
+
+      it "still accepts an unrelated change" do
+        expect(connection.changed).not_to include("default_chat_model_id")
+        expect_contract_valid
+      end
+    end
+  end
 end

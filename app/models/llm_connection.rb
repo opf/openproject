@@ -114,6 +114,22 @@ class LlmConnection < ApplicationRecord
     connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
   end
 
+  def available_models
+    models.active.by_identifier
+  end
+
+  def chat_models
+    available_models.reject(&:embedding?)
+  end
+
+  def embedding_model_ids
+    embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
+
+    available_model_ids & embedding
+  end
+
+  def chat_model_ids = available_model_ids - embedding_model_ids
+
   def server_flavour
     options["server_flavour"].presence&.to_sym
   end

@@ -758,6 +758,12 @@ en:
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
             custom_headers:
               invalid: "must map header names to plain text values."
+            default_chat_model_id:
+              cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
+              not_available: "is not offered by the configured LLM server."
+            default_embedding_model_id:
+              cannot_embed: "cannot create embeddings, according to the LLM server."
+              not_available: "is not offered by the configured LLM server."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
         llm_model:
@@ -1860,6 +1866,11 @@ en:
     llm_models:
       create:
         success: "%{model} has been added."
+      defaults:
+        chat_caption: "Only models that are switched on in the list below are offered."
+        description: "Used by AI features that do not choose a model themselves."
+        heading: "Default models"
+        success: "The default models have been saved."
       destroy:
         description: "The model will no longer be offered to AI features."
         description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
