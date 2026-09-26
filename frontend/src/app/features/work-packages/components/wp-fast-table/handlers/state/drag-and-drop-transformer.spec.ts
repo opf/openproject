@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed } from '@angular/core/testing';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
@@ -137,7 +136,7 @@ describe('DragAndDropTransformer', () => {
   it('puts the row back and reports the error when the drop action fails', async () => {
     const error = new Error('drop failed');
     dropAction = () => Promise.reject(error);
-    const notification = TestBed.inject(HalResourceNotificationService);
+    const notification = harness.injector.get(HalResourceNotificationService);
     const handleRawError = vi.spyOn(notification, 'handleRawError');
 
     const success = await harness.drop('1', '2', 'bottom');

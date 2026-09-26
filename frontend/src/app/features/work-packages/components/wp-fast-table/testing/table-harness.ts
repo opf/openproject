@@ -27,7 +27,9 @@
 //++
 
 import { fireEvent } from '@testing-library/dom';
-import { EventEmitter, Injector, Type } from '@angular/core';
+import {
+  createEnvironmentInjector, EnvironmentInjector, EventEmitter, Injector, Type,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { StateService } from '@uirouter/core';
 import { firstValueFrom, of, Subject } from 'rxjs';
@@ -84,6 +86,7 @@ import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
 import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
@@ -97,10 +100,14 @@ export interface TableHarnessOptions {
   groupBy?:string;
   showHierarchies?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
+  /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
+  productionDefaults?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
   /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
   editing?:{ formWritable?:boolean };
+  /** The application-wide resource cache; pass one instance to tables that share a page. */
+  states?:States;
 }
 
 export interface TableHarness {
@@ -140,14 +147,18 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+const unbuildableColumns:WorkPackageTableConfigurationObject = {
+  actionsColumnEnabled: false,
+  columnMenuEnabled: false,
+  dragAndDropEnabled: false,
+};
+
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
-  TestBed.configureTestingModule({ providers: harnessProviders(dragService, options) });
-
-  const injector = TestBed.inject(Injector);
-  TestBed.inject(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
-  const querySpace = TestBed.inject(IsolatedQuerySpace);
-  const states = TestBed.inject(States);
+  const injector = createEnvironmentInjector(harnessProviders(dragService, options), TestBed.inject(EnvironmentInjector));
+  injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+  const querySpace = injector.get(IsolatedQuerySpace);
+  const states = injector.get(States);
   const dom = buildDom();
 
   const groupBy = options.groupBy ?? 'status';
@@ -163,7 +174,9 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     dom.tbody,
     dom.timelineBody,
     {} as WorkPackageTimelineTableController,
-    new WorkPackageTableConfiguration({ ...harnessConfiguration, ...options.configuration }),
+    new WorkPackageTableConfiguration(
+      { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
+    ),
   );
 
   const outputs:WorkPackageViewOutputs = {
@@ -173,6 +186,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
 
   let fixtures = options.workPackages;
+  let destroyed = false;
 
   const nextRender = () => firstValueFrom(
     querySpace.tableRendered.values$().pipe(skip(querySpace.tableRendered.hasValue() ? 1 : 0), take(1)),
@@ -184,8 +198,8 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     container: dom.container,
     injector,
     querySpace,
-    selection: TestBed.inject(WorkPackageViewSelectionService),
-    focus: TestBed.inject(WorkPackageViewFocusService),
+    selection: injector.get(WorkPackageViewSelectionService),
+    focus: injector.get(WorkPackageViewFocusService),
     outputs,
 
     render(workPackages = fixtures) {
@@ -266,12 +280,17 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     // The table redraws in a requestAnimationFrame followed by a setTimeout;
-    // wait those out so a pending redraw cannot fire into a reset TestBed.
+    // wait those out so a pending redraw cannot fire into a destroyed injector.
     async destroy() {
+      if (destroyed) {
+        return;
+      }
+      destroyed = true;
       await nextFrame();
       await nextTask();
       querySpace.stopAllSubscriptions.next();
       dom.wrapper.remove();
+      injector.destroy();
     },
   };
 }
@@ -315,7 +334,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
   const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
 
   return [
-    States,
+    { provide: States, useValue: options.states ?? new States() },
     IsolatedQuerySpace,
     ActionsService,
     WorkPackageViewSelectionService,
@@ -381,6 +400,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
     { provide: CopyToClipboardService, useValue: {} },
+    { provide: CurrentProjectService, useValue: { id: null, identifier: null } },
     { provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: new Subject<string>() } },
     { provide: DragAndDropService, useValue: dragService },
     {
