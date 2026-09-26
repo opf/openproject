@@ -26,6 +26,7 @@ zh-CN:
       project:
         allow_multiple_active_sprints: 允许多个处于有效状态的冲刺
         backlog_excluded_types: 排除的工作包类型
+        estimation_unit: Unit
         sprint_sharing: 冲刺共享
         statuses_considered_closed: 被视为已关闭的状态
       sprint:
@@ -133,6 +134,7 @@ zh-CN:
       show:
         blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
         blankslate_title: 没有可用的燃尽数据
+    estimation_unit: Units
     excluded_work_package_types_caption: '选择要从积压工作中隐藏的工作包类型。所选类型的项目不会自动出现在积压工作中，从而聚焦于对您团队真正重要的工作。例如，可以隐藏长篇故事或里程碑等在更高级别管理的类型，使积压工作聚焦于可执行的项目。
 
       '
@@ -335,6 +337,18 @@ zh-CN:
       backlog_buckets: 积压工作存储桶
       sprints: 冲刺
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -355,6 +369,9 @@ zh-CN:
             label: 子项目
         sprint_sharing: 共享冲刺
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: 默认情况下，每个项目中一次只能有一个冲刺处于有效状态。您可以更改此设置，使此项目中能够同时有多个冲刺处于有效状态。
           heading: 有效冲刺的数量

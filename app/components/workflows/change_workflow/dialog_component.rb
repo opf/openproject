@@ -37,22 +37,23 @@ module Workflows
       DIALOG_ID = "change-workflow-dialog"
       FORM_ID = "change-workflow-form"
 
-      def initialize(variant:)
+      def initialize(variant:, back_url: nil)
         super()
 
         @variant = variant
+        @back_url = back_url
       end
 
       private
 
-      attr_reader :variant
+      attr_reader :variant, :back_url
 
       def title = I18n.t("workflows.change.title")
 
       def form_arguments
         {
           id: FORM_ID,
-          url: url_helpers.change_type_workflow_path(**variant.path_args),
+          url: url_helpers.change_type_workflow_path(**variant.path_args.merge(back_url:).compact),
           method: :patch,
           data: { turbo: false }
         }

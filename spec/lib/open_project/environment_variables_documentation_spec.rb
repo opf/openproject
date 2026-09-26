@@ -61,7 +61,7 @@ RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
   end
 
   it "documents every environment variable, and none that no longer exist" do
-    expected = described_class.sorted_definitions.map(&:first)
+    expected = described_class.documented_definitions.map(&:first)
     undocumented = expected - rows_by_variable.keys
     obsolete = rows_by_variable.keys - expected
 
@@ -89,6 +89,19 @@ RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
       respectively:
 
       #{outdated.map { |variable, description| "  #{variable} -> #{description.inspect}" }.join("\n")}
+
+      To fix it, regenerate the list by running
+
+          #{regenerate}
+    ERR
+  end
+
+  it "does not document feature flags" do
+    flagged = rows_by_variable.keys.grep(/\AOPENPROJECT_FEATURE__.*__ACTIVE\z/)
+
+    expect(flagged).to be_empty, <<~ERR
+      #{flagged.to_sentence} #{flagged.one? ? 'is a feature flag' : 'are feature flags'}, which
+      come and go with the features they guard and are not documented as configuration.
 
       To fix it, regenerate the list by running
 

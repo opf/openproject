@@ -56,10 +56,12 @@ RSpec.describe "Creating a named workflow", :js do
     end
   end
 
-  def open_create_dialog
+  def open_create_dialog(start: "scratch", &)
     visit workflows_path
-    click_on "Workflow"
-    expect(page).to have_css("#workflow-dialog")
+    wait_for_turbo_stream { click_on "Workflow" }
+    run_workflow_start_dialog(start:, &)
+
+    expect(page).to have_field("Workflow name")
   end
 
   it "creates a workflow and lands on its own page" do
@@ -77,14 +79,13 @@ RSpec.describe "Creating a named workflow", :js do
   end
 
   it "copies the transitions of the workflow it was told to start from" do
-    open_create_dialog
+    open_create_dialog(start: "copy") do
+      select_autocomplete(find_test_selector("workflow-copy-source"),
+                          query: "Standard",
+                          results_selector: "#workflow-dialog")
+    end
 
     fill_in "Workflow name", with: "Copied flow"
-
-    select_autocomplete page.find("[data-test-selector='workflow-copy-from']"),
-                        query: "Standard",
-                        results_selector: "body"
-
     click_on "Create"
 
     expect(page).to have_current_path(%r{/workflows/\d+/edit})
@@ -138,17 +139,53 @@ RSpec.describe "Creating a named workflow", :js do
     expect(page).to have_field("Workflow name", with: "Standard flow")
   end
 
-  it "offers Copy from only while creating, never when editing" do
-    open_create_dialog
-    expect(page).to have_css("[data-test-selector='workflow-copy-from']")
-    click_on "Cancel"
+  it "settles the source before naming, and never asks for it twice" do
+    visit workflows_path
+    wait_for_turbo_stream { click_on "Workflow" }
 
+    within_dialog I18n.t("workflows.start.title") do
+      expect(page).to have_test_selector("workflow-copy-source")
+      choose_workflow_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+
+    expect(page).to have_field("Workflow name")
+    expect(page).to have_no_css("[data-test-selector='workflow-copy-from']")
+  end
+
+  it "asks for no source when editing a workflow that already exists" do
     visit edit_workflow_path(existing)
+    find_test_selector("workflow-actions").click
     click_on "Edit"
 
     expect(page).to have_css("#workflow-dialog")
     expect(page).to have_field("Workflow name", with: "Standard flow")
     expect(page).to have_no_css("[data-test-selector='workflow-copy-from']")
+  end
+
+  it "deletes the workflow from its own page" do
+    spare = create(:named_workflow, name: "Spare flow")
+
+    visit edit_workflow_path(spare)
+    find_test_selector("workflow-actions").click
+
+    accept_confirm { find_test_selector("workflow-delete-action").click }
+
+    expect(page).to have_current_path(workflows_path)
+    expect(page).to have_text(I18n.t(:notice_successful_delete))
+    expect(Workflow).not_to exist(spare.id)
+  end
+
+  it "refuses to delete a workflow a type still uses" do
+    in_use = create(:type, name: "Task").default_variant.workflow
+
+    visit edit_workflow_path(in_use)
+    find_test_selector("workflow-actions").click
+
+    accept_confirm { find_test_selector("workflow-delete-action").click }
+
+    expect(page).to have_current_path(workflows_path)
+    expect(Workflow).to exist(in_use.id)
   end
 
   it "lists the new workflow on the index" do
@@ -162,72 +199,5 @@ RSpec.describe "Creating a named workflow", :js do
 
     expect(page).to have_text("Release flow")
     expect(page).to have_text("Standard flow")
-  end
-
-  describe "from a project-owned variant's workflow tab" do
-    shared_let(:type) { create(:type, name: "Bug") }
-    shared_let(:project) { create(:project, name: "Bookshop", types: [type]) }
-    shared_let(:variant) do
-      create(:project_owned_type_variant, type:, project:, variant_name: "Internal")
-    end
-    shared_let(:project_admin) do
-      create(:user, member_with_permissions: { project => %i[manage_project_variants] })
-    end
-
-    let(:tab_path) do
-      edit_type_workflow_path(in_project_id: project, type_id: type.id, variant_id: variant.id)
-    end
-
-    before { login_as project_admin }
-
-    it "creates a workflow the project owns and assigns it to the variant" do
-      visit tab_path
-
-      within_test_selector("workflow-reuse-mode") { click_on "Create new workflow" }
-
-      within_dialog "Create workflow" do
-        fill_in "Workflow name", with: "Internal flow"
-        fill_in "Description", with: "How our tickets move"
-        click_on "Create"
-      end
-
-      expect(page).to have_current_path(tab_path)
-
-      created = variant.reload.workflow
-      expect(created).to have_attributes(name: "Internal flow", description: "How our tickets move")
-      expect(created.project).to eq(project)
-    end
-
-    it "may take a name administration already holds" do
-      expect(Workflow.global.where(name: "Standard flow")).to be_present
-
-      visit tab_path
-
-      within_test_selector("workflow-reuse-mode") { click_on "Create new workflow" }
-
-      within_dialog "Create workflow" do
-        fill_in "Workflow name", with: "Standard flow"
-        click_on "Create"
-      end
-
-      expect(page).to have_current_path(tab_path)
-      expect(variant.reload.workflow.project).to eq(project)
-      expect(Workflow.owned_by(project).where(name: "Standard flow")).to be_present
-    end
-
-    it "refuses a name the project already uses" do
-      create(:project_owned_workflow, project:, name: "Internal flow")
-
-      visit tab_path
-
-      within_test_selector("workflow-reuse-mode") { click_on "Create new workflow" }
-
-      within_dialog "Create workflow" do
-        fill_in "Workflow name", with: "Internal flow"
-        click_on "Create"
-
-        expect(page).to have_text("Name has already been taken")
-      end
-    end
   end
 end

@@ -260,6 +260,22 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(connection).not_to be_models_stale
         end
 
+        it "refreshes the catalogue but keeps the models and defaults when only the API key is rotated" do
+          chat_model = connection.models.find_by!(external_id: "qwen3.6-27b")
+          embedding_model = connection.models.find_by!(external_id: "bge-m3")
+          connection.update!(default_chat_model: chat_model, default_embedding_model: embedding_model)
+          model_ids = connection.models.order(:id).pluck(:id)
+
+          expect { patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-rotated" } } }
+            .to change { connection.reload.last_synced_at }
+
+          expect(connection.api_key).to eq("sk-rotated")
+          expect(connection.models.order(:id).pluck(:id)).to eq(model_ids)
+          expect(connection.default_chat_model_id).to eq(chat_model.id)
+          expect(connection.default_embedding_model_id).to eq(embedding_model.id)
+          expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+        end
+
         it "keeps a model an administrator entered by hand" do
           elsewhere = "https://elsewhere.example/v1"
           create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
@@ -426,14 +442,29 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.reload.api_key).to eq("sk-original")
     end
 
-    # active_connection returns an unsaved record when nothing is stored, and
-    # writing to that inserted a row that failed its own validations, so the
-    # request 500'd instead of saying there is nothing here.
     it "answers 404 on an instance with no connection stored" do
       delete api_key_llm_connection_path
 
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
+    end
+
+    it "refuses a non-admin before looking for a stored connection" do
+      login_as non_admin
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "removes the key from a stored connection that no longer passes validation" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      connection.update_column(:base_url, "not a url")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
     end
   end
 
@@ -514,6 +545,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
+    end
+
+    it "refuses a non-admin before looking for a stored connection" do
+      connection.destroy!
+      login_as non_admin
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "disconnects a stored connection that no longer passes validation" do
+      connection.update_column(:base_url, "not a url")
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
+      expect(Setting.llm_features_enabled?).to be(false)
     end
   end
 

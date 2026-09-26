@@ -26,6 +26,7 @@ sv:
       project:
         allow_multiple_active_sprints: Tillåt flera aktiva sprintar
         backlog_excluded_types: Undantagna arbetspaketstyper
+        estimation_unit: Unit
         sprint_sharing: Delning av sprintar
         statuses_considered_closed: Statusar som betraktas som stängda
       sprint:
@@ -137,6 +138,7 @@ sv:
       show:
         blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
         blankslate_title: Inga burndown-data tillgängliga
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Välj vilka arbetspaketstyper som ska döljas från backloggen. Objekt av de valda typerna visas inte automatiskt i backloggen, så att den kan fokusera på det arbete som är relevant för teamet. Till exempel kan typer som epics eller milstolpar, som hanteras på en högre nivå, döljas så att backloggen fokuserar på åtgärdbara objekt.
 
       '
@@ -346,6 +348,18 @@ sv:
       backlog_buckets: Backlogggrupper
       sprints: Sprintar
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -366,6 +380,9 @@ sv:
             label: Delprojekt
         sprint_sharing: Dela sprintar
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Som standard kan endast en sprint åt gången vara aktiv per projekt. Du kan ändra detta så att flera sprintar kan vara aktiva parallellt i det här projektet.
           heading: Antal aktiva sprintar

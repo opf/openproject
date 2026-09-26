@@ -73,6 +73,7 @@ RSpec.describe "Types", :js do
   it "creates a type with editable core settings" do
     index_page.visit!
     index_page.click_new
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     expect(page).to have_no_select("Parent type")
     expect(page).to have_field("Is milestone", disabled: false)

@@ -67,5 +67,10 @@ Rails.application.configure do |application|
       formatter Project, Projects::Exports::Formatters::PDF::RequiredDiskSpace
       formatter Project, Projects::Exports::Formatters::ProjectPhase
     end
+
+    WorkPackage::Exports::Attributes.add_attribute_visibility_check(:project_phase) do |work_package|
+      User.current.allowed_in_project?(:view_project_phases, work_package.project) &&
+        work_package.project.phases.active.any?
+    end
   end
 end

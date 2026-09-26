@@ -57,7 +57,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
                           author: false, assignee: false)
       end
 
-      before { visit_workflow_edit(roles: [role, role2]) }
+      before { visit_workflow_page(roles: [role, role2]) }
 
       it "shows the checkbox as checked" do
         expect(page).to have_field workflow_checkbox(0, 1), checked: true
@@ -66,7 +66,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
     end
 
     context "when no selected roles have a transition" do
-      before { visit_workflow_edit(roles: [role, role2]) }
+      before { visit_workflow_page(roles: [role, role2]) }
 
       it "shows the checkbox as unchecked" do
         expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -75,7 +75,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
     end
 
     context "when only some selected roles have a transition" do
-      before { visit_workflow_edit(roles: [role, role2]) }
+      before { visit_workflow_page(roles: [role, role2]) }
 
       it "shows the checkbox as indeterminate" do
         expect(page).to have_field workflow_checkbox(0, 1), checked: false
@@ -97,7 +97,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
                           author: false, assignee: false)
       end
 
-      before { visit_workflow_edit(roles: [role, role2]) }
+      before { visit_workflow_page(roles: [role, role2]) }
 
       it "shows the union of statuses from all selected roles" do
         expect(page).to have_field workflow_checkbox(0, 2)
@@ -119,7 +119,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
     end
 
     context "with a single role selected" do
-      before { visit_workflow_edit(roles: [role]) }
+      before { visit_workflow_page(roles: [role]) }
 
       it "does not show indeterminate checkboxes" do
         expect(page).to have_field workflow_checkbox(0, 1), checked: true
@@ -129,7 +129,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
   end
 
   context "when saving" do
-    before { visit_workflow_edit(roles: [role, role2]) }
+    before { visit_workflow_page(roles: [role, role2]) }
 
     it "adds the transition for all roles when checking an unchecked checkbox" do
       expect_transition(role, 1, 0, exist: false)
@@ -201,7 +201,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
                           author: false, assignee: false)
       end
 
-      before { visit_workflow_edit(roles: [role, role2]) }
+      before { visit_workflow_page(roles: [role, role2]) }
 
       it "removes the transition from all roles when unchecking a fully checked checkbox" do
         expect_transition(role, 0, 1, exist: true)
@@ -223,7 +223,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
                           author: false, assignee: false)
       end
 
-      before { visit_workflow_edit(roles: [role, role2]) }
+      before { visit_workflow_page(roles: [role, role2]) }
 
       it "handles touched and untouched indeterminate checkboxes independently" do
         # Both 0 -> 1 and 0 -> 2 are indeterminate
@@ -325,13 +325,13 @@ RSpec.describe "Workflow edit with multiple roles", :js do
   end
 
   context "when deselecting all roles in the select panel" do
-    before { visit_workflow_edit(roles: [role, role2]) }
+    before { visit_workflow_page(roles: [role, role2]) }
 
     it "falls back to the first eligible role instead of leaving the page stuck" do
       click_button "2 roles selected"
       find("[data-item-id='#{role.id}']").click
       find("[data-item-id='#{role2.id}']").click
-      within("select-panel") { click_button "Apply" }
+      within_test_selector("role-panel") { click_button "Apply" }
 
       expect(page).to have_no_text("2 roles selected")
       expect(page).to have_button(role.name)
@@ -339,7 +339,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
   end
 
   context "when modifying statuses" do
-    before { visit_workflow_edit(roles: [role, role2]) }
+    before { visit_workflow_page(roles: [role, role2]) }
 
     it "preserves all selected roles after adding a status" do
       add_status_via_dialog(statuses[2])
@@ -369,7 +369,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
       let(:empty_role1) { create(:project_role) }
       let(:empty_role2) { create(:project_role) }
 
-      before { visit_workflow_edit(roles: [empty_role1, empty_role2]) }
+      before { visit_workflow_page(roles: [empty_role1, empty_role2]) }
 
       it "shows a blankslate" do
         expect(page).to have_text("No status transitions configured")
