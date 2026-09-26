@@ -39,8 +39,8 @@ export function relationRowClass():string {
   return 'wp-table--relations-additional-row';
 }
 
-export function locateTableRow(workPackageId:string) {
-  return document.querySelector<HTMLTableRowElement>(`.${rowId(workPackageId)}`);
+export function locateTableRow(workPackageId:string, root:ParentNode = document) {
+  return root.querySelector<HTMLTableRowElement>(`.${rowId(workPackageId)}`);
 }
 
 export function locateTableRowByIdentifier(identifier:string) {
@@ -68,9 +68,9 @@ export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTM
   return null;
 }
 
-export function scrollTableRowIntoView(workPackageId:string):void {
+export function scrollTableRowIntoView(workPackageId:string, root:ParentNode = document):void {
   try {
-    const element = locateTableRow(workPackageId)!;
+    const element = locateTableRow(workPackageId, root)!;
     const container = getScrollParent(element);
     const containerTop = container.scrollTop;
     const containerBottom = containerTop + container.clientHeight;
@@ -84,7 +84,7 @@ export function scrollTableRowIntoView(workPackageId:string):void {
       container.scrollTop = elemBottom - container.clientHeight;
     }
   } catch (e) {
-    console.warn(`Can't scroll row element into view: ${e}`);
+    console.warn(`Can't scroll row element into view: ${String(e)}`);
   }
 }
 
@@ -104,5 +104,5 @@ function getScrollParent(element:HTMLElement, includeHidden = false) {
     parent = parent.parentElement;
   }
 
-  return document.scrollingElement || document.documentElement;
+  return document.scrollingElement ?? document.documentElement;
 }

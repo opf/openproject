@@ -108,6 +108,8 @@ export interface TableHarnessOptions {
   editing?:{ formWritable?:boolean };
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
+  /** Shows the timeline side through the query, as a saved Gantt view does. */
+  timelineVisible?:boolean;
 }
 
 export interface TableHarness {
@@ -124,6 +126,7 @@ export interface TableHarness {
   nextRender():Promise<RenderedWorkPackage[]>;
   rows():HTMLTableRowElement[];
   row(workPackageId:string):HTMLTableRowElement;
+  timelineRow(workPackageId:string):HTMLElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   /** Fresh lookup; group headers are replaced on every collapse toggle. */
   groupHeader(index:number):HTMLTableRowElement;
@@ -162,7 +165,12 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   const dom = buildDom();
 
   const groupBy = options.groupBy ?? 'status';
-  const query = buildQuery(options.columns ?? ['id', 'subject'], options.groups ? groupBy : null, options.showHierarchies ?? false);
+  const query = buildQuery(
+    options.columns ?? ['id', 'subject'],
+    options.groups ? groupBy : null,
+    options.showHierarchies ?? false,
+    options.timelineVisible ?? false,
+  );
   querySpace.query.putValue(query);
   querySpace.groups.putValue((options.groups ?? []).map((group, index) => buildGroup(group, groupBy, index)));
   initializeViewServices(injector, query);
@@ -226,6 +234,14 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       const row = dom.tbody.querySelector<HTMLTableRowElement>(`tr.wp-table--row[data-work-package-id="${workPackageId}"]`);
       if (!row) {
         throw new Error(`No rendered row for work package ${workPackageId}`);
+      }
+      return row;
+    },
+
+    timelineRow(workPackageId) {
+      const row = dom.timelineBody.querySelector<HTMLElement>(`.wp-timeline-cell[data-work-package-id="${workPackageId}"]`);
+      if (!row) {
+        throw new Error(`No rendered timeline row for work package ${workPackageId}`);
       }
       return row;
     },
@@ -434,7 +450,7 @@ function buildDom() {
   };
 }
 
-function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean):QueryResource {
+function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
   return {
     id: null,
     columns: columns.map((id) => ({ id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` })),
@@ -443,7 +459,7 @@ function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boole
     showHierarchies,
     highlightingMode: 'inline',
     highlightedAttributes: [],
-    timelineVisible: false,
+    timelineVisible,
     timelineZoomLevel: 'days',
     timelineLabels: undefined,
   } as unknown as QueryResource;
