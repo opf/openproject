@@ -62,6 +62,10 @@ en:
           one: "1 work package selected."
           other: "%{count} work packages selected."
     burndown:
+      chart_day: "Day %{day}: %{values}"
+      chart_label: "Burndown chart"
+      chart_summary: "Burndown chart data: %{days}."
+      chart_value: "%{label}: %{value}"
       day: "Day"
       points: "Points"
     work_packages:
