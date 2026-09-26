@@ -39,14 +39,18 @@ RSpec.describe "Work package variants index", :js do
 
   before { login_as(admin) }
 
+  def type_group(type)
+    find(:link, type.name, href: type_settings_path(type_id: type.id)).ancestor(:list_item)
+  end
+
   it "makes only types draggable via a drag handle" do
     visit types_path
 
     expect(page).to have_text(bug_type.name)
     expect(page).to have_text(feature_type.name)
 
-    expect(page).to have_css("[data-draggable-id='#{bug_type.id}'] .DragHandle", visible: :all)
-    expect(page).to have_css("[data-draggable-id='#{feature_type.id}'] .DragHandle", visible: :all)
+    expect(page).to have_css("[data-sortable-lists--item-id-value='#{bug_type.id}'] .DragHandle", visible: :all)
+    expect(page).to have_css("[data-sortable-lists--item-id-value='#{feature_type.id}'] .DragHandle", visible: :all)
 
     variant_row = page.find(".Box-row", text: alfa_variant.variant_name, visible: :all)
     expect(variant_row).to have_no_css(".DragHandle", visible: :all)
@@ -70,11 +74,11 @@ RSpec.describe "Work package variants index", :js do
   it "counts a type's named variants in a badge on its header" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    within(type_group(bug_type).find(".Box-header")) do
       expect(page).to have_css(".Counter", text: "2")
     end
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    within(type_group(feature_type).find(".Box-header")) do
       expect(page).to have_no_css(".Counter")
     end
   end
@@ -84,11 +88,11 @@ RSpec.describe "Work package variants index", :js do
 
     visit types_path
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    within(type_group(feature_type).find(".Box-header")) do
       expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    within(type_group(bug_type).find(".Box-header")) do
       expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
   end
@@ -96,7 +100,7 @@ RSpec.describe "Work package variants index", :js do
   it "offers configure, move and delete on a type" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    within(type_group(bug_type).find(".Box-header")) do
       find("action-menu > button").click
       expect(page).to have_link(I18n.t(:button_configure))
       expect(page).to have_button(I18n.t(:button_move))
@@ -136,7 +140,7 @@ RSpec.describe "Work package variants index", :js do
   it "adds a variant to a type from the group's add-variant row" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}']") do
+    within(type_group(bug_type)) do
       click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
 
@@ -146,14 +150,14 @@ RSpec.describe "Work package variants index", :js do
     fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
     click_on I18n.t(:button_continue)
 
-    expect(bug_type.reload.variants.non_default_variants.pluck(:variant_name))
+    wait_for { bug_type.reload.variants.non_default_variants.pluck(:variant_name) }
       .to contain_exactly("Alpha variant", "Zeta variant", "Hardware")
   end
 
   it "returns to the index when the add-variant wizard is cancelled" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}']") do
+    within(type_group(bug_type)) do
       click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
 
@@ -167,7 +171,7 @@ RSpec.describe "Work package variants index", :js do
   it "duplicates a type from its action menu" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    within(type_group(bug_type).find(".Box-header")) do
       find("action-menu > button").click
       click_on I18n.t(:button_duplicate)
     end
@@ -182,10 +186,13 @@ RSpec.describe "Work package variants index", :js do
 
     expect(bug_type.position).to be < feature_type.position
 
-    drag_handle = page.find("[data-draggable-id='#{feature_type.id}'] .DragHandle")
-    target = page.find("[data-draggable-id='#{bug_type.id}']")
-
-    drag_n_drop_element(from: drag_handle, to: target)
+    wait_for_turbo_stream do
+      Pages::Page.new.drag_and_drop_list(
+        from: 1, to: 0,
+        elements: ".op-types-sortable-list > [role='listitem']",
+        handler: "[data-sortable-lists--item-target~='handle']"
+      )
+    end
 
     wait_for { feature_type.reload.position }.to be < bug_type.reload.position
   end
@@ -195,7 +202,7 @@ RSpec.describe "Work package variants index", :js do
 
     expect(bug_type.position).to be < feature_type.position
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    within(type_group(feature_type).find(".Box-header")) do
       find("action-menu > button").click
       click_on I18n.t(:button_move)
       click_on I18n.t(:label_sort_highest)

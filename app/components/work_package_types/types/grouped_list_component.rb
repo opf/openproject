@@ -34,16 +34,17 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(types:, expanded_type_id: nil)
+      def initialize(types:, expanded_type_id: nil, page_args: {})
         super()
 
         @types = types
         @expanded_type_id = expanded_type_id
+        @page_args = page_args.presence || { page: types.current_page, per_page: types.per_page }
       end
 
       private
 
-      attr_reader :types, :expanded_type_id
+      attr_reader :types, :expanded_type_id, :page_args
 
       def collapsed?(root)
         root.id != expanded_type_id
@@ -88,7 +89,7 @@ module WorkPackageTypes
       end
 
       def menu_src(type)
-        menu_type_path(type)
+        menu_type_path(type, **context_args)
       end
 
       def variant_menu_id(variant)
@@ -103,18 +104,35 @@ module WorkPackageTypes
         !(type.first? && type.last?)
       end
 
+      def context_args
+        page_args.merge(expand: expanded_type_id).compact
+      end
+
+      def root_data
+        {
+          controller: "sortable-lists",
+          sortable_lists_move_url_template_value: drop_type_path("__id__", **context_args).sub("__id__", "{id}"),
+          sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+          sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
+        }
+      end
+
       def drop_target_config
         {
-          generic_drag_and_drop_target: "container",
-          "target-allowed-drag-type": "work-package-type"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: ::Type.model_name.param_key,
+          sortable_lists__list_accepted_type_value: ::Type.model_name.param_key,
+          sortable_lists__list_name_value: t(:label_type_plural)
         }
       end
 
       def draggable_item_config(root)
         {
-          "draggable-type": "work-package-type",
-          "draggable-id": root.id,
-          "drop-url": drop_type_path(root)
+          controller: "sortable-lists--item",
+          sortable_lists__item_target: "preview",
+          sortable_lists__item_id_value: root.id,
+          sortable_lists__item_type_value: ::Type.model_name.param_key,
+          sortable_lists__item_label_value: root.name
         }
       end
     end

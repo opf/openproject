@@ -1,0 +1,47 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-types-sortable-list
+  --op-border-box-list-drop-gap-border-width: 2px
+  --op-border-box-list-drop-gap-height: 8px
+
+  &[data-drop-container]
+    outline: var(--borderWidth-thick) solid var(--fgColor-accent)
+    outline-offset: calc(var(--borderWidth-thick) * -1)
+    border-radius: var(--borderRadius-medium)
+
+  &[data-drop-container="refused"]
+    outline-color: var(--borderColor-danger-muted)
+
+  > [role="listitem"][data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+
+  > [role="listitem"][data-drop-position]
+    position: relative
+
+    &::before,
+    &::after
+      position: absolute
+      left: 0
+      right: 0
+      height: var(--op-border-box-list-drop-gap-height)
+      background: linear-gradient(to bottom, var(--bgColor-accent-muted) 0, var(--bgColor-accent-muted) calc(50% - var(--op-border-box-list-drop-gap-border-width) / 2), var(--fgColor-accent) calc(50% - var(--op-border-box-list-drop-gap-border-width) / 2), var(--fgColor-accent) calc(50% + var(--op-border-box-list-drop-gap-border-width) / 2), var(--bgColor-accent-muted) calc(50% + var(--op-border-box-list-drop-gap-border-width) / 2), var(--bgColor-accent-muted) 100%)
+      pointer-events: none
+      z-index: 1
+
+    &[data-drop-position="top"]::before
+      content: ''
+      top: calc(var(--op-border-box-list-drop-gap-height) / -2)
+
+    &[data-drop-position="bottom"]::after
+      content: ''
+      bottom: calc(var(--op-border-box-list-drop-gap-height) / -2)

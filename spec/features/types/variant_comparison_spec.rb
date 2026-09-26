@@ -84,10 +84,13 @@ RSpec.describe "Comparing the variants of a work package type", :js do
   it "opens from the type's action menu, and only where there is something to compare" do
     visit types_path
 
-    within("[data-draggable-id='#{type.id}'] .Box-header") do
-      find("action-menu > button").click
+    group = find(:link, type.name, href: type_settings_path(type_id: type.id)).ancestor(:list_item)
+    within(group) do
+      within(".Box-header") do
+        find(:button, accessible_name: I18n.t(:label_actions)).click
 
-      click_on I18n.t("types.comparison.action")
+        click_on I18n.t("types.comparison.action")
+      end
     end
 
     expect(page).to have_current_path(comparison_type_variants_path(type_id: type.id))
@@ -95,10 +98,13 @@ RSpec.describe "Comparing the variants of a work package type", :js do
 
     visit types_path
 
-    within("[data-draggable-id='#{plain_type.id}'] .Box-header") do
-      find("action-menu > button").click
+    group = find(:link, plain_type.name, href: type_settings_path(type_id: plain_type.id)).ancestor(:list_item)
+    within(group) do
+      within(".Box-header") do
+        find(:button, accessible_name: I18n.t(:label_actions)).click
 
-      expect(page).to have_no_link(I18n.t("types.comparison.action"))
+        expect(page).to have_no_link(I18n.t("types.comparison.action"))
+      end
     end
   end
 

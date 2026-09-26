@@ -45,6 +45,8 @@ class Type < ApplicationRecord
   has_many :project_types, dependent: :delete_all
   has_many :projects, through: :project_types
 
+  include Lists::MoveAfterAnchor
+
   acts_as_list
 
   validates :name,

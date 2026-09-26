@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |grid| %>
   <% if show_drag_handle? %>
     <% grid.with_area(:drag_handle, classes: "hide-when-print") do %>
-      <%= render(Primer::OpenProject::DragHandle.new) %>
+      <%= render(Primer::OpenProject::DragHandle.new(**drag_handle_arguments)) %>
     <% end %>
   <% end %>
 

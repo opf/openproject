@@ -164,4 +164,32 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       end
     end
   end
+
+  describe "sortable groups", with_settings: { per_page_options: "2,100" } do
+    let!(:types) { %w[A B C D E].map { |name| create(:type, name:) } }
+    let!(:variant) { create(:type_variant, type: types[2], variant_name: "Variant") }
+
+    subject(:rendered_component) do
+      with_request_url "/types?page=2&per_page=2" do
+        render_inline(described_class.new(types: Type.page(2).per_page(2), expanded_type_id: types[2].id))
+      end
+    end
+
+    it "registers only whole groups as sortable items" do
+      expect(rendered_component).to have_css("[data-controller~='sortable-lists--list']", count: 1)
+      expect(rendered_component).to have_css("[role='list'] > [role='listitem'][data-controller~='sortable-lists--item']",
+                                             count: 2)
+      expect(rendered_component).to have_no_css(".Box-row[data-controller~='sortable-lists--item']")
+      expect(rendered_component).to have_css(".DragHandle[data-sortable-lists--item-target='handle']", count: 2)
+      expect(rendered_component).to have_no_css("[data-controller~='generic-drag-and-drop']")
+    end
+
+    it "carries page context through drag and lazy menu URLs" do
+      root = Capybara.string(rendered_component.to_html).find("[data-controller~='sortable-lists']")
+      expected = drop_type_path("__id__", page: 2, per_page: 2, expand: types[2].id).sub("__id__", "{id}")
+      expect(root["data-sortable-lists-move-url-template-value"]).to eq(expected)
+      expect(root).to have_css("include-fragment[src='#{menu_type_path(types[2], page: 2, per_page: 2, expand: types[2].id)}']")
+      expect(root).to have_link("1", href: types_path(page: 1, per_page: 2, expand: types[2].id))
+    end
+  end
 end

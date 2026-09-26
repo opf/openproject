@@ -97,11 +97,10 @@ RSpec.describe WorkPackageTypes::TypesController do
         let(:params) { { "id" => type.id, "type" => { move_to: "lower" } } }
 
         before do
-          post :move, params:
+          post :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to have_http_status(:ok) }
 
         it "has the position updated" do
           expect(Type.find_by(name: "My type").position).to eq(2)
@@ -117,13 +116,13 @@ RSpec.describe WorkPackageTypes::TypesController do
           allow(Type).to receive(:find).and_return(type)
           allow(type).to receive(:update).and_return false
 
-          post :move, params:
+          post :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to have_http_status(:unprocessable_entity) }
 
         it "has an unsuccessful move flash" do
-          expect(flash[:error]).to eq(I18n.t(:error_type_could_not_be_saved))
+          expect(response.body).to include(I18n.t(:error_type_could_not_be_saved))
         end
 
         it "doesn't update the position" do
@@ -228,10 +227,10 @@ RSpec.describe WorkPackageTypes::TypesController do
       let!(:first_type) { create(:type, name: "First") }
       let!(:second_type) { create(:type, name: "Second") }
 
-      it "reorders the dropped type to the given position" do
+      it "reorders the dropped type before the first item" do
         expect(first_type.position).to be < second_type.position
 
-        put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+        put :drop, params: { id: second_type.id, list_type: "type", list_id: "", prev_id: "" }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(second_type.reload.position).to eq(1)
