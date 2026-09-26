@@ -39,12 +39,12 @@ export function relationRowClass():string {
   return 'wp-table--relations-additional-row';
 }
 
-export function locateTableRow(workPackageId:string, root:ParentNode = document) {
+export function locateTableRow(workPackageId:string, root:ParentNode) {
   return root.querySelector<HTMLTableRowElement>(`.${rowId(workPackageId)}`);
 }
 
-export function locateTableRowByIdentifier(identifier:string) {
-  return document.querySelector<HTMLTableRowElement>(`.${identifier}-table`);
+export function locateTableRowByIdentifier(identifier:string, root:ParentNode) {
+  return root.querySelector<HTMLTableRowElement>(`.${identifier}-table`);
 }
 
 export function isInsideCollapsedGroup(el?:Element | null) {
@@ -68,7 +68,7 @@ export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTM
   return null;
 }
 
-export function scrollTableRowIntoView(workPackageId:string, root:ParentNode = document):void {
+export function scrollTableRowIntoView(workPackageId:string, root:ParentNode):void {
   try {
     const element = locateTableRow(workPackageId, root)!;
     const container = getScrollParent(element);
