@@ -28,36 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class FormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "spec_helper"
 
-    def self.wrapper_key = :llm_connection_form
+RSpec.describe Queries::LlmModels::LlmModelQuery do
+  subject(:results) { described_class.new.results.pluck(:external_id) }
 
-    alias_method :connection, :model
+  let(:active_connection) { create(:llm_connection) }
+  let(:inactive_connection) { create(:llm_connection, active: false) }
 
-    private
+  before do
+    create(:llm_model, llm_connection: active_connection, external_id: "qwen3.6-27b")
+    create(:llm_model, llm_connection: active_connection, external_id: "bge-m3")
+    create(:llm_model, llm_connection: inactive_connection, external_id: "e5-large")
+  end
 
-    def wrapper_options
-      {
-        data: {
-          controller: "admin--llm-connection-form show-when-checked show-when-value-selected",
-          test_selector: "llm-connection--form"
-        }
-      }
-    end
+  it "lists the models of the active connection by identifier" do
+    expect(results).to eq(["bge-m3", "qwen3.6-27b"])
+  end
 
-    # The save can turn the connection on, which adds the tabs to the page
-    # header outside this frame, so the response replaces the whole page.
-    def form_options
-      {
-        model: connection,
-        url: llm_connection_path,
-        method: :patch,
-        data: { turbo_frame: "_top" }
-      }
-    end
+  it "leaves out the models of an inactive connection" do
+    expect(results).not_to include("e5-large")
   end
 end
