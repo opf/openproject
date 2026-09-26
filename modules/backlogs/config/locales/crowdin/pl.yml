@@ -26,6 +26,7 @@ pl:
       project:
         allow_multiple_active_sprints: Zezwalaj na wiele aktywnych sprintów
         backlog_excluded_types: Wykluczone typy pakietów roboczych
+        estimation_unit: Unit
         sprint_sharing: Udostępnianie sprintu
         statuses_considered_closed: Statusy uznane za zamknięte
       sprint:
@@ -145,6 +146,7 @@ pl:
       show:
         blankslate_description: Ustaw datę rozpoczęcia i zakończenia sprintu, aby wygenerować wykres spalania.
         blankslate_title: Brak dostępnych danych spalania
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Wybierz typy pakietów roboczych do ukrycia w backlogu. Elementy wybranych typów nie pojawią się automatycznie w backlogu, dzięki czemu bcklog skupiać się będzie się na pracy, która ma znaczenie dla Twojego zespołu. Na przykład typy takie jak Wydarzenia lub Kamienie milowe, zarządzane na wyższym poziomie, mogą być ukryte w celu utrzymania koncentracji backlogu na pozycjach umożliwiających działanie.
 
       '
@@ -364,6 +366,18 @@ pl:
       backlog_buckets: Kategorie backlogu
       sprints: Sprinty
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -384,6 +398,9 @@ pl:
             label: Podprojekty
         sprint_sharing: Udostępnij sprinty
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Domyślnie w ramach jednego projektu może być aktywny tylko jeden sprint. Można to zmienić, aby w ramach tego projektu mogło być aktywnych jednocześnie wiele sprintów.
           heading: Liczba aktywnych sprintów

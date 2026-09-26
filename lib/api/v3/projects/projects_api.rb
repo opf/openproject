@@ -72,6 +72,7 @@ module API
 
             mount API::V3::Projects::Copy::CopyAPI
             mount API::V3::Projects::Configuration::ProjectConfigurationAPI
+            mount ::API::V3::AI::TextTransformActionsByProjectAPI
 
             mount ::API::V3::Workspaces::InstanceApis
             mount ::API::V3::Workspaces::NestedApis

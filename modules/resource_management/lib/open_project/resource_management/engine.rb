@@ -36,7 +36,7 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    patches %i[PlaceholderUser]
+    patches %i[PlaceholderUser WorkPackage]
 
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]
@@ -163,6 +163,35 @@ module OpenProject::ResourceManagement
         filter ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
         exclude ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
       end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:allocated_time) do |eager_scope, work_package_scope, _current_user|
+          eager_scope.include_allocated_time(work_package_scope)
+        end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:allocated_principals) do |eager_scope, _work_package_scope, _current_user|
+          eager_scope.preload(allocated_resource_allocations: %i[placeholder_user visible_principal])
+        end
+
+      resource_management_constraint = ->(_type, project: nil) {
+        project.nil? || project.module_enabled?(:resource_management)
+      }
+
+      ::Exports::Register.register do
+        formatter WorkPackage, WorkPackage::Exports::Formatters::AllocatedTime
+        formatter WorkPackage, WorkPackage::Exports::Formatters::AllocatedPrincipals
+      end
+
+      ::WorkPackage::Exports::Attributes
+        .add_attribute_visibility_check(:allocated_time, :allocated_principals) do |work_package|
+          EnterpriseToken.allows_to?(:resource_management) &&
+            User.current.allowed_in_project?(:view_resource_planners, work_package.project)
+        end
+
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :allocated_time, :allocated_principals)
+      ::TypeVariant.add_constraint :allocated_time, resource_management_constraint
+      ::TypeVariant.add_constraint :allocated_principals, resource_management_constraint
     end
 
     add_api_path :allocatable_principals do
@@ -192,6 +221,69 @@ module OpenProject::ResourceManagement
           title: "Allocate resource to '#{represented.subject}'"
         }
       end
+
+      link :showResourceAllocations,
+           cache_if: -> { resource_allocations_visible? } do
+        next if represented.new_record? || represented.project.nil?
+
+        {
+          href: project_work_package_resource_allocations_path(represented.project, represented.id),
+          type: "text/vnd.turbo-stream.html",
+          title: "Resource allocations of '#{represented.subject}'"
+        }
+      end
+
+      property :allocated_time,
+               exec_context: :decorator,
+               getter: ->(*) { datetime_formatter.format_duration_from_hours(represented.allocated_minutes / 60.0) },
+               if: ->(*) { resource_allocations_visible? },
+               uncacheable: true
+
+      links :allocatedPrincipals,
+            uncacheable: true do
+        next unless resource_allocations_visible?
+
+        principal_links = represented.allocated_principals.map do |principal|
+          {
+            href: api_v3_paths.send(API::V3::Principals::PrincipalType.for(principal), principal.id),
+            title: principal.name
+          }
+        end
+
+        if represented.undisclosed_allocated_principals?
+          principal_links << {
+            href: API::V3::URN_UNDISCLOSED,
+            title: I18n.t("api_v3.undisclosed.allocatedPrincipal")
+          }
+        end
+
+        principal_links
+      end
+
+      send(:define_method, :resource_allocations_visible?) do
+        EnterpriseToken.allows_to?(:resource_management) &&
+          current_user.allowed_in_project?(:view_resource_planners, represented.project)
+      end
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      resource_allocations_visible = ->(*) {
+        EnterpriseToken.allows_to?(:resource_management) &&
+          current_user.allowed_in_project?(:view_resource_planners, represented.project)
+      }
+
+      schema :allocated_time,
+             type: "Duration",
+             required: false,
+             writable: false,
+             show_if: resource_allocations_visible
+
+      schema :allocated_principals,
+             type: "[]User",
+             location: :link,
+             required: false,
+             writable: false,
+             show_if: resource_allocations_visible
     end
   end
 end

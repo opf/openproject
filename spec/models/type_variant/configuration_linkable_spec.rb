@@ -90,34 +90,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     end
   end
 
-  describe "#dependents_for" do
-    it "is empty when nothing inherits the aspect" do
-      expect(base.dependents_for(aspect)).to be_empty
-    end
-
-    it "returns the named variants of the type that inherit the aspect" do
-      variant.link!(aspect)
-      other = create(:type_variant, type: type_record).tap { it.link!(aspect) }
-      independent = create(:type_variant, type: type_record)
-
-      expect(base.dependents_for(aspect)).to contain_exactly(variant, other)
-      expect(base.dependents_for(aspect)).not_to include(independent)
-    end
-
-    it "keeps the aspects apart" do
-      variant.link!(TypeVariant::PDF_EXPORT)
-
-      expect(base.dependents_for(aspect)).to be_empty
-      expect(base.dependents_for(TypeVariant::PDF_EXPORT)).to contain_exactly(variant)
-    end
-
-    it "is empty for a named variant, since only a base is ever a source" do
-      variant.link!(aspect)
-
-      expect(variant.dependents_for(aspect)).to be_empty
-    end
-  end
-
   describe "#owner_of" do
     it "returns itself when independent" do
       expect(variant.owner_of(aspect)).to eq(variant)

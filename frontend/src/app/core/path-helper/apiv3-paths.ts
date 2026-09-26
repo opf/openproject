@@ -58,6 +58,30 @@ export class ApiV3Paths {
     return base;
   }
 
+  public aiTextTransformActions() {
+    return `${this.apiV3Base}/ai_text_transform_actions`;
+  }
+
+  public aiTextTransformActionsByWorkPackage(workPackageId:string|number) {
+    return `${this.apiV3Base}/work_packages/${workPackageId}/ai_text_transform_actions`;
+  }
+
+  public aiTextTransformActionsByProject(projectId:string|number, typeId:string|number) {
+    return `${this.apiV3Base}/projects/${projectId}/ai_text_transform_actions?typeId=${typeId}`;
+  }
+
+  public aiTextTransformRuns() {
+    return `${this.apiV3Base}/ai_text_transform_runs`;
+  }
+
+  public aiTextTransformRun(uuid:string) {
+    return `${this.aiTextTransformRuns()}/${uuid}`;
+  }
+
+  public aiTextTransformRunCancel(uuid:string) {
+    return `${this.aiTextTransformRun(uuid)}/cancel`;
+  }
+
   /**
    * Principals autocompleter path
    *

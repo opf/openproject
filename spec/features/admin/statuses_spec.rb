@@ -81,6 +81,27 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
+    context "with a long status name on a phone-sized screen" do
+      shared_let(:long_status) do
+        create(:status, name: "Awaiting review by the architecture and design review board", position: 4)
+      end
+
+      include_context "with mobile screen size", 400, 900
+
+      it "keeps the row actions inside the viewport" do
+        statuses_page.visit!
+
+        statuses_page.within_status(long_status) do
+          button = find(:button, accessible_name: "Status actions", obscured: false) do |candidate|
+            candidate.native.node.in_viewport?
+          end
+
+          button.click
+          expect(page).to have_button("Move to top")
+        end
+      end
+    end
+
     it "reorders statuses by dragging them after a morph", :selenium do
       visit statuses_page.path
 

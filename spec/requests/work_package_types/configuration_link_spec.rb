@@ -42,18 +42,25 @@ RSpec.describe "Work package type configuration source",
   before { login_as admin }
 
   describe "rendering the tabs" do
-    it "renders the PDF tab with the reuse mode boxes in manual mode" do
+    it "renders a variant's PDF tab with the mode selector in manual mode" do
+      get edit_type_pdf_export_template_index_path(**variant.path_args)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Configure this page manually")
+    end
+
+    it "renders a variant's subject tab with the mode selector in manual mode" do
+      get edit_type_defaults_path(**variant.path_args)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Configure this page manually")
+    end
+
+    it "omits the mode selector on a type's own tab, since a type has no mode" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Manual configuration")
-    end
-
-    it "renders the subject tab with the reuse mode boxes in manual mode" do
-      get edit_type_defaults_path(type_id: type.id)
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Manual configuration")
+      expect(response.body).not_to include("Configure this page manually")
     end
 
     it "shows the type's own editor when Independent" do
@@ -62,13 +69,15 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("PDF Export templates")
     end
 
-    it "shows the linked banner and links to the parent type when Linked" do
+    it "links to the parent type in the inherit option when Linked" do
       link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
 
-      expect(response.body).to include("Inherited configuration")
       expect(response.body).to include(type.default_variant.composite_name)
+      expect(response.body).to include(
+        edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: type.default_variant.id)
+      )
     end
 
     it "shows a read-only preview instead of the editable editor when Linked" do
@@ -90,7 +99,6 @@ RSpec.describe "Work package type configuration source",
       get edit_type_defaults_path(type_id: type.id, variant_id: variant.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Inherited configuration")
       expect(response.body).to include("PR-{{id}}")
       expect(response.body).to include(
         edit_type_defaults_path(type_id: type.id, variant_id: type.default_variant.id)

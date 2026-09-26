@@ -35,6 +35,7 @@ import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
 import FormPreviewController from './controllers/form-preview.controller';
 import AsyncDialogController from './controllers/async-dialog.controller';
+import ModeSwitchRadioController from './controllers/mode-switch-radio.controller';
 import PollForChangesController from './controllers/poll-for-changes.controller';
 import TableHighlightingController from './controllers/table-highlighting.controller';
 import OpShowWhenCheckedController from './controllers/show-when-checked.controller';
@@ -88,6 +89,7 @@ declare global {
 
 OpenProjectStimulusApplication.preregister('application', OpApplicationController);
 OpenProjectStimulusApplication.preregister('async-dialog', AsyncDialogController);
+OpenProjectStimulusApplication.preregister('mode-switch-radio', ModeSwitchRadioController);
 OpenProjectStimulusApplication.preregister('disable-when-checked', OpDisableWhenCheckedController);
 OpenProjectStimulusApplication.preregister('disable-when-clicked', DisableWhenClickedController);
 OpenProjectStimulusApplication.preregister('disable-when-value-selected', OpDisableWhenValueSelectedController);

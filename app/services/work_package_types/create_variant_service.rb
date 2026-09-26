@@ -37,28 +37,13 @@ module WorkPackageTypes
 
     def instance_class = TypeVariant
 
-    def instance(params)
-      type.variants.new(workflow: workflow_for(params[:project]), linked_aspects: TypeVariant::ASPECTS.dup)
-    end
-
-    def after_perform(service_call)
-      workflow = service_call.result.workflow
-      Workflows::StatusTransition.copy(base_workflow, nil, workflow, nil) if workflow.project_specific?
-
-      service_call
+    def instance(_params)
+      type.variants.new(workflow: base_workflow, linked_aspects: TypeVariant::ASPECTS.dup)
     end
 
     def default_contract_class = CreateVariantContract
 
     private
-
-    # A variant only its project can see would otherwise edit the type's transitions for every
-    # other project through the workflow they share.
-    def workflow_for(project)
-      return base_workflow if project.nil?
-
-      Workflow.build_with_available_name(base_workflow.name, project:)
-    end
 
     def base_workflow = type.default_variant.workflow
   end

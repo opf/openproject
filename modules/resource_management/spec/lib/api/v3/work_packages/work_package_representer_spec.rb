@@ -78,4 +78,100 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, with_ee: %i[resour
       it { is_expected.not_to have_json_path("_links/allocateResource") }
     end
   end
+
+  describe "_links/showResourceAllocations" do
+    it "links to the allocations dialog of the work package" do
+      expect(generated)
+        .to be_json_eql(
+          Rails.application.routes.url_helpers
+            .project_work_package_resource_allocations_path(project, work_package.id).to_json
+        ).at_path("_links/showResourceAllocations/href")
+    end
+
+    it "is typed as a turbo stream" do
+      expect(generated)
+        .to be_json_eql("text/vnd.turbo-stream.html".to_json).at_path("_links/showResourceAllocations/type")
+    end
+
+    context "without the view_resource_planners permission" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it { is_expected.not_to have_json_path("_links/showResourceAllocations") }
+    end
+
+    context "without an enterprise token", with_ee: false do
+      it { is_expected.not_to have_json_path("_links/showResourceAllocations") }
+    end
+  end
+
+  describe "allocatedTime" do
+    before do
+      create(:resource_allocation, entity: work_package, allocated_time: 8 * 60)
+      create(:resource_allocation, entity: work_package, allocated_time: 90)
+      create(:resource_allocation, :requested, entity: work_package, allocated_time: 4 * 60)
+      create(:resource_allocation, allocated_time: 16 * 60)
+    end
+
+    it "sums the confirmed allocations of the work package" do
+      expect(generated).to be_json_eql("PT9H30M".to_json).at_path("allocatedTime")
+    end
+
+    context "without any allocations" do
+      before { ResourceAllocation.delete_all }
+
+      it { is_expected.to be_json_eql("PT0S".to_json).at_path("allocatedTime") }
+    end
+
+    context "without the view_resource_planners permission" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it { is_expected.not_to have_json_path("allocatedTime") }
+    end
+
+    context "without an enterprise token", with_ee: false do
+      it { is_expected.not_to have_json_path("allocatedTime") }
+    end
+  end
+
+  describe "_links/allocatedPrincipals" do
+    let!(:user_allocation) { create(:resource_allocation, entity: work_package, principal: user) }
+    let!(:placeholder_allocation) { create(:resource_allocation, :with_user_filter, entity: work_package) }
+
+    it "links the allocated users and placeholders" do
+      placeholder = placeholder_allocation.placeholder_user
+
+      expect(generated)
+        .to be_json_eql([
+          { href: "/api/v3/users/#{user.id}", title: user.name },
+          { href: "/api/v3/placeholder_users/#{placeholder.id}", title: placeholder.name }
+        ].to_json).at_path("_links/allocatedPrincipals")
+    end
+
+    context "with allocated users the current user may not see" do
+      before do
+        2.times do
+          outsider = create(:user, member_with_permissions: { create(:project) => %i[view_work_packages] })
+          create(:resource_allocation, entity: work_package, principal: outsider)
+        end
+      end
+
+      it "adds a single undisclosed entry without revealing who they are" do
+        expect(generated)
+          .to be_json_eql(
+            { href: API::V3::URN_UNDISCLOSED, title: I18n.t("api_v3.undisclosed.allocatedPrincipal") }.to_json
+          ).at_path("_links/allocatedPrincipals/2")
+        expect(generated).to have_json_size(3).at_path("_links/allocatedPrincipals")
+      end
+    end
+
+    context "without the view_resource_planners permission" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it { is_expected.not_to have_json_path("_links/allocatedPrincipals") }
+    end
+
+    context "without an enterprise token", with_ee: false do
+      it { is_expected.not_to have_json_path("_links/allocatedPrincipals") }
+    end
+  end
 end
