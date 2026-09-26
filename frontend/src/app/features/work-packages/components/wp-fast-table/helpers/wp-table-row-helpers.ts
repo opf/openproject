@@ -84,7 +84,7 @@ export function scrollTableRowIntoView(workPackageId:string, root:ParentNode = d
       container.scrollTop = elemBottom - container.clientHeight;
     }
   } catch (e) {
-    console.warn(`Can't scroll row element into view: ${e}`);
+    console.warn(`Can't scroll row element into view: ${String(e)}`);
   }
 }
 
@@ -104,5 +104,5 @@ function getScrollParent(element:HTMLElement, includeHidden = false) {
     parent = parent.parentElement;
   }
 
-  return document.scrollingElement || document.documentElement;
+  return document.scrollingElement ?? document.documentElement;
 }
