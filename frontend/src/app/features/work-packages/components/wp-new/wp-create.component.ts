@@ -51,12 +51,9 @@ import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalSource } from 'core-app/features/hal/interfaces';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  protected readonly wpTableSelection = inject(WorkPackageViewSelectionService);
-
   readonly injector = inject(Injector);
   protected readonly $state = inject(StateService);
   protected readonly I18n = inject(I18nService);
@@ -123,8 +120,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     if(this.routedFromAngular && this.successState) {
       void this.$state.go(this.successState, { workPackageId: savedResource.displayId })
         .then(() => {
-          this.wpTableSelection.ensureSelected(savedResource.id!);
-          this.wpViewFocus.updateFocus(savedResource.id!);
+          this.wpViewFocus.initializeSelectionAndFocus(savedResource.id!);
           this.notificationService.showSave(savedResource, isInitial);
         });
     } else {

@@ -302,7 +302,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public openSplitView(id:string, onlyWhenOpen = false):void {
-    this.wpTableSelection.setSelection(id, -1);
+    this.wpTableSelection.replaceSelection(id);
 
     // Only open the split view if already open, otherwise only clicking the details opens
     if (onlyWhenOpen && !window.location.pathname.includes('/details/')) {
@@ -326,7 +326,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public openFullView(id:string):void {
-    this.wpTableSelection.setSelection(id, -1);
+    this.wpTableSelection.replaceSelection(id);
     Turbo.visit(this.pathHelper.workPackagePath(resolveRoutingId(this.states, id)));
   }
 
@@ -359,7 +359,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     }
 
     // Set the selection to single
-    this.wpTableSelection.setSelection(workPackageId, -1);
+    this.wpTableSelection.replaceSelection(workPackageId);
 
     event.preventDefault();
 

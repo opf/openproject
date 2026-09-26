@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -35,21 +36,26 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import Mousetrap from 'mousetrap';
 
-import { Subject, takeUntil } from 'rxjs';
 import { BatchSelection, SelectionItem } from 'core-common/batch-selection';
+import {
+  anchoredOccurrence,
+  occurrenceRangeIds,
+  sameOccurrence,
+  selectableOccurrences,
+  selectAllAnchor,
+} from './rendered-occurrences';
 
 export interface WorkPackageViewSelectionState {
   selected:Record<string, boolean>;
 }
 
 @Injectable()
-export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> implements OnDestroy {
+export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> {
   readonly states = inject(States);
   readonly opContextMenu = inject(OPContextMenuService);
 
   private readonly model = new BatchSelection();
-  private anchorOccurrence:RenderedWorkPackage|null = null;
-  private readonly destroyed = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   private item(id:string):SelectionItem {
     return { type: 'work_package', id };
@@ -64,16 +70,11 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   }
 
   private importIds(ids:string[]):void {
-    this.model.selectAll(ids.map((id) => this.item(id)), null);
-    this.model.clearAnchor();
-    this.anchorOccurrence = null;
+    this.model.replaceItems(ids.map((id) => this.item(id)));
   }
 
   private reconcileAnchor(rows:RenderedWorkPackage[]):void {
-    if (this.anchorOccurrence && !rows.some((row) =>
-      row.classIdentifier === this.anchorOccurrence!.classIdentifier
-      && row.workPackageId === this.anchorOccurrence!.workPackageId)) {
-      this.anchorOccurrence = null;
+    if (this.model.anchor && !anchoredOccurrence(rows, this.model.anchor)) {
       this.model.clearAnchor();
     }
   }
@@ -82,8 +83,12 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     super();
     this.reset();
     this.querySpace.tableRendered.values$()
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((rows) => this.reconcileAnchor(rows));
+    this.destroyRef.onDestroy(() => {
+      this.model.clear();
+      Mousetrap.unbind(['command+d', 'ctrl+d']);
+    });
   }
 
   public isSelected(id:string):boolean { return this.model.has(this.item(id)); }
@@ -93,13 +98,11 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
 
   public reset():void {
     this.model.clear();
-    this.anchorOccurrence = null;
     this.publish();
   }
 
   public override clear(reason:string):void {
     this.model.clear();
-    this.anchorOccurrence = null;
     super.clear(reason);
   }
 
@@ -118,91 +121,62 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     this.pristineState.putValue(this.snapshot());
   }
 
-  public setRowState(id:string, selected:boolean):void {
-    const ids = new Set(this.getSelectedWorkPackageIds());
-    if (selected) ids.add(id); else ids.delete(id);
-    this.importIds([...ids]);
-    this.publish();
+  /**
+   * Selects `id` alone if nothing is selected; a non-empty selection, its
+   * anchor and its range session are left as the user made them.
+   *
+   * @remarks
+   * Reached only through
+   * {@link WorkPackageViewFocusService.initializeSelectionAndFocus}.
+   */
+  public ensureSelected(id:string):void {
+    if (!this.isEmpty) return;
+    this.replaceSelection(id);
   }
 
-  public ensureSelected(id:string):void {
-    if (this.isEmpty) this.setRowState(id, true);
+  /** Selects `id` alone with no rendered occurrence and therefore no anchor. */
+  public replaceSelection(id:string):void {
+    this.importIds([id]);
+    this.publish();
   }
 
   public replaceOccurrence(row:RenderedWorkPackage):void {
     if (!row.workPackageId) return;
-    this.model.replace(this.item(row.workPackageId), 'view');
-    this.anchorOccurrence = { ...row };
+    this.model.replace(this.item(row.workPackageId), 'view', row.classIdentifier);
     this.publish();
   }
 
   public toggleOccurrence(row:RenderedWorkPackage):void {
     if (!row.workPackageId) return;
-    this.model.toggle(this.item(row.workPackageId), 'view');
-    this.anchorOccurrence = { ...row };
+    this.model.toggle(this.item(row.workPackageId), 'view', row.classIdentifier);
     this.publish();
   }
 
   public rangeTo(row:RenderedWorkPackage, rows:RenderedWorkPackage[]):void {
-    const end = rows.findIndex((candidate) => candidate.classIdentifier === row.classIdentifier
-      && candidate.workPackageId === row.workPackageId);
-    if (end < 0 || !row.workPackageId) return;
+    if (!row.workPackageId || !rows.some((candidate) => sameOccurrence(candidate, row))) return;
     this.reconcileAnchor(rows);
-    if (!this.anchorOccurrence) {
+    const ids = occurrenceRangeIds(rows, this.model.anchor, row);
+    if (ids === null) {
       this.replaceOccurrence(row);
       return;
     }
-    const start = rows.findIndex((candidate) => candidate.classIdentifier === this.anchorOccurrence!.classIdentifier
-      && candidate.workPackageId === this.anchorOccurrence!.workPackageId);
-    const items = rows.slice(Math.min(start, end), Math.max(start, end) + 1)
-      .filter((candidate) => candidate.workPackageId !== null)
-      .map((candidate) => this.item(candidate.workPackageId!));
-    this.model.range(items);
+    this.model.range(ids.map((id) => this.item(id)));
     this.publish();
   }
 
   public selectAll(rows:RenderedWorkPackage[], requestedAnchor?:RenderedWorkPackage):void {
-    const selectable = rows.filter((row) => Boolean(row.workPackageId));
-    if (selectable.length === 0) return;
-    const anchor = selectable.find((row) => row.classIdentifier === requestedAnchor?.classIdentifier
-      && row.workPackageId === requestedAnchor?.workPackageId) ?? selectable[0];
-    this.model.selectAll(selectable.map((row) => this.item(row.workPackageId!)), {
-      ...this.item(anchor.workPackageId!), listKey: 'view',
+    const selectable = selectableOccurrences(rows);
+    const anchor = selectAllAnchor(selectable, requestedAnchor);
+    if (!anchor) return;
+    this.model.selectAll(selectable.map((candidate) => this.item(candidate.workPackageId!)), {
+      ...this.item(anchor.workPackageId!), listKey: 'view', occurrenceKey: anchor.classIdentifier,
     });
-    this.anchorOccurrence = { ...anchor };
     this.publish();
     this.opContextMenu.close();
   }
 
-  public setSelection(id:string, position:number):void {
-    const row = this.querySpace.tableRendered.getValueOr([])[position];
-    if (row?.workPackageId === id) {
-      this.replaceOccurrence(row);
-    } else {
-      this.importIds([id]);
-      this.publish();
-    }
-  }
-
-  public toggleRow(id:string):void {
-    this.setRowState(id, !this.isSelected(id));
-  }
-
-  public setMultiSelectionFrom(rows:RenderedWorkPackage[], id:string, position:number):void {
-    const row = rows[position];
-    if (row?.workPackageId === id) this.rangeTo(row, rows);
-  }
-
   public getSelectedWorkPackages():WorkPackageResource[] {
     return this.getSelectedWorkPackageIds().map((id) => this.states.workPackages.get(id).value!);
-  }
-
-  ngOnDestroy():void {
-    this.destroyed.next();
-    this.destroyed.complete();
-    this.model.clear();
-    this.anchorOccurrence = null;
-    Mousetrap.unbind(['command+d', 'ctrl+d']);
   }
 
   public registerDeselectAllListener() {
