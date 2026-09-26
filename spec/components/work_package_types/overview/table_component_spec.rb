@@ -47,10 +47,9 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
 
   before { render_inline(component) }
 
-  it "heads the three columns" do
+  it "heads the two columns" do
     expect(page).to have_role(:columnheader, text: "Settings")
     expect(page).to have_role(:columnheader, text: "Configuration mode")
-    expect(page).to have_role(:columnheader, text: "Dependent types and variants")
   end
 
   it "gives every tab a row of its own" do

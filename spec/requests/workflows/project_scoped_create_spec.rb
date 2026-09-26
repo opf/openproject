@@ -30,38 +30,55 @@
 
 require "spec_helper"
 
-RSpec.describe "Creating a workflow from inside a project", :skip_csrf, type: :rails_request do
+RSpec.describe "Creating a workflow for a project-owned variant", :skip_csrf, type: :rails_request do
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:project_owned_type_variant, type:, project:, variant_name: "Internal") }
 
+  shared_let(:admin) { create(:admin) }
   shared_let(:project_admin) do
     create(:user, member_with_permissions: { project => %i[manage_project_variants] })
   end
   shared_let(:outsider) { create(:user, member_with_permissions: { other_project => %i[manage_project_variants] }) }
 
-  let(:path_args) { { in_project_id: project, type_id: type.id, variant_id: variant.id } }
+  let(:in_project) { { in_project_id: project, type_id: type.id, variant_id: variant.id } }
+  let(:in_administration) { { type_id: type.id, variant_id: variant.id } }
 
-  def create_workflow(name: "Release flow")
+  def create_workflow(path_args, name: "Release flow")
     post type_workflow_path(**path_args), params: { workflow: { name: } }
   end
 
-  describe "a member with manage_project_variants" do
+  describe "inside a project" do
     before { login_as project_admin }
 
+    it "has no page for starting one" do
+      get configure_dialog_type_workflow_path(**in_project), as: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "refuses the create itself" do
+      expect { create_workflow(in_project) }.not_to change(Workflow, :count)
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe "in administration" do
+    before { login_as admin }
+
     it "opens the dialog" do
-      get create_dialog_type_workflow_path(**path_args), as: :turbo_stream
+      get configure_dialog_type_workflow_path(**in_administration), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
     end
 
     it "creates a workflow the project owns and assigns it to the variant" do
-      expect { create_workflow }.to change(Workflow, :count).by(1)
-
-      expect(response).to redirect_to(edit_type_workflow_path(**path_args))
+      expect { create_workflow(in_administration) }.to change(Workflow, :count).by(1)
 
       created = Workflow.find_by(name: "Release flow")
+      expect(response).to redirect_to(edit_workflow_path(created))
       expect(created.project).to eq(project)
       expect(variant.reload.workflow).to eq(created)
     end
@@ -69,31 +86,21 @@ RSpec.describe "Creating a workflow from inside a project", :skip_csrf, type: :r
     it "may reuse a name administration already holds" do
       create(:named_workflow, name: "Release flow")
 
-      expect { create_workflow }.to change(Workflow, :count).by(1)
+      expect { create_workflow(in_administration) }.to change(Workflow, :count).by(1)
 
       expect(Workflow.owned_by(project).find_by(name: "Release flow")).to be_present
-    end
-
-    it "is refused another project's variant" do
-      foreign = create(:project_owned_type_variant, type:, project: other_project, variant_name: "Theirs")
-
-      post type_workflow_path(in_project_id: project, type_id: type.id, variant_id: foreign.id),
-           params: { workflow: { name: "Release flow" } }
-
-      expect(response).to have_http_status(:not_found)
     end
   end
 
   it "is refused a member of another project" do
     login_as outsider
 
-    expect { create_workflow }.not_to change(Workflow, :count)
+    expect { create_workflow(in_project) }.not_to change(Workflow, :count)
     expect(response).not_to have_http_status(:redirect)
   end
 
   it "keeps the project in the path rather than a query parameter" do
-    expect(type_workflow_path(**path_args)).to include("in-project/#{project.identifier}")
-    expect(create_dialog_type_workflow_path(**path_args)).to include("in-project/#{project.identifier}")
-    expect(type_workflow_path(**path_args)).not_to include("in_project_id=")
+    expect(type_workflow_path(**in_project)).to include("in-project/#{project.identifier}")
+    expect(type_workflow_path(**in_project)).not_to include("in_project_id=")
   end
 end

@@ -25,7 +25,7 @@ uk:
     errors:
       models:
         cost_report:
-          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+          pivot_axes_do_not_match_group_bys: Сукупність рядків і стовпців має точно відповідати набору критеріїв групування запиту.
     models:
       cost_query:
         one: Звіт про витрати
@@ -33,10 +33,10 @@ uk:
         many: Звіти про витрати
         other: Звіти про витрати
       cost_report:
-        one: Cost report
-        few: Cost reports
-        many: Cost reports
-        other: Cost reports
+        one: Звіт про витрати
+        few: Звіти про витрати
+        many: Звіти про витрати
+        other: Звіти про витрати
   button_save_report_as: Зберегти звіт як…
   comments: Коментар
   cost_reports_title: Час і витрати

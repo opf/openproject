@@ -223,10 +223,6 @@ Rails.application.routes.draw do
       post :copy
     end
 
-    scope "dependents/:aspect", controller: "configuration_dependents", as: :configuration_dependents do
-      get :dialog
-    end
-
     scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
       post :toggle
     end
@@ -235,7 +231,11 @@ Rails.application.routes.draw do
       get :change_dialog
       patch :change
 
-      get :create_dialog
+      get :start_dialog
+      post :start
+
+      get :configure_dialog
+      post :configure
       post :create
 
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
@@ -332,6 +332,11 @@ Rails.application.routes.draw do
   end
 
   resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    collection do
+      get :configure_dialog
+      post :configure
+    end
+
     member do
       get :edit_dialog
     end
@@ -339,6 +344,10 @@ Rails.application.routes.draw do
     resource :matrix, only: %i[show update], controller: "workflows/matrix" do
       get :status_dialog
       post :confirm_statuses
+    end
+
+    resource :copy, only: %i[new], controller: "workflows/copies" do
+      resource :from_role, only: %i[create], controller: "workflows/copies/from_roles"
     end
   end
 
