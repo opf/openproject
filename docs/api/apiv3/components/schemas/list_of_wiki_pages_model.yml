@@ -1,0 +1,84 @@
+# Schema: List_Of_Wiki_PagesModel
+---
+type: object
+description: |-
+  Offset-paginated collection of wiki pages, each element follows the
+  `Wiki_PageModel` shape.
+example:
+  _type: Collection
+  total: 12
+  count: 2
+  pageSize: 2
+  offset: 1
+  _embedded:
+    elements:
+      - _type: WikiPage
+        id: 72
+        title: A wiki page with a name
+        slug: a-wiki-page-with-a-name
+        locked: false
+        lockVersion: 0
+        version: 3
+        text:
+          format: markdown
+          raw: "**Bold** text on a wiki page"
+          html: "<p><strong>Bold</strong> text on a wiki page</p>"
+        createdAt: '2026-03-20T12:57:01.601Z'
+        updatedAt: '2026-04-02T08:13:05.123Z'
+        _links:
+          self:
+            href: "/api/v3/wiki_pages/72"
+            title: A wiki page with a name
+          project:
+            href: "/api/v3/projects/12"
+            title: Demo project
+          author:
+            href: "/api/v3/users/5"
+            title: John Smith
+          versions:
+            href: "/api/v3/wiki_pages/72/versions"
+          attachments:
+            href: "/api/v3/wiki_pages/72/attachments"
+          addAttachment:
+            href: "/api/v3/wiki_pages/72/attachments"
+            method: post
+          update:
+            href: "/api/v3/wiki_pages/72"
+            method: patch
+          delete:
+            href: "/api/v3/wiki_pages/72"
+            method: delete
+      - _type: WikiPage
+        id: 73
+        title: Another page
+        slug: another-page
+        locked: false
+        lockVersion: 0
+        version: 1
+        text:
+          format: markdown
+          raw: ""
+          html: ""
+        createdAt: '2026-03-21T08:00:00.000Z'
+        updatedAt: '2026-03-21T08:00:00.000Z'
+        _links:
+          self:
+            href: "/api/v3/wiki_pages/73"
+            title: Another page
+          project:
+            href: "/api/v3/projects/12"
+            title: Demo project
+          author:
+            href: "/api/v3/users/5"
+            title: John Smith
+  _links:
+    self:
+      href: "/api/v3/projects/12/wiki_pages?offset=1&pageSize=2"
+    jumpTo:
+      href: "/api/v3/projects/12/wiki_pages?offset=%7Boffset%7D&pageSize=2"
+      templated: true
+    changeSize:
+      href: "/api/v3/projects/12/wiki_pages?offset=1&pageSize=%7Bsize%7D"
+      templated: true
+    nextByOffset:
+      href: "/api/v3/projects/12/wiki_pages?offset=2&pageSize=2"

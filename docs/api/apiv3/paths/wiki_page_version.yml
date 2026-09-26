@@ -1,0 +1,45 @@
+# /api/v3/wiki_pages/{id}/versions/{version}
+---
+get:
+  summary: View Wiki Page Version
+  operationId: View_Wiki_Page_Version
+  tags:
+    - Wiki Pages
+  description: |-
+    Returns the page body and metadata as it was at the requested version.
+
+    **Required permission:** `view_wiki_edits` in the page's project.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+    - name: version
+      in: path
+      required: true
+      description: Sequential version number (as returned by the versions list).
+      schema:
+        type: integer
+      example: 3
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_version_model.yml'
+    '403':
+      description: Returned if the user lacks `view_wiki_edits` in the page's project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the page or the requested version does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'

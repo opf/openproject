@@ -1,0 +1,45 @@
+# Schema: Wiki_PageCreateModel
+---
+type: object
+required:
+  - title
+properties:
+  title:
+    type: string
+    description: The new wiki page's title (must be unique within the wiki)
+  text:
+    description: |-
+      The page's body. Can be either a plain string (treated as raw markdown)
+      or a `{ raw: "..." }` object — both forms are accepted.
+    oneOf:
+      - type: string
+      - type: object
+        properties:
+          raw:
+            type: string
+  locked:
+    type: boolean
+    default: false
+    description: Whether the new page should be protected from being edited (requires `manage_wiki`).
+  parentTitle:
+    type: string
+    description: |-
+      Optional parent page (by title) within the same project's wiki. Alternatively,
+      use `_links.parent` to reference the parent page by id.
+  _links:
+    type: object
+    description: Optional HAL-style references. Currently only `parent` is supported.
+    properties:
+      parent:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Optional parent wiki page (by URI). Must belong to the same wiki.
+
+              **Resource**: WikiPage
+example:
+  title: A wiki page with a name
+  text:
+    raw: "**Bold** text on a wiki page"
+  locked: false
+  parentTitle: "Parent page"

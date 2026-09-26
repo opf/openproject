@@ -451,6 +451,12 @@ paths:
     "$ref": "./paths/project_configuration.yml"
   "/api/v3/projects/{id}/ai_text_transform_actions":
     "$ref": "./paths/ai_text_transform_actions_by_project.yml"
+  "/api/v3/projects/{project_id}/wiki_pages":
+    "$ref": "./paths/wiki_pages_by_project.yml"
+  "/api/v3/projects/{project_id}/wiki_pages/tree":
+    "$ref": "./paths/wiki_pages_tree.yml"
+  "/api/v3/projects/{project_id}/wiki_pages/search":
+    "$ref": "./paths/wiki_pages_search.yml"
   "/api/v3/queries":
     "$ref": "./paths/queries.yml"
   "/api/v3/queries/available_projects":
@@ -601,6 +607,20 @@ paths:
     "$ref": "./paths/wiki_page_attachments.yml"
   "/api/v3/wiki_pages/{id}/attachments/prepare":
     "$ref": "./paths/wiki_page_attachments_prepare.yml"
+  "/api/v3/wiki_pages/{id}/versions":
+    "$ref": "./paths/wiki_page_versions.yml"
+  "/api/v3/wiki_pages/{id}/versions/{version}":
+    "$ref": "./paths/wiki_page_version.yml"
+  "/api/v3/wiki_pages/{id}/versions/{version}/restore":
+    "$ref": "./paths/wiki_page_version_restore.yml"
+  "/api/v3/wiki_pages/{id}/lock":
+    "$ref": "./paths/wiki_page_lock.yml"
+  "/api/v3/wiki_pages/{id}/unlock":
+    "$ref": "./paths/wiki_page_unlock.yml"
+  "/api/v3/wiki_pages/{id}/move":
+    "$ref": "./paths/wiki_page_move.yml"
+  "/api/v3/wiki_pages/{id}/copy":
+    "$ref": "./paths/wiki_page_copy.yml"
   "/api/v3/work_packages":
     "$ref": "./paths/work_packages.yml"
   "/api/v3/work_packages/form":
@@ -1212,6 +1232,24 @@ components:
       "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
+    Wiki_PageCreateModel:
+      "$ref": "./components/schemas/wiki_page_create_model.yml"
+    Wiki_PageUpdateModel:
+      "$ref": "./components/schemas/wiki_page_update_model.yml"
+    Wiki_PageMoveModel:
+      "$ref": "./components/schemas/wiki_page_move_model.yml"
+    Wiki_PageCopyModel:
+      "$ref": "./components/schemas/wiki_page_copy_model.yml"
+    Wiki_PageTreeModel:
+      "$ref": "./components/schemas/wiki_page_tree_model.yml"
+    Wiki_PageTreeNodeModel:
+      "$ref": "./components/schemas/wiki_page_tree_node_model.yml"
+    Wiki_PageVersionModel:
+      "$ref": "./components/schemas/wiki_page_version_model.yml"
+    List_of_Wiki_PagesModel:
+      "$ref": "./components/schemas/list_of_wiki_pages_model.yml"
+    List_of_Wiki_PageVersionsModel:
+      "$ref": "./components/schemas/list_of_wiki_page_versions_model.yml"
     WorkPackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
     WorkPackageFormModel:
