@@ -53,9 +53,23 @@ module WorkPackageTypes
 
       def type = model
 
-      def first_step? = current_step == Steps.first
+      def start_step? = current_step == Steps.first
 
       def last_step? = current_step == Steps.last_for(variant)
+
+      def adding_variant? = variant.is_a?(TypeVariant) && !variant.is_default_variant?
+
+      def start_next_href
+        if record_persisted?
+          type_creation_wizard_path(**variant_path_args, step: Steps::FIRST_EDITABLE, back_url:)
+        else
+          new_creation_wizard_types_path(**new_wizard_scope, step: Steps::FIRST_EDITABLE)
+        end
+      end
+
+      def new_wizard_scope
+        { in_project_id: helpers.variant_scope_project, type_id: (type.id if adding_variant?), back_url: }.compact
+      end
 
       def current_number = Steps.available_for(variant).index(current_step).to_i + 1
 
@@ -65,14 +79,20 @@ module WorkPackageTypes
 
       # The last step still submits: it persists its own reuse mode before finishing.
       def primary_action_label
+        return I18n.t("types.creation_wizard.start.submit") if start_step?
+
         last_step? ? I18n.t("types.creation_wizard.finish") : I18n.t(:button_continue)
       end
 
       def back_href
         previous_step = Steps.previous_before(current_step, variant)
-        return unless previous_step && record_persisted?
+        return unless previous_step
 
-        type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
+        if record_persisted?
+          type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
+        elsif previous_step == Steps.first
+          new_creation_wizard_types_path(**new_wizard_scope)
+        end
       end
 
       def variant_path_args = variant&.path_args || { type_id: type.id }

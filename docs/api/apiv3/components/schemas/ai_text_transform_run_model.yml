@@ -1,0 +1,131 @@
+# Schema: AITextTransformRunModel
+---
+type: object
+required:
+  - _type
+  - id
+  - status
+  - events
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - AITextTransformRun
+  id:
+    type: string
+    format: uuid
+    description: Run id. Only the user who created the run can read it.
+  status:
+    type: string
+    description: |-
+      Lifecycle of the run. `succeeded`, `failed` and `cancelled` are terminal.
+    enum:
+      - queued
+      - running
+      - succeeded
+      - failed
+      - cancelled
+  events:
+    type: array
+    description: |-
+      The run's events after the requested cursor, ordered by `seq`. Each event carries one of
+      four kinds with its own payload:
+
+      | kind         | payload                                       | meaning                                                                                   |
+      |--------------|-----------------------------------------------|-------------------------------------------------------------------------------------------|
+      | `status`     | `{ "status": "running" }`                     | The job picked up the run.                                                                |
+      | `text_delta` | `{ "delta": "<chunk>" }`                      | A chunk of generated text, bundled over roughly half a second. Render it progressively.   |
+      | `completed`  | `{ "text": "<full text>" }`                   | The full final text. Build the result and any diff from this, never from the deltas.      |
+      | `error`      | `{ "message": "<text>", "reason": "<code>" }` | The run failed. `message` is translated for the user, `reason` is one of `not_available`, `connection_failed`, `timeout`, `upstream_error`. |
+    items:
+      type: object
+      required:
+        - seq
+        - kind
+        - payload
+      properties:
+        seq:
+          type: integer
+          description: Position of the event in the run, starting at 1. Use the highest seen value as the `after` cursor.
+          minimum: 1
+        kind:
+          type: string
+          enum:
+            - status
+            - text_delta
+            - completed
+            - error
+        payload:
+          type: object
+          description: Depends on `kind`, see the table above.
+          properties:
+            status:
+              type: string
+              description: Only for kind `status`.
+            delta:
+              type: string
+              description: Only for kind `text_delta`.
+            text:
+              type: string
+              description: Only for kind `completed`.
+            message:
+              type: string
+              description: Only for kind `error`.
+            reason:
+              type: string
+              description: Only for kind `error`.
+              enum:
+                - not_available
+                - connection_failed
+                - timeout
+                - upstream_error
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This run.
+
+              **Resource**: AITextTransformRun
+      cancel:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Requests cancellation of the run. Only present while the run is not terminal.
+
+              # Conditions
+
+              **Permission**: the run belongs to the current user
+
+example:
+  _type: AITextTransformRun
+  id: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+  status: running
+  events:
+    - seq: 1
+      kind: status
+      payload:
+        status: running
+    - seq: 2
+      kind: text_delta
+      payload:
+        delta: 'The login page does not work '
+    - seq: 3
+      kind: text_delta
+      payload:
+        delta: 'on Safari 17.'
+    - seq: 4
+      kind: completed
+      payload:
+        text: The login page does not work on Safari 17.
+  _links:
+    self:
+      href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+    cancel:
+      href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d/cancel
+      method: post

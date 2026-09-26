@@ -43,8 +43,7 @@ import { ID } from '@datorama/akita';
 import { IProjectData } from './project-data';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-
-const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -380,7 +379,7 @@ export class SearchableProjectListService {
     projects.forEach((p) => p._links.ancestors.forEach((a) => ancestors.add(a.href)));
 
     // FIXME: Once we target ECMA Script 2025, we can and should use ancestors.values().filter(...)
-    return [...ancestors.values()].filter((s) => s !== UNDISCLOSED_ANCESTOR).map((s) => s.split('/').pop()!);
+    return [...ancestors.values()].filter((s) => s !== URN_UNDISCLOSED).map((s) => s.split('/').pop()!);
   }
 
   private extractParents(projects:IProject[], childIds:string[]):string[] {
@@ -393,6 +392,6 @@ export class SearchableProjectListService {
     }
 
     // FIXME: Once we target ECMA Script 2025, we can and should use parents.values().filter(...)
-    return [...parents.values()].filter((s) => s !== UNDISCLOSED_ANCESTOR).map((s) => s.split('/').pop()!);
+    return [...parents.values()].filter((s) => s !== URN_UNDISCLOSED).map((s) => s.split('/').pop()!);
   }
 }

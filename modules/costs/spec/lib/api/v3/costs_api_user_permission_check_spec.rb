@@ -30,18 +30,13 @@ require "spec_helper"
 
 RSpec.describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
-    # mimic representer
-    def view_time_entries_allowed?
-      current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-      current_user.allowed_in_project?(:view_own_time_entries, represented.project)
-    end
-
     include API::V3::CostsApiUserPermissionCheck
   end
 
   let(:user) { build_stubbed(:user) }
   let(:view_time_entries) { false }
   let(:view_own_time_entries) { false }
+  let(:view_own_time_entries_on_work_package) { false }
   let(:view_hourly_rates) { false }
   let(:view_own_hourly_rate) { false }
   let(:view_cost_rates) { false }
@@ -62,6 +57,7 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
     mock_permissions_for(user) do |mock|
       mock.allow_in_project :view_time_entries, project: work_package.project if view_time_entries
       mock.allow_in_project :view_own_time_entries, project: work_package.project if view_own_time_entries
+      mock.allow_in_work_package :view_own_time_entries, work_package: work_package if view_own_time_entries_on_work_package
       mock.allow_in_project :view_hourly_rates, project: work_package.project if view_hourly_rates
       mock.allow_in_project :view_own_hourly_rate, project: work_package.project if view_own_hourly_rate
       mock.allow_in_project :view_cost_rates, project: work_package.project if view_cost_rates
@@ -284,6 +280,12 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
 
       context "has view_own_time_entries" do
         let(:view_own_time_entries) { true }
+
+        it_behaves_like "is visible"
+      end
+
+      context "with view_own_time_entries granted on the work package only" do
+        let(:view_own_time_entries_on_work_package) { true }
 
         it_behaves_like "is visible"
       end

@@ -75,7 +75,7 @@ uk:
         rate:
           attributes:
             principal:
-              invalid: має бути користувачем або умовним користувачем.
+              invalid: має бути користувачем або прототипом користувача.
         time_entry:
           attributes:
             entity:
@@ -269,7 +269,7 @@ uk:
   label_show: Показати
   label_specific_day: День %{day}
   label_specific_month: Місяць %{month}
-  label_stack: Stack
+  label_stack: Стос
   label_start_and_finished: Час початку й завершення
   label_status_finished: Готово
   label_time: Час
@@ -300,7 +300,7 @@ uk:
   permission_log_costs: Книжкова одиниця витрат
   permission_log_own_costs: Книга одиничних витрат для себе
   permission_manage_default_hourly_rates: Управління погодинними ставками за промовчанням
-  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+  permission_manage_default_hourly_rates_explanation: 'Дозволяє додавати, змінювати та видаляти погодинні ставки за промовчанням для користувачів та прототипів користувачів.
 
     '
   permission_view_cost_entries: Переглянути замовлені витрати
@@ -340,11 +340,11 @@ uk:
   text_destroy_cost_entries_question: "%{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
   text_destroy_time_and_cost_entries: Видаліть звітні години та витрати
   text_destroy_time_and_cost_entries_question: "%{hours} години, %{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
-  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
-  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
-  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
-  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
-  text_no_project_rate: This project will use the current default rate.
+  text_hourly_rate_destroy_confirmation: Ставку %{rate}, що діє з %{valid_from}, буде видалено. Витрати, занесені за цією ставкою, буде перераховано за ставкою, що застосовуватиметься після цього.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Я розумію, що цю дію не можна буде скасувати.
+  text_hourly_rate_recalculation: Ця ставка діє з дати набуття нею чинності до моменту набуття чинності новою ставкою. Її зміна також призведе до перерахунку існуючих записів про відпрацьований час і бюджетів за цей період.
+  text_no_default_rate: Ставка за промовчанням застосовується у всіх проєктах, де в користувача немає встановленої ставки.
+  text_no_project_rate: У цьому проєкті використовуватиметься ставка за промовчанням.
   text_reassign_time_and_cost_entries: 'Перепризначення повідомлених годин і витрат до цього робочого пакету :'
   text_warning_hidden_elements: Деякі записи можуть бути виключені з агрегації.
   total_times:

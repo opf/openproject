@@ -342,7 +342,7 @@ linked to a work package. [Read more about OpenProject's OneDrive integration](.
 
 ### On-premises
 
-OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community Edition](#community-edition) is free of charge.
+OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community edition](#community-edition) is free of charge.
 
 **More information on OpenProject on-premises**
 

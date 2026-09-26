@@ -31,6 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Choosing the workflow a type uses", :js do
+  include Workflows::EditHelpers
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }
@@ -45,7 +46,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
   let(:shared_workflow) { other_type.default_variant.workflow }
 
   before_all do
-    other_type.default_variant.workflow.update!(name: "Standard flow")
+    other_type.default_variant.workflow.update!(name: "Standard flow", description: "How the company works")
     create(:workflow,
            workflow: other_type.default_variant.workflow,
            role:,
@@ -55,53 +56,54 @@ RSpec.describe "Choosing the workflow a type uses", :js do
 
   before { login_as admin }
 
-  it "points the type at an existing workflow and says who else uses it" do
+  it "points the type at an existing workflow through the picker" do
     visit edit_type_workflow_path(type_id: type.id)
 
-    within_test_selector("workflow-reuse-mode") { expect(page).to have_text("Independent configuration") }
+    within_test_selector("workflow-selector") { expect(page).to have_text("Bug") }
 
-    within_test_selector("workflow-reuse-mode") { click_on "Change workflow" }
-
-    within_dialog "Change workflow" do
-      select_autocomplete(find_test_selector("change-workflow-select"),
-                          query: "Standard",
-                          results_selector: "body")
-      click_on "Save"
-    end
+    switch_workflow_to "Standard flow"
 
     expect(page).to have_text(I18n.t(:notice_successful_update))
     expect(variant.reload.workflow).to eq(shared_workflow)
 
-    within_test_selector("workflow-reuse-mode") do
-      expect(page).to have_css("h3", text: "Reuses workflow Standard flow")
-      expect(page).to have_link("Standard flow")
-    end
-
-    within_test_selector("workflow-usage-box") do
-      expect(page).to have_text("Used in 1 other place")
-      expect(page).to have_link("Feature")
-    end
+    within_test_selector("workflow-selector") { expect(page).to have_text("Standard flow") }
   end
 
-  it "creates a new workflow from the tab and assigns it to the type" do
+  it "asks for the name before it creates, then opens the workflow's own page" do
     visit edit_type_workflow_path(type_id: type.id)
 
-    within_test_selector("workflow-reuse-mode") { click_on "Create new workflow" }
+    open_workflow_create_dialog
 
-    within_dialog "Create workflow" do
+    within_dialog I18n.t("workflows.form.new_title") do
+      expect(page).to have_field("Workflow name", with: "Bug workflow (2)")
+
       fill_in "Workflow name", with: "Bug specific flow"
-      click_on "Create"
+      click_on I18n.t(:button_create)
     end
 
-    expect(page).to have_current_path(edit_type_workflow_path(type_id: type.id))
+    expect(page).to have_current_path(%r{/workflows/\d+/edit})
+    expect(page).to have_css(".PageHeader-title", text: "Bug specific flow")
+
     expect(variant.reload.workflow.name).to eq("Bug specific flow")
+  end
 
-    within_test_selector("workflow-reuse-mode") do
-      expect(page).to have_text("Independent configuration")
-      expect(page).to have_link("Bug specific flow")
+  it "copies the transitions of the workflow the dialog started from" do
+    visit edit_type_workflow_path(type_id: type.id)
+
+    open_workflow_create_dialog(start: "copy") do
+      select_autocomplete(find_test_selector("workflow-copy-source"),
+                          query: "Standard",
+                          results_selector: "#workflow-dialog")
     end
 
-    within_test_selector("workflow-usage-box") { expect(page).to have_text("Not used anywhere else") }
+    within_dialog I18n.t("workflows.form.new_title") do
+      fill_in "Workflow name", with: "Bug specific flow"
+      click_on I18n.t(:button_create)
+    end
+
+    expect(page).to have_current_path(%r{/workflows/\d+/edit})
+    expect(variant.reload.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
+      .to contain_exactly([status_a.id, status_b.id])
   end
 
   describe "inside a project" do
@@ -131,48 +133,29 @@ RSpec.describe "Choosing the workflow a type uses", :js do
     it "offers the global workflows and the project's own, and nothing another project owns" do
       visit tab_path
 
-      within_test_selector("workflow-reuse-mode") { click_on "Change workflow" }
+      open_workflow_picker
 
-      within_dialog "Change workflow" do
-        find_test_selector("change-workflow-select").find(".ng-arrow-wrapper").click
-
-        expect(page).to have_css(".ng-option", text: "Company flow")
-        expect(page).to have_css(".ng-option", text: "Bookshop flow")
-        expect(page).to have_no_css(".ng-option", text: "Foundry flow")
+      within_test_selector("workflow-panel") do
+        expect(page).to have_link("Company flow")
+        expect(page).to have_link("Bookshop flow")
+        expect(page).to have_no_link("Foundry flow")
       end
     end
 
     it "assigns the project's own workflow" do
       visit tab_path
 
-      within_test_selector("workflow-reuse-mode") { click_on "Change workflow" }
-
-      within_dialog "Change workflow" do
-        select_autocomplete(find_test_selector("change-workflow-select"),
-                            query: "Bookshop",
-                            results_selector: "body")
-        click_on "Save"
-      end
+      switch_workflow_to "Bookshop flow"
 
       expect(page).to have_text(I18n.t(:notice_successful_update))
       expect(owned_variant.reload.workflow).to eq(ours)
     end
 
-    it "creates a workflow the project owns and assigns it" do
+    it "leaves starting a workflow to administration" do
       visit tab_path
 
-      within_test_selector("workflow-reuse-mode") { click_on "Create new workflow" }
-
-      within_dialog "Create workflow" do
-        fill_in "Workflow name", with: "Internal flow"
-        click_on "Create"
-      end
-
-      expect(page).to have_current_path(tab_path)
-
-      created = owned_variant.reload.workflow
-      expect(created.name).to eq("Internal flow")
-      expect(created.project).to eq(project)
+      expect(page).to have_test_selector("workflow-selector")
+      expect(page).to have_no_test_selector("workflow-create-new")
     end
   end
 
@@ -181,13 +164,12 @@ RSpec.describe "Choosing the workflow a type uses", :js do
 
     visit edit_type_workflow_path(type_id: type.id)
 
-    within_test_selector("workflow-reuse-mode") { click_on "Change workflow" }
+    open_workflow_picker
 
-    within_dialog "Change workflow" do
-      find_test_selector("change-workflow-select").find(".ng-arrow-wrapper").click
-
-      expect(page).to have_css(".ng-option", text: "Standard flow")
-      expect(page).to have_no_css(".ng-option", text: "Bookshop flow")
+    within_test_selector("workflow-panel") do
+      expect(page).to have_link("Standard flow")
+      expect(page).to have_text("How the company works")
+      expect(page).to have_no_link("Bookshop flow")
     end
   end
 end

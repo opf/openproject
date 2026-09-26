@@ -102,6 +102,30 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
   end
 
+  describe "rotating only the API key" do
+    let(:chat_model) { connection.models.find_by!(external_id: "qwen3.6-27b") }
+    let(:embedding_model) { connection.models.find_by!(external_id: "bge-m3") }
+
+    before do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint,
+                         default_chat_model: chat_model,
+                         default_embedding_model: embedding_model)
+      connection.update!(api_key: "sk-rotated")
+    end
+
+    it "keeps the discovered models" do
+      expect { service.call }.not_to change { connection.models.discovered.order(:id).pluck(:id) }
+    end
+
+    it "keeps the default models" do
+      service.call
+
+      connection.reload
+      expect(connection.default_chat_model_id).to eq(chat_model.id)
+      expect(connection.default_embedding_model_id).to eq(embedding_model.id)
+    end
+  end
+
   describe "refreshing the same deployment" do
     before { service.call }
 

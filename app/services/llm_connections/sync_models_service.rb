@@ -45,7 +45,7 @@ module LlmConnections
     def call
       # Before the fetch, so that a deployment change invalidates the old state
       # even when the new server refuses the model list: keeping the previous
-      # deployment's models and verdicts under new credentials would be wrong.
+      # deployment's models and verdicts for another server would be wrong.
       invalidate_a_different_deployment
 
       store(capped(storable(adapter.models)))
@@ -142,9 +142,9 @@ module LlmConnections
       scope.update_all(active: false)
     end
 
-    # A changed base URL or key means a different deployment, so what the
-    # registry and the probes established about the old one is void. What an
-    # administrator asserted is theirs and survives, as it does on a refresh.
+    # A changed base URL or API format means a different deployment, so what
+    # the registry and the probes established about the old one is void. What
+    # an administrator asserted is theirs and survives, as it does on a refresh.
     def invalidate_a_different_deployment
       return if connection.connection_fingerprint.blank?
       return if connection.connection_fingerprint == fingerprint
