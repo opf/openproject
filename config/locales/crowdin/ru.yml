@@ -496,7 +496,7 @@ ru:
           title: Рабочие дни
           true: включить нерабочие дни
         journal_internal: Внутренний журнал
-        labels: Labels
+        labels: Метки
         notify: Уведомлять
         observed_in_versions: Наблюдается в версиях
         parent: Родитель
@@ -624,7 +624,7 @@ ru:
         ai/text_transform_run:
           attributes:
             base:
-              not_available: This action is not available.
+              not_available: Данное действие недоступно.
         attachment:
           attributes:
             content_type:
@@ -2246,8 +2246,8 @@ ru:
         save: Сохранить изменения и продолжить
         title: Сохранить изменения, прежде чем продолжить?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Редактировать рабочий процесс
+        text_html: 'Вы используете существующий рабочий процесс. Чтобы внести изменения, либо отредактируйте исходный рабочий процесс, либо нажмите <b>+ %{action}</b> выше, чтобы создать новый.
 
           '
       role_selector:
@@ -2283,11 +2283,11 @@ ru:
           assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
           author: Дополнительные варианты перехода, доступные автору пакета работ.
         menu_label: Показаны переходы
-      workflow_button: Workflow
+      workflow_button: Рабочий процесс
       workflow_selector:
-        prefix: Workflow
-        same_as_type: "(same as type)"
-        title: Select workflow
+        prefix: Рабочий процесс
+        same_as_type: "(то же что и тип)"
+        title: Выберите рабочий процесс
   ai:
     text_transform:
       errors:
@@ -6826,11 +6826,37 @@ ru:
       add_variant: Добавить вариант в %{name}
       create_type: Создать тип
       create_variant: Создать Вариант
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
       finish: Закончить
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: По умолчанию
         details: Детали
@@ -6838,6 +6864,7 @@ ru:
         pdf: Создание PDF
         project_attributes: Атрибуты проекта
         projects: Проекты
+        start: Start
         workflows: Рабочие потоки
       success: Успешно создано.
     edit:
@@ -6948,7 +6975,6 @@ ru:
         untitled_group: Безымянная группа
       overview:
         configuration_mode: Режим конфигурации
-        dependents: Зависимые типы и варианты
         mode:
           always_manual: Всегда вручную
           inheriting_from_html: Наследование от %{source_name}
@@ -7002,25 +7028,6 @@ ru:
             title: Скопировать конфигурацию
           invalid_source: Конфигурация не может быть скопирована из выбранного типа. Пожалуйста, выберите другой источник типа.
           success: Конфигурация была скопирована.
-        dependents:
-          blank:
-            description: Ни один другой тип или вариант не наследуется от данной конфигурации
-            title: Нет зависимых типов
-          description:
-            one: Следующая конфигурация унаследована 1 другим типом или вариантом. Любые изменения, которые вы вносите здесь, также повлияют на зависимость.
-            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-            other: Следующая конфигурация унаследована %{count} другими типами или вариантами. Любые изменения, внесенные здесь, также повлияют на зависимости.
-          dialog:
-            description: Эти типы и варианты наследуют конфигурацию этого раздела. Внесенные вами изменения применяются ко всем из них.
-            title: Зависимые типы
-            variant_of_html: Вариант %{type_name}
-          title:
-            one: 1 зависимый тип
-            few: "%{count} dependent types"
-            many: "%{count} dependent types"
-            other: "%{count} зависимых типов"
-          view: Просмотр зависимых типов
         exclusions:
           not_inherited: Данная конфигурация не наследуется, поэтому исключать ничего не нужно. Вместо этого отредактируйте конфигурацию напрямую.
           unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
@@ -7032,8 +7039,16 @@ ru:
               description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
               heading: Переключить режим конфигурации?
               title: Переключить режим конфигурации
-          from_parent: Эта конфигурация унаследована от родительского типа [%{source_name}](source_url).
-          from_parent_unlinked: Эта конфигурация унаследована от родительского типа %{source_name}.
+          dialog:
+            description: Наследовать эту конфигурацию из исходного типа. Любая новая конфигурация, добавленная в источник, также применяется здесь.
+            source_label: Исходный тип
+            source_placeholder: Выберите тип или вариант
+            submit: Переключить
+            title: Наследовать от другого типа
+          invalid_source: Конфигурация не может быть унаследована от выбранного типа. Пожалуйста, выберите другой тип источника.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: Режим конфигурации переключен.
           title: Наследуемая конфигурация
         manual:
@@ -7042,13 +7057,14 @@ ru:
             description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
             heading: Переключить режим конфигурации?
             title: Переключить режим конфигурации
-          copy_from_type: Копировать из другого типа
           description: Настройки не наследуются. Однако вы можете один раз скопировать настройки из другого типа.
           dialog:
             submit: Переключить
             title: Настройка вручную
           inherit_from_type: Наследовать от родителя
           invalid_mode: Выбранный режим недоступен для этой конфигурации. Пожалуйста, выберите другой режим.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Начните с однократного копирования настроек, которые в настоящее время наследуются данной конфигурацией.
@@ -7131,11 +7147,11 @@ ru:
     milestone_indicator: Веха
     patterns:
       formats:
-        hierarchy_default: Default (label and short)
-        hierarchy_label: Label only
-        hierarchy_short: Short only
-        weighted_item_list_default: Default (label and weight)
-        weighted_item_list_weight: Weight only
+        hierarchy_default: По умолчанию (метка и сокращённое название)
+        hierarchy_label: Только метка
+        hierarchy_short: Только сокращённое название
+        weighted_item_list_default: По умолчанию (метка и вес)
+        weighted_item_list_weight: Только вес
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.
     message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
@@ -7685,7 +7701,7 @@ ru:
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
       new:
-        dialog_title: Copy workflow of "%{source}"
+        dialog_title: Копия рабочего процесса для "%{source}"
     form:
       copy_from:
         caption: Новый рабочий процесс начинается с копии переходов статусов этого рабочего процесса.
@@ -7753,22 +7769,28 @@ ru:
         other: "%{count} вариантов"
     name:
       fallback: Рабочий процесс
-      implicit: "%{name} workflow"
+      implicit: рабочий процесс %{name}
     page_headers:
       index_component:
         description: Настроить переходы статусов для каждого типа пакета работ.
     start:
       copy:
-        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
-        label: Start with a copy of an existing workflow
-        missing: Select the workflow to copy, or start from scratch instead.
-        panel_label: Workflow to copy
-      label: Starting point
+        caption: Начните с существующего рабочего процесса, измените его по своему усмотрению и сохраните в качестве нового рабочего процесса.
+        label: Начните с создания копии существующего рабочего процесса
+        missing: Выберите рабочий процесс для копирования или начинайте с нуля.
+        panel_label: Рабочий процесс для копирования
+      label: Отправная точка
       scratch:
-        caption: Start with a blank workflow and build it manually.
-        label: Start from scratch
-      title: Configure a new workflow
+        caption: Начните с пустого рабочего процесса и создайте его вручную.
+        label: Начать с нуля
+      title: Настроить новый рабочий процесс
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: Этот рабочий процесс пока не использует ни тип, ни вариант.
       used_by_types:
         one: Этот рабочий процесс используется 1 тип. К нему применяются изменения.
@@ -7783,11 +7805,11 @@ ru:
     wizard:
       choice:
         existing:
-          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
-          label: Use an existing workflow
+          caption: Использовать существующий рабочий процесс для этого типа с заранее определенным набором переходов статуса для набора ролей.
+          label: Использовать существующий рабочий процесс
         new:
-          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
-          label: Configure a new workflow
+          caption: Вручную определить новый рабочий процесс для этого типа, выбрав, для каких ролей разрешены переходы статусов.
+          label: Настроить новый рабочий процесс
   working_days:
     change_button: Изменить рабочие дни
     dialog:

@@ -6489,11 +6489,37 @@ sv:
       add_variant: Lägg till en variant till %{name}
       create_type: Skapa typ
       create_variant: Skapa variant
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Ger denna konfiguration av %{type} ett namn. Arbetspaketen fortsätter att använda själva %{type}.
       finish: Slutför
       placeholder_description: Det här steget blir tillgängligt snart.
       progress_label: Steg %{number} av %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: Standardvärden
         details: Detaljer
@@ -6501,6 +6527,7 @@ sv:
         pdf: PDF-generering
         project_attributes: Projektattribut
         projects: Projekt
+        start: Start
         workflows: Arbetsflöden
       success: Skapades.
     edit:
@@ -6611,7 +6638,6 @@ sv:
         untitled_group: Namnlös grupp
       overview:
         configuration_mode: Configuration mode
-        dependents: Dependent types and variants
         mode:
           always_manual: Always manual
           inheriting_from_html: Inheriting from %{source_name}
@@ -6665,21 +6691,6 @@ sv:
             title: Kopiera konfiguration
           invalid_source: Konfigurationen kan inte kopieras från den valda typen. Välj en annan källtyp.
           success: Konfigurationen har kopierats.
-        dependents:
-          blank:
-            description: Ingen annan typ eller variant ärver från den här konfigurationen
-            title: Inga beroende typer
-          description:
-            one: Följande konfiguration ärvs av 1 annan typ eller variant. Alla ändringar du gör här påverkar även den beroende typen eller varianten.
-            other: Följande konfiguration ärvs av %{count} andra typer eller varianter. Alla ändringar du gör här påverkar även de beroende typerna och varianterna.
-          dialog:
-            description: Dessa typer och varianter ärver konfigurationen för det här avsnittet. En ändring du gör här tillämpas på dem alla.
-            title: Beroende typer
-            variant_of_html: Variant av %{type_name}
-          title:
-            one: 1 beroende typ
-            other: "%{count} beroende typer"
-          view: Visa beroende typer
         exclusions:
           not_inherited: Den här konfigurationen ärvs inte, så det finns inget att undanta. Redigera konfigurationen direkt i stället.
           unknown_aspect: Okänt konfigurationsavsnitt "%{aspect}".
@@ -6691,8 +6702,16 @@ sv:
               description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
               heading: Byta konfigurationsläge?
               title: Byt konfigurationsläge
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          dialog:
+            description: Ärv denna konfiguration från en källtyp. All ny konfiguration som läggs till i källan tillämpas även här.
+            source_label: Källtyp
+            source_placeholder: Välj en typ eller variant
+            submit: Byt
+            title: Ärv från en annan typ
+          invalid_source: Konfigurationen kan inte ärvas från den valda typen. Välj en annan källtyp.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: Konfigurationsläget har bytts.
           title: Ärvd konfiguration
         manual:
@@ -6701,13 +6720,14 @@ sv:
             description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
             heading: Byta konfigurationsläge?
             title: Byt konfigurationsläge
-          copy_from_type: Kopiera från en annan typ
           description: Inga inställningar ärvs. Du kan fortfarande kopiera inställningarna från en annan typ en gång.
           dialog:
             submit: Byt
             title: Konfigurera manuellt
           inherit_from_type: Inherit from parent
           invalid_mode: Det valda läget är inte tillgängligt för den här konfigurationen. Välj ett annat läge.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Börja med en engångskopia av de inställningar som den här konfigurationen ärver nu.
@@ -7388,6 +7408,12 @@ sv:
         label: Start from scratch
       title: Configure a new workflow
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.

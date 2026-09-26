@@ -6830,11 +6830,37 @@ pl:
       add_variant: Dodaj wariant do %{name}
       create_type: Utwórz typ
       create_variant: Utwórz wariant
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Nazywa tę konfigurację %{type}. Pakiety robocze nadal używają samego %{type}.
       finish: Zakończ
       placeholder_description: Ten krok będzie wkrótce dostępny.
       progress_label: Krok %{number} z %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: Domyślne
         details: Szczegóły
@@ -6842,6 +6868,7 @@ pl:
         pdf: Generowanie pliku PDF
         project_attributes: Atrybuty projektu
         projects: Projekty
+        start: Start
         workflows: Przepływy pracy
       success: Utworzono.
     edit:
@@ -6952,7 +6979,6 @@ pl:
         untitled_group: Grupa bez nazwy
       overview:
         configuration_mode: Tryb konfiguracji
-        dependents: Zależne typy i warianty
         mode:
           always_manual: Zawsze ręczny
           inheriting_from_html: Dziedziczenie z %{source_name}
@@ -7006,25 +7032,6 @@ pl:
             title: Skopiuj konfigurację
           invalid_source: Nie można skopiować konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
           success: Konfiguracja została skopiowana.
-        dependents:
-          blank:
-            description: Żaden inny typ ani wariant nie dziedziczy z tej konfiguracji
-            title: Brak typów zależnych
-          description:
-            one: Poniższa konfiguracja jest dziedziczona przez 1 inny typ lub wariant. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na element zależny.
-            few: Poniższa konfiguracja jest dziedziczona przez %{count} inne typy lub warianty. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na elementy zależne.
-            many: Poniższa konfiguracja jest dziedziczona przez %{count} innych typów lub wariantów. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na elementy zależne.
-            other: Poniższa konfiguracja jest dziedziczona przez %{count} innego typu lub wariantu. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na elementy zależne.
-          dialog:
-            description: Te typy i warianty dziedziczą konfigurację z tej sekcji. Wszelkie zmiany wprowadzone w tym miejscu mają zastosowanie do nich wszystkich.
-            title: Typy zależne
-            variant_of_html: Wariant %{type_name}
-          title:
-            one: 1 typ zależny
-            few: "%{count} typy zależne"
-            many: "%{count} typów zależnych"
-            other: "%{count} typu zależnego"
-          view: Wyświetl typy zależne
         exclusions:
           not_inherited: Ta konfiguracja nie jest dziedziczona, więc nie ma czego wykluczać. Zamiast tego edytuj konfigurację bezpośrednio.
           unknown_aspect: Nieznana sekcja konfiguracji „%{aspect}”.
@@ -7036,8 +7043,16 @@ pl:
               description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
               heading: Przełączyć tryb konfiguracji?
               title: Przełącz tryb konfiguracji
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          dialog:
+            description: Dziedzicz tę konfigurację z typu źródłowego. Każda nowa konfiguracja dodana do źródła ma również zastosowanie tutaj.
+            source_label: Typ źródłowy
+            source_placeholder: Wybierz typ lub wariant
+            submit: Przełącz
+            title: Dziedzicz z innego typu
+          invalid_source: Nie można dziedziczyć konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: Tryb konfiguracji został przełączony.
           title: Dziedziczona konfiguracja
         manual:
@@ -7046,13 +7061,14 @@ pl:
             description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
             heading: Przełączyć tryb konfiguracji?
             title: Przełącz tryb konfiguracji
-          copy_from_type: Kopiuj z innego typu
           description: Żadne ustawienia nie są dziedziczone. Nadal można jednak jednorazowo skopiować ustawienia z innego typu.
           dialog:
             submit: Przełącz
             title: Skonfiguruj ręcznie
           inherit_from_type: Inherit from parent
           invalid_mode: Wybrany tryb nie jest dostępny dla tej konfiguracji. Wybierz inny tryb.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Zacznij od jednorazowego skopiowania ustawień, które ta konfiguracja dziedziczy teraz.
@@ -7769,6 +7785,12 @@ pl:
         label: Start from scratch
       title: Configure a new workflow
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.

@@ -6323,11 +6323,37 @@ zh-CN:
       add_variant: 将变体添加到 %{name}
       create_type: 创建类型
       create_variant: 创建变体
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: 对“%{type}”的此配置命名。工作包仍继续使用“%{type}”。
       finish: 完成
       placeholder_description: 此步骤即将推出。
       progress_label: 第 %{number} 步，共 %{total} 步
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: 默认值
         details: 详细信息
@@ -6335,6 +6361,7 @@ zh-CN:
         pdf: PDF 生成
         project_attributes: 项目特性
         projects: 项目
+        start: Start
         workflows: 工作流
       success: 创建成功。
     edit:
@@ -6445,7 +6472,6 @@ zh-CN:
         untitled_group: 无标题群组
       overview:
         configuration_mode: 配置模式
-        dependents: 依赖项类型和变体
         mode:
           always_manual: 始终手动
           inheriting_from_html: 从 %{source_name} 继承
@@ -6499,19 +6525,6 @@ zh-CN:
             title: 复制配置
           invalid_source: 无法从所选类型复制该配置。请选择其他源类型。
           success: 配置已复制。
-        dependents:
-          blank:
-            description: 没有其他类型或变体继承自此配置
-            title: 没有依赖项类型
-          description:
-            other: 以下配置被 %{count} 个其他类型或变体继承。您在此处所做的任何更改也将影响这些依赖项。
-          dialog:
-            description: 这些类型和变体继承此分区的配置。您在此处所做的任何更改都将应用于所有这些类型和变体。
-            title: 依赖项类型
-            variant_of_html: "%{type_name} 的变体"
-          title:
-            other: "%{count} 个依赖项类型"
-          view: 查看依赖项类型
         exclusions:
           not_inherited: 此配置不是继承而来，因此无需排除任何内容。请直接编辑该配置。
           unknown_aspect: 未知的配置分区“%{aspect}”。
@@ -6523,8 +6536,16 @@ zh-CN:
               description: 所有当前选择的设置都将被覆盖，并且可能影响有关此类型的工作包的现有信息。
               heading: 切换配置模式？
               title: 切换配置模式
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          dialog:
+            description: 从源类型继承此配置。添加到源中的任何新配置也适用于此处。
+            source_label: 源类型
+            source_placeholder: 选择类型或变体
+            submit: 切换
+            title: 继承自其他类型
+          invalid_source: 无法从所选类型继承该配置。请选择其他源类型。
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: 配置模式已切换。
           title: 已继承配置
         manual:
@@ -6533,13 +6554,14 @@ zh-CN:
             description: 所有当前选择的设置都将被覆盖，并且可能影响有关此类型的工作包的现有信息。
             heading: 切换配置模式？
             title: 切换配置模式
-          copy_from_type: 从其他类型复制
           description: 不会继承任何设置。您仍可以从其他类型中一次性复制设置。
           dialog:
             submit: 切换
             title: 手动配置
           inherit_from_type: Inherit from parent
           invalid_mode: 所选模式对此配置不可用。请选择其他模式。
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: 首先对此配置现在继承的设置进行一次性复制。
@@ -7201,6 +7223,12 @@ zh-CN:
         label: Start from scratch
       title: Configure a new workflow
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
         other: This workflow is used by %{count} types. Changes apply to all of them.

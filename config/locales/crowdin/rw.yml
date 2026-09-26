@@ -6507,11 +6507,37 @@ rw:
       add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: Defaults
         details: Details
@@ -6519,6 +6545,7 @@ rw:
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
+        start: Start
         workflows: Workflows
       success: Created successfully.
     edit:
@@ -6629,7 +6656,6 @@ rw:
         untitled_group: Untitled group
       overview:
         configuration_mode: Configuration mode
-        dependents: Dependent types and variants
         mode:
           always_manual: Always manual
           inheriting_from_html: Inheriting from %{source_name}
@@ -6683,21 +6709,6 @@ rw:
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
-        dependents:
-          blank:
-            description: No other type or variant inherits from this configuration
-            title: No dependent types
-          description:
-            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-          dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-          title:
-            one: 1 dependent type
-            other: "%{count} dependent types"
-          view: View dependent types
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
@@ -6709,8 +6720,16 @@ rw:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: The configuration mode was switched.
           title: Inherited configuration
         manual:
@@ -6719,13 +6738,14 @@ rw:
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
             heading: Switch configuration mode?
             title: Switch configuration mode
-          copy_from_type: Copy from another type
           description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
             title: Configure manually
           inherit_from_type: Inherit from parent
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Start with a one-time copy of the settings that this configuration inherits now.
@@ -7406,6 +7426,12 @@ rw:
         label: Start from scratch
       title: Configure a new workflow
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.
