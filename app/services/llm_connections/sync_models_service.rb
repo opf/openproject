@@ -48,7 +48,8 @@ module LlmConnections
       # deployment's models and verdicts for another server would be wrong.
       invalidate_a_different_deployment
 
-      store(capped(storable(adapter.models)))
+      store(fetched_cards)
+      Llm::DetectCapabilitiesJob.perform_later
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
@@ -70,6 +71,10 @@ module LlmConnections
 
     def adapter
       @adapter ||= Llm::Adapters.for(connection)
+    end
+
+    def fetched_cards
+      capped(storable(adapter.models))
     end
 
     def storable(cards)
@@ -182,10 +187,19 @@ module LlmConnections
     # server sending "admin_context_window" of its own would have it stored
     # verbatim and reported as an administrator's.
     def merged_metadata(model, card)
-      raw = card.fetch(:raw, {}).except("admin_context_window")
+      raw = normalised_window(card.fetch(:raw, {})).except("admin_context_window")
       admin_window = model.raw_metadata["admin_context_window"]
 
       admin_window ? raw.merge("admin_context_window" => admin_window) : raw
+    end
+
+    # OpenRouter and gateways following it publish the window as
+    # +context_length+, where vLLM and SGLang report +max_model_len+, the
+    # operator's actual limit and therefore the better figure of the two.
+    def normalised_window(raw)
+      return raw if raw["context_length"].blank? || raw["max_model_len"].present?
+
+      raw.merge("context_window" => raw["context_length"])
     end
 
     # Same deployment, but a model is gone. Its verdict is meaningless now,
