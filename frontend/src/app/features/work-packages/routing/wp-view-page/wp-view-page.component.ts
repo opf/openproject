@@ -50,7 +50,7 @@ import { OpBaselineModalComponent } from 'core-app/features/work-packages/compon
 import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
 
 @Component({
-  selector: 'wp-view-page',
+  selector: 'wp-view-page', // eslint-disable-line @angular-eslint/component-selector
   templateUrl: '../partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
@@ -93,11 +93,11 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageTimelineButtonComponent,
-      containerClasses: 'hidden-for-tablet -no-spacing',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-tablet',
+      containerClasses: 'hidden-for-tablet -no-spacing',
     },
     {
       component: WorkPackageSettingsButtonComponent,
