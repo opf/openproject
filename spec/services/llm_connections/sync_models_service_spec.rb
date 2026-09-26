@@ -147,20 +147,23 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.reload.display_name).to eq("The house model")
     end
 
-    # Only the registry-backed adapters report a name; a server speaking the
-    # OpenAI API lists ids and nothing else.
-    it "adopts the display name the adapter reports" do
+    # What the server calls a model is metadata; what an administrator calls it is
+    # the column. A refresh may update the first and never the second, which the
+    # registry-backed adapters used to break by naming every card.
+    it "keeps the administrator's name and files the reported one beside it" do
       llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
       llm_model.update!(display_name: "The house model")
       allow(Llm::Adapters).to receive(:for).and_return(
         instance_double(Llm::Adapters::RegistryBacked,
-                        models: [{ id: "qwen3.6-27b", display_name: "Qwen 3.6 27B", raw: {} }],
+                        models: [{ id: "qwen3.6-27b", raw: { "name" => "Qwen 3.6 27B" } }],
                         server_flavour: "anthropic")
       )
 
       described_class.new(connection).call
 
-      expect(llm_model.reload.display_name).to eq("Qwen 3.6 27B")
+      expect(llm_model.reload.display_name).to eq("The house model")
+      expect(llm_model.name).to eq("The house model")
+      expect(llm_model.raw_metadata["name"]).to eq("Qwen 3.6 27B")
     end
 
     # The everyday case: the same server still answers, one model is simply gone.
