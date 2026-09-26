@@ -123,7 +123,7 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
     expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background.__hl_status_#{status2.id}")
 
     # Unselect all rows to ensure we get the correct background
-    find("body").send_keys [:control, "d"]
+    find("body").send_keys :escape
 
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
@@ -147,7 +147,7 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
     expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background.__hl_priority_#{priority_no_color.id}")
 
     # Remove selection from table row
-    find("body").send_keys [:control, "d"]
+    find("body").send_keys :escape
 
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)

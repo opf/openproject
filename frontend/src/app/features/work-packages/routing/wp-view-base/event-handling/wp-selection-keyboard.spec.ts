@@ -28,7 +28,11 @@
 
 import { createEvent, fireEvent } from '@testing-library/dom';
 import { usePlatform } from 'core-common/testing/platform';
-import { registerWorkPackageSelectAll, WorkPackageSelectAllOptions } from './wp-selection-keyboard';
+import {
+  registerWorkPackageDeselectAll,
+  registerWorkPackageSelectAll,
+  WorkPackageSelectAllOptions,
+} from './wp-selection-keyboard';
 
 describe('registerWorkPackageSelectAll', () => {
   let roots:HTMLElement[];
@@ -239,5 +243,74 @@ describe('registerWorkPackageSelectAll', () => {
 
     expect(shortcut(row)).toBe(true);
     expect(selectAll).toHaveBeenCalledExactlyOnceWith(rows, rows[0]);
+  });
+});
+
+describe('registerWorkPackageDeselectAll', () => {
+  let roots:HTMLElement[];
+  let destroyers:(() => void)[];
+
+  beforeEach(() => {
+    roots = [];
+    destroyers = [];
+  });
+
+  afterEach(() => {
+    destroyers.reverse().forEach((destroy) => destroy());
+    roots.forEach((root) => root.remove());
+  });
+
+  function view(hasState = true) {
+    const root = document.createElement('div');
+    root.innerHTML = '<div class="wp-table--row" tabindex="0">Row</div>';
+    document.body.append(root);
+    roots.push(root);
+    const clear = vi.fn();
+    const destroy = registerWorkPackageDeselectAll({ root, hasState: () => hasState, clear });
+    destroyers.push(destroy);
+    return { root, clear, destroy };
+  }
+
+  function keydown(target:Element, init:KeyboardEventInit):KeyboardEvent {
+    const event = createEvent.keyDown(target, init) as KeyboardEvent;
+    fireEvent(target, event);
+    return event;
+  }
+
+  it('clears every registered view from anywhere in the document', () => {
+    const first = view();
+    const second = view();
+    const elsewhere = document.createElement('button');
+    document.body.append(elsewhere);
+    roots.push(elsewhere);
+
+    expect(keydown(document.body, { key: 'Escape' }).defaultPrevented).toBe(true);
+    expect(first.clear).toHaveBeenCalledOnce();
+    expect(second.clear).toHaveBeenCalledOnce();
+
+    expect(keydown(elsewhere, { key: 'Escape' }).defaultPrevented).toBe(true);
+    expect(first.clear).toHaveBeenCalledTimes(2);
+    expect(second.clear).toHaveBeenCalledTimes(2);
+  });
+
+  it('stops clearing a disposed view while the others survive', () => {
+    const first = view();
+    const second = view();
+    first.destroy();
+    destroyers = destroyers.filter((destroy) => destroy !== first.destroy);
+
+    keydown(document.body, { key: 'Escape' });
+
+    expect(first.clear).not.toHaveBeenCalled();
+    expect(second.clear).toHaveBeenCalledOnce();
+  });
+
+  it('leaves Escape unconsumed when no view has state', () => {
+    const { clear } = view(false);
+
+    const event = keydown(document.body, { key: 'Escape' });
+
+    expect(clear).not.toHaveBeenCalled();
+    expect(event.defaultPrevented).toBe(false);
   });
 });

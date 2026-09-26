@@ -26,9 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isApplePlatform } from 'core-common/platform';
+import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
+import { clearSelectionOnEscape } from 'core-common/selection-escape';
 
 export interface WorkPackageSelectAllOptions {
   root:HTMLElement;
@@ -76,4 +77,24 @@ export function registerWorkPackageSelectAll(options:WorkPackageSelectAllOptions
     root.removeEventListener('keydown', handle, true);
     registrations.delete(root);
   };
+}
+
+export interface WorkPackageDeselectAllOptions {
+  root:HTMLElement;
+  hasState:() => boolean;
+  clear:() => void;
+}
+
+/**
+ * Clears this view's selection on an unowned Escape from anywhere in its
+ * document; `root` names the document and the lifecycle owner, not the
+ * event scope.
+ */
+export function registerWorkPackageDeselectAll(options:WorkPackageDeselectAllOptions):() => void {
+  const { ownerDocument } = options.root;
+  const handle = (event:KeyboardEvent) => clearSelectionOnEscape(event, options.hasState, options.clear);
+
+  ownerDocument.addEventListener('keydown', handle);
+
+  return () => ownerDocument.removeEventListener('keydown', handle);
 }
