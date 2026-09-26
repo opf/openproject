@@ -64,9 +64,10 @@ export class SelectionTransformer {
       )
       .subscribe(() => {
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
-          const element = locateTableRow(wpId);
+          const root = table.tableAndTimelineContainer;
+          const element = locateTableRow(wpId, root);
           if (element) {
-            scrollTableRowIntoView(wpId);
+            scrollTableRowIntoView(wpId, root);
             this.FocusHelper.focus(element);
           }
         });
