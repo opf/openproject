@@ -175,6 +175,9 @@ export class ApiV3Service {
   // /api/v3/job_statuses
   public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
 
+  // /api/v3/labels
+  public readonly labels = this.apiV3CollectionEndpoint('labels');
+
   // /api/v3/views
   public readonly views = this.apiV3CustomEndpoint(ApiV3ViewsPaths);
 

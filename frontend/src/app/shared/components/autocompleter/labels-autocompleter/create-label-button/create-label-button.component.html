@@ -1,0 +1,15 @@
+@if (autocompleter.loadedLabels$ | async; as items) {
+  @if ((autocompleter.loading$ | async) !== true && showCreateOption(items)) {
+    <button
+      class="op-select-footer--label"
+      type="button"
+      [disabled]="creating"
+      (click)="onCreateClick($event)"
+      >
+      <span class="icon-context">
+        <op-icon icon-classes="icon-add icon-context" />
+        {{ buttonText() }}
+      </span>
+    </button>
+  }
+}
