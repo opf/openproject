@@ -1,12 +1,24 @@
-@if (accessibleItems().length > 0) {
-  <ul class="sr-only">
-    @for (item of accessibleItems(); track item.id) {
-      <li [textContent]="item.text"></li>
-    }
-  </ul>
-}
-
 <div class="op-project-timeline-graph--wrapper" [class.op-project-timeline-graph--wrapper_loading]="!ready()">
+  @if (accessibleItems().length > 0) {
+    <ul class="op-project-timeline-graph--accessible-list" role="list">
+      @for (item of accessibleItems(); track item.id) {
+        <li>
+          @if (item.href) {
+            <a
+              class="op-project-timeline-graph--accessible-link show-on-focus"
+              [href]="item.href"
+              [textContent]="item.text"
+              (focus)="highlightAccessibleItem(item.id)"
+              (blur)="clearAccessibleItemHighlight()"
+            ></a>
+          } @else {
+            <span class="sr-only" [textContent]="item.text"></span>
+          }
+        </li>
+      }
+    </ul>
+  }
+
   <div [hidden]="ready()">
     <op-content-loader viewBox="0 0 100 100">
       <svg:rect x="0" y="0" width="100" height="2" rx="0.5" />

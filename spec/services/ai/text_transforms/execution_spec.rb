@@ -145,11 +145,11 @@ RSpec.describe AI::TextTransforms::Execution,
 
   it "translates the error message into the language of the run's user" do
     run.user.update!(language: "de")
-    I18n.backend.store_translations(:de, ai: { text_transform: { errors: { upstream_error: "KI-Fehler" } } })
 
     execute(AI::TextTransforms::FakeGateway.new(error: AI::TextTransforms::Errors::Upstream.new("detail")))
 
-    expect(run.error_message).to eq("KI-Fehler")
+    expect(run.error_message).to eq(I18n.t("ai.text_transform.errors.upstream_error", locale: :de))
+    expect(run.error_message).not_to eq(I18n.t("ai.text_transform.errors.upstream_error", locale: :en))
     expect(I18n.locale).to eq(:en)
   end
 

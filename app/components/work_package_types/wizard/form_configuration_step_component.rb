@@ -39,20 +39,6 @@ module WorkPackageTypes
         super(variant)
       end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::FORM_CONFIGURATION
-                 )) +
-            render(WorkPackageTypes::FormConfigurationComponent.new(
-                     variant: model,
-                     form_attributes: helpers.form_configuration_groups(model),
-                     no_filter_query:
-                   ))
-        end
-      end
-
       private
 
       def reload_url

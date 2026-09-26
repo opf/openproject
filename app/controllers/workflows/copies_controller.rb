@@ -37,12 +37,32 @@ class Workflows::CopiesController < ApplicationController
   before_action :set_source_role
   before_action :set_all_roles
 
+  helper_method :copy_source_name, :copy_submit_path
+
   def new; end
 
   private
 
+  def standalone? = params[:workflow_id].present?
+
   def set_source_variant
-    @source_variant = addressed_variant
+    @source_variant = addressed_variant unless standalone?
+  end
+
+  def workflow
+    @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : @source_variant.workflow
+  end
+
+  def copy_source_name
+    standalone? ? workflow.name : @source_variant.composite_name
+  end
+
+  def copy_submit_path
+    if standalone?
+      workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
+    else
+      type_workflow_copy_from_role_path(**@source_variant.path_args, source_role_id: @source_role&.id)
+    end
   end
 
   def set_source_role

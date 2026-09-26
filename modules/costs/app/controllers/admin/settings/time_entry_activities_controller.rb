@@ -38,10 +38,6 @@ module Admin
       def enumeration_class
         TimeEntryActivity
       end
-
-      def enumeration_param_key
-        enumeration_class.model_name.param_key
-      end
     end
   end
 end
