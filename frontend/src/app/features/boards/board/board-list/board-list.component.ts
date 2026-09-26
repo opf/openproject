@@ -70,10 +70,6 @@ import { BoardListMenuComponent } from 'core-app/features/boards/board/board-lis
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
-import {
-  StateService,
-  TransitionService,
-} from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
@@ -120,9 +116,7 @@ export interface DisabledButtonPlaceholder {
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   readonly apiv3Service = inject(ApiV3Service);
-  readonly state = inject(StateService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly transitions = inject(TransitionService);
   readonly boardFilters = inject(BoardFiltersService);
   readonly toastService = inject(ToastService);
   readonly querySpace = inject(IsolatedQuerySpace);

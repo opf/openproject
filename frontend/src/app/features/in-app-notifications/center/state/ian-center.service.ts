@@ -31,7 +31,6 @@ import { Injectable, Injector, inject } from '@angular/core';
 import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ID, Query } from '@datorama/akita';
-import { StateService } from '@uirouter/angular';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -82,7 +81,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   readonly apiV3Service = inject(ApiV3Service);
   readonly toastService = inject(ToastService);
   readonly urlParams = inject(UrlParamsService);
-  readonly state = inject(StateService);
   readonly deviceService = inject(DeviceService);
   readonly pathHelper = inject(PathHelperService);
   readonly ianBellService = inject(IanBellService);
@@ -231,10 +229,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   openSplitScreen(workPackageId:string, tabIdentifier = 'activity'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
-  }
-
-  openFullView(workPackageId:string|null):void {
-    void this.state.go('work-packages.show', { workPackageId });
   }
 
   showNextNotification():void {

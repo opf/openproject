@@ -50,7 +50,6 @@ let splitCreateInstanceCount = 0;
   template: `
     <wp-new-split-view
       [stateParams]="{ projectPath: projectIdentifier, type: type, parent_id: parentId }"
-      [routedFromAngular]="false"
       [resizerClass]="resizerClass"
     />
   `,

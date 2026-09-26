@@ -29,7 +29,6 @@
 import { Directive, inject } from '@angular/core';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 import {
   bcfCardsViewIdentifier,
   bcfSplitViewCardsIdentifier,
@@ -49,7 +48,6 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
 export class BcfViewToggleDropdownDirective extends OpContextMenuTrigger {
   readonly bcfView = inject(BcfViewService);
   readonly I18n = inject(I18nService);
-  readonly state = inject(StateService);
   readonly wpFiltersService = inject(WorkPackageFiltersService);
   readonly viewerBridgeService = inject(ViewerBridgeService);
 

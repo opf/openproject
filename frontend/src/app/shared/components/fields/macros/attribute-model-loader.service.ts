@@ -42,7 +42,6 @@ import {
 } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { multiInput } from '@openproject/reactivestates';
-import { TransitionService } from '@uirouter/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
@@ -56,7 +55,6 @@ const WP_ID_OR_SEMANTIC = new RegExp(`^(?:${WP_ID_URL_PATTERN})$`);
 @Injectable({ providedIn: 'root' })
 export class AttributeModelLoaderService {
   readonly apiV3Service = inject(ApiV3Service);
-  readonly transitions = inject(TransitionService);
   readonly currentProject = inject(CurrentProjectService);
   readonly I18n = inject(I18nService);
 
@@ -69,12 +67,9 @@ export class AttributeModelLoaderService {
   private cache$ = multiInput<HalResource>();
 
   constructor() {
-    const transitions = this.transitions;
-
-    // Clear cached values whenever leaving the page
-    transitions.onStart({}, () => {
+    // Clear cached values whenever navigating to a new page
+    document.addEventListener('turbo:load', () => {
       this.cache$.clear();
-      return true;
     });
   }
 

@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { UIRouterGlobals } from '@uirouter/core';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -47,7 +46,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 })
 export class WpTabWrapperComponent implements OnInit {
   readonly I18n = inject(I18nService);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly apiV3Service = inject(ApiV3Service);
   readonly wpTabsService = inject(WorkPackageTabsService);
 
@@ -62,10 +60,6 @@ export class WpTabWrapperComponent implements OnInit {
   }>;
 
   ngOnInit() {
-    if (this.workPackageId === undefined) {
-      this.workPackageId = this.uiRouterGlobals.params.workPackageId;
-    }
-
     this.ndcDynamicInputs$ = this
       .apiV3Service
       .work_packages
@@ -80,10 +74,6 @@ export class WpTabWrapperComponent implements OnInit {
   }
 
   findTab(workPackage:WorkPackageResource):WpTabDefinition | undefined {
-    if (this.tabIdentifier === undefined) {
-      this.tabIdentifier = this.uiRouterGlobals.params.tabIdentifier;
-    }
-
     return this.wpTabsService.getTab(this.tabIdentifier, workPackage);
   }
 }

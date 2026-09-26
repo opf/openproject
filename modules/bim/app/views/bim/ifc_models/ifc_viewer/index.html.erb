@@ -42,4 +42,16 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: "unconverted_notice", locals: { unconverted: unconverted } %>
 <% end %>
 
-<openproject-base></openproject-base>
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-ifc-viewer-view" %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <% if render_work_package_split_view? %>
+    <%= render(split_view_instance) %>
+  <% elsif render_work_package_split_create? %>
+    <%= render(split_create_instance) %>
+  <% else %>
+    <%= angular_component_tag "opce-bcf-content-right" %>
+  <% end %>
+<% end %>

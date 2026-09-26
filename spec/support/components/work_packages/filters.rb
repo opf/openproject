@@ -47,6 +47,13 @@ module Components
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
           find(filters_selector, visible: true)
+          # The container can become visible slightly before Angular has finished
+          # rendering its actual content (e.g. right after a browser back/forward
+          # navigation, while the app is still being rebuilt) - wait for the
+          # always-present "add filter" row too, so callers that immediately
+          # interact with a specific filter's fields (e.g. expect_filter_by) don't
+          # race that render.
+          find(".advanced-filters--add-filter-value", visible: true)
         end
       end
 

@@ -28,7 +28,6 @@
 
 import { isEqual } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
 
@@ -97,7 +96,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   private readonly states = inject(States);
   private readonly I18n = inject(I18nService);
   private readonly hook = inject(HookService);
-  private readonly $state = inject(StateService);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly PathHelper = inject(PathHelperService);
@@ -150,8 +148,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public isNewResource:boolean;
 
-  public uiSelfRef:string;
-
   element:HTMLElement;
 
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
@@ -160,8 +156,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     this.element = this.elementRef.nativeElement;
 
     this.isNewResource = isNewResource(this.workPackage);
-
-    this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.refresh(change);

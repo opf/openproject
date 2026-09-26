@@ -30,7 +30,6 @@ import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
-import { StateService } from '@uirouter/core';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -41,8 +40,6 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public $state:StateService;
-
   @LazyInject() public keepTab:KeepTabService;
 
   @LazyInject() public states:States;

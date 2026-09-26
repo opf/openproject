@@ -12,7 +12,7 @@
         </div>
         <ul id="toolbar-items" class="toolbar-items hide-when-print wp-show--header-container--toolbar-items">
           <li class="toolbar-item hidden-for-tablet">
-            <wp-create-button [routedFromAngular]="routedFromAngular" [fullView]="true" />
+            <wp-create-button [fullView]="true" />
           </li>
           @if (displayShareButton$ | async) {
             <li class="toolbar-item"
@@ -69,7 +69,6 @@
           <op-wp-tabs [workPackage]="workPackage"
                       [currentTabId]="activeTab"
                       [view]="'full'"
-                      [routedFromAngular]="routedFromAngular"
                       (tabSelected)="onTabSelected($event)"/>
           <div class="tabcontent"
             data-notification-selector='notification-scroll-container'>

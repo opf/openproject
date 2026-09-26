@@ -28,7 +28,6 @@
 
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { TestBed } from '@angular/core/testing';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -67,7 +66,6 @@ describe('WpTabsService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        { provide: StateService, useValue: { includes: () => false } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ]
     });

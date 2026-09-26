@@ -48,7 +48,7 @@ module OpenProject::Bim
         permission :view_ifc_models,
                    {
                      "bim/ifc_models/ifc_models": %i[index show defaults],
-                     "bim/ifc_models/ifc_viewer": %i[show],
+                     "bim/ifc_models/ifc_viewer": %i[index split_view split_create],
                      "bim/menus": %i[show]
                    },
                    permissible_on: :project,

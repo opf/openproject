@@ -28,7 +28,6 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 
 @Component({
   template: `
@@ -44,7 +43,6 @@ import { StateService } from '@uirouter/core';
 })
 export class RefreshButtonComponent {
   readonly I18n = inject(I18nService);
-  readonly state = inject(StateService);
 
   public text = {
     refresh: this.I18n.t('js.bcf.refresh'),
@@ -52,6 +50,6 @@ export class RefreshButtonComponent {
   };
 
   refresh() {
-    void this.state.go('.', {}, { reload: true });
+    window.location.reload();
   }
 }

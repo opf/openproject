@@ -33,9 +33,6 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { States } from 'core-app/core/states/states.service';
 import {
-  WorkPackageRelationsHierarchyService,
-} from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
@@ -48,10 +45,8 @@ import {
 import {
   PERMITTED_CONTEXT_MENU_ACTIONS,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
-import { StateService } from '@uirouter/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -65,10 +60,6 @@ export interface PositionArgs { placement?:Placement, reference?:HTMLElement }
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @LazyInject() protected states!:States;
-
-  @LazyInject() protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService;
-
-  @LazyInject() protected $state!:StateService;
 
   @LazyInject() protected wpTableSelection:WorkPackageViewSelectionService;
 
@@ -91,15 +82,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     PERMITTED_CONTEXT_MENU_ACTIONS,
     this.allowSplitScreenActions,
   );
-
-  // Get the base route for the current route to ensure we always link correctly
-  protected baseRoute = this.$state.current.data?.baseRoute ?? this.$state.current.name;
-
-  // Whether we are running inside a uiRouter context (e.g. work packages list/board).
-  // Calendar and Team Planner render without uiRouter and rely on Turbo navigation instead.
-  protected get hasUiRouterContext():boolean {
-    return this.$state.current.name !== '';
-  }
 
   protected items = this.buildItems();
 
@@ -168,27 +150,18 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;
 
-      case 'relation-new-child':
-        if (this.hasUiRouterContext) {
-          this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
-        } else {
-          const childParams = new URLSearchParams(window.location.search);
-          childParams.set('parent_id', id);
-          Turbo.visit(`${this.urlParams.splitCreatePath()}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
-        }
+      case 'relation-new-child': {
+        const childParams = new URLSearchParams(window.location.search);
+        childParams.set('parent_id', id);
+        Turbo.visit(`${this.urlParams.splitCreatePath()}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
         break;
+      }
 
-      case 'relations':
-        if (this.hasUiRouterContext) {
-          void this.$state.go(
-            `${splitViewRoute(this.$state)}.tabs`,
-            { workPackageId: this.workPackage.displayId, tabIdentifier: 'relations' },
-          );
-        } else {
-          const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}/relations${window.location.search}`;
-          Turbo.visit(relationsPath, { frame: 'content-bodyRight', action: 'advance' });
-        }
+      case 'relations': {
+        const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}/relations${window.location.search}`;
+        Turbo.visit(relationsPath, { frame: 'content-bodyRight', action: 'advance' });
         break;
+      }
 
       default:
         window.location.href = link!;
@@ -199,7 +172,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   private deleteSelectedWorkPackages() {
     const selected = this.getSelectedWorkPackages();
     const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
-    const backUrl = this.$state.href(this.baseRoute as string) || this.pathHelper.workPackagesPath(this.currentProject.identifier ?? null);
+    const backUrl = this.urlParams.basePathWithoutDetails();
     void this.turboRequests.request(this.pathHelper.workPackagesBulkDeleteDialogPath(ids, backUrl), { method: 'GET' });
   }
 
@@ -286,12 +259,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       });
 
       if (selected.length === 1 && this.allowSplitScreenActions) {
-        const splitViewHref = this.hasUiRouterContext
-          ? this.$state.href(
-            `${splitViewRoute(this.$state)}.tabs`,
-            { workPackageId: this.workPackage.displayId, tabIdentifier: 'overview' },
-          )
-          : `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
+        const splitViewHref = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
 
         items.unshift({
           disabled: false,
@@ -304,14 +272,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
               return false;
             }
 
-            if (this.hasUiRouterContext) {
-              this.$state.go(
-                `${splitViewRoute(this.$state)}.tabs`,
-                { workPackageId: this.workPackage.displayId, tabIdentifier: 'overview' },
-              );
-            } else {
-              Turbo.visit(splitViewHref, { frame: 'content-bodyRight', action: 'advance' });
-            }
+            Turbo.visit(splitViewHref, { frame: 'content-bodyRight', action: 'advance' });
             return true;
           },
         });

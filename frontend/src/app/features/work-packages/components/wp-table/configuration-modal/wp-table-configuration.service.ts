@@ -36,12 +36,10 @@ import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-p
 import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
-import { StateService } from '@uirouter/angular';
 
 @Injectable({ providedIn: 'root' })
 export class WpTableConfigurationService {
   readonly I18n = inject(I18nService);
-  readonly $state = inject(StateService);
 
   protected _tabs:TabInterface[] = [
     {
@@ -77,7 +75,8 @@ export class WpTableConfigurationService {
   ];
 
   public get tabs() {
-    if (this.$state.current.name?.includes('work-packages') || this.$state.current.name?.includes('bim')) {
+    const { pathname } = window.location;
+    if (pathname.includes('/work_packages') || pathname.includes('/bcf')) {
       return this._tabs;
     }
 

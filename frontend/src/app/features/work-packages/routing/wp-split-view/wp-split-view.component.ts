@@ -27,12 +27,9 @@
 //++
 
 import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Type, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import {
   WorkPackageViewFocusService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { States } from 'core-app/core/states/states.service';
-import { FirstRouteService } from 'core-app/core/routing/first-route-service';
 import {
   KeepTabService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -46,7 +43,6 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -54,7 +50,6 @@ import {
   WorkPackageTabsService,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
-import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -67,20 +62,12 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
   standalone: false,
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
-  states = inject(States);
-  firstRoute = inject(FirstRouteService);
   keepTab = inject(KeepTabService);
   wpTableSelection = inject(WorkPackageViewSelectionService);
   wpTableFocus = inject(WorkPackageViewFocusService);
   recentItemsService = inject(RecentItemsService);
-  readonly $state = inject(StateService);
   readonly urlParams = inject(UrlParamsService);
-  readonly backRouting = inject(BackRoutingService);
   readonly wpTabs = inject(WorkPackageTabsService);
-
-  hasState = !!this.$state.current;
-  /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
-  private baseRoute = (this.$state.current?.data as { baseRoute?:string } | undefined)?.baseRoute ?? '';
 
   @Input() showTabs = true;
 
@@ -96,21 +83,6 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   ngOnInit():void {
     this.observeWorkPackage();
-
-    this.wpTableFocus.whenNavigationRequested()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((newId) => {
-        const currentId = this.workPackage?.id ?? this.workPackageId;
-        const idSame = currentId.toString() === newId.toString();
-        if (!idSame && this.$state.includes(`${this.baseRoute}.details`)) {
-          void this.$state.go(
-            (this.$state.current.name!),
-            { workPackageId: resolveRoutingId(this.states, newId.toString()), focus: false },
-          );
-        }
-      });
   }
 
   /**
@@ -141,21 +113,13 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       ?.component;
   }
 
-  showBackButton():boolean {
-    return this.baseRoute?.includes('bim');
-  }
-
-  backToList():void {
-    this.backRouting.goToBaseState();
-  }
-
-  protected handleLoadingError(error:unknown):void {
-    const message = this.notificationService.retrieveErrorMessage(error);
+  protected override handleLoadingError(error:unknown):void {
+    super.handleLoadingError(error);
 
     // Go back to the base route, closing this split view
-    void this.$state.go(
-      this.baseRoute,
-      { flash_message: { type: 'error', message } },
+    Turbo.visit(
+      `${this.urlParams.basePathWithoutDetails()}${window.location.search}`,
+      { frame: 'content-bodyRight', action: 'replace' },
     );
   }
 }

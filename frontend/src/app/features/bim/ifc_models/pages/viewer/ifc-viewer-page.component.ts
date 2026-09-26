@@ -26,11 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
+  ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import {
   WorkPackageFilterButtonComponent,
@@ -59,7 +61,6 @@ import {
 import {
   WorkPackageCreateButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
-import { of } from 'rxjs';
 import {
   BcfImportButtonComponent,
 } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component';
@@ -77,7 +78,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 
 @Component({
-  templateUrl: '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './styles/generic.sass',
@@ -93,7 +94,7 @@ import {
 })
 export class IFCViewerPageComponent
   extends PartitionedQuerySpacePageComponent
-  implements UntilDestroyedMixin, OnInit, OnDestroy {
+  implements UntilDestroyedMixin, OnInit {
   readonly ifcData = inject(IfcModelsDataService);
   readonly bcfView = inject(BcfViewService);
   readonly viewerBridgeService = inject(ViewerBridgeService);
@@ -105,16 +106,9 @@ export class IFCViewerPageComponent
     areYouSure: this.I18n.t('js.text_are_you_sure'),
   };
 
-  private readonly newRoute = this.viewerBridgeService.shouldShowViewer
-    ? 'bim.partitioned.list.new'
-    : 'bim.partitioned.new';
-
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
-      inputs: {
-        stateName$: of(this.newRoute),
-      },
     },
     {
       component: RefreshButtonComponent,
@@ -158,9 +152,6 @@ export class IFCViewerPageComponent
     },
   ];
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  private removeSubscription:Function;
-
   ngOnInit():void {
     super.ngOnInit();
 
@@ -169,7 +160,7 @@ export class IFCViewerPageComponent
     this.querySpace.query.values$()
       .pipe(this.untilDestroyed())
       .subscribe((query) => {
-        const dr = query.displayRepresentation || bcfSplitViewCardsIdentifier;
+        const dr = query.displayRepresentation ?? bcfSplitViewCardsIdentifier;
         this.filterAllowed = dr !== bcfViewerViewIdentifier;
         // When changing the query space by selecting a dropdown option, handle the split screen
         // and hide it for full views.
@@ -177,16 +168,36 @@ export class IFCViewerPageComponent
         this.cdRef.detectChanges();
       });
 
-    this.removeSubscription = this.$transitions.onSuccess({}, (_transition):void => {
-      // When going back from "details" route to "list" route handle the split screen right side
-      const dr = this.querySpace.query.value?.displayRepresentation;
-      this.updateSplitScreen((dr || bcfTableViewIdentifier) as BcfViewState);
-    });
+    // When going back from "details" route to "list" route, handle the split screen right side.
+    // Scoped to actual route transitions (distinctUntilChanged on the details/list boolean),
+    // not every URL change - a filter-only query-param update also fires `changed$`, and at
+    // that point the query for the new filter hasn't reloaded yet, so `displayRepresentation`
+    // would read as stale/undefined and wrongly collapse the split screen for good (there's no
+    // code path that ever widens it back once collapsed).
+    this.urlParams.changed$
+      .pipe(
+        map(() => this.urlParams.currentDetailsRouteParams() !== null),
+        distinctUntilChanged(),
+        this.untilDestroyed(),
+      )
+      .subscribe((isDetailsRoute):void => {
+        if (isDetailsRoute) {
+          return;
+        }
+
+        const dr = this.querySpace.query.value?.displayRepresentation ?? bcfSplitViewCardsIdentifier;
+        this.updateSplitScreen(dr as BcfViewState);
+      });
   }
 
-  ngOnDestroy() {
-    this.removeSubscription();
-    super.ngOnDestroy();
+  /**
+   * Neither the plain browser nor the Revit add-in route through a uiRouter '.details'/'.new'
+   * sub-state anymore (the split view/create form render via a Rails Turbo frame instead), so
+   * the partition is derived from the URL rather than from state data.
+   */
+  protected override setPartition():void {
+    const partition:ViewPartitionState = window.location.pathname.includes('/details/') ? '-split' : '-left-only';
+    this.currentPartition = partition;
   }
 
   breadcrumbItems() {
@@ -214,6 +225,14 @@ export class IFCViewerPageComponent
       });
   }
 
+  /**
+   * Tracks whether *this* method is the one that last collapsed the split screen
+   * width to 0, so it only ever restores a width it collapsed itself - never a
+   * width the user set by hand via the resizer (WpResizerComponent shares the
+   * same --split-screen-width CSS variable for the WP details pane).
+   */
+  private collapsedSplitScreenWidth = false;
+
   private updateSplitScreen(dr:BcfViewState):void {
     const isFullViewDisplayRepresentation = [
       bcfViewerViewIdentifier,
@@ -221,10 +240,25 @@ export class IFCViewerPageComponent
       bcfTableViewIdentifier,
     ].includes(dr);
 
-    const isListRoute = this.uiRouterGlobals.current.name === 'bim.partitioned.list';
+    const isListRoute = !window.location.pathname.includes('/details/');
 
     if (isListRoute && isFullViewDisplayRepresentation) {
       document.documentElement.style.setProperty('--split-screen-width', '0');
+      this.collapsedSplitScreenWidth = true;
+    } else if (this.collapsedSplitScreenWidth) {
+      // Restore the user's own resized width (WpResizerComponent's own
+      // localStorage-backed preference, shared across all --split-screen-width
+      // resizers) rather than falling back to the CSS default - otherwise the
+      // resizer's cached in-memory width goes stale relative to the (wrongly
+      // reset) rendered width, only surfacing at the next resize's own re-sync
+      // as an apparent "jump back to default" right as dragging starts.
+      const savedWidth = window.OpenProject.guardedLocalStorage('openProject-splitViewFlexBasis');
+      if (savedWidth) {
+        document.documentElement.style.setProperty('--split-screen-width', `${savedWidth}px`);
+      } else {
+        document.documentElement.style.removeProperty('--split-screen-width');
+      }
+      this.collapsedSplitScreenWidth = false;
     }
   }
 }

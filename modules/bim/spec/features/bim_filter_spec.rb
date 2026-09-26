@@ -87,12 +87,18 @@ RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" 
       card_view.expect_work_package_listed wp2
       card_view.expect_work_package_not_listed wp1
 
-      # Using the browser back will reload the filter and the work packages
+      # Using the browser back will reload the filter and the work packages.
+      # turbo-angular-wrapper.ts rebuilds the whole Angular app asynchronously on
+      # every turbo:load (including a plain browser back) - wait for that rebuild
+      # to fully settle before interacting with the (freshly rebuilt) filter panel,
+      # otherwise opening it here can race the rebuild and end up closed again.
       page.go_back
       loading_indicator_saveguard
+      expect_angular_frontend_initialized
 
       filters.expect_loaded
       filters.expect_filter_count 1
+      filters.open
       filters.expect_filter_by("Status", "open", nil)
 
       card_view.expect_work_package_listed wp1
