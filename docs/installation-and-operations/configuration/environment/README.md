@@ -425,6 +425,7 @@ OPENPROJECT_WELCOME__TEXT (default=nil) Welcome block text
 OPENPROJECT_WELCOME__TITLE (default=nil) Welcome block title
 OPENPROJECT_WIKI__PROVIDERS (default=[]) Configure external wiki providers through environment variables
 OPENPROJECT_WORK__PACKAGE__DONE__RATIO (default="field") Progress calculation mode
+OPENPROJECT_WORK__PACKAGE__IMPORT__MAX__ROWS (default=5000) Maximum number of data rows accepted by the work package CSV import.
 OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__COLUMNS (default=["id", "subject", "type", "status", "assigned_to", "priority"])
 OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTED__ATTRIBUTES (default=["status", "priority", "due_date"]) Default inline highlighted attributes
 OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTING__MODE (default="inline") Default highlighting mode

@@ -1443,6 +1443,12 @@ module Settings
         default: "field",
         allowed: %w[field status]
       },
+      work_package_import_max_rows: {
+        description: "Maximum number of data rows accepted by the work package CSV import.",
+        format: :integer,
+        writable: false,
+        default: 5_000
+      },
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,

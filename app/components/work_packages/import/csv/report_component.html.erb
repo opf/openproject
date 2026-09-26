@@ -1,0 +1,115 @@
+<% case outcome %>
+<% when "checked" %>
+  <%= render banner(:success, "checked", count: row_count) %>
+
+  <%= render Primer::Box.new(border: true, border_radius: 3, p: 4, mb: 3) do %>
+    <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center, mb: 3) do %>
+      <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.checked.heading") } %>
+      <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { filename } %>
+    <% end %>
+
+    <%= render Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "gap-3", mb: 3) do %>
+      <% stat_cards.each do |card| %>
+        <%= render(card) %>
+      <% end %>
+    <% end %>
+
+    <%= render partial: "work_packages/import/breakdown", locals: { breakdown: } %>
+  <% end %>
+
+  <%= render Primer::Box.new(display: :flex, align_items: :center, mb: 2) do %>
+    <%= button_to import_label,
+                  import_path,
+                  params: { attachment_id: payload["attachment_id"], dry_run: "0", job: status.job_id },
+                  form: { class: "button_to mr-2" },
+                  class: "Button Button--primary Button--medium" %>
+
+    <%= render(clear_button) { t("work_packages.import.clear") } %>
+  <% end %>
+
+  <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: 6, mb: 0)) { t("work_packages.import.report.checked.kept") } %>
+
+<% when "imported" %>
+  <%= render imported_banner %>
+
+  <%= render Primer::Box.new(display: :flex, align_items: :center, mb: 3) do %>
+    <% if created_list_path %>
+      <%= render(created_list_button) do |button| %>
+        <%= t("work_packages.import.report.imported.link", count: created_count) %>
+        <% button.with_trailing_visual_icon(icon: :"arrow-right") %>
+      <% end %>
+    <% end %>
+
+    <%= render(clear_button) { t("work_packages.import.report.imported.again") } %>
+  <% end %>
+
+  <%= render Primer::Beta::BorderBox.new(mb: 3) do |box| %>
+    <% box.with_header do %>
+      <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.imported.heading") } %>
+    <% end %>
+
+    <% box.with_row(p: 0) do %>
+      <%= render partial: "work_packages/import/stats", locals: { stats: created_stats } %>
+    <% end %>
+
+    <% box.with_footer do %>
+      <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { t("work_packages.import.report.imported.notifications") } %>
+    <% end %>
+  <% end %>
+
+<% when "rows_rejected" %>
+  <%= render rejected_banner %>
+
+  <%= render Primer::Beta::BorderBox.new(mb: 3) do |box| %>
+    <% box.with_header do %>
+      <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center) do %>
+        <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.problems.heading") } %>
+        <%= render(Primer::Beta::Text.new(tag: :code, color: :muted, font_size: 6)) { filename } %>
+      <% end %>
+    <% end %>
+
+    <% box.with_body(p: 0) do %>
+      <%= render partial: "work_packages/import/problem_table", locals: { headers: row_headers, rows: row_problems } %>
+    <% end %>
+
+    <% box.with_footer do %>
+      <%= render Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2") do %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { shown_count } %>
+        <%= render Primer::Beta::Link.new(href: problems_path, font_size: 6) do %>
+          <%= t("work_packages.import.report.download_problems") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% when "file_rejected" %>
+  <% if file_problems.any? %>
+    <%= render file_banner %>
+  <% else %>
+    <%= render banner(:danger, "file_rejected") %>
+
+    <%= render Primer::Beta::BorderBox.new(mb: 3) do |box| %>
+      <% box.with_header do %>
+        <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center) do %>
+          <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.file_rejected.heading") } %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { header_line } %>
+        <% end %>
+      <% end %>
+
+      <% box.with_body(p: 0) do %>
+        <%= render partial: "work_packages/import/problem_table", locals: { headers: column_headers, rows: column_problem_rows } %>
+      <% end %>
+
+      <% box.with_footer do %>
+        <%= render Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2") do %>
+          <% if omitted_headers_count %>
+            <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { omitted_headers_count } %>
+          <% end %>
+          <%= render Primer::Beta::Link.new(href: problems_path, font_size: 6) do %>
+            <%= t("work_packages.import.report.download_problems") %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

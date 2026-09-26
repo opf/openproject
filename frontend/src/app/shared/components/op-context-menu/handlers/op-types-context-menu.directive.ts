@@ -39,6 +39,8 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { extendSearchParams } from 'core-stimulus/helpers/url-helpers';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Directive({
   selector: '[opTypesCreateDropdown]',
@@ -52,6 +54,8 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
   readonly currentProject = inject(CurrentProjectService);
   readonly browser = inject(BrowserDetector);
   readonly urlParams = inject(UrlParamsService);
+  readonly authorisationService = inject(AuthorisationService);
+  readonly I18n = inject(I18nService);
 
   @Input() public projectIdentifier:string|null|undefined;
 
@@ -111,6 +115,28 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       class: Highlighting.typeClass(type.id!),
       onClick: (event:MouseEvent) => this.handleClick(event, type),
     }));
+
+    if (this.importAllowed) {
+      this.items.push(
+        { divider: true },
+        {
+          linkText: this.I18n.t('js.work_packages.create.import'),
+          href: this.pathHelper.projectWorkPackageImportPath(this.projectIdentifier!),
+          icon: 'icon-import',
+          onClick: () => false,
+        },
+      );
+    }
+  }
+
+  /**
+   * The full work package view loads no collection, so it authorises against the single work
+   * package it shows; every other context authorises against the collection it lists.
+   */
+  private get importAllowed():boolean {
+    const model = this.fullView ? 'work_package' : 'work_packages';
+
+    return !!this.projectIdentifier && this.authorisationService.can(model, 'import');
   }
 
   /**

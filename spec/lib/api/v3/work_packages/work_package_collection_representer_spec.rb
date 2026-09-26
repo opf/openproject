@@ -119,6 +119,38 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
     end
 
+    describe "import" do
+      let(:import_link) { JSON.parse(collection).dig("_links", "import") }
+
+      context "with a project and the permission held" do
+        let(:project) { build_stubbed(:project) }
+        let(:permissions) { %i[import_work_packages] }
+
+        it "points at the import page" do
+          expect(import_link).to eq("href" => "/projects/#{project.identifier}/work_packages/import",
+                                    "type" => "text/html",
+                                    "title" => I18n.t("work_packages.import.title"))
+        end
+      end
+
+      context "without a project" do
+        let(:project) { nil }
+
+        it "is absent, since the import always creates into one project" do
+          expect(import_link).to be_nil
+        end
+      end
+
+      context "without the permission" do
+        let(:project) { build_stubbed(:project) }
+        let(:permissions) { %i[view_work_packages] }
+
+        it "is absent" do
+          expect(import_link).to be_nil
+        end
+      end
+    end
+
     describe "representations" do
       context "when outside of a project and the user has the export_work_packages permission" do
         let(:query_params) { { foo: "bar" } }

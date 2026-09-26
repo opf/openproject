@@ -1015,6 +1015,7 @@ en:
         header: "New %{type}"
         header_no_type: "New work package (Type not yet set)"
         header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
+        import: "Import from CSV"
         title: "New work package"
       default_queries:
         all_open: "All open"

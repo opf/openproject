@@ -1,0 +1,45 @@
+<table class="width-full f6">
+  <thead>
+    <tr>
+      <% headers.each do |header| %>
+        <th scope="col" class="text-left text-normal color-fg-muted px-3 py-2 border-bottom"><%= header %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% rows.each do |cells| %>
+      <tr>
+        <% cells.each do |cell| %>
+          <td class="px-3 py-2 border-bottom">
+            <% case cell[:style] %>
+            <% when :muted %>
+              <%= render(Primer::Beta::Text.new(color: :muted)) { cell[:text].to_s } %>
+            <% when :strong %>
+              <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { cell[:text].to_s } %>
+            <% when :code %>
+              <% if cell[:text].present? %>
+                <%= render(Primer::Beta::Text.new(tag: :code)) { cell[:text].to_s } %>
+              <% else %>
+                <%= render(Primer::Beta::Text.new(tag: :code, color: :muted, font_style: :italic)) { t("work_packages.import.report.table.empty") } %>
+              <% end %>
+            <% when :message %>
+              <%= cell[:text] %>
+              <% if cell[:available].present? %>
+                <%= render(Primer::Beta::Details.new(display: :inline_block, ml: 1)) do |details| %>
+                  <% details.with_summary(button: false, classes: "color-fg-muted") do %>
+                    <%= t("work_packages.import.report.problems.available", count: cell[:available].size) %>
+                  <% end %>
+                  <% details.with_body(display: :block, color: :muted, mt: 1) do %>
+                    <%= cell[:available].join(", ") %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= cell[:text] %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

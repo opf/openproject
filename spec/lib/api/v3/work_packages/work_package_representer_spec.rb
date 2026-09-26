@@ -1491,6 +1491,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "import" do
+      it_behaves_like "has a titled action link" do
+        let(:link) { "import" }
+        let(:permission) { :import_work_packages }
+        let(:href) { import_project_work_packages_path(work_package.project) }
+        let(:title) { I18n.t("work_packages.import.title") }
+      end
+    end
+
     describe "customField" do
       let(:available_custom_fields) { [custom_field] }
       let(:custom_field_values) { [build_stubbed(:custom_value, custom_field:, value:)] }
