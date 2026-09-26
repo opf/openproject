@@ -27,14 +27,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], migrated: false, csv: false)
-    entry = { "author_name" => author_name, "items" => history.presence }.compact
-    additional = entry.present? ? { "import_history" => [entry] } : {}
-    additional["migrated"] = true if migrated
-    additional["csv"] = true if csv
 
-    super("import", additional)
+require "spec_helper"
+
+RSpec.describe WorkPackages::Import::CSV::Upload do
+  subject(:upload) { described_class.create! }
+
+  shared_let(:role) { create(:project_role, permissions: %i[import_work_packages]) }
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user, member_with_roles: { project => role }) }
+
+  let(:attachment) { create(:attachment, container: upload, author: user) }
+
+  it "keeps its file out of the pool a work package description claims from" do
+    expect(Attachments::ClaimableIdsFromText.call("/attachments/#{attachment.id}/content", user:))
+      .to be_empty
+  end
+
+  it "counts as an internal container, so indexing and scanning are skipped" do
+    expect(attachment).to be_internal_container
+  end
+
+  it "shows its file to the author and to nobody else, administrators included" do
+    expect(attachment.visible?(user)).to be(true)
+    expect(attachment.visible?(create(:admin))).to be(false)
+  end
+
+  it "takes its file with it when it goes" do
+    attachment
+
+    expect { upload.destroy }.to change(Attachment, :count).by(-1)
   end
 end

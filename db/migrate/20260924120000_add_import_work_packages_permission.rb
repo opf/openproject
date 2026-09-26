@@ -23,18 +23,20 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], migrated: false, csv: false)
-    entry = { "author_name" => author_name, "items" => history.presence }.compact
-    additional = entry.present? ? { "import_history" => [entry] } : {}
-    additional["migrated"] = true if migrated
-    additional["csv"] = true if csv
 
-    super("import", additional)
+require Rails.root.join("db/migrate/migration_utils/permission_adder")
+
+class AddImportWorkPackagesPermission < ActiveRecord::Migration[8.1]
+  def up
+    ::Migration::MigrationUtils::PermissionAdder.add(%i[edit_project add_work_packages],
+                                                     :import_work_packages)
+  end
+
+  def down
+    RolePermission.delete_by(permission: "import_work_packages")
   end
 end

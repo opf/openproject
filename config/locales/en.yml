@@ -3413,6 +3413,7 @@ en:
       budget_deleted: Budget has been deleted
       import:
         changed_with_diff: "%{field} changed (%{link})"
+        csv: "from CSV"
         deleted_with_diff: "%{field} deleted (%{link})"
         field_changed: "%{field} changed from %{old_value} to %{new_value}"
         field_removed: "%{field} removed"
@@ -5215,6 +5216,7 @@ en:
   permission_export_projects: "Export projects"
   permission_export_work_packages: "Export work packages"
   permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_import_work_packages: "Import work packages"
   permission_invite_members_by_email: "Invite members by email"
   permission_invite_members_by_email_explanation: >
     Allows users to invite new members by email.
@@ -7575,6 +7577,53 @@ en:
         other: >-
           You are not able to delete %{count} descendants because you lack the necessary permissions in
           %{projects}. These will be preserved but any hierarchical relations will be removed.
+
+    import:
+      csv:
+        file:
+          empty: "This file is empty."
+          expired: "This file is no longer available. Upload it again."
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: "Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead."
+          malformed: "This file could not be read as CSV. Line %{line} opens a quote that is never closed."
+          missing: "Choose a CSV file to upload."
+          no_rows: "This file has column headers but no lines underneath them."
+          too_large: "This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit."
+          too_large_before_upload: "This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit."
+          too_many_rows: "This file has more lines than can be imported at once. The most is %{limit}."
+        format:
+          unknown: "This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead."
+          wrong_encoding: "This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again."
+        header:
+          ambiguous: "and %{other} both mean %{attribute}. Keep one of them."
+          duplicate: "appears more than once. Keep one of them."
+          status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
+          unknown: "cannot be imported."
+          unknown_with_suggestion: "cannot be imported. Did you mean %{suggestion}?"
+          unnamed: "This column has no name. Name it or remove the column."
+        job:
+          checking: "Checking the file"
+          importing: "Importing the file"
+        row:
+          created_after_updated: "must not be later than the value in Updated on."
+          fractional_percentage: "must be a whole number of percent, for example 50."
+          future_timestamp: "must not be in the future."
+          invalid_date: "must be a date written as YYYY-MM-DD."
+          invalid_timestamp: "must be a date and time written as YYYY-MM-DDTHH:MM:SSZ."
+          not_created: "could not be created, and no reason was reported."
+          too_many_cells: "has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted."
+          unknown: "does not exist."
+          unknown_in_project: "does not exist in this project."
+          unknown_user: "does not match a user. Use the email address the user signs in with."
+        template:
+          examples:
+            one:
+              description: "Explain what the new page has to do."
+              subject: "Write the documentation"
+            two:
+              description: "The error appears after a failed password reset."
+              subject: "Fix the login error"
+        view_name: "CSV import on %{datetime}"
 
     move:
       bulk_current_type_not_available_in_target_project: >

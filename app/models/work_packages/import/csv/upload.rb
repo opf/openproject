@@ -27,14 +27,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], migrated: false, csv: false)
-    entry = { "author_name" => author_name, "items" => history.presence }.compact
-    additional = entry.present? ? { "import_history" => [entry] } : {}
-    additional["migrated"] = true if migrated
-    additional["csv"] = true if csv
 
-    super("import", additional)
+# The container a CSV handed to the import is stored under. It keeps the file out of the
+# uncontainered pool the rich text editor claims attachments from, so an import file can never
+# reach a work package and be served from one, and out of the post-upload jobs, which index and
+# scan the files that are.
+class WorkPackages::Import::CSV::Upload < Export
+  acts_as_attachable view_permission: :import_work_packages,
+                     add_permission: :import_work_packages,
+                     delete_permission: :import_work_packages,
+                     only_user_allowed: true,
+                     allow_uncontainered: false
+
+  def self.file_of(user, attachment_id)
+    Attachment.where(author: user, container: all).find_by(id: attachment_id)
+  end
+
+  def ready?
+    attachments.any?
   end
 end
