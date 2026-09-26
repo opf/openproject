@@ -41,11 +41,10 @@ module Pages
         expect(page).to have_title("#{text} | Work packages | Administration | OpenProject")
       end
 
-      def expect_listed(*names)
-        page.document.synchronize do
-          found = page.all("#{row_selector} a").map(&:text)
-
-          raise Capybara::ExpectationNotMet, "Expected #{names}, got #{found}" unless found == names
+      def expect_listed(*names, first_rowindex: 2)
+        expect(page).to have_css(row_selector, count: names.size)
+        names.each.with_index(first_rowindex) do |name, rowindex|
+          expect(page).to have_selector(:row, name, rowindex:)
         end
       end
 

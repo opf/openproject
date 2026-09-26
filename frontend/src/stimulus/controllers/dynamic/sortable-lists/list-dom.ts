@@ -27,6 +27,7 @@
 //++
 
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { reindexAriaRowsAfter } from './aria-row-indices';
 
 // Sortable lists use a DOM contract shared by the root and item controllers:
 // the root has data-controller~="sortable-lists"; lists are sortable-lists--list
@@ -263,18 +264,25 @@ export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
 }
 
 export function restoreRowPositions(positions:RowPlacement[]):void {
-  for (let i = positions.length - 1; i >= 0; i -= 1) {
-    const { row, parent, nextElementSibling } = positions[i];
-    // A list-refresh morph can replace the captured parent mid-request; restoring
-    // into a detached node would drop the row out of the live DOM until the next
-    // reload. Skip it and let the pending refresh reconcile the position.
-    if (!parent?.isConnected) {
-      continue;
-    }
+  const containers = [
+    ...rowContainers(positions.map(({ row }) => row)),
+    ...positions.flatMap(({ parent }) => (parent ? [parent] : [])),
+  ];
 
-    const insertionPoint = nextElementSibling?.parentNode === parent ? nextElementSibling : null;
-    parent.insertBefore(row, insertionPoint);
-  }
+  reindexAriaRowsAfter(containers, () => {
+    for (let i = positions.length - 1; i >= 0; i -= 1) {
+      const { row, parent, nextElementSibling } = positions[i];
+      // A list-refresh morph can replace the captured parent mid-request; restoring
+      // into a detached node would drop the row out of the live DOM until the next
+      // reload. Skip it and let the pending refresh reconcile the position.
+      if (!parent?.isConnected) {
+        continue;
+      }
+
+      const insertionPoint = nextElementSibling?.parentNode === parent ? nextElementSibling : null;
+      parent.insertBefore(row, insertionPoint);
+    }
+  });
 }
 
 // A rollback may only reinsert rows it still owns: if a concurrent morph
@@ -300,17 +308,23 @@ export function reorderRows({
   rowsContainer:HTMLElement;
   previousItemId:string|null;
 }):void {
-  let anchor:Element|null = previousItemId ? resolveAnchorRow(rowsContainer, previousItemId) : null;
+  reindexAriaRowsAfter([...rowContainers(rows), rowsContainer], () => {
+    let anchor:Element|null = previousItemId ? resolveAnchorRow(rowsContainer, previousItemId) : null;
 
-  for (const row of rows) {
-    if (anchor) {
-      anchor.after(row);
-    } else {
-      insertAtListTop(rowsContainer, row);
+    for (const row of rows) {
+      if (anchor) {
+        anchor.after(row);
+      } else {
+        insertAtListTop(rowsContainer, row);
+      }
+
+      anchor = row;
     }
+  });
+}
 
-    anchor = row;
-  }
+function rowContainers(rows:HTMLElement[]):Element[] {
+  return rows.flatMap((row) => (row.parentElement ? [row.parentElement] : []));
 }
 
 // Insert before the first existing row, keeping the moved row among its

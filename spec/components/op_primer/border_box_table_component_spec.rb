@@ -117,6 +117,11 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
       end
     end
 
+    it "indexes both header rows as the first row" do
+      expect(rendered_component).to have_selector :row, class: "op-border-box-grid--has-mobile-header", rowindex: 1
+      expect(rendered_component).to have_selector :row, class: "op-border-box-grid--has-headers", rowindex: 1
+    end
+
     context "for desktop" do
       it "renders column headers with explicit colindex" do
         expect(rendered_component).to have_selector :columnheader, count: 2, class: "op-border-box-grid__header"
@@ -156,6 +161,30 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
   end
 
+  shared_examples_for "indexing rows" do |rowcount:, first:, last:, footer: true|
+    it "sets the row count on the table" do
+      expect(rendered_component).to have_selector :role, :table, aria: { rowcount: }
+    end
+
+    it "indexes body rows consecutively from #{first}" do
+      expect(rendered_component).to have_selector :role, :rowgroup, class: "!Box-header" do |rowgroup|
+        (first..last).each do |index|
+          expect(rowgroup).to have_selector :row, rowindex: index
+        end
+        expect(rowgroup).to have_no_selector :row, rowindex: first - 1
+        expect(rowgroup).to have_no_selector :row, rowindex: last + 1
+      end
+    end
+
+    if footer
+      it "indexes the footer row as the last row" do
+        expect(rendered_component).to have_selector :role, :rowgroup, class: "Box-footer" do |rowgroup|
+          expect(rowgroup).to have_selector :row, rowindex: rowcount
+        end
+      end
+    end
+  end
+
   context "with no rows" do
     let(:rows) { build_stubbed_list(:project, 0) }
 
@@ -170,6 +199,8 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
 
     it_behaves_like "rendering Blank Slate", heading: "No results"
+
+    it_behaves_like "indexing rows", rowcount: 3, first: 2, last: 2
   end
 
   context "with rows" do
@@ -190,5 +221,44 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
         expect(row).to have_selector :role, :cell, count: 1, class: "op-border-box-grid__row-action"
       end
     end
+
+    it_behaves_like "indexing rows", rowcount: 5, first: 2, last: 4
+
+    it "indexes rows in rendering order" do
+      rows.each.with_index(2) do |project, index|
+        expect(rendered_component).to have_selector :row, project.name, rowindex: index
+      end
+    end
+  end
+
+  context "with rows and no footer" do
+    let(:rows) { build_stubbed_list(:project, 3) }
+
+    before do
+      table_class.define_method(:has_footer?) { false }
+    end
+
+    it "renders no footer row, keeping the columns" do
+      expect(rendered_component).to have_selector :role, :table, aria: { colcount: 3 }
+      expect(rendered_component).to have_no_selector :role, :rowgroup, class: "Box-footer"
+    end
+
+    it_behaves_like "indexing rows", rowcount: 4, first: 2, last: 4, footer: false
+  end
+
+  context "with a page of a paginated collection" do
+    let(:rows) do
+      WillPaginate::Collection.create(2, 3, 10) do |pager|
+        pager.replace(build_stubbed_list(:project, 3))
+      end
+    end
+
+    subject(:rendered_component) do
+      with_request_url("/projects") { render_component(rows:) }
+    end
+
+    it_behaves_like "rendering table with head and foot"
+
+    it_behaves_like "indexing rows", rowcount: 12, first: 5, last: 7
   end
 end
