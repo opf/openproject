@@ -1867,7 +1867,7 @@ en:
       create:
         success: "%{model} has been added."
       defaults:
-        chat_caption: "Only models that are switched on in the list below are offered."
+        chat_caption: "Embedding models are not offered."
         description: "Used by AI features that do not choose a model themselves."
         heading: "Default models"
         success: "The default models have been saved."
