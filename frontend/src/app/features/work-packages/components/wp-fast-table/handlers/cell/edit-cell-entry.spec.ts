@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed } from '@angular/core/testing';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
@@ -68,7 +67,7 @@ describe('Edit cell entry', () => {
     beforeEach(() => renderTable({ editing: { formWritable: false } }));
 
     it('marks the field read-only and reports the blocked edit instead of opening an editor', async () => {
-      const blocked = vi.spyOn(TestBed.inject(HalResourceNotificationService), 'showEditingBlockedError');
+      const blocked = vi.spyOn(harness.injector.get(HalResourceNotificationService), 'showEditingBlockedError');
 
       fireEvent.click(subjectField('1'));
 

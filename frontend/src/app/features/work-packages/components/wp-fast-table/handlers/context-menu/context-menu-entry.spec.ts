@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed } from '@angular/core/testing';
 import { fireEvent } from '@testing-library/dom';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
@@ -46,12 +45,12 @@ describe('Context menu entry', () => {
     await harness.render();
 
     menuTargets = [];
-    vi.spyOn(TestBed.inject(WorkPackageContextMenuHelperService), 'getPermittedActions')
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
       .mockImplementation((workPackages:WorkPackageResource[]) => {
         menuTargets.push(workPackages.map((wp) => wp.id!));
         return [];
       });
-    opened = vi.spyOn(TestBed.inject(OPContextMenuService), 'show');
+    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
   });
 
   afterEach(() => harness.destroy());
