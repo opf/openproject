@@ -29,6 +29,7 @@
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../../testing/table-harness';
 import { WorkPackageFixture } from '../../../testing/work-package-fixture';
+import { States } from 'core-app/core/states/states.service';
 
 const parent = { id: '1' };
 const child = { id: '2', ancestors: [parent] };
@@ -45,7 +46,7 @@ describe('Hierarchy table collapse', () => {
     fireEvent.click(within(harness.row(workPackageId)).getByRole('button'));
   };
 
-  afterEach(() => harness.destroy());
+  afterEach(() => harness?.destroy());
 
   describe('with parent, child, grandchild and an unrelated row', () => {
     beforeEach(() => renderHierarchy([
@@ -147,6 +148,88 @@ describe('Hierarchy table collapse', () => {
       await waitFor(() => expect(harness.row('2')).toBeVisible());
       expect(harness.row('3')).toBeVisible();
       expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['3', false], ['4', false]]);
+    });
+  });
+
+  describe('with two tables showing the same hierarchy in different positions', () => {
+    const unrelated = { id: '9' };
+    const harnesses:TableHarness[] = [];
+    let first:TableHarness;
+    let second:TableHarness;
+
+    const mountHierarchy = async (workPackages:WorkPackageFixture[], states:States) => {
+      const table = buildTable({
+        workPackages, showHierarchies: true, timelineVisible: true, states,
+      });
+      harnesses.push(table);
+      await table.render();
+      return table;
+    };
+
+    const toggleIn = (table:TableHarness, workPackageId:string) => {
+      fireEvent.click(within(table.row(workPackageId)).getByRole('button'));
+    };
+
+    const indicator = (table:TableHarness, workPackageId:string) => within(table.row(workPackageId)).getByRole('button');
+
+    beforeEach(async () => {
+      const states = new States();
+      first = await mountHierarchy([unrelated, parent, child], states);
+      second = await mountHierarchy([parent, child, unrelated], states);
+    });
+
+    afterEach(async () => {
+      await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+    });
+
+    it('collapses a hierarchy and its timeline only in its own table', async () => {
+      toggleIn(first, '1');
+
+      await waitFor(() => expect(first.row('2')).not.toBeVisible());
+      expect(first.timelineRow('2')).not.toBeVisible();
+      expect(first.timelineRow('1')).toHaveClass('__hierarchy-root-collapsed');
+      expect(first.renderedState()).toEqual([['9', false], ['1', false], ['2', true]]);
+
+      expect(second.row('2')).toBeVisible();
+      expect(second.timelineRow('2')).toBeVisible();
+      expect(second.timelineRow('1')).not.toHaveClass('__hierarchy-root-collapsed');
+      expect(indicator(second, '1')).not.toHaveClass('-hierarchy-collapsed');
+      expect(second.renderedState()).toEqual([['1', false], ['2', false], ['9', false]]);
+    });
+
+    it('keeps a collapsed hierarchy when the other table expands its own', async () => {
+      toggleIn(first, '1');
+      await waitFor(() => expect(first.row('2')).not.toBeVisible());
+
+      toggleIn(second, '1');
+      await waitFor(() => expect(second.row('2')).not.toBeVisible());
+      expect(second.renderedState()).toEqual([['1', false], ['2', true], ['9', false]]);
+
+      toggleIn(second, '1');
+      await waitFor(() => expect(second.row('2')).toBeVisible());
+      expect(second.timelineRow('2')).toBeVisible();
+      expect(second.timelineRow('1')).not.toHaveClass('__hierarchy-root-collapsed');
+
+      expect(first.row('2')).not.toBeVisible();
+      expect(first.timelineRow('2')).not.toBeVisible();
+      expect(first.timelineRow('1')).toHaveClass('__hierarchy-root-collapsed');
+      expect(indicator(first, '1')).toHaveClass('-hierarchy-collapsed');
+      expect(first.renderedState()).toEqual([['9', false], ['1', false], ['2', true]]);
+    });
+
+    it('scrolls the toggled row into view in its own table', async () => {
+      [first, second].forEach((table) => {
+        // A fixed height makes the table side overflow, so it is the scroll parent the helper picks.
+        table.container.style.height = '20px';
+        table.container.scrollTop = table.container.scrollHeight;
+      });
+      const firstScroll = first.container.scrollTop;
+      expect(second.container.scrollTop).toBeGreaterThan(0);
+
+      toggleIn(second, '1');
+
+      await waitFor(() => expect(second.container.scrollTop).toBe(second.row('1').offsetTop));
+      expect(first.container.scrollTop).toBe(firstScroll);
     });
   });
 });
