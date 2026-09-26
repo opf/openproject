@@ -64,8 +64,7 @@ module LlmModels
         name: :admin_context_window,
         label: I18n.t("admin.llm_models.form.context_window"),
         caption: context_window_caption,
-        type: :number,
-        min: 1,
+        inputmode: "numeric",
         autocomplete: "off",
         input_width: :medium,
         data: { test_selector: "llm-model--context-window" }

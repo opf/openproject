@@ -110,7 +110,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "warns that the list predates the current settings" do
         connection = create(:llm_connection, :with_models, base_url:)
         connection.update!(connection_fingerprint: connection.settings_fingerprint)
-        connection.update!(api_key: "rotated")
+        connection.update!(base_url: "https://elsewhere.example/v1")
 
         get llm_models_path
 
@@ -640,6 +640,12 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(llm_model.reload.admin_context_window).to be_nil
+      end
+
+      it "keeps the rejected value in the field so the typo can be corrected" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "12k" } }
+
+        expect(page).to have_field("llm_model[admin_context_window]", with: "12k", type: "text")
       end
 
       it "refuses a negative one" do

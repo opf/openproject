@@ -62,15 +62,11 @@ module Reporting
     end
 
     def index
-      respond_to do |format|
-        format.html { render_report }
-        format.xls { export(:xls) }
-        format.pdf { export(:pdf) }
-      end
+      render_or_export_report
     end
 
     def show
-      render_report
+      render_or_export_report
     end
 
     def create
@@ -169,6 +165,14 @@ module Reporting
       @report = ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call
     end
 
+    def render_or_export_report
+      respond_to do |format|
+        format.html { render_report }
+        format.xls { export(:xls) }
+        format.pdf { export(:pdf) }
+      end
+    end
+
     def render_report
       return render_table if request.xhr?
 
@@ -183,7 +187,7 @@ module Reporting
       job_id = ::CostReports::ScheduleExportService
                  .new(user: current_user)
                  .call(format:,
-                       report_name: @report.name,
+                       report_name: (@report.name if @report.persisted?),
                        report_params: @report.to_query_params,
                        project: @project,
                        cost_types: @cost_types)

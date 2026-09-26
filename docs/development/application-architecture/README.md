@@ -81,7 +81,7 @@ flowchart TD
 
 OpenProject is developed as a GPLv3 licensed, open-source software. The software core is developed and maintained using [GitHub](https://github.com/opf/openproject/). OpenProject is available as several versions:
 
-- [Community Edition](https://www.openproject.org/community-edition/)
+- [Community edition](https://www.openproject.org/community-edition/)
 - [Enterprise on-premises and Enterprise cloud](https://www.openproject.org/enterprise-edition/)
 
 ## Environments

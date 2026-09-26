@@ -140,13 +140,11 @@ class LlmServerValidator < ActiveModel::EachValidator
     end
   end
 
-  # A missing model list does not block the save.
-  #
-  # The server answered, so it is reachable and the credentials were accepted; it
-  # simply does not offer a list here. OpenProject's own hosted gateway is exactly
-  # this case, and it will not be the only one. Blocking would leave an
-  # administrator unable to save a working connection -- and unable to reach the
-  # manual model entry that exists for precisely this situation.
+  # Only a MODELS_ENDPOINT_ABSENT status lets the save through: the server serves
+  # this URL but offers no model list, as OpenProject's own hosted gateway does.
+  # Blocking it would leave an administrator unable to save a working connection
+  # or to reach the manual model entry that exists for this situation. A 404
+  # blocks, since a mistyped URL answers the same way.
   def add_api_error(contract, attribute, error)
     return if error.status.in?(MODELS_ENDPOINT_ABSENT)
 

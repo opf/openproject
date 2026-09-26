@@ -60,7 +60,7 @@ module Admin
     # and the catalogue. Deliberately not a destroy.
     def disconnect
       ApplicationRecord.transaction do
-        @connection.update!(api_key: nil)
+        clear_api_key
         Setting.llm_features_enabled = false
       end
 
@@ -72,19 +72,19 @@ module Admin
     end
 
     def delete_api_key
-      @connection.update!(api_key: nil)
+      clear_api_key
 
       redirect_with_notice(t(".success"))
     end
 
     private
 
-    # active_connection hands back an unsaved record when nothing is stored, and
-    # writing to that inserts a row that fails its own validations. The show page
-    # hides both menu entries behind persisted?; the routes do not, so a
-    # bookmarked or hand-typed URL arrives here.
     def require_stored_connection
       render_404 unless @connection.persisted?
+    end
+
+    def clear_api_key
+      @connection.update_columns(api_key: nil, updated_at: Time.current)
     end
 
     def set_connection

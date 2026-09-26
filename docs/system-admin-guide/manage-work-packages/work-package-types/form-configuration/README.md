@@ -49,6 +49,22 @@ Watch the following video to see how you can customize your work packages with c
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4"></video>
 
+### Required fields for work package types
+
+> [!IMPORTANT]
+> This feature is currently available on the **Dev branch**.
+
+Administrators can define which custom fields are mandatory for a specific work package type.
+
+To make a custom field required, select the **More (⋯)** menu at the right end of the custom field row and select **Require in this type**.
+
+![More menu for a work package custom field with the "Require in this type" option](require-custom-field-for-work-package-type.png)
+
+Once marked as required, the custom field is labeled **Required in this type**.
+
+![Work package custom field with the "Required in this type" label](custom-field-required-for-work-package-type.png)
+
+
 ## Add table of related work packages to a work package form (Enterprise add-on)
 
 You can add a related work packages table to your work package form. Click the **+ Add** button and select **Related work packages table**.
