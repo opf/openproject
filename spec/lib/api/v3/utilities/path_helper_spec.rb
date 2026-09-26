@@ -491,6 +491,12 @@ RSpec.describe API::V3::Utilities::PathHelper do
       it_behaves_like "api v3 path", "/versions/available_projects"
     end
 
+    describe "#labels_by_workspace" do
+      subject { helper.labels_by_workspace 42 }
+
+      it_behaves_like "api v3 path", "/workspaces/42/labels"
+    end
+
     describe "#versions_by_project" do
       subject { helper.versions_by_project 42 }
 
