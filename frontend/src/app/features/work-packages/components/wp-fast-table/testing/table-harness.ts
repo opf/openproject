@@ -73,6 +73,8 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { OpContextMenuTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
@@ -404,6 +406,14 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     { provide: WorkPackageRelationsService, useValue: { state: () => ({ hasValue: () => false, value: undefined }) } },
     { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
+    {
+      provide: OpTableActionsService,
+      useFactory: () => {
+        const actions = new OpTableActionsService();
+        actions.setActions((injector, workPackage) => new OpContextMenuTableAction(injector, workPackage));
+        return actions;
+      },
+    },
     { provide: BannersService, useValue: { eeShowBanners: false } },
     { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
     { provide: CausedUpdatesService, useValue: { add: () => undefined } },
