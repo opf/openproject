@@ -43,8 +43,8 @@ export function locateTableRow(workPackageId:string, root:ParentNode = document)
   return root.querySelector<HTMLTableRowElement>(`.${rowId(workPackageId)}`);
 }
 
-export function locateTableRowByIdentifier(identifier:string) {
-  return document.querySelector<HTMLTableRowElement>(`.${identifier}-table`);
+export function locateTableRowByIdentifier(identifier:string, root:ParentNode) {
+  return root.querySelector<HTMLTableRowElement>(`.${identifier}-table`);
 }
 
 export function isInsideCollapsedGroup(el?:Element | null) {
