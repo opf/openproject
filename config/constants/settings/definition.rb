@@ -753,6 +753,11 @@ module Settings
         format: :boolean,
         default: false
       },
+      llm_features_enabled: {
+        description: "Enable the AI features backed by the configured LLM connection",
+        format: :boolean,
+        default: false
+      },
       log_level: {
         description: "Set the OpenProject logger level",
         default: Rails.env.development? ? "debug" : "info",
