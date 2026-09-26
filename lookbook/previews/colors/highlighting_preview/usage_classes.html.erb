@@ -1,7 +1,7 @@
 <style>
   .hl-preview {
     display: grid;
-    grid-template-columns: max-content max-content repeat(4, max-content);
+    grid-template-columns: max-content max-content repeat(6, max-content);
     gap: 10px 20px;
     align-items: center;
   }
@@ -18,6 +18,7 @@
   .hl-preview--color code { display: block; color: var(--fgColor-muted); }
 
   .hl-preview .__hl_background,
+  .hl-preview .__hl_background_muted,
   .hl-preview .__hl_foreground,
   .hl-preview .__hl_dot {
     display: inline-block;
@@ -41,8 +42,10 @@
     <span class="hl-preview--head">Color</span>
     <span class="hl-preview--head">--hl-perceived-lightness</span>
     <span class="hl-preview--head"><code>__hl_background</code></span>
+    <span class="hl-preview--head"><code>__hl_background_muted</code></span>
     <span class="hl-preview--head"><code>__hl_foreground</code></span>
     <span class="hl-preview--head"><code>__hl_dot</code></span>
+    <span class="hl-preview--head"><code>__hl_border</code></span>
     <span class="hl-preview--head"><code>__hl_border_top</code></span>
 
     <% colors.each do |color| %>
@@ -51,8 +54,10 @@
         <span class="hl-preview--color"><%= color.name %><code><%= color.hexcode %></code></span>
         <span class="hl-preview--color"><%= color.perceived_lightness %></span>
         <span><span class="__hl_background <%= color_class %>">In progress</span></span>
+        <span><span class="__hl_background_muted <%= color_class %>">In progress</span></span>
         <span><span class="__hl_foreground <%= color_class %>">In progress</span></span>
         <span><span class="__hl_dot <%= color_class %>">In progress</span></span>
+        <span><span class="__hl_border <%= color_class %>">In progress</span></span>
         <span><span class="__hl_border_top <%= color_class %>">In progress</span></span>
       </div>
     <% end %>

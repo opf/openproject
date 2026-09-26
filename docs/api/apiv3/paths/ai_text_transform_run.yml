@@ -1,0 +1,100 @@
+# /api/v3/ai_text_transform_runs/{id}
+---
+get:
+  summary: View AI text transform run
+  operationId: view_ai_text_transform_run
+  tags:
+    - AI
+  description: |-
+    Returns the run with its status and the events recorded after the `after` cursor. The
+    events are an append-only log; a client reads the generated text by polling this endpoint
+    until the status is terminal.
+
+    ## Polling
+
+    * Send the highest `seq` seen so far as `after`. The first request uses `after=0` or omits
+      the parameter. The response then contains only events the client has not seen.
+    * Keep one request in flight at a time. Start polling after about 400 ms and increase the
+      interval by 150 ms per poll up to 1000 ms.
+    * Ignore a response whose requested cursor is no longer the highest seen `seq`.
+    * Stop when `status` is `succeeded`, `failed` or `cancelled`. The terminal status can arrive
+      in the same response as the last events.
+    * Pause polling while the document is hidden and resume when it becomes visible.
+    * Render `text_delta` payloads progressively. Once `completed` arrives, replace the rendered
+      text with its `text` and build any diff from it, never from the concatenated deltas.
+    * Show the `message` of an `error` event to the user.
+
+    Only the user who created the run can read it. Everybody else, administrators included,
+    receives a 404.
+
+    **Required permission:** logged in, owner of the run
+  parameters:
+    - description: Run id
+      example: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - description: |-
+        Cursor: only events with a `seq` greater than this value are returned. Defaults to 0,
+        which returns every event.
+      example: 3
+      in: query
+      name: after
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/ai_text_transform_run_model.yml'
+          examples:
+            response:
+              value:
+                _type: AITextTransformRun
+                id: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+                status: succeeded
+                events:
+                  - seq: 4
+                    kind: completed
+                    payload:
+                      text: The login page does not work on Safari 17.
+                _links:
+                  self:
+                    href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+                message: 'Bad request: after does not have a valid value'
+      description: |-
+        Returned if `after` is not a non-negative integer.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the run does not exist, has been deleted after its retention period, or
+        belongs to another user.
+
+        **Required permission:** owner of the run
