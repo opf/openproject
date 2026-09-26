@@ -265,6 +265,19 @@ RSpec.describe CostReport do
     end
   end
 
+  describe "#to_query_params" do
+    it "carries the filters and unit" do
+      instance.query.where("work_package_id", "=", ["42"])
+      instance.unit_id = -1
+
+      expect(instance.to_query_params).to include(filters: 'work_package_id = "42"', unit: -1)
+    end
+
+    it "carries an empty filter set so it is not rebuilt with the defaults" do
+      expect(instance.to_query_params).to include(filters: "")
+    end
+  end
+
   describe ".for_legacy_cost_query_id" do
     it "finds the report converted from that cost query" do
       instance.legacy_cost_query_id = 42

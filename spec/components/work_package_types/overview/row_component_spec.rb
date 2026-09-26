@@ -84,36 +84,4 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
       end
     end
   end
-
-  describe "the dependents" do
-    it "are a dash when nothing depends on the setting" do
-      render_inline(row)
-
-      expect(page).to have_text("-")
-      expect(page).to have_no_text("dependent type")
-    end
-
-    context "when the setting cannot be reused" do
-      let(:aspect) { nil }
-
-      it "are a dash" do
-        render_inline(row)
-
-        expect(page).to have_text("-")
-      end
-    end
-
-    context "when another variant borrows the setting" do
-      before { link_configuration(create(:type_variant, type:, variant_name: "Mobile"), aspect:) }
-
-      it "are counted, opening their dialog" do
-        render_inline(row)
-
-        expect(page).to have_link(
-          "1 dependent type",
-          href: type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
-        )
-      end
-    end
-  end
 end

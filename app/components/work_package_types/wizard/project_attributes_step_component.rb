@@ -37,19 +37,6 @@ module WorkPackageTypes
         super(variant)
       end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
-      end
-
       private
 
       def project_custom_field_sections

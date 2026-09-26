@@ -102,7 +102,7 @@ module WorkPackageTypes
       # Editors whose fields belong to the wizard form itself, so that "Continue"
       # persists them when advancing to the next step.
       def step_editor
-        @step_editor ||= StepEditors.for(current_step, editor_record)
+        @step_editor ||= StepEditors.for(current_step, editor_record, step_url: (step_url if record_persisted?))
       end
 
       def editor_record
@@ -125,7 +125,7 @@ module WorkPackageTypes
         }
       end
 
-      # Only a step with a reuse mode needs the frame, and only those steps are reached
+      # Only a step with a linkable aspect needs the frame, and only those steps are reached
       # with a persisted type — step_url has no route while the record is still new.
       def within_step_frame(&)
         return capture(&) unless step_editor.linkable_aspect?
@@ -140,9 +140,9 @@ module WorkPackageTypes
       end
 
       def reuse_mode_section
-        return unless step_editor.linkable_aspect?
+        section = step_editor.reuse_section
 
-        render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant:, aspect: step_editor.aspect))
+        render(section) if section
       end
 
       # Editors that self-persist through their own turbo endpoints.

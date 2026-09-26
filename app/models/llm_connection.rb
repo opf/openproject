@@ -37,6 +37,7 @@
 # is a change to the validation and the index.
 class LlmConnection < ApplicationRecord
   DEFAULT_IDENTIFIER = "default"
+  HEADER_NAME_TOKEN = /\A[!#$%&'*+\-.^_`|~0-9A-Za-z]+\z/
 
   has_many :health_reports, as: :subject, dependent: :delete_all
 
@@ -147,6 +148,7 @@ class LlmConnection < ApplicationRecord
   end
 
   def header_pair?(name, value)
-    name.is_a?(String) && value.is_a?(String) && !value.match?(/[[:cntrl:]]/)
+    name.is_a?(String) && name.match?(HEADER_NAME_TOKEN) &&
+      value.is_a?(String) && !value.match?(/[[:cntrl:]]/)
   end
 end

@@ -341,14 +341,29 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.reload.api_key).to eq("sk-original")
     end
 
-    # active_connection returns an unsaved record when nothing is stored, and
-    # writing to that inserted a row that failed its own validations, so the
-    # request 500'd instead of saying there is nothing here.
     it "answers 404 on an instance with no connection stored" do
       delete api_key_llm_connection_path
 
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
+    end
+
+    it "refuses a non-admin before looking for a stored connection" do
+      login_as non_admin
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "removes the key from a stored connection that no longer passes validation" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      connection.update_column(:base_url, "not a url")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
     end
   end
 
@@ -414,6 +429,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response).to have_http_status(:not_found)
       expect(LlmConnection.count).to eq(0)
+    end
+
+    it "refuses a non-admin before looking for a stored connection" do
+      connection.destroy!
+      login_as non_admin
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "disconnects a stored connection that no longer passes validation" do
+      connection.update_column(:base_url, "not a url")
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
+      expect(Setting.llm_features_enabled?).to be(false)
     end
   end
 end

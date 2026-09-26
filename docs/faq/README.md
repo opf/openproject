@@ -82,9 +82,18 @@ The (on-premise) OpenProject Community edition is completely free. The Enterpris
 
 This is only possible if you book two different plans for OpenProject. The users won't be able to work together directly. We strongly recommend using either Enterprise cloud _or_ Enterprise on-premises, if you want to collaborate with all colleagues.
 
-### How are users in OpenProject counted? How many licenses do I need for Enterprise on-premises or Enterprise cloud?
+### How many licenses do I need for Enterprise on-premises or Enterprise cloud?
 
-All users working in OpenProject Enterprise cloud/on-premises need a license in order to access OpenProject. Regarding payments, we only count the active (not blocked) users. Users who were only invited but didn't accept the invite do not count, either.
+You need one license per active user. The minimum plan is 5 users for Enterprise cloud and 25 users for Enterprise on-premises.
+If your active user count changes, you can adjust your plan:
+- for Enterprise on-premises, contact support or use "Manage subscription" in your confirmation email;
+- for Enterprise cloud, see [Manage subscription](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription/) documentation.
+
+### How are users in OpenProject Enterprise counted?
+
+You must have a license to use OpenProject Enterprise (on-premises or cloud).
+We count only active users to calculate the payment.
+Locked users or users with pending invites do not count as active users. See [Lock and unlock users](../system-admin-guide/users-permissions/users/#lock-and-unlock-users) for reference.
 
 ### How many projects can I manage in OpenProject at once?
 
