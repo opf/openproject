@@ -29,7 +29,7 @@
 import { createEnvironmentInjector, EnvironmentInjector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -38,6 +38,8 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { usePlatform } from 'core-common/testing/platform';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { buildTable, TableHarness } from '../../testing/table-harness';
+import { WorkPackageFixture } from '../../testing/work-package-fixture';
 import { SelectionTransformer } from './selection-transformer';
 
 describe('SelectionTransformer', () => {
@@ -176,5 +178,62 @@ describe('SelectionTransformer', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
     injector.destroy();
     root.remove();
+  });
+});
+
+describe('SelectionTransformer with two tables showing the same work packages', () => {
+  const harnesses:TableHarness[] = [];
+  let first:TableHarness;
+  let second:TableHarness;
+
+  const mount = async (workPackages:WorkPackageFixture[], states:States) => {
+    const table = buildTable({ workPackages, states });
+    harnesses.push(table);
+    await table.render();
+    // A fixed height makes the table side overflow, so it is the scroll parent the helper picks.
+    table.container.style.height = '20px';
+    return table;
+  };
+
+  const focusSpy = (table:TableHarness) => vi.spyOn(table.injector.get(FocusHelperService), 'focus');
+
+  beforeEach(async () => {
+    const states = new States();
+    first = await mount([{ id: '3' }, { id: '1' }, { id: '2' }, { id: '4' }], states);
+    second = await mount([{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }], states);
+    first.container.scrollTop = first.container.scrollHeight;
+  });
+
+  afterEach(async () => {
+    await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+  });
+
+  it('focuses and scrolls to the row in the table that asked for it', async () => {
+    const firstScroll = first.container.scrollTop;
+    expect(firstScroll).toBeGreaterThan(0);
+    const focusedInFirst = focusSpy(first);
+    const focusedInSecond = focusSpy(second);
+
+    second.focus.updateFocus('3', true);
+    await second.render();
+
+    const row = second.row('3');
+    await waitFor(() => expect(focusedInSecond).toHaveBeenCalledExactlyOnceWith(row));
+    expect(second.container.scrollTop).toBe(row.offsetTop + row.offsetHeight - second.container.clientHeight);
+    expect(focusedInFirst).not.toHaveBeenCalled();
+    expect(first.container.scrollTop).toBe(firstScroll);
+  });
+
+  it('leaves both tables alone when its own table does not show the row', async () => {
+    const firstScroll = first.container.scrollTop;
+    const focusedInFirst = focusSpy(first);
+    const focusedInSecond = focusSpy(second);
+
+    second.focus.updateFocus('3', true);
+    await second.render([{ id: '1' }, { id: '2' }, { id: '4' }]);
+
+    expect(focusedInSecond).not.toHaveBeenCalled();
+    expect(focusedInFirst).not.toHaveBeenCalled();
+    expect(first.container.scrollTop).toBe(firstScroll);
   });
 });
