@@ -143,9 +143,6 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "nomic-embed-text")
     end
 
-    # Each probe is a billed request on some providers, so every filter that
-    # keeps the batch small is worth pinning: nothing would catch one being
-    # removed.
     it "probes only models whose name suggests they embed" do
       create(:llm_model, llm_connection: connection, external_id: "llama4-70b-instruct")
       create(:llm_model, llm_connection: connection, external_id: "gte-large")
