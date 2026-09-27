@@ -135,15 +135,6 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "gte-large")
     end
 
-    it "stops at the batch limit in one run" do
-      limit = described_class::BACKGROUND_LIMIT
-      (limit + 3).times { |i| create(:llm_model, llm_connection: connection, external_id: "embed-#{i}") }
-
-      service.detect_likely_embedding_models
-
-      expect(connection.capability_verdicts.count).to eq(limit)
-    end
-
     it "leaves out a model the server has withdrawn" do
       create(:llm_model, :withdrawn, llm_connection: connection, external_id: "nomic-embed-text")
 
@@ -215,10 +206,11 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       (described_class::BACKGROUND_LIMIT + 5).times do |index|
         create(:llm_model, llm_connection: connection, external_id: "embed-#{index}")
       end
+      request = mock_llm_embeddings_response(base_url)
 
       service.detect_likely_embedding_models
 
-      expect(connection.capability_verdicts.count).to eq(described_class::BACKGROUND_LIMIT)
+      expect(request).to have_been_made.times(described_class::BACKGROUND_LIMIT)
     end
   end
 end
