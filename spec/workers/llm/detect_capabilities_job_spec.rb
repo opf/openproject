@@ -51,7 +51,8 @@ RSpec.describe Llm::DetectCapabilitiesJob, :llm_server_helpers, :webmock do
     healthy = create(:llm_connection, :with_models, base_url:, active: false)
     mock_llm_embeddings_response(base_url)
     allow(LlmConnections::DetectCapabilitiesService).to receive(:new).and_call_original
-    allow(LlmConnections::DetectCapabilitiesService).to receive(:new).with(broken).and_raise(ActiveRecord::RecordNotFound)
+    allow(LlmConnections::DetectCapabilitiesService).to receive(:new).with(broken)
+      .and_raise(ActiveRecord::RecordNotFound, "sk-leaked")
     logged = []
     allow(Rails.logger).to receive(:error) { |&message| logged << message.call }
 
@@ -59,5 +60,6 @@ RSpec.describe Llm::DetectCapabilitiesJob, :llm_server_helpers, :webmock do
 
     expect(healthy.capability_verdicts.pluck(:model_id)).to eq(["bge-m3"])
     expect(logged).to include("LLM capability detection failed for connection #{broken.id}: ActiveRecord::RecordNotFound")
+    expect(logged.join).not_to include("sk-leaked")
   end
 end
