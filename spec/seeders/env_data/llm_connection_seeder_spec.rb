@@ -82,6 +82,32 @@ RSpec.describe EnvData::LlmConnectionSeeder do
     end
   end
 
+  context "without an enabled key", with_settings: {
+    llm_connection: { "base_url" => "https://example.com/v1" }
+  } do
+    it "keeps the stored features switch" do
+      Setting.llm_features_enabled = false
+
+      seed
+
+      expect(Setting.llm_features_enabled?).to be(false)
+    end
+  end
+
+  context "when the features switch itself is set through the environment", with_settings: {
+    llm_connection: { "base_url" => "https://example.com/v1", "enabled" => "false" }
+  } do
+    before do
+      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+    end
+
+    it "provisions the connection and leaves the switch to the environment" do
+      expect { seed }.to change(LlmConnection, :count).from(0).to(1)
+
+      expect(Setting.llm_features_enabled?).to be(true)
+    end
+  end
+
   # The environment is the source of truth while the form is read-only under it,
   # so a value removed from the environment must not linger in the database.
   context "when a previously set key is removed from the environment", with_settings: {

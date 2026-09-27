@@ -157,6 +157,17 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         end
       end
 
+      it "renders the features switch disabled while the environment sets it" do
+        allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+        create(:llm_connection, base_url:)
+
+        get llm_connection_path
+
+        expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+        expect(page).to have_field("Host URL", disabled: false)
+        expect(page).to have_button("Save")
+      end
+
       context "when the connection comes from the environment" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
@@ -292,6 +303,22 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(Setting.llm_features_enabled?).to be(false)
         expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.disabled"))
         expect(flash[:warning]).to be_blank
+      end
+    end
+
+    context "when the features switch is set through the environment" do
+      let!(:models_request) { mock_llm_models_response(base_url) }
+
+      before do
+        allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+      end
+
+      it "stores the connection and leaves the switch to the environment" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        expect(LlmConnection.first.base_url).to eq(base_url)
+        expect(Setting.llm_features_enabled?).to be(true)
       end
     end
 
@@ -498,6 +525,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(connection.reload.api_key).to eq("sk-test")
       expect(Setting.llm_features_enabled?).to be(true)
+    end
+
+    it "clears the credential when the features switch is set through the environment" do
+      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_blank
     end
 
     it "is refused to a non-admin" do

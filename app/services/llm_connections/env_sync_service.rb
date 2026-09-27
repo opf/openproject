@@ -52,7 +52,7 @@ module LlmConnections
 
     attr_reader :config
 
-    # Absent keys are written as nil on purpose: the environment is the source
+    # Absent connection keys are written as nil on purpose: the environment is the source
     # of truth here, and the form is read-only while it is. Keeping a stored
     # value that was removed from the environment would leave, for example, an
     # obsolete API key in use with no supported way to clear it.
@@ -60,8 +60,16 @@ module LlmConnections
       {
         base_url: config.fetch(:base_url),
         api_key: config[:api_key],
-        llm_features_enabled: ActiveRecord::Type::Boolean.new.deserialize(config.fetch(:enabled, true))
+        llm_features_enabled:
       }
+    end
+
+    # Unlike the connection's own values, the features switch is instance-wide
+    # and has its own variable, so an absent key leaves it as it is.
+    def llm_features_enabled
+      return Setting.llm_features_enabled? unless config.key?(:enabled)
+
+      ActiveRecord::Type::Boolean.new.deserialize(config[:enabled])
     end
 
     def write(attributes, model: LlmConnection.active_connection)
