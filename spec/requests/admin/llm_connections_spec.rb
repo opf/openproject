@@ -322,6 +322,29 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    # The form renders no Save button in this state, so only a hand-crafted
+    # request gets here.
+    context "when the connection comes from the environment" do
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+      let(:elsewhere) { "https://elsewhere.example/v1" }
+
+      before do
+        mock_llm_models_response(elsewhere)
+        allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+      end
+
+      it "refuses the change and keeps the stored record" do
+        patch llm_connection_path,
+              params: { llm_connection: { base_url: elsewhere, api_key: "sk-crafted" } },
+              headers: { "Accept" => "text/html" }
+
+        expect(response.body).to include("configured via environment variables")
+        connection.reload
+        expect(connection.base_url).to eq(base_url)
+        expect(connection.api_key).to eq("sk-original")
+      end
+    end
+
     context "with an unreachable server" do
       let!(:models_request) { mock_llm_models_response(base_url, timeout: true) }
 
