@@ -66,8 +66,8 @@ sv:
 
       '
     login_with_auth_provider: eller logga in med ditt befintliga konto
-    omniauth_direct_login_continue: Continue to sign in
-    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
+    omniauth_direct_login_continue: Fortsätt till inloggningen
+    omniauth_direct_login_redirecting: Omdirigerar dig till din identitetsleverantör…
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
     signup_title: Skapa ett konto i %{app_title}
     signup_with_external_account: Registrera dig med ett externt konto
@@ -86,20 +86,20 @@ sv:
         types: Arbetspaketstyper
         usage_scope: Omfattning
       ai/text_transform_run:
-        action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
+        action: Åtgärd
+        cancel_requested: Avbrott har begärts
+        error_message: Felmeddelande
+        finished_at: Slutförd
+        input: Indata
         status: Status
-        system_prompt: System prompt
-        user: User
+        system_prompt: Systeminstruktion
+        user: Användare
         uuid: UUID
       ai/text_transform_run_event:
-        kind: Kind
-        payload: Payload
-        run: Run
-        seq: Sequence number
+        kind: Typ
+        payload: Datainnehåll
+        run: Körning
+        seq: Sekvensnummer
       announcements:
         show_until: Visa fram till
       attachment:
@@ -142,9 +142,9 @@ sv:
         is_for_all: För alla projekt
         is_required: Krävs
         max_length: Maximal längd
-        max_value: Maximum value
+        max_value: Högsta värde
         min_length: Minsta längd
-        min_value: Minimum value
+        min_value: Lägsta värde
         multi_value: Tillåt flerval
         possible_values: Möjliga värden
         regexp: Reguljära uttryck
@@ -590,7 +590,7 @@ sv:
         regex_list_invalid: Raderna %{invalid_lines} kunde inte tolkas som reguljära uttryck.
         regex_match_failed: matchar inte det reguljära uttrycket %{expression}.
         smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal längd.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: måste vara mindre än eller lika med det högsta värdet.
         ssrf_filtered: bryter mot SSRF-policyn för den här OpenProject-instansen.
         status_transition_invalid: är ogiltig eftersom det finns någon giltig övergång ifrån den gamla till nya statusen för den aktuella användarens roller.
         system_wide_non_working_day_exists: står i konflikt med en befintlig systemomfattande arbetsfri dag för detta datum.
@@ -1019,11 +1019,11 @@ sv:
         one: Åtgärd för textomvandling
         other: Åtgärder för textomvandling
       ai/text_transform_run:
-        one: Text transform run
-        other: Text transform runs
+        one: Textbearbetningskörning
+        other: Textbearbetningskörningar
       ai/text_transform_run_event:
-        one: Text transform run event
-        other: Text transform run events
+        one: Händelse i textbearbetningskörning
+        other: Händelser i textbearbetningskörningar
       announcement:
         one: Meddelande
         other: Meddelanden
@@ -1401,11 +1401,11 @@ sv:
       environment_configured_readonly: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
     custom_styles:
       color_groups:
-        base_colors: Base colors
-        main_menu: Main lateral menu
-        top_header_colors: Top header colors
+        base_colors: Basfärger
+        main_menu: Huvudmeny i sidofältet
+        top_header_colors: Sidhuvudets färger
       color_theme: Färgtema
-      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
+      color_theme_caption: Använd något av OpenProjects standardteman eller skapa ett eget tema med dina färger genom att välja Anpassat tema.
       color_theme_custom: "(Anpassad)"
       colors:
         accent-color: Accent
@@ -1415,16 +1415,16 @@ sv:
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
-      edit_color: Edit %{color}
+        description: Ange en färgpalett som kan användas på andra ställen i programmet. Färgerna blir till exempel tillgängliga när du väljer en färg för en status eller typ.
+      edit_color: Redigera %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
         file_too_large: är för stor (maximal storlek är %{count} MB).
       instructions:
         accent-color: Färg för länkar och andra måttligt framhävda element.
-        header-bg-color: Default background color of the app header.
+        header-bg-color: Standardbakgrundsfärg för appens sidhuvud.
         main-menu-bg-color: Bakgrundsfärg på den vänstra sidomenyn.
-        main-menu-bg-selected-background: Background color of menu items when selected.
+        main-menu-bg-selected-background: Bakgrundsfärg för markerade menyalternativ.
         primary-button-color: Stark accentfärg som används för den viktigaste knappen på en skärm.
       manage_colors: Redigera alternativ för valbara färger
       tab_branding: Profilering
@@ -1492,7 +1492,7 @@ sv:
         ssl_error: 'SSL-fel vid anslutning till Jira-servern: %{message}'
         ssrf_block_doc_link: Se vår [dokumentation](docs_url).
         ssrf_blocked: 'Anslutningen blockerades: Jira-värden matchar en privat IP-adress. Om Jira-instansen körs i ett internt nätverk tillåter du dess IP-adress via miljövariabeln OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
-        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
+        unsupported_endpoint: Jira-API:et saknar slutpunkt på %{path} (status %{status})
       columns:
         added: Tillagd
         creator: Skapare
@@ -2200,9 +2200,7 @@ sv:
     label_delete_token: Ta bort token för säkerhetskopia
     label_reset_token: Återställ token för säkerhetskopia
     label_token_users: Följande användare har aktiva token för säkerhetskopiering
-    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
-
-      '
+    missing_attachments_notice_html: "<br/> <b>%{file_count} kunde inte läsas</b> och utelämnades från säkerhetskopian. Arkivets namn fick suffixet ”-incomplete” för att visa att vissa bilagor saknas.\n"
     reset_token:
       action_create: Skapa
       action_reset: Återställ
@@ -2494,8 +2492,8 @@ sv:
         all: 0 innebär ingen begränsning
         project: 0 innebär ingen begränsning
       min_max_value:
-        all: Leave blank for no restriction
-        project: Leave blank for no restriction
+        all: Lämna tomt för att inte begränsa
+        project: Lämna tomt för att inte begränsa
       multi_select:
         all: Tillåter användaren att tilldela flera värden till det här anpassade fältet.
         project: Tillåter användaren att tilldela flera värden till det här attributet.
@@ -3212,14 +3210,14 @@ sv:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Skapa arbetspaket direkt i Dokument.
+            line_1: Sök och filtrera arbetspaket i Backloggar.
+            line_2: Välj om underordnade arbetspaket ska behållas när du tar bort ett arbetspaket.
+            line_3: Använd MCP-servern för att rapportera tid, söka efter arbetspaket med deras visnings-ID med mera (Professional-abonnemang).
+            line_4: Ange planerad arbetsinsats i timmar, dagar, veckor eller månader.
+            line_5: Följ importförloppet när du använder Jira-migreringsverktyget.
+            line_6: Använd datumaviseringar i Community Edition.
+          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, bland annat:
 
             '
         header: Läs om nya funktioner och produktuppdateringar.
@@ -3265,7 +3263,7 @@ sv:
         field_set: "%{field} angavs till %{value}"
         field_updated: "%{field} uppdaterades"
         header: ändringar av %{author}
-        migrated: from Jira
+        migrated: från Jira
         set_with_diff: "%{field} angavs (%{link})"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
@@ -3512,7 +3510,7 @@ sv:
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_item: "(borttagen post)"
   label_deleted_custom_option: "(borttaget alternativ)"
-  label_deleted_version: "(deleted version)"
+  label_deleted_version: "(borttagen version)"
   label_departments: Organisation
   label_departments_description_html: 'Definiera företagets struktur genom att skapa avdelningar och underavdelningar hierarkiskt. Det gör att du kan återspegla rapporteringsvägar och behålla en tydlig, strukturerad översikt över organisationen i OpenProject. Du kan också importera en befintlig organisationsstruktur via [LDAP-synkronisering av avdelningar](ldap_docs_article).
 
@@ -4287,9 +4285,7 @@ sv:
   mail_body_account_information: Din kontoinformation
   mail_body_account_information_external: Du kan använda ditt %{value} konto för att logga in.
   mail_body_backup_ready: 'Den säkerhetskopia du begärde är klar. Du kan hämta den här:'
-  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
-
-    '
+  mail_body_backup_ready_incomplete: "%{file_count} kunde inte läsas och utelämnades från säkerhetskopian. Det hämtade arkivets namn har suffixet ”-incomplete” för att visa att vissa bilagor saknas.\n"
   mail_body_backup_token_info: Föregående token är inte längre giltig.
   mail_body_backup_token_reset_admin_info: Säkerhetskopieringstoken för användaren "%{user}" har återställts.
   mail_body_backup_token_reset_user_info: Din säkerhetskopieringstoken har återställts.
@@ -4614,7 +4610,7 @@ sv:
   notice_account_already_activated: Kontot har redan aktiverats.
   notice_account_invalid_credentials: Ogiltig användare eller lösenord
   notice_account_invalid_credentials_or_blocked: Ogiltig användare eller lösenord eller konto är låst på grund av flera misslyckade inloggningsförsök. Om kontot är låst så kommer det bli upplåst inom kort.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: Om ditt konto använder enkel inloggning ska du logga in via din identitetsleverantör i stället.
   notice_account_invalid_token: Ogiltig aktiveringsnyckel
   notice_account_lost_email_sent: Ett E-postmeddelande med instruktioner att välja ett nytt lösenord har skickats till dig.
   notice_account_new_password_forced: Ett nytt lösenord krävs.
@@ -4918,12 +4914,12 @@ sv:
     prev_page: Föregående sida
   pdf_generator:
     budgets_table:
-      cost_per_unit: Cost per unit
-      description: Description
-      labor: Labor costs
-      material: Unit costs
-      sum: Sum
-      total: Total
+      cost_per_unit: Kostnad per enhet
+      description: Beskrivning
+      labor: Personalkostnader
+      material: Enhetskostnader
+      sum: Summa
+      total: Totalt
     dialog:
       footer_center:
         caption: Denna text visas på varje sida i mitten av sidfoten.
@@ -4939,11 +4935,11 @@ sv:
       hyphenation_language:
         label: Språk och avstavning
       include_budget:
-        caption: Include the project's budgets with their planned unit and labor cost items.
-        label: Project budgets
+        caption: Ta med projektets budgetar och deras planerade poster för enhetskostnader och arbetskostnader.
+        label: Projektbudgetar
       include_lifecycle:
-        caption: Include the project's phases and their date ranges.
-        label: Project lifecycle
+        caption: Ta med projektets faser och deras datumintervall.
+        label: Projektlivscykel
       page_orientation:
         caption: Välj sidorientering för PDF-dokumentet.
         label: Sidorientering
@@ -5394,7 +5390,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
-      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
+      no_custom_fields_html: Det här projektet har inga projektattribut aktiverade för guiden. Aktivera minst ett i <a href="%{link}">projektinställningarna</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
@@ -5544,11 +5540,11 @@ sv:
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
     index:
-      filter_label: Search roles
+      filter_label: Sök roller
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Alla roller
+        global: Globala roller
+        project: Projektroller
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
@@ -6335,7 +6331,7 @@ sv:
     help_and_support: Hjälp och support
   total_progress: Totalt klart
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: Inga objekt
   types:
     creation_wizard:
       add_variant: Lägg till en variant till %{name}
@@ -6453,14 +6449,14 @@ sv:
         tab: Formulär
         untitled_group: Namnlös grupp
       overview:
-        configuration_mode: Configuration mode
-        dependents: Dependent types and variants
+        configuration_mode: Konfigurationsläge
+        dependents: Beroende typer och varianter
         mode:
-          always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
-          manual: Manually configured
-        settings: Settings
-        tab: Overview
+          always_manual: Alltid manuellt
+          inheriting_from_html: Ärver från %{source_name}
+          manual: Manuellt konfigurerad
+        settings: Inställningar
+        tab: Översikt
       project_attributes:
         actions:
           label_disable_all: Inaktivera alla
@@ -6994,12 +6990,12 @@ sv:
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Dessa arbetspaket finns i flera projekt: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Ta även bort alla underordnade arbetspaket?
+        question: Du försöker ta bort arbetspaket som har underordnade arbetspaket. Vill du även ta bort dem?
+        self_only_label: Ta endast bort de markerade arbetspaketen
+        self_only_caption: Detta tar inte bort underordnade arbetspaket, men tar bort de hierarkiska relationerna.
+        with_descendants_label: Ta bort de markerade arbetspaketen och deras underordnade arbetspaket
+        with_descendants_caption: Detta tar bort alla underordnade arbetspaket som du kan se. Du får granska den fullständiga listan i nästa steg.
       description: Är du säker på att du vill ta bort de valda arbetspaketen och alla tillhörande data?
       description_with_all_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla deras underordnade objekt?
       description_with_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla följande underordnade objekt?
@@ -7065,12 +7061,12 @@ sv:
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Arbetspaket från följande projekt tas bort: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Ta även bort alla underordnade arbetspaket?
+        question: Det här arbetspaketet har underordnade arbetspaket. Vill du även ta bort dem?
+        self_only_label: Ta endast bort det här arbetspaketet
+        self_only_caption: Detta tar inte bort underordnade arbetspaket, men tar bort de hierarkiska relationerna.
+        with_descendants_label: Ta bort det här arbetspaketet och dess underordnade arbetspaket
+        with_descendants_caption: Detta tar bort alla underordnade arbetspaket som du kan se. Du får granska den fullständiga listan i nästa steg.
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:
@@ -7134,7 +7130,7 @@ sv:
         target_role_ids:
           label: Målroller
         target_variant_ids:
-          label: Target types
+          label: Måltyper
       from_roles:
         create:
           notice:
@@ -7143,8 +7139,8 @@ sv:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Arbetsflödet har kopierats till ”%{type_name}”.
+            other: Arbetsflödet har kopierats till %{count} typer.
       new:
         title: Kopiera arbetsflödet för "%{source_type}"
     form:
