@@ -6827,8 +6827,8 @@ ru:
       create_type: Создать тип
       create_variant: Создать Вариант
       descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        defaults: Выберите, если участники проекта должны иметь возможность называть рабочие пакеты по своему желанию или если заголовки должны быть сгенерированы автоматически.
+        form_configuration: Это поля, которые участник проекта видит при создании или редактировании пакета работ данного типа.
         pdf: Configure how PDF exports of work packages of this type should look.
         project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
         projects: In which projects should this type be available?

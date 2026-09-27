@@ -25,9 +25,9 @@ sv:
   activerecord:
     attributes:
       gitlab_branch:
-        gitlab_project: GitLab project
-        namespace: GitLab namespace
-        project_html_url: GitLab project URL
+        gitlab_project: GitLab-projekt
+        namespace: GitLab-namnrymd
+        project_html_url: GitLab-projektets URL
       gitlab_merge_request:
         labels: Etiketter
       gitlab_pipeline:
@@ -44,8 +44,8 @@ sv:
               invalid_schema: 'måste vara en matris med hashvärden med nycklarna: color, title'
     models:
       gitlab_branch:
-        one: GitLab branch
-        other: GitLab branches
+        one: GitLab-gren
+        other: GitLab-grenar
       gitlab_issue:
         one: GitLab-ärende
         other: GitLab-ärenden
