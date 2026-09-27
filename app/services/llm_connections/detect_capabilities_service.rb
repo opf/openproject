@@ -125,6 +125,8 @@ module LlmConnections
 
     def record(model_id, result)
       verdicts.transaction do
+        break unless deployment_unchanged?
+
         verdict = claim(model_id)
         # A refresh deletes probe verdicts and may have done so right after the
         # insert, leaving nothing to record against.
@@ -143,6 +145,13 @@ module LlmConnections
                         checked_at: Time.current)
         verdict
       end
+    end
+
+    # A sync for another deployment discards the probe verdicts, and an answer
+    # from the previous one arriving afterwards must not bring one back. The row
+    # lock orders this read against the settings change that starts that sync.
+    def deployment_unchanged?
+      LlmConnection.lock.find_by(id: connection.id)&.settings_fingerprint == connection.settings_fingerprint
     end
 
     # FOR UPDATE has no row to lock before the first probe of a model, and a

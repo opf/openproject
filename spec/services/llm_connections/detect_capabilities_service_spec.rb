@@ -259,6 +259,20 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_supported
     end
 
+    it "records nothing from a deployment that was replaced while the probe ran" do
+      probe = instance_double(Llm::Probes::EmbeddingsProbe)
+      allow(Llm::Probes::EmbeddingsProbe).to receive(:new).and_return(probe)
+      allow(probe).to receive(:call) do
+        LlmConnection.where(id: connection.id).update_all(base_url: "https://elsewhere.example/v1")
+        Llm::Probes::EmbeddingsProbe::Result.new(state: :supported, detail: { "dimensions" => 4 })
+      end
+
+      recorded = service.detect_likely_embedding_models.result
+
+      expect(recorded).to be_empty
+      expect(connection.capability_verdicts).to be_empty
+    end
+
     it "spends no more than BACKGROUND_LIMIT requests" do
       (described_class::BACKGROUND_LIMIT + 5).times do |index|
         create(:llm_model, llm_connection: connection, external_id: "embed-#{index}")
