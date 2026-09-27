@@ -111,6 +111,26 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
     end
   end
 
+  context "when a refresh discards the verdict right after it is read" do
+    def delete_verdict_after_first_read(&)
+      deleted = false
+      delete_once = lambda do |*, payload|
+        next if deleted || !payload[:sql].start_with?('SELECT "llm_capability_verdicts".*')
+
+        deleted = true
+        LlmCapabilityVerdict.where(llm_connection: connection, model_id: "bge-m3").delete_all
+      end
+
+      ActiveSupport::Notifications.subscribed(delete_once, "sql.active_record", &)
+    end
+
+    it "has already locked the row it records against" do
+      mock_llm_embeddings_response(base_url)
+
+      expect { delete_verdict_after_first_read { service.detect("bge-m3") } }.not_to raise_error
+    end
+  end
+
   describe "#detect_likely_embedding_models" do
     before { mock_llm_embeddings_response(base_url) }
 
