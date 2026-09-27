@@ -51,6 +51,51 @@ RSpec.describe LlmConnections::EnvSyncService do
     end
   end
 
+  context "with custom headers as a JSON object" do
+    let(:env_config) do
+      { "base_url" => "https://example.com/v1", "custom_headers" => '{"api-version":"2024-02-01","X-Gateway":"on"}' }
+    end
+
+    it "stores the header names exactly as given" do
+      expect(result).to be_success
+      expect(connection.reload.custom_headers).to eq("api-version" => "2024-02-01", "X-Gateway" => "on")
+    end
+  end
+
+  context "with custom headers as a Hash" do
+    let(:env_config) do
+      { "base_url" => "https://example.com/v1", "custom_headers" => { "api-version" => "2024-02-01" } }
+    end
+
+    it "stores the header names exactly as given" do
+      expect(result).to be_success
+      expect(connection.reload.custom_headers).to eq("api-version" => "2024-02-01")
+    end
+  end
+
+  context "without custom headers while some are stored" do
+    let(:env_config) { { "base_url" => "https://example.com/v1" } }
+
+    before { connection.update!(custom_headers: { "api-version" => "2024-02-01" }) }
+
+    it "clears them" do
+      expect(result).to be_success
+      expect(connection.reload.custom_headers).to eq({})
+    end
+  end
+
+  context "with custom headers that are not a JSON object" do
+    let(:env_config) { { "base_url" => "https://example.com/v1", "custom_headers" => '["api-version"]' } }
+
+    before { connection.update!(custom_headers: { "api-version" => "2024-02-01" }) }
+
+    it "fails and keeps the stored headers" do
+      expect(result).to be_failure
+      expect(result.errors).to be_of_kind(:custom_headers, :invalid)
+      expect(connection.reload.custom_headers).to eq("api-version" => "2024-02-01")
+    end
+  end
+
   context "when the default model cannot be bound" do
     let(:env_config) do
       { "base_url" => "https://other.example.com/v1", "api_key" => "sk-from-env", "default_chat_model" => "bge-m3" }
