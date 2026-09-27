@@ -83,6 +83,34 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
     expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_supported
   end
 
+  context "when a refresh discards the verdict between its claim and its lock" do
+    before do
+      mock_llm_embeddings_response(base_url)
+      allow(connection.capability_verdicts).to receive(:insert_all).and_wrap_original do |original, rows, **options|
+        original.call(rows, **options).tap do
+          LlmCapabilityVerdict.where(llm_connection: connection, model_id: "bge-m3").delete_all
+        end
+      end
+    end
+
+    it "records nothing for that model" do
+      result = service.detect("bge-m3")
+
+      expect(result).to be_success
+      expect(result.result).to be_nil
+      expect(connection.capability_verdicts.for_model("bge-m3")).to be_empty
+    end
+
+    it "carries on with the rest of the batch" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+
+      recorded = service.detect_likely_embedding_models.result
+
+      expect(recorded.map(&:model_id)).to eq(["nomic-embed-text"])
+      expect(recorded.first).to be_supported
+    end
+  end
+
   describe "#detect_likely_embedding_models" do
     before { mock_llm_embeddings_response(base_url) }
 

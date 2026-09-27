@@ -69,7 +69,7 @@ module LlmConnections
         break if endpoint_absent?(result)
       end
 
-      ServiceResult.success(result: recorded)
+      ServiceResult.success(result: recorded.compact)
     end
 
     private
@@ -110,10 +110,11 @@ module LlmConnections
     end
 
     def record(model_id, result)
-      verdict = claim(model_id)
-
       verdicts.transaction do
-        verdict.lock!
+        verdict = claim(model_id)
+        # A refresh deletes probe verdicts and may have done so right after the
+        # insert, leaving nothing to record against.
+        break if verdict.nil?
         # Re-checked under the row lock: a probe runs for seconds, and an
         # administrator may have asserted the capability in the meantime.
         break verdict if verdict.source_admin?
@@ -142,7 +143,7 @@ module LlmConnections
                              checked_at: Time.current }],
                           unique_by: %i[llm_connection_id model_id capability])
 
-      verdicts.for_model(model_id).for_capability(:embeddings).first
+      verdicts.for_model(model_id).for_capability(:embeddings).lock.first
     end
 
     def verdicts
