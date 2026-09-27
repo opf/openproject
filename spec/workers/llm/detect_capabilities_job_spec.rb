@@ -45,4 +45,19 @@ RSpec.describe Llm::DetectCapabilitiesJob, :llm_server_helpers, :webmock do
   it "does nothing while no connection is stored" do
     expect { described_class.perform_now }.not_to raise_error
   end
+
+  it "probes the connections after one whose detection raises" do
+    broken = create(:llm_connection, :with_models, base_url: "https://broken.example/v1")
+    healthy = create(:llm_connection, :with_models, base_url:, active: false)
+    mock_llm_embeddings_response(base_url)
+    allow(LlmConnections::DetectCapabilitiesService).to receive(:new).and_call_original
+    allow(LlmConnections::DetectCapabilitiesService).to receive(:new).with(broken).and_raise(ActiveRecord::RecordNotFound)
+    logged = []
+    allow(Rails.logger).to receive(:error) { |&message| logged << message.call }
+
+    expect { described_class.perform_now }.not_to raise_error
+
+    expect(healthy.capability_verdicts.pluck(:model_id)).to eq(["bge-m3"])
+    expect(logged).to include("LLM capability detection failed for connection #{broken.id}: ActiveRecord::RecordNotFound")
+  end
 end

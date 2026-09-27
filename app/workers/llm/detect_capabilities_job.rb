@@ -35,6 +35,8 @@ module Llm
     def perform
       LlmConnection.find_each do |connection|
         LlmConnections::DetectCapabilitiesService.new(connection).detect_likely_embedding_models
+      rescue StandardError => e
+        Rails.logger.error { "LLM capability detection failed for connection #{connection.id}: #{e.class}" }
       end
     end
   end
