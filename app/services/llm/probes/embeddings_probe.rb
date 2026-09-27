@@ -32,9 +32,9 @@ module Llm
   module Probes
     # Determines whether a model can produce embeddings, by asking it to.
     #
-    # The 200 case is checked by shape rather than by status, because unknown
-    # parameters are silently dropped by vLLM, llama.cpp and Ollama alike: a 200
-    # on its own proves nothing.
+    # vLLM, llama.cpp and Ollama silently drop parameters they do not
+    # understand, so a 200 on its own proves nothing: only a body shaped like an
+    # embedding response counts as support.
     class EmbeddingsProbe
       PROBE_INPUT = "openproject"
 

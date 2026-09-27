@@ -91,10 +91,10 @@ module LlmConnections
                 .first(BACKGROUND_LIMIT)
     end
 
-    # The server answered for the embeddings route rather than for the model, so
-    # the requests the rest of the batch would spend buy the same answer again.
-    # Read off the probe rather than the verdict, which may be an earlier and
-    # definite one that this inconclusive answer deliberately did not soften.
+    # The server answered for its embeddings route, not for this model, so the
+    # requests the rest of the batch would spend buy the same answer again. The
+    # stored verdict may be an earlier, definite one that this inconclusive
+    # answer left in place, so only the probe result says what happened now.
     def endpoint_absent?(result)
       result.state == :unknown && result.detail["reason"].in?(Llm::Probes::EmbeddingsProbe::ENDPOINT_ABSENT_REASONS)
     end
@@ -131,8 +131,8 @@ module LlmConnections
     end
 
     # FOR UPDATE has no row to lock before the first probe of a model, and a
-    # synchronous detection can run alongside the background pass, so the row is
-    # claimed through the unique index rather than built in memory.
+    # synchronous detection can run alongside the background pass: inserting
+    # through the unique index lands both on the same row.
     def claim(model_id)
       verdicts.insert_all([{ llm_connection_id: connection.id,
                              model_id:,
