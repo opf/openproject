@@ -161,6 +161,44 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(request).to have_been_made.once
     end
 
+    [429, 401, 403, 500, 503].each do |status|
+      it "stops the batch when the server answers #{status} for every model" do
+        create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+        request = mock_llm_embeddings_response(base_url, response_code: status)
+
+        service.detect_likely_embedding_models
+
+        expect(request).to have_been_made.once
+      end
+    end
+
+    it "stops the batch when the server does not answer in time" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+      request = stub_request(:post, "#{base_url}/embeddings").to_raise(Net::ReadTimeout)
+
+      service.detect_likely_embedding_models
+
+      expect(request).to have_been_made.once
+    end
+
+    it "stops the batch when the server refuses the connection" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+      request = stub_request(:post, "#{base_url}/embeddings").to_raise(Errno::ECONNREFUSED)
+
+      service.detect_likely_embedding_models
+
+      expect(request).to have_been_made.once
+    end
+
+    it "carries on past a model the server refuses" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+      request = mock_llm_embeddings_response(base_url, response_code: 400)
+
+      service.detect_likely_embedding_models
+
+      expect(request).to have_been_made.twice
+    end
+
     it "stops the batch even where an earlier verdict survives the 404" do
       create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
       connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",

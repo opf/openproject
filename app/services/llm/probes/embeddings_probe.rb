@@ -47,7 +47,18 @@ module Llm
       # chat completions and nothing else, and would refuse every model alike.
       ENDPOINT_ABSENT_REASONS = [404, 405, 501].map { |status| "http_#{status}" }.freeze
 
+      # Failures of the server as a whole, which every other model on it would
+      # meet alike: throttling, rejected credentials, a server error, or no
+      # answer at all.
+      SERVER_WIDE_REASONS = [*ENDPOINT_ABSENT_REASONS, "http_429", "unauthorized",
+                             "timeout_error", "connection_error", "ssl_error"].freeze
+      SERVER_ERROR_REASON = /\Ahttp_5\d\d\z/
+
       Result = Data.define(:state, :detail)
+
+      def self.server_wide?(reason)
+        reason.in?(SERVER_WIDE_REASONS) || SERVER_ERROR_REASON.match?(reason.to_s)
+      end
 
       def initialize(connection)
         @connection = connection

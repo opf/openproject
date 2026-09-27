@@ -66,7 +66,7 @@ module LlmConnections
       candidates.each do |model_id|
         result = probe.call(model_id)
         recorded << record(model_id, result)
-        break if endpoint_absent?(result)
+        break if server_wide_failure?(result)
       end
 
       ServiceResult.success(result: recorded.compact)
@@ -91,12 +91,12 @@ module LlmConnections
                 .first(BACKGROUND_LIMIT)
     end
 
-    # The server answered for its embeddings route, not for this model, so the
-    # requests the rest of the batch would spend buy the same answer again. The
-    # stored verdict may be an earlier, definite one that this inconclusive
-    # answer left in place, so only the probe result says what happened now.
-    def endpoint_absent?(result)
-      result.state == :unknown && result.detail["reason"].in?(Llm::Probes::EmbeddingsProbe::ENDPOINT_ABSENT_REASONS)
+    # The server answered for itself, not for this model, so the requests the
+    # rest of the batch would spend buy the same answer again. The stored
+    # verdict may be an earlier, definite one that this inconclusive answer
+    # left in place, so only the probe result says what happened now.
+    def server_wide_failure?(result)
+      result.state == :unknown && Llm::Probes::EmbeddingsProbe.server_wide?(result.detail["reason"])
     end
 
     # An administrator knows things about their deployment that a probe cannot
