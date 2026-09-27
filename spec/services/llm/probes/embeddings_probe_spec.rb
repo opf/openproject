@@ -88,7 +88,6 @@ RSpec.describe Llm::Probes::EmbeddingsProbe, :webmock do
     end
   end
 
-  # These say something about the server, not about the model.
   {
     429 => "http_429",
     500 => "http_500",
