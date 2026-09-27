@@ -40,12 +40,17 @@ module LlmConnections
     end
 
     def call
-      ApplicationRecord.transaction do
-        result = write(attributes)
-        break result if result.failure?
+      result = nil
 
-        write(default_model_references(result.result), model: result.result)
+      ApplicationRecord.transaction(requires_new: true) do
+        result = write(attributes)
+        raise ActiveRecord::Rollback if result.failure?
+
+        result = write(default_model_references(result.result), model: result.result)
+        raise ActiveRecord::Rollback if result.failure?
       end
+
+      result
     end
 
     private
