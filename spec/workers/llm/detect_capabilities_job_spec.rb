@@ -62,4 +62,10 @@ RSpec.describe Llm::DetectCapabilitiesJob, :llm_server_helpers, :webmock do
     expect(logged).to include("LLM capability detection failed for connection #{broken.id}: ActiveRecord::RecordNotFound")
     expect(logged.join).not_to include("sk-leaked")
   end
+
+  it "keeps a single run waiting however often it is enqueued", with_good_job: described_class do
+    2.times { described_class.set(wait: 1.minute).perform_later }
+
+    expect(GoodJob::Job.where(job_class: described_class.name, finished_at: nil).count).to eq(1)
+  end
 end
