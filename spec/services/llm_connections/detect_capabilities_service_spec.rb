@@ -143,9 +143,9 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "nomic-embed-text")
     end
 
-    # Each probe is a billed request on some providers, so both of the filters
-    # that keep the batch small are worth pinning: nothing would catch either one
-    # being removed.
+    # Each probe is a billed request on some providers, so every filter that
+    # keeps the batch small is worth pinning: nothing would catch one being
+    # removed.
     it "probes only models whose name suggests they embed" do
       create(:llm_model, llm_connection: connection, external_id: "llama4-70b-instruct")
       create(:llm_model, llm_connection: connection, external_id: "gte-large")
@@ -210,11 +210,48 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(request).to have_been_made.twice
     end
 
-    it "stops the batch even where an earlier verdict survives the 404" do
-      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+    %w[supported unsupported].each do |state|
+      it "skips a model an earlier probe found #{state}" do
+        create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state:, source: "probe", checked_at: 1.day.ago)
+        request = mock_llm_embeddings_response(base_url)
+
+        recorded = service.detect_likely_embedding_models.result
+
+        expect(recorded.map(&:model_id)).to eq(["nomic-embed-text"])
+        expect(request).to have_been_made.once
+      end
+    end
+
+    it "probes again a model an earlier probe could not answer" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "unknown", source: "probe", checked_at: 1.day.ago)
+
+      service.detect_likely_embedding_models
+
+      expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_supported
+    end
+
+    it "fills the batch with models that still need an answer" do
       connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                              state: "supported", source: "probe", checked_at: 1.day.ago)
-      request = mock_llm_embeddings_response(base_url, response_code: 404)
+      pending_ids = Array.new(described_class::BACKGROUND_LIMIT) { |index| "embed-#{index}" }
+      pending_ids.each { |external_id| create(:llm_model, llm_connection: connection, external_id:) }
+
+      service.detect_likely_embedding_models
+
+      expect(connection.capability_verdicts.for_model(pending_ids).count).to eq(described_class::BACKGROUND_LIMIT)
+    end
+
+    it "stops the batch even where a verdict settled during the probe survives the 404" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+      request = stub_request(:post, "#{base_url}/embeddings").to_return do
+        connection.capability_verdicts.find_or_create_by!(model_id: "bge-m3", capability: "embeddings") do |verdict|
+          verdict.assign_attributes(state: "supported", source: "admin", checked_at: Time.current)
+        end
+        { status: 404, headers: { "Content-Type" => "application/json" }, body: "{}" }
+      end
 
       service.detect_likely_embedding_models
 

@@ -80,21 +80,35 @@ module LlmConnections
       @probe ||= Llm::Probes::EmbeddingsProbe.new(connection)
     end
 
-    # Narrowed twice before anything is sent, because a probe is a billed request
-    # on some providers: only models whose name suggests they embed at all, never
-    # one an administrator has already ruled on, and never more than the batch
-    # limit in one background run.
+    # Narrowed before anything is sent, because a probe is a billed request on
+    # some providers: only models whose name suggests they embed at all, never
+    # one that is already settled, and never more than the batch limit in one
+    # background run. A definite probe verdict can be trusted until a sync
+    # discards it, which it does when the deployment behind the connection
+    # changes or the model disappears from it.
     def candidates
+      settled = settled_model_ids
+
       connection.available_model_ids
                 .grep(EMBEDDING_NAME_HINT)
-                .reject { |model_id| admin_asserted?(model_id) }
+                .reject { |model_id| settled.include?(model_id) }
                 .first(BACKGROUND_LIMIT)
+    end
+
+    def settled_model_ids
+      embedding_verdicts = verdicts.for_capability(:embeddings)
+
+      embedding_verdicts.sticky
+                        .or(embedding_verdicts.source_probe.where.not(state: :unknown))
+                        .pluck(:model_id)
+                        .to_set
     end
 
     # The server answered for itself, not for this model, so the requests the
     # rest of the batch would spend buy the same answer again. The stored
-    # verdict may be an earlier, definite one that this inconclusive answer
-    # left in place, so only the probe result says what happened now.
+    # verdict may have turned definite while the probe ran, and this
+    # inconclusive answer leaves it in place, so only the probe result says
+    # what happened now.
     def server_wide_failure?(result)
       result.state == :unknown && Llm::Probes::EmbeddingsProbe.server_wide?(result.detail["reason"])
     end
