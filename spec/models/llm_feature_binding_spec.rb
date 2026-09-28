@@ -67,5 +67,12 @@ RSpec.describe LlmFeatureBinding do
 
       expect(binding.reload).to be_valid
     end
+
+    it "reports a missing connection instead of raising" do
+      binding = described_class.new(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      expect(binding).not_to be_valid
+      expect(binding.errors.details[:llm_connection]).to include(error: :blank)
+    end
   end
 end

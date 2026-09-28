@@ -34,7 +34,7 @@
 # and are never destroyed when a feature deregisters, so flipping a feature flag
 # does not lose the administrator's choice.
 class LlmFeatureBinding < ApplicationRecord
-  belongs_to :llm_connection
+  belongs_to :llm_connection, optional: false
 
   # Settings that describe how vectors are written, and so only mean anything
   # for an embedding feature.
@@ -103,7 +103,7 @@ class LlmFeatureBinding < ApplicationRecord
   # Only checked when it changes, so a catalogue that shrinks underneath a stored
   # binding does not block unrelated saves; #dangling? reports that state.
   def model_offered_by_connection
-    return if model_id.blank?
+    return if model_id.blank? || llm_connection.nil?
     return if llm_connection.models.active.exists?(external_id: model_id)
 
     errors.add(:model_id, :not_available)
