@@ -55,6 +55,14 @@ import {
   SingleLineUserDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/single-line-user-display-field.module';
 
+export interface DisplayFieldContextOptions {
+  [key:string]:unknown;
+  writable?:boolean;
+  layout?:string;
+  dateFormat?:string;
+  colorize?:boolean;
+}
+
 export interface DisplayFieldContext {
   /** The injector to use for the context of this field. Relevant for embedded service injection */
   injector:Injector;
@@ -63,11 +71,11 @@ export interface DisplayFieldContext {
   container:'table'|'single-view'|'timeline';
 
   /** Options passed to the display field */
-  options:Record<string, any>;
+  options:DisplayFieldContextOptions;
 }
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
-  new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
+  new(name:string, context:DisplayFieldContext):DisplayField;
 }
 
 @Injectable({ providedIn: 'root' })
