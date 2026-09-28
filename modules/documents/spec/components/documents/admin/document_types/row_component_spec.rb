@@ -87,7 +87,7 @@ RSpec.describe Documents::Admin::DocumentTypes::RowComponent, type: :component d
       expect(rendered_component).to have_css(".DragHandle.hide-when-print", visible: :all)
     end
 
-    it "sits behind a button named for the document type" do
+    it "sits behind a labelled actions button" do
       expect(rendered_component).to have_button(accessible_name: I18n.t("documents.document_type_actions"))
     end
 

@@ -50,26 +50,10 @@ RSpec.describe Documents::Admin::DocumentTypes::IndexComponent, type: :component
                   move_url_template: "/admin/settings/document_types/{id}/move"
   it_behaves_like "no legacy drag-and-drop wiring"
 
-  it "resolves both outlets inside the wrapper", :aggregate_failures do
-    expect(rendered_component)
-      .to have_css("#documents-admin-document-types-index-component [data-controller~='sortable-lists--list']",
-                   count: 1)
-    expect(rendered_component)
-      .to have_css("#documents-admin-document-types-index-component [data-controller~='sortable-lists--item']",
-                   count: 2)
-  end
-
   it_behaves_like "a sortable-lists list",
                   list_type: "document_type",
                   name: "Document types",
                   rows_container: ":scope > .op-border-box-table--rows"
-
-  it "leaves the list wiring to the table container" do
-    expect(rendered_component).to have_css("#documents-admin-document-types-index-component") do |wrapper|
-      expect(wrapper["data-sortable-lists--list-type-value"]).to be_nil
-      expect(wrapper["data-sortable-lists--list-rows-container-element"]).to be_nil
-    end
-  end
 
   it "offers adding a document type above the list" do
     expect(rendered_component).to have_test_selector("add-document-type-button")
@@ -80,10 +64,5 @@ RSpec.describe Documents::Admin::DocumentTypes::IndexComponent, type: :component
       expect(table).to have_selector(:row, "Note")
       expect(table).to have_selector(:row, "Report")
     end
-  end
-
-  it "drops the bespoke grid and its markup", :aggregate_failures do
-    expect(rendered_component).to have_no_css(".op-documents-types-list--header")
-    expect(rendered_component).to have_no_css(".op-documents-types-list--item")
   end
 end

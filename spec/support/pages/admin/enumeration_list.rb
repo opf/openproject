@@ -33,9 +33,7 @@ require "support/pages/page"
 module Pages
   module Admin
     # Drives the enumeration admin lists (priorities, time entry activities,
-    # document types). Subclasses define `path`, `list_selector` and
-    # `actions_label`, and override `item_selector` for tables; records are
-    # addressed by name.
+    # document types); records are addressed by name.
     class EnumerationList < ::Pages::Page
       def item_selector = :list_item
 

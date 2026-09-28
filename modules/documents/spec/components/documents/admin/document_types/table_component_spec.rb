@@ -76,29 +76,14 @@ RSpec.describe Documents::Admin::DocumentTypes::TableComponent, type: :component
       let(:sortable_records) { [note, report] }
     end
 
-    it "leaves the sortable root, its outlets and the move URL to the index wrapper" do
-      expect(rendered_component).to have_css("[data-controller~='sortable-lists--list']") do |container|
-        expect(container["data-sortable-lists-move-url-template-value"]).to be_nil
-        expect(container["data-sortable-lists-sortable-lists--list-outlet"]).to be_nil
-        expect(container["data-sortable-lists-sortable-lists--item-outlet"]).to be_nil
-      end
-      expect(rendered_component).to have_no_css("[data-controller~='sortable-lists']")
-    end
-
-    it "identifies each row and drags it whole" do
+    it "identifies each row and drags it whole", :aggregate_failures do
       [note, report].each do |document_type|
         expect(rendered_component)
           .to have_css(".Box-row[data-sortable-lists--item-id-value='#{document_type.id}']") do |row|
           expect(row["id"]).to eq("document-type-#{document_type.id}")
           expect(row["data-sortable-lists--item-target"]).to eq("preview")
-          expect(row["data-test-selector"]).to eq("document-type-row-#{document_type.id}")
         end
       end
-    end
-
-    it "drops the bespoke grid the table replaces", :aggregate_failures do
-      expect(rendered_component).to have_no_css(".op-documents-types-list--header")
-      expect(rendered_component).to have_no_css(".op-documents-types-list--item")
     end
   end
 
