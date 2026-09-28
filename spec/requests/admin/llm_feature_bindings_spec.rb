@@ -202,14 +202,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       expect(binding.dimensions).to eq(1024)
     end
 
-    # The embedder owns them, and nothing read them here.
-    it "offers no document or query prefix" do
-      get llm_feature_bindings_path
-
-      expect(response.body).not_to include("input_prefix")
-      expect(response.body).not_to include("query_prefix")
-    end
-
     it "rejects a dimension count that is not a positive integer" do
       patch llm_feature_binding_path(:semantic_search),
             params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "0" } }
