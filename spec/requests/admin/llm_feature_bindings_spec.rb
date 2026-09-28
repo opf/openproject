@@ -202,6 +202,16 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       end
     end
 
+    it "refuses a request that carries no binding" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      patch llm_feature_binding_path("description_assistant")
+
+      expect(response).to have_http_status(:bad_request)
+      expect(connection.feature_bindings.find_by(feature_key: "description_assistant").model_id)
+        .to eq("qwen3.6-27b")
+    end
+
     it "404s for a feature that is not registered" do
       patch llm_feature_binding_path("no_such_feature"), params: { llm_feature_binding: { model_id: "x" } }
 

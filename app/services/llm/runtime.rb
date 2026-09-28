@@ -124,9 +124,9 @@ module Llm
       effective_override || binding_model_id || connection_default
     end
 
-    # A pinned feature declared overridable: false must not follow a caller's
-    # override: semantic_search's vectors were written with one model, and a
-    # different one at query time is silently wrong answers, not a preference.
+    # A feature declared overridable: false must not follow a caller's override:
+    # semantic_search's vectors were written with one model, and a different one
+    # at query time is silently wrong answers, not a preference.
     def effective_override
       return unless feature.overridable
 

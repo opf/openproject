@@ -43,9 +43,9 @@ OpenProject::Llm::Features.register :description_assistant,
                                     prefers: %i[structured_output],
                                     overridable: true
 
-# Semantic search embeds work packages into a pgvector index. Pinned because the
-# stored vectors are meaningless under a different model: changing it is a
-# destructive re-index rather than a swap.
+# Semantic search embeds work packages into a pgvector index. The stored vectors
+# are meaningless under a different model, so it is not overridable: changing it
+# is a destructive re-index rather than a swap.
 #
 # The feature itself is not built yet, so it carries its own flag rather than
 # riding on :llm_connection. Until that flag is on it is registered but never
@@ -54,5 +54,4 @@ OpenProject::Llm::Features.register :description_assistant,
 OpenProject::Llm::Features.register :semantic_search,
                                     kind: :embedding,
                                     requires: %i[embeddings],
-                                    pinned: true,
                                     available: -> { OpenProject::FeatureDecisions.semantic_search_active? }

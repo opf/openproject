@@ -37,7 +37,7 @@ module OpenProject
     # Features declare the capabilities they need so the administration UI can
     # tell an administrator which models are usable for which job, and so a
     # feature never silently runs against a model that cannot serve it.
-    Feature = Data.define(:key, :kind, :requires, :prefers, :overridable, :pinned, :available, :i18n_scope) do
+    Feature = Data.define(:key, :kind, :requires, :prefers, :overridable, :available, :i18n_scope) do
       def available? = available.call
 
       def chat? = kind == :chat
@@ -80,7 +80,6 @@ module OpenProject
                    requires: [],
                    prefers: [],
                    overridable: false,
-                   pinned: false,
                    available: -> { true },
                    i18n_scope: nil)
         key = key.to_sym
@@ -88,7 +87,7 @@ module OpenProject
 
         all[key] = Feature.new(key:, kind:, requires: requires.map(&:to_sym).freeze,
                                prefers: prefers.map(&:to_sym).freeze,
-                               overridable:, pinned:, available:,
+                               overridable:, available:,
                                i18n_scope: i18n_scope || "llm.features.#{key}")
       end
 

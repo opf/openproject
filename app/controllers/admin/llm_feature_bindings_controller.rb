@@ -106,7 +106,7 @@ module Admin
 
     def build_binding(feature)
       binding = binding_for(feature)
-      binding.model_id = params.dig(:llm_feature_binding, :model_id).presence
+      binding.model_id = binding_params[:model_id].presence
 
       # Only ever accepted for the kind of feature it describes; the model
       # rejects it elsewhere, and it is not read at all for a chat feature.
@@ -116,7 +116,11 @@ module Admin
     end
 
     def assign_embedding_settings(binding)
-      binding.dimensions = params.dig(:llm_feature_binding, :dimensions).presence
+      binding.dimensions = binding_params[:dimensions].presence
+    end
+
+    def binding_params
+      @binding_params ||= params.expect(llm_feature_binding: %i[model_id dimensions])
     end
 
     # The verdict that actually matters is the one for the model an administrator
