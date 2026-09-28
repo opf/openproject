@@ -83,12 +83,16 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
     let(:container_href) { nil }
 
     describe "GET /uploaded" do
+      include DirectUploadHelpers
+
       let(:status) { :prepared }
+      let(:staged) { true }
       let(:attachment) do
         create(:attachment, status:, author: current_user, container: nil, container_type: nil)
       end
 
       before do
+        stage_direct_upload(attachment) if staged
         get "/api/v3/attachments/#{attachment.id}/uploaded"
       end
 
@@ -113,6 +117,14 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
           json = JSON.parse last_response.body
 
           expect(json["_type"]).to eq "Attachment"
+        end
+      end
+
+      context "with a pending attachment that was never uploaded" do
+        let(:staged) { false }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status :not_found
         end
       end
     end
