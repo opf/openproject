@@ -41,13 +41,15 @@ RSpec.shared_examples "a sortable-lists root" do |wrapper_id:, move_url_template
   end
 end
 
-RSpec.shared_examples "a sortable-lists list" do |list_type:, name:|
+# `rows_container` stays nil for lists rendered into the controller's default
+# `ul`; tables pass the selector of the rowgroup they render into instead.
+RSpec.shared_examples "a sortable-lists list" do |list_type:, name:, rows_container: nil|
   it "wires a single list of type #{list_type}" do
     expect(rendered_component).to have_css("[data-controller~='sortable-lists--list']", count: 1) do |list|
       expect(list["data-sortable-lists--list-type-value"]).to eq(list_type)
       expect(list["data-sortable-lists--list-accepted-type-value"]).to eq(list_type)
       expect(list["data-sortable-lists--list-name-value"]).to eq(name)
-      expect(list["data-sortable-lists--list-rows-container-element"]).to be_nil
+      expect(list["data-sortable-lists--list-rows-container-element"]).to eq(rows_container)
     end
   end
 end
@@ -61,12 +63,23 @@ RSpec.shared_examples "a Border Box sortable list" do |row_count:|
   end
 end
 
+# The Border Box Table renders its rows into a `div` rowgroup, which the list
+# controller only reaches through the rows-container selector.
+RSpec.shared_examples "a Border Box Table sortable list" do |row_count:|
+  it "keeps #{row_count} rows in the table's rowgroup rather than a list", :aggregate_failures do
+    expect(rendered_component)
+      .to have_css("[data-controller~='sortable-lists--list'] > .op-border-box-table--rows[role='rowgroup'] > .Box-row",
+                   count: row_count)
+    expect(rendered_component).to have_no_css("[data-controller~='sortable-lists--list'] > ul")
+  end
+end
+
 # Consumers define `sortable_records` with a `let` in the inclusion block.
 RSpec.shared_examples "sortable-lists items" do |list_type:|
   it "wires every row as a sortable item of type #{list_type}" do
     sortable_records.each do |record|
       expect(rendered_component)
-        .to have_css("li.Box-row[data-sortable-lists--item-id-value='#{record.id}']") do |row|
+        .to have_css(".Box-row[data-sortable-lists--item-id-value='#{record.id}']") do |row|
         expect(row["data-controller"]).to eq("sortable-lists--item")
         expect(row["data-sortable-lists--item-type-value"]).to eq(list_type)
         expect(row["data-sortable-lists--item-label-value"]).to eq(record.name)

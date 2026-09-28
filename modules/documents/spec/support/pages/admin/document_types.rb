@@ -28,36 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_relative "../../../support/pages/admin/time_entry_activities"
+require "support/pages/admin/enumeration_list"
 
-RSpec.describe "Time entry activities admin", :js do
-  include Flash::Expectations
+module Pages
+  module Admin
+    class DocumentTypes < EnumerationList
+      def path = admin_settings_document_types_path
 
-  current_user { create(:admin) }
+      def list_selector = "#document-types-table > .op-border-box-table--rows"
 
-  let!(:alpha) { create(:time_entry_activity, name: "Alpha") }
-  let!(:beta) { create(:time_entry_activity, name: "Beta") }
-  let!(:gamma) { create(:time_entry_activity, name: "Gamma") }
-  let(:list_page) { Pages::Admin::TimeEntryActivities.new }
+      def item_selector = :row
 
-  before do
-    gamma.move_to_top
-    beta.move_to_top
-    alpha.move_to_top
-  end
-
-  it "reorders through the move menu" do
-    list_page.visit!
-
-    list_page.expect_order("Alpha", "Beta", "Gamma")
-
-    list_page.move(gamma, I18n.t(:label_sort_highest))
-
-    list_page.expect_move_settled("Gamma", "Alpha", "Beta")
-
-    refresh
-
-    list_page.expect_order("Gamma", "Alpha", "Beta")
+      def actions_label = I18n.t("documents.document_type_actions")
+    end
   end
 end

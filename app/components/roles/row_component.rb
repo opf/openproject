@@ -111,7 +111,7 @@ module Roles
         )
 
         edit_action(menu)
-        move_action(menu) if movable?
+        with_move_submenu(menu) if movable?
 
         if deletable?
           menu.with_divider
@@ -123,20 +123,6 @@ module Roles
     def edit_action(menu)
       menu.with_item(label: t(:button_edit), href: edit_role_path(role)) do |item|
         item.with_leading_visual_icon(icon: :pencil)
-      end
-    end
-
-    def move_action(menu)
-      menu.with_item(
-        component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-        label: t(:button_move),
-        select_variant: :none,
-        form_arguments: {},
-        data: { sortable_lists__item_target: "moveMenu" }
-      ) do |submenu|
-        submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-        with_move_items(submenu)
       end
     end
 
