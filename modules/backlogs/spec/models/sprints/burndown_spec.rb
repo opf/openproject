@@ -43,6 +43,7 @@ RSpec.describe Sprints::Burndown do
   let(:first_monday) { Date.new(2026, 10, 12) }
   let(:first_tuesday) { Date.new(2026, 10, 13) }
   let(:first_wednesday) { Date.new(2026, 10, 14) }
+  let(:first_thursday) { Date.new(2026, 10, 15) }
   let(:first_friday) { Date.new(2026, 10, 16) }
   let(:saturday) { Date.new(2026, 10, 17) }
   let(:sunday) { Date.new(2026, 10, 18) }
@@ -137,13 +138,21 @@ RSpec.describe Sprints::Burndown do
   describe "#guideline" do
     before { story_pointed(sprint_start => { story_points: 10 }) }
 
+    # Started at 09:00, so the first Monday is worth 0.625 of a day and the sprint has 9.625
+    # days of capacity rather than 10, putting every whole day's share at 10 / 9.625 = 1.039.
     it "declines by an equal share of the starting points on each working day" do
-      expect(day_end_values(burndown.guideline, [first_monday, first_tuesday, first_friday]))
-        .to eq(first_monday => 9.0, first_tuesday => 8.0, first_friday => 5.0)
+      expect(day_end_values(burndown.guideline, [first_monday, first_tuesday, first_friday])
+               .transform_values { it.round(3) })
+        .to eq(first_monday => 9.351, first_tuesday => 8.312, first_friday => 5.195)
+    end
+
+    it "gives the day it starts on only the share of it that is left" do
+      expect(10.0 - day_end_values(burndown.guideline, [first_monday])[first_monday])
+        .to be_within(0.001).of(0.625 * 1.039)
     end
 
     it "stays flat across non-working days" do
-      expect(day_end_values(burndown.guideline, [first_friday, saturday, sunday]).values).to all(eq 5.0)
+      expect(day_end_values(burndown.guideline, [first_friday, saturday, sunday]).values.uniq.size).to eq 1
     end
 
     it "samples every day rather than every hour" do
@@ -210,6 +219,14 @@ RSpec.describe Sprints::Burndown do
 
     it "stays flat across non-working days" do
       expect(day_end_values(burndown.projection, [saturday, sunday]).values.uniq.size).to eq 1
+    end
+
+    # Taken at noon, so today is worth half a day against the 7 whole ones after it, putting
+    # today's drop at half of what each of those takes.
+    it "gives the day it starts on only the share of it that is left" do
+      today, tomorrow = day_end_values(burndown.projection, [first_wednesday, first_thursday]).values
+
+      expect(8.0 - today).to be_within(0.001).of((today - tomorrow) / 2)
     end
 
     context "when the sprint has not started" do
