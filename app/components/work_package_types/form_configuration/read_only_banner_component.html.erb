@@ -27,18 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_form_configuration_plural), @form_configuration.name -%>
+<%=
+  render(Primer::Alpha::Banner.new(icon: :info, mb: 3, test_selector: "form-configuration-read-only")) do |banner|
+    if editable_here?
+      banner.with_action_button(
+        tag: :a,
+        href: helpers.edit_form_configuration_path(form),
+        data: { turbo_frame: "_top" }
+      ) { t("forms.tab.read_only.edit_action") }
+    end
 
-<% kind = WorkPackageTypes::NamedReferences::Kind::FORM %>
-<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @form_configuration, kind:)) %>
-<%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @form_configuration, kind:)) %>
-
-<% context = form_editor_context %>
-<% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
-<%= render(
-      WorkPackageTypes::FormConfigurationComponent.new(
-        context:,
-        form_attributes: form_configuration_groups(context),
-        no_filter_query:
-      )
-    ) %>
+    t("forms.tab.read_only.text_html", name: form.name)
+  end
+%>

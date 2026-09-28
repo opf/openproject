@@ -3347,6 +3347,12 @@ en:
     name:
       fallback: "Form"
       implicit: "%{name} form"
+    tab:
+      read_only:
+        edit_action: "Edit form"
+        text_html: >
+          The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark
+          custom fields as required.
     usage:
       dialog:
         button: "View dependent types"

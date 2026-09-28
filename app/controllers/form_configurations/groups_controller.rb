@@ -28,11 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class FormConfigurationGroupsTabController < BaseTabController
+module FormConfigurations
+  class GroupsController < ApplicationController
     include TypesHelper
     include OpTurbo::ComponentStream
     include WorkPackageTypes::FormConfigurationComponentStreams
+
+    before_action :require_admin
+    before_action :load_form_configuration
 
     TEMPORARY_GROUP_KEY = "__new_form_configuration_group__"
 
@@ -88,7 +91,7 @@ module WorkPackageTypes
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationGroups::DeleteService
-        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
+        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
         .call
 
       if call.success?
@@ -102,7 +105,7 @@ module WorkPackageTypes
 
     def drop
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
+        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
         .call(position: params[:position])
 
       if call.success?
@@ -116,7 +119,7 @@ module WorkPackageTypes
 
     def move
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
+        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
         .call(move_to: params[:move_to])
 
       if call.success?
@@ -130,7 +133,7 @@ module WorkPackageTypes
 
     def update_query
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
+        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
         .call(query_props: params[:query])
 
       if call.success?
@@ -148,7 +151,7 @@ module WorkPackageTypes
     end
 
     def find_group(key)
-      @variant.form_attribute_groups.find do |group|
+      @form_configuration.attribute_groups.find do |group|
         [
           group.key,
           group.display_name,
@@ -182,7 +185,7 @@ module WorkPackageTypes
 
     def create_group_call
       ::WorkPackageTypes::FormConfigurationGroups::CreateService
-        .new(user: current_user, form: @variant.form_configuration)
+        .new(user: current_user, form: @form_configuration)
         .call(
           group_type: group_params[:group_type],
           name: group_params[:name],
@@ -192,12 +195,12 @@ module WorkPackageTypes
 
     def rename_group_call
       ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
+        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
         .call(name: group_params[:name])
     end
 
     def render_create_error(call)
-      @variant.reload
+      @form_configuration.reload
       group = temporary_group(
         group_type: group_params[:group_type],
         query: group_params[:query],
@@ -211,7 +214,7 @@ module WorkPackageTypes
     end
 
     def render_existing_group_update_error(call) # rubocop:disable Metrics/AbcSize
-      @variant.reload
+      @form_configuration.reload
       group = active_groups_for_form.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
 
       # A group deleted from another tab leaves no editor to re-render the rejected name into.
@@ -238,6 +241,14 @@ module WorkPackageTypes
 
     def group_form_model(group:, name: group[:name], validation_message: nil)
       WorkPackageTypes::FormConfiguration::GroupFormModel.from_group(group, name:, validation_message:)
+    end
+
+    def load_form_configuration
+      @form_configuration = FormConfiguration.find(params.expect(:form_configuration_id))
+    end
+
+    def form_editor_context
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form: @form_configuration)
     end
   end
 end

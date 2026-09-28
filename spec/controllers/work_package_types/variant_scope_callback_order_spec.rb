@@ -44,7 +44,6 @@ RSpec.describe "Variant configuration callback order" do # rubocop:disable RSpec
     WorkPackageTypes::DetailsTabController,
     WorkPackageTypes::DefaultsTabController,
     WorkPackageTypes::FormConfigurationTabController,
-    WorkPackageTypes::FormConfigurationGroupsTabController,
     WorkPackageTypes::ProjectAttributesTabController,
     WorkPackageTypes::WorkflowTabController,
     WorkPackageTypes::PdfExportTemplateController,

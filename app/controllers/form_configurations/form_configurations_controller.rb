@@ -39,7 +39,29 @@ module FormConfigurations
 
     menu_item :form_configurations
 
+    helper_method :form_editor_context
+
     def edit; end
+
+    def reset_dialog
+      respond_with_dialog WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(context: form_editor_context)
+    end
+
+    def reset
+      service_call = ::WorkPackageTypes::UpdateService
+        .new(user: current_user,
+             model: @form_configuration,
+             contract_class: ::WorkPackageTypes::UpdateFormConfigurationContract)
+        .call(attribute_groups: [])
+
+      if service_call.success?
+        flash[:notice] = t(:notice_successful_update)
+      else
+        flash[:error] = service_call.errors.full_messages.to_sentence
+      end
+
+      redirect_to edit_form_configuration_path(@form_configuration), status: :see_other
+    end
 
     def edit_dialog
       respond_with_dialog WorkPackageTypes::NamedReferences::NameDialogComponent.new(record: @form_configuration, kind:)
@@ -68,6 +90,10 @@ module FormConfigurations
     private
 
     def kind = WorkPackageTypes::NamedReferences::Kind::FORM
+
+    def form_editor_context
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form: @form_configuration)
+    end
 
     def report_destruction
       if @form_configuration.destroy

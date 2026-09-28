@@ -38,6 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do %>
   <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::FORM_CONFIGURATION)) %>
+  <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context: form_editor_context)) %>
   <%= render(
         WorkPackageTypes::FormConfigurationComponent.new(
           context: form_editor_context,

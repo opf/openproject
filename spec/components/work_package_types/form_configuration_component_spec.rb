@@ -65,10 +65,22 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   end
 
   context "when independent" do
+    it "renders read-only all the same, since the form is edited on its own page", :aggregate_failures do
+      render_component
+
+      expect(page).to have_no_css(".type-form-configuration-page--sidebar")
+      expect(page).to have_no_test_selector("type-form-configuration-add-button")
+    end
+  end
+
+  context "on the form's own page" do
+    let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.new(form: variant.form_configuration) }
+
     it "renders the editable page with the inactive sidebar", :aggregate_failures do
       render_component
 
       expect(page).to have_css(".type-form-configuration-page--sidebar")
+      expect(page).to have_test_selector("type-form-configuration-add-button")
     end
   end
 end
