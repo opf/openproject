@@ -85,4 +85,44 @@ RSpec.describe OpenProject::Plugins::ActsAsOpEngine do
       expect(property_names(Class.new(parent_representer))).to include("original", "added")
     end
   end
+
+  describe "#include_module" do
+    let(:including_classes) { [] }
+    let(:mixin) do
+      tracked = including_classes
+
+      Module.new do
+        define_singleton_method(:included) { |base| tracked << base }
+      end
+    end
+    let(:target_class) { Class.new }
+    let(:other_target_class) { Class.new }
+
+    before do
+      stub_const("ActsAsOpEngineTest::Mixin", mixin)
+      stub_const("ActsAsOpEngineTest::Target", target_class)
+      stub_const("ActsAsOpEngineTest::OtherTarget", other_target_class)
+      allow(engine.config).to receive(:to_prepare).and_yield
+    end
+
+    it "includes the module into all given classes" do
+      engine.include_module("ActsAsOpEngineTest::Mixin",
+                            into: %w[ActsAsOpEngineTest::Target ActsAsOpEngineTest::OtherTarget])
+
+      expect(target_class).to include(mixin)
+      expect(other_target_class).to include(mixin)
+    end
+
+    it "accepts a single class name" do
+      engine.include_module("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class).to include(mixin)
+    end
+
+    it "does not include the module again when it is already included" do
+      2.times { engine.include_module("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target") }
+
+      expect(including_classes).to eq([target_class])
+    end
+  end
 end

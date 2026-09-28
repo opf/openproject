@@ -129,6 +129,17 @@ module OpenProject::Plugins
         end
       end
 
+      def include_module(module_name, into:)
+        self.class.config.to_prepare do
+          mod = module_name.constantize
+
+          Array(into).each do |class_name|
+            klass = class_name.constantize
+            klass.include(mod) unless klass.included_modules.include?(mod)
+          end
+        end
+      end
+
       # Define assets provided by the plugin
       def assets(assets)
         self.class.initializer "#{engine_name}.precompile_assets" do |app|
