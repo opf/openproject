@@ -98,7 +98,7 @@ export class QueryFilterComponent implements OnInit {
   }
 
   public get valueType():string|undefined {
-    if (this.filter.currentSchema && this.filter.currentSchema.values) {
+    if (this.filter.currentSchema?.values) {
       return this.filter.currentSchema.values.type;
     }
 

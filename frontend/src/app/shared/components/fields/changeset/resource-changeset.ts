@@ -244,7 +244,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    */
   public isWritable(key:string):boolean {
     const fieldSchema = this.schema.ofProperty(key) as IFieldSchema|null;
-    return !!(fieldSchema && fieldSchema.writable);
+    return !!fieldSchema?.writable;
   }
 
   /**

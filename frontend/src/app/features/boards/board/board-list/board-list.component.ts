@@ -349,7 +349,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public get listName() {
-    return this.query && this.query.name;
+    return this.query?.name;
   }
 
   public showCardStatusButton() {

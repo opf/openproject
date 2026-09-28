@@ -136,7 +136,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public get relationReady() {
-    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+    return this.relatedWorkPackage?.$loaded;
   }
 
   public startDescriptionEdit() {

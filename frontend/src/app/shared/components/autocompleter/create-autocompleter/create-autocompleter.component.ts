@@ -139,7 +139,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public closeSelect() {
-    this.ngSelectComponent && this.ngSelectComponent.close();
+    this.ngSelectComponent?.close();
   }
 
   public changeModel(element:HalResource) {
@@ -172,6 +172,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public focusInputField() {
-    this.ngSelectComponent && this.ngSelectComponent.focus();
+    this.ngSelectComponent?.focus();
   }
 }

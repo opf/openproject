@@ -70,7 +70,7 @@ export class WorkPackageBreadcrumbParentComponent {
   }
 
   public get parent() {
-    return this.workPackage && this.workPackage.parent;
+    return this.workPackage?.parent;
   }
 
   public get active():boolean {

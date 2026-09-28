@@ -59,7 +59,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
     }
 
     const field = this.wpeditForm.fields[this.fieldName];
-    field && field.handleUserActivate(null);
+    field?.handleUserActivate(null);
 
     return false;
   }

@@ -642,7 +642,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   public get currentViewTitle():string {
-    return this.viewOptions[((this.ucCalendar && this.ucCalendar.getApi().view.type) || this.initialCalendarView) as TeamPlannerViewOptionKey].buttonText as string;
+    return this.viewOptions[(this.ucCalendar?.getApi().view.type || this.initialCalendarView) as TeamPlannerViewOptionKey].buttonText as string;
   }
 
   /**

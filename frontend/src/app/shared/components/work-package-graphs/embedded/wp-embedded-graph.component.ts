@@ -241,7 +241,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private setHeight() {
-    if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
+    if (this.chartType === 'horizontalBar' && this.datasets?.[0]) {
       const labels:string[] = [];
       this.datasets.forEach((d) => { d.groups!.forEach((g) => {
         if (!labels.includes(g.value)) {
