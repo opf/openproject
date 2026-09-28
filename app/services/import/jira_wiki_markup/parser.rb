@@ -325,6 +325,8 @@ module Import
           i += 1
         end
 
+        return [N::Paragraph.new(children: parse_inline(lines[start])), start + 1] if flat_items.empty?
+
         [build_list_tree(flat_items, 0, 0, flat_items.length), i]
       end
 
