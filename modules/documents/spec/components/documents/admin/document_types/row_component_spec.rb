@@ -53,7 +53,9 @@ RSpec.describe Documents::Admin::DocumentTypes::RowComponent, type: :component d
   end
 
   it "targets the drag handle for the item controller" do
-    expect(rendered_component).to have_css(".DragHandle[data-sortable-lists--item-target~='handle']")
+    expect(rendered_component).to have_button(accessible_name: "Drag to reorder") do |handle|
+      expect(handle["data-sortable-lists--item-target"]).to eq("handle")
+    end
   end
 
   describe "labels beside the name" do
@@ -61,7 +63,7 @@ RSpec.describe Documents::Admin::DocumentTypes::RowComponent, type: :component d
       let!(:document_type) { create(:document_type, name: "Note", is_default: true) }
 
       it "labels it as the default" do
-        expect(rendered_component).to have_test_selector("label-is-default", text: I18n.t(:label_default))
+        expect(rendered_component).to have_primer_label("Default", scheme: :primary, count: 1)
       end
     end
 
@@ -69,51 +71,47 @@ RSpec.describe Documents::Admin::DocumentTypes::RowComponent, type: :component d
       let!(:document_type) { create(:document_type, name: "Note", active: false) }
 
       it "labels it as inactive" do
-        expect(rendered_component).to have_test_selector("label-inactive", text: I18n.t(:label_inactive))
+        expect(rendered_component).to have_primer_label("Inactive", count: 1)
       end
     end
 
     context "when the document type is active and not the default one" do
-      it "carries neither label", :aggregate_failures do
-        expect(rendered_component).to have_no_test_selector("label-is-default")
-        expect(rendered_component).to have_no_test_selector("label-inactive")
+      it "carries no label" do
+        expect(rendered_component).to have_no_primer_label
       end
     end
   end
 
   describe "the action menu" do
     it "keeps the actions out of print, like the drag handle", :aggregate_failures do
-      expect(rendered_component).to have_css("action-menu.hide-when-print", visible: :all)
-      expect(rendered_component).to have_css(".DragHandle.hide-when-print", visible: :all)
+      expect(rendered_component).to have_css("action-menu.hide-when-print")
+      expect(rendered_component).to have_css(".DragHandle.hide-when-print")
     end
 
     it "sits behind a labelled actions button" do
-      expect(rendered_component).to have_button(accessible_name: I18n.t("documents.document_type_actions"))
+      expect(rendered_component).to have_button(accessible_name: "Document type actions")
     end
 
     # The four directions themselves are covered by the SortableLists::MoveMenu spec.
-    it "renders the Move submenu carrying the moveMenu target with the shared move items" do
-      expect(rendered_component).to have_css("li[data-sortable-lists--item-target~='moveMenu']", visible: :all) do |item|
-        expect(item).to have_css("[role='menuitem']", text: I18n.t(:button_move), visible: :all) do |trigger|
-          expect(rendered_component)
-            .to have_css("##{trigger['aria-controls']} li[data-sortable-lists--item-target~='moveItem']", count: 4, visible: :all)
+    it "offers the shared Move submenu with its four directions" do
+      expect(rendered_component).to have_selector(:menuitem, "Move", exact: true, count: 1) do |move_item|
+        expect(rendered_component).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
+          expect(submenu).to have_selector(:menuitem, count: 4)
         end
       end
     end
 
     it "renders exactly one divider, so hiding the move submenu leaves a single separator" do
-      expect(rendered_component).to have_css("li.ActionList-sectionDivider", count: 1, visible: :all)
+      expect(rendered_component).to have_css("li.ActionList-sectionDivider", count: 1)
     end
 
     it "keeps Edit and the async-dialog Delete in the menu, without a legacy move form", :aggregate_failures do
-      expect(rendered_component)
-        .to have_link(I18n.t(:button_edit),
-                      href: "/admin/settings/document_types/#{document_type.id}/edit",
-                      visible: :all)
-      expect(rendered_component)
-        .to have_link(I18n.t(:button_delete),
-                      href: "/admin/settings/document_types/#{document_type.id}/delete_dialog",
-                      visible: :all)
+      expect(rendered_component).to have_selector(:menuitem, "Edit", exact: true) do |item|
+        expect(item[:href]).to eq("/admin/settings/document_types/#{document_type.id}/edit")
+      end
+      expect(rendered_component).to have_selector(:menuitem, "Delete", exact: true) do |item|
+        expect(item[:href]).to eq("/admin/settings/document_types/#{document_type.id}/delete_dialog")
+      end
       expect(rendered_component).to have_no_field("move_to", type: :hidden)
       expect(rendered_component).to have_no_field("position", type: :hidden)
     end
