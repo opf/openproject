@@ -220,7 +220,8 @@ Once you save your changes or create a GitLab issue, it will become visible unde
 ![New GitLab issues shown in OpenProject work packages](openproject-system-guide-gitlab-integration-new-issues.png)
 
 ### Link branches
-
+> [!IMPORTANT]
+> This feature is available on our Dev branch. 
 A GitLab branch is linked to a work package when the branch is pushed to GitLab and its name contains the work package ID. The branch name you copy from the **Git quick snippets** dialog already has the right format.
 
 OpenProject recognizes the work package ID in the following cases:
