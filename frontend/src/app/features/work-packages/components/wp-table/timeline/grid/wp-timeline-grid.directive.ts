@@ -49,6 +49,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   wpTimeline = inject(WorkPackageTimelineTableController);

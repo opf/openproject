@@ -83,6 +83,7 @@ function newSegment(vp:TimelineViewParameters,
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
   readonly injector = inject(Injector);
   elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

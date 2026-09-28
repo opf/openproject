@@ -95,6 +95,7 @@ import { IDay } from 'core-app/core/state/days/day.model';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
   readonly injector = inject(Injector);
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

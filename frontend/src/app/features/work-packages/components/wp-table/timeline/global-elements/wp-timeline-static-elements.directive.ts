@@ -46,6 +46,7 @@ import { TodayLineElement } from './wp-timeline.today-line';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineStaticElements implements OnInit {
   states = inject(States);
   workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
