@@ -40,9 +40,7 @@ module LlmConnections
 
       private
 
-      def report
-        connection.latest_health_report
-      end
+      def report = @report ||= connection.latest_health_report
 
       def summary_header
         tally = report.tally
