@@ -134,7 +134,7 @@ describe('HalResource', () => {
       });
 
       it('should not be loaded', () => {
-        expect(resource.someResource.$loaded).toBeFalsy();
+        expect((resource.someResource as HalResource).$loaded).toBeFalsy();
       });
     });
   });
@@ -421,7 +421,7 @@ describe('HalResource', () => {
     });
 
     it('should have a property, that is a loaded resource', () => {
-      expect(resource.resource.$loaded).toBeTruthy();
+      expect((resource.resource as HalResource).$loaded).toBeTruthy();
     });
 
     it('should have an embedded resource, that is loaded', () => {
@@ -444,7 +444,7 @@ describe('HalResource', () => {
       });
 
       it('should set the property to that resource', () => {
-        expect(resource.resource.href).toEqual(link.href);
+        expect((resource.resource as HalResource).href).toEqual(link.href);
       });
     });
 
@@ -484,7 +484,7 @@ describe('HalResource', () => {
   describe('when creating a resource from a source with a linked array property', () => {
     const expectLengthsToBe = (length:any, update = 'update') => {
       it(`should ${update} the values of the resource`, () => {
-        expect(resource.values.length).toEqual(length);
+        expect((resource.values as unknown[]).length).toEqual(length);
       });
 
       it(`should ${update} the source`, () => {
@@ -518,28 +518,28 @@ describe('HalResource', () => {
 
     describe('when adding resources to the array', () => {
       beforeEach(() => {
-        resource.values.push(resource);
+        (resource.values as unknown[]).push(resource);
       });
       expectLengthsToBe(3);
     });
 
     describe('when adding arbitrary values to the array', () => {
       beforeEach(() => {
-        resource.values.push('something');
+        (resource.values as unknown[]).push('something');
       });
       expectLengthsToBe(2, 'not update');
     });
 
     describe('when removing resources from the array', () => {
       beforeEach(() => {
-        resource.values.pop();
+        (resource.values as unknown[]).pop();
       });
       expectLengthsToBe(1);
     });
 
     describe('when each value is transformed', () => {
       beforeEach(() => {
-        resource = resource.values[0];
+        resource = (resource.values as HalResource[])[0];
         source = source._links.values[0];
       });
 
@@ -690,7 +690,7 @@ describe('HalResource', () => {
       });
 
       it('should be a resource, if the link method is "get"', () => {
-        expect(resource.property.$isHal).toBeTruthy();
+        expect((resource.property as HalResource).$isHal).toBeTruthy();
       });
 
       describe('when a property is a resource', () => {
@@ -699,12 +699,12 @@ describe('HalResource', () => {
         });
 
         it('should not be loaded initially', () => {
-          expect(resource.property.$loaded).toBeFalsy();
-          expect(resource.notLinked.$loaded).toBeTruthy();
+          expect((resource.property as HalResource).$loaded).toBeFalsy();
+          expect((resource.notLinked as HalResource).$loaded).toBeTruthy();
         });
 
         it('should be loaded, if the resource is embedded', () => {
-          expect(resource.embedded.$loaded).toBeTruthy();
+          expect((resource.embedded as HalResource).$loaded).toBeTruthy();
         });
 
         it('should update the source when set', () => {
@@ -732,7 +732,7 @@ describe('HalResource', () => {
               return false as any;
             });
 
-            resource = resource.property;
+            resource = resource.property as HalResource;
             promise = resource.$load().then((result:HalResource) => {
               newResult = result;
             });
