@@ -31,29 +31,28 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
-  subject(:contract) { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
   let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Top Other]) }
   let(:root) { custom_field.hierarchy_root }
   let(:top) { root.children.find_by!(label: "Top") }
 
-  it "accepts an item directly under the root" do
-    expect(contract.call(parent: root, label: "Sibling")).to be_success
+  context "with a new label directly under the root" do
+    let(:params) { { parent: root, label: "Sibling", short: "SI" } }
+
+    it { is_expected.to be_success }
+    it("drops the short, which list items do not carry") { expect(result.to_h).not_to have_key(:short) }
   end
 
-  it "drops a short, which list items do not carry" do
-    expect(contract.call(parent: root, label: "Sibling", short: "SI").to_h).not_to have_key(:short)
+  context "with a parent below the root" do
+    let(:params) { { parent: top, label: "Nested" } }
+
+    it("rejects the nesting") { expect(result.errors[:parent]).to include("cannot have sub-items for this custom field.") }
   end
 
-  it "rejects an item under another item" do
-    result = contract.call(parent: top, label: "Nested")
+  context "with a label a sibling already uses" do
+    let(:params) { { parent: root, label: "Top" } }
 
-    expect(result.errors[:parent]).to include("cannot have sub-items for this custom field.")
-  end
-
-  it "rejects a label already used by a sibling" do
-    result = contract.call(parent: root, label: "Top")
-
-    expect(result.errors[:label]).to include("must be unique within the same hierarchy level.")
+    it("rejects the label") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
   end
 end
