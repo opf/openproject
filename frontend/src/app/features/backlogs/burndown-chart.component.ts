@@ -27,7 +27,9 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { Chart, ChartData, ChartDataset, ChartEvent, ChartOptions, LegendElement, LegendItem, TooltipItem } from 'chart.js';
+import {
+  Chart, ChartData, ChartDataset, ChartEvent, ChartOptions, LegendElement, LegendItem, PointStyle, TooltipItem,
+} from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -65,6 +67,25 @@ const MINUTE_IN_MS = 60 * 1000;
 // the order they have to be drawn in instead, so neither list can be taken from them.
 const NON_WORKING_LEGEND_KEY = 'non-working-days';
 const SERIES_ORDER:string[] = ['remaining', 'projection', NON_WORKING_LEGEND_KEY, 'guideline'];
+
+// How each series is stroked, shared by the line on the chart and its swatch in the legend so
+// that the two cannot drift. The swatch shape follows: an area for the one that was measured,
+// a bare line for the two that are only ever a line. Chart.js takes the shape per item but the
+// decision to honour it at all is global, hence usePointStyle on the labels.
+const SWATCH_WIDTH = 24;
+
+interface SeriesStroke {
+  swatch:PointStyle;
+  dash:number[];
+  width:number;
+}
+
+const SERIES_STROKE:Record<string, SeriesStroke> = {
+  remaining: { swatch: 'rect', dash: [], width: 1 },
+  projection: { swatch: 'line', dash: [6, 4], width: 1 },
+  guideline: { swatch: 'line', dash: [], width: 2 },
+  [NON_WORKING_LEGEND_KEY]: { swatch: 'rect', dash: [], width: 0 },
+};
 
 function seriesRank(key:string|undefined):number {
   const rank = SERIES_ORDER.indexOf(key ?? '');
@@ -147,7 +168,11 @@ export class BurndownChartComponent {
       },
       legend: {
         position: 'bottom',
-        labels: { generateLabels: (chart) => this.legendLabels(chart) },
+        labels: {
+          usePointStyle: true,
+          pointStyleWidth: SWATCH_WIDTH,
+          generateLabels: (chart) => this.legendLabels(chart),
+        },
         onClick: (event, item, legend) => this.toggleLegendItem(event, item, legend),
       },
       tooltip: {
@@ -163,11 +188,14 @@ export class BurndownChartComponent {
   // Datasets are drawn from the highest order down, so the filled remaining area has to sit
   // above the lines in order for them to end up drawn over it.
   private datasetFor(series:BurndownSeries):BurndownDataset {
+    const stroke = SERIES_STROKE[series.id];
     const shared = {
       label: series.label,
       data: series.data,
       pointRadius: 0,
       pointHitRadius: 8,
+      borderDash: stroke.dash,
+      borderWidth: stroke.width,
     };
 
     switch (series.id) {
@@ -179,15 +207,12 @@ export class BurndownChartComponent {
           fill: true,
           borderColor: remainingColor(),
           backgroundColor: cssVariable('--display-red-scale-2', '#fda5a7'),
-          borderWidth: 1,
         };
       case 'projection':
         return {
           ...shared,
           order: 2,
           borderColor: remainingColor(),
-          borderDash: [6, 4],
-          borderWidth: 1,
         };
       default:
         return {
@@ -195,7 +220,6 @@ export class BurndownChartComponent {
           order: 1,
           pointHoverRadius: 0,
           borderColor: cssVariable('--fgColor-muted', '#59636e'),
-          borderWidth: 2,
         };
     }
   }
@@ -238,7 +262,8 @@ export class BurndownChartComponent {
   }
 
   private legendLabels(chart:Chart):LegendItem[] {
-    const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+    const labels:LegendItem[] = Chart.defaults.plugins.legend.labels.generateLabels(chart)
+      .map((label) => ({ ...label, ...BurndownChartComponent.swatchStyle(this.seriesId(label.datasetIndex)) }));
 
     if (this.parsed().nonWorkingIntervals.length > 0) {
       labels.push(this.nonWorkingLegendItem(chart));
@@ -247,14 +272,27 @@ export class BurndownChartComponent {
     return labels.sort((a, b) => this.legendRank(a) - this.legendRank(b));
   }
 
+  // Asked for point styles, chart.js takes the swatch's stroke from the point at index 0 rather
+  // than from the line, and a point carries neither a dash nor the line's weight. Both are
+  // stated here from the same descriptor the line itself is drawn with.
+  private static swatchStyle(key:string|undefined):Partial<LegendItem> {
+    const stroke = SERIES_STROKE[key ?? ''] ?? SERIES_STROKE.remaining;
+
+    return { pointStyle: stroke.swatch, lineDash: stroke.dash, lineWidth: stroke.width };
+  }
+
+  private seriesId(datasetIndex:number|undefined):string|undefined {
+    return datasetIndex === undefined ? undefined : this.parsed().series[datasetIndex]?.id;
+  }
+
   private nonWorkingLegendItem(chart:Chart):LegendItem {
     const bandColor = cssVariable('--borderColor-muted', '#d0d7de');
 
     return {
       text: this.i18n.t('js.burndown.non_working_day'),
+      ...BurndownChartComponent.swatchStyle(NON_WORKING_LEGEND_KEY),
       fillStyle: bandColor,
       strokeStyle: bandColor,
-      lineWidth: 0,
       hidden: this.nonWorkingOptions(chart).hidden ?? false,
     };
   }
