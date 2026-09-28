@@ -283,7 +283,7 @@ export class WorkPackageBaseResource extends HalResource {
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {
-      this.apiV3Service.work_packages.id(newValue.parent).refresh();
+      void this.apiV3Service.work_packages.id(newValue.parent as WorkPackageResource).refresh();
     }
 
     return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as unknown as WorkPackageResource);

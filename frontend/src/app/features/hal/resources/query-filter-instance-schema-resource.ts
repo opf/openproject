@@ -67,18 +67,19 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     return this.filter.allowedValues[0];
   }
 
-  public $initialize(source:any) {
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
-    if (source._dependencies) {
-      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer, 'SchemaDependency');
+    const { _dependencies } = source as { _dependencies?:unknown[] };
+    if (_dependencies) {
+      this.dependency = new SchemaDependencyResource(this.injector, _dependencies[0], true, this.halInitializer, 'SchemaDependency');
     }
   }
 
   public getFilter():QueryFilterInstanceResource {
     const operator = (this.operator.allowedValues as HalResource[])[0];
     const filter = (this.filter.allowedValues as HalResource[])[0];
-    const source:any = {
+    const source:{ name:string, values?:unknown[], _links:Record<string, unknown> } = {
       name: filter.name,
       _links: {
         filter: filter.$source._links.self,

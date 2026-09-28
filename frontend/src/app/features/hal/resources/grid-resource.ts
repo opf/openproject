@@ -29,6 +29,7 @@
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import idFromLink from '../helpers/id-from-link';
 
@@ -48,6 +49,8 @@ export class GridBaseResource extends HalResource {
 
   public columnCount:number;
 
+  public attachments:AttachmentCollectionResource;
+
   public $links:GridResourceLinks & HalResourceLinks;
 
   public get projectId():string|undefined {
@@ -58,7 +61,7 @@ export class GridBaseResource extends HalResource {
     return undefined;
   }
 
-  public $initialize(source:any) {
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
     this.widgets = this

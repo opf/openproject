@@ -45,7 +45,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
      * adding attachments is allowed.
      */
     public get canAddAttachments():boolean {
-      return !!((this as HalResource).$links as unknown&{ addAttachment?:HalLink }).addAttachment || isNewResource(this);
+      return !!(this as HalResource).$links.addAttachment || isNewResource(this);
     }
 
     /**

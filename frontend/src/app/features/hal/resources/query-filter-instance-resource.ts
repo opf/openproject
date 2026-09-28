@@ -49,7 +49,7 @@ export class QueryFilterInstanceResource extends HalResource {
 
   @LazyInject(PathHelperService) pathHelper:PathHelperService;
 
-  public $initialize(source:any) {
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
     this.$links.schema = {
@@ -81,9 +81,9 @@ export class QueryFilterInstanceResource extends HalResource {
 
     if (this.memoizedCurrentSchemas[key] === undefined) {
       try {
-        this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
+        this.memoizedCurrentSchemas[key] = (this.schemaCache.of(this) as unknown as QueryFilterInstanceSchemaResource).resultingSchema(this.operator);
       } catch (e) {
-        console.error(`Failed to access filter schema${e}`);
+        console.error(`Failed to access filter schema${String(e)}`);
       }
     }
 
@@ -100,7 +100,7 @@ export class QueryFilterInstanceResource extends HalResource {
 
   public isTemplated() {
     let flag = false;
-    (this.values as any[]).find((value:any) => {
+    (this.values as { href:string, toString():string }[]).find((value) => {
       const href:string = value?.href || value.toString() || '';
       flag = href.includes('{id}');
     });
