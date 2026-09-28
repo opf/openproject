@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.shared_examples_for "a hierarchy item insert contract" do
+  let(:label_taken) { "must be unique within the same hierarchy level." }
+
   context "with valid params" do
     let(:params) { valid_params }
 
@@ -62,14 +64,18 @@ RSpec.shared_examples_for "a hierarchy item insert contract" do
 
     before { create(:hierarchy_item, parent: valid_params[:parent], label: "Duplicate Label") }
 
-    it("rejects it") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
+    it("rejects it") { expect(result.errors[:label]).to include(label_taken) }
 
     context "in another locale" do
       let(:mordor) { "agh burzum-ishi krimpatul" }
 
       before do
+        namespace = described_class.config.messages.namespace
+        translation = { rules: { label: { not_unique: mordor } } }
+        translation = { namespace => translation } if namespace
+
         I18n.config.enforce_available_locales = false
-        I18n.backend.store_translations(:mo, { op_dry_validation: { errors: { rules: { label: { not_unique: mordor } } } } })
+        I18n.backend.store_translations(:mo, { op_dry_validation: { errors: translation } })
       end
 
       after { I18n.config.enforce_available_locales = true }
@@ -80,6 +86,8 @@ RSpec.shared_examples_for "a hierarchy item insert contract" do
 end
 
 RSpec.shared_examples_for "a hierarchy item update contract" do |sibling_label:|
+  let(:label_taken) { "must be unique within the same hierarchy level." }
+
   context "with valid params" do
     let(:params) { valid_params }
 
@@ -115,7 +123,7 @@ RSpec.shared_examples_for "a hierarchy item update contract" do |sibling_label:|
   context "with a label a sibling already uses" do
     let(:params) { valid_params.merge(label: sibling_label) }
 
-    it("rejects it") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
+    it("rejects it") { expect(result.errors[:label]).to include(label_taken) }
   end
 end
 

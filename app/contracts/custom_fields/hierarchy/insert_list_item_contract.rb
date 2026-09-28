@@ -31,6 +31,8 @@
 module CustomFields
   module Hierarchy
     class InsertListItemContract < DryApplicationContract
+      config.messages.namespace = :list_item
+
       params do
         required(:parent).filled(type?: CustomField::Hierarchy::Item)
         required(:label).filled(:string)

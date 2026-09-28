@@ -34,9 +34,24 @@ RSpec.describe Admin::CustomFields::Hierarchy::DeleteItemDialogComponent, type: 
   let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
   let(:item) { custom_field.hierarchy_root.children.first }
 
-  subject(:form_action) { render_inline(described_class.new(custom_field:, hierarchy_item: item)).at_css("form")["action"] }
+  subject(:rendered_dialog) { render_inline(described_class.new(custom_field:, hierarchy_item: item)) }
 
   for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
-    it("submits the deletion into its own admin area") { is_expected.to eq("#{items_path}/#{item.id}") }
+    it "submits the deletion into its own admin area" do
+      expect(rendered_dialog.at_css("form")["action"]).to eq("#{items_path}/#{item.id}")
+    end
+  end
+
+  context "for a list field" do
+    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
+
+    it("does not warn about sub-items it cannot have") { is_expected.to have_no_text("sub-items") }
+  end
+
+  context "for a hierarchy field", with_ee: [:custom_field_hierarchies] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field) }
+    let(:item) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+
+    it("warns that sub-items go too") { is_expected.to have_text("remove the item and all its sub-items") }
   end
 end

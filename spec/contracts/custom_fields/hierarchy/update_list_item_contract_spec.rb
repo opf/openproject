@@ -38,7 +38,9 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
   let(:top) { custom_field.hierarchy_root.children.find_by!(label: "Top") }
   let(:valid_params) { { item: top, label: "Renamed" } }
 
-  it_behaves_like "a hierarchy item update contract", sibling_label: "Other"
+  it_behaves_like "a hierarchy item update contract", sibling_label: "Other" do
+    let(:label_taken) { "has already been taken." }
+  end
 
   context "with a short" do
     let(:params) { valid_params.merge(short: "RE") }
