@@ -37,6 +37,8 @@ The Jira Migrator is currently in beta and supports the following data:
 - Issue descriptions, history, comments, and attachments
 - A subset of custom fields (see [Custom fields migration](./custom-fields/))
 - Involved users and groups
+- Statuses
+- Types
 
 See [the field mapping reference](./field-mapping/) for details.
 
