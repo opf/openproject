@@ -26,7 +26,7 @@
 //++
 
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { FormResource, FormSchemaResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResourceEmbedded } from 'core-app/features/hal/resources/hal-resource';
 import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
@@ -43,7 +43,7 @@ export interface QueryFormResourceEmbedded extends HalResourceEmbedded {
 export class QueryFormResource extends FormResource {
   public $embedded:QueryFormResourceEmbedded;
 
-  public schema:SchemaResource;
+  public schema:FormSchemaResource;
 
   public get filtersSchemas():QueryFilterInstanceSchemaResource[] {
     return this.$embedded.filtersSchemas.elements;
