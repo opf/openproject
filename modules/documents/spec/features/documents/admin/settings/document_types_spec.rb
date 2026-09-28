@@ -146,7 +146,7 @@ RSpec.describe "Document types admin", :js do
       expect(document.reload.type).to eq another_type
 
       list_page.within_row(another_type) do
-        expect(page).to have_css("[role='cell'][aria-colindex='2']", exact_text: "1", normalize_ws: true)
+        expect(page).to have_test_selector("documents-count", exact_text: "1")
       end
 
       # It allows deleting unused document types

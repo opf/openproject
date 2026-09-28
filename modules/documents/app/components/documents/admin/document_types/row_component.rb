@@ -59,7 +59,7 @@ module Documents
         end
 
         def documents_count
-          render(Primer::Beta::Text.new(color: :subtle)) do
+          render(Primer::Beta::Text.new(color: :subtle, test_selector: "documents-count")) do
             document_type.documents_count.to_s
           end
         end

@@ -48,7 +48,8 @@ RSpec.describe Documents::Admin::DocumentTypes::RowComponent, type: :component d
   it "shows how many documents use the type in the Documents column" do
     create_list(:document, 2, type: document_type)
 
-    expect(rendered_component).to have_css("[role='cell'][aria-colindex='2']", exact_text: "2", normalize_ws: true)
+    expect(rendered_component)
+      .to have_css(".op-border-box-grid__row-item.documents_count", exact_text: "2", normalize_ws: true)
   end
 
   it "targets the drag handle for the item controller" do
