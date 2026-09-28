@@ -51,6 +51,8 @@ module Documents
           ]
         end
 
+        def blank_icon = :alert
+
         def blank_title = I18n.t(:no_results_title_text)
 
         def blank_description = nil
@@ -61,7 +63,6 @@ module Documents
             sortable_lists__list_type_value: DocumentType.model_name.param_key,
             sortable_lists__list_accepted_type_value: DocumentType.model_name.param_key,
             sortable_lists__list_name_value: DocumentType.model_name.human(count: :other),
-            # The rows sit in a div, not in the `ul` the list controller looks for by default.
             sortable_lists__list_rows_container_element: ":scope > .#{rows_container_class}"
           }
         end
