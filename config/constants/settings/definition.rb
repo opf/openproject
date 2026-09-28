@@ -1513,13 +1513,14 @@ module Settings
                   :format,
                   :env_alias,
                   :string_values,
-                  :persist_on_first_read
+                  :persist_on_first_read,
+                  :secret
 
     attr_writer :value,
                 :description,
                 :allowed
 
-    def initialize(name, # rubocop:disable Metrics/AbcSize
+    def initialize(name, # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
                    default:,
                    default_by_env: {},
                    description: nil,
@@ -1528,7 +1529,8 @@ module Settings
                    allowed: nil,
                    env_alias: nil,
                    string_values: false,
-                   persist_on_first_read: false)
+                   persist_on_first_read: false,
+                   secret: false)
       self.name = name.to_s
       self.value = derive_default default_by_env.fetch(Rails.env.to_sym, default)
       self.format = format ? format.to_sym : deduce_format(value)
@@ -1538,6 +1540,7 @@ module Settings
       self.description = description.presence || :"setting_#{name}"
       self.string_values = string_values
       self.persist_on_first_read = persist_on_first_read
+      self.secret = secret
 
       if persist_on_first_read && !writable
         raise ArgumentError, "Settings using persist_on_first_read need to be writable"
@@ -1545,6 +1548,10 @@ module Settings
 
       if persist_on_first_read && default.nil?
         raise ArgumentError, "Settings using persist_on_first_read need to have a default value"
+      end
+
+      if secret && self.format != :string
+        raise ArgumentError, "Only string settings can be secret"
       end
     end
 
@@ -1598,6 +1605,10 @@ module Settings
 
     def persist_on_first_read?
       persist_on_first_read
+    end
+
+    def secret?
+      secret
     end
 
     def unprefixed_env_var_name_allowed?
