@@ -88,7 +88,7 @@ module WorkPackageTypes
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationGroups::DeleteService
-        .new(user: current_user, variant: @variant, group_key: group_key_param)
+        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
         .call
 
       if call.success?
@@ -102,7 +102,7 @@ module WorkPackageTypes
 
     def drop
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, variant: @variant, group_key: group_key_param)
+        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
         .call(position: params[:position])
 
       if call.success?
@@ -116,7 +116,7 @@ module WorkPackageTypes
 
     def move
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, variant: @variant, group_key: group_key_param)
+        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
         .call(move_to: params[:move_to])
 
       if call.success?
@@ -130,7 +130,7 @@ module WorkPackageTypes
 
     def update_query
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, variant: @variant, group_key: group_key_param)
+        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
         .call(query_props: params[:query])
 
       if call.success?
@@ -182,7 +182,7 @@ module WorkPackageTypes
 
     def create_group_call
       ::WorkPackageTypes::FormConfigurationGroups::CreateService
-        .new(user: current_user, variant: @variant)
+        .new(user: current_user, form: @variant.form_configuration)
         .call(
           group_type: group_params[:group_type],
           name: group_params[:name],
@@ -192,7 +192,7 @@ module WorkPackageTypes
 
     def rename_group_call
       ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, variant: @variant, group_key: group_key_param)
+        .new(user: current_user, form: @variant.form_configuration, group_key: group_key_param)
         .call(name: group_params[:name])
     end
 
