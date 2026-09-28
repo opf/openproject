@@ -32,7 +32,7 @@ import { InputState } from '@openproject/reactivestates';
 
 export class SchemaResource extends HalResource {
   public get state():InputState<this> {
-    return this.states.schemas.get(this.href!) as any;
+    return this.states.schemas.get(this.href!) as unknown as InputState<this>;
   }
 
   public get availableAttributes():string[] {

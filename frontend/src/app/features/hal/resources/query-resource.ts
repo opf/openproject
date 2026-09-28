@@ -28,6 +28,7 @@
 
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { HalResource, HalResourceEmbedded } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -55,7 +56,14 @@ export interface TimelineLabels {
   farRight:string|null;
 }
 
-export class QueryResource extends HalResource {
+export interface QueryResourceLinks {
+  updateImmediately?:CallableHalLink<QueryResource>;
+  icalUrl:CallableHalLink<{ icalUrl:{ href:string } }>;
+  star?:CallableHalLink<QueryResource>;
+  unstar?:CallableHalLink<QueryResource>;
+}
+
+export class QueryResource extends HalResource implements QueryResourceLinks {
   public $embedded:QueryResourceEmbedded;
 
   public results:WorkPackageCollectionResource;
@@ -106,7 +114,17 @@ export class QueryResource extends HalResource {
 
   public ordered_work_packages:QueryOrder;
 
-  public $initialize(source:any) {
+  public updatedAt:string;
+
+  public updateImmediately?:CallableHalLink<QueryResource>;
+
+  public icalUrl:CallableHalLink<{ icalUrl:{ href:string } }>;
+
+  public star?:CallableHalLink<QueryResource>;
+
+  public unstar?:CallableHalLink<QueryResource>;
+
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
     this.filters = this
@@ -120,10 +138,3 @@ export class QueryResource extends HalResource {
       ));
   }
 }
-
-export interface QueryResourceLinks {
-  updateImmediately?(attributes:any):Promise<any>;
-  icalUrl(payload:unknown):Promise<{ icalUrl:{ href:string } }>;
-}
-
-export interface QueryResource extends QueryResourceLinks {}

@@ -211,7 +211,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const configureFormLink = this.workPackage.configureForm;
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
@@ -243,7 +242,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     if (configureFormLink) {
       this.items.push(
         {
-          href: configureFormLink.href,
+          href: configureFormLink.href as string|undefined,
           icon: 'icon-settings3',
           linkText: I18n.t('js.button_configure-form'),
           onClick: () => false,

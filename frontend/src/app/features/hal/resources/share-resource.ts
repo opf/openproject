@@ -37,7 +37,12 @@ export interface ShareResourceEmbedded {
   entity:HalResource;
 }
 
-export class ShareResource extends HalResource {
-}
+export class ShareResource extends HalResource implements ShareResourceEmbedded {
+  public principal:HalResource;
 
-export interface ShareResource extends ShareResourceEmbedded {}
+  public roles:RoleResource[];
+
+  public project:ProjectResource;
+
+  public entity:HalResource;
+}

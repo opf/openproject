@@ -153,7 +153,11 @@ export class WorkPackageBaseResource extends HalResource {
 
   public hasProjectAttributes:boolean;
 
-  public description:any;
+  public description:api.v3.Formattable;
+
+  public configureForm?:HalResource;
+
+  public bcfViewpoints?:HalResource[];
 
   public activities:CollectionResource;
 

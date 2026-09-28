@@ -37,7 +37,7 @@ export interface RelationResourceLinks {
   updateImmediately:CallableHalLink<RelationResource>;
 }
 
-export class RelationResource extends HalResource {
+export class RelationResource extends HalResource implements RelationResourceLinks {
   static RELATION_TYPES(includeParentChild = true):string[] {
     const types = [
       'relates',
@@ -73,12 +73,16 @@ export class RelationResource extends HalResource {
   // Properties
   public description:string|null;
 
-  public type:any;
+  public type:string;
 
   public reverseType:string;
 
   // Links
   public $links:RelationResourceLinks & HalResourceLinks;
+
+  public delete:CallableHalLink;
+
+  public updateImmediately:CallableHalLink<RelationResource>;
 
   public to:WorkPackageResource;
 
@@ -128,12 +132,10 @@ export class RelationResource extends HalResource {
     return this.$links.updateImmediately({ description });
   }
 
-  public updateType(type:any) {
+  public updateType(type:string) {
     return this.$links.updateImmediately({ type });
   }
 }
-
-export interface RelationResource extends RelationResourceLinks {}
 
 export interface DenormalizedRelationData {
   target:WorkPackageResource;

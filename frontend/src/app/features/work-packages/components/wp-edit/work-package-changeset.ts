@@ -78,7 +78,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     // Special handling for taking over the description and
     // the subject to the pristine resource.
     if (key === 'description' && isNewResource(this.pristineResource)) {
-      this.pristineResource.description = val;
+      this.pristineResource.description = val as api.v3.Formattable;
       return;
     }
 

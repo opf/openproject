@@ -41,12 +41,19 @@ export interface FormResourceLinks<T = HalResource> {
 export interface FormResourceEmbedded {
   schema:FormSchemaResource;
   validationErrors:Record<string, ErrorResource>;
+  payload:HalResource;
 }
 
-export class FormResource<T = HalResource> extends HalResource {
+export class FormResource<T = HalResource> extends HalResource implements FormResourceEmbedded, FormResourceLinks<T> {
   public schema:FormSchemaResource;
 
   public validationErrors:Record<string, ErrorResource>;
+
+  public payload:HalResource;
+
+  public commit:CallableHalLink<T>;
+
+  public configureForm?:HalResource;
 
   public getErrors():ErrorResource|null {
     const errors = Object.values(this.validationErrors ?? {});
@@ -68,5 +75,3 @@ export class FormResource<T = HalResource> extends HalResource {
     return resource;
   }
 }
-
-export interface FormResource extends FormResourceEmbedded, FormResourceLinks {}

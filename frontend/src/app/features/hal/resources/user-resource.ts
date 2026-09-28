@@ -57,7 +57,7 @@ export class UserResource extends HalResource {
   }
 
   public get state():InputState<this> {
-    return this.states.users.get(this.href!) as any;
+    return this.states.users.get(this.href!) as unknown as InputState<this>;
   }
 
   public get showUserPath() {
