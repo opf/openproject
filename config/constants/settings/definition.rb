@@ -1389,7 +1389,9 @@ module Settings
         description: "Internal system API key for setting up managed repositories",
         default: nil,
         format: :string,
-        secret: true
+        # Admins have to read the key from the UI to configure it as OpenProjectApiKey
+        # in the Apache repository integration, so it must not be masked.
+        secret: false
       },
       time_format: {
         format: :string,
