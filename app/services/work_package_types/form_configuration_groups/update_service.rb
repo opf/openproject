@@ -33,8 +33,8 @@ module WorkPackageTypes
     class UpdateService < ::BaseServices::BaseCallable
       include ::WorkPackageTypes::FormConfiguration::Concern
 
-      def initialize(user:, variant:, group_key:)
-        super(user:, variant:)
+      def initialize(user:, form:, group_key:)
+        super(user:, form:)
         @group_key = group_key
       end
 
@@ -121,7 +121,7 @@ module WorkPackageTypes
 
       def blank_name_error
         failure_with_message(
-          I18n.t("activerecord.errors.models.type_variant.attributes.attribute_groups.group_without_name")
+          I18n.t("activerecord.errors.models.form_configuration.attributes.attribute_groups.group_without_name")
         )
       end
     end

@@ -48,7 +48,7 @@ module WorkPackageTypes
 
     def update
       result = WorkPackageTypes::UpdateService
-        .new(user: current_user, model: @variant, contract_class: UpdateFormConfigurationContract)
+        .new(user: current_user, model: @variant.form_configuration, contract_class: UpdateFormConfigurationContract)
         .call(permitted_type_params)
 
       if result.success?
@@ -60,7 +60,7 @@ module WorkPackageTypes
 
     def move
       call = ::WorkPackageTypes::FormConfigurationRows::UpdateService
-        .new(user: current_user, variant: @variant, row_key: row_key_param)
+        .new(user: current_user, form: @variant.form_configuration, row_key: row_key_param)
         .call(move_to: params[:move_to])
 
       handle_row_update_response(call)
@@ -68,7 +68,7 @@ module WorkPackageTypes
 
     def drop
       call = ::WorkPackageTypes::FormConfigurationRows::UpdateService
-        .new(user: current_user, variant: @variant, row_key: row_key_param)
+        .new(user: current_user, form: @variant.form_configuration, row_key: row_key_param)
         .call(target_id: params[:target_id], position: params[:position])
 
       handle_row_update_response(call)
@@ -76,7 +76,7 @@ module WorkPackageTypes
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
-        .new(user: current_user, variant: @variant, row_key: row_key_param)
+        .new(user: current_user, form: @variant.form_configuration, row_key: row_key_param)
         .call
 
       handle_row_update_response(call)

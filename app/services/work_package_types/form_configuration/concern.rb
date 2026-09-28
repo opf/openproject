@@ -33,19 +33,19 @@ module WorkPackageTypes
     module Concern
       extend ActiveSupport::Concern
 
-      def initialize(user:, variant:, **)
+      def initialize(user:, form:, **)
         super()
         @user = user
-        @variant = variant
+        @form = form
       end
 
       private
 
-      attr_reader :variant,
+      attr_reader :form,
                   :user
 
       def active_groups
-        variant.form_attribute_groups.reject { |group| group.key.to_s == "__empty" }
+        form.attribute_groups.reject { |group| group.key.to_s == "__empty" }
       end
 
       def find_group(group_key)
@@ -53,7 +53,7 @@ module WorkPackageTypes
       end
 
       def find_attribute_group(group_key)
-        variant.form_attribute_groups.find do |group|
+        form.attribute_groups.find do |group|
           group.group_type == :attribute && group_identifier_match?(group, group_key)
         end
       end
@@ -87,14 +87,14 @@ module WorkPackageTypes
         assign_groups(groups)
         return contract_failure unless form_configuration_contract.validate
 
-        persist_variant
+        persist_form
       end
 
       def failure_with_message(message)
-        variant.errors.clear
-        variant.errors.add(:base, message)
+        form.errors.clear
+        form.errors.add(:base, message)
 
-        ServiceResult.failure(result: variant, errors: variant.errors)
+        ServiceResult.failure(result: form, errors: form.errors)
       end
 
       def build_query(query_props, name:)
@@ -109,7 +109,7 @@ module WorkPackageTypes
         prune_unavailable_attribute_group_items(groups)
 
         if groups.empty?
-          [::Type::AttributeGroup.new(variant, :__empty, [])]
+          [::Type::AttributeGroup.new(form, :__empty, [])]
         else
           groups
         end
@@ -133,23 +133,23 @@ module WorkPackageTypes
       end
 
       def assign_groups(groups)
-        variant.attribute_groups_will_change!
-        variant.attribute_groups_objects = normalized_groups(groups)
+        form.attribute_groups_will_change!
+        form.attribute_groups_objects = normalized_groups(groups)
       end
 
       def form_configuration_contract
-        @form_configuration_contract ||= ::WorkPackageTypes::UpdateFormConfigurationContract.new(variant, user, options: {})
+        @form_configuration_contract ||= ::WorkPackageTypes::UpdateFormConfigurationContract.new(form, user, options: {})
       end
 
       def contract_failure
-        ServiceResult.failure(result: variant, errors: form_configuration_contract.errors)
+        ServiceResult.failure(result: form, errors: form_configuration_contract.errors)
       end
 
-      def persist_variant
-        if variant.save
-          ServiceResult.success(result: variant)
+      def persist_form
+        if form.save
+          ServiceResult.success(result: form)
         else
-          ServiceResult.failure(result: variant, errors: variant.errors)
+          ServiceResult.failure(result: form, errors: form.errors)
         end
       end
     end

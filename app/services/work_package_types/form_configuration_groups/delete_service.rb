@@ -33,8 +33,8 @@ module WorkPackageTypes
     class DeleteService < ::BaseServices::BaseCallable
       include ::WorkPackageTypes::FormConfiguration::Concern
 
-      def initialize(user:, variant:, group_key:)
-        super(user:, variant:)
+      def initialize(user:, form:, group_key:)
+        super(user:, form:)
         @group_key = group_key
       end
 
