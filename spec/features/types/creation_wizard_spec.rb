@@ -102,6 +102,7 @@ RSpec.describe "Type creation wizard", :js do
     expect_step_saved(:defaults)
 
     expect(page).to have_heading("Form")
+    expect(page).to have_css("[data-test-selector='form_configuration-choice-new']:checked", visible: :all)
     click_on I18n.t(:button_continue)
     expect_step_saved(:form_configuration)
 

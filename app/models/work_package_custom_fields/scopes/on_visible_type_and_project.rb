@@ -40,10 +40,6 @@ module WorkPackageCustomFields::Scopes
       # * on a project the user has access to
       # Both conditions need to be met on the same project.
       #
-      # A project uses a root but may resolve the family to a variant, and a type whose form
-      # configuration is linked resolves further to the type that actually owns that
-      # configuration. Both hops happen here, so work packages surface the fields of whichever
-      # type is ultimately in force.
       #
       # Pass +project:+ to restrict the check to a single known project instead of
       # scanning all projects visible to the user.
@@ -51,8 +47,7 @@ module WorkPackageCustomFields::Scopes
         visible_projects = Project.visible(user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
-        source_join, source_variant_id, excluded =
-          TypeVariant.effective_configuration_join("pt.variant_id", TypeVariant::FORM_CONFIGURATION)
+        form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
         exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
         where(<<~SQL.squish)
@@ -61,9 +56,9 @@ module WorkPackageCustomFields::Scopes
             FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN project_types pt
               ON pt.project_id = vp.id
-            #{source_join}
+            #{form_join}
             JOIN custom_fields_types cft
-              ON cft.type_variant_id = #{source_variant_id}
+              ON cft.form_configuration_id = #{form_configuration_id}
              AND cft.custom_field_id = custom_fields.id
              AND #{exclusion}
             LEFT JOIN custom_fields_projects cfp

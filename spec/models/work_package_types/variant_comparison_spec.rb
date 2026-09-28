@@ -54,7 +54,9 @@ RSpec.describe WorkPackageTypes::VariantComparison do
   def profile_for(variant) = comparison.columns.find { it.id == variant.id }
 
   def inheriting_variant(name)
-    create(:type_variant, type:, variant_name: name, workflow: base.workflow).tap do |variant|
+    create(:type_variant, type:, variant_name: name, workflow: base.workflow,
+                          form_configuration: base.form_configuration,
+                          required_attributes: base.required_attributes).tap do |variant|
       TypeVariant::ASPECTS.each { link_configuration(variant, aspect: it) }
     end
   end

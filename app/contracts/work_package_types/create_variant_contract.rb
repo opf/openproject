@@ -48,6 +48,9 @@ module WorkPackageTypes
     attribute :workflow_id
     attribute :linked_aspects
 
+    attribute :form_configuration_id
+    attribute :required_attributes
+
     validate :validate_type_allows_project_variants
 
     private

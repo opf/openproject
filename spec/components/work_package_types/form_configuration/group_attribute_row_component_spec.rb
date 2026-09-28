@@ -52,8 +52,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
 
     it "is keyed on the attribute and labelled with its translation", :aggregate_failures do
-      render_row(exclusions: WorkPackageTypes::ExclusionState
-                               .new(variant:, own: [], effective: []))
+      render_row(exclusions: WorkPackageTypes::ExclusionState.new(variant:, excluded: []))
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")
       expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")

@@ -44,10 +44,8 @@ module WorkPackageTypes
       attr_reader :variant,
                   :user
 
-      # `variant` is the configuration being edited, so the reads below take its own groups
-      # on purpose — resolving through a link would edit the variant it borrows from.
       def active_groups
-        variant.attribute_groups.reject { |group| group.key.to_s == "__empty" }
+        variant.form_attribute_groups.reject { |group| group.key.to_s == "__empty" }
       end
 
       def find_group(group_key)
@@ -55,7 +53,7 @@ module WorkPackageTypes
       end
 
       def find_attribute_group(group_key)
-        variant.attribute_groups.find do |group|
+        variant.form_attribute_groups.find do |group|
           group.group_type == :attribute && group_identifier_match?(group, group_key)
         end
       end

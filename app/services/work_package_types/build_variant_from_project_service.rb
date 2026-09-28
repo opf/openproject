@@ -70,7 +70,7 @@ module WorkPackageTypes
         result = create_variant(project)
         raise ActiveRecord::Rollback if result.failure?
 
-        exclusion = exclude_elements(result.result, elements)
+        exclusion = exclude_elements(result.result, source.excluded_elements(TypeVariant::FORM_CONFIGURATION) | elements)
         if exclusion.failure?
           result = exclusion
           raise ActiveRecord::Rollback
@@ -83,7 +83,10 @@ module WorkPackageTypes
     def create_variant(project)
       CreateVariantService
         .new(user:, type: source.type, contract_options: { pre_existing_configuration: true })
-        .call(variant_name: variant_name(project), project:)
+        .call(variant_name: variant_name(project),
+              project:,
+              form_configuration_id: source.form_configuration_id,
+              required_attributes: source.required_attributes)
     end
 
     def exclude_elements(variant, elements)
@@ -92,13 +95,10 @@ module WorkPackageTypes
         .call(aspect: TypeVariant::FORM_CONFIGURATION, elements:)
     end
 
-    # The new variant inherits from its type's base, so what it must hide is measured against the
-    # base's custom fields: whatever of them the project has not enabled is exactly what disabling
-    # single fields used to hide.
     def elements_to_exclude(project)
       active_ids = project.all_work_package_custom_fields.pluck(:id)
 
-      source.type.default_variant.custom_fields
+      source.custom_fields
             .reject { active_ids.include?(it.id) }
             .map(&:attribute_name)
     end

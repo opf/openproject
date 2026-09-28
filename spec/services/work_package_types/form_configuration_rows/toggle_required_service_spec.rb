@@ -93,17 +93,14 @@ module WorkPackageTypes
         expect(variant.reload.required_attributes).to eq([])
       end
 
-      it "rejects a variant that borrows its form configuration" do
+      it "marks a field required for a variant that shares its type's form, and for it alone" do
         variant
-        borrower = create(:type_variant, type:)
-        link_configuration(borrower, aspect: TypeVariant::FORM_CONFIGURATION)
+        sharer = create(:type_variant, type:, form_configuration: variant.form_configuration)
 
-        result = described_class.new(user:, variant: borrower, row_key: custom_field.attribute_name).call
+        expect(described_class.new(user:, variant: sharer, row_key: custom_field.attribute_name).call).to be_success
 
-        expect(result).to be_failure
-        expect(result.errors.full_messages)
-          .to include(a_string_including(I18n.t("types.edit.form_configuration.required.not_available_when_linked")))
-        expect(borrower.reload[:required_attributes]).to eq([])
+        expect(sharer.reload.required_attributes).to contain_exactly(custom_field.attribute_name)
+        expect(variant.reload.required_attributes).to eq([])
       end
     end
   end

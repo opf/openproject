@@ -63,11 +63,11 @@ class FormConfiguration < ApplicationRecord
   def destroy_queries_dropped_from_groups
     return unless attribute_groups_changed?
 
-    Query.where(id: group_query_ids(attribute_groups_was) - group_query_ids(attribute_groups)).destroy_all
+    ::Query.where(id: group_query_ids(attribute_groups_was) - group_query_ids(attribute_groups)).destroy_all
   end
 
   def destroy_group_queries
-    Query.where(id: group_query_ids(attribute_groups)).destroy_all
+    ::Query.where(id: group_query_ids(attribute_groups)).destroy_all
   end
 
   def group_query_ids(groups)

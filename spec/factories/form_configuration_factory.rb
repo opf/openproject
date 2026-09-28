@@ -27,34 +27,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component do
-  shared_let(:type) { create(:type, name: "Task") }
-
-  let(:aspect) { TypeVariant::DEFAULTS }
-
-  subject(:component) { described_class.new(variant:, aspect:) }
-
-  context "for a named variant" do
-    let(:variant) { create(:type_variant, type:) }
-
-    before { render_inline(component) }
-
-    it "renders the mode selector" do
-      expect(page).to have_text("Use the same settings as the type")
-      expect(page).to have_text("Configure this page manually")
-    end
-  end
-
-  context "for the base variant" do
-    let(:variant) { type.default_variant }
-
-    it "renders nothing, since a base variant has no mode to choose" do
-      render_inline(component)
-
-      expect(page).to have_no_text("Use the same settings as the type")
-      expect(page).to have_no_text("Configure this page manually")
-    end
+FactoryBot.define do
+  factory :form_configuration do
+    sequence(:name) { |n| "Form No. #{n}" }
   end
 end

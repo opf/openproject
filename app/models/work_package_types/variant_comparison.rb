@@ -38,7 +38,6 @@ module WorkPackageTypes
 
     ASPECT_LABEL_KEYS = {
       TypeVariant::DEFAULTS => "types.edit.defaults.tab",
-      FORM => "types.edit.form_configuration.tab",
       TypeVariant::PROJECT_ATTRIBUTES => "types.edit.project_attributes.tab",
       TypeVariant::PDF_EXPORT => "types.edit.export_configuration.tab"
     }.freeze
@@ -138,7 +137,7 @@ module WorkPackageTypes
 
     def variants
       @variants ||= type.variants
-                        .includes(:type, :project, :custom_fields)
+                        .includes(:type, :project, form_configuration: :custom_fields)
                         .in_display_order
                         .to_a
     end
