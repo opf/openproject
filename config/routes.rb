@@ -351,6 +351,21 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :form_configurations,
+            path: "forms",
+            only: %i[edit update destroy],
+            controller: "form_configurations/form_configurations" do
+    member do
+      get :edit_dialog
+    end
+  end
+
   get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
       constraints: {

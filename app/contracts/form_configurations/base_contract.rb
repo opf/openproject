@@ -28,26 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Who may author an owned configuration record, such as a variant or a workflow. A global one is
-# instance configuration and stays with the administrators; one a project owns may also be
-# authored from inside that project.
-#
-module AuthorizesVariantAuthoring
-  extend ActiveSupport::Concern
+module FormConfigurations
+  class BaseContract < ::ModelContract
+    include AuthorizesVariantAuthoring
 
-  included do
-    validate :validate_may_author_variant
+    attribute :name
+    attribute :description
   end
-
-  def validate_may_author_variant
-    return errors.add(:base, :error_unauthorized) unless user.active?
-    return if user.admin?
-    return if owning_project && user.allowed_in_project?(:manage_project_variants, owning_project)
-
-    errors.add(:base, :error_unauthorized)
-  end
-
-  private
-
-  def owning_project = model.try(:project)
 end
