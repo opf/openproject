@@ -64,8 +64,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       work_package_db_table = WorkPackage.table_name
 
       own_variant_expr = "COALESCE(pt.variant_id, base_tv.id)"
-      source_join, source_variant_id, excluded =
-        TypeVariant.effective_configuration_join(own_variant_expr, TypeVariant::FORM_CONFIGURATION)
+      form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join(own_variant_expr)
       exclusion = TypeVariant.excluded_custom_field_condition(custom_field.id.to_s, excluded)
 
       joins = <<~SQL.squish
@@ -79,9 +78,9 @@ module Queries::WorkPackages::Filter::CustomFieldContext
         LEFT JOIN type_variants base_tv
           ON base_tv.type_id = #{work_package_db_table}.type_id
          AND base_tv.is_default_variant = TRUE
-        #{source_join}
+        #{form_join}
         JOIN #{cf_types_db_table}
-          ON #{cf_types_db_table}.type_variant_id = #{source_variant_id}
+          ON #{cf_types_db_table}.form_configuration_id = #{form_configuration_id}
          AND #{cf_types_db_table}.custom_field_id = #{custom_field.id}
          AND #{exclusion}
       SQL

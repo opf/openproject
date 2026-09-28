@@ -90,6 +90,7 @@ module WorkPackageTypes
 
       def persist(groups, required:)
         Type.transaction do
+          variant.own_form_configuration
           variant.attribute_groups = groups
           variant.required_attributes = required
           sync_active_custom_fields

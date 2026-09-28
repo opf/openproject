@@ -109,12 +109,14 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
     expect(groups_of(base).keys).to include("solo")
   end
 
-  it "reads its own configuration once switched to independent" do
+  it "edits a form of its own once switched to independent, leaving the type's alone" do
+    variant.unlink!(aspect)
     variant.attribute_groups = [["own", %w[assignee]]]
     variant.save!
-    variant.unlink!(aspect)
 
-    expect(groups_of(variant.reload)).to eq("own" => ["assignee"])
+    expect(variant.reload.form_configuration).not_to eq(base.form_configuration)
+    expect(groups_of(variant)).to eq("own" => ["assignee"])
+    expect(groups_of(base.reload).keys).to include("details", "solo")
   end
 
   context "with a query group in the base's configuration" do

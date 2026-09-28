@@ -124,7 +124,7 @@ RSpec.describe "POST /api/v3/queries/form",
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
-        cf.type_variants << project.enabled_variants.first
+        cf.form_configurations << project.enabled_variants.first.form_configuration
 
         cf
       end

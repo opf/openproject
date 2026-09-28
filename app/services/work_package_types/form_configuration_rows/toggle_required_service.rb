@@ -51,9 +51,7 @@ module WorkPackageTypes
       private
 
       def rejection_reason
-        if variant.linked?(TypeVariant::FORM_CONFIGURATION)
-          I18n.t("types.edit.form_configuration.required.not_available_when_linked")
-        elsif custom_field.nil?
+        if custom_field.nil?
           I18n.t("types.edit.form_configuration.required.not_a_custom_field")
         elsif custom_field.is_required?
           I18n.t("types.edit.form_configuration.required.already_required_globally")

@@ -35,10 +35,11 @@ module Type::AttributeGroups
     before_save :write_attribute_groups_objects
     before_save :prune_required_attributes
     after_save :unset_attribute_groups_objects
-    after_destroy :remove_attribute_groups_queries
 
-    serialize :attribute_groups, type: Array
     attr_accessor :attribute_groups_objects
+
+    delegate :attribute_groups_will_change!, :attribute_groups_changed?, :attribute_groups_was,
+             to: :form_configuration, allow_nil: true
 
     # Mapping from AR attribute name to a default group
     # May be extended by plugins
@@ -90,7 +91,9 @@ module Type::AttributeGroups
   ##
   # Read the serialized attribute groups, if customized.
   # Otherwise, return +default_attribute_groups+
-  def attribute_groups
+  def attribute_groups = form_attribute_groups
+
+  def form_attribute_groups
     self.attribute_groups_objects ||= begin
       groups = custom_attribute_groups || default_attribute_groups
 
@@ -149,9 +152,7 @@ module Type::AttributeGroups
                to_attribute_group_array(attribute_groups_objects)
              end
 
-    self[:attribute_groups] = groups
-
-    cleanup_query_groups_queries
+    form_configuration.attribute_groups = groups
   end
 
   ##
@@ -171,7 +172,7 @@ module Type::AttributeGroups
   end
 
   def custom_attribute_groups
-    self[:attribute_groups].presence
+    form_configuration&.attribute_groups.presence
   end
 
   def default_group_key(key)
@@ -244,24 +245,5 @@ module Type::AttributeGroups
 
   def new_query_group(key, query, display_name: nil)
     Type::QueryGroup.new(self, key, query, display_name:)
-  end
-
-  def cleanup_query_groups_queries
-    return unless attribute_groups_changed?
-
-    new_groups = self[:attribute_groups]
-    old_groups = attribute_groups_was
-
-    ids = (old_groups.map { |g| g[1] }.flatten - new_groups.map { |g| g[1] }.flatten)
-          .filter_map { |k| ::Type::QueryGroup.query_attribute_id(k) }
-
-    Query.where(id: ids).destroy_all
-  end
-
-  def remove_attribute_groups_queries
-    attribute_groups
-      .select { |g| g.is_a?(Type::QueryGroup) }
-      .map(&:query)
-      .each(&:destroy)
   end
 end

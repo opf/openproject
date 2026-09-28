@@ -28,43 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class ExcludedElementsController < BaseTabController
-    before_action :require_valid_aspect
-
-    current_menu_item do
-      :types
-    end
-
-    # For clarification: If we toggle the element on, it means we remove the exclusion from the array.
-    def toggle
-      call = toggle_service
-        .new(user: current_user, variant: @variant)
-        .call(aspect:, elements: [element])
-
-      render json: {}, status: call.success? ? :ok : :unprocessable_entity
-    end
-
-    private
-
-    def aspect = params[:aspect]
-
-    def element = params.require(:element)
-
-    def toggle_service
-      if inherit?
-        ExcludedElements::RemoveService
-      else
-        ExcludedElements::AddService
-      end
-    end
-
-    def inherit?
-      ActiveRecord::Type::Boolean.new.cast(params.permit(:value)[:value])
-    end
-
-    def require_valid_aspect
-      render_404 unless TypeVariant::REUSE_MODE_ASPECTS.include?(aspect)
-    end
+FactoryBot.define do
+  factory :form_configuration do
+    sequence(:name) { |n| "Form No. #{n}" }
   end
 end

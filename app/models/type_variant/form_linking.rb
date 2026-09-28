@@ -28,43 +28,49 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class ExcludedElementsController < BaseTabController
-    before_action :require_valid_aspect
+class TypeVariant
+  module FormLinking
+    def linked?(aspect)
+      return super unless form?(aspect)
 
-    current_menu_item do
-      :types
+      !is_default_variant? && form_configuration_id == type.default_variant.form_configuration_id
     end
 
-    # For clarification: If we toggle the element on, it means we remove the exclusion from the array.
-    def toggle
-      call = toggle_service
-        .new(user: current_user, variant: @variant)
-        .call(aspect:, elements: [element])
+    def source_for(aspect)
+      return super unless form?(aspect)
 
-      render json: {}, status: call.success? ? :ok : :unprocessable_entity
+      type.default_variant if linked?(aspect)
+    end
+
+    def dependents_for(aspect)
+      return super unless form?(aspect)
+      return self.class.none unless is_default_variant?
+
+      self.class.where(form_configuration_id:).where.not(id:).preload(:type).in_display_order
+    end
+
+    def link!(aspect)
+      return super unless form?(aspect)
+      return if linked?(aspect)
+
+      update!(form_configuration: type.default_variant.form_configuration)
+    end
+
+    def unlink!(aspect)
+      return super unless form?(aspect)
+
+      own_form_configuration
+      update!(form_configuration_excluded_elements: [])
+    end
+
+    def own_form_configuration
+      return if form_configuration && form_configuration.type_variants.where.not(id:).none?
+
+      self.form_configuration = FormConfiguration.new(name: FormConfiguration.implicit_name(composite_name))
     end
 
     private
 
-    def aspect = params[:aspect]
-
-    def element = params.require(:element)
-
-    def toggle_service
-      if inherit?
-        ExcludedElements::RemoveService
-      else
-        ExcludedElements::AddService
-      end
-    end
-
-    def inherit?
-      ActiveRecord::Type::Boolean.new.cast(params.permit(:value)[:value])
-    end
-
-    def require_valid_aspect
-      render_404 unless TypeVariant::REUSE_MODE_ASPECTS.include?(aspect)
-    end
+    def form?(aspect) = aspect.to_s == TypeVariant::FORM_CONFIGURATION
   end
 end

@@ -62,10 +62,10 @@ module WorkPackageTypes
 
       context "when deactivating fields" do
         before do
-          model.update_column(:attribute_groups, [
-                                [:people, %w[assignee responsible]],
-                                [:details, %w[priority category percentage_done]]
-                              ])
+          model.form_configuration.update_column(:attribute_groups, [
+                                                   [:people, %w[assignee responsible]],
+                                                   [:details, %w[priority category percentage_done]]
+                                                 ])
         end
 
         it "is valid" do
@@ -106,7 +106,7 @@ module WorkPackageTypes
 
       context "when preserving existing custom groups without changes" do
         before do
-          model.update_column(:attribute_groups, [["Existing Custom", %w[assignee responsible]]])
+          model.form_configuration.update_column(:attribute_groups, [["Existing Custom", %w[assignee responsible]]])
         end
 
         it "is valid when not making structural changes" do
@@ -139,7 +139,7 @@ module WorkPackageTypes
 
       context "when renaming an existing custom group" do
         before do
-          model.update_column(:attribute_groups, [["Original Name", %w[assignee responsible]]])
+          model.form_configuration.update_column(:attribute_groups, [["Original Name", %w[assignee responsible]]])
         end
 
         it "is invalid" do
@@ -152,10 +152,10 @@ module WorkPackageTypes
 
       context "when normalizing an unnamed legacy group" do
         before do
-          model.update_column(:attribute_groups, [
-                                ["", ["assignee"]],
-                                [:details, ["priority"]]
-                              ])
+          model.form_configuration.update_column(:attribute_groups, [
+                                                   ["", ["assignee"]],
+                                                   [:details, ["priority"]]
+                                                 ])
         end
 
         it "is valid" do

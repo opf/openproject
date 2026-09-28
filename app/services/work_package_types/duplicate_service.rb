@@ -98,14 +98,8 @@ module WorkPackageTypes
       source_variant = source.default_variant
       copy_variant = copy.default_variant
 
-      CopyConfiguration::SERVICES.each_pair do |aspect, service_class|
-        aspect_result =
-          if (linked_source = source_variant.source_for(aspect))
-            SwitchToLinkedModeService.new(variant: copy_variant, aspect:).call(source: linked_source)
-          else
-            service_class.new(variant: copy_variant, user:).call(source: source_variant)
-          end
-
+      CopyConfiguration::SERVICES.each_value do |service_class|
+        aspect_result = service_class.new(variant: copy_variant, user:).call(source: source_variant)
         return aspect_result if aspect_result.failure?
       end
 

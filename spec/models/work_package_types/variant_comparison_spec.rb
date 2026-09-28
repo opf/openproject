@@ -54,7 +54,9 @@ RSpec.describe WorkPackageTypes::VariantComparison do
   def profile_for(variant) = comparison.columns.find { it.id == variant.id }
 
   def inheriting_variant(name)
-    create(:type_variant, type:, variant_name: name, workflow: base.workflow).tap do |variant|
+    create(:type_variant, type:, variant_name: name, workflow: base.workflow,
+                          form_configuration: base.form_configuration,
+                          required_attributes: base.required_attributes).tap do |variant|
       TypeVariant::ASPECTS.each { link_configuration(variant, aspect: it) }
     end
   end
@@ -73,7 +75,7 @@ RSpec.describe WorkPackageTypes::VariantComparison do
   describe "#sections" do
     it "reports the scope first and covers every aspect under the configuration overview" do
       expect(comparison.sections.map(&:first)).to eq(%i[scope configuration form workflows])
-      expect(comparison.rows_of(:configuration).map(&:key)).to match_array(TypeVariant::ASPECTS)
+      expect(comparison.rows_of(:configuration).map(&:key)).to match_array(TypeVariant::REUSE_MODE_ASPECTS)
     end
   end
 

@@ -32,10 +32,10 @@ class WorkPackageCustomField < CustomField
   has_and_belongs_to_many :projects, # rubocop:disable Rails/HasAndBelongsToMany
                           join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           foreign_key: "custom_field_id"
-  has_and_belongs_to_many :type_variants, # rubocop:disable Rails/HasAndBelongsToMany
+  has_and_belongs_to_many :form_configurations, # rubocop:disable Rails/HasAndBelongsToMany
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          foreign_key: "custom_field_id",
-                          association_foreign_key: "type_variant_id"
+                          foreign_key: "custom_field_id"
+  has_many :type_variants, through: :form_configurations
   has_many :work_packages,
            through: :custom_values,
            source: :customized,

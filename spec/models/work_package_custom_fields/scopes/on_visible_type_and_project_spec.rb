@@ -67,10 +67,10 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     shared_let(:root_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [root_type.default_variant])
+      create(:integer_wp_custom_field, projects: [variant_project], form_configurations: [root_type.default_variant.form_configuration])
     end
     shared_let(:variant_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [variant])
+      create(:integer_wp_custom_field, projects: [variant_project], form_configurations: [variant.form_configuration])
     end
 
     subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }

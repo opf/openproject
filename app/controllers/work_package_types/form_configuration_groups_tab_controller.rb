@@ -148,7 +148,7 @@ module WorkPackageTypes
     end
 
     def find_group(key)
-      @variant.attribute_groups.find do |group|
+      @variant.form_attribute_groups.find do |group|
         [
           group.key,
           group.display_name,

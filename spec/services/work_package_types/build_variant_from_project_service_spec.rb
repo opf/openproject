@@ -226,6 +226,17 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
       expect(source.project).to be_nil
     end
 
+    it "shares the form of a source variant that has one of its own" do
+      own_form = create(:form_configuration, custom_fields: [kept_field, dropped_field])
+      source.update!(form_configuration: own_form)
+
+      variant = service_call.result
+
+      expect(variant).not_to eq(source)
+      expect(variant.form_configuration).to eq(own_form)
+      expect(variant.custom_fields).to contain_exactly(kept_field)
+    end
+
     it "accumulates the source variant's exclusions with the project's" do
       variant = service_call.result
 

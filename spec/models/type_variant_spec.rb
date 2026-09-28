@@ -45,7 +45,8 @@ RSpec.describe TypeVariant do
 
     it "is the only one a type may have" do
       duplicate = bug.variants.new(is_default_variant: true, variant_name: nil,
-                                   workflow: bug.default_variant.workflow)
+                                   workflow: bug.default_variant.workflow,
+                                   form_configuration: bug.default_variant.form_configuration)
 
       expect { duplicate.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
     end
