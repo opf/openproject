@@ -291,8 +291,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     const rendered = new Set(source);
 
-    for (let i = 0; i < events.length; i++) {
-      const item = events[i];
+    for (const item of events) {
       if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }

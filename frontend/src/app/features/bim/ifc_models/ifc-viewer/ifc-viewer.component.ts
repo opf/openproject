@@ -148,8 +148,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
         const toolbarIcons = this.xeokitToolbarIcons.nativeElement;
         const toolbar = this.toolbarElement.nativeElement;
 
-        for (let i = 0; i < toolbarIcons.children.length; i++) {
-          const replacer = toolbarIcons.children[i];
+        for (const replacer of toolbarIcons.children) {
           const target = replacer.id.replace('xeokit-replace-', '');
 
           const targetElement = toolbar.querySelector(`.xeokit-btn.xeokit-${target}`);
