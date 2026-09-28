@@ -54,6 +54,21 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
     SQL
   end
 
+  def insert_custom_value(work_package, cf_id, value)
+    conn.execute(<<~SQL.squish)
+      INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
+      VALUES ('WorkPackage', #{work_package.id}, #{cf_id}, '#{value}')
+    SQL
+  end
+
+  def insert_item(parent_id, label, sort_order)
+    conn.select_value(<<~SQL.squish)
+      INSERT INTO hierarchical_items (parent_id, sort_order, label, children_count, created_at, updated_at)
+      VALUES (#{parent_id}, #{sort_order}, '#{label}', 0, NOW(), NOW())
+      RETURNING id
+    SQL
+  end
+
   def items_of(cf_id)
     conn.select_all(<<~SQL.squish).to_a
       SELECT i.id, i.label, i.sort_order, i.default_value, i.position_cache
@@ -61,6 +76,17 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       JOIN hierarchical_items root ON root.id = i.parent_id
       WHERE root.custom_field_id = #{cf_id}
       ORDER BY i.sort_order
+    SQL
+  end
+
+  def root_id_of(cf_id)
+    conn.select_value("SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf_id}")
+  end
+
+  def tree_ids_of(cf_id)
+    conn.select_values(<<~SQL.squish)
+      SELECT id FROM hierarchical_items
+      WHERE custom_field_id = #{cf_id} OR parent_id IN (SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf_id})
     SQL
   end
 
@@ -132,7 +158,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
 
       migrate!
 
-      root_id = conn.select_value("SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf}")
+      root_id = root_id_of(cf)
       item_id = items_of(cf).first["id"]
       rows = conn.select_all(<<~SQL.squish).to_a
         SELECT ancestor_id, descendant_id, generations
@@ -195,10 +221,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       cf = insert_list_cf("Values")
       option_id = insert_option(cf, "picked", 1)
       wp = create(:work_package)
-      conn.execute(<<~SQL.squish)
-        INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
-        VALUES ('WorkPackage', #{wp.id}, #{cf}, '#{option_id}')
-      SQL
+      insert_custom_value(wp, cf, option_id)
 
       migrate!
 
@@ -238,10 +261,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
 
       migrate!
 
-      new_ids = conn.select_values(<<~SQL.squish)
-        SELECT id FROM hierarchical_items
-        WHERE custom_field_id = #{cf} OR parent_id IN (SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf})
-      SQL
+      new_ids = tree_ids_of(cf)
       expect(new_ids).to all(be > high_option)
     end
 
@@ -260,10 +280,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
 
       migrate!
 
-      new_ids = conn.select_values(<<~SQL.squish)
-        SELECT id FROM hierarchical_items
-        WHERE custom_field_id = #{cf} OR parent_id IN (SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf})
-      SQL
+      new_ids = tree_ids_of(cf)
       expect(new_ids).to all(be > deleted_id)
     end
 
@@ -276,10 +293,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
 
       migrate!
 
-      new_ids = conn.select_values(<<~SQL.squish)
-        SELECT id FROM hierarchical_items
-        WHERE custom_field_id = #{cf} OR parent_id IN (SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf})
-      SQL
+      new_ids = tree_ids_of(cf)
       expect(new_ids).to all(be > deleted_id)
     end
 
@@ -289,10 +303,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       insert_option(cf_a, "a-value", 1)
       option_b = insert_option(cf_b, "b-value", 1)
       wp = create(:work_package)
-      conn.execute(<<~SQL.squish)
-        INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
-        VALUES ('WorkPackage', #{wp.id}, #{cf_a}, '#{option_b}')
-      SQL
+      insert_custom_value(wp, cf_a, option_b)
 
       migrate!
 
@@ -309,11 +320,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
         VALUES (#{cf}, 1, NOW(), NOW())
         RETURNING id
       SQL
-      item_id = conn.select_value(<<~SQL.squish)
-        INSERT INTO hierarchical_items (parent_id, sort_order, label, children_count, created_at, updated_at)
-        VALUES (#{root_id}, 0, 'colliding', 0, NOW(), NOW())
-        RETURNING id
-      SQL
+      item_id = insert_item(root_id, "colliding", 0)
       conn.execute(<<~SQL.squish)
         INSERT INTO legacy_custom_option_mappings (custom_option_id, hierarchical_item_id, custom_field_id)
         VALUES (#{item_id}, #{item_id}, #{cf})
@@ -344,10 +351,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       cf = insert_list_cf("ReverseValues")
       option_id = insert_option(cf, "picked", 1)
       wp = create(:work_package)
-      conn.execute(<<~SQL.squish)
-        INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
-        VALUES ('WorkPackage', #{wp.id}, #{cf}, '#{option_id}')
-      SQL
+      insert_custom_value(wp, cf, option_id)
       migrate!
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
@@ -359,11 +363,8 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       cf = insert_list_cf("Latecomer")
       option_id = insert_option(cf, "original", 1)
       migrate!
-      root_id = conn.select_value("SELECT id FROM hierarchical_items WHERE custom_field_id = #{cf}")
-      conn.execute(<<~SQL.squish)
-        INSERT INTO hierarchical_items (parent_id, sort_order, label, children_count, created_at, updated_at)
-        VALUES (#{root_id}, 1, 'added later', 0, NOW(), NOW())
-      SQL
+      root_id = root_id_of(cf)
+      insert_item(root_id, "added later", 1)
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
