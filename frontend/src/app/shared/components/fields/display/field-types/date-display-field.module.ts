@@ -34,6 +34,7 @@ import {
   toDOMString,
   opAutoDateIconData,
 } from '@openproject/octicons-angular';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class DateDisplayField extends HighlightableDisplayField {
   @LazyInject() timezoneService:TimezoneService;
@@ -50,12 +51,12 @@ export class DateDisplayField extends HighlightableDisplayField {
 
     // Highlight overdue tasks
     if (this.shouldHighlight && this.canOverdue && !!this.resource.status) {
-      const diff = this.timezoneService.daysFromToday(this.value);
+      const diff = this.timezoneService.daysFromToday(this.value as string);
 
       this
         .apiV3Service
         .statuses
-        .id(this.resource.status.id)
+        .id((this.resource.status as HalResource).id!)
         .get()
         .subscribe((status) => {
           if (!status.isClosed) {
@@ -72,7 +73,7 @@ export class DateDisplayField extends HighlightableDisplayField {
   public get valueString() {
     if (this.value) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return this.timezoneService.formattedDate(this.value, this.context.options.dateFormat);
+      return this.timezoneService.formattedDate(this.value as string, this.context.options.dateFormat);
     }
     return '';
   }
