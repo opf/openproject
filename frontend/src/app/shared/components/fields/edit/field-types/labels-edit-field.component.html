@@ -7,6 +7,7 @@
     [dropdownPosition]="'top'"
     [disabled]="inFlight"
     bindLabel="name"
+    [ariaLabel]="schema.name"
     [focusDirectly]="!(handler.inEditMode || isNew)"
     [openDirectly]="!(handler.inEditMode || isNew)"
     appendTo="body"
@@ -18,12 +19,12 @@
     (add)="labelsAutocompleter.repositionDropdown()"
     (remove)="labelsAutocompleter.repositionDropdown()"
    />
-}
 
-@if (!handler.inEditMode) {
-  <edit-field-controls [fieldController]="self"
-    (onSave)="handler.handleUserSubmit()"
-    (onCancel)="handler.handleUserCancel()"
-    [saveTitle]="text.save"
-    [cancelTitle]="text.cancel" />
+  @if (!handler.inEditMode) {
+    <edit-field-controls [fieldController]="self"
+      (onSave)="handler.handleUserSubmit()"
+      (onCancel)="handler.handleUserCancel()"
+      [saveTitle]="text.save"
+      [cancelTitle]="text.cancel" />
+  }
 }
