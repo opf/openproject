@@ -44,6 +44,42 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     JSON.parse(items).pluck("id").compact_blank
   end
 
+  describe "with the feature flag off", with_flag: { llm_connection: false } do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before { login_as admin }
+
+    it "does not expose the endpoints" do
+      get llm_feature_bindings_path
+      expect(response).to have_http_status(:not_found)
+
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+      expect(response).to have_http_status(:not_found)
+      expect(connection.feature_bindings).to be_empty
+    end
+  end
+
+  describe "as a non-admin" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before { login_as create(:user) }
+
+    it "refuses the page" do
+      get llm_feature_bindings_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "refuses to store a model" do
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+
+      expect(response).to have_http_status(:forbidden)
+      expect(connection.feature_bindings).to be_empty
+    end
+  end
+
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
