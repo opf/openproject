@@ -28,7 +28,6 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UIRouterModule } from '@uirouter/angular';
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -42,7 +41,6 @@ import { WpTabsComponent } from './components/wp-tabs/wp-tabs.component';
   ],
   imports: [
     CommonModule,
-    UIRouterModule,
     DynamicModule,
     OpenprojectTabsModule,
     IconModule,

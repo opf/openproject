@@ -43,7 +43,15 @@ Rails.application.routes.draw do
       end
 
       # IFC viewer frontend
-      get "bcf(/*state)", to: "bim/ifc_models/ifc_viewer#show", as: :frontend
+      get "bcf" => "bim/ifc_models/ifc_viewer#index", as: :frontend
+
+      get "bcf/details/:work_package_id(/:tab)" => "bim/ifc_models/ifc_viewer#split_view", as: :details,
+          defaults: { tab: "overview" },
+          work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
+
+      get "bcf/details/new" => "bim/ifc_models/ifc_viewer#split_create", as: "new_split",
+          work_package_split_create: true
 
       # IFC model management
       resources :ifc_models, controller: "bim/ifc_models/ifc_models" do

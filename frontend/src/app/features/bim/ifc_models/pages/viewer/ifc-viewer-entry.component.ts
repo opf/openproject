@@ -26,26 +26,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
-@Injectable()
-export class FirstRouteService {
-  public name:string;
-
-  public params:any;
-
-  constructor() {}
-
-  public get isEmpty() {
-    return !this.name;
-  }
-
-  public setIfFirst(stateName:string|undefined, params:any) {
-    if (!this.isEmpty || !stateName) {
-      return;
-    }
-
-    this.name = stateName;
-    this.params = params;
+/**
+ * An entry component to be rendered by Rails for the BIM/BCF list (left pane: IFC
+ * viewer or BCF list, right pane: reactive BCF list or a WP detail/create pane
+ * rendered by Rails into the content-bodyRight turbo frame - see index.html.erb).
+ */
+@Component({
+  selector: 'op-ifc-viewer-entry',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  standalone: false,
+  template: `
+    <op-ifc-viewer-page>
+      <op-bcf-content-left />
+    </op-ifc-viewer-page>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class IfcViewerEntryComponent {
+  constructor() {
+    document.body.classList.add('router--bim');
   }
 }

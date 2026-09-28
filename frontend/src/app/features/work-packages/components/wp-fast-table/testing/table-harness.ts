@@ -29,7 +29,6 @@
 import { fireEvent } from '@testing-library/dom';
 import { EventEmitter, Injector, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StateService } from '@uirouter/core';
 import { firstValueFrom, of, Subject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -294,7 +293,6 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
     { provide: BannersService, useValue: { eeShowBanners: false } },
     { provide: PathHelperService, useValue: {} },
     { provide: CausedUpdatesService, useValue: { add: () => undefined } },
-    { provide: StateService, useValue: { current: { name: 'work-packages.partitioned.list' }, href: () => '' } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
