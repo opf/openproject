@@ -198,7 +198,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
       return this.edit<V, T>(resource);
     }
 
-    if (Object.hasOwn(resource, 'lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
+    if (Object.hasOwn(resource, 'lockVersion') && (changeset.pristineResource.lockVersion as number) < (resource.lockVersion as number)) {
       return this.edit<V, T>(resource);
     }
 

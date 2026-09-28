@@ -34,7 +34,7 @@ export class DateTimeDisplayField extends DisplayField {
 
   public get valueString() {
     if (this.value) {
-      return this.timezoneService.formattedDatetime(this.value);
+      return this.timezoneService.formattedDatetime(this.value as string);
     }
 
     return '';

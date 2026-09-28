@@ -32,7 +32,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Constructor } from 'core-app/core/util-types';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -98,10 +98,9 @@ export class DisplayFieldComponent implements OnInit {
     );
   }
 
-  private attributeName(attribute:string, schema:SchemaResource):string {
+  private attributeName(attribute:string, schema:ISchemaProxy):string {
     if (schema.mappedName) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return schema.mappedName(attribute) as string;
+      return schema.mappedName(attribute);
     }
 
     return attribute;
