@@ -83,10 +83,10 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
     let(:pro_widgets) do
       [
-        [:text, "Completed work packages"],
-        [:text, "Unfinished work packages"],
-        [:text, "Sprint scope increase"],
-        [:text, "Sprint scope decrease"]
+        [:text, "Completed work"],
+        [:text, "Unfinished work"],
+        [:text, "Scope increase after sprint start"],
+        [:text, "Scope decrease after sprint start"]
       ]
     end
 

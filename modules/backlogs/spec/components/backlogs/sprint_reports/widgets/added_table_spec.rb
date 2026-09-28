@@ -36,7 +36,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::AddedTable,
                with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
   include_context "with a sprint report work package table"
 
-  let(:widget_name) { "Sprint scope increase" }
+  let(:widget_name) { "Scope increase after sprint start" }
   let(:added_after_start_ids) { [12, 13] }
   let(:breakdown_stubs) do
     { added_after_start_ids: }

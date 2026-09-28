@@ -36,7 +36,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::CompletedTable,
                with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
   include_context "with a sprint report work package table"
 
-  let(:widget_name) { "Completed work packages" }
+  let(:widget_name) { "Completed work" }
   let(:completed_count) { 3 }
   let(:breakdown_stubs) do
     {
