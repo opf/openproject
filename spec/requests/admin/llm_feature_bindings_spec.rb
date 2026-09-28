@@ -177,6 +177,31 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       expect(a_request(:post, "#{base_url}/embeddings")).not_to have_been_made
     end
 
+    context "when the probe rules out a capability the feature requires" do
+      let(:feature_key) { :spec_only_vision_feature }
+      let(:verdict) do
+        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+      end
+
+      before do
+        OpenProject::Llm::Features.register(feature_key, kind: :chat, requires: %i[vision],
+                                                         i18n_scope: "llm.features.description_assistant")
+        allow(LlmConnections::DetectCapabilitiesService)
+          .to receive(:new)
+          .and_return(instance_double(LlmConnections::DetectCapabilitiesService,
+                                      detect: ServiceResult.success(result: verdict)))
+      end
+
+      after { OpenProject::Llm::Features.all.delete(feature_key) }
+
+      it "names the capability the verdict is about" do
+        patch llm_feature_binding_path(feature_key), params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+
+        expect(flash[:error]).to include("does not support Vision")
+      end
+    end
+
     it "404s for a feature that is not registered" do
       patch llm_feature_binding_path("no_such_feature"), params: { llm_feature_binding: { model_id: "x" } }
 

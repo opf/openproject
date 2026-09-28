@@ -98,7 +98,7 @@ module Admin
       if verdict&.blocking?
         flash[:error] = t("admin.llm_feature_bindings.update.model_incapable",
                           feature: feature.label,
-                          capability: Llm::Capabilities.label(:embeddings))
+                          capability: Llm::Capabilities.label(verdict.capability))
       else
         flash[:notice] = t("admin.llm_feature_bindings.update.success", feature: feature.label)
       end
