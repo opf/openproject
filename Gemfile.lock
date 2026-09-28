@@ -871,7 +871,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-musl)
       racc (~> 1.4)
-    okcomputer (1.19.2)
+    okcomputer (1.20.0)
       benchmark
     omniauth (2.1.4)
       hashie (>= 3.4.6)
@@ -1662,7 +1662,7 @@ DEPENDENCIES
   my_page!
   net-ldap (~> 0.20.0)
   nokogiri (~> 1.19.4)
-  okcomputer (~> 1.19.1)
+  okcomputer (~> 1.20.0)
   omniauth (~> 2.1)
   omniauth-openid-connect!
   omniauth-openid_connect-providers!
@@ -2039,7 +2039,7 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-darwin) sha256=7fd17057d3e1f00e9954a74b3cd76595d3d4a5ef233b7ed9599047c204f70551
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   nokogiri (1.19.4-x86_64-linux-musl) sha256=17dfb7c1fa194ae02fbf7c51a7afc8d278045ab3fdacfd86f91d02d7b274470b
-  okcomputer (1.19.2) sha256=d069aedf1e31b8ebe7e1fdf9e327dee158ea49b9fbdebebc2f1bed4690cb7a6d
+  okcomputer (1.20.0) sha256=cc0cc3bcd3abea12705493bc557d7002f090b9fe189cf78072fe0c3c60c6a223
   omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
   omniauth-openid-connect (0.5.0)
   omniauth-openid_connect-providers (0.2.0)
