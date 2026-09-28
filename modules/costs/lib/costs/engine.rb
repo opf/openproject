@@ -212,6 +212,10 @@ module Costs
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
+    prepend_module "Costs::Patches::MembersControllerPatch", into: "MembersController"
+    prepend_module "Costs::Patches::Members::TableComponentPatch", into: "Members::TableComponent"
+    prepend_module "Costs::Patches::Members::RowComponentPatch", into: "Members::RowComponent"
+
     add_tab_entry :user,
                   name: "rates",
                   partial: "users/rates",
@@ -433,7 +437,6 @@ module Costs
       TimeEntryActivity
 
       OpenProject::ProjectLatestActivity.register on: "TimeEntry"
-      Costs::Patches::MembersPatch.mixin!
 
       ##
       # Add a new group
