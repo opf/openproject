@@ -307,8 +307,21 @@ module OpenProject::Storages
 
       WorkPackages::CreateContract.include Storages::FileLinks::ValidateReplacements
       WorkPackages::UpdateContract.include Storages::FileLinks::ValidateReplacements
+    end
 
-      API::V3::WorkPackages::WorkPackageRepresenter.include ::API::V3::FileLinks::FileLinkRelationRepresenter
+    extend_api_response(:v3, :work_packages, :work_package) do
+      link :fileLinks, cache_if: -> { current_user.allowed_in_project?(:view_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id)
+        }
+      end
+
+      link :addFileLink, cache_if: -> { current_user.allowed_in_project?(:manage_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id),
+          method: :post
+        }
+      end
     end
 
     # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)

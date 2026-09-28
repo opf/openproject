@@ -42,26 +42,30 @@ module API
         base.extend(ClassMethods)
 
         base.representable_attrs.each do |property|
-          next if property.name == "meta"
+          restrict_to_writable(property)
+        end
+      end
 
-          if property.name == "links"
-            add_filter(property, LinkRenderBlock)
-            next
-          end
+      def self.restrict_to_writable(property)
+        return if property.name == "meta"
 
-          # Note: `:writeable` is not a typo, it's used by declarative gem
-          writable = property[:writeable]
+        if property.name == "links"
+          add_filter(property, LinkRenderBlock)
+          return
+        end
 
-          # If writable is a lambda, rely on it to determine if the property should be output
-          # else if writable is explicitly false, do not output the property
-          # else rely on #writable_attributes (through UnwritablePropertyFilter) to know if the property should be output
-          next if writable.respond_to?(:call)
+        # Note: `:writeable` is not a typo, it's used by declarative gem
+        writable = property[:writeable]
 
-          if writable == false
-            property.merge!(readable: false)
-          else
-            add_filter(property, UnwritablePropertyFilter)
-          end
+        # If writable is a lambda, rely on it to determine if the property should be output
+        # else if writable is explicitly false, do not output the property
+        # else rely on #writable_attributes (through UnwritablePropertyFilter) to know if the property should be output
+        return if writable.respond_to?(:call)
+
+        if writable == false
+          property.merge!(readable: false)
+        else
+          add_filter(property, UnwritablePropertyFilter)
         end
       end
 
@@ -129,6 +133,10 @@ module API
       end
 
       module ClassMethods
+        def property(...)
+          super.tap { |definition| PayloadRepresenter.restrict_to_writable(definition) }
+        end
+
         def create_class(*)
           new_class = super
 

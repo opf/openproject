@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -224,7 +226,12 @@ module OpenProject::Plugins
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join("::")
           representer_class     = "::API::#{representer_namespace}Representer".constantize
-          representer_class.instance_eval(&)
+
+          # Representable copies definitions into a subclass only when the subclass is created,
+          # so subclasses that are already loaded need the extension applied explicitly.
+          [representer_class, *representer_class.descendants].each do |klass|
+            klass.instance_eval(&)
+          end
         end
       end
 
@@ -232,7 +239,7 @@ module OpenProject::Plugins
                             ar_name:,
                             writable_for: %i[create update],
                             writable: true,
-                            &block)
+                            &)
         config.to_prepare do
           model_name = on.to_s.camelize
           namespace = model_name.pluralize
@@ -240,7 +247,7 @@ module OpenProject::Plugins
             # attribute is generally writable
             # overrides might be defined in the more specific contract implementations
             contract_class = "::#{namespace}::#{action.to_s.camelize}Contract".constantize
-            contract_class.attribute ar_name, { writable: }, &block
+            contract_class.attribute(ar_name, { writable: }, &)
           end
         end
       end
