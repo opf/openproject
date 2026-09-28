@@ -28,32 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module ChangeWorkflow
-    class DialogComponent < ApplicationComponent
+module WorkPackageTypes
+  module NamedReferences
+    class ChangeDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      DIALOG_ID = "change-workflow-dialog"
-      FORM_ID = "change-workflow-form"
+      def self.dialog_id(kind) = "change-#{kind.dom_key}-dialog"
 
-      def initialize(variant:, back_url: nil)
+      def self.form_id(kind) = "change-#{kind.dom_key}-form"
+
+      def initialize(variant:, kind:, back_url: nil)
         super()
 
         @variant = variant
+        @kind = kind
         @back_url = back_url
       end
 
       private
 
-      attr_reader :variant, :back_url
+      attr_reader :variant, :kind, :back_url
 
-      def title = I18n.t("workflows.change.title")
+      def dialog_id = self.class.dialog_id(kind)
+
+      def form_id = self.class.form_id(kind)
+
+      def title = kind.t("change.title")
 
       def form_arguments
         {
-          id: FORM_ID,
-          url: url_helpers.change_type_workflow_path(**variant.path_args.merge(back_url:).compact),
+          id: form_id,
+          url: url_helpers.public_send(:"change_type_#{kind.association}_path", **variant.path_args.merge(back_url:).compact),
           method: :patch,
           data: { turbo: false }
         }

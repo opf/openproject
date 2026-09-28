@@ -100,13 +100,14 @@ module Workflows
     end
 
     def start_dialog(error: nil)
-      ::Workflows::StartDialogComponent.new(url: configure_workflows_path,
-                                            candidates: Workflow.global.in_display_order.to_a,
-                                            error:)
+      WorkPackageTypes::NamedReferences::StartDialogComponent.new(kind:,
+                                                                  url: configure_workflows_path,
+                                                                  candidates: Workflow.global.in_display_order.to_a,
+                                                                  error:)
     end
 
     def copying_without_a_source?
-      params[:start] == ::Workflows::StartForm::COPY && params[:copy_from_id].blank?
+      params[:start] == WorkPackageTypes::NamedReferences::StartForm::COPY && params[:copy_from_id].blank?
     end
 
     def reject_missing_copy_source
@@ -114,7 +115,7 @@ module Workflows
     end
 
     def chosen_copy_from_id
-      return unless params[:start] == ::Workflows::StartForm::COPY
+      return unless params[:start] == WorkPackageTypes::NamedReferences::StartForm::COPY
 
       params[:copy_from_id].presence
     end

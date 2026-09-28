@@ -82,11 +82,11 @@ module Workflows
         return unless reuses_existing?
         return if candidates.empty?
 
-        Workflows::WorkflowPanelComponent.new(variant:,
-                                              candidates:,
-                                              name: variant.workflow.name,
-                                              selected: variant.workflow_id,
-                                              back_url:)
+        WorkPackageTypes::NamedReferences::PanelComponent.new(variant:,
+                                                              kind: WorkPackageTypes::NamedReferences::Kind::WORKFLOW,
+                                                              candidates:,
+                                                              selected: variant.workflow_id,
+                                                              back_url:)
       end
 
       def reuses_existing? = variant.workflow_id != started_workflow_id

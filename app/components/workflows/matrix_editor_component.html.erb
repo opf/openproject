@@ -35,10 +35,10 @@ See COPYRIGHT and LICENSE files for more details.
           if variant_tab?
             flex.with_column(mr: 2) do
               render(
-                Workflows::WorkflowPanelComponent.new(
+                WorkPackageTypes::NamedReferences::PanelComponent.new(
                   variant:,
-                  candidates: workflow_candidates,
-                  name: workflow.name
+                  kind: WorkPackageTypes::NamedReferences::Kind::WORKFLOW,
+                  candidates: workflow_candidates
                 )
               )
             end

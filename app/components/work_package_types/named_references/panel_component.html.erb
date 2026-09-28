@@ -26,17 +26,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title:, size: :medium_portrait)) do |dialog| %>
-  <% dialog.with_header(variant: :large) %>
 
-  <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
-    <%= primer_form_with(**form_arguments) do |form| %>
-      <%= render(Workflows::ChangeWorkflowForm.new(form, variant:)) %>
-    <% end %>
-  <% end %>
+<%=
+  render(
+    Primer::Alpha::SelectPanel.new(
+      select_variant: :single,
+      fetch_strategy: :local,
+      title: kind.t("selector.title"),
+      test_selector: test_selector("panel")
+    )
+  ) do |panel|
+    panel.with_show_button(scheme: :secondary, test_selector: test_selector("selector")) do |button|
+      button.with_trailing_visual_icon(icon: :"triangle-down")
 
-  <% dialog.with_footer(show_divider: true) do %>
-    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
-    <%= render(Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)) { t(:button_save) } %>
-  <% end %>
-<% end %>
+      parts = [render(Primer::Beta::Text.new(color: :muted)) { prefix }, name]
+      parts << render(Primer::Beta::Text.new(color: :muted)) { same_as_type_text } if same_as_type?
+
+      safe_join(parts, " ")
+    end
+
+    candidates.each do |candidate|
+      panel.with_item(
+        label: candidate.name,
+        active: candidate.id == selected,
+        href: change_path(candidate),
+        content_arguments: { data: { turbo: true, turbo_method: :patch, turbo_frame: "_top" } }
+      ) do |item|
+        item.with_description { candidate.description } if candidate.description.present?
+      end
+    end
+  end
+%>

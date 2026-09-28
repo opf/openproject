@@ -28,34 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class StartDialogComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module WorkPackageTypes
+  module NamedReferences
+    class ChangeForm < ApplicationForm
+      def initialize(variant:, kind:)
+        super()
 
-    FORM_ID = "workflow-start-form"
+        @variant = variant
+        @kind = kind
+      end
 
-    def initialize(url:, candidates:, error: nil, type_workflow_id: nil)
-      super()
+      form do |change_form|
+        change_form.autocompleter(
+          name: :"#{kind.association}_id",
+          label: kind.t("change.select.label"),
+          caption: kind.t("change.select.caption"),
+          required: true,
+          autocomplete_options: {
+            placeholder: kind.t("change.select.placeholder"),
+            decorated: true,
+            multiple: false,
+            focusDirectly: false,
+            append_to: "##{ChangeDialogComponent.dialog_id(kind)}",
+            data: { test_selector: "change-#{kind.dom_key}-select" }
+          }
+        ) do |list|
+          candidates.each do |candidate|
+            list.option(value: candidate.id, label: candidate.name, selected: candidate.id == current_id)
+          end
+        end
+      end
 
-      @url = url
-      @candidates = candidates
-      @error = error
-      @type_workflow_id = type_workflow_id
-    end
+      private
 
-    private
+      attr_reader :variant, :kind
 
-    attr_reader :url, :candidates, :error, :type_workflow_id
+      def current_id = variant.public_send(:"#{kind.association}_id")
 
-    def dialog_id
-      WorkPackageTypes::NamedReferences::NameFormComponent.dialog_id(WorkPackageTypes::NamedReferences::Kind::WORKFLOW)
-    end
-
-    def title = I18n.t("workflows.start.title")
-
-    def form_arguments
-      { id: FORM_ID, url:, method: :post, data: { turbo: true } }
+      def candidates = @candidates ||= kind.model_class.available_in(variant.project).in_display_order.to_a
     end
   end
 end

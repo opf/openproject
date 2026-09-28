@@ -30,34 +30,46 @@
 
 module WorkPackageTypes
   module NamedReferences
-    Kind = Data.define(:model_class_name, :association, :project_owned, :i18n_scope, :dom_key, :icon, :locale_keys) do
-      def model_class = model_class_name.constantize
+    class CopySourceForm < ApplicationForm
+      def initialize(kind:, candidates:, selected:, type_record_id: nil)
+        super()
 
-      def route_key = model_class.model_name.route_key.to_sym
+        @kind = kind
+        @candidates = candidates
+        @selected = selected
+        @type_record_id = type_record_id
+      end
 
-      def query_class = "Queries::#{model_class_name.pluralize}::#{model_class_name}Query".constantize
+      form do |source_form|
+        source_form.autocompleter(
+          name: :copy_from_id,
+          label: kind.t("start.copy.panel_label"),
+          visually_hide_label: true,
+          required: true,
+          autocomplete_options: {
+            placeholder: kind.t("form.copy_from.placeholder"),
+            decorated: true,
+            multiple: false,
+            focusDirectly: false,
+            append_to: "##{NameFormComponent.dialog_id(kind)}",
+            data: { test_selector: "#{kind.dom_key}-copy-source" }
+          }
+        ) do |list|
+          candidates.each do |candidate|
+            list.option(value: candidate.id, label: label_for(candidate), selected: candidate.id == selected)
+          end
+        end
+      end
 
-      def t(key, **)
-        I18n.t(locale_keys.fetch(key.to_sym) { "#{i18n_scope}.#{key}" }, **)
+      private
+
+      attr_reader :kind, :candidates, :selected, :type_record_id
+
+      def label_for(candidate)
+        return candidate.name unless candidate.id == type_record_id
+
+        "#{candidate.name} #{kind.t('selector.same_as_type')}"
       end
     end
-
-    Kind::WORKFLOW = Kind.new(
-      model_class_name: "Workflow",
-      association: :workflow,
-      project_owned: true,
-      i18n_scope: "workflows",
-      dom_key: "workflow",
-      icon: :workflow,
-      locale_keys: {
-        label_plural: :label_workflow_plural,
-        "change.select.label": "workflows.change.workflow.label",
-        "change.select.caption": "workflows.change.workflow.caption",
-        "change.select.placeholder": "workflows.change.workflow.placeholder",
-        "selector.prefix": "admin.workflows.workflow_selector.prefix",
-        "selector.title": "admin.workflows.workflow_selector.title",
-        "selector.same_as_type": "admin.workflows.workflow_selector.same_as_type"
-      }
-    )
   end
 end

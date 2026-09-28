@@ -44,7 +44,9 @@ module WorkPackageTypes
     end
 
     def change_dialog
-      respond_with_dialog ::Workflows::ChangeWorkflow::DialogComponent.new(variant: @variant, back_url:)
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant,
+                                                                     kind: NamedReferences::Kind::WORKFLOW,
+                                                                     back_url:)
     end
 
     def change
@@ -124,7 +126,7 @@ module WorkPackageTypes
     end
 
     def copying_without_a_source?
-      params[:start] == ::Workflows::StartForm::COPY && params[:copy_from_id].blank?
+      params[:start] == NamedReferences::StartForm::COPY && params[:copy_from_id].blank?
     end
 
     def reject_missing_copy_source(url)
@@ -133,11 +135,12 @@ module WorkPackageTypes
     end
 
     def start_dialog_component(url:, error: nil)
-      ::Workflows::StartDialogComponent.new(
+      NamedReferences::StartDialogComponent.new(
+        kind: NamedReferences::Kind::WORKFLOW,
         url:,
         candidates: Workflow.available_in(@variant.project).in_display_order.to_a,
         error:,
-        type_workflow_id: @variant.type_workflow&.id
+        type_record_id: @variant.type_workflow&.id
       )
     end
 
@@ -146,7 +149,7 @@ module WorkPackageTypes
     def provisional_name = Workflow.implicit_name(@variant.composite_name, project: @variant.project)
 
     def chosen_copy_from_id
-      return unless params[:start] == ::Workflows::StartForm::COPY
+      return unless params[:start] == NamedReferences::StartForm::COPY
 
       params[:copy_from_id].presence
     end

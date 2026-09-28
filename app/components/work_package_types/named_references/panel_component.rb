@@ -28,36 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class WorkflowPanelComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+module WorkPackageTypes
+  module NamedReferences
+    class PanelComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-    def initialize(variant:, candidates:, name:, selected: nil, back_url: nil)
-      super()
+      def initialize(variant:, kind:, candidates:, selected: nil, back_url: nil)
+        super()
 
-      @variant = variant
-      @candidates = candidates
-      @name = name
-      @selected = selected
-      @back_url = back_url
-    end
+        @variant = variant
+        @kind = kind
+        @candidates = candidates
+        @selected = selected
+        @back_url = back_url
+      end
 
-    private
+      private
 
-    attr_reader :variant, :candidates, :name, :back_url
+      attr_reader :variant, :kind, :candidates, :back_url
 
-    def prefix = "#{I18n.t('admin.workflows.workflow_selector.prefix')}:"
+      def record = variant.public_send(kind.association)
 
-    def same_as_type_text = I18n.t("admin.workflows.workflow_selector.same_as_type")
+      def name = record.name
 
-    def same_as_type? = variant.type_workflow&.id == variant.workflow_id
+      def prefix = "#{kind.t('selector.prefix')}:"
 
-    def selected = @selected || variant.workflow_id
+      def same_as_type_text = kind.t("selector.same_as_type")
 
-    def change_path(candidate)
-      url_helpers.change_type_workflow_path(
-        **variant.path_args.merge(workflow_id: candidate.id, back_url:).compact
-      )
+      def same_as_type? = variant.public_send(:"type_#{kind.association}")&.id == record.id
+
+      def selected = @selected || record.id
+
+      def test_selector(part) = "#{kind.dom_key}-#{part}"
+
+      def change_path(candidate)
+        url_helpers.public_send(
+          :"change_type_#{kind.association}_path",
+          **variant.path_args.merge("#{kind.association}_id": candidate.id, back_url:).compact
+        )
+      end
     end
   end
 end
