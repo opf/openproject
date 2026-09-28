@@ -188,7 +188,7 @@ module Import
 
       def render_panel_content(content, params, index)
         title = params["title"]
-        output = if title
+        output = if title.present?
                    "**#{title}**\n#{content}"
                  else
                    content

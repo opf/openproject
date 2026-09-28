@@ -408,6 +408,32 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "with an empty bq. line" do
+      let(:input) { "bq. " }
+
+      it "renders nothing rather than a bare quote marker" do
+        expect(result).to eq("")
+      end
+    end
+
+    context "with an empty bq. line between paragraphs" do
+      let(:input) { "before\nbq. \nafter" }
+
+      it { is_expected.to eq("before\n\nafter") }
+    end
+
+    context "with an empty {quote} block" do
+      let(:input) { "{quote}\n{quote}" }
+
+      it { is_expected.to eq("") }
+    end
+
+    context "with an empty {quote} inside a line" do
+      let(:input) { "a {quote}{quote} b" }
+
+      it { is_expected.to eq("a\n\nb") }
+    end
+
     context "with {quote} block" do
       let(:input) { "{quote}\nLine one\nLine two\n{quote}" }
 
@@ -628,6 +654,26 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
     context "without title" do
       let(:input) { "{panel}\nPanel content\n{panel}" }
+
+      it { is_expected.to eq("Panel content") }
+    end
+
+    context "with an empty title" do
+      let(:input) { "{panel:title=}\nPanel content\n{panel}" }
+
+      it "omits the title rather than emitting bare emphasis" do
+        expect(result).to eq("Panel content")
+      end
+    end
+
+    context "with a blank title" do
+      let(:input) { "{panel:title= }\nPanel content\n{panel}" }
+
+      it { is_expected.to eq("Panel content") }
+    end
+
+    context "with an empty title and content on the opening line" do
+      let(:input) { "{panel:title=}Panel content{panel}" }
 
       it { is_expected.to eq("Panel content") }
     end

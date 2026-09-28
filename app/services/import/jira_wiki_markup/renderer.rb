@@ -126,11 +126,15 @@ module Import
       end
 
       def render_block_quote(node)
-        "> #{render_inline(node.children)}\n"
+        content = render_inline(node.children)
+        content.empty? ? "" : "> #{content}\n"
       end
 
       def render_multi_line_block_quote(node)
-        "#{node.lines.map { |line_nodes| "> #{render_inline(line_nodes)}" }.join("\n")}\n"
+        rendered = node.lines.map { |line_nodes| render_inline(line_nodes) }
+        return "" if rendered.all?(&:empty?)
+
+        "#{rendered.map { |line| "> #{line}" }.join("\n")}\n"
       end
 
       def render_table_header_row(node)
@@ -143,7 +147,7 @@ module Import
 
       def render_panel(node)
         title = node.params["title"]
-        if title
+        if title.present?
           "**#{title}**\n#{node.content}"
         else
           node.content
