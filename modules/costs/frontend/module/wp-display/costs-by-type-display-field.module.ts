@@ -30,6 +30,8 @@ import { DisplayField } from "core-app/shared/components/fields/display/display-
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { LazyInject } from "core-app/shared/helpers/angular/lazy-inject.decorator";
 import { ApiV3Service } from "core-app/core/apiv3/api-v3.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 interface ICostsByType {
     costObjectId:string;
@@ -53,8 +55,8 @@ export class CostsByTypeDisplayField extends DisplayField {
     }
 
     protected loadIfNecessary() {
-      if (this.value && this.value.$loaded === false) {
-        this.value.$load().then(() => {
+      if (this.value && (this.value as HalResource).$loaded === false) {
+        (this.value as HalResource).$load().then(() => {
 
           if (this.resource.$source._type === 'WorkPackage') {
             this
@@ -77,7 +79,7 @@ export class CostsByTypeDisplayField extends DisplayField {
         return;
       }
 
-      this.value.elements.forEach((val:ICostsByType, i:number) => {
+      (this.value as CollectionResource<ICostsByType>).elements.forEach((val:ICostsByType, i:number) => {
         if (this.resource.showCosts) {
           this.renderCostAsLink(val, element, i);
         } else {
@@ -88,8 +90,8 @@ export class CostsByTypeDisplayField extends DisplayField {
 
     public isEmpty():boolean {
       return !this.value ||
-            !this.value.elements ||
-            this.value.elements.length === 0;
+            !(this.value as CollectionResource<ICostsByType>).elements ||
+            (this.value as CollectionResource<ICostsByType>).elements.length === 0;
     }
 
 
@@ -100,7 +102,7 @@ export class CostsByTypeDisplayField extends DisplayField {
       const showCosts = this.resource.showCosts;
       const link = document.createElement('a') as HTMLAnchorElement;
 
-      link.href = showCosts.href + '&unit=' + val.costType.id;
+      link.href = (showCosts as { href:string }).href + '&unit=' + val.costType.id;
       link.setAttribute('target', '_blank');
       link.textContent = val.spentUnits + ' ' + val.costType.name;
       element.appendChild(link);
@@ -119,7 +121,7 @@ export class CostsByTypeDisplayField extends DisplayField {
     }
 
     private addSeparator(element:HTMLElement, i:number) {
-      if (i < this.value.elements.length - 1) {
+      if (i < (this.value as CollectionResource<ICostsByType>).elements.length - 1) {
         const sep = document.createElement('span');
         sep.textContent = ', ';
 

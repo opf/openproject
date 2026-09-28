@@ -75,8 +75,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
         .wpCreate
         .getEmptyForm(this.projectIdentifier)
         .then((form) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          this.buildItems(form.schema.type.allowedValues as TypeResource[]);
+          this.buildItems(form.schema.type!.allowedValues as TypeResource[]);
           this.opContextMenu.show(this, evt);
         });
     } else {

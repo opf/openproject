@@ -285,8 +285,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   }
 
   private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-    this.attachments = [...(this.halResource as HalResource).attachments.elements];
+    this.attachments = [...this.halResource!.attachments.elements];
 
     this
       .states
@@ -300,8 +299,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         const presentIds = new Set<string|null>(resource.attachments.elements.map((other:HalResource) => other.id));
         const missingAttachments = this.attachments.filter((attachment:HalResource) => !presentIds.has(attachment.id));
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
-        const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
+        const removedUrls = missingAttachments.map((attachment) => (attachment.downloadLocation as HalResource).href);
 
         if (removedUrls.length) {
           editor.model.fire('op:attachment-removed', removedUrls);

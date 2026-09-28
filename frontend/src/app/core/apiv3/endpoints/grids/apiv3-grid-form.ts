@@ -31,6 +31,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 
 export class ApiV3GridForm extends ApiV3FormResource {
   /**
@@ -42,7 +43,7 @@ export class ApiV3GridForm extends ApiV3FormResource {
    */
   public static extractPayload(resource:HalResource|object, schema:SchemaResource|null = null):object {
     if (resource instanceof HalResource && schema) {
-      const grid = resource;
+      const grid = resource as GridResource;
       const payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
 
       // The widget only states the type of the widget resource but does not explain
