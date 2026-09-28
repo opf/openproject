@@ -27,7 +27,7 @@
 //++
 
 import { Scale } from 'chart.js';
-import { bandFor } from './plugin.non-working-days';
+import { Band, bandFor, NonWorkingInterval } from './plugin.non-working-days';
 
 // A scale mapping one day to 10px, starting at 2026-10-12.
 function scaleStub(attrs:Partial<Scale> = {}):Scale {
@@ -42,27 +42,50 @@ function scaleStub(attrs:Partial<Scale> = {}):Scale {
   } as Scale;
 }
 
+// The zone is never left to the machine's, which would make every expectation here local to
+// whoever runs it.
+function bandIn(zone:string, interval:NonWorkingInterval, scale:Scale = scaleStub()):Band {
+  const band = bandFor(interval, scale, zone);
+
+  if (!band) {
+    throw new Error('expected an interval inside the drawable area');
+  }
+
+  return band;
+}
+
+const weekend = { from: '2026-10-17', to: '2026-10-18' };
+
 describe('bandFor', () => {
   it('spans from the first day up to the end of the last', () => {
-    expect(bandFor({ from: '2026-10-17', to: '2026-10-18' }, scaleStub()))
-      .toEqual({ left: 50, width: 20 });
+    expect(bandIn('UTC', weekend)).toEqual({ left: 50, width: 20 });
+  });
+
+  it('begins at midnight in the given zone rather than UTC', () => {
+    // Berlin is two hours ahead in October, so its Saturday opens two hours earlier in
+    // absolute terms, and two hours of a 10px day is 0.83px.
+    expect(bandIn('Europe/Berlin', weekend).left).toBeCloseTo(50 - (10 * 2) / 24, 5);
+  });
+
+  it('keeps a band whole across a daylight saving transition', () => {
+    // The clocks go back on Sunday 2026-10-25, making that weekend 49 hours rather than 48.
+    expect(bandIn('Europe/Berlin', { from: '2026-10-24', to: '2026-10-25' }).width)
+      .toBeCloseTo((10 * 49) / 24, 5);
   });
 
   it('covers a whole day for a single day interval', () => {
-    expect(bandFor({ from: '2026-10-17', to: '2026-10-17' }, scaleStub()))
-      .toEqual({ left: 50, width: 10 });
+    expect(bandIn('UTC', { from: '2026-10-17', to: '2026-10-17' })).toEqual({ left: 50, width: 10 });
   });
 
   it('clips to the drawable area', () => {
-    expect(bandFor({ from: '2026-10-17', to: '2026-10-18' }, scaleStub({ left: 55, right: 65 })))
-      .toEqual({ left: 55, width: 10 });
+    expect(bandIn('UTC', weekend, scaleStub({ left: 55, right: 65 }))).toEqual({ left: 55, width: 10 });
   });
 
   it('returns null when the interval falls outside the drawable area', () => {
-    expect(bandFor({ from: '2026-10-17', to: '2026-10-18' }, scaleStub({ left: 0, right: 40 }))).toBeNull();
+    expect(bandFor(weekend, scaleStub({ left: 0, right: 40 }), 'UTC')).toBeNull();
   });
 
   it('returns null for an unparseable interval', () => {
-    expect(bandFor({ from: 'not-a-date', to: '2026-10-18' }, scaleStub())).toBeNull();
+    expect(bandFor({ from: 'not-a-date', to: '2026-10-18' }, scaleStub(), 'UTC')).toBeNull();
   });
 });
