@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::PermittedParamsPatch
+module Costs::Patches::CostsPermittedParams
   def cost_entry
     params.require(:cost_entry).permit(:comments,
                                        :units,

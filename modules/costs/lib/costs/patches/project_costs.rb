@@ -28,34 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::ProjectPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-    base.include(InstanceMethods)
+module Costs::Patches::ProjectCosts
+  extend ActiveSupport::Concern
 
-    base.class_eval do
-      has_many :rates, class_name: "HourlyRate"
+  included do
+    has_many :rates, class_name: "HourlyRate"
 
-      has_many :member_groups, -> {
-        includes(:principal)
-          .where("#{Principal.table_name}.type='Group'")
-      }, class_name: "Member"
-      has_many :groups, through: :member_groups, source: :principal
-    end
+    has_many :member_groups, -> {
+      includes(:principal)
+        .where("#{Principal.table_name}.type='Group'")
+    }, class_name: "Member"
+    has_many :groups, through: :member_groups, source: :principal
   end
 
-  module ClassMethods
+  def costs_enabled?
+    module_enabled?(:costs)
   end
 
-  module InstanceMethods
-    def costs_enabled?
-      module_enabled?(:costs)
-    end
+  def cost_types_available?
+    return @cost_types_available if defined?(@cost_types_available)
 
-    def cost_types_available?
-      return @cost_types_available if defined?(@cost_types_available)
-
-      @cost_types_available = CostType.available_for_project(self).active.exists?
-    end
+    @cost_types_available = CostType.available_for_project(self).active.exists?
   end
 end

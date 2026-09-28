@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::Members::RowComponentPatch
+module Costs::Patches::Members::CurrentRateCell
   include ActionView::Helpers::NumberHelper
 
   delegate :project, :costs_enabled?, to: :table

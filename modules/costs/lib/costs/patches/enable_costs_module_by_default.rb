@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,16 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Costs::Patches::WorkPackagePatch
-  extend ActiveSupport::Concern
+module Costs::Patches::EnableCostsModuleByDefault
+  def data
+    original_data = super
 
-  included do
-    include WorkPackages::Costs
-    include WorkPackages::SpentTime
+    if original_data["default_projects_modules"]&.exclude? "costs"
+      original_data["default_projects_modules"] << "costs"
+    end
 
-    scopes :allowed_to_log_time,
-           :include_spent_time
+    original_data
   end
 end

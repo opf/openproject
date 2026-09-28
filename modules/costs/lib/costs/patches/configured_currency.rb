@@ -26,20 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
-
-  module InstanceMethods
-    def data
-      original_data = super
-
-      if original_data["default_projects_modules"]&.exclude? "costs"
-        original_data["default_projects_modules"] << "costs"
-      end
-
-      original_data
-    end
+module Costs::Patches::ConfiguredCurrency
+  def i18n_opts
+    super.merge(unit: ERB::Util.h(Setting.costs_currency),
+                format: ERB::Util.h(Setting.costs_currency_format),
+                negative_format: "-#{ERB::Util.h(Setting.costs_currency_format)}")
   end
 end

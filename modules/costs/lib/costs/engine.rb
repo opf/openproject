@@ -208,13 +208,16 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    patches %i[Project PermittedParams WorkPackage]
-    patch_with_namespace :BasicData, :SettingSeeder
-    patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
+    include_module "Costs::Patches::ProjectCosts", into: "Project"
+    include_module "Costs::Patches::CostsPermittedParams", into: "PermittedParams"
+    include_module "WorkPackages::Costs", into: "WorkPackage"
+    include_module "WorkPackages::SpentTime", into: "WorkPackage"
 
-    prepend_module "Costs::Patches::MembersControllerPatch", into: "MembersController"
-    prepend_module "Costs::Patches::Members::TableComponentPatch", into: "Members::TableComponent"
-    prepend_module "Costs::Patches::Members::RowComponentPatch", into: "Members::RowComponent"
+    prepend_module "Costs::Patches::EnableCostsModuleByDefault", into: "BasicData::SettingSeeder"
+    prepend_module "Costs::Patches::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
+    prepend_module "Costs::Patches::MembersTableCurrentUser", into: "MembersController"
+    prepend_module "Costs::Patches::Members::CurrentRateColumn", into: "Members::TableComponent"
+    prepend_module "Costs::Patches::Members::CurrentRateCell", into: "Members::RowComponent"
 
     add_tab_entry :user,
                   name: "rates",

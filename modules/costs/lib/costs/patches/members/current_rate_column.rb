@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::Members::TableComponentPatch
+module Costs::Patches::Members::CurrentRateColumn
   extend ActiveSupport::Concern
 
   prepended do

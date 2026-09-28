@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,16 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::NumberToCurrencyConverterPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
-
-  module InstanceMethods
-    def i18n_opts
-      super.merge(unit: ERB::Util.h(Setting.costs_currency),
-                  format: ERB::Util.h(Setting.costs_currency_format),
-                  negative_format: "-#{ERB::Util.h(Setting.costs_currency_format)}")
-    end
+module Costs::Patches::MembersTableCurrentUser
+  def members_table_options(_roles)
+    super.merge current_user:
   end
 end
