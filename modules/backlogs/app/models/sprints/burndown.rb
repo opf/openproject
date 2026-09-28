@@ -134,28 +134,35 @@ module Sprints
         remaining.last.at < reference_dates.scheduled_finish
     end
 
-    # Spends the value evenly across the working days left, leaving non working days flat.
+    # Spends the value across the working days left, leaving non working days flat. A series
+    # beginning partway through a day only has the rest of that day, so it takes a proportionate
+    # share of the value and the whole days after it each carry more to still reach zero on time.
     def decline_from(origin)
-      days = days_until_scheduled_finish(origin.at)
-      working_days = days.count(&:working)
+      from = origin.at.in_time_zone(zone)
+      days = days_until_scheduled_finish(from)
+      shares = days.map { available_share(it, from) }
+      capacity = shares.sum
 
-      return [origin] if working_days.zero?
+      return [origin] if capacity.zero?
 
-      decrement = origin.value / working_days
-      elapsed = 0
-
-      days.each_with_object([origin]) do |day, points|
-        elapsed += 1 if day.working
-        points << declined_point(origin, day, decrement * elapsed)
+      # Each point states the share still ahead of it rather than subtracting what is behind,
+      # so the last one is left with an empty slice and lands exactly on zero.
+      days.each_with_object([origin]).with_index do |(day, points), index|
+        points << Point.new(at: day.date.in_time_zone(zone).end_of_day,
+                            value: origin.value * (shares[(index + 1)..].sum / capacity))
       end
+    end
+
+    # How much of +day+ is left to the series, as a fraction of a whole day.
+    def available_share(day, from)
+      return 0.0 unless day.working
+      return 1.0 unless day.date == from.to_date
+
+      (from.end_of_day - from) / 1.day.to_i
     end
 
     def days_until_scheduled_finish(from)
       Day.from_range(from: from.to_date, to: reference_dates.scheduled_finish.to_date)
-    end
-
-    def declined_point(origin, day, spent)
-      Point.new(at: day.date.in_time_zone(zone).end_of_day, value: [origin.value - spent, 0.0].max)
     end
   end
 end
