@@ -2,12 +2,12 @@
 sidebar_navigation:
   title: GitLab integration - Documentation
   priority: 800
-description: Integrate the GitLab merge request and issues into OpenProject.
-keywords: GitLab, GitLab integration, merge request
+description: Integrate GitLab merge requests, issues, branches and commits into OpenProject.
+keywords: GitLab, GitLab integration, merge request, branch, commit
 ---
 # GitLab integration
 
-OpenProject offers an integration with GitLab merge requests to link software development closely to planning and specification. You can create merge requests in GitLab and link them to work packages in OpenProject.
+OpenProject offers an integration with GitLab to link software development closely to planning and specification. You can link GitLab merge requests, issues, branches and commits to work packages in OpenProject.
 
 ## Overview
 
@@ -16,6 +16,8 @@ OpenProject work packages will directly display information from GitLab in a sep
 ![Gitlab tab in an OpenProject work package](gitlab-tab.png)
 
 The tab shows all merge requests (MR) linked to a work package with the corresponding status (e.g. 'Ready' or 'Merged') as well as the state (e.g. 'success' or 'queued') of the GitLab actions configured to run for a MR. MRs and work packages are in an n:m relationship, so a work package can be linked to multiple merge requests and a merge request can be linked to multiple work packages.
+
+Besides merge requests, the tab also lists the GitLab [issues](#link-issues), [branches](#link-branches) and [commits](#link-commits) linked to the work package. Each of them has its own section, which is expanded when you open the tab and can be collapsed by clicking its header. If nothing of a kind is linked yet, the section explains how to link it.
 
 Additionally, in your OpenProject work package, the GitLab integration supports you in creating a branch specific to the work package and consequently the matching merge request.
 
@@ -126,7 +128,7 @@ Before upgrading, please do the following:
 
 #### Create merge requests
 
-As merge requests are based on branches, a new branch needs to be created first. For that, open the GitLab tab in your OpenProject work package detailed view. Click on **Git snippets** to extend the menu. First, copy the branch name by clicking the corresponding button.
+As merge requests are based on branches, a new branch needs to be created first. For that, open the GitLab tab in your OpenProject work package detailed view. Click on **Git snippets** to open the **Git quick snippets** dialog. First, copy the branch name by clicking the copy icon next to it.
 
 ![Copy the branch name for GitLab in OpenProject](openproject-system-guide-gitlab-integration-branch-name.png)
 
@@ -134,7 +136,7 @@ Then, open your Git desktop client. There, you can create your branch by enterin
 
 ![Create a new branch in a Git desktop client](openproject-system-guide-gitlab-integration-create-branch.png)
 
-You can now publish your branch (you can also do this later, after making the changes and before opening a merge request).
+You can now publish your branch (you can also do this later, after making the changes and before opening a merge request). Once the branch is pushed to GitLab, it appears in the **Branches** section of the **GitLab** tab (see [Link branches](#link-branches)).
 
 ![Publish branch](openproject-system-guide-gitlab-integration-publish-branch.png)
 
@@ -142,15 +144,15 @@ With the branch opened, you can start the actual development work using your pre
 
 ![Gitlab changes in a merge request changes](gitlab-changes.png)
 
-Once you are satisfied with the changes you can create a commit. Within the 'Git snippets' menu, OpenProject suggests a commit message for you based on the title and the URL of the work package.
+Once you are satisfied with the changes you can create a commit. In the **Git quick snippets** dialog, OpenProject suggests a commit message for you based on the title and the URL of the work package. When you push a commit with this message, it appears in the **Commits** section of the **GitLab** tab (see [Link commits](#link-commits)).
 
 ![Copy a Git commit message in OpenProject](openproject-system-guide-gitlab-integration-git-snippets-commit-message.png)
 
-A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit). Alternatively you can also use 'OP#' as a work package reference in an issue or a MR title, in this case "OP#388", where 388 is the ID of the work package. Please note that "OP#" is case sensitive.
+A URL pointing to a work package in the merge request description or a comment will link the two. To link the merge request, the link needs to be in the MR and not only in a commit (commits are linked on their own, see [Link commits](#link-commits)), but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit). Alternatively you can also use 'OP#' as a work package reference in an issue or a MR title, in this case "OP#388", where 388 is the ID of the work package. Please note that "OP#" is case sensitive.
 
 ![Commit message in a Git client](openproject-system-guide-gitlab-integration-commit-message-in-client.png)
 
-Once the changes are made, you can create your merge request. Title and comment with the link to the respective OpenProject work package will be prefilled, at least if there is only one commit to the branch. Because of this one commit limitation and if the policy is to create a branch as early as possible, there is a third option in the 'Git snippets' menu ('Create branch with empty commit') that will open a branch and add an empty commit to it in one command. Using this option, one can first create the branch quickly and have it linked to the work package right from the beginning. Commits can of course be added to the branch (and PR) after that.
+Once the changes are made, you can create your merge request. Title and comment with the link to the respective OpenProject work package will be prefilled, at least if there is only one commit to the branch. Because of this one commit limitation and if the policy is to create a branch as early as possible, there is a third option in the **Git quick snippets** dialog (**Create branch with empty commit**) that will open a branch and add an empty commit to it in one command. Using this option, one can first create the branch quickly and have it linked to the work package right from the beginning. Commits can of course be added to the branch (and PR) after that.
 
 ![Create a merge request](openproject-system-guide-gitlab-integration-create-mr.png)
 
@@ -161,6 +163,8 @@ If you use OP# as a reference in an Issue or MR title, all comments will be repl
 ![Open a GitLab merge request](openproject-system-guide-gitlab-integration-create-mr-detail.png)
 
 Click on **Create merge request** and your merge request will be opened.
+
+You can also start a merge request from OpenProject: in the **Branches** section of the **GitLab** tab, click **Create merge request** next to the branch. This opens the form for a new merge request for that branch in GitLab.
 
 ![GitLab merge request opened](openproject-system-guide-gitlab-integration-mr-opened.png)
 
@@ -187,7 +191,7 @@ You can copy the branch name from the OpenProject work package as described in t
 When using a CLI you can also use the **Create branch with empty commit** Git snippet. 
 ![Git snippet to create a branch with empty commit under GitLab tab in a work package in OpenProject](openproject-system-guide-gitlab-integration-git_snippet_empty_commit.png)
 
-The advantage of using this snippet is that there is no need to first create a branch and then copy a separate Git snippet for the commit. A new branch will be created from your current branch along with an empty commit, which when pushed to GitLab will link back to the work package.
+The advantage of using this snippet is that there is no need to first create a branch and then copy a separate Git snippet for the commit. A new branch will be created from your current branch along with an empty commit. When you push it to GitLab, both the branch and the commit are linked to the work package and appear in the **Branches** and **Commits** sections of the **GitLab** tab.
 
 ![Git snippet to create a new branch with empty commit in GitLab entered into command line interface](openproject-system-guide-gitlab-integration-branch-and-commit-git-snippet-cli.png)
 
@@ -195,7 +199,7 @@ Continue your work as you normally would, push the branch to GitLab and create a
 
 ![New GitLab merge request created by git snippet entered into CLI](openproject-system-guide-gitlab-new_merge_request_in_gitlab.png)
 
-Changes to the merge request will be tracked under GitLab tab of OpenProject work package, from which git snippets were copied. 
+Changes to the merge request will be tracked under GitLab tab of OpenProject work package, from which git snippets were copied, together with the branch and the commits pushed to it.
 
 ![Work package in OpenProject showing GitLab tab and related merge request updates](openproject-system-guide-gitlab-cli-snippet-work-package.png)
 
@@ -214,3 +218,27 @@ You can either create a new issue in GitLab, or edit an already existing one. En
 Once you save your changes or create a GitLab issue, it will become visible under the **GitLab** tab in OpenProject.
 
 ![New GitLab issues shown in OpenProject work packages](openproject-system-guide-gitlab-integration-new-issues.png)
+
+### Link branches
+
+A GitLab branch is linked to a work package when the branch is pushed to GitLab and its name contains the work package ID. The branch name you copy from the **Git quick snippets** dialog already has the right format.
+
+OpenProject recognizes the work package ID in the following cases:
+
+- A part of the branch name, separated by `/`, starts with the work package ID as shown in OpenProject, optionally followed by `-`, `_` or `.` and any text. The ID is a number such as `388`, or a project-based ID such as `DP-6` if your instance uses project-based work package IDs. For example `388-fix-login`, `feature/388-fix-login` or `feature/dp-6-sponsorship-brochure`.
+- Otherwise, a project-based work package ID such as `DP-6` appears anywhere in the branch name, for example `update-on-dp-6-brochure`. A plain number in the middle of the branch name is not recognized.
+
+A branch is linked to one work package only. If the name contains several work package IDs, the first one is used.
+
+Linked branches are shown in the **Branches** section of the **GitLab** tab. For each branch, you can see the repository, the branch name with a link to GitLab, who created the branch and when it was last updated. Click the copy icon next to the name to copy the branch name. Click **Create merge request** to open the form for a new merge request for this branch in GitLab.
+
+> [!NOTE]
+> Only branches created after the webhook has been configured are linked. When a branch is deleted in GitLab, it is also removed from the **GitLab** tab.
+
+### Link commits
+
+A GitLab commit is linked to a work package when it is pushed to GitLab and its message references the work package, either with **OP#388** or with the URL of the work package, for example `https://myopenproject.com/projects/demo/work_packages/388`. The URL has to point to your OpenProject instance, using the host name configured in OpenProject. The commit message you copy from the **Git quick snippets** dialog already contains such a reference. A commit can reference several work packages.
+
+Linked commits are shown in the **Commits** section of the **GitLab** tab. For each commit, you can see the repository, the short commit SHA, the first line of the commit message with a link to the commit in GitLab, the author and the date the commit was authored. Click the copy icon next to the SHA to copy the full commit SHA.
+
+A comment about the pushed commit is also added to the **Activity** tab of the referenced work package. Unlike issues and merge requests, commits have no private reference: a commit referencing a work package with **PP#** is linked and commented on in the same way as with **OP#**.
