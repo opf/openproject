@@ -102,7 +102,9 @@ class WikiController < ApplicationController
     @editable = editable?
   end
 
-  def new; end
+  def new
+    render layout: "no_menu"
+  end
 
   def new_child
     find_existing_page
@@ -151,6 +153,7 @@ class WikiController < ApplicationController
     version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
 
     @page = ::WikiPages::AtVersion.new(page, version)
+    render layout: "no_menu"
   end
 
   def create
