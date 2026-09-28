@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   end
 
   def allowed_values
-    raise ::Queries::Filters::TooManyCandidatesError, "There would be too many candidates"
+    raise ::Queries::Filters::TooManyCandidatesError
   end
 
   def allowed_values_subset

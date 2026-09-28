@@ -54,6 +54,10 @@ module Queries::Filters
 
   ##
   # Raised by filters that have too many candidates to enumerate. Those advertise their
-  # candidates through an autocompleter and validate via +allowed_values_subset+.
-  class TooManyCandidatesError < StandardError; end
+  # candidates through an autocompleter.
+  class TooManyCandidatesError < StandardError
+    def initialize(message = "There would be too many candidates")
+      super
+    end
+  end
 end
