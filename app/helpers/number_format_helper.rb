@@ -30,6 +30,7 @@
 
 module NumberFormatHelper
   include ActionView::Helpers::NumberHelper
+  extend self
 
   def number_with_limit(number, opts = {})
     init_formatting_options(opts) => { digits:, precision:, length_limit: }

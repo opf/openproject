@@ -28,7 +28,6 @@
 
 import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, ComponentType, DomPortalOutlet } from '@angular/cdk/portal';
-import { TransitionService } from '@uirouter/core';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import {
   OpContextMenuLocalsMap,
@@ -41,7 +40,6 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 export class OPContextMenuService {
   readonly FocusHelper = inject(FocusHelperService);
   private appRef = inject(ApplicationRef);
-  private $transitions = inject(TransitionService);
   private injector = inject(Injector);
 
   public active:OpContextMenuHandler|null = null;
@@ -69,9 +67,6 @@ export class OPContextMenuService {
       this.appRef,
       this.injector,
     );
-
-    // Close context menus on state change
-    this.$transitions.onStart({}, () => { this.close(); });
 
     // Listen to keyups on window to close context menus
     window.addEventListener('keydown', (evt) => {

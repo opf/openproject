@@ -84,6 +84,7 @@ module Queries::WorkPackages
     filter Filter::MilestoneFilter
     filter Filter::TypeaheadFilter
     filter Filter::DurationFilter
+    filter Filter::LabelsFilter
     exclude Filter::RelatableFilter
 
     select Selects::PropertySelect

@@ -30,6 +30,8 @@
 
 module FullCalendar
   class TimeEntryEvent < Event
+    include Redmine::I18n
+
     attr_accessor :time_entry
 
     class << self
@@ -69,11 +71,26 @@ module FullCalendar
         hours: time_entry.hours_for_calculation,
         typeId: time_entry.entity.type_id,
         workPackageId: time_entry.entity.to_param,
+        workPackageFormattedId: time_entry.entity.formatted_id,
         workPackageSubject: time_entry.entity.subject,
         projectId: time_entry.project.id,
+        projectIdentifier: time_entry.project.identifier,
         projectName: time_entry.project.name,
+        timeRange: time_range,
         ongoing: time_entry.ongoing?
       }
+    end
+
+    private
+
+    def time_range
+      return if time_entry.start_time.blank?
+
+      starts_at = time_entry.start_timestamp
+      ends_at = time_entry.end_timestamp
+
+      "#{format_time(starts_at, include_date: false)} - " \
+        "#{format_time(ends_at, include_date: starts_at.to_date != ends_at.to_date)}"
     end
   end
 end

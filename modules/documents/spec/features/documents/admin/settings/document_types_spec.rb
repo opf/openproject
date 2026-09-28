@@ -32,8 +32,12 @@ require "spec_helper"
 
 RSpec.describe "Document types admin", :js do
   include Flash::Expectations
+  include EnumerationAdminHelpers
 
   current_user { create(:admin) }
+
+  def enumeration_list_selector = "#documents-admin-document-types-index-component"
+  def enumeration_actions_label = I18n.t("documents.document_type_actions")
 
   def within_enumeration_item(type, &)
     page.within("#documents-admin-document-types-item-component-#{type.id}", &)
@@ -187,23 +191,44 @@ RSpec.describe "Document types admin", :js do
     end
   end
 
+  context "with three document types" do
+    let!(:alpha) { create(:document_type, name: "Alpha") }
+    let!(:beta) { create(:document_type, name: "Beta") }
+    let!(:gamma) { create(:document_type, name: "Gamma") }
+
+    before do
+      gamma.move_to_top
+      beta.move_to_top
+      alpha.move_to_top
+    end
+
+    it "reorders through the move menu" do
+      visit admin_settings_document_types_path
+
+      expect_enumeration_order("Alpha", "Beta", "Gamma")
+
+      move_enumeration(gamma, I18n.t(:label_sort_highest))
+
+      expect_enumeration_move_settled("Gamma", "Alpha", "Beta")
+
+      refresh
+
+      expect_enumeration_order("Gamma", "Alpha", "Beta")
+    end
+  end
+
   context "with a single document type" do
     let!(:only_type) { create(:document_type, name: "Only type") }
 
     it "shows a single separator (no duplicate) in the more menu" do
       visit admin_settings_document_types_path
 
-      within_enumeration_item(only_type) do
-        click_on accessible_name: "Document type actions"
+      within_enumeration_menu(only_type) do |menu|
+        expect(menu).to have_selector(:menuitem, "Edit")
+        expect(menu).to have_selector(:menuitem, "Delete")
+        expect(menu).to have_no_selector(:menuitem, I18n.t(:button_move))
+        expect(menu).to have_css("li.ActionList-sectionDivider", count: 1)
       end
-
-      expect(page).to have_link("Edit")
-      expect(page).to have_link("Delete")
-      expect(page).to have_no_button(I18n.t(:label_sort_highest))
-      expect(page).to have_no_button(I18n.t(:label_sort_higher))
-      expect(page).to have_no_button(I18n.t(:label_sort_lower))
-      expect(page).to have_no_button(I18n.t(:label_sort_lowest))
-      expect(page).to have_css("li.ActionList-sectionDivider", count: 1)
     end
   end
 

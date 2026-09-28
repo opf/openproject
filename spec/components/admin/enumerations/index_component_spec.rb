@@ -52,13 +52,17 @@ RSpec.describe Admin::Enumerations::IndexComponent, type: :component do
       expect(rendered_component).to have_css(".Box-row", text: "Trivial")
     end
 
-    it_behaves_like "a reorderable Border Box List", drag_type: "enumeration" do
-      let(:draggable_records) { [priority_a, priority_b] }
-
-      def drop_url_for(record)
-        "/work_package_priorities/#{record.id}/move"
-      end
+    it_behaves_like "a sortable-lists root",
+                    wrapper_id: "admin-enumerations-index-component",
+                    move_url_template: "/admin/settings/work_package_priorities/{id}/move"
+    it_behaves_like "a sortable-lists list",
+                    list_type: "issue_priority",
+                    name: IssuePriority.model_name.human(count: :other)
+    it_behaves_like "a Border Box sortable list", row_count: 2
+    it_behaves_like "sortable-lists items", list_type: "issue_priority" do
+      let(:sortable_records) { [priority_a, priority_b] }
     end
+    it_behaves_like "no legacy drag-and-drop wiring"
   end
 
   context "without enumerations" do

@@ -52,8 +52,8 @@ module My
       def range
         case mode
         when :day then [date]
-        when :week then date.all_week(week_start_day)
-        when :workweek then workweek_days
+        when :week then week_days(date)
+        when :workweek then workweek_days(date)
         when :month then month_days
         end
       end
@@ -74,22 +74,12 @@ module My
         end
       end
 
-      def workweek_days
-        workdays_normalized = Setting.working_days.map { |day| day % 7 }.sort
-        date.all_week(week_start_day).select { |d| workdays_normalized.include?(d.wday) }
-      end
-
       def month_days
-        date.all_month.map(&:beginning_of_week).uniq
+        date.all_month.map { |day| day.beginning_of_week(week_start_day) }.uniq
       end
-
 
       def week_start_day
-        case Setting.start_of_week
-        when 6 then :saturday
-        when 7 then :sunday
-        else :monday
-        end
+        OpenProject::Internationalization::Date.beginning_of_week
       end
 
       def collapsed?(date) # rubocop:disable Metrics/AbcSize

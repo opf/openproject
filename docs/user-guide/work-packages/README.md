@@ -45,6 +45,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Duplicate, move, delete](duplicate-move-delete)             | How to copy, move, delete a work package.                    |
 | [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.). |
 | [Export work packages](exporting)                            | How to export work packages for other tools such as Microsoft Excel. |
+| [Import work packages](importing)                            | How to create many work packages at once from a CSV file.    |
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies.        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4"></video>

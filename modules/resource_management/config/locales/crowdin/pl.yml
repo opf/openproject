@@ -23,6 +23,9 @@ pl:
         name: Nazwa
         public: Publiczny
         start_date: Data rozpoczęcia
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
@@ -73,6 +76,9 @@ pl:
         few: Osie czasu pakietów roboczych
         many: Osie czasu pakietów roboczych
         other: Osie czasu pakietów roboczych
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Dalej
   ee:
     features:

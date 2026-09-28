@@ -25,9 +25,9 @@ it:
   activerecord:
     attributes:
       gitlab_branch:
-        gitlab_project: GitLab project
-        namespace: GitLab namespace
-        project_html_url: GitLab project URL
+        gitlab_project: Progetto GitLab
+        namespace: Namespace GitLab
+        project_html_url: URL del progetto GitLab
       gitlab_merge_request:
         labels: Etichette
       gitlab_pipeline:
@@ -44,8 +44,8 @@ it:
               invalid_schema: 'deve essere un array di hash con le chiavi: colore, titolo'
     models:
       gitlab_branch:
-        one: GitLab branch
-        other: GitLab branches
+        one: Branch GitLab
+        other: Branch GitLab
       gitlab_issue:
         one: Problema GitLab
         other: Problemi GitLab

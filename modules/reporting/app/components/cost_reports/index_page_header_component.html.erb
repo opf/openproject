@@ -1,3 +1,4 @@
+<%= component_wrapper do %>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { render_widget Widget::Controls::QueryName, @query }
@@ -11,7 +12,7 @@
         mobile_icon: "op-file-xls-descriptions",
         mobile_label: t(:export_to_excel),
         tag: :a,
-        href: url_for({ controller: "cost_reports", action: :index, format: "xls", project_id: @project }),
+        href: export_path("xls"),
         data: {
           controller: "costs--export",
           "costs--export-job-status-dialog-url-value": job_status_dialog_path("_job_uuid_"),
@@ -28,7 +29,7 @@
         mobile_icon: "op-file-xls-descriptions",
         mobile_label: t("export.timesheet.button"),
         tag: :a,
-        href: url_for({ controller: "cost_reports", action: :index, format: "pdf", project_id: @project }),
+        href: export_path("pdf"),
         data: {
           controller: "costs--export",
           "costs--export-job-status-dialog-url-value": job_status_dialog_path("_job_uuid_"),
@@ -42,3 +43,4 @@
     end
   end
 %>
+<% end %>

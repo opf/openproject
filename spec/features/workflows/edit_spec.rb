@@ -50,11 +50,11 @@ RSpec.describe "Workflow edit", :js do
   current_user { admin }
 
   before do
-    visit_workflow_edit
+    visit_workflow_page
   end
 
   it "allows adding another workflow" do
-    visit_workflow_edit(roles: [role])
+    visit_workflow_page(roles: [role])
 
     check workflow_checkbox(1, 0)
 
@@ -89,7 +89,7 @@ RSpec.describe "Workflow edit", :js do
                       old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                       author: true, assignee: false)
 
-    visit_workflow_edit(roles: [role], tab: "author")
+    visit_workflow_page(roles: [role], tab: "author")
 
     within "#workflow_form_author" do
       check workflow_checkbox(1, 0)
@@ -132,7 +132,7 @@ RSpec.describe "Workflow edit", :js do
                       old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                       author: false, assignee: true)
 
-    visit_workflow_edit(roles: [role], tab: "assignee")
+    visit_workflow_page(roles: [role], tab: "assignee")
 
     within "#workflow_form_assignee" do
       check workflow_checkbox(1, 0)
@@ -183,7 +183,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     before do
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
     end
 
     it "shows the always tab by default" do
@@ -298,7 +298,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     before do
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
     end
 
     it "shows the matrix for the first role" do
@@ -404,7 +404,7 @@ RSpec.describe "Workflow edit", :js do
 
   context "when reloading the page with unsaved changes", :js do
     before do
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
     end
 
     it "shows a browser confirmation when reloading with unsaved checkbox changes" do
@@ -444,7 +444,7 @@ RSpec.describe "Workflow edit", :js do
 
   context "with status dialog", :js do
     before do
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
     end
 
     it "shows only role-specific statuses in the matrix by default" do
@@ -452,7 +452,7 @@ RSpec.describe "Workflow edit", :js do
       create(:workflow, role_id: other_role.id, type_id: type.id,
                         old_status_id: statuses[0].id, new_status_id: statuses[2].id)
 
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
 
       expect(page).to have_field workflow_checkbox(0, 1)
       expect(page).to have_no_field workflow_checkbox(2, 0)
@@ -567,7 +567,7 @@ RSpec.describe "Workflow edit", :js do
 
       expect(page).to have_field workflow_checkbox(2, 0)
 
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
 
       expect(page).to have_no_field workflow_checkbox(2, 0)
     end
@@ -614,7 +614,7 @@ RSpec.describe "Workflow edit", :js do
 
       expect_flash(message: "Successful update.")
 
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
 
       expect(page).to have_no_field workflow_checkbox(2, 0)
       expect(page).to have_no_field workflow_checkbox(0, 2)
@@ -757,48 +757,25 @@ RSpec.describe "Workflow edit", :js do
 
     before do
       type.default_variant.update!(workflow: source_type.default_variant.workflow)
-      visit_workflow_edit(roles: [role])
+      visit_workflow_page(roles: [role])
     end
 
-    it "calls the workflow reused and keeps the transitions editable" do
+    it "keeps the transitions editable" do
       expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: false)
       expect(page).to have_button "Save"
-
-      within_test_selector("workflow-reuse-mode") do
-        expect(page).to have_css("h3", text: "Reuses workflow")
-      end
 
       within "#workflow-table" do
         expect(page).to have_link "Status"
       end
     end
-
-    it "says how far a change carries" do
-      within_test_selector("workflow-usage-box") do
-        expect(page).to have_text("Used in 1 other place")
-        expect(page).to have_link("Feature")
-      end
-    end
   end
 
-  describe "the reuse mode section" do
-    it "names the workflow in use and links to its own page" do
-      workflow = type.default_variant.workflow
-      workflow.update!(name: "Standard flow")
+  describe "the workflow picker" do
+    it "names the workflow in use" do
+      type.default_variant.workflow.update!(name: "Standard flow")
       visit_workflow_edit(roles: [role])
 
-      within_test_selector("workflow-reuse-mode") do
-        expect(page).to have_css("h3", text: "Independent configuration")
-        expect(page).to have_link("Standard flow", href: edit_workflow_path(workflow))
-      end
-    end
-
-    it "says the workflow reaches nothing else while no other type or variant shares it" do
-      visit_workflow_edit(roles: [role])
-
-      within_test_selector("workflow-usage-box") do
-        expect(page).to have_text("Not used anywhere else")
-      end
+      within_test_selector("workflow-selector") { expect(page).to have_text("Standard flow") }
     end
   end
 end

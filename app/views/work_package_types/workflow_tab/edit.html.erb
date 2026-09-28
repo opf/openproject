@@ -35,24 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
         reload_url: edit_type_workflow_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(Workflows::ReuseMode::SectionComponent.new(variant: @variant)) %>
-
   <% if @type && @roles.any? %>
-    <%= form_tag(
-          type_workflow_matrix_path(**@variant.path_args, tab: @current_tab),
-          method: :patch,
-          autocomplete: "off",
-          class: "workflow-table--pinned-save-bar"
-        ) do %>
-      <%= turbo_frame_tag "workflow-table", src: type_workflow_matrix_path(**@variant.path_args, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
-
-      <div class="workflow-save-bar">
-        <%=
-          render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
-            t(:button_save)
-          end
-        %>
-      </div>
-    <% end %>
+    <%= turbo_frame_tag "workflow-table", src: type_workflow_matrix_path(**@variant.path_args, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
   <% end %>
 <% end %>

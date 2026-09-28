@@ -242,6 +242,7 @@ zh-TW:
   label_show: 顯示
   label_specific_day: "%{day} 日"
   label_specific_month: "%{month} 月"
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 已完成
   label_time: 時間

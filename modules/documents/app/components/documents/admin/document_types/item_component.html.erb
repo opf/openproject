@@ -32,7 +32,7 @@
 <%= component_wrapper do
       grid_layout("op-documents-types-list--item", tag: :div, align_items: :center) do |grid|
         grid.with_area(:"drag-handle", tag: :div, classes: "hide-when-print") do
-          render(Primer::OpenProject::DragHandle.new)
+          render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" }))
         end
 
         grid.with_area(:name, tag: :div, classes: "ellipsis") do

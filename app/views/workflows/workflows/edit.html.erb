@@ -38,16 +38,35 @@ See COPYRIGHT and LICENSE files for more details.
         @workflow.name]
      ) %>
 
-  <% header.with_action_button(
-       tag: :a,
-       scheme: :secondary,
-       href: edit_dialog_workflow_path(@workflow),
-       data: { controller: "async-dialog" },
-       mobile_icon: :pencil,
-       mobile_label: t(:button_edit)
-     ) do |button| %>
-    <% button.with_leading_visual_icon(icon: :pencil) %>
-    <%= t(:button_edit) %>
+  <% header.with_action_menu(
+       menu_arguments: { anchor_align: :end },
+       button_arguments: {
+         icon: "kebab-horizontal",
+         "aria-label": t(:label_more),
+         data: { "test-selector": "workflow-actions" }
+       }
+     ) do |menu| %>
+    <% menu.with_item(
+         tag: :a,
+         label: t(:button_edit),
+         href: edit_dialog_workflow_path(@workflow),
+         content_arguments: { data: { controller: "async-dialog" } },
+         test_selector: "workflow-edit-action"
+       ) do |item| %>
+      <% item.with_leading_visual_icon(icon: :pencil) %>
+    <% end %>
+
+    <% menu.with_divider %>
+
+    <% menu.with_item(
+         scheme: :danger,
+         label: t(:button_delete),
+         href: workflow_path(@workflow),
+         form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } },
+         test_selector: "workflow-delete-action"
+       ) do |item| %>
+      <% item.with_leading_visual_icon(icon: :trash) %>
+    <% end %>
   <% end %>
 <% end %>
 

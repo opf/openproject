@@ -260,6 +260,7 @@ lv:
   label_show: Rādīt
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Pabeigts
   label_time: Laiks

@@ -45,11 +45,25 @@ module Workflows
 
     attr_reader :context
 
-    delegate :variant, :workflow, :tab, :roles, :eligible_roles, :statuses, to: :context
+    delegate :variant, :workflow, :tab, :roles, :eligible_roles, :statuses, :variant_tab?, :readonly?, to: :context
 
     def state_id = STATE_ID
 
     def copy_button_label = I18n.t(:label_copy_workflow_from_role)
+
+    def workflow_button_label = I18n.t("admin.workflows.workflow_button")
+
+    def workflow_candidates
+      @workflow_candidates ||= Workflow.available_in(variant.project).in_display_order.to_a
+    end
+
+    def workflow_page_path = url_helpers.edit_workflow_path(workflow)
+
+    def administration_tab? = variant_tab? && variant.project_id.nil?
+
+    def create_workflow_dialog_path
+      url_helpers.configure_dialog_type_workflow_path(**variant.path_args)
+    end
 
     def state_data
       {

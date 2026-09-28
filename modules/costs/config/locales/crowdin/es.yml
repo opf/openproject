@@ -251,6 +251,7 @@ es:
   label_show: Mostrar
   label_specific_day: Día %{day}
   label_specific_month: Mes %{month}
+  label_stack: Stack
   label_start_and_finished: Horas de inicio y finalización
   label_status_finished: Acabado
   label_time: Hora

@@ -38,6 +38,8 @@ class TypeVariant < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
     DEFAULTS = "defaults",
+    # TODO: Form reuse should move to named forms (cross-type), replacing the generic inherit/manual
+    # mode selector and the dropped one-time "copy from another type". Revisit all Form-related wiring.
     FORM_CONFIGURATION = "form_configuration",
     PROJECT_ATTRIBUTES = "project_attributes"
   ].freeze
@@ -132,6 +134,11 @@ class TypeVariant < ApplicationRecord
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)
+  end
+
+  # The workflow the type itself uses, for a variant that is not the type.
+  def type_workflow
+    type.default_variant.workflow unless is_default_variant?
   end
 
   # Full variant name, e.g., "Bug: Hardware"

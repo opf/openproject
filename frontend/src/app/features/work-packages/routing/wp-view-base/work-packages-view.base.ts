@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
-import { StateService, TransitionService } from '@uirouter/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
@@ -98,8 +97,6 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
   injector = inject(Injector);
 
-  readonly $state = inject(StateService);
-
   readonly states = inject(States);
 
   readonly querySpace = inject(IsolatedQuerySpace);
@@ -131,8 +128,6 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
   readonly wpListChecksumService = inject(WorkPackagesListChecksumService);
 
   readonly loadingIndicatorService = inject(LoadingIndicatorService);
-
-  readonly $transitions = inject(TransitionService);
 
   readonly I18n = inject(I18nService);
 

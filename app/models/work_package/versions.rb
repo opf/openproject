@@ -160,6 +160,15 @@ module WorkPackage::Versions
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 
+  def target_versions_changed? = versions_changed?("target")
+  def observed_in_versions_changed? = versions_changed?("observed_in")
+
+  def assigned_version_ids(kind)
+    return [] unless persisted?
+
+    work_package_versions.where(kind:).pluck(:version_id)
+  end
+
   def effective_target_versions = effective_versions("target")
   def effective_observed_in_versions = effective_versions("observed_in")
 
@@ -176,6 +185,13 @@ module WorkPackage::Versions
   end
 
   private
+
+  def versions_changed?(kind)
+    replacements = public_send(:"#{kind}_version_ids_replacements")
+    return false if replacements.nil?
+
+    replacements.map(&:to_i).uniq.sort != assigned_version_ids(kind).sort
+  end
 
   def effective_versions(kind)
     replacements = public_send(:"#{kind}_version_ids_replacements")
@@ -230,7 +246,7 @@ module WorkPackage::Versions
   # Sets the work package's associations of the given kind to exactly the
   # given version_ids.
   def replace_versions(kind, version_ids)
-    existing = work_package_versions.where(kind:).pluck(:version_id)
+    existing = assigned_version_ids(kind)
 
     to_remove = existing - version_ids
     to_add    = version_ids - existing

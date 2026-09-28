@@ -63,6 +63,8 @@ module ::TypesHelper
   end
 
   def settings_tab
+    return if @variant.nil? || @variant.is_default_variant?
+
     type_tab(SETTINGS_TAB, type_settings_path(**type_variant_tab_args),
              aspect: nil, label: I18n.t("types.edit.overview.tab"))
   end

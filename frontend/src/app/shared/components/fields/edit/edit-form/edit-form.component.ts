@@ -27,8 +27,6 @@
 //++
 
 import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
-import { StateService, Transition, TransitionService } from '@uirouter/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
 import { input } from '@openproject/reactivestates';
 import { filter, map, take } from 'rxjs/operators';
@@ -42,11 +40,9 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
-import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
 import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { firstValueFrom } from 'rxjs';
-import * as Turbo from '@hotwired/turbo';
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -62,12 +58,8 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private appRef = inject(ApplicationRef);
   private readonly cdRef = inject(ChangeDetectorRef);
-  protected readonly $transitions = inject(TransitionService);
-  protected readonly configurationService = inject(ConfigurationService);
   protected readonly editingPortalService = inject(EditingPortalService);
-  protected readonly $state = inject(StateService);
   protected readonly I18n = inject(I18nService);
-  protected readonly editFormRouting = inject(EditFormRoutingService, { optional: true });
   private globalEditFormChangesTrackerService = inject(GlobalEditFormChangesTrackerService);
 
   @Input() resource:HalResource;
@@ -82,62 +74,11 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   private registeredFields = input<string[]>();
 
-  private unregisterListener:Function;
-
   constructor() {
     const injector = inject(Injector);
 
     super(injector);
     this.injector = injector;
-    const $transitions = this.$transitions;
-    const I18n = this.I18n;
-
-    const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
-    const requiresConfirmation = this.configurationService.warnOnLeavingUnsaved();
-
-    this.unregisterListener = $transitions.onBefore({}, (transition:Transition) => {
-      if (!this.editing) {
-        return undefined;
-      }
-
-      // Show confirmation message when transitioning to a new state
-      // that's not within the edit mode.
-      if (!this.editFormRouting || this.editFormRouting.blockedTransition(transition)) {
-        if (requiresConfirmation && !window.confirm(confirmText)) {
-          this.undoCanceledBrowserBackTransition(transition);
-          return false;
-        }
-
-        this.cancel(false);
-      }
-
-      return true;
-    });
-  }
-
-  private undoCanceledBrowserBackTransition(transition:Transition) {
-    if (transition.options().source !== 'url') {
-      return;
-    }
-
-    const fromUrl = transition
-      .router
-      .stateService
-      .href(transition.from(), transition.params('from'));
-
-    if (!fromUrl) {
-      return;
-    }
-
-    // Restore the canceled Back URL without firing a real forward navigation,
-    // which would make Turbo restore a stale snapshot of the split view.
-    Turbo.session
-      .history
-      .push(new URL(fromUrl, window.location.origin));
-
-    // Keep UI-Router from replacing the restored browser history entry while
-    // it rolls back the aborted Back navigation.
-    transition.router.urlRouter.update(true);
   }
 
   ngOnInit() {
@@ -150,7 +91,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.unregisterListener();
     this.globalEditFormChangesTrackerService.removeFromActiveForms(this);
   }
 

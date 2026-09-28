@@ -39,6 +39,14 @@
                   "type": "string",
                   "enum": ["inline", "sbs"]
                 },
+                "my_work_view_mode": {
+                  "type": "string",
+                  "enum": ["list", "calendar", "stack"]
+                },
+                "my_work_mode": {
+                  "type": "string",
+                  "enum": ["day", "week", "workweek", "month"]
+                },
                 "workdays": {
                   "type": "array",
                   "items": {
