@@ -34,6 +34,6 @@ export class DaysDurationDisplayField extends DisplayField {
   @LazyInject() timezoneService:TimezoneService;
 
   public get valueString() {
-    return this.timezoneService.formattedDuration(this.value, 'days');
+    return this.timezoneService.formattedDuration(this.value as string, 'days');
   }
 }
