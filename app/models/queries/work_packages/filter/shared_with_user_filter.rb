@@ -34,11 +34,17 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   SHAREABLE_STATUSES = [Principal.statuses[:active], Principal.statuses[:invited]].freeze
 
   def available?
-    super && view_shared_work_packages_allowed?
+    shareable_principals.exists? && view_shared_work_packages_allowed?
   end
 
   def allowed_values
-    @allowed_values ||= me_allowed_value + shareable_principals.pluck(:id).map { |id| [nil, id.to_s] }
+    raise ::Queries::Filters::TooManyCandidatesError, "There would be too many candidates"
+  end
+
+  def allowed_values_subset
+    id_values = shareable_principals.where(id: values - [me_value_key]).pluck(:id).map(&:to_s)
+
+    has_me_value? ? id_values + [me_value_key] : id_values
   end
 
   def apply_to(query_scope)

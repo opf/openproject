@@ -231,7 +231,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
     end
   end
 
-  describe "#allowed_values" do
+  describe "#allowed_values_subset" do
     shared_let(:project) { create(:project) }
     shared_let(:other_project) { create(:project) }
     shared_let(:invisible_project) { create(:project) }
@@ -248,30 +248,80 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
     shared_let(:invisible_user) { create(:user, member_with_roles: { invisible_project => role }) }
 
     let(:query) { build_stubbed(:query, project:) }
-    let(:instance) { described_class.create!(context: query) }
+    let(:instance) { described_class.create!(context: query).tap { |filter| filter.values = values } }
 
     current_user { filtering_user }
 
-    def allowed_ids = instance.allowed_values.map(&:last)
+    subject(:allowed) { instance.allowed_values_subset }
 
-    it "offers every visible user and group a work package can be shared with" do
-      expect(allowed_ids)
-        .to include(member_of_the_queried_project.id.to_s,
-                    non_member_of_the_queried_project.id.to_s,
-                    group.id.to_s)
+    context "for every visible user and group a work package can be shared with" do
+      let(:values) do
+        [member_of_the_queried_project.id.to_s, non_member_of_the_queried_project.id.to_s, group.id.to_s]
+      end
+
+      it "keeps all of them" do
+        expect(allowed).to match_array(values)
+      end
     end
 
-    it "offers the me value" do
-      expect(allowed_ids).to include("me")
+    context "for the me value" do
+      let(:values) { ["me"] }
+
+      it "keeps it" do
+        expect(allowed).to contain_exactly("me")
+      end
     end
 
-    it "omits principals that cannot be shared with" do
-      expect(allowed_ids)
-        .not_to include(placeholder_user.id.to_s, locked_user.id.to_s)
+    context "for principals that cannot be shared with" do
+      let(:values) { [placeholder_user.id.to_s, locked_user.id.to_s] }
+
+      it "drops them" do
+        expect(allowed).to be_empty
+      end
     end
 
-    it "omits principals the current user cannot see" do
-      expect(allowed_ids).not_to include(invisible_user.id.to_s)
+    context "for a principal the current user cannot see" do
+      let(:values) { [invisible_user.id.to_s] }
+
+      it "drops it" do
+        expect(allowed).to be_empty
+      end
+    end
+
+    context "for a single value, with other shareable principals around" do
+      let(:values) { [non_member_of_the_queried_project.id.to_s] }
+
+      it "looks up only that value instead of every candidate" do
+        expect(allowed).to contain_exactly(non_member_of_the_queried_project.id.to_s)
+      end
+    end
+
+    describe "#valid_values!" do
+      subject(:kept_values) { instance.tap(&:valid_values!).values }
+
+      context "for shareable principals" do
+        let(:values) { [non_member_of_the_queried_project.id.to_s, group.id.to_s] }
+
+        it "keeps them, so the filter is not dropped from the query" do
+          expect(kept_values).to match_array(values)
+        end
+      end
+
+      context "for the me value alongside the current user's own id" do
+        let(:values) { ["me", filtering_user.id.to_s] }
+
+        it "keeps both" do
+          expect(kept_values).to match_array(values)
+        end
+      end
+
+      context "for a principal that cannot be shared with" do
+        let(:values) { [non_member_of_the_queried_project.id.to_s, locked_user.id.to_s] }
+
+        it "drops only that one" do
+          expect(kept_values).to contain_exactly(non_member_of_the_queried_project.id.to_s)
+        end
+      end
     end
   end
 
