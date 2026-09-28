@@ -31,102 +31,100 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::Hierarchy::UpdateHierarchyItemContract do
-  subject { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
-  # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-  describe "#call" do
-    let!(:vader) { create(:hierarchy_item) }
-    let!(:luke) { create(:hierarchy_item, label: "luke", short: "ls", parent: vader) }
-    let!(:leia) { create(:hierarchy_item, label: "leia", short: "lo", parent: vader) }
-    let!(:starkiller) { create(:hierarchy_item, label: "starkiller", parent: vader) }
+  let!(:vader) { create(:hierarchy_item) }
+  let!(:luke) { create(:hierarchy_item, label: "luke", short: "ls", parent: vader) }
+  let!(:leia) { create(:hierarchy_item, label: "leia", short: "lo", parent: vader) }
+  let(:valid_params) { { item: luke, label: "Luke Skywalker", short: "LS" } }
 
-    context "when all required fields are valid" do
-      it "is valid" do
-        [
-          { item: luke, label: "Luke Skywalker", short: "LS" },
-          { item: luke, label: "Luke Skywalker", short: nil },
-          { item: luke, label: "luke", short: "lu" }
-        ].each { |params| expect(subject.call(params)).to be_success }
-      end
-    end
+  context "with a new label and short" do
+    let(:params) { valid_params }
 
-    context "when item sits two levels below the root" do
-      let(:ben) { create(:hierarchy_item, label: "ben", parent: leia) }
-
-      it "is valid, since hierarchies nest" do
-        expect(subject.call(item: ben, label: "Ben Solo", short: nil)).to be_success
-      end
-    end
-
-    context "when item is a root item" do
-      let(:params) { { item: vader } }
-
-      it("is invalid") do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["cannot be a root item."])
-      end
-    end
-
-    context "when item is not of type 'Item'" do
-      let(:invalid_item) { create(:custom_field) }
-      let(:params) { { item: invalid_item } }
-
-      it("is invalid") do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["must be CustomField::Hierarchy::Item."])
-      end
-    end
-
-    context "when item is not persisted" do
-      let(:item) { build(:hierarchy_item, parent: vader) }
-      let(:params) { { item: } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors[:item]).to match_array("must be an already existing item.")
-      end
-    end
-
-    context "when the label already exist in the same hierarchy level" do
-      let(:params) { { item: luke, label: "leia" } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-
-        expect(result.errors[:label]).to match_array("must be unique within the same hierarchy level.")
-      end
-    end
-
-    context "when the short already exist in the same hierarchy level" do
-      let(:params) { { item: luke, short: "lo" } }
-
-      it "is invalid" do
-        result = subject.call(params)
-
-        expect(result).to be_failure
-
-        expect(result.errors[:short]).to match_array("must be unique within the same hierarchy level.")
-      end
-    end
-
-    context "when fields are invalid" do
-      it "is invalid" do
-        [
-          {},
-          { item: nil },
-          { item: luke, label: nil, short: "lu" },
-          { item: luke, label: 42, short: "lu" },
-          { item: luke, label: "LUKE", short: 42 },
-          { item: luke, short: nil },
-          { item: luke, label: "LUKE" },
-          { item: luke, short: "lu" }
-        ].each { |params| expect(subject.call(params)).to be_failure }
-      end
-    end
+    it { is_expected.to be_success }
   end
-  # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+
+  context "with its own label and short kept" do
+    let(:params) { valid_params.merge(label: "luke", short: "ls") }
+
+    it { is_expected.to be_success }
+  end
+
+  context "with the short cleared" do
+    let(:params) { valid_params.merge(short: nil) }
+
+    it { is_expected.to be_success }
+  end
+
+  context "with an item two levels below the root" do
+    let(:params) { valid_params.merge(item: create(:hierarchy_item, label: "ben", parent: leia)) }
+
+    it("accepts it, since hierarchies nest") { is_expected.to be_success }
+  end
+
+  context "without an item" do
+    let(:params) { valid_params.merge(item: nil) }
+
+    it("rejects it") { expect(result.errors[:item]).to include("must be filled.") }
+  end
+
+  context "with the root item" do
+    let(:params) { valid_params.merge(item: vader) }
+
+    it("rejects it") { expect(result.errors[:item]).to include("cannot be a root item.") }
+  end
+
+  context "with an item that is not an item" do
+    let(:params) { valid_params.merge(item: create(:custom_field)) }
+
+    it("rejects it") { expect(result.errors[:item]).to include("must be CustomField::Hierarchy::Item.") }
+  end
+
+  context "with an unsaved item" do
+    let(:params) { valid_params.merge(item: build(:hierarchy_item, parent: vader)) }
+
+    it("rejects it") { expect(result.errors[:item]).to include("must be an already existing item.") }
+  end
+
+  context "without a label" do
+    let(:params) { valid_params.except(:label) }
+
+    it("rejects it") { expect(result.errors[:label]).to include("is missing.") }
+  end
+
+  context "with a blank label" do
+    let(:params) { valid_params.merge(label: nil) }
+
+    it("rejects it") { expect(result.errors[:label]).to include("must be filled.") }
+  end
+
+  context "with a label that is not a string" do
+    let(:params) { valid_params.merge(label: 42) }
+
+    it("rejects it") { expect(result.errors[:label]).to include("must be a string.") }
+  end
+
+  context "with a label a sibling already uses" do
+    let(:params) { valid_params.merge(label: "leia") }
+
+    it("rejects it") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
+  end
+
+  context "without a short key" do
+    let(:params) { valid_params.except(:short) }
+
+    it("rejects it") { expect(result.errors[:short]).to include("is missing.") }
+  end
+
+  context "with a short that is not a string" do
+    let(:params) { valid_params.merge(short: 42) }
+
+    it("rejects it") { expect(result.errors[:short]).to include("must be a string.") }
+  end
+
+  context "with a short a sibling already uses" do
+    let(:params) { valid_params.merge(short: "lo") }
+
+    it("rejects it") { expect(result.errors[:short]).to include("must be unique within the same hierarchy level.") }
+  end
 end

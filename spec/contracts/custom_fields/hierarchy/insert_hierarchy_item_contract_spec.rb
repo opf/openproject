@@ -31,144 +31,103 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
-  subject { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
-  # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-  describe "#call" do
-    let(:parent) { create(:hierarchy_item) }
+  let(:parent) { create(:hierarchy_item) }
+  let(:valid_params) { { parent:, label: "Valid Label", short: nil } }
 
-    context "when all required fields are valid" do
-      let(:params) { { parent:, label: "Valid Label", short: nil } }
+  context "with a label and no short" do
+    let(:params) { valid_params }
 
-      it "is valid" do
-        result = subject.call(params)
-        expect(result).to be_success
-      end
-    end
+    it { is_expected.to be_success }
+  end
 
-    context "when parent is not of type 'Item'" do
-      let(:invalid_parent) { create(:custom_field) }
-      let(:params) { { parent: invalid_parent, label: "Valid Label", short: nil } }
+  context "with a short" do
+    let(:params) { valid_params.merge(short: "Valid Short") }
 
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(parent: ["must be CustomField::Hierarchy::Item."])
-      end
-    end
+    it { is_expected.to be_success }
+  end
 
-    context "when parent is not persisted" do
-      let(:params) { { parent: build(:hierarchy_item), label: "Valid Label", short: nil } }
+  context "with a parent below the root" do
+    let(:params) { valid_params.merge(parent: create(:hierarchy_item, parent:)) }
 
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(parent: ["must exist"])
-      end
-    end
+    it("accepts it, since hierarchies nest") { is_expected.to be_success }
+  end
 
-    context "when parent sits below the root" do
-      let(:params) { { parent: create(:hierarchy_item, parent:), label: "Nested Label", short: nil } }
+  context "without a parent" do
+    let(:params) { valid_params.merge(parent: nil) }
 
-      it "is valid, since hierarchies nest" do
-        expect(subject.call(params)).to be_success
-      end
-    end
+    it("rejects it") { expect(result.errors[:parent]).to include("must be filled.") }
+  end
 
-    context "when label is not unique within the same hierarchy level" do
+  context "with a parent that is not an item" do
+    let(:params) { valid_params.merge(parent: create(:custom_field)) }
+
+    it("rejects it") { expect(result.errors[:parent]).to include("must be CustomField::Hierarchy::Item.") }
+  end
+
+  context "with an unsaved parent" do
+    let(:params) { valid_params.merge(parent: build(:hierarchy_item)) }
+
+    it("rejects it") { expect(result.errors[:parent]).to include("must exist") }
+  end
+
+  context "without a label" do
+    let(:params) { valid_params.except(:label) }
+
+    it("rejects it") { expect(result.errors[:label]).to include("is missing.") }
+  end
+
+  context "with a blank label" do
+    let(:params) { valid_params.merge(label: nil) }
+
+    it("rejects it") { expect(result.errors[:label]).to include("must be filled.") }
+  end
+
+  context "with a label that is not a string" do
+    let(:params) { valid_params.merge(label: 42) }
+
+    it("rejects it") { expect(result.errors[:label]).to include("must be a string.") }
+  end
+
+  context "with a label a sibling already uses" do
+    let(:params) { valid_params.merge(label: "Duplicate Label") }
+
+    before { create(:hierarchy_item, parent:, label: "Duplicate Label") }
+
+    it("rejects it") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
+
+    context "in another locale" do
+      let(:mordor) { "agh burzum-ishi krimpatul" }
+
       before do
-        create(:hierarchy_item, parent:, label: "Duplicate Label")
+        I18n.config.enforce_available_locales = false
+        I18n.backend.store_translations(:mo, { op_dry_validation: { errors: { rules: { label: { not_unique: mordor } } } } })
       end
 
-      let(:params) { { parent:, label: "Duplicate Label", short: nil } }
+      after { I18n.config.enforce_available_locales = true }
 
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
-      end
-
-      context "if another locale is set" do
-        let(:mordor) { "agh burzum-ishi krimpatul" }
-
-        before do
-          I18n.config.enforce_available_locales = false
-          I18n.backend.store_translations(
-            :mo,
-            { op_dry_validation: {
-              errors: { rules: { label: { not_unique: mordor } } }
-            } }
-          )
-        end
-
-        after do
-          I18n.config.enforce_available_locales = true
-        end
-
-        it "is invalid with localized validation errors" do
-          I18n.with_locale(:mo) do
-            result = subject.call(params)
-            expect(result).to be_failure
-            expect(result.errors.to_h).to include(label: [mordor])
-          end
-        end
-      end
-    end
-
-    context "when short is not unique in the same hierarchy level" do
-      let(:params) { { parent:, label: "Valid Label", short: "Repeated Short" } }
-
-      before { create(:hierarchy_item, parent:, label: "Unique Label", short: "Repeated Short") }
-
-      it "is invalid with localized validation errors" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
-      end
-    end
-
-    context "when short is set and is a string" do
-      let(:params) { { parent:, label: "Valid Label", short: "Valid Short" } }
-
-      it "is valid" do
-        result = subject.call(params)
-        expect(result).to be_success
-      end
-    end
-
-    context "when short is set and is not a string" do
-      let(:params) { { parent:, label: "Valid Label", short: 123 } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(short: ["must be a string."])
-      end
-    end
-
-    context "when inputs are valid" do
-      it "creates a success result" do
-        [
-          { parent:, label: "A label", short: "A shorthand" },
-          { parent:, label: "A label", short: nil }
-        ].each { |params| expect(subject.call(params)).to be_success }
-      end
-    end
-
-    context "when inputs are invalid" do
-      it "creates a failure result" do
-        [
-          { parent: },
-          { parent:, label: "A label" },
-          { parent:, short: "AL" },
-          { parent: nil, label: "A label", short: nil },
-          { parent: 42, label: "A label", short: nil },
-          { parent:, label: nil, short: nil },
-          { parent:, label: 42, short: nil },
-          { parent:, label: "A label", short: 42 }
-        ].each { |params| expect(subject.call(params)).to be_failure }
-      end
+      it("rejects it in that locale") { I18n.with_locale(:mo) { expect(result.errors[:label]).to include(mordor) } }
     end
   end
-  # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+
+  context "without a short key" do
+    let(:params) { valid_params.except(:short) }
+
+    it("rejects it") { expect(result.errors[:short]).to include("is missing.") }
+  end
+
+  context "with a short that is not a string" do
+    let(:params) { valid_params.merge(short: 42) }
+
+    it("rejects it") { expect(result.errors[:short]).to include("must be a string.") }
+  end
+
+  context "with a short a sibling already uses" do
+    let(:params) { valid_params.merge(short: "Repeated Short") }
+
+    before { create(:hierarchy_item, parent:, label: "Unique Label", short: "Repeated Short") }
+
+    it("rejects it") { expect(result.errors[:short]).to include("must be unique within the same hierarchy level.") }
+  end
 end
