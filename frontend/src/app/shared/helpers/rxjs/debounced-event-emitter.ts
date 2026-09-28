@@ -27,7 +27,7 @@
 //++
 
 import { EventEmitter } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 export class DebouncedEventEmitter<T> {
@@ -49,7 +49,7 @@ export class DebouncedEventEmitter<T> {
     this.debouncer.next(value);
   }
 
-  public subscribe(generatorOrNext?:any, error?:any, complete?:any):any {
-    return this.emitter.subscribe(generatorOrNext, error, complete);
+  public subscribe(...params:Parameters<EventEmitter<T>['subscribe']>):Subscription {
+    return this.emitter.subscribe(...params);
   }
 }
