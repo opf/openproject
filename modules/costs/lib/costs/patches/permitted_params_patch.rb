@@ -29,64 +29,58 @@
 #++
 
 module Costs::Patches::PermittedParamsPatch
-  def self.included(base) # :nodoc:
-    base.send(:include, InstanceMethods)
+  def cost_entry
+    params.require(:cost_entry).permit(:comments,
+                                       :units,
+                                       :overridden_costs,
+                                       :spent_on,
+                                       :user_id,
+                                       :entity_id,
+                                       :entity_type,
+                                       :cost_type_id)
   end
 
-  module InstanceMethods
-    def cost_entry
-      params.require(:cost_entry).permit(:comments,
-                                         :units,
-                                         :overridden_costs,
-                                         :spent_on,
-                                         :user_id,
-                                         :entity_id,
-                                         :entity_type,
-                                         :cost_type_id)
-    end
+  def budget
+    params.require(:budget).permit(:subject,
+                                   :description,
+                                   :fixed_date, :base_amount,
+                                   { new_material_budget_item_attributes: %i[units cost_type_id comments amount] },
+                                   { new_labor_budget_item_attributes: %i[hours user_id comments amount] },
+                                   { existing_material_budget_item_attributes: %i[units cost_type_id comments amount] },
+                                   { existing_labor_budget_item_attributes: %i[hours user_id comments amount] })
+  end
 
-    def budget
-      params.require(:budget).permit(:subject,
-                                     :description,
-                                     :fixed_date, :base_amount,
-                                     { new_material_budget_item_attributes: %i[units cost_type_id comments amount] },
-                                     { new_labor_budget_item_attributes: %i[hours user_id comments amount] },
-                                     { existing_material_budget_item_attributes: %i[units cost_type_id comments amount] },
-                                     { existing_labor_budget_item_attributes: %i[hours user_id comments amount] })
-    end
+  def cost_type
+    params.require(:cost_type).permit(:name,
+                                      :unit,
+                                      :unit_plural,
+                                      :default,
+                                      :for_all_projects,
+                                      :current_rate,
+                                      { new_rate_attributes: %i[valid_from rate] },
+                                      existing_rate_attributes: %i[valid_from rate])
+  end
 
-    def cost_type
-      params.require(:cost_type).permit(:name,
-                                        :unit,
-                                        :unit_plural,
-                                        :default,
-                                        :for_all_projects,
-                                        :current_rate,
-                                        { new_rate_attributes: %i[valid_from rate] },
-                                        existing_rate_attributes: %i[valid_from rate])
-    end
+  def time_entries
+    additional_fields = []
 
-    def time_entries
-      additional_fields = []
+    additional_fields << :start_time if TimeEntry.can_track_start_and_end_time? || params.dig(:time_entry, :start_time).nil?
 
-      additional_fields << :start_time if TimeEntry.can_track_start_and_end_time? || params.dig(:time_entry, :start_time).nil?
-
-      params
-        .require(:time_entry)
-        .permit(
-          *additional_fields,
-          :hours,
-          :comments,
-          :spent_on,
-          :entity_type,
-          :entity_id,
-          :activity_id,
-          :project_id,
-          :issue_id,
-          :user_id,
-          :ongoing
-        )
-        .merge(custom_field_values(:time_entry))
-    end
+    params
+      .require(:time_entry)
+      .permit(
+        *additional_fields,
+        :hours,
+        :comments,
+        :spent_on,
+        :entity_type,
+        :entity_id,
+        :activity_id,
+        :project_id,
+        :issue_id,
+        :user_id,
+        :ongoing
+      )
+      .merge(custom_field_values(:time_entry))
   end
 end
