@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CostScopes
   def self.included(base_module)
     base_module.class_eval do
