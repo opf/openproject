@@ -51,6 +51,8 @@ module WorkPackageTypes
           }
         end
 
+        def wrapper_key = "#{kind.dom_key}s-index-sub-header-component"
+
         def name_filter_attributes
           {
             "filter-name": name_filter_key,

@@ -3300,12 +3300,65 @@ en:
     include_sub_items: "Include sub-items"
     no_results_text: "No results"
   forms:
+    form:
+      copy_from:
+        caption: "The new form starts with a copy of that form's attribute groups."
+        label: "Copy from"
+        placeholder: "Select a form…"
+      description:
+        caption: "Add a short description about where and how will this form be used."
+        label: "Description"
+      edit_title: "Edit form"
+      name:
+        caption: "Pick a name that will let you identify this form later in other places."
+        label: "Form name"
+      new_title: "Create form"
     index:
+      actions:
+        edit: "Edit form"
+        menu: "Actions for %{name}"
+        rename: "Edit name and description"
+      blank_slate:
+        description: "Create a form to define the attribute groups a type or variant shows on its work packages."
+        filtered_description: "No form matches the current filters."
+        filtered_title: "No matching forms"
+        title: "No forms"
+      columns:
+        name: "Form name"
+        projects: "Projects"
+        types_and_variants: "Types and variants"
+      description: "Every named work package form in this instance, with the types and variants using it."
       filters:
         name: "Form"
+        name_placeholder: "Filter by form name or description…"
+        projects_placeholder: "Filter projects…"
+      projects_count:
+        one: "1 project"
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: "1 type"
+        other: "%{count} types"
+      variants_count:
+        one: "1 variant"
+        other: "%{count} variants"
     name:
       fallback: "Form"
       implicit: "%{name} form"
+    usage:
+      dialog:
+        button: "View dependent types"
+        caption_html: "The form %{name} is used in the following types and variants."
+        title: "Form used in types"
+        variant_of: "Variant of %{type}"
+        variants: "Variants"
+      unused: "No type or variant uses this form yet."
+      used_by_types:
+        one: "This form is used by 1 type. Changes apply to it."
+        other: "This form is used by %{count} types. Changes apply to all of them."
+      used_by_variants:
+        one: "This form is used by 1 type or variant."
+        other: "This form is used by %{count} types and variants."
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -3789,6 +3842,7 @@ en:
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"
+  label_form_configuration_plural: "Forms"
   label_formula: "Formula"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"

@@ -28,38 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module NamedReferences
-    Kind = Data.define(:model_class_name, :association, :project_owned, :i18n_scope, :dom_key, :icon, :locale_keys) do
-      def model_class = model_class_name.constantize
+module FormConfigurations
+  class UpdateService < ::BaseServices::Update
+    protected
 
-      def route_key = model_class.model_name.route_key.to_sym
-
-      def query_class = "Queries::#{model_class_name.pluralize}::#{model_class_name}Query".constantize
-
-      def t(key, **)
-        I18n.t(locale_keys.fetch(key.to_sym) { "#{i18n_scope}.#{key}" }, **)
-      end
-    end
-
-    Kind::WORKFLOW = Kind.new(
-      model_class_name: "Workflow",
-      association: :workflow,
-      project_owned: true,
-      i18n_scope: "workflows",
-      dom_key: "workflow",
-      icon: :workflow,
-      locale_keys: { label_plural: :label_workflow_plural }
-    )
-
-    Kind::FORM = Kind.new(
-      model_class_name: "FormConfiguration",
-      association: :form_configuration,
-      project_owned: false,
-      i18n_scope: "forms",
-      dom_key: "form",
-      icon: :rows,
-      locale_keys: { label_plural: :label_form_configuration_plural }
-    )
+    def default_contract_class = UpdateContract
   end
 end
