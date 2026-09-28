@@ -36,6 +36,7 @@ class TypeVariant
       belongs_to :form_configuration, autosave: true, inverse_of: :type_variants
 
       before_save :prune_required_attributes
+      before_save :prune_to_switched_form, if: -> { persisted? && form_configuration_id_changed? }
 
       delegate :attribute_groups_will_change!, :attribute_groups_changed?, :attribute_groups_was,
                to: :form_configuration, allow_nil: true
@@ -47,6 +48,16 @@ class TypeVariant
 
         [join, "variant_form.form_configuration_id", "variant_form.form_configuration_excluded_elements"]
       end
+    end
+
+    def form_configuration=(form)
+      unset_attribute_groups_objects
+      super
+    end
+
+    def form_configuration_id=(id)
+      unset_attribute_groups_objects
+      super
     end
 
     def attribute_groups
@@ -89,6 +100,20 @@ class TypeVariant
     private
 
     def attribute_groups_record = form_configuration
+
+    def prune_to_switched_form
+      elements = form_element_keys
+      self.form_configuration_excluded_elements &= elements
+      self[:required_attributes] &= elements
+    end
+
+    def form_element_keys
+      form_attribute_groups.flat_map do |group|
+        next group.attributes.map(&:to_s) unless group.group_type == :query
+
+        group.query.present? ? [group.query_attribute_name.to_s] : []
+      end
+    end
 
     def prune_required_attributes
       return unless attribute_groups_changed?
