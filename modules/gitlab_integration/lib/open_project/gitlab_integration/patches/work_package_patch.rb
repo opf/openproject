@@ -12,5 +12,3 @@ module OpenProject::GitlabIntegration
     end
   end
 end
-
-WorkPackage.include OpenProject::GitlabIntegration::Patches::WorkPackagePatch

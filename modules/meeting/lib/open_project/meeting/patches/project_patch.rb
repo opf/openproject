@@ -38,5 +38,3 @@ module OpenProject::Meeting
     end
   end
 end
-
-Project.include OpenProject::Meeting::Patches::ProjectPatch
