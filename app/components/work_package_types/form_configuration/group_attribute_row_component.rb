@@ -33,19 +33,15 @@ module WorkPackageTypes
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(attribute:, variant:, index:, total_count:, readonly: false, exclusions: nil)
+      def initialize(attribute:, context:, index:, total_count:)
         super
         @attribute = attribute
-        @variant = variant
+        @context = context
         @index = index
         @total_count = total_count
-        @readonly = readonly
-        @exclusions = exclusions
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, to: :@context
 
       def required_label
         if @attribute[:required_globally]
@@ -97,13 +93,12 @@ module WorkPackageTypes
       end
 
       def row_toggle_required_path
-        toggle_required_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                         row_key: @attribute[:key])
+        @context.row_path(:toggle_required, row_key: @attribute[:key])
       end
 
       def exclusion_toggle
         @exclusion_toggle ||= ExclusionToggleComponent.new(
-          exclusions: @exclusions,
+          exclusions: @context.exclusions,
           element_key: @attribute[:key],
           label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
         )
@@ -128,12 +123,11 @@ module WorkPackageTypes
       end
 
       def row_move_path(move_to)
-        move_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: @attribute[:key],
-                                              move_to:)
+        @context.row_path(:move, row_key: @attribute[:key], move_to:)
       end
 
       def row_destroy_path
-        type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: @attribute[:key])
+        @context.row_path(row_key: @attribute[:key])
       end
 
       def move_action(menu:, href:, label:, icon:)
