@@ -102,7 +102,7 @@ module WorkPackageTypes
         def reload_from_location? = true
 
         def reuse_section
-          ::Workflows::Wizard::ChoiceComponent.new(variant:, back_url: step_url)
+          NamedReferences::ChoiceComponent.new(variant:, kind: NamedReferences::Kind::WORKFLOW, back_url: step_url)
         end
       end
     end

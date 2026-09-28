@@ -28,21 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Wizard
+module WorkPackageTypes
+  module NamedReferences
     class ChoiceForm < ApplicationForm
-      def initialize(existing:, new_workflow:, group_data:)
+      def initialize(kind:, options:, group_data:)
         super()
 
-        @existing = existing
-        @new_workflow = new_workflow
+        @kind = kind
+        @options = options
         @group_data = group_data
       end
 
       form do |choice_form|
-        choice_form.advanced_radio_button_group(name: :workflow_choice, data: @group_data) do |group|
-          group.radio_button(**@existing)
-          group.radio_button(**@new_workflow)
+        choice_form.advanced_radio_button_group(name: :"#{@kind.dom_key}_choice", data: @group_data) do |group|
+          @options.each { |option| group.radio_button(**option) }
         end
       end
     end
