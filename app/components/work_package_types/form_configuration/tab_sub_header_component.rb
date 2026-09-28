@@ -29,31 +29,29 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    # Embeds the existing form configuration editor, which self-persists through
-    # its own turbo endpoints; the wizard only navigates between steps.
-    class FormConfigurationStepComponent < ApplicationComponent
+  module FormConfiguration
+    class TabSubHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, back_url: nil)
-        super(variant)
+      def initialize(variant:)
+        super()
 
-        @back_url = back_url
+        @variant = variant
       end
 
       private
 
-      def context = @context ||= WorkPackageTypes::FormConfiguration::EditorContext.for_variant(model)
+      attr_reader :variant
 
-      def reload_url
-        @back_url || type_creation_wizard_path(**model.path_args, step: :form_configuration)
-      end
+      def kind = WorkPackageTypes::NamedReferences::Kind::FORM
 
-      def no_filter_query
-        ::API::V3::Queries::QueryParamsRepresenter
-          .new(Query.new_default.tap { |query| query.filters = [] })
-          .to_json
-      end
+      def candidates = ::FormConfiguration.in_display_order.to_a
+
+      def offers_new? = variant.project_id.nil?
+
+      def button_label = t("forms.button")
+
+      def configure_dialog_path = url_helpers.configure_dialog_type_form_configuration_path(**variant.path_args)
     end
   end
 end

@@ -33,11 +33,12 @@ module WorkPackageTypes
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:, variant: nil, back_url: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
         super(type)
 
         @current_step = current_step
         @back_url = back_url
+        @started_form_configuration_id = started_form_configuration_id
         # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
         # editing once here, so nothing below has to ask what it was given.
         @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
@@ -74,7 +75,11 @@ module WorkPackageTypes
 
       def step_title = Steps.title(current_step)
 
-      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step, back_url:)
+      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step, **carried_params)
+
+      def carried_params
+        { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
+      end
 
       # A type still being created has no variant to address yet.
       def variant_path_args = variant&.path_args || { type_id: type.id }
@@ -149,7 +154,7 @@ module WorkPackageTypes
       def step_body
         case current_step
         when :form_configuration
-          FormConfigurationStepComponent.new(variant:)
+          FormConfigurationStepComponent.new(variant:, back_url: step_url)
         when :project_attributes
           ProjectAttributesStepComponent.new(variant:)
         when :projects

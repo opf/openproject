@@ -42,6 +42,7 @@ module WorkPackageTypes
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
     before_action :set_back_url
+    before_action :set_started_form_configuration_id
 
     def show; end
 
@@ -89,6 +90,7 @@ module WorkPackageTypes
 
       if service_call.success?
         reuse_existing_workflow
+        @started_form_configuration_id = @type.default_variant.form_configuration_id
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
@@ -189,10 +191,12 @@ module WorkPackageTypes
     def editing_own_workflow? = @variant.workflow&.used_by_one_variant?
 
     def naming_dialog(workflow)
+      url = type_creation_wizard_path(**variant_path_args, step: :workflows, **carried_params)
+
       NamedReferences::NameDialogComponent.new(record: workflow,
                                                kind: NamedReferences::Kind::WORKFLOW,
                                                ask_copy_source: false,
-                                               url: type_creation_wizard_path(**variant_path_args, step: :workflows))
+                                               url:)
     end
 
     def naming_params = params.expect(workflow: %i[name description]).to_h.symbolize_keys
@@ -214,7 +218,7 @@ module WorkPackageTypes
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(**variant_path_args, step:, back_url: @back_url), status: :see_other
+        redirect_to type_creation_wizard_path(**variant_path_args, step:, **carried_params), status: :see_other
       else
         flash[:notice] = t("types.creation_wizard.success")
         redirect_back_or_default(finished_path, status: :see_other)
@@ -225,6 +229,12 @@ module WorkPackageTypes
     # where it is rendered.
     def set_back_url
       @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
+    end
+
+    def carried_params = { back_url: @back_url, started_form_configuration_id: @started_form_configuration_id }.compact
+
+    def set_started_form_configuration_id
+      @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
     end
 
     # types_path carries no project, so naming it while scoped would append the project as a query

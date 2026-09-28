@@ -3302,6 +3302,13 @@ en:
     include_sub_items: "Include sub-items"
     no_results_text: "No results"
   forms:
+    button: "Form"
+    change:
+      select:
+        caption: "The type shows its work packages with the attribute groups of the form you pick here."
+        label: "Form"
+        placeholder: "Select a form…"
+      title: "Change form"
     form:
       copy_from:
         caption: "The new form starts with a copy of that form's attribute groups."
@@ -3347,6 +3354,21 @@ en:
     name:
       fallback: "Form"
       implicit: "%{name} form"
+    selector:
+      prefix: "Form"
+      same_as_type: "(same as type)"
+      title: "Select form"
+    start:
+      copy:
+        caption: "Start with an existing form, change it as you wish and save it as a new form."
+        label: "Start with a copy of an existing form"
+        missing: "Select the form to copy, or start from scratch instead."
+        panel_label: "Form to copy"
+      label: "Starting point"
+      scratch:
+        caption: "Start with the default attribute groups and arrange them yourself."
+        label: "Start from scratch"
+      title: "Configure a new form"
     tab:
       read_only:
         edit_action: "Edit form"
@@ -3367,6 +3389,14 @@ en:
       used_by_variants:
         one: "This form is used by 1 type or variant."
         other: "This form is used by %{count} types and variants."
+    wizard:
+      choice:
+        existing:
+          caption: "Use an existing form for this type with a pre-defined set of attribute groups."
+          label: "Use an existing form"
+        new:
+          caption: "Arrange the attribute groups of a new form for this type."
+          label: "Configure a new form"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.

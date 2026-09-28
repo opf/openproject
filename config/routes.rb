@@ -181,6 +181,16 @@ Rails.application.routes.draw do
     resource :details, controller: "details_tab", only: %i[update edit]
 
     resource :form_configuration, only: %i[edit], controller: "form_configuration_tab" do
+      get :change_dialog
+      patch :change
+
+      get :start_dialog
+      post :start
+
+      get :configure_dialog
+      post :configure
+      post :create
+
       resources :rows, only: [], controller: "form_configuration_tab", param: :row_key do
         member do
           put :toggle_required
