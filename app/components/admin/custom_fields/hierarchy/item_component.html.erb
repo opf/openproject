@@ -38,14 +38,18 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::OpenProject::DragHandle.new(draggable: true))
           end
           item_information.with_column(mr: 2) do
-            render(
-              Primer::Beta::Link.new(
-                href: item_link,
-                underline: false,
-                data: { turbo_frame: Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key }
-              )
-            ) do
+            if custom_field.list?
               render(Primer::Beta::Text.new(font_weight: :bold)) { model.label }
+            else
+              render(
+                Primer::Beta::Link.new(
+                  href: item_link,
+                  underline: false,
+                  data: { turbo_frame: Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key }
+                )
+              ) do
+                render(Primer::Beta::Text.new(font_weight: :bold)) { model.label }
+              end
             end
           end
 
