@@ -29,18 +29,22 @@
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ErrorResource, v3ErrorIdentifierMultipleErrors } from 'core-app/features/hal/resources/error-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
+
+export type FormSchemaResource = SchemaResource & Partial<Record<string, IOPFieldSchema>>;
 
 export interface FormResourceLinks<T = HalResource> {
-  commit(payload:any):Promise<T>;
+  commit:CallableHalLink<T>;
 }
 
 export interface FormResourceEmbedded {
-  schema:SchemaResource;
+  schema:FormSchemaResource;
   validationErrors:Record<string, ErrorResource>;
 }
 
 export class FormResource<T = HalResource> extends HalResource {
-  public schema:SchemaResource;
+  public schema:FormSchemaResource;
 
   public validationErrors:Record<string, ErrorResource>;
 

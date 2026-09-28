@@ -199,7 +199,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
     } else if (this.schema.allowedValues) {
-      return (this.schema.allowedValues.$load() as Promise<CollectionResource>).then((values:CollectionResource) => {
+      return ((this.schema.allowedValues as HalResource).$load() as Promise<CollectionResource>).then((values:CollectionResource) => {
         // The select options of the project shall be sorted
         if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
           this.setValues(values.elements, true);
