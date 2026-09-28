@@ -30,53 +30,28 @@
 
 require "spec_helper"
 
-# A list custom field on a UserCustomField or ProjectCustomField must keep every
-# navigation link (breadcrumbs, add/reorder buttons, drag & drop) inside its own
-# admin area (/admin/settings/user_custom_fields/... or .../project_custom_fields/...).
-# Falling back to the generic /custom_fields/... routes throws the admin out of that
-# area entirely, with the wrong menu and breadcrumb.
 RSpec.describe Admin::CustomFields::Hierarchy::ItemsComponent, type: :component do
-  describe "for a user custom field" do
-    let(:custom_field) { create(:user_custom_field, :list, possible_values: ["Only"]) }
-    let(:root) { custom_field.hierarchy_root }
-    let(:item) { root.children.first }
+  let(:custom_field_traits) { [:list, { possible_values: %w[Only] }] }
+  let(:root) { custom_field.hierarchy_root }
+  let(:item) { root.children.first }
 
-    before { render_inline(described_class.new(item: root)) }
+  before { render_inline(described_class.new(item: root)) }
 
-    it "keeps the add/reorder links under the user custom field admin area" do
-      expect(page).to have_link("Item", href: %r{/admin/settings/user_custom_fields/})
-      expect(page).to have_link("Reorder values alphabetically", href: %r{/admin/settings/user_custom_fields/})
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it "adds and reorders items within its own admin area" do
+      expect(page).to have_link("Item", href: "#{items_path}/#{root.id}/new_child?position=1")
+      expect(page).to have_link("Reorder values alphabetically", href: "#{items_path}/#{root.id}/reorder_alphabetical")
     end
 
-    it "keeps the drag & drop urls under the user custom field admin area" do
+    it "points drag and drop at its own admin area" do
       row = page.find("[data-hierarchy-item-id='#{item.id}']")
 
-      expect(row["data-move-url"]).to include("/admin/settings/user_custom_fields/")
-      expect(row["data-index-url"]).to include("/admin/settings/user_custom_fields/")
+      expect(row["data-move-url"]).to end_with("#{items_path}/#{item.id}/move")
+      expect(row["data-index-url"]).to end_with("#{items_path}/#{root.id}")
     end
 
-    it "keeps the breadcrumb under the user custom field admin area" do
-      expect(page).to have_link(custom_field.name, href: %r{/admin/settings/user_custom_fields/})
-    end
-  end
-
-  describe "for a project custom field" do
-    let(:custom_field) { create(:list_project_custom_field, possible_values: ["Only"]) }
-    let(:root) { custom_field.hierarchy_root }
-    let(:item) { root.children.first }
-
-    before { render_inline(described_class.new(item: root)) }
-
-    it "keeps the add/reorder links under the project custom field admin area" do
-      expect(page).to have_link("Item", href: %r{/admin/settings/project_custom_fields/})
-      expect(page).to have_link("Reorder values alphabetically", href: %r{/admin/settings/project_custom_fields/})
-    end
-
-    it "keeps the drag & drop urls under the project custom field admin area" do
-      row = page.find("[data-hierarchy-item-id='#{item.id}']")
-
-      expect(row["data-move-url"]).to include("/admin/settings/project_custom_fields/")
-      expect(row["data-index-url"]).to include("/admin/settings/project_custom_fields/")
+    it "links the breadcrumb to its own admin area" do
+      expect(page).to have_link(custom_field.name, href: items_path)
     end
   end
 end

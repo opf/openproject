@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe Admin::CustomFields::Hierarchy::TreeViewComponent,
                type: :component, with_ee: [:custom_field_hierarchies] do
+  let(:custom_field_traits) { [:hierarchy] }
   let!(:item) do
     CustomFields::Hierarchy::HierarchicalItemService
       .new
@@ -42,27 +43,9 @@ RSpec.describe Admin::CustomFields::Hierarchy::TreeViewComponent,
 
   before { render_inline(described_class.new(custom_field:, active_item: custom_field.hierarchy_root)) }
 
-  shared_examples "linking under" do |base|
-    it "links each item under #{base}" do
-      expect(page).to have_link("Branch", href: "#{base}/#{custom_field.id}/items/#{item.id}")
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it "links each item into its own admin area" do
+      expect(page).to have_link("Branch", href: "#{items_path}/#{item.id}")
     end
-  end
-
-  context "for a work package custom field" do
-    let(:custom_field) { create(:hierarchy_wp_custom_field) }
-
-    it_behaves_like "linking under", "/custom_fields"
-  end
-
-  context "for a project custom field" do
-    let(:custom_field) { create(:hierarchy_project_custom_field) }
-
-    it_behaves_like "linking under", "/admin/settings/project_custom_fields"
-  end
-
-  context "for a user custom field" do
-    let(:custom_field) { create(:user_custom_field, :hierarchy) }
-
-    it_behaves_like "linking under", "/admin/settings/user_custom_fields"
   end
 end

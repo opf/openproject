@@ -55,10 +55,13 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
   end
 
   describe "item action routes" do
+    let(:custom_field_traits) { [:hierarchy] }
     let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let(:root) { custom_field.hierarchy_root }
     let(:item) do
-      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label: "First").value!
+      service
+        .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: root, label: "First")
+        .value!
     end
 
     before do
@@ -67,10 +70,8 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
       render_inline(described_class.new(item.reload))
     end
 
-    shared_examples "routing every action under" do |base|
-      let(:items_path) { "#{base}/#{custom_field.id}/items" }
-
-      it "links every action under #{base}" do
+    for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+      it "links every action into its own admin area" do
         expect(page).to have_link("Edit", href: "#{items_path}/#{item.id}/edit")
         expect(page).to have_link("Add item above", href: "#{items_path}/#{root.id}/new_child?position=0")
         expect(page).to have_link("Add item below", href: "#{items_path}/#{root.id}/new_child?position=1")
@@ -80,22 +81,6 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
         expect(page).to have_css("form[action='#{items_path}/#{item.id}/move']", text: "Move down")
         expect(page).to have_link("Delete", href: "#{items_path}/#{item.id}/delete")
       end
-    end
-
-    context "for a work package custom field" do
-      it_behaves_like "routing every action under", "/custom_fields"
-    end
-
-    context "for a project custom field" do
-      let(:custom_field) { create(:hierarchy_project_custom_field) }
-
-      it_behaves_like "routing every action under", "/admin/settings/project_custom_fields"
-    end
-
-    context "for a user custom field" do
-      let(:custom_field) { create(:user_custom_field, :hierarchy) }
-
-      it_behaves_like "routing every action under", "/admin/settings/user_custom_fields"
     end
   end
 end

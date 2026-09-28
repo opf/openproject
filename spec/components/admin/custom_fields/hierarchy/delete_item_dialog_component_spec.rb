@@ -30,41 +30,13 @@
 
 require "spec_helper"
 
-# A list custom field on a UserCustomField or ProjectCustomField must submit its
-# delete confirmation to its own admin area, not the generic /custom_fields/...
-# route that would throw the admin out of /admin/settings/user_custom_fields/...
-# entirely.
 RSpec.describe Admin::CustomFields::Hierarchy::DeleteItemDialogComponent, type: :component do
-  describe "for a user custom field" do
-    let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
+  let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
+  let(:item) { custom_field.hierarchy_root.children.first }
 
-    it "submits the delete confirmation under the user custom field admin area" do
-      render_inline(described_class.new(custom_field:, hierarchy_item: item))
+  subject(:form_action) { render_inline(described_class.new(custom_field:, hierarchy_item: item)).at_css("form")["action"] }
 
-      expect(page.find("form")["action"]).to include("/admin/settings/user_custom_fields/")
-    end
-  end
-
-  describe "for a project custom field" do
-    let(:custom_field) { create(:list_project_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    it "submits the delete confirmation under the project custom field admin area" do
-      render_inline(described_class.new(custom_field:, hierarchy_item: item))
-
-      expect(page.find("form")["action"]).to include("/admin/settings/project_custom_fields/")
-    end
-  end
-
-  describe "for a work package custom field" do
-    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    it "submits the delete confirmation to the generic custom field items route" do
-      render_inline(described_class.new(custom_field:, hierarchy_item: item))
-
-      expect(page.find("form")["action"]).to match(%r{\A/custom_fields/})
-    end
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it("submits the deletion into its own admin area") { is_expected.to eq("#{items_path}/#{item.id}") }
   end
 end
