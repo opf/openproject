@@ -289,7 +289,7 @@ en:
                 description: "Sprint start and finish dates are necessary to show added work packages."
               not_started:
                 description: "Added work packages will appear here after the sprint starts."
-            title: "Sprint scope increase"
+            title: "Scope increase after sprint start"
           blankslate:
             heading: "No work packages to display"
           completed:
@@ -300,7 +300,7 @@ en:
                 description: "Sprint start and finish dates are necessary to show completed work packages."
               not_started:
                 description: "Completed work packages will appear here after the sprint starts."
-            title: "Completed work packages"
+            title: "Completed work"
           removed:
             blankslate:
               empty:
@@ -309,7 +309,7 @@ en:
                 description: "Sprint start and finish dates are necessary to show removed work packages."
               not_started:
                 description: "Removed work packages will appear here after the sprint starts."
-            title: "Sprint scope decrease"
+            title: "Scope decrease after sprint start"
           unfinished:
             blankslate:
               empty:
@@ -319,7 +319,7 @@ en:
                 description: "Sprint start and finish dates are necessary to show unfinished work packages."
               not_started:
                 description: "Unfinished work packages will appear here after the sprint starts."
-            title: "Unfinished work packages"
+            title: "Unfinished work"
 
     sprints:
       row_component:
