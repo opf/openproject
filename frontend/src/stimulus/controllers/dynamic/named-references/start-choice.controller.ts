@@ -28,7 +28,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class WorkflowStartChoiceController extends Controller {
+export default class StartChoiceController extends Controller {
   static targets = ['copyRadio', 'copySource'];
 
   declare readonly copyRadioTarget:HTMLInputElement;

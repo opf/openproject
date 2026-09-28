@@ -28,39 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  class ChangeWorkflowForm < ApplicationForm
-    def initialize(variant:)
-      super()
+module WorkPackageTypes
+  module NamedReferences
+    class StartDialogComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-      @variant = variant
-    end
+      def self.form_id(kind) = "#{kind.dom_key}-start-form"
 
-    form do |change_form|
-      change_form.autocompleter(
-        name: :workflow_id,
-        label: I18n.t("workflows.change.workflow.label"),
-        caption: I18n.t("workflows.change.workflow.caption"),
-        required: true,
-        autocomplete_options: {
-          placeholder: I18n.t("workflows.change.workflow.placeholder"),
-          decorated: true,
-          multiple: false,
-          focusDirectly: false,
-          append_to: "##{ChangeWorkflow::DialogComponent::DIALOG_ID}",
-          data: { test_selector: "change-workflow-select" }
-        }
-      ) do |list|
-        candidates.each do |candidate|
-          list.option(value: candidate.id, label: candidate.name, selected: candidate.id == variant.workflow_id)
-        end
+      def initialize(kind:, url:, candidates:, error: nil, type_record_id: nil)
+        super()
+
+        @kind = kind
+        @url = url
+        @candidates = candidates
+        @error = error
+        @type_record_id = type_record_id
+      end
+
+      private
+
+      attr_reader :kind, :url, :candidates, :error, :type_record_id
+
+      def dialog_id = NameFormComponent.dialog_id(kind)
+
+      def form_id = self.class.form_id(kind)
+
+      def title = kind.t("start.title")
+
+      def form_arguments
+        { id: form_id, url:, method: :post, data: { turbo: true } }
       end
     end
-
-    private
-
-    attr_reader :variant
-
-    def candidates = @candidates ||= Workflow.available_in(variant.project).in_display_order.to_a
   end
 end

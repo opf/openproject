@@ -49,7 +49,15 @@ module WorkPackageTypes
       i18n_scope: "workflows",
       dom_key: "workflow",
       icon: :workflow,
-      locale_keys: { label_plural: :label_workflow_plural }
+      locale_keys: {
+        label_plural: :label_workflow_plural,
+        "change.select.label": "workflows.change.workflow.label",
+        "change.select.caption": "workflows.change.workflow.caption",
+        "change.select.placeholder": "workflows.change.workflow.placeholder",
+        "selector.prefix": "admin.workflows.workflow_selector.prefix",
+        "selector.title": "admin.workflows.workflow_selector.title",
+        "selector.same_as_type": "admin.workflows.workflow_selector.same_as_type"
+      }
     )
 
     Kind::FORM = Kind.new(
