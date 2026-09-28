@@ -37,12 +37,26 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemComponent, type: :component d
   before { render_inline(described_class.new(item:, custom_field:)) }
 
   for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
-    it "links the item label into its own admin area" do
-      expect(page).to have_link(item.label, href: "#{items_path}/#{item.id}")
+    context "for a hierarchy field", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field_traits) { [:hierarchy] }
+      let(:item) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+
+      it "links the item label to its sub-items in its own admin area" do
+        expect(page).to have_link(item.label, href: "#{items_path}/#{item.id}")
+      end
     end
 
     it "loads the item's actions menu from its own admin area" do
       expect(page.find("include-fragment", visible: false)["src"]).to eq("#{items_path}/#{item.id}/item_actions")
+    end
+  end
+
+  context "for a list field" do
+    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
+
+    it "shows the label without linking to sub-items it cannot have" do
+      expect(page).to have_text("Only")
+      expect(page).to have_no_link("Only")
     end
   end
 end
