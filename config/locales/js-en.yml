@@ -80,7 +80,6 @@ en:
       remove: "Remove %{name}"
     autocompleter:
       create_label: 'Create label "%{name}"'
-      create_label_forbidden: "You are not allowed to create labels."
       notFoundText: "No items found"
       placeholder: "Type to search"
       project:

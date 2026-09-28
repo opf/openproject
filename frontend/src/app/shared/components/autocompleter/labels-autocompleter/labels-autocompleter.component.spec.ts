@@ -33,20 +33,17 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { NgSelectModule } from '@ng-select/ng-select';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { LabelsAutocompleterComponent } from './labels-autocompleter.component';
 
 describe('LabelsAutocompleterComponent', () => {
   let component:LabelsAutocompleterComponent;
   let httpMock:HttpTestingController;
-  let toast:{ addError:ReturnType<typeof vi.fn> };
   let halNotification:{ handleRawError:ReturnType<typeof vi.fn> };
 
   const i18nStub = { t: (key:string) => key };
 
   beforeEach(async () => {
-    toast = { addError: vi.fn() };
     halNotification = { handleRawError: vi.fn() };
 
     await TestBed.configureTestingModule({
@@ -58,7 +55,6 @@ describe('LabelsAutocompleterComponent', () => {
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         { provide: I18nService, useValue: i18nStub },
-        { provide: ToastService, useValue: toast },
         { provide: HalResourceNotificationService, useValue: halNotification },
       ],
     }).compileComponents();
@@ -87,24 +83,13 @@ describe('LabelsAutocompleterComponent', () => {
     await expect(promise).resolves.toEqual({ id: 5, name: 'Urgent', href: '/api/v3/labels/5' });
   });
 
-  it('shows a specific message and rejects on a 403', async () => {
-    const promise = component.createLabel('Urgent');
-
-    pendingRequest().flush({ _type: 'Error' }, { status: 403, statusText: 'Forbidden' });
-
-    await expect(promise).rejects.toBeTruthy();
-    expect(toast.addError).toHaveBeenCalledWith('js.autocompleter.create_label_forbidden');
-    expect(halNotification.handleRawError).not.toHaveBeenCalled();
-  });
-
-  it('delegates other errors to the generic handler', async () => {
+  it('delegates errors to the generic handler and rejects', async () => {
     const promise = component.createLabel('Urgent');
 
     pendingRequest().flush({ _type: 'Error' }, { status: 422, statusText: 'Unprocessable Entity' });
 
     await expect(promise).rejects.toBeTruthy();
     expect(halNotification.handleRawError).toHaveBeenCalled();
-    expect(toast.addError).not.toHaveBeenCalled();
   });
 
   it('ignores a second call while a request is in flight, then allows a retry', async () => {
