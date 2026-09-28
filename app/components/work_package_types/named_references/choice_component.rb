@@ -28,22 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Wizard
+module WorkPackageTypes
+  module NamedReferences
     class ChoiceComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, back_url: nil)
+      def initialize(variant:, kind:, back_url: nil)
         super(variant)
 
+        @kind = kind
         @back_url = back_url
       end
 
       private
 
-      attr_reader :back_url
+      attr_reader :kind, :back_url
 
       def variant = model
+
+      def options = offers_new? ? [existing_option, new_option] : [existing_option]
+
+      def offers_new? = kind.project_owned || variant.project_id.nil?
 
       def group_data
         { controller: "mode-switch-radio", action: "change->mode-switch-radio#select" }
@@ -53,59 +58,55 @@ module Workflows
         {
           value: "existing",
           checked: reuses_existing?,
-          label: t("workflows.wizard.choice.existing.label"),
-          caption: t("workflows.wizard.choice.existing.caption"),
-          nested_content: workflow_panel,
+          label: kind.t("wizard.choice.existing.label"),
+          caption: kind.t("wizard.choice.existing.caption"),
+          nested_content: panel,
           data: {
             "mode-switch-radio-target": "radio",
-            "dialog-url": change_dialog_path,
-            test_selector: "workflow-choice-existing"
+            "dialog-url": dialog_path(:change_dialog),
+            test_selector: "#{kind.dom_key}-choice-existing"
           }
         }
       end
 
-      def new_workflow_option
+      def new_option
         {
           value: "new",
           checked: !reuses_existing?,
-          label: t("workflows.wizard.choice.new.label"),
-          caption: t("workflows.wizard.choice.new.caption"),
+          label: kind.t("wizard.choice.new.label"),
+          caption: kind.t("wizard.choice.new.caption"),
           data: {
             "mode-switch-radio-target": "radio",
-            "dialog-url": start_dialog_path,
-            test_selector: "workflow-choice-new"
+            "dialog-url": dialog_path(:start_dialog),
+            test_selector: "#{kind.dom_key}-choice-new"
           }
         }
       end
 
-      def workflow_panel
+      def panel
         return unless reuses_existing?
         return if candidates.empty?
 
-        WorkPackageTypes::NamedReferences::PanelComponent.new(variant:,
-                                                              kind: WorkPackageTypes::NamedReferences::Kind::WORKFLOW,
-                                                              candidates:,
-                                                              selected: variant.workflow_id,
-                                                              back_url:)
+        PanelComponent.new(variant:, kind:, candidates:, selected: record_id, back_url:)
       end
 
-      def reuses_existing? = variant.workflow_id != started_workflow_id
+      def reuses_existing? = !offers_new? || record_id != started_id
 
-      def started_workflow_id = helpers.params[:started_workflow_id].presence&.to_i
+      def record_id = variant.public_send(:"#{kind.association}_id")
+
+      def started_id = helpers.params[:"started_#{kind.association}_id"].presence&.to_i
 
       def candidates
         @candidates ||= begin
-          scope = Workflow.available_in(variant.project).in_display_order
-          scope = scope.where.not(id: variant.workflow_id) unless reuses_existing?
+          scope = kind.model_class.available_in(variant.project).in_display_order
+          scope = scope.where.not(id: record_id) unless reuses_existing?
           scope.to_a
         end
       end
 
-      def change_dialog_path = url_helpers.change_dialog_type_workflow_path(**dialog_args)
-
-      def start_dialog_path = url_helpers.start_dialog_type_workflow_path(**dialog_args)
-
-      def dialog_args = variant.path_args.merge(back_url:).compact
+      def dialog_path(action)
+        url_helpers.public_send(:"#{action}_type_#{kind.association}_path", **variant.path_args.merge(back_url:).compact)
+      end
     end
   end
 end
