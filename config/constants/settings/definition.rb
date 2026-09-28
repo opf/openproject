@@ -28,11 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Metrics/CollectionLiteralLength
 module Settings
   class Definition
     ENV_PREFIX = "OPENPROJECT_"
+    SECRET_PLACEHOLDER = "__openproject_secret_unchanged__"
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
+
     DEFINITIONS = {
       activity_days_default: {
         default: 30
@@ -2020,4 +2021,3 @@ module Settings
     end
   end
 end
-# rubocop:enable Metrics/CollectionLiteralLength
