@@ -28,59 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Type::FormGroup
-  attr_accessor :key,
-                :attributes,
-                :type,
-                :display_name,
-                :record_id
+FactoryBot.define do
+  factory :form_configuration_group do
+    form_configuration
+    kind { FormConfigurationGroup::ATTRIBUTE }
+    sequence(:label) { |n| "Group #{n}" }
 
-  def self.next_untitled_key(seen_keys)
-    base_name = I18n.t("types.edit.form_configuration.untitled_group")
-    candidate = base_name
-    suffix = 2
-
-    while seen_keys.include?(candidate)
-      candidate = "#{base_name} #{suffix}"
-      suffix += 1
+    trait :default do
+      label { nil }
+      default_key { "details" }
     end
 
-    candidate
-  end
-
-  def initialize(type, key, attributes, display_name: nil)
-    self.key = key
-    self.attributes = attributes
-    self.type = type
-    self.display_name = display_name
-  end
-
-  ##
-  # Returns the symbol key, if it is not translated
-  def internal_key?
-    key.is_a?(Symbol)
-  end
-
-  ##
-  # Translate the given attribute group if its internal
-  # (== if it's a symbol)
-  def translated_key
-    if display_name.present?
-      display_name
-    elsif internal_key?
-      I18n.t(TypeVariant.default_groups[key], default: key.to_s)
-    elsif key.present?
-      key
-    else
-      I18n.t("types.edit.form_configuration.untitled_group")
+    trait :query do
+      kind { FormConfigurationGroup::QUERY }
+      query
     end
-  end
-
-  def members
-    raise SubclassResponsibilityError
-  end
-
-  def active_members(_project)
-    raise SubclassResponsibilityError
   end
 end

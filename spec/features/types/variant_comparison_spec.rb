@@ -76,7 +76,8 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     link_configuration(clone, aspect: form, excluded: ["responsible"])
     link_configuration(owned, aspect: form)
     link_configuration(twin, aspect: form)
-    twin.update!(workflow: base.workflow)
+    owned.update!(required_attributes: base.required_attributes)
+    twin.update!(workflow: base.workflow, required_attributes: base.required_attributes)
 
     login_as(admin)
   end

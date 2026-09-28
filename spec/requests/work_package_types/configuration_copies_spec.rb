@@ -39,7 +39,7 @@ RSpec.describe "Work package type configuration copies",
   let(:variant) { type.default_variant }
   let(:source_type) { create(:type, name: "Feature") }
   let(:source) { source_type.default_variant }
-  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+  let(:aspect) { TypeVariant::DEFAULTS }
 
   before { login_as(admin) }
 
@@ -100,8 +100,7 @@ RSpec.describe "Work package type configuration copies",
 
   describe "POST copy" do
     before do
-      source.attribute_groups = [["copied group", %w[assignee]]]
-      source.save!
+      source.update!(default_work_package_description: "Copied description")
     end
 
     it "copies the configuration, closes the dialog and dispatches the reload event" do
@@ -110,7 +109,7 @@ RSpec.describe "Work package type configuration copies",
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(variant.reload.attribute_groups.map(&:key)).to eq(["copied group"])
+      expect(variant.reload.default_work_package_description).to eq("Copied description")
 
       expect(response.body).to include("closeDialog")
       expect(response.body).to include("dispatchEvent")
@@ -125,7 +124,7 @@ RSpec.describe "Work package type configuration copies",
            as: :turbo_stream
 
       expect(response.body).not_to include("dispatchEvent")
-      expect(variant.reload.read_attribute(:attribute_groups)).to be_empty
+      expect(variant.reload.default_work_package_description).to be_nil
     end
 
     it "is not found for aspects without a copy service" do
@@ -134,7 +133,7 @@ RSpec.describe "Work package type configuration copies",
            as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
-      expect(variant.reload.read_attribute(:attribute_groups)).to be_empty
+      expect(variant.reload.default_work_package_description).to be_nil
     end
 
     it "requires admin" do
@@ -145,7 +144,7 @@ RSpec.describe "Work package type configuration copies",
            as: :turbo_stream
 
       expect(response).not_to be_successful
-      expect(variant.reload.read_attribute(:attribute_groups)).to be_empty
+      expect(variant.reload.default_work_package_description).to be_nil
     end
   end
 end

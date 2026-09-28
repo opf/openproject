@@ -88,10 +88,10 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "PATCH #update (rename)", with_ee: %i[edit_attribute_groups] do
     before do
-      variant.update_column(:attribute_groups, [
-                           ["First group", %w[priority]],
-                           ["Second group", %w[assignee]]
-                         ])
+      variant.form_configuration.update!(attribute_groups: [
+                                           ["First group", %w[priority]],
+                                           ["Second group", %w[assignee]]
+                                         ])
     end
 
     context "when renaming to a duplicate name" do
@@ -156,7 +156,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "without a group key", with_ee: %i[edit_attribute_groups] do
     before do
-      variant.update_column(:attribute_groups, [["First group", %w[priority]]])
+      variant.form_configuration.update!(attribute_groups: [["First group", %w[priority]]])
     end
 
     it "rejects the request instead of reporting a missing group", :aggregate_failures do
@@ -176,7 +176,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "POST #create (duplicate name)", with_ee: %i[edit_attribute_groups] do
     before do
-      variant.update_column(:attribute_groups, [["Existing group", %w[priority]]])
+      variant.form_configuration.update!(attribute_groups: [["Existing group", %w[priority]]])
     end
 
     it "returns an error when creating a group with a duplicate name" do
@@ -241,7 +241,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     let(:group_name) { "b) > 10.000 / 20.000 Nutzende" }
 
     before do
-      variant.update_column(:attribute_groups, [[group_name, %w[priority]]])
+      variant.form_configuration.update!(attribute_groups: [[group_name, %w[priority]]])
     end
 
     it "deletes a group whose name contains special characters" do
@@ -254,11 +254,11 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
     it "reorders groups using the requested position" do
-      variant.update_column(:attribute_groups, [
-                           [:details, %w[priority]],
-                           ["Custom group", %w[version]],
-                           [:people, %w[assignee]]
-                         ])
+      variant.form_configuration.update!(attribute_groups: [
+                                           [:details, %w[priority]],
+                                           ["Custom group", %w[version]],
+                                           [:people, %w[assignee]]
+                                         ])
 
       put :drop,
           params: { type_id: type.id, key: "Custom group", position: 1 },

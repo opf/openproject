@@ -28,59 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Type::FormGroup
-  attr_accessor :key,
-                :attributes,
-                :type,
-                :display_name,
-                :record_id
+class FormConfigurationGroup < ApplicationRecord
+  KINDS = [
+    ATTRIBUTE = "attribute",
+    QUERY = "query"
+  ].freeze
 
-  def self.next_untitled_key(seen_keys)
-    base_name = I18n.t("types.edit.form_configuration.untitled_group")
-    candidate = base_name
-    suffix = 2
+  belongs_to :form_configuration, inverse_of: :form_groups
+  belongs_to :query, optional: true, dependent: :destroy
+  has_many :members,
+           -> { order(:position) },
+           class_name: "FormConfigurationAttribute",
+           foreign_key: :form_configuration_group_id,
+           inverse_of: :group,
+           dependent: :restrict_with_exception
 
-    while seen_keys.include?(candidate)
-      candidate = "#{base_name} #{suffix}"
-      suffix += 1
-    end
+  acts_as_list scope: :form_configuration
+  include Lists::MoveAfterAnchor
 
-    candidate
-  end
+  validates :kind, inclusion: { in: KINDS }
+  validates :label, presence: true, if: -> { default_key.blank? }
+  validates :query, presence: true, if: :query?
+  validates :query, absence: true, if: :attribute?
+  validates :default_key, uniqueness: { scope: :form_configuration_id }, allow_nil: true
+  validates :query_id, uniqueness: true, allow_nil: true
 
-  def initialize(type, key, attributes, display_name: nil)
-    self.key = key
-    self.attributes = attributes
-    self.type = type
-    self.display_name = display_name
-  end
+  def attribute? = kind == ATTRIBUTE
+  def query? = kind == QUERY
 
-  ##
-  # Returns the symbol key, if it is not translated
-  def internal_key?
-    key.is_a?(Symbol)
-  end
+  def translated_label
+    return label if label.present?
 
-  ##
-  # Translate the given attribute group if its internal
-  # (== if it's a symbol)
-  def translated_key
-    if display_name.present?
-      display_name
-    elsif internal_key?
-      I18n.t(TypeVariant.default_groups[key], default: key.to_s)
-    elsif key.present?
-      key
-    else
-      I18n.t("types.edit.form_configuration.untitled_group")
-    end
-  end
-
-  def members
-    raise SubclassResponsibilityError
-  end
-
-  def active_members(_project)
-    raise SubclassResponsibilityError
+    translation_key = TypeVariant.default_groups[default_key&.to_sym]
+    translation_key ? I18n.t(translation_key) : default_key.to_s
   end
 end

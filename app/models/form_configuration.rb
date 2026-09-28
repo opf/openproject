@@ -29,20 +29,27 @@
 #++
 
 class FormConfiguration < ApplicationRecord
+  include ::Type::AttributeGroups
+
   has_many :type_variants, dependent: :restrict_with_error, inverse_of: :form_configuration
+
+  has_many :form_attributes, class_name: "FormConfigurationAttribute", inverse_of: :form_configuration,
+                             dependent: :delete_all
+  has_many :form_groups, -> { order(:position) }, class_name: "FormConfigurationGroup",
+                                                  inverse_of: :form_configuration,
+                                                  dependent: :destroy
 
   has_and_belongs_to_many :custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
                           class_name: "WorkPackageCustomField",
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           association_foreign_key: "custom_field_id"
 
-  serialize :attribute_groups, type: Array
-
   validates :name, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :description, length: { maximum: 255 }
 
-  before_save :destroy_queries_dropped_from_groups
-  after_destroy :destroy_group_queries
+  after_save :persist_staged_attribute_groups
+
+  delegate :default_attribute_groups, :work_package_attributes, to: :neutral_variant
 
   def self.implicit_name(source)
     base = source.to_s.strip.presence
@@ -58,20 +65,50 @@ class FormConfiguration < ApplicationRecord
     "#{base} (#{suffix})"
   end
 
+  def stored_attribute_groups
+    return if new_record?
+    return @stored_attribute_groups if defined?(@stored_attribute_groups)
+
+    @stored_attribute_groups = (attribute_group_rows.tuples if form_groups.any? || form_attributes.exists?)
+  end
+
+  def stage_attribute_groups(groups)
+    @staged_attribute_groups = groups unless persisted? && attribute_group_rows.matches?(groups)
+  end
+
+  def attribute_groups_will_change! = @attribute_groups_changed = true
+
+  def attribute_groups_changed? = @attribute_groups_changed.present?
+
+  def attribute_groups_was = new_record? ? [] : attribute_group_rows.tuples
+
+  def changed_for_autosave? = super || @staged_attribute_groups.present?
+
+  def reload(*)
+    @staged_attribute_groups = nil
+    @attribute_groups_changed = nil
+    remove_instance_variable(:@stored_attribute_groups) if defined?(@stored_attribute_groups)
+    super
+  end
+
   private
 
-  def destroy_queries_dropped_from_groups
-    return unless attribute_groups_changed?
+  def attribute_group_rows = AttributeGroupRows.new(self)
 
-    ::Query.where(id: group_query_ids(attribute_groups_was) - group_query_ids(attribute_groups)).destroy_all
+  def persist_staged_attribute_groups
+    groups = @staged_attribute_groups
+    @staged_attribute_groups = nil
+    @attribute_groups_changed = nil
+
+    return unless groups
+
+    attribute_group_rows.store(groups)
+    remove_instance_variable(:@stored_attribute_groups) if defined?(@stored_attribute_groups)
   end
 
-  def destroy_group_queries
-    ::Query.where(id: group_query_ids(attribute_groups)).destroy_all
-  end
-
-  def group_query_ids(groups)
-    Array(groups).flat_map { |group| Array(group[1]) }
-                 .filter_map { |key| ::Type::QueryGroup.query_attribute_id(key) }
+  def neutral_variant
+    @neutral_variant ||= TypeVariant.new(type: Type.new).tap do |variant|
+      variant.association(:form_configuration).target = self
+    end
   end
 end

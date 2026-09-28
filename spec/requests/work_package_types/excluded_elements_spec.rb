@@ -74,10 +74,21 @@ RSpec.describe "Work package type excluded elements",
     end
   end
 
-  it "is unprocessable when the type owns the aspect" do
+  context "when the variant owns its project attributes" do
+    let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
+
+    it "is unprocessable" do
+      toggle(value: "0")
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  it "narrows a form the variant has to itself" do
     toggle(value: "0")
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:ok)
+    expect(excluded_configuration_elements(link, aspect:)).to contain_exactly("assignee")
   end
 
   it "is not found for an unknown aspect" do

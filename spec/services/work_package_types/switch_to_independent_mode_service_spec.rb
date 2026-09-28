@@ -86,7 +86,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       shared_let(:excluded_field) { create(:issue_custom_field, :integer, name: "Dropped", is_for_all: true) }
 
       def own_groups
-        variant.reload.form_configuration.attribute_groups.to_h { |key, members| [key.to_s, members] }
+        variant.reload.form_configuration.attribute_groups.to_h { |group| [group.key.to_s, group.attributes] }
       end
 
       it "leaves out what the variant's own link excluded", :aggregate_failures do
