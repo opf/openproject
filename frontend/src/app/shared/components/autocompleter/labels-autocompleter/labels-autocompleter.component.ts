@@ -30,7 +30,6 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { keyBy } from 'lodash-es';
 import { firstValueFrom, Observable, throwError } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -38,7 +37,6 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import {
   LabelsAutocompleterTemplateComponent,
@@ -66,8 +64,6 @@ export interface IApiLabel {
 })
 export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabelAutocompleteItem> implements OnInit {
   getOptionsFn = this.getLabels.bind(this);
-
-  readonly toastService = inject(ToastService);
 
   readonly halNotification = inject(HalResourceNotificationService);
 
@@ -113,11 +109,7 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
         .pipe(
           map((label) => ({ id: label.id, name: label.name, href: label._links.self.href })),
           catchError((error:unknown) => {
-            if (error instanceof HttpErrorResponse && error.status === 403) {
-              this.toastService.addError(this.I18n.t('js.autocompleter.create_label_forbidden'));
-            } else {
-              this.halNotification.handleRawError(error);
-            }
+            this.halNotification.handleRawError(error);
 
             return throwError(() => error);
           }),
