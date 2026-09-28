@@ -253,11 +253,20 @@ describe('Inline chip - XXS preview indicator (touch)', () => {
     expect(id.getAttribute('aria-label')).toBe('Work package #123');
   });
 
-  it('opens the options popover from the id with the keyboard', async () => {
-    await renderChip();
+  it('opens the options popover from the keyboard once the chip is selected', async () => {
+    let editor:any;
+    renderEditor({
+      onEditor: (created) => { editor = created; },
+      initialContent: [{
+        type: 'paragraph',
+        content: [{ type: 'openProjectWorkPackageInline', props: { wpid: '123', size: 'xxs', displayId: '123' } }],
+      }],
+    });
+    await expect.element(indicator()).toBeVisible();
 
-    page.getByText('#123').first().element()
-      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    editor.focus();
+    editor.setTextCursorPosition(editor.document[0], 'end');
+    await userEvent.keyboard('{ArrowLeft}{Enter}');
 
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
   });

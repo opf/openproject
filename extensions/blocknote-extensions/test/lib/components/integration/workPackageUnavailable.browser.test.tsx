@@ -70,7 +70,7 @@ describe('Inline chip - unavailable work package', () => {
     ).not.toBeNull();
   });
 
-  it('renders only the icon with an aria-label and no native tooltip for size xxs', async () => {
+  it('renders only the icon, named for assistive tech and without a native tooltip, for size xxs', async () => {
     loadUnavailableWorkPackages(999);
 
     render(
@@ -87,7 +87,8 @@ describe('Inline chip - unavailable work package', () => {
     expect(chip?.textContent).toBe('');
     // The full message now lives in the preview, not a native tooltip.
     expect(chip?.getAttribute('title')).toBeNull();
-    expect(chip?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
+    const icon = page.getByRole('button', { name: 'Work package #999, Work package unavailable: no permission' });
+    await expect.element(icon).toHaveAttribute('aria-haspopup', 'menu');
   });
 
   it('shows the unavailable card in the preview on hover for size xxs', async () => {
@@ -104,7 +105,7 @@ describe('Inline chip - unavailable work package', () => {
       expect(document.querySelector('.op-bn-inline-wp .octicon-eye-closed')).not.toBeNull();
     });
 
-    await userEvent.hover(page.getByRole('img'));
+    await userEvent.hover(page.getByRole('button', { name: /Work package unavailable/ }));
 
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
     await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
@@ -204,7 +205,7 @@ describe('Unavailable work package - preview indicator (touch)', () => {
     const indicator = page.getByTestId('wp-preview-indicator');
     await expect.element(indicator).toBeVisible();
     expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('role')).toBeNull();
-    const stateIcon = page.getByRole('button', { name: 'Work package unavailable: no permission' });
+    const stateIcon = page.getByRole('button', { name: 'Work package #999, Work package unavailable: no permission' });
     await expect.element(stateIcon).toBeVisible();
 
     await userEvent.click(indicator);
@@ -229,12 +230,11 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
 
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
-    // xxs renders icon-only with the message exposed to assistive tech via aria-label
-    await vi.waitFor(() => {
-      expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
-    });
+    // xxs renders icon-only, the icon named for assistive tech in place of the message
+    await expect.element(page.getByRole('button', { name: 'Work package #999, Work package unavailable: no permission' }))
+      .toBeVisible();
   });
 
   it('inline chip: removes the chip from the document', async () => {

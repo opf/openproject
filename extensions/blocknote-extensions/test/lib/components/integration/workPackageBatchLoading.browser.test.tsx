@@ -29,11 +29,11 @@ describe('Loading the work packages of a document', () => {
     const requests = await requestsDuring('/api/v3/work_packages', async () => {
       renderEditor({ initialContent: documentWithManyWorkPackages });
 
-      await expect.element(page.getByText('#123')).toBeVisible();
+      await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
       await expect.element(page.getByText('Add dark mode').first()).toBeVisible();
       await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
       await expect.element(page.getByText('Freshly created work package')).toBeVisible();
-      await expect.element(page.getByText('#321')).toBeVisible();
+      await expect.element(page.getByText('#321', { exact: true })).toBeVisible();
     });
 
     expect(requests).toHaveLength(1);
@@ -46,7 +46,7 @@ describe('Loading the work packages of a document', () => {
     const requests = await requestsDuring('/api/v3/work_packages', async () => {
       renderEditor({ initialContent: documentWithManyWorkPackages });
 
-      await expect.element(page.getByText('#123')).toBeVisible();
+      await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
       await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
       await expect.element(page.getByText('Work package unavailable: no permission')).toBeVisible();
       await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
@@ -69,9 +69,9 @@ describe('Loading the work packages of a document', () => {
 
     await expect.element(page.getByText('Could not load work package')).toBeVisible();
     await expect.element(page.getByText('Unavailable: error')).toBeVisible();
-    await expect.element(page.getByText('#123')).toBeVisible();
+    await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
     await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
     await expect.element(page.getByText('Freshly created work package')).toBeVisible();
-    await expect.element(page.getByText('#321')).toBeVisible();
+    await expect.element(page.getByText('#321', { exact: true })).toBeVisible();
   });
 });
