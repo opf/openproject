@@ -257,29 +257,6 @@ export class WorkPackageBaseResource extends HalResource {
     return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  /**
-   * Invalidate a set of linked resources of this work package.
-   * And inform the cache service about the work package update.
-   *
-   * Return a promise that returns the linked resources as properties.
-   * Return a rejected promise, if the resource is not a property of the work package.
-   */
-  public updateLinkedResources(...resourceNames:string[]):Promise<any> {
-    const resources:Record<string, Promise<HalResource>> = {};
-
-    resourceNames.forEach((name) => {
-      const linked = this[name];
-      resources[name] = linked ? linked.$update() : Promise.reject(undefined);
-    });
-
-    const promise = Promise.all(Object.values(resources));
-    promise.then(() => {
-      this.wpCacheService.touch(this.id!);
-    });
-
-    return promise;
-  }
-
   public $initialize(source:any) {
     super.$initialize(source);
 
