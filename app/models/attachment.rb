@@ -73,6 +73,7 @@ class Attachment < ApplicationRecord
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
   after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
+  after_commit :delete_staged_direct_upload, on: :destroy, if: :prepared?
 
   scope :pending_direct_upload, -> { status_prepared }
   scope :not_pending_direct_upload, -> { not_status_prepared }
@@ -368,6 +369,10 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def delete_staged_direct_upload
+    DirectFogUploader.delete_staged_upload(self)
+  end
 
   def filesize_below_allowed_maximum
     if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes

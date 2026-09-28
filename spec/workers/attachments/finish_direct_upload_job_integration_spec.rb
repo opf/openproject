@@ -276,6 +276,14 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
       expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
+    it "removes the staged upload together with the attachment" do
+      allow(OpenProject.logger).to receive(:error)
+
+      job.perform(pending_attachment.id)
+
+      expect(staged_direct_upload(pending_attachment)).to be_nil
+    end
+
     context "when the job is getting a allowlist override" do
       it "does save the attachment" do
         job.perform(pending_attachment.id, allowlist: false)

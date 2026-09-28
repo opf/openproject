@@ -58,6 +58,12 @@ class DirectFogUploader < FogFileUploader
       end
     end
 
+    def delete_staged_upload(attachment)
+      for_attachment(attachment).remote_file.delete
+    rescue StandardError => e
+      OpenProject.logger.error("Failed to delete staged upload of attachment #{attachment.id}: #{e.message}")
+    end
+
     ##
     # Generates the direct upload form for the given attachment.
     #

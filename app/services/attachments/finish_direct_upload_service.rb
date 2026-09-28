@@ -73,7 +73,7 @@ module Attachments
         journalize_container
         attachment_created_event
         schedule_jobs
-        delete_staged_file
+        DirectFogUploader.delete_staged_upload(attachment)
       end
     end
 
@@ -99,12 +99,6 @@ module Attachments
         attachment.status = :uploaded
         attachment.file = staged_upload.local_file
       end
-    end
-
-    def delete_staged_file
-      staged_upload.remote_file.delete
-    rescue StandardError => e
-      OpenProject.logger.error("Failed to delete staged upload of attachment #{attachment.id}: #{e.message}")
     end
 
     def schedule_jobs
