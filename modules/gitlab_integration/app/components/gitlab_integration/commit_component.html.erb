@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         row.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(color: :muted)) { "##{commit.sha[..6]}" }
+          render(Primer::Beta::Text.new(color: :muted)) { commit.sha[..7] }
         end
 
         row.with_column do

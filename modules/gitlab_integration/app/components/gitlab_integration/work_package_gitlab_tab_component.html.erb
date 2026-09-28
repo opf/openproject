@@ -102,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
                 description: t(
                   ".blank_slates.branches.description_html",
                   code: content_tag(:code, branch_code),
-                  example: content_tag(:code, branch_example)
+                  identifier: content_tag(:code, branch_identifier)
                 ),
                 icon: :"git-branch"
               }
@@ -119,7 +119,11 @@ See COPYRIGHT and LICENSE files for more details.
               work_package:,
               empty_state: {
                 title: t(".blank_slates.commits.title"),
-                description: t(".blank_slates.commits.description_html", code: content_tag(:code, linking_code)),
+                description: t(
+                  ".blank_slates.commits.description_html",
+                  code: content_tag(:code, linking_code),
+                  url: content_tag(:code, work_package_url)
+                ),
                 icon: :"git-commit"
               }
             )

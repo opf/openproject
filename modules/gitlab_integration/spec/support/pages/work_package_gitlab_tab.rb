@@ -56,22 +56,6 @@ module Pages
       find("#{test_selector('gitlab-snippets-commit-message')} clipboard-copy")
     end
 
-    def issues_collapse_button
-      find("#issues_header button")
-    end
-
-    def merge_requests_collapse_button
-      find("#merge_requests_header button")
-    end
-
-    def branches_collapse_button
-      find("#branches_header button")
-    end
-
-    def commits_collapse_button
-      find("#commits_header button")
-    end
-
     def paste_clipboard_content
       meta_key = osx? ? :command : :control
       page.send_keys(meta_key, "v")

@@ -45,11 +45,15 @@ module GitlabIntegration
     end
 
     def branch_code
-      work_package.display_id
+      GitSnippetsDialogComponent.new(work_package).branch_prefix
     end
 
-    def branch_example
-      "feature/#{work_package.display_id.to_s.downcase}"
+    def branch_identifier
+      work_package.display_id.to_s.downcase
+    end
+
+    def work_package_url
+      url_helpers.project_work_package_url(work_package.project, work_package)
     end
   end
 end

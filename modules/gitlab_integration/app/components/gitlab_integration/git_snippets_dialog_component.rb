@@ -37,11 +37,16 @@ module GitlabIntegration
     alias_method :work_package, :model
 
     def branch_name
-      type = sanitize_branch_string(work_package.type.name).downcase
-      id = work_package.display_id.to_s.downcase
       subject = sanitize_branch_string(work_package.subject).downcase
 
-      "#{type}/#{id}-#{subject}"
+      "#{branch_prefix}-#{subject}"
+    end
+
+    def branch_prefix
+      type = sanitize_branch_string(work_package.type.name).downcase
+      id = work_package.display_id.to_s.downcase
+
+      "#{type}/#{id}"
     end
 
     def commit_message_lines
