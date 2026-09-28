@@ -38,11 +38,9 @@ import {
   standalone: false,
 })
 export class LabelsAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
+  @ViewChild('optionTemplate') optionTemplate?:TemplateRef<Element>;
+
   @ViewChild('tagTemplate') tagTemplate?:TemplateRef<Element>;
 
-  readonly I18n = inject(I18nService);
-
-  public createLabelText(searchTerm:string):string {
-    return this.I18n.t('js.autocompleter.create_label', { name: (searchTerm ?? '').trim() });
-  }
+  readonly newLabelSuffix = inject(I18nService).t('js.autocompleter.new_label');
 }

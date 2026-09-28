@@ -1,3 +1,8 @@
-<ng-template #tagTemplate let-search="search">
-  {{ createLabelText(search) }}
+<ng-template #optionTemplate let-item let-search="search">
+  <span
+    class="ng-option-label"
+    [opSearchHighlight]="search"
+  >{{ item.name }}</span>
 </ng-template>
+
+<ng-template #tagTemplate let-search="search">{{ search }} <span class="color-fg-muted">{{ newLabelSuffix }}</span></ng-template>

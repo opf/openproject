@@ -46,8 +46,9 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
 
     it "creates a new label from the search term via the keyboard and adds it to the selection" do
       new_label_name = "Urgent"
-      create_option_text = I18n.t("js.autocompleter.create_label", name: new_label_name)
-      duplicate_option_text = I18n.t("js.autocompleter.create_label", name: other_label.name.upcase)
+      new_label_suffix = I18n.t("js.autocompleter.new_label")
+      create_option_text = "#{new_label_name} #{new_label_suffix}"
+      duplicate_option_text = "#{other_label.name.upcase} #{new_label_suffix}"
 
       field.activate!
 
