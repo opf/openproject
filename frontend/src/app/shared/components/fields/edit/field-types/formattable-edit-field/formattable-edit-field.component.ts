@@ -64,7 +64,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     field: this.field.name,
     macros: 'none' as const,
     previewContext: this.previewContext,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     options: { rtl: this.schema.options?.rtl },
     type: 'constrained',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call

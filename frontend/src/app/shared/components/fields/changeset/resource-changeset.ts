@@ -179,7 +179,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
         this.setNewDefaults(form);
         this.push();
         return form;
-      }) as Promise<FormResource>;
+      });
 
     this.form$.putFromPromiseIfPristine(() => promise);
     return promise;
@@ -420,7 +420,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       if (this.form$.value) {
         payload = cloneDeep((this.form$.value.payload as { $source:unknown }).$source) as typeof payload;
       } else {
-        payload = cloneDeep(this.pristineResource.$source) as typeof payload;
+        payload = cloneDeep(this.pristineResource.$source);
       }
 
       // Add attachments to be assigned.
@@ -488,7 +488,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * that we need to set.
    */
   protected setNewDefaults(form:FormResource) {
-    Object.entries(form.payload as Record<string, unknown>).forEach(([key, val]) => {
+    Object.entries(form.payload).forEach(([key, val]) => {
       const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
       if (!fieldSchema?.writable && !fieldSchema?.required) {
         return;

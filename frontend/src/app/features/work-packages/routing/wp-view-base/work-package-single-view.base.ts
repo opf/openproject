@@ -55,7 +55,6 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 

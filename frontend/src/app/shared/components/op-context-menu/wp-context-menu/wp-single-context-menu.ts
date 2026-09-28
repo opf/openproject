@@ -94,7 +94,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   protected open(evt:Event) {
-    this.workPackage.project.$load().then(() => {
+    void this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper);

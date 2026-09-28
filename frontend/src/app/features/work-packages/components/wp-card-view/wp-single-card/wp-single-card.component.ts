@@ -62,7 +62,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { fromEvent, merge } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -223,7 +222,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   cardTitle():string {
-    return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
+    return `${this.workPackage.subject} (${this.workPackage.status.name})`;
   }
 
   public baselineIcon(workPackage:WorkPackageResource) {

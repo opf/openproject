@@ -82,7 +82,6 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   }
 
   public getSchemaHref(resource:HalResource):string|undefined {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return resource.$links.schema?.href as string|undefined;
   }
 

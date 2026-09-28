@@ -365,7 +365,6 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!currentForm || query.$links.update?.href !== currentForm.href) {
       return this.loadForm(query);
     }

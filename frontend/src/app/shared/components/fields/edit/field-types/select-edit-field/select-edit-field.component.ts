@@ -199,7 +199,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       return new Promise(() => {});
     }
 
-    return link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
+    return link.$fetch(this.allowedValuesFilter(query));
   }
 
   private addValue(val:HalResource) {

@@ -44,7 +44,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -323,7 +322,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     // field. Returning it synchronously lets the field activate without waiting on the
     // form request — required by Capybara specs whose activate! check has a tight
     // timeout, and by tests that intentionally disable AJAX before activating a field.
-    const cachedSchema = (this.change.schema as ISchemaProxy).ofProperty(fieldName);
+    const cachedSchema = this.change.schema.ofProperty(fieldName);
     if (cachedSchema) {
       // Still kick off the form load (or piggy-back on an in-flight one) so the form's
       // defaults, allowed values, and projected payload are populated for subsequent
@@ -344,13 +343,13 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     // then retry; if still missing, force a full reload once.
     return this.change.getForm()
       .then(():Promise<IFieldSchema|null> => {
-        const fieldSchema:IFieldSchema|null = (this.change.schema as ISchemaProxy).ofProperty(fieldName);
+        const fieldSchema:IFieldSchema|null = this.change.schema.ofProperty(fieldName);
         if (fieldSchema) {
           return Promise.resolve(fieldSchema);
         }
 
         return this.change.getForm(true).then(
-          ():IFieldSchema|null => (this.change.schema as ISchemaProxy).ofProperty(fieldName),
+          ():IFieldSchema|null => this.change.schema.ofProperty(fieldName),
         );
       })
       .catch((error:unknown) => {

@@ -41,7 +41,6 @@ import {
   IfcProjectDefinition,
 } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 
@@ -256,7 +255,7 @@ export class IFCViewerService extends ViewerBridgeService {
       //  no means of setting it from here. Hence we must make a hard transition to bcf details route of the
       //  current work package.
       window.location.href = this.pathHelper.bimDetailsPath(
-        idFromLink((workPackage.project as HalResource).href),
+        idFromLink(workPackage.project.href),
         workPackage.id || '',
         index,
       );
