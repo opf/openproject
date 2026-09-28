@@ -49,12 +49,16 @@ import { HalError } from 'core-app/features/hal/services/hal-error';
 import { getPaginatedCollections } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export interface HalResourceFactoryConfigInterface {
-  cls?:any;
+  cls?:HalResourceClass;
   attrTypes?:Record<string, string>;
 }
 
 interface ErrorWithType {
   _type?:string;
+}
+
+interface TypedHalSource {
+  _type:string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -147,7 +151,7 @@ export class HalResourceService {
    * @param headers
    * @returns {Promise<HalResource>}
    */
-  public put<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
+  public put<T extends HalResource>(href:string, data?:unknown, headers?:HTTPClientHeaders):Observable<T> {
     return this.request('put', href, data, headers);
   }
 
@@ -159,7 +163,7 @@ export class HalResourceService {
    * @param headers
    * @returns {Promise<HalResource>}
    */
-  public post<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
+  public post<T extends HalResource>(href:string, data?:unknown, headers?:HTTPClientHeaders):Observable<T> {
     return this.request('post', href, data, headers);
   }
 
@@ -171,7 +175,7 @@ export class HalResourceService {
    * @param headers
    * @returns {Promise<HalResource>}
    */
-  public patch<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
+  public patch<T extends HalResource>(href:string, data?:unknown, headers?:HTTPClientHeaders):Observable<T> {
     return this.request('patch', href, data, headers);
   }
 
@@ -183,7 +187,7 @@ export class HalResourceService {
    * @param headers
    * @returns {Promise<HalResource>}
    */
-  public delete<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
+  public delete<T extends HalResource>(href:string, data?:unknown, headers?:HTTPClientHeaders):Observable<T> {
     return this.request('delete', href, data, headers);
   }
 
@@ -215,14 +219,14 @@ export class HalResourceService {
    * @param source
    * @returns {HalResource}
    */
-  public createHalResource<T extends HalResource = HalResource>(source:any, loaded = true):T {
-    source ??= HalResource.getEmptyResource();
+  public createHalResource<T extends HalResource = HalResource>(source:unknown, loaded = true):T {
+    const halSource = (source ?? HalResource.getEmptyResource()) as TypedHalSource;
 
-    const type = source._type || 'HalResource';
-    return this.createHalResourceOfType<T>(type, source, loaded);
+    const type = halSource._type || 'HalResource';
+    return this.createHalResourceOfType<T>(type, halSource, loaded);
   }
 
-  public createHalResourceOfType<T extends HalResource = HalResource>(type:string, source:any, loaded = false) {
+  public createHalResourceOfType<T extends HalResource = HalResource>(type:string, source:unknown, loaded = false) {
     const resourceClass:HalResourceClass<T> = this.getResourceClassOfType(type);
     const initializer = (halResource:HalResource) => initializeHalProperties(this, halResource);
     const resource = new resourceClass(this.injector, source, loaded, initializer, type);
@@ -236,9 +240,9 @@ export class HalResourceService {
    * @param source
    * @param loaded
    */
-  public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded = false) {
+  public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:unknown, loaded = false) {
     const initializer = (halResource:HalResource) => initializeHalProperties(this, halResource);
-    const type = source._type || 'HalResource';
+    const type = (source as TypedHalSource)._type || 'HalResource';
     const resource = new resourceClass(this.injector, source, loaded, initializer, type);
 
     return resource;
@@ -285,8 +289,11 @@ export class HalResourceService {
    * @returns {HalResource}
    */
   protected getResourceClassOfType<T extends HalResource>(type:string):HalResourceClass<T> {
-    const config = this.config[type];
-    return (config?.cls) ? config.cls : this.defaultClass as HalResourceClass<T>;
+    const cls = this.config[type]?.cls;
+    if (cls) {
+      return cls as HalResourceClass<T>;
+    }
+    return this.defaultClass as HalResourceClass<T>;
   }
 
   /**
@@ -313,7 +320,7 @@ export class HalResourceService {
   private createErrorObservable(error:HttpErrorResponse):Observable<never> {
     let resource:ErrorResource|null = null;
 
-    const body = error.error as string|ErrorWithType|unknown;
+    const body:unknown = error.error;
     if (typeof body === 'object' && (body as ErrorWithType)?._type) {
       resource = this.createHalResource<ErrorResource>(error.error);
     }

@@ -37,7 +37,7 @@ export const EXTERNAL_REQUEST_HEADER = 'X-External-Request';
 
 @Injectable()
 export class OpenProjectHeaderInterceptor implements HttpInterceptor {
-  intercept(req:HttpRequest<any>, next:HttpHandler):Observable<HttpEvent<any>> {
+  intercept(req:HttpRequest<unknown>, next:HttpHandler):Observable<HttpEvent<unknown>> {
     const withCredentials = req.headers.get(EXTERNAL_REQUEST_HEADER) !== 'true';
 
     if (withCredentials) {
@@ -47,7 +47,7 @@ export class OpenProjectHeaderInterceptor implements HttpInterceptor {
     }
   }
 
-  private handleExternalRequest(req:HttpRequest<any>, next:HttpHandler):Observable<HttpEvent<any>> {
+  private handleExternalRequest(req:HttpRequest<unknown>, next:HttpHandler):Observable<HttpEvent<unknown>> {
     // Clone the request to add the new header
     const clonedRequest = req.clone({
       withCredentials: false,
@@ -57,7 +57,7 @@ export class OpenProjectHeaderInterceptor implements HttpInterceptor {
     return next.handle(clonedRequest);
   }
 
-  private handleAuthenticatedRequest(req:HttpRequest<any>, next:HttpHandler):Observable<HttpEvent<any>> {
+  private handleAuthenticatedRequest(req:HttpRequest<unknown>, next:HttpHandler):Observable<HttpEvent<unknown>> {
     const csrfToken = getMetaContent('csrf-token');
 
     let newHeaders = req.headers.set('X-Requested-With', 'XMLHttpRequest');

@@ -99,7 +99,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
           this.workPackageNotificationService.showSave(this.workPackage);
         })
         .catch((e:unknown) => {
-          this.workPackageNotificationService.showError((e as HalError).resource, change.projectedResource);
+          this.workPackageNotificationService.showError((e as HalError).resource!, change.projectedResource);
         });
     }
   }
