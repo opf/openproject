@@ -27,7 +27,9 @@
 //++
 
 import { Scale } from 'chart.js';
-import { Band, bandFor, NonWorkingInterval } from './plugin.non-working-days';
+import {
+  Band, bandFor, fadeOpacity, fadeProgress, NonWorkingInterval,
+} from './plugin.non-working-days';
 
 // A scale mapping one day to 10px, starting at 2026-10-12.
 function scaleStub(attrs:Partial<Scale> = {}):Scale {
@@ -87,5 +89,40 @@ describe('bandFor', () => {
 
   it('returns null for an unparseable interval', () => {
     expect(bandFor({ from: 'not-a-date', to: '2026-10-18' }, scaleStub(), 'UTC')).toBeNull();
+  });
+});
+
+describe('fadeProgress', () => {
+  it('runs from 0 to 1 across the duration', () => {
+    expect(fadeProgress(1000, 1000, 400)).toBe(0);
+    expect(fadeProgress(1000, 1200, 400)).toBe(0.5);
+    expect(fadeProgress(1000, 1400, 400)).toBe(1);
+  });
+
+  it('completes at once when the chart animates nothing', () => {
+    expect(fadeProgress(1000, 1000, 0)).toBe(1);
+  });
+});
+
+describe('fadeOpacity', () => {
+  const fadeIn = { from: 0, to: 0.5, startedAt: 0 };
+
+  it('holds the ends exactly', () => {
+    expect(fadeOpacity(fadeIn, 0)).toBe(0);
+    expect(fadeOpacity(fadeIn, 1)).toBe(0.5);
+  });
+
+  it('clamps a progress that has overrun', () => {
+    expect(fadeOpacity(fadeIn, 1.4)).toBe(0.5);
+    expect(fadeOpacity(fadeIn, -0.2)).toBe(0);
+  });
+
+  it('eases out, so it covers most of the distance early', () => {
+    expect(fadeOpacity(fadeIn, 0.5)).toBeCloseTo(0.5 * (1 - 0.5 ** 4), 5);
+    expect(fadeOpacity(fadeIn, 0.5)).toBeGreaterThan(0.25);
+  });
+
+  it('fades out symmetrically', () => {
+    expect(fadeOpacity({ from: 0.5, to: 0, startedAt: 0 }, 1)).toBe(0);
   });
 });
