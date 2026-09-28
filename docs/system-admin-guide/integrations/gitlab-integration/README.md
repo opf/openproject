@@ -237,7 +237,8 @@ Linked branches are shown in the **Branches** section of the **GitLab** tab. For
 > Only branches created after the webhook has been configured are linked. When a branch is deleted in GitLab, it is also removed from the **GitLab** tab.
 
 ### Link commits
-
+> [!IMPORTANT]
+> This feature is available on our Dev branch. 
 A GitLab commit is linked to a work package when it is pushed to GitLab and its message references the work package, either with **OP#388** or with the URL of the work package, for example `https://myopenproject.com/projects/demo/work_packages/388`. The URL has to point to your OpenProject instance, using the host name configured in OpenProject. The commit message you copy from the **Git quick snippets** dialog already contains such a reference. A commit can reference several work packages.
 
 Linked commits are shown in the **Commits** section of the **GitLab** tab. For each commit, you can see the repository, the short commit SHA, the first line of the commit message with a link to the commit in GitLab, the author and the date the commit was authored. Click the copy icon next to the SHA to copy the full commit SHA.
