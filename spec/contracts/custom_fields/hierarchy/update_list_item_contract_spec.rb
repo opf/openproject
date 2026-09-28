@@ -31,37 +31,34 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
-  subject(:contract) { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
   let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Top Other]) }
   let(:root) { custom_field.hierarchy_root }
   let(:top) { root.children.find_by!(label: "Top") }
 
-  it "accepts renaming an item directly under the root" do
-    expect(contract.call(item: top, label: "Renamed")).to be_success
+  context "when renaming an item directly under the root" do
+    let(:params) { { item: top, label: "Renamed", short: "RE" } }
+
+    it { is_expected.to be_success }
+    it("drops the short, which list items do not carry") { expect(result.to_h).not_to have_key(:short) }
   end
 
-  it "drops a short, which list items do not carry" do
-    expect(contract.call(item: top, label: "Renamed", short: "RE").to_h).not_to have_key(:short)
+  context "when renaming the root" do
+    let(:params) { { item: root, label: "Renamed" } }
+
+    it("rejects the root") { expect(result.errors[:item]).to include("cannot be a root item.") }
   end
 
-  it "rejects the root item" do
-    result = contract.call(item: root, label: "Renamed")
+  context "when renaming an item nested below another one" do
+    let(:params) { { item: top.children.create!(label: "Nested"), label: "Renamed" } }
 
-    expect(result.errors[:item]).to include("cannot be a root item.")
+    it("rejects the nesting") { expect(result.errors[:item]).to include("cannot have sub-items for this custom field.") }
   end
 
-  it "rejects an item nested under another item" do
-    nested = top.children.create!(label: "Nested")
+  context "when taking a label a sibling already uses" do
+    let(:params) { { item: top, label: "Other" } }
 
-    result = contract.call(item: nested, label: "Renamed")
-
-    expect(result.errors[:item]).to include("cannot have sub-items for this custom field.")
-  end
-
-  it "rejects a label already used by a sibling" do
-    result = contract.call(item: top, label: "Other")
-
-    expect(result.errors[:label]).to include("must be unique within the same hierarchy level.")
+    it("rejects the label") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
   end
 end
