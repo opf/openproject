@@ -75,6 +75,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -268,7 +269,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   private cardHighlighting(wp:WorkPackageResource):string {
     if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
-      return Highlighting.backgroundClass(this.highlightingMode, wp[this.highlightingMode].id);
+      return Highlighting.backgroundClass(this.highlightingMode, (wp[this.highlightingMode] as HalResource).id!);
     }
     return '';
   }

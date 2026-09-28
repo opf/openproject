@@ -184,7 +184,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .id(this.workPackage.project)
       .requireAndStream()
       .subscribe(() => {
-        this.projectIdentifier = this.workPackage.project.identifier;
+        this.projectIdentifier = this.workPackage.project.identifier as string;
         this.cdRef.detectChanges();
       });
 

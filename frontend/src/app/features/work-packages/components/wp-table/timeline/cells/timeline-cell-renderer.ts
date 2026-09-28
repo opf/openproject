@@ -48,6 +48,7 @@ import {
   timelineElementCssClass,
   timelineMarkerSelectionStartClass,
 } from '../wp-timeline';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -107,7 +108,7 @@ export class TimelineCellRenderer {
 
   public canMoveDates(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
-    return schema.startDate.writable && schema.dueDate.writable && schema.isAttributeEditable('startDate');
+    return (schema.startDate as IOPFieldSchema).writable && (schema.dueDate as IOPFieldSchema).writable && schema.isAttributeEditable('startDate');
   }
 
   public isEmpty(wp:WorkPackageResource) {
