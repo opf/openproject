@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::UpdateHierarchyItemContract do
   subject(:result) { described_class.new.call(params) }
@@ -38,11 +39,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateHierarchyItemContract do
   let!(:leia) { create(:hierarchy_item, label: "leia", short: "lo", parent: vader) }
   let(:valid_params) { { item: luke, label: "Luke Skywalker", short: "LS" } }
 
-  context "with a new label and short" do
-    let(:params) { valid_params }
-
-    it { is_expected.to be_success }
-  end
+  it_behaves_like "a hierarchy item update contract", sibling_label: "leia"
 
   context "with its own label and short kept" do
     let(:params) { valid_params.merge(label: "luke", short: "ls") }
@@ -60,54 +57,6 @@ RSpec.describe CustomFields::Hierarchy::UpdateHierarchyItemContract do
     let(:params) { valid_params.merge(item: create(:hierarchy_item, label: "ben", parent: leia)) }
 
     it("accepts it, since hierarchies nest") { is_expected.to be_success }
-  end
-
-  context "without an item" do
-    let(:params) { valid_params.merge(item: nil) }
-
-    it("rejects it") { expect(result.errors[:item]).to include("must be filled.") }
-  end
-
-  context "with the root item" do
-    let(:params) { valid_params.merge(item: vader) }
-
-    it("rejects it") { expect(result.errors[:item]).to include("cannot be a root item.") }
-  end
-
-  context "with an item that is not an item" do
-    let(:params) { valid_params.merge(item: create(:custom_field)) }
-
-    it("rejects it") { expect(result.errors[:item]).to include("must be CustomField::Hierarchy::Item.") }
-  end
-
-  context "with an unsaved item" do
-    let(:params) { valid_params.merge(item: build(:hierarchy_item, parent: vader)) }
-
-    it("rejects it") { expect(result.errors[:item]).to include("must be an already existing item.") }
-  end
-
-  context "without a label" do
-    let(:params) { valid_params.except(:label) }
-
-    it("rejects it") { expect(result.errors[:label]).to include("is missing.") }
-  end
-
-  context "with a blank label" do
-    let(:params) { valid_params.merge(label: nil) }
-
-    it("rejects it") { expect(result.errors[:label]).to include("must be filled.") }
-  end
-
-  context "with a label that is not a string" do
-    let(:params) { valid_params.merge(label: 42) }
-
-    it("rejects it") { expect(result.errors[:label]).to include("must be a string.") }
-  end
-
-  context "with a label a sibling already uses" do
-    let(:params) { valid_params.merge(label: "leia") }
-
-    it("rejects it") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
   end
 
   context "without a short key" do

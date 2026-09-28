@@ -29,30 +29,26 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
   subject(:result) { described_class.new.call(params) }
 
   let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Top Other]) }
   let(:root) { custom_field.hierarchy_root }
-  let(:top) { root.children.find_by!(label: "Top") }
+  let(:valid_params) { { parent: root, label: "Sibling" } }
 
-  context "with a new label directly under the root" do
-    let(:params) { { parent: root, label: "Sibling", short: "SI" } }
+  it_behaves_like "a hierarchy item insert contract"
 
-    it { is_expected.to be_success }
-    it("drops the short, which list items do not carry") { expect(result.to_h).not_to have_key(:short) }
+  context "with a short" do
+    let(:params) { valid_params.merge(short: "SI") }
+
+    it("drops it, since list items do not carry one") { expect(result.to_h).not_to have_key(:short) }
   end
 
   context "with a parent below the root" do
-    let(:params) { { parent: top, label: "Nested" } }
+    let(:params) { valid_params.merge(parent: root.children.find_by!(label: "Top")) }
 
     it("rejects the nesting") { expect(result.errors[:parent]).to include("cannot have sub-items for this custom field.") }
-  end
-
-  context "with a label a sibling already uses" do
-    let(:params) { { parent: root, label: "Top" } }
-
-    it("rejects the label") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
   end
 end

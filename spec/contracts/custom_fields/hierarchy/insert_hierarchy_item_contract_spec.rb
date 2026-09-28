@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
   subject(:result) { described_class.new.call(params) }
@@ -36,11 +37,7 @@ RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
   let(:parent) { create(:hierarchy_item) }
   let(:valid_params) { { parent:, label: "Valid Label", short: nil } }
 
-  context "with a label and no short" do
-    let(:params) { valid_params }
-
-    it { is_expected.to be_success }
-  end
+  it_behaves_like "a hierarchy item insert contract"
 
   context "with a short" do
     let(:params) { valid_params.merge(short: "Valid Short") }
@@ -52,63 +49,6 @@ RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
     let(:params) { valid_params.merge(parent: create(:hierarchy_item, parent:)) }
 
     it("accepts it, since hierarchies nest") { is_expected.to be_success }
-  end
-
-  context "without a parent" do
-    let(:params) { valid_params.merge(parent: nil) }
-
-    it("rejects it") { expect(result.errors[:parent]).to include("must be filled.") }
-  end
-
-  context "with a parent that is not an item" do
-    let(:params) { valid_params.merge(parent: create(:custom_field)) }
-
-    it("rejects it") { expect(result.errors[:parent]).to include("must be CustomField::Hierarchy::Item.") }
-  end
-
-  context "with an unsaved parent" do
-    let(:params) { valid_params.merge(parent: build(:hierarchy_item)) }
-
-    it("rejects it") { expect(result.errors[:parent]).to include("must exist") }
-  end
-
-  context "without a label" do
-    let(:params) { valid_params.except(:label) }
-
-    it("rejects it") { expect(result.errors[:label]).to include("is missing.") }
-  end
-
-  context "with a blank label" do
-    let(:params) { valid_params.merge(label: nil) }
-
-    it("rejects it") { expect(result.errors[:label]).to include("must be filled.") }
-  end
-
-  context "with a label that is not a string" do
-    let(:params) { valid_params.merge(label: 42) }
-
-    it("rejects it") { expect(result.errors[:label]).to include("must be a string.") }
-  end
-
-  context "with a label a sibling already uses" do
-    let(:params) { valid_params.merge(label: "Duplicate Label") }
-
-    before { create(:hierarchy_item, parent:, label: "Duplicate Label") }
-
-    it("rejects it") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
-
-    context "in another locale" do
-      let(:mordor) { "agh burzum-ishi krimpatul" }
-
-      before do
-        I18n.config.enforce_available_locales = false
-        I18n.backend.store_translations(:mo, { op_dry_validation: { errors: { rules: { label: { not_unique: mordor } } } } })
-      end
-
-      after { I18n.config.enforce_available_locales = true }
-
-      it("rejects it in that locale") { I18n.with_locale(:mo) { expect(result.errors[:label]).to include(mordor) } }
-    end
   end
 
   context "without a short key" do
