@@ -105,7 +105,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
             const items = link.map((item) => halResourceService.createLinkedResource(halResource,
               linkName,
               item.$link));
-            var property:HalResource[] = new ObservableArray(...items).on('change', () => {
+            const property:HalResource[] = new ObservableArray(...items).on('change', () => {
               property.forEach((item) => {
                 if (!item.$link) {
                   property.splice(property.indexOf(item), 1);
