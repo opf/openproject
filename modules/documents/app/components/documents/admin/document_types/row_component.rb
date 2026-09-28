@@ -119,7 +119,7 @@ module Documents
         def build_document_type_menu(menu)
           with_item_group(menu) do
             edit_document_type(menu)
-            move_document_type(menu)
+            with_move_submenu(menu)
           end
           with_item_group(menu) { delete_document_type(menu) }
         end
@@ -131,20 +131,6 @@ module Documents
             href: edit_admin_settings_document_type_path(document_type)
           ) do |item|
             item.with_leading_visual_icon(icon: :pencil)
-          end
-        end
-
-        def move_document_type(menu)
-          menu.with_item(
-            component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-            label: I18n.t(:button_move),
-            select_variant: :none,
-            form_arguments: {},
-            data: { sortable_lists__item_target: "moveMenu" }
-          ) do |submenu|
-            submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-            with_move_items(submenu)
           end
         end
 

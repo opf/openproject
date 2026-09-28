@@ -49,6 +49,20 @@ module SortableLists
 
     private
 
+    def with_move_submenu(menu)
+      menu.with_item(
+        component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
+        label: I18n.t(:button_move),
+        select_variant: :none,
+        form_arguments: {},
+        data: { sortable_lists__item_target: "moveMenu" }
+      ) do |submenu|
+        submenu.with_leading_visual_icon(icon: :"op-arrow-in")
+
+        with_move_items(submenu)
+      end
+    end
+
     # The `data:` hash must live on the item level so Primer renders it on the ActionList
     # `<li>`, which is what the item controller targets to compute availability and to
     # handle the bubbled click.
