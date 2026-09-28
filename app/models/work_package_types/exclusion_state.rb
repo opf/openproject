@@ -29,32 +29,15 @@
 #++
 
 module WorkPackageTypes
-  # The elements this variant does not show.
-  #  - own: what this variant itself drops
-  #  - effective: the union over the whole chain
-  #
-  # An element in effective but not in own was excluded further up the chain, which is what
-  # #excluded_by_source? answers: this variant cannot reach that exclusion to undo it.
-  #
-  ExclusionState = Data.define(:variant, :own, :effective) do
+  ExclusionState = Data.define(:variant, :excluded) do
     def self.for(variant, aspect)
       return unless variant.excludable?(aspect)
 
-      column = :"#{TypeVariant.validated_excludable_aspect(aspect)}_excluded_elements"
-
-      new(
-        variant:,
-        own: variant.public_send(column).map(&:to_s),
-        effective: variant.excluded_elements(aspect).map(&:to_s)
-      )
+      new(variant:, excluded: variant.excluded_elements(aspect).map(&:to_s))
     end
 
     def excluded?(key)
-      effective.include?(key.to_s)
-    end
-
-    def excluded_by_source?(key)
-      excluded?(key) && own.exclude?(key.to_s)
+      excluded.include?(key.to_s)
     end
   end
 end

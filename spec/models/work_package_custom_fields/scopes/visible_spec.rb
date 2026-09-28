@@ -68,7 +68,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
 
     before do
       linked_project.project_types.find_by(type: linked_type).update!(variant: linked_variant)
-      linked_variant.link!(TypeVariant::FORM_CONFIGURATION)
+      link_configuration(linked_variant, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     context "for a non-privileged user" do

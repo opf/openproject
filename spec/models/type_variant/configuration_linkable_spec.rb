@@ -67,12 +67,12 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     end
 
     it "clears the aspect's exclusions when unlinking" do
-      variant.link!(TypeVariant::FORM_CONFIGURATION)
-      variant.update!(form_configuration_excluded_elements: %w[assignee])
+      variant.link!(TypeVariant::PROJECT_ATTRIBUTES)
+      variant.update!(project_attributes_excluded_elements: %w[custom_field_1])
 
-      variant.unlink!(TypeVariant::FORM_CONFIGURATION)
+      variant.unlink!(TypeVariant::PROJECT_ATTRIBUTES)
 
-      expect(variant.reload.form_configuration_excluded_elements).to eq([])
+      expect(variant.reload.project_attributes_excluded_elements).to eq([])
     end
 
     it "cannot link an aspect on a base variant" do
@@ -237,8 +237,8 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       variant.update!(attribute_groups: [["own_group", %w(assignee)]])
     end
 
-    it "reads attribute_groups from the base when linked" do
-      variant.link!(form_aspect)
+    it "reads attribute_groups from the base while it shares its form" do
+      link_configuration(variant, aspect: form_aspect)
 
       keys = variant.attribute_groups.map(&:key)
       expect(keys).to include("base_only_group")
@@ -251,8 +251,8 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       expect(keys).not_to include("base_only_group")
     end
 
-    it "reads its own attribute_groups while an assignment is pending, even when linked" do
-      variant.link!(form_aspect)
+    it "reads its own attribute_groups while an assignment is pending" do
+      link_configuration(variant, aspect: form_aspect)
       variant.attribute_groups = [["pending_group", %w(assignee)]]
 
       keys = variant.attribute_groups.map(&:key)
@@ -260,10 +260,10 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       expect(keys).not_to include("base_only_group")
     end
 
-    it "reads custom_fields from the base when linked" do
+    it "reads custom_fields from the base while it shares its form" do
       cf = create(:integer_wp_custom_field)
       base.custom_field_ids |= [cf.id]
-      variant.link!(form_aspect)
+      link_configuration(variant, aspect: form_aspect)
 
       expect(variant.custom_fields).to include(cf)
     end
@@ -341,20 +341,20 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     end
 
     it "excludes nothing when linked without exclusions" do
-      variant.link!(aspect)
+      link_configuration(variant, aspect:)
 
       expect(variant.excluded_elements(aspect)).to eq([])
     end
 
     it "returns the variant's own exclusions when linked" do
-      variant.link!(aspect)
+      link_configuration(variant, aspect:)
       variant.update!(form_configuration_excluded_elements: %w[custom_field_1 assignee])
 
       expect(variant.excluded_elements(aspect)).to contain_exactly("custom_field_1", "assignee")
     end
 
     it "keeps exclusions scoped to their own aspect" do
-      variant.link!(aspect)
+      link_configuration(variant, aspect:)
       variant.link!(TypeVariant::PROJECT_ATTRIBUTES)
       variant.update!(form_configuration_excluded_elements: %w[custom_field_1],
                       project_attributes_excluded_elements: %w[custom_field_2])

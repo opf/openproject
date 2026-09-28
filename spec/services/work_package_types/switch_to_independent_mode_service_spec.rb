@@ -55,51 +55,11 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
-    context "with the default mode (form configuration)" do
+    context "with the form, which a variant references rather than inherits" do
       let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
-      it "resets to the administrator default groups and severs the link" do
-        base.attribute_groups = [["custom group", %w[assignee]]]
-        base.save!
-        link_configuration(variant, aspect:)
-
-        result = service.call(mode: WorkPackageTypes::IndependentMode::DEFAULT)
-
-        expect(result).to be_success
-        expect(variant.reload).not_to be_linked(aspect)
-        expect(variant.attribute_groups.map(&:key)).to eq(TypeVariant.new(type: Type.new).attribute_groups.map(&:key))
-      end
-    end
-
-    context "with the copy mode and exclusions (form configuration)" do
-      let(:aspect) { TypeVariant::FORM_CONFIGURATION }
-      let(:owner) do
-        base.tap do |owner_variant|
-          owner_variant.attribute_groups = [["Numbers", [kept_field.attribute_name, excluded_field.attribute_name]],
-                                            ["People", %w[assignee]]]
-          owner_variant.custom_field_ids = [kept_field.id, excluded_field.id]
-          owner_variant.save!
-        end
-      end
-
-      shared_let(:kept_field) { create(:issue_custom_field, :integer, name: "Kept", is_for_all: true) }
-      shared_let(:excluded_field) { create(:issue_custom_field, :integer, name: "Dropped", is_for_all: true) }
-
-      def own_groups
-        variant.reload.form_configuration.attribute_groups.to_h { |group| [group.key.to_s, group.attributes] }
-      end
-
-      it "leaves out what the variant's own link excluded", :aggregate_failures do
-        owner
-        link_configuration(variant, aspect: aspect, excluded: [excluded_field.attribute_name, "assignee"])
-
-        result = service.call(mode: WorkPackageTypes::IndependentMode::COPY)
-
-        expect(result).to be_success
-        expect(variant.reload).not_to be_linked(aspect)
-        expect(own_groups.keys).to contain_exactly("Numbers")
-        expect(own_groups["Numbers"]).to eq([kept_field.attribute_name])
-        expect(variant.custom_field_ids).to contain_exactly(kept_field.id)
+      it "refuses every mode" do
+        expect(service.call(mode: WorkPackageTypes::IndependentMode::COPY)).to be_failure
       end
     end
 

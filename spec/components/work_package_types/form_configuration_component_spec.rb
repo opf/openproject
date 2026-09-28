@@ -80,7 +80,6 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
       render_component
 
       expect(page).to have_css(".type-form-configuration-page--sidebar")
-      expect(page).to have_test_selector("type-form-configuration-add-button")
     end
   end
 end

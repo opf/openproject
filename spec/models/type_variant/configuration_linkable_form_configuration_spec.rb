@@ -57,7 +57,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
 
   before do
     base
-    variant.link!(aspect)
+    link_configuration(variant, aspect:)
   end
 
   def groups_of(record)
@@ -120,7 +120,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
   end
 
   it "edits a form of its own once switched to independent, leaving the type's alone" do
-    variant.unlink!(aspect)
+    unlink_configuration(variant, aspect:)
     variant.attribute_groups = [["own", %w[assignee]]]
     variant.save!
 

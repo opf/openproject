@@ -36,7 +36,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
   shared_let(:type) { create(:type) }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
-  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+  let(:aspect) { TypeVariant::DEFAULTS }
   let(:source) { type.default_variant }
 
   subject(:component) { described_class.new(variant:, aspect:) }
@@ -61,7 +61,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
     it "names the parent type in the inherit option, linking to that setting on it" do
       expect(page).to have_link(
         source.composite_name,
-        href: edit_type_form_configuration_path(type_id: type.id, variant_id: source.id)
+        href: edit_type_defaults_path(type_id: type.id, variant_id: source.id)
       )
     end
 

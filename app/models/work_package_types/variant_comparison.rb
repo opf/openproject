@@ -38,7 +38,6 @@ module WorkPackageTypes
 
     ASPECT_LABEL_KEYS = {
       TypeVariant::DEFAULTS => "types.edit.defaults.tab",
-      FORM => "types.edit.form_configuration.tab",
       TypeVariant::PROJECT_ATTRIBUTES => "types.edit.project_attributes.tab",
       TypeVariant::PDF_EXPORT => "types.edit.export_configuration.tab"
     }.freeze

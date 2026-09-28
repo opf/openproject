@@ -193,7 +193,7 @@ RSpec.describe(
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
           expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
-          expect(copied.source_for(:form_configuration)).to eq(owned_variant.source_for(:form_configuration))
+          expect(copied.form_configuration).to eq(owned_variant.form_configuration)
         end
 
         it "lets the copy reference the same workflow" do

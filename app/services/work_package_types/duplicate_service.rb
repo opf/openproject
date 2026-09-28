@@ -98,7 +98,7 @@ module WorkPackageTypes
       source_variant = source.default_variant
       copy_variant = copy.default_variant
 
-      CopyConfiguration::SERVICES.each_value do |service_class|
+      [*CopyConfiguration::SERVICES.values, CopyConfiguration::FormConfigurationService].each do |service_class|
         aspect_result = service_class.new(variant: copy_variant, user:).call(source: source_variant)
         return aspect_result if aspect_result.failure?
       end

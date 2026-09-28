@@ -81,7 +81,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     context "when the variant inherits its form configuration" do
-      before { variant.link!(TypeVariant::FORM_CONFIGURATION) }
+      before { link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION) }
 
       it "surfaces the type's fields" do
         expect(subject).to include(root_cf)

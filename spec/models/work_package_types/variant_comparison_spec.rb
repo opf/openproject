@@ -75,7 +75,7 @@ RSpec.describe WorkPackageTypes::VariantComparison do
   describe "#sections" do
     it "reports the scope first and covers every aspect under the configuration overview" do
       expect(comparison.sections.map(&:first)).to eq(%i[scope configuration form workflows])
-      expect(comparison.rows_of(:configuration).map(&:key)).to match_array(TypeVariant::REUSE_MODE_ASPECTS)
+      expect(comparison.rows_of(:configuration).map(&:key)).to match_array(TypeVariant::ASPECTS)
     end
   end
 

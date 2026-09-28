@@ -53,9 +53,7 @@ module WorkPackageTypes
     end
 
     def active_groups
-      groups = @form_attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
-
-      readonly? ? without_source_exclusions(groups) : groups
+      @form_attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
     end
 
     def wrapper_data
@@ -97,33 +95,6 @@ module WorkPackageTypes
         group_components:,
         ee_available: ee_available?
       )
-    end
-
-    private
-
-    def without_source_exclusions(groups)
-      return groups if exclusion_state.nil?
-
-      groups.filter_map do |group|
-        if group[:type].to_s == "query"
-          retained_query_group(group)
-        else
-          narrowed_attribute_group(group)
-        end
-      end
-    end
-
-    def narrowed_attribute_group(group)
-      attributes = group[:attributes].to_a
-      remaining = attributes.reject { |attribute| exclusion_state.excluded_by_source?(attribute[:key]) }
-      return if remaining.empty? && attributes.any?
-
-      group.merge(attributes: remaining)
-    end
-
-    # A query group is a single entry in the section, so a source exclusion drops the whole section.
-    def retained_query_group(group)
-      group unless group[:element_key].present? && exclusion_state.excluded_by_source?(group[:element_key])
     end
   end
 end

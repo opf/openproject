@@ -43,8 +43,6 @@ class TypeVariant < ApplicationRecord
 
   FORM_CONFIGURATION = "form_configuration"
 
-  REUSE_MODE_ASPECTS = [*ASPECTS, FORM_CONFIGURATION].freeze
-
   # The aspects a variant can reduce fields in
   EXCLUDABLE_ASPECTS = [FORM_CONFIGURATION, PROJECT_ATTRIBUTES].freeze
 
@@ -53,7 +51,6 @@ class TypeVariant < ApplicationRecord
   include ::Type::AttributeGroups
   include ::TypeVariant::FormReference
   prepend ::TypeVariant::ConfigurationLinkable
-  prepend ::TypeVariant::FormLinking
 
   attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
 
