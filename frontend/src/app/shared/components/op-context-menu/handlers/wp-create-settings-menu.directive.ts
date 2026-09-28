@@ -33,6 +33,7 @@ import { States } from 'core-app/core/states/states.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpCreateSettingsMenu]',
   standalone: false,
 })

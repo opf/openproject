@@ -37,6 +37,7 @@ export const formControlBinding = {
 };
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[spotFormBinding]',
   providers: [formControlBinding],
   exportAs: 'ngForm',

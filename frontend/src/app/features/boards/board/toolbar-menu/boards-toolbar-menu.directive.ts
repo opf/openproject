@@ -38,6 +38,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { selectableTitleIdentifier, triggerEditingEvent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[boardsToolbarMenu]',
   standalone: false,
 })
