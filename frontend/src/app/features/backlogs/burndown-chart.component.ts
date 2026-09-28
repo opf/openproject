@@ -60,11 +60,17 @@ const Y_AXIS_HEADROOM = 1.1;
 
 const MINUTE_IN_MS = 60 * 1000;
 
-// The legend reads in the order a reader meets the series: what is left, where that is heading,
-// the days nothing was expected on, and what was planned. Datasets are ordered by what has to be
-// drawn over what instead, so the two cannot be the same list.
+// The legend and the tooltip both read in the order a reader meets the series: what is left,
+// where that is heading, the days nothing was expected on, and what was planned. Datasets carry
+// the order they have to be drawn in instead, so neither list can be taken from them.
 const NON_WORKING_LEGEND_KEY = 'non-working-days';
-const LEGEND_ORDER:string[] = ['remaining', 'projection', NON_WORKING_LEGEND_KEY, 'guideline'];
+const SERIES_ORDER:string[] = ['remaining', 'projection', NON_WORKING_LEGEND_KEY, 'guideline'];
+
+function seriesRank(key:string|undefined):number {
+  const rank = SERIES_ORDER.indexOf(key ?? '');
+
+  return rank === -1 ? SERIES_ORDER.length : rank;
+}
 
 function cssVariable(name:string, fallback:string):string {
   return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
@@ -145,6 +151,7 @@ export class BurndownChartComponent {
         onClick: (event, item, legend) => this.toggleLegendItem(event, item, legend),
       },
       tooltip: {
+        itemSort: (a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex),
         callbacks: {
           title: (items) => this.tooltipTitle(items),
           label: (item) => this.tooltipLabel(item),
@@ -254,12 +261,13 @@ export class BurndownChartComponent {
 
   // The bands carry no dataset index, which is also how the toggle tells them apart.
   private legendRank(item:LegendItem):number {
-    const key = item.datasetIndex === undefined
-      ? NON_WORKING_LEGEND_KEY
-      : this.parsed().series[item.datasetIndex]?.id;
-    const rank = LEGEND_ORDER.indexOf(key ?? '');
+    return item.datasetIndex === undefined
+      ? seriesRank(NON_WORKING_LEGEND_KEY)
+      : this.datasetRank(item.datasetIndex);
+  }
 
-    return rank === -1 ? LEGEND_ORDER.length : rank;
+  private datasetRank(datasetIndex:number):number {
+    return seriesRank(this.parsed().series[datasetIndex]?.id);
   }
 
   // The bands are drawn by a plugin rather than a dataset, so their entry carries no dataset
