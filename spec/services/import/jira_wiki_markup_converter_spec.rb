@@ -431,6 +431,62 @@ RSpec.describe Import::JiraWikiMarkupConverter do
         expect(result).to eq("`This is preformatted`\n> This is a paragraph quote\n\nAnd\n> This is a block quote\n\n\n")
       end
     end
+
+    context "with content on the opening {quote} line spanning several lines" do
+      let(:input) { "{quote}Line one\nLine two\n{quote}" }
+
+      it "quotes every line instead of leaking the opening tag" do
+        expect(result).to eq("> Line one\n> Line two\n")
+      end
+    end
+
+    context "with a closing {quote} trailing the last quoted line" do
+      let(:input) { "{quote}\nLine one\nLine two{quote}" }
+
+      it { is_expected.to eq("> Line one\n> Line two\n") }
+    end
+
+    context "with an unterminated {quote} carrying content on the opening line" do
+      let(:input) { "{quote}Line one\nLine two" }
+
+      it { is_expected.to eq("> Line one\n> Line two\n") }
+    end
+
+    context "with content after a {quote} opened on the same line" do
+      let(:input) { "{quote}Line one\nLine two\n{quote}\nAfterwards" }
+
+      it "ends the quote at the closing tag" do
+        expect(result).to eq("> Line one\n> Line two\n\nAfterwards")
+      end
+    end
+
+    context "with a {quote} opened and closed inside a line of text" do
+      let(:input) { "see {quote}first{quote} here" }
+
+      it "breaks the paragraph around the quote" do
+        expect(result).to eq("see\n> first\n\nhere")
+      end
+    end
+
+    context "with a {quote} opened and closed on a line of its own" do
+      let(:input) { "{quote}first{quote}" }
+
+      it { is_expected.to eq("> first\n") }
+    end
+
+    context "with several {quote} macros on one line" do
+      let(:input) { "a {quote}one{quote} b {quote}two{quote} c" }
+
+      it { is_expected.to eq("a\n> one\n\nb\n> two\n\nc") }
+    end
+
+    context "with a {quote} inside a heading" do
+      let(:input) { "h1. see {quote}first{quote} here" }
+
+      it "keeps the quoted text, since a heading cannot hold a block quote" do
+        expect(result).to eq("# see first here")
+      end
+    end
   end
 
   describe "tables" do

@@ -176,6 +176,7 @@ module Import
       def inline_node_renderer(node)
         {
           N::Text => :render_text,
+          N::BlockQuote => :render_inline_block_quote,
           N::Bold => :render_bold,
           N::Italic => :render_italic,
           N::Strikethrough => :render_strikethrough,
@@ -197,6 +198,12 @@ module Import
 
       def render_text(node)
         node.content
+      end
+
+      # Reached where a quote cannot become its own block (headings, list items,
+      # table cells); markdown has no inline quote, so keep the text unadorned.
+      def render_inline_block_quote(node)
+        render_inline(node.children)
       end
 
       def render_bold(node)
