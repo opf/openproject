@@ -41,7 +41,7 @@ RSpec.describe "Password change session revocation",
 
   def login_browser(remember_me:)
     browser = ActionDispatch::Integration::Session.new(Rails.application)
-    browser.host! "www.example.com"
+    browser.host! Setting.host_name
     browser.post "/login", params: {
       username: user.login,
       password: old_password,
