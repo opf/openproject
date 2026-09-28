@@ -386,12 +386,12 @@ pt-BR:
         attribute_groups: Formulário
         default_work_package_description: Texto padrão para descrição
         enabled_in_new_projects: Ativo em novos projetos
-        linked_aspects: Inherited configuration
+        linked_aspects: Configuração herdada
         patterns: Padrões
         project_types: Projetos que usam esta variante
         variant: Variante
         variant_name: Nome
-        workflow: Workflow
+        workflow: Fluxo de trabalho
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
@@ -496,7 +496,7 @@ pt-BR:
           title: Dias úteis
           true: incluindo dias não-úteis
         journal_internal: Diário interno
-        labels: Labels
+        labels: Etiquetas
         notify: Notificar
         observed_in_versions: Observado nas versões
         parent: Pai
@@ -526,8 +526,8 @@ pt-BR:
       work_package_version:
         kind: Tipo
       workflow:
-        description: Description
-        name: Name
+        description: Descrição
+        name: Nome
         type_variants: Types and variants using this workflow
     errors:
       messages:
@@ -2041,11 +2041,11 @@ pt-BR:
           assignee: Transições adicionais disponíveis para o responsável pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor do pacote de trabalho.
         menu_label: Transições exibidas
-      workflow_button: Workflow
+      workflow_button: Fluxo de Trabalho
       workflow_selector:
-        prefix: Workflow
-        same_as_type: "(same as type)"
-        title: Select workflow
+        prefix: Fluxo de Trabalho
+        same_as_type: "(igual ao tipo)"
+        title: Selecionar fluxo de trabalho
   ai:
     text_transform:
       errors:
@@ -6509,7 +6509,7 @@ pt-BR:
         reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
         reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
         reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
-        submit: Start
+        submit: Iniciar
         type:
           description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
           heading: Create a new type
@@ -6527,7 +6527,7 @@ pt-BR:
         pdf: Geração do PDF
         project_attributes: Atributos do projeto
         projects: Projetos
-        start: Start
+        start: Iniciar
         workflows: Fluxos de trabalho
       success: Criado com sucesso.
     edit:
@@ -6807,9 +6807,9 @@ pt-BR:
     patterns:
       formats:
         hierarchy_default: Default (label and short)
-        hierarchy_label: Label only
-        hierarchy_short: Short only
-        weighted_item_list_default: Default (label and weight)
+        hierarchy_label: Apenas etiqueta
+        hierarchy_short: Somente curto
+        weighted_item_list_default: Padrão (rótulo e peso)
         weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Ignorar este aviso.
@@ -7317,11 +7317,11 @@ pt-BR:
       other: "%{count} pacotes de trabalho descendentes"
   workflows:
     change:
-      title: Change workflow
+      title: Alterar o fluxo de trabalho
       workflow:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Workflow
-        placeholder: Select a workflow…
+        placeholder: Selecionar um fluxo de trabalho...
     copies:
       form:
         target_role_ids:
@@ -7353,13 +7353,13 @@ pt-BR:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      new_title: Criar fluxo de trabalho
     index:
       actions:
-        create: Workflow
-        edit: Edit transitions
-        menu: Actions for %{name}
-        rename: Edit name and description
+        create: Fluxo de Trabalho
+        edit: Editar transições
+        menu: Ações para %{name}
+        rename: Editar nome e descrição
       blank_slate:
         description: Create a workflow to define the status transitions a type or variant may use.
         filtered_description: No workflow matches the current filters.
@@ -7367,8 +7367,8 @@ pt-BR:
         title: No workflows
       columns:
         name: Workflow name
-        projects: Projects
-        roles: Roles
+        projects: Projetos
+        roles: Funções
         types_and_variants: Types and variants
       description: Every named set of status transitions in this instance, with the types and variants using it.
       filters:

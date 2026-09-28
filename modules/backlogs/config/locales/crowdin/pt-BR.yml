@@ -26,7 +26,7 @@ pt-BR:
       project:
         allow_multiple_active_sprints: Permitir vários sprints ativos
         backlog_excluded_types: Tipos de pacote de trabalho excluídos
-        estimation_unit: Unit
+        estimation_unit: Unidade
         sprint_sharing: Compartilhamento de sprints
         statuses_considered_closed: Estados considerados fechados
       sprint:
@@ -138,7 +138,7 @@ pt-BR:
       show:
         blankslate_description: Defina a data de início e término da sprint para gerar o gráfico de burndown.
         blankslate_title: Nenhum dado de burndown disponível
-    estimation_unit: Units
+    estimation_unit: Unidades
     excluded_work_package_types_caption: 'Escolha quais tipos de pacote de trabalho ocultar do backlog. Itens dos tipos selecionados não aparecerão automaticamente no backlog, mantendo o foco no trabalho que importa para sua equipe. Por exemplo, tipos como épicos ou marcos, que são gerenciados em um nível mais alto, podem ser ocultados para manter o backlog focado em itens acionáveis.
 
       '
@@ -349,17 +349,17 @@ pt-BR:
       sprints: Sprints
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Unidade
         options:
           none:
             caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            label: Nenhum
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: Pontos de história
           time:
             caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            label: Tempo trabalho estimado
       backlog_sharing:
         options:
           no_sharing:

@@ -25,7 +25,7 @@ pt-BR:
         start_date: Data de início
       work_package:
         allocated_principals: Allocated resources
-        allocated_time: Allocated
+        allocated_time: Alocado
     errors:
       models:
         resource_allocation:

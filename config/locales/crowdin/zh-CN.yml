@@ -256,7 +256,7 @@ zh-CN:
         latest_activity_at: 最近一次活动
         parent: 父项目
         portfolio: 项目组合
-        program: 项目群
+        program: 计划
         project_creation_wizard_assignee_custom_field: 提交时的受理人
         project_creation_wizard_enabled: 项目启动请求
         project_creation_wizard_notification_text: 通知文本
@@ -2330,9 +2330,9 @@ zh-CN:
     template_heading: 选择项目组合模板以使用最常见的项目管理方法，或从头开始创建项目组合。
   create_program:
     blank_template:
-      description: 从头开始。手动添加项目群特性、成员和模块。
-      label: 空白项目群
-    template_heading: 选择项目群模板以使用最常见的项目管理方法，或从头开始创建项目群。
+      description: 从头开始。手动添加计划特性、成员和模块。
+      label: 空白计划
+    template_heading: 选择计划模板以使用最常见的项目管理方法，或从头开始创建计划。
   create_project:
     attributes_heading: 填写此必填信息以处理您的项目。
     blank_description: 未提供描述。
@@ -2791,7 +2791,7 @@ zh-CN:
       plan_title: 企业 %{plan} 附加组件
       plans_title: 企业计划
       portfolio_management:
-        description: 通过将项目组织成项目组合与项目群，使项目与您的战略目标保持一致。
+        description: 通过将项目组织成项目组合与计划，使项目与您的战略目标保持一致。
       project_creation_wizard:
         description: 生成分步向导，帮助项目经理填写项目启动请求。
       project_list_sharing:
@@ -3197,7 +3197,7 @@ zh-CN:
           '
         progress_calculation_adjusted: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         progress_calculation_adjusted_from_disabled_mode: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
-        scheduling_mode_adjusted: 随版本更新自动适配调度模式。
+        scheduling_mode_adjusted: 随版本更新自动适配安排模式。
         sprint_migration: 版本 '%{version_name}' 已复制为冲刺。
         stale_target_versions_removed: 过时的目标版本已自动移除。此前在启用了多个目标版本时，该版本被错误地重新添加。
         target_versions_repaired: 在启用多个目标版本之前，目标版本会自动与 Version（版本）字段同步。
@@ -5049,11 +5049,11 @@ zh-CN:
         颜色可用于高亮显示表中的工作包。
   program:
     count:
-      one: 1 个项目群
-      other: "%{count} 个项目群"
-      zero: 0 个项目群
+      one: 1 个计划
+      other: "%{count} 个计划"
+      zero: 0 个计划
     filters:
-      name: 项目群的一部分
+      name: 计划的一部分
   project:
     archive:
       archived: 已存档
@@ -5232,8 +5232,8 @@ zh-CN:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
       subitems:
         no_template: 没有预定义模板
-        program_template_caption: 选择一个模板项目群，作为此类型的新子条目的默认设置。
-        program_template_label: 项目群模板
+        program_template_caption: 选择一个模板计划，作为此类型的新子条目的默认设置。
+        program_template_label: 计划模板
         project_template_caption: 选择一个模板项目，作为此类型的新子条目的默认设置。
         project_template_label: 项目模板
         template_section: '选择创建新的子条目时使用的模板。
@@ -7062,7 +7062,7 @@ zh-CN:
       mode:
         automatic: 自动
         manual: 手动
-        title: 调度模式
+        title: 安排模式
       show_relations: 显示关系
       tabs:
         aria_label: 日期选择器标签
