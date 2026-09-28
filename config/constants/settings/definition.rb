@@ -341,7 +341,8 @@ module Settings
         description: "Encryption key for repository credentials",
         format: :string,
         default: nil,
-        writable: false
+        writable: false,
+        secret: true
       },
       date_format: {
         format: :string,
@@ -618,7 +619,8 @@ module Settings
       good_job_engine_basic_auth: {
         description: "Allow basic authentication for GoodJob web interface by setting a password",
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       hashed_token_pepper: {
         description: "Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). " \
@@ -626,7 +628,8 @@ module Settings
                      "Changing this invalidates all existing hashed tokens.",
         format: :string,
         default: -> { SecureRandom.hex(32) },
-        persist_on_first_read: true
+        persist_on_first_read: true,
+        secret: true
       },
       host_name: {
         format: :string,
@@ -661,7 +664,8 @@ module Settings
         default_by_env: {
           development: "secret12345"
         },
-        description: "The secret used for generating access tokens to access documents on hocuspocus server."
+        description: "The secret used for generating access tokens to access documents on hocuspocus server.",
+        secret: true
       },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
@@ -673,7 +677,8 @@ module Settings
       health_checks_authentication_password: {
         description: "Add an authentication challenge for the /health_check endpoint",
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {
@@ -791,7 +796,8 @@ module Settings
       },
       mail_handler_api_key: {
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       mail_handler_body_delimiters: {
         default: ""
@@ -1141,7 +1147,8 @@ module Settings
       seed_admin_user_password: {
         description: 'Password to set for the initially created admin user (Login remains "admin").',
         default: "admin",
-        writable: false
+        writable: false,
+        secret: true
       },
       seed_admin_user_mail: {
         description: "E-mail to set for the initially created admin user.",
@@ -1177,7 +1184,8 @@ module Settings
         description: "Seed enterprise-edition token through ENV",
         writable: false,
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       self_registration: {
         default: 2,
@@ -1283,7 +1291,8 @@ module Settings
       smtp_password: {
         format: :string,
         default: "",
-        env_alias: "SMTP_PASSWORD"
+        env_alias: "SMTP_PASSWORD",
+        secret: true
       },
       smtp_timeout: {
         format: :integer,
@@ -1379,7 +1388,8 @@ module Settings
       sys_api_key: {
         description: "Internal system API key for setting up managed repositories",
         default: nil,
-        format: :string
+        format: :string,
+        secret: true
       },
       time_format: {
         format: :string,
@@ -1681,6 +1691,7 @@ module Settings
               env_alias: nil,
               string_values: false,
               persist_on_first_read: false,
+              secret: false,
               disallow_override: false)
         name = name.to_sym
         return if exists?(name)
@@ -1694,7 +1705,8 @@ module Settings
                          allowed:,
                          env_alias:,
                          string_values:,
-                         persist_on_first_read:)
+                         persist_on_first_read:,
+                         secret:)
         override_value(definition) unless disallow_override
         all[name] = definition
       end
