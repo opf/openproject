@@ -100,9 +100,6 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
   let(:label_allow_non_open_versions) do # Allow non-open versions
     I18n.t("activerecord.attributes.custom_field.allow_non_open_versions")
   end
-  let(:label_possible_values) do # Possible values
-    I18n.t("activerecord.attributes.custom_field.possible_values")
-  end
   let(:label_default_value) { I18n.t("activerecord.attributes.custom_field.default_value") } # Default value
   let(:label_is_required) { I18n.t("activerecord.attributes.custom_field.is_required") } # Required
   let(:label_formula) { I18n.t("activerecord.attributes.custom_field.formula") } # Formula
