@@ -27,23 +27,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_filter_component do
+      render(WorkPackageTypes::NamedReferences::PanelComponent.new(variant:, model_class:, candidates:))
+    end
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
-
-<% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
-<%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_form_configuration_path(**@variant.path_args)
-      )
-    ) do %>
-  <%= render(WorkPackageTypes::FormConfiguration::TabSubHeaderComponent.new(variant: @variant)) %>
-  <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context: form_editor_context)) %>
-  <%= render(
-        WorkPackageTypes::FormConfigurationComponent.new(
-          context: form_editor_context,
-          form_attributes: form_configuration_groups(form_editor_context),
-          no_filter_query:
-        )
-      ) %>
-<% end %>
+    if offers_new?
+      subheader.with_action_button(
+        tag: :a,
+        scheme: :secondary,
+        leading_icon: :plus,
+        label: button_label,
+        href: configure_dialog_path,
+        data: { controller: "async-dialog", test_selector: "form-create-new" }
+      ) do
+        button_label
+      end
+    end
+  end
+%>

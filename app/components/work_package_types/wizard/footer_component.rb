@@ -39,12 +39,13 @@ module WorkPackageTypes
 
       FORM_IDENTIFIER = "type-wizard-form"
 
-      def initialize(type:, current_step:, variant: nil, back_url: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
         super(type)
 
         @current_step = current_step
         @variant = variant
         @back_url = back_url
+        @started_form_configuration_id = started_form_configuration_id
       end
 
       private
@@ -89,10 +90,14 @@ module WorkPackageTypes
         return unless previous_step
 
         if record_persisted?
-          type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
+          type_creation_wizard_path(**variant_path_args, step: previous_step, **carried_params)
         elsif previous_step == Steps.first
           new_creation_wizard_types_path(**new_wizard_scope)
         end
+      end
+
+      def carried_params
+        { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
       end
 
       def variant_path_args = variant&.path_args || { type_id: type.id }
