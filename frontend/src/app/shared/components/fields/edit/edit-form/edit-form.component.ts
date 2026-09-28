@@ -45,6 +45,7 @@ import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/
 import { firstValueFrom } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-form,[edit-form]',
   template: '<ng-content />',
   standalone: false,

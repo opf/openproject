@@ -33,6 +33,7 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-edit-actions-bar',
   standalone: false,
 })

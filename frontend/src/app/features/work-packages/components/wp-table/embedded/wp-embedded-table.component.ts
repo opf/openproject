@@ -52,6 +52,7 @@ import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outl
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-embedded-table',
   templateUrl: './wp-embedded-table.html',
   standalone: false,

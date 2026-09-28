@@ -31,6 +31,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBindi
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-group',
   templateUrl: './wp-relations-group.template.html',
   standalone: false,

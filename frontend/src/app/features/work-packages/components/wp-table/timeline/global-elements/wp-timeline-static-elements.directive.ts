@@ -37,6 +37,7 @@ import {
 import { TodayLineElement } from './wp-timeline.today-line';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-static-elements',
   template: '<div class="wp-table-timeline--static-elements"></div>',
   standalone: false,

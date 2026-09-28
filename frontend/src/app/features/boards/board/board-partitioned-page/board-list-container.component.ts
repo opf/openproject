@@ -71,6 +71,7 @@ import { States } from 'core-app/core/states/states.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-list-container',
   templateUrl: './board-list-container.component.html',
   styleUrls: ['./board-list-container.component.sass'],

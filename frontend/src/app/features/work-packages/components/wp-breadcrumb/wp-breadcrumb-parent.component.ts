@@ -35,6 +35,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Component({
   templateUrl: './wp-breadcrumb-parent.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-breadcrumb-parent',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

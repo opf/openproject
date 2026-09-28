@@ -36,6 +36,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-create-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-create-button.html',

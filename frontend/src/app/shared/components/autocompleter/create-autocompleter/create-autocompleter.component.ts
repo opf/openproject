@@ -47,6 +47,7 @@ export interface CreateAutocompleterValueOption {
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'create-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./create-autocompleter.component.sass'],

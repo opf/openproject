@@ -74,6 +74,7 @@ function newSegment(vp:TimelineViewParameters,
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>',
   standalone: false,

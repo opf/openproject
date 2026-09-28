@@ -34,6 +34,7 @@ export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'editable-toolbar-title',
   templateUrl: './editable-toolbar-title.html',
   styleUrls: ['./editable-toolbar-title.sass'],

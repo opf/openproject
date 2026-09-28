@@ -87,6 +87,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
   templateUrl: './wp-single-view.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,

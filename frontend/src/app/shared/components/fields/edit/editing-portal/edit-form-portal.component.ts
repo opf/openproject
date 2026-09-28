@@ -41,6 +41,7 @@ import { EditFieldService, IEditFieldType } from 'core-app/shared/components/fie
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-form-portal',
   templateUrl: './edit-form-portal.component.html',
   standalone: false,

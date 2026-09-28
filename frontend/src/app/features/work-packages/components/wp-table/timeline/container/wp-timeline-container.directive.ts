@@ -86,6 +86,7 @@ import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-container',
   templateUrl: './wp-timeline-container.html',
   standalone: false,

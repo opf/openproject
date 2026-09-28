@@ -30,6 +30,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject }
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-replacement-label',
   templateUrl: './wp-replacement-label.html',
   standalone: false,

@@ -78,6 +78,7 @@ import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-p
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-card',
   styleUrls: ['./wp-single-card.component.sass'],
   templateUrl: './wp-single-card.component.html',

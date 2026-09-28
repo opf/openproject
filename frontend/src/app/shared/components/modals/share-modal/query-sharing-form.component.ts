@@ -38,6 +38,7 @@ export interface QuerySharingChange {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'query-sharing-form',
   templateUrl: './query-sharing-form.html',
   standalone: false,

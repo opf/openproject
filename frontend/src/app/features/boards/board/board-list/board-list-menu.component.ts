@@ -38,6 +38,7 @@ import { BoardService } from 'core-app/features/boards/board/board.service';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-list-menu',
   templateUrl: './board-list-menu.component.html',
   standalone: false,

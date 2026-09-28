@@ -39,6 +39,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'version-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,

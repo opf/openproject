@@ -41,6 +41,7 @@ import { BoardSubtasksActionService } from 'core-app/features/boards/board/board
 import { QueryUpdatedService } from 'core-app/features/boards/board/query-updated/query-updated.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-entry',
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: '<board-partitioned-page [boardId]="boardId"><board-list-container [boardId]="boardId" /></board-partitioned-page>',

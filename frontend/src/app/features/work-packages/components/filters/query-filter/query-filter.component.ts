@@ -39,6 +39,7 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[query-filter]',
   styleUrls: ['./query-filter.component.sass'],
   templateUrl: './query-filter.component.html',

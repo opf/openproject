@@ -40,6 +40,7 @@ import {
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-grid',
   template: '<div class="wp-table-timeline--grid"></div>',
   standalone: false,

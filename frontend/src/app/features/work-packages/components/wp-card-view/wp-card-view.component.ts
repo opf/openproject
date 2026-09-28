@@ -80,6 +80,7 @@ export interface WorkPackageAddedResult {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-card-view',
   styleUrls: ['./styles/wp-card-view.component.sass', './styles/wp-card-view-horizontal.sass', './styles/wp-card-view-vertical.sass'],
   templateUrl: './wp-card-view.component.html',

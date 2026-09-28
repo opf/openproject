@@ -34,6 +34,7 @@ import {
 
 @Component({
   templateUrl: './activity-tab.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-activity-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,

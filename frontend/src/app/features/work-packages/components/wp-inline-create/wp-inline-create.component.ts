@@ -60,6 +60,7 @@ import {
 import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[wpInlineCreate]',
   templateUrl: './wp-inline-create.component.html',
   standalone: false,

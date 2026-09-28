@@ -34,6 +34,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-watcher-button',
   templateUrl: './wp-watcher-button.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

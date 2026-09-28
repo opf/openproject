@@ -32,6 +32,7 @@ import {
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-field-controls',
   templateUrl: './edit-field-controls.component.html',
   standalone: false,

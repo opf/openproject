@@ -41,6 +41,7 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relation-row',
   templateUrl: './wp-relation-row.template.html',
   standalone: false,
