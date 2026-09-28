@@ -298,7 +298,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param key
    */
   public valueExists(key:string):boolean {
-    return this.changeset.contains(key) || this.pristineResource.hasOwnProperty(key);
+    return this.changeset.contains(key) || Object.hasOwn(this.pristineResource, key);
   }
 
   /**
@@ -341,7 +341,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @return {boolean}
    */
   public isOverridden(key:string) {
-    return this.changes.hasOwnProperty(key);
+    return Object.hasOwn(this.changes, key);
   }
 
   /**

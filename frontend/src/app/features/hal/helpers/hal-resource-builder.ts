@@ -196,7 +196,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       halResource.$source._links[linkName] = { href: null };
     } else if (isArray) {
       halResource.$source._links[linkName] = (val).map((el:any) => ({ href: el.href }));
-    } else if (val.hasOwnProperty('$link')) {
+    } else if (Object.hasOwn(val, '$link')) {
       const link = (val as HalResource).$link;
 
       if (link.href) {

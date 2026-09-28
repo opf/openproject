@@ -75,11 +75,11 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
   }
 
   public get isWatched() {
-    return this.workPackage.hasOwnProperty('unwatch');
+    return Object.hasOwn(this.workPackage, 'unwatch');
   }
 
   public get displayWatchButton() {
-    return this.isWatched || this.workPackage.hasOwnProperty('watch');
+    return this.isWatched || Object.hasOwn(this.workPackage, 'watch');
   }
 
   public toggleWatch() {
