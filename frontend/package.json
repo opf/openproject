@@ -8,7 +8,7 @@
     "@angular-builders/custom-esbuild": "^22.0.0",
     "@angular/language-service": "22.1.7",
     "@eslint/js": "^10.0.1",
-    "@html-eslint/eslint-plugin": "^0.66.0",
+    "@html-eslint/eslint-plugin": "^0.66.1",
     "@html-eslint/parser": "^0.66.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@testing-library/dom": "^10.4.2",
