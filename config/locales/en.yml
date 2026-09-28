@@ -2812,6 +2812,7 @@ en:
         delete_dialog:
           description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
           heading: "Delete custom field item?"
+          list_description: "This action will irreversibly remove the item. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
           title: "Delete custom field item"
         placeholder:
           label: "Item label"
@@ -5456,6 +5457,10 @@ en:
           range: "must be one of: %{list_left} - %{list_right}."
       int?: "must be an integer."
       key?: "is missing."
+      list_item:
+        rules:
+          label:
+            not_unique: "has already been taken."
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:

@@ -38,7 +38,9 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
   let(:root) { custom_field.hierarchy_root }
   let(:valid_params) { { parent: root, label: "Sibling" } }
 
-  it_behaves_like "a hierarchy item insert contract"
+  it_behaves_like "a hierarchy item insert contract" do
+    let(:label_taken) { "has already been taken." }
+  end
 
   context "with a short" do
     let(:params) { valid_params.merge(short: "SI") }
