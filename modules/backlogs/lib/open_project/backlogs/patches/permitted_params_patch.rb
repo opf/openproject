@@ -44,7 +44,8 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
     end
 
     def backlog_filters
-      params.permit(:all, :filters, bucket_ids: [], sprint_ids: [])
+      # Support the rails param format bucket_ids[]=1&bucket_ids[]=2 for backward compatibility.
+      params.permit(:all, :filters, :bucket_ids, :sprint_ids, bucket_ids: [], sprint_ids: [])
     end
   end
 end

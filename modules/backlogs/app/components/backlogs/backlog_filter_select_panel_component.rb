@@ -44,20 +44,11 @@ module Backlogs
 
     private
 
-    def filter_fields_for
-      backlog_filter_params
-        .except(filter_field)
-        .flat_map do |name, value|
-          field_name = value.is_a?(Array) ? "#{name}[]" : name
-          Array(value).map { |v| [field_name, v, { id: nil }] }
-        end
-    end
-
     def items
       if filter_field == :sprint_ids
-        all_sprints_for(project)
+        Sprint.assignable(project:).order_by_date
       else
-        all_buckets_for(project).to_a + [InboxItem.new(id: "inbox", name: I18n.t(:label_inbox))]
+        BacklogBucket.for_project(project).to_a + [InboxItem.new(id: "inbox", name: I18n.t(:label_inbox))]
       end
     end
 

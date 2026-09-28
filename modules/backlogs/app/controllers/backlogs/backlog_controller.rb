@@ -63,7 +63,7 @@ module Backlogs
     private
 
     def build_backlog_query
-      @backlog_query = Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:).build
+      @backlog_query = backlog_query_builder.build
     end
 
     def split_view_base_route

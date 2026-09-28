@@ -30,14 +30,13 @@
 
 module Backlogs
   BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
-    def self.from_params(params) # rubocop:disable Metrics/AbcSize
-      new(
-        bucket_ids: Array(params[:bucket_ids]).filter_map do |id|
-                      id == "inbox" ? "inbox" : id.to_i.nonzero?
-                    end.presence,
-        sprint_ids: Array(params[:sprint_ids]).filter_map { |id| id.to_i.nonzero? }.presence,
-        show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false,
-        filters_string: params[:filters].presence
+
+    def initialize(bucket_ids: nil, sprint_ids: nil, all: nil, filters: nil)
+      super(
+        bucket_ids: parse_ids(bucket_ids).presence,
+        sprint_ids: parse_ids(sprint_ids).presence,
+        show_all: ActiveRecord::Type::Boolean.new.cast(all) || false,
+        filters_string: filters.presence
       )
     end
 
@@ -55,13 +54,31 @@ module Backlogs
 
     def to_h
       result = show_all? ? { all: true } : {}
-      result[:bucket_ids] = bucket_ids if bucket_ids
-      result[:sprint_ids] = sprint_ids if sprint_ids
+
+      result[:bucket_ids] = ids_string(bucket_ids) if bucket_ids
+      result[:sprint_ids] = ids_string(sprint_ids) if sprint_ids
       result[:filters] = filters_string if filters_string
       result
     end
 
     alias to_hash to_h
     alias show_all? show_all
+
+    private
+
+    def parse_ids(ids)
+      # Support the rails param format bucket_ids[]=1&bucket_ids[]=2 for backward compatibility.
+      parsed_ids = ids.is_a?(Array) ? ids : Array(JSON.parse(ids.to_s))
+      parsed_ids.filter_map { |id| id == "inbox" ? "inbox" : id.to_i.nonzero? }
+    rescue JSON::ParserError
+      []
+    end
+
+    def ids_string(ids)
+      return unless ids
+
+      string_ids = ids.map(&:to_s)
+      (string_ids.one? ? string_ids.first : string_ids).to_json
+    end
   end
 end

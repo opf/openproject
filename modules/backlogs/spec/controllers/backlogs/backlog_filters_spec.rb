@@ -31,9 +31,9 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::BacklogFilters, type: :model do
-  subject(:filters) { described_class.from_params(params) }
+  subject(:filters) { described_class.new(**params) }
 
-  describe ".from_params / #bucket_ids" do
+  describe "#bucket_ids" do
     context "when bucket_ids are absent" do
       let(:params) { {} }
 
@@ -41,15 +41,23 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when bucket_ids are string integers" do
-      let(:params) { { bucket_ids: %w[1 2 3] } }
+      let(:params) { { bucket_ids: %w[1 2 3].to_json } }
 
       it "coerces them to integers" do
         expect(filters.bucket_ids).to eq([1, 2, 3])
       end
     end
 
+    context "when bucket_ids is a single string integer" do
+      let(:params) { { bucket_ids: "3".to_json } }
+
+      it "coerces it to integer" do
+        expect(filters.bucket_ids).to eq([3])
+      end
+    end
+
     context "when bucket_ids contain blank strings" do
-      let(:params) { { bucket_ids: ["1", "", "2"] } }
+      let(:params) { { bucket_ids: ["1", "", "2"].to_json } }
 
       it "filters out blanks" do
         expect(filters.bucket_ids).to eq([1, 2])
@@ -65,7 +73,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when bucket_ids only contain real bucket ids" do
-      let(:params) { { bucket_ids: %w[1 2] } }
+      let(:params) { { bucket_ids: %w[1 2].to_json } }
 
       it "returns them unchanged" do
         expect(filters.bucket_ids_without_inbox).to eq([1, 2])
@@ -73,7 +81,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when bucket_ids only contain inbox" do
-      let(:params) { { bucket_ids: ["inbox"] } }
+      let(:params) { { bucket_ids: "inbox".to_json } }
 
       it "returns an empty array" do
         expect(filters.bucket_ids_without_inbox).to eq([])
@@ -81,7 +89,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when bucket_ids contain both real bucket ids and inbox" do
-      let(:params) { { bucket_ids: ["1", "inbox", "2"] } }
+      let(:params) { { bucket_ids: %w[1 inbox 2].to_json } }
 
       it "strips out inbox and keeps the real bucket ids" do
         expect(filters.bucket_ids_without_inbox).to eq([1, 2])
@@ -97,10 +105,18 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when sprint_ids are string integers" do
-      let(:params) { { sprint_ids: %w[5 6] } }
+      let(:params) { { sprint_ids: %w[5 6].to_json } }
 
       it "coerces them to integers" do
         expect(filters.sprint_ids).to eq([5, 6])
+      end
+    end
+
+    context "when sprint_ids is a single string integer" do
+      let(:params) { { sprint_ids: "3".to_json } }
+
+      it "coerces it to integer" do
+        expect(filters.sprint_ids).to eq([3])
       end
     end
   end
@@ -171,18 +187,18 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "with bucket_ids and sprint_ids" do
-      let(:params) { { bucket_ids: %w[1 2], sprint_ids: %w[3] } }
+      let(:params) { { bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json } }
 
       it "includes both" do
-        expect(filters.to_h).to eq({ bucket_ids: [1, 2], sprint_ids: [3] })
+        expect(filters.to_h).to eq({ bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json })
       end
     end
 
     context "with all params combined" do
-      let(:params) { { all: "1", bucket_ids: %w[1], sprint_ids: %w[2] } }
+      let(:params) { { all: "1", bucket_ids: %w[1].to_json, sprint_ids: "2".to_json } }
 
       it "includes everything" do
-        expect(filters.to_h).to eq({ all: true, bucket_ids: [1], sprint_ids: [2] })
+        expect(filters.to_h).to eq({ all: true, bucket_ids: "1".to_json, sprint_ids: "2".to_json })
       end
     end
 
