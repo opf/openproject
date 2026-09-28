@@ -128,7 +128,7 @@ class LlmConnection < ApplicationRecord
   end
 
   def embedding_models
-    available_models.select(&:embedding?)
+    available_models.where(external_id: embedding_model_ids)
   end
 
   def embedding_capable_model_ids
