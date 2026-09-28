@@ -566,7 +566,7 @@ module Import
         return [nil, {}] if raw.nil?
 
         parts = raw.split("|")
-        first = parts.shift.strip
+        first = parts.shift.to_s.strip
 
         if first.include?("=")
           params = parse_macro_params(raw)

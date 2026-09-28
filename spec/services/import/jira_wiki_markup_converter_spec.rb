@@ -177,6 +177,24 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       it { is_expected.to eq("```\n// comment\n```") }
     end
 
+    context "with an empty language specifier" do
+      let(:input) { "{code:}\n// comment\n{code}" }
+
+      it { is_expected.to eq("```\n// comment\n```") }
+    end
+
+    context "with an empty language specifier and content on the opening line" do
+      let(:input) { "{code:}// comment\n{code}" }
+
+      it { is_expected.to eq("```\n// comment\n```") }
+    end
+
+    context "with a header consisting only of separators" do
+      let(:input) { "See {code:||}// comment{code} above" }
+
+      it { is_expected.to eq("See ```\n// comment\n``` above") }
+    end
+
     context "when code block content is protected from other conversions" do
       let(:input) { "{code}\n*bold* and _italic_\n{code}" }
 
