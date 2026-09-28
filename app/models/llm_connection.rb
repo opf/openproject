@@ -157,19 +157,6 @@ class LlmConnection < ApplicationRecord
     health_reports.order(created_at: :asc).last
   end
 
-  # Derived rather than stored, for the same reason LlmFeatureBinding#dangling?
-  # is: a status column would be a cache with no invalidation trigger, and would
-  # be stale exactly when it matters.
-  def health_state
-    report = latest_health_report
-
-    return :unknown if report.nil?
-    return :unhealthy if report.unhealthy?
-    return :warning if report.warning?
-
-    :healthy
-  end
-
   # Feeds the downloadable health report. Deliberately excludes api_key *and*
   # custom_headers: a gateway header routinely carries a second credential.
   def non_confidential_configuration
