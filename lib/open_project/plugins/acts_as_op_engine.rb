@@ -130,14 +130,11 @@ module OpenProject::Plugins
       end
 
       def include_module(module_name, into:)
-        self.class.config.to_prepare do
-          mod = module_name.constantize
+        add_module_to_classes(:include, module_name, into)
+      end
 
-          Array(into).each do |class_name|
-            klass = class_name.constantize
-            klass.include(mod) unless klass.included_modules.include?(mod)
-          end
-        end
+      def prepend_module(module_name, into:)
+        add_module_to_classes(:prepend, module_name, into)
       end
 
       # Define assets provided by the plugin
@@ -345,6 +342,19 @@ module OpenProject::Plugins
       def replace_principal_references(attributes_by_class_name)
         config.to_prepare do
           Principals::ReplaceReferencesService.add_replacements(attributes_by_class_name)
+        end
+      end
+
+      private
+
+      def add_module_to_classes(strategy, module_name, class_names)
+        self.class.config.to_prepare do
+          mod = module_name.constantize
+
+          Array(class_names).each do |class_name|
+            klass = class_name.constantize
+            klass.public_send(strategy, mod) unless klass.include?(mod)
+          end
         end
       end
     end
