@@ -29,7 +29,6 @@
 import { Injectable, Injector, inject } from '@angular/core';
 import {
   WorkPackagesListChecksumService,
-  consumeSelfInitiatedUrlChangeFlag,
 } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -59,7 +58,7 @@ export class QueryParamListenerService {
       // Skip self-initiated syncs (see WorkPackagesListChecksumService#maintainUrlQueryState) -
       // the checksum they reflect into the URL is already up to date, reloading here would
       // just be undoing the change that triggered them in the first place.
-      if (consumeSelfInitiatedUrlChangeFlag()) {
+      if (this.wpListChecksumService.consumeSelfInitiatedUrlChangeFlag()) {
         return;
       }
 

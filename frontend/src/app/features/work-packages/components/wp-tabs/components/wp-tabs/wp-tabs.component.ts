@@ -27,10 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component, EventEmitter, Injector, Input, OnInit, Output, inject } from '@angular/core';
-import {
-  KeepTabService,
-} from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import {
@@ -52,17 +48,12 @@ export class WpTabsComponent implements OnInit {
   readonly wpTabsService = inject(WorkPackageTabsService);
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
-  readonly $state = inject(StateService);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
-  readonly keepTab = inject(KeepTabService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
 
   @Input() workPackage:WorkPackageResource;
 
   @Input() view:'full'|'split';
-
-  @Input() routedFromAngular = true;
 
   @Input() public currentTabId:string|null = null;
 
@@ -72,13 +63,6 @@ export class WpTabsComponent implements OnInit {
 
   public canViewWatchers = false;
 
-  text = {
-    details: {
-      close: this.I18n.t('js.button_close_details'),
-      goToFullScreen: this.I18n.t('js.button_show_fullscreen'),
-    },
-  };
-
   ngOnInit():void {
     this.canViewWatchers = !!(this.workPackage && this.workPackage.watchers);
     this.tabs = this.getDisplayableTabs();
@@ -87,31 +71,10 @@ export class WpTabsComponent implements OnInit {
   private getDisplayableTabs():WpTabDefinition[]{
     return this
       .wpTabsService
-      .getDisplayableTabs(this.workPackage, this.routedFromAngular)
-      .map((tab) => {
-        if (this.routedFromAngular) {
-          return ({
-              ...tab,
-              route: '.tabs',
-              routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id },
-            });
-        }
-
-        return ({
-          ...tab,
-          path: this.pathHelper.genericWorkPackagePath(this.currentProject.identifier, this.workPackage.displayId, tab.id),
-        });
-      });
-  }
-
-  public switchToFullscreen():void {
-    this.keepTab.goCurrentShowState(this.workPackage.displayId);
-  }
-
-  public close():void {
-    this.$state.go(
-      this.uiRouterGlobals.current.data.baseRoute,
-      this.uiRouterGlobals.params,
-    );
+      .getDisplayableTabs(this.workPackage)
+      .map((tab) => ({
+        ...tab,
+        path: this.pathHelper.genericWorkPackagePath(this.currentProject.identifier, this.workPackage.displayId, tab.id),
+      }));
   }
 }

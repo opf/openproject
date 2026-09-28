@@ -46,11 +46,16 @@ module CustomStyles
 
     def form_arguments
       {
-        url: url_helpers.update_design_themes_path(tab: selected_tab_name),
+        url: if current_theme.blank?
+               url_helpers.confirm_design_theme_path(tab: selected_tab_name)
+             else
+               url_helpers.update_design_themes_path(tab: selected_tab_name)
+             end,
         method: :post,
         data: {
-          controller: "auto-submit",
-          turbo_confirm: (I18n.t("admin.custom_styles.theme_warning") if current_theme.blank?)
+          controller: "auto-submit theme-selector",
+          action: "dialog:close@document->theme-selector#reset",
+          turbo: current_theme.blank?
         }
       }
     end

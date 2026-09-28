@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
@@ -55,7 +54,6 @@ import { Observable, of } from 'rxjs';
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
   wpTableSelection = inject(WorkPackageViewSelectionService);
   recentItemsService = inject(RecentItemsService);
-  readonly $state = inject(StateService);
   readonly currentUserService = inject(CurrentUserService);
   readonly cdRef = inject(ChangeDetectorRef);
 
@@ -79,10 +77,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   };
 
   public onTabSelected(tab:TabDefinition):void {
-    if (!this.routedFromAngular) {
-      this.activeTab = tab.id;
-      this.cdRef.markForCheck();
-    }
+    this.activeTab = tab.id;
+    this.cdRef.markForCheck();
   }
 
   // enable other parts of the application to trigger an immediate update

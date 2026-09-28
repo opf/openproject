@@ -98,25 +98,23 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
       expect(variant.workflow).to eq(type.default_variant.workflow)
     end
 
-    it "is a workflow of its own project for a project-owned variant" do
+    it "is the type's own for a project-owned variant as well" do
       variant = call(user: project_admin, project:).result
 
-      expect(variant.workflow).not_to eq(type.default_variant.workflow)
-      expect(variant.workflow.project).to eq(project)
+      expect(variant.workflow).to eq(type.default_variant.workflow)
     end
 
-    it "starts from the transitions the type already has" do
+    it "shows the transitions the type already has" do
       variant = call(user: project_admin, project:).result
 
       expect(variant.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
         .to contain_exactly([status_a.id, status_b.id])
     end
 
-    it "leaves the type's own transitions untouched" do
-      variant = call(user: project_admin, project:).result
-      variant.workflow.status_transitions.delete_all
+    it "copies nothing into a workflow of the project's own" do
+      call(user: project_admin, project:)
 
-      expect(type.default_variant.workflow.status_transitions).to be_present
+      expect(Workflow.owned_by(project)).to be_empty
     end
   end
 end

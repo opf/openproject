@@ -242,6 +242,7 @@ vi:
   label_show: Hiển thị
   label_specific_day: Ngày %{day}
   label_specific_month: Tháng %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Đã hoàn thành
   label_time: thời gian

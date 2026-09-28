@@ -36,10 +36,11 @@ module Workflows
     attr_reader :workflow, :variant
 
     def initialize(workflow:, variant: nil, tab: nil, role_ids: nil, status_ids: nil,
-                   displayed_status_ids: nil, readonly: false)
+                   displayed_status_ids: nil, readonly: false, wizard: false)
       @workflow = workflow
       @variant = variant
       @readonly = readonly
+      @wizard = wizard
       @requested_tab = tab
       @requested_role_ids = role_ids
       @requested_status_ids = status_ids_from(status_ids)
@@ -53,9 +54,15 @@ module Workflows
       @tab ||= TABS.include?(@requested_tab.to_s) ? @requested_tab.to_s : DEFAULT_TAB
     end
 
-    def readonly? = @readonly
-
     def standalone? = variant.nil?
+
+    def wizard? = @wizard
+
+    def variant_tab? = !standalone? && !wizard?
+
+    def readonly? = @readonly || variant_tab? || (wizard? && reused?)
+
+    def reused? = !workflow.used_by_one_variant?
 
     def matrix_path(**)
       standalone? ? routes.workflow_matrix_path(workflow, **) : routes.type_workflow_matrix_path(**scope, **)
@@ -78,7 +85,7 @@ module Workflows
     end
 
     def copy_path(**)
-      return if standalone?
+      return routes.new_workflow_copy_path(workflow, **) if standalone?
 
       routes.new_type_workflow_copy_path(**scope, **)
     end
@@ -150,7 +157,11 @@ module Workflows
 
     def routes = Rails.application.routes.url_helpers
 
-    def scope = variant.path_args
+    def scope
+      return variant.path_args unless wizard?
+
+      variant.path_args.merge(wizard: true)
+    end
 
     def status_ids_from(ids)
       Array(ids).flatten.map(&:to_i)

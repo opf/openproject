@@ -45,13 +45,12 @@ RSpec.describe "Workflow usage banner", :js do
   def workflow = type.default_variant.workflow
 
   context "when a single type uses the workflow" do
-    it "says so on the workflow page, and the tab calls the configuration independent" do
+    it "says so on the workflow page, and the tab names the workflow" do
       visit edit_workflow_path(workflow)
       expect(page).to have_text("This workflow is used by 1 type. Changes apply to it.")
 
       visit_workflow_edit(roles: [role])
-      within_test_selector("workflow-reuse-mode") { expect(page).to have_text("Independent configuration") }
-      within_test_selector("workflow-usage-box") { expect(page).to have_text("Not used anywhere else") }
+      within_test_selector("workflow-selector") { expect(page).to have_text(workflow.name) }
     end
   end
 
@@ -73,6 +72,29 @@ RSpec.describe "Workflow usage banner", :js do
 
       expect(page).to have_text("This workflow is used by 2 types and variants.")
     end
+
+    it "lists the dependent types and variants in a dialog that links to them" do
+      visit edit_workflow_path(workflow)
+      click_on "View dependent types"
+
+      within("dialog#workflow-usage-dialog") do
+        expect(page).to have_css("strong", text: workflow.name)
+
+        within_test_selector("workflow-usage-types") do
+          expect(page).to have_link("Bug")
+          expect(page).to have_no_link("Task")
+        end
+
+        within_test_selector("workflow-usage-variants") do
+          expect(page).to have_link("Hardware")
+          expect(page).to have_text("Variant of Task")
+        end
+
+        click_on "Hardware"
+      end
+
+      expect(page).to have_current_path(/types\/#{other_type.id}\/variants\/\d+\/workflow\/edit/)
+    end
   end
 
   context "when nothing uses the workflow" do
@@ -83,14 +105,23 @@ RSpec.describe "Workflow usage banner", :js do
     end
   end
 
-  it "stays editable on the type tab even when another type shares the workflow" do
+  it "names the workflow on the type tab and shows its transitions read only" do
     other_type.default_variant.update!(workflow:)
     create(:workflow, workflow:, role:, old_status: statuses[0], new_status: statuses[1])
 
     visit_workflow_edit(roles: [role])
 
-    within_test_selector("workflow-reuse-mode") { expect(page).to have_css("h3", text: "Reuses workflow") }
-    within_test_selector("workflow-usage-box") { expect(page).to have_text("Used in 1 other place") }
+    within_test_selector("workflow-selector") { expect(page).to have_text(workflow.name) }
+    expect(page).to have_no_button("Save")
+    expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
+  end
+
+  it "stays editable on its own page even when another type shares the workflow" do
+    other_type.default_variant.update!(workflow:)
+    create(:workflow, workflow:, role:, old_status: statuses[0], new_status: statuses[1])
+
+    visit_workflow_page(roles: [role])
+
     expect(page).to have_button("Save")
     expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: false)
 

@@ -258,7 +258,7 @@ es:
                   _Describa aquí el contenido de esta versión._
 
                   * Los paquetes de trabajo de esta versión son aquellos cuya versión objetivo es la 1.0.
-                  * La fecha de lanzamiento es la fecha del hito *Lanzamiento v1.0*.
+                  * La fecha de lanzamiento es la fecha del hito *Versión v1.0*.
                   * Abra la [Hoja de ruta]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) para seguir el progreso de todas las versiones.
                   * Abra [Configuración del proyecto &rightarrow; Versiones]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) para vincular otra página wiki a una versión.
           categories:
@@ -300,8 +300,8 @@ es:
                     _Siga estos pasos:_
 
                     1. *Invite a nuevos miembros a su proyecto*: &rightarrow; Vaya a [Miembros]({{opSetting:base_url}}/projects/your-scrum-project/members) en el menú de navegación del proyecto.
-                    2. *Consulte su Cartera de producto y sus Trabajo pendientes del sprint*: &rightarrow; Vaya a [Trabajos pendientes]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en el menú de navegación del proyecto.
-                    3. *Crear un sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) y haga clic en «+ Sprint» para crear un nuevo sprint. Traslade los paquetes de trabajo de los trabajos pendientes al sprint para planificar el trabajo que se va a realizar. Cuando esté todo listo, haga clic en «Iniciar sprint».
+                    2. *Consulte su Cartera de producto y sus Trabajos pendientes del sprint*: &rightarrow; Vaya a [Trabajos pendientes]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en el menú de navegación del proyecto.
+                    3. *Cree un sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) y haga clic en «+ Sprint» para crear un nuevo sprint. Traslade los paquetes de trabajo de los trabajos pendientes al sprint para planificar el trabajo que se va a realizar. Cuando esté todo listo, haga clic en «Iniciar sprint».
                     4. *Consulte su tablero de sprint*: &rightarrow; Vaya a [Tableros]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Abra el tablero del sprint haciendo clic en el nombre del mismo.
                     5. *Cree un nuevo paquete de trabajo*: &rightarrow; Vaya a [Paquetes de trabajo &rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     6. *Cree y actualice un plan de proyecto*: &rightarrow; Vaya a [Plan de proyecto](##query:scrum_project__query__project_plan) en la navegación del proyecto.

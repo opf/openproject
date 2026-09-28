@@ -251,6 +251,7 @@ pt-PT:
   label_show: Mostrar
   label_specific_day: Dia %{day}
   label_specific_month: Mês %{month}
+  label_stack: Stack
   label_start_and_finished: Horários de início e de fim
   label_status_finished: Terminado
   label_time: Hora

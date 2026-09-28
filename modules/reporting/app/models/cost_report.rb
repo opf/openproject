@@ -76,7 +76,7 @@ class CostReport < PersistedView
   # The configuration as the url carries it, so that a report can be rebuilt
   # elsewhere - an export job runs long after the request is gone.
   def to_query_params
-    compact_filters.to_params.merge(unit: unit_id).compact
+    compact_filters.to_params.reverse_merge(filters: "").merge(unit: unit_id).compact
   end
 
   def uses_dimension?(attribute)

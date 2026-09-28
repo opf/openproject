@@ -269,6 +269,7 @@ ru:
   label_show: Показать
   label_specific_day: День %{day}
   label_specific_month: Месяц %{month}
+  label_stack: Stack
   label_start_and_finished: Время начала и окончания
   label_status_finished: Завершенные
   label_time: Время

@@ -36,11 +36,15 @@ module Workflows
     DIALOG_ID = "workflow-dialog"
     FORM_ID = "workflow-form"
 
-    def initialize(workflow:, variant: nil)
+    def initialize(workflow:, variant: nil, back_url: nil, copy_from_id: nil, ask_copy_source: true, url: nil)
       super()
 
       @workflow = workflow
       @variant = variant
+      @back_url = back_url
+      @copy_from_id = copy_from_id
+      @ask_copy_source = ask_copy_source
+      @url = url
     end
 
     def form_arguments
@@ -56,13 +60,13 @@ module Workflows
 
     private
 
-    attr_reader :workflow, :variant
+    attr_reader :workflow, :variant, :back_url, :copy_from_id, :ask_copy_source, :url
 
     def form_url
+      return url if url.present?
       return url_helpers.workflow_path(workflow) if workflow.persisted?
-      return url_helpers.workflows_path if variant.nil?
 
-      url_helpers.type_workflow_path(**variant.path_args)
+      url_helpers.workflows_path
     end
 
     def error_message

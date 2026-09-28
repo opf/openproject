@@ -23,6 +23,9 @@ kk:
         name: Name
         public: Public
         start_date: Start date
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
@@ -61,6 +64,9 @@ kk:
       resource_work_package_timeline:
         one: Work packages timeline
         other: Work packages timelines
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Next
   ee:
     features:

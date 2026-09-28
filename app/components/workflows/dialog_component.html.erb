@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_header(variant: :large) %>
 
   <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
-    <%= render(Workflows::FormComponent.new(workflow:, variant:)) %>
+    <%= render(Workflows::FormComponent.new(workflow:, variant:, back_url:, copy_from_id:, ask_copy_source:, url:)) %>
   <% end %>
 
   <% dialog.with_footer(show_divider: true) do %>

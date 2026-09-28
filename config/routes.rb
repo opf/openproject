@@ -223,10 +223,6 @@ Rails.application.routes.draw do
       post :copy
     end
 
-    scope "dependents/:aspect", controller: "configuration_dependents", as: :configuration_dependents do
-      get :dialog
-    end
-
     scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
       post :toggle
     end
@@ -235,7 +231,11 @@ Rails.application.routes.draw do
       get :change_dialog
       patch :change
 
-      get :create_dialog
+      get :start_dialog
+      post :start
+
+      get :configure_dialog
+      post :configure
       post :create
 
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
@@ -332,6 +332,11 @@ Rails.application.routes.draw do
   end
 
   resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    collection do
+      get :configure_dialog
+      post :configure
+    end
+
     member do
       get :edit_dialog
     end
@@ -340,15 +345,18 @@ Rails.application.routes.draw do
       get :status_dialog
       post :confirm_statuses
     end
+
+    resource :copy, only: %i[new], controller: "workflows/copies" do
+      resource :from_role, only: %i[create], controller: "workflows/copies/from_roles"
+    end
   end
 
-  get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
+  get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
-      constraints: { filename: /[^\/]*/ }
-
-  get "custom_style/:digest/logo_mobile/:filename" => "custom_styles#logo_mobile_download",
-      as: "custom_style_logo_mobile",
-      constraints: { filename: /[^\/]*/ }
+      constraints: {
+        field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s)),
+        filename: /[^\/]*/
+      }
 
   get "custom_style/:digest/export_logo/:filename" => "custom_styles#export_logo_download",
       as: "custom_style_export_logo",
@@ -753,8 +761,11 @@ Rails.application.routes.draw do
       end
     end
 
-    delete "design/logo" => "custom_styles#logo_delete", as: "custom_style_logo_delete"
-    delete "design/logo_mobile" => "custom_styles#logo_mobile_delete", as: "custom_style_logo_mobile_delete"
+    delete "design/logo/:field" => "custom_styles#logo_delete",
+           as: "custom_style_logo_delete",
+           constraints: {
+             field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s))
+           }
     delete "design/export_logo" => "custom_styles#export_logo_delete", as: "custom_style_export_logo_delete"
     delete "design/export_cover" => "custom_styles#export_cover_delete", as: "custom_style_export_cover_delete"
     delete "design/export_footer" => "custom_styles#export_footer_delete", as: "custom_style_export_footer_delete"
@@ -768,6 +779,7 @@ Rails.application.routes.draw do
     delete "design/touch_icon" => "custom_styles#touch_icon_delete", as: "custom_style_touch_icon_delete"
     post "design/colors" => "custom_styles#update_colors", as: "update_design_colors"
     post "design/themes" => "custom_styles#update_themes", as: "update_design_themes"
+    post "design/themes/confirm" => "custom_styles#confirm_theme", as: "confirm_design_theme"
     post "design/export_cover_text_color" => "custom_styles#update_export_cover_text_color",
          as: "update_custom_style_export_cover_text_color"
 
@@ -1159,6 +1171,10 @@ Rails.application.routes.draw do
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"
+
+    resources :children, only: %i[new create], controller: "work_package_children" do
+      post :refresh_form, on: :collection
+    end
 
     resource :progress, only: %i[edit update], controller: "work_packages/progress" do
       get :preview, on: :member

@@ -66,7 +66,8 @@ module OpenProject::Backlogs
 
         permission :select_backlog_types_and_statuses,
                    {
-                     "projects/settings/backlogs": %i[show update rebuild_positions]
+                     "projects/settings/backlogs": %i[show update rebuild_positions],
+                     "projects/settings/backlog_estimation_units": %i[show update]
                    },
                    permissible_on: :project,
                    require: :member

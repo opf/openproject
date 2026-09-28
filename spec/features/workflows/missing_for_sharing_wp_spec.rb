@@ -65,11 +65,13 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
       click_link "Configure the workflows in the administration."
     end
 
-    # The warning links to the types administration; open the type's workflow tab from there.
+    # The warning links to the types administration; open the type's workflow tab from there,
+    # then follow the read-only banner to the workflow that the type uses.
     expect(page).to have_current_path(types_path)
     visit edit_type_workflow_path(type)
+    within_test_selector("workflow-read-only") { click_link I18n.t("admin.workflows.read_only.edit_action") }
 
-    # On the copy workflow form, the source role is pre-selected from the tab;
+    # On the copy workflow form, the source role is pre-selected;
     # copy its workflow to the work package edit role.
     within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     target_roles_autocompleter.select_option work_package_role.name

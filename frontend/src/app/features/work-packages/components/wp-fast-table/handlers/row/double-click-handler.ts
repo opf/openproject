@@ -27,7 +27,6 @@
 //++
 
 import { Injector } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { States } from 'core-app/core/states/states.service';
@@ -43,8 +42,6 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class RowDoubleClickHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public $state:StateService;
-
   @LazyInject() public states:States;
 
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;

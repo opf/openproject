@@ -37,8 +37,6 @@ import { WorkPackageCopyController } from 'core-app/features/work-packages/compo
   standalone: false,
 })
 export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController {
-  public successState = 'work-packages.show';
-
   breadcrumbItems() {
     const items = [];
     if (this.currentProjectService?.identifier) {
@@ -52,7 +50,7 @@ export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController 
         text: this.I18n.t('js.label_work_package_plural'),
       });
     items.push({
-        href: this.pathHelper.projectWorkPackagePath(this.currentProjectService.identifier!, this.stateParams.copiedFromWorkPackageId as string),
+        href: this.pathHelper.projectWorkPackagePath(this.currentProjectService.identifier!, this.stateParams.copiedFromWorkPackageId!),
         text: this.newWorkPackage.subject,
       });
     items.push(I18n.t('js.button_duplicate'));

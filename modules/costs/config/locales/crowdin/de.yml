@@ -251,6 +251,7 @@ de:
   label_show: Anzeigen
   label_specific_day: Tag %{day}
   label_specific_month: Monat %{month}
+  label_stack: Stack
   label_start_and_finished: Start- und Endzeiten
   label_status_finished: Abgeschlossen
   label_time: Zeit

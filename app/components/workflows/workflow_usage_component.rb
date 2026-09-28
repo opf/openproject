@@ -60,8 +60,20 @@ module Workflows
       I18n.t("workflows.usage.used_by_types", count: variants.size)
     end
 
+    def types = variants.select(&:is_default_variant?)
+
+    def named_variants = variants.reject(&:is_default_variant?)
+
+    def banner_scheme = unused? ? :default : :warning
+
+    def dialog_id = "workflow-usage-dialog"
+
+    def dialog_caption
+      t("workflows.usage.dialog.caption_html", name: content_tag(:strong, workflow.name))
+    end
+
     def variant_link(variant)
-      render(Primer::Beta::Link.new(href: helpers.edit_type_workflow_path(**variant.path_args))) { variant.composite_name }
+      render(Primer::Beta::Link.new(href: helpers.edit_type_workflow_path(**variant.path_args))) { variant.display_name }
     end
   end
 end

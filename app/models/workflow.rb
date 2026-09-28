@@ -57,6 +57,11 @@ class Workflow < ApplicationRecord
     new(name: available_name(base, project:), project:, **attributes)
   end
 
+  def self.implicit_name(source, project: nil)
+    base = source.to_s.strip.presence
+    available_name(base && I18n.t("workflows.name.implicit", name: base), project:)
+  end
+
   # A name only has to be free within the scope that will hold it, so a project may reuse one
   # administration already has.
   def self.available_name(base, project: nil)

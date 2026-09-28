@@ -251,25 +251,25 @@ uk:
           versions:
             item_0:
               wiki:
-                title: Release 1.0
+                title: Випуск 1.0
                 content: |
-                  ### Release 1.0
+                  ### Випуск 1.0
 
-                  _Please document here what this release contains._
+                  _Вкажіть тут деталі цього випуску._
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * Пакети робіт цього випуску — це ті, що мають цільову версію 1.0.
+                  * Дата випуску — це дата досягнення рубежу *Випуск 1.0*.
+                  * Відкрийте [Дорожню карту]({{opSetting:base_url}}/projects/your-scrum-project/roadmap), щоб переглянути прогрес усіх версій.
+                  * Відкрийте [Налаштування проєкту &rightarrow; Версії]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions), щоб прив’язати іншу вікі-сторінку до версії.
           categories:
             item_0: Категорія 1 (змінити в налаштуваннях проєкту)
           queries:
             item_0:
               name: План проєкту
             item_1:
-              name: Version 1.1
+              name: Версія 1.1
             item_2:
-              name: Version 1.0
+              name: Версія 1.0
             item_3:
               name: Завдання
           boards:
@@ -295,21 +295,19 @@ uk:
                 options:
                   name: Починаємо
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ми раді, що ви приєдналися! Пропонуємо вам дещо підготувати перед початком роботи в OpenProject.
 
-                    _Try the following steps:_
+                    _Виконайте такі дії:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Запросіть учасників у свій проєкт*: &rightarrow; виберіть [Учасники]({{opSetting:base_url}}/projects/your-scrum-project/members) на панелі навігації проєктом.
+                    2. *Перегляньте список невиконаних завдань для свого продукту й спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) на панелі навігації проєктом.
+                    3. *Створіть спринт*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) і натисніть «+ Спринт», шоб створити новий спринт. Перемістіть пакети робіт зі списку невиконаних завдань до спринту та заплануйте роботу, після чого натисніть «Почати спринт».
+                    4. *Перегляньте дошку спринту*: &rightarrow; виберіть [Дошки]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; відкрийте дошку спринту, натиснувши на назву спринту.
+                    5. *Створіть новий пакет робіт*: &rightarrow; виберіть [Пакети робіт &rightarrow; Створити]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Створіть і оновіть план проєкту*: &rightarrow; виберіть [План проєкту](##query:scrum_project__query__project_plan) на панелі навігації проєктом.
+                    7. *Активуйте додаткові модулі*: &rightarrow; виберіть [Налаштування проєкту &rightarrow; Модулі]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Тут ви знайдете наші [Посібники користувача](https://www.openproject.org/docs/user-guide/). Якщо маєте запитання або потребуєте допомоги, зв’яжіться з нами: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Пакети робіт

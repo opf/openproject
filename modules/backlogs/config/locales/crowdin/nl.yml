@@ -26,6 +26,7 @@ nl:
       project:
         allow_multiple_active_sprints: Meerdere actieve sprints toestaan
         backlog_excluded_types: Uitgesloten werkpakket types
+        estimation_unit: Unit
         sprint_sharing: Sprint delen
         statuses_considered_closed: Statussen die als gesloten worden beschouwd
       sprint:
@@ -126,25 +127,26 @@ nl:
         add_new_work_package: Nieuw werkpakket toevoegen
         delete_backlog_bucket: Verwijder voorraadbakje
         edit_backlog_bucket: Wijzig voorraadbakje
-      blankslate_description: Drag items here to add them
-      blankslate_title: Backlog bucket is empty
-      drop_zone_label: Drop here to add this item
-      label_actions: Backlog bucket actions
+      blankslate_description: Sleep items hierheen om ze toe te voegen
+      blankslate_title: Werkvoorraad-emmer is leeg
+      drop_zone_label: Sleep dit hierheen om dit item toe te voegen
+      label_actions: Werkvoorraad-emmer acties
     bucket_destroy_modal_component:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
       title: Voorraadbakje verwijderen?
     burndown_chart:
       show:
         blankslate_description: Set start and end date for the sprint to generate a burndown chart.
-        blankslate_title: No burndown data available
+        blankslate_title: Geen burndown data beschikbaar
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
 
       '
     finish_sprint_dialog_component:
       actions:
         move_to_bottom_of_backlog: Move them to the bottom of the backlog
-        move_to_sprint: Move them to another sprint
-        move_to_top_of_backlog: Move them to the top of the backlog
+        move_to_sprint: Verplaats ze naar een andere sprint
+        move_to_top_of_backlog: Verplaats ze naar de bovenkant van de werkvoorraad
       body: "%{message} What would you like to do with these?"
       button_complete_sprint: Voltooi sprint
       legend: Action for unfinished work packages
@@ -157,17 +159,17 @@ nl:
       blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Backlog inbox is empty
       drop_zone_label: Drop here to add this item
-      label_actions: Inbox actions
+      label_actions: Acties in postvak in
       show_more:
-        one: Show 1 more item
+        one: Nog 1 item weergeven
         other: Nog %{count} items weergeven
-      title: Inbox
+      title: Postvak in
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
-    label_burndown_chart: Burndown chart
+    label_burndown_chart: Burndown grafiek
     label_is_done_status: Status van %{status_name} betekent gedaan
     label_sprint_board: Sprint bord
-    label_sprint_report: Sprint report
+    label_sprint_report: Sprint rapport
     move_to_bucket_dialog_component:
       title: Verplaats naar voorraadbakje
     move_to_sprint_dialog_component:
@@ -182,7 +184,7 @@ nl:
     rebuild: Opnieuw opbouwen
     rebuild_positions: Posities van opnieuw opbouwen
     remaining_hours: Resterend werk
-    sharing: Sprint sharing
+    sharing: Sprint delen
     show_burndown_chart: Burndown chart
     show_work_package_overview: Work packages within the sprint
     sprint_component:
@@ -249,7 +251,7 @@ nl:
         receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
         receive_description_text: This project receives shared sprints from a different project, but none are available right now.
         settings_link_text: projectinstellingen
-        title: No sprints present yet
+        title: Nog geen sprints aanwezig
       button_new_sprint: Nieuwe sprint
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
@@ -266,7 +268,7 @@ nl:
       action_menu:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
-        move_menu: Move to position
+        move_menu: Verplaats naar positie
         move_to_backlog_bucket: Verplaats naar voorraadbakje
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Verplaats naar sprint
@@ -297,7 +299,7 @@ nl:
   ee:
     features:
       multiple_active_sprints: Multiple active sprints
-      sprint_sharing: Sprint sharing
+      sprint_sharing: Sprint delen
     upsell:
       multiple_active_sprints:
         description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
@@ -309,7 +311,7 @@ nl:
   label_backlog_bucket_edit: Wijzig voorraadbakje
   label_backlog_bucket_new: Nieuw werkvoorraad bakje
   label_backlogs: Backlogs
-  label_burndown_chart: Burndown chart
+  label_burndown_chart: Burndown grafiek
   label_inbox: Postvak in
   label_points_burn_down: Omlaag
   label_points_burn_up: Omhoog
@@ -334,8 +336,8 @@ nl:
   permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
 
     '
-  permission_share_sprint: Share sprint
-  permission_start_complete_sprint: Start/complete sprint
+  permission_share_sprint: Deel sprint
+  permission_start_complete_sprint: Sprint starten/voltooien
   permission_view_sprints: Sprints bekijken
   plugin_openproject_backlogs:
     description: This module adds features enabling agile teams to work with OpenProject in Scrum projects.
@@ -346,11 +348,23 @@ nl:
       backlog_buckets: Werkvoorraad bakje
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
             caption: Sprints created in this project will only be available and visible to this project. They will also not be visible to subprojects.
-            label: Don't share
+            label: Niet delen
           receive_shared:
             caption: This project can only use sprints shared by other projects.
             label: Receive shared sprints
@@ -366,6 +380,9 @@ nl:
             label: Subprojects
         sprint_sharing: Share sprints
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
           heading: Number of active sprints

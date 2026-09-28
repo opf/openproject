@@ -260,6 +260,7 @@ ro:
   label_show: Arată
   label_specific_day: Ziua %{day}
   label_specific_month: Luna %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Finalizat
   label_time: Timp

@@ -50,18 +50,18 @@ RSpec.describe Primer::OpenProject::Forms::AdvancedRadioButtonGroup, type: :form
                 value: "one",
                 label: "One",
                 caption: "Pick me",
-                icon: "icon_logo.svg"
+                trailing_image: "icon_logo.svg"
               )
               group.radio_button(
                 value: "two",
                 label: "Two",
                 caption: "Don't pick me",
-                icon: "icon_logo.svg"
+                trailing_image: "icon_logo.svg"
               )
               group.radio_button(
                 value: "three",
                 label: "Three",
-                icon: nil
+                trailing_image: nil
               )
             end
           end
@@ -84,7 +84,7 @@ RSpec.describe Primer::OpenProject::Forms::AdvancedRadioButtonGroup, type: :form
       expect(rendered_form).to have_field "Three", type: :radio, fieldset: "Ultimate answer"
     end
 
-    it "renders icons" do
+    it "renders trailing images" do
       expect(rendered_form).to have_element :svg, count: 2, aria: { hidden: true }
     end
 
@@ -92,6 +92,74 @@ RSpec.describe Primer::OpenProject::Forms::AdvancedRadioButtonGroup, type: :form
       expect(rendered_form).to have_css ".FormControl-caption", count: 2
       expect(rendered_form).to have_css ".FormControl-caption", text: "Pick me"
       expect(rendered_form).to have_css ".FormControl-caption", text: "Don't pick me"
+    end
+  end
+
+  describe "the slots an option may carry" do
+    def render_options(&)
+      render_in_view_context do
+        primer_form_with(url: "/foo") do |f|
+          render_inline_form(f) do |radio_form|
+            radio_form.advanced_radio_button_group(name: :foobar, label: "Foobar", &)
+          end
+        end
+      end
+    end
+
+    it "puts a leading icon before the label" do
+      render_options do |group|
+        group.radio_button(value: "Foo", label: "Foo", leading_icon: :"git-branch")
+      end
+
+      expect(page).to have_css ".FormControl-advanced-radio-label-text .octicon-git-branch"
+    end
+
+    it "names a source after the label" do
+      render_options do |group|
+        group.radio_button(value: "Foo", label: "Foo", title_link: { text: "Bug", href: "/types/1" })
+      end
+
+      expect(page).to have_link "Bug", href: "/types/1"
+    end
+
+    it "offers the action of the option in force, and of no other" do
+      render_options do |group|
+        group.radio_button(value: "Foo", label: "Foo", checked: true,
+                           action: { text: "Change source", href: "/change" })
+        group.radio_button(value: "Bar", label: "Bar", action: { text: "Not offered", href: "/nope" })
+      end
+
+      expect(page).to have_link "Change source", href: "/change"
+      expect(page).to have_no_link "Not offered"
+    end
+
+    it "renders nested content outside the label, so using it cannot select the option" do
+      nested = Class.new(ApplicationForm) do
+        form { |f| f.text_field(name: :street_name, label: "Street", visually_hide_label: true) }
+      end
+
+      render_in_view_context do
+        primer_form_with(url: "/foo") do |f|
+          render_inline_form(f) do |radio_form|
+            radio_form.advanced_radio_button_group(name: :foobar, label: "Foobar") do |group|
+              group.radio_button(value: "Foo", label: "Foo", nested_content: nested.new(f))
+            end
+          end
+        end
+      end
+
+      expect(page).to have_css ".FormControl-advanced-radio-wrap--stacked"
+      expect(page).to have_css ".FormControl-advanced-radio-nested input[name='street_name']"
+      expect(page).to have_no_css "label .FormControl-advanced-radio-nested"
+    end
+
+    it "leaves the card unstacked when nothing is nested in it" do
+      render_options do |group|
+        group.radio_button(value: "Foo", label: "Foo")
+      end
+
+      expect(page).to have_css ".FormControl-advanced-radio-wrap"
+      expect(page).to have_no_css ".FormControl-advanced-radio-wrap--stacked"
     end
   end
 

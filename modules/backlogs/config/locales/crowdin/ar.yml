@@ -26,6 +26,7 @@ ar:
       project:
         allow_multiple_active_sprints: السماح بوجود عدة سباقات نشطة
         backlog_excluded_types: أنواع حزم العمل المستبعدة
+        estimation_unit: Unit
         sprint_sharing: مشاركة السباق
         statuses_considered_closed: Statuses considered closed
       sprint:
@@ -153,6 +154,7 @@ ar:
       show:
         blankslate_description: حدد تاريخي بدء وانتهاء السبرينت لإنشاء مخطط التقدم.
         blankslate_title: لا توجد بيانات متاحة عن معدل انخفاض الكثافة
+    estimation_unit: Units
     excluded_work_package_types_caption: 'اختر أنواع حزم العمل التي تريد إخفاءها من قائمة المهام المتأخرة. لن تظهر العناصر من الأنواع المحددة في قائمة المهام المتأخرة تلقائيًا، مما يضمن تركيز القائمة على الأعمال التي تهم فريقك. على سبيل المثال، يمكن إخفاء أنواع مثل «الملحمات» أو «المعالم» التي تُدار على مستوى أعلى، لضمان تركيز قائمة المهام المتأخرة على العناصر القابلة للتنفيذ.
 
       '
@@ -382,6 +384,18 @@ ar:
       backlog_buckets: Backlog buckets
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -402,6 +416,9 @@ ar:
             label: Subprojects
         sprint_sharing: Share sprints
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
           heading: Number of active sprints

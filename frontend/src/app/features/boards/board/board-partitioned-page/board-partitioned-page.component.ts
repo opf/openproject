@@ -32,9 +32,6 @@ import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-} from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -82,7 +79,6 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly state = inject(StateService);
   readonly toastService = inject(ToastService);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly injector = inject(Injector);
@@ -167,7 +163,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
     // Ensure board is being loaded
     this.Boards.loadAllBoards();
 
-    const boardId = this.boardId || this.state.params.board_id?.toString();
+    const boardId = this.boardId;
     this.apiV3Service.boards.id(boardId).observe()
       .pipe(this.untilDestroyed())
       .subscribe((board) => this.board$.next(board));

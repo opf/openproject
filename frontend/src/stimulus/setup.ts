@@ -35,6 +35,7 @@ import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
 import FormPreviewController from './controllers/form-preview.controller';
 import AsyncDialogController from './controllers/async-dialog.controller';
+import ModeSwitchRadioController from './controllers/mode-switch-radio.controller';
 import PollForChangesController from './controllers/poll-for-changes.controller';
 import TableHighlightingController from './controllers/table-highlighting.controller';
 import OpShowWhenCheckedController from './controllers/show-when-checked.controller';
@@ -67,6 +68,7 @@ import OpPasswordForceChangeController from './controllers/password-force-change
 import AutoSubmit from '@stimulus-components/auto-submit';
 import RevealController from '@stimulus-components/reveal';
 import AutoThemeSwitcher from './controllers/auto-theme-switcher.controller';
+import ThemeSelectorController from './controllers/theme-selector.controller';
 import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimulus-application';
 import { Application } from '@hotwired/stimulus';
 import { BeforeunloadController } from './controllers/beforeunload.controller';
@@ -88,6 +90,7 @@ declare global {
 
 OpenProjectStimulusApplication.preregister('application', OpApplicationController);
 OpenProjectStimulusApplication.preregister('async-dialog', AsyncDialogController);
+OpenProjectStimulusApplication.preregister('mode-switch-radio', ModeSwitchRadioController);
 OpenProjectStimulusApplication.preregister('disable-when-checked', OpDisableWhenCheckedController);
 OpenProjectStimulusApplication.preregister('disable-when-clicked', DisableWhenClickedController);
 OpenProjectStimulusApplication.preregister('disable-when-value-selected', OpDisableWhenValueSelectedController);
@@ -119,6 +122,7 @@ OpenProjectStimulusApplication.preregister('work-packages--activities-tab--edito
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-page', LazyPageController);
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
 OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitcher);
+OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
 OpenProjectStimulusApplication.preregister('highlight-target-element', HighlightTargetElementController);
 OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeController);

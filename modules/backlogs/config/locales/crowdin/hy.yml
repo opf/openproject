@@ -26,6 +26,7 @@ hy:
       project:
         allow_multiple_active_sprints: Թույլատրել մի քանի ակտիվ սպրինտներ
         backlog_excluded_types: Բացառված աշխատանքային փաթեթների տեսակներ
+        estimation_unit: Unit
         sprint_sharing: Սպրինտների համօգտագործում
         statuses_considered_closed: Փակված համարվող կարգավիճակներ
       sprint:
@@ -137,6 +138,7 @@ hy:
       show:
         blankslate_description: Այրման գծապատկեր ստեղծելու համար սահմանեք սպրինտի սկզբի և ավարտի ամսաթիվը։
         blankslate_title: Այրման տվյալներ առկա չեն
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Ընտրեք, թե աշխատանքային փաթեթների որ տեսակները թաքցնել բեքլոգից։ Ընտրված տեսակների տարրերն ավտոմատ կերպով չեն հայտնվի բեքլոգում, ինչը թույլ կտա այն կենտրոնացած պահել Ձեր թիմի համար կարևոր աշխատանքի վրա։ Օրինակ՝ ավելի բարձր մակարդակում կառավարվող տեսակները, ինչպիսիք են Epic-ները կամ Հանգրվանները, կարող են թաքցվել, որպեսզի բեքլոգը կենտրոնացած մնա գործողության ենթակա տարրերի վրա։
 
       '
@@ -346,6 +348,18 @@ hy:
       backlog_buckets: Բեքլոգի բաժիններ
       sprints: Սպրինտներ
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -366,6 +380,9 @@ hy:
             label: Ենթանախագծեր
         sprint_sharing: Համօգտագործել սպրինտները
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Կանխադրված դեպքում յուրաքանչյուր նախագծում միաժամանակ կարող է ակտիվ լինել միայն մեկ սպրինտ։ Դուք կարող եք փոխել դա այնպես, որ այս նախագծում մի քանի սպրինտ կարողանա զուգահեռաբար ակտիվ լինել։
           heading: Ակտիվ սպրինտների քանակ

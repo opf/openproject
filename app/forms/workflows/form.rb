@@ -30,6 +30,13 @@
 
 module Workflows
   class Form < ApplicationForm
+    def initialize(copy_from_id: nil, ask_copy_source: true)
+      super()
+
+      @copy_from_id = copy_from_id
+      @ask_copy_source = ask_copy_source
+    end
+
     form do |workflow_form|
       workflow_form.text_field(name: :name,
                                label: I18n.t("workflows.form.name.label"),
@@ -37,11 +44,19 @@ module Workflows
                                required: true,
                                autofocus: true)
 
-      workflow_form.text_field(name: :description,
-                               label: I18n.t("workflows.form.description.label"),
-                               caption: I18n.t("workflows.form.description.caption"))
+      workflow_form.text_area(name: :description,
+                              rows: 3,
+                              label: I18n.t("workflows.form.description.label"),
+                              caption: I18n.t("workflows.form.description.caption"))
 
-      next if model.persisted? || copy_sources.empty?
+      next if model.persisted?
+
+      if copy_from_id.present?
+        workflow_form.hidden(name: :copy_from_id, value: copy_from_id)
+        next
+      end
+
+      next if !ask_copy_source || copy_sources.empty?
 
       workflow_form.autocompleter(
         name: :copy_from_id,
@@ -61,6 +76,8 @@ module Workflows
     end
 
     private
+
+    attr_reader :copy_from_id, :ask_copy_source
 
     def copy_sources
       @copy_sources ||= Workflow.available_in(model.project).in_display_order.to_a
