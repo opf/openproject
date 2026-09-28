@@ -28,21 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+module GitlabIntegration
+  module IssueStatuses
+    OPEN = GitlabStatus.issue_status(code: :open, color: Color.new(hexcode: "#1A7F37"), icon: :"issue-opened")
+    CLOSED = GitlabStatus.issue_status(code: :closed, color: Color.new(hexcode: "#24292F"), icon: :"issue-closed")
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, controller: "work_package_gitlab_tab", only: %i[] do
-        collection do
-          get :tab
-          get :git_snippets_dialog
-        end
-      end
-    end
+    AVAILABLE = [OPEN, CLOSED].freeze
   end
 end

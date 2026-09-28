@@ -52,8 +52,6 @@ module OpenProject
         # Push hooks flatten the pusher into user_* keys instead of the nested
         # "user" object every other GitLab event sends.
         def gitlab_user(payload)
-          return if payload.user_id.blank?
-
           UpsertGitlabUser.new.call(
             ::OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
               "id" => payload.user_id,

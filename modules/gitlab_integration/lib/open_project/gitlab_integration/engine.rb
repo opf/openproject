@@ -77,7 +77,8 @@ module OpenProject::GitlabIntegration
            skip_permissions_check: true,
            badge: ->(work_package:, **) {
              work_package.gitlab_merge_requests.count +
-               work_package.gitlab_issues.count
+               work_package.gitlab_issues.count +
+               work_package.gitlab_branches.count
            },
            before: :watchers,
            caption: :project_module_github

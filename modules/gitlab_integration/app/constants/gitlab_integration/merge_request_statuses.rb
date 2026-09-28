@@ -28,21 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+module GitlabIntegration
+  module MergeRequestStatuses
+    OPEN = GitlabStatus.merge_request_status(code: :open,
+                                             color: Color.new(hexcode: "#1A7F37"),
+                                             icon: :"git-pull-request")
+    DRAFT = GitlabStatus.merge_request_status(code: :draft,
+                                              color: Color.new(hexcode: "#24292F"),
+                                              icon: :"git-pull-request-draft")
+    CLOSED = GitlabStatus.merge_request_status(code: :closed,
+                                               color: Color.new(hexcode: "#CF222E"),
+                                               icon: :"git-pull-request-closed")
+    MERGED = GitlabStatus.merge_request_status(code: :merged,
+                                               color: Color.new(hexcode: "#8250DF"),
+                                               icon: :"git-merge")
+    LOCKED = GitlabStatus.merge_request_status(code: :locked,
+                                               color: Color.new(hexcode: "#BC4C00"),
+                                               icon: :"git-pull-request-locked")
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, controller: "work_package_gitlab_tab", only: %i[] do
-        collection do
-          get :tab
-          get :git_snippets_dialog
-        end
-      end
-    end
+    AVAILABLE = [OPEN, DRAFT, CLOSED, MERGED, LOCKED].freeze
   end
 end
