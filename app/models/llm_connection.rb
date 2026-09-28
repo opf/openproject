@@ -158,10 +158,11 @@ class LlmConnection < ApplicationRecord
   end
 
   # Feeds the downloadable health report. Deliberately excludes api_key *and*
-  # custom_headers: a gateway header routinely carries a second credential.
+  # custom_headers: a gateway header routinely carries a second credential, as
+  # can the userinfo or query string of base_url.
   def non_confidential_configuration
     {
-      base_url:,
+      base_url: base_url_without_credentials,
       api_format:,
       llm_features_enabled: Setting.llm_features_enabled?,
       server_flavour:,
@@ -173,6 +174,16 @@ class LlmConnection < ApplicationRecord
   end
 
   private
+
+  def base_url_without_credentials
+    uri = URI.parse(base_url)
+    uri.user = nil
+    uri.query = nil
+    uri.fragment = nil
+    uri.to_s
+  rescue URI::InvalidURIError
+    nil
+  end
 
   def base_url_is_absolute_http
     uri = URI.parse(base_url)

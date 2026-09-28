@@ -169,6 +169,16 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response.body).not_to include("sk-super-secret")
       expect(response.body).not_to include("gateway-secret")
     end
+
+    it "strips credentials carried in the base URL" do
+      connection.update_column(:base_url, "https://user:url-password@example.com/v1?api-key=query-secret")
+
+      get llm_connection_health_status_report_path(format: :txt)
+
+      expect(response.body).to include("https://example.com/v1")
+      expect(response.body).not_to include("url-password")
+      expect(response.body).not_to include("query-secret")
+    end
   end
 
   describe "authorisation" do
