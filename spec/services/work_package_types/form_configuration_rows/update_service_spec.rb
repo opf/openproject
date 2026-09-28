@@ -40,10 +40,10 @@ module WorkPackageTypes
       subject(:service) { described_class.new(user:, variant:, row_key: "priority") }
 
       before do
-        variant.form_configuration.update_column(:attribute_groups, [
-                                                   ["", ["assignee"]],
-                                                   [:details, ["priority"]]
-                                                 ])
+        variant.form_configuration.update!(attribute_groups: [
+                                             ["", ["assignee"]],
+                                             [:details, ["priority"]]
+                                           ])
       end
 
       it "normalizes unnamed legacy groups while updating rows" do
@@ -69,9 +69,9 @@ module WorkPackageTypes
       end
 
       it "finds legacy symbol attribute keys when moving rows" do
-        variant.form_configuration.update_column(:attribute_groups, [
-                                                   [:details, [:version]]
-                                                 ])
+        variant.form_configuration.update!(attribute_groups: [
+                                             [:details, [:version]]
+                                           ])
 
         result = described_class.new(user:, variant:, row_key: "version").call(target_id: "inactive", position: 1)
 
@@ -81,10 +81,11 @@ module WorkPackageTypes
 
       it "removes unavailable attributes from legacy form configurations when updating rows" do
         custom_field = create(:work_package_custom_field, field_format: "string")
+        RequestStore.clear!
         deleted_custom_field_attribute = "custom_field_1"
-        variant.form_configuration.update_column(:attribute_groups, [
-                                                   ["Legacy custom group", [deleted_custom_field_attribute, "priority"]]
-                                                 ])
+        variant.form_configuration.update!(attribute_groups: [
+                                             ["Legacy custom group", [deleted_custom_field_attribute, "priority"]]
+                                           ])
 
         result = described_class
           .new(user:, variant:, row_key: custom_field.attribute_name)

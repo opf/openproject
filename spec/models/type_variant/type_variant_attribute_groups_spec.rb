@@ -43,7 +43,7 @@ RSpec.describe TypeVariant do
   describe "#attribute_groups" do
     shared_examples_for "returns default attributes" do
       it do
-        expect(variant.form_configuration.read_attribute(:attribute_groups)).to be_empty
+        expect(variant.form_configuration.form_groups).to be_empty
 
         attribute_groups = variant.attribute_groups.grep(Type::AttributeGroup).map do |group|
           [group.key, group.attributes]
@@ -166,7 +166,7 @@ RSpec.describe TypeVariant do
     end
 
     it "leaves a persisted target_versions key untouched" do
-      variant.form_configuration[:attribute_groups] = [["details", %w[category target_versions]]]
+      variant.form_configuration.update!(attribute_groups: [["details", %w[category target_versions]]])
       variant.unset_attribute_groups_objects
 
       details = variant.attribute_groups.detect { |group| group.key == "details" }
@@ -175,7 +175,7 @@ RSpec.describe TypeVariant do
     end
 
     it "leaves a persisted literal version key untranslated but drops it from members" do
-      variant.form_configuration[:attribute_groups] = [["details", %w[category version]]]
+      variant.form_configuration.update!(attribute_groups: [["details", %w[category version]]])
       variant.unset_attribute_groups_objects
 
       details = variant.attribute_groups.detect { |group| group.key == "details" }
@@ -184,11 +184,11 @@ RSpec.describe TypeVariant do
       expect(details.members).not_to include("version")
     end
 
-    it "leaves query group members untouched" do
-      query_member = :"#{Type::QueryGroup::MEMBER_PREFIX}1"
-      variant.form_configuration[:attribute_groups] = [["Related", [query_member]]]
+    it "reads a query group back with its query" do
+      query = create(:query)
+      variant.form_configuration.update!(attribute_groups: [["Related", [query]]])
 
-      expect(variant.send(:custom_attribute_groups)).to eq([["Related", [query_member]]])
+      expect(variant.send(:custom_attribute_groups).map { it.first(2) }).to eq([["Related", [query]]])
     end
   end
 
@@ -201,7 +201,7 @@ RSpec.describe TypeVariant do
     end
 
     it "can still be added to a group manually" do
-      variant.form_configuration[:attribute_groups] = [["details", %w[category observed_in_versions]]]
+      variant.form_configuration.update!(attribute_groups: [["details", %w[category observed_in_versions]]])
       variant.unset_attribute_groups_objects
 
       details = variant.attribute_groups.detect { |group| group.key == "details" }
@@ -228,7 +228,7 @@ RSpec.describe TypeVariant do
       # Can be enabled
       variant.attribute_groups = [["foo", [cf_identifier]]]
       expect(variant.save).to be_truthy
-      expect(variant.form_configuration.read_attribute(:attribute_groups)).not_to be_empty
+      expect(variant.form_configuration.form_groups).not_to be_empty
     end
 
     context "with multiple CFs" do
@@ -249,7 +249,7 @@ RSpec.describe TypeVariant do
         # Can be enabled
         variant.attribute_groups = [["foo", [cf_identifier2, cf_identifier]]]
         expect(variant.save).to be_truthy
-        expect(variant.form_configuration.read_attribute(:attribute_groups)).not_to be_empty
+        expect(variant.form_configuration.form_groups).not_to be_empty
 
         cf_group = variant.attribute_groups[0]
         expect(cf_group.members).to eq([cf_identifier2, cf_identifier])

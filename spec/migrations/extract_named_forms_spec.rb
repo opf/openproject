@@ -32,7 +32,10 @@ require "spec_helper"
 require Rails.root.join("db/migrate/20260925100000_extract_named_forms.rb")
 
 RSpec.describe ExtractNamedForms, type: :model do
-  subject(:migrate_up) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
+  subject(:migrate_up) do
+    ActiveRecord::Migration.suppress_messages { described_class.new.up }
+    ActiveRecord::Base.connection.clear_cache!
+  end
 
   shared_let(:field_a) { create(:integer_wp_custom_field) }
   shared_let(:field_b) { create(:integer_wp_custom_field) }
@@ -48,13 +51,13 @@ RSpec.describe ExtractNamedForms, type: :model do
   before do
     [base, inheriting, owning, namesake]
     ActiveRecord::Migration.suppress_messages { described_class.new.down }
+    connection.clear_cache!
+    described_class::MigratedTypeVariant.reset_column_information
 
-    execute <<~SQL.squish
-      UPDATE type_variants
-      SET attribute_groups = '#{[['details', [field_a.attribute_name, field_b.attribute_name]]].to_yaml}',
-          required_attributes = '{#{field_a.attribute_name},#{field_b.attribute_name}}'
-      WHERE id = #{base.id}
-    SQL
+    described_class::MigratedTypeVariant.find(base.id).update_columns(
+      attribute_groups: [["details", [field_a.attribute_name, field_b.attribute_name]]],
+      required_attributes: [field_a.attribute_name, field_b.attribute_name]
+    )
     execute <<~SQL.squish
       UPDATE type_variants
       SET linked_aspects = '{form_configuration}',
@@ -73,7 +76,8 @@ RSpec.describe ExtractNamedForms, type: :model do
   end
 
   after do
-    [TypeVariant, FormConfiguration, WorkPackageCustomField].each(&:reset_column_information)
+    [TypeVariant, FormConfiguration, FormConfigurationGroup, FormConfigurationAttribute, WorkPackageCustomField]
+      .each(&:reset_column_information)
   end
 
   delegate :execute, to: :connection
@@ -114,13 +118,13 @@ RSpec.describe ExtractNamedForms, type: :model do
     expect(array_of(inheriting, :linked_aspects)).not_to include("form_configuration")
   end
 
-  it "moves the groups onto the form" do
+  it "stores the groups as rows of the form" do
     migrate_up
 
-    groups = connection.select_value(
-      "SELECT attribute_groups FROM form_configurations WHERE id = #{column_of(base, :form_configuration_id)}"
-    )
-    expect(YAML.safe_load(groups)).to eq([["details", [field_a.attribute_name, field_b.attribute_name]]])
+    form = FormConfiguration.find(column_of(base, :form_configuration_id))
+    group = form.form_groups.sole
+    expect(group.label).to eq("details")
+    expect(group.members.map(&:key)).to eq([field_a.attribute_name, field_b.attribute_name])
   end
 
   it "gives an inheriting variant the required attributes it showed, minus what it excluded" do

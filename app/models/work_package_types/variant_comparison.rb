@@ -137,7 +137,7 @@ module WorkPackageTypes
 
     def variants
       @variants ||= type.variants
-                        .includes(:type, :project, form_configuration: :custom_fields)
+                        .includes(:type, :project, form_configuration: [:custom_fields, { form_groups: %i[query members] }])
                         .in_display_order
                         .to_a
     end

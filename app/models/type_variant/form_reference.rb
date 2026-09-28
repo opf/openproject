@@ -34,6 +34,11 @@ class TypeVariant
 
     included do
       belongs_to :form_configuration, autosave: true, inverse_of: :type_variants
+
+      before_save :prune_required_attributes
+
+      delegate :attribute_groups_will_change!, :attribute_groups_changed?, :attribute_groups_was,
+               to: :form_configuration, allow_nil: true
     end
 
     class_methods do
@@ -81,6 +86,15 @@ class TypeVariant
     end
 
     private
+
+    def attribute_groups_record = form_configuration
+
+    def prune_required_attributes
+      return unless attribute_groups_changed?
+      return if self[:required_attributes].blank?
+
+      self[:required_attributes] &= attribute_group_members
+    end
 
     def without_excluded_elements(groups)
       excluded = excluded_elements(TypeVariant::FORM_CONFIGURATION)

@@ -55,6 +55,66 @@ RSpec.describe FormConfiguration do
     end
   end
 
+  describe "its own groups" do
+    let(:milestone) { create(:type_milestone) }
+    let(:form) { milestone.default_variant.form_configuration }
+
+    it "starts on the defaults of a type that is not a milestone" do
+      expect(form.attribute_groups.map(&:key)).to include(:estimates_and_progress)
+      expect(milestone.default_variant.attribute_groups.map(&:key)).not_to include(:estimates_and_progress)
+    end
+
+    it "does not count what it reads its defaults through among its variants" do
+      form.attribute_groups
+
+      expect(form.type_variants).to contain_exactly(milestone.default_variant)
+    end
+
+    it "stores groups every variant using it reads" do
+      form.attribute_groups = [["Planning", %w[assignee]]]
+      form.save!
+
+      expect(milestone.default_variant.reload.attribute_groups.map(&:key)).to eq(["Planning"])
+    end
+  end
+
+  describe "stable rows" do
+    let(:form) { create(:form_configuration) }
+
+    before do
+      form.update!(attribute_groups: [["Planning", %w[assignee date]], [:details, %w[priority]]])
+      form.reload
+    end
+
+    def row_of(key) = form.form_attributes.find { it.key == key }
+
+    it "keeps a group's row when the group is renamed" do
+      planning = form.form_groups.find_by(label: "Planning")
+      groups = form.attribute_groups
+      groups.first.key = "Scheduling"
+
+      form.update!(attribute_groups: groups)
+
+      expect(form.reload.form_groups.find_by(label: "Scheduling").id).to eq(planning.id)
+    end
+
+    it "keeps an attribute's row when it moves to another group" do
+      assignee = row_of("assignee")
+
+      form.update!(attribute_groups: [["Planning", %w[date]], [:details, %w[priority assignee]]])
+
+      expect(form.reload.form_groups.find_by(default_key: "details").members.map(&:id)).to include(assignee.id)
+    end
+
+    it "keeps the row of an attribute taken off the form, as inactive" do
+      date = row_of("date")
+
+      form.update!(attribute_groups: [["Planning", %w[assignee]], [:details, %w[priority]]])
+
+      expect(FormConfigurationAttribute.find(date.id)).not_to be_active
+    end
+  end
+
   describe "deletion" do
     it "is refused while a variant still references it" do
       form = create(:type).default_variant.form_configuration

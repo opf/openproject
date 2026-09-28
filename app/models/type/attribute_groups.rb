@@ -33,13 +33,9 @@ module Type::AttributeGroups
 
   included do
     before_save :write_attribute_groups_objects
-    before_save :prune_required_attributes
     after_save :unset_attribute_groups_objects
 
     attr_accessor :attribute_groups_objects
-
-    delegate :attribute_groups_will_change!, :attribute_groups_changed?, :attribute_groups_was,
-             to: :form_configuration, allow_nil: true
 
     # Mapping from AR attribute name to a default group
     # May be extended by plugins
@@ -146,24 +142,10 @@ module Type::AttributeGroups
   def write_attribute_groups_objects
     return if attribute_groups_objects.nil?
 
-    groups = if attribute_groups_objects == to_attribute_group_class(default_attribute_groups)
-               nil
-             else
-               to_attribute_group_array(attribute_groups_objects)
-             end
-
-    form_configuration.attribute_groups = groups
+    attribute_groups_record&.stage_attribute_groups(attribute_groups_objects)
   end
 
-  ##
-  # When we remove an attribute from the form, we also want to remove it from
-  # required_attributes as a cleanup step.
-  def prune_required_attributes
-    return unless attribute_groups_changed?
-    return if self[:required_attributes].blank?
-
-    self[:required_attributes] &= attribute_group_members
-  end
+  def attribute_groups_record = self
 
   def attribute_group_members
     attribute_groups.flat_map do |group|
@@ -172,7 +154,7 @@ module Type::AttributeGroups
   end
 
   def custom_attribute_groups
-    form_configuration&.attribute_groups.presence
+    attribute_groups_record&.stored_attribute_groups
   end
 
   def default_group_key(key)
@@ -205,38 +187,22 @@ module Type::AttributeGroups
   end
 
   def to_attribute_group_class(groups)
-    groups.map do |group|
-      attributes = group[1]
-      first_attribute = attributes[0]
-      key = group[0]
-      display_name = group[2] if group.length > 2
-
-      if first_attribute.is_a?(Query)
-        new_query_group(key, first_attribute, display_name:)
-      elsif first_attribute.is_a?(Symbol) && Type::QueryGroup.query_attribute?(first_attribute)
-        query = Query.find_by(id: Type::QueryGroup.query_attribute_id(first_attribute))
-        new_query_group(key, query, display_name:)
-      else
-        new_attribute_group(key, attributes, display_name:)
-      end
-    end
+    groups.map { |group| group.is_a?(Type::FormGroup) ? group : group_from_tuple(*group) }
   end
 
-  def to_attribute_group_array(groups)
-    groups.map do |group|
-      attributes = if group.is_a?(Type::QueryGroup)
-                     query = group.query
+  def group_from_tuple(key, attributes, display_name = nil, record_id = nil)
+    first_attribute = attributes[0]
 
-                     query.save
+    group = if first_attribute.is_a?(Query)
+              new_query_group(key, first_attribute, display_name:)
+            elsif first_attribute.is_a?(Symbol) && Type::QueryGroup.query_attribute?(first_attribute)
+              query = Query.find_by(id: Type::QueryGroup.query_attribute_id(first_attribute))
+              new_query_group(key, query, display_name:)
+            else
+              new_attribute_group(key, attributes, display_name:)
+            end
 
-                     [group.query_attribute_name]
-                   else
-                     group.attributes
-                   end
-      result = [group.key, attributes]
-      result << group.display_name if group.display_name.present?
-      result
-    end
+    group.tap { it.record_id = record_id }
   end
 
   def new_attribute_group(key, attributes, display_name: nil)

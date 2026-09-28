@@ -28,59 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Type::FormGroup
-  attr_accessor :key,
-                :attributes,
-                :type,
-                :display_name,
-                :record_id
+module WorkPackageTypes
+  module FormConfiguration
+    class GenerateDefaultsService
+      def initialize(form, from: nil)
+        @form = form
+        @source = from || form
+      end
 
-  def self.next_untitled_key(seen_keys)
-    base_name = I18n.t("types.edit.form_configuration.untitled_group")
-    candidate = base_name
-    suffix = 2
+      def call
+        return already_configured if form.form_groups.exists? || form.form_attributes.exists?
 
-    while seen_keys.include?(candidate)
-      candidate = "#{base_name} #{suffix}"
-      suffix += 1
+        generate
+        ServiceResult.success(result: form)
+      end
+
+      private
+
+      attr_reader :form, :source
+
+      def generate
+        ::FormConfiguration.transaction do
+          source.default_attribute_groups.each { |key, members| create_group(key, members) }
+          EnsureAttributeMembershipService.new(form).call
+        end
+      end
+
+      def create_group(default_key, members)
+        group = form.form_groups.create!(kind: FormConfigurationGroup::ATTRIBUTE, default_key: default_key.to_s)
+
+        members.each_with_index do |key, index|
+          form.form_attributes.create!(group:, position: index + 1, **FormConfigurationAttribute.reference_for(key))
+        end
+      end
+
+      def already_configured
+        form.errors.add(:base, I18n.t("types.edit.form_configuration.defaults_not_generated.already_configured"))
+
+        ServiceResult.failure(result: form, errors: form.errors)
+      end
     end
-
-    candidate
-  end
-
-  def initialize(type, key, attributes, display_name: nil)
-    self.key = key
-    self.attributes = attributes
-    self.type = type
-    self.display_name = display_name
-  end
-
-  ##
-  # Returns the symbol key, if it is not translated
-  def internal_key?
-    key.is_a?(Symbol)
-  end
-
-  ##
-  # Translate the given attribute group if its internal
-  # (== if it's a symbol)
-  def translated_key
-    if display_name.present?
-      display_name
-    elsif internal_key?
-      I18n.t(TypeVariant.default_groups[key], default: key.to_s)
-    elsif key.present?
-      key
-    else
-      I18n.t("types.edit.form_configuration.untitled_group")
-    end
-  end
-
-  def members
-    raise SubclassResponsibilityError
-  end
-
-  def active_members(_project)
-    raise SubclassResponsibilityError
   end
 end
