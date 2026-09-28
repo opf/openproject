@@ -148,7 +148,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   private memorizeRawText() {
-    this.currentRawText = (this.resource.options.text as HalResource).raw;
+    this.currentRawText = (this.resource.options.text as HalResource).raw as string;
   }
 
   private memorizeCustomText() {

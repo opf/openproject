@@ -143,7 +143,7 @@ export class CalendarDragDropService {
 
     const startDate = moment(workPackage.startDate);
     const dueDate = moment(workPackage.dueDate);
-    const duration = Number(moment.duration(workPackage.duration).asDays().toFixed(0));
+    const duration = Number(moment.duration(workPackage.duration as string).asDays().toFixed(0));
     const diff = duration > 0 ? duration : dueDate.diff(startDate, 'days') + 1;
 
     return {

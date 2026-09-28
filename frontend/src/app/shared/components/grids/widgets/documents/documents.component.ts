@@ -80,11 +80,11 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
   }
 
   public documentCreated(document:DocumentResource) {
-    return this.timezone.formattedDatetime(document.createdAt);
+    return this.timezone.formattedDatetime(document.createdAt as string);
   }
 
   public documentDescription(document:DocumentResource) {
-    return this.domSanitizer.sanitize(SecurityContext.HTML, document.description.html);
+    return this.domSanitizer.sanitize(SecurityContext.HTML, (document.description as { html:string }).html);
   }
 
   public get noEntries() {
