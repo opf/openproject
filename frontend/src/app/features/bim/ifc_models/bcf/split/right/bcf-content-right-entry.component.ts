@@ -71,12 +71,16 @@ export class BcfContentRightEntryComponent extends UntilDestroyedMixin implement
   private readonly queryParamListener = inject(QueryParamListenerService);
 
   ngOnInit():void {
-    this.loadQuery();
+    // The listener ignores URL changes until the initial load seeds its checksum,
+    // but the left pane can already change the URL while that load is in flight.
+    // Load failures are already toasted by WorkPackagesListService.
+    const reconcile = () => this.queryParamListener.reconcileWithUrl();
+    void this.loadQuery().then(reconcile, reconcile);
 
     this.queryParamListener
       .observe$
       .pipe(this.untilDestroyed())
-      .subscribe(() => this.loadQuery());
+      .subscribe(() => { void this.loadQuery(); });
   }
 
   override ngOnDestroy():void {
@@ -84,8 +88,8 @@ export class BcfContentRightEntryComponent extends UntilDestroyedMixin implement
     super.ngOnDestroy();
   }
 
-  private loadQuery():void {
-    void this.wpListService
+  private loadQuery():Promise<void> {
+    return this.wpListService
       .loadCurrentQueryFromParams(this.currentProject.identifier ?? undefined)
       .then((query) => {
         this.bcfView.initialize(query, query.results);

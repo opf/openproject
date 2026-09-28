@@ -44,7 +44,7 @@ export class QueryParamListenerService {
 
   readonly urlParams:UrlParamsService = this.injector.get(UrlParamsService);
 
-  public observe$ = new Subject<any>();
+  public observe$ = new Subject<string|null>();
 
   private queryChangeSubscription:Subscription;
 
@@ -69,21 +69,32 @@ export class QueryParamListenerService {
         return;
       }
 
-      const params = {
-        query_id: this.urlParams.get('query_id'),
-        query_props: this.urlParams.get('query_props'),
-      };
-
-      const newChecksum = this.wpListService.getCurrentQueryProps(params);
-      const newId = params.query_id;
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId,
-          newChecksum,
-          () => {
-            this.observe$.next(newChecksum);
-          });
+      this.reconcileWithUrl();
     });
+  }
+
+  /**
+   * Emits on `observe$` if the URL no longer matches the loaded query.
+   *
+   * Pages whose URL can change while their initial load is still in flight (like the
+   * BCF right pane, which the left pane drives) call this once that load has settled,
+   * to pick up changes the listener ignored while the checksum was uninitialized.
+   */
+  public reconcileWithUrl():void {
+    const params = {
+      query_id: this.urlParams.get('query_id'),
+      query_props: this.urlParams.get('query_props'),
+    };
+
+    const newChecksum = this.wpListService.getCurrentQueryProps(params);
+    const newId = params.query_id;
+
+    this.wpListChecksumService
+      .executeIfOutdated(newId,
+        newChecksum,
+        () => {
+          this.observe$.next(newChecksum);
+        });
   }
 
   public removeQueryChangeListener() {
