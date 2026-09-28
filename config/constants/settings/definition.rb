@@ -548,6 +548,10 @@ module Settings
         description: "Expiration time in seconds of created shared presigned URLs",
         default: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
       },
+      fog_direct_upload_expires_in: {
+        description: "Expiration time in seconds of the signed forms used for direct uploads",
+        default: 14400
+      },
       # Additional / overridden help links
       force_help_link: {
         description: "You can set a custom URL for the help button in application header menu.",

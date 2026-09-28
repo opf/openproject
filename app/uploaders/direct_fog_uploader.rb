@@ -40,6 +40,10 @@ class DirectFogUploader < FogFileUploader
     true
   end
 
+  def upload_expiration
+    OpenProject::Configuration.fog_direct_upload_expires_in
+  end
+
   # The signed policy restricts the key via `starts-with`, so this must never be a prefix
   # of the final store_dir the attachment is served from.
   def store_dir

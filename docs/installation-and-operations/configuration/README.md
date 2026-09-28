@@ -360,6 +360,7 @@ OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 - [`attachments_storage`](#attachments-storage) (default: file)
 - [`direct_uploads`](#direct-uploads) (default: true)
 - [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
+- [`fog_direct_upload_expires_in`](#fog-direct-upload-expires-in) (default: 14400)
 - [`hidden_menu_items`](#hidden-menu-items-admin-menu) (default: {})
 - [`disabled_modules`](#disabled-modules) (default: [])
 - [`blacklisted_routes`](#blacklisted-routes) (default: [])
@@ -609,6 +610,18 @@ _default: 21600_
 
 ```yaml
 OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN="60"
+```
+
+#### Fog direct upload expires in
+
+When [`direct_uploads`](#direct-uploads) are enabled, the browser uploads attachments straight to the remote storage using a signed upload form. This option determines how long such a form stays valid after it has been issued. Increase it if very large files regularly take longer than that to upload.
+
+The default is 14400 seconds, that is 4 hours.
+
+_default: 14400_
+
+```yaml
+OPENPROJECT_FOG__DIRECT__UPLOAD__EXPIRES__IN="3600"
 ```
 
 ### Force help link
