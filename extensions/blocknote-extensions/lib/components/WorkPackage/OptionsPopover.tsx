@@ -1,10 +1,10 @@
-import { useState, useRef } from 'react';
+import { useEffect, useEffectEvent, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { WorkPackage } from '../../openProjectTypes';
 import { linkToWorkPackage } from '../../services/openProjectApi';
 import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
-import { defaultWpVariables, menuSurfaceStyles } from './atoms';
+import { defaultWpVariables, menuItemFocusStyles, menuSurfaceStyles } from './atoms';
 import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
 import { SizeMenu } from './SizeMenu';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
@@ -15,6 +15,7 @@ import {
 } from '@primer/octicons-react';
 import {formatWorkPackageId} from '../../utils/id';
 import { useTapActivation } from '../../utils/tapActivation';
+import { focusMenuItem, hasFocusWithin, isKeyboardClick, navigateMenu } from '../../utils/a11y';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
@@ -22,7 +23,9 @@ export interface WpOptionsProps {
   currentSize?:InlineWpSize;
   currentBlockSize?:BlockWpSize;
   anchorEl?:HTMLElement | null;
+  autoFocus?:boolean;
   onClose:() => void;
+  onRestoreFocus?:() => void;
   onResize?:(size:InlineWpSize) => void;
   onRemove?:() => void;
   onConvertToBlock?:(size:BlockWpSize) => void;
@@ -64,16 +67,18 @@ const PopBtn = styled.button<{ $danger?:boolean }>`
   align-items: center;
   gap: var(--spacer-s);
   line-height: 1;
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: var(
       --bn-colors-highlights-gray-background,
       #f5f5f5
     );
   }
+  ${menuItemFocusStyles}
   svg { flex-shrink: 0; }
 `;
 
-const Divider = styled.div`
+const Divider = styled.div.attrs({ role: 'separator', 'aria-orientation': 'vertical' as const })`
   width: 1px;
   height: 18px;
   background: var(--mantine-color-default-border);
@@ -83,6 +88,8 @@ const Divider = styled.div`
 const SizeButtonWrapper = styled.div`
   position: relative;
 `;
+
+const CLOSING_KEYS = ['Escape', 'Tab'];
 
 const IcOpen = () => <LinkExternalIcon size={13} />;
 const IcDelete = () => <TrashIcon size={13} />;
@@ -94,7 +101,9 @@ export const WpOptionsPopover = ({
   currentSize,
   currentBlockSize,
   anchorEl,
+  autoFocus = false,
   onClose,
+  onRestoreFocus,
   onResize,
   onRemove,
   onConvertToBlock,
@@ -103,6 +112,8 @@ export const WpOptionsPopover = ({
 }:WpOptionsProps) => {
   const { t } = useTranslation();
   const [showSizes, setShowSizes] = useState(false);
+  const [sizesTakeFocus, setSizesTakeFocus] = useState(false);
+  const sizeMenuId = useId();
 
   const tapProps = useTapActivation();
   const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -118,8 +129,38 @@ export const WpOptionsPopover = ({
   const displayedSize = t(`sizes.${displayedSizeKey}.label`);
 
   const closeMenu = () => {
+    const restoreFocus = hasFocusWithin(popoverRef.current);
     setShowSizes(false);
     onClose();
+    if (restoreFocus) onRestoreFocus?.();
+  };
+
+  const closeFromEditor = useEffectEvent((event:KeyboardEvent) => {
+    if (!CLOSING_KEYS.includes(event.key) || hasFocusWithin(popoverRef.current)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    closeMenu();
+  });
+
+  useEffect(() => {
+    document.addEventListener('keydown', closeFromEditor, { capture: true });
+    return () => document.removeEventListener('keydown', closeFromEditor, { capture: true });
+  }, []);
+
+  useEffect(() => {
+    if (autoFocus) focusMenuItem(popoverRef.current, 'first');
+  }, [autoFocus]);
+
+  const closeSizes = () => {
+    setShowSizes(false);
+    sizeButtonEl?.focus({ preventScroll: true });
+  };
+
+  const handleKeyDown = (event:React.KeyboardEvent<HTMLDivElement>) => {
+    if (navigateMenu(event, 'horizontal')) return;
+    if (!CLOSING_KEYS.includes(event.key)) return;
+    event.preventDefault();
+    closeMenu();
   };
 
   const pickInlineSize = (size:InlineWpSize) => {
@@ -146,12 +187,18 @@ export const WpOptionsPopover = ({
     // every button then needs a priming tap.
     <Popover
       ref={popoverRef}
+      role="menu"
+      aria-orientation="horizontal"
+      aria-label={openId ? t('options.menuAriaLabel', { id: formatWorkPackageId(openId) }) : undefined}
+      onKeyDown={handleKeyDown}
       onMouseDown={(e) => e.stopPropagation()}
       onTouchStart={(e) => e.stopPropagation()}
     >
       {openId && (
         <>
           <PopBtn
+            role="menuitem"
+            tabIndex={-1}
             title={t('options.openInNewTab')}
             aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(openId) })}
             {...tapProps((event) => {
@@ -169,10 +216,16 @@ export const WpOptionsPopover = ({
       <SizeButtonWrapper>
         <PopBtn
           ref={setSizeButtonEl}
+          role="menuitem"
+          tabIndex={-1}
           title={t('options.changeSize')}
-          aria-label={t('options.changeSize')}
+          aria-label={t('options.changeSizeAriaLabel', { size: displayedSize })}
+          aria-haspopup="menu"
+          aria-expanded={showSizes}
+          aria-controls={showSizes ? sizeMenuId : undefined}
           {...tapProps((event) => {
             event?.stopPropagation();
+            setSizesTakeFocus(isKeyboardClick(event));
             setShowSizes((prev) => !prev);
           })}
         >
@@ -182,7 +235,10 @@ export const WpOptionsPopover = ({
 
         {showSizes && (
           <SizeMenu
+            id={sizeMenuId}
             anchorEl={sizeButtonEl}
+            autoFocus={sizesTakeFocus}
+            onDismiss={closeSizes}
             activeSize={displayedSizeKey}
             onPickInlineSize={pickInlineSize}
             onPickBlockSize={pickBlockSize}
@@ -194,13 +250,17 @@ export const WpOptionsPopover = ({
 
       <PopBtn
         $danger
+        role="menuitem"
+        tabIndex={-1}
         title={t('options.remove')}
         data-testid="remove-btn"
         aria-label={t('options.removeAriaLabel')}
+        // The closure is handed to the element, not run while rendering.
+        // eslint-disable-next-line react-hooks/refs
         {...tapProps((event) => {
           event?.stopPropagation();
           onRemove?.();
-          onClose();
+          closeMenu();
         })}
       >
         <IcDelete /> {t('options.remove')}

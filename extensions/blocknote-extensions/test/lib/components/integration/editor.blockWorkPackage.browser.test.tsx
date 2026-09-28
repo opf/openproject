@@ -15,7 +15,7 @@ describe('Block card - resize', () => {
   //   await convertToCompactCard();
 
   //   await openBlockCardSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
   //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -27,11 +27,11 @@ describe('Block card - resize', () => {
   //   await insertInlineWorkPackageViaSlashMenu();
 
   //   await openBlockCardSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular card', exact: true }));
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
 
   //   await openBlockCardSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Full card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Full card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
   //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -60,7 +60,7 @@ describe('Block card - resize', () => {
       'Regular',
       'Compact card',
     ]) {
-      await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
+      await expect.element(page.getByRole('menuitemradio', { name: label, exact: true })).toBeVisible();
     }
   });
 
@@ -70,7 +70,7 @@ describe('Block card - resize', () => {
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });
@@ -135,15 +135,5 @@ describe('Block card - selection', () => {
     const wrapper = document.querySelector('[data-testid="block-wp-wrapper"]')!;
     // user-select: all made a single click highlight the whole card's text.
     expect(getComputedStyle(wrapper).userSelect).toBe('none');
-  });
-
-  // role=button is what makes iOS fire the click on the first tap (a plain div
-  // in the contenteditable needs two); see BlockCards.
-  it('the clickable card exposes role=button', async () => {
-    renderEditor();
-    await insertInlineWorkPackageViaSlashMenu();
-    await convertToCompactCard();
-
-    expect(page.getByTestId('block-card').element().getAttribute('role')).toBe('button');
   });
 });

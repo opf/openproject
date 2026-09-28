@@ -38,7 +38,9 @@
     "@blocknote/react",
     "@blocknote/mantine",
     "yjs",
-    "use-sync-external-store"
+    "use-sync-external-store",
+    "prosemirror-model",
+    "prosemirror-state"
   ],
   "scripts": {
     "dev": "vite",
@@ -88,7 +90,8 @@
   "peerDependencies": {
     "@blocknote/core": ">=0.54.2",
     "@blocknote/mantine": ">=0.54.2",
-    "@blocknote/react": ">=0.54.2"
+    "@blocknote/react": ">=0.54.2",
+    "prosemirror-state": "^1.4.4"
   },
   "peerDependenciesMeta": {
     "@blocknote/mantine": { "optional": true },
