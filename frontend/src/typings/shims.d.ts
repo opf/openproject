@@ -41,6 +41,7 @@
 import { Injector } from '@angular/core';
 
 import { OpenProject } from 'core-app/core/setup/globals/openproject';
+import type { EnjoyHintInstance } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 import { Screenfull } from 'screenfull';
 import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 import { I18n } from 'i18n-js';
@@ -63,7 +64,7 @@ declare global {
     ng2Injector:Injector;
     OpenProject:OpenProject;
     ErrorReporter:ErrorReporterBase;
-    onboardingTourInstance:any;
+    onboardingTourInstance:EnjoyHintInstance;
     screenfull:Screenfull;
     MiniProfiler?:{ pageTransition:() => void };
   }

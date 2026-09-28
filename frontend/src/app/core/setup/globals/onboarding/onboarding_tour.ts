@@ -49,14 +49,25 @@ import 'core-vendor/enjoyhint';
 import { wpFullViewOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/work_package_full_view_tour';
 import { getMetaContent } from '../global-helpers';
 
+export interface EnjoyHintOptions {
+  onStart?:() => void;
+  onEnd?:() => void;
+  onSkip?:() => void;
+}
+
+export interface EnjoyHintInstance {
+  set(steps:OnboardingStep[]):void;
+  run():void;
+}
+
 declare global {
   interface Window {
-    EnjoyHint:any;
+    EnjoyHint:new(options:EnjoyHintOptions) => EnjoyHintInstance;
   }
 }
 
 export interface OnboardingStep {
-  [key:string]:string|unknown,
+  [key:string]:unknown,
   event?:string,
   description?:string,
   selector?:string,
@@ -72,7 +83,6 @@ export interface OnboardingStep {
 }
 
 function initializeTour(storageValue:string) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
   window.onboardingTourInstance = new window.EnjoyHint({
     onStart() {
       document.querySelectorAll('#content-wrapper, #menu-sidebar')
