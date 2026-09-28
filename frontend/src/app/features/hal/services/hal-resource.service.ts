@@ -224,7 +224,7 @@ export class HalResourceService {
 
   public createHalResourceOfType<T extends HalResource = HalResource>(type:string, source:any, loaded = false) {
     const resourceClass:HalResourceClass<T> = this.getResourceClassOfType(type);
-    const initializer = (halResource:T) => initializeHalProperties(this, halResource);
+    const initializer = (halResource:HalResource) => initializeHalProperties(this, halResource);
     const resource = new resourceClass(this.injector, source, loaded, initializer, type);
 
     return resource;
@@ -237,7 +237,7 @@ export class HalResourceService {
    * @param loaded
    */
   public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded = false) {
-    const initializer = (halResource:T) => initializeHalProperties(this, halResource);
+    const initializer = (halResource:HalResource) => initializeHalProperties(this, halResource);
     const type = source._type || 'HalResource';
     const resource = new resourceClass(this.injector, source, loaded, initializer, type);
 

@@ -493,7 +493,7 @@ describe('HalResource', () => {
       });
 
       it(`should ${update} the $source property`, () => {
-        expect(resource.$source._links.values.length).toEqual(length);
+        expect((resource.$source._links.values as unknown as unknown[]).length).toEqual(length);
       });
     };
 

@@ -42,7 +42,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource, HalResourceEmbedded, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
-import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { CallableHalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
@@ -132,8 +132,8 @@ export class WorkPackageBaseResource extends HalResource {
    * bare hrefs).
    */
   public get displayId():string {
-    return this.$source.displayId?.toString()
-      ?? this.$source._links?.self?.displayId?.toString()
+    return (this.$source.displayId as string|number|undefined)?.toString()
+      ?? (this.$source._links?.self as HalLinkInterface|undefined)?.displayId?.toString()
       ?? this.id?.toString()
       ?? '';
   }
@@ -243,10 +243,10 @@ export class WorkPackageBaseResource extends HalResource {
     return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  public $initialize(source:any) {
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
-    const attachments:any = this.attachments || { $source: {}, elements: [] };
+    const attachments:unknown = this.attachments || { $source: {}, elements: [] };
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form
@@ -268,7 +268,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return the associated state to this HAL resource, if any.
    */
   public get state():InputState<this> {
-    return this.states.workPackages.get(this.id!) as any;
+    return this.states.workPackages.get(this.id!) as unknown as InputState<this>;
   }
 
   /**
@@ -282,7 +282,7 @@ export class WorkPackageBaseResource extends HalResource {
       this.apiV3Service.work_packages.id(newValue.parent).refresh();
     }
 
-    return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as any);
+    return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as unknown as WorkPackageResource);
   }
 }
 

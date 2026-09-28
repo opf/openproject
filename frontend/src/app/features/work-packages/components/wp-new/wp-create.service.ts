@@ -358,7 +358,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
         'Boolean',
         'String',
         'Text',
-        undefined].includes(schema.$source[attribute].type)) {
+        undefined].includes((schema.$source[attribute] as { type?:string }).type)) {
         links.push(attribute);
       }
     });

@@ -33,7 +33,7 @@ export class QueryFilterResource extends HalResource {
   public values:any[];
 
   public get id():string {
-    return this.$source.id || idFromLink(this.href);
+    return (this.$source.id as string) || idFromLink(this.href);
   }
 
   public set id(newId:string) {
