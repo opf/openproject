@@ -42,7 +42,7 @@ module WorkPackageTypes
 
     def reset_dialog
       respond_with_dialog(
-        WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(variant: @variant)
+        WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(context: form_editor_context)
       )
     end
 

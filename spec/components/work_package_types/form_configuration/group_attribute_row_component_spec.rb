@@ -10,8 +10,14 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
       field_format_label: "Built-in field" }
   end
 
+  def editor_context(readonly: false, exclusions: nil)
+    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant).tap do |context|
+      allow(context).to receive_messages(readonly?: readonly, exclusions:)
+    end
+  end
+
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do
-    render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2))
+    render_inline(described_class.new(attribute:, context: editor_context, index: 0, total_count: 2))
 
     expect(page).to have_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_test_selector("type-form-configuration-attribute-actions-assignee")
@@ -19,7 +25,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   it "omits the handle and actions menu when readonly", :aggregate_failures do
-    render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+    render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
@@ -27,7 +33,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   it "renders built-in attributes as secondary labels" do
-    render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+    render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
 
     expect(page).to have_css(".Label.Label--secondary", text: I18n.t("label_builtin"))
   end
@@ -36,7 +42,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   # hands it this attribute's key and label, and asks for it only in read-only mode.
   describe "the exclusion toggle" do
     def render_row(exclusions:, readonly: true)
-      render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly:, exclusions:))
+      render_inline(described_class.new(attribute:, context: editor_context(readonly:, exclusions:), index: 0, total_count: 2))
     end
 
     it "is not rendered in editable mode" do
@@ -65,7 +71,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
 
     it "shows a muted field format label" do
-      render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+      render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
 
       expect(page).to have_css(".color-fg-muted.text-small", text: attribute[:field_format_label])
     end

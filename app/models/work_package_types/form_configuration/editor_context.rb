@@ -30,13 +30,44 @@
 
 module WorkPackageTypes
   module FormConfiguration
-    class InactiveAttributesSidebarComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+    class EditorContext
+      attr_reader :form, :variant
 
-      def initialize(context:, inactive_attributes:)
-        super
-        @context = context
-        @inactive_attributes = inactive_attributes
+      def self.for_variant(variant) = new(form: variant.form_configuration, variant:)
+
+      def initialize(form:, variant: nil)
+        @form = form
+        @variant = variant
+      end
+
+      def readonly? = variant.present? && variant.linked?(TypeVariant::FORM_CONFIGURATION)
+
+      def exclusions
+        return @exclusions if defined?(@exclusions)
+
+        @exclusions = (ExclusionState.for(variant, TypeVariant::FORM_CONFIGURATION) if readonly?)
+      end
+
+      delegate :work_package_attributes, to: :owner
+
+      def attribute_groups = owner.form_attribute_groups
+
+      def required_attributes = variant&.required_attributes || []
+
+      def form_path(action = nil, **) = path(action, nil, **)
+
+      def group_path(action = nil, **) = path(action, :group, **)
+
+      def row_path(action = nil, **) = path(action, :row, **)
+
+      private
+
+      def owner = variant || form
+
+      def path(action, resource, **params)
+        helper = [action, "type_form_configuration", resource, "path"].compact.join("_")
+
+        Rails.application.routes.url_helpers.public_send(helper, **variant.path_args, **params)
       end
     end
   end

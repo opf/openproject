@@ -7,9 +7,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   let(:base) { type.default_variant }
   let(:variant) { create(:type_variant, type:, variant_name: "Mobile app bug") }
   let(:no_filter_query) { "{}" }
-  # The independent path renders whatever it is given; the read-only path ignores this and
-  # resolves the base's groups itself, so a minimal shape is enough for both.
-  let(:form_attributes) { { actives: [], inactives: [] } }
+  let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant) }
+  let(:form_attributes) { ApplicationController.helpers.form_configuration_groups(context) }
 
   before do
     base.attribute_groups = [["Reused From Source", %w[assignee]]]
@@ -18,7 +17,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   end
 
   def render_component
-    render_inline(described_class.new(variant:, form_attributes:, no_filter_query:))
+    render_inline(described_class.new(context:, form_attributes:, no_filter_query:))
   end
 
   context "when the form configuration aspect is linked" do

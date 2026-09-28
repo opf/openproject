@@ -33,14 +33,16 @@ module WorkPackageTypes
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(variant:, form_attributes:, no_filter_query:)
-      super(variant)
-      @variant = variant
+    def initialize(context:, form_attributes:, no_filter_query:)
+      super(context.form)
+      @context = context
       @form_attributes = form_attributes
       @no_filter_query = no_filter_query
     end
 
-    def readonly? = false
+    delegate :readonly?, to: :@context
+
+    def exclusion_state = @context.exclusions
 
     def ee_available?
       EnterpriseToken.allows_to?(:edit_attribute_groups)
@@ -60,9 +62,7 @@ module WorkPackageTypes
       {
         controller: "admin--type-form-configuration--main admin--type-form-configuration--rows-drag-and-drop",
         "admin--type-form-configuration--main-no-filter-query-value": @no_filter_query,
-        "admin--type-form-configuration--main-add-group-url-value": add_group_type_form_configuration_group_path(
-          **@variant.path_args
-        ),
+        "admin--type-form-configuration--main-add-group-url-value": @context.group_path(:add_group),
         "admin--type-form-configuration--rows-drag-and-drop-handle-selector-value": ".attribute-handle"
       }
     end
@@ -83,20 +83,17 @@ module WorkPackageTypes
       group_components = groups.map.with_index do |group, i|
         WorkPackageTypes::FormConfiguration::GroupComponent.new(
           group:,
-          variant: @variant,
+          context: @context,
           ee_available: ee_available?,
           first: i == 0,
-          last: i == groups.length - 1,
-          readonly: readonly?,
-          exclusions: nil
+          last: i == groups.length - 1
         )
       end
 
       WorkPackageTypes::FormConfiguration::MainContentComponent.new(
-        variant: @variant,
+        context: @context,
         group_components:,
-        ee_available: ee_available?,
-        readonly: readonly?
+        ee_available: ee_available?
       )
     end
   end

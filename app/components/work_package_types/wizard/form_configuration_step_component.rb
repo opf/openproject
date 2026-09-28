@@ -41,6 +41,8 @@ module WorkPackageTypes
 
       private
 
+      def context = @context ||= WorkPackageTypes::FormConfiguration::EditorContext.for_variant(model)
+
       def reload_url
         type_creation_wizard_path(**model.path_args, step: :form_configuration)
       end
