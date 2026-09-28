@@ -112,7 +112,7 @@ class EditField
   # multi-select field (ng-select in multiple mode), reading its value chips.
   def expect_selected_values(*names)
     expect(field_container).to have_css(".ng-value-label", count: names.size)
-    names.each { |name| expect(field_container).to have_css(".ng-value-label", text: name) }
+    names.each { expect(field_container).to have_css(".ng-value-label", text: it) }
   end
 
   ##

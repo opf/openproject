@@ -26,10 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { keyBy } from 'lodash-es';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { firstValueFrom, Observable, throwError } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -37,6 +38,8 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import {
   LabelsAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter-template.component';
@@ -64,12 +67,16 @@ export interface IApiLabel {
 export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabelAutocompleteItem> implements OnInit {
   getOptionsFn = this.getLabels.bind(this);
 
-  // Latest options from the server; results$ is cold and re-runs the request per subscriber.
-  public readonly loadedLabels$ = new BehaviorSubject<ILabelAutocompleteItem[]>([]);
+  readonly toastService = inject(ToastService);
+
+  readonly halNotification = inject(HalResourceNotificationService);
+
+  private creatingLabel = false;
 
   ngOnInit():void {
     super.ngOnInit();
     this.applyTemplates(LabelsAutocompleterTemplateComponent);
+    this.addTag = this.createLabel.bind(this);
   }
 
   public getLabels(searchTerm?:string):Observable<ILabelAutocompleteItem[]> {
@@ -88,8 +95,35 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
       .get<IHALCollection<IApiLabel>>(filteredURL.toString())
       .pipe(
         map((res) => res._embedded.elements.map((label) => ({ id: label.id, name: label.name, href: label._links.self.href }))),
-        tap((labels) => this.loadedLabels$.next(labels)),
       );
+  }
+
+  public createLabel(searchTerm:string):Promise<ILabelAutocompleteItem>|undefined {
+    const name = searchTerm.trim();
+    if (!name || this.creatingLabel) {
+      return undefined;
+    }
+
+    this.creatingLabel = true;
+
+    return firstValueFrom(
+      this
+        .http
+        .post<IApiLabel>(this.apiV3Service.labels.toString(), { name })
+        .pipe(
+          map((label) => ({ id: label.id, name: label.name, href: label._links.self.href })),
+          catchError((error:unknown) => {
+            if (error instanceof HttpErrorResponse && error.status === 403) {
+              this.toastService.addError(this.I18n.t('js.autocompleter.create_label_forbidden'));
+            } else {
+              this.halNotification.handleRawError(error);
+            }
+
+            return throwError(() => error);
+          }),
+          finalize(() => { this.creatingLabel = false; }),
+        ),
+    );
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {

@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild, inject } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -37,5 +38,11 @@ import {
   standalone: false,
 })
 export class LabelsAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
-  @ViewChild('footerTemplate') footerTemplate?:TemplateRef<Element>;
+  @ViewChild('tagTemplate') tagTemplate?:TemplateRef<Element>;
+
+  readonly I18n = inject(I18nService);
+
+  public createLabelText(searchTerm:string):string {
+    return this.I18n.t('js.autocompleter.create_label', { name: (searchTerm ?? '').trim() });
+  }
 }

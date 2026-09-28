@@ -134,6 +134,17 @@
       </ng-template>
     }
 
+    @if (tagTemplate) {
+      <ng-template
+        ng-tag-tmp
+        let-search="searchTerm"
+      >
+        <ng-container [ngTemplateOutlet]="tagTemplate"
+          [ngTemplateOutletContext]="{ search:search }"
+         />
+      </ng-template>
+    }
+
     @if (notFoundTemplate) {
       <ng-template
         ng-notfound-tmp
