@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe DirectFogUploader do
+RSpec.describe DirectFogUploader, :with_direct_uploads do
   describe ".direct_fog_hash" do
     let(:attachment) do
       Attachment.new(id: 42, content_type: "image/png").tap do |attachment|
@@ -44,7 +44,11 @@ RSpec.describe DirectFogUploader do
       expect(expiration).to be_within(1.minute).of(4.hours.from_now)
     end
 
-    context "with a configured expiration", with_config: { fog_direct_upload_expires_in: 600 } do
+    context "with a configured expiration" do
+      before do
+        with_config(fog_direct_upload_expires_in: 600)
+      end
+
       it "expires after the configured time" do
         expect(expiration).to be_within(1.minute).of(10.minutes.from_now)
       end

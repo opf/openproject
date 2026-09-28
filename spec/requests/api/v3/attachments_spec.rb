@@ -82,7 +82,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:container_href) { nil }
 
-    describe "GET /uploaded" do
+    describe "GET /uploaded", :with_direct_uploads do
       include DirectUploadHelpers
 
       let(:status) { :prepared }

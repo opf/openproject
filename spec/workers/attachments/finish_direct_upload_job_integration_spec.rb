@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
+RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_uploads, type: :job do
   include DirectUploadHelpers
 
   shared_let(:user) { create(:admin) }

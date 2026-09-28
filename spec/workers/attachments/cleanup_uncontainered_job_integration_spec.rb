@@ -68,7 +68,7 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
       .to contain_exactly(containered_attachment, new_uncontainered_attachment, finished_upload, new_pending_upload)
   end
 
-  it "removes the staged direct uploads of the removed pending uploads only" do
+  it "removes the staged direct uploads of the removed pending uploads only", :with_direct_uploads do
     stage_direct_upload(old_pending_upload)
     stage_direct_upload(new_pending_upload)
 
