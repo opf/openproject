@@ -50,7 +50,6 @@ See COPYRIGHT and LICENSE files for more details.
           t(:button_edit)
         end
       end
-      helpers.watcher_action_button(header, @page.object)
       unless @page.current_version?
         header.with_action_button(
           tag: :a,
@@ -66,6 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
     end
+
     header.with_action_menu(
       menu_arguments: { anchor_align: :end },
       button_arguments: {
@@ -74,122 +74,148 @@ See COPYRIGHT and LICENSE files for more details.
         data: { "test-selector": "wiki-more-dropdown-menu" }
       }
     ) do |menu|
-      if @editable
-        if User.current.allowed_in_project?(:manage_wiki, @project)
-          menu.with_item(
-            label: lock_data[:label],
-            tag: :a,
-            size: :medium,
-            content_arguments: { data: { turbo_method: :post } },
-            href: url_for(controller: "wiki", action: "protect", id: @page, protected: lock_data[:protected])
-          ) do |item|
-            item.with_leading_visual_icon(icon: lock_data[:icon])
-          end
-        end
-        if @page.current_version?
+      with_item_group(menu) do
+        if @editable
           if User.current.allowed_in_project?(:edit_wiki_pages, @project)
             menu.with_item(
-              label: t(:button_rename),
+              label: t(:create_wiki_page),
               tag: :a,
               size: :medium,
-              data: { "test-selector": "wiki-rename-action-menu-item" },
-              href: url_for(controller: "wiki", action: "rename", id: @page)
+              href: url_for(controller: "wiki", action: "new_child", id: @page)
             ) do |item|
-              item.with_leading_visual_icon(icon: "arrow-switch")
+              item.with_leading_visual_icon(icon: :plus)
             end
           end
+
+          helpers.watcher_menu_item(menu, @page.object)
+        end
+
+        with_item_group(menu) do
           if User.current.allowed_in_project?(:manage_wiki, @project)
             menu.with_item(
-              label: t(:button_change_parent_page),
+              label: lock_data[:label],
               tag: :a,
               size: :medium,
-              href: url_for(controller: "wiki", action: "edit_parent_page", id: @page)
+              content_arguments: { data: { turbo_method: :post } },
+              href: url_for(controller: "wiki", action: "protect", id: @page, protected: lock_data[:protected])
             ) do |item|
-              item.with_leading_visual_icon(icon: :link)
+              item.with_leading_visual_icon(icon: lock_data[:icon])
+            end
+          end
+          if @page.current_version?
+            if User.current.allowed_in_project?(:edit_wiki_pages, @project)
+              menu.with_item(
+                label: t(:button_rename),
+                tag: :a,
+                size: :medium,
+                data: { "test-selector": "wiki-rename-action-menu-item" },
+                href: url_for(controller: "wiki", action: "rename", id: @page)
+              ) do |item|
+                item.with_leading_visual_icon(icon: "arrow-switch")
+              end
+            end
+            if User.current.allowed_in_project?(:manage_wiki, @project)
+              menu.with_item(
+                label: t(:button_change_parent_page),
+                tag: :a,
+                size: :medium,
+                href: url_for(controller: "wiki", action: "edit_parent_page", id: @page)
+              ) do |item|
+                item.with_leading_visual_icon(icon: :"op-arrow-in")
+              end
+            end
+          end
+          if show_rollback?
+            menu.with_item(
+              label: t(:button_rollback),
+              href: url_for(controller: "wiki", action: "edit", id: @page, version: @page.version)
+            ) do |item|
+              item.with_leading_visual_icon(icon: :x)
+            end
+          end
+          if User.current.allowed_in_project?(:view_wiki_edits, @project)
+            menu.with_item(
+              label: t(:label_history),
+              href: url_for(controller: "wiki", action: "history", id: @page),
+              data: { "test-selector": "wiki-history-action-menu-item" }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :history)
             end
           end
         end
 
-        if User.current.allowed_in_project?(:manage_wiki, @project)
+        with_item_group(menu) do
+          if User.current.allowed_in_project?(:manage_wiki, @project)
+            menu.with_item(
+              label: t(:button_manage_menu_entry),
+              href: url_for(controller: "/wiki_menu_items", action: "edit", project_id: @project.identifier, id: @page),
+              data: { "test-selector": "wiki-configure-menu-action-menu-item" }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :"sidebar-collapse")
+            end
+          end
+
           menu.with_item(
-            label: t(:button_delete),
-            scheme: :danger,
             tag: :a,
-            size: :medium,
-            content_arguments: { data: { turbo_confirm: t(:text_are_you_sure), turbo_method: :delete } },
-            href: url_for(controller: "wiki", action: "destroy", id: @page),
-            data: { "test-selector": "wiki-delete-action-menu-item" }
+            label: t(:label_table_of_contents),
+            title: t("wiki.print_hint"),
+            href: url_for({ controller: "/wiki", action: "index", project_id: @project.identifier, id: @page })
           ) do |item|
-            item.with_leading_visual_icon(icon: :trash)
+            item.with_leading_visual_icon(icon: "list-ordered")
           end
         end
-        if show_rollback?
+
+        with_item_group(menu) do
           menu.with_item(
-            label: t(:button_rollback),
-            href: url_for(controller: "wiki", action: "edit", id: @page, version: @page.version)
-          ) do |item|
-            item.with_leading_visual_icon(icon: :x)
-          end
-        end
-        if User.current.allowed_in_project?(:view_wiki_edits, @project)
-          menu.with_item(
-            label: t(:label_history),
-            href: url_for(controller: "wiki", action: "history", id: @page),
-            data: { "test-selector": "wiki-history-action-menu-item" }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :history)
-          end
-        end
-        if User.current.allowed_in_project?(:manage_wiki, @project)
-          menu.with_item(
-            label: t(:button_manage_menu_entry),
-            href: url_for(controller: "/wiki_menu_items", action: "edit", project_id: @project.identifier, id: @page),
-            data: { "test-selector": "wiki-configure-menu-action-menu-item" }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :gear)
-          end
-        end
-        menu.with_item(
-          tag: :a,
-          label: t(:button_print),
-          content_arguments: { data: {
-            controller: "print",
-            action: "print#triggerPrint"
-          } },
-          title: t("wiki.print_hint"),
-          href: ""
-        ) do |item|
-          item.with_leading_visual_icon(icon: "op-printer")
-        end
-        if User.current.allowed_in_project?(:view_wiki_pages, @project)
-          menu.with_sub_menu_item(
             tag: :a,
-            label: t("js.label_export"),
-            title: t("js.label_export"),
-            size: :auto,
-            test_selector: "export-button"
+            label: t(:button_print),
+            content_arguments: { data: {
+              controller: "print",
+              action: "print#triggerPrint"
+            } },
+            title: t("wiki.print_hint"),
+            href: ""
           ) do |item|
-            item.with_leading_visual_icon(icon: :download)
-            if show_atom_link?
-              item.with_item(label: t("export.format.atom"), tag: :a, href: export_atom_link) do |subitem|
-                subitem.with_leading_visual_icon(icon: :"op-file-atom")
+            item.with_leading_visual_icon(icon: "op-printer")
+          end
+          if User.current.allowed_in_project?(:view_wiki_pages, @project)
+            menu.with_sub_menu_item(
+              tag: :a,
+              label: t("js.label_export"),
+              title: t("js.label_export"),
+              size: :auto,
+              test_selector: "export-button"
+            ) do |item|
+              item.with_leading_visual_icon(icon: :download)
+              if show_atom_link?
+                item.with_item(label: t("export.format.atom"), tag: :a, href: export_atom_link) do |subitem|
+                  subitem.with_leading_visual_icon(icon: :"op-file-atom")
+                end
+              end
+              item.with_item(
+                label: t("text_formatting.markdown"), tag: :a, href: export_markdown_link,
+                test_selector: "markdown-export"
+              ) do |subitem|
+                subitem.with_leading_visual_icon(icon: :file)
               end
             end
-            item.with_item(
-              label: t("text_formatting.markdown"), tag: :a, href: export_markdown_link,
-              test_selector: "markdown-export"
-            ) do |subitem|
-              subitem.with_leading_visual_icon(icon: :file)
-            end
           end
         end
-        menu.with_item(
-          tag: :a,
-          label: t(:label_table_of_contents),
-          title: t("wiki.print_hint"),
-          href: url_for({ controller: "/wiki", action: "index", project_id: @project.identifier, id: @page })
-        ) do |item|
-          item.with_leading_visual_icon(icon: "op-view-list")
+
+        with_item_group(menu) do
+          if User.current.allowed_in_project?(:manage_wiki, @project)
+            menu.with_item(
+              label: t(:button_delete),
+              scheme: :danger,
+              tag: :a,
+              size: :medium,
+              content_arguments: { data: { turbo_confirm: t(:text_are_you_sure), turbo_method: :delete } },
+              href: url_for(controller: "wiki", action: "destroy", id: @page),
+              data: { "test-selector": "wiki-delete-action-menu-item" }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :trash)
+            end
+          end
         end
       end
     end

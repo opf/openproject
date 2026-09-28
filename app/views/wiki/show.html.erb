@@ -27,9 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= render(WikiPages::ShowPageHeaderComponent.new(page: @page, project: @project, editable: @editable)) %>
-<% if @show_create %>
-  <%= render(WikiPages::ShowSubHeaderComponent.new(page: @page, project: @project)) %>
-<% end %>
 
 <%= call_hook :wiki_navigation %>
 <% if @page.current_version? %>

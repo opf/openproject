@@ -100,7 +100,6 @@ class WikiController < ApplicationController
     end
 
     @editable = editable?
-    @show_create = show_create?
   end
 
   def new; end
@@ -119,6 +118,7 @@ class WikiController < ApplicationController
 
   def menu
     @page = @wiki.pages.find_by(id: params[:current_page_id])
+    @show_create = show_create?
 
     render layout: nil
   end
@@ -358,7 +358,7 @@ class WikiController < ApplicationController
   end
 
   def show_create?
-    @editable && @page && User.current.allowed_in_project?(:edit_wiki_pages, @project)
+    @page && editable? && User.current.allowed_in_project?(:edit_wiki_pages, @project)
   end
 
   private
