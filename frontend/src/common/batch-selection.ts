@@ -135,6 +135,11 @@ export class BatchSelection {
     this.selectionAnchor = null;
   }
 
+  clearAnchor():void {
+    this.selectionAnchor = null;
+    this.rangeBaseline = null;
+  }
+
   /**
    * Points the existing anchor at a different list.
    *

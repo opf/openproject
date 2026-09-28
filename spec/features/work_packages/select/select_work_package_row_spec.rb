@@ -105,7 +105,7 @@ RSpec.describe "Select work package row", :js, :selenium do
   end
 
   def check_all
-    find("body").send_keys [:control, "a"]
+    wp_table.select_all_work_packages
     expect_row_checked(1, 2, 3)
     expect(page).to have_no_css "#work-package-context-menu"
   end

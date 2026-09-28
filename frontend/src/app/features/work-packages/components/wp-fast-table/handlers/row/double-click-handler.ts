@@ -88,6 +88,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Save the currently focused work package
+    this.wpTableSelection.ensureSelected(wpId);
     this.wpTableFocus.updateFocus(wpId);
 
     view.itemClicked.emit({ workPackageId: wpId, double: true });

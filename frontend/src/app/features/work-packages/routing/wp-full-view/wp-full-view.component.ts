@@ -100,6 +100,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
       this.recentItemsService.add(this.workPackage.id);
 
       // Set Focused WP
+      this.wpTableSelection.ensureSelected(this.workPackage.id);
       this.wpTableFocus.updateFocus(this.workPackage.id);
     }
 
