@@ -51,7 +51,6 @@ declare namespace api {
  */
 
 interface Function {
-  $link?:any;
   name:string;
   _type:string;
 }

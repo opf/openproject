@@ -27,7 +27,7 @@
 //++
 
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalResourceEmbedded } from 'core-app/features/hal/resources/hal-resource';
 import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -37,7 +37,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
-export interface QueryResourceEmbedded {
+export interface QueryResourceEmbedded extends HalResourceEmbedded {
   results:WorkPackageCollectionResource;
   columns:QueryColumn[];
   groupBy:QueryGroupByResource|undefined;

@@ -31,6 +31,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
@@ -53,7 +54,7 @@ export class QueryFilterInstanceResource extends HalResource {
 
     this.$links.schema = {
       href: `${this.pathHelper.api.v3.apiV3Base}/queries/filter_instance_schemas/${idFromLink(this.filter.href)}`,
-    };
+    } as unknown as CallableHalLink;
   }
 
   public get id():string {

@@ -33,8 +33,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 export function renderHierarchyItem(item:HalResource, multiple = false):Observable<HTMLSpanElement> {
-  const customFieldItemLinks = item.$links as { branch:() => HalResource[] };
-  return from(customFieldItemLinks.branch())
+  return from(item.$links.branch() as Promise<CollectionResource>)
     .pipe(
       map((ancestors:CollectionResource) => spansFromAncestors(ancestors)),
       map((spans) => {

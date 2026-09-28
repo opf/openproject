@@ -26,14 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface RelationResourceLinks {
-  delete():Promise<any>;
+  delete:CallableHalLink;
 
-  updateImmediately(payload:any):Promise<any>;
+  updateImmediately:CallableHalLink<RelationResource>;
 }
 
 export class RelationResource extends HalResource {
@@ -77,7 +78,7 @@ export class RelationResource extends HalResource {
   public reverseType:string;
 
   // Links
-  public $links:RelationResourceLinks;
+  public $links:RelationResourceLinks & HalResourceLinks;
 
   public to:WorkPackageResource;
 

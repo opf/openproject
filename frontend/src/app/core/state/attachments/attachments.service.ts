@@ -41,7 +41,6 @@ import {
 } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
@@ -202,7 +201,7 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
   }
 
   private getDirectUploadLink(resource:HalResource):string|null {
-    const links = resource.$links as { prepareAttachment:HalLink };
+    const links = resource.$links;
 
     if (links.prepareAttachment) {
       return links.prepareAttachment.href!;

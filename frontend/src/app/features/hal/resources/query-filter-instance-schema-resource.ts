@@ -26,10 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { merge } from 'lodash-es';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
@@ -37,9 +37,9 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
 import { SchemaDependencyResource } from 'core-app/features/hal/resources/schema-dependency-resource';
 import { SchemaAttributeObject } from 'core-app/features/hal/resources/schema-attribute-object';
 
-export interface QueryFilterInstanceSchemaResourceLinks {
-  self:HalLink;
-  filter:QueryFilterResource;
+export interface QueryFilterInstanceSchemaResourceLinks extends HalResourceLinks {
+  self:CallableHalLink<QueryFilterInstanceSchemaResource>;
+  filter:CallableHalLink<QueryFilterResource>;
 }
 
 export class QueryFilterInstanceSchemaResource extends SchemaResource {

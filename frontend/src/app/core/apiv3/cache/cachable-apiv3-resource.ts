@@ -137,7 +137,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
         switchMap((resource) => {
           if (resource.$links.schema) {
             return this.schemaCache
-              .requireAndStream(resource.$links.schema.href)
+              .requireAndStream(resource.$links.schema.href!)
               .pipe(
                 take(1),
                 mapTo(resource),
@@ -145,7 +145,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
           }
           return of(resource);
         }),
-      ) as any; // T does not extend HalResource for virtual endpoints such as board, thus we need to cast here
+      ) as unknown as Observable<T>; // T does not extend HalResource for virtual endpoints such as board, thus we need to cast here
   }
 
   /**

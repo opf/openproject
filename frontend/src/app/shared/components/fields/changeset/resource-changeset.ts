@@ -167,12 +167,10 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected updateForm():Promise<FormResource> {
     const payload = this.buildPayloadFromChanges();
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!this.pristineResource.$links.update) {
       return Promise.reject();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const promise = this.pristineResource
       .$links
       .update(payload)

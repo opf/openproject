@@ -62,7 +62,6 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
@@ -191,7 +190,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return this.pathHelperService.fileLinksPath();
     }
 
-    return (this.resource.$links as { addFileLink:IHalResourceLink }).addFileLink.href;
+    return this.resource.$links.addFileLink.href!;
   }
 
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {

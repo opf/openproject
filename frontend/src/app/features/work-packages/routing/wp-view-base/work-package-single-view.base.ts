@@ -191,7 +191,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // lazy load the work package's project, needed when initializing
     // the work package resource from split view.
     this.projectsResourceService
-      .requireEntity((this.workPackage.$links.project as HalResource).href!)
+      .requireEntity(this.workPackage.$links.project.href!)
       .subscribe(
         () => {},
         (error:HttpErrorResponse) => {

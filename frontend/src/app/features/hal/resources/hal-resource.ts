@@ -32,7 +32,7 @@ import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { CallableHalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { cloneDeep } from 'lodash-es';
@@ -46,6 +46,10 @@ export type HalResourceClass<T extends HalResource = HalResource> = new(
   _halInitializer:(_:T) => void,
   _$halType:string,
 ) => T;
+
+export type HalResourceLinks = Record<string, CallableHalLink>;
+
+export type HalResourceEmbedded = Record<string, unknown>;
 
 export class HalResource {
   // TODO this is the source of many issues in the frontend
@@ -101,9 +105,9 @@ export class HalResource {
     return { _links: { self } };
   }
 
-  public $links:any = {};
+  public $links:HalResourceLinks = {};
 
-  public $embedded:any = {};
+  public $embedded:HalResourceEmbedded = {};
 
   public $self:Promise<this>;
 

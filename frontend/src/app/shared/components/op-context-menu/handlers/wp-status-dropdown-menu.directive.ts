@@ -36,6 +36,7 @@ import {
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import {
   Highlighting
@@ -89,7 +90,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
   private updateStatus(status:HalResource) {
     const change = this.halEditing.changeFor(this.workPackage);
-    change.projectedResource.status = status;
+    change.projectedResource.status = status as StatusResource;
 
     if (!isNewResource(this.workPackage)) {
       this.halEditing

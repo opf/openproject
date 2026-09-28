@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 
 export interface IWorkPackageTimestampMeta {
   exists:boolean;
@@ -43,15 +43,5 @@ export class IWorkPackageTimestamp extends HalResource {
 
   _meta:IWorkPackageTimestampMeta;
 
-  $links:{
-    schema?:HalResource;
-    self:HalResource;
-    status?:HalResource;
-    assignee?:HalResource;
-    accountable?:HalResource;
-    project?:HalResource;
-    type?:HalResource;
-    priority?:HalResource;
-    version?:HalResource;
-  };
+  $links:HalResourceLinks;
 }

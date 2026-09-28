@@ -106,7 +106,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   public async save<V extends HalResource, T extends ResourceChangeset<V>>(change:T):Promise<ResourceChangesetCommit<V>> {
     // Form the payload we're going to save
     const payload = await change.buildRequestPayload();
-    const savedResource = await change.pristineResource.$links.updateImmediately(payload);
+    const savedResource = await change.pristineResource.$links.updateImmediately(payload) as V;
 
     // Initialize any potentially new HAL values
     savedResource.retainFrom(change.pristineResource);

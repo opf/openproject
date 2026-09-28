@@ -26,17 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import idFromLink from '../helpers/id-from-link';
 
 export interface GridResourceLinks {
-  update(payload:unknown):Promise<unknown>;
-  updateImmediately(payload:unknown):Promise<unknown>;
-  delete():Promise<unknown>;
-  project:IHalResourceLink;
+  update:CallableHalLink;
+  updateImmediately:CallableHalLink;
+  delete:CallableHalLink;
+  project:CallableHalLink;
 }
 
 export class GridBaseResource extends HalResource {
@@ -48,7 +48,7 @@ export class GridBaseResource extends HalResource {
 
   public columnCount:number;
 
-  public $links:GridResourceLinks;
+  public $links:GridResourceLinks & HalResourceLinks;
 
   public get projectId():string|undefined {
     if (this.$links.project) {

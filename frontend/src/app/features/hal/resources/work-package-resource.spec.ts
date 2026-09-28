@@ -44,6 +44,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { of } from 'rxjs';
@@ -264,7 +265,7 @@ describe('WorkPackage', () => {
     });
 
     it('when the work package has an `addAttachment` link', () => {
-      workPackage.$links.addAttachment = () => Promise.resolve();
+      workPackage.$links.addAttachment = (() => Promise.resolve()) as unknown as CallableHalLink;
 
       expect(workPackage.canAddAttachments).toEqual(true);
     });
