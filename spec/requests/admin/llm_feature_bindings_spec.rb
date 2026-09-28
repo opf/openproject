@@ -146,6 +146,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         .to eq("qwen3.6-27b")
     end
 
+    it "refuses a model the server does not offer" do
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "no-such-model" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "description_assistant")).to be_nil
+      expect(flash[:error]).to include("is not offered by the configured LLM server")
+    end
+
     it "treats a blank choice as inheriting the default" do
       connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
 

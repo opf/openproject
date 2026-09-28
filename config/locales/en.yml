@@ -780,6 +780,7 @@ en:
               not_registered: "does not belong to a known AI feature."
             model_id:
               locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
+              not_available: "is not offered by the configured LLM server."
         llm_model:
           attributes:
             external_id:

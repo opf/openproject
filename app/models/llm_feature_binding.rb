@@ -49,6 +49,7 @@ class LlmFeatureBinding < ApplicationRecord
   validates :feature_key, presence: true, uniqueness: { scope: :llm_connection_id }
   validates :dimensions, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validate :feature_registered
+  validate :model_offered_by_connection, if: :model_id_changed?
   validate :embedding_settings_only_for_embedding_features
   validate :locked_settings_unchanged
 
@@ -97,6 +98,15 @@ class LlmFeatureBinding < ApplicationRecord
     return if feature.present?
 
     errors.add(:feature_key, :not_registered)
+  end
+
+  # Only checked when it changes, so a catalogue that shrinks underneath a stored
+  # binding does not block unrelated saves; #dangling? reports that state.
+  def model_offered_by_connection
+    return if model_id.blank?
+    return if llm_connection.models.active.exists?(external_id: model_id)
+
+    errors.add(:model_id, :not_available)
   end
 
   def embedding_settings_only_for_embedding_features
