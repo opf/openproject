@@ -116,7 +116,7 @@ export class WorkPackagesListChecksumService {
 
   public executeIfOutdated(newId:string|null,
     newChecksum:string|null,
-    callback:Function) {
+    callback:() => void) {
     if (this.isUninitialized() || this.isOutdated(newId, newChecksum)) {
       this.set(newId, newChecksum);
 
