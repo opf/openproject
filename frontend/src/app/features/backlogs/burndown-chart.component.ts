@@ -60,6 +60,12 @@ const Y_AXIS_HEADROOM = 1.1;
 
 const MINUTE_IN_MS = 60 * 1000;
 
+// The legend reads in the order a reader meets the series: what is left, where that is heading,
+// the days nothing was expected on, and what was planned. Datasets are ordered by what has to be
+// drawn over what instead, so the two cannot be the same list.
+const NON_WORKING_LEGEND_KEY = 'non-working-days';
+const LEGEND_ORDER:string[] = ['remaining', 'projection', NON_WORKING_LEGEND_KEY, 'guideline'];
+
 function cssVariable(name:string, fallback:string):string {
   return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
 }
@@ -222,24 +228,35 @@ export class BurndownChartComponent {
   }
 
   private legendLabels(chart:Chart):LegendItem[] {
-    const datasetLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+    const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
 
-    if (this.parsed().nonWorkingIntervals.length === 0) {
-      return datasetLabels;
+    if (this.parsed().nonWorkingIntervals.length > 0) {
+      labels.push(this.nonWorkingLegendItem(chart));
     }
 
+    return labels.sort((a, b) => this.legendRank(a) - this.legendRank(b));
+  }
+
+  private nonWorkingLegendItem(chart:Chart):LegendItem {
     const bandColor = cssVariable('--borderColor-muted', '#d0d7de');
 
-    return [
-      ...datasetLabels,
-      {
-        text: this.i18n.t('js.burndown.non_working_day'),
-        fillStyle: bandColor,
-        strokeStyle: bandColor,
-        lineWidth: 0,
-        hidden: this.nonWorkingOptions(chart).hidden ?? false,
-      },
-    ];
+    return {
+      text: this.i18n.t('js.burndown.non_working_day'),
+      fillStyle: bandColor,
+      strokeStyle: bandColor,
+      lineWidth: 0,
+      hidden: this.nonWorkingOptions(chart).hidden ?? false,
+    };
+  }
+
+  // The bands carry no dataset index, which is also how the toggle tells them apart.
+  private legendRank(item:LegendItem):number {
+    const key = item.datasetIndex === undefined
+      ? NON_WORKING_LEGEND_KEY
+      : this.parsed().series[item.datasetIndex]?.id;
+    const rank = LEGEND_ORDER.indexOf(key ?? '');
+
+    return rank === -1 ? LEGEND_ORDER.length : rank;
   }
 
   // The bands are drawn by a plugin rather than a dataset, so their entry carries no dataset
