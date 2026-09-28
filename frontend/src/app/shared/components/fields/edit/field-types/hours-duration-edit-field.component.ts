@@ -77,7 +77,7 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
     return moment.duration(value, 'hours');
   }
 
-  public formatter(value:null|string):number|null {
+  public formatter(value:unknown):number|null {
     if (value === null) {
       return null;
     }

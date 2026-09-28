@@ -107,21 +107,15 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       includeNonWorkingDays,
       scheduleManually } } = event as { detail:{ duration:number, startDate:Date, dueDate:Date, includeNonWorkingDays:boolean, scheduleManually:boolean } };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.duration = duration ? this.timezoneService.toISODuration(duration, 'days') : null;
     // debugger;
     if (this.isMilestone()) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.date = startDate;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.dueDate = dueDate;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.startDate = startDate;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.ignoreNonWorkingDays = includeNonWorkingDays;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.scheduleManually = scheduleManually;
 
     this.onModalClosed();
