@@ -34,7 +34,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
     render_inline(described_class.new(group:, context: editor_context, ee_available: true, first: true, last: true))
 
     expect(page).to have_element "data-group-key": "details" do |wrapper|
-      expect(wrapper["data-update-query-url"]).to end_with("/form_configuration/group/update_query?key=details")
+      expect(wrapper["data-update-query-url"])
+        .to end_with("/forms/#{variant.form_configuration_id}/group/update_query?key=details")
     end
   end
 

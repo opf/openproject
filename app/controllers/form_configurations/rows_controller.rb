@@ -28,23 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class FormConfigurationTabController < BaseTabController
+module FormConfigurations
+  class RowsController < ApplicationController
     include TypesHelper
     include OpTurbo::ComponentStream
     include WorkPackageTypes::FormConfigurationComponentStreams
 
-    current_menu_item [:edit, :toggle_required] do
-      :types
+    before_action :require_admin
+    before_action :load_form_configuration
+
+    def move
+      respond_to_row_update(row_update_service.call(move_to: params[:move_to]))
     end
 
-    def edit; end
+    def drop
+      respond_to_row_update(row_update_service.call(target_id: params[:target_id], position: params[:position]))
+    end
 
-    def toggle_required
-      call = ::WorkPackageTypes::FormConfigurationRows::ToggleRequiredService
-        .new(user: current_user, variant: @variant, row_key: params[:row_key])
+    def destroy
+      call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
+        .new(user: current_user, form: @form_configuration, row_key: params[:row_key])
         .call
 
+      respond_to_row_update(call)
+    end
+
+    private
+
+    def row_update_service
+      ::WorkPackageTypes::FormConfigurationRows::UpdateService
+        .new(user: current_user, form: @form_configuration, row_key: params[:row_key])
+    end
+
+    def respond_to_row_update(call)
       if call.success?
         update_form_configuration_via_turbo_stream
       else
@@ -52,6 +68,14 @@ module WorkPackageTypes
       end
 
       respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
+    end
+
+    def load_form_configuration
+      @form_configuration = FormConfiguration.find(params.expect(:form_configuration_id))
+    end
+
+    def form_editor_context
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form: @form_configuration)
     end
   end
 end

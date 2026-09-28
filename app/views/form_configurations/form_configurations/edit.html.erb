@@ -32,3 +32,13 @@ See COPYRIGHT and LICENSE files for more details.
 <% model_class = ::FormConfiguration %>
 <%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @form_configuration, model_class:)) %>
 <%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @form_configuration, model_class:)) %>
+
+<% context = form_editor_context %>
+<% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
+<%= render(
+      WorkPackageTypes::FormConfigurationComponent.new(
+        context:,
+        form_attributes: form_configuration_groups(context),
+        no_filter_query:
+      )
+    ) %>

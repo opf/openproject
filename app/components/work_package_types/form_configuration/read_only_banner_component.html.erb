@@ -27,23 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<%=
+  render(Primer::Alpha::Banner.new(icon: :info, mb: 3, test_selector: "form-configuration-read-only")) do |banner|
+    if editable_here?
+      banner.with_action_button(
+        tag: :a,
+        href: helpers.edit_form_configuration_path(form),
+        data: { turbo_frame: "_top" }
+      ) { t("form_configurations.tab.read_only.edit_action") }
+    end
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
-
-<% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
-<%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_form_configuration_path(**@variant.path_args)
-      )
-    ) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::FORM_CONFIGURATION)) %>
-  <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context: form_editor_context)) %>
-  <%= render(
-        WorkPackageTypes::FormConfigurationComponent.new(
-          context: form_editor_context,
-          form_attributes: form_configuration_groups(form_editor_context),
-          no_filter_query:
-        )
-      ) %>
-<% end %>
+    t("form_configurations.tab.read_only.text_html", name: form.name)
+  end
+%>

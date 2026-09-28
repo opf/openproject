@@ -40,12 +40,14 @@ module WorkPackageTypes
         @variant = variant
       end
 
-      def readonly? = variant.present? && variant.linked?(TypeVariant::FORM_CONFIGURATION)
+      def readonly? = variant.present?
+
+      def toggles_required? = variant.present?
 
       def exclusions
         return @exclusions if defined?(@exclusions)
 
-        @exclusions = (ExclusionState.for(variant, TypeVariant::FORM_CONFIGURATION) if readonly?)
+        @exclusions = (ExclusionState.for(variant, TypeVariant::FORM_CONFIGURATION) if variant)
       end
 
       delegate :work_package_attributes, to: :owner
@@ -54,21 +56,27 @@ module WorkPackageTypes
 
       def required_attributes = variant&.required_attributes || []
 
-      def form_path(action = nil, **) = path(action, nil, **)
+      def reset_dialog_path = routes.reset_dialog_form_configuration_path(form)
 
-      def group_path(action = nil, **) = path(action, :group, **)
+      def reset_path = routes.reset_form_configuration_path(form)
 
-      def row_path(action = nil, **) = path(action, :row, **)
+      def group_path(action = nil, **)
+        routes.public_send([action, "form_configuration_group_path"].compact.join("_"), form, **)
+      end
+
+      def row_path(action = nil, **)
+        routes.public_send([action, "form_configuration_row_path"].compact.join("_"), form, **)
+      end
+
+      def toggle_required_path(row_key)
+        routes.toggle_required_type_form_configuration_row_path(**variant.path_args, row_key:)
+      end
 
       private
 
       def owner = variant || form
 
-      def path(action, resource, **params)
-        helper = [action, "type_form_configuration", resource, "path"].compact.join("_")
-
-        Rails.application.routes.url_helpers.public_send(helper, **variant.path_args, **params)
-      end
+      def routes = Rails.application.routes.url_helpers
     end
   end
 end

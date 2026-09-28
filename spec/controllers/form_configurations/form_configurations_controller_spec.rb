@@ -30,33 +30,32 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::FormConfigurationTabController do
-  let(:type) { create(:type) }
+RSpec.describe FormConfigurations::FormConfigurationsController do
+  let(:form) { create(:type).default_variant.form_configuration }
   let(:user) { create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(user)
+    form.update!(attribute_groups: [["People", %w[assignee]]])
   end
 
-  describe "GET #edit" do
-    context "with an unauthorized account" do
+  describe "PATCH #reset" do
+    it "puts the form back on the defaults and returns to its page" do
+      patch :reset, params: { id: form.id }
+
+      expect(response).to redirect_to(edit_form_configuration_path(form))
+      expect(form.reload.form_groups.map(&:default_key)).to include("people", "details")
+    end
+
+    context "with an account that is not an administrator" do
       let(:user) { create(:user) }
 
-      before { get "edit", params: { type_id: type.id } }
+      it "is refused" do
+        patch :reset, params: { id: form.id }
 
-      it { expect(response).to have_http_status(:forbidden) }
-    end
-
-    context "with invalid type id" do
-      it "renders a 404" do
-        get :edit, params: { type_id: "invalid" }
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:forbidden)
+        expect(form.reload.form_groups.map(&:label)).to eq(["People"])
       end
-    end
-
-    it "renders the edit tab" do
-      get :edit, params: { type_id: type.id }
-      expect(response).to render_template(:edit)
     end
   end
 end

@@ -28,35 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module WorkPackageTypes
+  module FormConfiguration
+    class ReadOnlyBannerComponent < ApplicationComponent
+      def initialize(context:)
+        super()
 
-RSpec.describe WorkPackageTypes::FormConfigurationTabController do
-  let(:type) { create(:type) }
-  let(:user) { create(:admin) }
-
-  before do
-    allow(User).to receive(:current).and_return(user)
-  end
-
-  describe "GET #edit" do
-    context "with an unauthorized account" do
-      let(:user) { create(:user) }
-
-      before { get "edit", params: { type_id: type.id } }
-
-      it { expect(response).to have_http_status(:forbidden) }
-    end
-
-    context "with invalid type id" do
-      it "renders a 404" do
-        get :edit, params: { type_id: "invalid" }
-        expect(response).to have_http_status(:not_found)
+        @context = context
       end
-    end
 
-    it "renders the edit tab" do
-      get :edit, params: { type_id: type.id }
-      expect(response).to render_template(:edit)
+      private
+
+      attr_reader :context
+
+      def form = context.form
+
+      def editable_here? = User.current.admin?
     end
   end
 end

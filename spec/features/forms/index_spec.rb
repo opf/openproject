@@ -128,6 +128,20 @@ RSpec.describe "Forms index", :js do
     expect(phase.default_variant.form_configuration.reload.name).to eq("Phase layout")
   end
 
+  describe "a type's form tab" do
+    it "shows the form read-only and leads to its page for editing", :aggregate_failures do
+      visit edit_type_form_configuration_path(type_id: bug.id)
+
+      within_test_selector("form-configuration-read-only") do
+        expect(page).to have_text("Bug form")
+        click_link_or_button I18n.t("form_configurations.tab.read_only.edit_action")
+      end
+
+      expect(page).to have_current_path(edit_form_configuration_path(bug.default_variant.form_configuration))
+      expect(page).to have_css(".type-form-configuration-page--sidebar")
+    end
+  end
+
   describe "the form page" do
     it "lists the types and variants using the form" do
       visit edit_form_configuration_path(bug.default_variant.form_configuration)

@@ -6,7 +6,7 @@
       title: t("types.edit.form_configuration.reset_title"),
       confirm_button_text: t("button_reset"),
       form_arguments: {
-        action: @context.form_path,
+        action: @context.reset_path,
         method: :patch,
         data: { turbo_stream: true }
       }
@@ -15,10 +15,6 @@
     dialog.with_confirmation_message do |message|
       message.with_heading(tag: :h2) { t("types.edit.form_configuration.confirm_reset") }
       message.with_description_content(t("types.edit.form_configuration.reset_description"))
-    end
-
-    dialog.with_additional_details do
-      hidden_field_tag("type[attribute_groups]", "[]")
     end
   end
 %>

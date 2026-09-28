@@ -56,7 +56,7 @@ module WorkPackageTypes
       end
 
       def show_required_action?
-        !readonly? && @attribute[:is_cf]
+        @context.toggles_required? && @attribute[:is_cf]
       end
 
       def required_action_disabled?
@@ -93,7 +93,7 @@ module WorkPackageTypes
       end
 
       def row_toggle_required_path
-        @context.row_path(:toggle_required, row_key: @attribute[:key])
+        @context.toggle_required_path(@attribute[:key])
       end
 
       def exclusion_toggle
@@ -118,8 +118,15 @@ module WorkPackageTypes
         multiple_attributes? && @index != @total_count - 1
       end
 
-      def show_delete_divider?
-        attribute_can_move_up? || attribute_can_move_down? || show_required_action?
+      def actions_button_arguments
+        {
+          icon: "kebab-horizontal",
+          scheme: :invisible,
+          size: :small,
+          classes: "type-form-configuration-page--actions-button",
+          test_selector: "type-form-configuration-attribute-actions-#{@attribute[:key]}",
+          "aria-label": t("types.edit.form_configuration.row_actions")
+        }
       end
 
       def row_move_path(move_to)

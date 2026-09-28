@@ -11,7 +11,7 @@
               scheme: :secondary,
               leading_icon: :undo,
               label: t("types.edit.form_configuration.reset_to_defaults"),
-              href: @context.form_path(:reset_dialog),
+              href: @context.reset_dialog_path,
               "data-test-selector": "type-form-configuration-reset-button",
               data: { controller: "async-dialog" }
             ) do
