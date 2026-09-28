@@ -60,8 +60,10 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   @Input() public smallHeader = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<string>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onEmptySubmit = new EventEmitter<void>();
 
   @HostBinding('class.title-container') baseClass = true;

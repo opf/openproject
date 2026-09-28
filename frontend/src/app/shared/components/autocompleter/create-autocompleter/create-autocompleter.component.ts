@@ -78,16 +78,22 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public hideSelected = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onChange = new EventEmitter<HalResource>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onKeydown = new EventEmitter<KeyboardEvent>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onOpen = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onClose = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;

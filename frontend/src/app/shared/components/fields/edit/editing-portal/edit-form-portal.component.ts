@@ -62,6 +62,7 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
   @Input() editFieldHandler:EditFieldHandler;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:EditFieldHandler;

@@ -140,6 +140,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   readonly pathHelper = inject(PathHelperService);
 
   /** Output fired upon query removal */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<void>();
 
   /* Output fired after it is assured whether a user has the right to see the list */

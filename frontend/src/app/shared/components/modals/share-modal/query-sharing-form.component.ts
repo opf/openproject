@@ -59,6 +59,7 @@ export class QuerySharingFormComponent {
 
   @Input() public isPublic:boolean;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onChange = new EventEmitter<QuerySharingChange>();
 
   public text = {

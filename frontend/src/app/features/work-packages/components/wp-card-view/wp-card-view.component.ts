@@ -142,6 +142,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef<HTMLElement>;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onMoved = new EventEmitter<void>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();

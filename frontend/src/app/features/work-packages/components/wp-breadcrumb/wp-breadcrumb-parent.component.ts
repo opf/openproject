@@ -51,6 +51,7 @@ export class WorkPackageBreadcrumbParentComponent {
 
   @Input() workPackage:WorkPackageResource;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSwitch = new EventEmitter<boolean>();
 
   public isSaving = false;

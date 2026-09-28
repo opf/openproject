@@ -52,6 +52,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   readonly apiV3Service = inject(ApiV3Service);
   readonly halNotification = inject(HalResourceNotificationService);
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   groupByFn = (item:HalResource):string|null => {

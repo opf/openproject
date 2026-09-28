@@ -69,6 +69,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   @Input() skippedFields:string[] = [];
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix, @angular-eslint/no-output-rename
   @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:Record<string, EditableAttributeFieldComponent> = {};

@@ -71,9 +71,11 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public externalHeight = false;
 
   /** Inform about loading errors */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onError = new EventEmitter<string>();
 
   /** Inform about loaded query */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
   readonly apiv3Service = inject(ApiV3Service);

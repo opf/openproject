@@ -55,6 +55,7 @@ export class WorkPackageRelationsGroupComponent {
 
   @Input() public groupByWorkPackageType:boolean;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
   @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef<HTMLButtonElement>;

@@ -57,6 +57,7 @@ export class BoardListMenuComponent {
 
   @Input() board:Board;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<void>();
 
   public get menuItems() {
