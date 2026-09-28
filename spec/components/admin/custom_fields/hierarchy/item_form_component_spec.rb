@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Admin::CustomFields::Hierarchy::ItemFormComponent, type: :component do
-  describe "#url" do
+  describe "form action" do
     let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
     let(:root) { custom_field.hierarchy_root }
 
@@ -62,27 +62,33 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemFormComponent, type: :compone
     end
   end
 
-  describe "#secondary_input_format" do
-    def item_for(custom_field)
-      custom_field.hierarchy_root.children.build(label: "Stormtroopers")
+  describe "secondary input" do
+    let(:item) { custom_field.hierarchy_root.children.build(label: "Stormtroopers") }
+
+    subject(:rendered_component) { render_inline(described_class.new(item)) }
+
+    context "for a hierarchy field", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field) { create(:hierarchy_wp_custom_field) }
+
+      it("asks for a short name") { is_expected.to have_field("Short name") }
+      it("does not ask for a weight") { is_expected.to have_no_field("Weight") }
     end
 
-    it "is :short for a hierarchy field", with_ee: [:custom_field_hierarchies] do
-      custom_field = create(:hierarchy_wp_custom_field)
+    context "for a weighted item list field", with_ee: [:weighted_item_lists] do
+      let(:custom_field) { create(:weighted_item_list_wp_custom_field) }
 
-      expect(described_class.new(item_for(custom_field)).secondary_input_format).to eq(:short)
+      it("asks for a weight") { is_expected.to have_field("Weight") }
+      it("does not ask for a short name") { is_expected.to have_no_field("Short name") }
     end
 
-    it "is :weight for a weighted item list field", with_ee: [:weighted_item_lists] do
-      custom_field = create(:weighted_item_list_wp_custom_field)
+    context "for a list field" do
+      let(:custom_field) { create(:list_wp_custom_field) }
 
-      expect(described_class.new(item_for(custom_field)).secondary_input_format).to eq(:weight)
-    end
-
-    it "is nil for a list field" do
-      custom_field = create(:list_wp_custom_field)
-
-      expect(described_class.new(item_for(custom_field)).secondary_input_format).to be_nil
+      it("asks for the label only") do
+        expect(rendered_component).to have_field("Item label")
+        expect(rendered_component).to have_no_field("Short name")
+        expect(rendered_component).to have_no_field("Weight")
+      end
     end
   end
 end
