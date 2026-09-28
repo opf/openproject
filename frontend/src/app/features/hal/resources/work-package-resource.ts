@@ -99,6 +99,7 @@ export interface WorkPackageResourceLinks {
   update:CallableHalLink<FormResource<WorkPackageResource>>;
   updateImmediately:CallableHalLink<WorkPackageResource>;
   watch:CallableHalLink;
+  unwatch:CallableHalLink;
 }
 
 export interface WorkPackageLinksObject extends HalResourceLinks, WorkPackageResourceLinks {
@@ -201,8 +202,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return "<type name>: <subject> (<formattedId>)" if type and id are known.
    */
   public subjectWithType(truncateSubject = 40):string {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return `${this.type.name}: ${this.subjectWithId(truncateSubject)}`;
+    return `${(this.type as TypeResource).name}: ${this.subjectWithId(truncateSubject)}`;
   }
 
   /**
