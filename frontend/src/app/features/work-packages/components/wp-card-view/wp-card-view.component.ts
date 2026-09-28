@@ -106,6 +106,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
   readonly deviceService = inject(DeviceService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
 
   @Input() public dragInto:boolean;

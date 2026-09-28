@@ -65,6 +65,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   @Input() resource:HalResource;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('inEditMode') initializeEditMode = false;
 
   @Input() skippedFields:string[] = [];

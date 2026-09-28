@@ -87,6 +87,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   @Input() projectIdentifier:string;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();

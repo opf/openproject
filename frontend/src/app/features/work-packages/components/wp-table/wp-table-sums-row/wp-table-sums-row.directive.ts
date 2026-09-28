@@ -59,6 +59,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
   public isHidden = true;

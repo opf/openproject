@@ -48,6 +48,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   readonly injector = inject(Injector);
   private cdRef = inject(ChangeDetectorRef);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('title') public inputTitle:string;
 
   @Input() public editable = true;
