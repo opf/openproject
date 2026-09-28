@@ -42,9 +42,10 @@ module LlmConnections
   class SelectableModelsQuery
     Option = Data.define(:model_id, :qualifies)
 
-    def initialize(connection, feature)
+    def initialize(connection, feature, bound_model_id: nil)
       @connection = connection
       @feature = feature
+      @bound_model_id = bound_model_id
     end
 
     def call
@@ -53,7 +54,7 @@ module LlmConnections
 
     private
 
-    attr_reader :connection, :feature
+    attr_reader :connection, :feature, :bound_model_id
 
     def offerable_model_ids
       (qualifying_ids + [bound_model_id]).compact_blank.uniq
@@ -63,10 +64,6 @@ module LlmConnections
     # built from the selectable ones.
     def qualifying_ids
       @qualifying_ids ||= feature.embedding? ? connection.embedding_model_ids : connection.chat_model_ids
-    end
-
-    def bound_model_id
-      connection.feature_bindings.find_by(feature_key: feature.key.to_s)&.model_id
     end
   end
 end

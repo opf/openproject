@@ -50,7 +50,7 @@ module LlmConnections
     # Not named +options+: ApplicationComponent already owns that name and
     # initialises it to an empty hash, which silently swallowed the memoisation.
     def model_options
-      @model_options ||= SelectableModelsQuery.new(connection, feature).call
+      @model_options ||= SelectableModelsQuery.new(connection, feature, bound_model_id: binding&.model_id).call
     end
 
     def inherit_label
