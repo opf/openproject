@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples "list custom field administration" do |type, create_route:, redirect_route:, items_route:|
+RSpec.shared_examples "list custom field administration" do |create_route:, redirect_route:, items_route:|
+  let(:type) { custom_field.class.name }
   let(:root) { custom_field.hierarchy_root }
 
   def entry(label) = root.children.find_by!(label:)

@@ -34,55 +34,32 @@ require_relative "list_custom_field_administration_examples"
 RSpec.describe "List custom field administration", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
 
-  let(:create_attributes) { {} }
-
   before { login_as admin }
 
-  context "for work packages" do
-    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[pear apple]) }
-
-    it_behaves_like "list custom field administration", "WorkPackageCustomField",
-                    create_route: :custom_fields, redirect_route: :edit_custom_field, items_route: :custom_field
+  generic_area = ->(type) do
+    { create_route: :"admin_settings_#{type}_custom_fields", redirect_route: :"edit_admin_settings_#{type}_custom_field",
+      items_route: :custom_field }
   end
 
-  context "for groups" do
-    let(:custom_field) { create(:group_custom_field, :list, possible_values: %w[pear apple]) }
-
-    it_behaves_like "list custom field administration", "GroupCustomField",
-                    create_route: :custom_fields, redirect_route: :edit_custom_field, items_route: :custom_field
-  end
-
-  context "for versions" do
-    let(:custom_field) { create(:version_custom_field, :list, possible_values: %w[pear apple]) }
-
-    it_behaves_like "list custom field administration", "VersionCustomField",
-                    create_route: :custom_fields, redirect_route: :edit_custom_field, items_route: :custom_field
-  end
-
-  context "for spent time" do
-    let(:custom_field) { create(:time_entry_custom_field, :list, possible_values: %w[pear apple]) }
-
-    it_behaves_like "list custom field administration", "TimeEntryCustomField",
-                    create_route: :custom_fields, redirect_route: :edit_custom_field, items_route: :custom_field
-  end
-
-  context "for projects" do
-    let(:custom_field) { create(:list_project_custom_field, possible_values: %w[pear apple]) }
-    let(:create_attributes) { { custom_field_section_id: create(:project_custom_field_section).id } }
-
-    it_behaves_like "list custom field administration", "ProjectCustomField",
+  {
+    "work packages" => { factory: :wp_custom_field, **generic_area.("work_package") },
+    "groups" => { factory: :group_custom_field, **generic_area.("group") },
+    "versions" => { factory: :version_custom_field, **generic_area.("version") },
+    "spent time" => { factory: :time_entry_custom_field, **generic_area.("time_entry") },
+    "projects" => { factory: :project_custom_field, section: :project_custom_field_section,
                     create_route: :admin_settings_project_custom_fields,
                     redirect_route: :admin_settings_project_custom_field,
-                    items_route: :admin_settings_project_custom_field
-  end
+                    items_route: :admin_settings_project_custom_field },
+    "users" => { factory: :user_custom_field, section: :user_custom_field_section,
+                 create_route: :admin_settings_user_custom_fields,
+                 redirect_route: :edit_admin_settings_user_custom_field,
+                 items_route: :admin_settings_user_custom_field }
+  }.each do |entity, area|
+    context "for #{entity}" do
+      let(:custom_field) { create(area[:factory], :list, possible_values: %w[pear apple]) }
+      let(:create_attributes) { area[:section] ? { custom_field_section_id: create(area[:section]).id } : {} }
 
-  context "for users" do
-    let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[pear apple]) }
-    let(:create_attributes) { { custom_field_section_id: create(:user_custom_field_section).id } }
-
-    it_behaves_like "list custom field administration", "UserCustomField",
-                    create_route: :admin_settings_user_custom_fields,
-                    redirect_route: :edit_admin_settings_user_custom_field,
-                    items_route: :admin_settings_user_custom_field
+      it_behaves_like "list custom field administration", **area.slice(:create_route, :redirect_route, :items_route)
+    end
   end
 end
