@@ -34,7 +34,7 @@ import { ExpressionService } from 'core-app/core/expression/expression.service';
 export class FormattableDisplayField extends DisplayField {
   @LazyInject() readonly appRef:ApplicationRef;
 
-  public render(element:HTMLElement, displayText:string, options:any = {}):void {
+  public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
     const div = document.createElement('div');
 
     div.classList.add(
