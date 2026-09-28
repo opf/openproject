@@ -27,6 +27,7 @@
 //++
 
 import { Chart, ChartType, Plugin, Scale } from 'chart.js';
+import moment from 'moment-timezone';
 
 export interface NonWorkingInterval {
   from:string;
@@ -36,6 +37,7 @@ export interface NonWorkingInterval {
 export interface NonWorkingDaysPluginOptions {
   intervals?:NonWorkingInterval[];
   hidden?:boolean;
+  zone?:string;
 }
 
 declare module 'chart.js' {
@@ -50,17 +52,20 @@ export interface Band {
   width:number;
 }
 
-// An interval covers whole days, so it runs up to the end of its last day rather than its start.
-export function bandFor(interval:NonWorkingInterval, scale:Scale):Band|null {
-  const from = Date.parse(`${interval.from}T00:00:00Z`);
-  const to = Date.parse(`${interval.to}T00:00:00Z`) + 24 * 60 * 60 * 1000;
+// An interval covers whole days in +zone+, so it starts at local midnight and runs up to the
+// end of its last day rather than its start. Advancing by a day rather than by 24 hours keeps
+// a daylight saving transition inside the band -- one falls on a Sunday, so a weekend band
+// spans it every autumn and spring.
+export function bandFor(interval:NonWorkingInterval, scale:Scale, zone:string):Band|null {
+  const from = moment.tz(interval.from, 'YYYY-MM-DD', true, zone);
+  const to = moment.tz(interval.to, 'YYYY-MM-DD', true, zone).add(1, 'day');
 
-  if (Number.isNaN(from) || Number.isNaN(to)) {
+  if (!from.isValid() || !to.isValid()) {
     return null;
   }
 
-  const left = Math.max(scale.getPixelForValue(from), scale.left);
-  const right = Math.min(scale.getPixelForValue(to), scale.right);
+  const left = Math.max(scale.getPixelForValue(from.valueOf()), scale.left);
+  const right = Math.min(scale.getPixelForValue(to.valueOf()), scale.right);
 
   if (right <= left) {
     return null;
@@ -90,8 +95,10 @@ export const NonWorkingDaysPlugin:Plugin = {
     ctx.fillStyle = bandColor();
     ctx.globalAlpha = 0.5;
 
+    const zone = options.zone ?? moment.tz.guess();
+
     intervals.forEach((interval) => {
-      const band = bandFor(interval, scale);
+      const band = bandFor(interval, scale, zone);
 
       if (band) {
         ctx.fillRect(band.left, chartArea.top, band.width, chartArea.bottom - chartArea.top);

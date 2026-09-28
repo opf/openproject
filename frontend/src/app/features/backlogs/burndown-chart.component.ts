@@ -129,7 +129,10 @@ export class BurndownChartComponent {
       // Registered globally by the other charts, it would otherwise reassign the colours
       // this chart sets deliberately, on every layout.
       'primer-colors': { enabled: false },
-      'non-working-days': { intervals: this.parsed().nonWorkingIntervals },
+      'non-working-days': {
+        intervals: this.parsed().nonWorkingIntervals,
+        zone: this.timezoneService.userTimezone(),
+      },
       legend: {
         position: 'bottom',
         labels: { generateLabels: (chart) => this.legendLabels(chart) },
