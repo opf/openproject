@@ -57,6 +57,24 @@ RSpec.describe CustomFields::Hierarchy::InsertHierarchyItemContract do
       end
     end
 
+    context "when parent is not persisted" do
+      let(:params) { { parent: build(:hierarchy_item), label: "Valid Label", short: nil } }
+
+      it "is invalid" do
+        result = subject.call(params)
+        expect(result).to be_failure
+        expect(result.errors.to_h).to include(parent: ["must exist"])
+      end
+    end
+
+    context "when parent sits below the root" do
+      let(:params) { { parent: create(:hierarchy_item, parent:), label: "Nested Label", short: nil } }
+
+      it "is valid, since hierarchies nest" do
+        expect(subject.call(params)).to be_success
+      end
+    end
+
     context "when label is not unique within the same hierarchy level" do
       before do
         create(:hierarchy_item, parent:, label: "Duplicate Label")

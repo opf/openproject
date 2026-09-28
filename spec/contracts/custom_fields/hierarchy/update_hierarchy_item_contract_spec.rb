@@ -50,6 +50,14 @@ RSpec.describe CustomFields::Hierarchy::UpdateHierarchyItemContract do
       end
     end
 
+    context "when item sits two levels below the root" do
+      let(:ben) { create(:hierarchy_item, label: "ben", parent: leia) }
+
+      it "is valid, since hierarchies nest" do
+        expect(subject.call(item: ben, label: "Ben Solo", short: nil)).to be_success
+      end
+    end
+
     context "when item is a root item" do
       let(:params) { { item: vader } }
 
