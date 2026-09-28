@@ -296,4 +296,4 @@ Last but not least, we are very grateful for our very engaged translation contri
 - [Jonatan Nyberg](https://crowdin.com/profile/nickwick), for translations into Swedish,
 - [BigSeung](https://crowdin.com/profile/BigSeung) for translations into Korean.
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](/docs/contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
