@@ -287,12 +287,13 @@ Existing environment-based configuration continues to be supported and takes pre
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A very special thank you goes to our sponsors for this release.
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
-Special thanks for reporting and finding bugs go to Sonita Soth, Hagen Mahnke, Daniel Paulo Dos Santos, Max Tachkov, Tobias Nowakow, Michael Gillen, Jürgen Tauschl, Raphael Zoppoth, Paul Grimes.
+A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn, and ZenDiS for sponsoring released and upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!
-Would you like to help out with translations yourself?
-Then take a look at our translation guide and find out exactly how you can contribute.
-It is very much appreciated!
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Daniel Paulo Dos Santos, Max Tachkov, Tobias Nowakow, Michael Gillen, Jürgen Tauschl, Raphael Zoppoth, and Paul Grimes.
 
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:
+
+- [Jonatan Nyberg](https://crowdin.com/profile/nickwick), for translations into Swedish,
+- [BigSeung](https://crowdin.com/profile/BigSeung) for translations into Korean.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](/docs/contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
