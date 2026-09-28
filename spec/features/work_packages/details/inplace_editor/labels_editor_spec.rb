@@ -6,7 +6,7 @@ require "features/work_packages/shared_contexts"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "labels inplace editor", :js, with_flag: :work_package_labels do
+RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: true } do
   let(:project) { create(:project) }
   let!(:label) { create(:label, name: "Bug") }
   let!(:other_label) { create(:label, name: "Feature") }
@@ -30,7 +30,7 @@ RSpec.describe "labels inplace editor", :js, with_flag: :work_package_labels do
       work_package_page.ensure_page_loaded
     end
 
-    it "allows picking a label and removing another in the same edit, saving in one request" do
+    it "allows picking a label and removing another in the same edit" do
       field.expect_state_text(label.name)
 
       field.activate!
@@ -44,19 +44,21 @@ RSpec.describe "labels inplace editor", :js, with_flag: :work_package_labels do
       expect(work_package.reload.labels).to contain_exactly(other_label)
     end
 
-    it "offers to create a new label from the search term and adds it to the selection" do
+    it "creates a new label from the search term via the keyboard and adds it to the selection" do
       new_label_name = "Urgent"
-      create_button_text = I18n.t("js.autocompleter.create_label", name: new_label_name)
-      duplicate_button_text = I18n.t("js.autocompleter.create_label", name: other_label.name.upcase)
+      create_option_text = I18n.t("js.autocompleter.create_label", name: new_label_name)
+      duplicate_option_text = I18n.t("js.autocompleter.create_label", name: other_label.name.upcase)
 
       field.activate!
 
       dropdown = field.autocomplete(other_label.name.upcase, select: false)
-      expect(dropdown).to have_no_button(duplicate_button_text)
+      expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
+      expect(dropdown).to have_no_selector(:list_box_option, text: duplicate_option_text)
 
       dropdown = field.autocomplete(new_label_name, select: false)
-      expect(dropdown).to have_button(create_button_text)
-      dropdown.click_button(create_button_text)
+      expect(dropdown).to have_selector(:list_box_option, text: create_option_text)
+
+      field.autocomplete_selector.send_keys(:return)
 
       field.expect_selected_values(label.name, new_label_name)
       field.submit_by_dashboard
@@ -64,6 +66,30 @@ RSpec.describe "labels inplace editor", :js, with_flag: :work_package_labels do
       field.expect_state_text(new_label_name)
       expect(Label.named(new_label_name)).to be_present
       expect(work_package.reload.labels.map(&:name)).to contain_exactly(label.name, new_label_name)
+    end
+
+    it "discards the selection when the edit is cancelled" do
+      field.activate!
+      field.set_value(other_label.name)
+      field.expect_selected_values(label.name, other_label.name)
+
+      field.cancel_by_escape
+
+      field.expect_inactive!
+      field.expect_state_text(label.name)
+      expect(field.field_container).to have_no_text(other_label.name)
+      expect(work_package.reload.labels).to contain_exactly(label)
+    end
+
+    context "when the user can only view work packages" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_work_packages] })
+      end
+
+      it "shows the label names as read only" do
+        field.expect_state_text(label.name)
+        field.expect_read_only
+      end
     end
   end
 
@@ -76,16 +102,11 @@ RSpec.describe "labels inplace editor", :js, with_flag: :work_package_labels do
       work_package_page.ensure_page_loaded
     end
 
-    it "allows picking another label and saving it" do
+    it "renders and shows the current labels when activated" do
       field.expect_state_text(label.name)
 
       field.activate!
-      field.set_value(other_label.name)
-      field.expect_selected_values(label.name, other_label.name)
-      field.submit_by_dashboard
-
-      expect(work_package.reload.labels).to contain_exactly(label, other_label)
-      field.expect_state_text(other_label.name)
+      field.expect_selected_values(label.name)
     end
   end
 end
