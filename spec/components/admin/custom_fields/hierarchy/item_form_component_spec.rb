@@ -31,61 +31,23 @@
 require "spec_helper"
 
 RSpec.describe Admin::CustomFields::Hierarchy::ItemFormComponent, type: :component do
-  # A list custom field on a UserCustomField or ProjectCustomField must submit its
-  # create/edit form to its own admin area, not the generic /custom_fields/... route
-  # that would throw the admin out of /admin/settings/user_custom_fields/... entirely.
   describe "#url" do
-    def form_action_for(item)
-      render_inline(described_class.new(item))
+    let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
+    let(:root) { custom_field.hierarchy_root }
 
-      page.find("form")["action"]
-    end
+    subject(:form_action) { render_inline(described_class.new(item)).at_css("form")["action"] }
 
-    describe "for a user custom field" do
-      let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[Only Other]) }
+    for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+      context "for a new item" do
+        let(:item) { root.children.build(label: "Stormtroopers", sort_order: 2) }
 
-      it "submits a new item under the user custom field admin area" do
-        new_item = custom_field.hierarchy_root.children.build(label: "Stormtroopers")
-
-        expect(form_action_for(new_item)).to include("/admin/settings/user_custom_fields/")
+        it("creates it within its own admin area") { is_expected.to eq("#{items_path}/#{root.id}/new_child?position=2") }
       end
 
-      it "submits an existing item under the user custom field admin area" do
-        item = custom_field.hierarchy_root.children.first
+      context "for an existing item" do
+        let(:item) { root.children.first }
 
-        expect(form_action_for(item)).to include("/admin/settings/user_custom_fields/")
-      end
-    end
-
-    describe "for a project custom field" do
-      let(:custom_field) { create(:list_project_custom_field, possible_values: %w[Only Other]) }
-
-      it "submits a new item under the project custom field admin area" do
-        new_item = custom_field.hierarchy_root.children.build(label: "Stormtroopers")
-
-        expect(form_action_for(new_item)).to include("/admin/settings/project_custom_fields/")
-      end
-
-      it "submits an existing item under the project custom field admin area" do
-        item = custom_field.hierarchy_root.children.first
-
-        expect(form_action_for(item)).to include("/admin/settings/project_custom_fields/")
-      end
-    end
-
-    describe "for a work package custom field" do
-      let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
-
-      it "submits a new item to the generic custom field items route" do
-        new_item = custom_field.hierarchy_root.children.build(label: "Stormtroopers")
-
-        expect(form_action_for(new_item)).to match(%r{\A/custom_fields/})
-      end
-
-      it "submits an existing item to the generic custom field items route" do
-        item = custom_field.hierarchy_root.children.first
-
-        expect(form_action_for(item)).to match(%r{\A/custom_fields/})
+        it("updates it within its own admin area") { is_expected.to eq("#{items_path}/#{item.id}") }
       end
     end
   end

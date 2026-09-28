@@ -30,38 +30,13 @@
 
 require "spec_helper"
 
-# A list custom field on a UserCustomField or ProjectCustomField must send Cancel
-# back into its own admin area, not the generic /custom_fields/... route that would
-# throw the admin out of /admin/settings/user_custom_fields/... entirely.
 RSpec.describe CustomFields::Hierarchy::ItemForm do
-  def cancel_href_for(item)
-    described_class.new(nil, target_item: item, secondary_input_format: nil).send(:cancel_href)
-  end
+  let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
+  let(:item) { custom_field.hierarchy_root.children.first }
 
-  describe "for a user custom field" do
-    let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
+  subject(:cancel_href) { described_class.new(nil, target_item: item, secondary_input_format: nil).send(:cancel_href) }
 
-    it "cancels back to the user custom field admin area" do
-      expect(cancel_href_for(item)).to include("/admin/settings/user_custom_fields/")
-    end
-  end
-
-  describe "for a project custom field" do
-    let(:custom_field) { create(:list_project_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    it "cancels back to the project custom field admin area" do
-      expect(cancel_href_for(item)).to include("/admin/settings/project_custom_fields/")
-    end
-  end
-
-  describe "for a work package custom field" do
-    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    it "cancels back to the generic custom field items route" do
-      expect(cancel_href_for(item)).to match(%r{\A/custom_fields/})
-    end
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it("cancels back to its own admin area") { is_expected.to eq(items_path) }
   end
 end

@@ -30,59 +30,19 @@
 
 require "spec_helper"
 
-# A list custom field on a UserCustomField or ProjectCustomField must keep its row's
-# label link and action-menu turbo-frame source inside its own admin area, not the
-# generic /custom_fields/... routes that would throw the admin out of
-# /admin/settings/user_custom_fields/... entirely.
 RSpec.describe Admin::CustomFields::Hierarchy::ItemComponent, type: :component do
-  describe "for a user custom field" do
-    let(:custom_field) { create(:user_custom_field, :list, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
+  let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
+  let(:item) { custom_field.hierarchy_root.children.first }
 
-    before { render_inline(described_class.new(item:, custom_field:)) }
+  before { render_inline(described_class.new(item:, custom_field:)) }
 
-    it "keeps the item label link under the user custom field admin area" do
-      expect(page).to have_link(item.label, href: %r{/admin/settings/user_custom_fields/})
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it "links the item label into its own admin area" do
+      expect(page).to have_link(item.label, href: "#{items_path}/#{item.id}")
     end
 
-    it "keeps the item actions menu fragment source under the user custom field admin area" do
-      fragment = page.find("include-fragment", visible: false)
-
-      expect(fragment["src"]).to include("/admin/settings/user_custom_fields/")
-    end
-  end
-
-  describe "for a project custom field" do
-    let(:custom_field) { create(:list_project_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    before { render_inline(described_class.new(item:, custom_field:)) }
-
-    it "keeps the item label link under the project custom field admin area" do
-      expect(page).to have_link(item.label, href: %r{/admin/settings/project_custom_fields/})
-    end
-
-    it "keeps the item actions menu fragment source under the project custom field admin area" do
-      fragment = page.find("include-fragment", visible: false)
-
-      expect(fragment["src"]).to include("/admin/settings/project_custom_fields/")
-    end
-  end
-
-  describe "for a work package custom field" do
-    let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Only Other]) }
-    let(:item) { custom_field.hierarchy_root.children.first }
-
-    before { render_inline(described_class.new(item:, custom_field:)) }
-
-    it "keeps using the generic custom field items route" do
-      expect(page).to have_link(item.label, href: %r{\A/custom_fields/})
-    end
-
-    it "keeps the item actions menu fragment source on the generic custom field items route" do
-      fragment = page.find("include-fragment", visible: false)
-
-      expect(fragment["src"]).to match(%r{\A/custom_fields/})
+    it "loads the item's actions menu from its own admin area" do
+      expect(page.find("include-fragment", visible: false)["src"]).to eq("#{items_path}/#{item.id}/item_actions")
     end
   end
 end

@@ -28,24 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+# The admin areas that manage the items of a hierarchical custom field. Each builds `custom_field`
+# from the including spec's `custom_field_traits`, for example
+# `let(:custom_field_traits) { [:list, { possible_values: %w[One Two] }] }`.
+module CustomFieldAdminAreas
+  CONTEXTS = [
+    "in the work package custom field admin area",
+    "in the project custom field admin area",
+    "in the user custom field admin area"
+  ].freeze
+end
 
-RSpec.describe Admin::CustomFields::Hierarchy::TreeViewComponent,
-               type: :component, with_ee: [:custom_field_hierarchies] do
-  let(:custom_field_traits) { [:hierarchy] }
-  let!(:item) do
-    CustomFields::Hierarchy::HierarchicalItemService
-      .new
-      .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
-                   parent: custom_field.hierarchy_root, label: "Branch")
-      .value!
-  end
+RSpec.shared_context "in the work package custom field admin area" do
+  let(:custom_field) { create(:wp_custom_field, *custom_field_traits) }
+  let(:items_path) { "/admin/settings/work_package_custom_fields/#{custom_field.id}/items" }
+end
 
-  before { render_inline(described_class.new(custom_field:, active_item: custom_field.hierarchy_root)) }
+RSpec.shared_context "in the project custom field admin area" do
+  let(:custom_field) { create(:project_custom_field, *custom_field_traits) }
+  let(:items_path) { "/admin/settings/project_custom_fields/#{custom_field.id}/items" }
+end
 
-  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
-    it "links each item into its own admin area" do
-      expect(page).to have_link("Branch", href: "#{items_path}/#{item.id}")
-    end
-  end
+RSpec.shared_context "in the user custom field admin area" do
+  let(:custom_field) { create(:user_custom_field, *custom_field_traits) }
+  let(:items_path) { "/admin/settings/user_custom_fields/#{custom_field.id}/items" }
 end
