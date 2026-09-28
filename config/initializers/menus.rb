@@ -815,6 +815,7 @@ Redmine::MenuManager.map :project_menu do |menu|
           User.current.allowed_in_project?(:select_custom_fields, project)
       }
     },
+    work_packages_import: { caption: :"work_packages.import.menu_title" },
     versions: { caption: :label_version_plural },
     repository: { caption: :label_repository },
     time_and_costs: {

@@ -1,4 +1,4 @@
-<% html_title t(:label_work_package_plural), t("work_packages.import.title") %>
+<% html_title t(:label_project_settings), t("work_packages.import.title") %>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
@@ -6,7 +6,7 @@
     header.with_description { t("work_packages.import.intro") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },
-       { href: project_work_packages_path(@project), text: t(:label_work_package_plural) },
+       { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
        t("work_packages.import.title")]
     )
   end
@@ -27,6 +27,6 @@
   ) do
 %>
   <%= render Primer::Box.new(id: "import_announcement", classes: "sr-only", aria: { live: :polite }) %>
-  <%= render partial: "work_packages/import/report" %>
-  <%= render partial: "work_packages/import/form" %>
+  <%= render partial: "projects/settings/work_packages_import/report" %>
+  <%= render partial: "projects/settings/work_packages_import/form" %>
 <% end %>

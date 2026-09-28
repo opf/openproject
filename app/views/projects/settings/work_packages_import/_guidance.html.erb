@@ -1,7 +1,7 @@
 <%
   template_link = link_to(
     t("work_packages.import.download_template"),
-    import_template_project_work_packages_path(@project)
+    template_project_settings_work_packages_import_path(@project)
   )
   reference_link = static_link_to(
     :user_guide, :work_packages, :import, :columns,

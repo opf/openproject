@@ -28,11 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::ImportController < ApplicationController
+class Projects::Settings::WorkPackagesImportController < Projects::SettingsController
   RUNNING = %w[in_queue in_process].freeze
 
-  menu_item :work_packages
-  before_action :find_project_by_project_id, :authorize
+  menu_item :settings_work_packages_import
   before_action :load_status, only: %i[show status problems]
 
   helper_method :import_running?, :import_checked?, :import_settled?
@@ -42,7 +41,7 @@ class WorkPackages::ImportController < ApplicationController
   def status
     respond_to do |format|
       format.turbo_stream { render turbo_stream: report_streams }
-      format.html { redirect_to import_project_work_packages_path(@project, job: params[:job]) }
+      format.html { redirect_to project_settings_work_packages_import_path(@project, job: params[:job]) }
     end
   end
 
@@ -53,7 +52,7 @@ class WorkPackages::ImportController < ApplicationController
     result = schedule
 
     if result.success?
-      redirect_to import_project_work_packages_path(@project, job: result.result)
+      redirect_to project_settings_work_packages_import_path(@project, job: result.result)
     else
       refuse(result.message, expired: result.result == :expired)
     end
@@ -84,8 +83,8 @@ class WorkPackages::ImportController < ApplicationController
   def import_settled? = %w[checked imported].include?(import_outcome) && @error.blank?
 
   def report_streams
-    [turbo_stream.replace("import_report", partial: "work_packages/import/report"),
-     turbo_stream.replace("import_form", partial: "work_packages/import/form"),
+    [turbo_stream.replace("import_report", partial: "projects/settings/work_packages_import/report"),
+     turbo_stream.replace("import_form", partial: "projects/settings/work_packages_import/form"),
      turbo_stream.update("import_announcement", import_announcement)]
   end
 

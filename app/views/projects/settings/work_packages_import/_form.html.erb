@@ -12,11 +12,11 @@
   <% end %>
 
   <% if @status.blank? %>
-    <%= render partial: "work_packages/import/guidance" %>
+    <%= render partial: "projects/settings/work_packages_import/guidance" %>
   <% end %>
 
   <% unless import_running? || import_settled? %>
-    <%= form_with url: import_project_work_packages_path(@project), method: :post, multipart: true do |f| %>
+    <%= form_with url: project_settings_work_packages_import_path(@project), method: :post, multipart: true do |f| %>
       <%= hidden_field_tag :job, @status&.job_id if import_checked? %>
 
       <%= render Primer::Box.new(mb: 3) do %>
@@ -87,9 +87,9 @@
           <%
             clear = Primer::Beta::Button.new(
               tag: :a,
-              href: import_project_work_packages_path(@project),
+              href: project_settings_work_packages_import_path(@project),
               data: { action: "work-packages--csv-import#clear",
-                      stream_url: import_status_project_work_packages_path(@project) }
+                      stream_url: status_project_settings_work_packages_import_path(@project) }
             )
           %>
           <%= render(clear) { t("work_packages.import.clear") } %>

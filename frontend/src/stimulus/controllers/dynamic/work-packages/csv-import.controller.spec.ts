@@ -33,9 +33,9 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type CsvImportControllerType from './csv-import.controller';
 
 const IDENTIFIER = 'work-packages--csv-import';
-const STATUS_URL = '/projects/seed/work_packages/import/status?job=abc';
-const CLEAR_URL = '/projects/seed/work_packages/import';
-const CLEAR_STREAM_URL = '/projects/seed/work_packages/import/status';
+const STATUS_URL = '/projects/seed/settings/work_packages_import/status?job=abc';
+const CLEAR_URL = '/projects/seed/settings/work_packages_import';
+const CLEAR_STREAM_URL = '/projects/seed/settings/work_packages_import/status';
 const MAX_SIZE = 1024;
 const TOO_LARGE = 'This file is larger than the 1 kB this instance accepts.';
 

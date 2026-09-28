@@ -14,7 +14,7 @@
       <% end %>
     <% end %>
 
-    <%= render partial: "work_packages/import/breakdown", locals: { breakdown: } %>
+    <%= render partial: "projects/settings/work_packages_import/breakdown", locals: { breakdown: } %>
   <% end %>
 
   <%= render Primer::Box.new(display: :flex, align_items: :center, mb: 2) do %>
@@ -49,7 +49,7 @@
     <% end %>
 
     <% box.with_row(p: 0) do %>
-      <%= render partial: "work_packages/import/stats", locals: { stats: created_stats } %>
+      <%= render partial: "projects/settings/work_packages_import/stats", locals: { stats: created_stats } %>
     <% end %>
 
     <% box.with_footer do %>
@@ -69,7 +69,7 @@
     <% end %>
 
     <% box.with_body(p: 0) do %>
-      <%= render partial: "work_packages/import/problem_table", locals: { headers: row_headers, rows: row_problems } %>
+      <%= render partial: "projects/settings/work_packages_import/problem_table", locals: { headers: row_headers, rows: row_problems } %>
     <% end %>
 
     <% box.with_footer do %>
@@ -97,7 +97,7 @@
       <% end %>
 
       <% box.with_body(p: 0) do %>
-        <%= render partial: "work_packages/import/problem_table", locals: { headers: column_headers, rows: column_problem_rows } %>
+        <%= render partial: "projects/settings/work_packages_import/problem_table", locals: { headers: column_headers, rows: column_problem_rows } %>
       <% end %>
 
       <% box.with_footer do %>

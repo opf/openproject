@@ -99,7 +99,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     end
 
     it "offers Clear beside the import button" do
-      expect(page).to have_link("Clear", href: /work_packages\/import\z/)
+      expect(page).to have_link("Clear", href: /settings\/work_packages_import\z/)
     end
 
     # A page visit would re-bootstrap everything around the two regions it actually resets.
@@ -135,7 +135,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     it "offers a fresh start beside the link to what it created" do
       render_outcome("imported", "dry_run" => false)
 
-      expect(page).to have_link("Import another file", href: /work_packages\/import\z/)
+      expect(page).to have_link("Import another file", href: /settings\/work_packages_import\z/)
     end
 
     it "names the file and when the run finished, so the banner stands on its own" do

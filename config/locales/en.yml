@@ -7600,6 +7600,7 @@ en:
       import_file: "Import file"
       importing_file: "Importing %{filename}"
       intro: "Create many work packages at once from a CSV file. Existing work packages are not changed."
+      menu_title: "Work packages importer"
       report:
         announcement:
           checked: "The file has been checked. The report is below."

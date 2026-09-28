@@ -207,14 +207,14 @@ module WorkPackages
         # regions does not need a page visit, and a visit re-bootstraps everything around them.
         def clear_button
           Primer::Beta::Button.new(tag: :a,
-                                   href: import_project_work_packages_path(project),
+                                   href: project_settings_work_packages_import_path(project),
                                    data: { action: "work-packages--csv-import#clear",
-                                           stream_url: import_status_project_work_packages_path(project) })
+                                           stream_url: status_project_settings_work_packages_import_path(project) })
         end
 
-        def import_path = import_project_work_packages_path(project)
+        def import_path = project_settings_work_packages_import_path(project)
 
-        def problems_path = import_problems_project_work_packages_path(project, job: status.job_id)
+        def problems_path = problems_project_settings_work_packages_import_path(project, job: status.job_id)
 
         def created_list_path
           return if query_id.blank?

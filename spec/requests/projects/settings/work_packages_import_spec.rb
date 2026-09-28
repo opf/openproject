@@ -44,8 +44,8 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
   shared_let(:outsider) { create(:user) }
   shared_let(:admin) { create(:admin) }
 
-  def show_path(**) = import_project_work_packages_path(project, **)
-  def status_path(**) = import_status_project_work_packages_path(project, **)
+  def show_path(**) = project_settings_work_packages_import_path(project, **)
+  def status_path(**) = status_project_settings_work_packages_import_path(project, **)
 
   def poll(**) = get(status_path(**), headers: { "Accept" => "text/vnd.turbo-stream.html" })
 
@@ -61,7 +61,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
   end
 
   let(:csv_fixture) { Rails.root.join("spec/fixtures/csv_import/work_packages.csv") }
-  let(:template_path) { import_template_project_work_packages_path(project) }
+  let(:template_path) { template_project_settings_work_packages_import_path(project) }
 
   describe "who can reach it" do
     context "as a member holding the permission" do
@@ -173,8 +173,34 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       it "asks for a login" do
         get show_path
 
-        expect(response).to redirect_to(signin_path(back_url: import_project_work_packages_url(project)))
+        expect(response).to redirect_to(signin_path(back_url: project_settings_work_packages_import_url(project)))
       end
+    end
+  end
+
+  describe "the project settings sidebar" do
+    let(:entry) { I18n.t("work_packages.import.menu_title") }
+
+    it "offers the importer to a member holding the permission" do
+      login_as importer
+      get project_overview_path(project)
+
+      expect(page).to have_css("#menu-sidebar .op-menu--item-title", text: entry)
+    end
+
+    it "leaves the entry out for a member without it" do
+      login_as member
+      get project_overview_path(project)
+
+      expect(page).to have_css("#menu-sidebar")
+      expect(page).to have_no_css("#menu-sidebar .op-menu--item-title", text: entry)
+    end
+
+    it "marks the entry as the page you are on" do
+      login_as importer
+      get show_path
+
+      expect(page).to have_css("#menu-sidebar .selected", text: entry)
     end
   end
 
@@ -289,7 +315,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       it "shows the bare form for a job belonging to another project" do
         other = create(:project, types: [type], members: { importer => importer_role })
 
-        get import_project_work_packages_path(other, job: job_id)
+        get project_settings_work_packages_import_path(other, job: job_id)
 
         expect_bare_form
       end
@@ -675,7 +701,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     end
 
     it "sends the problems as a CSV named after the file they came from" do
-      get import_problems_project_work_packages_path(project, job: job_id)
+      get problems_project_settings_work_packages_import_path(project, job: job_id)
 
       expect(response).to have_http_status(:ok)
       expect(response.headers["Content-Disposition"]).to include("sprint-43-problems.csv")
@@ -687,7 +713,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "gives nothing for a job belonging to somebody else" do
       login_as create(:admin)
 
-      get import_problems_project_work_packages_path(project, job: job_id)
+      get problems_project_settings_work_packages_import_path(project, job: job_id)
 
       expect(response).to have_http_status(:not_found)
     end

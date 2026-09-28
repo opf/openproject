@@ -522,6 +522,13 @@ Rails.application.routes.draw do
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
+        resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
+          member do
+            get :status
+            get :template
+            get :problems
+          end
+        end
       end
 
       resource :templated, only: %i[create destroy], controller: "templated"
@@ -613,12 +620,6 @@ Rails.application.routes.draw do
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
-
-        get "/import" => "work_packages/import#show", as: "import"
-        post "/import" => "work_packages/import#create"
-        get "/import/status" => "work_packages/import#status", as: "import_status"
-        get "/import/template" => "work_packages/import#template", as: "import_template"
-        get "/import/problems" => "work_packages/import#problems", as: "import_problems"
       end
 
       get "/copy" => "work_packages#copy", on: :member, as: "copy"
