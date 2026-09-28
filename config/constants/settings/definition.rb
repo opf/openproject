@@ -34,7 +34,7 @@ module Settings
     SECRET_PLACEHOLDER = "__openproject_secret_unchanged__"
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
 
-    DEFINITIONS = {
+    DEFINITIONS = { # rubocop:disable Metrics/CollectionLiteralLength
       activity_days_default: {
         default: 30
       },
