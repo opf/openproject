@@ -40,6 +40,16 @@ export const menuSurfaceStyles = css`
   color: var(--bn-colors-menu-text, #3f3f3f);
 `;
 
+// Our own ring rather than the host page's: OpenProject loads its stylesheet into
+// the editor's shadow root, and its focus outline names a colour variable that is
+// not defined there, which leaves a focused item with no outline at all.
+export const menuItemFocusStyles = css`
+  &:focus-visible {
+    outline: 2px solid var(--blocknote-focus-color);
+    outline-offset: -2px;
+  }
+`;
+
 // The -webkit- prefix is not redundant: Safari (including iOS) implements only the prefixed
 // property and styled-components v6 no longer auto-prefixes, so unprefixed alone leaves the
 // chip text selectable there. Belongs on the container only: `user-select` is not inherited,
