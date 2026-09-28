@@ -194,10 +194,13 @@ export class BurndownChartComponent {
   }
 
   // The guideline is sampled by day, so its own timestamp would not name the moment being
-  // hovered. The remaining series carries that, wherever it still runs.
+  // hovered. Remaining carries that wherever it still runs, and the projection takes over at the
+  // instant it stops -- without that second choice the header jumps to the end of the day just
+  // as the cursor crosses the junction, since the guideline sorts first among the items.
   private tooltipTitle(items:TooltipItem<'line'>[]):string {
     const { series } = this.parsed();
-    const dated = items.find((item) => series[item.datasetIndex]?.id === 'remaining') ?? items[0];
+    const at = (id:BurndownSeries['id']) => items.find((item) => series[item.datasetIndex]?.id === id);
+    const dated = at('remaining') ?? at('projection') ?? items[0];
 
     return this.formattedTick(Number(dated.parsed.x));
   }
