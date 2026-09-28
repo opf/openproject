@@ -29,36 +29,26 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
   subject(:result) { described_class.new.call(params) }
 
   let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Top Other]) }
-  let(:root) { custom_field.hierarchy_root }
-  let(:top) { root.children.find_by!(label: "Top") }
+  let(:top) { custom_field.hierarchy_root.children.find_by!(label: "Top") }
+  let(:valid_params) { { item: top, label: "Renamed" } }
 
-  context "when renaming an item directly under the root" do
-    let(:params) { { item: top, label: "Renamed", short: "RE" } }
+  it_behaves_like "a hierarchy item update contract", sibling_label: "Other"
 
-    it { is_expected.to be_success }
-    it("drops the short, which list items do not carry") { expect(result.to_h).not_to have_key(:short) }
+  context "with a short" do
+    let(:params) { valid_params.merge(short: "RE") }
+
+    it("drops it, since list items do not carry one") { expect(result.to_h).not_to have_key(:short) }
   end
 
-  context "when renaming the root" do
-    let(:params) { { item: root, label: "Renamed" } }
-
-    it("rejects the root") { expect(result.errors[:item]).to include("cannot be a root item.") }
-  end
-
-  context "when renaming an item nested below another one" do
-    let(:params) { { item: top.children.create!(label: "Nested"), label: "Renamed" } }
+  context "with an item nested below another one" do
+    let(:params) { valid_params.merge(item: top.children.create!(label: "Nested")) }
 
     it("rejects the nesting") { expect(result.errors[:item]).to include("cannot have sub-items for this custom field.") }
-  end
-
-  context "when taking a label a sibling already uses" do
-    let(:params) { { item: top, label: "Other" } }
-
-    it("rejects the label") { expect(result.errors[:label]).to include("must be unique within the same hierarchy level.") }
   end
 end
