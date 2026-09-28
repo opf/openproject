@@ -30,13 +30,17 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Hierarchy::ItemForm do
+RSpec.describe CustomFields::Hierarchy::ItemForm, type: :forms do
+  include_context "with rendered form"
+
   let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
   let(:item) { custom_field.hierarchy_root.children.first }
+  let(:model) { item }
+  let(:params) { { target_item: item, secondary_input_format: nil } }
 
-  subject(:cancel_href) { described_class.new(nil, target_item: item, secondary_input_format: nil).send(:cancel_href) }
+  subject(:rendered_form) { page }
 
   for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
-    it("cancels back to its own admin area") { is_expected.to eq(items_path) }
+    it("cancels back to its own admin area") { is_expected.to have_link("Cancel", href: items_path) }
   end
 end
