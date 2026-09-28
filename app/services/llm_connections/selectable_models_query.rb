@@ -34,7 +34,9 @@ module LlmConnections
   # A feature is offered the models of its own kind: chat features never see an
   # embedding model, and an embedding feature sees only models known to embed.
   # Offering a model on the grounds that nothing has ruled it out invites a
-  # choice whose failure surfaces much later, at index time.
+  # choice whose failure surfaces much later, at index time. A model known to
+  # lack a capability the feature requires is left out too, by the same rule
+  # Llm::Runtime refuses it with.
   #
   # The one exception is the model a feature is already bound to. It stays
   # listed even once it no longer qualifies, flagged, so that opening the page
@@ -60,10 +62,18 @@ module LlmConnections
       (qualifying_ids + [bound_model_id]).compact_blank.uniq
     end
 
+    def qualifying_ids
+      @qualifying_ids ||= model_ids_of_kind - ruled_out_model_ids
+    end
+
     # Models an administrator has switched off are not offered: both lists are
     # built from the selectable ones.
-    def qualifying_ids
-      @qualifying_ids ||= feature.embedding? ? connection.embedding_model_ids : connection.chat_model_ids
+    def model_ids_of_kind
+      feature.embedding? ? connection.embedding_model_ids : connection.chat_model_ids
+    end
+
+    def ruled_out_model_ids
+      connection.capability_verdicts.blocking(feature.requires).distinct.pluck(:model_id)
     end
   end
 end
