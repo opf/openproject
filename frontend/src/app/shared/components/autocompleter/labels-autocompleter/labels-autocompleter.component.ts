@@ -26,10 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { keyBy } from 'lodash-es';
-import { firstValueFrom, Observable, throwError } from 'rxjs';
-import { catchError, finalize, map } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -38,6 +38,7 @@ import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-pat
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import {
   LabelsAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter-template.component';
@@ -73,12 +74,34 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
 
   readonly halNotification = inject(HalResourceNotificationService);
 
+  readonly currentUserService = inject(CurrentUserService);
+
   private creatingLabel = false;
+
+  private readonly projectId$ = new BehaviorSubject<string|undefined>(undefined);
+
+  @Input()
+  public set projectId(value:string|undefined) {
+    this.projectId$.next(value);
+  }
+
+  public get projectId():string|undefined {
+    return this.projectId$.value;
+  }
 
   ngOnInit():void {
     super.ngOnInit();
     this.applyTemplates(LabelsAutocompleterTemplateComponent);
-    this.addTag = this.createLabel.bind(this);
+
+    this
+      .projectId$
+      .pipe(
+        switchMap((projectId) => (projectId ? this.currentUserService.hasCapabilities$('work_packages/update', projectId) : of(false))),
+        this.untilDestroyed(),
+      )
+      .subscribe((canCreateLabels) => {
+        this.addTag = canCreateLabels ? this.createLabel.bind(this) : false;
+      });
   }
 
   public keydowned(val:unknown):void {

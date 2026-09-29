@@ -17,7 +17,6 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
   end
 
   before do
-    create(:labeling, label:, labelable: work_package)
     login_as(user)
   end
 
@@ -26,6 +25,7 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
     let(:field) { work_package_page.edit_field(:labels) }
 
     before do
+      create(:labeling, label:, labelable: work_package)
       work_package_page.visit!
       work_package_page.ensure_page_loaded
     end
@@ -99,6 +99,7 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
     let(:field) { work_package_page.edit_field(:labels) }
 
     before do
+      create(:labeling, label:, labelable: work_package)
       work_package_page.visit!
       work_package_page.ensure_page_loaded
     end
@@ -108,6 +109,61 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
 
       field.activate!
       field.expect_selected_values(label.name)
+    end
+  end
+
+  context "in the create form" do
+    let!(:status) { create(:default_status) }
+    let!(:priority) { create(:default_priority) }
+    let(:work_package_page) { Pages::FullWorkPackageCreate.new(project:) }
+    let(:field) { work_package_page.edit_field(:labels) }
+
+    before { work_package_page.visit! }
+
+    context "without edit_work_packages" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_work_packages add_work_packages] })
+      end
+
+      it "allows picking existing labels but offers no option to create one" do
+        new_label_suffix = I18n.t("js.autocompleter.new_label")
+
+        field.set_value(label.name)
+        field.expect_selected_values(label.name)
+
+        dropdown = field.autocomplete(other_label.name.upcase, select: false)
+        expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
+
+        dropdown = field.autocomplete("Unknown", select: false)
+        expect(dropdown).to have_no_selector(:list_box_option, text: "Unknown #{new_label_suffix}")
+      end
+    end
+
+    context "with edit_work_packages" do
+      let(:user) do
+        create(:user,
+               member_with_permissions: { project => %i[view_work_packages add_work_packages edit_work_packages] })
+      end
+
+      it "creates a new label from the search term and assigns it" do
+        new_label_name = "Urgent"
+        new_label_suffix = I18n.t("js.autocompleter.new_label")
+        create_option_text = "#{new_label_name} #{new_label_suffix}"
+
+        dropdown = field.autocomplete(new_label_name, select: false)
+        expect(dropdown).to have_selector(:list_box_option, text: create_option_text)
+
+        field.autocomplete_selector.send_keys(:return)
+
+        field.expect_selected_values(new_label_name)
+
+        work_package_page.set_attributes({ subject: "Work package with a new label" })
+        work_package_page.save!
+        work_package_page.expect_and_dismiss_toaster(message: "Successful creation.")
+
+        expect(Label.named(new_label_name)).to be_present
+        expect(WorkPackage.last.labels.map(&:name)).to contain_exactly(new_label_name)
+      end
     end
   end
 end
