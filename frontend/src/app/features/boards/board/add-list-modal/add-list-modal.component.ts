@@ -96,7 +96,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public warningText:string|undefined;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.boards.add_list'),
     button_add: this.I18n.t('js.button_add'),
     button_create: this.I18n.t('js.button_create'),
@@ -117,7 +117,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-    this.board = this.locals.board;
+    this.board = this.locals.board as Board;
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
     this.autocompleterOptions.resource = this.actionService.resourceName.toLowerCase();
