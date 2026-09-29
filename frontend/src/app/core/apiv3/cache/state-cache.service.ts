@@ -114,7 +114,7 @@ export class StateCacheService<T> {
    * @param resource<T> The value.
    */
   public updateFor(resource:HasId):Promise<T> {
-    return this.updateValue(resource.id!, resource as any);
+    return this.updateValue(resource.id!, resource as T);
   }
 
   /**
