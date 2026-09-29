@@ -43,6 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         "embed", width: 800,
                  height: 300,
                  type: "image/svg+xml",
+                 aria: { label: t(:label_commits_per_month) },
                  src: url_for(
                    controller: "/repositories",
                    action: "graph",
@@ -57,6 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
           "embed", width: 800,
                    height: 400,
                    type: "image/svg+xml",
+                   aria: { label: t(:label_commits_per_author) },
                    src: url_for(
                      controller: "/repositories",
                      action: "graph",

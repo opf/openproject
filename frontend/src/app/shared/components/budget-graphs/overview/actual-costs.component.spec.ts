@@ -54,6 +54,8 @@ describe('ActualCostsComponent', () => {
   };
 
   beforeEach(async () => {
+    i18nStub.locale = 'en';
+
     await TestBed.configureTestingModule({
       imports: [ActualCostsComponent],
       providers: [
@@ -111,6 +113,22 @@ describe('ActualCostsComponent', () => {
       'Actual costs by month: January 2026: Labour: €1,000, Materials: €500; February 2026: Labour: €1,200, Materials: €0.',
     );
     expect(canvas.textContent?.trim()).toEqual(description.textContent?.trim());
+  });
+
+  it('formats description values using the selected locale', () => {
+    i18nStub.locale = 'de';
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith([{ label: 'Labour', data: [1_000] }]);
+
+    const descriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+    const formattedValue = new Intl.NumberFormat('de', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(1_000);
+
+    expect(description.textContent).toContain(`Labour: ${formattedValue}`);
   });
 
   it('uses a unique description ID for each chart', () => {

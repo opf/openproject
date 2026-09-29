@@ -158,13 +158,13 @@ export class ActualCostsComponent {
     const currency = this.currency();
 
     try {
-      return new Intl.NumberFormat(undefined, {
+      return new Intl.NumberFormat(this.i18n.locale, {
         style: 'currency',
         currency,
         maximumFractionDigits: 0,
       }).format(value);
     } catch {
-      return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} ${currency}`;
+      return `${new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 0 }).format(value)} ${currency}`;
     }
   }
 }

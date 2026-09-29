@@ -61,6 +61,26 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
     )
   end
 
+  it "preserves a caller-provided accessible name" do
+    rendered_component = render_component(
+      key: "cool_widget",
+      title: "Cool Widget",
+      aria: { labelledby: "custom-heading" }
+    )
+
+    expect(rendered_component).to have_css(
+      ".widget-box[aria-labelledby='custom-heading']"
+    )
+  end
+
+  it "does not reference a heading when the title is blank" do
+    rendered_component = render_inline(described_class.new(key: "cool_widget", title: "")) { "Content" }
+
+    expect(rendered_component).to have_css(".widget-box", text: "Content")
+    expect(rendered_component).to have_no_css(".widget-box[role='group']")
+    expect(rendered_component).to have_no_css(".widget-box[aria-labelledby]")
+  end
+
   it "renders turbo-frame around content" do
     expect(rendered_component).to have_element :"turbo-frame", id: "cool_widget", target: "_top"
   end

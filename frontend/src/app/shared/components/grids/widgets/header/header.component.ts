@@ -44,7 +44,7 @@ export class WidgetHeaderComponent {
 
   @Input() name:string;
 
-  @Input() headingId:string;
+  @Input({ required: true }) headingId:string;
 
   @Input() editable = true;
 

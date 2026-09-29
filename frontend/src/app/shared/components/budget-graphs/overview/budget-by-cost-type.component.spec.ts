@@ -40,6 +40,7 @@ describe('BudgetByCostTypeComponent', () => {
   let element:HTMLElement;
 
   const i18nStub = {
+    locale: 'en',
     t(key:string, options:Record<string, string> = {}) {
       const translations:Record<string, string> = {
         'js.budgets.widgets.budget_by_cost_type.chart_label': 'Budget by cost type chart',
@@ -52,6 +53,8 @@ describe('BudgetByCostTypeComponent', () => {
   };
 
   beforeEach(async () => {
+    i18nStub.locale = 'en';
+
     await TestBed.configureTestingModule({
       imports: [BudgetByCostTypeComponent],
       providers: [
@@ -101,6 +104,22 @@ describe('BudgetByCostTypeComponent', () => {
     expect(description.hidden).toBe(true);
     expect(description.textContent?.trim()).toEqual('Budget amounts by cost type: Labour: €10,000; Materials: €4,000.');
     expect(canvas.textContent?.trim()).toEqual(description.textContent?.trim());
+  });
+
+  it('formats description values using the selected locale', () => {
+    i18nStub.locale = 'de';
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith([{ data: [10_000] }]);
+
+    const descriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+    const formattedValue = new Intl.NumberFormat('de', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(10_000);
+
+    expect(description.textContent).toContain(`Labour: ${formattedValue}`);
   });
 
   it('uses a unique description ID for each chart', () => {

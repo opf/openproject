@@ -65,10 +65,15 @@ export class BurndownChartComponent {
     const { datasets } = this.lineChartData();
     const dayCount = Math.max(...datasets.map((dataset) => dataset.data.length), 0);
     const days = Array.from({ length: dayCount }, (_, index) => {
-      const values = datasets.map((dataset) => this.i18n.t('js.burndown.chart_value', {
-        label: dataset.label ?? '',
-        value: this.formatValue(Number(dataset.data[index])),
-      }));
+      const values = datasets.flatMap((dataset) => {
+        const value = dataset.data[index];
+        if (typeof value !== 'number' || !Number.isFinite(value)) return [];
+
+        return this.i18n.t('js.burndown.chart_value', {
+          label: dataset.label ?? '',
+          value: this.formatValue(value),
+        });
+      });
 
       return this.i18n.t('js.burndown.chart_day', {
         day: index + 1,

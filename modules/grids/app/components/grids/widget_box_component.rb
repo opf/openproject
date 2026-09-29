@@ -82,8 +82,6 @@ module Grids
       @turbo_enabled = turbo_enabled
       @turbo_frame_arguments = { tag: :"turbo-frame", id: key, target: "_top", style: "display:contents" }
 
-      configure_accessibility
-
       @list_arguments = { tag: :ul, id: "#{key}-list", classes: "op-widget-box--rows" }
     end
 
@@ -103,12 +101,13 @@ module Grids
 
     def configure_accessibility
       @system_arguments[:role] ||= :group
-      @system_arguments[:aria] = (@system_arguments[:aria] || {}).merge(labelledby: @header_id)
+      @system_arguments[:aria] = { labelledby: @header_id }.merge(@system_arguments[:aria] || {})
     end
 
     def before_render
-      return unless header
+      return unless header&.render?
 
+      configure_accessibility
       @list_arguments[:aria] = { labelledby: @header_id }
     end
   end

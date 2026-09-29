@@ -91,6 +91,20 @@ describe('BurndownChartComponent', () => {
     expect(canvas.textContent?.trim()).toEqual(description.textContent?.trim());
   });
 
+  it('omits unavailable values from future sprint days', () => {
+    renderWith([
+      { label: 'Story points', data: [8] },
+      { label: 'Story points (ideal)', data: [8, 4] },
+    ]);
+
+    const descriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+
+    expect(description.textContent?.trim()).toEqual(
+      'Burndown chart data: Day 1: Story points: 8, Story points (ideal): 8; Day 2: Story points (ideal): 4.',
+    );
+  });
+
   it('uses a unique description ID for each chart', () => {
     renderWith([{ label: 'Story points', data: [8, 6] }]);
     const secondFixture = TestBed.createComponent(BurndownChartComponent);

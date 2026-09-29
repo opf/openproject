@@ -364,29 +364,38 @@ class RepositoriesController < ApplicationController
       fields << month_name(((Date.today.month - 1 - m) % 12) + 1)
     end
 
+    title = I18n.t(:label_commits_per_month)
+    fields.reverse!
+    commits_by_month = commits_by_month[0..11].reverse
+    changes_by_month = changes_by_month[0..11].reverse
+
     graph = SVG::Graph::Bar.new(
       height: 300,
       width: 800,
-      fields: fields.reverse,
+      fields:,
       stack: :side,
       scale_integers: true,
       step_x_labels: 2,
       show_data_values: false,
-      graph_title: I18n.t(:label_commits_per_month),
+      graph_title: title,
       show_graph_title: true
     )
 
     graph.add_data(
-      data: commits_by_month[0..11].reverse,
+      data: commits_by_month,
       title: I18n.t(:label_revision_plural)
     )
 
     graph.add_data(
-      data: changes_by_month[0..11].reverse,
+      data: changes_by_month,
       title: I18n.t(:label_change_plural)
     )
 
-    graph.burn
+    accessible_graph(
+      graph,
+      title:,
+      description: graph_description(title, fields, commits_by_month, changes_by_month)
+    )
   end
 
   def graph_commits_per_author(repository)
@@ -407,12 +416,13 @@ class RepositoriesController < ApplicationController
     commits_data = commits_by_author.map(&:last)
     changes_data = commits_by_author.map { |r| h[r.first] || 0 }
 
+    fields = fields.map { |committer| committer.gsub(%r{<.+@.+>}, "") }
+    title = I18n.t(:label_commits_per_author)
+    description = graph_description(title, fields, commits_data, changes_data)
+
     fields = fields + ([""] * (10 - fields.length)) if fields.length < 10
     commits_data = commits_data + ([0] * (10 - commits_data.length)) if commits_data.length < 10
     changes_data = changes_data + ([0] * (10 - changes_data.length)) if changes_data.length < 10
-
-    # Remove email address in usernames
-    fields = fields.map { |c| c.gsub(%r{<.+@.+>}, "") }
 
     graph = SVG::Graph::BarHorizontal.new(
       height: 400,
@@ -422,7 +432,7 @@ class RepositoriesController < ApplicationController
       scale_integers: true,
       show_data_values: false,
       rotate_y_labels: false,
-      graph_title: I18n.t(:label_commits_per_author),
+      graph_title: title,
       show_graph_title: true
     )
     graph.add_data(
@@ -433,7 +443,46 @@ class RepositoriesController < ApplicationController
       data: changes_data,
       title: I18n.t(:label_change_plural)
     )
-    graph.burn
+    accessible_graph(graph, title:, description:)
+  end
+
+  def graph_description(title, labels, revisions, changes)
+    entries = labels.zip(revisions, changes).map do |label, revision_count, change_count|
+      I18n.t(
+        "repositories.statistics.graph_entry",
+        label:,
+        revision_count:,
+        revisions: I18n.t(:label_revision_plural),
+        change_count:,
+        changes: I18n.t(:label_change_plural)
+      )
+    end
+
+    data = entries.any? ? entries.join("; ") : I18n.t(:label_no_data)
+    I18n.t("repositories.statistics.graph_description", title:, data:)
+  end
+
+  def accessible_graph(graph, title:, description:)
+    document = Nokogiri::XML(graph.burn) { |config| config.strict.nonet }
+    root = document.root
+    title_node = graph_metadata_node(document, "title", "repository-graph-title", title)
+    description_node = graph_metadata_node(document, "desc", "repository-graph-description", description)
+
+    root["role"] = "img"
+    root["aria-labelledby"] = title_node["id"]
+    root["aria-describedby"] = description_node["id"]
+    root.prepend_child(description_node)
+    root.prepend_child(title_node)
+
+    document.to_xml
+  end
+
+  def graph_metadata_node(document, name, id, content)
+    node = Nokogiri::XML::Node.new(name, document)
+    node.namespace = document.root.namespace
+    node["id"] = id
+    node.content = content
+    node
   end
 
   def login_back_url_params
