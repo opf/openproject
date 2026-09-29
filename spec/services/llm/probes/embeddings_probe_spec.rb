@@ -88,25 +88,58 @@ RSpec.describe Llm::Probes::EmbeddingsProbe, :webmock do
     end
   end
 
-  # A 5xx says something about the server, not about the model.
-  context "when the server errors" do
-    before { stub_embeddings(status: 500, body: { error: "boom" }) }
+  {
+    429 => "http_429",
+    500 => "http_500",
+    502 => "http_502",
+    503 => "http_503",
+    401 => "unauthorized",
+    403 => "unauthorized"
+  }.each do |status, reason|
+    context "when the server answers #{status}" do
+      before { stub_embeddings(status:, body: { error: "no" }) }
 
-    it { expect(result.state).to eq(:unknown) }
-  end
-
-  context "when the credentials are rejected" do
-    before { stub_embeddings(status: 401, body: { error: "no" }) }
-
-    it "is unknown, since this says nothing about the model" do
-      expect(result.state).to eq(:unknown)
-      expect(result.detail["reason"]).to eq("unauthorized")
+      it "is unknown, as a failure of the whole server" do
+        expect(result.state).to eq(:unknown)
+        expect(result.detail["reason"]).to eq(reason)
+        expect(described_class).to be_server_wide(result.detail["reason"])
+      end
     end
   end
 
-  context "when the server cannot be reached" do
-    before { stub_request(:post, "https://example.com/v1/embeddings").to_timeout }
+  context "when the server does not answer in time" do
+    before { stub_request(:post, "https://example.com/v1/embeddings").to_raise(Net::ReadTimeout) }
 
-    it { expect(result.state).to eq(:unknown) }
+    it "is unknown, as a failure of the whole server" do
+      expect(result.state).to eq(:unknown)
+      expect(result.detail["reason"]).to eq("timeout_error")
+      expect(described_class).to be_server_wide(result.detail["reason"])
+    end
+  end
+
+  context "when the server refuses the connection" do
+    before { stub_request(:post, "https://example.com/v1/embeddings").to_raise(Errno::ECONNREFUSED) }
+
+    it "is unknown, as a failure of the whole server" do
+      expect(result.state).to eq(:unknown)
+      expect(result.detail["reason"]).to eq("connection_error")
+      expect(described_class).to be_server_wide(result.detail["reason"])
+    end
+  end
+
+  context "when the TLS handshake fails" do
+    before { stub_request(:post, "https://example.com/v1/embeddings").to_raise(OpenSSL::SSL::SSLError) }
+
+    it "is unknown, as a failure of the whole server" do
+      expect(result.state).to eq(:unknown)
+      expect(result.detail["reason"]).to eq("ssl_error")
+      expect(described_class).to be_server_wide(result.detail["reason"])
+    end
+  end
+
+  context "when the server refuses the model" do
+    before { stub_embeddings(status: 400, body: { error: "nope" }) }
+
+    it { expect(described_class).not_to be_server_wide(result.detail["reason"]) }
   end
 end

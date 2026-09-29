@@ -277,6 +277,22 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       include_examples "contract is invalid", default_chat_model_id: :cannot_chat
     end
 
+    context "with an embedding model the server has ruled out" do
+      before do
+        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        connection.default_embedding_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      end
+
+      include_examples "contract is invalid", default_embedding_model_id: :cannot_embed
+    end
+
+    context "with an embedding model nothing has ruled out" do
+      before { connection.default_embedding_model = connection.models.find_by(external_id: "qwen3.6-27b") }
+
+      include_examples "contract is valid"
+    end
+
     context "with a stored default the server has since withdrawn" do
       before do
         withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection)

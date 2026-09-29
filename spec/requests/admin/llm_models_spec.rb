@@ -873,6 +873,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
 
+      expect(response).to have_http_status(:forbidden)
       expect(connection.reload.default_chat_model_id).to be_nil
     end
   end

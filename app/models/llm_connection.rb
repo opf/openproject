@@ -123,7 +123,7 @@ class LlmConnection < ApplicationRecord
   end
 
   def chat_models
-    available_models.reject(&:embedding?)
+    available_models.where(external_id: chat_model_ids)
   end
 
   def embedding_model_ids
