@@ -240,6 +240,7 @@ OPENPROJECT_FEEDS__LIMIT (default=15) Feed content limit
 OPENPROJECT_FILE__MAX__SIZE__DISPLAYED (default=512) Max size of text files displayed inline
 OPENPROJECT_FIRST__WEEK__OF__YEAR (default=nil) First week in year contains
 OPENPROJECT_FOG (default={}) Configure fog, e.g. when using an S3 uploader
+OPENPROJECT_FOG__DIRECT__UPLOAD__EXPIRES__IN (default=14400) Expiration time in seconds of the signed forms used for direct uploads
 OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN (default=21600) Expiration time in seconds of created shared presigned URLs
 OPENPROJECT_FORCE__FORMATTING__HELP__LINK (default=nil) You can set a custom URL for the help button in the WYSIWYG editor.
 OPENPROJECT_FORCE__HELP__LINK (default=nil) You can set a custom URL for the help button in application header menu.

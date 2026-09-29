@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,24 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
-          def initialize(filters, ...)
-            filters = filters.reject { Query.excluded_filters.include?(it.class) }
+module DirectUploadHelpers
+  def stage_direct_upload(attachment, content: "test content")
+    mock_bucket_files.create(key: direct_upload_staging_key(attachment), body: content)
+  end
 
-            super
-          end
+  def staged_direct_upload(attachment)
+    mock_bucket_files.head(direct_upload_staging_key(attachment))
+  end
 
-          def model_self_link(model)
-            converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)
+  def direct_upload_staging_key(attachment)
+    DirectFogUploader.for_attachment(attachment).key
+  end
 
-            api_v3_paths.query_filter_instance_schema(converted_name)
-          end
-        end
-      end
-    end
+  private
+
+  def mock_bucket_files
+    Fog::Storage.new(MockCarrierwave.credentials).directories.get(MockCarrierwave.bucket).files
   end
 end

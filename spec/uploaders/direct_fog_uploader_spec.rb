@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,23 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
-          def initialize(filters, ...)
-            filters = filters.reject { Query.excluded_filters.include?(it.class) }
+require "spec_helper"
 
-            super
-          end
+RSpec.describe DirectFogUploader, :with_direct_uploads do
+  describe ".direct_fog_hash" do
+    let(:attachment) do
+      Attachment.new(id: 42, content_type: "image/png").tap do |attachment|
+        attachment[:file] = "cat.png"
+      end
+    end
+    let(:policy) { JSON.parse(Base64.decode64(described_class.direct_fog_hash(attachment:)[:policy])) }
+    let(:expiration) { Time.zone.parse(policy["expiration"]) }
 
-          def model_self_link(model)
-            converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)
+    it "expires after four hours by default" do
+      expect(expiration).to be_within(1.minute).of(4.hours.from_now)
+    end
 
-            api_v3_paths.query_filter_instance_schema(converted_name)
-          end
-        end
+    context "with a configured expiration" do
+      before do
+        with_config(fog_direct_upload_expires_in: 600)
+      end
+
+      it "expires after the configured time" do
+        expect(expiration).to be_within(1.minute).of(10.minutes.from_now)
       end
     end
   end

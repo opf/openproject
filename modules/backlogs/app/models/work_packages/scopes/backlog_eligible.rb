@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,26 +26,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
-          def initialize(filters, ...)
-            filters = filters.reject { Query.excluded_filters.include?(it.class) }
+module WorkPackages::Scopes::BacklogEligible
+  extend ActiveSupport::Concern
 
-            super
-          end
-
-          def model_self_link(model)
-            converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)
-
-            api_v3_paths.query_filter_instance_schema(converted_name)
-          end
-        end
-      end
+  class_methods do
+    def backlog_eligible
+      without_excluded_type
+        .without_status_considered_closed
     end
   end
 end
