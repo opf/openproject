@@ -115,7 +115,7 @@ class WikiController < ApplicationController
     build_wiki_page
 
     @page.parent = old_page
-    render action: "new"
+    render action: "new", layout: "no_menu"
   end
 
   def menu
@@ -143,17 +143,8 @@ class WikiController < ApplicationController
 
   # edit an existing page or a new one
   def edit
-    page = @wiki.find_or_new_page(wiki_page_title)
-    return render_403 unless editable?(page)
-
-    if page.new_record? && flash[:_related_wiki_page_id]
-      page.parent_id = flash[:_related_wiki_page_id]
-    end
-
-    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
-
-    @page = ::WikiPages::AtVersion.new(page, version)
-    render layout: "no_menu"
+    load_page_for_edit
+    render layout: "no_menu" unless performed?
   end
 
   def create
@@ -405,14 +396,29 @@ class WikiController < ApplicationController
     return unless @page.new_record?
 
     if User.current.allowed_in_project?(:edit_wiki_pages, @project) && editable?
-      edit
-      render action: :new
+      load_page_for_edit
+      render action: :new, layout: "no_menu" unless performed?
     elsif params[:id] == "wiki"
       flash[:info] = I18n.t("wiki.page_not_editable_index")
       redirect_to action: :index
     else
       render_404
     end
+  end
+
+  # Loads @page for the edit and new_child (via handle_new_wiki_page) actions.
+  # May call render_403, in which case the caller must not render again.
+  def load_page_for_edit
+    page = @wiki.find_or_new_page(wiki_page_title)
+    return render_403 unless editable?(page)
+
+    if page.new_record? && flash[:_related_wiki_page_id]
+      page.parent_id = flash[:_related_wiki_page_id]
+    end
+
+    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
+
+    @page = ::WikiPages::AtVersion.new(page, version)
   end
 
   # Finds the requested page and returns a 404 error if it doesn't exist

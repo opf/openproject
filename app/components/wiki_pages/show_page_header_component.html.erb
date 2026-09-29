@@ -81,6 +81,7 @@ See COPYRIGHT and LICENSE files for more details.
               label: t(:create_wiki_page),
               tag: :a,
               size: :medium,
+              content_arguments: { test_selector: "wiki-create-child-action-menu-item" },
               href: url_for(controller: "wiki", action: "new_child", id: @page)
             ) do |item|
               item.with_leading_visual_icon(icon: :plus)
