@@ -185,7 +185,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       expect(map(assigned_to: "locked@example.com").result.attributes).to eq(assigned_to: locked)
     end
 
-    describe "#prime" do
+    describe "resolving the users the rows name" do
       shared_let(:bob) { create(:user, mail: "bob@example.com") }
 
       let(:rows) do
@@ -200,13 +200,13 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       it "resolves every distinct address in one query" do
         allow(User).to receive(:not_builtin).and_call_original
 
-        mapper.prime(rows)
+        described_class.new(project:, rows:)
 
         expect(User).to have_received(:not_builtin).once
       end
 
       it "leaves nothing for the rows themselves to query" do
-        mapper.prime(rows)
+        mapper = described_class.new(project:, rows:)
         allow(User).to receive(:not_builtin).and_call_original
 
         rows.each { |row| mapper.call(row) }
@@ -215,9 +215,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       end
 
       it "still reports an address it could not resolve" do
-        mapper.prime(rows)
-
-        result = mapper.call(row({ assigned_to: "nobody@example.com" }))
+        result = described_class.new(project:, rows:).call(row({ assigned_to: "nobody@example.com" }))
 
         expect(result).to be_failure
         expect(result.result.first)
@@ -227,8 +225,8 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
                                        "Use the email address the user signs in with.")
       end
 
-      it "resolves the addresses it primed" do
-        mapper.prime(rows)
+      it "resolves the addresses it was built with" do
+        mapper = described_class.new(project:, rows:)
 
         expect(mapper.call(rows.first).result.attributes).to eq(assigned_to: assignee)
         expect(mapper.call(rows.second).result.attributes).to eq(assigned_to: bob)
@@ -237,16 +235,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       it "asks for nothing when no row names an assignee" do
         allow(User).to receive(:not_builtin).and_call_original
 
-        mapper.prime([row({ subject: "No assignee" }), row({ assigned_to: "" })])
-
-        expect(User).not_to have_received(:not_builtin)
-      end
-
-      it "does not ask again for an address already cached" do
-        mapper.call(row({ assigned_to: "alice@example.com" }))
-        allow(User).to receive(:not_builtin).and_call_original
-
-        mapper.prime([row({ assigned_to: "alice@example.com" })])
+        described_class.new(project:, rows: [row({ subject: "No assignee" }), row({ assigned_to: "" })])
 
         expect(User).not_to have_received(:not_builtin)
       end

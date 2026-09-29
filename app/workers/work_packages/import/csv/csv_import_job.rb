@@ -155,9 +155,7 @@ module WorkPackages
         def problems(list) = list.map(&:to_h)
 
         def file_problem(key, **)
-          HeaderMap::Problem.new(column: nil,
-                                 header: nil,
-                                 message: I18n.t("work_packages.import.csv.file.#{key}", **))
+          FileProblem.new(message: I18n.t("work_packages.import.csv.file.#{key}", **))
         end
       end
     end
