@@ -35,7 +35,7 @@ module Import
     OPTION_BASED_CUSTOM_SUFFIXES = %w[select multiselect multicheckboxes radiobuttons cascadingselect].freeze
 
     def text
-      "Fetch Custom Fields"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)

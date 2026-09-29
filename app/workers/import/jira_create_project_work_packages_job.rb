@@ -44,19 +44,20 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Create work_packages for '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
         total = issues.count
-        position = issues.where(id: ..cursor).count
-        (position.to_f / total * 100).round(2)
+        current = issues.where(id: ..cursor).count
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: 0, percentage: 0 }
       end
     end
 
