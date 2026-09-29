@@ -127,7 +127,7 @@ module WorkPackages
 
         def caption(attribute) = attribute.presence && WorkPackage.human_attribute_name(attribute)
 
-        def available_for(problem) = payload.dig("available", problem["attribute"].to_s)
+        def available_for(problem) = payload.dig("available_values", problem["attribute"].to_s)
 
         def shown_count
           capped_count(problems, shown_problems) ||

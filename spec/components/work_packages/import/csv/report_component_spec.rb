@@ -172,7 +172,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       render_outcome("rows_rejected",
                      "problems" => problems,
                      "created_count" => 0,
-                     "available" => { "type" => %w[Task Bug Milestone] })
+                     "available_values" => { "type" => %w[Task Bug Milestone] })
     end
 
     it "says nothing was imported and how much is wrong" do
