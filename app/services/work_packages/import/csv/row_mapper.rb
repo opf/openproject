@@ -56,9 +56,9 @@ module WorkPackages
           cache_users_named_in(rows)
         end
 
-        # @return [Hash] attribute name => the values that would have been accepted, for the
-        #   attributes a row actually failed on
-        def available = @available ||= {}
+        # @return [Hash] attribute name => the value names that would have been accepted, for
+        #   the attributes a row actually failed on
+        def available_values = @available_values ||= {}
 
         def call(row)
           problems = carried_problems(row)
@@ -157,13 +157,13 @@ module WorkPackages
 
         def named(attribute, raw)
           index(attribute).fetch(raw.strip.downcase) do
-            record_candidates(attribute)
+            record_available_values(attribute)
             raise Unresolvable, unknown_message(attribute)
           end
         end
 
-        def record_candidates(attribute)
-          available[attribute.to_s] ||= index(attribute).values.map(&:name)
+        def record_available_values(attribute)
+          available_values[attribute.to_s] ||= index(attribute).values.map(&:name)
         end
 
         def index(attribute)
