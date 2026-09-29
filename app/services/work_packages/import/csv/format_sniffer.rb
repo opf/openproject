@@ -39,7 +39,8 @@ module WorkPackages
         ACCEPTED_CHARSETS = %w[utf-8 us-ascii utf-16le utf-16be].freeze
 
         # @param file [String, Pathname, #path] the uploaded file, or its path
-        # @return [ServiceResult] failure carries :unknown in +result+
+        # @return [ServiceResult] success carries { content_type:, charset: } in +result+,
+        #   failure carries :unknown
         def self.call(file) = new(file).call
 
         def initialize(file)
@@ -47,16 +48,16 @@ module WorkPackages
         end
 
         def call
-          return ServiceResult.success if empty? || accepted_charset?
+          return ServiceResult.success(result: { content_type:, charset: }) if empty? || accepted_charset?
 
           ServiceResult.failure(result: :unknown, message:)
         end
 
-        def detected = @detected ||= OpenProject::ContentTypeDetector.new(path).detect_with_charset
-
         private
 
         attr_reader :file
+
+        def detected = @detected ||= OpenProject::ContentTypeDetector.new(path).detect_with_charset
 
         def content_type = detected.first
 
