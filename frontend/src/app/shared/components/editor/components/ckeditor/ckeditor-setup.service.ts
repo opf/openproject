@@ -56,13 +56,14 @@ export type ICKEditorResolvedMacros = boolean|string[];
 interface SelectionCapableEditor {
   data:{ stringify(fragment:unknown):string; parse(markdown:string):unknown };
   model:{
-    document:{ selection:{ isCollapsed:boolean; getFirstRange():unknown } };
+    document:{ selection:{ isCollapsed:boolean; getFirstRange():unknown }; getRoot():unknown };
     markers:{ get(name:string):{ getRange():unknown }|null };
     getSelectedContent(selection:unknown):unknown;
     insertContent(fragment:unknown, range:unknown):void;
     change(callback:(writer:{
       addMarker(name:string, options:{ range:unknown; usingOperation:boolean }):void;
       removeMarker(name:string):void;
+      createRangeIn(element:unknown):unknown;
     }) => void):void;
   };
 }
@@ -209,6 +210,14 @@ export class CKEditorSetupService {
         writer.removeMarker(AI_SELECTION_MARKER);
       });
       event.detail.done(true);
+    });
+
+    // Unlike setData, replacing the root's content with insertContent keeps the undo history.
+    wrapper.addEventListener('op:ckeditor:replaceDocument', (event:CustomEvent<string>) => {
+      clearMarker();
+      editor.model.change((writer) => {
+        editor.model.insertContent(editor.data.parse(event.detail), writer.createRangeIn(editor.model.document.getRoot()));
+      });
     });
 
     wrapper.addEventListener('op:ckeditor:clearSelectionMarker', clearMarker);

@@ -164,7 +164,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
         return;
       }
     } else {
-      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:setData', { detail: this.result }));
+      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:replaceDocument', { detail: this.result }));
     }
     this.element.hidden = true;
   }
