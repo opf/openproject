@@ -40,6 +40,8 @@ module OpenProject::GitlabIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    # TODO: webhook_secret should be marked as `secret: true`, but that is only supported
+    # for string settings, not for keys inside this plugin settings hash.
     def self.settings
       {
         default: {
