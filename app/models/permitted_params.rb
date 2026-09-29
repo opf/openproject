@@ -513,7 +513,6 @@ class PermittedParams
           :min_value,
           :move_to,
           :name,
-          :possible_values,
           :regexp,
           :searchable,
           :admin_only,
