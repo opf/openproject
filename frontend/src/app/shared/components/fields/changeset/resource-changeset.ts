@@ -42,6 +42,7 @@ import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-
 import { IHalOptionalTitledLink } from 'core-app/core/state/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { firstValueFrom } from 'rxjs';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -166,13 +167,12 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected updateForm():Promise<FormResource> {
     const payload = this.buildPayloadFromChanges();
 
-    if (!this.pristineResource.$links.update) {
+    const update = this.pristineResource.$links.update as CallableHalLink<FormResource>|undefined;
+    if (!update) {
       return Promise.reject();
     }
 
-    const promise = this.pristineResource
-      .$links
-      .update(payload)
+    const promise = update(payload)
       .then((form:FormResource) => {
         this.cache = {};
         this.form$.putValue(form);

@@ -31,9 +31,10 @@ import { map } from 'rxjs/operators';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export function renderHierarchyItem(item:HalResource, multiple = false):Observable<HTMLSpanElement> {
-  return from(item.$links.branch() as Promise<CollectionResource>)
+  return from((item.$links.branch as CallableHalLink<CollectionResource>)())
     .pipe(
       map((ancestors:CollectionResource) => spansFromAncestors(ancestors)),
       map((spans) => {

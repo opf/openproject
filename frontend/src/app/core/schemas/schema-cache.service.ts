@@ -37,6 +37,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export const fallbackSchemaId = '__fallback';
 
@@ -82,7 +83,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   }
 
   public getSchemaHref(resource:HalResource):string|undefined {
-    return resource.$links.schema?.href as string|undefined;
+    return (resource.$links.schema as CallableHalLink|undefined)?.href as string|undefined;
   }
 
   /**

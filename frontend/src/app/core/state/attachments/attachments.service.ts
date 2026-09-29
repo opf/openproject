@@ -57,6 +57,7 @@ import {
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Injectable()
 export class AttachmentsResourceService extends ResourceStoreService<IAttachment> {
@@ -204,7 +205,7 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
     const links = resource.$links;
 
     if (links.prepareAttachment) {
-      return links.prepareAttachment.href!;
+      return (links.prepareAttachment as CallableHalLink).href!;
     }
 
     if (isNewResource(resource)) {

@@ -47,7 +47,10 @@ export type HalResourceClass<T extends HalResource = HalResource> = new(
   _$halType:string,
 ) => T;
 
-export type HalResourceLinks = Record<string, CallableHalLink>;
+export interface HalResourceLinks {
+  self:CallableHalLink;
+  [name:string]:CallableHalLink|CallableHalLink[]|undefined;
+}
 
 export type HalResourceEmbedded = Record<string, unknown>;
 
@@ -107,7 +110,7 @@ export class HalResource {
 
   public $source:HalSource;
 
-  public $links:HalResourceLinks = {};
+  public $links = {} as HalResourceLinks;
 
   public $embedded:HalResourceEmbedded = {};
 

@@ -393,7 +393,7 @@ describe('HalResource', () => {
         return null as any;
       });
 
-      expect(() => resource.$links.beaver()).not.toThrow(Error);
+      expect(() => (resource.$links.beaver as CallableHalLink)()).not.toThrow(Error);
     });
 
     it('should have a $links property with the keys of its source _links', () => {

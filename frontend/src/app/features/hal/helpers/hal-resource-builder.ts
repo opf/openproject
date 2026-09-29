@@ -107,7 +107,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     halResource.$linkableKeys().forEach((linkName:string) => {
       OpenprojectHalModuleHelpers.lazy<unknown>(halResource, linkName,
         () => {
-          const entry = halResource.$links[linkName] as CallableHalLink|CallableHalLink[];
+          const entry = halResource.$links[linkName]!;
           const link = (entry as CallableHalLink).$link || entry;
 
           if (Array.isArray(link)) {

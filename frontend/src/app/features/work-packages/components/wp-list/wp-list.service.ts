@@ -55,6 +55,7 @@ import { WorkPackageStatesInitializationService } from './wp-states-initializati
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string|null, query_props?:string|null };
@@ -365,7 +366,7 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    if (!currentForm || query.$links.update?.href !== currentForm.href) {
+    if (!currentForm || (query.$links.update as CallableHalLink|undefined)?.href !== currentForm.href) {
       return this.loadForm(query);
     }
 

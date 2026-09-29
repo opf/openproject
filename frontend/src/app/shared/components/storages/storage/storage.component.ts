@@ -92,6 +92,7 @@ import {
 import {
   IHalErrorBase, v3ErrorIdentifierMissingEnterpriseToken,
 } from 'core-app/features/hal/resources/error-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Component({
   selector: 'op-storage',
@@ -190,7 +191,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return this.pathHelperService.fileLinksPath();
     }
 
-    return this.resource.$links.addFileLink.href!;
+    return (this.resource.$links.addFileLink as CallableHalLink).href!;
   }
 
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
@@ -532,7 +533,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   private fileLinkSelfLink(storage:IStorage):string {
     const fileLinks = (this.resource as WorkPackageResource).$links.fileLinks;
-    return `${fileLinks?.href}?pageSize=-1&filters=[{"storage":{"operator":"=","values":["${storage.id}"]}}]`;
+    return `${(fileLinks as CallableHalLink|undefined)?.href}?pageSize=-1&filters=[{"storage":{"operator":"=","values":["${storage.id}"]}}]`;
   }
 
   public onDropFiles(event:DragEvent):void {
