@@ -38,49 +38,38 @@ module Admin
       end
 
       def tabs
-        tabs = [
-          {
-            name: "edit",
-            path: edit_custom_field_path(@custom_field),
-            label: t(:label_details)
-          }
-        ]
-
-        if @custom_field.hierarchical_list?
-          tabs << {
-            name: "items",
-            path: custom_field_items_path(@custom_field),
-            label: t(:label_item_plural)
-          }
-        elsif @custom_field.list?
-          tabs << {
-            name: "items",
-            path: list_items_custom_field_path(@custom_field),
-            label: t(:label_item_plural)
-          }
-        end
-
-        if @custom_field.is_a?(WorkPackageCustomField) ||
-           @custom_field.is_a?(ProjectCustomField)
-          tabs <<
-            {
-              name: "custom_field_projects",
-              path: custom_field_projects_path(@custom_field),
-              label: t(:label_project_plural)
-            }
-
-          tabs <<
-            {
-              name: "attribute_help_text",
-              path: attribute_help_text_custom_field_path(@custom_field),
-              label: AttributeHelpText.human_attribute_name(:help_text)
-            }
-        end
-
-        tabs
+        [details_tab, items_tab, *extra_tabs].compact
       end
 
       private
+
+      def member_route
+        "admin_settings_#{@custom_field.class.name.underscore}"
+      end
+
+      def collection_route
+        "admin_settings_#{@custom_field.class.name.underscore.pluralize}"
+      end
+
+      def details_tab
+        { name: "edit", path: public_send(:"edit_#{member_route}_path", @custom_field), label: t(:label_details) }
+      end
+
+      def items_tab
+        if @custom_field.hierarchical_list?
+          { name: "items", path: custom_field_items_path(@custom_field), label: t(:label_item_plural) }
+        elsif @custom_field.list?
+          { name: "items", path: public_send(:"list_items_#{member_route}_path", @custom_field), label: t(:label_item_plural) }
+        end
+      end
+
+      def extra_tabs
+        return [] unless @custom_field.is_a?(WorkPackageCustomField)
+
+        [{ name: "custom_field_projects", path: custom_field_projects_path(@custom_field), label: t(:label_project_plural) },
+         { name: "attribute_help_text", path: public_send(:"attribute_help_text_#{member_route}_path", @custom_field),
+           label: AttributeHelpText.human_attribute_name(:help_text) }]
+      end
 
       def page_title
         concat @custom_field.attribute_in_database("name")
@@ -90,8 +79,7 @@ module Admin
       def breadcrumbs_items
         [
           { href: admin_index_path, text: t(:label_administration) },
-          { href: custom_fields_path, text: t(:label_custom_field_plural) },
-          { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
+          { href: public_send(:"#{collection_route}_path"), text: I18n.t(@custom_field.type_name) },
           helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format),
                                             @custom_field.attribute_in_database("name"))
         ]

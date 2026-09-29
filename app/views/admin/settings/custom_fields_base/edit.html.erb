@@ -31,4 +31,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :edit)) %>
 
-<%= render CustomFields::DetailsComponent.new(@custom_field) %>
+<%= render CustomFields::DetailsComponent.new(@custom_field, form_url: member_path(@custom_field)) %>

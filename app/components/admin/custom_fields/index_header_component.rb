@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,32 +26,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module CustomFields
-  class FormatSubHeaderComponent < ApplicationComponent
-    def initialize(customizable_name:)
-      super
-      @customizable_name = customizable_name
-    end
+module Admin
+  module CustomFields
+    class IndexHeaderComponent < ApplicationComponent
+      def initialize(title:, section_label:, index_path:)
+        super
+        @title = title
+        @section_label = section_label
+        @index_path = index_path
+      end
 
-    def label
-      I18n.t(:label_custom_field_new)
-    end
+      attr_reader :title
 
-    def type
-      "#{@customizable_name}CustomField"
-    end
-
-    def new_field_path(format)
-      public_send(:"new_admin_settings_#{type.underscore}_path", field_format: format)
-    end
-
-    def available_format_names
-      OpenProject::CustomFieldFormat
-        .available_for_class_name(@customizable_name)
-        .map(&:name)
-        .sort
+      def breadcrumb_items
+        [{ href: admin_index_path, text: t(:label_administration) },
+         { href: @index_path, text: @section_label },
+         @title]
+      end
     end
   end
 end

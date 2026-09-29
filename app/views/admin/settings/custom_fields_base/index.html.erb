@@ -27,22 +27,27 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_custom_field_new) %>
+<% html_title t(:label_administration), custom_field_page_title -%>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
-    header.with_title do
-      concat t(:label_custom_field_new)
-      concat render(Primer::Beta::Text.new(color: :muted)) { " (#{label_for_custom_field_format(@custom_field.field_format)})" }
-    end
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: custom_fields_path, text: t(:label_custom_field_plural) },
-       { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
-       nested_breadcrumb_element(label_for_custom_field_format(@custom_field.field_format), t(:label_custom_field_new))],
-      selected_item_font_weight: :normal
-    )
-  end
-%>
+<%= render(Admin::CustomFields::IndexHeaderComponent.new(title: custom_field_page_title, section_label:, index_path:)) %>
 
-<%= render CustomFields::DetailsComponent.new(@custom_field) %>
+<%= render(CustomFields::FormatSubHeaderComponent.new(customizable_name:)) %>
+
+<% work_package = customizable_name == "WorkPackage" %>
+<% if work_package %>
+  <%= render(EnterpriseEdition::BannerComponent.new(:custom_field_hierarchies)) %>
+<% end %>
+
+<% if @custom_fields.blank? %>
+  <%= no_results_box(display_action: false, custom_title: t("custom_fields.no_results_title_text")) %>
+<% else %>
+  <% if work_package %>
+    <div class="op-toast -info">
+      <div class="op-toast--content">
+        <p><%= t("text_custom_field_hint_activate_per_project_and_type") %></p>
+      </div>
+    </div>
+  <% end %>
+  <%= render partial: "admin/settings/custom_fields_base/table",
+             locals: { custom_fields: @custom_fields, work_package: } %>
+<% end %>

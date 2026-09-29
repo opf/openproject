@@ -1,0 +1,146 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" data-controller="table-highlighting">
+      <colgroup>
+        <col>
+        <col>
+        <% if work_package %>
+          <col>
+          <col>
+        <% end %>
+        <col>
+        <col>
+        <col data-highlight="false">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span><%= CustomField.human_attribute_name(:name) %></span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span><%= CustomField.human_attribute_name(:field_format) %></span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span><%= CustomField.human_attribute_name(:is_required) %></span>
+              </div>
+            </div>
+          </th>
+          <% if work_package %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span><%= CustomField.human_attribute_name(:is_for_all) %></span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span><%= t(:label_used_in_projects) %></span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span><%= t("custom_fields.contained_in_type") %></span>
+                </div>
+              </div>
+            </th>
+          <% else %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span><%= t(:button_sort) %></span>
+                </div>
+              </div>
+            </th>
+          <% end %>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% custom_fields.sort.each do |custom_field| -%>
+          <tr>
+            <td><%= link_to h(custom_field.name), edit_path(custom_field), lang: custom_field.name_locale %></td>
+            <td><%= label_for_custom_field_format(custom_field.field_format) %></td>
+            <td><%= checked_image custom_field.is_required? %></td>
+            <% if work_package %>
+              <td><%= checked_image custom_field.is_for_all? %></td>
+              <td>
+                <% if custom_field.projects.count == 0 && !custom_field.is_for_all? %>
+                  <span class="icon-context icon-warning">
+                    <%= t(:label_x_projects, count: custom_field.projects.count) %>
+                  </span>
+                <% elsif !custom_field.is_for_all? %>
+                  <%= t(:label_x_projects, count: custom_field.projects.count) %>
+                <% end %>
+              </td>
+              <td>
+                <% type_links = custom_field.type_variants.map { |variant| link_to(variant.composite_name, edit_type_form_configuration_path(**variant.path_args)) } %>
+                <% if type_links.empty? %>
+                  <span class="icon-context icon-warning">
+                    <%= link_to t(:label_custom_field_add_no_type), types_path %>
+                  </span>
+                <% end %>
+                <%= safe_join(type_links, ", ") %>
+              </td>
+            <% else %>
+              <td><%= reorder_links("custom_field", { action: "update", id: custom_field, back_url: index_path }, method: :put) %></td>
+            <% end %>
+            <td class="buttons">
+              <%= link_to(
+                    op_icon("icon icon-delete"),
+                    member_path(custom_field),
+                    data: {
+                      turbo_method: :delete,
+                      turbo_confirm: I18n.t(:text_are_you_sure)
+                    },
+                    title: t(:button_delete)
+                  ) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
