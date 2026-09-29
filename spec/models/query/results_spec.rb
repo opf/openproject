@@ -202,16 +202,10 @@ RSpec.describe Query::Results do
         work_package2.save!
       end
 
-      it "yields no error but rather returns the result" do
-        expect { query_results.work_package_count_by_group }.not_to raise_error
+      it "counts each work package in the group of its items" do
+        group_count = query_results.work_package_count_by_group.transform_keys { |key| key.map(&:id).sort }
 
-        group_count = query_results.work_package_count_by_group
-        expected_groups = [[first_value], [first_value, last_value]]
-
-        group_count.each do |key, count|
-          expect(count).to be 1
-          expect(expected_groups).to(be_any { |group| group & key == key & group })
-        end
+        expect(group_count).to include([first_value.id] => 1, [first_value.id, last_value.id].sort => 1)
       end
     end
 

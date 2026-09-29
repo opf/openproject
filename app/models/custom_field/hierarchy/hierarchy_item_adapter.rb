@@ -29,13 +29,18 @@
 #++
 
 class CustomField::Hierarchy::HierarchyItemAdapter
-  delegate :id, :label, :short, :to_s, to: :item
+  delegate :id, :label, :short, :to_s, :hash, to: :item
 
   def initialize(item:) = @item = item
 
   def name = @item.label
 
-  private
+  # Group keys are looked up across separate query result calls, each building its own adapters.
+  def ==(other) = other.is_a?(self.class) && item == other.item
 
-  attr_accessor :item
+  alias eql? ==
+
+  protected
+
+  attr_reader :item
 end

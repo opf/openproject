@@ -81,22 +81,15 @@ module Exports::PDF::Components::WpTable
   #   ["Foo","Bar"]: …
   # }
   #
-  # b) query.results.all_group_sums returns a hash with the group as key - not the value, e.g.
-  # {
-  # { []: …,
-  #   [#<CustomField::Hierarchy::Item … label: "Foo">]: …,
-  #   [#<CustomField::Hierarchy::Item … label: "Bar">]: …,
-  #   [#<CustomField::Hierarchy::Item … label: "Bar">, #<CustomField::Hierarchy::Item label: "Foo"">] …,
-  # }
-  #
-  # c) for hierarchy custom fields the same call keys by an array of items, even for single value ones, e.g.
+  # b) query.results.all_group_sums returns a hash with the group as key - not the value;
+  # for list and hierarchy custom fields an array of items, even for single value ones, e.g.
   # {
   # { []: …,
   #   [#<HierarchyItemAdapter … label: "Foo">]: …,
   #   [#<HierarchyItemAdapter … label: "Bar">, #<HierarchyItemAdapter … label: "Foo">] …,
   # }
   #
-  #  we therefor transform the keys of sums from b) and c) to a)
+  #  we therefor transform the keys of sums from b) to a)
 
   def transformed_sum_group(query)
     sums = query.results.all_group_sums
@@ -109,9 +102,7 @@ module Exports::PDF::Components::WpTable
 
   def transform_custom_field_keys(groups, query)
     custom_field = query.group_by_column.custom_field
-    if custom_field.list?
-      transform_list_custom_field_keys(custom_field, groups)
-    elsif custom_field.field_format_hierarchy?
+    if custom_field.list? || custom_field.field_format_hierarchy?
       transform_hierarchy_custom_field_keys(custom_field, groups)
     else
       transform_single_custom_field_keys(custom_field, groups)
@@ -122,17 +113,6 @@ module Exports::PDF::Components::WpTable
     groups.transform_keys { |key| custom_field.cast_value(key) }
   end
 
-  def transform_list_custom_field_keys(custom_field, groups)
-    groups.transform_keys do |key|
-      if custom_field.multi_value?
-        key.map { |item| item&.label }.presence
-      else
-        key&.label
-      end
-    end
-  end
-
-  # hierarchy groups from c) are keyed by an array of items, even for single value custom fields
   def transform_hierarchy_custom_field_keys(custom_field, groups)
     groups.transform_keys do |key|
       if custom_field.multi_value?
