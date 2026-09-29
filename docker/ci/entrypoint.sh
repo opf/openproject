@@ -163,7 +163,6 @@ run_units() {
 	shopt -s extglob globstar nullglob
 	reset_dbs
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/{!(features)/**/,}*_spec.rb"
-	cleanup
 }
 
 run_features() {
@@ -185,15 +184,12 @@ run_features() {
 			exit 1
 		fi
 	fi
-
-	cleanup
 }
 
 run_all() {
 	shopt -s globstar nullglob
 	reset_dbs
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec/**/*_spec.rb"
-	cleanup
 }
 
 export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features run_all
