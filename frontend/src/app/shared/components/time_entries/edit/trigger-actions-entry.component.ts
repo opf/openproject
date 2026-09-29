@@ -37,6 +37,7 @@ import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-re
 import { Observable, switchMap } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'opce-time-entry-trigger-actions',
@@ -114,7 +115,7 @@ export class TriggerActionsEntryComponent {
       )
       .subscribe(
         () => window.location.reload(),
-        (error) => this.toastService.addError(error || this.text.error),
+        (error:HttpErrorResponse) => this.toastService.addError(error || this.text.error),
       );
   }
 

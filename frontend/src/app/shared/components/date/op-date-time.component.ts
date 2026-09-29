@@ -47,11 +47,11 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 export class OpDateTimeComponent implements OnInit {
   readonly timezoneService = inject(TimezoneService);
 
-  @Input() dateTimeValue:any;
+  @Input() dateTimeValue:string;
 
-  public date:any;
+  public date:string;
 
-  public time:any;
+  public time:string;
 
   ngOnInit() {
     const c = this.timezoneService.formattedDatetimeComponents(this.dateTimeValue);

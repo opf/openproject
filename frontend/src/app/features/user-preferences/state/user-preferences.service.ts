@@ -34,6 +34,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class UserPreferencesService {
@@ -50,8 +51,8 @@ export class UserPreferencesService {
     this.preferenceAPI(user)
       .get()
       .subscribe(
-        (prefs) => this.store.update(prefs),
-        (error) => this.toastService.addError(error),
+        (prefs) => { this.store.update(prefs); },
+        (error:HttpErrorResponse) => this.toastService.addError(error),
       )
       .add(
         () => this.store.setLoading(false),
@@ -68,7 +69,7 @@ export class UserPreferencesService {
           this.store.update(prefs);
           this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         },
-        (error) => this.toastService.addError(error),
+        (error:HttpErrorResponse) => this.toastService.addError(error),
       )
       .add(() => this.store.setLoading(false));
   }

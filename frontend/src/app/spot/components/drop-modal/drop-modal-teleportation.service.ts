@@ -36,7 +36,7 @@ import {
 } from 'rxjs';
 import { distinctUntilChanged, filter, take } from 'rxjs/operators';
 
-export type TeleportInstance = TemplateRef<any>;
+export type TeleportInstance = TemplateRef<unknown>;
 
 @Injectable({ providedIn: 'root' })
 export class SpotDropModalTeleportationService {

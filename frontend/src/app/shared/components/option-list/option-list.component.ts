@@ -92,11 +92,11 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
     this.cdRef.markForCheck();
   }
 
-  registerOnChange(fn:any) {
+  registerOnChange(fn:(_:IOpOptionListValue<T>) => void) {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any) {
+  registerOnTouched(fn:(_:IOpOptionListValue<T>) => void) {
     this.onTouched = fn;
   }
 }
