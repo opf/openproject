@@ -121,42 +121,7 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
 
     it "reads a BOM, CRLF and semicolons together, as Excel on a German locale writes them" do
       with_csv("\xEF\xBB\xBFSubject;Type\r\nA;Task\r\n".b) do |path|
-        result = described_class.call(path)
-
-        expect(described_class.new(path).separator).to eq(";")
-        expect(result.result.first.values).to eq(subject: "A", type: "Task")
-      end
-    end
-  end
-
-  describe "the separator" do
-    it "reads a comma" do
-      expect(described_class.new(fixture("work_packages.csv")).separator).to eq(",")
-    end
-
-    it "reads a semicolon, which Excel writes on a German locale" do
-      expect(described_class.new(fixture("semicolon.csv")).separator).to eq(";")
-      expect(described_class.call(fixture("semicolon.csv")).result.size).to eq(2)
-    end
-
-    it "reads a tab" do
-      with_csv("Subject\tType\tStart date\nBuild it\tTask\t2026-01-05\n") do |path|
-        expect(described_class.new(path).separator).to eq("\t")
-        expect(described_class.call(path).result.first.values)
-          .to eq(subject: "Build it", type: "Task", start_date: "2026-01-05")
-      end
-    end
-
-    it "is chosen by which separator makes the headers readable, not by counting them" do
-      # One column, whose caption is full of semicolons. Counting would pick ";".
-      with_csv(%{"Subject;with;semicolons;inside",Type\nA,Task\n}) do |path|
-        expect(described_class.new(path).separator).to eq(",")
-      end
-    end
-
-    it "falls back to a comma when there is a single column" do
-      with_csv("Subject\nBuild it\n") do |path|
-        expect(described_class.new(path).separator).to eq(",")
+        expect(described_class.call(path).result.first.values).to eq(subject: "A", type: "Task")
       end
     end
   end

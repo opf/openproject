@@ -32,9 +32,6 @@ module WorkPackages
   module Import
     module CSV
       class Parser
-        # Excel writes ; on a German locale and \t when saving as "Unicode text".
-        SEPARATORS = %W[, ; \t].freeze
-
         Row = Data.define(:number, :values, :problems)
 
         def self.call(file) = new(file).call
@@ -45,25 +42,19 @@ module WorkPackages
 
         # @return [ServiceResult] success carries an array of Row, failure an array of HeaderMap::Problem
         def call
+          @header = HeaderSniffer.call(path, header_map)
+
           problems = header_problems
           return ServiceResult.failure(result: problems) if problems.any?
 
-          rows = read_rows
-          return ServiceResult.failure(result: [file_problem(:no_rows)]) if rows.empty?
-          return ServiceResult.failure(result: [too_many_rows]) if rows.size > max_rows
-
-          ServiceResult.success(result: rows)
+          rows_result
         rescue ::CSV::InvalidEncodingError => e
           ServiceResult.failure(result: [file_problem(:invalid_encoding, line: e.line_number)])
         end
 
-        def separator
-          @separator ||= SEPARATORS.max_by { |candidate| [resolvable_headers(candidate), -SEPARATORS.index(candidate)] }
-        end
-
         private
 
-        attr_reader :file
+        attr_reader :file, :header
 
         def path = file.respond_to?(:path) ? file.path : file.to_s
 
@@ -71,27 +62,15 @@ module WorkPackages
 
         def header_map = @header_map ||= HeaderMap.new
 
-        def headers = header_entry(separator).first
+        def headers = header.values
 
-        def header_index = header_entry(separator).last
+        def rows_result
+          rows = read_rows
 
-        def header_entry(candidate)
-          @header_entries ||= {}
-          @header_entries[candidate] ||= first_populated_row(candidate)
-        end
+          return ServiceResult.failure(result: [file_problem(:no_rows)]) if rows.empty?
+          return ServiceResult.failure(result: [too_many_rows]) if rows.size > max_rows
 
-        def first_populated_row(candidate)
-          values, index = ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: candidate)
-                               .with_index
-                               .find { |row, _| row.any?(&:present?) } || [[], 0]
-
-          [values.reverse.drop_while(&:blank?).reverse, index]
-        end
-
-        def resolvable_headers(candidate)
-          header_entry(candidate).first.count { |header| header_map.resolve(header) }
-        rescue ::CSV::MalformedCSVError
-          0
+          ServiceResult.success(result: rows)
         end
 
         def header_result = @header_result ||= header_map.call(headers)
@@ -114,21 +93,26 @@ module WorkPackages
         end
 
         def derived_headers
-          headers.filter_map { |header| header_map.resolve(header) } & HeaderMap::DERIVED_FROM_STATUS
+          headers.filter_map { |name| header_map.resolve(name) } & HeaderMap::DERIVED_FROM_STATUS
         end
 
         def read_rows
           rows = []
+          header_index = header.index
 
-          ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: separator).with_index do |values, index|
+          ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: header.separator).with_index do |values, index|
             next if index <= header_index
             next if values.all?(&:blank?)
 
-            rows << Row.new(number: index + 1, values: attributes_for(values), problems: problems_for(values))
+            rows << row_for(values, index)
             break if rows.size > max_rows
           end
 
           rows
+        end
+
+        def row_for(values, index)
+          Row.new(number: index + 1, values: attributes_for(values), problems: problems_for(values))
         end
 
         def attributes_for(values)
