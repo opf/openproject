@@ -86,7 +86,7 @@ In GitLab you have to set up a webhook in each repository to be integrated with 
 
 ![Create the webhook in GitLab](openproject-system-guide-gitlab-integration-gitlab-webhook.png)
 
-You need to configure the **URL** . It must point to your OpenProject server's GitLab webhook endpoint (`/webhooks/gitlab`).
+You need to configure the **URL**. It must point to your OpenProject server's GitLab webhook endpoint (`/webhooks/gitlab`).
 
 You will need the API key you copied earlier in OpenProject. Append it to the _URL_ as a simple GET parameter named `key`. In the end the URL should look something like this:
 
@@ -158,7 +158,7 @@ Once the changes are made, you can create your merge request. Title and comment 
 
 The branch description can be amended before a MR is created giving the opportunity to further describe the changes. To help with that, it is also possible to copy parts of the work package description since the description can be displayed in the markdown format. Links to additional work packages can also be included in the MR description.
 
-If you use OP# as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject without your comments being published. In this case, you can use "PP#" as a reference. For example "PR#388".  This way the comments will not be published in OpenProject. If you only want to publish one of the comments from a private Issue/MR, you can use "OP#" directly in that comment. This way only that specific comment will be published in OpenProject, but the rest of the comments will remain private. [Read more](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#difference-between-op-and-pp).
+If you use OP# as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject without your comments being published. In this case, you can use "PP#" as a reference. For example "PP#388".  This way the comments will not be published in OpenProject. If you only want to publish one of the comments from a private Issue/MR, you can use "OP#" directly in that comment. This way only that specific comment will be published in OpenProject, but the rest of the comments will remain private. [Read more](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#difference-between-op-and-pp).
 
 ![Open a GitLab merge request](openproject-system-guide-gitlab-integration-create-mr-detail.png)
 
@@ -174,7 +174,7 @@ When you click on the link in the comment, it will take you to the OpenProject w
 
 In the GitLab tab of that work package, the status of the merge request as well as status of all the configured GitLab Actions will also be displayed.
 
-![GitLab actions under GitLab tab in OpenProject work package](openproject-system-guide-gitlab-integration-gitlab-actions.png)
+![GitLab actions under the GitLab tab in OpenProject work package](openproject-system-guide-gitlab-integration-gitlab-actions.png)
 
 If the status of a merge request changes, it will be reflected in the OpenProject work package accordingly. Please see the example below.
 
@@ -220,8 +220,10 @@ Once you save your changes or create a GitLab issue, it will become visible unde
 ![New GitLab issues shown in OpenProject work packages](openproject-system-guide-gitlab-integration-new-issues.png)
 
 ### Link branches
+
 > [!IMPORTANT]
 > This feature is available on our Dev branch. 
+
 A GitLab branch is linked to a work package when the branch is pushed to GitLab and its name contains the work package ID. The branch name you copy from the **Git quick snippets** dialog already has the right format.
 
 OpenProject recognizes the work package ID in the following cases:
@@ -233,14 +235,20 @@ A branch is linked to one work package only. If the name contains several work p
 
 Linked branches are shown in the **Branches** section of the **GitLab** tab. For each branch, you can see the repository, the branch name with a link to GitLab, who created the branch and when it was last updated. Click the copy icon next to the name to copy the branch name. Click **Create merge request** to open the form for a new merge request for this branch in GitLab.
 
+![Linked GitLab branches shown under GitLab tab in an OpenProject work package](gitlab-tab-branches.png)
+
 > [!NOTE]
 > Only branches created after the webhook has been configured are linked. When a branch is deleted in GitLab, it is also removed from the **GitLab** tab.
 
 ### Link commits
+
 > [!IMPORTANT]
 > This feature is available on our Dev branch. 
+
 A GitLab commit is linked to a work package when it is pushed to GitLab and its message references the work package, either with **OP#388** or with the URL of the work package, for example `https://myopenproject.com/projects/demo/work_packages/388`. The URL has to point to your OpenProject instance, using the host name configured in OpenProject. The commit message you copy from the **Git quick snippets** dialog already contains such a reference. A commit can reference several work packages.
 
 Linked commits are shown in the **Commits** section of the **GitLab** tab. For each commit, you can see the repository, the short commit SHA, the first line of the commit message with a link to the commit in GitLab, the author and the date the commit was authored. Click the copy icon next to the SHA to copy the full commit SHA.
 
 A comment about the pushed commit is also added to the **Activity** tab of the referenced work package. Unlike issues and merge requests, commits have no private reference: a commit referencing a work package with **PP#** is linked and commented on in the same way as with **OP#**.
+
+![Linked GitLab commits shown under GitLab tab in an OpenProject work package](gitlab-tab-commits.png)
