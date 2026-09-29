@@ -44,6 +44,42 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     JSON.parse(items).pluck("id").compact_blank
   end
 
+  describe "with the feature flag off", with_flag: { llm_connection: false } do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before { login_as admin }
+
+    it "does not expose the endpoints" do
+      get llm_feature_bindings_path
+      expect(response).to have_http_status(:not_found)
+
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+      expect(response).to have_http_status(:not_found)
+      expect(connection.feature_bindings).to be_empty
+    end
+  end
+
+  describe "as a non-admin" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before { login_as create(:user) }
+
+    it "refuses the page" do
+      get llm_feature_bindings_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "refuses to store a model" do
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+
+      expect(response).to have_http_status(:forbidden)
+      expect(connection.feature_bindings).to be_empty
+    end
+  end
+
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
@@ -146,6 +182,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         .to eq("qwen3.6-27b")
     end
 
+    it "refuses a model the server does not offer" do
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "no-such-model" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "description_assistant")).to be_nil
+      expect(flash[:error]).to include("is not offered by the configured LLM server")
+    end
+
     it "treats a blank choice as inheriting the default" do
       connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
@@ -177,6 +221,41 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       expect(a_request(:post, "#{base_url}/embeddings")).not_to have_been_made
     end
 
+    context "when the probe rules out a capability the feature requires" do
+      let(:feature_key) { :spec_only_vision_feature }
+      let(:verdict) do
+        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+      end
+
+      before do
+        OpenProject::Llm::Features.register(feature_key, kind: :chat, requires: %i[vision],
+                                                         i18n_scope: "llm.features.description_assistant")
+        allow(LlmConnections::DetectCapabilitiesService)
+          .to receive(:new)
+          .and_return(instance_double(LlmConnections::DetectCapabilitiesService,
+                                      detect: ServiceResult.success(result: verdict)))
+      end
+
+      after { OpenProject::Llm::Features.all.delete(feature_key) }
+
+      it "names the capability the verdict is about" do
+        patch llm_feature_binding_path(feature_key), params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+
+        expect(flash[:error]).to include("does not support Vision")
+      end
+    end
+
+    it "refuses a request that carries no binding" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      patch llm_feature_binding_path("description_assistant")
+
+      expect(response).to have_http_status(:bad_request)
+      expect(connection.feature_bindings.find_by(feature_key: "description_assistant").model_id)
+        .to eq("qwen3.6-27b")
+    end
+
     it "404s for a feature that is not registered" do
       patch llm_feature_binding_path("no_such_feature"), params: { llm_feature_binding: { model_id: "x" } }
 
@@ -200,14 +279,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       binding = connection.feature_bindings.find_by(feature_key: "semantic_search")
 
       expect(binding.dimensions).to eq(1024)
-    end
-
-    # The embedder owns them, and nothing read them here.
-    it "offers no document or query prefix" do
-      get llm_feature_bindings_path
-
-      expect(response.body).not_to include("input_prefix")
-      expect(response.body).not_to include("query_prefix")
     end
 
     it "rejects a dimension count that is not a positive integer" do

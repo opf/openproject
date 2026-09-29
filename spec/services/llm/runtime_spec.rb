@@ -37,6 +37,23 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
   let(:feature_key) { :description_assistant }
   let(:override) { nil }
 
+  context "with a feature whose own toggle is off" do
+    let(:feature_key) { :spec_only_unavailable_feature }
+
+    before do
+      OpenProject::Llm::Features.register(feature_key, kind: :chat, available: -> { false })
+      create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b")
+    end
+
+    after { OpenProject::Llm::Features.all.delete(feature_key) }
+
+    it "fails closed although a model would resolve" do
+      expect(resolution.status).to eq(:feature_disabled)
+      expect(resolution.model_id).to be_nil
+      expect(resolution.connection).to be_nil
+    end
+  end
+
   context "without a connection" do
     it { expect(resolution.status).to eq(:no_connection) }
   end

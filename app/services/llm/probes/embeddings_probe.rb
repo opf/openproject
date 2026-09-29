@@ -32,9 +32,9 @@ module Llm
   module Probes
     # Determines whether a model can produce embeddings, by asking it to.
     #
-    # The 200 case is checked by shape rather than by status, because unknown
-    # parameters are silently dropped by vLLM, llama.cpp and Ollama alike: a 200
-    # on its own proves nothing.
+    # vLLM, llama.cpp and Ollama silently drop parameters they do not
+    # understand, so a 200 on its own proves nothing: only a body shaped like an
+    # embedding response counts as support.
     class EmbeddingsProbe
       PROBE_INPUT = "openproject"
 
@@ -47,7 +47,18 @@ module Llm
       # chat completions and nothing else, and would refuse every model alike.
       ENDPOINT_ABSENT_REASONS = [404, 405, 501].map { |status| "http_#{status}" }.freeze
 
+      # Failures of the server as a whole, which every other model on it would
+      # meet alike: throttling, rejected credentials, a server error, or no
+      # answer at all.
+      SERVER_WIDE_REASONS = [*ENDPOINT_ABSENT_REASONS, "http_429", "unauthorized",
+                             "timeout_error", "connection_error", "ssl_error"].freeze
+      SERVER_ERROR_REASON = /\Ahttp_5\d\d\z/
+
       Result = Data.define(:state, :detail)
+
+      def self.server_wide?(reason)
+        reason.in?(SERVER_WIDE_REASONS) || SERVER_ERROR_REASON.match?(reason.to_s)
+      end
 
       def initialize(connection)
         @connection = connection

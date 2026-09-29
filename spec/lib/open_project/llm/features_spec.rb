@@ -53,8 +53,8 @@ RSpec.describe OpenProject::Llm::Features do
     end
   end
 
-  it "registers semantic search as a pinned embedding feature" do
+  it "registers semantic search as an embedding feature that cannot be overridden" do
     expect(described_class[:semantic_search])
-      .to have_attributes(kind: :embedding, pinned: true, requires: %i[embeddings])
+      .to have_attributes(kind: :embedding, overridable: false, requires: %i[embeddings])
   end
 end

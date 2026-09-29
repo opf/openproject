@@ -52,6 +52,12 @@ module Llm
 
       register_group ModelValidator
       register_group FeatureValidator
+
+      # A stored report keeps its group keys as strings.
+      def self.report_kind(report)
+        inference = InferenceValidator.key.to_s
+        report.results.any? { |group| group.key.to_s == inference } ? :full : :without_inference
+      end
     end
   end
 end

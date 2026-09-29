@@ -63,7 +63,7 @@ module Admin
 
       ApplicationRecord.transaction do
         clear_api_key
-        Setting.llm_features_enabled = false
+        Setting.llm_features_enabled = false if Setting.llm_features_enabled_writable?
       end
 
       Llm::HealthCheckJob.toggle_cron_job

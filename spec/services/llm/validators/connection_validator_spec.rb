@@ -41,6 +41,14 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     report.group(group)&.result_for(key)
   end
 
+  # A binding can only be saved to a model the server offers; it dangles once
+  # a later refresh withdraws that model.
+  def bind_to_withdrawn_model(feature_key, model_id, **)
+    llm_model = create(:llm_model, llm_connection: connection, external_id: model_id)
+    connection.feature_bindings.create!(feature_key:, model_id:, **)
+    llm_model.update!(active: false)
+  end
+
   context "with a healthy connection" do
     before do
       mock_llm_models_response(base_url)
@@ -125,10 +133,10 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
   context "when the model list answers 404" do
     before { mock_llm_models_response(base_url, response_code: 404) }
 
-    it "reports the status rather than calling the endpoint merely absent" do
+    it "says the model list is missing at this address, as saving the connection does" do
       expect(result_for(:server, :reachable).state).to eq(:success)
       expect(result_for(:server, :credentials_accepted).state).to eq(:failure)
-      expect(result_for(:server, :credentials_accepted).code).to eq(:server_error)
+      expect(result_for(:server, :credentials_accepted).code).to eq(:models_endpoint_missing)
     end
   end
 
@@ -195,6 +203,26 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
       expect(result.state).to eq(:warning)
       expect(result.code).to eq(:catalogue_stale_settings)
     end
+
+    it "warns when the model list was never retrieved" do
+      connection.update_column(:last_synced_at, nil)
+
+      result = result_for(:models, :catalogue_fresh)
+
+      expect(result.state).to eq(:warning)
+      expect(result.code).to eq(:catalogue_never_fetched)
+    end
+
+    it "names the date of a model list retrieved too long ago" do
+      synced_at = (Llm::Validators::ModelValidator::STALE_AFTER + 1.day).ago
+      connection.update_column(:last_synced_at, synced_at)
+
+      result = result_for(:models, :catalogue_fresh)
+
+      expect(result.state).to eq(:warning)
+      expect(result.code).to eq(:catalogue_stale)
+      expect(result.context[:fetched_at]).to eq(I18n.l(synced_at.to_date))
+    end
   end
 
   describe "the features group" do
@@ -208,12 +236,46 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     it "fails when a binding points at a model the server no longer offers" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "vanished")
+      bind_to_withdrawn_model("description_assistant", "vanished")
 
       result = result_for(:features, :bindings_resolvable)
 
       expect(result.state).to eq(:failure)
       expect(result.code).to eq(:features_model_missing)
+    end
+
+    context "with an embedding feature available", with_flag: { llm_connection: true, semantic_search: true } do
+      it "fails when the bound model lacks a capability the feature requires" do
+        connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3")
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+
+        result = result_for(:features, :bindings_resolvable)
+
+        expect(result.state).to eq(:failure)
+        expect(result.code).to eq(:features_incapable)
+        expect(result.context).to include(features: "Semantic search", capabilities: "Embeddings")
+      end
+    end
+
+    it "passes while the model of a locked binding is still offered" do
+      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
+                                          locked_at: Time.current)
+
+      expect(result_for(:features, :locked_bindings_intact).state).to eq(:success)
+    end
+
+    # Only reachable while the feature itself is switched off: for an available
+    # feature the missing model already fails bindings_resolvable, which halts
+    # the group.
+    it "fails when the model of a locked binding has left the catalogue" do
+      bind_to_withdrawn_model("semantic_search", "retired-embedder", locked_at: Time.current)
+
+      result = result_for(:features, :locked_bindings_intact)
+
+      expect(result.state).to eq(:failure)
+      expect(result.code).to eq(:locked_model_missing)
+      expect(result.context).to include(features: "Semantic search")
     end
   end
 
@@ -232,7 +294,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
     it "exist for every check and every code the validator can emit" do
       # A dangling binding, so the features group emits its failure codes too.
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "vanished")
+      bind_to_withdrawn_model("description_assistant", "vanished")
 
       scenarios.each do |setup|
         WebMock.reset!

@@ -124,9 +124,9 @@ module Llm
       effective_override || binding_model_id || connection_default
     end
 
-    # A pinned feature declared overridable: false must not follow a caller's
-    # override: semantic_search's vectors were written with one model, and a
-    # different one at query time is silently wrong answers, not a preference.
+    # A feature declared overridable: false must not follow a caller's override:
+    # semantic_search's vectors were written with one model, and a different one
+    # at query time is silently wrong answers, not a preference.
     def effective_override
       return unless feature.overridable
 
@@ -149,11 +149,7 @@ module Llm
     def unsupported_capabilities(model_id)
       return [] if feature.requires.empty?
 
-      blocking = connection.capability_verdicts
-                           .for_model(model_id)
-                           .where(capability: feature.requires.map(&:to_s), state: "unsupported")
-
-      blocking.pluck(:capability).map(&:to_sym)
+      connection.capability_verdicts.for_model(model_id).blocking(feature.requires).pluck(:capability).map(&:to_sym)
     end
 
     def resolution(status, model_id: nil, missing_capabilities: [])

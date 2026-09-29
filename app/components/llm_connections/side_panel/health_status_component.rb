@@ -40,9 +40,7 @@ module LlmConnections
 
       private
 
-      def report
-        connection.latest_health_report
-      end
+      def report = @report ||= connection.latest_health_report
 
       def summary_header
         tally = report.tally
@@ -68,7 +66,9 @@ module LlmConnections
                  I18n.t("health_reports.common.summary.warning")
                end
 
-        "#{text} #{t('.last_check', datetime: helpers.format_time(report.created_at))}"
+        [text,
+         t(".last_check", datetime: helpers.format_time(report.created_at)),
+         I18n.t(Llm::Validators::ConnectionValidator.report_kind(report), scope: "llm.health_report_kinds")].join(" ")
       end
     end
   end
