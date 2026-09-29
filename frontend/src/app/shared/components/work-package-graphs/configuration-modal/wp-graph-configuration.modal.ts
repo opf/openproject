@@ -42,7 +42,7 @@ import { WpGraphConfigurationService } from 'core-app/shared/components/work-pac
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<unknown>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: '../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
