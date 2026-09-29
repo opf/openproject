@@ -65,7 +65,29 @@ RSpec.shared_examples "list custom field administration" do |create_route:, redi
   it "refuses to nest an entry under another one" do
     post item_path(entry("pear"), :new_child), params: { label: "nested", sort_order: 0 }
 
+    expect(response).to have_http_status(:not_found)
     expect(entry("pear").children).to be_empty
+  end
+
+  it "refuses to move an entry under another one" do
+    post item_path(entry("apple"), :change_parent),
+         params: { custom_field_hierarchy_forms_new_parent_form_model: { new_parent: [{ value: entry("pear").id }.to_json] } }
+
+    expect(response).to have_http_status(:not_found)
+    expect(entry("apple").parent).to eq(root)
+  end
+
+  {
+    "page for an entry" => [nil],
+    "sub-entry form" => [:new_child],
+    "alphabetical reorder of sub-entries" => %i[reorder_alphabetical post],
+    "change parent dialog" => [:change_parent]
+  }.each do |page, (action, verb)|
+    it "has no #{page}" do
+      public_send(verb || :get, item_path(entry("pear"), action))
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   it "renames an entry" do
