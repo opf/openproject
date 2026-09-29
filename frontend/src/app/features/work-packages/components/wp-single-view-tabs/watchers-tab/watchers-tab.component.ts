@@ -28,7 +28,8 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -41,6 +42,7 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -78,7 +80,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
 
   private element:HTMLElement;
 
-  public watching:any[] = [];
+  public watching:UserResource[] = [];
 
   public text = {
     loading: this.I18n.t('js.watchers.label_loading'),
@@ -120,20 +122,20 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     }
 
     this.wpWatchersService.require(this.workPackage)
-      .then((watchers:HalResource[]) => {
-        this.watching = watchers;
+      .then((watchers) => {
+        this.watching = watchers as UserResource[];
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => {
+      .catch((error:ErrorResource) => {
         this.notificationService.showError(error, this.workPackage);
       });
   }
 
-  public set loadingPromise(promise:Promise<any>) {
+  public set loadingPromise(promise:Promise<unknown>) {
     this.loadingIndicator.wpDetails.promise = promise;
   }
 
-  public addWatcher(user:any) {
+  public addWatcher(user:IUserAutocompleteItem) {
     this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({ user: { href: user.href } })
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
@@ -149,13 +151,13 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
 
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.notificationService.showError(error, this.workPackage));
+      .catch((error:ErrorResource) => this.notificationService.showError(error, this.workPackage));
   }
 
-  public removeWatcher(watcher:any) {
-    this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id })()
+  public removeWatcher(watcher:UserResource) {
+    this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id! })()
       .then(() => {
-        this.watching = this.watching.filter((other:HalResource) => other.href !== watcher.href);
+        this.watching = this.watching.filter((other) => other.href !== watcher.href);
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
@@ -170,7 +172,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
 
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.notificationService.showError(error, this.workPackage));
+      .catch((error:ErrorResource) => this.notificationService.showError(error, this.workPackage));
   }
 
   public updateCounter() {
