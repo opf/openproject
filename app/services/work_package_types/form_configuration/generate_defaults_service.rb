@@ -31,9 +31,10 @@
 module WorkPackageTypes
   module FormConfiguration
     class GenerateDefaultsService
-      def initialize(form, from: nil)
+      def initialize(form, from: nil, custom_field_ids: nil)
         @form = form
         @source = from || form
+        @custom_field_ids = custom_field_ids
       end
 
       def call
@@ -49,7 +50,8 @@ module WorkPackageTypes
 
       def generate
         ::FormConfiguration.transaction do
-          source.default_attribute_groups.each { |key, members| create_group(key, members) }
+          source.default_attribute_groups(**{ custom_field_ids: @custom_field_ids }.compact)
+                .each { |key, members| create_group(key, members) }
           ReconcileAttributesService.new(form).call
         end
       end

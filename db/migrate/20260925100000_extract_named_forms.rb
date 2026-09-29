@@ -55,6 +55,8 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     rekey_custom_fields_types
     create_group_tables
     convert_forms
+    report_custom_fields_left_off_the_forms
+    drop_table :custom_fields_types
 
     execute <<~SQL.squish
       UPDATE type_variants
@@ -67,6 +69,7 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
   def down
     restore_form_columns_on_type_variants
     restore_attribute_groups
+    restore_form_custom_fields_types
     drop_table :form_configuration_attributes
     drop_table :form_configuration_groups
     restore_custom_fields_types
@@ -281,10 +284,54 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
   end
 
   def generate_defaults!(form, variant)
-    result = WorkPackageTypes::FormConfiguration::GenerateDefaultsService.new(form, from: variant).call
+    result = WorkPackageTypes::FormConfiguration::GenerateDefaultsService
+               .new(form, from: variant, custom_field_ids: active_custom_field_ids(form))
+               .call
     return if result.success?
 
     raise Unconvertible, "type_variants ##{variant.id}: defaults not generated (#{result.errors.full_messages.to_sentence})"
+  end
+
+  def active_custom_field_ids(form)
+    select_values("SELECT custom_field_id FROM custom_fields_types WHERE form_configuration_id = #{form.id}").map(&:to_i)
+  end
+
+  def report_custom_fields_left_off_the_forms
+    rows = select_rows(<<~SQL.squish)
+      SELECT cft.form_configuration_id, cft.custom_field_id
+      FROM custom_fields_types cft
+      WHERE NOT EXISTS (
+        SELECT 1 FROM form_configuration_attributes fca
+        WHERE fca.form_configuration_id = cft.form_configuration_id
+          AND fca.custom_field_id = cft.custom_field_id
+          AND fca.form_configuration_group_id IS NOT NULL
+      )
+    SQL
+
+    rows.each do |form_id, custom_field_id|
+      say "form_configurations ##{form_id}: custom_field_#{custom_field_id} was active but in no group; now inactive"
+    end
+  end
+
+  def restore_form_custom_fields_types
+    create_table :custom_fields_types, id: false do |t|
+      t.bigint :custom_field_id, null: false
+      t.bigint :form_configuration_id, null: false
+    end
+
+    execute <<~SQL.squish
+      INSERT INTO custom_fields_types (custom_field_id, form_configuration_id)
+      SELECT custom_field_id, form_configuration_id
+      FROM form_configuration_attributes
+      WHERE custom_field_id IS NOT NULL
+        AND form_configuration_group_id IS NOT NULL
+    SQL
+
+    add_index :custom_fields_types, :form_configuration_id
+    add_index :custom_fields_types, %i[custom_field_id form_configuration_id],
+              unique: true,
+              name: "custom_fields_types_unique"
+    add_foreign_key :custom_fields_types, :form_configurations, column: :form_configuration_id, on_delete: :cascade
   end
 
   def restore_attribute_groups

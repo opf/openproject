@@ -87,6 +87,16 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
     expect(variant.custom_fields).to contain_exactly(field_b, field_c)
   end
 
+  it "keeps a field the variant excludes on the shared form when it adds a custom field" do
+    field_e = create(:integer_wp_custom_field)
+    variant.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+
+    variant.custom_field_ids |= [field_e.id]
+
+    expect(base.reload.custom_fields).to contain_exactly(field_a, field_b, field_c, field_d, field_e)
+    expect(variant.reload.custom_fields).to contain_exactly(field_b, field_c, field_d, field_e)
+  end
+
   it "excludes a non-custom-field attribute without touching the custom fields" do
     variant.update!(form_configuration_excluded_elements: ["assignee"])
 

@@ -279,6 +279,7 @@ RSpec.describe TypeVariant do
 
       # It is removed again when resetting it
       variant.reset_attribute_groups
+      variant.save!
       expect(variant.custom_field_ids).to be_empty
 
       other_group = variant.attribute_groups.detect { |g| g.key == :other }

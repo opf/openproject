@@ -187,7 +187,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
     before do
       all_possible_custom_fields.each do |cf|
-        project.enabled_variants.first.custom_fields << cf
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
         project.work_package_custom_fields << cf
       end
     end

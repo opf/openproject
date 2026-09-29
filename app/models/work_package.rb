@@ -597,9 +597,9 @@ class WorkPackage < ApplicationRecord
     exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
     "#{driving_table} #{join} " \
-      "JOIN custom_fields_types cft " \
-      "ON cft.custom_field_id = custom_fields.id AND cft.form_configuration_id = #{form_configuration_id} " \
-      "AND #{exclusion}"
+      "JOIN form_configuration_attributes fca " \
+      "ON fca.custom_field_id = custom_fields.id AND fca.form_configuration_id = #{form_configuration_id} " \
+      "AND fca.form_configuration_group_id IS NOT NULL AND #{exclusion}"
   end
   private_class_method :form_configuration_custom_fields_join
 

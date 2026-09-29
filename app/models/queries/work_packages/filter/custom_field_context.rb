@@ -57,8 +57,19 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       end
     end
 
+    def placed_on_form_join(custom_field, form_configuration_id, exclusion)
+      memberships = FormConfigurationAttribute.table_name
+
+      <<~SQL.squish
+        JOIN #{memberships}
+          ON #{memberships}.form_configuration_id = #{form_configuration_id}
+         AND #{memberships}.custom_field_id = #{custom_field.id}
+         AND #{memberships}.form_configuration_group_id IS NOT NULL
+         AND #{exclusion}
+      SQL
+    end
+
     def where_subselect_joins(custom_field)
-      cf_types_db_table = "custom_fields_types"
       cf_projects_db_table = "custom_fields_projects"
       cv_db_table = CustomValue.table_name
       work_package_db_table = WorkPackage.table_name
@@ -79,10 +90,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
           ON base_tv.type_id = #{work_package_db_table}.type_id
          AND base_tv.is_default_variant = TRUE
         #{form_join}
-        JOIN #{cf_types_db_table}
-          ON #{cf_types_db_table}.form_configuration_id = #{form_configuration_id}
-         AND #{cf_types_db_table}.custom_field_id = #{custom_field.id}
-         AND #{exclusion}
+        #{placed_on_form_join(custom_field, form_configuration_id, exclusion)}
       SQL
 
       unless custom_field.is_for_all

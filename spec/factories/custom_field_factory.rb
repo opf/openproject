@@ -38,7 +38,7 @@ FactoryBot.define do
       next if evaluator.types.empty?
 
       variants = evaluator.types.map { |type| type.is_a?(TypeVariant) ? type : type.default_variant }
-      custom_field.form_configurations |= variants.map(&:form_configuration)
+      variants.each { |variant| variant.custom_field_ids |= [custom_field.id] }
     end
   end
 

@@ -119,7 +119,6 @@ module Import
 
     def update_custom_fields_in_type(type, new_custom_fields)
       variant = type.default_variant
-      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
       groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 

@@ -250,7 +250,7 @@ RSpec.describe Query::Results do
       before do
         login_as(user1)
 
-        wp_p1[0].type.default_variant.custom_fields << custom_field
+        wp_p1[0].type.default_variant.custom_field_ids |= [custom_field.id]
         project1.work_package_custom_fields << custom_field
       end
 
@@ -379,7 +379,7 @@ RSpec.describe Query::Results do
 
       let!(:custom_field) do
         create(:work_package_custom_field, is_for_all: true) do |cf|
-          cf.form_configurations = project2.enabled_variants.map(&:form_configuration)
+          project2.enabled_variants.each { |variant| variant.custom_field_ids |= [cf.id] }
         end
       end
 

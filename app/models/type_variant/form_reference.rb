@@ -69,16 +69,17 @@ class TypeVariant
       fields.where.not(id: excluded_ids)
     end
 
-    def custom_fields=(fields)
-      form_configuration.custom_fields = fields
-    end
-
     def custom_field_ids
       Array(form_configuration&.custom_field_ids) - excluded_custom_field_ids(TypeVariant::FORM_CONFIGURATION)
     end
 
     def custom_field_ids=(ids)
-      form_configuration.custom_field_ids = ids
+      excluded_ids = form_configuration.custom_field_ids & excluded_custom_field_ids(TypeVariant::FORM_CONFIGURATION)
+      form_configuration.custom_field_ids = Array(ids).compact_blank.map(&:to_i) | excluded_ids
+    end
+
+    def custom_fields=(fields)
+      self.custom_field_ids = fields.map(&:id)
     end
 
     def type_form_configuration
