@@ -85,7 +85,7 @@ export class TimelineViewParameters {
 
   settings:TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
-  activeSelectionMode:null | ((wp:WorkPackageResource) => any) = null;
+  activeSelectionMode:null | ((wp:WorkPackageResource) => void) = null;
 
   selectionModeStart:null | string = null;
 
