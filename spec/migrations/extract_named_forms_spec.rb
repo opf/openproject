@@ -94,10 +94,6 @@ RSpec.describe ExtractNamedForms, type: :model do
     SQL
   end
 
-  def custom_field_ids_of_form(form_id)
-    connection.select_values("SELECT custom_field_id FROM custom_fields_types WHERE form_configuration_id = #{form_id}")
-  end
-
   def array_of(variant, column)
     connection.select_value("SELECT array_to_json(#{column}) FROM type_variants WHERE id = #{variant.id}")
               .then { JSON.parse(it) }
@@ -140,12 +136,30 @@ RSpec.describe ExtractNamedForms, type: :model do
     expect(array_of(owning, :form_configuration_excluded_elements)).to eq([])
   end
 
-  it "moves the active custom fields onto the forms and drops those an inheriting variant left behind" do
+  it "derives the active custom fields of a form from its placed members and drops custom_fields_types" do
     migrate_up
 
-    expect(custom_field_ids_of_form(column_of(base, :form_configuration_id)))
+    expect(FormConfiguration.find(column_of(base, :form_configuration_id)).custom_field_ids)
       .to contain_exactly(field_a.id, field_b.id)
-    expect(connection.select_value("SELECT count(*) FROM custom_fields_types")).to eq(2)
+    expect(connection.table_exists?(:custom_fields_types)).to be(false)
+  end
+
+  it "adds the active custom fields to the end of the default other group" do
+    described_class::MigratedTypeVariant.find(owning.id).update_columns(attribute_groups: nil)
+    execute "INSERT INTO custom_fields_types (custom_field_id, type_variant_id) VALUES (#{field_a.id}, #{owning.id})"
+
+    migrate_up
+
+    other = FormConfiguration.find(column_of(owning, :form_configuration_id)).form_groups.find_by(default_key: "other")
+    expect(other.members.map(&:key)).to eq(["position", field_a.attribute_name])
+  end
+
+  it "logs a custom field that was active but in no group" do
+    execute "INSERT INTO custom_fields_types (custom_field_id, type_variant_id) VALUES (#{field_b.id}, #{owning.id})"
+    described_class::MigratedTypeVariant.find(owning.id).update_columns(attribute_groups: [["details", ["subject"]]])
+
+    expect { described_class.new.up }
+      .to output(/custom_field_#{field_b.id} was active but in no group/).to_stdout
   end
 
   describe "down" do

@@ -262,7 +262,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
 
     it "reads custom_fields from the base while it shares its form" do
       cf = create(:integer_wp_custom_field)
-      base.custom_fields << cf
+      base.custom_field_ids |= [cf.id]
       link_configuration(variant, aspect: form_aspect)
 
       expect(variant.custom_fields).to include(cf)
@@ -270,7 +270,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
 
     it "still appends custom_fields to its own record when independent" do
       cf = create(:integer_wp_custom_field)
-      variant.custom_fields << cf
+      variant.custom_field_ids |= [cf.id]
 
       expect(variant.custom_fields).to include(cf)
     end

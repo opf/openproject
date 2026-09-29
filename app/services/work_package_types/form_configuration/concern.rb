@@ -126,18 +126,6 @@ module WorkPackageTypes
         Type::FormGroup.next_untitled_key(seen_keys).tap { |key| seen_keys << key }
       end
 
-      def sync_active_custom_fields!
-        variant.custom_field_ids = active_groups
-                                .select { |group| group.group_type == :attribute }
-                                .flat_map(&:members)
-                                .filter_map do |attribute|
-                                  next unless CustomField.custom_field_attribute?(attribute)
-
-                                  attribute.delete_prefix("custom_field_").to_i
-                                end
-                                .uniq
-      end
-
       def prune_unavailable_attribute_group_items(groups)
         groups.each do |group|
           group.attributes = group.members if group.group_type == :attribute
@@ -147,7 +135,6 @@ module WorkPackageTypes
       def assign_groups(groups)
         variant.attribute_groups_will_change!
         variant.attribute_groups_objects = normalized_groups(groups)
-        sync_active_custom_fields!
       end
 
       def form_configuration_contract

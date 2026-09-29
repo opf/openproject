@@ -83,8 +83,16 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
 
     migrate_up
 
-    expect(tuples(owner)).to eq(TypeVariant.find(owner.id).default_attribute_groups.map { |key, members| [key, members] })
-    expect(form_of(owner).form_attributes.inactive).not_to be_empty
+    expect(tuples(owner)).to eq(
+      [
+        [:people, %w[assignee responsible]],
+        [:estimates_and_progress, %w[estimated_time remaining_time percentage_done spent_time
+                                     story_points allocated_time allocated_principals]],
+        [:details, %w[priority sprint backlog_bucket target_versions category project_phase date]],
+        [:other, %w[position]],
+        [:costs, %w[costs_by_type labor_costs material_costs overall_costs budget]]
+      ]
+    )
   end
 
   it "honours the milestone rule when it writes the defaults" do
@@ -104,7 +112,7 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
     expect(form_of(owner).form_groups.find_by(default_key: "details").label).to eq("Extras")
   end
 
-  it "turns the empty sentinel into no groups with every attribute inactive" do
+  it "turns the empty sentinel into no groups and no active attributes" do
     groups_of(owner, [[:__empty, []]])
 
     migrate_up
@@ -161,14 +169,16 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
     expect(tuples(owner)).to eq([["Fields", %w[assignee]]])
   end
 
-  it "rebuilds a query another form already holds, so each group owns its query" do
+  it "copies a query another form already holds, so each group owns its query" do
+    query.update!(filters: [{ status_id: { operator: "o", values: [] } }])
     groups_of(owner, [["Related", [:"query_#{query.id}"]]])
     groups_of(other_owner, [["Related", [:"query_#{query.id}"]]])
 
     migrate_up
 
-    query_ids = [owner, other_owner].map { form_of(it).form_groups.first.query_id }
-    expect(query_ids.uniq.size).to eq(2)
+    queries = [owner, other_owner].map { form_of(it).form_groups.first.query }
+    expect(queries.map(&:id).uniq.size).to eq(2)
+    expect(queries.map { it.filters.map(&:name) }).to all(eq([:status_id]))
   end
 
   it "keeps the first placement of an attribute listed twice and logs the second" do

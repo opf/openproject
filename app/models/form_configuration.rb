@@ -39,10 +39,11 @@ class FormConfiguration < ApplicationRecord
                                                   inverse_of: :form_configuration,
                                                   dependent: :destroy
 
-  has_and_belongs_to_many :custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                          class_name: "WorkPackageCustomField",
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: "custom_field_id"
+  has_many :custom_field_memberships, -> { active.where.not(custom_field_id: nil) },
+           class_name: "FormConfigurationAttribute",
+           inverse_of: :form_configuration,
+           dependent: nil
+  has_many :custom_fields, through: :custom_field_memberships
 
   validates :name, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :description, length: { maximum: 255 }
@@ -74,6 +75,15 @@ class FormConfiguration < ApplicationRecord
 
   def stage_attribute_groups(groups)
     @staged_attribute_groups = groups unless persisted? && attribute_group_rows.matches?(groups)
+  end
+
+  def custom_field_ids=(ids)
+    self.attribute_groups = CustomFieldPlacement.new(form_attribute_groups, Array(ids).compact_blank.map(&:to_i)).groups
+    save! if persisted?
+  end
+
+  def custom_fields=(fields)
+    self.custom_field_ids = fields.map(&:id)
   end
 
   def attribute_groups_will_change! = @attribute_groups_changed = true

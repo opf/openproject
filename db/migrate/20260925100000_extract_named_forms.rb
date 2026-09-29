@@ -40,33 +40,150 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     serialize :attribute_groups, type: Array
   end
 
+  class MigratedGroup < ActiveRecord::Base
+    self.table_name = "form_configuration_groups"
+  end
+
+  class MigratedAttribute < ActiveRecord::Base
+    self.table_name = "form_configuration_attributes"
+  end
+
+  class MigratedQuery < ActiveRecord::Base
+    self.table_name = "queries"
+  end
+
+  class MigratedCustomField < ActiveRecord::Base
+    self.table_name = "custom_fields"
+    self.inheritance_column = nil
+  end
+
+  MIGRATED_CLASSES = [MigratedTypeVariant, MigratedGroup, MigratedAttribute, MigratedQuery, MigratedCustomField].freeze
+
+  ATTRIBUTE_KIND = "attribute"
+  QUERY_KIND = "query"
   EMPTY_SENTINEL = "__empty"
   QUERY_MEMBER = /\Aquery_(\d+)\z/
+  CUSTOM_FIELD_MEMBER = /\Acustom_field_(\d+)\z/
+  DEFAULT_GROUPS = {
+    people: %w[assignee responsible],
+    estimates_and_progress: %w[estimated_time remaining_time percentage_done spent_time
+                               story_points allocated_time allocated_principals],
+    details: %w[priority sprint backlog_bucket target_versions category project_phase date],
+    other: %w[position],
+    costs: %w[costs_by_type labor_costs material_costs overall_costs budget]
+  }.freeze
 
   def self.query_group_id(members)
     members.first.to_s[QUERY_MEMBER, 1]&.to_i if members.one?
   end
 
+  def self.reference_for(key)
+    if (custom_field_id = key.to_s[CUSTOM_FIELD_MEMBER, 1])
+      { custom_field_id: custom_field_id.to_i, attribute_key: nil }
+    else
+      { custom_field_id: nil, attribute_key: key.to_s }
+    end
+  end
+
+  def self.member_keys(group)
+    MigratedAttribute
+      .where(form_configuration_group_id: group.id)
+      .order(:position)
+      .map { it.custom_field_id ? "custom_field_#{it.custom_field_id}" : it.attribute_key }
+  end
+
+  def self.group_identity(group)
+    group.default_key ? group.default_key.to_sym : group.label
+  end
+
+  def self.group_members(group)
+    group.kind == QUERY_KIND ? [:"query_#{group.query_id}"] : member_keys(group)
+  end
+
+  def self.translated_default(key)
+    translation_key = ::TypeVariant.default_groups[key.to_sym]
+    translation_key ? I18n.t(translation_key) : key.to_s
+  end
+
+  def self.next_untitled_label(seen_labels)
+    base_name = I18n.t("types.edit.form_configuration.untitled_group")
+    candidate = base_name
+    suffix = 2
+
+    while seen_labels.include?(candidate)
+      candidate = "#{base_name} #{suffix}"
+      suffix += 1
+    end
+
+    candidate
+  end
+
+  class FormRows
+    attr_reader :groups
+
+    def initialize(form_id)
+      @form_id = form_id
+      @groups = []
+      @member_counts = Hash.new(0)
+    end
+
+    def create_group!(**)
+      MigratedGroup.create!(form_configuration_id: @form_id, position: groups.size + 1, **).tap { groups << it }
+    end
+
+    def place!(group, key)
+      MigratedAttribute.create!(form_configuration_id: @form_id,
+                                form_configuration_group_id: group.id,
+                                position: @member_counts[group.id] += 1,
+                                **ExtractNamedForms.reference_for(key))
+    end
+  end
+
   def up
+    # Create the separate table structure for forms and link it to variants
     create_form_configurations
+
+    # For each type and variant currently present, create a new form object
     create_a_form_for_each_owner
+
+    # Variants inherit the base type's form
     point_linked_variants_at_their_base_form
+
+    # Copy required attributes for Variants inheriting the form previously
     flatten_required_attributes
+
+    # Temporary: Link custom_field_types to the new form
     rekey_custom_fields_types
+
+    # Create separate records for groups/sections of a form
     create_group_tables
+
+    # Convert the content: attribute_groups from the type/variant to the form records
+    # active fields and custom fields as individual records
     convert_forms
+
+    # Fixing an inconsistency:
+    # A custom field could be "active" in the form through the join table
+    # but not added to any group (often used in specs, for example)
+    # We report on them here, but leave them out of the migrated forms
+    report_custom_fields_left_off_the_forms
+
+    # Since custom fields are now explicit rows, we no longer need the join table
+    drop_table :custom_fields_types
 
     execute <<~SQL.squish
       UPDATE type_variants
       SET linked_aspects = array_remove(linked_aspects, 'form_configuration')
     SQL
 
+    # Remove attribute_groups and related columns
     remove_form_columns_from_type_variants
   end
 
   def down
     restore_form_columns_on_type_variants
     restore_attribute_groups
+    restore_form_custom_fields_types
     drop_table :form_configuration_attributes
     drop_table :form_configuration_groups
     restore_custom_fields_types
@@ -245,8 +362,7 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
   end
 
   def convert_forms
-    [MigratedTypeVariant, TypeVariant, FormConfiguration, FormConfigurationGroup, FormConfigurationAttribute]
-      .each(&:reset_column_information)
+    MIGRATED_CLASSES.each(&:reset_column_information)
 
     say_with_time "Store each form as groups and attributes" do
       owners = MigratedTypeVariant.where.not(linked("type_variants"))
@@ -255,20 +371,16 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
   end
 
   def convert(row)
-    form = FormConfiguration.find(row.form_configuration_id)
-
-    I18n.with_locale(Setting.default_language) do
-      FormConfiguration.transaction { convert_owner!(form, row) }
-    end
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+    I18n.with_locale(Setting.default_language) { convert_owner!(row) }
+  rescue ActiveRecord::StatementInvalid => e
     raise Unconvertible, "form_configurations ##{row.form_configuration_id} (type_variants ##{row.id}): #{e.message}"
   end
 
-  def convert_owner!(form, row)
+  def convert_owner!(row)
     if attribute_groups_of(row).blank?
-      generate_defaults!(form, TypeVariant.find(row.id))
+      write_defaults(row)
     else
-      Conversion.new(self, form, row).run!
+      Conversion.new(self, row).run!
     end
   end
 
@@ -280,26 +392,77 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     raise Unconvertible, "type_variants ##{row.id}: attribute_groups is not parseable (#{e.message})"
   end
 
-  def generate_defaults!(form, variant)
-    result = WorkPackageTypes::FormConfiguration::GenerateDefaultsService.new(form, from: variant).call
-    return if result.success?
+  def write_defaults(row)
+    rows = FormRows.new(row.form_configuration_id)
 
-    raise Unconvertible, "type_variants ##{variant.id}: defaults not generated (#{result.errors.full_messages.to_sentence})"
-  end
-
-  def restore_attribute_groups
-    [MigratedTypeVariant, FormConfiguration].each(&:reset_column_information)
-
-    MigratedTypeVariant.where.not(linked("type_variants")).find_each do |row|
-      form = FormConfiguration.find(row.form_configuration_id)
-      row.update_column(:attribute_groups, legacy_tuples(form))
+    default_groups_of(row).each do |key, members|
+      group = rows.create_group!(kind: ATTRIBUTE_KIND, default_key: key.to_s)
+      members.each { rows.place!(group, it) }
     end
   end
 
-  def legacy_tuples(form)
-    FormConfiguration::AttributeGroupRows.new(form).tuples.map do |key, members, display_name, _|
-      members = members.map { |member| member.is_a?(Query) ? :"query_#{member.id}" : member }
-      [key, members, display_name].compact
+  def default_groups_of(row)
+    milestone = select_value("SELECT is_milestone FROM types WHERE id = #{row.type_id}")
+    custom_fields = active_custom_field_ids(row.form_configuration_id).sort.map { "custom_field_#{it}" }
+
+    DEFAULT_GROUPS
+      .merge(other: DEFAULT_GROUPS[:other] + custom_fields)
+      .then { milestone ? it.except(:estimates_and_progress) : it }
+  end
+
+  def active_custom_field_ids(form_id)
+    select_values("SELECT custom_field_id FROM custom_fields_types WHERE form_configuration_id = #{form_id}").map(&:to_i)
+  end
+
+  def report_custom_fields_left_off_the_forms
+    rows = select_rows(<<~SQL.squish)
+      SELECT cft.form_configuration_id, cft.custom_field_id
+      FROM custom_fields_types cft
+      WHERE NOT EXISTS (
+        SELECT 1 FROM form_configuration_attributes fca
+        WHERE fca.form_configuration_id = cft.form_configuration_id
+          AND fca.custom_field_id = cft.custom_field_id
+          AND fca.form_configuration_group_id IS NOT NULL
+      )
+    SQL
+
+    rows.each do |form_id, custom_field_id|
+      say "form_configurations ##{form_id}: custom_field_#{custom_field_id} was active but in no group; now inactive"
+    end
+  end
+
+  def restore_form_custom_fields_types
+    create_table :custom_fields_types, id: false do |t|
+      t.bigint :custom_field_id, null: false
+      t.bigint :form_configuration_id, null: false
+    end
+
+    execute <<~SQL.squish
+      INSERT INTO custom_fields_types (custom_field_id, form_configuration_id)
+      SELECT custom_field_id, form_configuration_id
+      FROM form_configuration_attributes
+      WHERE custom_field_id IS NOT NULL
+        AND form_configuration_group_id IS NOT NULL
+    SQL
+
+    add_index :custom_fields_types, :form_configuration_id
+    add_index :custom_fields_types, %i[custom_field_id form_configuration_id],
+              unique: true,
+              name: "custom_fields_types_unique"
+    add_foreign_key :custom_fields_types, :form_configurations, column: :form_configuration_id, on_delete: :cascade
+  end
+
+  def restore_attribute_groups
+    MIGRATED_CLASSES.each(&:reset_column_information)
+
+    MigratedTypeVariant.where.not(linked("type_variants")).find_each do |row|
+      row.update_column(:attribute_groups, legacy_tuples(row.form_configuration_id))
+    end
+  end
+
+  def legacy_tuples(form_id)
+    MigratedGroup.where(form_configuration_id: form_id).order(:position).map do |group|
+      [self.class.group_identity(group), self.class.group_members(group), (group.label if group.default_key)].compact
     end
   end
 
@@ -356,10 +519,10 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
 
   # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
   class Conversion
-    def initialize(migration, form, row)
+    def initialize(migration, row)
       @migration = migration
-      @form = form
       @row = row
+      @rows = FormRows.new(row.form_configuration_id)
       @dropped_keys = []
       @placed_keys = Set.new
     end
@@ -372,14 +535,15 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
       @expected = LegacyExpectation.new(tuples, @seen_labels.dup).call
       @existing_custom_field_ids = existing_custom_field_ids(tuples)
       tuples.each { |tuple| convert_tuple!(tuple) }
-      WorkPackageTypes::FormConfiguration::EnsureAttributeMembershipService.new(form).call
       prune_required_attributes!
       verify!
     end
 
     private
 
-    attr_reader :migration, :form, :row
+    attr_reader :migration, :row, :rows
+
+    def form_id = row.form_configuration_id
 
     def parse_tuples!
       row.attribute_groups.filter_map do |tuple|
@@ -405,7 +569,7 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     def drop_missing_query_groups(tuples)
       tuples.reject do |key, members, _|
         query_id = ExtractNamedForms.query_group_id(members)
-        next false if query_id.nil? || Query.exists?(query_id)
+        next false if query_id.nil? || MigratedQuery.exists?(query_id)
 
         log("dropped query group #{key.inspect} referencing missing query_#{query_id}")
         true
@@ -424,38 +588,30 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     end
 
     def convert_query_group!(key, query_id, display_name)
-      if FormConfigurationGroup.exists?(query_id:)
-        query_id = rebuild_shared_query!(key, query_id)
-        @expected[form.form_groups.count][1] = [:"query_#{query_id}"]
+      if MigratedGroup.exists?(query_id:)
+        query_id = copy_shared_query!(key, query_id)
+        @expected[rows.groups.size][1] = [:"query_#{query_id}"]
       end
 
-      form.form_groups.create!(kind: FormConfigurationGroup::QUERY, query_id:, **group_naming(key, display_name))
+      rows.create_group!(kind: QUERY_KIND, query_id:, **group_naming(key, display_name))
     end
 
-    def rebuild_shared_query!(key, query_id)
-      result = WorkPackageTypes::FormConfiguration::EmbeddedQueryBuilder.rebuild(query: Query.find(query_id),
-                                                                                 user: User.system)
-      if result.failure?
-        unconvertible!("query_#{query_id} of group #{key.inspect} is shared with another configuration " \
-                       "and could not be rebuilt (#{result.errors.full_messages.to_sentence})")
-      end
-
-      query = result.result
-      query.save! unless query.persisted?
-      log("rebuilt query_#{query_id} as query_#{query.id} for group #{key.inspect}: shared with another configuration")
-      query.id
+    def copy_shared_query!(key, query_id)
+      copy = MigratedQuery.create!(MigratedQuery.find(query_id).attributes.except("id", "created_at", "updated_at"))
+      log("copied query_#{query_id} as query_#{copy.id} for group #{key.inspect}: shared with another configuration")
+      copy.id
     end
 
     def convert_attribute_group!(key, members, display_name)
-      group = form.form_groups.create!(kind: FormConfigurationGroup::ATTRIBUTE, **group_naming(key, display_name))
+      group = rows.create_group!(kind: ATTRIBUTE_KIND, **group_naming(key, display_name))
       members.each { |member| place_member!(group, member) }
     end
 
     def group_naming(key, display_name)
-      if key.is_a?(Symbol) && form.form_groups.where(default_key: key.to_s).none?
+      if key.is_a?(Symbol) && rows.groups.none? { it.default_key == key.to_s }
         { default_key: key.to_s, label: display_name.presence }
       elsif key.is_a?(Symbol)
-        label = translated_default(key)
+        label = ExtractNamedForms.translated_default(key)
         log("default group #{key.inspect} listed twice; kept the second as custom group #{label.inspect}")
         { default_key: nil, label: }
       else
@@ -466,46 +622,45 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     end
 
     def next_untitled_label
-      Type::FormGroup.next_untitled_key(@seen_labels).tap { |untitled| @seen_labels << untitled }
+      ExtractNamedForms.next_untitled_label(@seen_labels).tap { |untitled| @seen_labels << untitled }
     end
 
-    def translated_default(key)
-      translation_key = TypeVariant.default_groups[key]
-      translation_key ? I18n.t(translation_key) : key.to_s
+    def label_of(group)
+      group.label.presence || ExtractNamedForms.translated_default(group.default_key)
     end
 
     def place_member!(group, member)
       key = member.to_s
 
       if @placed_keys.include?(key)
-        log("dropped repeated attribute #{key} from group #{group.translated_label.inspect}")
+        log("dropped repeated attribute #{key} from group #{label_of(group).inspect}")
         drop_expected_member!(group, key)
         return
       end
 
-      reference = FormConfigurationAttribute.reference_for(key)
-      if reference[:custom_field_id] && @existing_custom_field_ids.exclude?(reference[:custom_field_id])
-        log("dropped #{key} from group #{group.translated_label.inspect}: custom field no longer exists")
+      custom_field_id = ExtractNamedForms.reference_for(key)[:custom_field_id]
+      if custom_field_id && @existing_custom_field_ids.exclude?(custom_field_id)
+        log("dropped #{key} from group #{label_of(group).inspect}: custom field no longer exists")
         @dropped_keys << key
         drop_expected_member!(group, key)
         return
       end
 
       @placed_keys << key
-      form.form_attributes.create!(group:, position: group.members.count + 1, **reference)
+      rows.place!(group, key)
     end
 
     def drop_expected_member!(group, key)
-      index = form.form_groups.reload.index(group)
+      index = rows.groups.index(group)
       @expected[index][1].delete_at(@expected[index][1].index(key)) if @expected[index]&.dig(1)&.include?(key)
     end
 
     def existing_custom_field_ids(tuples)
       ids = tuples.flat_map do |_, members, _|
-        members.filter_map { |member| FormConfigurationAttribute.reference_for(member)[:custom_field_id] }
+        members.filter_map { |member| ExtractNamedForms.reference_for(member)[:custom_field_id] }
       end
 
-      WorkPackageCustomField.where(id: ids).pluck(:id).to_set
+      MigratedCustomField.where(id: ids, type: "WorkPackageCustomField").pluck(:id).to_set
     end
 
     def prune_required_attributes!
@@ -516,10 +671,8 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     end
 
     def verify!
-      actual = form.form_groups.reload.map do |group|
-        key = group.default_key ? group.default_key.to_sym : group.label
-        members = group.query? ? [:"query_#{group.query_id}"] : group.members.map(&:key)
-        [key, members]
+      actual = rows.groups.map do |group|
+        [ExtractNamedForms.group_identity(group), ExtractNamedForms.group_members(group)]
       end
 
       return if actual == @expected
@@ -528,11 +681,11 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     end
 
     def log(message)
-      migration.say("form_configurations ##{form.id} (type_variants ##{row.id}): #{message}")
+      migration.say("form_configurations ##{form_id} (type_variants ##{row.id}): #{message}")
     end
 
     def unconvertible!(reason)
-      raise Unconvertible, "form_configurations ##{form.id} (type_variants ##{row.id}): #{reason}"
+      raise Unconvertible, "form_configurations ##{form_id} (type_variants ##{row.id}): #{reason}"
     end
   end
 
@@ -556,11 +709,10 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
       if key.is_a?(Symbol) && @seen_default_keys.add?(key)
         key
       elsif key.is_a?(Symbol)
-        translation_key = TypeVariant.default_groups[key]
-        translation_key ? I18n.t(translation_key) : key.to_s
+        ExtractNamedForms.translated_default(key)
       else
         label = display_name.presence || key.to_s.strip
-        label.presence || Type::FormGroup.next_untitled_key(@seen_labels).tap { |untitled| @seen_labels << untitled }
+        label.presence || ExtractNamedForms.next_untitled_label(@seen_labels).tap { |untitled| @seen_labels << untitled }
       end
     end
   end

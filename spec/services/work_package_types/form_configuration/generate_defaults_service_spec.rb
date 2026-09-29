@@ -72,12 +72,11 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GenerateDefaultsService do
     expect(form.form_groups.pluck(:default_key)).not_to include "estimates_and_progress"
   end
 
-  it "puts active custom fields into the other group" do
+  it "puts the custom fields it is given into the other group" do
     custom_field = create(:wp_custom_field)
-    form.custom_fields << custom_field
     RequestStore.clear!
 
-    call
+    described_class.new(form, custom_field_ids: [custom_field.id]).call
 
     other = form.form_groups.find_by(default_key: "other")
     expect(other.members.map(&:key)).to include "custom_field_#{custom_field.id}"

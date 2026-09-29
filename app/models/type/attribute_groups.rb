@@ -102,10 +102,8 @@ module Type::AttributeGroups
   ##
   # Resets the default attribute groups
   def reset_attribute_groups
-    # Remove all active custom fields
-    self.custom_field_ids = []
-
-    self.attribute_groups_objects = to_attribute_group_class(default_attribute_groups)
+    attribute_groups_will_change!
+    self.attribute_groups_objects = to_attribute_group_class(default_attribute_groups(custom_field_ids: []))
   end
 
   ##
@@ -118,8 +116,8 @@ module Type::AttributeGroups
   ##
   # Returns the default +attribute_groups+ put together by
   # the default group map.
-  def default_attribute_groups
-    values = work_package_attributes_by_default_group_key
+  def default_attribute_groups(custom_field_ids: self.custom_field_ids)
+    values = work_package_attributes_by_default_group_key(custom_field_ids)
     values.reject! { |k, _| k == :estimates_and_progress } if is_milestone?
 
     default_groups.keys.each_with_object([]) do |groupkey, array|
@@ -165,12 +163,8 @@ module Type::AttributeGroups
     end
   end
 
-  ##
-  # Get the default attribute groups for this type.
-  # If it has activated custom fields through +custom_field_ids=+,
-  # it will put them into the other group.
-  def work_package_attributes_by_default_group_key
-    active_cfs = active_custom_field_attributes
+  def work_package_attributes_by_default_group_key(custom_field_ids)
+    active_cfs = custom_field_keys(custom_field_ids)
 
     work_package_attributes
       .keys
@@ -178,6 +172,8 @@ module Type::AttributeGroups
       .sort_by { |key| default_group_map.keys.index(key.to_sym) || default_group_map.keys.size }
       .group_by { |key| default_group_key(key.to_sym) }
   end
+
+  def custom_field_keys(custom_field_ids) = custom_field_ids.map { |id| "custom_field_#{id}" }
 
   ##
   # Custom fields should not get included into the default form configuration.

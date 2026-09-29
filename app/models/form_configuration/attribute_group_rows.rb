@@ -73,6 +73,8 @@ class FormConfiguration
     def reset_associations
       form.form_groups.reset
       form.form_attributes.reset
+      form.custom_field_memberships.reset
+      form.custom_fields.reset
     end
 
     def group_rows = FormConfigurationGroup.where(form_configuration_id: form.id).order(:position)

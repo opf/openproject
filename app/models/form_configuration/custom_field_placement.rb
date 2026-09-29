@@ -28,24 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Types
-    class BaseService < ::BaseServices::BaseContracted
-      def initialize(user:, model:, contract_class: Projects::ManageTypesContract)
-        super(user:, contract_class:)
-        self.model = model
+class FormConfiguration
+  class CustomFieldPlacement
+    OTHER_GROUP = :other
+
+    def initialize(groups, custom_field_ids)
+      @groups = groups
+      @keys = custom_field_ids.map { |id| "#{TypeVariant::ConfigurationLinkable::CUSTOM_FIELD_ELEMENT_PREFIX}#{id}" }
+    end
+
+    def groups
+      placed = []
+      tuples = @groups.map do |group|
+        next tuple_of(group, group.attributes) if group.is_a?(Type::QueryGroup)
+
+        attributes = group.attributes.select { |key| keep?(key.to_s) }
+        placed.concat(attributes.map(&:to_s))
+        tuple_of(group, attributes)
       end
 
-      private
+      with_missing(tuples, @keys - placed)
+    end
 
-      def failure(error, **)
-        model.errors.add(:types, error, **)
-        ServiceResult.failure(result: model, errors: model.errors)
-      end
+    private
 
-      def enable_work_package_custom_fields(variant)
-        model.work_package_custom_field_ids |= variant.custom_fields.ids
-      end
+    def keep?(key) = !CustomField.custom_field_attribute?(key) || @keys.include?(key)
+
+    def tuple_of(group, attributes) = [group.key, attributes, group.display_name, group.record_id]
+
+    def with_missing(tuples, missing)
+      return tuples if missing.empty?
+
+      other = tuples.find { |key, attributes, *| key == OTHER_GROUP && !attributes.first.is_a?(Query) }
+      return tuples + [[OTHER_GROUP, missing]] if other.nil?
+
+      other[1] = other[1] + missing
+      tuples
     end
   end
 end

@@ -74,26 +74,12 @@ module WorkPackageTypes
         Type.transaction do
           variant.attribute_groups = groups
           variant.required_attributes = required
-          sync_active_custom_fields
           variant.save!
         end
 
         ServiceResult.success(result: variant)
       rescue ActiveRecord::RecordInvalid
         ServiceResult.failure(result: variant, errors: variant.errors)
-      end
-
-      # Same syncing as WorkPackageTypes::UpdateService: the active custom
-      # fields follow from the custom fields placed in the groups.
-      def sync_active_custom_fields
-        # The groups just copied onto this variant, not whatever a project would resolve it to.
-        variant.custom_field_ids = variant.attribute_groups
-                                    .flat_map(&:members)
-                                    .filter_map do |attribute|
-                                      if CustomField.custom_field_attribute?(attribute)
-                                        attribute.delete_prefix("custom_field_").to_i
-                                      end
-                                    end.uniq
       end
     end
   end
