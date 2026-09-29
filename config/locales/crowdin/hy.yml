@@ -1411,6 +1411,23 @@ hy:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Base colors
         main_menu: Main lateral menu
@@ -1443,7 +1460,11 @@ hy:
       tab_interface: Միջերես
       tab_pdf_export_font: PDF արտահանման տառատեսակ
       tab_pdf_export_styles: PDF արտահանման ոճեր
-      theme_warning: Թեմայի փոփոխությունը կվերագրի Ձեր հատուկ ոճը։ Այնուհետև ձևավորումը կկորչի։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Վերբեռնել Enterprise edition-ի աջակցության թոքեն
       book_now: Ամրագրել հիմա
@@ -3544,8 +3565,6 @@ hy:
   label_custom_field_default_type: Դատարկ տեսակ
   label_custom_field_new: Նոր հատուկ դաշտ
   label_custom_field_plural: Հատուկ դաշտեր
-  label_custom_logo: Աշխատասեղանի հատուկ լոգո
-  label_custom_logo_mobile: Բջջայինի հատուկ լոգո
   label_custom_pdf_export_settings: PDF արտահանման հատուկ կարգավորումներ
   label_custom_style: Ձևավորում
   label_custom_style_description: Ընտրեք, թե ինչպիսի տեսք ունենա OpenProject-ը Ձեզ համար՝ թեմաների միջոցով, ընտրեք հավելվածում օգտագործվող Ձեր կանխադրված գույները և արտահանումների տեսքը։
@@ -6294,12 +6313,6 @@ hy:
 
     '
   text_custom_field_possible_values_info: Յուրաքանչյուր արժեքը՝ առանձին տողում
-  text_custom_logo_instructions: 'Լոգոն ավտոմատ մասշտաբավորվում է՝ վերնագոտուն համապատասխանելու համար։ Լավագույն արդյունքի համար վերբեռնեք սպիտակ լոգո թափանցիկ 130×47px պատկերի վրա։ Այդ պատկերի ներսում կարող եք ավելացնել այնքան ազատ տարածք, որքան ցանկանում եք։
-
-    '
-  text_custom_logo_mobile_instructions: 'Լոգոն ավտոմատ մասշտաբավորվում է՝ վերնագոտուն համապատասխանելու համար։ Լավագույն արդյունքի համար վերբեռնեք սպիտակ լոգո թափանցիկ 130×33px պատկերի վրա։ Այդ պատկերի ներսում կարող եք ավելացնել այնքան ազատ տարածք, որքան ցանկանում եք։
-
-    '
   text_custom_touch_icon_instructions: 'Սա այն պատկերակն է, որը հայտնվում է Ձեր բջջայինում կամ պլանշետում, երբ էջանիշ եք տեղադրում հիմնական էկրանին։ Այն պետք է լինի քառակուսի՝ 180 առ 180 պիքսել չափի PNG պատկերի նիշք։ Խնդրում ենք համոզվել, որ պատկերի ֆոնը թափանցիկ չէ, հակառակ դեպքում այն վատ տեսք կունենա iOS-ում։
 
     '

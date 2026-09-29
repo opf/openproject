@@ -1303,6 +1303,23 @@ vi:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Base colors
         main_menu: Main lateral menu
@@ -1335,7 +1352,11 @@ vi:
       tab_interface: Giao diện
       tab_pdf_export_font: Phông chữ xuất PDF
       tab_pdf_export_styles: Kiểu xuất PDF
-      theme_warning: Thay đổi chủ đề sẽ ghi đè phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục không?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Tải lên mã thông báo hỗ trợ phiên bản Enterprise
       book_now: Đặt chỗ ngay
@@ -3402,8 +3423,6 @@ vi:
   label_custom_field_default_type: Kiểu rỗng
   label_custom_field_new: Thêm mục tùy biến
   label_custom_field_plural: Trường tùy chỉnh
-  label_custom_logo: Máy tính để bàn logo tùy chỉnh
-  label_custom_logo_mobile: Logo tùy chỉnh di động
   label_custom_pdf_export_settings: Cài đặt xuất PDF tùy chỉnh
   label_custom_style: Thiết kế
   label_custom_style_description: Chọn cách OpenProject hiển thị với bạn bằng các chủ đề, chọn màu mặc định để sử dụng trong ứng dụng và cách xuất sẽ trông như thế nào.
@@ -6140,12 +6159,6 @@ vi:
 
     '
   text_custom_field_possible_values_info: Một dòng cho mỗi giá trị
-  text_custom_logo_instructions: 'Logo tự động chia tỷ lệ để vừa với tiêu đề. Để có kết quả tốt nhất, hãy tải lên biểu tượng màu trắng trên hình ảnh trong suốt có kích thước 130×47px. Bạn có thể thêm bao nhiêu khoảng cách bên trong hình ảnh đó tùy thích.
-
-    '
-  text_custom_logo_mobile_instructions: 'Logo tự động chia tỷ lệ để vừa với tiêu đề. Để có kết quả tốt nhất, hãy tải lên biểu tượng màu trắng trên hình ảnh trong suốt có kích thước 130×33px. Bạn có thể thêm bao nhiêu khoảng cách bên trong hình ảnh đó tùy thích.
-
-    '
   text_custom_touch_icon_instructions: 'Đây là biểu tượng xuất hiện trên điện thoại di động hoặc máy tính bảng của bạn khi bạn đặt dấu trang trên màn hình chính. Nó phải là tệp hình ảnh PNG có kích thước 180 x 180 pixel bình phương. Vui lòng đảm bảo nền của hình ảnh không trong suốt, nếu không nó sẽ trông xấu trên iOS.
 
     '

@@ -1303,6 +1303,23 @@ zh-CN:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: 基本色
         main_menu: 主侧边菜单
@@ -1335,7 +1352,11 @@ zh-CN:
       tab_interface: 界面
       tab_pdf_export_font: PDF 导出字体
       tab_pdf_export_styles: PDF 导出样式
-      theme_warning: 更改主题将覆盖您的自定义样式。设计将会丢失。您确定要继续吗？
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: 上传企业版支持令牌
       book_now: 立即预订
@@ -3402,8 +3423,6 @@ zh-CN:
   label_custom_field_default_type: 空类型
   label_custom_field_new: 新的自定义字段
   label_custom_field_plural: 自定义字段
-  label_custom_logo: 自定义徽标桌面版
-  label_custom_logo_mobile: 自定义徽标移动版
   label_custom_pdf_export_settings: 自定义 PDF 导出设置
   label_custom_style: 设计
   label_custom_style_description: 选择主题来定制OpenProject的外观，选择应用中的默认颜色以及导出的样式。
@@ -6119,12 +6138,6 @@ zh-CN:
 
     '
   text_custom_field_possible_values_info: 每个值一行
-  text_custom_logo_instructions: '徽标会自动缩放以适应页眉。为获得最佳效果，请上传一个位于透明的 130×47 像素图像上的白色徽标。您可以根据自己的喜好在图像内添加间距。
-
-    '
-  text_custom_logo_mobile_instructions: '徽标会自动缩放以适应页眉。为获得最佳效果，请上传一个位于透明的 130×33 像素图像上的白色徽标。您可以根据自己的喜好在图像内添加间距。
-
-    '
   text_custom_touch_icon_instructions: '这是当您在主屏幕上放置书签时，显示在手机或平板电脑中的图标。它是大小为 180x180 像素的正方形 PNG 图像文件。请确保图像的背景不是透明的，否则在 iOS 上看起来会很糟糕。
 
     '

@@ -1631,6 +1631,23 @@ uk:
     banners:
       environment_configured_readonly: Ці значення налаштовуються за допомогою змінних середовища, і їх не можна змінити тут.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Основні кольори
         main_menu: Головне бічне меню
@@ -1663,7 +1680,11 @@ uk:
       tab_interface: Інтерфейс
       tab_pdf_export_font: Шрифт для експорту в PDF
       tab_pdf_export_styles: Стилі експорту PDF
-      theme_warning: Змінення теми перезапише ваш власний стиль. У такому разі дизайн буде втрачено. Справді продовжити?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Додати маркер підтримки версії Enterprise
       book_now: Забронювати зараз
@@ -3844,8 +3865,6 @@ uk:
   label_custom_field_default_type: Порожній тип
   label_custom_field_new: Нове спеціальне поле
   label_custom_field_plural: Індивідуальні поля
-  label_custom_logo: Користувацький логотип для ПК
-  label_custom_logo_mobile: Користувацький логотип для мобільного
   label_custom_pdf_export_settings: Налаштування експорту PDF
   label_custom_style: Дизайн
   label_custom_style_description: Виберіть, як OpenProject виглядає для вас із темами, виберіть ваші кольори за замовчуванням для використання в застосунку та як виглядатимуть експорти.
@@ -6638,12 +6657,6 @@ uk:
 
     '
   text_custom_field_possible_values_info: По одному значенню в кожному рядку
-  text_custom_logo_instructions: 'Логотип автоматично масштабується відповідно до розміру заголовка. Щоб отримати найкращий результат, завантажте зображення з білим логотипом на прозорому фоні розміром 130×47 пікселів. Відступи на зображені можуть бути будь-які.
-
-    '
-  text_custom_logo_mobile_instructions: 'Логотип автоматично масштабується відповідно до розміру заголовка. Щоб отримати найкращий результат, завантажте зображення з білим логотипом на прозорому фоні розміром 130×33 пікселі. Відступи на зображені можуть бути будь-які.
-
-    '
   text_custom_touch_icon_instructions: 'Це значок, який відображається на вашому мобільному пристрої або планшеті, коли ви створюєте закладку на робочому столі. Це має бути квадратний файл зображення 180 на 180 пікселів у форматі PNG. Переконайтеся, що фон зображення не прозорий, інакше воно буде матиме поганий вигляд на iOS.
 
     '

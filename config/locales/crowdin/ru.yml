@@ -1627,6 +1627,23 @@ ru:
     banners:
       environment_configured_readonly: Эти значения настраиваются через переменные окружения и не могут быть отредактированы.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Основные цвета
         main_menu: Главное боковое меню
@@ -1659,7 +1676,11 @@ ru:
       tab_interface: Интерфейс
       tab_pdf_export_font: Шрифт для экспорта в PDF
       tab_pdf_export_styles: Стили экспорта PDF
-      theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Загрузить токен поддержки корпоративной версии
       book_now: Заказать сейчас
@@ -3840,8 +3861,6 @@ ru:
   label_custom_field_default_type: Пустой тип
   label_custom_field_new: Новое настраиваемое поле
   label_custom_field_plural: Пользовательские поля
-  label_custom_logo: Пользовательский логотип компьютера
-  label_custom_logo_mobile: Пользовательский логотип мобильного устройства
   label_custom_pdf_export_settings: Настройки экспорта PDF
   label_custom_style: Дизайн
   label_custom_style_description: Выберите, как OpenProject будет выглядеть с помощью тем, выберите цвета по умолчанию, которые Вы будете использовать в приложении, и как будет выглядеть экспорт.
@@ -6625,12 +6644,6 @@ ru:
 
     '
   text_custom_field_possible_values_info: Каждое значение на отдельной строке
-  text_custom_logo_instructions: 'Логотип автоматически масштабируется, чтобы соответствовать заголовку. Для достижения наилучших результатов загрузите белый логотип на прозрачном фоне размером 130×47px. Вы можете добавить столько интервалов внутри этого изображения, сколько захотите.
-
-    '
-  text_custom_logo_mobile_instructions: 'Логотип автоматически масштабируется, чтобы соответствовать заголовку. Для достижения наилучших результатов загрузите белый логотип на прозрачном фоне размером 130×33px. Вы можете добавить столько интервалов внутри этого изображения, сколько захотите.
-
-    '
   text_custom_touch_icon_instructions: 'Это значок, который появляется на вашем мобильном устройстве или планшете, когда вы размещаете закладку на своем рабочем столе. Это должен быть файл изображения в формате PNG размером 180 на 180 пикселей в квадрате. Пожалуйста, убедитесь, что фон изображения не прозрачный, иначе это будет плохо смотреться на iOS.
 
     '
@@ -6829,34 +6842,34 @@ ru:
       descriptions:
         defaults: Выберите, если участники проекта должны иметь возможность называть рабочие пакеты по своему желанию или если заголовки должны быть сгенерированы автоматически.
         form_configuration: Это поля, которые участник проекта видит при создании или редактировании пакета работ данного типа.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
+        pdf: Настройте, как должны выглядеть PDF-файлы, экспортируемые из пакетов работ данного типа.
+        project_attributes: Вы можете сделать так, чтобы определенные атрибуты проекта отображались во всех пакетах работ данного типа.
+        projects: В каких проектах должен быть доступен этот тип?
       fields:
         variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
       finish: Закончить
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
       start:
-        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
-        inherit_title: Use the same settings as the type
-        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
-        reuse_heading: Reuse existing type configuration
-        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
-        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
-        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
-        submit: Start
+        inherit_description: Страница наследует существующие настройки от другого типа. Впоследствии изменения, внесённые в исходный тип, автоматически отразятся здесь.
+        inherit_title: Использовать те же настройки, что и тип
+        manual_description: Вы можете настроить эту страницу по своему усмотрению или скопировать настройки из другого типа.
+        manual_title: Ручная настройка
+        reuse_heading: Использовать существующую конфигурацию типа
+        reuse_inherit: Для всего остального, вы можете настроить автоматическое использование тех же параметров, что и для типа (%{type_name}), если не хотите никаких отличий, и вручную настраивать только те страницы, на которых вы хотите, чтобы были отличия.
+        reuse_intro: Для каждой из страниц вы можете определить, какую связь она имеет с основным типом.
+        reuse_named: Для рабочих процессов и форм, вы можете использовать существующие конфигурации, чтобы избежать определения различных каждый раз при создании нового типа или варианта. Если конфигурация не соответствует вашим потребностям, вы можете создать новую.
+        submit: Начать
         type:
-          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
-          heading: Create a new type
-          lead_html: You are about to create a new type in your instance.
-          step_by_step: You will configure a new type step-by-step in the following pages.
+          description: Тип представляет собой конкретный вид элемента, например функцию или ошибку. Он имеет имя, цвет, набор полей, некоторые правила перехода между статусами и другой конфигурацией. Вы можете активировать и использовать различные типы в разных проектах.
+          heading: Создать новый тип
+          lead_html: Вы собираетесь создать новый тип в своём экземпляре.
+          step_by_step: На следующих страницах вы пошагово настроите новый тип.
         variant:
-          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
-          heading: Create a new variant
-          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
-          step_by_step: You will configure this new variant step-by-step in the following pages.
+          description: Вариант — это альтернативная версия типа, отличающаяся от него несколькими особенностями. Их можно использовать для удовлетворения требований конкретного проекта без необходимости создания совершенно нового типа.
+          heading: Создать новый вариант
+          lead_html: Вы собираетесь создать новый вариант <b>%{type_name}</b> в вашем экземпляре.
+          step_by_step: На следующих страницах вы шаг за шагом настроите этот новый вариант.
       steps:
         defaults: По умолчанию
         details: Детали
@@ -6864,7 +6877,7 @@ ru:
         pdf: Создание PDF
         project_attributes: Атрибуты проекта
         projects: Проекты
-        start: Start
+        start: Начать
         workflows: Рабочие потоки
       success: Успешно создано.
     edit:
@@ -7046,9 +7059,9 @@ ru:
             submit: Переключить
             title: Наследовать от другого типа
           invalid_source: Конфигурация не может быть унаследована от выбранного типа. Пожалуйста, выберите другой тип источника.
-          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
-          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
-          mode_label: Use the same settings as the type
+          mode_description: В данном варианте будут использоваться те же настройки, что и в типе ([%{source_name}](source_url)). Любые изменения, внесенные там, автоматически отразятся и здесь.
+          mode_description_unlinked: В этом варианте будут использоваться те же настройки, что и в типе. Любые изменения, внесенные там, автоматически отразятся и здесь.
+          mode_label: Использовать те же настройки, что и тип
           success: Режим конфигурации переключен.
           title: Наследуемая конфигурация
         manual:
@@ -7063,8 +7076,8 @@ ru:
             title: Настройка вручную
           inherit_from_type: Наследовать от родителя
           invalid_mode: Выбранный режим недоступен для этой конфигурации. Пожалуйста, выберите другой режим.
-          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
-          mode_label: Configure this page manually
+          mode_description: Настройте эту страницу вручную. Изменения, внесённые в родительский тип, больше не будут влиять на неё.
+          mode_label: Настроить эту страницу вручную
           modes:
             copy:
               caption: Начните с однократного копирования настроек, которые в настоящее время наследуются данной конфигурацией.
@@ -7786,11 +7799,11 @@ ru:
       title: Настроить новый рабочий процесс
     usage:
       dialog:
-        button: View dependent types
-        caption_html: The workflow %{name} is used in the following types and variants.
-        title: Workflow used in types
-        variant_of: Variant of %{type}
-        variants: Variants
+        button: Просмотр зависимых типов
+        caption_html: Рабочий процесс %{name} используется в следующих типах и вариантах.
+        title: Рабочий процесс, используемый в типах
+        variant_of: Вариант %{type}
+        variants: Варианты
       unused: Этот рабочий процесс пока не использует ни тип, ни вариант.
       used_by_types:
         one: Этот рабочий процесс используется 1 тип. К нему применяются изменения.

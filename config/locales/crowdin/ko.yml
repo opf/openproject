@@ -1303,6 +1303,23 @@ ko:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: 기본 색상
         main_menu: 기본 사이드 메뉴
@@ -1335,7 +1352,11 @@ ko:
       tab_interface: 인터페이스
       tab_pdf_export_font: PDF 내보내기 글꼴
       tab_pdf_export_styles: PDF 내보내기 스타일
-      theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Enterprise edition 지원 토큰을 업로드하세요.
       book_now: 지금 예약
@@ -3418,8 +3439,6 @@ ko:
   label_custom_field_default_type: 빈 유형
   label_custom_field_new: 새 사용자 지정 필드
   label_custom_field_plural: 사용자 정의 필드
-  label_custom_logo: 사용자 지정 로고 데스크톱
-  label_custom_logo_mobile: 사용자 지정 로고 모바일
   label_custom_pdf_export_settings: 사용자 지정 PDF 내보내기 설정
   label_custom_style: 디자인
   label_custom_style_description: 테마를 사용하여 OpenProject의 모양을 선택하고, 앱에서 사용할 기본 색상 및 내보내기의 모양을 선택하세요.
@@ -6139,12 +6158,6 @@ ko:
 
     '
   text_custom_field_possible_values_info: 각 값당 한 줄
-  text_custom_logo_instructions: '로고는 헤더에 맞게 자동으로 크기가 조정됩니다. 최상의 결과를 위해 투명한 130×47px 이미지에 흰색 로고를 업로드하세요. 이미지 내부에 원하는 만큼 간격을 추가할 수 있습니다.
-
-    '
-  text_custom_logo_mobile_instructions: '로고는 헤더에 맞게 자동으로 크기가 조정됩니다. 최상의 결과를 위해 투명한 130×33px 이미지에 흰색 로고를 업로드하세요. 이미지 내부에 원하는 만큼 간격을 추가할 수 있습니다.
-
-    '
   text_custom_touch_icon_instructions: '홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 정사각형 180x180 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
 
     '

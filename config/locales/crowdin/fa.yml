@@ -1409,6 +1409,23 @@ fa:
     banners:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: رنگ‌های پایه
         main_menu: منوی کناری اصلی
@@ -1441,7 +1458,11 @@ fa:
       tab_interface: رابط کاربری
       tab_pdf_export_font: فونت خروجی PDF
       tab_pdf_export_styles: سبک‌های خروجی PDF
-      theme_warning: تغییر پوسته، سبک سفارشی شما را بازنویسی می‌کند و طراحی فعلی از بین می‌رود. مطمئنید می‌خواهید ادامه دهید؟
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: بارگذاری توکن پشتیبانی نسخه Enterprise
       book_now: همین حالا رزرو کنید
@@ -3544,8 +3565,6 @@ fa:
   label_custom_field_default_type: نوع خالی
   label_custom_field_new: فیلد سفارشی جدید
   label_custom_field_plural: فیلدهای سفارشی
-  label_custom_logo: لوگوی سفارشی دسکتاپ
-  label_custom_logo_mobile: لوگوی سفارشی موبایل
   label_custom_pdf_export_settings: تنظیمات سفارشی خروجی PDF
   label_custom_style: طراحی
   label_custom_style_description: ظاهر OpenProject را با انتخاب پوسته، رنگ‌های پیش‌فرض برنامه و ظاهر خروجی‌ها مطابق سلیقه خود تنظیم کنید.
@@ -6296,12 +6315,6 @@ fa:
 
     '
   text_custom_field_possible_values_info: برای هر مقدار یک خط
-  text_custom_logo_instructions: 'لوگو به‌طور خودکار متناسب با Header مقیاس می‌شود. برای بهترین نتیجه، لوگوی سفید روی تصویر شفاف 130×47px بارگذاری کنید. می‌توانید داخل تصویر هر مقدار فاصله دلخواه قرار دهید.
-
-    '
-  text_custom_logo_mobile_instructions: 'لوگو به‌طور خودکار متناسب با Header مقیاس می‌شود. برای بهترین نتیجه، لوگوی سفید روی تصویر شفاف 130×33px بارگذاری کنید. می‌توانید داخل تصویر هر مقدار فاصله دلخواه قرار دهید.
-
-    '
   text_custom_touch_icon_instructions: 'این Icon هنگام افزودن Bookmark به صفحه اصلی موبایل یا تبلت ظاهر می‌شود. باید فایل PNG مربعی ۱۸۰×۱۸۰ پیکسل باشد. مطمئن شوید پس‌زمینه تصویر شفاف نیست، وگرنه در iOS ظاهر مناسبی نخواهد داشت.
 
     '

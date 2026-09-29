@@ -386,7 +386,7 @@ de:
         attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
         enabled_in_new_projects: Aktiv in neuen Projekten
-        linked_aspects: Inherited configuration
+        linked_aspects: Vererbte Konfiguration
         patterns: Muster
         project_types: Projekte mit dieser Variante
         variant: Variante
@@ -1411,6 +1411,23 @@ de:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Grundfarben
         main_menu: Haupt-Seitenmenü
@@ -1443,7 +1460,11 @@ de:
       tab_interface: Benutzeroberfläche
       tab_pdf_export_font: Schriftart für den PDF-Export
       tab_pdf_export_styles: PDF-Exportstile
-      theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Enterprise edition Support Token hochladen
       book_now: Jetzt buchen
@@ -2008,8 +2029,8 @@ de:
         save: Änderungen speichern und fortfahren
         title: Änderungen speichern, bevor Sie fortfahren?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Workflow bearbeiten
+        text_html: 'Sie verwenden einen bestehenden Workflow. Um Änderungen vorzunehmen, bearbeiten Sie entweder den ursprünglichen Workflow oder klicken Sie oben auf <b> „+ %{action}“ </b>, um einen neuen zu erstellen.
 
           '
       role_selector:
@@ -2044,7 +2065,7 @@ de:
       workflow_button: Workflow
       workflow_selector:
         prefix: Workflow
-        same_as_type: "(same as type)"
+        same_as_type: "(entspricht dem Typ)"
         title: Select workflow
   ai:
     text_transform:
@@ -3546,8 +3567,6 @@ de:
   label_custom_field_default_type: Leerer Typ
   label_custom_field_new: Neues benutzerdefiniertes Feld
   label_custom_field_plural: Benutzerdefinierte Felder
-  label_custom_logo: Benutzerdefiniertes Logo Desktop
-  label_custom_logo_mobile: Benutzerdefiniertes Logo Mobilgerät
   label_custom_pdf_export_settings: Benutzerdefinierte PDF-Export-Einstellungen
   label_custom_style: Design
   label_custom_style_description: Wählen Sie über Design und Farben aus, wie die OpenProject Benutzeroberfläche und Exporte aussehen sollen.
@@ -6298,12 +6317,6 @@ de:
 
     '
   text_custom_field_possible_values_info: Eine Zeile pro Wert
-  text_custom_logo_instructions: 'Das Logo passt sich automatisch an die Kopfzeile an. Die besten Ergebnisse erzielen Sie, wenn Sie ein weißes Logo auf ein transparentes 130×47px großes Bild hochladen. Sie können innerhalb des Bildes so viel Abstand einfügen, wie Sie möchten.
-
-    '
-  text_custom_logo_mobile_instructions: 'Das Logo passt sich automatisch an die Kopfzeile an. Die besten Ergebnisse erzielen Sie, wenn Sie ein weißes Logo auf ein transparentes 130×33px großes Bild hochladen. Sie können innerhalb des Bildes so viel Abstand einfügen, wie Sie möchten.
-
-    '
   text_custom_touch_icon_instructions: 'Dieses Symbol wird auf Ihrem Mobilgerät oder Tablet angezeigt, wenn Sie ein Lesezeichen dieser OpenProject-Instanz erstellen. Es muss ein quadratisches 180 x 180 Pixel großes PNG sein. Der Hintergrund sollte nicht transparent sein, da dies auf iOS-Geräten nicht optimal dargestellt wird.
 
     '

@@ -64,10 +64,56 @@ zh-TW:
     gitlab_user_avatar_url: GitLab 頭像 URL
     gitlab_username: GitLab 使用者名稱
   gitlab_integration:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      created_by: Created by %{name}.
+      updated_at: Updated on %{date_time}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: "** 問題關閉：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。\n"
+    issue_component:
+      created_by: Created by %{name}.
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
     issue_opened_referenced_comment: "** 問題已開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 開啟。\n"
     issue_reopened_referenced_comment: "** 問題重新開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。\n"
     merge_request_closed_comment: "**MR 已關閉：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。\n"
+    merge_request_component:
+      created_by: Created by %{name}.
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
     merge_request_merged_comment: "**MR 已合併：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 合併。\n"
     merge_request_opened_comment: "**MR 已開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}).。\n"
     merge_request_reopened_comment: "**MR 已重新開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。\n"
@@ -80,6 +126,27 @@ zh-TW:
     push_multiple_commits_comment: "** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送了多個提交 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment: "** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment_with_ref: "** 推送在 %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git snippets
   label_gitlab_actor: GitLab actor
   label_gitlab_integration: GitLab Integration
   label_gitlab_webhook_secret: Webhook secret

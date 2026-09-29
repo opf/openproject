@@ -1629,6 +1629,23 @@ cs:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Base colors
         main_menu: Main lateral menu
@@ -1661,7 +1678,11 @@ cs:
       tab_interface: Rozhraní
       tab_pdf_export_font: Písmo pro export do PDF
       tab_pdf_export_styles: Styly exportu do PDF
-      theme_warning: Změna motivu přepíše váš vlastní styl. Vzhled pak bude ztracen. Jste si jisti, že chcete pokračovat?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Nahrát  podpůrný token Enterprise Edition
       book_now: Rezervujte nyní
@@ -3842,8 +3863,6 @@ cs:
   label_custom_field_default_type: Prázdný typ
   label_custom_field_new: Nové vlastní pole
   label_custom_field_plural: Vlastní pole
-  label_custom_logo: Custom logo desktop
-  label_custom_logo_mobile: Custom logo mobile
   label_custom_pdf_export_settings: Vlastní nastavení exportu PDF
   label_custom_style: Design
   label_custom_style_description: Vyberte si, jak bude OpenProject vypadat pomocí motivů, zvolte si výchozí barvy, které chcete v aplikaci používat, a jak budou vypadat exporty.
@@ -6644,12 +6663,6 @@ cs:
 
     '
   text_custom_field_possible_values_info: Jeden řádek pro každou hodnotu
-  text_custom_logo_instructions: 'The logo automatically scales to fit the header. For best results, upload a white logo on a transparent 130×47px image. You can add as much spacing inside that image as you like.
-
-    '
-  text_custom_logo_mobile_instructions: 'The logo automatically scales to fit the header. For best results, upload a white logo on a transparent 130×33px image. You can add as much spacing inside that image as you like.
-
-    '
   text_custom_touch_icon_instructions: 'Toto je ikona, která se zobrazí v mobilu nebo tabletu, když umístíte záložku na hlavní obrazovku. Musí být čtvercový obrazový soubor velikosti PNG 180 pixelů. Ujistěte se, že pozadí obrázku není transparentní, jinak bude vypadat špatně.
 
     '

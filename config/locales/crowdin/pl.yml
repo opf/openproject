@@ -1627,6 +1627,23 @@ pl:
     banners:
       environment_configured_readonly: Wartości te są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Kolory podstawowe
         main_menu: Główne menu boczne
@@ -1659,7 +1676,11 @@ pl:
       tab_interface: Interfejs
       tab_pdf_export_font: Czcionka eksportu PDF
       tab_pdf_export_styles: Style eksportu PDF
-      theme_warning: Zmiana motywu poskutkuje zastąpieniem stylu niestandardowego. Projekt zostanie wówczas utracony. Czy na pewno chcesz kontynuować?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Wyślij swój token wsparcia wersji Enterprise
       book_now: Zarezerwuj teraz
@@ -3834,8 +3855,6 @@ pl:
   label_custom_field_default_type: Typ pusty
   label_custom_field_new: Nowe pole niestandardowe
   label_custom_field_plural: Pola niestandardowe
-  label_custom_logo: Komputer z logotypem niestandardowym
-  label_custom_logo_mobile: Telefon komórkowy z logotypem niestandardowym
   label_custom_pdf_export_settings: Niestandardowe ustawienia eksportu w formacie PDF
   label_custom_style: Kompozycja
   label_custom_style_description: Skonfiguruj wygląd OpenProject za pomocą motywów, wybierz domyślne kolory do wykorzystania w aplikacji i zaprojektuj wygląd eksportu produktów.
@@ -6623,12 +6642,6 @@ pl:
 
     '
   text_custom_field_possible_values_info: Jeden wiersz dla każdej wartości
-  text_custom_logo_instructions: 'Logotyp jest automatycznie skalowany, aby pasował do nagłówka. Aby uzyskać najlepsze wyniki, prześlij biały logotyp na przezroczystym obrazie o rozmiarze 130 × 47 pikseli. Możesz dodać dowolne odstępy wewnątrz tego obrazu.
-
-    '
-  text_custom_logo_mobile_instructions: 'Logotyp jest automatycznie skalowany, aby pasował do nagłówka. Aby uzyskać najlepsze wyniki, prześlij biały logotyp na przezroczystym obrazie o rozmiarze 130 × 35 pikseli. Możesz dodać dowolne odstępy wewnątrz tego obrazu.
-
-    '
   text_custom_touch_icon_instructions: 'Jest to ikona, która pojawia się na telefonie komórkowym lub tablecie po umieszczeniu zakładki na ekranie głównym. Musi to być plik kwadratowego obrazu PNG o rozmiarze 180 na 180 pikseli. Upewnij się, że tło obrazu nie jest przezroczyste, w przeciwnym razie będzie źle wyglądać w systemie iOS.
 
     '
