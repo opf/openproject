@@ -5,4 +5,6 @@
   >{{ item.name }}</span>
 </ng-template>
 
-<ng-template #tagTemplate let-search="search">{{ search }} <span class="color-fg-muted">{{ newLabelSuffix }}</span></ng-template>
+<ng-template #tagTemplate let-search="search">
+  <span class="labels-autocompleter--create-option">{{ search }} <span class="color-fg-muted">{{ newLabelSuffix }}</span></span>
+</ng-template>
