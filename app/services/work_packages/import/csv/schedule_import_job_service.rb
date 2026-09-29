@@ -31,7 +31,7 @@
 module WorkPackages
   module Import
     module CSV
-      class ScheduleService
+      class ScheduleImportJobService
         def initialize(user:, project:)
           @user = user
           @project = project
