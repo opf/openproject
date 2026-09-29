@@ -195,6 +195,26 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
       expect(result.state).to eq(:warning)
       expect(result.code).to eq(:catalogue_stale_settings)
     end
+
+    it "warns when the model list was never retrieved" do
+      connection.update_column(:last_synced_at, nil)
+
+      result = result_for(:models, :catalogue_fresh)
+
+      expect(result.state).to eq(:warning)
+      expect(result.code).to eq(:catalogue_never_fetched)
+    end
+
+    it "names the date of a model list retrieved too long ago" do
+      synced_at = (Llm::Validators::ModelValidator::STALE_AFTER + 1.day).ago
+      connection.update_column(:last_synced_at, synced_at)
+
+      result = result_for(:models, :catalogue_fresh)
+
+      expect(result.state).to eq(:warning)
+      expect(result.code).to eq(:catalogue_stale)
+      expect(result.context[:fetched_at]).to eq(I18n.l(synced_at.to_date))
+    end
   end
 
   describe "the features group" do
@@ -214,6 +234,41 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
       expect(result.state).to eq(:failure)
       expect(result.code).to eq(:features_model_missing)
+    end
+
+    context "with an embedding feature available", with_flag: { llm_connection: true, semantic_search: true } do
+      it "fails when the bound model lacks a capability the feature requires" do
+        connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3")
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+
+        result = result_for(:features, :bindings_resolvable)
+
+        expect(result.state).to eq(:failure)
+        expect(result.code).to eq(:features_incapable)
+        expect(result.context).to include(features: "Semantic search", capabilities: "Embeddings")
+      end
+    end
+
+    it "passes while the model of a locked binding is still offered" do
+      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
+                                          locked_at: Time.current)
+
+      expect(result_for(:features, :locked_bindings_intact).state).to eq(:success)
+    end
+
+    # Only reachable while the feature itself is switched off: for an available
+    # feature the missing model already fails bindings_resolvable, which halts
+    # the group.
+    it "fails when the model of a locked binding has left the catalogue" do
+      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "retired-embedder",
+                                          locked_at: Time.current)
+
+      result = result_for(:features, :locked_bindings_intact)
+
+      expect(result.state).to eq(:failure)
+      expect(result.code).to eq(:locked_model_missing)
+      expect(result.context).to include(features: "Semantic search")
     end
   end
 
