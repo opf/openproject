@@ -53,7 +53,7 @@ const DEMO_FAULT_PARAM = 'ai_demo_fault';
  */
 export default class AiTextTransformPopoverController extends Controller<HTMLElement> {
   static targets = [
-    'handle', 'grip', 'resize', 'title', 'output', 'stopped', 'failed', 'failedMessage',
+    'handle', 'grip', 'resize', 'title', 'context', 'output', 'stopped', 'failed', 'failedMessage',
     'generatingFooter', 'doneFooter', 'errorFooter', 'copyLabel',
   ];
 
@@ -61,6 +61,9 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     runsUrl: String,
     renderUrl: String,
     editorGone: String,
+    selectionGone: String,
+    contextDocument: String,
+    contextSelection: String,
     copied: String,
     copy: String,
   };
@@ -69,6 +72,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   declare readonly gripTarget:HTMLElement;
   declare readonly resizeTargets:HTMLElement[];
   declare readonly titleTarget:HTMLElement;
+  declare readonly contextTarget:HTMLElement;
   declare readonly outputTarget:HTMLElement;
   declare readonly stoppedTarget:HTMLElement;
   declare readonly failedTarget:HTMLElement;
@@ -80,6 +84,9 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   declare readonly runsUrlValue:string;
   declare readonly renderUrlValue:string;
   declare readonly editorGoneValue:string;
+  declare readonly selectionGoneValue:string;
+  declare readonly contextDocumentValue:string;
+  declare readonly contextSelectionValue:string;
   declare readonly copiedValue:string;
   declare readonly copyValue:string;
 
@@ -130,6 +137,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
       await this.client.cancel();
     }
     this.stopRun();
+    this.clearSelectionMarker();
     this.element.hidden = true;
   }
 
@@ -146,7 +154,18 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
       return;
     }
 
-    wrapper.dispatchEvent(new CustomEvent('op:ckeditor:setData', { detail: this.result }));
+    if (this.request?.scope === 'selection') {
+      let replaced = false;
+      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:replaceSelection', {
+        detail: { markdown: this.result, done: (ok:boolean) => { replaced = ok; } },
+      }));
+      if (!replaced) {
+        this.showFailure(this.selectionGoneValue, true);
+        return;
+      }
+    } else {
+      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:setData', { detail: this.result }));
+    }
     this.element.hidden = true;
   }
 
@@ -166,8 +185,9 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     }
 
     this.request = detail;
-    this.input = await this.readEditor(detail.editorWrapper);
+    this.input = detail.input;
     this.titleTarget.textContent = detail.label;
+    this.contextTarget.textContent = detail.scope === 'selection' ? this.contextSelectionValue : this.contextDocumentValue;
     this.element.hidden = false;
     await this.run();
   }
@@ -240,6 +260,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
 
     if (run.status === 'cancelled') {
       this.stopRun();
+      this.clearSelectionMarker();
       this.element.hidden = true;
     }
   }
@@ -286,10 +307,11 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     this.clearRenderTimer();
   }
 
-  private readEditor(wrapper:HTMLElement):Promise<string> {
-    return new Promise((resolve) => {
-      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:getData', { detail: (data:string) => resolve(data) }));
-    });
+  private clearSelectionMarker():void {
+    const wrapper = this.request?.editorWrapper;
+    if (wrapper?.isConnected) {
+      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:clearSelectionMarker'));
+    }
   }
 
   // The deltas are markdown, the popover shows formatted text: a demo endpoint renders it, at

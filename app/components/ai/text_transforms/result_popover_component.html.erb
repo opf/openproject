@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
         layout.with_row(classes: "op-ai-result-popover--body", flex: 1, p: 3) do
           flex_layout(direction: :column) do |body|
             body.with_row(mb: 3, text_align: :right) do
-              render(Primer::Beta::Label.new(scheme: :done, size: :large)) { label(:context_description) }
+              render(Primer::Beta::Label.new(scheme: :done, size: :large, data: target(:context))) { label(:context_description) }
             end
             body.with_row(mb: 3, hidden: true, data: target(:stopped)) do
               render(Primer::Alpha::Banner.new(scheme: :warning, description: label(:stopped_description))) do

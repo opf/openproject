@@ -50,6 +50,9 @@ module AI
           ai_text_transform_popover_runs_url_value: api_v3_paths.ai_text_transform_runs,
           ai_text_transform_popover_render_url_value: helpers.ai_text_transform_preview_path,
           ai_text_transform_popover_editor_gone_value: label(:editor_gone),
+          ai_text_transform_popover_selection_gone_value: label(:selection_gone),
+          ai_text_transform_popover_context_document_value: label(:context_description),
+          ai_text_transform_popover_context_selection_value: label(:context_selection),
           ai_text_transform_popover_copied_value: label(:copied),
           ai_text_transform_popover_copy_value: label(:copy)
         }

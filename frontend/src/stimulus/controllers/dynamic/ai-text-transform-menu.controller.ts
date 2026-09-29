@@ -27,11 +27,15 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import type { EditorSelectionResult } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 interface ActionResource {
   id:number;
   label:string;
+  injectsTypeTemplate:boolean;
 }
+
+export type AiTextTransformScope = 'document'|'selection';
 
 interface ActionCollection {
   _embedded:{ elements:ActionResource[] };
@@ -42,6 +46,8 @@ export interface AiTextTransformStartDetail {
   label:string;
   editorWrapper:HTMLElement;
   context:Record<string, number>;
+  scope:AiTextTransformScope;
+  input:string;
 }
 
 export const AI_TEXT_TRANSFORM_START_EVENT = 'op:ai-text-transform:start';
@@ -64,11 +70,20 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
     void this.loadActions();
   }
 
-  run(event:Event):void {
+  async run(event:Event):Promise<void> {
     const item = event.currentTarget as HTMLElement;
     const editorWrapper = this.element.closest('op-ckeditor')?.querySelector<HTMLElement>('.op-ckeditor-source-element');
     if (!editorWrapper) {
       return;
+    }
+
+    // An action that injects the type template describes the whole description,
+    // so it always runs on the document, even with text selected.
+    const selection = item.dataset.actionInjectsTemplate === 'true'
+      ? { markdown: '', empty: true }
+      : await this.readSelection(editorWrapper);
+    if (selection.empty) {
+      editorWrapper.dispatchEvent(new CustomEvent('op:ckeditor:clearSelectionMarker'));
     }
 
     const detail:AiTextTransformStartDetail = {
@@ -76,8 +91,22 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
       label: item.dataset.actionLabel ?? '',
       editorWrapper,
       context: this.contextValue,
+      scope: selection.empty ? 'document' : 'selection',
+      input: selection.empty ? await this.readDocument(editorWrapper) : selection.markdown,
     };
     window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_START_EVENT, { detail }));
+  }
+
+  private readSelection(wrapper:HTMLElement):Promise<EditorSelectionResult> {
+    return new Promise((resolve) => {
+      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:getSelection', { detail: resolve }));
+    });
+  }
+
+  private readDocument(wrapper:HTMLElement):Promise<string> {
+    return new Promise((resolve) => {
+      wrapper.dispatchEvent(new CustomEvent('op:ckeditor:getData', { detail: (data:string) => resolve(data) }));
+    });
   }
 
   private async loadActions():Promise<void> {
@@ -118,6 +147,7 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
     button.removeAttribute('data-ai-text-transform-menu-target');
     button.dataset.actionId = String(action.id);
     button.dataset.actionLabel = action.label;
+    button.dataset.actionInjectsTemplate = String(action.injectsTypeTemplate);
     label.textContent = action.label;
     templateItem.parentElement.append(item);
   }
