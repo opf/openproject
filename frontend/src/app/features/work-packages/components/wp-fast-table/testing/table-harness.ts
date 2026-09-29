@@ -27,7 +27,9 @@
 //++
 
 import { fireEvent } from '@testing-library/dom';
-import { EventEmitter, Injector, Type } from '@angular/core';
+import {
+  createEnvironmentInjector, EnvironmentInjector, EventEmitter, Injector, Type,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of, Subject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
@@ -81,6 +83,12 @@ import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
@@ -91,8 +99,14 @@ export interface TableHarnessOptions {
   groupBy?:string;
   showHierarchies?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
+  /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
+  productionDefaults?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
+  /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
+  editing?:{ formWritable?:boolean };
+  /** The application-wide resource cache; pass one instance to tables that share a page. */
+  states?:States;
 }
 
 export interface TableHarness {
@@ -110,6 +124,11 @@ export interface TableHarness {
   rows():HTMLTableRowElement[];
   row(workPackageId:string):HTMLTableRowElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
+  /** Fresh lookup; group headers are replaced on every collapse toggle. */
+  groupHeader(index:number):HTMLTableRowElement;
+  rowIds():string[];
+  /** Work-package entries of the rendered state, in order, as `[workPackageId, hidden]`. */
+  renderedState():[string, boolean][];
   click(workPackageId:string, init?:MouseEventInit):void;
   /** Tells the registered drag member a drag of the given row has begun. */
   dragStart(workPackageId:string):void;
@@ -127,13 +146,18 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+const unbuildableColumns:WorkPackageTableConfigurationObject = {
+  actionsColumnEnabled: false,
+  columnMenuEnabled: false,
+  dragAndDropEnabled: false,
+};
+
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
-  TestBed.configureTestingModule({ providers: harnessProviders(dragService, options.dragAction) });
-
-  const injector = TestBed.inject(Injector);
-  const querySpace = TestBed.inject(IsolatedQuerySpace);
-  const states = TestBed.inject(States);
+  const injector = createEnvironmentInjector(harnessProviders(dragService, options), TestBed.inject(EnvironmentInjector));
+  injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+  const querySpace = injector.get(IsolatedQuerySpace);
+  const states = injector.get(States);
   const dom = buildDom();
 
   const groupBy = options.groupBy ?? 'status';
@@ -149,7 +173,9 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     dom.tbody,
     dom.timelineBody,
     {} as WorkPackageTimelineTableController,
-    new WorkPackageTableConfiguration({ ...harnessConfiguration, ...options.configuration }),
+    new WorkPackageTableConfiguration(
+      { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
+    ),
   );
 
   const outputs:WorkPackageViewOutputs = {
@@ -159,6 +185,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
 
   let fixtures = options.workPackages;
+  let destroyed = false;
 
   const nextRender = () => firstValueFrom(
     querySpace.tableRendered.values$().pipe(skip(querySpace.tableRendered.hasValue() ? 1 : 0), take(1)),
@@ -170,8 +197,8 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     container: dom.container,
     injector,
     querySpace,
-    selection: TestBed.inject(WorkPackageViewSelectionService),
-    focus: TestBed.inject(WorkPackageViewFocusService),
+    selection: injector.get(WorkPackageViewSelectionService),
+    focus: injector.get(WorkPackageViewFocusService),
     outputs,
 
     render(workPackages = fixtures) {
@@ -206,6 +233,24 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return locatePredecessorBySelector(row, `.${rowGroupClassName}`) as HTMLTableRowElement|null;
     },
 
+    groupHeader(index) {
+      const header = dom.tbody.querySelector<HTMLTableRowElement>(`tr.${rowGroupClassName}[data-group-index="${index}"]`);
+      if (!header) {
+        throw new Error(`No rendered group header ${index}`);
+      }
+      return header;
+    },
+
+    rowIds() {
+      return this.rows().map((row) => row.dataset.workPackageId!);
+    },
+
+    renderedState() {
+      return (querySpace.tableRendered.value ?? [])
+        .filter(({ workPackageId }) => workPackageId !== null)
+        .map(({ workPackageId, hidden }):[string, boolean] => [workPackageId!, hidden]);
+    },
+
     click(workPackageId, init = {}) {
       const row = this.row(workPackageId);
       const target = row.querySelector('td') ?? row;
@@ -234,12 +279,17 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     // The table redraws in a requestAnimationFrame followed by a setTimeout;
-    // wait those out so a pending redraw cannot fire into a reset TestBed.
+    // wait those out so a pending redraw cannot fire into a destroyed injector.
     async destroy() {
+      if (destroyed) {
+        return;
+      }
+      destroyed = true;
       await nextFrame();
       await nextTask();
       querySpace.stopAllSubscriptions.next();
       dom.wrapper.remove();
+      injector.destroy();
     },
   };
 }
@@ -264,9 +314,26 @@ class FakeDragAndDropService {
   }
 }
 
-function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial<TableDragActionService> = {}) {
+/** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
+class FakeEditingPortalService {
+  create(container:HTMLElement):Promise<EditFieldHandler> {
+    const input = document.createElement('input');
+    container.appendChild(input);
+    return Promise.resolve({
+      $onUserActivate: new Subject<void>(),
+      focus: () => input.focus(),
+      deactivate: () => input.remove(),
+    } as unknown as EditFieldHandler);
+  }
+}
+
+function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
+  const editable = !!options.editing;
+  const formWritable = options.editing?.formWritable ?? true;
+  const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+
   return [
-    States,
+    { provide: States, useValue: options.states ?? new States() },
     IsolatedQuerySpace,
     ActionsService,
     WorkPackageViewSelectionService,
@@ -286,14 +353,23 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       useFactory: (states:States) => ({
         work_packages: {
           cache: { current: (_id:string, fallback:unknown) => fallback },
-          id: (id:string) => ({ get: () => of(states.workPackages.get(id).value) }),
+          id: (id:string) => ({
+            get: () => of(states.workPackages.get(id).value),
+            requireAndStream: () => of(states.workPackages.get(id).value),
+          }),
         },
       }),
       deps: [States],
     },
     {
       provide: SchemaCacheService,
-      useValue: { of: () => ({ ofProperty: () => undefined, mappedName: (attribute:string) => attribute }) },
+      useValue: {
+        of: () => ({
+          ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
+          mappedName: (attribute:string) => attribute,
+          isAttributeEditable: (attribute:string) => editable && attribute === 'subject',
+        }),
+      },
     },
     { provide: I18nService, useValue: { t: (key:string) => key, locale: 'en' } },
     { provide: HalResourceService, useValue: {} },
@@ -302,6 +378,11 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       useValue: {
         typedState: () => ({ hasValue: () => false, value: undefined }),
         stopEditing: () => undefined,
+        changeFor: () => ({
+          schema: { ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(formWritable) : null) },
+          getForm: () => Promise.resolve(),
+          reset: () => undefined,
+        }),
       },
     },
     { provide: WorkPackageRelationsService, useValue: { state: () => ({ hasValue: () => false, value: undefined }) } },
@@ -314,13 +395,16 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
     { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
-    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined } },
+    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
+    { provide: CopyToClipboardService, useValue: {} },
+    { provide: CurrentProjectService, useValue: { id: null, identifier: null } },
     { provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: new Subject<string>() } },
     { provide: DragAndDropService, useValue: dragService },
     {
       provide: TableDragActionsRegistryService,
       useFactory: (querySpace:IsolatedQuerySpace, injector:Injector) => ({
-        get: () => Object.assign(new TableDragActionService(querySpace, injector), dragAction),
+        get: () => Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
       }),
       deps: [IsolatedQuerySpace, Injector],
     },
