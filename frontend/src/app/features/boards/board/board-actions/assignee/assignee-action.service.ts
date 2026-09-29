@@ -59,17 +59,17 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   image = imagePath('board_creation_modal/assignees.svg');
 
-  readonly unassignedUser:any = {
+  readonly unassignedUser = {
     id: null,
     href: null,
     name: this.I18n.t('js.filter.noneElement'),
-  };
+  } as unknown as HalResource;
 
   /**
    * Add a single action query
    */
   addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
-    const params:any = {
+    const params = {
       name: value.name,
     };
 
@@ -148,7 +148,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .available_assignees
       .get()
       .pipe(
-        map((collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements) as HalResource[]),
+        map((collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements)),
       );
   }
 }
