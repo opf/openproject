@@ -28,22 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Exports::Formatters
-  class BudgetSpentRatio < ::Exports::Formatters::Default
-    def self.apply?(attribute, _export_format)
-      attribute.to_sym == :budget_spent_ratio
+module Budgets::Patches::Projects::BudgetColumns
+  def budget_planned
+    with_budget_aggregation do |aggregation|
+      number_to_currency(aggregation.total_planned, precision: 0)
     end
+  end
 
-    def format(project, **)
-      return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
-
-      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
-
-      (aggregation.total_ratio.to_f / 100).ceil(2) if aggregation&.total_ratio
+  def budget_spent
+    with_budget_aggregation do |aggregation|
+      number_to_currency(aggregation.total_spent, precision: 0)
     end
+  end
 
-    def format_options
-      { number_format: percentage_format }
+  def budget_spent_ratio
+    with_budget_aggregation do |aggregation|
+      helpers.extended_progress_bar(aggregation.total_ratio,
+                                    legend: aggregation.total_ratio.to_s)
     end
+  end
+
+  def budget_available
+    with_budget_aggregation do |aggregation|
+      number_to_currency(aggregation.total_available, precision: 0)
+    end
+  end
+
+  def with_budget_aggregation
+    @budget_aggregation ||= Budgets::ProjectBudgetAggregation.new(project)
+    return unless @budget_aggregation.any?
+    return unless User.current.allowed_in_project?(:view_budgets, project)
+
+    yield @budget_aggregation
   end
 end

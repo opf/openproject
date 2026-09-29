@@ -28,12 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Budgets::Patches::Projects::RowComponentPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
-
-  class ProjectBudgets
+module Budgets
+  class ProjectBudgetAggregation
     attr_reader :project
 
     def initialize(project)
@@ -60,41 +56,6 @@ module Budgets::Patches::Projects::RowComponentPatch
 
     def budgets
       @budgets ||= project.budgets.to_a
-    end
-  end
-
-  module InstanceMethods
-    def budget_planned
-      with_project_budgets do |project_budgets|
-        number_to_currency(project_budgets.total_planned, precision: 0)
-      end
-    end
-
-    def budget_spent
-      with_project_budgets do |project_budgets|
-        number_to_currency(project_budgets.total_spent, precision: 0)
-      end
-    end
-
-    def budget_spent_ratio
-      with_project_budgets do |project_budgets|
-        helpers.extended_progress_bar(project_budgets.total_ratio,
-                                      legend: project_budgets.total_ratio.to_s)
-      end
-    end
-
-    def budget_available
-      with_project_budgets do |project_budgets|
-        number_to_currency(project_budgets.total_available, precision: 0)
-      end
-    end
-
-    def with_project_budgets
-      @project_budgets ||= ProjectBudgets.new(project)
-      return unless @project_budgets.any?
-      return unless User.current.allowed_in_project?(:view_budgets, project)
-
-      yield @project_budgets
     end
   end
 end

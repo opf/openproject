@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Budgets::Patches::WorkPackagePatch
+module Budgets::Patches::WorkPackageBudget
   extend ActiveSupport::Concern
 
   included do
