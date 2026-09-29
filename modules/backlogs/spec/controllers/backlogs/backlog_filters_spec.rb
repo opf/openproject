@@ -91,6 +91,22 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
 
       it { expect(filters.bucket_ids).to be_nil }
     end
+
+    context "when bucket_ids is valid JSON but not a list of ids" do
+      %w[{"a":1} [[1]] true null].each do |value|
+        it "ignores #{value}" do
+          expect(described_class.new(bucket_ids: value).bucket_ids).to be_nil
+        end
+      end
+    end
+
+    context "when bucket_ids mix valid ids with non-scalar values" do
+      let(:params) { { bucket_ids: '[1, {"a":1}, "inbox", [2]]' } }
+
+      it "keeps only the valid ids" do
+        expect(filters.bucket_ids).to eq([1, "inbox"])
+      end
+    end
   end
 
   describe "#bucket_ids_without_inbox" do

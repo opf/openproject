@@ -69,7 +69,7 @@ module Backlogs
     def parse_ids(ids)
       # Support the rails param format bucket_ids[]=1&bucket_ids[]=2 for backward compatibility.
       parsed_ids = ids.is_a?(Array) ? ids : Array(JSON.parse(ids.to_s))
-      parsed_ids.filter_map { |id| id == "inbox" ? "inbox" : id.to_i.nonzero? }
+      parsed_ids.filter_map { |id| id == "inbox" ? "inbox" : id.to_s.to_i.nonzero? }
     rescue JSON::ParserError
       []
     end
