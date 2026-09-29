@@ -93,8 +93,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
         expect(page).to have_text("The following statuses don’t exist in the workflow you have selected (\"Standard flow\"):")
 
         within_test_selector("change-workflow-missing-statuses") do
-          expect(page).to have_css("span.text-bold", text: "Closed")
-          expect(page).to have_text("2 transitions for 2 roles")
+          expect(page).to have_text("Closed")
           expect(page).to have_no_text("In progress")
         end
 

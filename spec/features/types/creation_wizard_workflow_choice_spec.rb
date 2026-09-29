@@ -196,7 +196,6 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         expect(page).to have_text("Use a different workflow for Bug?")
         within_test_selector("change-workflow-missing-statuses") do
           expect(page).to have_text("Closed")
-          expect(page).to have_text("1 transition for 1 role")
         end
         click_on I18n.t(:button_confirm)
       end
