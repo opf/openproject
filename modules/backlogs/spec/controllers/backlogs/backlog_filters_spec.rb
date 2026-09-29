@@ -63,6 +63,34 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
         expect(filters.bucket_ids).to eq([1, 2])
       end
     end
+
+    context "when bucket_ids contain inbox" do
+      let(:params) { { bucket_ids: %w[1 inbox].to_json } }
+
+      it "keeps inbox as a string" do
+        expect(filters.bucket_ids).to eq([1, "inbox"])
+      end
+    end
+
+    context "when bucket_ids use the legacy array format" do
+      let(:params) { { bucket_ids: %w[1 inbox 2] } }
+
+      it "parses them" do
+        expect(filters.bucket_ids).to eq([1, "inbox", 2])
+      end
+    end
+
+    context "when bucket_ids are malformed JSON" do
+      let(:params) { { bucket_ids: "[1," } }
+
+      it { expect(filters.bucket_ids).to be_nil }
+    end
+
+    context "when bucket_ids is an empty JSON array" do
+      let(:params) { { bucket_ids: "[]" } }
+
+      it { expect(filters.bucket_ids).to be_nil }
+    end
   end
 
   describe "#bucket_ids_without_inbox" do
@@ -117,6 +145,14 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
 
       it "coerces it to integer" do
         expect(filters.sprint_ids).to eq([3])
+      end
+    end
+
+    context "when sprint_ids use the legacy array format" do
+      let(:params) { { sprint_ids: %w[5 6] } }
+
+      it "parses them" do
+        expect(filters.sprint_ids).to eq([5, 6])
       end
     end
   end
@@ -207,6 +243,30 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
 
       it "includes the raw filters string" do
         expect(filters.to_h).to eq({ filters: 'status_id = "1"' })
+      end
+    end
+
+    context "with inbox among the bucket_ids" do
+      let(:params) { { bucket_ids: %w[1 inbox].to_json } }
+
+      it "serializes inbox alongside the ids" do
+        expect(filters.to_h).to eq({ bucket_ids: %w[1 inbox].to_json })
+      end
+    end
+
+    context "with legacy array params" do
+      let(:params) { { bucket_ids: %w[1 2], sprint_ids: %w[3] } }
+
+      it "serializes them in the JSON format" do
+        expect(filters.to_h).to eq({ bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json })
+      end
+    end
+
+    context "when fed back into the constructor" do
+      let(:params) { { all: "1", bucket_ids: %w[1 inbox].to_json, sprint_ids: "2".to_json, filters: 'status_id = "1"' } }
+
+      it "round-trips" do
+        expect(described_class.new(**filters.to_h)).to eq(filters)
       end
     end
   end

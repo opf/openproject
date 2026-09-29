@@ -129,7 +129,7 @@ RSpec.describe Backlogs::BacklogController do
           shared_let(:other_sprint) { create(:sprint, project:) }
           shared_let(:other_sprint_work_package) { create(:work_package, project:, status:, sprint: other_sprint) }
 
-          let(:params) { { sprint_ids: [sprint.id] } }
+          let(:params) { { sprint_ids: [sprint.id.to_s].to_json } }
 
           it "only loads the selected sprint's work packages", :aggregate_failures do
             subject

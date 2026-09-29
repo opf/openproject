@@ -31,7 +31,9 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
-  shared_let(:project) { create(:project) }
+  include Rails.application.routes.url_helpers
+
+  shared_let(:project) { create(:project, enabled_module_names: %w[backlogs]) }
   shared_let(:user) { create(:admin) }
 
   current_user { user }
@@ -61,6 +63,18 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       expect(page).to have_css("[aria-selected='true']", text: "Alpha Sprint")
       expect(page).to have_css("[aria-selected='false']", text: "Beta Sprint")
     end
+
+    it "marks sprints selected in the JSON format as active" do
+      render_component(field_name: :sprint_ids, sprint_ids: [sprint2.id.to_s].to_json)
+      expect(page).to have_css("[aria-selected='false']", text: "Alpha Sprint")
+      expect(page).to have_css("[aria-selected='true']", text: "Beta Sprint")
+    end
+
+    it "does not list completed sprints" do
+      create(:sprint, project:, name: "Done Sprint", status: :completed)
+      render_component(field_name: :sprint_ids)
+      expect(page).to have_no_text("Done Sprint")
+    end
   end
 
   describe "bucket panel" do
@@ -83,31 +97,35 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       expect(page).to have_element(aria: { selected: false }, text: "Ideas")
       expect(page).to have_element(aria: { selected: true }, text: "Backlog")
     end
+
+    it "marks inbox as active when selected in the JSON format" do
+      render_component(field_name: :bucket_ids, bucket_ids: [bucket1.id.to_s, "inbox"].to_json)
+      expect(page).to have_element(aria: { selected: true }, text: "Ideas")
+      expect(page).to have_element(aria: { selected: false }, text: "Backlog")
+      expect(page).to have_element(aria: { selected: true }, text: I18n.t(:label_inbox))
+    end
   end
 
-  describe "hidden filter fields" do
-    it "passes through sprint_ids when rendering the bucket panel" do
-      render_component(field_name: :bucket_ids, sprint_ids: ["1"])
-      expect(page).to have_field("sprint_ids[]", type: :hidden, with: "1", visible: :all)
+  describe "stimulus wiring" do
+    it "configures the filter select panel controller with the filter key and base url" do
+      render_component(field_name: :sprint_ids)
+
+      expect(page).to have_element(
+        "select-panel",
+        "data-controller": "backlogs--filter-select-panel",
+        "data-backlogs--filter-select-panel-filter-key-value": "sprint_ids",
+        "data-backlogs--filter-select-panel-base-url-value": project_backlogs_backlog_path(project)
+      )
     end
 
-    it "passes through bucket_ids when rendering the sprint panel" do
-      render_component(field_name: :sprint_ids, bucket_ids: ["2"])
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "2", visible: :all)
+    it "disables the clear button when nothing is selected" do
+      render_component(field_name: :bucket_ids)
+      expect(page).to have_button(I18n.t(:button_clear), disabled: true)
     end
 
-    it "expands array values into multiple hidden inputs" do
-      render_component(field_name: :sprint_ids, bucket_ids: [1, 2])
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "1", visible: :all)
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "2", visible: :all)
-    end
-
-    it "passes through scalar params as a single hidden input without brackets" do
-      render_component(field_name: :sprint_ids, all: true)
-      # The clear form has 1 `all`, the filter form has 1 `all` and 1 `sprint_ids[]` parameter
-      expect(page).to have_field(type: :hidden, count: 3, visible: :all)
-      expect(page).to have_field("all", type: :hidden, with: "true", count: 2, visible: :all)
-      expect(page).to have_field("sprint_ids[]", type: :hidden, count: 1, visible: :all)
+    it "enables the clear button when a filter is applied" do
+      render_component(field_name: :bucket_ids, bucket_ids: "inbox".to_json)
+      expect(page).to have_button(I18n.t(:button_clear), disabled: false)
     end
   end
 end
