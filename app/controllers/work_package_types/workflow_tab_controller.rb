@@ -100,7 +100,7 @@ module WorkPackageTypes
 
       uri = URI.parse(back_url)
       uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_workflow_id" => workflow.id).to_query
+                             .merge("started_id" => workflow.id).to_query
       uri.to_s
     end
 
@@ -140,7 +140,7 @@ module WorkPackageTypes
         url:,
         candidates: Workflow.available_in(@variant.project).in_display_order.to_a,
         error:,
-        type_record_id: @variant.type_workflow&.id
+        type_record_id: @variant.type_reference_id(Workflow.variant_reflection)
       )
     end
 

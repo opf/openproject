@@ -46,6 +46,8 @@ module WorkPackageTypes
     class_methods do
       def project_owned? = reflect_on_association(:project).present?
 
+      def variant_reflection = reflect_on_association(:type_variants).inverse_of
+
       def build_with_available_name(base, project: nil, **attributes)
         new(name: available_name(base, project:), **{ project: }.compact, **attributes)
       end

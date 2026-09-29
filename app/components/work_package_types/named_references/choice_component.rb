@@ -93,9 +93,9 @@ module WorkPackageTypes
 
       def reuses_existing? = !offers_new? || record_id != started_id
 
-      def record_id = variant.public_send(:"#{model_class.model_name.singular}_id")
+      def record_id = variant[model_class.variant_reflection.foreign_key]
 
-      def started_id = helpers.params[:"started_#{model_class.model_name.singular}_id"].presence&.to_i
+      def started_id = helpers.params[:started_id].presence&.to_i
 
       def candidates
         @candidates ||= begin

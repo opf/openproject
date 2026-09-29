@@ -48,7 +48,7 @@ module WorkPackageTypes
 
       attr_reader :variant, :model_class, :candidates, :back_url
 
-      def record = variant.public_send(model_class.model_name.singular)
+      def record = variant.public_send(model_class.variant_reflection.name)
 
       def name = record.name
 
@@ -56,7 +56,7 @@ module WorkPackageTypes
 
       def same_as_type_text = reference_translate("selector.same_as_type")
 
-      def same_as_type? = variant.public_send(:"type_#{model_class.model_name.singular}")&.id == record.id
+      def same_as_type? = variant.type_reference_id(model_class.variant_reflection) == record.id
 
       def selected = @selected || record.id
 

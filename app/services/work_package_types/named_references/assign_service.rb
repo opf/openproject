@@ -37,7 +37,7 @@ module WorkPackageTypes
       end
 
       def call(record)
-        variant.public_send(:"#{model_class.model_name.singular}=", record)
+        variant.public_send(:"#{model_class.variant_reflection.name}=", record)
 
         if variant.save
           ServiceResult.success(result: variant)
