@@ -217,6 +217,18 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
           .to contain_exactly(shared_work_package, other_shared_work_package)
       end
     end
+
+    context "with a scope that is already narrowed down" do
+      let(:operator) { "*" }
+      let(:values) { [] }
+
+      subject { instance.apply_to(WorkPackage.where(id: other_shared_work_package)) }
+
+      it "keeps the conditions of the incoming scope" do
+        expect(subject)
+          .to contain_exactly(other_shared_work_package)
+      end
+    end
   end
 
   it_behaves_like "basic query filter" do
