@@ -259,10 +259,11 @@ export class BurndownChartComponent {
     };
   }
 
-  // The guideline and projection are sampled by day, so their own timestamp would not name the moment being
-  // hovered. Remaining carries that wherever it still runs, and the projection takes over at the
-  // instant it stops -- without that second choice the header jumps to the end of the day just
-  // as the cursor crosses the junction, since the guideline sorts first among the items.
+  // For ongoing sprints, the remaining data series does not cover the whole of the graph.
+  // There is a junction where the projection series takes over.
+  // The tooltip's title is taken from remaining as long as possible and will only fall back
+  // to projection. That way, the finer granularity is offered as long as it is available.
+  // The remaining series has the finest granularity of all the data series (by hour - sometimes by day).
   private tooltipTitle(items:TooltipItem<'line'>[]):string {
     const { series } = this.parsed();
     const at = (id:BurndownSeries['id']) => items.find((item) => series[item.datasetIndex]?.id === id);
@@ -272,9 +273,8 @@ export class BurndownChartComponent {
   }
 
   // Ticks sit at the end of the period they carry, so 09:59:59.999 is what the 9 o'clock hour
-  // left behind. Naming it 10:00 is what a reader expects, and rounding to the minute does that
-  // without disturbing the interval's own bounds, which are exact instants rather than period
-  // ends. A day end must be truncated instead: rounding it would land on the following date.
+  // left behind. Naming it 10:00 is what a reader expects. Hours are therefore rounded.
+  // A day end must be truncated instead: rounding it would land on the following date.
   private formattedTick(timestamp:number):string {
     if (this.parsed().step === 'day') {
       return this.timezoneService.formattedDate(new Date(timestamp).toISOString());
@@ -332,7 +332,7 @@ export class BurndownChartComponent {
     };
   }
 
-  // The bands carry no dataset index, which is also how the toggle tells them apart.
+  // The non-working days carry no dataset index, which is also how the toggle tells them apart.
   private legendRank(item:LegendItem):number {
     return item.datasetIndex === undefined
       ? seriesRank(NON_WORKING_LEGEND_KEY)
@@ -343,7 +343,7 @@ export class BurndownChartComponent {
     return seriesRank(this.seriesId(datasetIndex));
   }
 
-  // The bands are drawn by a plugin rather than a dataset, so their entry carries no dataset
+  // The non-working days are drawn by a plugin rather than a dataset, so their entry carries no dataset
   // index and has to toggle the plugin's own visibility.
   private toggleLegendItem(event:ChartEvent, item:LegendItem, legend:LegendElement<'line'>):void {
     if (item.datasetIndex !== undefined) {
