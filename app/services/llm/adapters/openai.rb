@@ -72,6 +72,8 @@ module Llm
 
       def cards(body)
         Array(body["data"]).filter_map do |card|
+          next unless card.is_a?(Hash)
+
           id = card["id"]
           next if id.blank?
 
