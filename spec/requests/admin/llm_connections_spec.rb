@@ -343,6 +343,14 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(LlmConnection.first.base_url).to eq(base_url)
         expect(Setting.llm_features_enabled?).to be(true)
       end
+
+      it "still schedules the health check" do
+        allow(Llm::HealthCheckJob).to receive(:toggle_cron_job)
+
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(Llm::HealthCheckJob).to have_received(:toggle_cron_job)
+      end
     end
 
     # The form renders no Save button in this state, so only a hand-crafted

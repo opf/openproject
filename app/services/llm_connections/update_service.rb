@@ -48,9 +48,8 @@ module LlmConnections
     def after_perform(service_call)
       super.tap do
         next unless service_call.success?
-        next unless Setting.llm_features_enabled_writable?
 
-        Setting.llm_features_enabled = model.llm_features_enabled
+        Setting.llm_features_enabled = model.llm_features_enabled if Setting.llm_features_enabled_writable?
         # Switching the AI features on or off decides whether the scheduled
         # health check has anything to do.
         Llm::HealthCheckJob.toggle_cron_job
