@@ -37,6 +37,7 @@ module API
         class TypedSchemaContract < ::WorkPackages::BaseContract
           default_attribute_permission %i[edit_work_packages add_work_packages]
           attribute_permission :project_id, :move_work_packages
+          attribute_permission :labels, :edit_work_packages
         end
       end
     end
