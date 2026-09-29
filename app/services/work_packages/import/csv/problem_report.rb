@@ -70,7 +70,7 @@ module WorkPackages
           end
         end
 
-        def available_for(problem) = payload.dig("available", problem["attribute"].to_s)
+        def available_for(problem) = payload.dig("available_values", problem["attribute"].to_s)
 
         def problems = @problems ||= payload["problems"].presence || payload["column_problems"].to_a
 
