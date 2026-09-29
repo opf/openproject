@@ -81,14 +81,14 @@ module WorkPackages
 
         def resolve(header) = lookup[normalize(header)]
 
-        # Canonical last, so a locale take it over if named the same.
+        private
+
+        # Canonical last, so a locale cannot take it over if named the same.
         def lookup = @lookup ||= localized_aliases.merge(CANONICAL)
 
         def normalize(header)
           header.to_s.strip.delete_prefix("'").gsub(/\s+/, " ").strip.downcase
         end
-
-        private
 
         def examine(header, index)
           return @problems << unnamed(index, header) if header.blank?

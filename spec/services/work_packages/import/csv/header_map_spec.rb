@@ -91,7 +91,7 @@ RSpec.describe WorkPackages::Import::CSV::HeaderMap do
     it "builds in every language the product ships" do
       Redmine::I18n.all_languages.each do |locale|
         I18n.with_locale(locale) do
-          expect { described_class.new.lookup }.not_to raise_error, "building failed under #{locale}"
+          expect { described_class.new.resolve("Subject") }.not_to raise_error, "building failed under #{locale}"
         end
       end
     end

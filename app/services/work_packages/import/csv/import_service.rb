@@ -34,14 +34,32 @@ module WorkPackages
       class ImportService
         include Redmine::I18n
 
-        Report = Data.define(:row_count, :created_count, :query_id, :account_count, :dated_count,
-                             :counts, :problems, :available, :created_ids)
+        # What the caller is handed once every row has been walked.
+        Report = Data.define(
+          :row_count,           # data rows the file held, header and blank rows excluded
+          :created_count,       # work packages created; short of row_count means nothing was kept
+          :query_id,            # saved view listing the created work packages, nil unless all were kept
+          :account_count,       # distinct users the rows named as assignee, accountable or author
+          :dated_count,         # work packages that came out with a start or a finish date
+          :counts_by_attribute, # attribute name => value name => how many were created with it
+          :problems,            # RowMapper::Problem, in row order
+          :available,           # attribute name => the names the project offers, for an unknown value
+          :created_ids          # ids of the created work packages, in row order
+        )
 
         COUNTED = %i[type status priority category].freeze
 
         CONTRACT_ATTRIBUTES = { target_versions: :version }.freeze
 
-        Progress = Struct.new(:created_count, :counts, :problems, :accounts, :dated, :created_ids)
+        # What a run accumulates while it walks the rows, before it is turned into a Report.
+        Progress = Struct.new(
+          :created_count,       # work packages created
+          :counts_by_attribute, # attribute name => value name => how many were created with it
+          :problems,            # RowMapper::Problem, in row order
+          :account_ids,         # users the rows named as assignee, accountable or author
+          :dated_count,         # work packages that came out with a start or a finish date
+          :created_ids          # ids of the created work packages, in row order
+        )
         private_constant :Progress
 
         def initialize(user:, project:)
@@ -81,7 +99,8 @@ module WorkPackages
           mapper = RowMapper.new(project:)
           mapper.prime(rows)
 
-          progress = Progress.new(0, {}, [], Set.new, 0, [])
+          progress = Progress.new(created_count: 0, counts_by_attribute: {}, problems: [],
+                                  account_ids: Set.new, dated_count: 0, created_ids: [])
           rows.each { |row| import_row(row, mapper, progress) }
 
           report(rows.size, progress, mapper.available)
@@ -91,9 +110,9 @@ module WorkPackages
           Report.new(row_count:,
                      created_count: progress.created_count,
                      query_id: nil,
-                     account_count: progress.accounts.size,
-                     dated_count: progress.dated,
-                     counts: progress.counts,
+                     account_count: progress.account_ids.size,
+                     dated_count: progress.dated_count,
+                     counts_by_attribute: progress.counts_by_attribute,
                      problems: progress.problems,
                      available:,
                      created_ids: progress.created_ids)
@@ -178,23 +197,23 @@ module WorkPackages
         def view_name = I18n.t("work_packages.import.csv.view_name", datetime: format_time(Time.current))
 
         def summarise(progress, work_package, columns)
-          count_values(progress.counts, work_package)
-          progress.accounts.merge(accounts(work_package, columns))
-          progress.dated += 1 if work_package.start_date || work_package.due_date
+          count_values(progress.counts_by_attribute, work_package)
+          progress.account_ids.merge(account_ids(work_package, columns))
+          progress.dated_count += 1 if work_package.start_date || work_package.due_date
         end
 
         # The author the row did not name is the importing user, who was not matched from the file
         # and is not one of the accounts it brought with it.
-        def accounts(work_package, columns)
+        def account_ids(work_package, columns)
           [work_package.assigned_to_id, work_package.responsible_id, columns[:author_id]].compact
         end
 
-        def count_values(counts, work_package)
+        def count_values(counts_by_attribute, work_package)
           COUNTED.each do |attribute|
             name = work_package.public_send(attribute)&.name
             next if name.nil?
 
-            per_value = (counts[attribute.to_s] ||= {})
+            per_value = (counts_by_attribute[attribute.to_s] ||= {})
             per_value[name] = per_value.fetch(name, 0) + 1
           end
         end

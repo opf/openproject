@@ -120,7 +120,7 @@ module WorkPackages
             query_id: report.query_id,
             account_count: report.account_count,
             dated_count: report.dated_count,
-            counts: report.counts,
+            counts_by_attribute: report.counts_by_attribute,
             problems: problems(report.problems),
             available: report.available
           }
@@ -145,7 +145,7 @@ module WorkPackages
             account_count: 0,
             dated_count: 0,
             finished_at: Time.current,
-            counts: {},
+            counts_by_attribute: {},
             problems: [],
             column_problems: [],
             available: {}
