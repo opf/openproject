@@ -73,7 +73,7 @@ export class BoardHighlightingTabComponent implements TabComponent, OnInit {
   }
 
   ngOnInit() {
-    this.board = this.locals.board;
+    this.board = this.locals.board as Board;
     this.highlightingMode = this.board.highlightingMode;
     this.updateMode(this.highlightingMode);
   }
