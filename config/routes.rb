@@ -255,12 +255,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :pdf_export_template, only: %i[],
-                                    controller: "pdf_export_template",
-                                    path: "pdf_export" do
+    resources :pdf_export_template, only: %i[], controller: "pdf_export_template", path: "pdf_export" do
       member do
         post :toggle
-        put :drop
+        put :move
         get :edit_settings
         patch :update_settings
       end

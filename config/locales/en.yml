@@ -7213,6 +7213,7 @@ en:
             label_enable_all: "Enable all"
             label_toggle_template: "Toggle %{template}"
           label: "PDF Export templates"
+          order_changed: "Order successfully changed."
         tab: "Generate PDF"
         templates:
           readonly_error: "Cannot be changed while linked to a source type."
