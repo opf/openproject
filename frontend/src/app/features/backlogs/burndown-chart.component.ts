@@ -62,35 +62,93 @@ const Y_AXIS_HEADROOM = 1.1;
 
 const MINUTE_IN_MS = 60 * 1000;
 
-// The legend and the tooltip both read in the order a reader meets the series: what is left,
-// where that is heading, the days nothing was expected on, and what was planned. Datasets carry
-// the order they have to be drawn in instead, so neither list can be taken from them.
 const NON_WORKING_LEGEND_KEY = 'non-working-days';
-const SERIES_ORDER:string[] = ['remaining', 'projection', NON_WORKING_LEGEND_KEY, 'guideline'];
 
-// How each series is stroked, shared by the line on the chart and its swatch in the legend so
-// that the two cannot drift. The swatch shape follows: an area for the one that was measured,
-// a bare line for the two that are only ever a line. Chart.js takes the shape per item but the
-// decision to honour it at all is global, hence usePointStyle on the labels.
+type SeriesKey = BurndownSeries['id']|typeof NON_WORKING_LEGEND_KEY;
+
+// Chart.js takes a swatch shape per legend item but the decision to honour it at all is global,
+// hence usePointStyle on the labels.
 const SWATCH_WIDTH = 24;
 
-interface SeriesStroke {
-  swatch:PointStyle;
-  dash:number[];
-  width:number;
+interface SeriesColor {
+  border:string;
+  background?:string;
 }
 
-const SERIES_STROKE:Record<string, SeriesStroke> = {
-  remaining: { swatch: 'rect', dash: [], width: 1 },
-  projection: { swatch: 'line', dash: [6, 4], width: 1 },
-  guideline: { swatch: 'line', dash: [], width: 2 },
-  [NON_WORKING_LEGEND_KEY]: { swatch: 'rect', dash: [], width: 0 },
+// Every property but +swatch+ and +color+ is named as chart.js names it, so that a dataset can
+// take them as they stand.
+interface SeriesStyle {
+  // An area for the one that was measured, a bare line for the two that are only ever a line.
+  swatch:PointStyle;
+  borderDash:number[];
+  borderWidth:number;
+  order?:number;
+  stepped?:'after';
+  fill?:boolean;
+  pointRadius?:number;
+  pointHitRadius?:number;
+  pointHoverRadius?:number;
+  // Read on demand rather than held as a value, because the colours come off the document and
+  // would otherwise freeze at import time, before the stylesheet resolves and against whichever
+  // theme is in force. The non-working days are painted by a plugin and coloured there.
+  color?:() => SeriesColor;
+}
+
+// True of every line, and overridable by any of them: the points are never drawn, but they stay
+// wide enough to be found by a cursor that is not exactly on one.
+const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
+  pointRadius: 0,
+  pointHitRadius: 8,
 };
 
-function seriesRank(key:string|undefined):number {
-  const rank = SERIES_ORDER.indexOf(key ?? '');
+// Everything that tells the series apart, so that a line and its swatch cannot drift.
+//
+// ORDER IS SIGNIFICANT: the legend and the tooltip read in the order these are declared, which
+// is the order a reader meets them -- what is left, where that is heading, the days nothing was
+// expected on, and what was planned. Reordering this list reorders both.
+// It is not the order the lines are drawn in: datasets are drawn from the highest `order` down,
+// so that the filled remaining area sits under the lines, which runs the other way.
+const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
+  remaining: {
+    swatch: 'rect',
+    borderDash: [],
+    borderWidth: 1,
+    order: 3,
+    stepped: 'after',
+    fill: true,
+    color: () => ({
+      border: remainingColor(),
+      background: cssVariable('--display-red-scale-2', '#fda5a7'),
+    }),
+  },
+  projection: {
+    swatch: 'line',
+    borderDash: [6, 4],
+    borderWidth: 1,
+    order: 2,
+    color: () => ({ border: remainingColor() }),
+  },
+  [NON_WORKING_LEGEND_KEY]: {
+    swatch: 'rect',
+    borderDash: [],
+    borderWidth: 0,
+  },
+  guideline: {
+    swatch: 'line',
+    borderDash: [],
+    borderWidth: 2,
+    order: 1,
+    pointHoverRadius: 0,
+    color: () => ({ border: cssVariable('--fgColor-muted', '#59636e') }),
+  },
+};
 
-  return rank === -1 ? SERIES_ORDER.length : rank;
+const SERIES_READING_ORDER:string[] = Object.keys(SERIES_STYLE);
+
+function seriesRank(key:SeriesKey|undefined):number {
+  const rank = SERIES_READING_ORDER.indexOf(key ?? '');
+
+  return rank === -1 ? SERIES_READING_ORDER.length : rank;
 }
 
 function cssVariable(name:string, fallback:string):string {
@@ -185,46 +243,23 @@ export class BurndownChartComponent {
     },
   }));
 
-  // Datasets are drawn from the highest order down, so the filled remaining area has to sit
-  // above the lines in order for them to end up drawn over it.
+  // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
+  // property under its own name.
   private datasetFor(series:BurndownSeries):BurndownDataset {
-    const stroke = SERIES_STROKE[series.id];
-    const shared = {
+    const { swatch: _swatch, color, ...dataset } = SERIES_STYLE[series.id];
+    const datasetColor = color?.();
+
+    return {
       label: series.label,
       data: series.data,
-      pointRadius: 0,
-      pointHitRadius: 8,
-      borderDash: stroke.dash,
-      borderWidth: stroke.width,
+      ...SERIES_DEFAULTS,
+      ...dataset,
+      borderColor: datasetColor?.border,
+      backgroundColor: datasetColor?.background,
     };
-
-    switch (series.id) {
-      case 'remaining':
-        return {
-          ...shared,
-          order: 3,
-          stepped: 'after',
-          fill: true,
-          borderColor: remainingColor(),
-          backgroundColor: cssVariable('--display-red-scale-2', '#fda5a7'),
-        };
-      case 'projection':
-        return {
-          ...shared,
-          order: 2,
-          borderColor: remainingColor(),
-        };
-      default:
-        return {
-          ...shared,
-          order: 1,
-          pointHoverRadius: 0,
-          borderColor: cssVariable('--fgColor-muted', '#59636e'),
-        };
-    }
   }
 
-  // The guideline is sampled by day, so its own timestamp would not name the moment being
+  // The guideline and projection are sampled by day, so their own timestamp would not name the moment being
   // hovered. Remaining carries that wherever it still runs, and the projection takes over at the
   // instant it stops -- without that second choice the header jumps to the end of the day just
   // as the cursor crosses the junction, since the guideline sorts first among the items.
@@ -275,13 +310,13 @@ export class BurndownChartComponent {
   // Asked for point styles, chart.js takes the swatch's stroke from the point at index 0 rather
   // than from the line, and a point carries neither a dash nor the line's weight. Both are
   // stated here from the same descriptor the line itself is drawn with.
-  private static swatchStyle(key:string|undefined):Partial<LegendItem> {
-    const stroke = SERIES_STROKE[key ?? ''] ?? SERIES_STROKE.remaining;
+  private static swatchStyle(key:SeriesKey|undefined):Partial<LegendItem> {
+    const style = SERIES_STYLE[key ?? 'remaining'];
 
-    return { pointStyle: stroke.swatch, lineDash: stroke.dash, lineWidth: stroke.width };
+    return { pointStyle: style.swatch, lineDash: style.borderDash, lineWidth: style.borderWidth };
   }
 
-  private seriesId(datasetIndex:number|undefined):string|undefined {
+  private seriesId(datasetIndex:number|undefined):BurndownSeries['id']|undefined {
     return datasetIndex === undefined ? undefined : this.parsed().series[datasetIndex]?.id;
   }
 
@@ -305,7 +340,7 @@ export class BurndownChartComponent {
   }
 
   private datasetRank(datasetIndex:number):number {
-    return seriesRank(this.parsed().series[datasetIndex]?.id);
+    return seriesRank(this.seriesId(datasetIndex));
   }
 
   // The bands are drawn by a plugin rather than a dataset, so their entry carries no dataset
