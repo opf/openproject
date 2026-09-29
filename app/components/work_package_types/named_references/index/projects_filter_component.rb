@@ -34,7 +34,7 @@ module WorkPackageTypes
       class ProjectsFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
         FIELD_NAME = "project_ids"
 
-        def self.dialog_id(model_class) = "#{model_class.reference_dom_key}s-projects-filter-dialog"
+        def self.dialog_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}s-projects-filter-dialog"
 
         def initialize(query:, model_class:)
           super(name: ::Project.model_name.human(count: 2), query:, filter_key: :project_id, path_args: [model_class])

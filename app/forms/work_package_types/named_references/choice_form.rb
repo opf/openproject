@@ -31,6 +31,8 @@
 module WorkPackageTypes
   module NamedReferences
     class ChoiceForm < ApplicationForm
+      include ActionView::RecordIdentifier
+
       def initialize(model_class:, options:, group_data:)
         super()
 
@@ -40,7 +42,7 @@ module WorkPackageTypes
       end
 
       form do |choice_form|
-        choice_form.advanced_radio_button_group(name: :"#{@model_class.reference_dom_key}_choice", data: @group_data) do |group|
+        choice_form.advanced_radio_button_group(name: :"#{dom_class(@model_class)}_choice", data: @group_data) do |group|
           @options.each { |option| group.radio_button(**option) }
         end
       end

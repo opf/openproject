@@ -42,7 +42,7 @@ module WorkPackageTypes
           @icon = icon
         end
 
-        def menu_id = "#{model_class.reference_dom_key}-#{record.id}-action-menu"
+        def menu_id = "#{dom_class(model_class)}-#{record.id}-action-menu"
 
         def menu_label = model_class.reference_t("index.actions.menu", name: record.name)
 
@@ -70,7 +70,7 @@ module WorkPackageTypes
                          label: model_class.reference_t("index.actions.rename"),
                          href: polymorphic_path([:edit_dialog, record]),
                          content_arguments: { data: { controller: "async-dialog" } },
-                         test_selector: "#{model_class.reference_dom_key}-rename-action") do |item|
+                         test_selector: "#{dom_class(model_class)}-rename-action") do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
         end

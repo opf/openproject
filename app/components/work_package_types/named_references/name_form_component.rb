@@ -34,9 +34,9 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def self.dialog_id(model_class) = "#{model_class.reference_dom_key}-dialog"
+      def self.dialog_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}-dialog"
 
-      def self.form_id(model_class) = "#{model_class.reference_dom_key}-form"
+      def self.form_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}-form"
 
       def initialize(record:, model_class:, copy_from_id: nil, ask_copy_source: true, url: nil)
         super()

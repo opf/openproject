@@ -66,7 +66,7 @@ module WorkPackageTypes
 
         def serialized_filters = OpPrimer::QuickFilter.serialize(query.filters).to_json
 
-        def clear_button_id = "#{model_class.reference_dom_key}s-filters-clear-button"
+        def clear_button_id = "#{dom_class(model_class)}s-filters-clear-button"
 
         def type_filter_component
           TypeFilterComponent.new(query:, model_class:)

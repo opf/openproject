@@ -34,7 +34,7 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def self.form_id(model_class) = "#{model_class.reference_dom_key}-start-form"
+      def self.form_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}-start-form"
 
       def initialize(model_class:, url:, candidates:, error: nil, type_record_id: nil)
         super()

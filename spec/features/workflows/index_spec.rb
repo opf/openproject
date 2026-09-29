@@ -124,7 +124,7 @@ RSpec.describe "Workflows index", :js do
 
     filter = WorkPackageTypes::NamedReferences::Index::ProjectsFilterComponent
 
-    within("##{filter.dialog_id(::Workflow)}") do
+    within("##{filter.dialog_id(Workflow)}") do
       check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
 
       projects.each { |project| find("[role='treeitem'][data-node-id='#{project.id}']").click }

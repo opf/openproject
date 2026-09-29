@@ -51,7 +51,7 @@ module WorkPackageTypes
          record.name]
       end
 
-      def test_selector(part) = "#{model_class.reference_dom_key}-#{part}"
+      def test_selector(part) = "#{dom_class(model_class)}-#{part}"
     end
   end
 end

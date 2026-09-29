@@ -68,9 +68,9 @@ module WorkPackageTypes
 
       def banner_scheme = unused? ? :default : :warning
 
-      def dialog_id = "#{model_class.reference_dom_key}-usage-dialog"
+      def dialog_id = "#{dom_class(model_class)}-usage-dialog"
 
-      def test_selector(part) = "#{model_class.reference_dom_key}-usage-#{part}"
+      def test_selector(part) = "#{dom_class(model_class)}-usage-#{part}"
 
       def dialog_caption
         model_class.reference_t("usage.dialog.caption_html", name: content_tag(:strong, record.name))

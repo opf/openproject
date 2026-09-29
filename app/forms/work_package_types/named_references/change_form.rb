@@ -31,6 +31,8 @@
 module WorkPackageTypes
   module NamedReferences
     class ChangeForm < ApplicationForm
+      include ActionView::RecordIdentifier
+
       def initialize(variant:, model_class:)
         super()
 
@@ -50,7 +52,7 @@ module WorkPackageTypes
             multiple: false,
             focusDirectly: false,
             append_to: "##{ChangeDialogComponent.dialog_id(model_class)}",
-            data: { test_selector: "change-#{model_class.reference_dom_key}-select" }
+            data: { test_selector: "change-#{dom_class(model_class)}-select" }
           }
         ) do |list|
           candidates.each do |candidate|

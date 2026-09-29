@@ -46,8 +46,6 @@ module WorkPackageTypes
     class_methods do
       def reference_association = model_name.singular.to_sym
 
-      def reference_dom_key = model_name.element.dasherize
-
       def reference_t(key, **) = I18n.t("#{model_name.plural}.#{key}", **)
 
       def project_owned? = reflect_on_association(:project).present?

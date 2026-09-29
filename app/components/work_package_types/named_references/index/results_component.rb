@@ -41,7 +41,7 @@ module WorkPackageTypes
           @table = table
         end
 
-        def wrapper_key = "#{table.model_class.reference_dom_key}s-index-results-component"
+        def wrapper_key = "#{dom_class(table.model_class)}s-index-results-component"
 
         private
 

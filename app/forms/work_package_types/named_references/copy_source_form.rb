@@ -31,6 +31,8 @@
 module WorkPackageTypes
   module NamedReferences
     class CopySourceForm < ApplicationForm
+      include ActionView::RecordIdentifier
+
       def initialize(model_class:, candidates:, selected:, type_record_id: nil)
         super()
 
@@ -52,7 +54,7 @@ module WorkPackageTypes
             multiple: false,
             focusDirectly: false,
             append_to: "##{NameFormComponent.dialog_id(model_class)}",
-            data: { test_selector: "#{model_class.reference_dom_key}-copy-source" }
+            data: { test_selector: "#{dom_class(model_class)}-copy-source" }
           }
         ) do |list|
           candidates.each do |candidate|

@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
               filter_input_arguments: {
                 autocomplete: "off",
                 placeholder: model_class.reference_t("index.filters.projects_placeholder"),
-                data: { test_selector: "#{model_class.reference_dom_key}s-projects-filter-search" }
+                data: { test_selector: "#{dom_class(model_class)}s-projects-filter-search" }
               },
               no_results_node_arguments: { label: t("filterable_tree_view.no_results_text") }
             )

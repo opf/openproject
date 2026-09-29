@@ -31,6 +31,8 @@
 module WorkPackageTypes
   module NamedReferences
     class StartForm < ApplicationForm
+      include ActionView::RecordIdentifier
+
       COPY = "copy"
       SCRATCH = "scratch"
 
@@ -55,7 +57,7 @@ module WorkPackageTypes
               caption: model_class.reference_t("start.copy.caption"),
               data: {
                 "named-references--start-choice-target": "copyRadio",
-                test_selector: "#{model_class.reference_dom_key}-start-copy"
+                test_selector: "#{dom_class(model_class)}-start-copy"
               }
             ) do |radio|
               radio.nested_form(
@@ -72,7 +74,7 @@ module WorkPackageTypes
             checked: candidates.empty?,
             label: model_class.reference_t("start.scratch.label"),
             caption: model_class.reference_t("start.scratch.caption"),
-            data: { test_selector: "#{model_class.reference_dom_key}-start-scratch" }
+            data: { test_selector: "#{dom_class(model_class)}-start-scratch" }
           )
         end
       end

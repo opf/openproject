@@ -64,7 +64,7 @@ module WorkPackageTypes
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": dialog_path(:change_dialog),
-            test_selector: "#{model_class.reference_dom_key}-choice-existing"
+            test_selector: "#{dom_class(model_class)}-choice-existing"
           }
         }
       end
@@ -78,7 +78,7 @@ module WorkPackageTypes
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": dialog_path(:start_dialog),
-            test_selector: "#{model_class.reference_dom_key}-choice-new"
+            test_selector: "#{dom_class(model_class)}-choice-new"
           }
         }
       end

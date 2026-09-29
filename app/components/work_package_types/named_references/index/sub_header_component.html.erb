@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <%= render(
         Primer::OpenProject::SubHeader.new(
-          test_selector: "#{model_class.reference_dom_key}s-sub-header",
+          test_selector: "#{dom_class(model_class)}s-sub-header",
           data: filters_form_attributes
         )
       ) do |sub_header| %>
