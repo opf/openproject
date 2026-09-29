@@ -41,6 +41,14 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     report.group(group)&.result_for(key)
   end
 
+  # A binding can only be saved to a model the server offers; it dangles once
+  # a later refresh withdraws that model.
+  def bind_to_withdrawn_model(feature_key, model_id, **)
+    llm_model = create(:llm_model, llm_connection: connection, external_id: model_id)
+    connection.feature_bindings.create!(feature_key:, model_id:, **)
+    llm_model.update!(active: false)
+  end
+
   context "with a healthy connection" do
     before do
       mock_llm_models_response(base_url)
@@ -228,7 +236,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     it "fails when a binding points at a model the server no longer offers" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "vanished")
+      bind_to_withdrawn_model("description_assistant", "vanished")
 
       result = result_for(:features, :bindings_resolvable)
 
@@ -261,8 +269,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     # feature the missing model already fails bindings_resolvable, which halts
     # the group.
     it "fails when the model of a locked binding has left the catalogue" do
-      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "retired-embedder",
-                                          locked_at: Time.current)
+      bind_to_withdrawn_model("semantic_search", "retired-embedder", locked_at: Time.current)
 
       result = result_for(:features, :locked_bindings_intact)
 
@@ -287,7 +294,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
     it "exist for every check and every code the validator can emit" do
       # A dangling binding, so the features group emits its failure codes too.
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "vanished")
+      bind_to_withdrawn_model("description_assistant", "vanished")
 
       scenarios.each do |setup|
         WebMock.reset!
