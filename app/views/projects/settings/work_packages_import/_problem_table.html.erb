@@ -1,4 +1,4 @@
-<table class="width-full f6">
+<table class="width-full f6" style="table-layout:fixed;">
   <thead>
     <tr>
       <% headers.each do |header| %>
@@ -10,7 +10,7 @@
     <% rows.each do |cells| %>
       <tr>
         <% cells.each do |cell| %>
-          <td class="px-3 py-2 border-bottom">
+          <td class="px-3 py-2 border-bottom <%= 'width-25' if cell[:style] == :available %>">
             <% case cell[:style] %>
             <% when :muted %>
               <%= render(Primer::Beta::Text.new(color: :muted)) { cell[:text].to_s } %>
@@ -24,13 +24,8 @@
               <% end %>
             <% when :available %>
               <% if cell[:values].present? %>
-                <%= render(Primer::Beta::Details.new(display: :inline_block)) do |details| %>
-                  <% details.with_summary(button: false, classes: "color-fg-muted") do %>
-                    <%= t("work_packages.import.report.problems.available", count: cell[:values].size) %>
-                  <% end %>
-                  <% details.with_body(display: :block, color: :muted, mt: 1) do %>
-                    <%= cell[:values].join(", ") %>
-                  <% end %>
+                <%= render(OpPrimer::ExpandableTextComponent.new(flex: 1)) do %>
+                  <%= cell[:values].join(", ") %>
                 <% end %>
               <% end %>
             <% else %>

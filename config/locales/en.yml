@@ -7649,9 +7649,6 @@ en:
           all:
             one: "1 problem."
             other: "%{count} problems, all shown."
-          available:
-            one: "1 available value"
-            other: "%{count} available values"
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: "Problems"
         rows_rejected:
@@ -7659,7 +7656,7 @@ en:
           title: "Nothing was imported: %{problems} in %{lines}"
         table:
           attribute: "Column"
-          available: "Available"
+          available: "Available values"
           column: "Column"
           empty: "empty"
           header: "Header"
