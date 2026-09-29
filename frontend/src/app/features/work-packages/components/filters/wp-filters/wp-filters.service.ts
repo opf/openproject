@@ -43,7 +43,7 @@ export class WorkPackageFiltersService {
     this.state.putValue(val);
   }
 
-  public observeUntil(unsubscribe:Observable<any>) {
+  public observeUntil(unsubscribe:Observable<unknown>) {
     return this.state.values$().pipe(takeUntil(unsubscribe));
   }
 
