@@ -78,7 +78,8 @@ module WorkPackageTypes
       end
 
       def variant_link(variant)
-        href = helpers.public_send(:"edit_type_#{model_class.model_name.singular}_path", **variant.path_args)
+        href = helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
+                                        action: :edit, **variant.path_args)
 
         render(Primer::Beta::Link.new(href:)) { variant.display_name }
       end

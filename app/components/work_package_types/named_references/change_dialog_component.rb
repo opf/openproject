@@ -60,8 +60,9 @@ module WorkPackageTypes
       def form_arguments
         {
           id: form_id,
-          url: url_helpers.public_send(:"change_type_#{model_class.model_name.singular}_path",
-                                       **variant.path_args.merge(back_url:).compact),
+          url: url_helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
+                                            action: :change,
+                                            **variant.path_args.merge(back_url:).compact),
           method: :patch,
           data: { turbo: false }
         }

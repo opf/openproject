@@ -106,8 +106,9 @@ module WorkPackageTypes
       end
 
       def dialog_path(action)
-        url_helpers.public_send(:"#{action}_type_#{model_class.model_name.singular}_path",
-                                **variant.path_args.merge(back_url:).compact)
+        url_helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
+                                     action:,
+                                     **variant.path_args.merge(back_url:).compact)
       end
     end
   end

@@ -63,9 +63,10 @@ module WorkPackageTypes
       def test_selector(part) = "#{dom_class(model_class)}-#{part}"
 
       def change_path(candidate)
-        url_helpers.public_send(
-          :"change_type_#{model_class.model_name.singular}_path",
-          **variant.path_args.merge("#{model_class.model_name.singular}_id": candidate.id, back_url:).compact
+        url_helpers.polymorphic_path(
+          [:type, model_class.model_name.singular_route_key.to_sym],
+          action: :change,
+          **variant.path_args.merge(model_class.variant_reflection.foreign_key => candidate.id, back_url:).compact
         )
       end
     end
