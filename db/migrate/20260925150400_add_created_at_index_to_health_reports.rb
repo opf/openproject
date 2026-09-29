@@ -28,13 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Every consumer of a health report reads the newest one for a subject
-# (`health_reports.order(created_at: :asc).last`), and the table has only a
-# [subject_type, subject_id] index, so that read sorts. Until now the table grew
-# a row per manual "Run checks" click; the LLM connection adds a scheduled check,
-# which makes it grow unattended and adds a pruning delete that filters on age.
-#
-# Storages and wikis benefit from this too.
+# health_reports is shared with the storages and wikis modules, and every one
+# of them reads the newest report for a subject, so the read needs created_at
+# in the index to avoid a sort. The [subject_type, subject_id] prefix serves
+# every lookup the polymorphic index did.
 class AddCreatedAtIndexToHealthReports < ActiveRecord::Migration[8.1]
   disable_ddl_transaction!
 
@@ -43,5 +40,11 @@ class AddCreatedAtIndexToHealthReports < ActiveRecord::Migration[8.1]
               %i[subject_type subject_id created_at],
               algorithm: :concurrently,
               if_not_exists: true
+
+    remove_index :health_reports,
+                 %i[subject_type subject_id],
+                 name: "index_health_reports_on_subject",
+                 algorithm: :concurrently,
+                 if_exists: true
   end
 end
