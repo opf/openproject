@@ -48,13 +48,8 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       new_label_name = "Urgent"
       new_label_suffix = I18n.t("js.autocompleter.new_label")
       create_option_text = "#{new_label_name} #{new_label_suffix}"
-      duplicate_option_text = "#{other_label.name.upcase} #{new_label_suffix}"
 
       field.activate!
-
-      dropdown = field.autocomplete(other_label.name.upcase, select: false)
-      expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
-      expect(dropdown).to have_no_selector(:list_box_option, text: duplicate_option_text)
 
       dropdown = field.autocomplete(new_label_name, select: false)
       expect(dropdown).to have_selector(:list_box_option, text: create_option_text)
@@ -67,6 +62,17 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       field.expect_state_text(new_label_name)
       expect(Label.named(new_label_name)).to be_present
       expect(work_package.reload.labels.map(&:name)).to contain_exactly(label.name, new_label_name)
+    end
+
+    it "offers no create option for an existing name in a different case" do
+      new_label_suffix = I18n.t("js.autocompleter.new_label")
+      duplicate_option_text = "#{other_label.name.upcase} #{new_label_suffix}"
+
+      field.activate!
+
+      dropdown = field.autocomplete(other_label.name.upcase, select: false)
+      expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
+      expect(dropdown).to have_no_selector(:list_box_option, text: duplicate_option_text)
     end
 
     it "discards the selection when the edit is cancelled" do
