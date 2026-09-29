@@ -153,7 +153,7 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
       run
 
       expect(payload).to include("outcome" => "file_rejected")
-      expect(payload["column_problems"].sole["message"]).to include("could not be read as CSV")
+      expect(payload["file_problems"].sole["message"]).to include("could not be read as CSV")
     end
   end
 
@@ -165,7 +165,7 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
       described_class.perform_now(user:, project:, attachment_id:, dry_run:)
 
       expect(payload).to include("outcome" => "file_rejected", "attachment_id" => nil)
-      expect(payload["column_problems"].sole["message"]).to include("no longer available")
+      expect(payload["file_problems"].sole["message"]).to include("no longer available")
     end
   end
 
@@ -183,7 +183,7 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
       run
 
       expect(payload).to include("outcome" => "file_rejected")
-      expect(payload["column_problems"].sole["message"]).to include("no longer available")
+      expect(payload["file_problems"].sole["message"]).to include("no longer available")
     end
 
     it "survives a move that happened before the job started" do

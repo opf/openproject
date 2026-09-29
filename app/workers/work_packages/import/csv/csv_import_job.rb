@@ -94,13 +94,19 @@ module WorkPackages
         def parse_and_import
           parsed = Parser.call(attachment.local_path)
 
-          return finish(:file_rejected, column_problems: problems(parsed.result)) if parsed.failure?
+          return finish(:file_rejected, **rejected(parsed.result)) if parsed.failure?
 
           report(ImportService.new(user:, project:).call(rows: parsed.result, dry_run:))
         end
 
         def reject(problem)
-          finish(:file_rejected, column_problems: problems([problem]))
+          finish(:file_rejected, file_problems: problems([problem]))
+        end
+
+        def rejected(list)
+          file, column = list.partition { |problem| problem.is_a?(FileProblem) }
+
+          { file_problems: problems(file), column_problems: problems(column) }
         end
 
         def report(result)
@@ -147,6 +153,7 @@ module WorkPackages
             finished_at: Time.current,
             counts_by_attribute: {},
             problems: [],
+            file_problems: [],
             column_problems: [],
             available: {}
           }
