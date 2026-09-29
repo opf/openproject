@@ -28,6 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class ProjectsFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+        include Translatable
+
+        FIELD_NAME = "project_ids"
+
+        def self.dialog_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}s-projects-filter-dialog"
+
+        def initialize(query:, model_class:)
+          super(name: ::Project.model_name.human(count: 2), query:, filter_key: :project_id, path_args: [model_class])
+
+          @model_class = model_class
+        end
+
+        def render? = true
+
+        private
+
+        attr_reader :model_class
+
+        def dialog_id = self.class.dialog_id(model_class)
+
+        def tree_src
+          helpers.polymorphic_path([:projects_tree, model_class], name: FIELD_NAME, checked_ids: current_values)
+        end
+      end
+    end
+  end
 end

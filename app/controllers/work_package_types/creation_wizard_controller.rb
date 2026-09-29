@@ -189,10 +189,10 @@ module WorkPackageTypes
     def editing_own_workflow? = @variant.workflow&.used_by_one_variant?
 
     def naming_dialog(workflow)
-      ::Workflows::DialogComponent.new(workflow:,
-                                       variant: @variant,
-                                       ask_copy_source: false,
-                                       url: type_creation_wizard_path(**variant_path_args, step: :workflows))
+      NamedReferences::NameDialogComponent.new(record: workflow,
+                                               model_class: ::Workflow,
+                                               ask_copy_source: false,
+                                               url: type_creation_wizard_path(**variant_path_args, step: :workflows))
     end
 
     def naming_params = params.expect(workflow: %i[name description]).to_h.symbolize_keys

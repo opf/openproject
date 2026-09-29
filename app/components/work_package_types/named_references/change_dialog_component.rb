@@ -28,14 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class RowComponent < WorkPackageTypes::NamedReferences::Index::RowComponent
-      def roles
-        role_count = table.role_count_for(record)
-        return dash if role_count.zero?
+module WorkPackageTypes
+  module NamedReferences
+    class ChangeDialogComponent < ApplicationComponent
+      include Translatable
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-        text(t("workflows.index.roles_count", count: role_count))
+      def self.dialog_id(model_class) = "change-#{ActionView::RecordIdentifier.dom_class(model_class)}-dialog"
+
+      def self.form_id(model_class) = "change-#{ActionView::RecordIdentifier.dom_class(model_class)}-form"
+
+      def initialize(variant:, model_class:, back_url: nil)
+        super()
+
+        @variant = variant
+        @model_class = model_class
+        @back_url = back_url
+      end
+
+      private
+
+      attr_reader :variant, :model_class, :back_url
+
+      def dialog_id = self.class.dialog_id(model_class)
+
+      def form_id = self.class.form_id(model_class)
+
+      def title = reference_translate("change.title")
+
+      def form_arguments
+        {
+          id: form_id,
+          url: url_helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
+                                            action: :change,
+                                            **variant.path_args.merge(back_url:).compact),
+          method: :patch,
+          data: { turbo: false }
+        }
       end
     end
   end

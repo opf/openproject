@@ -29,6 +29,8 @@
 #++
 
 class Workflow < ApplicationRecord
+  include WorkPackageTypes::NamedReference
+
   # The project owning this workflow, or nil for a workflow every project may use.
   belongs_to :project, optional: true
 
@@ -38,41 +40,16 @@ class Workflow < ApplicationRecord
            inverse_of: :workflow,
            dependent: :delete_all
 
-  validates :name, presence: true, length: { maximum: 255 }
   validates :name, uniqueness: { scope: :project_id, case_sensitive: false }
-  validates :description, length: { maximum: 255 }
-
-  scope :in_display_order, -> { order(Arel.sql("LOWER(name) ASC")) }
 
   scope :global, -> { where(project_id: nil) }
   scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }
   scope :available_in, ->(project) { where(project: [nil, project]) }
 
-  scope :with_name_like, ->(query) {
-    where("name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
-  }
-
-  def self.build_with_available_name(base, project: nil, **attributes)
-    new(name: available_name(base, project:), project:, **attributes)
-  end
-
-  def self.implicit_name(source, project: nil)
-    base = source.to_s.strip.presence
-    available_name(base && I18n.t("workflows.name.implicit", name: base), project:)
-  end
-
   # A name only has to be free within the scope that will hold it, so a project may reuse one
   # administration already has.
-  def self.available_name(base, project: nil)
-    base = base.to_s.strip.presence || I18n.t("workflows.name.fallback")
-    taken = owned_by(project)
-    return base unless taken.exists?(["LOWER(name) = LOWER(?)", base])
-
-    suffix = 2
-    suffix += 1 while taken.exists?(["LOWER(name) = LOWER(?)", "#{base} (#{suffix})"])
-    "#{base} (#{suffix})"
-  end
+  def self.name_scope(project) = owned_by(project)
 
   def self.statuses(workflows, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
     transition_table, status_table = [Workflows::StatusTransition, Status].map(&:arel_table)
@@ -102,10 +79,6 @@ class Workflow < ApplicationRecord
     return Status.none if new_record?
 
     self.class.statuses([id], role:, tab:)
-  end
-
-  def used_by_one_variant?
-    type_variants.one?
   end
 
   def project_specific? = project_id.present?

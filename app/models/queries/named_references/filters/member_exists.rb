@@ -28,6 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module Queries::NamedReferences::Filters::MemberExists
+  private
+
+  def member_exists(condition, binds, extra_joins: nil)
+    honouring_negation(member_exists_sql(condition, extra_joins:), binds)
+  end
+
+  def member_exists_sql(condition, extra_joins: nil)
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1
+        FROM type_variants members
+        #{extra_joins}
+        WHERE members.#{model.variant_reflection.foreign_key} = #{model.table_name}.id
+          AND #{condition}
+      )
+    SQL
+  end
+
+  def honouring_negation(sql, binds)
+    [negated? ? "NOT (#{sql})" : "(#{sql})", binds]
+  end
+
+  def negated?
+    operator_strategy == Queries::Operators::NotEquals
+  end
+
+  def integer_values
+    values.map(&:to_i)
+  end
 end

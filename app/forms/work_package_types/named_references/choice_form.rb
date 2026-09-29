@@ -28,6 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    class ChoiceForm < ApplicationForm
+      include ActionView::RecordIdentifier
+
+      def initialize(model_class:, options:, group_data:)
+        super()
+
+        @model_class = model_class
+        @options = options
+        @group_data = group_data
+      end
+
+      form do |choice_form|
+        choice_form.advanced_radio_button_group(name: :"#{dom_class(@model_class)}_choice", data: @group_data) do |group|
+          @options.each { |option| group.radio_button(**option) }
+        end
+      end
+    end
+  end
 end

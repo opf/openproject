@@ -28,6 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    module Translatable
+      def reference_translate(key, **)
+        ActiveSupport::HtmlSafeTranslation.translate(key, scope: model_class.model_name.plural, **)
+      end
+    end
+  end
 end

@@ -28,6 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    class PageHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+
+      def initialize(record:, model_class:)
+        super()
+
+        @record = record
+        @model_class = model_class
+      end
+
+      private
+
+      attr_reader :record, :model_class
+
+      def breadcrumbs
+        [{ href: helpers.admin_index_path, text: t("label_administration") },
+         { href: helpers.admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+         { href: helpers.polymorphic_path(model_class), text: model_class.model_name.human(count: 2) },
+         record.name]
+      end
+
+      def test_selector(part) = "#{dom_class(model_class)}-#{part}"
+    end
+  end
 end

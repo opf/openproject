@@ -26,31 +26,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_workflow_plural), @workflow.name -%>
 
-<% model_class = ::Workflow %>
-<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @workflow, model_class:)) %>
-<%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @workflow, model_class:)) %>
+<%= component_wrapper do %>
+  <%= render(
+        Primer::OpenProject::SubHeader.new(
+          test_selector: "#{dom_class(model_class)}s-sub-header",
+          data: filters_form_attributes
+        )
+      ) do |sub_header| %>
+    <%
+      sub_header.with_filter_input(
+        name: name_filter_key,
+        label: reference_translate("index.filters.name"),
+        value: name_filter_value,
+        placeholder: reference_translate("index.filters.name_placeholder"),
+        leading_visual: { icon: :search, size: :small },
+        clear_button_id:,
+        data: name_filter_attributes
+      )
+    %>
 
-<% if @roles.any? %>
-  <%= form_tag(
-        workflow_matrix_path(@workflow, tab: @current_tab),
-        method: :patch,
-        autocomplete: "off",
-        class: "workflow-table--pinned-save-bar"
-      ) do %>
-    <%= turbo_frame_tag "workflow-table",
-                        src: workflow_matrix_path(
-                          @workflow,
-                          tab: @current_tab,
-                          role_ids: @roles.map(&:id),
-                          status_ids: params[:status_ids]
-                        ) %>
-
-    <div class="workflow-save-bar">
-      <%= render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do %>
-        <%= t(:button_save) %>
-      <% end %>
-    </div>
+    <% sub_header.with_quick_filter(display: :flex, classes: "gap-2") do %>
+      <%= render(type_filter_component) %>
+      <%= render(projects_filter_component) %>
+    <% end %>
   <% end %>
 <% end %>

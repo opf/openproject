@@ -99,7 +99,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
       get_matrix
 
       expect(response.body).to have_css("[data-test-selector='workflow-selector']",
-                                        text: I18n.t("admin.workflows.workflow_selector.same_as_type"))
+                                        text: I18n.t("workflows.selector.same_as_type"))
     end
 
     it "says nothing of the sort once it has a workflow of its own" do
@@ -109,7 +109,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
       expect(response.body).to have_css("[data-test-selector='workflow-selector']", text: "Mobile flow")
       expect(response.body).to have_no_css("[data-test-selector='workflow-selector']",
-                                           text: I18n.t("admin.workflows.workflow_selector.same_as_type"))
+                                           text: I18n.t("workflows.selector.same_as_type"))
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).to have_css("[data-test-selector='workflow-panel']")
 
     get type_creation_wizard_path(type, step: :workflows,
-                                        started_workflow_id: type.default_variant.workflow_id)
+                                        started_id: type.default_variant.workflow_id)
 
     expect(response.body).to have_css("[data-test-selector='workflow-choice-new'][checked]")
     expect(response.body).to have_no_css("[data-test-selector='workflow-panel']")

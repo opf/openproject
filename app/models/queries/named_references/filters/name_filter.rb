@@ -28,6 +28,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+class Queries::NamedReferences::Filters::NameFilter < Queries::Filters::Base
+  def type
+    :string
+  end
+
+  def human_name
+    I18n.t("index.filters.name", scope: model.model_name.plural)
+  end
+
+  def self.key
+    :name
+  end
+
+  def where
+    case operator
+    when "~", "**"
+      where_contains
+    when "!~"
+      where_not(where_contains)
+    when "="
+      where_equal
+    when "!"
+      where_not(where_equal)
+    end
+  end
+
+  private
+
+  def columns
+    ["#{model.table_name}.name", "COALESCE(#{model.table_name}.description, '')"]
+  end
+
+  def where_contains
+    match(columns.map { |column| "LOWER(#{column}) LIKE ?" }) { |value| "%#{value.downcase}%" }
+  end
+
+  def where_equal
+    match(columns.map { |column| "LOWER(#{column}) = ?" }, &:downcase)
+  end
+
+  def match(conditions)
+    joined = []
+    assignments = []
+
+    values.each do |value|
+      joined << conditions.join(" OR ")
+      assignments += Array.new(conditions.size) { yield(value) }
+    end
+
+    ["(#{joined.join(') OR (')})", *assignments]
+  end
+
+  def where_not(condition)
+    ["NOT(#{condition.first})", *condition.drop(1)]
+  end
 end

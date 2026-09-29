@@ -28,6 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    class NameDialogComponent < ApplicationComponent
+      include Translatable
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
+
+      def initialize(record:, model_class:, copy_from_id: nil, ask_copy_source: true, url: nil)
+        super()
+
+        @record = record
+        @model_class = model_class
+        @form_arguments = { record:, model_class:, copy_from_id:, ask_copy_source:, url: }
+      end
+
+      private
+
+      attr_reader :record, :model_class, :form_arguments
+
+      def dialog_id = NameFormComponent.dialog_id(model_class)
+
+      def form_id = NameFormComponent.form_id(model_class)
+
+      def title
+        record.persisted? ? reference_translate("form.edit_title") : reference_translate("form.new_title")
+      end
+
+      def submit_label
+        record.persisted? ? I18n.t(:button_save) : I18n.t(:button_create)
+      end
+    end
+  end
 end

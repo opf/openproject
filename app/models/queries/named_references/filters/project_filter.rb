@@ -28,6 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+class Queries::NamedReferences::Filters::ProjectFilter < Queries::Filters::Base
+  include Queries::Filters::Shared::ProjectFilter::Optional
+  include Queries::NamedReferences::Filters::MemberExists
+
+  def human_name
+    ::Project.model_name.human(count: 2)
+  end
+
+  def where
+    used_in = member_exists_sql("applications.project_id IN (:project_ids)",
+                                extra_joins: "JOIN project_types applications ON applications.variant_id = members.id")
+
+    honouring_negation(conditions(used_in).join(" OR "), { project_ids: integer_values })
+  end
+
+  private
+
+  def conditions(used_in)
+    return [used_in] unless model.project_owned?
+
+    [used_in, "COALESCE(#{model.table_name}.project_id IN (:project_ids), FALSE)"]
+  end
 end

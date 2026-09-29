@@ -28,6 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class ResultsComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
+
+        def initialize(table:)
+          super()
+
+          @table = table
+        end
+
+        def wrapper_key = "#{dom_class(table.model_class)}s-index-results-component"
+
+        private
+
+        attr_reader :table
+      end
+    end
+  end
 end

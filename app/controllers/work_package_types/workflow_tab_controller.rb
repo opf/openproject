@@ -44,7 +44,9 @@ module WorkPackageTypes
     end
 
     def change_dialog
-      respond_with_dialog ::Workflows::ChangeWorkflow::DialogComponent.new(variant: @variant, back_url:)
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant,
+                                                                     model_class: ::Workflow,
+                                                                     back_url:)
     end
 
     def change
@@ -98,7 +100,7 @@ module WorkPackageTypes
 
       uri = URI.parse(back_url)
       uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_workflow_id" => workflow.id).to_query
+                             .merge("started_id" => workflow.id).to_query
       uri.to_s
     end
 
@@ -110,7 +112,7 @@ module WorkPackageTypes
     end
 
     def assign(workflow)
-      report(::WorkPackageTypes::AssignWorkflowService.new(variant: @variant).call(workflow:))
+      report(NamedReferences::AssignService.new(variant: @variant, model_class: ::Workflow).call(workflow))
     end
 
     def report(service_call)
@@ -124,7 +126,7 @@ module WorkPackageTypes
     end
 
     def copying_without_a_source?
-      params[:start] == ::Workflows::StartForm::COPY && params[:copy_from_id].blank?
+      params[:start] == NamedReferences::StartForm::COPY && params[:copy_from_id].blank?
     end
 
     def reject_missing_copy_source(url)
@@ -133,11 +135,12 @@ module WorkPackageTypes
     end
 
     def start_dialog_component(url:, error: nil)
-      ::Workflows::StartDialogComponent.new(
+      NamedReferences::StartDialogComponent.new(
+        model_class: ::Workflow,
         url:,
         candidates: Workflow.available_in(@variant.project).in_display_order.to_a,
         error:,
-        type_workflow_id: @variant.type_workflow&.id
+        type_record_id: @variant.type_reference_id(Workflow.variant_reflection)
       )
     end
 
@@ -146,17 +149,17 @@ module WorkPackageTypes
     def provisional_name = Workflow.implicit_name(@variant.composite_name, project: @variant.project)
 
     def chosen_copy_from_id
-      return unless params[:start] == ::Workflows::StartForm::COPY
+      return unless params[:start] == NamedReferences::StartForm::COPY
 
       params[:copy_from_id].presence
     end
 
     def naming_dialog(workflow, copy_from_id:)
-      ::Workflows::DialogComponent.new(workflow:,
-                                       variant: @variant,
-                                       copy_from_id:,
-                                       ask_copy_source: false,
-                                       url: type_workflow_path(**dialog_args))
+      NamedReferences::NameDialogComponent.new(record: workflow,
+                                               model_class: ::Workflow,
+                                               copy_from_id:,
+                                               ask_copy_source: false,
+                                               url: type_workflow_path(**dialog_args))
     end
 
     def workflow_params
@@ -165,11 +168,11 @@ module WorkPackageTypes
 
     def render_form_errors(workflow)
       update_via_turbo_stream(
-        component: ::Workflows::FormComponent.new(workflow:,
-                                                  variant: @variant,
-                                                  copy_from_id: params.dig(:workflow, :copy_from_id).presence,
-                                                  ask_copy_source: false,
-                                                  url: type_workflow_path(**dialog_args)),
+        component: NamedReferences::NameFormComponent.new(record: workflow,
+                                                          model_class: ::Workflow,
+                                                          copy_from_id: params.dig(:workflow, :copy_from_id).presence,
+                                                          ask_copy_source: false,
+                                                          url: type_workflow_path(**dialog_args)),
         status: :unprocessable_entity
       )
       respond_with_turbo_streams

@@ -156,7 +156,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
-      expect(page).to have_current_path(/started_workflow_id=#{variant.reload.workflow_id}/)
+      expect(page).to have_current_path(/started_id=#{variant.reload.workflow_id}/)
       expect_chosen("new")
       expect(page).to have_no_test_selector("workflow-selector")
     end

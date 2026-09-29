@@ -28,6 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class TypeFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+        def initialize(query:, model_class:)
+          super(name: ::Type.model_name.human, query:, filter_key: :type_id, path_args: [model_class])
+
+          ::Type.order(:position).each do |type|
+            with_item(label: type.name, value: type.id)
+          end
+        end
+      end
+    end
+  end
 end

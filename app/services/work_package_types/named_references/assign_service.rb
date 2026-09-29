@@ -28,6 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    class AssignService
+      def initialize(variant:, model_class:)
+        @variant = variant
+        @model_class = model_class
+      end
+
+      def call(record)
+        variant.public_send(:"#{model_class.variant_reflection.name}=", record)
+
+        if variant.save
+          ServiceResult.success(result: variant)
+        else
+          ServiceResult.failure(result: variant, errors: variant.errors)
+        end
+      end
+
+      private
+
+      attr_reader :variant, :model_class
+    end
+  end
 end

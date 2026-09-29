@@ -28,6 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
-  self.model = Workflow
+module WorkPackageTypes
+  module NamedReferences
+    class StartDialogComponent < ApplicationComponent
+      include Translatable
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
+
+      def self.form_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}-start-form"
+
+      def initialize(model_class:, url:, candidates:, error: nil, type_record_id: nil)
+        super()
+
+        @model_class = model_class
+        @url = url
+        @candidates = candidates
+        @error = error
+        @type_record_id = type_record_id
+      end
+
+      private
+
+      attr_reader :model_class, :url, :candidates, :error, :type_record_id
+
+      def dialog_id = NameFormComponent.dialog_id(model_class)
+
+      def form_id = self.class.form_id(model_class)
+
+      def title = reference_translate("start.title")
+
+      def form_arguments
+        { id: form_id, url:, method: :post, data: { turbo: true } }
+      end
+    end
+  end
 end

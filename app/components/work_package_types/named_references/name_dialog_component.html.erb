@@ -26,31 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_workflow_plural), @workflow.name -%>
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
 
-<% model_class = ::Workflow %>
-<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @workflow, model_class:)) %>
-<%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @workflow, model_class:)) %>
+  <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
+    <%= render(WorkPackageTypes::NamedReferences::NameFormComponent.new(**form_arguments)) %>
+  <% end %>
 
-<% if @roles.any? %>
-  <%= form_tag(
-        workflow_matrix_path(@workflow, tab: @current_tab),
-        method: :patch,
-        autocomplete: "off",
-        class: "workflow-table--pinned-save-bar"
-      ) do %>
-    <%= turbo_frame_tag "workflow-table",
-                        src: workflow_matrix_path(
-                          @workflow,
-                          tab: @current_tab,
-                          role_ids: @roles.map(&:id),
-                          status_ids: params[:status_ids]
-                        ) %>
-
-    <div class="workflow-save-bar">
-      <%= render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do %>
-        <%= t(:button_save) %>
-      <% end %>
-    </div>
+  <% dialog.with_footer(show_divider: true) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, form: form_id, type: :submit)) { submit_label } %>
   <% end %>
 <% end %>

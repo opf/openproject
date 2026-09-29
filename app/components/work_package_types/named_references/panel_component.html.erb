@@ -26,31 +26,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_workflow_plural), @workflow.name -%>
 
-<% model_class = ::Workflow %>
-<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @workflow, model_class:)) %>
-<%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @workflow, model_class:)) %>
+<%=
+  render(
+    Primer::Alpha::SelectPanel.new(
+      select_variant: :single,
+      fetch_strategy: :local,
+      title: reference_translate("selector.title"),
+      test_selector: test_selector("panel")
+    )
+  ) do |panel|
+    panel.with_show_button(scheme: :secondary, test_selector: test_selector("selector")) do |button|
+      button.with_trailing_visual_icon(icon: :"triangle-down")
 
-<% if @roles.any? %>
-  <%= form_tag(
-        workflow_matrix_path(@workflow, tab: @current_tab),
-        method: :patch,
-        autocomplete: "off",
-        class: "workflow-table--pinned-save-bar"
-      ) do %>
-    <%= turbo_frame_tag "workflow-table",
-                        src: workflow_matrix_path(
-                          @workflow,
-                          tab: @current_tab,
-                          role_ids: @roles.map(&:id),
-                          status_ids: params[:status_ids]
-                        ) %>
+      parts = [render(Primer::Beta::Text.new(color: :muted)) { prefix }, name]
+      parts << render(Primer::Beta::Text.new(color: :muted)) { same_as_type_text } if same_as_type?
 
-    <div class="workflow-save-bar">
-      <%= render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do %>
-        <%= t(:button_save) %>
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
+      safe_join(parts, " ")
+    end
+
+    candidates.each do |candidate|
+      panel.with_item(
+        label: candidate.name,
+        active: candidate.id == selected,
+        href: change_path(candidate),
+        content_arguments: { data: { turbo: true, turbo_method: :patch, turbo_frame: "_top" } }
+      ) do |item|
+        item.with_description { candidate.description } if candidate.description.present?
+      end
+    end
+  end
+%>

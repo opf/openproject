@@ -28,14 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Workflows
-  module Index
-    class RowComponent < WorkPackageTypes::NamedReferences::Index::RowComponent
-      def roles
-        role_count = table.role_count_for(record)
-        return dash if role_count.zero?
+module WorkPackageTypes
+  module NamedReferences
+    module Index
+      class ProjectsTreeComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
 
-        text(t("workflows.index.roles_count", count: role_count))
+        def initialize(nodes:, builder:, form_name:, checked_ids: [])
+          super()
+
+          @nodes = nodes
+          @builder = builder
+          @form_name = form_name
+          @checked_ids = Array(checked_ids).map(&:to_s)
+        end
+
+        def build_tree(tree)
+          add_sub_tree(tree, nodes)
+        end
+
+        private
+
+        attr_reader :nodes, :builder, :form_name, :checked_ids
+
+        def add_sub_tree(parent, level)
+          level.each do |node|
+            if node[:children].any?
+              parent.with_sub_tree(select_strategy: :self, **item_options(node[:project])) do |sub_tree|
+                add_sub_tree(sub_tree, node[:children])
+              end
+            else
+              parent.with_leaf(**item_options(node[:project]))
+            end
+          end
+        end
+
+        def item_options(project)
+          {
+            label: project.name,
+            select_variant: :multiple,
+            checked: checked_ids.include?(project.id.to_s),
+            expanded: true,
+            data: { node_id: project.id }
+          }
+        end
       end
     end
   end
