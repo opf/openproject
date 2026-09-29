@@ -39,7 +39,7 @@ module GitlabIntegration
 
     def meta_text
       [
-        (t(".created_by", name: branch.gitlab_user.gitlab_name) if branch.gitlab_user),
+        (t(".updated_by", name: branch.gitlab_user.gitlab_name) if branch.gitlab_user),
         t(".updated_at", date_time: format_time(branch.updated_at))
       ].compact.join(" ")
     end
