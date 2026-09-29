@@ -56,59 +56,46 @@ module Costs::Patches::Members::CurrentRateColumn
   #
   # This mirrors the behaviour as implemented in `HourlyRate#at_date_for_user_in_project`.
   def join_rate(query)
-    query
-      .joins(
-        "
-          LEFT JOIN rates ON rates.id = (
-            SELECT rate_union.id
-            FROM (
-              #{project_rates} UNION #{parent_project_rates} UNION #{default_rates}
-            ) AS rate_union
-            LEFT JOIN projects ON rate_union.project_id = projects.id
-            WHERE rate_union.user_id = members.user_id AND rate_union.rate IS NOT NULL
-            GROUP BY project_id, valid_from, projects.lft, rate_union.id
-            ORDER BY
-              CASE
-                WHEN project_id = #{project.id} THEN 0
-                WHEN project_id IS NOT NULL then 1
-                ELSE 2
-              END ASC, projects.lft DESC, valid_from DESC
-            LIMIT 1
-          )
-        "
+    query.joins(
+      ActiveRecord::Base.sanitize_sql_array(
+        [RATE_JOIN_SQL, { project_id: project.id, parent_project_ids:, today: Time.zone.today }]
       )
+    )
   end
 
-  def project_rates
-    "
-      SELECT * FROM rates
-      WHERE project_id = #{project.id} AND valid_from <= '#{rate_valid_from}'
-    "
-  end
-
-  def parent_project_rates
-    "
-      SELECT * FROM (
-        SELECT rates.* FROM rates
-        WHERE project_id IN (#{parent_project_ids}) AND valid_from <= '#{rate_valid_from}'
-      ) AS parent_project_rates
-    "
-  end
-
-  def default_rates
-    "
-      SELECT * FROM rates
-      WHERE type = 'DefaultHourlyRate' AND valid_from <= '#{rate_valid_from}'
-    "
-  end
-
-  def rate_valid_from
-    Time.zone.today.strftime("%Y-%m-%d")
-  end
+  RATE_JOIN_SQL = <<~SQL.squish
+    LEFT JOIN rates ON rates.id = (
+      SELECT rate_union.id
+      FROM (
+        /* rates in the project */
+        SELECT * FROM rates
+        WHERE project_id = :project_id AND valid_from <= :today
+        UNION
+        /* rates in the ancestors of the project */
+        SELECT * FROM (
+          SELECT rates.* FROM rates
+          WHERE project_id IN (:parent_project_ids) AND valid_from <= :today
+        ) AS parent_project_rates
+        UNION
+        /* default rates of the users */
+        SELECT * FROM rates
+        WHERE type = 'DefaultHourlyRate' AND valid_from <= :today
+      ) AS rate_union
+      LEFT JOIN projects ON rate_union.project_id = projects.id
+      WHERE rate_union.user_id = members.user_id AND rate_union.rate IS NOT NULL
+      GROUP BY project_id, valid_from, projects.lft, rate_union.id
+      ORDER BY
+        CASE
+          WHEN project_id = :project_id THEN 0
+          WHEN project_id IS NOT NULL THEN 1
+          ELSE 2
+        END ASC, projects.lft DESC, valid_from DESC
+      LIMIT 1
+    )
+  SQL
 
   def parent_project_ids
-    ids = project.ancestors.pluck(:id).presence || [0]
-    ids.join(", ")
+    project.ancestors.pluck(:id).presence || [0]
   end
 
   def project
