@@ -530,6 +530,13 @@ Rails.application.routes.draw do
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
+        resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
+          member do
+            get :status
+            get :template
+            get :problems
+          end
+        end
       end
 
       resource :templated, only: %i[create destroy], controller: "templated"

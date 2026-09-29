@@ -249,6 +249,10 @@ user_guide:
   calendar:
     subscribe:
       href: https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar
+  work_packages:
+    import:
+      columns:
+        href: https://www.openproject.org/docs/user-guide/work-packages/importing/#column-reference
 webinar_videos:
   href: https://www.youtube.com/watch?v=un6zCm8_FT4
 website:
