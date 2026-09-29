@@ -118,13 +118,84 @@ RSpec.describe EnvData::LlmConnectionSeeder do
     end
   end
 
+  context "without an enabled key", with_settings: {
+    llm_connection: { "base_url" => "https://example.com/v1" }
+  } do
+    it "keeps the stored features switch" do
+      Setting.llm_features_enabled = false
+
+      seed
+
+      expect(Setting.llm_features_enabled?).to be(false)
+    end
+  end
+
+  context "when the features switch itself is set through the environment", with_settings: {
+    llm_connection: { "base_url" => "https://example.com/v1", "enabled" => "false" }
+  } do
+    before do
+      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+    end
+
+    it "provisions the connection and leaves the switch to the environment" do
+      expect { seed }.to change(LlmConnection, :count).from(0).to(1)
+
+      expect(Setting.llm_features_enabled?).to be(true)
+    end
+  end
+
+  # Nested environment keys come out lowercased with underscores, which cannot
+  # spell a header name such as api-version, so the headers arrive as one JSON
+  # object. configuration.yml hands over a Hash instead.
+  context "with custom headers as a JSON object", with_settings: {
+    llm_connection: {
+      "base_url" => "https://example.com/v1",
+      "custom_headers" => '{"api-version":"2024-02-01","X-Portkey-Api-Key":"pk-from-env"}'
+    }
+  } do
+    it "stores the header names exactly as given" do
+      seed
+
+      expect(LlmConnection.first.custom_headers)
+        .to eq("api-version" => "2024-02-01", "X-Portkey-Api-Key" => "pk-from-env")
+    end
+  end
+
+  context "with custom headers as a Hash from configuration.yml", with_settings: {
+    llm_connection: { "base_url" => "https://example.com/v1", "custom_headers" => { "api-version" => "2024-02-01" } }
+  } do
+    it "stores the header names exactly as given" do
+      seed
+
+      expect(LlmConnection.first.custom_headers).to eq("api-version" => "2024-02-01")
+    end
+  end
+
+  [
+    ["invalid JSON", '{"api-version":'],
+    ["a JSON array", '["api-version"]'],
+    ["a non-string header value", '{"x-retries":3}'],
+    ["a scalar", 3]
+  ].each do |description, value|
+    context "with custom headers given as #{description}", with_settings: {
+      llm_connection: { "base_url" => "https://example.com/v1", "custom_headers" => value }
+    } do
+      it "refuses the configuration and names the variable" do
+        expect { seed }.to raise_error(/CUSTOM__HEADERS must be a JSON object/)
+
+        expect(LlmConnection.count).to eq(0)
+      end
+    end
+  end
+
   # The environment is the source of truth while the form is read-only under it,
   # so a value removed from the environment must not linger in the database.
   context "when a previously set key is removed from the environment", with_settings: {
     llm_connection: { "base_url" => "https://example.com/v1" }
   } do
     before do
-      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-stale")
+      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-stale",
+                                           custom_headers: { "api-version" => "2024-02-01" })
       connection.update!(default_chat_model: create(:llm_model, llm_connection: connection,
                                                                 external_id: "old-default"))
     end
@@ -135,6 +206,7 @@ RSpec.describe EnvData::LlmConnectionSeeder do
       connection = LlmConnection.first
       expect(connection.api_key).to be_nil
       expect(connection.default_chat_model_id).to be_nil
+      expect(connection.custom_headers).to eq({})
       expect(connection.base_url).to eq("https://example.com/v1")
     end
   end

@@ -36,6 +36,8 @@ module LlmConnections
   # server does. It also lifts the "configured from environment is read-only"
   # guard, since this is the code path that legitimately writes those values.
   class EnvironmentUpdateContract < BaseContract
+    attribute :custom_headers
+
     def not_configured_from_env = nil
 
     # On a fresh installation the seed runs before any model synchronisation, so
