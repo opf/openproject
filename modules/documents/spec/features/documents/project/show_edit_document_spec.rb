@@ -123,6 +123,41 @@ RSpec.describe "Show/Edit Document View",
     end
   end
 
+  context "on a phone-sized screen", with_settings: { real_time_text_collaboration_enabled: true } do
+    include_context "with mobile screen size", 390, 800
+
+    def rect_of(element)
+      page.evaluate_script("arguments[0].getBoundingClientRect().toJSON()", element)
+    end
+
+    def uncovered?(element)
+      page.evaluate_script(<<~JS, element)
+        (function(element) {
+          const rect = element.getBoundingClientRect();
+          return element.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2));
+        })(arguments[0])
+      JS
+    end
+
+    it "opens the active editors list below its trigger and fully on screen" do
+      visit document_path(document)
+
+      trigger = find_link("1 active editor")
+      open_active_editors_list
+      heading = find("h4", text: "Active editors")
+      editor_name = find(".op-live-users--popover span", exact_text: member.name)
+
+      expect(rect_of(heading)["top"]).to be >= rect_of(trigger)["bottom"]
+      [heading, editor_name].each do |element|
+        rect = rect_of(element)
+        expect(rect["left"]).to be >= 0
+        expect(rect["right"]).to be <= page.evaluate_script("window.innerWidth")
+        expect(rect["bottom"]).to be <= page.evaluate_script("window.innerHeight")
+        expect(uncovered?(element)).to be(true), "#{element.text} is covered by another element"
+      end
+    end
+  end
+
   context "with real-time collaboration disabled",
           with_settings: { real_time_text_collaboration_enabled: false } do
     it "renders a notice about collaboration being disabled" do
