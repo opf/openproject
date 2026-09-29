@@ -57,19 +57,19 @@ module Queries::Register
       Registration.new(query).instance_exec(&)
     end
 
-    def filters = @filters ||= registry
+    def filters = @filters ||= build_registry
 
-    def excluded_filters = @excluded_filters ||= registry
+    def excluded_filters = @excluded_filters ||= build_registry
 
-    def orders = @orders ||= registry
+    def orders = @orders ||= build_registry
 
-    def selects = @selects ||= registry
+    def selects = @selects ||= build_registry
 
-    def group_bys = @group_bys ||= registry
+    def group_bys = @group_bys ||= build_registry
 
     private
 
-    def registry
+    def build_registry
       Hash.new { |hash, query| hash[query] = [] }
     end
   end
