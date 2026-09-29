@@ -50,9 +50,15 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
 
   readonly headingId = generateId('widget-heading');
 
-  @HostBinding('attr.role') readonly role = 'group';
+  protected readonly hasWidgetHeading:boolean = false;
 
-  @HostBinding('attr.aria-labelledby') readonly ariaLabelledBy = this.headingId;
+  @HostBinding('attr.role') get role():string|null {
+    return this.hasWidgetHeading ? 'group' : null;
+  }
+
+  @HostBinding('attr.aria-labelledby') get ariaLabelledBy():string|null {
+    return this.hasWidgetHeading ? this.headingId : null;
+  }
 
   @Input() resource:GridWidgetResource;
 

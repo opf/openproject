@@ -35,12 +35,20 @@ import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widget
   template: '<h3 [id]="headingId">Widget title</h3>',
   standalone: true,
 })
-class TestWidgetComponent extends AbstractWidgetComponent {}
+class TestWidgetComponent extends AbstractWidgetComponent {
+  protected override readonly hasWidgetHeading = true;
+}
+
+@Component({
+  template: '<div>Transparent wrapper</div>',
+  standalone: true,
+})
+class TestWrapperComponent extends AbstractWidgetComponent {}
 
 describe('AbstractWidgetComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestWidgetComponent],
+      imports: [TestWidgetComponent, TestWrapperComponent],
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => key } },
       ],
@@ -65,5 +73,16 @@ describe('AbstractWidgetComponent', () => {
     const secondFixture:ComponentFixture<TestWidgetComponent> = TestBed.createComponent(TestWidgetComponent);
 
     expect(firstFixture.componentInstance.headingId).not.toEqual(secondFixture.componentInstance.headingId);
+  });
+
+  it('does not add heading semantics unless the component opts in', () => {
+    const fixture = TestBed.createComponent(TestWrapperComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+
+    expect(host.hasAttribute('role')).toBe(false);
+    expect(host.hasAttribute('aria-labelledby')).toBe(false);
   });
 });
