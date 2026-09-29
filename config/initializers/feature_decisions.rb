@@ -67,11 +67,3 @@ OpenProject::FeatureDecisions.add :work_package_labels,
 OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
                                   description: "Enables project settings for the unit of velocity, effort and capacity. " \
                                                "See AGILE-198 for details."
-
-OpenProject::FeatureDecisions.add :llm_connection,
-                                  description: "Enables the administration page connecting OpenProject to an " \
-                                               "OpenAI-API-compatible LLM server, and the AI features built on it."
-
-OpenProject::FeatureDecisions.add :semantic_search,
-                                  description: "Enables the semantic search AI feature, which indexes work packages " \
-                                               "as embeddings so they can be found by meaning rather than by keyword."
