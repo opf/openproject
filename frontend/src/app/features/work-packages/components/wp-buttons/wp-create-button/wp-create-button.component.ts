@@ -59,8 +59,6 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
   projectIdentifier:string|null;
 
-  types:any;
-
   text = {
     title: this.I18n.t('js.work_packages.create.title'),
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
