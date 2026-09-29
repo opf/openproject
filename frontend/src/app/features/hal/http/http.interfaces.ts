@@ -40,6 +40,7 @@ export interface HTTPClientOptions {
   responseType:'json';
 }
 
-export type HTTPClientParamMap = Record<string, any>;
-export type HTTPClientHeaders = HttpHeaders|HTTPClientParamMap;
+export type HTTPClientParamValue = string|number|boolean|readonly (string|number|boolean)[];
+export type HTTPClientParamMap = Record<string, HTTPClientParamValue>;
+export type HTTPClientHeaders = HttpHeaders|Record<string, string|string[]>;
 export type HTTPClientParams = HttpParams|HTTPClientParamMap;

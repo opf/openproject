@@ -50,7 +50,7 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
   /**
    * Create a topic from its to-be-associated work package
    */
-  post(payload:any):Observable<BcfTopicResource> {
+  post(payload:unknown):Observable<BcfTopicResource> {
     return this
       .bcfTopicService
       .request(

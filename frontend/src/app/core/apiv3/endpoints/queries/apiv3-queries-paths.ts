@@ -38,6 +38,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { ApiV3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
+import { HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
 
 export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, ApiV3QueryPaths> {
   @LazyInject() private queryFilters:QueryFiltersService;
@@ -89,7 +90,7 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
 
     return this
       .halResourceService
-      .get<QueryResource>(path, queryData);
+      .get<QueryResource>(path, queryData as HTTPClientParamMap);
   }
 
   /**
@@ -101,7 +102,7 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
     return this.halResourceService
       .get<QueryResource>(
         this.default.path,
-        params,
+        params as HTTPClientParamMap,
       );
   }
 
