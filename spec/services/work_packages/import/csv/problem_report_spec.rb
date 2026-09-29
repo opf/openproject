@@ -41,13 +41,13 @@ RSpec.describe WorkPackages::Import::CSV::ProblemReport do
         "problems" => [
           { "row" => 2, "attribute" => "type", "value" => "Epic", "message" => "does not exist in this project." }
         ],
-        "available" => { "type" => %w[Task Milestone] }
+        "available_values" => { "type" => %w[Task Milestone] }
       }
     end
 
     it "names the line, the column and what was accepted instead" do
       expect(rows(payload))
-        .to eq([%w[Line Column Value Problem Available],
+        .to eq([["Line", "Column", "Value", "Problem", "Available values"],
                 ["2", "Type", "Epic", "does not exist in this project.", "Task, Milestone"]])
     end
 

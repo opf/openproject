@@ -34,6 +34,8 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:user) }
 
+  let(:expandable) { "[data-controller~='expandable-text']" }
+
   let(:base) do
     {
       "project_id" => project.id,
@@ -186,25 +188,26 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
     end
 
     it "gives the available values a column of their own" do
-      expect(page).to have_css("thead th:last-child", text: "Available")
-      expect(page).to have_css("tbody tr:first-child td:last-child details")
+      expect(page).to have_css("thead th:last-child", text: "Available values")
+      expect(page).to have_css("tbody tr:first-child td:last-child #{expandable}")
     end
 
-    # An instance can have dozens of statuses, so the list stays folded away rather than
-    # pushing every other problem off the screen.
-    it "folds the values behind a disclosure rather than listing them in the cell" do
-      expect(page).to have_css("details summary", text: "3 available values")
-      expect(page).to have_css("details", text: "Task, Bug, Milestone")
+    # An instance can have dozens of statuses, so the list is clipped to the cell rather than
+    # pushing every other problem off the screen. The expander ships hidden; its controller
+    # reveals it once it sees the text overflow, which no rendered-only spec can trigger.
+    it "clips the values to the cell rather than spelling them all out in it" do
+      expect(page).to have_css("#{expandable} .Truncate-text", text: "Task, Bug, Milestone")
+      expect(page).to have_css("#{expandable} .hidden-text-expander", visible: :all)
     end
 
     it "keeps the message cell free of them" do
       expect(page).to have_css("tbody tr:first-child td:nth-child(4)", text: "does not exist in this project.")
-      expect(page).to have_no_css("tbody tr:first-child td:nth-child(4) details")
+      expect(page).to have_no_css("tbody tr:first-child td:nth-child(4) #{expandable}")
     end
 
     it "leaves the cell empty for a problem that has no alternatives" do
       expect(page).to have_css("td", text: "can't be blank.")
-      expect(page).to have_css("details", count: 1)
+      expect(page).to have_css(expandable, count: 1)
     end
 
     it "offers the same list as a CSV" do

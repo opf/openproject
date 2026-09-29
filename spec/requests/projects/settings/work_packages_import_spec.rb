@@ -697,7 +697,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
                         "outcome" => "rows_rejected",
                         "problems" => [{ "row" => 7, "attribute" => "type", "value" => "Taks",
                                          "message" => "does not exist in this project." }],
-                        "available" => { "type" => %w[Task Bug Milestone] } })
+                        "available_values" => { "type" => %w[Task Bug Milestone] } })
     end
 
     it "sends the problems as a CSV named after the file they came from" do
@@ -706,7 +706,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(response).to have_http_status(:ok)
       expect(response.headers["Content-Disposition"]).to include("sprint-43-problems.csv")
       expect(CSV.parse(response.body.delete_prefix("﻿")))
-        .to eq([%w[Line Column Value Problem Available],
+        .to eq([["Line", "Column", "Value", "Problem", "Available values"],
                 ["7", "Type", "Taks", "does not exist in this project.", "Task, Bug, Milestone"]])
     end
 
