@@ -37,7 +37,7 @@ module EnvData
   # only while nothing is stored: a re-seed against another server must not
   # discard a list an administrator has curated.
   class LlmConnectionSeeder < Seeder
-    KNOWN_KEYS = %w[base_url api_key default_chat_model default_embedding_model enabled].freeze
+    KNOWN_KEYS = %w[base_url api_key custom_headers default_chat_model default_embedding_model enabled].freeze
 
     def seed_data!
       print_status "    ↳ Creating LLM connection" do
@@ -66,9 +66,20 @@ module EnvData
 
     def validate_options!(options)
       check_unknown_keys!(options, KNOWN_KEYS)
+      check_custom_headers!(options["custom_headers"])
       return if options["base_url"].present?
 
       raise "LLM connection: #{env_form('base_url')} is required."
+    end
+
+    def check_custom_headers!(value)
+      return if value.nil?
+
+      headers = LlmConnections::EnvSyncService.custom_headers(value)
+      return if headers.is_a?(Hash) && headers.values.all?(String)
+
+      raise "LLM connection: #{env_form('custom_headers')} must be a JSON object of header names " \
+            "to string values, e.g. {\"api-version\":\"2024-02-01\"}."
     end
 
     def check_unknown_keys!(options, known_keys)

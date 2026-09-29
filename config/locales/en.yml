@@ -780,6 +780,7 @@ en:
               not_registered: "does not belong to a known AI feature."
             model_id:
               locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
+              not_available: "is not offered by the configured LLM server."
         llm_model:
           attributes:
             external_id:
@@ -1916,7 +1917,7 @@ en:
       create:
         success: "%{model} has been added."
       defaults:
-        chat_caption: "Only models that are switched on in the list below are offered."
+        chat_caption: "Embedding models are not offered."
         description: "Used by AI features that do not choose a model themselves."
         embedding_caption: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
         embedding_none: "No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model."

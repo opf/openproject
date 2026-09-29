@@ -66,10 +66,10 @@ module LlmConnections
       candidates.each do |model_id|
         result = probe.call(model_id)
         recorded << record(model_id, result)
-        break if endpoint_absent?(result)
+        break if server_wide_failure?(result)
       end
 
-      ServiceResult.success(result: recorded)
+      ServiceResult.success(result: recorded.compact)
     end
 
     private
@@ -80,23 +80,37 @@ module LlmConnections
       @probe ||= Llm::Probes::EmbeddingsProbe.new(connection)
     end
 
-    # Narrowed twice before anything is sent, because a probe is a billed request
-    # on some providers: only models whose name suggests they embed at all, never
-    # one an administrator has already ruled on, and never more than the batch
-    # limit in one background run.
+    # Narrowed before anything is sent, because a probe is a billed request on
+    # some providers: only models whose name suggests they embed at all, never
+    # one that is already settled, and never more than the batch limit in one
+    # background run. A definite probe verdict can be trusted until a sync
+    # discards it, which it does when the deployment behind the connection
+    # changes or the model disappears from it.
     def candidates
+      settled = settled_model_ids
+
       connection.available_model_ids
                 .grep(EMBEDDING_NAME_HINT)
-                .reject { |model_id| admin_asserted?(model_id) }
+                .reject { |model_id| settled.include?(model_id) }
                 .first(BACKGROUND_LIMIT)
     end
 
-    # The server answered for the embeddings route rather than for the model, so
-    # the requests the rest of the batch would spend buy the same answer again.
-    # Read off the probe rather than the verdict, which may be an earlier and
-    # definite one that this inconclusive answer deliberately did not soften.
-    def endpoint_absent?(result)
-      result.state == :unknown && result.detail["reason"].in?(Llm::Probes::EmbeddingsProbe::ENDPOINT_ABSENT_REASONS)
+    def settled_model_ids
+      embedding_verdicts = verdicts.for_capability(:embeddings)
+
+      embedding_verdicts.sticky
+                        .or(embedding_verdicts.source_probe.where.not(state: :unknown))
+                        .pluck(:model_id)
+                        .to_set
+    end
+
+    # The server answered for itself, not for this model, so the requests the
+    # rest of the batch would spend buy the same answer again. The stored
+    # verdict may have turned definite while the probe ran, and this
+    # inconclusive answer leaves it in place, so only the probe result says
+    # what happened now.
+    def server_wide_failure?(result)
+      result.state == :unknown && Llm::Probes::EmbeddingsProbe.server_wide?(result.detail["reason"])
     end
 
     # An administrator knows things about their deployment that a probe cannot
@@ -110,10 +124,13 @@ module LlmConnections
     end
 
     def record(model_id, result)
-      verdict = claim(model_id)
-
       verdicts.transaction do
-        verdict.lock!
+        break unless deployment_unchanged?
+
+        verdict = claim(model_id)
+        # A refresh deletes probe verdicts and may have done so right after the
+        # insert, leaving nothing to record against.
+        break if verdict.nil?
         # Re-checked under the row lock: a probe runs for seconds, and an
         # administrator may have asserted the capability in the meantime.
         break verdict if verdict.source_admin?
@@ -130,9 +147,16 @@ module LlmConnections
       end
     end
 
+    # A sync for another deployment discards the probe verdicts, and an answer
+    # from the previous one arriving afterwards must not bring one back. The row
+    # lock orders this read against the settings change that starts that sync.
+    def deployment_unchanged?
+      LlmConnection.lock.find_by(id: connection.id)&.settings_fingerprint == connection.settings_fingerprint
+    end
+
     # FOR UPDATE has no row to lock before the first probe of a model, and a
-    # synchronous detection can run alongside the background pass, so the row is
-    # claimed through the unique index rather than built in memory.
+    # synchronous detection can run alongside the background pass: inserting
+    # through the unique index lands both on the same row.
     def claim(model_id)
       verdicts.insert_all([{ llm_connection_id: connection.id,
                              model_id:,
@@ -142,7 +166,7 @@ module LlmConnections
                              checked_at: Time.current }],
                           unique_by: %i[llm_connection_id model_id capability])
 
-      verdicts.for_model(model_id).for_capability(:embeddings).first
+      verdicts.for_model(model_id).for_capability(:embeddings).lock.first
     end
 
     def verdicts

@@ -37,8 +37,6 @@ class CreateLlmFeatureBindings < ActiveRecord::Migration[8.1]
       t.string :model_id
       # Embedding features only. Frozen together with model_id once vectors exist.
       t.integer :dimensions
-      t.string :input_prefix
-      t.string :query_prefix
       # Set once the binding has data depending on it, after which the model
       # cannot be swapped without a destructive re-index.
       t.datetime :locked_at
