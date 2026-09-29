@@ -97,7 +97,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   private element:HTMLElement;
 
-  private scrollSyncUpdate:(timelineVisible:boolean) => any;
+  private scrollSyncUpdate:(timelineVisible:boolean) => void;
 
   private wpTableHoverSync:WpTableHoverSync;
 
@@ -113,7 +113,13 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public locale:string;
 
-  public text:any;
+  public text:{
+    cancel:string;
+    noResults:{ title:string; description:string };
+    limitedResults:(count:number, total:number) => string;
+    tableSummary:string;
+    tableSummaryHints:string;
+  };
 
   public results:WorkPackageCollectionResource;
 
