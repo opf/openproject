@@ -74,6 +74,25 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
     expect(bootstrap).toHaveBeenCalledWith(appRef);
   });
 
+  it('re-flags the page as bootstrapped on the second turbo:load, not just the first', async () => {
+    const appRef = makeAppRef([]);
+    const bootstrap = vi.fn();
+    const getPluginContext = () => Promise.resolve({ appRef } as OpenProjectPluginContext);
+
+    document.body.classList.remove('__ng2-bootstrap-has-run');
+
+    addTurboAngularWrapper({
+      target, signal: controller.signal, getPluginContext, bootstrap,
+    });
+
+    target.dispatchEvent(new Event('turbo:load')); // initial load — already bootstrapped
+    await flush();
+    target.dispatchEvent(new Event('turbo:load')); // navigation — must re-flag
+    await flush();
+
+    expect(document.body.classList.contains('__ng2-bootstrap-has-run')).toBe(true);
+  });
+
   it('tears down every existing root component before re-bootstrapping', async () => {
     // Hold the mocks as locals so the assertions never reference an unbound
     // method off the fake (eslint @typescript-eslint/unbound-method).
@@ -137,5 +156,56 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
     await flush();
 
     expect(bootstrap).not.toHaveBeenCalled();
+  });
+
+  describe('pageshow (Back/Forward Cache) handling', () => {
+    let windowTarget:EventTarget;
+
+    beforeEach(() => {
+      windowTarget = new EventTarget();
+    });
+
+    function pageshow(persisted:boolean):Event {
+      const event = new Event('pageshow') as PageTransitionEvent;
+      Object.defineProperty(event, 'persisted', { value: persisted });
+      return event;
+    }
+
+    it('forces a replace visit when the page is resumed from bfcache', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      windowTarget.dispatchEvent(pageshow(true));
+
+      expect(visit).toHaveBeenCalledWith(window.location.href, { action: 'replace' });
+    });
+
+    it('does nothing on a normal (non-persisted) pageshow', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      windowTarget.dispatchEvent(pageshow(false));
+
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('stops forcing visits once the signal aborts', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      controller.abort();
+      windowTarget.dispatchEvent(pageshow(true));
+
+      expect(visit).not.toHaveBeenCalled();
+    });
   });
 });

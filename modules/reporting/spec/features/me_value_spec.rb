@@ -30,7 +30,7 @@ RSpec.describe "Cost report showing my own times", :js do
     login_as user
 
     # Create and save cost report
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
   end
 
   shared_examples "me filter value" do |filter_name, filter_selector|
@@ -51,18 +51,18 @@ RSpec.describe "Cost report showing my own times", :js do
 
       report = nil
       retry_block do
-        report = CostQuery.last
-        raise "Expected CostQuery to exist" unless report
+        report = CostReport.last
+        raise "Expected CostReport to exist" unless report
       end
 
-      user_filter = report.serialized[:filters].detect { |name, _| name == filter_name }
-      expect(user_filter[1][:values]).to eq %w(me)
+      user_filter = report.query.filters.detect { |filter| filter.name.to_s == filter_name }
+      expect(user_filter.values).to eq %w(me)
 
       # Login as the next user
       login_as user2
 
       # Create and save cost report
-      visit cost_report_path(report.id, project_id: project.identifier)
+      visit project_reporting_cost_report_path(project, report)
       expect(page).to have_css(".report", text: "15.00")
 
       # Refresh the user_autocompleter value to avoid cuprite issues in case the internal nodeID changes (stale element)
@@ -96,10 +96,10 @@ RSpec.describe "Cost report showing my own times", :js do
       select "Assignee", from: "add_filter_select"
     end
 
-    it_behaves_like "me filter value", "AssignedToId", "assigned_to_id_select_1"
+    it_behaves_like "me filter value", "assigned_to_id", "assigned_to_id_select_1"
   end
 
   describe "user filter" do
-    it_behaves_like "me filter value", "UserId", "user_id_select_1"
+    it_behaves_like "me filter value", "user_id", "user_id_select_1"
   end
 end

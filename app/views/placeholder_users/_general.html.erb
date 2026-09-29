@@ -27,14 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= labelled_tabular_form_for @placeholder_user,
-                              url: { controller: "/placeholder_users",
-                                     action: "update",
-                                     tab: nil },
-                              html: { method: :put,
-                                      autocomplete: "off" },
-                              as: :placeholder_user do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
+<%= error_messages_for @placeholder_user %>
 
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+<%=
+  settings_primer_form_with(
+    model: @placeholder_user,
+    url: placeholder_user_path(@placeholder_user),
+    method: :put
+  ) do |f|
+    render PlaceholderUsers::Form.new(f)
+  end
+%>

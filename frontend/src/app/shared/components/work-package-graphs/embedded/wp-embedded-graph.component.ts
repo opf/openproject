@@ -28,12 +28,13 @@
 
 import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions } from 'chart.js';
+import { ChartOptions, Plugin } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import PrimerColorsPlugin from './../plugin.primer-colors';
+import { chartTypeLocaleKey } from './../chart-type';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -55,7 +56,7 @@ interface ChartDataSet {
     BaseChartDirective
   ],
   providers: [
-    provideCharts(withDefaultRegisterables(ChartDataLabels, PrimerColorsPlugin)),
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
   ],
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
@@ -84,6 +85,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   public internalChartOptions:ChartOptions;
 
   public initialized = false;
+
+  public readonly plugins:Plugin[] = [ChartDataLabels];
 
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
@@ -141,6 +144,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-muted');
     const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
 
+    const valueAxisGrace = this.isBarChart() ? '10%' : 0;
+
     const defaults:ChartOptions = {
       color: bodyFontColor,
       responsive: true,
@@ -167,6 +172,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           },
         },
         y: {
+          grace: valueAxisGrace,
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
@@ -178,6 +184,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           },
         },
         x: {
+          grace: valueAxisGrace,
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
@@ -266,7 +273,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   public get chartSummary():string {
-    const chartTypeLabel = this.chartType ? this.i18n.t(`js.chart.types.${this.chartType}`) : '';
+    const chartTypeLabel = this.chartType ? this.i18n.t(`js.chart.types.${chartTypeLocaleKey(this.chartType)}`) : '';
     return this.i18n.t('js.grid.widgets.work_packages_graph.summary', { chartType: chartTypeLabel, description: this.chartDescription });
   }
 }

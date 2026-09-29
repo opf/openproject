@@ -80,21 +80,10 @@ module Storages::Admin::Forms
     end
 
     def provider_configuration_instructions
-      caption_for_provider_type(storage.short_provider_type)
-    end
-
-    def caption_for_provider_type(provider_type)
-      I18n.t(
-        "storages.instructions.#{provider_type}.provider_configuration",
-        application_link_text: application_link_text_for(
-          ::OpenProject::Static::Links.url_for(:storage_docs, :"#{provider_type}_oauth_application"),
-          I18n.t("storages.instructions.#{provider_type}.application_link_text")
-        )
-      ).html_safe
-    end
-
-    def application_link_text_for(href, link_text)
-      render(Primer::Beta::Link.new(href:, target: "_blank", underline: true)) { link_text }
+      helpers.link_translate(
+        "storages.instructions.#{storage.short_provider_type}.provider_configuration_html",
+        links: { application_link: [:storage_docs, :"#{storage.short_provider_type}_oauth_application"] }
+      )
     end
   end
 end

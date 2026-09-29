@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     primer_form_with(
-      url: new_project_resource_planner_view_path(@project, @resource_planner),
+      url: new_planner_view_path(@resource_planner),
       method: :get,
       html: {
         data: { turbo_stream: true },

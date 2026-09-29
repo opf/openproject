@@ -1,0 +1,59 @@
+# /api/v3/ai_text_transform_actions
+---
+get:
+  summary: List AI text transform actions
+  operationId: list_ai_text_transform_actions
+  tags:
+    - AI
+  description: |-
+    Lists the active AI text transform actions that can be run without a context, that is
+    actions configured to be usable everywhere. Actions scoped to work package types are omitted;
+    use the work package or project variant of this endpoint to list them.
+
+    The collection is empty when the feature flag `ai_text_transform_actions` is off, when the
+    administrative setting is off or when no LLM connection is ready. An empty collection means
+    "assistant not available".
+
+    **Required permission:** logged in
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/ai_text_transform_action_collection_model.yml'
+          examples:
+            response:
+              value:
+                _type: Collection
+                total: 1
+                count: 1
+                _links:
+                  self:
+                    href: /api/v3/ai_text_transform_actions
+                _embedded:
+                  elements:
+                    - _type: AITextTransformAction
+                      id: 1
+                      label: Improve writing
+                      position: 1
+                      injectsTypeTemplate: false
+                      _links:
+                        self:
+                          href: /api/v3/ai_text_transform_actions/1
+                          title: Improve writing
+    '401':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You need to be authenticated to access this resource.
+      description: |-
+        Returned if no user is currently authenticated.
+
+        **Required permission:** logged in

@@ -69,7 +69,7 @@ RSpec.describe "project menu" do
         it "leads to cost reports" do
           find("#main-menu .costs-menu-item", text: "Time and costs").click
 
-          expect(page).to have_current_path("/projects/ponyo/cost_reports")
+          expect(page).to have_current_path("/projects/ponyo/reporting/cost_reports")
         end
       end
 

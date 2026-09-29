@@ -27,7 +27,6 @@
 //++
 
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { StateService } from '@uirouter/core';
 import { Directive, Input, AfterViewInit, inject } from '@angular/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -38,6 +37,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { extendSearchParams } from 'core-stimulus/helpers/url-helpers';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Directive({
   selector: '[opTypesCreateDropdown]',
@@ -45,18 +45,17 @@ import { BrowserDetector } from 'core-app/core/browser/browser-detector.service'
 })
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
   readonly wpCreate = inject(WorkPackageCreateService);
-  readonly $state = inject(StateService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
   readonly browser = inject(BrowserDetector);
+  readonly urlParams = inject(UrlParamsService);
 
   @Input() public projectIdentifier:string|null|undefined;
 
-  @Input() public stateName:string;
-
   @Input('dropdownActive') active:boolean;
 
-  @Input() routedFromAngular = true;
+  /** Whether this dropdown is mounted on the full work package view rather than a list toolbar. */
+  @Input() fullView = false;
 
   public isOpen = false;
 
@@ -100,25 +99,49 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
     this.items = types.map((type:TypeResource) => ({
       disabled: false,
       linkText: type.name,
-      href: this.$state.href(this.stateName, { type: type.id! }),
+      href: this.buildHref(type),
       ariaLabel: type.name,
-      class: Highlighting.inlineClass('type', type.id!),
-      onClick: (event:MouseEvent) => {
-        if (this.routedFromAngular && !this.browser.isMobile) {
-          this.isOpen = false;
-          if (isClickedWithModifier(event)) {
-            return false;
-          }
-
-          this.$state.go(this.stateName, { type: type.id });
-        } else {
-          window.location.href = extendSearchParams(
-            this.pathHelper.projectWorkPackageNewPath(this.currentProject.id!),
-            { type: type.id! },
-          );
-        }
-        return true;
-      },
+      class: Highlighting.typeClass(type.id!),
+      onClick: (event:MouseEvent) => this.handleClick(event, type),
     }));
+  }
+
+  /**
+   * `fullView` distinguishes this dropdown being mounted on the full work package
+   * view (opens another full "new work package" page) from a list toolbar (opens
+   * the create form inline via splitCreatePath).
+   */
+  private buildHref(type:TypeResource):string {
+    if (this.fullView) {
+      const newPath = this.currentProject.identifier
+        ? this.pathHelper.projectWorkPackageNewPath(this.currentProject.identifier)
+        : this.pathHelper.workPackageNewPath();
+      return extendSearchParams(newPath, { type: type.id! });
+    }
+
+    return extendSearchParams(this.urlParams.splitCreatePath(), { type: type.id! });
+  }
+
+  private handleClick(event:MouseEvent, type:TypeResource):boolean {
+    if (this.browser.isMobile) {
+      window.location.href = extendSearchParams(
+        this.pathHelper.projectWorkPackageNewPath(this.currentProject.id!),
+        { type: type.id! },
+      );
+      return true;
+    }
+
+    this.isOpen = false;
+    if (isClickedWithModifier(event)) {
+      return false;
+    }
+
+    if (this.fullView) {
+      Turbo.visit(this.buildHref(type), { action: 'advance' });
+    } else {
+      Turbo.visit(this.buildHref(type), { frame: 'content-bodyRight', action: 'advance' });
+    }
+
+    return true;
   }
 }

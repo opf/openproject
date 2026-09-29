@@ -56,6 +56,7 @@ module Budgets
            icon: "op-budget"
     end
 
+    patches %i[WorkPackage]
     patch_with_namespace :Projects, :RowComponent
 
     # Allow assigning a budget when moving work packages
@@ -89,6 +90,10 @@ module Budgets
       ::Exports::Register.register do
         formatter Project, Projects::Exports::Formatters::BudgetCurrencyAttribute
         formatter Project, Projects::Exports::Formatters::BudgetSpentRatio
+      end
+
+      ::WorkPackage::Exports::Attributes.add_attribute_visibility_check(:budget) do |work_package|
+        User.current.allowed_in_project?(:view_budgets, work_package.project)
       end
 
       OpenProject::ProjectLatestActivity.register on: "Budget"

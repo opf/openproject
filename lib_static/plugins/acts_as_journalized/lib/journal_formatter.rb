@@ -119,6 +119,7 @@ module JournalFormatter
 
     formatter_options = options.merge(view_permission: config[:view_permission])
 
+    # OG: html_safe after I18n interpolates already-escaped content_tag values.
     formatter
       .render(field, values, formatter_options)
       &.html_safe # rubocop:disable Rails/OutputSafety

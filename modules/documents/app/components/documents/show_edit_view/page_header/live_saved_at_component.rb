@@ -46,9 +46,7 @@ module Documents
         end
 
         def last_saved_at_content
-          safe_join [
-            I18n.t("documents.last_updated_at", time: updated_at_time).html_safe
-          ]
+          helpers.t("documents.last_updated_at_html", time: updated_at_time)
         end
 
         def updated_at_time

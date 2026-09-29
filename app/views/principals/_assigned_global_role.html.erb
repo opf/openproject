@@ -29,7 +29,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <tr id="assigned_global_role_<%= role.id %>">
   <td class="role">
-    <%= link_to role, edit_role_path(role) %>
+    <%= render(Primer::Box.new(display: :flex, align_items: :center, classes: "gap-1")) do %>
+      <%= link_to role, edit_role_path(role), data: { "test-selector": "global-role-name" } %>
+      <%= role_permissions_preview_icon(role) %>
+    <% end %>
   </td>
   <td class="buttons">
     <%= global_member_role_deletion_link(member, role) if member.deletable_role?(role) %>

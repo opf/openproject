@@ -26,6 +26,13 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
   describe "validations" do
     it_behaves_like "contract is valid"
 
+    it { expect(subject).to validate_presence_of(:estimation_unit) }
+
+    it do
+      expect(subject)
+        .to validate_inclusion_of(:estimation_unit).in_array(Project::ESTIMATION_UNITS)
+    end
+
     it { expect(subject).to validate_presence_of(:sprint_sharing) }
 
     it do

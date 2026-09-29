@@ -33,3 +33,12 @@ const globalWithProcess = globalThis as unknown as { process?:{ env:Record<strin
 if (typeof globalWithProcess.process === 'undefined') {
   globalWithProcess.process = { env: {} };
 }
+
+// Lit announces dev mode once per realm unless the warning is already recorded.
+// lit-html dedupes by code, @lit/reactive-element by the full message.
+const globalWithLitWarnings = globalThis as unknown as { litIssuedWarnings?:Set<string> };
+
+globalWithLitWarnings.litIssuedWarnings ??= new Set([
+  'dev-mode',
+  'Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.',
+]);

@@ -1229,30 +1229,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "timeEntries" do
-      context "when the user has the permission to view time entries" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "timeEntries" }
-          let(:href) do
-            api_v3_paths.path_for(:time_entries,
-                                  filters: [
-                                    { entity_type: { operator: "=", values: ["WorkPackage"] } },
-                                    { entity_id: { operator: "=", values: [work_package.id.to_s] } }
-                                  ])
-          end
-          let(:title) { "Time entries" }
-        end
-      end
-
-      context "when the user does not have the permission to view time entries" do
-        let(:permissions) { all_permissions - [:view_time_entries] }
-
-        it "does not have a link to timeEntries" do
-          expect(subject).not_to have_json_path("_links/timeEntries/href")
-        end
-      end
-    end
-
     describe "linked relations" do
       let(:project) { create(:project, public: false) }
       let(:forbidden_project) { create(:project, public: false) }
@@ -1386,15 +1362,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       let(:href) { api_v3_paths.work_package(work_package.id) }
       let(:method) { :delete }
       let(:permission) { :delete_work_packages }
-    end
-
-    describe "logTime" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "logTime" }
-        let(:permission) { %i(log_time log_own_time) }
-        let(:href) { api_v3_paths.time_entries }
-        let(:title) { "Log time on work package '#{work_package.subject}'" }
-      end
     end
 
     describe "move" do
@@ -1874,6 +1841,84 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it "does not have this meta field without a query given" do
             expect(subject)
               .not_to have_json_path("_meta/matchesFilters")
+          end
+        end
+      end
+
+      describe "update links" do
+        context "when the last timestamp is the current one" do
+          let(:timestamps) { [Timestamp.new(1.week.ago), Timestamp.now] }
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "update" }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "updateImmediately" }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
+          end
+        end
+
+        context "when the last timestamp is historic" do
+          let(:timestamps) { [Timestamp.new(1.week.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when both timestamps are historic" do
+          let(:timestamps) { [Timestamp.new(2.weeks.ago), Timestamp.new(1.week.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when just rendered without timestamps" do
+          before do
+            described_class
+              .create(work_package, current_user:, embed_links:, timestamps: [], query: nil)
+              .to_json
+          end
+
+          let(:timestamps) { [Timestamp.new(1.hour.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when just rendered with timestamps" do
+          before do
+            described_class
+              .create(work_package, current_user:, embed_links:, timestamps: [Timestamp.new(1.hour.ago)], query: nil)
+              .to_json
+          end
+
+          let(:timestamps) { [] }
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "update" }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "updateImmediately" }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
           end
         end
       end

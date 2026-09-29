@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div data-controller="quick-filter--tree-panel"
+     data-quick-filter--tree-panel-base-url-value="<%= base_url %>"
+     data-quick-filter--tree-panel-filter-key-value="<%= @filter_key %>"
+     data-quick-filter--tree-panel-operator-value="<%= @operator %>">
+  <%= render(
+        Primer::Beta::Button.new(
+          scheme: :secondary,
+          data: { "show-dialog-id": DIALOG_ID, test_selector: "quick-filter-tree-panel-button" }
+        )
+      ) do |button| %>
+    <% button.with_trailing_visual_counter(count: current_values.size) if current_values.any? %>
+    <% button.with_trailing_action_icon(icon: :"triangle-down", color: current_values.empty? ? :muted : :default) %>
+    <%= button_label %>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: @name, size: :medium_portrait)) do |dialog| %>
+    <% dialog.with_header(variant: :large) %>
+
+    <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
+      <%= render(
+            Primer::OpenProject::FilterableTreeView.new(
+              src: tree_src,
+              filter_input_arguments: {
+                autocomplete: "off",
+                placeholder: t("workflows.index.filters.projects_placeholder"),
+                data: { test_selector: "workflows-projects-filter-search" }
+              },
+              no_results_node_arguments: { label: t("filterable_tree_view.no_results_text") }
+            )
+          ) %>
+    <% end %>
+
+    <% dialog.with_footer(show_divider: true) do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              data: { action: "click->quick-filter--tree-panel#clear", test_selector: "quick-filter-clear-button" }
+            )
+          ) { t(:button_clear) } %>
+      <%= render(
+            Primer::Beta::Button.new(
+              scheme: :primary,
+              data: { action: "click->quick-filter--tree-panel#apply", test_selector: "quick-filter-apply-button" }
+            )
+          ) { t(:button_apply) } %>
+    <% end %>
+  <% end %>
+</div>

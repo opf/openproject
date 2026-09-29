@@ -91,7 +91,7 @@ module JournalFormatter
       return I18n.t(:text_journal_set_to, label:, value:) if old_value.blank?
 
       if should_linebreak?(old_value.to_s, value.to_s)
-        linebreak = options[:html] ? "<br/>".html_safe : "\n"
+        linebreak = options[:html] ? tag.br : "\n"
       end
 
       I18n.t(:text_journal_changed_plain,

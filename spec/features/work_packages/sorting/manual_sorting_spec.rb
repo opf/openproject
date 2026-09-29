@@ -144,7 +144,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       hierarchies.expect_leaf_at(work_package4)
 
       # Expect WP has no parent
-      wp_page = Pages::SplitWorkPackage.new(work_package4)
+      wp_page = Pages::PrimerizedSplitWorkPackage.new(work_package4)
       wp_page.visit!
       wp_page.expect_no_parent
 

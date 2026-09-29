@@ -74,7 +74,7 @@ RSpec.describe "Delete work package", :js do
       wp_table.visit!
 
       wp_table.expect_work_package_listed wp1, wp2, wp_child
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
 
       context_menu.open_for(wp1)
       context_menu.choose("Bulk delete")
@@ -95,7 +95,7 @@ RSpec.describe "Delete work package", :js do
 
   describe "when deleting it outside a project context" do
     let(:work_package) { create(:work_package) }
-    let(:split_view) { Pages::SplitWorkPackage.new(work_package) }
+    let(:split_view) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
     it_behaves_like "close split view"
@@ -104,7 +104,7 @@ RSpec.describe "Delete work package", :js do
   describe "when deleting it within a project context" do
     let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
-    let(:split_view) { Pages::SplitWorkPackage.new(work_package, project.identifier) }
+    let(:split_view) { Pages::PrimerizedSplitWorkPackage.new(work_package, project.identifier) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project.identifier) }
 
     it_behaves_like "close split view"

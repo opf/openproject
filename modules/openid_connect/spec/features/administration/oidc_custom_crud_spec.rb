@@ -177,7 +177,7 @@ RSpec.describe "OIDC administration CRUD",
     end
   end
 
-  context "without EE", without_ee: %i[sso_auth_providers] do
+  context "without EE" do
     it "renders the upsell page" do
       visit "/admin/openid_connect/providers"
       expect(page).to have_enterprise_banner(:professional)

@@ -37,12 +37,18 @@ interface ReloadableFrame extends HTMLElement {
 describe('ReloadFrameOnEventController', () => {
   let ctx:StimulusTestContext;
 
+  // The frames are `disabled` so Turbo never fetches the `src` the controller
+  // sets: a live frame issues a real request from the tester iframe, one of
+  // them to the tester's own URL, which drops the Vitest browser connection
+  // now and then on Linux WebKit in CI.
+
   // Each frame gets its own reload counter. The controller listens on
   // `document`, so a counter per frame keeps a test from observing reloads
   // triggered on another test's (or another frame's) controller.
   const mountFrame = async ():Promise<{ frame:ReloadableFrame; calls:{ count:number } }> => {
     await ctx.mount(`
       <turbo-frame id="frame"
+                   disabled
                    data-controller="reload-frame-on-event"
                    data-reload-frame-on-event-event-name-value="op-dispatched:resource-allocations:changed"
                    data-reload-frame-on-event-url-value="/planner/view">
@@ -78,6 +84,7 @@ describe('ReloadFrameOnEventController', () => {
   it('reloads from the current location when reloadFromLocation is set', async () => {
     await ctx.mount(`
       <turbo-frame id="location-frame"
+                   disabled
                    data-controller="reload-frame-on-event"
                    data-reload-frame-on-event-event-name-value="op-dispatched:resource-allocations:changed"
                    data-reload-frame-on-event-url-value="/planner/view"

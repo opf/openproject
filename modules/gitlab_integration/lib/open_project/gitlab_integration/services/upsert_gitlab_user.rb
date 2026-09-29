@@ -57,7 +57,6 @@ module OpenProject
             gitlab_id: payload.id,
             gitlab_name: payload.name,
             gitlab_username: payload.username,
-            gitlab_email: payload.email,
             gitlab_avatar_url: avatar_url(payload.avatar_url)
           }
         end

@@ -41,7 +41,7 @@ RSpec.describe "Turbo and Angular navigation integration", :js do
   shared_let(:notification) { create(:notification, resource: work_package, recipient: user) }
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:split_screen) { Pages::SplitWorkPackage.new work_package }
+  let(:split_screen) { Pages::PrimerizedSplitWorkPackage.new work_package }
   let(:full_screen) { Pages::FullWorkPackage.new work_package }
 
   before do

@@ -103,7 +103,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_placeholder_user,
                      {
-                       placeholder_users: %i[index show new create edit update deletion_info destroy],
+                       placeholder_users: %i[index show new create edit update toggle_criteria update_criteria
+                                             deletion_info destroy],
                        "placeholder_users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },
@@ -240,7 +241,7 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_types,
                      {
                        "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update]
+                       "projects/settings/work_packages/types": %i[index new create destroy]
                      },
                      permissible_on: :project,
                      require: :member
@@ -258,12 +259,14 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/creation_wizard": %i[new create show update],
                        "work_package_types/details_tab": %i[edit update],
                        "work_package_types/defaults_tab": %i[edit update],
-                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog],
+                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog toggle_required],
                        "work_package_types/form_configuration_groups_tab":
                          %i[create edit update destroy add_group cancel_edit drop move update_query],
                        "work_package_types/project_attributes_tab":
                          %i[edit toggle enable_all_of_section disable_all_of_section],
-                       "work_package_types/workflow_tab": %i[edit],
+                       "work_package_types/workflow_tab":
+                         %i[edit change_dialog change create configure_dialog configure
+                            start_dialog start],
                        "work_package_types/pdf_export_template":
                          %i[edit toggle drop enable_all disable_all update_artefact_export
                             edit_settings update_settings],
@@ -271,10 +274,8 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/configuration_links": %i[dialog confirm switch],
                        "work_package_types/configuration_independence": %i[dialog confirm switch],
                        "work_package_types/configuration_copies": %i[dialog confirm copy],
-                       "work_package_types/configuration_dependents": %i[dialog],
                        "workflows/matrix": %i[show update status_dialog confirm_statuses],
                        "workflows/copies": %i[new],
-                       "workflows/copies/from_variants": %i[create],
                        "workflows/copies/from_roles": %i[create]
                      },
                      permissible_on: :project,
@@ -342,7 +343,7 @@ Rails.application.reloader.to_prepare do
                      {
                        versions: %i[index show status_by],
                        journals: %i[index],
-                       work_packages: %i[show index show_conflict_flash_message share_upsell],
+                       work_packages: %i[show index split_view show_conflict_flash_message share_upsell],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
                        "work_packages/activities_tab": %i[index page_streams item_actions update_streams update_sorting
@@ -359,7 +360,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :add_work_packages,
                      {
                        work_package_relations: %i[new create],
-                       work_packages: %i[new]
+                       work_packages: %i[new split_create]
                      },
                      permissible_on: :project,
                      dependencies: :view_work_packages,
@@ -486,7 +487,8 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :manage_subtasks,
                      {
-                       work_package_hierarchy_relations: %i[new create destroy]
+                       work_package_hierarchy_relations: %i[new create destroy],
+                       work_package_children: %i[new create refresh_form]
                      },
                      permissible_on: :project,
                      dependencies: :view_work_packages

@@ -29,11 +29,12 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import * as Turbo from '@hotwired/turbo';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { firstValueFrom, from, Observable, of } from 'rxjs';
@@ -67,7 +68,7 @@ export class WorkPackagesListService {
   readonly I18n = inject(I18nService);
   protected UrlParamsHelper = inject(UrlParamsHelperService);
   protected authorisationService = inject(AuthorisationService);
-  protected $state = inject(StateService);
+  protected urlParams = inject(UrlParamsService);
   protected apiV3Service = inject(ApiV3Service);
   protected states = inject(States);
   protected querySpace = inject(IsolatedQuerySpace);
@@ -225,7 +226,11 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string):Promise<QueryResource> {
-    return firstValueFrom(this.fromQueryParams(this.$state.params as { query_id?:string|null, query_props?:string }, projectIdentifier));
+    const queryParams = {
+      query_id: this.urlParams.get('query_id'),
+      query_props: this.urlParams.get('query_props') ?? undefined,
+    };
+    return firstValueFrom(this.fromQueryParams(queryParams, projectIdentifier));
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
@@ -309,11 +314,7 @@ export class WorkPackagesListService {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
         if (queryAccessibleByUser) {
-          if (this.isOnNonRouterPage()) {
-            this.navigateToQueryOnNonRouterPage(query.id);
-          } else {
-            void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
-          }
+          this.navigateToQueryOnNonRouterPage(query.id);
           this.states.changes.queries.next(query.id);
           this.reloadSidemenu(query.id);
         } else {
@@ -435,61 +436,64 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
-    const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
+    const { pathname } = window.location;
 
-    if (hardReloadOnBaseRoute) {
+    // Calendars and team planners address the shown query by an :id path segment
+    // (e.g. /calendars/42), so deleting it needs a hard reload onto the 'new'
+    // pseudo-path (the default, unsaved view) rather than an in-place query swap.
+    if (pathname.includes('/calendars/') || pathname.includes('/team_planners/')) {
       const url = new URL(window.location.href);
-      const defaultQuery = sideMenuOptions.defaultQuery;
-
-      // If there is a default query passed, we replace the hard coded ids with the default query
-      // e.g. calendars/:id, team_planner/:id, ...
-      // Otherwise, we will just delete the search params
-      if (defaultQuery) {
-        url.pathname = url.pathname.replace(/\d+$/, defaultQuery);
-      }
-
+      url.pathname = pathname.replace(/\/[^/]+$/, '/new');
       url.search = '';
       window.location.href = url.href;
-    } else {
-      let projectId;
-      if (query.project.href) {
-        projectId = query.project.href.split('/').pop();
-      }
-
-      void this.loadDefaultQuery(projectId);
-
-      this.states.changes.queries.next(query.id);
-      this.reloadSidemenu(null);
+      return;
     }
-  }
 
-  private isOnNonRouterPage():boolean {
-    return !this.$state.current.name || !!this.getNonRouterSidemenuId();
+    let projectId;
+    if (query.project.href) {
+      projectId = query.project.href.split('/').pop();
+    }
+
+    void this.loadDefaultQuery(projectId);
+
+    this.states.changes.queries.next(query.id);
+    this.reloadSidemenu(null);
   }
 
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
-    if (!this.isOnNonRouterPage()) { return; }
-
-    // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
     const url = new URL(window.location.href);
-    url.pathname = url.pathname.replace(/\/[^/]+$/, `/${queryId}`);
-    url.searchParams.delete('query_id');
-    url.searchParams.delete('query_props');
-    window.history.pushState({}, '', url.toString());
+    const { pathname } = url;
+
+    if (pathname.includes('/work_packages') || pathname.includes('/gantt') || pathname.includes('/bcf')) {
+      // List-based pages: the query id lives in the query_id search param, the path itself
+      // doesn't address a specific view (unlike calendars/:id, team_planners/:id below).
+      if (queryId) {
+        url.searchParams.set('query_id', queryId);
+      } else {
+        url.searchParams.delete('query_id');
+      }
+      url.searchParams.delete('query_props');
+    } else {
+      // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
+      url.pathname = pathname.replace(/\/[^/]+$/, `/${queryId}`);
+      url.searchParams.delete('query_id');
+      url.searchParams.delete('query_props');
+    }
+
+    Turbo.session.history.push(url);
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const sidemenuId = this.isOnNonRouterPage() ? this.getNonRouterSidemenuId() : undefined;
-    this.submenuService.reloadSubmenu(selectedQueryId, sidemenuId);
+    this.submenuService.reloadSubmenu(selectedQueryId, this.getNonRouterSidemenuId());
   }
 
   private getNonRouterSidemenuId():string|undefined {
     const { pathname } = window.location;
     if (pathname.includes('/calendars')) return 'calendar_sidemenu';
     if (pathname.includes('/team_planners')) return 'team_planner_sidemenu';
-    if (pathname.includes('/ifc_models')) return 'bim_sidemenu';
+    if (pathname.includes('/ifc_models') || pathname.includes('/bcf')) return 'bim_sidemenu';
+    if (pathname.includes('/gantt')) return 'gantt_menu';
+    if (pathname.includes('/work_packages')) return 'work_packages_sidemenu';
     return undefined;
   }
 }

@@ -55,10 +55,7 @@
           label: I18n.t("documents.admin.collaboration_settings.hocuspocus_server_secret.label"),
           required: true,
           input_width: :large,
-          caption: I18n.t("documents.admin.collaboration_settings.hocuspocus_server_secret.caption"),
-          type: :password,
-          value: nil, # IMPORTANT: Don't expose the secret in the form
-          placeholder: Setting.collaborative_editing_hocuspocus_secret.present? ? "••••••••••••••••" : nil
+          caption: I18n.t("documents.admin.collaboration_settings.hocuspocus_server_secret.caption")
         )
 
         form.submit unless none_writable_settings?

@@ -137,6 +137,8 @@ module WorkPackages
 
     attribute :budget
 
+    attribute :labels
+
     validates :subject,
               presence: true,
               unless: -> { model.type_variant&.replacement_pattern_defined_for?(:subject) }

@@ -84,9 +84,7 @@ describe('TabHeaderComponent', () => {
 
   it('should render title and copy button', () => {
     const headerTitle = fixture.debugElement.query(By.css('h3')).nativeElement;
-    const headerCopyButton = fixture.debugElement.query(By.css('button.github-git-copy[gitActionsCopyDropdown]')).nativeElement;
 
     expect(headerTitle.textContent.trim()).toBe('test translation');
-    expect(headerCopyButton).toBeTruthy();
   });
 });

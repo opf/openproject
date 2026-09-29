@@ -1,0 +1,12 @@
+@import "helpers"
+
+// The shared border-box grid top-aligns row content and nudges the action button
+// up to match. Status rows are single-line, so their content reads better centered
+// against the taller action cell. Scoped via the table's container_class.
+@media screen and (min-width: $breakpoint-md)
+  .op-statuses-table
+    .op-border-box-grid
+      align-items: center
+
+    .op-border-box-grid__row-action
+      margin-top: 0

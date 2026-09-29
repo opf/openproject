@@ -147,6 +147,8 @@ release_notes_14_0_1:
 report_bug:
   href: https://www.openproject.org/docs/development/report-a-bug/
   label: :label_report_bug
+restore_cloud_backup_documentation:
+  href: https://www.openproject.org/docs/installation-and-operations/operation/restoring/#changing-the-database-schema-from-cloud-to-on-premises
 roadmap:
   href: https://www.openproject.org/roadmap/
   label: :label_development_roadmap

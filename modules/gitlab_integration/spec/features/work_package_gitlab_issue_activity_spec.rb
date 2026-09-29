@@ -41,7 +41,7 @@ RSpec.describe "Work Package Activity Tab",
         "name" => issue_closing_user.gitlab_name,
         "username" => issue_closing_user.gitlab_username,
         "avatar_url" => issue_closing_user.gitlab_avatar_url,
-        "email" => issue_closing_user.gitlab_email
+        "email" => "[REDACTED]"
       },
       "object_attributes" => {
         "action" => gitlab_action,
@@ -69,7 +69,7 @@ RSpec.describe "Work Package Activity Tab",
     }
   end
 
-  let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   context "when there is an issue event" do

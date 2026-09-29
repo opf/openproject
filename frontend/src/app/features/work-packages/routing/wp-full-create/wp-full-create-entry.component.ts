@@ -42,7 +42,6 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   template: `
     <wp-new-full-view
       [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier }"
-      [routedFromAngular]="routedFromAngular"
     ></wp-new-full-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +52,6 @@ export class WorkPackageFullCreateEntryComponent {
   @Input() type:string;
   @Input() parentId?:string;
   @Input() projectIdentifier?:string;
-  @Input() routedFromAngular:boolean;
 
   constructor() {
     populateInputsFromDataset(this);

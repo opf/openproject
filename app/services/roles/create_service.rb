@@ -55,7 +55,7 @@ class Roles::CreateService < BaseServices::Create
 
   def copy_workflows(copy_workflow_id, role)
     if copy_workflow_id.present? && (copy_from = Role.find_by(id: copy_workflow_id))
-      role.workflows.copy_from_role(copy_from)
+      role.workflow_status_transitions.copy_from_role(copy_from)
     end
   end
 end

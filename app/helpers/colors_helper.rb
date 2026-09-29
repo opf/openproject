@@ -49,68 +49,29 @@ module ColorsHelper
   end
 
   #
-  # Styles to display colors itself (e.g. for the colors autocompleter)
+  # Emits one rule per entry declaring the color as CSS custom properties. The rules that
+  # consume them (`__hl_background`, `__hl_foreground`, `__hl_dot`) are static and live in
+  # the `Highlighting colors` section of `frontend/src/global_styles/layout/_colors.sass`.
   ##
-  def color_css
-    Color.find_each do |color|
-      set_background_colors_for(class_name: ".#{hl_inline_class('color', color)}_dot::before", color:)
-      set_foreground_colors_for(class_name: ".#{hl_inline_class('color', color)}_text", color:)
-    end
-  end
-
-  #
-  # Styles to display the color of attributes (type, status etc.) for example in the WP view
-  ##
-  def resources_scope_color_css(name, scope, inline_foreground: false)
-    scope.includes(:color).find_each do |entry|
-      resource_color_css(name, entry, inline_foreground: inline_foreground)
-    end
-  end
-
-  # Render the highlighting color for the project phase definition.
-  def project_phase_color_css
-    Project::PhaseDefinition.includes(:color).find_each do |definition|
-      resource_color_css("project_phase_definition", definition, inline_foreground: true)
-
-      set_foreground_colors_for(
-        class_name: ".#{hl_inline_class('project_phase_definition', definition.id)}",
-        color: definition.color
-      )
-    end
-  end
-
-  def resource_color_css(name, entry, inline_foreground: false)
-    color = entry.color
-
-    if color.nil?
-      concat ".#{hl_inline_class(name, entry)}::before { display: none }"
-      return
-    end
-
-    if inline_foreground
-      set_foreground_colors_for(class_name: ".#{hl_inline_class(name, entry)}", color:)
-    else
-      set_background_colors_for(class_name: ".#{hl_inline_class(name, entry)}::before", color:)
-    end
-
-    set_background_colors_for(class_name: ".#{hl_background_class(name, entry)}", color:)
-
-    # generic class for color
-    set_generic_color_for(class_name: ".#{hl_color_class(name, entry)}", color:)
+  def resource_color_css(name, scope)
+    scope.map { |entry| color_variables_css(name, entry) }.join("\n")
   end
 
   def hl_color_class(name, model)
-    "__hl_#{name}_#{model.id}"
-  end
-
-  def hl_inline_class(name, model)
     id = model.respond_to?(:id) ? model.id : model
-    "__hl_inline_#{name}_#{id}"
+    "__hl_#{name}_#{id}"
   end
 
   def hl_background_class(name, model)
-    id = model.respond_to?(:id) ? model.id : model
-    "__hl_background_#{name}_#{id}"
+    "__hl_background #{hl_color_class(name, model)}"
+  end
+
+  def hl_foreground_class(name, model)
+    "__hl_foreground #{hl_color_class(name, model)}"
+  end
+
+  def hl_dot_class(name, model)
+    "__hl_dot #{hl_color_class(name, model)}"
   end
 
   def icon_for_color(color, options = {})
@@ -133,126 +94,17 @@ module ColorsHelper
     DesignColor.find_by(variable:)&.hexcode
   end
 
-  def set_generic_color_for(class_name:, color:)
-    mode_variables = User.current.pref.dark_color_mode? ? default_variables_dark : default_variables_light
+  private
 
-    concat "#{class_name} { #{default_color_styles(color.hexcode)} #{mode_variables} }"
-  end
+  def color_variables_css(name, entry)
+    color = entry.is_a?(::Color) ? entry : entry.color
+    selector = ".#{hl_color_class(name, entry)}"
 
-  def set_background_colors_for(class_name:, color:)
-    concat "#{class_name} { #{default_color_styles(color.hexcode)} }"
+    # Without a color the dot would still occupy space, while background and foreground
+    # neutralize themselves: their declarations reference the undeclared --hl-color and
+    # become invalid at computed-value time.
+    return "#{selector}.__hl_dot::before { display: none }" if color.nil?
 
-    if User.current.pref.dark_color_mode?
-      concat "#{class_name} { #{default_variables_dark} }"
-      concat "#{class_name} { #{highlighted_background_dark} }"
-    else
-      concat "#{class_name} { #{default_variables_light} }"
-      concat "#{class_name} { #{highlighted_background_light} }"
-    end
-  end
-
-  def set_foreground_colors_for(class_name:, color:)
-    concat "#{class_name} { #{default_color_styles(color.hexcode)} }"
-
-    if User.current.pref.dark_color_mode?
-      concat "#{class_name} { #{default_variables_dark} }"
-      concat "#{class_name} { #{highlighted_foreground_dark} }"
-    else
-      concat "#{class_name} { #{default_variables_light} }"
-      concat "#{class_name} { #{highlighted_foreground_light} }"
-    end
-  end
-
-  def default_color_styles(hex)
-    color = ColorConversion::Color.new(hex)
-    rgb = color.rgb
-    hsl = color.hsl
-
-    <<~CSS.squish
-      --color-r: #{rgb[:r]};
-      --color-g: #{rgb[:g]};
-      --color-b: #{rgb[:b]};
-      --color-h: #{hsl[:h]};
-      --color-s: #{hsl[:s]};
-      --color-l: #{hsl[:l]};
-      --perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
-      --lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1));
-    CSS
-  end
-
-  def default_variables_dark
-    <<~CSS.squish
-      --lightness-threshold: 0.6;
-      --background-alpha: 0.18;
-      --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
-    CSS
-  end
-
-  def default_variables_light
-    <<~CSS.squish
-      --lightness-threshold: 0.453;
-    CSS
-  end
-
-  def highlighted_background_dark
-    style = <<~CSS.squish
-      color: hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%)) !important;
-      background: rgba(var(--color-r), var(--color-g), var(--color-b), var(--background-alpha)) !important;
-    CSS
-
-    style += if User.current.pref.dark_high_contrast_theme?
-               <<~CSS.squish
-                 border: 1px solid hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + 10 + var(--lighten-by)) * 1%)) !important;
-               CSS
-             else
-               <<~CSS.squish
-                 border: 1px solid hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%)) !important;
-               CSS
-             end
-
-    style
-  end
-
-  def highlighted_background_light
-    style = <<~CSS.squish
-      color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%)) !important;
-      background: rgb(var(--color-r), var(--color-g), var(--color-b)) !important;
-    CSS
-
-    style += if User.current.pref.light_high_contrast_theme?
-               <<~CSS.squish
-                 border: 1px solid hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 75) * 1%), 1) !important;
-               CSS
-             else
-               <<~CSS.squish
-                 border: 1px solid hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%)) !important;
-               CSS
-             end
-
-    style
-  end
-
-  def highlighted_foreground_dark
-    if User.current.pref.dark_high_contrast_theme?
-      <<~CSS.squish
-        color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + 10 + var(--lighten-by)) * 1%), 1) !important;
-      CSS
-    else
-      <<~CSS.squish
-        color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1) !important;
-      CSS
-    end
-  end
-
-  def highlighted_foreground_light
-    if User.current.pref.light_high_contrast_theme?
-      <<~CSS.squish
-        color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.5)) * 1%), 1) !important;
-      CSS
-    else
-      <<~CSS.squish
-        color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1) !important;
-      CSS
-    end
+    "#{selector} { --hl-color: #{color.hexcode}; --hl-perceived-lightness: #{color.perceived_lightness} }"
   end
 end

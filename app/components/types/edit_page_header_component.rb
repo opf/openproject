@@ -34,13 +34,16 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil)
+    attr_reader :description
+
+    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil, description: nil)
       super
       @type = type
       @variant = variant
       @tabs = tabs
       @additional_breadcrumb_items = additional_breadcrumb_items
       @title = title
+      @description = description
     end
 
     def title

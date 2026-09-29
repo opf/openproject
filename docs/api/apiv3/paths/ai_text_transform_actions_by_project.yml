@@ -1,0 +1,87 @@
+# /api/v3/projects/{id}/ai_text_transform_actions
+---
+get:
+  summary: List AI text transform actions for a new work package
+  operationId: list_ai_text_transform_actions_by_project
+  tags:
+    - AI
+    - Projects
+  description: |-
+    Lists the active AI text transform actions that can be run on the description of a work
+    package about to be created in the given project with the given type: actions usable
+    everywhere, actions scoped to all work package types and actions scoped to that type. Actions
+    that inject the type template are listed only when the type, as configured in the project,
+    has a default description.
+
+    The collection is empty when the feature flag `ai_text_transform_actions` is off, when the
+    administrative setting is off or when no LLM connection is ready. An empty collection means
+    "assistant not available".
+
+    **Required permission:** add work packages
+  parameters:
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: Id of the type the work package is about to be created with. The type has to be enabled in the project.
+      example: 3
+      in: query
+      name: typeId
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/ai_text_transform_action_collection_model.yml'
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+                message: "Bad request: typeId is missing"
+      description: Returned if the `typeId` query parameter is missing or not an integer.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** add work packages
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the project does not exist, the client does not have sufficient permissions to see it,
+        or the type is not enabled in the project.
+
+        **Required permission:** view project

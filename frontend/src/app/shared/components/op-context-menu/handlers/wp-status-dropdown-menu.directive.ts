@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { Directive, Input, inject } from '@angular/core';
 import {
   OpContextMenuTrigger
@@ -55,7 +54,6 @@ import { HalError } from 'core-app/features/hal/services/hal-error';
   standalone: false,
 })
 export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  readonly $state = inject(StateService);
   protected workPackageNotificationService = inject(WorkPackageNotificationService);
   protected halEditing = inject(HalResourceEditingService);
   protected toastService = inject(ToastService);
@@ -110,7 +108,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       linkText: status.name,
       postIcon: status.isReadonly ? 'icon-locked' : null,
       postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
-      class: Highlighting.inlineClass('status', status.id!),
+      class: Highlighting.dotClass('status', status.id!),
       onClick: () => {
         this.updateStatus(status);
         return true;

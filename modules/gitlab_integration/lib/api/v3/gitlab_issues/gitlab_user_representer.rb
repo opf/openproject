@@ -40,7 +40,6 @@ module API
                   title_getter: ->(*) {}
 
         property :gitlab_name, as: :login
-        property :gitlab_email, as: :email
         property :gitlab_avatar_url, as: :avatarUrl
 
         def _type

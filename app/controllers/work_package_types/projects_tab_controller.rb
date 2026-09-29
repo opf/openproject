@@ -304,7 +304,9 @@ module WorkPackageTypes
       scope = ::Project.order(:lft)
       return scope.to_a if filter_term.blank?
 
-      matching = scope.where("LOWER(projects.name) LIKE LOWER(?)", "%#{sanitized_filter_term}%")
+      matching = Queries::Projects::Filters::NameAndIdentifierFilter
+                   .create!(operator: "~", values: [sanitized_filter_term])
+                   .apply_to(scope)
       (matching.to_a + ancestors_of(matching)).uniq(&:id).sort_by(&:lft)
     end
 

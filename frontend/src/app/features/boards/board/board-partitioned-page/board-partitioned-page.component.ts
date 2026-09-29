@@ -32,9 +32,6 @@ import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-} from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -60,6 +57,7 @@ import { EMPTY, ReplaySubject } from 'rxjs';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import * as Turbo from '@hotwired/turbo';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -81,7 +79,6 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly state = inject(StateService);
   readonly toastService = inject(ToastService);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly injector = inject(Injector);
@@ -166,7 +163,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
     // Ensure board is being loaded
     this.Boards.loadAllBoards();
 
-    const boardId = this.boardId || this.state.params.board_id?.toString();
+    const boardId = this.boardId;
     this.apiV3Service.boards.id(boardId).observe()
       .pipe(this.untilDestroyed())
       .subscribe((board) => this.board$.next(board));
@@ -216,7 +213,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
 
         const url = new URL(window.location.href);
         url.searchParams.delete('query_props');
-        window.history.pushState({}, '', url);
+        Turbo.session.history.push(url);
         this.showToolbarSaveButton = false;
 
         this.toolbarDisabled = true;

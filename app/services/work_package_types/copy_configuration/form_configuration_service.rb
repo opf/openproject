@@ -45,7 +45,7 @@ module WorkPackageTypes
         groups_result = duplicated_groups(source)
         return groups_result if groups_result.failure?
 
-        persist(groups_result.result)
+        persist(groups_result.result, required: presenting_type(source).required_attributes.map(&:to_s))
       end
 
       private
@@ -88,9 +88,10 @@ module WorkPackageTypes
         entry
       end
 
-      def persist(groups)
+      def persist(groups, required:)
         Type.transaction do
           variant.attribute_groups = groups
+          variant.required_attributes = required
           sync_active_custom_fields
           variant.save!
         end

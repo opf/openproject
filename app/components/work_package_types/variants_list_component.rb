@@ -79,6 +79,8 @@ module WorkPackageTypes
 
     def add_variant_path = new_creation_wizard_types_path(type_id: type.id, back_url: variants_path)
 
+    def comparison_path = comparison_type_variants_path(type_id: type.id)
+
     def menu_id(variant) = Types::VariantActionsComponent.menu_id(variant)
 
     # The menu's actions are reachable from the types index too, so each one has to be told to

@@ -34,13 +34,12 @@ module ResourcePlannerViews
       include OpPrimer::ComponentHelpers
       include AvatarHelper
 
-      def initialize(user:, overbooked: false, schedule_missing: false, job_title_field: nil,
+      def initialize(user:, overbooked: false, schedule_missing: false,
                      project: nil, resource_planner: nil, view: nil)
         super
         @user = user
         @overbooked = overbooked
         @schedule_missing = schedule_missing
-        @job_title_field = job_title_field
         @project = project
         @resource_planner = resource_planner
         @view = view
@@ -76,22 +75,12 @@ module ResourcePlannerViews
         safe_join(segments, " - ")
       end
 
-      # `departments` is preloaded by the controller, so `.first` hits no query.
       def department_name
-        user.departments.first&.name
+        user.department&.name
       end
 
-      # Reads the values off the preloaded `custom_values` rather than going
-      # through the per-record custom-field-values machinery (avoids N+1).
-      # The job_title field may be multi-value, so join all matching values.
       def job_title
-        return if @job_title_field.nil?
-
-        user.custom_values
-            .select { |custom_value| custom_value.custom_field_id == @job_title_field.id }
-            .filter_map { |custom_value| custom_value.formatted_value.presence }
-            .join(", ")
-            .presence
+        user.job_title
       end
     end
   end

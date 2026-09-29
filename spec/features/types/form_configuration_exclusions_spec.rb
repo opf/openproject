@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "form configuration exclusions", :js,
-               with_flag: { type_variants: true } do
+RSpec.describe "form configuration exclusions", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
@@ -57,7 +56,8 @@ RSpec.describe "form configuration exclusions", :js,
   end
 
   before do
-    link_configuration(variant, source: owner, aspect:)
+    owner
+    link_configuration(variant, aspect:)
     login_as admin
     visit edit_type_form_configuration_path(type_id: type.id, variant_id: variant.id)
   end

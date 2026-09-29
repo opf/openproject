@@ -33,6 +33,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { formatURLsForExternal } from '@atlaskit/pragmatic-drag-and-drop/element/format-urls-for-external';
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
@@ -41,20 +42,29 @@ import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
-  confinementAllowsDrop,
+  permittedDestinationsAllowDrop,
   isItemFromRoot,
   sortableItemData,
+  sortableItemIdentity,
   type RootAwareChild,
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
-import { isMoveDirection, sortableItemSelector } from './list-dom';
+import {
+  isMoveDirection,
+  isOrderableItem,
+  itemMobility,
+  resolveItemExternalUrl,
+  resolveItemLabel,
+  sortableItemSelector,
+} from './list-dom';
+import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -62,13 +72,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
     type: String,
     externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
-    // A confined item is still a full drag source, but only its own list and
-    // that list's rows accept it as a drop target; foreign containers refuse
-    // it, so a release there lands nowhere and the item stays put. Consumers
-    // use this for items the server allows to reorder in place but refuses to
-    // relocate to another container.
-    confined: { type: Boolean, default: false },
-    label: String,
+    // See ItemMobility in list-dom. A `confined` item is still a full drag
+    // source; only the lists the batch's permitted set names accept it.
+    mobility: { type: String, default: 'free' },
   };
 
   declare readonly idValue:string;
@@ -78,9 +84,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly externalUrlValue:string;
   declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
-  declare readonly confinedValue:boolean;
-  declare readonly labelValue:string;
-  declare readonly hasLabelValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
@@ -91,6 +94,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hasMoveMenuTarget:boolean;
   declare readonly moveDividerTarget:HTMLElement;
   declare readonly hasMoveDividerTarget:boolean;
+  declare readonly focusTarget:HTMLElement;
+  declare readonly hasFocusTarget:boolean;
 
   // Provided by the stimulus-elements blessing; absent when the item is not
   // inside a Primer action-menu (a drag-only consumer), in which case the move
@@ -143,7 +148,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   move(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
       return;
     }
 
@@ -155,6 +160,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
     }
+  }
+
+  // The focus host is the consumer's business: Backlogs puts the tab stop on
+  // the card inside the row, another consumer may focus the row itself.
+  focusItem():void {
+    (this.hasFocusTarget ? this.focusTarget : this.element).focus();
   }
 
   // Called by the root controller's outlet-connected callback.
@@ -178,14 +189,16 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   private register():void {
     this.cleanupFn = combine(
-      this.registerDraggable(),
+      // A non-movable item registers no draggable but stays a drop target:
+      // its movable neighbours still anchor on it.
+      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }
 
   // Both values are required: an item with an empty id can never be persisted,
-  // and an empty type never matches a list's accepted type, so the item would
-  // appear draggable yet silently refuse every drop. Surface that wiring mistake.
+  // and an empty type would never match a list's accepted type, so it could
+  // neither be dropped nor anchor a drop. Surface that wiring mistake.
   private warnOnMissingValues():void {
     if (!this.hasIdValue) {
       console.warn(
@@ -214,13 +227,14 @@ export default class ItemController extends Controller<HTMLElement> implements R
       } : {}),
       canDrag: ({ input }) => {
         const { root } = this;
-        if (root == null || root.busy) {
+        if (root == null || root.busy || root.dragRefused(this.element)) {
           return false;
         }
         return this.canDragFromPoint(input.clientX, input.clientY);
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
+        this.root?.markDragBatch();
         // Cancels drops landing outside registered drop targets. This also
         // guards the external data channel: a misdropped card carrying
         // text/uri-list would otherwise navigate the current tab to that URL.
@@ -233,20 +247,38 @@ export default class ItemController extends Controller<HTMLElement> implements R
         this.element.removeAttribute('data-dragging');
       },
       onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
+        // Pragmatic dispatches this before onDragStart, so the batch has to
+        // be frozen by the time the preview renders.
+        const batchSize = this.root?.freezeDragBatch(this.element) ?? 1;
+
         if (!this.hasPreviewTarget) {
           return;
         }
 
         setCustomNativeDragPreview({
           nativeSetDragImage,
-          getOffset: preserveOffsetOnSource({
-            element: this.previewTarget,
-            input: location.current.input,
-          }),
+          // preserveOffsetOnSource assumes the card sits at the container's
+          // origin, but a batch preview pads the container's top for the
+          // badge overhang and shifts the card down by it. Measured off the
+          // container, so the stylesheet stays the single source of the
+          // geometry; a single-card preview measures 0.
+          getOffset: (args) => {
+            const offset = preserveOffsetOnSource({
+              element: this.previewTarget,
+              input: location.current.input,
+            })(args);
+
+            return {
+              x: offset.x,
+              // A detached container's computed style resolves empty.
+              y: offset.y + (parseFloat(getComputedStyle(args.container).paddingTop) || 0),
+            };
+          },
           render: ({ container }) => renderDragPreview({
             previewTarget: this.previewTarget,
             sourceElement: this.element,
             container,
+            batchSize,
           }),
         });
       },
@@ -271,15 +303,15 @@ export default class ItemController extends Controller<HTMLElement> implements R
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
           && source.data.type === this.typeValue
-          && confinementAllowsDrop(source.data, this.element);
+          && !this.element.hasAttribute('data-dragging')
+          && permittedDestinationsAllowDrop(source.data, this.root?.ownerDestinationOf(this.element) ?? null);
       },
-      getData: ({ input }) => {
-        return attachClosestEdge(this.getItemData(), {
-          element: this.element,
-          input,
-          allowedEdges: ['top', 'bottom'],
-        });
-      },
+      // Only the identity a drop needs; the batch-aware fields are computed
+      // for the dragged source alone.
+      getData: ({ input }) => attachClosestEdge(
+        sortableItemIdentity({ itemId: this.idValue, type: this.typeValue }),
+        { element: this.element, input, allowedEdges: ['top', 'bottom'] },
+      ),
       getIsSticky: ({ input }) => this.isWithinRowsSpan(input),
       onDragEnter: ({ self }) => {
         const closestEdge = extractClosestEdge(self.data);
@@ -330,22 +362,31 @@ export default class ItemController extends Controller<HTMLElement> implements R
       && input.clientY <= lastRow.getBoundingClientRect().bottom;
   }
 
-  // The URL flavours carry the bare URL; text/html joins in only when the item
-  // has a label (the same one announcements use), as a link for rich-text
-  // targets (notes apps, editors). The anchor is built through a detached DOM
-  // element so the browser escapes the label and URL canonically.
+  // Every member of the prospective batch, so an external drop receives the
+  // whole block; text/html joins in as one link per labelled member.
   private externalDragData():Record<string, string> {
-    const url = this.externalUrlValue;
+    const members = this.root?.externalDragItems(this.element) ?? [this.element];
+    const entries = members
+      .map((member) => ({ url: resolveItemExternalUrl(member), label: resolveItemLabel(member) }))
+      .filter((entry):entry is { url:string; label:string|null } => entry.url !== null);
+    const urls = entries.map((entry) => entry.url);
     const data:Record<string, string> = {
-      'text/uri-list': url,
-      'text/plain': url,
+      'text/uri-list': formatURLsForExternal(urls),
+      'text/plain': urls.join('\n'),
     };
 
-    if (this.hasLabelValue && this.labelValue !== '') {
+    const links = entries.flatMap((entry) => {
+      const href = entry.label ? webLinkHref(entry.url) : null;
+      if (!href) {
+        return [];
+      }
       const anchor = this.element.ownerDocument.createElement('a');
-      anchor.href = url;
-      anchor.textContent = this.labelValue;
-      data['text/html'] = anchor.outerHTML;
+      anchor.href = href;
+      anchor.textContent = entry.label;
+      return [anchor.outerHTML];
+    });
+    if (links.length > 0) {
+      data['text/html'] = links.join('<br>');
     }
 
     return data;
@@ -356,8 +397,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
-      sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
-      confined: this.confinedValue,
+      // A rootless item can carry no batch, so its own mobility is the
+      // whole answer, and it can name no list either: anything short of free
+      // movement leaves it accepting nothing.
+      permittedDestinations: this.root
+        ? this.root.dragPermittedDestinations(this.element)
+        : (itemMobility(this.element) === 'free' ? null : []),
     });
   }
 
@@ -387,14 +432,13 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return { element: this.element, edge };
     }
 
-    const nextItem = this.element.nextElementSibling;
+    let next = this.element.nextElementSibling;
+    while (next instanceof HTMLElement && next.matches(sortableItemSelector) && next.hasAttribute('data-dragging')) {
+      next = next.nextElementSibling;
+    }
 
-    if (
-      nextItem instanceof HTMLElement &&
-      nextItem.matches(sortableItemSelector) &&
-      !nextItem.hasAttribute('data-dragging')
-    ) {
-      return { element: nextItem, edge: 'top' };
+    if (next instanceof HTMLElement && next.matches(sortableItemSelector)) {
+      return { element: next, edge: 'top' };
     }
 
     return { element: this.element, edge };

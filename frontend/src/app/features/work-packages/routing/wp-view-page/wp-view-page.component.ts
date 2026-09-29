@@ -34,6 +34,7 @@ import { QueryParamListenerService } from 'core-app/features/work-packages/compo
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
+  ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import { WorkPackageCreateButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
@@ -41,7 +42,6 @@ import { WorkPackageDetailsViewButtonComponent } from 'core-app/features/work-pa
 import { WorkPackageTimelineButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
-import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
@@ -49,7 +49,7 @@ import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadc
 
 @Component({
   selector: 'wp-view-page',
-  templateUrl: '../partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
     '../partitioned-query-space-page/partitioned-query-space-page.component.sass',
@@ -66,9 +66,6 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
-      inputs: {
-        stateName$: of(this.stateName),
-      },
     },
     {
       component: OpProjectIncludeComponent,
@@ -148,19 +145,17 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
   }
 
-  protected shouldUpdateHtmlTitle():boolean {
-    return this.$state.current.name === 'work-packages.partitioned.list';
-  }
-
-  private get stateName() {
-    if (this.isGantt) {
-      return 'gantt.partitioned.list.new';
-    }
-
-    return 'work-packages.partitioned.list.new';
+  /**
+   * Neither /work_packages nor /gantt register a uiRouter '.details'/'.new' sub-state
+   * anymore (the split view/create form render via a Rails Turbo frame instead), so
+   * the partition is derived from the URL rather than from state data.
+   */
+  protected override setPartition():void {
+    const partition:ViewPartitionState = window.location.pathname.includes('/details/') ? '-split' : '-left-only';
+    this.currentPartition = partition;
   }
 
   private get isGantt() {
-    return this.$state.current.name?.includes('gantt');
+    return window.location.pathname.includes('/gantt');
   }
 }

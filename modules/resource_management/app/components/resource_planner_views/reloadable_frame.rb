@@ -39,6 +39,8 @@ module ResourcePlannerViews
   # its feeds in place on the same event, so they opt out of the frame-level reload
   # to avoid tearing down and re-instantiating the calendar.
   module ReloadableFrame
+    include ResourceManagement::PlannerRoutes
+
     FRAME_ID = "resource-planner-view-content"
     RELOAD_EVENT_NAME = "op-dispatched:resource-allocations:changed"
 
@@ -52,9 +54,7 @@ module ResourcePlannerViews
       {
         controller: "reload-frame-on-event",
         "reload-frame-on-event-event-name-value": RELOAD_EVENT_NAME,
-        "reload-frame-on-event-url-value": helpers.project_resource_planner_view_path(
-          @project, @resource_planner, @view
-        )
+        "reload-frame-on-event-url-value": planner_view_path(@resource_planner, @view)
       }
     end
   end

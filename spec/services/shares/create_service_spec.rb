@@ -111,7 +111,7 @@ RSpec.describe Shares::CreateService, type: :model do
           expect(inherited_roles_service)
             .to have_received(:call)
                   .with(user_ids: principal.user_ids,
-                        project_ids: [model_instance.project_id],
+                        member_id: model_instance.id,
                         send_notifications: false)
         end
       end

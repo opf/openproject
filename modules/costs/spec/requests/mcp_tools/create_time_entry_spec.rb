@@ -63,7 +63,7 @@ RSpec.describe McpTools::CreateTimeEntry do
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_item) { parsed_results.fetch("structuredContent") }
 
-  let(:work_package) { create(:work_package) }
+  let(:work_package) { create(:work_package, identifier: "PROJ-51") }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -90,6 +90,29 @@ RSpec.describe McpTools::CreateTimeEntry do
       mcp_request
 
       expect(result_item.to_json).to match_json_schema.from_docs("time_entry_model")
+    end
+
+    context "when specifying the work package URL using the semantic identifier" do
+      let(:call_args) do
+        {
+          data: {
+            hours: "PT2H30M",
+            _links: {
+              entity: { href: "/api/v3/work_packages/#{work_package.identifier}" }
+            }
+          }
+        }
+      end
+
+      it "creates a new time entry" do
+        expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
+
+        entry = TimeEntry.first
+        expect(entry.entity).to eq(work_package)
+        expect(entry.user).to eq(user)
+        expect(entry.spent_on).to eq(Time.zone.today)
+        expect(entry.hours).to eq(2.5)
+      end
     end
 
     context "when passing a user" do

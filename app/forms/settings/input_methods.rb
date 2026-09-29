@@ -42,8 +42,12 @@ module Settings
     # @param name [Symbol] The name of the setting
     # @param options [Hash] Additional options for the text field
     # @return [Object] The text field input
-    def text_field(**)
-      object.text_field(**decorate_options_with_value(**))
+    def text_field(name:, **)
+      if setting_secret?(name)
+        object.text_field(**decorate_secret_options(name:, **))
+      else
+        object.text_field(**decorate_options_with_value(name:, **))
+      end
     end
 
     # Creates a text area input for a setting.
@@ -312,6 +316,14 @@ module Settings
       options[:value] = setting_value(name) unless options.key?(:value)
 
       options
+    end
+
+    def decorate_secret_options(name:, **)
+      decorate_options(name:, **).merge(
+        type: :password,
+        autocomplete: "off",
+        value: setting_value(name).present? ? Settings::Definition::SECRET_PLACEHOLDER : nil
+      )
     end
 
     def decorate_options(name:, **options)

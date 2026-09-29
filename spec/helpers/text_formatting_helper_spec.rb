@@ -108,10 +108,10 @@ RSpec.describe TextFormattingHelper do
         "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\n tempor invidunt"
       end
       let(:text_html) do
-        "Lorem ipsum dolor sit <br/> amet, consetetur sadipscing elitr, sed diam nonumy eirmod <br /> tempor invidunt"
+        "Lorem ipsum dolor sit<br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br />tempor invidunt"
       end
 
-      it "replaces escaped line breaks with html line breaks and should be html_safe" do
+      it "replaces line breaks with html line breaks" do
         expect(truncate_formatted_text(text))
           .to be_html_eql(text_html)
       end
@@ -131,6 +131,15 @@ RSpec.describe TextFormattingHelper do
           expect(truncate_formatted_text(text, replace_newlines: false))
             .to be_html_safe
         end
+      end
+    end
+
+    context "with HTML special characters" do
+      it "does not double-escape" do
+        result = truncate_formatted_text("Tom & Jerry")
+
+        expect(result).to be_html_safe
+        expect(result).to be_html_eql("Tom &amp; Jerry")
       end
     end
 

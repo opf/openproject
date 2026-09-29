@@ -34,6 +34,6 @@ module HighlightingHelper
   end
 
   def highlight_css_updated_at
-    ApplicationRecord.most_recently_changed Status, IssuePriority, Type, UserPreference, Project::PhaseDefinition
+    ApplicationRecord.most_recently_changed Status, IssuePriority, Type, Color, Project::PhaseDefinition
   end
 end

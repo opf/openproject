@@ -30,13 +30,11 @@
 
 # What a switch would do, as a subresource of the switch that would do it.
 class Projects::Settings::WorkPackages::Types::Switches::ImpactsController < Projects::SettingsController
-  include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include WorkPackageTypes::SwitchLookup
 
   menu_item :settings_work_packages
 
-  before_action :require_type_variants_feature
   before_action :load_source
 
   # POST rather than GET, even though nothing is persisted and nothing changes:

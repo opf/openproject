@@ -32,6 +32,9 @@ class Roles::DeleteService < BaseServices::Delete
   def persist(service_result)
     # after destroy permissions can not be reached
     @permissions = model.permissions
+
+    remove_memberships
+
     super
   end
 
@@ -43,6 +46,38 @@ class Roles::DeleteService < BaseServices::Delete
         ::OpenProject::Events::ROLE_DESTROYED,
         permissions: @permissions
       )
+    end
+  end
+
+  private
+
+  def remove_memberships
+    member_ids_holding_role.each do |member_id|
+      member = Member.find_by(id: member_id)
+
+      # Removing the role from a group cascades into the memberships inheriting it,
+      # so those may already be gone or stripped of the role by the time we get here.
+      next if member.nil? || member.role_ids.exclude?(model.id)
+
+      remove_role_from(member)
+    end
+  end
+
+  def member_ids_holding_role
+    MemberRole.where(role_id: model.id).distinct.pluck(:member_id)
+  end
+
+  def remove_role_from(member)
+    remaining_role_ids = member.role_ids - [model.id]
+
+    if remaining_role_ids.empty?
+      Members::DeleteService
+        .new(user:, model: member, contract_class: EmptyContract)
+        .call
+    else
+      Members::UpdateService
+        .new(user:, model: member, contract_class: EmptyContract)
+        .call(role_ids: remaining_role_ids)
     end
   end
 end

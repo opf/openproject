@@ -34,7 +34,6 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { trackByHrefAndProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { CardHighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -64,6 +63,10 @@ import type {
   SortableListsDropEvent,
   SortableListsRemovedEvent,
 } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
+import {
+  registerWorkPackageDeselectAll,
+  registerWorkPackageSelectAll,
+} from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -87,7 +90,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly states = inject(States);
   readonly injector = inject(Injector);
-  readonly $state = inject(StateService);
   readonly I18n = inject(I18nService);
   readonly wpCreate = inject(WorkPackageCreateService);
   readonly wpInlineCreate = inject(WorkPackageInlineCreateService);
@@ -141,8 +143,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Output() public onMoved = new EventEmitter<void>();
 
-  @Output() selectionChanged = new EventEmitter<string[]>();
-
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -150,6 +150,10 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   public trackByHref = trackByHrefAndProperty('lockVersion');
 
   private static nextListId = 0;
+
+  private unregisterSelectAll:(() => void)|undefined;
+
+  private unregisterDeselectAll:(() => void)|undefined;
 
   /** Default list id when the caller (e.g. wp-grid) does not pass one via `listId` */
   private readonly internalListId = `wp-card-view-list-${WorkPackageCardViewComponent.nextListId += 1}`;
@@ -223,11 +227,25 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     } else {
       new registry(this.injector).attachTo(this);
     }
-    this.wpTableSelection.registerSelectAllListener(() => this.cardView.renderedCards);
-    this.wpTableSelection.registerDeselectAllListener();
+    this.unregisterSelectAll = registerWorkPackageSelectAll({
+      root: this.container.nativeElement,
+      focusSelector: '.op-wp-single-card',
+      occurrenceSelector: 'wp-single-card[data-work-package-id][data-class-identifier]',
+      rendered: () => this.cardView.renderedCards,
+      selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
+    });
+    this.unregisterDeselectAll = registerWorkPackageDeselectAll({
+      root: this.container.nativeElement,
+      hasState: () => this.wpTableSelection.hasSelectionState,
+      clear: () => this.wpTableSelection.reset(),
+    });
   }
 
   ngOnDestroy():void {
+    this.unregisterSelectAll?.();
+    this.unregisterSelectAll = undefined;
+    this.unregisterDeselectAll?.();
+    this.unregisterDeselectAll = undefined;
     super.ngOnDestroy();
     this.cardDragDrop.destroy();
   }

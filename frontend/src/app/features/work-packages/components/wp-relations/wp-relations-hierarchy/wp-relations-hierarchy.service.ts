@@ -28,7 +28,6 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
-import { StateService } from '@uirouter/core';
 import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -37,7 +36,6 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
-  protected $state = inject(StateService);
   protected states = inject(States);
   protected halEvents = inject(HalEventsService);
   protected notificationService = inject(WorkPackageNotificationService);
@@ -115,24 +113,6 @@ export class WorkPackageRelationsHierarchyService {
 
           return wp;
         }));
-  }
-
-  public addNewChildWp(baseRoute:string, workPackage:WorkPackageResource) {
-    workPackage.project.$load()
-      .then(() => {
-        const args = [
-          `${baseRoute}.new`,
-          {
-            parent_id: workPackage.id,
-          },
-        ];
-
-        if (this.$state.includes('work-packages.show')) {
-          args[0] = 'work-packages.new';
-        }
-
-        (this.$state as any).go(...args);
-      });
   }
 
   public removeChild(childWorkPackage:WorkPackageResource) {

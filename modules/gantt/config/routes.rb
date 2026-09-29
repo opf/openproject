@@ -6,9 +6,11 @@ Rails.application.routes.draw do
         get "menu" => "gantt/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
 
-        # states managed by client-side routing on work_package#index
-        get "(/*state)" => "gantt/gantt#index", as: ""
-        get "/create_new" => "gantt/gantt#index", as: "new_split"
+        get "details/:work_package_id(/:tab)" => "gantt/gantt#split_view", as: :details,
+            defaults: { tab: "overview" }, work_package_split_view: true,
+            constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
+
+        get "/create_new" => "gantt/gantt#split_create", as: "new_split", work_package_split_create: true
       end
     end
   end
@@ -17,10 +19,12 @@ Rails.application.routes.draw do
     collection do
       get "/export_dialog" => "work_packages#export_dialog"
 
-      # states managed by client-side routing on work_package#index
-      get "details/*state" => "gantt/gantt#index", as: :details
+      get "details/:work_package_id(/:tab)" => "gantt/gantt#split_view", as: :details,
+          defaults: { tab: "overview" }, work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
-      # states managed by client-side (angular) routing on work_package#show
+      get "/create_new" => "gantt/gantt#split_create", as: "new_split", work_package_split_create: true
+
       get "/" => "gantt/gantt#index", as: "index"
     end
   end

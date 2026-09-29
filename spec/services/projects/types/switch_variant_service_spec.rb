@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants: true } do
+RSpec.describe Projects::Types::SwitchVariantService do
   subject(:service_call) { described_class.new(user:, model: project).call(source:, target:) }
 
   let(:user) { create(:admin) }

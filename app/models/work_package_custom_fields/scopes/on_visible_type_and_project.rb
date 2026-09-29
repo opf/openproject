@@ -52,7 +52,7 @@ module WorkPackageCustomFields::Scopes
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
         source_join, source_variant_id, excluded =
-          TypeVariant::FormConfigurationSql.remap("pt.variant_id")
+          TypeVariant.effective_configuration_join("pt.variant_id", TypeVariant::FORM_CONFIGURATION)
         exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
         where(<<~SQL.squish)

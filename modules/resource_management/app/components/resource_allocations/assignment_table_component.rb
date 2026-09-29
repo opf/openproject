@@ -59,7 +59,7 @@ module ResourceAllocations
 
     # Scopes this table's column sizing (see assignment_table_component.sass)
     # without touching the shared border-box grid defaults used by other tables.
-    def container_class = "op-staffing-list"
+    def container_class = "op-staffing-list mb-4"
 
     def mobile_title
       I18n.t("resource_management.staffing.title")
