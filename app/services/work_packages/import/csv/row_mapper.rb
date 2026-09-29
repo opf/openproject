@@ -48,16 +48,12 @@ module WorkPackages
         class Unresolvable < StandardError; end
         private_constant :Unresolvable
 
-        def initialize(project:)
+        # @param rows [Array<Parser::Row>] every row the mapper will be handed, so the users they
+        #   name are resolved in one query rather than one per row
+        def initialize(project:, rows: [])
           @project = project
-        end
 
-        def prime(rows)
-          mails = unresolved_mails(rows)
-          return if mails.empty?
-
-          found = assignable.where("LOWER(mail) IN (?)", mails).index_by { |user| user.mail.downcase }
-          mails.each { |mail| users[mail] = found[mail] }
+          cache_users_named_in(rows)
         end
 
         # @return [Hash] attribute name => the values that would have been accepted, for the
@@ -85,6 +81,14 @@ module WorkPackages
         private
 
         attr_reader :project
+
+        def cache_users_named_in(rows)
+          mails = mails_named_in(rows)
+          return if mails.empty?
+
+          found = assignable.where("LOWER(mail) IN (?)", mails).index_by { |user| user.mail.downcase }
+          mails.each { |mail| users[mail] = found[mail] }
+        end
 
         def resolve_cell(row, attribute, raw)
           resolve(attribute, raw)
@@ -192,9 +196,9 @@ module WorkPackages
 
         def normalized_mail(raw) = raw.presence&.strip&.downcase.presence
 
-        def unresolved_mails(rows)
+        def mails_named_in(rows)
           rows.flat_map { |row| MAIL_COLUMNS.map { |attribute| normalized_mail(row.values[attribute]) } }
-              .compact.uniq - users.keys
+              .compact.uniq
         end
 
         def date(raw)

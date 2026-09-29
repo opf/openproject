@@ -96,8 +96,7 @@ module WorkPackages
         end
 
         def import(rows)
-          mapper = RowMapper.new(project:)
-          mapper.prime(rows)
+          mapper = RowMapper.new(project:, rows:)
 
           progress = Progress.new(created_count: 0, counts_by_attribute: {}, problems: [],
                                   account_ids: Set.new, dated_count: 0, created_ids: [])
