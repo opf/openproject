@@ -194,7 +194,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         expect_flash(message: "Successful creation.")
 
         within("#content") do
-          expect(page).to have_css(".custom-option", count: 6)
+          expect(page).to have_css(".resource-value", count: 6)
         end
       end
     end
