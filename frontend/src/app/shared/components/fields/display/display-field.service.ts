@@ -33,8 +33,8 @@ import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fields/field.service';
 import {
-  MultipleLinesCustomOptionsDisplayField,
-} from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
+  MultipleLinesResourcesDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/multiple-lines-resources-display-field.module';
 import {
   MultipleLinesUserFieldModule,
 } from 'core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module';
@@ -118,12 +118,12 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
       return new MultipleLinesHierarchyItemDisplayField(fieldName, context);
     }
     if (context.container === 'single-view' && isMultilineHierarchyItemsField && !allowsNesting) {
-      return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
+      return new MultipleLinesResourcesDisplayField(fieldName, context);
     }
 
     const isVersionMultiLinesField = ['[]Version'].includes(schema.type);
     if (context.container === 'single-view' && isVersionMultiLinesField) {
-      return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
+      return new MultipleLinesResourcesDisplayField(fieldName, context);
     }
     const isUserMultiLinesField = ['[]User'].includes(schema.type);
     if (context.container === 'single-view' && isUserMultiLinesField && !this.fieldType(fieldName)) {
