@@ -29,6 +29,7 @@
 #++
 
 class FormConfiguration < ApplicationRecord
+  include WorkPackageTypes::NamedReference
   include ::Type::AttributeGroups
 
   has_many :type_variants, dependent: :restrict_with_error, inverse_of: :form_configuration
@@ -45,26 +46,11 @@ class FormConfiguration < ApplicationRecord
            dependent: nil
   has_many :custom_fields, through: :custom_field_memberships
 
-  validates :name, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
-  validates :description, length: { maximum: 255 }
+  validates :name, uniqueness: { case_sensitive: false }
 
   after_save :persist_staged_attribute_groups
 
   delegate :default_attribute_groups, :work_package_attributes, to: :neutral_variant
-
-  def self.implicit_name(source)
-    base = source.to_s.strip.presence
-    available_name(base && I18n.t("forms.name.implicit", name: base))
-  end
-
-  def self.available_name(base)
-    base = base.to_s.strip.presence || I18n.t("forms.name.fallback")
-    return base unless exists?(["LOWER(name) = LOWER(?)", base])
-
-    suffix = 2
-    suffix += 1 while exists?(["LOWER(name) = LOWER(?)", "#{base} (#{suffix})"])
-    "#{base} (#{suffix})"
-  end
 
   def stored_attribute_groups
     return if new_record?
