@@ -43,9 +43,8 @@ module Backlogs::Concerns
       # another active sprint that isn't shared with (and is thus invisible to)
       # @project, which would still block starting a sprint it owns.
       @active_sprints = Sprint.active.where(project_id: @sprints.map(&:project_id).uniq)
-
-      @work_packages_by_sprint_id = WorkPackage
-                                      .where(sprint: @sprints, project: @project)
+      @work_packages_by_sprint_id = backlog_query_builder
+                                      .build_sprint_work_packages(sprint_ids: @sprints.pluck(:id))
                                       .includes(:type, :status, :assigned_to, :priority, :parent)
                                       .order_by_position
                                       .group_by(&:sprint_id)
@@ -58,10 +57,19 @@ module Backlogs::Concerns
       # This has the drawback of loading more work packages than are displayed in the inbox as pagination
       # will only show the top 50 and lowest 10 work packages.
       # But doing only a single query (+ includes) to the database has its benefits, and currently this seems quicker.
-      @work_packages_by_backlog_id = WorkPackage
-                                       .in_backlog_for(project: @project)
+      bucket_ids = @backlog_buckets.pluck(:id)
+      show_inbox = backlog_filters.show_inbox?
+
+      @work_packages_by_backlog_id = backlog_query_builder
+                                       .build_backlog_work_packages(bucket_ids:, show_inbox:)
                                        .includes(:type, :status, :assigned_to, :priority, :parent)
                                        .group_by(&:backlog_bucket_id)
+    end
+
+    private
+
+    def backlog_query_builder
+      @backlog_query_builder ||= Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:)
     end
   end
 end

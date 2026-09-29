@@ -21,6 +21,11 @@
 #++
 ---
 fi:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Tallenna raportti nimellä...
   comments: Kommentti
   cost_reports_title: Työaika ja kustannukset
@@ -46,7 +51,6 @@ fi:
   label_closed: suljettu
   label_columns: Sarakkeet
   label_cost_entry_attributes: Kustannussyötön parametrit
-  label_cost_report: Kustannusraportti
   label_cost_report_plural: Kustannusraportit
   label_count: Määrä
   label_days_ago: viimeisen päivien aikana

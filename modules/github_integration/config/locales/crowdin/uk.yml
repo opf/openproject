@@ -21,6 +21,33 @@
 #++
 ---
 uk:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Перевірка статусу розгортання
+        few: Перевірки статусу розгортання
+        many: Перевірки статусу розгортання
+        other: Перевірки статусу розгортання
+      deploy_target:
+        one: Ціль розгортання
+        few: Цілі розгортання
+        many: Цілі розгортання
+        other: Цілі розгортання
+      github_check_run:
+        one: Запуск перевірки GitHub
+        few: Запуски перевірок GitHub
+        many: Запуски перевірок GitHub
+        other: Запуски перевірок GitHub
+      github_pull_request:
+        one: Запит на включення GitHub
+        few: Запити на включення GitHub
+        many: Запити на включення GitHub
+        other: Запити на включення GitHub
+      github_user:
+        one: Користувач GitHub
+        few: Користувачі GitHub
+        many: Користувачі GitHub
+        other: Користувачі GitHub
   attributes:
     additions_count: Кількість додавань
     changed_files_count: Змінені файли

@@ -37,7 +37,6 @@ import { Injector } from '@angular/core';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 export const tdClassName = 'wp-table--cell-td';

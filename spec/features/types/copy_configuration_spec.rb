@@ -36,8 +36,8 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
   shared_let(:admin) { create(:admin) }
   shared_let(:source) do
     create(:type, name: "Feature").tap do |source_type|
-      source_type.attribute_groups = [["Copied group", %w[assignee]]]
-      source_type.save!
+      source_type.default_variant.attribute_groups = [["Copied group", %w[assignee]]]
+      source_type.default_variant.save!
     end
   end
   shared_let(:type) { create(:type, name: "Mobile app bug") }
@@ -47,10 +47,10 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
   it "copies the configuration through the dialog and danger confirmation and reloads in place" do
     visit edit_type_form_configuration_path(type_id: type.id)
 
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     expect(page).to have_no_text("Copied group")
 
-    click_on "Copy from type"
+    click_on "Copy from another type"
 
     expect(page).to have_text("Copy configuration")
     select_autocomplete(page.find('[data-test-selector="configuration-copy-source"]'),
@@ -70,13 +70,13 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
 
     # The surrounding turbo frame reloads in place with the copied configuration.
     expect(page).to have_text("Copied group")
-    expect(type.reload.attribute_groups.map(&:key)).to eq(["Copied group"])
+    expect(type.default_variant.reload.attribute_groups.map(&:key)).to eq(["Copied group"])
   end
 
   it "does not copy anything when the danger confirmation is dismissed" do
     visit edit_type_form_configuration_path(type_id: type.id)
 
-    click_on "Copy from type"
+    click_on "Copy from another type"
     select_autocomplete(page.find('[data-test-selector="configuration-copy-source"]'),
                         query: "Feature",
                         select_text: "Feature")
@@ -87,6 +87,6 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
 
     expect(page).to have_no_text("Copy configuration?")
     expect(page).to have_no_text("Copied group")
-    expect(type.reload.read_attribute(:attribute_groups)).to be_empty
+    expect(type.default_variant.reload.read_attribute(:attribute_groups)).to be_empty
   end
 end

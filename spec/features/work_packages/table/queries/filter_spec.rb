@@ -270,7 +270,7 @@ RSpec.describe "filter work packages", :js do
     let(:type) do
       type = create(:type)
 
-      project.types << type
+      project.project_types.create!(type:)
 
       type
     end
@@ -293,7 +293,7 @@ RSpec.describe "filter work packages", :js do
       cf = create(:list_wp_custom_field)
 
       project.work_package_custom_fields << cf
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
 
       cf
     end
@@ -353,7 +353,7 @@ RSpec.describe "filter work packages", :js do
     let(:type) do
       type = create(:type)
 
-      project.types << type
+      project.project_types.create!(type:)
 
       type
     end
@@ -376,7 +376,7 @@ RSpec.describe "filter work packages", :js do
       cf = create(:string_wp_custom_field)
 
       project.work_package_custom_fields << cf
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
 
       cf
     end

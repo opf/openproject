@@ -141,9 +141,9 @@ RSpec.describe(
       copied_work_package
     end
 
-    describe "the variant a family resolves to", with_flag: { type_variants: true } do
+    describe "the variant a type resolves to", with_flag: { type_variants: true } do
       shared_let(:root_type) { create(:type, name: "Copied root") }
-      shared_let(:variant) { create(:type, name: "Copied variant", parent: root_type) }
+      shared_let(:variant) { create(:type_variant, type: root_type, variant_name: "Copied variant") }
 
       before { source.project_types.create!(type: root_type, variant:) }
 
@@ -153,7 +153,7 @@ RSpec.describe(
         copied = project_copy.project_types.find_by(type: root_type)
 
         expect(copied.variant).to eq(variant)
-        expect(copied.effective_type).to eq(variant)
+        expect(copied.variant).to eq(variant)
       end
 
       it "keeps the copy pointing at its own project" do
@@ -165,14 +165,14 @@ RSpec.describe(
       context "when the caller names the types itself" do
         shared_let(:other_type) { create(:type, name: "Chosen type") }
 
-        let(:target_project_params) { { "name" => "Copy", "identifier" => "copy", "type_ids" => [other_type.id] } }
+        let(:target_project_params) do
+          { "name" => "Copy", "identifier" => "copy", "project_types" => [ProjectType.new(type: other_type)] }
+        end
 
-        # project_types and type_ids write the same rows, so the source's must stand aside
-        # rather than compete with what the caller asked for.
         it "uses the caller's types instead of the source's" do
           expect(subject).to be_success
 
-          expect(project_copy.types).to contain_exactly(other_type)
+          expect(project_copy.enabled_types).to contain_exactly(other_type)
         end
       end
     end
@@ -475,7 +475,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.types).to eq source.types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active
@@ -1149,7 +1149,7 @@ RSpec.describe(
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
               source.work_package_custom_fields << cf
-              work_package.type.custom_fields << cf
+              work_package.type.default_variant.custom_fields << cf
             end
           end
 
@@ -1322,7 +1322,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.types).to eq source.types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active

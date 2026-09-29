@@ -32,81 +32,60 @@ require "spec_helper"
 
 RSpec.describe ProjectType do
   shared_let(:project) { create(:project) }
-  shared_let(:root) { create(:type, name: "Bug") }
-  shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+  shared_let(:bug) { create(:type, name: "Bug") }
+  shared_let(:variant) { create(:type_variant, type: bug, variant_name: "Mobile") }
 
   describe "validations" do
-    it "is valid using a root without a variant" do
-      expect(build(:project_type, project:, type: root)).to be_valid
+    it "is valid using a type's base variant" do
+      expect(build(:project_type, project:, type: bug, variant: bug.default_variant)).to be_valid
     end
 
-    it "is valid using a root with one of its variants" do
-      expect(build(:project_type, project:, type: root, variant:)).to be_valid
+    it "is valid using one of the type's named variants" do
+      expect(build(:project_type, project:, type: bug, variant:)).to be_valid
     end
 
-    it "rejects a variant of another family" do
-      other_variant = create(:type, name: "Blocker", parent: create(:type, name: "Risk"))
-      project_type = build(:project_type, project:, type: root, variant: other_variant)
+    it "falls back to the type's base variant when none is named" do
+      project_type = build(:project_type, project:, type: bug, variant: nil)
+
+      expect(project_type).to be_valid
+      expect(project_type.variant).to eq(bug.default_variant)
+    end
+
+    it "requires a variant when there is no type to take one from" do
+      project_type = build(:project_type, project:, type: nil, variant: nil)
 
       expect(project_type).not_to be_valid
-      expect(project_type.errors).to be_of_kind(:variant, :must_belong_to_the_type)
+      expect(project_type.errors).to be_of_kind(:variant, :blank)
     end
 
-    it "rejects a root as the variant" do
-      project_type = build(:project_type, project:, type: root, variant: root)
+    it "rejects a variant of another type" do
+      other = create(:type_variant, type: create(:type, name: "Risk"), variant_name: "Blocker")
+      project_type = build(:project_type, project:, type: bug, variant: other)
 
       expect(project_type).not_to be_valid
       expect(project_type.errors).to be_of_kind(:variant, :must_belong_to_the_type)
     end
 
     it "uses a type at most once per project" do
-      create(:project_type, project:, type: root)
-      duplicate = build(:project_type, project:, type: root, variant:)
+      create(:project_type, project:, type: bug)
+      duplicate = build(:project_type, project:, type: bug, variant:)
 
       expect(duplicate).not_to be_valid
       expect(duplicate.errors).to be_of_kind(:type_id, :taken)
     end
 
     it "uses the same type in another project" do
-      create(:project_type, project:, type: root)
+      create(:project_type, project:, type: bug)
 
-      expect(build(:project_type, project: create(:project), type: root)).to be_valid
-    end
-
-    it "rejects a variant as the type" do
-      project_type = build(:project_type, project:, type: variant)
-
-      expect(project_type).not_to be_valid
-      expect(project_type.errors).to be_of_kind(:type, :must_be_a_root_type)
-    end
-
-    it "rejects a variant assigned as a raw type_id" do
-      project_type = build(:project_type, project:, type_id: variant.id)
-
-      expect(project_type).not_to be_valid
-      expect(project_type.errors).to be_of_kind(:type, :must_be_a_root_type)
+      expect(build(:project_type, project: create(:project), type: bug)).to be_valid
     end
   end
 
-  describe "#effective_type" do
-    it "is the variant when the project resolves to one" do
-      expect(build(:project_type, type: root, variant:).effective_type).to eq(variant)
-    end
+  describe "dropping a variant in use" do
+    it "is refused" do
+      create(:project_type, project:, type: bug, variant:)
 
-    it "is the root when it does not" do
-      expect(build(:project_type, type: root).effective_type).to eq(root)
-    end
-  end
-
-  describe "dropping a variant" do
-    it "degrades the project to the root rather than removing the type" do
-      project_type = create(:project_type, project:, type: root, variant:)
-
-      variant.destroy!
-
-      expect(project_type.reload.variant).to be_nil
-      expect(project_type.type).to eq(root)
-      expect(project_type.effective_type).to eq(root)
+      expect { variant.destroy! }.to raise_error(ActiveRecord::RecordNotDestroyed)
     end
   end
 end

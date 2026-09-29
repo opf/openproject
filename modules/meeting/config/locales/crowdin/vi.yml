@@ -54,6 +54,8 @@ vi:
         position: Position
         presenter: Người trình bày
         title: tiêu đề
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: đã tham dự
         invited: Đã mời
@@ -97,11 +99,20 @@ vi:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: Cuộc gặp gỡ một lần
-      meeting_agenda: Các ý chính
-      meeting_agenda_item: Mục chương trình nghị sự
-      meeting_section: phần
-      recurring_meeting: Cuộc họp định kỳ
+      meeting:
+        other: One-time meetings
+      meeting_agenda_item:
+        other: Agenda items
+      meeting_outcome:
+        other: Outcomes
+      meeting_participant:
+        other: Meeting participants
+      meeting_section:
+        other: Sections
+      recurring_meeting:
+        other: Recurring meetings
+      scheduled_meeting:
+        other: Scheduled meetings
       token/ical_meeting:
         other: Đăng ký cuộc họp iCal
   activity:
@@ -250,7 +261,6 @@ vi:
   label_past_meetings: Các cuộc họp trước đây
   label_past_meetings_short: quá khứ
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Cuộc họp định kỳ
   label_recurring_meeting_cancel: Hủy lần xuất hiện này
   label_recurring_meeting_create: mở
   label_recurring_meeting_delete: Xóa lần xuất hiện

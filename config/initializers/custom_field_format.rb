@@ -31,10 +31,12 @@
 OpenProject::CustomFieldFormat.tap do |formats|
   formats.register("string",
                    label: :label_string,
+                   length_limits_possible: true,
                    order: 1)
   formats.register("text",
                    label: :label_text,
                    order: 2,
+                   length_limits_possible: true,
                    formatter: "CustomValue::FormattableStrategy")
   formats.register("link",
                    label: :label_link_url,
@@ -44,10 +46,12 @@ OpenProject::CustomFieldFormat.tap do |formats|
   formats.register("int",
                    label: :label_integer,
                    order: 4,
+                   numeric_bounds_possible: true,
                    formatter: "CustomValue::IntStrategy")
   formats.register("float",
                    label: :label_float,
                    order: 5,
+                   numeric_bounds_possible: true,
                    formatter: "CustomValue::FloatStrategy")
   formats.register("list",
                    label: :label_list,

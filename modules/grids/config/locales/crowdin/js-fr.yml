@@ -35,9 +35,9 @@ fr:
         project_timeline:
           accessible_date_range: Du %{start} au %{end}
           accessible_gate: 'Porte de phase %{name} : %{date}'
-          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_milestone: 'Jalon %{name} : %{date}'
           accessible_phase: 'Phase %{name} : %{date}'
-          accessible_sprint: 'Sprint %{name}: %{date}. Statut : %{status}'
+          accessible_sprint: 'Sprint %{name} : %{date}. Statut : %{status}'
           sprint_status:
             active: Actif
             completed: Terminé

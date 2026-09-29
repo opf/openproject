@@ -33,6 +33,7 @@ require "spec_helper"
 RSpec.describe "type export configuration tab", :js do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
 
   let!(:project) { create(:project, types: [type]) }
 
@@ -73,34 +74,34 @@ RSpec.describe "type export configuration tab", :js do
   it "disables/enables all" do
     click_link(I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_disable_all"))
     wait_for_reload
-    type.reload
-    expect(type.pdf_export_templates.list_enabled.length).to eq(0)
+    variant.reload
+    expect(variant.pdf_export_templates.list_enabled.length).to eq(0)
     click_link(I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_enable_all"))
     wait_for_reload
-    type.reload
-    expect(type.pdf_export_templates.list_enabled.length).to eq(type.pdf_export_templates.list.length)
+    variant.reload
+    expect(variant.pdf_export_templates.list_enabled.length).to eq(variant.pdf_export_templates.list.length)
   end
 
   it "disables/enables one" do
-    first = type.pdf_export_templates.list_enabled.first
+    first = variant.pdf_export_templates.list_enabled.first
     within_pdf_export_template_container(first) do
       expect_checked_state(first)
       toggle_pdf_export_template(first)
       expect_unchecked_state(first)
       wait_for_reload
-      type.reload
-      expect(type.pdf_export_templates.list.first.enabled).to be(false)
+      variant.reload
+      expect(variant.pdf_export_templates.list.first.enabled).to be(false)
       toggle_pdf_export_template(first)
       expect_checked_state(first)
       wait_for_reload
-      type.reload
-      expect(type.pdf_export_templates.list.first.enabled).to be(true)
+      variant.reload
+      expect(variant.pdf_export_templates.list.first.enabled).to be(true)
     end
   end
 
   it "reorders by drag and drop" do
-    first_id = type.pdf_export_templates.list_enabled.first.id
-    second_id = type.pdf_export_templates.list_enabled[1].id
+    first_id = variant.pdf_export_templates.list_enabled.first.id
+    second_id = variant.pdf_export_templates.list_enabled[1].id
     Pages::Page.new.drag_and_drop_list(
       from: 0,
       to: 1,
@@ -109,8 +110,8 @@ RSpec.describe "type export configuration tab", :js do
     )
     wait_for_network_idle
 
-    type.reload
-    expect(type.pdf_export_templates.list[1].id).to eq(first_id)
-    expect(type.pdf_export_templates.list.first.id).to eq(second_id)
+    variant.reload
+    expect(variant.pdf_export_templates.list[1].id).to eq(first_id)
+    expect(variant.pdf_export_templates.list.first.id).to eq(second_id)
   end
 end

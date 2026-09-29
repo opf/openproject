@@ -27,9 +27,6 @@
 //++
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  afterAll, describe, expect, it,
-} from 'vitest';
 import * as Turbo from '@hotwired/turbo';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 

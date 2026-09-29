@@ -713,6 +713,20 @@ RSpec.describe CustomStylesController do
       end
     end
 
+    describe "#update_themes", with_ee: %i[define_custom_style] do
+      let!(:custom_style) { create(:custom_style) }
+
+      before do
+        post :update_themes, params: { theme: "OpenProject Gray", tab: :branding }
+      end
+
+      it "updates the theme and redirects to the selected tab" do
+        expect(custom_style.reload.theme).to eq("OpenProject Gray")
+        expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
+        expect(response).to redirect_to(action: :show, tab: :branding)
+      end
+    end
+
     describe "update with export font uploads", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style) }
       let(:font_file) { Rack::Test::UploadedFile.new(Rails.public_path.join("fonts/noto-emoji/NotoEmoji.ttf"), "font/ttf") }

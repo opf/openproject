@@ -21,6 +21,11 @@
 #++
 ---
 hu:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Mentés másként...
   comments: Megjegyzés
   cost_reports_title: Idő és költség
@@ -46,7 +51,6 @@ hu:
   label_closed: lezárt
   label_columns: Oszlopok
   label_cost_entry_attributes: Költség tétel attribútumok
-  label_cost_report: Költség jelentés
   label_cost_report_plural: Költség jelentések
   label_count: Darabszám
   label_days_ago: az elmúlt napokban

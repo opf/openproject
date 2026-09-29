@@ -43,6 +43,13 @@ sv:
           invalid_claims_location: 'innehåller platser som inte stöds: %{invalid}. Platser som stöds: %{supported}.'
           invalid_claims_values: definierar inte en matris vid %{attribute}.
           non_object_attribute: definierar inte ett JSON-objekt vid %{attribute}.
+    models:
+      openid_connect/provider:
+        one: OpenID Connect-leverantör
+        other: OpenID Connect-leverantörer
+      openid_connect/user_token:
+        one: OpenID Connect-token
+        other: OpenID Connect-token
   logout_warning: 'Du har loggats ut. Innehållet i alla formulär du skickar kan försvinna. Vänligen [logga in].
 
     '

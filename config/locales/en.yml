@@ -46,7 +46,6 @@ en:
         version: "A dynamic link to a version placed using a macro."
         view: "A dynamic link to a view placed using a macro."
         work_package: "A dynamic link to a work package placed using a macro."
-
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: "Delete account"
@@ -74,6 +73,8 @@ en:
       User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
       account for you or change the self registration limit for this provider.
     login_with_auth_provider: "or sign in with your existing account"
+    omniauth_direct_login_continue: "Continue to sign in"
+    omniauth_direct_login_redirecting: "Redirecting you to your identity provider…"
     omniauth_login: Please login to activate your account.
     signup_title: "Create an account in %{app_title}"
     signup_with_external_account: "Sign up with an external account"
@@ -87,6 +88,28 @@ en:
 
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: "Active"
+        injects_type_template: "Insert work package type template"
+        label: "Label"
+        prompt: "Prompt"
+        types: "Work package types"
+        usage_scope: "Scope"
+      ai/text_transform_run:
+        action: "Action"
+        cancel_requested: "Cancel requested"
+        error_message: "Error message"
+        finished_at: "Finished at"
+        input: "Input"
+        status: "Status"
+        system_prompt: "System prompt"
+        user: "User"
+        uuid: "UUID"
+      ai/text_transform_run_event:
+        kind: "Kind"
+        payload: "Payload"
+        run: "Run"
+        seq: "Sequence number"
       announcements:
         show_until: "Display until"
       attachment:
@@ -129,7 +152,9 @@ en:
         is_for_all: "For all projects"
         is_required: "Required"
         max_length: "Maximum length"
+        max_value: "Maximum value"
         min_length: "Minimum length"
+        min_value: "Minimum value"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
         regexp: "Regular expression"
@@ -247,6 +272,7 @@ en:
         project_creation_wizard_status_when_submitted: "Status when submitted"
         project_creation_wizard_work_package_comment: "Work package comment"
         project_creation_wizard_work_package_type: "Work package type"
+        project_types: "Types"
         public_value:
           false: "private"
           title: "Visibility"
@@ -266,6 +292,7 @@ en:
         templated_value:
           false: "unmarked as template"
           true: "marked as template"
+        type_variant: "Work package type variant"
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
@@ -286,6 +313,8 @@ en:
         start_gate_name: "Start phase gate name"
       project_custom_field:
         custom_field_section: Section
+      project_type:
+        variant: "Variant"
       query:
         child_work_packages: "Child work packages"
         column_names: "Columns"
@@ -353,18 +382,27 @@ en:
       token/named:
         token_name: "Token name"
       type:
-        attribute_groups: "Form configuration"
-        children: "Variants"
+        allow_project_variants: "Allow project-specific variants"
         color: "Color"
-        dependent_configuration_links: "Linked types"
-        description: "Default text for description"
-        is_default: "Activated for new projects by default"
         is_in_roadmap: "Displayed in roadmap by default"
         is_milestone: "Is milestone"
-        parent: "Parent type"
-        patterns: "Patterns"
+        project_types: "Projects"
+        variants: "Variants"
       type/configuration_link:
         source: "Source type"
+      type_variant:
+        attribute_groups: "Form"
+        default_work_package_description: "Default text for description"
+        defaults_source: "Defaults source"
+        enabled_in_new_projects: "Active in new projects"
+        form_configuration_source: "Form source"
+        patterns: "Patterns"
+        pdf_export_source: "PDF export source"
+        project_attributes_source: "Project attributes source"
+        project_types: "Projects using this variant"
+        variant: "Variant"
+        variant_name: "Name"
+        workflows_source: "Workflows source"
       user:
         admin: "Administrator"
         auth_source: "Authentication source"
@@ -463,6 +501,7 @@ en:
           true: "include non-working days"
         journal_internal: Internal Journal
         notify: "Notify" # used in custom actions
+        observed_in_versions: "Observed in versions"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -538,6 +577,8 @@ en:
         is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         ldap_managed: "This department is managed by LDAP synchronization and cannot be changed manually."
         less_than_or_equal_to: "must be less than or equal to %{count}."
+        migration_failed: "The variant could not be switched for project '%{project}': %{reason}"
+        migration_target_invalid: "The selected variant must be another variant of the same type that every affected project can use."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "is not a number."
@@ -559,7 +600,9 @@ en:
         regex_list_invalid: "Lines %{invalid_lines} could not be parsed as regular expression."
         regex_match_failed: "does not match the regular expression %{expression}."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
+        smaller_than_or_equal_to_max_value: "must be smaller than or equal to maximum value."
         ssrf_filtered: "violates the SSRF policy of this OpenProject instance."
+        status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
         system_wide_non_working_day_exists: "conflicts with an existing system-wide non-working day for this date."
         taken: "has already been taken."
         too_long: "is too long (maximum is %{count} characters)."
@@ -729,9 +772,8 @@ en:
               blank: "Please select a project."
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: "must be a top-level type. A project uses roots and resolves a variant separately."
             variant:
+              must_be_owned_by_the_project: "must not be a variant another project owns."
               must_belong_to_the_type: "must be a variant of the type the project uses."
         queries/filters/base:
           attributes:
@@ -804,6 +846,7 @@ en:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
               journal_aggregation_time_minutes_is_out_of_bounds: "Aggregation period must be between %{min} and %{max} minutes."
+              password_login_requires_sso_provider: "Password login restrictions require at least one available SSO provider."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
               working_days_are_missing: "At least one day of the week must be defined as a working day."
         status:
@@ -821,7 +864,7 @@ en:
               blank: "Please provide a token name"
               format: "%{message}"
               in_use: "This token name is already in use, please select a different one"
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: "Invalid work package attribute used."
@@ -829,17 +872,33 @@ en:
               duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
               group_without_name: "Group name can't be blank."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
-            parent:
-              cannot_be_self: "can't be the type itself."
-              cannot_change_while_used_by_projects: "can't be changed while projects still use this type."
-              cannot_have_children: "can't be set because this type already has variants."
-              must_be_a_root: "must itself be a top-level type. Types can only be nested one level deep."
-              standard_type_must_be_root: "can't be set for the standard type."
+            base:
+              borrowed_by_variants: "Cannot be deleted while its configuration is reused by %{names}."
+              is_default_variant: "The default configuration of a type cannot be deleted."
+              project_variants_not_allowed: "This type does not allow creation of variants inside projects."
+              restrict_dependent_destroy:
+                has_many: "Cannot be deleted while projects are still using it."
+            defaults_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
+              would_create_cycle: "would link these configurations in a loop."
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: "cannot be set on a variant a project owns."
+              taken: "is already set for another configuration of this type."
+            form_configuration_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
+              would_create_cycle: "would link these configurations in a loop."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
+              would_create_cycle: "would link these configurations in a loop."
+            project_attributes_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
+              would_create_cycle: "would link these configurations in a loop."
+            variant:
+              must_belong_to_the_type: "must be a variant of this type."
+            workflows_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:
@@ -948,6 +1007,9 @@ en:
             start_date:
               cannot_be_null: "can not be set to null as finish date and duration are known."
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+            status:
+              status_invalid_in_type: "is invalid because the current status does not exist in this type."
+              status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
             status_id:
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
@@ -963,70 +1025,315 @@ en:
           other: "%{count} errors prohibited this %{model} from being saved"
 
     models:
-      attachment: "File"
+      action:
+        one: "Action"
+        other: "Actions"
+      ai/text_transform_action:
+        one: "Text transform action"
+        other: "Text transform actions"
+      ai/text_transform_run:
+        one: "Text transform run"
+        other: "Text transform runs"
+      ai/text_transform_run_event:
+        one: "Text transform run event"
+        other: "Text transform run events"
+      announcement:
+        one: "Announcement"
+        other: "Announcements"
+      anonymous_user:
+        one: "Anonymous user"
+        other: "Anonymous users"
+      attachment:
+        one: "File"
+        other: "Files"
       attribute_help_text:
         one: "Attribute help text"
         other: "Attribute help texts"
+      attribute_help_text/project:
+        one: "Project attribute help text"
+        other: "Project attribute help texts"
+      attribute_help_text/user:
+        one: "User attribute help text"
+        other: "User attribute help texts"
+      attribute_help_text/work_package:
+        one: "Work package attribute help text"
+        other: "Work package attribute help texts"
       auth_provider:
         one: "Authentication provider"
         other: "Authentication providers"
-      category: "Category"
-      color: "Color"
-      comment: "Comment"
-      custom_action: "Custom action"
-      custom_field: "Custom field"
-      customized: "Customized"
-      "doorkeeper/application": "OAuth application"
+      backup:
+        one: "Backup"
+        other: "Backups"
+      capability:
+        one: "Capability"
+        other: "Capabilities"
+      category:
+        one: "Category"
+        other: "Categories"
+      change:
+        one: "File change"
+        other: "File changes"
+      changeset:
+        one: "Changeset"
+        other: "Changesets"
+      color:
+        one: "Color"
+        other: "Colors"
+      comment:
+        one: "Comment"
+        other: "Comments"
+      custom_action:
+        one: "Custom action"
+        other: "Custom actions"
+      custom_field:
+        one: "Custom field"
+        other: "Custom fields"
+      custom_field/hierarchy/item:
+        one: "Hierarchy item"
+        other: "Hierarchy items"
+      custom_field_section:
+        one: "Custom field section"
+        other: "Custom field sections"
+      custom_option:
+        one: "Custom field option"
+        other: "Custom field options"
+      custom_style:
+        one: "Design"
+        other: "Designs"
+      day:
+        one: "Day"
+        other: "Days"
+      deleted_user:
+        one: "Deleted user"
+        other: "Deleted users"
+      design_color:
+        one: "Design color"
+        other: "Design colors"
+      "doorkeeper/application":
+        one: "OAuth application"
+        other: "OAuth applications"
+      emoji_reaction:
+        one: "Emoji reaction"
+        other: "Emoji reactions"
       enterprise_token:
         one: "Enterprise token"
         other: "Enterprise tokens"
-      forum: "Forum"
-      global_role: "Global role"
-      group: "Group"
+      enterprise_trial:
+        one: "Enterprise trial"
+        other: "Enterprise trials"
+      enumeration:
+        one: "Enumeration"
+        other: "Enumerations"
+      export:
+        one: "Export"
+        other: "Exports"
+      export_setting:
+        one: "Export setting"
+        other: "Export settings"
+      forum:
+        one: "Forum"
+        other: "Forums"
+      global_role:
+        one: "Global role"
+        other: "Global roles"
+      group:
+        one: "Group"
+        other: "Groups"
+      group_custom_field:
+        one: "Group custom field"
+        other: "Group custom fields"
+      health_report:
+        one: "Health report"
+        other: "Health reports"
       issue_priority:
         one: "Priority"
         other: "Priorities"
-      jira:
-        one: "Jira"
-        other: "Jira"
-      meeting_participant: "Meeting participant"
-      member: "Member"
-      message: "Message"
-      news: "News"
+      ldap_auth_source:
+        one: "LDAP connection"
+        other: "LDAP connections"
+      mcp_configuration:
+        one: "MCP configuration"
+        other: "MCP configurations"
+      member:
+        one: "Member"
+        other: "Members"
+      menu_item:
+        one: "Menu item"
+        other: "Menu items"
+      menu_items/wiki_menu_item:
+        one: "Wiki menu item"
+        other: "Wiki menu items"
+      message:
+        one: "Message"
+        other: "Messages"
+      news:
+        one: "News"
+        other: "News"
+      non_working_day:
+        one: "Non-working day"
+        other: "Non-working days"
       notification:
         one: "Notification"
         other: "Notifications"
-      placeholder_user: "Placeholder user"
+      notification_setting:
+        one: "Notification setting"
+        other: "Notification settings"
+      oauth_client:
+        one: "OAuth client"
+        other: "OAuth clients"
+      oauth_client_token:
+        one: "OAuth client token"
+        other: "OAuth client tokens"
+      persisted_query:
+        one: "Persisted query"
+        other: "Persisted queries"
+      persisted_view:
+        one: "Persisted view"
+        other: "Persisted views"
+      placeholder_user:
+        one: "Placeholder user"
+        other: "Placeholder users"
+      plugin_auth_provider:
+        one: "Plugin authentication provider"
+        other: "Plugin authentication providers"
+      principal:
+        one: "Principal"
+        other: "Principals"
       project:
         one: "Project"
         other: "Projects"
+      project/phase:
+        one: "Project phase"
+        other: "Project phases"
+      project/phase_definition:
+        one: "Project phase definition"
+        other: "Project phase definitions"
+      project_custom_field:
+        one: "Project attribute"
+        other: "Project attributes"
+      project_custom_field_section:
+        one: "Project attribute section"
+        other: "Project attribute sections"
       project_query:
         one: "Project list"
         other: "Project lists"
-      query: "Custom query"
-      reminder: "Reminder"
+      project_query_role:
+        one: "Project list role"
+        other: "Project list roles"
+      project_role:
+        one: "Project role"
+        other: "Project roles"
+      query:
+        one: "Custom query"
+        other: "Custom queries"
+      relation:
+        one: "Relation"
+        other: "Relations"
+      reminder:
+        one: "Reminder"
+        other: "Reminders"
+      remote_identity:
+        one: "Remote identity"
+        other: "Remote identities"
+      repository:
+        one: "Repository"
+        other: "Repositories"
+      repository/git:
+        one: "Git repository"
+        other: "Git repositories"
+      repository/subversion:
+        one: "Subversion repository"
+        other: "Subversion repositories"
       role:
         one: "Role"
         other: "Roles"
       scim_client:
         one: "SCIM client"
         other: "SCIM clients"
-      status: "Work package status"
+      service_account:
+        one: "Service account"
+        other: "Service accounts"
+      sessions/user_session:
+        one: "Session"
+        other: "Sessions"
+      setting:
+        one: "Setting"
+        other: "Settings"
+      status:
+        one: "Work package status"
+        other: "Work package statuses"
+      system_user:
+        one: "System user"
+        other: "System users"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: "Access token"
+        other: "Access tokens"
+      token/base:
+        one: "Token"
+        other: "Tokens"
+      token/ical:
+        one: "iCalendar token"
+        other: "iCalendar tokens"
       token/rss:
         one: "RSS token"
         other: "RSS tokens"
       type:
         one: "Type"
         other: "Types"
-      user: "User"
-      version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki page"
-      work_package: "Work package"
-      workflow: "Workflow"
+      type_variant:
+        one: "Variant"
+        other: "Variants"
+      user:
+        one: "User"
+        other: "Users"
+      user_custom_field:
+        one: "User attribute"
+        other: "User attributes"
+      user_custom_field_section:
+        one: "User attribute section"
+        other: "User attribute sections"
+      user_non_working_time:
+        one: "Non-working time"
+        other: "Non-working times"
+      user_password:
+        one: "Password"
+        other: "Passwords"
+      user_preference:
+        one: "User preference"
+        other: "User preferences"
+      user_query:
+        one: "User list"
+        other: "User lists"
+      user_working_hours:
+        one: "Working hours"
+        other: "Working hours"
+      version:
+        one: "Version"
+        other: "Versions"
+      version_custom_field:
+        one: "Version custom field"
+        other: "Version custom fields"
+      view:
+        one: "View"
+        other: "Views"
+      wiki:
+        one: "Wiki"
+        other: "Wikis"
+      wiki_page:
+        one: "Wiki page"
+        other: "Wiki pages"
+      work_package:
+        one: "Work package"
+        other: "Work packages"
+      work_package_custom_field:
+        one: "Work package custom field"
+        other: "Work package custom fields"
+      work_package_role:
+        one: "Work package role"
+        other: "Work package roles"
+      workflow:
+        one: "Workflow"
+        other: "Workflows"
 
   activities:
     index:
@@ -1109,7 +1416,12 @@ en:
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
+      color_groups:
+        base_colors: "Base colors"
+        main_menu: "Main lateral menu"
+        top_header_colors: "Top header colors"
       color_theme: "Color theme"
+      color_theme_caption: "Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme."
       color_theme_custom: "(Custom)"
       colors:
         accent-color: "Accent"
@@ -1118,12 +1430,17 @@ en:
         main-menu-bg-selected-background: "Main menu when selected"
         primary-button-color: "Primary button"
       custom_colors: "Custom colors"
+      default_colors:
+        description: "Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type."
+      edit_color: "Edit %{color}"
       fonts:
         file_is_invalid: "is not a valid TTF font file."
         file_too_large: "is too large (maximum size is %{count} MB)."
       instructions:
         accent-color: "Color for links and other decently highlighted elements."
+        header-bg-color: "Default background color of the app header."
         main-menu-bg-color: "Left side menu's background color."
+        main-menu-bg-selected-background: "Background color of menu items when selected."
         primary-button-color: "Strong accent color, used for the most important button on a screen."
       manage_colors: "Edit color select options"
       tab_branding: "Branding"
@@ -1198,6 +1515,7 @@ en:
           Connection blocked: the Jira host resolves to a private IP address. If your Jira instance
           runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST
           environment variable.
+        unsupported_endpoint: "Jira API has no endpoint at %{path} (status %{status})"
       columns:
         added: "Added"
         creator: "Creator"
@@ -1239,6 +1557,43 @@ en:
           button_edit_configuration: "Edit configuration"
           button_import_run: "Import run"
           description: "You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing."
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: "Create custom fields"
+          JiraCreateProjectJob:
+            title: "Create project '%{jira_project_name}'"
+          JiraCreateProjectRoleJob:
+            title: "Create 'JiraMember' project role"
+          JiraCreateProjectVersionsJob:
+            title: "Create versions for '%{jira_project_name}'"
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: "Download work package attachments for '%{jira_project_name}'"
+          JiraCreateProjectWorkPackagesJob:
+            title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateUsersJob:
+            title: "Create users"
+          JiraFetchCustomFieldJob:
+            title: "Fetch custom fields"
+          JiraFetchIssueTypesJob:
+            title: "Fetch issue types"
+          JiraFetchPrioritiesJob:
+            title: "Fetch priorities"
+          JiraFetchProjectIssuesJob:
+            title: "Fetch issues for project '%{jira_project_name}'"
+          JiraFetchProjectVersionsJob:
+            title: "Fetch versions for project '%{jira_project_name}'"
+          JiraFetchProjectsJob:
+            title: "Fetch projects"
+          JiraFetchStatusesJob:
+            title: "Fetch statuses"
+          JiraFetchUsersJob:
+            title: "Fetch users"
+          JiraInstanceMetaDataJob:
+            title: "Fetching instance meta data"
+          JiraProjectsMetaDataJob:
+            title: "Fetching meta data about selected projects"
+          JiraRevertImportJob:
+            title: "Reverting this Jira import run"
         project_identifier_taken: "You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry."
         remove_error: "A Jira import run cannot be removed while it is running"
         side_panel:
@@ -1249,6 +1604,7 @@ en:
           finalizing: "Finalizing"
           finalizing_done: "Completed"
           finalizing_error: "Error during finalizing"
+          import_aborting: "Aborting"
           import_error: "Error during import"
           import_scope: "Select scope"
           imported: "Review mode"
@@ -1260,19 +1616,23 @@ en:
           projects_meta_done: "Data gathered"
           projects_meta_error: "Error fetching project data"
           projects_meta_fetching: "Fetching project data"
-          revert_cancelled: "Revert cancelled"
-          revert_cancelling: "Cancelling revert"
           revert_error: "Error during revert"
           reverted: "Reverted"
           reverting: "Reverting"
+        step_not_available: "This action is not available for the current state of the import run."
         title: "Import run"
         wizard:
+          application_trace: "Application trace"
+          button_abort: "Abort"
           button_retry: "Retry"
+          copy_application_trace: "Copy application trace"
+          copy_full_trace: "Copy full trace"
           finalize_dialog:
             confirm: "I understand that this action cannot be undone"
             confirm_button: "Understood"
             description: "Once approved, this import can no longer be reverted. All imported data will become permanent."
             title: "Approve this import?"
+          full_trace: "Full trace"
           groups:
             configuration:
               title: "Configure import"
@@ -1290,6 +1650,9 @@ en:
             issues:
               one: "1 issue"
               other: "%{count} issues"
+            jobs:
+              one: "1 job"
+              other: "%{count} jobs"
             projects:
               one: "1 project"
               other: "%{count} projects"
@@ -1311,11 +1674,14 @@ en:
             title: "Permanently revert this import?"
           sections:
             confirm_import:
+              button_importing: "Importing data"
+              button_revert: "Revert import"
               button_start: "Start import"
               caption: "Review your import settings and start the import"
               caption_done: "Completed"
               caption_done_info: "All data has been imported"
               description: "You are about to start an import run with the following settings."
+              info_importing: "The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run."
               label_available_data: "Data to be imported"
               label_import_data: "Currently importing"
               label_progress: "Import in progress..."
@@ -1336,6 +1702,7 @@ en:
               button_done: "Approve import"
               button_revert: "Revert import"
               caption: "Review import run or revert import"
+              info: 'The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.'
               label_finalize_import: "Approve import"
               label_finalizing: "Approving import..."
               label_finalizing_done: "Import approved."
@@ -1343,7 +1710,6 @@ en:
               label_revert: "Revert import"
               label_revert_progress: "Reverting import..."
               label_reverted: "Import reverted."
-              preview_description: 'The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.'
               stats:
                 other_settings:
                   label: "Other settings"
@@ -1376,6 +1742,7 @@ en:
                 issues: "Issues"
                 permissions: "Permissions"
                 project_ids: "Project identifiers"
+                project_versions: "Project versions"
                 projects: "Projects"
                 relations: "Relations between issues"
                 schemes: "Schemas"
@@ -1383,7 +1750,7 @@ en:
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
               label_coming_later: "Coming later"
-              label_coming_soon: "Coming soon (Q3 2026)"
+              label_coming_soon: "Coming soon"
               label_import: "Select which projects you would like to import."
               label_info: "Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now."
               label_progress: "Fetching data"
@@ -1397,6 +1764,38 @@ en:
             filter_projects: "Filter by text"
             info: "Only projects where the Jira token owner is member are selectable as import scope."
             title: "Select projects to import"
+          stage_discarded_label: "Error"
+          stage_in_progress_label: "Progress"
+          stage_job_error: "Error"
+          stage_succeeded_label: "Completed"
+          stages:
+            "1":
+              rest_line_text: ""
+              title: "Fetch Jira configuration"
+            "2":
+              rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
+              title: "Fetch project issues and versions"
+            "3":
+              rest_line_text: ""
+              title: "Fetch users and custom fields"
+            "4":
+              rest_line_text: ""
+              title: "Create users, groups and memberships"
+            "5":
+              rest_line_text: ""
+              title: "Create roles and custom fields"
+            "6":
+              rest_line_text: "Creating %{projects_number} more projects"
+              title: "Create projects"
+            "7":
+              rest_line_text: "Creating versions for %{projects_number} more projects"
+              title: "Create project versions"
+            "8":
+              rest_line_text: "Creating work packages for %{projects_number} more projects"
+              title: "Create work packages"
+            "9":
+              rest_line_text: "Downloading attachments for %{projects_number} more projects"
+              title: "Download attachments"
       test:
         api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and API token."
         connection_error: "Connection error: %{message}"
@@ -1621,6 +2020,41 @@ en:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    text_transform_actions:
+      delete_dialog_component:
+        description: "Users will no longer be able to run this action in the rich text editor."
+        heading: "Are you sure you want to delete the action \"%{label}\"?"
+        title: "Delete text transform action"
+      form:
+        injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
+        label_caption: "This is the name that will be visible to users in the editor."
+        select_types: "Select types"
+        types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
+        usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
+      index:
+        description: "Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions."
+        label_add_action: "Action"
+        label_aria_add_action: "Add text transform action"
+      index_component:
+        blank_slate:
+          description: "Add an action to see it here"
+          title: "No text transform actions configured yet"
+        disabled_warning: "Text transform actions are disabled. The following actions will not be available anywhere."
+        label_disable_all: "Disable all"
+        label_enable_all: "Enable all"
+        title: "Actions"
+      new:
+        title: "New text transform action"
+      row_component:
+        label_actions: "Action menu"
+        label_toggle: "Toggle %{label}"
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: "All work package types"
+        everywhere: "Everywhere"
+        specific_work_package_types: "Specific work package types"
     workflows:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
@@ -1783,6 +2217,7 @@ en:
     custom_field: "Custom field"
     custom_options: "Possible values"
     custom_values: "Custom fields"
+    customized: "Customized"
     date: "Date"
     dates_interval: "Date range"
     default_columns: "Default columns"
@@ -1810,6 +2245,7 @@ en:
     is_for_all: "For all projects"
     # kept for backwards compatibility
     issue: "Work package"
+    jira: "Jira"
     journal: "Journal"
     journal_notes: "Comment"
     lastname: "Last name"
@@ -1842,6 +2278,7 @@ en:
     start_date: "Start date"
     state: "State"
     status: "Status"
+    status_id: "Status"
     subject: "Subject"
     summary: "Summary"
     template: "Template"
@@ -2188,6 +2625,9 @@ en:
       min_max:
         all: "0 means no restriction"
         project: "0 means no restriction"
+      min_max_value:
+        all: "Leave blank for no restriction"
+        project: "Leave blank for no restriction"
       multi_select:
         all: "Allows the user to assign multiple values to this custom field."
         project: "Allows the user to assign multiple values to this attribute."
@@ -2392,8 +2832,12 @@ en:
   description_available_columns: "Available Columns"
   description_category_reassign: "Choose category"
   description_choose_project: "Projects"
-  description_compare_from: "Compare from"
-  description_compare_to: "Compare to"
+  description_compare_changeset_from: "Compare from changeset"
+  description_compare_changeset_to: "Compare to changeset"
+  description_compare_specific_version_from: "Compare from version %{version}"
+  description_compare_specific_version_to: "Compare to version %{version}"
+  description_compare_version_from: "Compare from version"
+  description_compare_version_to: "Compare to version"
   description_current_position: "You are here: "
   description_date_from: "Enter start date"
   description_date_to: "Enter end date"
@@ -2463,7 +2907,6 @@ en:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2538,14 +2981,12 @@ en:
         description: "Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists."
       customize_life_cycle:
         description: "Create and organize different project phases than the ones provided by PM2 project cycle planning."
-      date_alerts:
-        description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       define_custom_style:
         description: Customize your OpenProject installation with your own logo and colors.
         more_info: "Note: the used logo will be publicly accessible."
         title: "Custom color theme and logo"
       edit_attribute_groups:
-        description: "Customize form configuration with these additional add-ons:"
+        description: "Customize the form with these additional add-ons:"
         features:
           groups: "Add new attribute sections"
           related: "Add a table of related work packages"
@@ -2628,18 +3069,17 @@ en:
 
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
-  error_can_not_deactivate_type: "Unable to deactivate type %{type} because it's still in use by %{work_packages_link}"
   error_can_not_deactivate_type_invisible_projects: "There are also work packages in projects you cannot see."
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
   error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
-  error_can_not_delete_standard_type: "Standard types cannot be deleted."
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
+  error_can_not_remove_type_from_project: "Unable to remove \"%{name}\" from project \"%{project}\" because it's still in use by %{work_packages_link}"
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
@@ -2936,15 +3376,15 @@ en:
       community: "OpenProject community"
       new_features:
         # We need to include the version to invalidate outdated translations in other locales
-        "17_8":
+        "17_9":
           new_features_list:
-            line_0: "AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan)."
-            line_1: "Multiple target versions for work packages."
-            line_2: "Global limits and restrictions for time entries (Professional plan)."
-            line_3: "Agile improvements for bulk editing and dragging Backlogs cards to external applications."
-            line_4: "Wiki macros available in more text editors."
-            line_5: "Improved search for work package identifiers."
-            line_6: "Released to Community: Display relations in work package tables."
+            line_0: "Create work packages directly in Documents."
+            line_1: "Search and filter work packages in Backlogs."
+            line_2: "Choose whether to keep descendants when deleting a work package."
+            line_3: "Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan)."
+            line_4: "Enter planned labor in hours, days, weeks, or months."
+            line_5: "See the import progress when using the Jira Migrator."
+            line_6: "Use Date alerts in the Community Edition."
           new_features_title: >
             The release contains various new features and improvements, such as:
         header: "Read about new features and product updates."
@@ -2994,6 +3434,7 @@ en:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: "changes by %{author}"
+        migrated: "from Jira"
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -3134,7 +3575,6 @@ en:
   label_available_projects: "Available projects"
   label_backtrace: "Backtrace"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
   label_basic_details: "Basic details"
   label_between: "between"
   label_blocked_by: "blocked by"
@@ -3154,7 +3594,6 @@ en:
   label_calendar_show: "Show Calendar"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_calendars_and_dates: "Calendars and dates"
-  label_category: "Category"
   label_change_parent: "Change parent"
   label_change_password: "Change password"
   label_change_plural: "Changes"
@@ -3163,9 +3602,9 @@ en:
   label_change_status_of_user: "Change status of #{username}"
   label_change_view_all: "View all changes"
   label_changes_details: "Details of all changes"
-  label_changeset: "Changeset"
   label_changeset_id: "Changeset ID"
   label_changeset_plural: "Changesets"
+  label_changeset_versions: "Changeset versions"
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_checked: "checked"
@@ -3253,6 +3692,7 @@ en:
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_item: "(deleted item)"
   label_deleted_custom_option: "(deleted option)"
+  label_deleted_version: "(deleted version)"
   label_departments: "Organization"
   label_departments_description_html: >
     Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you
@@ -3312,6 +3752,7 @@ en:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
+  label_file: "File"
   label_file_plural: "Files"
   label_filter: "Filters"
   label_filter_add: "Add filter"
@@ -3322,7 +3763,6 @@ en:
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"
-  label_form_configuration: "Form configuration"
   label_formula: "Formula"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"
@@ -3336,7 +3776,6 @@ en:
   label_git_path: "Path to .git directory"
   label_global: "Global"
   label_global_modules: "Global modules"
-  label_global_role: "Global role"
   label_global_roles: "Global roles"
   label_go_back: "Go back one menu level"
   label_go_forward: "Open %{module} sub-menu"
@@ -3406,7 +3845,6 @@ en:
   label_last_week: "last week"
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
-  label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_ldap_authentication: "LDAP authentication"
@@ -3433,9 +3871,9 @@ en:
   label_me: "me"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: "New member"
+  label_member_of_group: "Member of group"
   label_member_of_project: "Member of project"
   label_member_plural: "Members"
-  label_member_role: "Project role"
   label_membership_added: "Member added"
   label_membership_plural: "Memberships"
   label_membership_updated: "Member updated"
@@ -3450,7 +3888,6 @@ en:
   label_message_new: "New message"
   label_message_plural: "Messages"
   label_message_posted: "Message added"
-  label_min_max_length: "Min - Max length"
   label_minute_plural: "minutes"
   label_missing_api_access_key: "Missing API access key"
   label_missing_feeds_access_key: "Missing RSS access key"
@@ -3548,7 +3985,6 @@ en:
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
-  label_placeholder_user: "Placeholder user"
   label_placeholder_user_new: "New placeholder user"
   label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planning"
@@ -3611,7 +4047,6 @@ en:
   label_related_work_packages: "Related work packages"
   label_relates: "related to"
   label_relates_to: "related to"
-  label_relation: "Relation"
   label_relation_actions: "Relation actions"
   label_relation_delete: "Delete relation"
   label_relation_edit: "Edit relation"
@@ -3664,7 +4099,6 @@ en:
   label_send_information: "Send new credentials to the user"
   label_send_invitation: Send invitation
   label_send_test_email: "Send a test email"
-  label_session: "Session"
   label_setting_plural: "Settings"
   label_share: "Share"
   label_share_project_list: "Share project list"
@@ -3740,7 +4174,6 @@ en:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: "Users and permissions"
   label_user_anonymous: "Anonymous"
@@ -3771,19 +4204,17 @@ en:
   label_week: "Week"
   label_weighted_item_list: "Weighted item list"
   label_what_is_this: "What is this?"
-  label_widget: "Widget"
   label_widget_new: "New widget"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
-  label_wiki_menu_item: Wiki menu item
   label_wiki_navigation: "Wiki navigation"
-  label_wiki_page: "Wiki page"
   label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_page_plural: "Wiki pages"
+  label_wiki_page_versions: "Wiki page versions"
   label_wiki_show_index_page_link: "Show submenu item 'Table of Contents'"
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
@@ -3800,7 +4231,6 @@ en:
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "New work package"
   label_work_package_plural: "Work packages"
-  label_work_package_status: "Work package status"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
   label_work_package_tracking: "Work package tracking"
@@ -4189,6 +4619,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
+      text_transform_actions: "Text transform actions"
     quick_add:
       label: "Add…"
 
@@ -4381,6 +4812,7 @@ en:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
+  notice_account_invalid_credentials_sso_hint: "If your account is set up for single sign-on, please use your identity provider to sign in instead."
   notice_account_invalid_token: Invalid activation token
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
@@ -4402,7 +4834,6 @@ en:
   notice_auth_stage_error: "Authentication stage '%{stage}' failed."
   notice_auth_stage_verification_error: "Could not verify stage '%{stage}'."
   notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
-  notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_bad_request: "Bad Request."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
@@ -4696,9 +5127,18 @@ en:
     prev: "Previous"
     prev_page: "Previous Page"
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -4708,6 +5148,12 @@ en:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -4727,7 +5173,7 @@ en:
       caption: Work package details rendered as a PMflex Artefact.
       label: "PMflex Artefact"
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: "Attributes and description"
     template_contract:
       caption: Work package details formatted to the standard German contract form.
@@ -4802,6 +5248,7 @@ en:
     Allows users to manage their own working times, and personal non-working days.
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_manage_project_activities: "Manage project activities"
+  permission_manage_project_variants: "Manage the project's own type variants"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_manage_public_project_queries: "Manage public project lists"
   permission_manage_public_queries: "Manage public views"
@@ -5120,24 +5567,42 @@ en:
           type_label: "Type"
           type_placeholder: "Select a type"
         add_type: "Add type"
+        add_variant: "Add a project-specific variant"
+        base_type_in_use: "Base type used in this project"
         empty_state:
           description: "Add a type to let people create work packages of that type in this project."
           title: "No types are active in this project"
         form:
           enable_type_in_project: 'Enable type "%{type}"'
         no_results_title_text: There are currently no types available.
+        project_specific_variant: "Project-specific variant"
         remove_from_project: "Remove from project"
-        switch_dialog:
+        switch:
           apply: "Apply"
-          description: "Select a different variant of this type to use in this project."
+          impact:
+            hidden_heading: "Fields that will no longer be shown"
+            missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on."
+            missing_statuses_heading: "Work packages that get stuck"
+            new_heading: "Fields that become available"
+            nothing_affected: "No fields or statuses are affected."
+            status_count:
+              one: "1 work package"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: "1 work package has a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: "1 work package will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: "The project now uses %{type}."
           target_label: "Variant"
           title: "%{type}: Switch variant"
-          warning: "If you switch variants, you might lose information associated with custom fields that might not be present in the new one."
-        switch_type: "Switch variant"
         type_not_found: "The selected type could not be found."
-        # Carries its own punctuation so locales can set their own spacing.
-        variant_prefix: "Variant:"
+        use_in_project: "Use in this project"
+        variant_in_use: "Variant in this project"
+        variant_label: "Variant"
+        variants_not_allowed: "This type does not allow creation of variants inside projects."
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.
@@ -5150,6 +5615,7 @@ en:
     wizard:
       create_artifact_storage_error: "Failed to store artefact in file storage"
       create_artifact_work_package_error: "Failed to create artefact work package"
+      no_custom_fields_html: 'This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.'
       no_help_text: "This attribute has no help text defined."
       progress_label: "%{current} of %{total}"
       sections: "Sections"
@@ -5313,6 +5779,12 @@ en:
         This role is configured as the default role given to non-admin users who create a project.
         Do not remove the following permissions, otherwise project creators will be unable to complete
         the setup of their newly created projects:
+    index:
+      filter_label: "Search roles"
+      types:
+        all: "All roles"
+        global: "Global roles"
+        project: "Project roles"
     permissions:
       section_check_all_label: "Assign all %{module} permissions"
       section_uncheck_all_label: "Unassign all %{module} permissions"
@@ -5342,6 +5814,7 @@ en:
     <br/>
     Example: %{example_code}
 
+  setting_ai_text_transform_actions_enabled: "Enable text transform actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.
@@ -5480,6 +5953,14 @@ en:
   setting_password_active_rules: "Password requirements"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
   setting_password_days_valid: "Number of days, after which to enforce a password change"
+  setting_password_login: "Password login"
+  setting_password_login_all: "Allow for everyone"
+  setting_password_login_all_caption: "Anyone with an internal password can sign in with it, including users linked to an identity provider."
+  setting_password_login_bypass_principal_ids: "Users and groups who may still use a password"
+  setting_password_login_except_sso: "Disallow for SSO users"
+  setting_password_login_except_sso_caption: "Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it."
+  setting_password_login_none: "Disallow for everyone"
+  setting_password_login_none_caption_html: "The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}."
   setting_password_min_length: "Minimum length"
   setting_per_page_options: "Objects per page options"
   setting_percent_complete_on_status_closed: "% Complete when status is closed"
@@ -5645,6 +6126,15 @@ en:
         <br/>
         <strong>Note:</strong> Unless you also disable password logins, with this option enabled,
         users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+      password_login_bypass_principal_ids_hint: >
+        Even when password login in disabled, these users and groups will be able to use their password to sign in.
+        This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will
+        be extended to all users in that group.
+      password_login_configured_by_environment: >
+        The following settings are configured through the environment and cannot be edited here:
+      password_login_requires_sso_provider: >
+        Password login restrictions are unavailable because no SSO provider is currently enabled.
+        Configure and enable an SSO provider before changing these settings.
       registration: "Registration"
       remapping_existing_users_hint: >
         If enabled, allows any configured identity provider to login existing users based on their username,
@@ -6159,24 +6649,28 @@ en:
 
   total_progress: "Total progress"
 
+  tree_view:
+    label_empty_sub_tree: "No items"
+
   types:
     creation_wizard:
+      add_variant: "Add a variant to %{name}"
       create_type: "Create type"
       create_variant: "Create variant"
       fields:
-        inherited_from_parent_html: "Inherited from parent type <b>%{parent}</b>."
+        variant_name_caption: "Names this configuration of %{type}. Work packages keep using %{type} itself."
       finish: "Finish"
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
       steps:
         defaults: "Defaults"
         details: "Details"
-        form_configuration: "Form configuration"
+        form_configuration: "Form"
         pdf: "PDF generation"
         project_attributes: "Project attributes"
         projects: "Projects"
         workflows: "Workflows"
-      success: "Variant created successfully."
+      success: "Created successfully."
     edit:
       breadcrumb_variant: "Variant: %{name}"
       defaults:
@@ -6201,8 +6695,11 @@ en:
             work_package: "Work package"
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: "For project administrators with the permission to manage variants, this type can be extended or modified within a project."
+        inherited_from_type_html: "Inherited from type <b>%{type}</b>."
         tab: "Details"
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: "This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members."
       export_configuration:
         artefact_export:
           attachment:
@@ -6228,15 +6725,19 @@ en:
           label: "PDF Export templates"
         tab: "Generate PDF"
         templates:
+          readonly_error: "Cannot be changed while linked to a source type."
           section_title: "PDF export templates"
+          settings:
+            edit_link: "Edit settings"
+            reset_to_default: "Reset to default"
+            title: "Settings: %{template}"
       form_configuration:
         add_attribute_group: "Section"
         add_query_group: "Related work packages table"
         blankslate_description: "Add groups using the button above or drag attributes from the left panel."
         blankslate_title: "No groups yet"
-        builtin_field: "Built-in field"
         confirm_delete_group: "Are you sure you want to delete this section? This action cannot be automatically reversed."
-        confirm_reset: "Are you sure you want to reset the form configuration?"
+        confirm_reset: "Are you sure you want to reset the form?"
         custom_field: "Custom field"
         delete_group: "Delete section"
         drag_to_activate: "Drag fields from here to activate them"
@@ -6251,25 +6752,41 @@ en:
         group_actions: "Section actions"
         group_name_label: "Section name"
         inactive_attributes_heading: "Inactive attributes"
-        invalid_attribute_groups: "The form configuration payload is invalid."
+        invalid_attribute_groups: "The form payload is invalid."
         invalid_query: "The embedded query configuration is invalid."
         label_group: "Section"
         no_inactive_attributes: "No inactive attributes"
-        not_found: "The requested form configuration item could not be found."
+        not_found: "The requested form item could not be found."
         query_group_label: "Related work packages table"
         remove_attribute: "Remove from section"
         rename_group: "Rename section"
         reset_description: >
           This will reset the attributes to their default group and disable ALL custom fields.
-        reset_title: "Reset form configuration"
+        reset_title: "Reset form"
         reset_to_defaults: "Reset form"
         row_actions: "Row actions"
-        tab: "Form configuration"
+        tab: "Form"
         untitled_group: "Untitled group"
+      overview:
+        configuration_mode: "Configuration mode"
+        dependents: "Dependent types and variants"
+        mode:
+          always_manual: "Always manual"
+          inheriting_from_html: "Inheriting from %{source_name}"
+          manual: "Manually configured"
+        settings: "Settings"
+        tab: "Overview"
       project_attributes:
         actions:
           label_disable_all: "Disable all"
           label_enable_all: "Enable all"
+        blankslate:
+          inherited:
+            description: "This type does not have any project attributes associated with it."
+            title: "No project attributes configured"
+          manual:
+            description: "Once you [create project attributes](administration_url), they will be visible here and can be added to a type."
+            title: "No project attributes available"
         description: "Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there."
         disabled: "Disabled"
         exclusions:
@@ -6277,6 +6794,17 @@ en:
         filter: "Search by section or name"
         tab: "Project attributes"
       projects:
+        actions:
+          confirm_remove: "Remove the type %{type} from %{project}?"
+          remove_from_project: "Remove from project"
+          switch_variant: "Change variant"
+        add_dialog:
+          no_projects_selected: "Please select at least one project."
+          search_placeholder: "Search projects"
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6288,32 +6816,76 @@ en:
             description_html: "By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
             title: "Copy configuration?"
           dialog:
-            description: "Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently."
-            source_label: "Copy source"
+            description: "Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source."
+            source_label: "Source type"
             source_placeholder: "Select a type or variant"
             submit: "Save and copy"
             title: "Copy configuration"
           invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
           success: "The configuration was copied."
+        dependents:
+          blank:
+            description: "No other type or variant inherits from this configuration"
+            title: "No dependent types"
+          description:
+            one: "The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent."
+            other: "The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents."
+          dialog:
+            description: "These types and variants inherit the configuration of this section. A change you make here applies to all of them."
+            direct_heading: "Direct dependents"
+            indirect_heading: "Dependents through other types"
+            title: "Dependent types"
+            variant_of_html: "Variant of %{type_name}"
+            variant_of_via_html: "Variant of %{type_name}, inheriting via %{source_name}"
+            via_html: "Inheriting via %{source_name}"
+          title:
+            one: "1 dependent type"
+            other: "%{count} dependent types"
+          view: "View dependent types"
         exclusions:
-          not_linked: "This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead."
+          not_inherited: "This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead."
           unknown_aspect: 'Unknown configuration section "%{aspect}".'
-        independent:
+        inherited:
+          change_source: "Change source type"
+          configure_manually: "Configure manually"
+          confirm_dialog:
+            change_source:
+              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
+              heading: "Change source type?"
+              title: "Change source type"
+            check_box: "I understand that this will override the current settings"
+            from_manual:
+              description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
+              heading: "Switch configuration mode?"
+              title: "Switch configuration mode"
+          description: "This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}."
+          description_unlinked: "This configuration is inherited from the source type %{source_name}%{source_suffix}."
+          dialog:
+            description: "Inherit this configuration from a source type. Any new configuration added to the source also applies here."
+            source_label: "Source type"
+            source_placeholder: "Select a type or variant"
+            submit: "Switch"
+            title: "Inherit from another type"
+          invalid_source: "The configuration cannot be inherited from the selected type. Please select a different source type."
+          success: "The configuration mode was switched."
+          title: "Inherited configuration"
+        manual:
           confirm_dialog:
             check_box: "I understand that this will override the current settings"
             description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
             heading: "Switch configuration mode?"
             title: "Switch configuration mode"
-          copy_from_type: "Copy from type"
-          description: "No settings are inherited. If desired you can still one-time copy settings from another type."
+          copy_from_type: "Copy from another type"
+          description: "No settings are inherited. You can still copy the settings from another type one time."
           dialog:
             submit: "Switch"
-            title: "Independent mode"
+            title: "Configure manually"
+          inherit_from_type: "Inherit from another type"
           invalid_mode: "The selected mode is not available for this configuration. Please choose a different mode."
           modes:
             copy:
-              caption: "Start with a one-time copy of the current settings set in the linked mode."
-              label: "Copy from linked"
+              caption: "Start with a one-time copy of the settings that this configuration inherits now."
+              label: "Copy inherited settings"
             default:
               caption: "Use the default settings for new types."
               label: "Default settings"
@@ -6321,36 +6893,31 @@ en:
               caption: "Set everything up from scratch, beginning from a blank configuration."
               label: "Empty"
           success: "The configuration mode was switched."
-          switch_to_linked: "Switch to linked mode"
-          title: "Independent mode"
-        linked:
-          change_source: "Change source type"
-          confirm_dialog:
-            change_source:
-              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
-              heading: "Change source type?"
-              title: "Change source type"
-            check_box: "I understand that this will override the current settings"
-            from_independent:
-              description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
-              heading: "Switch configuration mode?"
-              title: "Switch configuration mode"
-          description: "This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}."
-          dialog:
-            description: "Copy and inherit this settings from a source. Any new configuration added to the source will also be added here."
-            source_label: "Linked source"
-            source_placeholder: "Select a type or variant"
-            submit: "Switch"
-            title: "Linked mode"
-          invalid_source: "The configuration cannot be linked to the selected type. Please select a different source type."
-          success: "The configuration mode was switched."
-          switch_to_independent: "Switch to independent mode"
-          title: "Linked mode"
+          title: "Manual configuration"
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: >
+            You can create variants to offer versions of this type to different projects.<br>
+            Each variant can inherit, copy or have its own custom configuration for the default
+            template, custom fields, workflows and preferences.
+          title: "No variants exist for this type"
+        created_in_html: "Created in %{project}"
+        delete:
+          description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
+          title: "Delete %{name}"
+        filter: "Filter by text"
+        filter_no_results: "No variants match this filter"
+        global_section:
+          description: "These variants are available across all projects."
+          title: "Variants"
+        project_specific_section:
+          description: "These variants are only available within the projects in which they were created."
+          title: "Project-specific variants"
       workflow:
         tab: "Workflows"
     index:
-      add_variant: "Add variant to %{name}"
+      add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"
       description: >
         Each configuration area inside types and variants can be independently configured, limited
@@ -6362,14 +6929,13 @@ en:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
+      project_variants_count:
+        one: "1 project-specific variant"
+        other: "%{count} project-specific variants"
       remove_default: "Do not activate in new projects"
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: "Type"
-      variant_enabled_in_new_projects: "Variant %{name} active in new projects"
       variant_label: "Variant"
-      variants_count:
-        one: "1 variant"
-        other: "%{count} variants"
     milestone_indicator: "Milestone"
 
   unsupported_browser:
@@ -6765,6 +7331,13 @@ en:
       confirm_deletion: "I confirm that the selected work packages and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
       cross_project_warning_html: "These work packages span multiple projects: %{projects}"
+      descendants_choice:
+        heading: "Delete all descendants too?"
+        question: "You are trying to delete work packages that have descendants. Do you want to delete them as well?"
+        self_only_caption: "This will not delete descendants but will remove hierarchical relations."
+        self_only_label: "Delete just the selected work packages"
+        with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
+        with_descendants_label: "Delete the selected work packages and their descendants"
       description: "Are you sure you want to delete the selected work packages and all associated data?"
       description_with_all_descendants: "Are you sure you want to delete the selected work packages and all of their descendants?"
       description_with_descendants: "Are you sure you want to delete the selected work packages and all the following descendants?"
@@ -6844,6 +7417,13 @@ en:
       confirm_deletion: "I confirm that the work package and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
       cross_project_warning_html: "Work packages from the following projects will be deleted: %{projects}"
+      descendants_choice:
+        heading: "Delete all descendants too?"
+        question: "This work package has descendants. Do you want to delete them as well?"
+        self_only_caption: "This will not delete descendants but will remove hierarchical relations."
+        self_only_label: "Delete just this work package"
+        with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
+        with_descendants_label: "Delete this work package and descendants"
       description: 'Are you sure you want to delete "%{name}"?'
       heading: "Permanently delete this work package?"
       hidden_descendants_only_warning:
@@ -6928,17 +7508,17 @@ en:
           label: "Source role"
         target_role_ids:
           label: "Target roles"
-        target_type_ids:
+        target_variant_ids:
           label: "Target types"
       from_roles:
         create:
           notice:
             one: "Successfully copied workflow to '%{role_name}' role."
             other: "Successfully copied workflow to %{count} roles."
-      from_types:
+      from_variants:
         create:
           notice:
-            one: "Successfully copied workflow to '%{type_name}' type."
+            one: "Successfully copied workflow to '%{type_name}'."
             other: "Successfully copied workflow to %{count} types."
       new:
         title: 'Copy workflow of "%{source_type}"'

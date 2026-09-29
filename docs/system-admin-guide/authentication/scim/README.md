@@ -122,7 +122,7 @@ For each SCIM client you can define the following attributes:
 
 The following is a configuration example for a single SCIM client:
 
-```
+```json
 [{ "name": "My SCIM Client", "jwt_sub": "b7c8ed62-840d-451e-9ed2-6161310b4f22", "auth_provider_slug": "keycloak" }]
 ```
 

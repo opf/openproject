@@ -301,6 +301,23 @@ RSpec.describe "Meeting index",
     end
   end
 
+  context "when the time filter is not present" do
+    let(:request) do
+      filters = [{ "author_id" => { "operator" => "=", "values" => [user.id.to_s] } }].to_json
+      get "/projects/#{project.id}/meetings", params: { filters: }
+    end
+
+    it "defaults to the upcoming view and excludes past meetings" do
+      expect(subject).to have_http_status(:ok)
+
+      today = page.find("[data-test-selector='meetings-table-today']")
+      expect(today).to have_text "meeting starting soon"
+      expect(today).to have_text "meeting starting tonight"
+
+      expect(page).to have_no_text "an earlier meeting"
+    end
+  end
+
   describe "POST #refresh_form (add WP to meeting)" do
     let(:wp_project) do
       create(:project, enabled_module_names: %w[meetings work_package_tracking])

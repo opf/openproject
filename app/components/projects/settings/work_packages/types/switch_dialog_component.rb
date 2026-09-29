@@ -39,16 +39,18 @@ module Projects
 
           DIALOG_ID = "project-types-switch-dialog"
 
-          def initialize(project:, source:)
+          def initialize(project:, source:, url:, selected: source)
             super()
 
             @project = project
             @source = source
+            @url = url
+            @selected = selected
           end
 
           private
 
-          attr_reader :project, :source
+          attr_reader :project, :source, :url, :selected
         end
       end
     end

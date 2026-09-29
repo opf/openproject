@@ -20,10 +20,31 @@ cs:
             phone_number:
               error_phone_number_format: musí být ve formátu +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA zařízení
-      two_factor_authentication/device/sms: Mobilní telefon
-      two_factor_authentication/device/totp: Ověřovací aplikace
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        many: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        many: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        many: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        many: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Pokračovat
   button_make_active: Activate
   button_make_default: Označit jako výchozí

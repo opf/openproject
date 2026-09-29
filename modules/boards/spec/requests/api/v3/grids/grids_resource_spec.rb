@@ -283,7 +283,7 @@ RSpec.describe "API v3 Grids resource for Board Grids", content_type: :json do
     end
 
     context "with the grid not existing" do
-      let(:path) { api_v3_paths.grid(1234) }
+      let(:path) { api_v3_paths.grid(not_existing_id(Boards::Grid)) }
 
       it "responds with 404 NOT FOUND" do
         expect(subject.status).to be 404

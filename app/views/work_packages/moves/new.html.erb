@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title @copy ? t(:button_duplicate) : t(:button_move), t("activerecord.models.work_package") %>
+<% html_title @copy ? t(:button_duplicate) : t(:button_move), WorkPackage.model_name.human %>
 
 <% single_wp = @work_packages.size == 1 ? @work_packages.first : nil %>
 

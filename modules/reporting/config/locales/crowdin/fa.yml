@@ -21,6 +21,11 @@
 #++
 ---
 fa:
+  activerecord:
+    models:
+      cost_query:
+        one: گزارش هزینه
+        other: گزارش‌های هزینه
   button_save_report_as: ذخیره گزارش با نام...
   comments: دیدگاه
   cost_reports_title: زمان و هزینه‌ها
@@ -46,7 +51,6 @@ fa:
   label_closed: بسته
   label_columns: ستون‌ها
   label_cost_entry_attributes: ویژگی‌های ورودی هزینه
-  label_cost_report: گزارش هزینه
   label_cost_report_plural: گزارش‌های هزینه
   label_count: تعداد
   label_days_ago: در طی روزهای گذشته

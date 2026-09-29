@@ -38,6 +38,15 @@ ja:
           attributes:
             labels:
               invalid_schema: をキーとするハッシュの配列でなければなりません
+    models:
+      gitlab_issue:
+        other: GitLab issues
+      gitlab_merge_request:
+        other: GitLab merge requests
+      gitlab_pipeline:
+        other: GitLab pipelines
+      gitlab_user:
+        other: GitLab users
   attributes:
     commit: コミット
     gitlab: GitLab識別子

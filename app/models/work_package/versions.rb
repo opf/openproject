@@ -38,7 +38,7 @@ module WorkPackage::Versions
              -> { where(work_package_versions: { kind: "target" }).order(:id) },
              through: :work_package_versions, source: :version
     has_many :observed_in_versions,
-             -> { where(work_package_versions: { kind: "observed_in" }) },
+             -> { where(work_package_versions: { kind: "observed_in" }).order(:id) },
              through: :work_package_versions, source: :version
 
     scope :with_target_version, ->(version_id) {
@@ -160,18 +160,17 @@ module WorkPackage::Versions
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 
-  # List of target versions, but takes into account pending overrides that were
-  # not written yet
-  #
-  # By precedence:
-  #   * target_version_ids_replacements
-  #   * actual written target_versions
-  def effective_target_versions
-    return target_versions if target_version_ids_replacements.nil?
+  def target_versions_changed? = versions_changed?("target")
+  def observed_in_versions_changed? = versions_changed?("observed_in")
 
-    versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
-    target_version_ids_replacements.filter_map { |id| versions_by_id[id] }
+  def assigned_version_ids(kind)
+    return [] unless persisted?
+
+    work_package_versions.where(kind:).pluck(:version_id)
   end
+
+  def effective_target_versions = effective_versions("target")
+  def effective_observed_in_versions = effective_versions("observed_in")
 
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such
@@ -186,6 +185,21 @@ module WorkPackage::Versions
   end
 
   private
+
+  def versions_changed?(kind)
+    replacements = public_send(:"#{kind}_version_ids_replacements")
+    return false if replacements.nil?
+
+    replacements.map(&:to_i).uniq.sort != assigned_version_ids(kind).sort
+  end
+
+  def effective_versions(kind)
+    replacements = public_send(:"#{kind}_version_ids_replacements")
+    return public_send(:"#{kind}_versions") if replacements.nil?
+
+    versions_by_id = Version.where(id: replacements).index_by(&:id)
+    replacements.filter_map { |id| versions_by_id[id] }
+  end
 
   def persisted_target_versions
     return [] unless persisted?
@@ -232,7 +246,7 @@ module WorkPackage::Versions
   # Sets the work package's associations of the given kind to exactly the
   # given version_ids.
   def replace_versions(kind, version_ids)
-    existing = work_package_versions.where(kind:).pluck(:version_id)
+    existing = assigned_version_ids(kind)
 
     to_remove = existing - version_ids
     to_add    = version_ids - existing

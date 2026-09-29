@@ -65,7 +65,7 @@ module Queries::BaseQuery
 
   def results
     if valid?
-      apply_orders(apply_filters(default_scope))
+      apply_selects(apply_orders(apply_filters(default_scope)))
     else
       empty_scope
     end
@@ -191,6 +191,14 @@ module Queries::BaseQuery
   def apply_filters(query_scope)
     filters.inject(query_scope) do |scope, filter|
       filter.apply_to(scope)
+    end
+  end
+
+  def apply_selects(query_scope)
+    return query_scope unless respond_to?(:selects)
+
+    selects.inject(query_scope) do |scope, select|
+      select.apply_to(scope)
     end
   end
 

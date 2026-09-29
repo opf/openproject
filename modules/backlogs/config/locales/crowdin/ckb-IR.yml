@@ -92,9 +92,15 @@ ckb-IR:
               task_version_must_be_the_same_as_story_version: must be the same as the parent story's version.
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -113,6 +119,7 @@ ckb-IR:
         other: Sprints
         zero: All sprints
       select_panel_title: Select items
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -155,6 +162,8 @@ ckb-IR:
         one: Show 1 more item
         other: Show %{count} more items
       title: Inbox
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Burndown chart
     label_is_done_status: Status %{status_name} means done
     label_sprint_board: Sprint board

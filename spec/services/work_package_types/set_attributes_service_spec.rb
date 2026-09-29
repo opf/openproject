@@ -33,7 +33,7 @@ require "spec_helper"
 module WorkPackageTypes
   RSpec.describe SetAttributesService, with_ee: [:work_package_subject_generation] do
     let(:user) { create(:admin) }
-    let(:model) { create(:type, :with_subject_pattern) }
+    let(:model) { create(:type, :with_subject_pattern).default_variant }
     let(:params) { Hash.new }
 
     subject(:service) { described_class.new(user:, model:, contract_class: UpdateDefaultsContract) }

@@ -42,7 +42,7 @@ module WorkPackageTypes
     # For clarification: If we toggle the element on, it means we remove the exclusion from the array.
     def toggle
       call = toggle_service
-        .new(user: current_user, type: @type)
+        .new(user: current_user, variant: @variant)
         .call(aspect:, elements: [element])
 
       render json: {}, status: call.success? ? :ok : :unprocessable_entity
@@ -67,7 +67,7 @@ module WorkPackageTypes
     end
 
     def require_valid_aspect
-      render_404 unless Type::ConfigurationLink::ASPECTS.include?(aspect)
+      render_404 unless TypeVariant::ASPECTS.include?(aspect)
     end
   end
 end

@@ -50,7 +50,7 @@ module WorkPackageTypes
 
       update_via_turbo_stream(
         component: WorkPackageTypes::FormConfiguration::MainContentComponent.new(
-          type: @type,
+          variant: @variant,
           group_components:,
           ee_available:
         )
@@ -60,8 +60,8 @@ module WorkPackageTypes
     def update_inactive_attributes_via_turbo_stream
       replace_via_turbo_stream(
         component: WorkPackageTypes::FormConfiguration::InactiveAttributesListComponent.new(
-          inactive_attributes: form_configuration_groups(@type)[:inactives],
-          type: @type
+          inactive_attributes: form_configuration_groups(@variant)[:inactives],
+          variant: @variant
         ),
         target: "type-form-configuration-inactive-container"
       )
@@ -77,7 +77,7 @@ module WorkPackageTypes
 
         WorkPackageTypes::FormConfiguration::GroupComponent.new(
           group:,
-          type: @type,
+          variant: @variant,
           ee_available:,
           first: index.zero?,
           last: index == groups.length - 1,
@@ -88,7 +88,7 @@ module WorkPackageTypes
     end
 
     def active_groups_for_form
-      form_configuration_groups(@type)[:actives].reject { |group| group[:key].to_s == "__empty" }
+      form_configuration_groups(@variant)[:actives].reject { |group| group[:key].to_s == "__empty" }
     end
   end
 end

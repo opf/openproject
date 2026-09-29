@@ -66,14 +66,15 @@ end
 
 # Single-sequence primitive for native HTML5 drags (Pragmatic drag and drop):
 # once the native drag loop starts, Chrome swallows input from later action
-# chains, so multi-`perform` sequences never deliver the drop. Coordinates are
-# viewport-absolute; callers pick the exact drop point (edge targeting).
-def perform_native_drag(source:, target_x:, target_y:)
-  scroll_to_element(source)
-
-  rect = source.native.rect
-  source_x = (rect.x + (rect.width / 2)).to_i
-  source_y = (rect.y + (rect.height / 2)).to_i
+# chains, so multi-`perform` sequences never deliver the drop. Offsets are
+# relative to the target element's center (callers pick the exact drop point
+# for edge targeting), so callers don't need to keep the target scrolled into
+# view before computing them.
+def perform_native_drag(source:, target:, offset_x: 0, offset_y: 0)
+  # Ensure both elements are on the page, note this works only if the screen
+  # size can fit both.
+  scroll_to_element(source, block: :nearest)
+  scroll_to_element(target, block: :nearest)
 
   page
     .driver
@@ -82,7 +83,7 @@ def perform_native_drag(source:, target_x:, target_y:)
     .move_to(source.native)
     .click_and_hold(source.native)
     .pause(duration: 0.1)
-    .move_by(target_x.to_i - source_x, target_y.to_i - source_y)
+    .move_to(target.native, offset_x, offset_y)
     .pause(duration: 0.1)
     .release
     .perform

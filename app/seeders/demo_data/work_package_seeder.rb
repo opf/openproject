@@ -51,7 +51,7 @@ module DemoData
       @project_data = project_data
       @statuses = Status.all
       @repository = Repository.first
-      @types = project.types.all.reject(&:is_milestone?)
+      @types = project.enabled_types.reject(&:is_milestone?)
       @relations_to_create = []
     end
 

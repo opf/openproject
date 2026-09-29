@@ -34,9 +34,9 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, group_components:, ee_available:, readonly: false)
+      def initialize(variant:, group_components:, ee_available:, readonly: false)
         super
-        @type = type
+        @variant = variant
         @group_components = group_components
         @ee_available = ee_available
         @readonly = readonly

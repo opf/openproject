@@ -46,9 +46,15 @@ tr:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Bütçe
-      labor_budget_item: Planned labor cost
-      material_budget_item: Birim
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Bütçe
@@ -102,7 +108,6 @@ tr:
   help_click_to_edit: Düzenlemek için buraya tıklayın.
   help_currency_format: Görüntülenen para birimi değerlerinin biçimi. % n, para birimi değeri ile değiştirilir,% u ist para birimi yerine geçer.%u%n
   help_override_rate: Varsayılan oranı geçersiz kılmak için buraya bir değer girin.
-  label_budget: Bütçe
   label_budget_available: Mevcut bütçe
   label_budget_details: Bütçe ayrıntıları
   label_budget_id: 'Bütçe #%{id}'

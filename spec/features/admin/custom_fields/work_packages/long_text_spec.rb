@@ -46,7 +46,7 @@ RSpec.describe "custom fields", :js do
       # textareas get carriage returns entered
       expect(cf.default_value.gsub("\r\n", "\n").strip).to eq default_text.strip
 
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
       type.save!
 
       wp_page.visit!

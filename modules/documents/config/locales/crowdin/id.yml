@@ -31,13 +31,16 @@ id:
         document_type:
           one_or_more_required: Tidak dapat menghapus jenis dokumen terakhir
     models:
-      document: Dokumen
-      documents: Dokumen
+      document:
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
       document: Dokumen
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Dokumentasi teknis
   default_doc_category_user: Dokumentasi pengguna
   documents:

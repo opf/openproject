@@ -224,11 +224,11 @@ RSpec.describe "Work package meeting outcomes", :js do
           let!(:type_without_template) { create(:type, name: "No template type") }
           let!(:type_with_template) do
             create(:type, name: "Templated type",
-                          description: "Some default template text here...")
+                          default_work_package_description: "Some default template text here...")
           end
 
           before do
-            project.types = [type_without_template, type_with_template]
+            project.project_types = [type_without_template, type_with_template].map { |type| ProjectType.new(type:) }
           end
 
           it "refreshes the form when the type is changed" do

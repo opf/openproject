@@ -46,9 +46,21 @@ ru:
             principal:
               not_a_member_of_budget_project: не является участником бюджета проекта
     models:
-      budget: Бюджет
-      labor_budget_item: Запланированная стоимость труда
-      material_budget_item: Единица
+      budget:
+        one: Бюджет
+        few: Budgets
+        many: Budgets
+        other: Бюджеты
+      labor_budget_item:
+        one: Запланированные трудозатраты
+        few: Planned labor costs
+        many: Planned labor costs
+        other: Запланированные трудозатраты
+      material_budget_item:
+        one: Единица
+        few: Units
+        many: Units
+        other: Единицы
   activity:
     filter:
       budget: Бюджеты
@@ -102,7 +114,6 @@ ru:
   help_click_to_edit: Нажмите здесь, чтобы править.
   help_currency_format: Формат отображения денежных значений. %n заменяется значением валюты, %u заменяется денежной единицой.
   help_override_rate: Введите значение здесь для переопределения тарифа по умолчанию.
-  label_budget: Бюджет
   label_budget_available: Доступный бюджет
   label_budget_details: Детали бюджета
   label_budget_id: 'Бюджет #%{id}'

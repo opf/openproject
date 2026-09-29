@@ -31,7 +31,9 @@
 require "spec_helper"
 
 RSpec.describe API::V3::Types::TypeRepresenter do
-  let(:type) { build_stubbed(:type, color: build_stubbed(:color)) }
+  # Created rather than stubbed: isDefault is read from the type's base variant, which a type
+  # only owns once saved.
+  let(:type) { create(:type, color: create(:color)) }
   let(:representer) { described_class.new(type, current_user: double("current_user")) }
 
   include API::V3::Utilities::PathHelper
@@ -44,10 +46,6 @@ RSpec.describe API::V3::Types::TypeRepresenter do
         let(:link) { "self" }
         let(:href) { api_v3_paths.type(type.id) }
         let(:title) { type.name }
-      end
-
-      it "has no parent link for a root type" do
-        expect(generated).not_to have_json_path("_links/parent")
       end
     end
 
@@ -63,16 +61,12 @@ RSpec.describe API::V3::Types::TypeRepresenter do
       expect(subject).to be_json_eql(type.name.to_json).at_path("name")
     end
 
-    it "indicates its own name" do
-      expect(subject).to be_json_eql(type.own_name.to_json).at_path("ownName")
-    end
-
     it "indicates its color" do
       expect(subject).to be_json_eql(type.color.hexcode.to_json).at_path("color")
     end
 
     context "no color set" do
-      let(:type) { build_stubbed(:type, color: nil) }
+      let(:type) { create(:type, color: nil) }
 
       it "indicates a missing color" do
         expect(subject).to be_json_eql(nil.to_json).at_path("color")
@@ -88,7 +82,7 @@ RSpec.describe API::V3::Types::TypeRepresenter do
     end
 
     context "as default type" do
-      let(:type) { build_stubbed(:type, is_default: true) }
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
 
       it "indicates that it is the default type" do
         expect(subject).to be_json_eql(true.to_json).at_path("isDefault")
@@ -100,7 +94,7 @@ RSpec.describe API::V3::Types::TypeRepresenter do
     end
 
     context "as milestone" do
-      let(:type) { build_stubbed(:type, is_milestone: true) }
+      let(:type) { create(:type, is_milestone: true) }
 
       it "indicates that it is a milestone" do
         expect(subject).to be_json_eql(true.to_json).at_path("isMilestone")
@@ -148,36 +142,6 @@ RSpec.describe API::V3::Types::TypeRepresenter do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
-      end
-    end
-
-    context "for a variant" do
-      let(:parent) { build_stubbed(:type, name: "Task", color: build_stubbed(:color)) }
-      let(:type) { build_stubbed(:type, name: "Bug", parent:) }
-
-      it "shows the root name as its name" do
-        expect(subject).to be_json_eql("Task".to_json).at_path("name")
-      end
-
-      it "shows its own name, not the root name" do
-        expect(subject).to be_json_eql("Bug".to_json).at_path("ownName")
-      end
-
-      it "shows the root color" do
-        expect(subject).to be_json_eql(parent.color.hexcode.to_json).at_path("color")
-      end
-
-      it_behaves_like "has a titled link" do
-        let(:link) { "parent" }
-        let(:href) { api_v3_paths.type(parent.id) }
-        let(:title) { parent.name }
-      end
-
-      it "busts the cache when the parent changes" do
-        former_cache_key = representer.json_cache_key
-        parent.updated_at = 20.seconds.from_now
-
-        expect(representer.json_cache_key).not_to eql former_cache_key
       end
     end
   end

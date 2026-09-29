@@ -115,7 +115,7 @@ Do not use `Rejected` merely because mitigation has been completed; use `Mitigat
 Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check assumptions and early warning indicators, update likelihood and impact when evidence changes, follow up overdue actions and schedule the next review.
 
 > [!TIP]
-> OpenProject does not provide a dedicated `Next review date` field. To schedule a risk review, use the risk's finish date as the review date and enable [date alerts](../../user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on). OpenProject will then notify participating users as the date approaches. Date alerts are an Enterprise add-on.
+> OpenProject does not provide a dedicated `Next review date` field. To schedule a risk review, use the risk's finish date as the review date and enable [date alerts](../../user-guide/notifications/notification-settings/#date-alerts). OpenProject will then notify participating users as the date approaches.
 
 Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occurred` and `Rejected` as separate outcome groups.
 

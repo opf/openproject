@@ -31,13 +31,18 @@ rw:
         document_type:
           one_or_more_required: Cannot delete the last document type
     models:
-      document: Document
-      documents: Documents
+      document:
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: Documents
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Technical documentation
   default_doc_category_user: User documentation
   documents:

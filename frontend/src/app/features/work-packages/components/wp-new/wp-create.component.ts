@@ -46,11 +46,9 @@ import URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalSource } from 'core-app/features/hal/interfaces';
 

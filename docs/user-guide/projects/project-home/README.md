@@ -54,7 +54,11 @@ The **Overview** tab is a pre-configured to provide a concise summary of the pro
   >
   > If you do not see the project timeline widget, make sure phases and gates are enabled in your project.
 
-- [Subitems](./project-widgets/#subitems-widget) 
+- [Subitems](./project-widgets/#subitems-widget)- It will only be shown if subitems (in this case subprojects) exist.
+
+  > [!NOTE]
+  >
+  > This widget is hidden when a project has no subitems, but is always displayed on Portfolio and Program homepages.       
 
 - [Meetings](project-widgets/#meetings-widget)
   

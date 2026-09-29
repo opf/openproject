@@ -32,35 +32,36 @@ module Projects::EnabledTypes
   extend ActiveSupport::Concern
 
   included do
-    # The type whose configuration applies in this project for the given type's family: the
-    # variant this project resolves to, or the family's root when it resolves to none.
-    #
-    # Every configuration read for a work package has to go through here. Reading an aspect
-    # off the type a work package stores answers with the root's configuration and silently
-    # ignores the variant.
-    def effective_type(type)
-      return if type.nil?
-
-      project_types.detect { |project_type| project_type.type_id == type.root_id }&.variant || type.root
+    def enabled_types
+      ::Type.enabled_in(self)
     end
 
-    # #effective_type over a collection, resolved in one query. Accepts records or ids, and
-    # collapses duplicates: several members of one family all resolve to the same one.
-    #
-    # The resolution runs in a subquery so the outer scope selects from `types` once, which
-    # keeps Type's default `ORDER BY position` unambiguous — a second `types` in the same
-    # query would make it fail.
-    def effective_types(*types)
-      root_id = "COALESCE(requested.parent_id, requested.id)"
-      variant_join = ::Type.sanitize_sql_array(
-        ["LEFT JOIN project_types pt ON pt.project_id = ? AND pt.type_id = #{root_id}", id]
-      )
+    def enabled_variants
+      ::TypeVariant
+        .where(id: project_types.select(:variant_id))
+        .joins(:type)
+        .order(::Type.arel_table[:position].asc)
+    end
 
-      ::Type.where(id: ::Type.from("#{::Type.quoted_table_name} requested")
-                             .joins(variant_join)
-                             .where(requested: { id: types.flatten })
-                             .reorder(nil)
-                             .select("DISTINCT COALESCE(pt.variant_id, #{root_id})"))
+    def type_variant(type)
+      return if type.nil?
+
+      project_type = if association(:project_types).loaded?
+                       project_types.find { |candidate| candidate.type_id == type.id }
+                     else
+                       project_types.find_by(type_id: type.id)
+                     end
+
+      project_type&.variant || type.default_variant
+    end
+
+    def type_variants(*types)
+      type_ids = types.flatten.map { |type| type.respond_to?(:id) ? type.id : type }
+      applied = ProjectType.where(project_id: id, type_id: type_ids)
+
+      ::TypeVariant.where(id: applied.select(:variant_id))
+                   .or(::TypeVariant.default_variant.where(type_id: type_ids)
+                                         .where.not(type_id: applied.select(:type_id)))
     end
 
     def types_used_by_work_packages

@@ -44,7 +44,7 @@ module API
           end
 
           def available_custom_fields
-            custom_fields || (project.all_work_package_custom_fields.to_a & effective_type.custom_fields.to_a)
+            custom_fields || (project.all_work_package_custom_fields.to_a & type_variant.custom_fields.to_a)
           end
 
           def no_caching?

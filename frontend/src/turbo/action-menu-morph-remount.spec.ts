@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it,
-} from 'vitest';
 import { registerActionMenuMorphRemount } from './action-menu-morph-remount';
 
 describe('registerActionMenuMorphRemount', () => {

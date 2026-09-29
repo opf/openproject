@@ -27,16 +27,35 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(
-    Primer::Box.new(
-      border:,
-      border_radius: 2,
-      bg: :inset,
-      p: 3,
-      **system_arguments
-    )
-  ) do
-    content
-  end
-%>
+<%= render(
+      Primer::Box.new(
+        border:,
+        border_radius: 2,
+        p: 3,
+        **scheme_arguments,
+        **system_arguments
+      )
+    ) do %>
+  <% if title? || title_icon? %>
+    <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 2, classes: "gap-2")) do %>
+      <%= title_icon %>
+      <%= title %>
+    <% end %>
+  <% end %>
+  <%= content %>
+  <% if actions.any? %>
+    <%= render(
+          Primer::Box.new(
+            display: :flex,
+            align_items: :center,
+            flex_wrap: :wrap,
+            mt: 2,
+            classes: "gap-2"
+          )
+        ) do %>
+      <% actions.each do |action| %>
+        <%= action %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

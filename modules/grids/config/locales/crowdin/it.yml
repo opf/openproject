@@ -14,6 +14,13 @@ it:
           end_before_start: il valore finale deve essere più grande del valore iniziale.
           outside: è fuori dalla griglia.
           overlaps: sovrapposizione.
+    models:
+      grids/grid:
+        one: Griglia
+        other: Griglie
+      grids/widget:
+        one: Widget
+        other: Widget
   grids:
     label_widget_in_grid: Widget contenuto nella griglia %{grid_name}
     widgets:

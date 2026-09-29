@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
         unless readonly?
           header.with_action_button(
             tag: :a,
-            href: enable_all_type_pdf_export_template_index_path(type_id: @type.id),
+            href: enable_all_type_pdf_export_template_index_path(**@variant.path_args),
             scheme: :invisible,
             font_weight: :bold,
             color: :subtle,
@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
           header.with_action_button(
             tag: :a,
-            href: disable_all_type_pdf_export_template_index_path(type_id: @type.id),
+            href: disable_all_type_pdf_export_template_index_path(**@variant.path_args),
             scheme: :invisible,
             font_weight: :bold,
             color: :subtle,
@@ -68,14 +68,14 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
-      @type.pdf_export_templates.list.each do |template|
+      @variant.pdf_export_templates.list.each do |template|
         list.with_item(
           test_selector: "pdf-export-template-row-#{template.id}",
           data: (readonly? ? {} : draggable_item_config(template))
         ) do
           render(
             WorkPackageTypes::ExportTemplateRowComponent.new(
-              type: @type,
+              variant: @variant,
               template:,
               readonly: readonly?
             )

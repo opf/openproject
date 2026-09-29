@@ -3,6 +3,7 @@ vi:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: URL ACS (Xác nhận dịch vụ tiêu dùng)
         authn_requests_signed: Ký yêu cầu xác thực SAML
         certificate: Chứng chỉ được OpenProject sử dụng cho các yêu cầu SAML
@@ -32,6 +33,9 @@ vi:
           invalid_certificate: 'không phải là chứng chỉ có định dạng PEM hợp lệ: %{additional_message}'
           invalid_private_key: 'không phải là khóa riêng có định dạng PEM hợp lệ: %{additional_message}'
           unmatched_private_key: không thuộc về chứng chỉ đã cho
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Xoá nhà cung cấp SAML này?
     delete_title: Xóa nhà cung cấp SAML
@@ -41,6 +45,9 @@ vi:
         '
       title: Thông số cấu hình giao thức SAML
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Nếu được chọn, OpenProject sẽ ký SAML AuthnRequest. Bạn sẽ phải cung cấp chứng chỉ ký và khóa riêng bằng cách sử dụng các trường bên dưới.
 
         '

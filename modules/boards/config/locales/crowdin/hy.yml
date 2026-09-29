@@ -1,5 +1,10 @@
 ---
 hy:
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        other: Boards
   boards:
     board_type_attributes:
       assignee: Պատասխանատու

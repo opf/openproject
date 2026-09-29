@@ -29,7 +29,7 @@
 class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatter::NamedAssociation
   private
 
-  def format_details(key, values, cache:)
+  def format_details(key, values)
     label = if values.first.nil?
               label(key)
             elsif values.last.nil?
@@ -38,7 +38,7 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
               I18n.t("activity.item.parent_without_of")
             end
 
-    old_value, value = *format_values(values, key, cache:)
+    old_value, value = *format_values(values, key)
 
     [label, old_value, value]
   end

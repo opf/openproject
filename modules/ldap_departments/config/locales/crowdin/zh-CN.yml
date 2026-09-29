@@ -22,8 +22,10 @@ zh-CN:
           must_contain_base_dn: 基础 DN 必须包含在 LDAP 连接的基础 DN 中。
           overlaps_other_tree: 与同一 LDAP 连接上另一项同步的基础 DN 重叠。
     models:
-      ldap_departments/synchronized_department: 同步的部门
-      ldap_departments/synchronized_tree: LDAP 部门同步
+      ldap_departments/synchronized_department:
+        other: 同步的部门
+      ldap_departments/synchronized_tree:
+        other: LDAP 部门同步
   ee:
     upsell:
       ldap_departments:

@@ -21,6 +21,11 @@
 #++
 ---
 et:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Salvesta aruanne kui...
   comments: Kommentaar
   cost_reports_title: Time and costs
@@ -46,7 +51,6 @@ et:
   label_closed: suletud
   label_columns: Veerud
   label_cost_entry_attributes: Cost entry attributes
-  label_cost_report: Kulude aruanne
   label_cost_report_plural: Kulude aruanded
   label_count: Arv
   label_days_ago: during the last days

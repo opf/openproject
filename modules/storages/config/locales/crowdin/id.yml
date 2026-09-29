@@ -73,8 +73,18 @@ id:
               invalid_password: is not valid.
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: File
-      storages/storage: Penyimpanan
+      storages/file_link:
+        other: File links
+      storages/nextcloud_storage:
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        other: OneDrive storages
+      storages/project_storage:
+        other: Project storages
+      storages/sharepoint_storage:
+        other: SharePoint storages
+      storages/storage:
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.

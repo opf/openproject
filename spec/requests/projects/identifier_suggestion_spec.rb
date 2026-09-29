@@ -69,6 +69,9 @@ RSpec.describe "GET /projects/identifier_suggestion", type: :rails_request do
       it "requires login" do
         get "/projects/identifier_suggestion", params: { name: "Test" }, as: :json
         expect(response).to have_http_status(:unauthorized).or have_http_status(:redirect)
+        expect(response.headers["WWW-Authenticate"]).to include(
+          'resource_metadata="http://test.host/.well-known/oauth-protected-resource"'
+        )
       end
     end
 

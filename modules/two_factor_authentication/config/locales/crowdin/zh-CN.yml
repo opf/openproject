@@ -20,10 +20,16 @@ zh-CN:
             phone_number:
               error_phone_number_format: 格式必须为 +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA 设备
-      two_factor_authentication/device/sms: 手机
-      two_factor_authentication/device/totp: 身份验证器应用程序
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: 备份代码
+      two_factor_authentication/device:
+        other: 2FA 设备
+      two_factor_authentication/device/sms:
+        other: 手机
+      two_factor_authentication/device/totp:
+        other: 身份验证器应用程序
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: 继续
   button_make_active: 激活
   button_make_default: 标记为默认

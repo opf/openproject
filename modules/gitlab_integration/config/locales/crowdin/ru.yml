@@ -38,6 +38,27 @@ ru:
           attributes:
             labels:
               invalid_schema: 'должен быть массив хэшей с помощью ключей: цвет, заголовок'
+    models:
+      gitlab_issue:
+        one: Тикет GitLab
+        few: GitLab issues
+        many: GitLab issues
+        other: Тикеты GitLab
+      gitlab_merge_request:
+        one: Мерж реквест GitLab
+        few: GitLab merge requests
+        many: GitLab merge requests
+        other: Мерж реквесты GitLab
+      gitlab_pipeline:
+        one: Пайплайн GitLab
+        few: GitLab pipelines
+        many: GitLab pipelines
+        other: Пайплайны GitLab
+      gitlab_user:
+        one: Пользователь GitLab
+        few: GitLab users
+        many: GitLab users
+        other: Пользователи GitLab
   attributes:
     commit: Коммит
     gitlab: Идентификатор GitLab

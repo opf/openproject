@@ -45,8 +45,6 @@ class Attachment < ApplicationRecord
   validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
 
-  validate :filesize_below_allowed_maximum,
-           if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
   has_paper_trail

@@ -38,6 +38,7 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
 
     input_schema(
+      additionalProperties: false,
       required: %i[custom_field_id],
       properties: {
         custom_field_id: {
@@ -67,10 +68,12 @@ module McpTools
     private
 
     def format_items(items)
-      {
-        items: items.map { |item| API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter.new(item, current_user:) },
-        total: items.size
-      }
+      Success(
+        {
+          items: items.map { |item| API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter.new(item, current_user:) },
+          total: items.size
+        }
+      )
     end
 
     def flatten_hierarchy(custom_field)

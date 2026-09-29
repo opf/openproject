@@ -71,6 +71,15 @@ pl:
           name: Kierownik personelu i projektów
         item_1:
           name: Standardowa rola globalna
+      ai_text_transform_actions:
+        item_0:
+          label: Napraw gramatykę
+        item_1:
+          label: Sformułuj zwięźle
+        item_2:
+          label: Przetłumacz na język angielski
+        item_3:
+          label: Posortuj według szablonu
     standard:
       project_phases:
         item_0:

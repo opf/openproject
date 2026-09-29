@@ -30,6 +30,9 @@ sv:
       wikis/internal_provider:
         one: Intern leverantör
         other: Interna leverantörer
+      wikis/page_link:
+        one: Sidlänk
+        other: Sidlänkar
       wikis/provider:
         one: Wiki-leverantör
         other: Wiki-leverantörer
@@ -62,8 +65,6 @@ sv:
         oauth_client_form_component:
           client_id: Wiki OAuth-klient-ID
           client_secret: Wiki OAuth-klienthemlighet
-          redirect_uri: Omdirigerings-URI
-          redirect_uri_caption: Kopiera detta värde till fältet Omdirigerings-URI i registreringen av din XWiki OIDC-klient.
       health_status:
         show:
           actions:
@@ -88,6 +89,10 @@ sv:
         confirm_replace_oauth_client: Den här åtgärden återställer de aktuella XWiki OAuth-uppgifterna. Alla användare måste auktorisera på nytt mot XWiki. Är du säker på att du vill fortsätta?
         label_oauth_client_id: OAuth-klient-ID
         replace_oauth_client: Ersätt XWiki OAuth-program
+      redirect_uri_info_component:
+        description: Omdirigerings-URI:n skapas när wikins OAuth-klient har konfigurerats.
+        label_uri: URI
+        show_redirect_uri: Visa omdirigerings-URI
       side_panel:
         health_status_component:
           last_check: 'Senaste kontroll: %{datetime}'
@@ -109,8 +114,11 @@ sv:
         name_caption: Ge din Wiki-leverantör ett namn så att användare kan skilja mellan flera Wiki-plattformar.
         name_placeholder: XWiki-kunskapsbas
         new_provider_html: Läs vår dokumentation om [konfiguration av en XWiki-integration](docs_url) för mer information.
+        successful_setup: Wiki-leverantören har konfigurerats!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Omdirigerings-URI
+          redirect_uri_caption: Kopiera det här värdet till fältet för omdirigerings-URI i registreringen av din XWiki OIDC-klient.
         sections:
           general_information: Allmän information
           oauth_configuration: OAuth konfiguration

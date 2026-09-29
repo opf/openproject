@@ -36,7 +36,7 @@ module API
           end
 
           get do
-            TypeCollectionRepresenter.new(@project.types,
+            TypeCollectionRepresenter.new(@project.enabled_types,
                                           self_link: api_v3_paths.types_by_workspace(@project.id),
                                           current_user:)
           end

@@ -33,11 +33,11 @@ module WorkPackageTypes
     class PdfExportService < BaseService
       private
 
-      def aspect = Type::ConfigurationLink::PDF_EXPORT
+      def aspect = TypeVariant::PDF_EXPORT
 
       def copy_from(source)
         # deep_dup keeps the copy from aliasing the source's stored value.
-        type.update!(pdf_export_templates_config: source.pdf_export_templates_config.deep_dup)
+        variant.update!(pdf_export_templates_config: source.pdf_export_templates_config.deep_dup)
       end
     end
   end

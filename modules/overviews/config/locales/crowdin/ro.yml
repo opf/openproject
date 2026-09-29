@@ -1,5 +1,11 @@
 ---
 ro:
+  activerecord:
+    models:
+      grids/overview:
+        one: Vedere de ansamblu
+        few: Overviews
+        other: Overviews
   overviews:
     label_dashboard: Panou de control
     label_home: "%{workspace_type}"

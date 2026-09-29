@@ -21,6 +21,15 @@
 #++
 ---
 ar:
+  activerecord:
+    models:
+      cost_query:
+        zero: Cost reports
+        one: Cost report
+        two: Cost reports
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
   button_save_report_as: حفظ التقرير بشكل...
   comments: التعليق
   cost_reports_title: الوقت والتكاليف
@@ -46,7 +55,6 @@ ar:
   label_closed: مغلق
   label_columns: الأعمدة
   label_cost_entry_attributes: ميزات قيد التكلفة
-  label_cost_report: تقرير التكلفة
   label_cost_report_plural: تقارير التكلفة
   label_count: العد
   label_days_ago: خلال الأيام الماضية

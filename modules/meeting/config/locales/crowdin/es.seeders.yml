@@ -13,17 +13,18 @@ es:
           meeting_agenda_items:
             item_0:
               title: Buenas noticias
+              notes: "¿Qué ha salido bien esta semana?"
             item_1:
-              title: Actualizaciones del equipo de desarrollo
+              title: Actualizaciones del equipo
+              notes: Noticias y temas destacados para la próxima semana.
             item_2:
-              title: Actualizaciones del equipo de producto
+              notes: "**Tema de hoy**: organización de la conferencia de código abierto."
             item_3:
-              title: Actualizaciones del equipo de marketing
-            item_5:
-              title: Actualizaciones del equipo de ventas
-            item_6:
               title: Revisión de los objetivos trimestrales
-            item_7:
+              notes: Evaluación del estado y el avance de los objetivos trimestrales definidos.
+            item_4:
               title: Comentarios sobre los valores fundamentales
-            item_8:
+              notes: Destacar a los empleados que hayan puesto en práctica los valores fundamentales esta semana.
+            item_5:
               title: Temas generales
+              notes: Resolución o debate conjunto sobre temas.

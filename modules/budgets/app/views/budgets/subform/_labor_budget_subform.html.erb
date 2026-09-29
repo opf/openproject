@@ -50,13 +50,13 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="generic-table--results-container">
         <table class="generic-table" data-controller="table-highlighting" id="labor_budget_items">
           <colgroup>
-            <col>
-            <col>
+            <col style="width: 15%">
+            <col style="width: 25%">
             <col>
             <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
-              <col>
+              <col style="width: 15%">
             <% end %>
-            <col>
+            <col style="width: 60px">
           </colgroup>
           <thead>
             <tr>

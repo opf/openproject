@@ -53,7 +53,7 @@ RSpec.describe OpenProject::TextFormatting,
       create(:work_package,
              project:,
              author: project_member,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
 
     shared_let(:non_member) do

@@ -3,6 +3,7 @@ el:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: URL Υπηρεσίας Καταναλωτή Ισχυρισμών (ACS)
         authn_requests_signed: Ψηφιακή υπογραφή αιτημάτων SAML AuthnRequests
         certificate: Πιστοποιητικό του OpenProject για αιτήματα SAML
@@ -32,6 +33,10 @@ el:
           invalid_certificate: 'δεν είναι έγκυρο πιστοποιητικό μορφής PEM: %{additional_message}'
           invalid_private_key: 'δεν είναι έγκυρο ιδιωτικό κλειδί μορφής PEM: %{additional_message}'
           unmatched_private_key: δεν αντιστοιχεί στο συγκεκριμένο πιστοποιητικό
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: Διαγραφή παρόχου SAML
@@ -41,6 +46,9 @@ el:
         '
       title: Παράμετροι Διαμόρφωσης Πρωτοκόλλου SAML
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Εάν επιλεγεί, το OpenProject θα υπογράφει ψηφιακά το SAML AuthnRequest. Θα πρέπει να παρέχετε ένα πιστοποιητικό υπογραφής και ένα ιδιωτικό κλειδί χρησιμοποιώντας τα παρακάτω πεδία.
 
         '

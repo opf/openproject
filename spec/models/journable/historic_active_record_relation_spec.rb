@@ -199,7 +199,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         let(:custom_field) do
           create(:text_wp_custom_field,
                  name: "Text CF",
-                 types: project.types,
+                 types: project.enabled_types,
                  projects: [project])
         end
         let!(:monday_cf_journal) do
@@ -263,13 +263,13 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
           let(:list_custom_field) do
             create(:list_wp_custom_field,
                    name: "List CF",
-                   types: project.types,
+                   types: project.enabled_types,
                    projects: [project])
           end
           let(:hierarchy_custom_field) do
             create(:hierarchy_wp_custom_field,
                    name: "Hierarchy CF",
-                   types: project.types,
+                   types: project.enabled_types,
                    projects: [project])
           end
 
@@ -338,7 +338,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         let(:text_custom_field) do
           create(:text_wp_custom_field,
                  name: "Text CF",
-                 types: project.types,
+                 types: project.enabled_types,
                  projects: [project])
         end
         let!(:monday_text_cf_journal) do
@@ -362,7 +362,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         let(:int_custom_field) do
           create(:integer_wp_custom_field,
                  name: "Int CF",
-                 types: project.types,
+                 types: project.enabled_types,
                  projects: [project])
         end
         let!(:monday_int_cf_journal) do

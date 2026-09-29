@@ -71,6 +71,15 @@ ko:
           name: 스태프 및 프로젝트 관리자
         item_1:
           name: 표준 글로벌 역할
+      ai_text_transform_actions:
+        item_0:
+          label: 문법 교정
+        item_1:
+          label: 간결하게 작성
+        item_2:
+          label: 영어로 번역
+        item_3:
+          label: 템플릿에서 정렬
     standard:
       project_phases:
         item_0:

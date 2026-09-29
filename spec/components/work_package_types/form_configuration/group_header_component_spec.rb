@@ -3,11 +3,11 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfiguration::GroupHeaderComponent, type: :component do
-  let(:type) { create(:type) }
+  let(:variant) { create(:type).default_variant }
   let(:group) { { key: "details", name: "Details", type: :attribute } }
 
   def render_header(readonly:)
-    render_inline(described_class.new(group:, type:, ee_available: true, first: true, last: true,
+    render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true,
                                       edit_mode: false, readonly:))
   end
 

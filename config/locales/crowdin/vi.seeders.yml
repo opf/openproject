@@ -71,6 +71,15 @@ vi:
           name: Nhân viên và quản lý dự án
         item_1:
           name: Vai trò toàn cầu tiêu chuẩn
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:

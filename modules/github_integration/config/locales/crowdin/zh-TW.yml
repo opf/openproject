@@ -21,6 +21,18 @@
 #++
 ---
 zh-TW:
+  activerecord:
+    models:
+      deploy_status_check:
+        other: Deployment status checks
+      deploy_target:
+        other: Deployment targets
+      github_check_run:
+        other: GitHub check runs
+      github_pull_request:
+        other: GitHub pull requests
+      github_user:
+        other: GitHub users
   attributes:
     additions_count: 新增數量
     changed_files_count: 更改的檔案

@@ -74,6 +74,26 @@ RSpec.describe UserWorkingHours do
                                                                        .is_greater_than_or_equal_to(0)
                                                                        .is_less_than_or_equal_to(100)
     end
+
+    describe "with a nil weekday column (e.g. omitted from a create payload)" do
+      it "is invalid rather than raising when a single weekday is nil" do
+        subject.public_send(:wednesday=, nil)
+
+        expect { subject.valid? }.not_to raise_error
+        expect(subject).not_to be_valid
+        expect(subject.errors[:wednesday_hours]).to be_present
+      end
+
+      it "is invalid rather than raising when every weekday is nil" do
+        %i[monday tuesday wednesday thursday friday saturday sunday].each do |day|
+          subject.public_send(:"#{day}=", nil)
+        end
+
+        expect { subject.valid? }.not_to raise_error
+        expect(subject).not_to be_valid
+        expect(subject.errors[:days]).to be_present
+      end
+    end
   end
 
   describe "hours accessors" do
@@ -84,6 +104,11 @@ RSpec.describe UserWorkingHours do
         it "returns the minutes value converted to hours" do
           working_hours.public_send("#{day}=", 150)
           expect(working_hours.public_send("#{day}_hours")).to eq(2.5)
+        end
+
+        it "returns 0.0 rather than raising when the underlying minutes column is nil" do
+          working_hours.public_send("#{day}=", nil)
+          expect(working_hours.public_send("#{day}_hours")).to eq(0.0)
         end
       end
 

@@ -31,19 +31,19 @@
 require "spec_helper"
 
 RSpec.describe Workflows::MatrixContext do
-  shared_let(:type) { create(:type) }
+  shared_let(:variant) { create(:type).default_variant }
   shared_let(:role) { create(:project_role) }
   shared_let(:other_role) { create(:project_role) }
   shared_let(:status_a) { create(:status) }
   shared_let(:status_b) { create(:status) }
   shared_let(:status_c) { create(:status) }
 
-  subject(:context) { described_class.new(type:, **options) }
+  subject(:context) { described_class.new(variant:, **options) }
 
   let(:options) { { role_ids: [role.id] } }
 
   def create_transition(old_status:, new_status:, for_role: role, **flags)
-    create(:workflow, role_id: for_role.id, type_id: type.id,
+    create(:workflow, role_id: for_role.id, type_variant_id: variant.id,
                       old_status_id: old_status.id, new_status_id: new_status.id, **flags)
   end
 
@@ -53,12 +53,12 @@ RSpec.describe Workflows::MatrixContext do
     end
 
     it "keeps a known tab" do
-      expect(described_class.new(type:, tab: "author").tab).to eq("author")
-      expect(described_class.new(type:, tab: "assignee").tab).to eq("assignee")
+      expect(described_class.new(variant:, tab: "author").tab).to eq("author")
+      expect(described_class.new(variant:, tab: "assignee").tab).to eq("assignee")
     end
 
     it "falls back to the always tab for anything unrecognised" do
-      expect(described_class.new(type:, tab: "bogus").tab).to eq("always")
+      expect(described_class.new(variant:, tab: "bogus").tab).to eq("always")
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe Workflows::MatrixContext do
     end
 
     it "falls back to the first eligible role when none was requested" do
-      expect(described_class.new(type:).roles).to contain_exactly(Workflow.ordered_eligible_roles.first)
+      expect(described_class.new(variant:).roles).to contain_exactly(Workflow.ordered_eligible_roles.first)
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe Workflows::MatrixContext do
     end
 
     it "is narrowed to the tab on screen" do
-      author_context = described_class.new(type:, tab: "author", role_ids: [role.id])
+      author_context = described_class.new(variant:, tab: "author", role_ids: [role.id])
 
       expect(author_context.statuses).to be_empty
     end
@@ -131,29 +131,29 @@ RSpec.describe Workflows::MatrixContext do
     end
 
     it "returns the author transitions on the author tab" do
-      author_context = described_class.new(type:, tab: "author", role_ids: [role.id])
+      author_context = described_class.new(variant:, tab: "author", role_ids: [role.id])
 
       expect(author_context.workflows.map { [it.old_status_id, it.new_status_id] })
         .to contain_exactly([status_b.id, status_c.id])
     end
 
     it "covers every selected role" do
-      both = described_class.new(type:, role_ids: [role.id, other_role.id])
+      both = described_class.new(variant:, role_ids: [role.id, other_role.id])
 
       expect(both.workflows.map(&:role_id)).to contain_exactly(role.id, other_role.id)
     end
   end
 
   describe "#readonly?" do
-    it "is false while the type owns its workflows" do
+    it "is false while the variant owns its workflows" do
       expect(context).not_to be_readonly
     end
 
-    context "when the workflows aspect is linked to a source type" do
-      shared_let(:source_type) { create(:type) }
+    context "when the workflows aspect is linked to a source variant" do
+      shared_let(:source_variant) { create(:type).default_variant }
 
-      before { type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type) }
-      after { type.configuration_links.destroy_all }
+      before { variant.update!(workflows_source: source_variant) }
+      after { variant.update!(workflows_source: nil) }
 
       it "is true" do
         expect(context).to be_readonly

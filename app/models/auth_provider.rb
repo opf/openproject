@@ -42,6 +42,7 @@ class AuthProvider < ApplicationRecord
   validates :display_name, presence: true
   validates :display_name, uniqueness: true
 
+  after_update :unset_direct_provider, if: -> { saved_change_to_available? && !available? }
   after_destroy :unset_direct_provider
 
   def user_count
@@ -49,6 +50,10 @@ class AuthProvider < ApplicationRecord
   end
 
   def human_type
+    raise SubclassResponsibilityError
+  end
+
+  def csp_form_action_origin
     raise SubclassResponsibilityError
   end
 
@@ -67,5 +72,16 @@ class AuthProvider < ApplicationRecord
     if Setting.omniauth_direct_login_provider == slug
       Setting.omniauth_direct_login_provider = ""
     end
+  end
+
+  def origin_from_url(url)
+    return if url.blank?
+
+    uri = URI.parse(url.to_s)
+    return unless uri.scheme.in?(%w[http https]) && uri.host.present?
+
+    URI.join(uri, "/").to_s
+  rescue URI::InvalidURIError, ArgumentError
+    nil
   end
 end

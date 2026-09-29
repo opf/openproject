@@ -21,6 +21,10 @@
 #++
 ---
 zh-CN:
+  activerecord:
+    models:
+      cost_query:
+        other: 成本报告
   button_save_report_as: 报表另存为...
   comments: 注释
   cost_reports_title: 工时和成本
@@ -46,7 +50,6 @@ zh-CN:
   label_closed: 已关闭
   label_columns: 列
   label_cost_entry_attributes: 成本条目属性
-  label_cost_report: 成本报告
   label_cost_report_plural: 成本报告
   label_count: 数量
   label_days_ago: 在过去几天

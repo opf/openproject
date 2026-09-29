@@ -14,7 +14,12 @@ fa:
         secret: رمز امضا
         url: URL محموله
     models:
-      webhooks/outgoing_webhook: Webhook خروجی
+      webhooks/log:
+        one: گزارش Webhook
+        other: گزارش‌های Webhook
+      webhooks/webhook:
+        one: Webhook
+        other: Webhookها
   plugin_openproject_webhooks:
     description: یک API پلاگین برای پشتیبانی از وب هوک های OpenProject برای ادغام بهتر شخص ثالث ارائه می دهد.
     name: وب‌هوک اپن‌پروژه

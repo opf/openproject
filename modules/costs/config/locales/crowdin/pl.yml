@@ -100,12 +100,31 @@ pl:
         few: Wpisy kosztów
         many: Wpisy kosztów
         other: Wpisy kosztów
+      cost_rate:
+        one: Stawka kosztowa
+        few: Stawki kosztowe
+        many: Stawki kosztowe
+        other: Stawki kosztowe
       cost_type:
         one: Jednostki
         few: Rodzaje kosztów
         many: Rodzaje kosztów
         other: Rodzaje kosztów
-      rate: Stawka
+      default_hourly_rate:
+        one: Domyślna stawka godzinowa
+        few: Domyślne stawki godzinowe
+        many: Domyślne stawki godzinowe
+        other: Domyślne stawki godzinowe
+      hourly_rate:
+        one: Stawka godzinowa
+        few: Stawki godzinowe
+        many: Stawki godzinowe
+        other: Stawki godzinowe
+      rate:
+        one: Stawka
+        few: Stawki
+        many: Stawki
+        other: Stawki
       time_entry:
         one: Wpis czasu
         few: Wpisy czasu
@@ -116,6 +135,11 @@ pl:
         few: Działania śledzenia czasu
         many: Działania śledzenia czasu
         other: Działania śledzenia czasu
+      time_entry_custom_field:
+        one: Pole niestandardowe wpisu czasu
+        few: Pola niestandardowe wpisów czasu
+        many: Pola niestandardowe wpisów czasu
+        other: Pola niestandardowe wpisów czasu
   api_v3:
     errors:
       validation:
@@ -214,7 +238,6 @@ pl:
   label_greater_or_equal: "≥"
   label_group_by: Grupuj według
   label_group_by_add: Dodaj pole grupowania
-  label_hourly_rate: Stawka godzinowa
   label_include_deleted: Uwzględnij usunięte
   label_kind: Typ
   label_less_or_equal: "≤"
@@ -235,7 +258,6 @@ pl:
   label_previous_month: Poprzedni miesiąc
   label_previous_week: Poprzedni tygodzień
   label_previous_workweek: Poprzedni tydzień pracy
-  label_rate: Stawka
   label_rate_plural: Taryfy
   label_show: Pokaż
   label_specific_day: Dzień %{day}
@@ -249,7 +271,6 @@ pl:
   label_today_capitalized: Dzisiaj
   label_units: Koszt jednostki
   label_until: do
-  label_user: Użytkownik
   label_valid_from: Ważny od
   label_view_mode_switcher: Zmień widok
   label_work_package_filter_add: Dodaj filtr Zestawu zadań

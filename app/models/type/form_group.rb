@@ -67,7 +67,7 @@ class Type::FormGroup
     if display_name.present?
       display_name
     elsif internal_key?
-      I18n.t(Type.default_groups[key], default: key.to_s)
+      I18n.t(TypeVariant.default_groups[key], default: key.to_s)
     elsif key.present?
       key
     else

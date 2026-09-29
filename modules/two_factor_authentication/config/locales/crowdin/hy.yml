@@ -20,10 +20,21 @@ hy:
             phone_number:
               error_phone_number_format: պետք է լինի +XX XXXXXXXXX ձևաչափով
     models:
-      two_factor_authentication/device: 2FA սարք
-      two_factor_authentication/device/sms: Բջջային հեռախոս
-      two_factor_authentication/device/totp: Նույնականացնող հավելված
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Շարունակել
   button_make_active: Ակտիվացնել
   button_make_default: Նշել որպես կանխադրված

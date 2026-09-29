@@ -42,6 +42,8 @@ RSpec.describe WorkPackages::Shared::DeletionPlanning do
         @deletion_roots = Array(roots)
         @deletion_user = user
       end
+
+      def include_descendants? = true
     end
   end
 
@@ -162,6 +164,7 @@ RSpec.describe WorkPackages::Shared::DeletionPlanning do
           @deletion_user = user
         end
 
+        def include_descendants? = true
         def deletable?(_descendant) = false
       end
     end
@@ -173,6 +176,39 @@ RSpec.describe WorkPackages::Shared::DeletionPlanning do
     it "uses the override instead of the delete permission" do
       expect(plan.deleted_descendants).to be_empty
       expect(plan.unlinked_descendants).to eq([child])
+    end
+  end
+
+  describe "when the includer opts out of deleting descendants" do
+    let(:host_class) do
+      Class.new do
+        include WorkPackages::Shared::DeletionPlanning
+
+        attr_reader :deletion_roots, :deletion_user
+
+        def initialize(roots, user)
+          @deletion_roots = Array(roots)
+          @deletion_user = user
+        end
+
+        def include_descendants? = false
+      end
+    end
+
+    let!(:root) { create(:work_package, project: home_project) }
+    let!(:child) { create(:work_package, project: home_project, parent: root) }
+    let!(:grandchild) { create(:work_package, project: home_project, parent: child) }
+    let(:roots) { root }
+
+    it "detaches every descendant rather than deleting any" do
+      expect(plan.deleted_descendants).to be_empty
+      expect(plan.unlinked_descendants).to eq([child])
+    end
+
+    it "stops at the direct children, leaving the deeper subtree attached to the survivor" do
+      expect(plan.deleted_descendants).not_to include(grandchild)
+      expect(plan.unlinked_descendants).not_to include(grandchild)
+      expect(grandchild.reload.parent).to eq(child)
     end
   end
 end

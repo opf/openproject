@@ -164,6 +164,6 @@ By default, the portfolio overview displays all active portfolios you can access
 
 A portfolio can be edited, copied, set to public, used as a template, and deleted in the same way as a project. For more information, see the [Projects guide](../projects).
 
-One difference is that the **Subitems** widget on a portfolio home page allows you to add both **programs** and **projects** as subitems.
+One difference is that the **Subitems** widget on a portfolio home page allows you to add both **programs** and **projects** as subitems. To add a new project, you can also select *+ Add subproject* from the **More** (three dots) menu. 
 
 ![Options to add a program or a project in the Subitems widget on a portfolio home page in OpenProject](openproject_user_guide_portfolios_subitem_widget_options.png)

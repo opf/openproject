@@ -20,7 +20,7 @@ Here, you will see a list of all existing work package types.
 
 ![System-admin-work-packages-types](openproject_system_guide_work_package_types.png)
 
-### Workflow summary
+## Workflow summary
 
 On the work package types overview page, click the **(...)** menu in the upper-right corner and select **Workflow summary** to open an overview of the configured workflows.
 

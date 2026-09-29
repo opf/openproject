@@ -12,6 +12,20 @@
 .op-project-timeline-graph
   width: 100%
 
+  &--accessible-list
+    list-style: none
+
+  &--accessible-link
+    padding: var(--base-size-4) var(--base-size-8)
+    border-radius: var(--borderRadius-default)
+    background: var(--bgColor-default)
+
+    &:focus
+      position: static !important
+      display: inline-block
+      max-width: calc(100% - var(--base-size-16))
+      margin: var(--base-size-8)
+
   // Timeline border and grid lines
   .vis-timeline
     border-color: transparent
@@ -29,16 +43,14 @@
     display: none
 
   // Tooltip
-  .vis-tooltip
-    background: var(--body-background)
-    color: var(--fgColor-default)
-    border: 1px solid var(--borderColor-default)
-    border-radius: var(--borderRadius-default)
-    box-shadow: var(--shadow-floating-small)
-    padding: var(--base-size-12)
-    max-width: 350px
-    @include text-shortener(false)
-    white-space: normal
+  .op-project-timeline-graph--tooltip
+    pointer-events: none
+
+    .Popover-message
+      width: auto
+      max-width: 350px
+      padding: var(--base-size-12)
+      overflow-wrap: anywhere
 
   .op-timeline-tooltip--meta-row
     display: inline-flex
@@ -131,8 +143,16 @@
     background-color: var(--bgColor-accent-muted)
     color: var(--fgColor-accent)
     border: 1px solid var(--borderColor-accent-muted)
+    cursor: pointer
 
     &.op-timeline-sprint--active
       background-color: var(--bgColor-accent-emphasis)
       color: var(--fgColor-onEmphasis)
       border-color: var(--bgColor-accent-emphasis)
+
+  .vis-item.vis-range.op-timeline-sprint.vis-selected
+    border: var(--borderWidth-thick) solid var(--fgColor-accent) !important
+
+  .vis-item.vis-point.op-timeline-milestone.vis-selected
+    .vis-dot
+      border: var(--borderWidth-thick) solid var(--fgColor-accent) !important

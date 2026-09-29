@@ -7,14 +7,17 @@ The Inset Box element is used to visually group content inside a container with 
 The Inset Box is made up of:
 
 1. The **container**, which provides consistent padding and background.
-2. The **content slot**, which renders any inner content (text, forms, tables, etc.).
-3. An optional **border**, which can be toggled off when not needed.
+2. An optional **title**, with an optional **title icon** in front of it.
+3. The **content slot**, which renders any inner content (text, forms, tables, etc.).
+4. Optional **actions**, rendered in a row below the content.
+5. An optional **border**, which can be toggled off when not needed.
+6. A **scheme**, which colors the background and the border.
 
 ## Default rendering
 
 - **Border:** enabled by default
 - **Border radius:** 2
-- **Background:** `:inset` (light grey)
+- **Background:** `:inset` (light grey), from the `:default` scheme
 - **Padding:** 3
 
 <%= embed OpPrimer::InsetBoxComponentPreview, :default %>
@@ -24,9 +27,58 @@ The Inset Box is made up of:
 The Inset Box supports the following options:
 
 - **Border** – can be disabled with `border: false`.
+- **Scheme** – colors the box, see below.
 - **Other system arguments** – all `Primer::Box` arguments are passed through.
 
 <%= embed OpPrimer::InsetBoxComponentPreview, :borderless %>
+
+## Schemes
+
+`scheme:` mirrors the schemes of `Primer::Alpha::Banner`, with `:info` in place of
+`:upsell`. Each one sets the background and the border color:
+
+| Scheme | Use it for |
+| --- | --- |
+| `:default` | grouping related content. No status attached. |
+| `:info` | a neutral fact the reader has to know to understand the content. |
+| `:warning` | a consequence the reader has to weigh before acting. |
+| `:danger` | an action that destroys data or cannot be undone. |
+| `:success` | an outcome that has already happened. |
+
+Pick the icon yourself: unlike the Banner, the Inset Box does not imply one from the
+scheme. `:info` pairs with `info`, `:warning` with `alert`, `:danger` with `stop`, and
+`:success` with `check-circle`.
+
+A colored box carries the same weight as a banner, so use one only where the status is
+about the content of the box. For a page-level message, use `Primer::Alpha::Banner`.
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :info %>
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :warning %>
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :danger %>
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :success %>
+
+## Title
+
+Call `with_title` for a heading above the content. It renders an `h3` by default, which
+`tag:` overrides. Add `with_title_icon` for an Octicon in front of it.
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :with_title_icon %>
+
+## Actions
+
+Call `with_action_button` for each button that follows the content, or `with_action_menu`
+for an overflow menu. Both slots accept many entries, and they render in the order they
+are added.
+
+Use actions for what the box itself offers. An action that applies to the surrounding
+page belongs in the sub header, not here.
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :with_action_buttons %>
+
+<%= embed OpPrimer::InsetBoxComponentPreview, :with_action_menu %>
 
 ## Uses
 
@@ -38,8 +90,8 @@ Some places where we already use the Inset Box:
 
 It is useful whenever content should stand out from the page background while staying lightweight.
 
-If content needs more structure, such as headers, actions, or multiple items,
-consider using the Border Box List component instead.
+If the content is a list of many items, consider using the Border Box List component
+instead.
 
 ## Best practices
 
@@ -50,7 +102,7 @@ consider using the Border Box List component instead.
 
 **Don't**
 
-- Don’t apply arbitrary custom background colors in CSS — use the component’s options.
+- Don’t apply arbitrary custom background colors in CSS — use `scheme:`.
 - Don’t duplicate "grey box" styles manually; always use the Inset Box.
 - Don’t use Inset Box if a more structured component, such as Border Box List,
   is better suited.
@@ -59,4 +111,4 @@ consider using the Border Box List component instead.
 
 <%= embed OpPrimer::InsetBoxComponentPreview, :playground, panels: %i[params source] %>
 
-The Inset Box is implemented as a wrapper around `Primer::Box` with opinionated defaults for border, padding, border radius, and background. It passes through all other `system_arguments` to `Primer::Box`.
+The Inset Box is implemented as a wrapper around `Primer::Box` with opinionated defaults for border, padding and border radius, and a `scheme:` that resolves to `bg:` and `border_color:` arguments. It passes through all other `system_arguments` to `Primer::Box`. The title slots wrap `Primer::Beta::Heading` and `Primer::Beta::Octicon`, the action slots wrap `Primer::Beta::Button` and `Primer::Alpha::ActionMenu`.

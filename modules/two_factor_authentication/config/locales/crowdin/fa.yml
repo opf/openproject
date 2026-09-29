@@ -20,10 +20,21 @@ fa:
             phone_number:
               error_phone_number_format: باید با قالب +XX XXXXXXXXX باشد
     models:
-      two_factor_authentication/device: دستگاه 2FA
-      two_factor_authentication/device/sms: تلفن همراه
-      two_factor_authentication/device/totp: برنامه Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: کد پشتیبان
+        other: کدهای پشتیبان
+      two_factor_authentication/device:
+        one: دستگاه 2FA
+        other: دستگاه‌های 2FA
+      two_factor_authentication/device/sms:
+        one: تلفن همراه
+        other: تلفن‌های همراه
+      two_factor_authentication/device/totp:
+        one: برنامه احراز هویت
+        other: برنامه‌های احراز هویت
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: ادامه
   button_make_active: فعال‌کردن
   button_make_default: تنظیم به‌عنوان پیش‌فرض

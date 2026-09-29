@@ -28,4 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Groups::CreateService < BaseServices::Create; end
+module Groups
+  class CreateService < BaseServices::Create
+    include AncestorMembershipPropagation
+
+    protected
+
+    def after_perform(call)
+      group = call.result
+      propagate_ancestor_memberships(group) if group.parent_id.present?
+
+      call
+    end
+  end
+end

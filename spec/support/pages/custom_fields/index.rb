@@ -52,6 +52,14 @@ module Pages
         fill_in "custom_field[default_value]", with: value
       end
 
+      def set_min_value(value)
+        fill_in "custom_field[min_value]", with: value
+      end
+
+      def set_max_value(value)
+        fill_in "custom_field[max_value]", with: value
+      end
+
       def set_all_projects(value)
         find_by_id("is_for_all").set value
       end

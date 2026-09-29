@@ -18,6 +18,61 @@
   &__row-action
     margin-top: -6px // Moving the button slightly to the top, so that the icon aligns visually with the other columns
 
+// Drag-and-drop states for tables wiring up sortable-lists. Scoped to the rows
+// container so they cannot restyle rows of unrelated dragula lists, and inert on
+// tables that are not sortable since nothing sets these attributes there.
+.op-border-box-table--rows
+  --op-border-box-table-drop-gap-border-width: 2px
+  --op-border-box-table-drop-gap-height: 8px
+
+  .Box-row[data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+
+  .Box-row[data-drop-position]
+    position: relative
+
+    &::before,
+    &::after
+      position: absolute
+      left: 0
+      right: 0
+      height: var(--op-border-box-table-drop-gap-height)
+      background: linear-gradient(
+        to bottom,
+        var(--bgColor-accent-muted) 0,
+        var(--bgColor-accent-muted) calc(50% - var(--op-border-box-table-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% - var(--op-border-box-table-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% + var(--op-border-box-table-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) calc(50% + var(--op-border-box-table-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) 100%
+      )
+      pointer-events: none
+      z-index: 1
+
+    &[data-drop-position="top"]::before
+      content: ''
+      top: calc(var(--op-border-box-table-drop-gap-height) / -2)
+
+    &[data-drop-position="bottom"]::after
+      content: ''
+      bottom: calc(var(--op-border-box-table-drop-gap-height) / -2)
+
+// The drag preview is a clone of the row lifted out of its box, so it has to
+// bring the surface the box would otherwise give it.
+.Box-row[data-preview]
+  background-color: var(--bgColor-default)
+  border-radius: var(--borderRadius-medium)
+  box-shadow: var(--shadow-floating-medium)
+  opacity: 1
+
+  // Firefox folds the box-shadow ink overflow into the native drag-image snapshot,
+  // shifting its origin off the border box so the grab offset no longer lines up
+  // under the pointer.
+  .-browser-firefox &
+    box-shadow: none
+
 @media screen and (min-width: $breakpoint-md)
   .op-border-box-grid
     // Distribute columns evenly on desktop

@@ -38,6 +38,19 @@ fa:
           attributes:
             labels:
               invalid_schema: باید آرایه‌ای از hashها با کلیدهای color و title باشد
+    models:
+      gitlab_issue:
+        one: مسئله GitLab
+        other: مسائل GitLab
+      gitlab_merge_request:
+        one: Merge Request در GitLab
+        other: Merge Requestهای GitLab
+      gitlab_pipeline:
+        one: پایپ‌لاین GitLab
+        other: پایپ‌لاین‌های GitLab
+      gitlab_user:
+        one: کاربر GitLab
+        other: کاربران GitLab
   attributes:
     commit: Commit
     gitlab: شناسهٔ GitLab

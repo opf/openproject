@@ -59,7 +59,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
 
         expect(instance.render(key, [nil, changes]))
           .to eq(I18n.t(:text_journal_file_link_added,
-                        label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                        label: "<strong>#{I18n.t(:label_file)}</strong>",
                         value: "<a target=\"_blank\" href=\"#{link}\">#{file_link.origin_name}</a>",
                         storage: file_link.storage.name))
       end
@@ -67,7 +67,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       it 'if the storage name is nil and the file link does not exist, "Unknown storage" is used' do
         expect(instance.render("file_links_12", [changes, nil]))
           .to eq(I18n.t(:text_journal_file_link_deleted,
-                        label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                        label: "<strong>#{I18n.t(:label_file)}</strong>",
                         old: "<strike><i>#{file_link.origin_name}</i></strike>",
                         storage: I18n.t(
                           "unknown_storage",
@@ -82,7 +82,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
           link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/file_links/#{file_link.id}/open"
           expect(instance.render(key, [nil, changes]))
             .to eq(I18n.t(:text_journal_file_link_added,
-                          label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                          label: "<strong>#{I18n.t(:label_file)}</strong>",
                           value: "<a target=\"_blank\" href=\"#{link}\">#{file_link.origin_name}</a>",
                           storage: file_link.storage.name))
         end
@@ -94,7 +94,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
             link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/file_links/#{file_link.id}/open"
             expect(instance.render(key, [nil, changes]))
               .to eq(I18n.t(:text_journal_file_link_added,
-                            label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                            label: "<strong>#{I18n.t(:label_file)}</strong>",
                             value: "<a target=\"_blank\" href=\"#{link}\">#{file_link.origin_name}</a>",
                             storage: file_link.storage.name))
           end
@@ -104,7 +104,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       context "as plain text" do
         it "adds a file link added text" do
           message = I18n.t(:text_journal_file_link_added,
-                           label: I18n.t("activerecord.models.file_link"),
+                           label: I18n.t(:label_file),
                            value: file_link.origin_name,
                            storage: file_link.storage.name)
 
@@ -117,7 +117,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       context "as HTML" do
         it "adds a file link remove text" do
           message = I18n.t(:text_journal_file_link_deleted,
-                           label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
+                           label: "<strong>#{I18n.t(:label_file)}</strong>",
                            old: "<strike><i>#{file_link.origin_name}</i></strike>",
                            storage: file_link.storage.name)
 
@@ -128,7 +128,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       context "as plain text" do
         it "adds a file link removed" do
           message = I18n.t(:text_journal_file_link_deleted,
-                           label: I18n.t("activerecord.models.file_link"),
+                           label: I18n.t(:label_file),
                            old: file_link.origin_name,
                            storage: file_link.storage.name)
 

@@ -32,24 +32,81 @@ to coordinate with co-located quick filter inputs.
 )) %>
 ```
 
-To restrict or reorder the advertised filters, subclass `Filter::FilterComponent`
-and override `allowed_filters`:
-
-```ruby
-class MyFiltersComponent < Filter::FilterComponent
-  def allowed_filters
-    super
-      .grep_v(SomeNoisyFilter)
-      .sort_by(&:human_name)
-  end
-end
-```
-
 `turbo_requests?` toggles whether changes auto-submit via a turbo stream or
 require an explicit Apply click. `lazy_loaded_path` defers the actual filter
 rendering until the dropdown is opened (a skeleton is shown in the meantime).
 
 <%= embed OpenProject::Filter::FiltersComponentPreview, :default, panels: %i[preview source] %>
+
+### Restricting the filters
+
+Some filters might be registered on the query but are only used internally.
+The autocompleter filter is a good example.
+Those should not be advertised to the user. They should not be available in
+the "Add filter" select and also not be rendered in the filter rows.
+
+There are three ways to do that:
+
+**The filter should never be offered for this query.** Typically one that only
+backs an autocompleter or an API use case. Mark it in the query's registration
+and every filter form over that query drops it, while the filter keeps working
+when set programmatically or from a stored query:
+
+```ruby
+::Queries::Register.register(::Query) do
+  filter Filter::SomeInternalFilter
+  exclude Filter::SomeInternalFilter
+end
+```
+
+A handful of names that recur across queries —
+`Filters::FilterFormComponent::NEVER_ADVERTISED_FILTER_NAMES` — are dropped
+without any registration.
+
+**The filter should not be offered in this one panel.** Because a dedicated
+picker owns it, or the surrounding context makes it meaningless. Set the
+`excluded_filters` option on the component — it takes filter *names*:
+
+```ruby
+class MyFiltersComponent < Filter::FilterComponent
+  options excluded_filters: %i[project_id member]
+end
+```
+
+`Filters::FilterFormComponent` takes the same list as a keyword argument.
+
+**You need an allowlist or a different order.** Only then override
+`allowed_filters`:
+
+```ruby
+class MyFiltersComponent < Filter::FilterComponent
+  def allowed_filters
+    super.sort_by(&:human_name)
+  end
+end
+```
+
+Note that `allowed_filters` runs *before* the exclusions above, so an override
+does not have to repeat them.
+
+### Width
+
+The box always follows its container, but the inputs inside it are capped at a
+readable width by default. That matters on index pages, where the component is
+rendered into the sub-header's bottom pane: the pane spans the viewport, and
+without the cap the operator and value inputs stretch across the whole page
+with it. The Apply / Close footer is deliberately left uncapped so it stays
+aligned to the edge of the box.
+
+`full_width: true` lifts the cap and lets the inputs fill the container. It
+adds an `op-filters-form--full-width` modifier to the component's root element,
+which resets the `--op-filters-form-content-max-width` custom property the cap
+is built on.
+
+The cap is a `max-width`, so it never binds in a container narrower than it —
+you only need `full_width:` where wide inputs are actually wanted.
+
+<%= embed OpenProject::Filter::FiltersComponentPreview, :full_width, panels: %i[preview source] %>
 
 ## Filters::FilterFormComponent
 
@@ -107,11 +164,14 @@ fields still submit through the same surrounding `<form>`.
 
 ### Inside a clipping container (dialogs)
 
-ng-select dropdowns are positioned by their parent; if the component lives
-inside a Primer dialog or any other overflow-clipping container, the
-dropdown gets cut off. Pass `autocomplete_append_to:` with a CSS selector
-that ng-select can resolve (typically the dialog id, or `"body"`) — the
-component forwards it as `appendTo` to every autocompleter it renders.
+Filter inputs open overlays — ng-select dropdowns on the autocompleter and list
+filters, flatpickr calendars on the date filters. Both are positioned relative
+to their parent, so inside a Primer dialog they get clipped by it or painted
+behind it: the dialog opens in the browser's top layer, which overrides all
+other positioning.
+
+Pass `dialog_id:` with the **bare id** of the hosting dialog (no `#`) and the
+component portals every overlay into the dialog itself:
 
 ```erb
 <%%= primer_form_with(...) do |f| %>
@@ -121,11 +181,17 @@ component forwards it as `appendTo` to every autocompleter it renders.
       query: @query,
       wrap_with_controller: true,
       hidden_input_name: "filters",
-      autocomplete_append_to: "#my-dialog"
+      dialog_id: "my-dialog"
     )
   ) %>
 <%% end %>
 ```
+
+The component adapts the id per input type — autocompleters receive it as
+ng-select's `appendTo` selector (`"#my-dialog"`), date pickers as flatpickr's
+`inDialog`. Callers only ever pass the plain id. See
+[Autocompleters](/lookbook/pages/patterns/autocompleters) for the underlying
+option.
 
 ## When to use which
 

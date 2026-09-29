@@ -240,6 +240,12 @@ class Meeting < ApplicationRecord
     template? && recurring_meeting_id.nil?
   end
 
+  # The series event in the ICS renders the template: its location, its duration and its attendees.
+  # A change to any of them is a new revision of that event.
+  def bump_series_ical_sequence!
+    recurring_meeting.bump_ical_sequence! if series_template?
+  end
+
   # One-time meeting time zone
   # is always in the user's time zone
   def time_zone

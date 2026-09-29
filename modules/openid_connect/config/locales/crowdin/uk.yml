@@ -43,6 +43,17 @@ uk:
           invalid_claims_location: 'містять непідтримувані місцезнаходження: %{invalid}. Підтримуються такі: %{supported}.'
           invalid_claims_values: не визначає масив даних в атрибуті «%{attribute}».
           non_object_attribute: не визначає об’єкт JSON в атрибуті «%{attribute}».
+    models:
+      openid_connect/provider:
+        one: Постачальник OpenID Connect
+        few: Постачальники OpenID Connect
+        many: Постачальники OpenID Connect
+        other: Постачальники OpenID Connect
+      openid_connect/user_token:
+        one: Маркер OpenID Connect
+        few: Маркери OpenID Connect
+        many: Маркери OpenID Connect
+        other: Маркери OpenID Connect
   logout_warning: 'Ви вийшли з системи. Вміст будь-якої форми, яку ви надішлете, може бути втрачено. Спробуйте, [увійти].
 
     '

@@ -27,9 +27,23 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { durationStringToSeconds, formattedHour } from 'core-stimulus/helpers/chronic-duration-helper';
+import {
+  DAYS_PER_MONTH_DEFAULT,
+  durationStringToSeconds,
+  formattedHour,
+  HOURS_PER_DAY_DEFAULT,
+} from 'core-stimulus/helpers/chronic-duration-helper';
 
 export default class ChronicDurationController extends Controller<HTMLInputElement> {
+  static values = {
+    hoursPerDay: { type: Number, default: HOURS_PER_DAY_DEFAULT },
+    daysPerMonth: { type: Number, default: DAYS_PER_MONTH_DEFAULT },
+  };
+
+  declare hoursPerDayValue:number;
+
+  declare daysPerMonthValue:number;
+
   private processChangeFn = () => { this.onBlur(); };
   private keyPressedFn = (evt:KeyboardEvent) => { this.onKeyPress(evt); };
 
@@ -46,7 +60,10 @@ export default class ChronicDurationController extends Controller<HTMLInputEleme
   }
 
   private onBlur() {
-    const parsedSeconds = durationStringToSeconds(this.element.value);
+    const parsedSeconds = durationStringToSeconds(this.element.value, {
+      hoursPerDay: this.hoursPerDayValue,
+      daysPerMonth: this.daysPerMonthValue,
+    });
     this.element.value = formattedHour(parsedSeconds);
   }
 

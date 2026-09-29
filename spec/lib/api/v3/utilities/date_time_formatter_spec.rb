@@ -180,8 +180,8 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
       expect(subject.format_duration_from_hours(5.5)).to eq("PT5H30M")
     end
 
-    it "includes seconds" do
-      expect(subject.format_duration_from_hours(5.501)).to eq("PT5H30M3S")
+    it "includes seconds, rounded rather than truncated" do
+      expect(subject.format_duration_from_hours(5.501)).to eq("PT5H30M4S")
     end
 
     it "formats ints" do
@@ -228,6 +228,10 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
 
     it "includes minutes and seconds" do
       expect(subject.format_duration_from_days(5.501)).to eq("P5DT12H1M26S")
+    end
+
+    it "rounds rather than truncates seconds" do
+      expect(subject.format_duration_from_days(5.5006)).to eq("P5DT12H52S")
     end
 
     it "formats ints" do

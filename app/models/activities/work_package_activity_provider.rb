@@ -34,7 +34,6 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
 
   def extend_event_query(query)
     join_types_table(query)
-    join_parent_types_table(query)
     join_statuses_table(query)
     join_activitied_table(query)
   end
@@ -44,8 +43,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
       activity_journal_projection_statement(:subject, "subject"),
       activity_journal_projection_statement(:project_id, "project_id"),
       projection_statement(statuses_table, :is_closed, "status_closed"),
-      # A variant shows its root's name
-      Arel::Nodes::NamedFunction.new("COALESCE", [parent_types_table[:name], types_table[:name]]).as("type_name"),
+      projection_statement(types_table, :name, "type_name"),
       projection_statement(activitied_table, :identifier, "identifier")
     ]
   end
@@ -88,11 +86,6 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
     query.join(types_table).on(activity_journals_table[:type_id].eq(types_table[:id]))
   end
 
-  def join_parent_types_table(query)
-    query.join(parent_types_table, Arel::Nodes::OuterJoin)
-         .on(types_table[:parent_id].eq(parent_types_table[:id]))
-  end
-
   def join_statuses_table(query)
     query.join(statuses_table).on(activity_journals_table[:status_id].eq(statuses_table[:id]))
   end
@@ -103,10 +96,6 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
 
   def types_table
     @types_table = Type.arel_table
-  end
-
-  def parent_types_table
-    @parent_types_table ||= Type.arel_table.alias("parent_types")
   end
 
   def statuses_table

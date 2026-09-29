@@ -20,10 +20,26 @@ hr:
             phone_number:
               error_phone_number_format: must be of format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA device
-      two_factor_authentication/device/sms: Mobile phone
-      two_factor_authentication/device/totp: Authenticator application
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        other: WebAuthn
   button_continue: Nastavi
   button_make_active: Activate
   button_make_default: Mark as default

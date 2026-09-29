@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class ListWorkPackageRelations < Base
+  class ListWorkPackageRelations < SearchTool
     default_title "List work package relations"
     default_description "List relations of the given work package towards other work packages."
 
@@ -37,29 +37,35 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
 
     input_schema(
+      additionalProperties: false,
       required: %i[work_package_id],
       properties: {
         work_package_id: {
-          type: :number,
-          description: "The ID of the work package whose relations shall be listed."
+          type: %w[string number],
+          description: "The identifier of the work package whose relations shall be listed."
         }
       }
     )
 
-    def call(work_package_id:)
-      work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
-      return { error: "Can't find given work package." } if work_package.nil?
+    def scope_param_names
+      %i[work_package_id]
+    end
 
-      relations = work_package
-        .relations
-        .visible(current_user)
-        .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
-        .to_a
+    def base_scope(work_package_id:)
+      work_package = WorkPackage.visible(current_user).find_by_display_id(work_package_id)
+      return Failure("Can't find given work package.") if work_package.nil?
 
-      {
-        items: relations.map { |r| ::API::V3::Relations::RelationRepresenter.new(r, current_user:) },
-        total: relations.size
-      }
+      Success(
+        work_package
+          .relations
+          .visible(current_user)
+          .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
+          .to_a
+      )
+    end
+
+    def format_item(item)
+      ::API::V3::Relations::RelationRepresenter.new(item, current_user:)
     end
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
     described_class.new query
   end
 
-  let(:type) { create(:type_standard, custom_fields: [custom_field]) }
+  let(:type) { create(:type_task, custom_fields: [custom_field]) }
   let(:project) do
     create(:project,
            types: [type],

@@ -187,6 +187,9 @@ RSpec.describe "Wysiwyg work package mentions",
   # `data-display-id` — and `wp_label`, the visible link label after the
   # macro pipeline renders the comment.
   shared_examples "work package mention with all triggers" do
+    # The quickinfo widget prefixes the type, upcased.
+    let(:mentioned_type_label) { mentioned_work_package.type.name.upcase }
+
     it "can autocomplete work packages with different triggers" do
       # Test # trigger
       activity_tab.type_comment("##{wp_display_id}")
@@ -206,7 +209,7 @@ RSpec.describe "Wysiwyg work package mentions",
         "[data-detailed='false']"
       )
       activity_tab.submit_comment
-      activity_tab.expect_journal_notes text: "NONE #{wp_label}: #{mentioned_work_package.subject}"
+      activity_tab.expect_journal_notes text: "#{mentioned_type_label} #{wp_label}: #{mentioned_work_package.subject}"
 
       # Test ### trigger
       activity_tab.type_comment("####{wp_display_id}")
@@ -220,7 +223,8 @@ RSpec.describe "Wysiwyg work package mentions",
       )
       activity_tab.submit_comment
 
-      activity_tab.expect_journal_notes text: "Some statusNONE #{wp_label}: #{mentioned_work_package.subject}"
+      activity_tab.expect_journal_notes text:
+        "Some status#{mentioned_type_label} #{wp_label}: #{mentioned_work_package.subject}"
     end
   end
 

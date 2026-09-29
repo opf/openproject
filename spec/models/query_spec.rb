@@ -96,6 +96,23 @@ RSpec.describe Query,
       expect(classes).not_to include(Queries::WorkPackages::Filter::ManualSortFilter)
     end
 
+    it "excludes the relation-type filters and the generic relatable filter" do
+      classes = query.available_advanced_filters.map(&:class)
+
+      expect(classes).not_to include(Queries::WorkPackages::Filter::BlocksFilter,
+                                     Queries::WorkPackages::Filter::BlockedFilter,
+                                     Queries::WorkPackages::Filter::PrecedesFilter,
+                                     Queries::WorkPackages::Filter::FollowsFilter,
+                                     Queries::WorkPackages::Filter::DuplicatesFilter,
+                                     Queries::WorkPackages::Filter::DuplicatedFilter,
+                                     Queries::WorkPackages::Filter::PartofFilter,
+                                     Queries::WorkPackages::Filter::IncludesFilter,
+                                     Queries::WorkPackages::Filter::RequiresFilter,
+                                     Queries::WorkPackages::Filter::RequiredFilter,
+                                     Queries::WorkPackages::Filter::RelatesFilter,
+                                     Queries::WorkPackages::Filter::RelatableFilter)
+    end
+
     it "still exposes regular work-package filters" do
       classes = query.available_advanced_filters.map(&:class)
 
@@ -363,11 +380,13 @@ RSpec.describe Query,
 
         query.displayable_columns
 
+        # rubocop:disable RSpec/MessageSpies -- a spy would also record the call above
         expect(project)
           .not_to receive(:all_work_package_custom_fields)
 
         expect(project)
-          .not_to receive(:types)
+          .not_to receive(:enabled_types)
+        # rubocop:enable RSpec/MessageSpies
 
         query.displayable_columns
       end
@@ -381,7 +400,7 @@ RSpec.describe Query,
 
         allow(project2)
           .to receive_messages(all_work_package_custom_fields: WorkPackageCustomField.none,
-                               types: Type.none)
+                               enabled_types: Type.none)
 
         query.displayable_columns
       end
@@ -413,7 +432,7 @@ RSpec.describe Query,
     context "with relation_to_type columns" do
       let(:type_in_project) do
         type = create(:type)
-        project.types << type
+        project.project_types.create!(type:)
 
         type
       end
@@ -490,7 +509,7 @@ RSpec.describe Query,
 
     before do
       custom_field
-      project.types << type
+      project.project_types.create!(type:)
 
       stub_const("Relation::TYPES",
                  relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },

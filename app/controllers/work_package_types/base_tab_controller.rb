@@ -30,15 +30,22 @@
 
 module WorkPackageTypes
   class BaseTabController < ApplicationController
-    layout "admin"
+    include AddressesVariant
+    include ::WorkPackageTypes::ConfiguredInScope
 
-    before_action :require_admin
     before_action :find_type
+    before_action :find_variant
 
     private
 
     def find_type
-      @type = ::Type.find(params[:type_id])
+      @type = ::Type.find(params.expect(:type_id))
+    end
+
+    def addressed_type = @type
+
+    def find_variant
+      @variant = addressed_variant(among: @type.variants)
     end
   end
 end

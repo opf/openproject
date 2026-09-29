@@ -37,7 +37,7 @@ RSpec.describe "API v3 Work package resource",
 
   shared_let(:project) { create(:project, public: false, enabled_module_names: %w[work_package_tracking backlogs]) }
   shared_let(:other_project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs]) }
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
   shared_let(:sprint) { create(:sprint, project:) }

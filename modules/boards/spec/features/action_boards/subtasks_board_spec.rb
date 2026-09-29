@@ -31,7 +31,7 @@ require_relative "../support//board_index_page"
 require_relative "../support/board_page"
 
 RSpec.describe "Subtasks action board", :js, :selenium do
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:project_role, permissions:) }
 

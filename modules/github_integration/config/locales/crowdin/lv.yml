@@ -21,6 +21,28 @@
 #++
 ---
 lv:
+  activerecord:
+    models:
+      deploy_status_check:
+        zero: Deployment status checks
+        one: Deployment status check
+        other: Deployment status checks
+      deploy_target:
+        zero: Deployment targets
+        one: Deployment target
+        other: Deployment targets
+      github_check_run:
+        zero: GitHub check runs
+        one: GitHub check run
+        other: GitHub check runs
+      github_pull_request:
+        zero: GitHub pull requests
+        one: GitHub pull request
+        other: GitHub pull requests
+      github_user:
+        zero: GitHub users
+        one: GitHub user
+        other: GitHub users
   attributes:
     additions_count: Number of additions
     changed_files_count: Changed files

@@ -123,7 +123,7 @@ module ::ResourceManagement
 
       replace_view_content
       close_dialog_via_turbo_stream(
-        "##{ResourcePlannerViews::WorkPackageList::AddWorkPackageDialogComponent::DIALOG_ID}"
+        ResourcePlannerViews::WorkPackageList::AddWorkPackageDialogComponent::DIALOG_ID
       )
       respond_with_turbo_streams
     end
@@ -177,7 +177,7 @@ module ::ResourceManagement
 
       replace_view_content
       close_dialog_via_turbo_stream(
-        "##{ResourcePlannerViews::UserCardList::AddUserDialogComponent::DIALOG_ID}"
+        ResourcePlannerViews::UserCardList::AddUserDialogComponent::DIALOG_ID
       )
       respond_with_turbo_streams
     end
@@ -283,7 +283,7 @@ module ::ResourceManagement
         )
       )
       replace_via_turbo_stream(component: work_package_list_content(view))
-      close_dialog_via_turbo_stream("##{ResourcePlannerViews::EditDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ResourcePlannerViews::EditDialogComponent::DIALOG_ID)
       respond_with_turbo_streams
     end
 

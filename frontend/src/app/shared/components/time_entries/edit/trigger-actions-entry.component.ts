@@ -86,8 +86,8 @@ export class TriggerActionsEntryComponent {
 
   editTimeEntry() {
     void this.loadEntry().subscribe((entry:TimeEntryResource) => {
-      document.addEventListener('dialog:close', (event:CustomEvent) => {
-        const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement, submitted:boolean } };
+      document.addEventListener('dialog:close', (event) => {
+        const { detail: { dialog, submitted } } = event;
         if (dialog.id === 'time-entry-dialog' && submitted) {
           window.location.reload();
         }

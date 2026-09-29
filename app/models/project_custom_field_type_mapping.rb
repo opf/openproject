@@ -29,9 +29,9 @@
 #++
 
 class ProjectCustomFieldTypeMapping < ApplicationRecord
-  belongs_to :type
+  belongs_to :type_variant, inverse_of: :own_project_custom_field_type_mappings
   belongs_to :project_custom_field, class_name: "ProjectCustomField", foreign_key: "custom_field_id",
                                     inverse_of: :project_custom_field_type_mappings
 
-  validates :custom_field_id, uniqueness: { scope: :type_id }
+  validates :custom_field_id, uniqueness: { scope: :type_variant_id }
 end

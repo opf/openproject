@@ -20,8 +20,10 @@ vi:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: DN cơ sở bộ lọc phải nằm trong DN cơ sở của kết nối LDAP
     models:
-      ldap_groups/synchronized_filter: Bộ lọc đồng bộ hóa nhóm LDAP
-      ldap_groups/synchronized_group: Nhóm LDAP được đồng bộ hóa
+      ldap_groups/synchronized_filter:
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

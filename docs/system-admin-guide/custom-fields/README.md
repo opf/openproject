@@ -21,24 +21,36 @@ You will see the list of all the custom fields that have been created so far, di
 
 If none have been created so far, click on the link **Create a new custom field** in the respective section, e.g. on the tab for work packages and select the custom field format.
 
-![Custom fields in OpenProject administration settings](administration-custom-fields.png)
+![Custom fields overview in OpenProject administration](administration-custom-fields.png)
 
 Depending on the module for which the new custom field is being created, slightly different options may be available. The example below shows a new custom field (with the **Text** format selected) for a **Work Package**.
 
 > [!TIP]
 > Depending on the format of the custom field, the fields to specify vary.
 
-![Sys-admin-create-custom-field](openproject_system_guide_new_custom_field_new.png)
+![Create a Text custom field in OpenProject administration](openproject_system_guide_new_custom_field_new.png)
 
 1. Custom field **Name**, which will appear as the attribute name on the work package form.
-2. Specify the **minimal and maximal length**. If a 0 is chosen, no restriction will be imposed on the length of the custom field.
+2. Specify the **minimal and maximal length**. If 0 is chosen, no restriction will be imposed on the length of the custom field.
 3. **Regular expression** specifying which values are allowed for the custom field.
-4. **Default value** will be used as a default value for the custom field.
-5. Set if the new custom field should be a **required** field.
-6. Specify if the new custom field should be **used for all projects**. This means the custom field will be active for all projects and does not need to be activated separately per project.
-7. Specify if the new custom field should be **used as a filter for work packages**. See [here](../../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) how to filter work packages.
-8. Specify if the new custom field should be **searchable** via the global search.
+4. **Default value** will be used as the default value for the custom field.
+5. Set whether the new custom field should be a **required** field.
+6. Specify whether the new custom field should be **used for all projects**. This means the custom field will be active for all projects and does not need to be activated separately per project.
+7. Specify whether the new custom field should be **used as a filter for work packages**. See [here](../../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) how to filter work packages.
+8. Specify whether the new custom field should be **searchable** via the global search.
 9. **Save** the new custom field.
+
+The example above shows a custom field with the **Text** format selected. The example below shows a custom field with the **Integer** format selected.
+
+![Create an Integer custom field with minimum and maximum values in OpenProject administration](openproject_system_guide_new_custom_field_integer.png)
+
+For an **Integer** custom field, you can specify a **Minimum value** and **Maximum value** to define the range of allowed values. Both values must be integers.
+
+This allows administrators to define validation rules for numerical input. For example, a number field can be restricted to values between `0` and `100`.
+
+For **Float** custom fields, you can also specify a **Minimum value** and **Maximum value**. These can be decimal values, for example `0.1234`.
+
+Depending on the custom field format, additional validation rules can be configured. For example, custom fields can use a **regular expression** to restrict input to values matching a specified pattern.
 
 ## Custom field formats
 
@@ -63,11 +75,11 @@ There are multiple format options for custom fields in OpenProject. You can sele
 
 Hierarchy custom fields allow organizing hierarchical structures in work packages by making use of multi-level select lists. To create a custom field of type **Hierarchy** follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field) and select **Hierarchy** format. You can then name the custom field, allow multi-select, specify if it should be a required field or used as a filter, and activate it for all projects. Click the **Save** button to proceed.
 
-![Create a new custom field of type hierarchy](openproject_system_guide_new_custom_field_new_hierarchy.png)
+![Create a Hierarchy custom field in OpenProject administration](openproject_system_guide_new_custom_field_new_hierarchy.png)
 
 You can edit the name and initial settings under the _Details_ tab at any time. 
 
-![Detailed view of a custom field in OpenProject administration](openproject_system_guide_new_custom_hierarchy_details_tab.png)
+![Hierarchy custom field details in OpenProject administration](openproject_system_guide_new_custom_hierarchy_details_tab.png)
 
 Under the _Items_ tab you can specify which hierarchy items should be selectable for this specific custom field. Initially the list of items will be empty. To add items, click the **+Item** button. 
 
@@ -97,7 +109,7 @@ Once you have added sub-items, the number of nested items will appear next to th
 
 You can add as many sub-times and hierarchy levels as you need. You can always navigate to the level you need by clicking the respective option from the hierarchy tree on the left or in the path displayed above the items.
 
-![New custom field path](openproject_system_guide_new_custom_field_path.png)
+![Navigation path for nested Hierarchy custom field items](openproject_system_guide_new_custom_field_path.png)
 
 Once you have specified all items for the hierarchy custom field, you need to: 
 
@@ -141,11 +153,11 @@ For work package custom fields of type **List**, **User**, **Version** and **Hie
 
 To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version** or **Hierarchy** and check the option _Allow multi-select_.
 
-![Allow multi-select values for a custom field in OpenProject](system-admin-allow-multi-select.png)
+![Enable multi-select for a custom field in OpenProject administration](system-admin-allow-multi-select.png)
 
 When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The check mark will save your changes.
 
-![Multi select custom field in a work package](system-guide-custom-field-work-package.png)
+![Select multiple custom field values in a work package](system-guide-custom-field-work-package.png)
 
 ## Assign a custom field to a work package type and project
 
@@ -159,7 +171,7 @@ When using multi-select custom fields, you can add as many options as required. 
 
 You can [assign a custom field to a work package type](../manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on) (form configuration) directly via the link in the custom field overview.
 
-![Add a custom field to a work package type](system-admin-add-field-to-wp-type.png)
+![Add a custom field to a work package type in OpenProject administration](system-admin-add-field-to-wp-type.png)
 
 > [!IMPORTANT]
 > Starting with OpenProject 15.0, when adding new custom fields to a type through the  form configuration, the added custom fields will not automatically be enabled in all projects that have this work package type currently enabled.
@@ -184,7 +196,7 @@ To **edit an existing custom field** select the appropriate tab and click on the
 
 To **delete** a custom field, click on the delete icon next to the respective custom field in the list.
 
-![Edit or delete a custom field in OpenProject administration](system-admin-edit-delete-custom-field.png)
+![Edit or delete a custom field from the custom fields overview](system-admin-edit-delete-custom-field.png)
 
 ## Define custom field help text
 
@@ -197,4 +209,4 @@ To define field caption and help text click on an existing custom field and navi
 > [!IMPORTANT]
 > Any text and images you add here will be publicly visible to all logged in users. 
 
-![Work package custom field detailed view, showing _Help text_ tab in OpenProject administration](open_project_system_admin_guide_custom_field_attribute_text.png)
+![Help text settings for a custom field in OpenProject administration](open_project_system_admin_guide_custom_field_attribute_text.png)

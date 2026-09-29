@@ -71,6 +71,15 @@ es:
           name: Administrador de proyectos y personal
         item_1:
           name: Rol global estándar
+      ai_text_transform_actions:
+        item_0:
+          label: Corregir gramática
+        item_1:
+          label: Hacer más conciso
+        item_2:
+          label: Traducir al inglés
+        item_3:
+          label: Organizar en plantilla
     standard:
       project_phases:
         item_0:

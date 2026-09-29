@@ -55,6 +55,8 @@ fr:
         position: Position
         presenter: Responsable
         title: Titre
+      meeting_outcome:
+        kind: Type
       meeting_participant:
         attended: Participations
         invited: Invité
@@ -98,11 +100,27 @@ fr:
         recurring_meeting_interim_response:
           not_an_occurrence: n'est pas une heure d'occurrence valide pour cette réunion récurrente
     models:
-      meeting: Réunion ponctuelle
-      meeting_agenda: Ordre du jour
-      meeting_agenda_item: Point d'ordre du jour
-      meeting_section: Section
-      recurring_meeting: Réunion récurrente
+      meeting:
+        one: Réunion ponctuelle
+        other: Réunions ponctuelles
+      meeting_agenda_item:
+        one: Point de l'ordre du jour
+        other: Points de l'ordre du jour
+      meeting_outcome:
+        one: Résultat
+        other: Résultats
+      meeting_participant:
+        one: Participant à la réunion
+        other: Participants à la réunion
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Réunion récurrente
+        other: Réunions récurrentes
+      scheduled_meeting:
+        one: Réunion planifiée
+        other: Réunions planifiées
       token/ical_meeting:
         one: Abonnement à la réunion iCal
         other: Abonnement à la réunion iCal
@@ -253,7 +271,6 @@ fr:
   label_past_meetings: Réunions passées
   label_past_meetings_short: Passé
   label_recurring_filter: Filtre récurrent
-  label_recurring_meeting: Réunion récurrente
   label_recurring_meeting_cancel: Annuler cette occurrence
   label_recurring_meeting_create: Ouvrir
   label_recurring_meeting_delete: Supprimer l'occurrence

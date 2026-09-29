@@ -3,8 +3,10 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
-  let(:source) { create(:type, name: "Bug") }
+  let(:source_type) { create(:type, name: "Bug") }
+  let(:source) { source_type.default_variant }
   let(:type) { create(:type, name: "Mobile app bug") }
+  let(:variant) { type.default_variant }
   let(:no_filter_query) { "{}" }
   # The independent path renders whatever it is given; the read-only path ignores this and
   # resolves the source's groups itself, so a minimal shape is enough for both.
@@ -17,13 +19,13 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   end
 
   def render_component
-    render_inline(described_class.new(type:, form_attributes:, no_filter_query:))
+    render_inline(described_class.new(variant:, form_attributes:, no_filter_query:))
   end
 
   context "when the form configuration aspect is linked (feature enabled)" do
     before do
       allow(OpenProject::FeatureDecisions).to receive(:type_variants_active?).and_return(true)
-      type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source:)
+      link_configuration(variant, source:, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "renders the source's groups read-only", :aggregate_failures do
@@ -39,7 +41,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
     # An exclusion this type owns is reversible from here, so its row stays and the switch shows
     # it off. One coming from a link above it is not, so the row is left out instead.
     describe "exclusions" do
-      let(:link) { type.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION) }
+      let(:link) { variant }
 
       before do
         source.attribute_groups = [["People", %w[assignee responsible]]]
@@ -47,7 +49,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
       end
 
       it "lists a row this type excludes itself, switched off", :aggregate_failures do
-        link.update!(excluded_elements: %w[assignee])
+        exclude_configuration_elements(link, aspect: TypeVariant::FORM_CONFIGURATION, elements: %w[assignee])
 
         render_component
 
@@ -58,10 +60,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
 
       it "omits a row an ancestor's link excludes", :aggregate_failures do
         middle = create(:type, name: "Middle")
-        link.update!(source: middle)
-        create(:type_configuration_link, type: middle, source:,
-                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                         excluded_elements: %w[assignee])
+        link_configuration(link, source: middle, aspect: TypeVariant::FORM_CONFIGURATION)
+        link_configuration(middle, source: source, aspect: TypeVariant::FORM_CONFIGURATION, excluded: %w[assignee])
 
         render_component
 
@@ -87,10 +87,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
         source.save!
 
         middle = create(:type, name: "Middle")
-        link.update!(source: middle)
-        create(:type_configuration_link, type: middle, source:,
-                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                         excluded_elements: ["query_#{query.id}"])
+        link_configuration(link, source: middle, aspect: TypeVariant::FORM_CONFIGURATION)
+        link_configuration(middle, source: source, aspect: TypeVariant::FORM_CONFIGURATION, excluded: ["query_#{query.id}"])
 
         render_component
 
@@ -100,10 +98,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
 
       it "drops a group an ancestor's exclusions empty" do
         middle = create(:type, name: "Middle")
-        link.update!(source: middle)
-        create(:type_configuration_link, type: middle, source:,
-                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                         excluded_elements: %w[assignee responsible])
+        link_configuration(link, source: middle, aspect: TypeVariant::FORM_CONFIGURATION)
+        link_configuration(middle, source: source, aspect: TypeVariant::FORM_CONFIGURATION, excluded: %w[assignee responsible])
 
         render_component
 
@@ -125,7 +121,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   context "when linked but the feature flag is off" do
     before do
       allow(OpenProject::FeatureDecisions).to receive(:type_variants_active?).and_return(false)
-      type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source:)
+      link_configuration(variant, source:, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "renders the editable page (read-only branch not taken)", :aggregate_failures do

@@ -1,5 +1,10 @@
 ---
 eo:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Paneloj
     label_home: "%{workspace_type} hejmo"

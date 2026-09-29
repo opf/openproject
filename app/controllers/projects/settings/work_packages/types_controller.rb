@@ -47,14 +47,14 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def create # rubocop:disable Metrics/AbcSize
-    type = ::Type.global.find_by(id: params[:type_id])
+    variant = ::TypeVariant.find_by(id: params[:variant_id])
 
-    return render_type_not_found if type.nil?
+    return render_type_not_found if variant.nil?
 
-    result = ::Projects::Types::AddService.new(user: current_user, model: @project).call(type:)
+    result = ::Projects::Types::AddService.new(user: current_user, model: @project).call(variant:)
 
     result.on_success do
-      close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::AddDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(Projects::Settings::WorkPackages::Types::AddDialogComponent::DIALOG_ID)
       replace_types_list
     end
 
@@ -66,20 +66,20 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    # The row names the member in force, which is the variant when the project resolves one,
-    # so the type is looked up globally and checked against the families the project uses.
     type = ::Type.find_by(id: params[:id])
 
-    return render_type_not_found if type.nil? || !@project.project_types.exists?(type_id: type.root_id)
+    return render_type_not_found if type.nil? || !@project.project_types.exists?(type_id: type.id)
 
-    result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(type:)
+    variant = @project.type_variant(type)
+
+    result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(variant:)
 
     result.on_success { replace_types_list }
 
     result.on_failure do
       render_error_flash_message_via_turbo_stream(
         message: join_flash_messages(
-          type_deactivation_error_messages(::Type.where(id: type.id), project_ids: [@project.id])
+          type_deactivation_error_messages(variant, project_ids: [@project.id])
         )
       )
     end
@@ -93,7 +93,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     if UpdateProjectsTypesService.new(@project).call(type_ids)
       flash[:notice] = success_message
     else
-      flash[:error] = type_deactivation_error_messages(types_missing_from(type_ids), project_ids: [@project.id])
+      flash[:error] = type_deactivation_error_messages(variants_missing_from(type_ids), project_ids: [@project.id])
     end
 
     redirect_to project_settings_types_path(@project.identifier)
@@ -121,13 +121,10 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     )
   end
 
-  def types_missing_from(type_ids)
+  def variants_missing_from(type_ids)
     @project
       .types_used_by_work_packages
-      .where.not(id: type_ids.presence || standard_type_ids)
-  end
-
-  def standard_type_ids
-    [::Type.standard_type&.id].compact
+      .where.not(id: type_ids.presence)
+      .map { |type| @project.type_variant(type) }
   end
 end

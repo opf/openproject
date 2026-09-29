@@ -58,6 +58,8 @@ If you have used the metadata exchange, the next form will be pre-filled like in
 
 If some of the required fields (marked with an asterisk) are missing, fill them out with the information from your identity provider. OpenProject assumes you're using the URL of your OpenProject instance as the Service entity ID by default. If your provider expects a different format, this can be an arbitrary string.
 
+The optional **Allowed clock drift** field relaxes the validation of the timestamps contained in the identity provider response by the given number of seconds, fractions of a second included. Leave it empty unless authentication fails because the clocks of OpenProject and the identity provider are out of sync, and prefer synchronizing the clocks over raising this value: a large tolerance weakens the protection against replayed assertions.
+
 Once you verified the configuration with your settings from the identity provider, click on **Continue**.
 
 ### Step 4: Signatures and Encryption
@@ -252,6 +254,18 @@ The default behavior would be to use the email Address like so:
 OPENPROJECT_SAML_SAML_NAME__IDENTIFIER__FORMAT="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
 ```
 
+#### Optional: Allow for a clock drift
+
+The timestamps in the identity provider response are validated against the clock of the OpenProject server. If both clocks are out of sync, valid responses may be rejected. You can allow for a tolerance, given in seconds:
+
+```shell
+OPENPROJECT_SAML_SAML_ALLOWED__CLOCK__DRIFT="5"
+```
+
+Fractions of a second are accepted as well, for example `"0.5"`.
+
+Prefer synchronizing the clocks over setting this value, and keep it as low as possible. A large tolerance weakens the protection against replayed assertions. Note that the tolerance applies to the login response only, not to logout requests initiated by the identity provider.
+
 ### Applying the configuration
 
 To apply the configuration after changes, you need to run the `db:seed` rake task. In all installations, this command is run automatically when you upgrade or install your application. Use the following commands based on your installation method:
@@ -294,8 +308,8 @@ OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="saml" # This value should be the 
 
 With the direct login feature activated, accessing the page without authentication will immediately redirect the user to your Single Sign-On (SSO) portal.
 
-A dedicated route `/login/internal` is available for internal authentication, which does not redirect to the SSO portal.
-**We strongly advise** you to maintain an internal administrative login, as you won’t be able to access the application otherwise.
+A dedicated route `/login/internal` can provide internal authentication without redirecting to the SSO portal. Its availability and who may authenticate there depend on the configured [Password login policy](../login-registration-settings/#single-sign-on-sso-settings). When password login is disabled for everyone, configure a break-glass user or group before relying on this route.
+**We strongly advise** you to maintain break-glass administrative access, as you may otherwise be unable to access the application if the SSO provider is unavailable.
 
 ## Instructions for common SAML providers
 

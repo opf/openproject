@@ -62,7 +62,7 @@ module Projects
       set_default_public(attribute_keys.include?("public"))
       set_default_wiki
       set_default_module_names(attribute_keys.include?("enabled_module_names"))
-      set_default_types(attribute_keys.intersect?(%w[types type_ids project_types]))
+      set_default_types(attribute_keys.include?("project_types"))
       set_default_active_work_package_custom_fields(attribute_keys.include?("work_package_custom_fields"))
       set_default_show_work_package_attachments(attribute_keys.include?("deactivate_work_package_attachments"))
     end
@@ -90,26 +90,28 @@ module Projects
     end
 
     def default_project_types
-      ::Type.default.group_by(&:root_id).map do |root_id, family|
-        ProjectType.new(type_id: root_id, variant: default_variant(family))
+      TypeVariant.enabled_in_new_projects.map do |variant|
+        ProjectType.new(type_id: variant.type_id, variant: variant)
       end
-    end
-
-    def default_variant(family)
-      family.find(&:variant?) if OpenProject::FeatureDecisions.type_variants_active?
     end
 
     def set_default_active_work_package_custom_fields(provided)
       return if provided
 
+      # The fields come from the configuration each type is applied through, which is the
+      # variant on the join row rather than the type itself.
       model.work_package_custom_fields = WorkPackageCustomField
-        .joins(:types)
-        .where(types: { id: effective_type_ids })
+        .joins(:type_variants)
+        .where(type_variants: { id: applied_variant_ids })
         .distinct
     end
 
-    def effective_type_ids
-      model.project_types.filter_map { |project_type| project_type.variant_id || project_type.type_id }
+    # Rows built a moment ago have not been validated yet, so the base variant they will default
+    # to has to be read off the type rather than off the row.
+    def applied_variant_ids
+      model.project_types.filter_map do |project_type|
+        project_type.variant_id || project_type.type&.default_variant&.id
+      end
     end
 
     def status_code_provided?(params)

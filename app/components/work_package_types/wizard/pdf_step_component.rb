@@ -30,25 +30,22 @@
 
 module WorkPackageTypes
   module Wizard
-    # The PDF export wizard step: the reuse-mode banner over the export
-    # configuration, shown read-only while the aspect is Linked. Mirrors the PDF
-    # export tab and FormConfigurationStepComponent.
     class PdfStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:)
-        super(type)
+      def initialize(variant:)
+        super(variant)
       end
 
       def call
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::PDF_EXPORT
+          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
+                   variant: model,
+                   aspect: TypeVariant::PDF_EXPORT
                  )) +
             render(WorkPackageTypes::ExportConfigurationComponent.new(
                      model,
-                     readonly: model.linked?(Type::ConfigurationLink::PDF_EXPORT)
+                     readonly: model.linked?(TypeVariant::PDF_EXPORT)
                    ))
         end
       end
@@ -56,7 +53,7 @@ module WorkPackageTypes
       private
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :pdf)
+        type_creation_wizard_path(**model.path_args, step: :pdf)
       end
     end
   end

@@ -45,6 +45,6 @@ module Workflows
 
     attr_reader :context
 
-    delegate :type, :tab, :roles, to: :context
+    delegate :variant, :tab, :roles, to: :context
   end
 end

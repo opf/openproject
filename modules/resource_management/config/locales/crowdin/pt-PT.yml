@@ -39,10 +39,24 @@ pt-PT:
             query:
               must_be_work_package_query: deve ser uma consulta sobre um pacote de trabalho.
     models:
-      resource_allocation: Alocação de recursos
-      resource_planner: Planeador de recursos
-      resource_user_card: Cartões de utilizador
-      resource_work_package_list: Lista de pacotes de trabalho
+      resource_allocation:
+        one: Atribuição de recursos
+        other: Atribuições de recursos
+      resource_planner:
+        one: Planeador de recursos
+        other: Planeadores de recursos
+      resource_user_card:
+        one: Cartão de utilizador
+        other: Cartões de utilizador
+      resource_user_timeline:
+        one: Cronograma do utilizador
+        other: Cronogramas do utilizador
+      resource_work_package_list:
+        one: Lista de pacotes de trabalho
+        other: Listas de pacotes de trabalho
+      resource_work_package_timeline:
+        one: Cronograma dos pacotes de trabalho
+        other: Cronogramas dos pacotes de trabalho
   button_next: Seguinte
   ee:
     features:
@@ -81,6 +95,9 @@ pt-PT:
         principal:
           caption: Atribuir horas a um utilizador específico.
           label: Utilizador
+      missing_working_hours:
+        none: O utilizador selecionado não tem horário de trabalho configurado para estas datas, pelo que se considera que não tem disponibilidade.
+        partial: O utilizador selecionado não tem horário de trabalho configurado para %{dates}, pelo que esses dias são considerados como sem disponibilidade.
       outside_dates:
         description: As datas do recurso selecionado, %{resource_dates}, encontram-se fora do intervalo de datas do pacote de trabalho, %{work_package_dates}.
       overbooking:

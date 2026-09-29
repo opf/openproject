@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
         </thead>
         <tbody>
           <% all_custom_fields = @project.all_work_package_custom_fields.pluck(:id) %>
-          <% work_package_custom_fields.includes(:types).each do |custom_field| # rubocop:disable Rails/FindEach %>
+          <% work_package_custom_fields.includes(type_variants: :type).each do |custom_field| # rubocop:disable Rails/FindEach %>
           <%
             options = {
               lang: custom_field.name_locale,
@@ -96,10 +96,10 @@ See COPYRIGHT and LICENSE files for more details.
               </td>
               <td>
                 <% if current_user.admin? %>
-                  <% type_links = custom_field.types.map { |t| link_to(t.composite_name, edit_type_form_configuration_path(t)) } %>
-                  <%= safe_join type_links, ", " %>
+                  <% variant_links = custom_field.type_variants.map { |variant| link_to(variant.composite_name, edit_type_form_configuration_path(**variant.path_args)) } %>
+                  <%= safe_join variant_links, ", " %>
                 <% else %>
-                  <%= custom_field.types.map(&:composite_name).join(", ") %>
+                  <%= custom_field.type_variants.map(&:composite_name).join(", ") %>
                 <% end %>
               </td>
             </tr>

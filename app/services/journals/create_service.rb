@@ -166,7 +166,8 @@ module Journals
     # therefore the time this SQL statement is run at will be used. The SQL will in this case touch the journable with that
     # timestamp itself (`touch_journable`).
     # Whether the journable was updated before or the SQL statement did it, the value of either will end up in the result
-    # of the `fetch_time` CTE to be used in the later stages of the SQL.
+    # of the `fetch_time` CTE to be used in the later stages of the SQL. In both cases, the time is forced past the
+    # timestamp of the most recent journal so that the journals of a journable remain strictly ordered.
     #
     # After the SQL is run, the timestamps of the journable, the predecessor journal and the newly created journal will have
     # interdependencies:
@@ -318,7 +319,7 @@ module Journals
           UPDATE
             #{journable_table_name}
           SET
-            updated_at = statement_timestamp()
+            updated_at = #{after_latest_journal_sql('statement_timestamp()')}
           WHERE
             id = :id
             #{only_on_changed_or_forced_condition_sql(notes, cause)}
@@ -340,8 +341,37 @@ module Journals
     # * setting the updated_at timestamp on an updated (aggregated with) journal
     # * setting the validity_period (upper bound) of the preceding journal.
     def fetch_time_sql
-      sanitize(<<~SQL, journable_timestamp:)
-        SELECT COALESCE((SELECT updated_at FROM touch_journable), :journable_timestamp) AS updated_at
+      timestamp = <<~SQL.squish
+        COALESCE(
+          (SELECT updated_at FROM touch_journable),
+          (SELECT #{journable_timestamp_column} FROM #{journable_table_name} WHERE id = :journable_id)
+        )
+      SQL
+
+      sanitize(<<~SQL, journable_id:)
+        SELECT #{after_latest_journal_sql(timestamp)} AS updated_at
+      SQL
+    end
+
+    # Ensures the timestamp to insert is newer than the timestamp of the most recent journal.
+    #
+    # The journals of a journable have to be strictly ordered in time as the timestamp used here becomes the upper
+    # bound of the predecessor's validity_period, whose lower bound is the predecessor's own timestamp.
+    #
+    # Neither of the two clocks the timestamp may come from ensures that:
+    #  1) the database clock behind statement_timestamp() can be behind the application clock that
+    #     wrote the most recent journal
+    #
+    #  2) the journable's timestamp attribute MAY be stale
+    #     (because the record has been touched elsewhere since it was loaded).
+    #
+    # As a result, we use GREATEST to ensure the timestamp is newer than the most recent journal.
+    def after_latest_journal_sql(timestamp)
+      <<~SQL.squish
+        GREATEST(
+          #{timestamp},
+          (SELECT updated_at FROM max_journals) + interval '1 microsecond'
+        )
       SQL
     end
 
@@ -523,8 +553,8 @@ module Journals
       journable.class.columns_hash.select { |_, v| v.type == :text }.keys.map(&:to_sym) & journable.journaled_columns_names
     end
 
-    def journable_timestamp
-      journable.send(journable.class.aaj_options[:timestamp])
+    def journable_timestamp_column
+      Journal.connection.quote_column_name(journable.class.aaj_options[:timestamp])
     end
 
     def journable_type

@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:project_archived) { create(:project, :archived) }
   shared_let(:status) { create(:status) }
@@ -94,7 +94,7 @@ RSpec.describe WorkPackage do
       let(:type2) { create(:type) }
 
       before do
-        project.types << type2
+        project.project_types.create!(type: type2)
       end
 
       context "when no project chosen" do
@@ -217,47 +217,43 @@ RSpec.describe WorkPackage do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe "#effective_type", with_flag: { type_variants: true } do
-    shared_let(:root) { create(:type, name: "Bug") }
-    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+  describe "#type_variant", with_flag: { type_variants: true } do
+    shared_let(:type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
-    it "is the variant the work package's project resolves to" do
+    it "is the variant the work package's project applies" do
       variant_project = create(:project, types: [variant])
-      work_package = create(:work_package, project: variant_project, type: root)
+      work_package = create(:work_package, project: variant_project, type:)
 
-      expect(work_package.type).to eq(root)
-      expect(work_package.effective_type).to eq(variant)
+      expect(work_package.type).to eq(type)
+      expect(work_package.type_variant).to eq(variant)
     end
 
-    it "is the root when the project resolves to no variant" do
-      root_project = create(:project, types: [root])
-      work_package = create(:work_package, project: root_project, type: root)
+    it "is the base variant when the project chose none" do
+      base_project = create(:project, types: [type])
+      work_package = create(:work_package, project: base_project, type:)
 
-      expect(work_package.effective_type).to eq(root)
+      expect(work_package.type_variant).to eq(type.default_variant)
     end
 
     it "follows the target project when the work package moves" do
-      root_project = create(:project, types: [root])
+      base_project = create(:project, types: [type])
       variant_project = create(:project, types: [variant])
-      work_package = create(:work_package, project: root_project, type: root)
+      work_package = create(:work_package, project: base_project, type:)
 
-      expect(work_package.effective_type).to eq(root)
+      expect(work_package.type_variant).to eq(type.default_variant)
 
       work_package.project = variant_project
 
-      expect(work_package.effective_type).to eq(variant)
+      expect(work_package.type_variant).to eq(variant)
     end
 
-    it "is the type itself without a project, there being no variant to resolve" do
-      expect(described_class.new(type: root).effective_type).to eq(root)
-    end
-
-    it "still answers with the root when the stored type is a variant" do
-      expect(described_class.new(type: variant).effective_type).to eq(root)
+    it "is the base variant without a project, there being no project to resolve through" do
+      expect(described_class.new(type:).type_variant).to eq(type.default_variant)
     end
 
     it "is nil without a type" do
-      expect(described_class.new.effective_type).to be_nil
+      expect(described_class.new.type_variant).to be_nil
     end
   end
 
@@ -1037,11 +1033,6 @@ RSpec.describe WorkPackage do
           expect(work_package.to_fs).to eq("Task ##{work_package.id}: Hello world")
           expect(work_package.to_s).to eq(work_package.to_fs(:heading))
         end
-
-        it "omits the type name for standard types (leading space preserved)" do
-          standard_wp = create(:work_package, project:, type:, subject: "Hello world")
-          expect(standard_wp.to_fs(:heading)).to eq(" ##{standard_wp.id}: Hello world")
-        end
       end
 
       context "in semantic mode",
@@ -1058,7 +1049,7 @@ RSpec.describe WorkPackage do
     end
 
     describe ":caption style" do
-      let(:caption_type) { create(:type, name: "Task") }
+      let(:caption_type) { create(:type_task) }
       let(:caption_work_package) do
         create(:work_package, subject: "Hello world", project: caption_project, type: caption_type)
       end
@@ -1084,30 +1075,22 @@ RSpec.describe WorkPackage do
         end
       end
 
-      context "with a standard type",
-              with_settings: { work_packages_identifier: "classic" } do
-        let(:standard_work_package) { create(:work_package, project:, type:, subject: "Hello world") }
-
-        it "still shows the type name in the caption" do
-          expect(standard_work_package.to_fs(:caption))
-            .to eq("#{type.name}: Hello world (##{standard_work_package.id})")
-        end
-      end
     end
 
-    describe "for a variant" do
-      let(:root_type) { create(:type, name: "Task") }
-      let(:variant) { create(:type, name: "Bug", parent: root_type) }
-      let(:sub_work_package) { create(:work_package, project:, type: variant, subject: "Hello world") }
+    describe "for a project applying a named variant" do
+      let(:type) { create(:type_task) }
+      let(:variant) { create(:type_variant, type:, variant_name: "Bug") }
+      let(:variant_project) { create(:project, types: [variant]) }
+      let(:variant_work_package) { create(:work_package, project: variant_project, type:, subject: "Hello world") }
 
-      it "renders the root type's name in the :heading style" do
-        expect(sub_work_package.to_fs(:heading)).to include("Task")
-        expect(sub_work_package.to_fs(:heading)).not_to include("Bug")
+      it "renders the type's name in the :heading style" do
+        expect(variant_work_package.to_fs(:heading)).to include("Task")
+        expect(variant_work_package.to_fs(:heading)).not_to include("Bug")
       end
 
-      it "renders the root type's name in the :caption style" do
-        expect(sub_work_package.to_fs(:caption)).to start_with("Task:")
-        expect(sub_work_package.to_fs(:caption)).not_to include("Bug")
+      it "renders the type's name in the :caption style" do
+        expect(variant_work_package.to_fs(:caption)).to start_with("Task:")
+        expect(variant_work_package.to_fs(:caption)).not_to include("Bug")
       end
     end
 
@@ -1115,7 +1098,7 @@ RSpec.describe WorkPackage do
              with_settings: { work_packages_identifier: "classic" } do
       let(:untyped_work_package) { build_stubbed(:work_package, project:, type: nil, subject: "Hello world") }
 
-      it "renders the heading like a standard type, without a type name" do
+      it "renders the heading without a type name" do
         expect(untyped_work_package.to_fs(:heading)).to eq(" ##{untyped_work_package.id}: Hello world")
       end
 

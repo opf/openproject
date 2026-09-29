@@ -97,13 +97,22 @@ zh-CN:
     models:
       cost_entry:
         other: 成本条目
+      cost_rate:
+        other: 成本费率
       cost_type:
         other: 成本类型
-      rate: 费率
+      default_hourly_rate:
+        other: 默认小时费率
+      hourly_rate:
+        other: 小时费率
+      rate:
+        other: 费率
       time_entry:
         other: 时间记录
       time_entry_activity:
         other: 时间跟踪活动
+      time_entry_custom_field:
+        other: 时间条目自定义字段
   api_v3:
     errors:
       validation:
@@ -202,7 +211,6 @@ zh-CN:
   label_greater_or_equal: ">="
   label_group_by: 分组依据
   label_group_by_add: 添加分组字段
-  label_hourly_rate: 小时费率
   label_include_deleted: 包括已删除
   label_kind: 类型
   label_less_or_equal: "<="
@@ -223,7 +231,6 @@ zh-CN:
   label_previous_month: 上个月
   label_previous_week: 前一周
   label_previous_workweek: 上一个工作周
-  label_rate: 费率
   label_rate_plural: 费率
   label_show: 显示
   label_specific_day: 第 %{day} 天
@@ -237,7 +244,6 @@ zh-CN:
   label_today_capitalized: 今天
   label_units: 成本单位
   label_until: 到
-  label_user: 用户
   label_valid_from: 有效起始日期
   label_view_mode_switcher: 更改视图
   label_work_package_filter_add: 添加工作包筛选器

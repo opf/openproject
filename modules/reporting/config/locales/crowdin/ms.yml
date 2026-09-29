@@ -21,6 +21,10 @@
 #++
 ---
 ms:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: Simpan laporan sebagai...
   comments: Komen
   cost_reports_title: Masa dan kos
@@ -46,7 +50,6 @@ ms:
   label_closed: ditutup
   label_columns: Kolum
   label_cost_entry_attributes: Atribut entri kos
-  label_cost_report: Laporan kos
   label_cost_report_plural: Laporan kos
   label_count: Perhitungan
   label_days_ago: pada hari-hari terakhir

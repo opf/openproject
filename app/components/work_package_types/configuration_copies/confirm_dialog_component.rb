@@ -30,27 +30,25 @@
 
 module WorkPackageTypes
   module ConfigurationCopies
-    # Danger confirmation before a configuration copy overwrites the type's
-    # current settings. Confirming performs the copy.
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
       DIALOG_ID = "configuration-copy-confirm-dialog"
 
-      def initialize(type:, aspect:, source:)
+      def initialize(variant:, aspect:, source:)
         super()
 
-        @type = type
+        @variant = variant
         @aspect = aspect
         @source = source
       end
 
       private
 
-      attr_reader :type, :aspect, :source
+      attr_reader :variant, :aspect, :source
 
       def copy_path
-        type_configuration_copy_copy_path(type_id: type.id, aspect:)
+        type_configuration_copy_copy_path(**variant.path_args, aspect:)
       end
     end
   end

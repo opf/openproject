@@ -1,4 +1,10 @@
 ---
 lv:
+  activerecord:
+    models:
+      grids/my_page:
+        zero: My pages
+        one: My page
+        other: My pages
   my_page:
     label: Mana lapa

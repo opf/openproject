@@ -29,6 +29,10 @@
 #++
 
 class Role < ApplicationRecord
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "role"
+
   # Built-in roles
   NON_BUILTIN = 0
   BUILTIN_NON_MEMBER = 1

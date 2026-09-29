@@ -39,10 +39,24 @@ sv:
             query:
               must_be_work_package_query: måste vara en arbetspaketsfråga.
     models:
-      resource_allocation: Resurstilldelning
-      resource_planner: Resursplanerare
-      resource_user_card: Användarkort
-      resource_work_package_list: Arbetspaketslista
+      resource_allocation:
+        one: Resurstilldelning
+        other: Resurstilldelningar
+      resource_planner:
+        one: Resursplanerare
+        other: Resursplanerare
+      resource_user_card:
+        one: Användarkort
+        other: Användarkort
+      resource_user_timeline:
+        one: Användartidslinje
+        other: Användartidslinjer
+      resource_work_package_list:
+        one: Arbetspaketslista
+        other: Arbetspaketslistor
+      resource_work_package_timeline:
+        one: Arbetspaketstidslinje
+        other: Arbetspaketstidslinjer
   button_next: Nästa
   ee:
     features:
@@ -81,6 +95,9 @@ sv:
         principal:
           caption: Tilldela timmar för en viss användare.
           label: Användare
+      missing_working_hours:
+        none: Den valda användaren har inga arbetstider angivna för dessa datum och räknas därför som att sakna kapacitet.
+        partial: Den valda användaren har inga arbetstider angivna för %{dates}, så dessa dagar räknas som att sakna kapacitet.
       outside_dates:
         description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
       overbooking:

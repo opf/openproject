@@ -107,6 +107,19 @@ module ResourceAllocations
       active_index.nil? ? records : records[active_index..]
     end
 
+    # The leading part of the range before the user's earliest working schedule
+    # takes effect, which WorkingTimeCalendar counts as zero capacity. Nil when
+    # a schedule covers the whole range.
+    #
+    # @return [Range<Date>, nil]
+    def unscheduled_range(range)
+      earliest = UserWorkingHours.for_user(@user).minimum(:valid_from)
+      return range if earliest.nil?
+      return if earliest <= range.begin
+
+      range.begin..[earliest - 1, range.end].min
+    end
+
     def utilization_ratio(range)
       capacity = WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
       return if capacity.zero?

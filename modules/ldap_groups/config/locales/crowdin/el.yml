@@ -20,8 +20,12 @@ el:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Το φίλτρο base DN πρέπει να περιέχεται στο base DN της σύνδεσης LDAP
     models:
-      ldap_groups/synchronized_filter: Φίλτρο συγχρονισμού ομάδας LDAP
-      ldap_groups/synchronized_group: Συγχρονισμένη ομάδα LDAP
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

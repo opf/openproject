@@ -46,9 +46,15 @@ ca:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Pressupost
-      labor_budget_item: Planned labor cost
-      material_budget_item: Unitat
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Pressupostos
@@ -102,7 +108,6 @@ ca:
   help_click_to_edit: Feu clic per editar.
   help_currency_format: Format de valor de divisa actual. %n és substituït amb el valor de divisa, %u és substituït amb la unitat de divisa.
   help_override_rate: Entra un valor aquí per substituir la ràtio per defecte.
-  label_budget: Pressupost
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Pressupost #%{id}'

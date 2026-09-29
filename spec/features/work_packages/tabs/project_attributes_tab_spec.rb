@@ -39,7 +39,7 @@ RSpec.describe "Work package project attributes tab", :js do
            name: "Project info",
            project_custom_field_section: section,
            projects: [project]) do |field|
-      type.project_custom_fields << field
+      variant_of(type).project_custom_fields << field
       create(:custom_value, customized: project, custom_field: field, value: "Initial value")
     end
   end

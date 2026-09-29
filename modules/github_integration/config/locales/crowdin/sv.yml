@@ -21,6 +21,23 @@
 #++
 ---
 sv:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Kontroll av distributionsstatus
+        other: Kontroller av distributionsstatus
+      deploy_target:
+        one: Distributionsmål
+        other: Distributionsmål
+      github_check_run:
+        one: GitHub-kontrollkörning
+        other: GitHub-kontrollkörningar
+      github_pull_request:
+        one: GitHub-pull request
+        other: GitHub-pull requests
+      github_user:
+        one: GitHub-användare
+        other: GitHub-användare
   attributes:
     additions_count: Antal tillägg
     changed_files_count: Ändrade filer

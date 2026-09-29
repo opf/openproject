@@ -14,7 +14,10 @@ id:
         secret: Rahasia tanda tangan
         url: URL muatan
     models:
-      webhooks/outgoing_webhook: Webhook keluar
+      webhooks/log:
+        other: Webhook logs
+      webhooks/webhook:
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Menyediakan API plug-in untuk mendukung webhook OpenProject untuk integrasi pihak ketiga yang lebih baik.
     name: OpenProject Webhooks

@@ -40,12 +40,12 @@ RSpec.describe Wikis::PageSelectionFormInput do
   describe "#parse_selected_node" do
     subject { consumer.parse_selected_node(wiki_page_selection) }
 
-    it { is_expected.to eq(Wikis::Adapters::Results::PageSearchTreeNode::Key.new(type: :page, identifier: "42")) }
+    it { is_expected.to eq(Wikis::Adapters::Results::PageSearchTreeNode::NodeKey.new(type: :page, identifier: "42")) }
 
     context "when a wiki is selected" do
       let(:node_id) { "wiki:7" }
 
-      it { is_expected.to eq(Wikis::Adapters::Results::PageSearchTreeNode::Key.new(type: :wiki, identifier: "7")) }
+      it { is_expected.to eq(Wikis::Adapters::Results::PageSearchTreeNode::NodeKey.new(type: :wiki, identifier: "7")) }
     end
 
     context "when the opaque identifier contains colons itself" do

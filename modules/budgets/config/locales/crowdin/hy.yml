@@ -46,9 +46,15 @@ hy:
             principal:
               not_a_member_of_budget_project: բյուջեի նախագծի անդամ չէ
     models:
-      budget: Բյուջե
-      labor_budget_item: Պլանավորված աշխատուժի ծախս
-      material_budget_item: Միավոր
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Բյուջեներ
@@ -102,7 +108,6 @@ hy:
   help_click_to_edit: Սեղմեք այստեղ խմբագրելու համար։
   help_currency_format: Ցուցադրվող արժույթի արժեքների ձևաչափը։ %n-ը փոխարինվում է արժույթի արժեքով, %u-ը՝ արժույթի միավորով։
   help_override_rate: Մուտքագրեք այստեղ արժեք՝ կանխադրված դրույքը վերասահմանելու համար։
-  label_budget: Բյուջե
   label_budget_available: Հասանելի բյուջե
   label_budget_details: Բյուջեի մանրամասներ
   label_budget_id: 'Բյուջե #%{id}'

@@ -75,8 +75,7 @@ module Backlogs
     def filtered_buckets_for(project)
       return all_buckets_for(project) if backlog_filters.bucket_ids.nil?
 
-      bucket_ids = backlog_filters.bucket_ids.reject { |id| id == "inbox" }
-      all_buckets_for(project).where(id: bucket_ids)
+      all_buckets_for(project).where(id: backlog_filters.bucket_ids_without_inbox)
     end
 
     def backlogs_move_url_template(project)

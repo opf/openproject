@@ -71,6 +71,15 @@ zh-CN:
           name: 员工和项目经理
         item_1:
           name: 默认全局角色
+      ai_text_transform_actions:
+        item_0:
+          label: 修复语法
+        item_1:
+          label: 设为精简
+        item_2:
+          label: 翻译为英语
+        item_3:
+          label: 归类为模板
     standard:
       project_phases:
         item_0:

@@ -20,8 +20,14 @@ hr:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filter base DN must be contained within the LDAP connection's base DN
     models:
-      ldap_groups/synchronized_filter: LDAP Group synchronization filter
-      ldap_groups/synchronized_group: Synchronized LDAP group
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        few: LDAP Group synchronization filters
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        few: Synchronized LDAP groups
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

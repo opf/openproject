@@ -35,17 +35,17 @@ module WorkPackageTypes
     class WorkflowsStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:)
-        super(type)
+      def initialize(variant:)
+        super(variant)
       end
 
       private
 
-      def type = model
+      def variant = model
 
       def matrix_url
         helpers.type_workflow_matrix_path(
-          type,
+          **variant.path_args,
           tab: helpers.params[:tab],
           role_ids: roles.map(&:id),
           status_ids: helpers.params[:status_ids]

@@ -169,7 +169,8 @@ module Accounts::CurrentUser
         end
 
         format.any(:xml, :js, :json, :turbo_stream) do
-          head :unauthorized, "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header
+          head :unauthorized,
+               "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header(env: request.env)
         end
 
         format.all { head :not_acceptable }

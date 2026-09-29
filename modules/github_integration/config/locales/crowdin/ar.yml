@@ -21,6 +21,43 @@
 #++
 ---
 ar:
+  activerecord:
+    models:
+      deploy_status_check:
+        zero: Deployment status checks
+        one: Deployment status check
+        two: Deployment status checks
+        few: Deployment status checks
+        many: Deployment status checks
+        other: Deployment status checks
+      deploy_target:
+        zero: Deployment targets
+        one: Deployment target
+        two: Deployment targets
+        few: Deployment targets
+        many: Deployment targets
+        other: Deployment targets
+      github_check_run:
+        zero: GitHub check runs
+        one: GitHub check run
+        two: GitHub check runs
+        few: GitHub check runs
+        many: GitHub check runs
+        other: GitHub check runs
+      github_pull_request:
+        zero: GitHub pull requests
+        one: GitHub pull request
+        two: GitHub pull requests
+        few: GitHub pull requests
+        many: GitHub pull requests
+        other: GitHub pull requests
+      github_user:
+        zero: GitHub users
+        one: GitHub user
+        two: GitHub users
+        few: GitHub users
+        many: GitHub users
+        other: GitHub users
   attributes:
     additions_count: Number of additions
     changed_files_count: Changed files

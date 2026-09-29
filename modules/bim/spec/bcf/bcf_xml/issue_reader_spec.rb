@@ -30,7 +30,7 @@ require "spec_helper"
 
 RSpec.describe OpenProject::Bim::BcfXml::IssueReader do
   let(:absolute_file_path) { "63E78882-7C6A-4BF7-8982-FC478AFB9C97/markup.bcf" }
-  let(:type) { create(:type, name: "Issue", is_standard: true, is_default: true) }
+  let(:type) { create(:type, name: "Issue", default_variant_enabled_in_all_projects: true) }
   let(:project) do
     create(:project,
            identifier: "bim_project",

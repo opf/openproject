@@ -141,6 +141,49 @@ RSpec.describe "Upload attachment to work package", :js, :selenium do
         wp.reload
         expect(wp.attachments.count).to eq(1)
       end
+
+      context "with the attachments list hidden" do
+        let!(:project) do
+          create(:project, types: [type], deactivate_work_package_attachments: true)
+        end
+
+        it "claims the image uploaded in the description (Regression COMMS-890)" do
+          table.visit!
+          new_page = table.create_wp_by_button type
+          subject = new_page.edit_field :subject
+          subject.set_value "My subject"
+
+          expect(page).to have_no_css("op-attachments")
+
+          target = find(".ck-content")
+          attachments.drag_and_drop_file(target, image_fixture.path)
+
+          sleep 2 unless using_cuprite? # rubocop:disable OpenProject/NoSleepInFeatureSpecs
+          editor.wait_until_upload_progress_toaster_cleared
+
+          editor.in_editor do |_container, editable|
+            expect(editable).to have_css('img[src*="/api/v3/attachments/"]', wait: 20)
+            expect(editable).to have_no_css(".ck-upload-placeholder-loader")
+          end
+
+          sleep 2 unless using_cuprite? # rubocop:disable OpenProject/NoSleepInFeatureSpecs
+
+          scroll_to_and_click find_by_id("work-packages--edit-actions-save")
+
+          new_page.expect_and_dismiss_toaster(
+            message: "Successful creation."
+          )
+
+          split_view = Pages::SplitWorkPackage.new(WorkPackage.last)
+
+          field = split_view.edit_field :description
+          expect(field.display_element).to have_css("img")
+
+          wp = WorkPackage.last
+          expect(wp.attachments.count).to eq(1)
+          expect(wp.attachments.first.container).to eq(wp)
+        end
+      end
     end
 
     context "when on a new page" do

@@ -33,20 +33,20 @@ module WorkPackageTypes
     class SourceForm < ApplicationForm
       include WorkPackageTypes::SourceOptions
 
-      def initialize(type:, aspect:)
+      def initialize(variant:, aspect:)
         super()
 
-        @type = type
+        @variant = variant
         @aspect = aspect
       end
 
       form do |source_form|
         source_form.autocompleter(
           name: :source_id,
-          label: I18n.t("types.edit.reuse_mode.linked.dialog.source_label"),
+          label: I18n.t("types.edit.reuse_mode.inherited.dialog.source_label"),
           required: true,
           autocomplete_options: {
-            placeholder: I18n.t("types.edit.reuse_mode.linked.dialog.source_placeholder"),
+            placeholder: I18n.t("types.edit.reuse_mode.inherited.dialog.source_placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,
@@ -62,12 +62,14 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type, :aspect
+      attr_reader :variant, :aspect
 
-      # When Linked, the current source is preselected so "change source" opens on
-      # it; when Independent, the parent is preselected as the likely first link.
       def selected_source
-        type.source_for(aspect) || type.parent
+        current = variant.source_for(aspect)
+        return current if current
+
+        base = variant.type.default_variant
+        base unless base == variant
       end
     end
   end

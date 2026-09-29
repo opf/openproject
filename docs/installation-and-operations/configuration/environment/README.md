@@ -116,7 +116,7 @@ For Docker installations:
 docker exec -it -e RAILS_ENV=production openproject-web-1 bundle exec rake setting:available_envs
 ```
 
-The default value is also visible for each variable in parentheses. 
+The default value is also visible for each variable in parentheses.
 
 <!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
 <!-- BEGIN AUTOMATED SECTION -->
@@ -127,6 +127,8 @@ OPENPROJECT_ACTIVITY__DAYS__DEFAULT (default=30) Days displayed on project activ
 OPENPROJECT_ADDITIONAL__HOST__NAMES (default=[]) Additional allowed host names for the application.
 OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL (default=nil) URL users logging in for the first time will be redirected to (e.g., a help screen)
 OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL (default=nil) Override URL to which logged in users are redirected instead of the Home page
+OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED (default=false) Enable AI text transform actions in the rich text editor
+OPENPROJECT_AI__TEXT__TRANSFORM__RUN__RETENTION__SECONDS (default=3600) How long AI text transform runs and their events are kept before a cron job removes them. Applies to finished runs from their finish time and to unfinished runs from their creation time.
 OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES (default=false) Allow start and finish times
 OPENPROJECT_ALLOWED__LINK__PROTOCOLS (default=[]) Allowed protocols for links in the WYSIWYG editor and formatted texts
 OPENPROJECT_ANTIVIRUS__SCAN__ACTION (default=:quarantine) Virus scanning action for found infected files
@@ -155,7 +157,7 @@ OPENPROJECT_AUTOLOGIN__COOKIE__NAME (default="autologin") Cookie name for autolo
 OPENPROJECT_AUTOLOGIN__COOKIE__PATH (default="/") Cookie path for autologin cookie
 OPENPROJECT_AVAILABLE__LANGUAGES (default=["ca", "cs", "de", "el", "en", "es", "fr", "hu", "id", "it", "ja", "ko", "lt", "nl", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk", "sl", "sv", "tr", "uk", "vi", "zh-CN", "zh-TW"]) Available languages
 OPENPROJECT_AVATAR__LINK__EXPIRY__SECONDS (default=86400) Cache duration for avatar image API responses
-OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB (default=1024) Maximum limit of attachment size to include into application backups
+OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB (default=4096) Maximum limit of attachment size to include into application backups
 OPENPROJECT_BACKUP__DAILY__LIMIT (default=3) Maximum number of application backups allowed per day
 OPENPROJECT_BACKUP__ENABLED (default=true) Enable application backups through the UI
 OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS (default=true) Allow inclusion of attachments in application backups
@@ -210,7 +212,7 @@ OPENPROJECT_DIRECT__UPLOADS (default=true) Enable direct uploads to AWS S3. Only
 OPENPROJECT_DISABLE__BROWSER__CACHE (default=true) Prevent browser from caching any logged-in responses for security reasons
 OPENPROJECT_DISABLE__KEYBOARD__SHORTCUTS (default=false) Whether keyboard short cuts should be disabled (e.g. for better screen reader support)
 OPENPROJECT_DISABLE__PASSWORD__CHOICE (default=false) If enabled a user's password cannot be set to an arbitrary value, but can only be randomized.
-OPENPROJECT_DISABLE__PASSWORD__LOGIN (default=false) Disable internal logins and instead only allow SSO through OmniAuth.
+OPENPROJECT_DISABLE__PASSWORD__LOGIN (default=false) Disable internal logins and instead only allow SSO through OmniAuth. Forces password_login to 'none'. Prefer setting password_login directly.
 OPENPROJECT_DISABLED__MODULES (default=[]) A list of module names to prevent access to in the application
 OPENPROJECT_DISPLAY__SUBPROJECTS__WORK__PACKAGES (default=true) Display subprojects work packages on main projects by default
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN (default=false) Destroy all sessions for current_user on login
@@ -221,6 +223,7 @@ OPENPROJECT_EE__HIDE__BANNERS (default=false) Hide the Enterprise enterprise ban
 OPENPROJECT_EE__MANAGER__VISIBLE (default=true) Show the Enterprise configuration page
 OPENPROJECT_EMAIL__DELIVERY__CONFIGURATION (default="inapp")
 OPENPROJECT_EMAIL__DELIVERY__METHOD (default=nil) Email delivery method
+OPENPROJECT_EMAIL__LIMIT__PER__DAY (default=0) Number of emails which are allowed to be sent per day on average (may be up to 2x as much on a single day). This can be used to address spam and abuse, but is just designed as a last resort as it simply drops mails that are over the limit instead of sending them at a later point in time or notifying the user.
 OPENPROJECT_EMAIL__LOGIN (default=false) Use email as login
 OPENPROJECT_EMAILS__FOOTER (default={"en" => ""}) Emails footer
 OPENPROJECT_EMAILS__HEADER (default={"en" => ""}) Emails header
@@ -232,13 +235,6 @@ OPENPROJECT_ENFORCE__TRACKING__START__AND__END__TIMES (default=false) Require st
 OPENPROJECT_ENTERPRISE__CHARGEBEE__SITE (default="openproject-enterprise") Site name for EE trial service
 OPENPROJECT_ENTERPRISE__PLAN (default="enterprise-on-premises---basic---euro---1-year") Default EE selected plan
 OPENPROJECT_ENTERPRISE__TRIAL__CREATION__HOST (default="https://start.openproject.com") Host for EE trial service
-OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE (default=true) Allows the display and use of built-in OAuth applications.
-OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE (default=false)
-OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE (default=false) Allow exporting a meeting with FITKO styling. See #65124 for details.
-OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE (default=false) Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress.
-OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE (default=false)
-OPENPROJECT_FEATURE__TYPE__VARIANTS__ACTIVE (default=false) Enables work package type variants.
-OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE (default=true) Enables Wiki enhancements, such as the Wikis tab and XWiki integration.
 OPENPROJECT_FEEDS__ENABLED (default=true) Enable Feeds
 OPENPROJECT_FEEDS__LIMIT (default=15) Feed content limit
 OPENPROJECT_FILE__MAX__SIZE__DISPLAYED (default=512) Max size of text files displayed inline
@@ -319,6 +315,9 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR (default=nil) Set a custom BCrypt cos
 OPENPROJECT_PASSWORD__ACTIVE__RULES (default=["lowercase", "uppercase", "numeric", "special"]) Password requirements
 OPENPROJECT_PASSWORD__COUNT__FORMER__BANNED (default=0) Number of most recently used passwords banned for reuse
 OPENPROJECT_PASSWORD__DAYS__VALID (default=0) Number of days, after which to enforce a password change
+OPENPROJECT_PASSWORD__LOGIN (default="all") Who may authenticate with a password: all users, everyone except OmniAuth-linked users, or nobody (except the break-glass allowlist).
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__LOGINS (default=[]) Logins that keep password login as a break-glass access when password_login is except_sso or none. Intended as an environment overlay when nobody can reach administration. Matched case-insensitively.
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__PRINCIPAL__IDS (default=[]) User and group ids that keep password login as a break-glass access when password_login is except_sso or none. Groups include their descendant groups.
 OPENPROJECT_PASSWORD__MIN__LENGTH (default=10) Minimum length
 OPENPROJECT_PER__PAGE__OPTIONS (default="20, 100") Objects per page options
 OPENPROJECT_PERCENT__COMPLETE__ON__STATUS__CLOSED (default="no_change") Describes how % complete should change when setting a work package status to a closed one
@@ -373,7 +372,7 @@ OPENPROJECT_SEED__ADMIN__USER__MAIL (default="admin@example.net") E-mail to set 
 OPENPROJECT_SEED__ADMIN__USER__NAME (default="OpenProject Admin") Name to set for the initially created admin user.
 OPENPROJECT_SEED__ADMIN__USER__PASSWORD (default="admin") Password to set for the initially created admin user (Login remains "admin").
 OPENPROJECT_SEED__ADMIN__USER__PASSWORD__RESET (default=true) Whether to force a password reset for the initially created admin user.
-OPENPROJECT_SEED__DESIGN (default=nil) Seed enterprise-edition theme colors and logos through ENV
+OPENPROJECT_SEED__DESIGN (default=nil) Seed enterprise-edition theme colors and logos through ENV. Set only_when_empty to apply only when no CustomStyle exists.
 OPENPROJECT_SEED__ENTERPRISE__TOKEN (default=nil) Seed enterprise-edition token through ENV
 OPENPROJECT_SEED__LDAP (default=nil) Provide an LDAP connection and sync settings through ENV
 OPENPROJECT_SELF__REGISTRATION (default=2) Self-registration

@@ -1,5 +1,9 @@
 ---
 zh-TW:
+  activerecord:
+    models:
+      job_status/status:
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Or [click here](download_url) to download.
     download_starts: 將自動開始下載

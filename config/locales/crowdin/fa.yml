@@ -66,6 +66,8 @@ fa:
 
       '
     login_with_auth_provider: یا با حساب موجود خود وارد سیستم شوید
+    omniauth_direct_login_continue: ادامه برای ورود
+    omniauth_direct_login_redirecting: در حال هدایت شما به ارائه‌دهنده هویت…
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
     signup_title: ایجاد حساب در %{app_title}
     signup_with_external_account: ثبت‌نام با حساب خارجی
@@ -76,6 +78,28 @@ fa:
         dependencies: وابستگی‌ها
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: فعال
+        injects_type_template: درج الگوی نوع بسته کاری
+        label: برچسب
+        prompt: پرامپت
+        types: انواع بسته کاری
+        usage_scope: دامنه
+      ai/text_transform_run:
+        action: عملیات
+        cancel_requested: درخواست لغو
+        error_message: پیام خطا
+        finished_at: زمان پایان
+        input: ورودی
+        status: وضعیت
+        system_prompt: پرامپت سیستمی
+        user: کاربر
+        uuid: شناسه UUID
+      ai/text_transform_run_event:
+        kind: نوع
+        payload: داده
+        run: اجرا
+        seq: شماره توالی
       announcements:
         show_until: نمایش تا
       attachment:
@@ -118,7 +142,9 @@ fa:
         is_for_all: برای همه پروژه‌ها
         is_required: الزامی
         max_length: حداکثر طول
+        max_value: حداکثر مقدار
         min_length: حداقل طول
+        min_value: حداقل مقدار
         multi_value: اجازه انتخاب چندگانه
         possible_values: مقادیر ممکن
         regexp: عبارت منظم
@@ -236,6 +262,7 @@ fa:
         project_creation_wizard_status_when_submitted: وضعیت هنگام ارسال
         project_creation_wizard_work_package_comment: دیدگاه بسته کاری
         project_creation_wizard_work_package_type: نوع بسته کاری
+        project_types: انواع
         public_value:
           false: خصوصی
           title: قابلیت مشاهده
@@ -255,6 +282,7 @@ fa:
         templated_value:
           false: از حالت الگو خارج شد
           true: به‌عنوان الگو علامت‌گذاری شد
+        type_variant: گونه نوع بسته کاری
         types: انواع
         versions: نسخه ها
         work_packages: بسته های کاری
@@ -275,6 +303,8 @@ fa:
         start_gate_name: نام نقطه کنترل شروع مرحله
       project_custom_field:
         custom_field_section: بخش
+      project_type:
+        variant: گونه
       query:
         child_work_packages: بسته‌های کاری فرزند
         column_names: ستون‌ها
@@ -342,18 +372,27 @@ fa:
       token/named:
         token_name: نام توکن
       type:
-        attribute_groups: پیکربندی فرم
-        children: گونه‌ها
+        allow_project_variants: اجازه ایجاد گونه‌های ویژه پروژه
         color: رنگ
-        dependent_configuration_links: نوع‌های پیوندشده
-        description: متن پیش‌فرض توضیحات
-        is_default: به‌طور پیش‌فرض برای پروژه‌های جدید فعال
         is_in_roadmap: نمایش پیش‌فرض در نقشه راه
         is_milestone: نقطه عطف است
-        parent: نوع والد
-        patterns: الگوها
+        project_types: پروژه‌ها
+        variants: گونه‌ها
       type/configuration_link:
         source: نوع منبع
+      type_variant:
+        attribute_groups: فرم
+        default_work_package_description: متن پیش‌فرض توضیحات
+        defaults_source: منبع مقادیر پیش‌فرض
+        enabled_in_new_projects: فعال در پروژه‌های جدید
+        form_configuration_source: منبع فرم
+        patterns: الگوها
+        pdf_export_source: منبع خروجی PDF
+        project_attributes_source: منبع ویژگی‌های پروژه
+        project_types: پروژه‌های استفاده‌کننده از این گونه
+        variant: گونه
+        variant_name: نام
+        workflows_source: منبع گردش‌کارها
       user:
         admin: مدیر
         auth_source: منبع احراز هویت
@@ -452,6 +491,7 @@ fa:
           true: شامل روزهای غیرکاری
         journal_internal: ژورنال داخلی
         notify: اعلان
+        observed_in_versions: مشاهده‌شده در نسخه‌ها
         parent: بالادستی
         parent_issue: والد
         parent_work_package: والد
@@ -527,6 +567,8 @@ fa:
         is_for_all_cannot_modify: برای همه پروژه‌ها است و بنابراین قابل تغییر نیست.
         ldap_managed: این واحد سازمانی با همگام‌سازی LDAP مدیریت می‌شود و نمی‌توان آن را به‌صورت دستی تغییر داد.
         less_than_or_equal_to: باید کوچک‌تر از یا برابر با %{count} باشد.
+        migration_failed: 'امکان تغییر گونه برای پروژه «%{project}» وجود نداشت: %{reason}'
+        migration_target_invalid: گونه انتخاب‌شده باید گونه دیگری از همان نوع باشد که همه پروژه‌های تحت‌تأثیر بتوانند از آن استفاده کنند.
         not_a_date: تاریخ معتبر نیست.
         not_a_datetime: تاریخ و زمان معتبر نیست.
         not_a_number: عدد نیست.
@@ -548,7 +590,9 @@ fa:
         regex_list_invalid: خطوط %{invalid_lines} به‌عنوان عبارت منظم قابل تجزیه نیستند.
         regex_match_failed: با عبارت منظم %{expression} مطابقت ندارد.
         smaller_than_or_equal_to_max_length: باید کوچک‌تر از یا برابر با حداکثر طول باشد.
+        smaller_than_or_equal_to_max_value: باید کمتر از یا مساوی حداکثر مقدار باشد.
         ssrf_filtered: سیاست SSRF این نمونه OpenProject را نقض می‌کند.
+        status_transition_invalid: نامعتبر است، زیرا برای نقش‌های کاربر فعلی هیچ انتقال معتبری از وضعیت قبلی به وضعیت جدید وجود ندارد.
         system_wide_non_working_day_exists: با یک روز غیرکاری سراسری موجود برای این تاریخ تداخل دارد.
         taken: قبلاً استفاده شده است.
         too_long: بیش از حد طولانی است (حداکثر %{count} نویسه).
@@ -717,9 +761,8 @@ fa:
               blank: لطفاً یک پروژه انتخاب کنید.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: باید یک نوع سطح‌بالا باشد. پروژه از ریشه‌ها استفاده می‌کند و گونه را جداگانه resolve می‌کند.
             variant:
+              must_be_owned_by_the_project: نباید گونه‌ای باشد که متعلق به پروژه دیگری است.
               must_belong_to_the_type: باید گونه‌ای از نوع مورد استفاده پروژه باشد.
         queries/filters/base:
           attributes:
@@ -792,6 +835,7 @@ fa:
               hours_per_day_are_missing: تعداد ساعات روزانه باید تعریف شود.
               hours_per_day_is_out_of_bounds: ساعات روزانه نمی‌تواند بیشتر از ۲۴ باشد
               journal_aggregation_time_minutes_is_out_of_bounds: دوره تجمیع باید بین %{min} و %{max} دقیقه باشد.
+              password_login_requires_sso_provider: محدودیت‌های ورود با گذرواژه به دست‌کم یک ارائه‌دهنده SSO در دسترس نیاز دارند.
               previous_working_day_changes_unprocessed: تغییرات قبلی پیکربندی روزهای کاری هنوز اعمال نشده‌اند.
               working_days_are_missing: حداقل یک روز هفته باید به‌عنوان روز کاری تعریف شود.
         status:
@@ -809,7 +853,7 @@ fa:
               blank: لطفاً یک نام برای توکن وارد کنید
               format: "%{message}"
               in_use: این نام توکن از قبل استفاده می‌شود؛ لطفاً نام دیگری انتخاب کنید
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: ویژگی بسته کاری نامعتبر استفاده شده است.
@@ -817,17 +861,33 @@ fa:
               duplicate_group: نام گروه '%{group}' بیش از یک بار استفاده شده است. نام گروه‌ها باید یکتا باشند.
               group_without_name: نام گروه نمی‌تواند خالی باشد.
               query_invalid: 'Query توکار ''%{group}'' نامعتبر است: %{details}'
-            parent:
-              cannot_be_self: نمی‌تواند خود همان نوع باشد.
-              cannot_change_while_used_by_projects: تا زمانی که پروژه‌ها از این نوع استفاده می‌کنند قابل تغییر نیست.
-              cannot_have_children: قابل تنظیم نیست زیرا این نوع از قبل گونه دارد.
-              must_be_a_root: خودش باید یک نوع سطح‌بالا باشد. نوع‌ها فقط یک سطح قابل تو در تو شدن هستند.
-              standard_type_must_be_root: برای نوع استاندارد قابل تنظیم نیست.
+            base:
+              borrowed_by_variants: تا زمانی که پیکربندی آن توسط %{names} بازاستفاده می‌شود قابل حذف نیست.
+              is_default_variant: پیکربندی پیش‌فرض یک نوع قابل حذف نیست.
+              project_variants_not_allowed: این نوع اجازه ایجاد گونه درون پروژه‌ها را نمی‌دهد.
+              restrict_dependent_destroy:
+                has_many: تا زمانی که پروژه‌ها از آن استفاده می‌کنند قابل حذف نیست.
+            defaults_source_id:
+              must_be_available_to_the_variant: باید پیکربندی‌ای باشد که این پروژه بتواند از آن استفاده کند.
+              would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: برای گونه‌ای که متعلق به یک پروژه است قابل تنظیم نیست.
+              taken: از قبل برای پیکربندی دیگری از این نوع تنظیم شده است.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: باید پیکربندی‌ای باشد که این پروژه بتواند از آن استفاده کند.
+              would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
             patterns:
               invalid_tokens: یک یا چند ویژگی داخل فیلد معتبر نیستند. لطفاً پیش از ذخیره آن‌ها را اصلاح کنید.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              must_be_available_to_the_variant: باید پیکربندی‌ای باشد که این پروژه بتواند از آن استفاده کند.
+              would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: باید پیکربندی‌ای باشد که این پروژه بتواند از آن استفاده کند.
+              would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
+            variant:
+              must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
+            workflows_source_id:
+              must_be_available_to_the_variant: باید پیکربندی‌ای باشد که این پروژه بتواند از آن استفاده کند.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
         user:
           attributes:
@@ -933,6 +993,9 @@ fa:
             start_date:
               cannot_be_null: وقتی تاریخ پایان و مدت‌زمان مشخص هستند نمی‌تواند null باشد.
               violates_relationships: برای جلوگیری از نقض روابط بسته کاری، فقط می‌تواند روی %{soonest_start} یا بعد از آن تنظیم شود.
+            status:
+              status_invalid_in_type: نامعتبر است، زیرا وضعیت فعلی در این نوع وجود ندارد.
+              status_transition_invalid: نامعتبر است، زیرا برای نقش‌های کاربر فعلی هیچ انتقال معتبری از وضعیت قبلی به وضعیت جدید وجود ندارد.
             status_id:
               status_invalid_in_type: نامعتبر است، زیرا وضعیت فعلی در این نوع وجود ندارد.
               status_transition_invalid: نامعتبر است، زیرا برای نقش‌های کاربر فعلی هیچ انتقال معتبری از وضعیت قبلی به وضعیت جدید وجود ندارد.
@@ -947,70 +1010,315 @@ fa:
           one: ۱ خطا مانع ذخیره این %{model} شد
           other: "%{count} خطا مانع ذخیره این %{model} شدند"
     models:
-      attachment: فایل
+      action:
+        one: اقدام
+        other: اقدام‌ها
+      ai/text_transform_action:
+        one: عملیات تبدیل متن
+        other: عملیات تبدیل متن
+      ai/text_transform_run:
+        one: اجرای تبدیل متن
+        other: اجراهای تبدیل متن
+      ai/text_transform_run_event:
+        one: رویداد اجرای تبدیل متن
+        other: رویدادهای اجرای تبدیل متن
+      announcement:
+        one: اعلان
+        other: اعلان‌ها
+      anonymous_user:
+        one: کاربر ناشناس
+        other: کاربران ناشناس
+      attachment:
+        one: فایل
+        other: فایل‌ها
       attribute_help_text:
         one: متن راهنمای ویژگی
         other: متن‌های راهنمای ویژگی
+      attribute_help_text/project:
+        one: متن راهنمای ویژگی پروژه
+        other: متن‌های راهنمای ویژگی پروژه
+      attribute_help_text/user:
+        one: متن راهنمای ویژگی کاربر
+        other: متن‌های راهنمای ویژگی کاربر
+      attribute_help_text/work_package:
+        one: متن راهنمای ویژگی بسته کاری
+        other: متن‌های راهنمای ویژگی بسته کاری
       auth_provider:
         one: ارائه‌دهنده احراز هویت
         other: ارائه‌دهندگان احراز هویت
-      category: دسته‌بندی
-      color: رنگ
-      comment: نظر
-      custom_action: اقدام سفارشی
-      custom_field: فیلدهای سفارشی
-      customized: سفارشی‌شده
-      doorkeeper/application: برنامه OAuth
+      backup:
+        one: نسخه پشتیبان
+        other: نسخه‌های پشتیبان
+      capability:
+        one: قابلیت
+        other: قابلیت‌ها
+      category:
+        one: دسته‌بندی
+        other: دسته‌بندی‌ها
+      change:
+        one: تغییر فایل
+        other: تغییرات فایل
+      changeset:
+        one: مجموعه تغییرات
+        other: مجموعه تغییرات
+      color:
+        one: رنگ
+        other: رنگ‌ها
+      comment:
+        one: دیدگاه
+        other: دیدگاه‌ها
+      custom_action:
+        one: اقدام سفارشی
+        other: اقدام‌های سفارشی
+      custom_field:
+        one: فیلد سفارشی
+        other: فیلدهای سفارشی
+      custom_field/hierarchy/item:
+        one: مورد سلسله‌مراتبی
+        other: موارد سلسله‌مراتبی
+      custom_field_section:
+        one: بخش فیلد سفارشی
+        other: بخش‌های فیلد سفارشی
+      custom_option:
+        one: گزینه فیلد سفارشی
+        other: گزینه‌های فیلد سفارشی
+      custom_style:
+        one: طراحی
+        other: طراحی‌ها
+      day:
+        one: روز
+        other: روزها
+      deleted_user:
+        one: کاربر حذف‌شده
+        other: کاربران حذف‌شده
+      design_color:
+        one: رنگ طراحی
+        other: رنگ‌های طراحی
+      doorkeeper/application:
+        one: برنامه OAuth
+        other: برنامه‌های OAuth
+      emoji_reaction:
+        one: واکنش ایموجی
+        other: واکنش‌های ایموجی
       enterprise_token:
         one: توکن Enterprise
         other: توکن‌های Enterprise
-      forum: انجمن
-      global_role: نقش سراسری
-      group: گروه
+      enterprise_trial:
+        one: دوره آزمایشی Enterprise
+        other: دوره‌های آزمایشی Enterprise
+      enumeration:
+        one: فهرست شمارشی
+        other: فهرست‌های شمارشی
+      export:
+        one: خروجی
+        other: خروجی‌ها
+      export_setting:
+        one: تنظیم خروجی
+        other: تنظیمات خروجی
+      forum:
+        one: انجمن
+        other: انجمن‌ها
+      global_role:
+        one: نقش سراسری
+        other: نقش‌های سراسری
+      group:
+        one: گروه
+        other: گروه‌ها
+      group_custom_field:
+        one: فیلد سفارشی گروه
+        other: فیلدهای سفارشی گروه
+      health_report:
+        one: گزارش سلامت
+        other: گزارش‌های سلامت
       issue_priority:
         one: اولویت
         other: اولویت‌ها
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: شرکت‌کننده جلسه
-      member: عضو
-      message: پیام
-      news: اخبار
+      ldap_auth_source:
+        one: اتصال LDAP
+        other: اتصال‌های LDAP
+      mcp_configuration:
+        one: پیکربندی MCP
+        other: پیکربندی‌های MCP
+      member:
+        one: عضو
+        other: اعضا
+      menu_item:
+        one: آیتم منو
+        other: موارد منو
+      menu_items/wiki_menu_item:
+        one: مورد منوی ویکی
+        other: موارد منوی ویکی
+      message:
+        one: پیام
+        other: پیام‌ها
+      news:
+        one: اخبار
+        other: اخبار
+      non_working_day:
+        one: روز غیرکاری
+        other: روزهای غیرکاری
       notification:
         one: اعلان‌
         other: اعلان‌ها
-      placeholder_user: کاربر جایگزین
+      notification_setting:
+        one: تنظیم اعلان
+        other: تنظیمات اعلان
+      oauth_client:
+        one: کلاینت OAuth
+        other: کلاینت‌های OAuth
+      oauth_client_token:
+        one: توکن کلاینت OAuth
+        other: توکن‌های کلاینت OAuth
+      persisted_query:
+        one: پرس‌وجوی ذخیره‌شده
+        other: پرس‌وجوهای ذخیره‌شده
+      persisted_view:
+        one: نمای ذخیره‌شده
+        other: نماهای ذخیره‌شده
+      placeholder_user:
+        one: کاربر جایگزین
+        other: کاربران جایگزین
+      plugin_auth_provider:
+        one: ارائه‌دهنده احراز هویت افزونه
+        other: ارائه‌دهندگان احراز هویت افزونه
+      principal:
+        one: موجودیت امنیتی
+        other: موجودیت‌های امنیتی
       project:
         one: پروژه
         other: پروژه‌ها
+      project/phase:
+        one: مرحله پروژه
+        other: مراحل پروژه
+      project/phase_definition:
+        one: تعریف مرحله پروژه
+        other: تعاریف مراحل پروژه
+      project_custom_field:
+        one: ویژگی پروژه
+        other: ویژگی‌های پروژه
+      project_custom_field_section:
+        one: بخش ویژگی‌های پروژه
+        other: بخش‌های ویژگی‌های پروژه
       project_query:
         one: فهرست پروژه
         other: فهرست‌های پروژه
-      query: Query سفارشی
-      reminder: یادآوری
+      project_query_role:
+        one: نقش فهرست پروژه
+        other: نقش‌های فهرست پروژه
+      project_role:
+        one: نقش پروژه
+        other: نقش‌های پروژه
+      query:
+        one: پرس‌وجوی سفارشی
+        other: پرس‌وجوهای سفارشی
+      relation:
+        one: رابطه
+        other: روابط
+      reminder:
+        one: یادآوری
+        other: یادآوری‌ها
+      remote_identity:
+        one: هویت راه‌دور
+        other: هویت‌های راه‌دور
+      repository:
+        one: مخزن
+        other: مخزن‌ها
+      repository/git:
+        one: مخزن Git
+        other: مخزن‌های Git
+      repository/subversion:
+        one: مخزن Subversion
+        other: مخزن‌های Subversion
       role:
         one: نقش
         other: نقش‌ها
       scim_client:
         one: کلاینت SCIM
         other: کلاینت‌های SCIM
-      status: وضعیت بسته کاری
+      service_account:
+        one: حساب سرویس
+        other: حساب‌های سرویس
+      sessions/user_session:
+        one: نشست
+        other: نشست‌ها
+      setting:
+        one: تنظیم
+        other: تنظیمات
+      status:
+        one: وضعیت بسته کاری
+        other: وضعیت‌های بسته کاری
+      system_user:
+        one: کاربر سیستمی
+        other: کاربران سیستمی
       token/api:
         one: توکن دسترسی
         other: توکن‌های دسترسی
+      token/base:
+        one: توکن
+        other: توکن‌ها
+      token/ical:
+        one: توکن iCalendar
+        other: توکن‌های iCalendar
       token/rss:
         one: توکن RSS
         other: توکن‌های RSS
       type:
         one: نوع
         other: انواع
-      user: کاربر
-      version: نسخه
-      wiki: ویکی
-      wiki_page: صفحه Wiki
-      work_package: کاربسته
-      workflow: گردش‌کار
+      type_variant:
+        one: گونه
+        other: گونه‌ها
+      user:
+        one: کاربر
+        other: کاربران
+      user_custom_field:
+        one: ویژگی کاربر
+        other: ویژگی‌های کاربر
+      user_custom_field_section:
+        one: بخش ویژگی‌های کاربر
+        other: بخش‌های ویژگی‌های کاربر
+      user_non_working_time:
+        one: زمان غیرکاری
+        other: زمان‌های غیرکاری
+      user_password:
+        one: گذرواژه
+        other: گذرواژه‌ها
+      user_preference:
+        one: ترجیح کاربر
+        other: ترجیحات کاربر
+      user_query:
+        one: فهرست کاربران
+        other: فهرست‌های کاربران
+      user_working_hours:
+        one: ساعات کاری
+        other: ساعات کاری
+      version:
+        one: نسخه
+        other: نسخه‌ها
+      version_custom_field:
+        one: فیلد سفارشی نسخه
+        other: فیلدهای سفارشی نسخه
+      view:
+        one: نما
+        other: نماها
+      wiki:
+        one: ویکی
+        other: ویکی‌ها
+      wiki_page:
+        one: صفحه ویکی
+        other: صفحه‌های ویکی
+      work_package:
+        one: بسته کاری
+        other: بسته‌های کاری
+      work_package_custom_field:
+        one: فیلد سفارشی بسته کاری
+        other: فیلدهای سفارشی بسته کاری
+      work_package_role:
+        one: نقش بسته کاری
+        other: نقش‌های بسته کاری
+      workflow:
+        one: گردش‌کار
+        other: گردش‌کارها
   activities:
     index:
       no_results_title_text: در این بازه زمانی عملیاتی برای این پروژه انجام نشده است.
@@ -1090,7 +1398,12 @@ fa:
     banners:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
     custom_styles:
+      color_groups:
+        base_colors: رنگ‌های پایه
+        main_menu: منوی کناری اصلی
+        top_header_colors: رنگ‌های سربرگ بالا
       color_theme: رنگ زمینه
+      color_theme_caption: از یکی از پوسته‌های پیش‌فرض OpenProject استفاده کنید، یا با انتخاب «پوسته سفارشی»، پوسته خود را با رنگ‌های دلخواه بسازید.
       color_theme_custom: شخصی
       colors:
         accent-color: رنگ تأکیدی
@@ -1099,12 +1412,17 @@ fa:
         main-menu-bg-selected-background: منوی اصلی در حالت انتخاب
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+      edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
         file_too_large: بیش از حد بزرگ است (حداکثر اندازه %{count} مگابایت).
       instructions:
         accent-color: رنگ پیوندها و سایر عناصر دارای تأکید متوسط.
+        header-bg-color: رنگ پس‌زمینه پیش‌فرض سربرگ برنامه.
         main-menu-bg-color: رنگ پس‌زمینه منوی سمت چپ.
+        main-menu-bg-selected-background: رنگ پس‌زمینه موارد منو هنگام انتخاب.
         primary-button-color: رنگ تأکیدی قوی که برای مهم‌ترین دکمه هر صفحه استفاده می‌شود.
       manage_colors: ویرایش گزینه‌های انتخاب رنگ
       tab_branding: برندسازی
@@ -1172,6 +1490,7 @@ fa:
         ssl_error: 'خطای SSL هنگام اتصال به سرور Jira: %{message}'
         ssrf_block_doc_link: لطفاً [مستندات](docs_url) را ببینید.
         ssrf_blocked: 'اتصال مسدود شد: میزبان Jira به یک نشانی IP خصوصی Resolve می‌شود. اگر نمونه Jira شما روی شبکه داخلی اجرا می‌شود، IP آن را از طریق متغیر محیطی OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST مجاز کنید.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: افزوده‌شده
         creator: ایجادکننده
@@ -1223,6 +1542,7 @@ fa:
           finalizing: در حال نهایی‌سازی
           finalizing_done: تکمیل‌شده
           finalizing_error: خطا هنگام نهایی‌سازی
+          import_aborting: در حال لغو
           import_error: خطا هنگام Import
           import_scope: انتخاب دامنه
           imported: حالت بازبینی
@@ -1234,13 +1554,13 @@ fa:
           projects_meta_done: داده‌ها گردآوری شدند
           projects_meta_error: خطا در دریافت داده‌های پروژه
           projects_meta_fetching: در حال دریافت داده‌های پروژه
-          revert_cancelled: لغو بازگردانی انجام شد
-          revert_cancelling: در حال لغو بازگردانی
           revert_error: خطا هنگام بازگردانی
           reverted: بازگردانده شد
           reverting: در حال بازگردانی
+        step_not_available: این عملیات در وضعیت فعلی فرایند واردسازی در دسترس نیست.
         title: اجرای Import
         wizard:
+          button_abort: لغو
           button_retry: تلاش مجدد
           finalize_dialog:
             confirm: می‌دانم که این اقدام قابل بازگشت نیست
@@ -1284,11 +1604,14 @@ fa:
             title: این Import برای همیشه بازگردانده شود؟
           sections:
             confirm_import:
+              button_importing: در حال واردسازی داده‌ها
+              button_revert: بازگردانی واردسازی
               button_start: شروع Import
               caption: تنظیمات Import را بازبینی و Import را شروع کنید
               caption_done: تکمیل‌شده
               caption_done_info: همه داده‌ها وارد شده‌اند
               description: در آستانه شروع اجرای Import با تنظیمات زیر هستید.
+              info_importing: واردسازی اکنون در حال انجام است. بستن این زبانه آن را متوقف نمی‌کند و هر زمان می‌توانید با باز کردن این اجرا، وضعیت واردسازی را دوباره بررسی کنید.
               label_available_data: داده‌هایی که وارد می‌شوند
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
@@ -1309,6 +1632,7 @@ fa:
               button_done: تأیید Import
               button_revert: بازگردانی Import
               caption: بازبینی اجرای Import یا بازگردانی آن
+              info: داده‌های واردشده اکنون در حالت بازبینی هستند. برای دائمی‌کردن واردسازی روی «تأیید واردسازی» کلیک کنید یا برای برگرداندن همه تغییرات ایجادشده در این اجرا روی «بازگردانی واردسازی» کلیک کنید.
               label_finalize_import: تأیید Import
               label_finalizing: در حال تأیید Import...
               label_finalizing_done: Import تأیید شد.
@@ -1316,7 +1640,6 @@ fa:
               label_revert: بازگردانی Import
               label_revert_progress: در حال بازگردانی Import...
               label_reverted: Import بازگردانده شد.
-              preview_description: داده‌های واردشده اکنون در حالت بازبینی هستند. برای دائمی‌کردن Import روی «تأیید Import» یا برای لغو همه تغییرات این اجرا روی «بازگردانی Import» کلیک کنید.
               stats:
                 other_settings:
                   label: تنظیمات دیگر
@@ -1589,6 +1912,41 @@ fa:
         page_header:
           description: بین شناسه‌های عددی کلاسیک بسته کاری یا شناسه‌های معنایی ویژه هر پروژه که شناسه پروژه را به ابتدای شناسه بسته کاری اضافه می‌کنند انتخاب کنید.
         success_banner: قالب شناسه بسته کاری با موفقیت به‌روزرسانی شد.
+    text_transform_actions:
+      delete_dialog_component:
+        description: کاربران دیگر نمی‌توانند این عملیات را در ویرایشگر متن غنی اجرا کنند.
+        heading: آیا مطمئن هستید که می‌خواهید عملیات «%{label}» را حذف کنید؟
+        title: حذف عملیات تبدیل متن
+      form:
+        injects_type_template_caption: اگر فعال باشد، الگوی توضیحات نوع بسته کاری به‌طور خودکار به پرامپت افزوده می‌شود. پرامپت باید شامل دستورهایی درباره نحوه استفاده از الگو باشد.
+        label_caption: این نامی است که کاربران در ویرایشگر خواهند دید.
+        select_types: انتخاب انواع
+        types_caption: انواع بسته کاری‌ای را اضافه کنید که این عملیات باید برای آن‌ها در دسترس باشد. همه گونه‌های موجود به‌طور خودکار شامل خواهند شد.
+        usage_scope_caption: 'می‌توانید محل نمایش این عملیات را محدود کنید: همه‌جا (از جمله دیدگاه‌ها، ویکی‌ها و فیلدهای سفارشی)، برای همه انواع بسته کاری، یا فقط برای انواع مشخصی از بسته کاری.'
+      index:
+        description: عملیات تبدیل متن، قابلیت‌های مبتنی بر مدل زبانی بزرگ (LLM) را برای نوشتن، سازمان‌دهی و بازبینی متن در هر جایی که ویرایشگر متن غنی استفاده می‌شود، مانند توضیحات بسته کاری، دیدگاه‌ها و صفحه‌های ویکی، در اختیار کاربران می‌گذارد. می‌توانید با پرامپت‌ها و دستورهای خود، عملیات جدید بسازید.
+        label_add_action: عملیات
+        label_aria_add_action: افزودن عملیات تبدیل متن
+      index_component:
+        blank_slate:
+          description: برای نمایش در اینجا یک عملیات اضافه کنید
+          title: هنوز هیچ عملیات تبدیل متنی پیکربندی نشده است
+        disabled_warning: عملیات تبدیل متن غیرفعال هستند. عملیات زیر در هیچ‌جا در دسترس نخواهند بود.
+        label_disable_all: غیرفعال‌کردن همه
+        label_enable_all: فعال‌کردن همه
+        title: عملیات
+      new:
+        title: عملیات جدید تبدیل متن
+      row_component:
+        label_actions: منوی عملیات
+        label_toggle: تغییر وضعیت %{label}
+        scope_specific_work_package_types:
+          one: "%{count} نوع بسته کاری"
+          other: "%{count} نوع بسته کاری"
+      usage_scopes:
+        all_work_package_types: همه انواع بسته کاری
+        everywhere: همه‌جا
+        specific_work_package_types: انواع مشخص بسته کاری
     workflows:
       blankslate:
         description: برای شروع پیکربندی گردش‌کارهای این نقش، وضعیت‌ها را اضافه کنید
@@ -1740,6 +2098,7 @@ fa:
     custom_field: فیلد سفارشی
     custom_options: مقادیر ممکن
     custom_values: فیلدهای سفارشی
+    customized: سفارشی‌شده
     date: تاریخ
     dates_interval: بازه تاریخ
     default_columns: ستون‌های پیش‌فرض
@@ -1766,6 +2125,7 @@ fa:
     is_default: مقدار پیش‌فرض
     is_for_all: نمایش تمام پروژه‌ها
     issue: کاربسته
+    jira: Jira
     journal: ژورنال
     journal_notes: دیدگاه
     lastname: نام خانوادگی
@@ -1798,6 +2158,7 @@ fa:
     start_date: تاریخ شروع
     state: حالت
     status: وضعیت
+    status_id: وضعیت
     subject: موضوع
     summary: خلاصه
     template: الگو
@@ -1837,6 +2198,9 @@ fa:
     label_delete_token: حذف پشتیبان گیری توکن
     label_reset_token: بازنشانی پشتیبانی گیری توکن
     label_token_users: کاربران زیر توکن نسخه پشتیبان فعال دارند
+    missing_attachments_notice_html: '<br/> <b>امکان خواندن %{file_count} فایل وجود نداشت</b> و از این نسخه پشتیبان حذف شدند. نام آرشیو با پسوند "-incomplete" تغییر داده شد تا مشخص شود برخی پیوست‌ها در آن موجود نیستند.
+
+      '
     reset_token:
       action_create: ایجاد
       action_reset: بازنشانی
@@ -2125,6 +2489,9 @@ fa:
       min_max:
         all: ۰ یعنی بدون محدودیت
         project: ۰ یعنی بدون محدودیت
+      min_max_value:
+        all: برای بدون محدودیت، خالی بگذارید
+        project: برای بدون محدودیت، خالی بگذارید
       multi_select:
         all: به کاربر اجازه می‌دهد چند مقدار به این فیلد سفارشی تخصیص دهد.
         project: به کاربر اجازه می‌دهد چند مقدار به این ویژگی تخصیص دهد.
@@ -2317,8 +2684,12 @@ fa:
   description_available_columns: ستون‌های موجود
   description_category_reassign: انتخاب دسته‌بندی
   description_choose_project: پروژه‌ها
-  description_compare_from: مقایسه از
-  description_compare_to: مقایسه تا
+  description_compare_changeset_from: مقایسه از مجموعه‌تغییرات
+  description_compare_changeset_to: مقایسه تا مجموعه‌تغییرات
+  description_compare_specific_version_from: مقایسه از نسخه %{version}
+  description_compare_specific_version_to: مقایسه تا نسخه %{version}
+  description_compare_version_from: مقایسه از نسخه
+  description_compare_version_to: مقایسه تا نسخه
   description_current_position: 'شما اینجا هستید: '
   description_date_from: تاریخ شروع را وارد کنید
   description_date_to: تاریخ پایان را وارد کنید
@@ -2383,7 +2754,6 @@ fa:
       custom_actions: اقدام‌های سفارشی
       custom_field_hierarchies: سلسله‌مراتب‌ها
       customize_life_cycle: سفارشی‌سازی چرخه عمر
-      date_alerts: هشدارهای تاریخ
       define_custom_style: پوسته و لوگوی سفارشی
       edit_attribute_groups: ویرایش گروه‌های ویژگی
       gantt_pdf_export: خروجی PDF گانت
@@ -2460,14 +2830,12 @@ fa:
         description: فیلدهای سفارشی سلسله‌مراتبی با استفاده از فهرست‌های انتخاب چندسطحی امکان سازمان‌دهی ساختارهای سلسله‌مراتبی در بسته‌های کاری و پروژه‌ها را فراهم می‌کنند.
       customize_life_cycle:
         description: مرحله‌های پروژه متفاوت از موارد ارائه‌شده در برنامه‌ریزی چرخه پروژه PM2 ایجاد و سازمان‌دهی کنید.
-      date_alerts:
-        description: با هشدارهای تاریخ، درباره تاریخ شروع یا پایان نزدیک‌شونده مطلع می‌شوید تا هیچ موعد مهمی را از دست ندهید یا فراموش نکنید.
       define_custom_style:
         description: نصب OpenProject خود را با لوگو و رنگ‌های خودتان سفارشی کنید.
         more_info: 'توجه: لوگوی استفاده‌شده به‌صورت عمومی قابل دسترسی خواهد بود.'
         title: پوسته رنگ و لوگوی سفارشی
       edit_attribute_groups:
-        description: 'پیکربندی فرم را با این افزونه‌های بیشتر سفارشی کنید:'
+        description: 'فرم را با این افزونه‌های اضافی سفارشی کنید:'
         features:
           groups: افزودن بخش‌های ویژگی جدید
           related: افزودن جدول بسته‌های کاری مرتبط
@@ -2545,18 +2913,17 @@ fa:
   error_attribute_not_highlightable: 'ویژگی(های) غیرقابل برجسته‌سازی: %{attributes}'
   error_auth_source_sso_failed: مشکل در سامانه ورود مرکزی (SSO) برای کاربر '%{value}' به وجود آمد
   error_can_not_archive_project: 'این پروژه قابل بایگانی نیست: %{errors}'
-  error_can_not_deactivate_type: نوع %{type} غیرفعال نشد زیرا هنوز توسط %{work_packages_link} استفاده می‌شود
   error_can_not_deactivate_type_invisible_projects: در پروژه‌هایی که نمی‌توانید ببینید نیز بسته‌های کاری وجود دارد.
   error_can_not_delete_custom_field: حذف فیلد سفارشی ممکن نیست
   error_can_not_delete_entry: حذف ورودی ممکن نیست
   error_can_not_delete_in_use_archived_undisclosed: در پروژه‌های بایگانی‌شده نیز بسته‌های کاری وجود دارد. برای دیدن پروژه‌های تحت تأثیر باید از مدیر بخواهید حذف را انجام دهد.
   error_can_not_delete_in_use_archived_work_packages: 'در پروژه‌های بایگانی‌شده نیز بسته‌های کاری وجود دارد. پیش از تغییر ویژگی بسته‌های کاری مربوطه، ابتدا باید پروژه‌های زیر را دوباره فعال کنید: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: نوع‌های استاندارد قابل حذف نیستند.
   error_can_not_delete_type:
     explanation: این نوع شامل بسته‌های کاری است و قابل حذف نیست. همه بسته‌های کاری تحت تأثیر را در <a target="_blank" href="%{url}">این نما</a> می‌توانید ببینید.
   error_can_not_find_all_resources: همه منابع مرتبط با این درخواست یافت نشدند.
   error_can_not_invite_user: ارسال دعوت برای کاربر ناموفق بود.
   error_can_not_remove_role: این نقش در حال استفاده است و قابل حذف نیست.
+  error_can_not_remove_type_from_project: حذف «%{name}» از پروژه «%{project}» ممکن نیست، زیرا هنوز توسط %{work_packages_link} استفاده می‌شود
   error_can_not_reopen_work_package_on_closed_version: بسته کاری تخصیص‌یافته به نسخه بسته را نمی‌توان دوباره باز کرد
   error_can_not_unarchive_project: 'این پروژه قابل خروج از بایگانی نیست: %{errors}'
   error_check_user_and_role: لطفاً یک کاربر و یک نقش انتخاب کنید.
@@ -2839,16 +3206,16 @@ fa:
     blocks:
       community: جامعه OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: اقدام‌های مبتنی بر هوش مصنوعی روی بسته‌های کاری، دیدگاه‌ها و روابط با MCP Server (طرح Professional).
-            line_1: چند نسخه هدف برای بسته‌های کاری.
-            line_2: محدودیت‌ها و قیود سراسری برای ورودی‌های زمان (طرح Professional).
-            line_3: بهبودهای Agile برای ویرایش گروهی و Drag کردن کارت‌های بک‌لاگ به برنامه‌های خارجی.
-            line_4: Macroهای Wiki در ویرایشگرهای متن بیشتری در دسترس هستند.
-            line_5: جستجوی بهبودیافته برای شناسه‌های بسته کاری.
-            line_6: 'منتشرشده برای Community: نمایش روابط در جدول‌های بسته کاری.'
-          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید مختلفی است، از جمله:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -2894,6 +3261,7 @@ fa:
         field_set: "%{field} روی %{value} تنظیم شد"
         field_updated: "%{field} به‌روزرسانی شد"
         header: تغییرات توسط %{author}
+        migrated: from Jira
         set_with_diff: "%{field} تنظیم شد (%{link})"
       meeting_cancelled: "(لغوشده)"
       meeting_deleted: "(حذف‌شده)"
@@ -3022,7 +3390,6 @@ fa:
   label_available_projects: پروژه‌های موجود
   label_backtrace: ردیابی پشته
   label_backup: پشتیبان‌گیری
-  label_backup_code: کد پشتیبان
   label_basic_details: جزئیات پایه
   label_between: بین
   label_blocked_by: مسدودشده توسط
@@ -3042,7 +3409,6 @@ fa:
   label_calendar_show: نمایش تقویم
   label_calendar_subscriptions: اشتراک‌های تقویم
   label_calendars_and_dates: تقویم‌ها و تاریخ‌ها
-  label_category: دسته‌بندی
   label_change_parent: تغییر والد
   label_change_password: تغییر گذرواژه
   label_change_plural: تغییرات
@@ -3051,9 +3417,9 @@ fa:
   label_change_status_of_user: 'وضعیت #{username} تغییر کرد'
   label_change_view_all: مشاهده همه تغییرات
   label_changes_details: جزئیات همه تغییرات
-  label_changeset: مجموعه تغییرات
   label_changeset_id: شناسه مجموعه تغییرات
   label_changeset_plural: مجموعه تغییرات
+  label_changeset_versions: نسخه‌های مجموعه‌تغییرات
   label_check_uncheck_all_in_column: انتخاب/لغو انتخاب همه در ستون
   label_check_uncheck_all_in_row: انتخاب/لغو انتخاب همه در ردیف
   label_checked: انتخاب‌شده
@@ -3142,6 +3508,7 @@ fa:
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
   label_deleted_custom_item: "(مورد حذف‌شده)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
+  label_deleted_version: "(deleted version)"
   label_departments: سازمان
   label_departments_description_html: 'ساختار شرکت خود را با ایجاد واحدهای سازمانی و زیرواحدها به‌صورت سلسله‌مراتبی تعریف کنید. این کار امکان بازتاب خطوط گزارش‌دهی و حفظ نمایی شفاف و ساختاریافته از سازمان در OpenProject را فراهم می‌کند. همچنین می‌توانید ساختار سازمانی موجود را از طریق [همگام‌سازی واحدهای سازمانی LDAP](ldap_docs_article) وارد کنید.
 
@@ -3200,6 +3567,7 @@ fa:
   label_feeds_access_key: کلید دسترسی RSS
   label_feeds_access_key_created_on: کلید دسترسی RSS، ایجادشده %{value} پیش
   label_feeds_access_key_type: RSS
+  label_file: فایل
   label_file_plural: فایل‌ها
   label_filter: فیلترها
   label_filter_add: افزودن فیلتر
@@ -3210,7 +3578,6 @@ fa:
   label_float: عدد اعشاری
   label_folder: پوشه
   label_follows: پس از
-  label_form_configuration: پیکربندی فرم
   label_formula: فرمول
   label_forum_new: انجمن جدید
   label_forum_plural: انجمن‌ها
@@ -3224,7 +3591,6 @@ fa:
   label_git_path: مسیر دایرکتوری .git
   label_global: عمومی
   label_global_modules: ماژول‌های سراسری
-  label_global_role: نقش سراسری
   label_global_roles: نقش‌های سراسری
   label_go_back: بازگشت یک سطح منو
   label_go_forward: بازکردن زیرمنوی %{module}
@@ -3293,7 +3659,6 @@ fa:
   label_last_week: هفته گذشته
   label_latest_revision: آخرین Revision
   label_latest_revision_plural: آخرین Revisionها
-  label_ldap_auth_source: اتصال LDAP
   label_ldap_auth_source_new: اتصال LDAP جدید
   label_ldap_auth_source_plural: اتصال‌های LDAP
   label_ldap_authentication: احراز هویت LDAP
@@ -3320,9 +3685,9 @@ fa:
   label_me: من
   label_member_all_admin: "(همه نقش‌ها به‌دلیل وضعیت مدیر)"
   label_member_new: عضو جدید
+  label_member_of_group: عضو گروه
   label_member_of_project: عضو پروژه
   label_member_plural: اعضا
-  label_member_role: نقش پروژه
   label_membership_added: عضو اضافه شد
   label_membership_plural: عضویت‌ها
   label_membership_updated: عضو به‌روزرسانی شد
@@ -3337,7 +3702,6 @@ fa:
   label_message_new: پیام جدید
   label_message_plural: پیام‌ها
   label_message_posted: پیام اضافه شد
-  label_min_max_length: حداقل - حداکثر طول
   label_minute_plural: دقیقه
   label_missing_api_access_key: کلید دسترسی API وجود ندارد
   label_missing_feeds_access_key: کلید دسترسی RSS وجود ندارد
@@ -3435,7 +3799,6 @@ fa:
   label_permissions: مجوزها
   label_permissions_report: گزارش مجوزها
   label_personalize_page: شخصی‌سازی این صفحه
-  label_placeholder_user: کاربر جایگزین
   label_placeholder_user_new: کاربر جایگزین جدید
   label_placeholder_user_plural: کاربران جایگزین
   label_planning: برنامه‌ریزی
@@ -3498,7 +3861,6 @@ fa:
   label_related_work_packages: بسته‌های کاری مرتبط
   label_relates: مرتبط با
   label_relates_to: مرتبط با
-  label_relation: رابطه
   label_relation_actions: اقدام‌های رابطه
   label_relation_delete: حذف رابطه
   label_relation_edit: ویرایش رابطه
@@ -3551,7 +3913,6 @@ fa:
   label_send_information: ارسال اعتبارنامه جدید برای کاربر
   label_send_invitation: ارسال دعوت نامه
   label_send_test_email: ارسال ایمیل آزمایشی
-  label_session: نشست
   label_setting_plural: تنظیمات
   label_share: اشتراک‌گذاری
   label_share_project_list: اشتراک‌گذاری فهرست پروژه
@@ -3627,7 +3988,6 @@ fa:
   label_used_by: استفاده‌شده توسط
   label_used_by_types: استفاده‌شده توسط نوع‌ها
   label_used_in_projects: استفاده‌شده در پروژه‌ها
-  label_user: کاربر
   label_user_activity_html: فعالیت %{value}
   label_user_and_permission: کاربران و مجوزها
   label_user_anonymous: ناشناس
@@ -3658,19 +4018,17 @@ fa:
   label_week: هفته
   label_weighted_item_list: فهرست آیتم وزن‌دار
   label_what_is_this: این چیست؟
-  label_widget: ویجت
   label_widget_new: Widget جدید
   label_wiki_content_added: صفحه Wiki اضافه شد
   label_wiki_content_updated: صفحه Wiki به‌روزرسانی شد
   label_wiki_dont_show_menu_item: این صفحه Wiki را در پیمایش پروژه نمایش نده
   label_wiki_edit: ویرایش Wiki
   label_wiki_edit_plural: ویرایش‌های Wiki
-  label_wiki_menu_item: آیتم منوی Wiki
   label_wiki_navigation: پیمایش Wiki
-  label_wiki_page: صفحه Wiki
   label_wiki_page_attachments: پیوست صفحه ویکی
   label_wiki_page_id: شناسه صفحه Wiki
   label_wiki_page_plural: صفحه‌های Wiki
+  label_wiki_page_versions: نسخه‌های صفحه ویکی
   label_wiki_show_index_page_link: نمایش زیرآیتم منو «فهرست مطالب»
   label_wiki_show_menu_item: نمایش به‌عنوان آیتم منو در پیمایش پروژه
   label_wiki_show_new_page_link: نمایش زیرآیتم منو «ایجاد صفحه فرزند جدید»
@@ -3687,7 +4045,6 @@ fa:
   label_work_package_hierarchy: سلسله‌مراتب بسته کاری
   label_work_package_new: بسته کاری جدید
   label_work_package_plural: بسته‌های کاری
-  label_work_package_status: وضعیت بسته کاری
   label_work_package_status_new: وضعیت جدید
   label_work_package_status_plural: وضعیت‌های بسته کاری
   label_work_package_tracking: ردیابی بسته کاری
@@ -3925,6 +4282,9 @@ fa:
   mail_body_account_information: اطلاعات حساب شما
   mail_body_account_information_external: می‌توانید از حساب %{value} خود برای ورود استفاده کنید.
   mail_body_backup_ready: 'درخواست پشتیبان گیری شما آماده است. می توانید از اینجا دانلود کنید: '
+  mail_body_backup_ready_incomplete: 'امکان خواندن %{file_count} فایل وجود نداشت و از این نسخه پشتیبان حذف شدند. آرشیو دانلودشده با پسوند "-incomplete" نام‌گذاری شده است تا مشخص شود برخی پیوست‌ها در آن موجود نیستند.
+
+    '
   mail_body_backup_token_info: توکن قبلی دیگر معتبر نیست.
   mail_body_backup_token_reset_admin_info: پشتیبان گیری توکن برای کاربر %{user} بازنشانی(ریست) شد.
   mail_body_backup_token_reset_user_info: پشتیبان گیری توکن شما بازنشانی شد.
@@ -4062,6 +4422,7 @@ fa:
       mail_notification: اعلان‌های ایمیلی
       mails_and_notifications: ایمیل‌ها و اعلان‌ها
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: عملیات تبدیل متن
     quick_add:
       label: افزودن…
   more_actions: قابلیت‌های بیشتر
@@ -4247,6 +4608,7 @@ fa:
   notice_account_already_activated: حساب از قبل فعال شده است.
   notice_account_invalid_credentials: نام کاربری یا گذرواژه نامعتبر است
   notice_account_invalid_credentials_or_blocked: نام کاربری یا گذرواژه نامعتبر است یا حساب به‌دلیل چند تلاش ناموفق ورود مسدود شده است. در این صورت پس از مدت کوتاهی به‌طور خودکار رفع مسدودی می‌شود.
+  notice_account_invalid_credentials_sso_hint: اگر حساب شما برای ورود یکپارچه تنظیم شده است، به‌جای آن از ارائه‌دهنده هویت خود برای ورود استفاده کنید.
   notice_account_invalid_token: توکن فعال‌سازی نامعتبر است
   notice_account_lost_email_sent: ایمیلی با دستورالعمل انتخاب گذرواژه جدید برای شما ارسال شده است.
   notice_account_new_password_forced: گذرواژه جدید لازم است.
@@ -4267,7 +4629,6 @@ fa:
   notice_auth_stage_error: اعتبار سنجی مرحله '%{stage}' شکست خورد.
   notice_auth_stage_verification_error: قادر به تایید مرحله '%{stage}' نیستم.
   notice_auth_stage_wrong_stage: انتظار می رفت اعتبارسنجی مرحله '%{expected}' پایان یابد، اما '%{actual}'بازگشت.
-  notice_automatic_set_of_standard_type: تنظیم خودکار نوع استاندارد.
   notice_bad_request: درخواست نامعتبر.
   notice_can_t_change_password: این حساب از منبع احراز هویت خارجی استفاده می‌کند. تغییر گذرواژه ممکن نیست.
   notice_custom_options_deleted: گزینه «%{option_value}» و %{num_deleted} مورد استفاده آن حذف شدند.
@@ -4552,9 +4913,18 @@ fa:
     prev: قبلی
     prev_page: صفحه قبل
   pdf_generator:
+    budgets_table:
+      cost_per_unit: هزینه هر واحد
+      description: توضیحات
+      labor: هزینه نیروی انسانی
+      material: هزینه واحد
+      sum: جمع
+      total: کل
     dialog:
       footer_center:
         caption: این متن در همه صفحات، وسط پابرگ نمایش داده می‌شود.
+        default_hint_project_name: اگر خالی باشد، به‌طور پیش‌فرض نام پروژه استفاده می‌شود.
+        default_hint_subject: اگر خالی باشد، به‌طور پیش‌فرض موضوع بسته کاری استفاده می‌شود.
         label: متن پابرگ
       footer_right:
         caption: این متن در سمت راست Footer همه صفحه‌ها نمایش داده می‌شود.
@@ -4564,6 +4934,12 @@ fa:
         label: شکستن واژه
       hyphenation_language:
         label: زبان و شکستن واژه
+      include_budget:
+        caption: بودجه‌های پروژه را همراه با اقلام برنامه‌ریزی‌شده هزینه واحد و نیروی انسانی در خروجی قرار دهید.
+        label: بودجه‌های پروژه
+      include_lifecycle:
+        caption: فازهای پروژه و بازه‌های زمانی آن‌ها را در خروجی قرار دهید.
+        label: چرخه حیات پروژه
       page_orientation:
         caption: جهت صفحه‌ها را در سند PDF انتخاب کنید.
         label: جهت صفحه
@@ -4583,7 +4959,7 @@ fa:
       caption: جزئیات بسته کاری در قالب یک آرتیفکت PMflex Render شده است.
       label: آرتیفکت PMflex
     template_attributes:
-      caption: همه ویژگی‌های موجود در پیکربندی فعلی فرم با استفاده از الگوی پیش‌فرض.
+      caption: همه ویژگی‌های موجود در فرم فعلی با استفاده از الگوی پیش‌فرض.
       label: ویژگی‌ها و توضیحات
     template_contract:
       caption: جزئیات بسته کاری با قالب استاندارد قرارداد آلمانی.
@@ -4657,6 +5033,7 @@ fa:
     '
   permission_manage_placeholder_user: ایجاد، ویرایش و حذف کاربران جایگزین
   permission_manage_project_activities: مدیریت فعالیت‌های پروژه
+  permission_manage_project_variants: مدیریت گونه‌های نوعِ متعلق به خود پروژه
   permission_manage_public_bcf_queries: مدیریت Queryهای عمومی BCF
   permission_manage_public_project_queries: مدیریت فهرست‌های عمومی پروژه
   permission_manage_public_queries: مدیریت نماهای عمومی
@@ -4965,23 +5342,42 @@ fa:
           type_label: نوع
           type_placeholder: انتخاب نوع
         add_type: افزودن نوع
+        add_variant: افزودن گونه ویژه پروژه
+        base_type_in_use: نوع پایه استفاده‌شده در این پروژه
         empty_state:
           description: یک نوع اضافه کنید تا افراد بتوانند بسته‌های کاری از آن نوع را در این پروژه ایجاد کنند.
           title: هیچ نوعی در این پروژه فعال نیست
         form:
           enable_type_in_project: فعال‌کردن نوع «%{type}»
         no_results_title_text: در حال حاضر هیچ نوعی در دسترس نیست.
+        project_specific_variant: گونه ویژه پروژه
         remove_from_project: حذف از پروژه
-        switch_dialog:
+        switch:
           apply: اعمال
-          description: گونه متفاوتی از این نوع را برای استفاده در این پروژه انتخاب کنید.
+          impact:
+            hidden_heading: فیلدهایی که دیگر نمایش داده نخواهند شد
+            missing_statuses_description: گردش کاری که به آن تغییر می‌دهید، هیچ انتقالی از این وضعیت‌ها ندارد؛ بنابراین هیچ‌کس نمی‌تواند این بسته‌های کاری را به مرحله بعد منتقل کند.
+            missing_statuses_heading: بسته‌های کاری که گیر می‌کنند
+            new_heading: فیلدهایی که در دسترس قرار می‌گیرند
+            nothing_affected: هیچ فیلد یا وضعیتی تحت‌تأثیر قرار نمی‌گیرد.
+            status_count:
+              one: ۱ بسته کاری
+              other: "%{count} بسته کاری"
+            table_suffix: "(جدول)"
+            value_count:
+              one: ۱ بسته کاری دارای مقدار است
+              other: "%{count} بسته کاری دارای مقدار هستند"
+            work_packages:
+              one: ۱ بسته کاری از پیکربندی جدید استفاده خواهد کرد
+              other: "%{count} بسته کاری از پیکربندی جدید استفاده خواهند کرد"
           success: پروژه اکنون از %{type} استفاده می‌کند.
           target_label: گونه
           title: "%{type}: تغییر گونه"
-          warning: اگر گونه را تغییر دهید، ممکن است اطلاعات مرتبط با فیلدهای سفارشی‌ای که در گونه جدید وجود ندارند از دست بروند.
-        switch_type: تغییر گونه
         type_not_found: نوع انتخاب‌شده یافت نشد.
-        variant_prefix: 'گونه:'
+        use_in_project: استفاده در این پروژه
+        variant_in_use: گونه مورد استفاده در این پروژه
+        variant_label: گونه
+        variants_not_allowed: این نوع اجازه ایجاد گونه درون پروژه‌ها را نمی‌دهد.
       versions:
         no_results_content_text: ایجاد نسخه جدید
         no_results_title_text: در حال حاضر هیچ نسخه‌ای برای پروژه وجود ندارد.
@@ -4994,6 +5390,7 @@ fa:
     wizard:
       create_artifact_storage_error: ذخیره آرتیفکت در Storage فایل ناموفق بود
       create_artifact_work_package_error: ایجاد بسته کاری آرتیفکت ناموفق بود
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها
@@ -5152,6 +5549,12 @@ fa:
   roles:
     edit:
       default_for_new_projects_warning: 'این نقش به‌عنوان نقش پیش‌فرض برای کاربران غیرمدیری که پروژه ایجاد می‌کنند پیکربندی شده است. مجوزهای زیر را حذف نکنید؛ در غیر این صورت ایجادکنندگان پروژه نمی‌توانند راه‌اندازی پروژه‌های تازه خود را کامل کنند:'
+    index:
+      filter_label: جستجوی نقش‌ها
+      types:
+        all: همه نقش‌ها
+        global: نقش‌های سراسری
+        project: نقش‌های پروژه
     permissions:
       section_check_all_label: تخصیص همه مجوزهای %{module}
       section_uncheck_all_label: لغو تخصیص همه مجوزهای %{module}
@@ -5176,6 +5579,7 @@ fa:
   setting_after_login_default_redirect_url_example_html: 'اگر Back Link ارائه نشده باشد، مسیر پیش‌فرضی برای Redirect کاربران پس از ورود تنظیم کنید. اگر تنظیم نشود به صفحه خانه هدایت می‌شود. <br/> نمونه: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: فعال‌کردن عملیات تبدیل متن
   setting_allowed_link_protocols: پروتکل‌های پیوند مجاز
   setting_allowed_link_protocols_text_html: اجازه دهید این پروتکل‌ها به‌صورت پیوند در توضیحات بسته کاری، فیلدهای متن بلند و دیدگاه‌ها Render شوند. برای مثال %{tel_code} یا %{element_code}. در هر خط یک پروتکل وارد کنید. <br/> پروتکل‌های %{http_code}، %{https_code} و %{mailto_code} همیشه مجاز هستند.
   setting_antivirus_scan_action: اقدام برای فایل آلوده
@@ -5303,6 +5707,14 @@ fa:
   setting_password_active_rules: الزامات گذرواژه
   setting_password_count_former_banned: تعداد گذرواژه‌های اخیر که استفاده مجدد از آن‌ها ممنوع است
   setting_password_days_valid: تعداد روزهایی که پس از آن تغییر گذرواژه اجباری می‌شود
+  setting_password_login: ورود با گذرواژه
+  setting_password_login_all: اجازه برای همه
+  setting_password_login_all_caption: هر کسی که گذرواژه داخلی دارد می‌تواند با آن وارد شود، از جمله کاربرانی که به یک ارائه‌دهنده هویت متصل هستند.
+  setting_password_login_bypass_principal_ids: کاربران و گروه‌هایی که همچنان می‌توانند از گذرواژه استفاده کنند
+  setting_password_login_except_sso: عدم اجازه برای کاربران SSO
+  setting_password_login_except_sso_caption: کاربرانی که به یک ارائه‌دهنده هویت متصل هستند نمی‌توانند با گذرواژه داخلی خود وارد شوند. سایر کاربران می‌توانند همچنان از آن استفاده کنند.
+  setting_password_login_none: عدم اجازه برای همه
+  setting_password_login_none_caption_html: فرم گذرواژه پنهان است. فقط کاربران و گروه‌های فهرست‌شده در زیر می‌توانند از طریق %{internal_login_link} با گذرواژه وارد شوند.
   setting_password_min_length: حداقل طول
   setting_per_page_options: گزینه‌های تعداد اشیا در هر صفحه
   setting_percent_complete_on_status_closed: "٪ تکمیل وقتی وضعیت بسته است"
@@ -5437,6 +5849,15 @@ fa:
     authentication:
       login: ورود
       omniauth_direct_login_hint_html: 'اگر این گزینه فعال باشد، درخواست‌های ورود به ارائه‌دهنده OmniAuth پیکربندی‌شده Redirect می‌شوند. Dropdown ورود و صفحه ورود غیرفعال خواهند شد. <br/> <strong>توجه:</strong> مگر اینکه ورود با گذرواژه را نیز غیرفعال کنید، کاربران با وجود فعال‌بودن این گزینه همچنان می‌توانند با مراجعه به صفحه ورود <code>%{internal_path}</code> به‌صورت داخلی وارد شوند.
+
+        '
+      password_login_bypass_principal_ids_hint: 'حتی وقتی ورود با گذرواژه غیرفعال است، این کاربران و گروه‌ها می‌توانند با گذرواژه خود وارد شوند. این قابلیت برای نمونه زمانی مفید است که ارائه‌دهنده هویت در دسترس نباشد. اگر گروهی را اضافه کنید، دسترسی به همه کاربران آن گروه گسترش می‌یابد.
+
+        '
+      password_login_configured_by_environment: 'تنظیمات زیر از طریق محیط پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند:
+
+        '
+      password_login_requires_sso_provider: 'محدودیت‌های ورود با گذرواژه در دسترس نیستند، زیرا در حال حاضر هیچ ارائه‌دهنده SSO فعالی وجود ندارد. پیش از تغییر این تنظیمات، یک ارائه‌دهنده SSO را پیکربندی و فعال کنید.
 
         '
       registration: ثبت‌نام
@@ -5925,24 +6346,27 @@ fa:
     getting_started: شروع کار
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
+      add_variant: افزودن یک گونه به %{name}
       create_type: ایجاد نوع
       create_variant: ایجاد گونه
       fields:
-        inherited_from_parent_html: به‌ارث‌رسیده از نوع والد <b>%{parent}</b>.
+        variant_name_caption: این پیکربندی %{type} را نام‌گذاری می‌کند. بسته‌های کاری همچنان از خود %{type} استفاده می‌کنند.
       finish: پایان
       placeholder_description: این مرحله به‌زودی در دسترس خواهد بود.
       progress_label: مرحله %{number} از %{total}
       steps:
         defaults: پیش‌فرض‌ها
         details: جزئیات
-        form_configuration: پیکربندی فرم
+        form_configuration: فرم
         pdf: تولید PDF
         project_attributes: ویژگی‌های پروژه
         projects: پروژه‌ها
         workflows: گردش‌کارها
-      success: گونه با موفقیت ایجاد شد.
+      success: با موفقیت ایجاد شد.
     edit:
       breadcrumb_variant: 'گونه: %{name}'
       defaults:
@@ -5967,8 +6391,11 @@ fa:
             work_package: بسته کاری
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: برای مدیران پروژه‌ای که مجوز مدیریت گونه‌ها را دارند، این نوع می‌تواند درون یک پروژه گسترش یابد یا تغییر کند.
+        inherited_from_type_html: به‌ارث‌رسیده از نوع <b>%{type}</b>.
         tab: جزئیات
         type_color_text: رنگ انتخاب‌شده نوع‌های مختلف را در نمودار گانت یا جدول بسته کاری متمایز می‌کند. بنابراین استفاده از رنگ قوی توصیه می‌شود.
+        variant_name_caption_html: این فقط یک نام داخلی است که مدیران آن را می‌بینند. گونه‌ها جایگزین نوع والد اصلی می‌شوند؛ بنابراین اگر این گونه در پروژه‌ای استفاده شود، برای همه اعضا به‌صورت <b>%{type}</b> نمایش داده خواهد شد.
       export_configuration:
         artefact_export:
           attachment:
@@ -5994,15 +6421,19 @@ fa:
           label: الگوهای خروجی PDF
         tab: تولید PDF
         templates:
+          readonly_error: تا زمانی که به یک نوع منبع پیوند دارد، قابل تغییر نیست.
           section_title: الگوهای خروجی PDF
+          settings:
+            edit_link: ویرایش تنظیمات
+            reset_to_default: بازنشانی به پیش‌فرض
+            title: 'تنظیمات: %{template}'
       form_configuration:
         add_attribute_group: بخش
         add_query_group: جدول بسته‌های کاری مرتبط
         blankslate_description: با دکمه بالا گروه اضافه کنید یا ویژگی‌ها را از پنل چپ Drag کنید.
         blankslate_title: هنوز گروهی وجود ندارد
-        builtin_field: فیلد داخلی
         confirm_delete_group: مطمئنید می‌خواهید این بخش را حذف کنید؟ این اقدام به‌طور خودکار قابل بازگشت نیست.
-        confirm_reset: مطمئنید می‌خواهید پیکربندی فرم را بازنشانی کنید؟
+        confirm_reset: آیا مطمئن هستید که می‌خواهید فرم را بازنشانی کنید؟
         custom_field: فیلد سفارشی
         delete_group: حذف بخش
         drag_to_activate: برای فعال‌کردن، فیلدها را از اینجا Drag کنید
@@ -6017,26 +6448,42 @@ fa:
         group_actions: اقدام‌های بخش
         group_name_label: نام بخش
         inactive_attributes_heading: ویژگی‌های غیرفعال
-        invalid_attribute_groups: Payload پیکربندی فرم نامعتبر است.
+        invalid_attribute_groups: داده فرم نامعتبر است.
         invalid_query: پیکربندی Query توکار نامعتبر است.
         label_group: بخش
         no_inactive_attributes: ویژگی غیرفعالی وجود ندارد
-        not_found: آیتم پیکربندی فرم درخواستی یافت نشد.
+        not_found: مورد درخواستی فرم پیدا نشد.
         query_group_label: جدول بسته‌های کاری مرتبط
         remove_attribute: حذف از بخش
         rename_group: تغییر نام بخش
         reset_description: 'این کار ویژگی‌ها را به گروه پیش‌فرضشان برمی‌گرداند و همه فیلدهای سفارشی را غیرفعال می‌کند.
 
           '
-        reset_title: بازنشانی پیکربندی فرم
+        reset_title: بازنشانی فرم
         reset_to_defaults: بازنشانی فرم
         row_actions: اقدام‌های ردیف
-        tab: پیکربندی فرم
+        tab: فرم
         untitled_group: گروه بدون عنوان
+      overview:
+        configuration_mode: حالت پیکربندی
+        dependents: انواع و گونه‌های وابسته
+        mode:
+          always_manual: همیشه دستی
+          inheriting_from_html: ارث‌بری از %{source_name}
+          manual: پیکربندی دستی
+        settings: تنظیمات
+        tab: نمای کلی
       project_attributes:
         actions:
           label_disable_all: غیرفعال‌کردن همه
           label_enable_all: فعال‌کردن همه
+        blankslate:
+          inherited:
+            description: هیچ ویژگی پروژه‌ای به این نوع مرتبط نیست.
+            title: هیچ ویژگی پروژه‌ای پیکربندی نشده است
+          manual:
+            description: پس از اینکه [ویژگی‌های پروژه را ایجاد کنید](administration_url)، آن‌ها در اینجا نمایش داده می‌شوند و می‌توان آن‌ها را به یک نوع افزود.
+            title: هیچ ویژگی پروژه‌ای در دسترس نیست
         description: ویژگی‌های پروژه‌ای را که می‌خواهید برای این نوع بسته کاری فعال شوند انتخاب کنید. ویژگی‌های فعال پروژه در Tab جداگانه‌ای در بسته‌های کاری این نوع نمایش داده می‌شوند. کاربران دارای مجوزهای لازم می‌توانند آن‌ها را مشاهده و ویرایش کنند.
         disabled: غیرفعال
         exclusions:
@@ -6044,6 +6491,17 @@ fa:
         filter: جستجو بر اساس بخش یا نام
         tab: ویژگی‌های پروژه
       projects:
+        actions:
+          confirm_remove: نوع %{type} از %{project} حذف شود؟
+          remove_from_project: حذف از پروژه
+          switch_variant: تغییر گونه
+        add_dialog:
+          no_projects_selected: لطفاً حداقل یک پروژه انتخاب کنید.
+          search_placeholder: جستجوی پروژه‌ها
+        disable_all: غیرفعال‌کردن برای همه پروژه‌ها
+        empty_state:
+          description: یک پروژه اضافه کنید تا از این پیکربندی در آن استفاده شود.
+          no_results: پروژه منطبقی وجود ندارد.
         enable_all: فعال‌کردن برای همه پروژه‌ها
         select_projects: انتخاب پروژه‌ها
         select_projects_description: پروژه‌هایی را که می‌خواهید از این نوع استفاده کنند انتخاب کنید.
@@ -6055,69 +6513,107 @@ fa:
             description_html: با کپی داده از %{source_name}، تنظیمات فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت تأثیر قرار گیرند.
             title: پیکربندی کپی شود؟
           dialog:
-            description: پیکربندی را از یک نوع منبع کپی کنید و به‌عنوان پایه یک‌باره استفاده کنید. این کار دو نوع را به‌طور دائمی به هم متصل نمی‌کند.
-            source_label: منبع کپی
+            description: پیکربندی را از یک نوع منبع کپی کنید و یک‌بار به‌عنوان پایه استفاده کنید. پیکربندی دستی باقی می‌ماند و تغییرات بعدی منبع را به ارث نمی‌برد.
+            source_label: نوع منبع
             source_placeholder: انتخاب نوع یا گونه
             submit: ذخیره و کپی
             title: کپی پیکربندی
           invalid_source: پیکربندی از نوع انتخاب‌شده قابل کپی نیست. لطفاً نوع منبع دیگری انتخاب کنید.
           success: پیکربندی کپی شد.
-        exclusions:
-          not_linked: این نوع مالک پیکربندی این بخش است، بنابراین چیزی برای حذف از وراثت وجود ندارد. به‌جای آن پیکربندی را مستقیماً ویرایش کنید.
-          unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
-        independent:
-          confirm_dialog:
-            check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
-            description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است روی اطلاعات موجود در بسته‌های کاری این نوع اثر بگذارند.
-            heading: حالت پیکربندی تغییر کند؟
-            title: تغییر حالت پیکربندی
-          copy_from_type: کپی از نوع
-          description: هیچ تنظیمی به ارث نمی‌رسد. در صورت تمایل هنوز می‌توانید یک‌بار تنظیمات را از نوع دیگری کپی کنید.
+        dependents:
+          blank:
+            description: هیچ نوع یا گونه دیگری این پیکربندی را به ارث نمی‌برد
+            title: هیچ نوع وابسته‌ای وجود ندارد
+          description:
+            one: پیکربندی زیر توسط ۱ نوع یا گونه دیگر به ارث برده می‌شود. هر تغییری که اینجا ایجاد کنید، روی مورد وابسته نیز اثر می‌گذارد.
+            other: پیکربندی زیر توسط %{count} نوع یا گونه دیگر به ارث برده می‌شود. هر تغییری که اینجا ایجاد کنید، روی موارد وابسته نیز اثر می‌گذارد.
           dialog:
-            submit: تغییر
-            title: حالت مستقل
-          invalid_mode: حالت انتخاب‌شده برای این پیکربندی در دسترس نیست. لطفاً حالت دیگری انتخاب کنید.
-          modes:
-            copy:
-              caption: با یک کپی یک‌باره از تنظیمات فعلیِ حالت پیوندشده شروع کنید.
-              label: کپی از حالت پیوندشده
-            default:
-              caption: استفاده از تنظیمات پیش‌فرض برای نوع‌های جدید.
-              label: تنظیمات پیش‌فرض
-            empty:
-              caption: همه‌چیز را از ابتدا و با پیکربندی خالی تنظیم کنید.
-              label: خالی
-          success: حالت پیکربندی تغییر کرد.
-          switch_to_linked: تغییر به حالت پیوندشده
-          title: حالت مستقل
-        linked:
+            description: این انواع و گونه‌ها پیکربندی این بخش را به ارث می‌برند. تغییری که اینجا ایجاد کنید روی همه آن‌ها اعمال می‌شود.
+            direct_heading: وابسته‌های مستقیم
+            indirect_heading: وابسته‌ها از طریق انواع دیگر
+            title: انواع وابسته
+            variant_of_html: گونه‌ای از %{type_name}
+            variant_of_via_html: گونه‌ای از %{type_name}، با ارث‌بری از طریق %{source_name}
+            via_html: ارث‌بری از طریق %{source_name}
+          title:
+            one: ۱ نوع وابسته
+            other: "%{count} نوع وابسته"
+          view: مشاهده انواع وابسته
+        exclusions:
+          not_inherited: این پیکربندی ارث‌بری نمی‌شود، بنابراین چیزی برای مستثناکردن وجود ندارد. در عوض پیکربندی را مستقیماً ویرایش کنید.
+          unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
+        inherited:
           change_source: تغییر نوع منبع
+          configure_manually: پیکربندی دستی
           confirm_dialog:
             change_source:
-              description_html: با تغییر نوع منبع به %{source_name} تنظیمات فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت تأثیر قرار گیرند.
+              description_html: با تغییر نوع منبع به %{source_name}، تنظیمات فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت‌تأثیر قرار گیرد.
               heading: نوع منبع تغییر کند؟
               title: تغییر نوع منبع
             check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
-            from_independent:
-              description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است روی اطلاعات موجود در بسته‌های کاری این نوع اثر بگذارند.
+            from_manual:
+              description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت‌تأثیر قرار گیرد.
               heading: حالت پیکربندی تغییر کند؟
               title: تغییر حالت پیکربندی
-          description: این پیکربندی پیوندشده است و تنظیمات خود را از نوع منبع [%{source_name}](source_url)%{source_suffix} به ارث می‌برد.
+          description: این پیکربندی از نوع منبع [%{source_name}](source_url)%{source_suffix} به ارث برده می‌شود.
+          description_unlinked: این پیکربندی از نوع منبع %{source_name}%{source_suffix} به ارث برده می‌شود.
           dialog:
-            description: این تنظیمات را از یک منبع کپی و به ارث ببرید. هر پیکربندی جدیدی که به منبع اضافه شود، اینجا نیز اضافه خواهد شد.
-            source_label: منبع پیوندشده
-            source_placeholder: انتخاب نوع یا گونه
+            description: این پیکربندی را از یک نوع منبع به ارث ببرید. هر پیکربندی جدیدی که به منبع اضافه شود، در اینجا نیز اعمال می‌شود.
+            source_label: نوع منبع
+            source_placeholder: یک نوع یا گونه را انتخاب کنید
             submit: تغییر
-            title: حالت پیوندشده
-          invalid_source: این پیکربندی به نوع انتخاب‌شده قابل پیوند نیست. لطفاً نوع منبع دیگری انتخاب کنید.
+            title: ارث‌بری از نوع دیگر
+          invalid_source: پیکربندی نمی‌تواند از نوع انتخاب‌شده به ارث برده شود. لطفاً نوع منبع دیگری را انتخاب کنید.
           success: حالت پیکربندی تغییر کرد.
-          switch_to_independent: تغییر به حالت مستقل
-          title: حالت پیوندشده
+          title: پیکربندی موروثی
+        manual:
+          confirm_dialog:
+            check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
+            description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت‌تأثیر قرار گیرد.
+            heading: حالت پیکربندی تغییر کند؟
+            title: تغییر حالت پیکربندی
+          copy_from_type: کپی از نوع دیگر
+          description: هیچ تنظیمی به ارث برده نمی‌شود. همچنان می‌توانید یک‌بار تنظیمات را از نوع دیگری کپی کنید.
+          dialog:
+            submit: تغییر
+            title: پیکربندی دستی
+          inherit_from_type: ارث‌بری از نوع دیگر
+          invalid_mode: حالت انتخاب‌شده برای این پیکربندی در دسترس نیست. لطفاً حالت دیگری را انتخاب کنید.
+          modes:
+            copy:
+              caption: با یک کپی یک‌باره از تنظیماتی که این پیکربندی اکنون به ارث می‌برد شروع کنید.
+              label: کپی تنظیمات موروثی
+            default:
+              caption: از تنظیمات پیش‌فرض برای انواع جدید استفاده کنید.
+              label: تنظیمات پیش‌فرض
+            empty:
+              caption: همه‌چیز را از ابتدا و با یک پیکربندی خالی تنظیم کنید.
+              label: خالی
+          success: حالت پیکربندی تغییر کرد.
+          title: پیکربندی دستی
         parent_suffix: " (والد)"
+      variants:
+        blankslate:
+          description_html: 'می‌توانید برای ارائه نسخه‌های متفاوت این نوع به پروژه‌های مختلف، گونه‌ها را ایجاد کنید.<br> هر گونه می‌تواند پیکربندی الگوی پیش‌فرض، فیلدهای سفارشی، گردش‌کارها و ترجیحات را به ارث ببرد، کپی کند یا پیکربندی اختصاصی خود را داشته باشد.
+
+            '
+          title: هیچ گونه‌ای برای این نوع وجود ندارد
+        created_in_html: ایجادشده در %{project}
+        delete:
+          description: پروژه‌هایی که از این گونه استفاده می‌کنند، پیش از حذف آن به گونه‌ای که در زیر انتخاب می‌کنید منتقل خواهند شد.
+          title: حذف %{name}
+        filter: فیلتر بر اساس متن
+        filter_no_results: هیچ گونه‌ای با این فیلتر مطابقت ندارد
+        global_section:
+          description: این گونه‌ها در همه پروژه‌ها در دسترس هستند.
+          title: گونه‌ها
+        project_specific_section:
+          description: این گونه‌ها فقط در پروژه‌هایی که در آن‌ها ایجاد شده‌اند در دسترس هستند.
+          title: گونه‌های ویژه پروژه
       workflow:
         tab: گردش‌کارها
     index:
-      add_variant: افزودن گونه به %{name}
+      add_variant: افزودن یک گونه به %{name}
       add_variant_action: افزودن گونه
       description: 'هر بخش پیکربندی در نوع‌ها و گونه‌ها می‌تواند مستقل پیکربندی شود، از نوع دیگری محدود شود یا به‌طور کامل به یک منبع پیوند داده شود.
 
@@ -6129,14 +6625,13 @@ fa:
       make_default_notice: "%{name} اکنون در پروژه‌های جدید فعال است."
       no_results_content_text: ایجاد نوع جدید
       no_results_title_text: در حال حاضر هیچ نوعی وجود ندارد.
+      project_variants_count:
+        one: ۱ گونه ویژه پروژه
+        other: "%{count} گونه ویژه پروژه"
       remove_default: در پروژه‌های جدید فعال نشود
       remove_default_notice: "%{name} دیگر در پروژه‌های جدید فعال نیست."
       type_label: نوع
-      variant_enabled_in_new_projects: گونه %{name} در پروژه‌های جدید فعال است
       variant_label: گونه
-      variants_count:
-        one: ۱ گونه
-        other: "%{count} گونه"
     milestone_indicator: نقطه عطف
   unsupported_browser:
     close_warning: این هشدار را نادیده بگیرید.
@@ -6510,6 +7005,13 @@ fa:
       confirm_deletion: تأیید می‌کنم بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط حذف خواهند شد.
       confirm_descendants_deletion: تأیید می‌کنم همه فرزندان فهرست‌شده بالا نیز حذف خواهند شد.
       cross_project_warning_html: 'این بسته‌های کاری در چند پروژه قرار دارند: %{projects}'
+      descendants_choice:
+        heading: همه زیرمجموعه‌ها نیز حذف شوند؟
+        question: در حال حذف بسته‌های کاری‌ای هستید که زیرمجموعه دارند. آیا می‌خواهید آن‌ها نیز حذف شوند؟
+        self_only_label: فقط بسته‌های کاری انتخاب‌شده حذف شوند
+        self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
+        with_descendants_label: بسته‌های کاری انتخاب‌شده و زیرمجموعه‌های آن‌ها حذف شوند
+        with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
       description: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط را حذف کنید؟
       description_with_all_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان آن‌ها را حذف کنید؟
       description_with_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان زیر را حذف کنید؟
@@ -6574,6 +7076,13 @@ fa:
       confirm_deletion: تأیید می‌کنم بسته کاری و همه داده‌های مرتبط حذف خواهند شد.
       confirm_descendants_deletion: تأیید می‌کنم همه فرزندان فهرست‌شده بالا نیز حذف خواهند شد.
       cross_project_warning_html: 'بسته‌های کاری پروژه‌های زیر حذف خواهند شد: %{projects}'
+      descendants_choice:
+        heading: همه زیرمجموعه‌ها نیز حذف شوند؟
+        question: این بسته کاری زیرمجموعه دارد. آیا می‌خواهید آن‌ها نیز حذف شوند؟
+        self_only_label: فقط همین بسته کاری حذف شود
+        self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
+        with_descendants_label: این بسته کاری و زیرمجموعه‌های آن حذف شوند
+        with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
       description: مطمئنید می‌خواهید «%{name}» را حذف کنید؟
       heading: این بسته کاری برای همیشه حذف شود؟
       hidden_descendants_only_warning:
@@ -6636,18 +7145,18 @@ fa:
           label: نقش منبع
         target_role_ids:
           label: نقش‌های مقصد
-        target_type_ids:
-          label: نوع‌های مقصد
+        target_variant_ids:
+          label: انواع مقصد
       from_roles:
         create:
           notice:
             one: گردش‌کار با موفقیت به نقش «%{role_name}» کپی شد.
             other: گردش‌کار با موفقیت به %{count} نقش کپی شد.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: گردش‌کار با موفقیت به نوع «%{type_name}» کپی شد.
-            other: گردش‌کار با موفقیت به %{count} نوع کپی شد.
+            one: گردش کار با موفقیت به «%{type_name}» کپی شد.
+            other: گردش کار با موفقیت به %{count} نوع کپی شد.
       new:
         title: کپی گردش‌کار «%{source_type}»
     form:

@@ -28,13 +28,28 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { useMeta } from 'stimulus-use';
-import { durationStringToSeconds, formattedHour } from 'core-stimulus/helpers/chronic-duration-helper';
+import {
+  DAYS_PER_MONTH_DEFAULT,
+  type DurationLengthOptions,
+  durationStringToSeconds,
+  formattedHour,
+  HOURS_PER_DAY_DEFAULT,
+} from 'core-stimulus/helpers/chronic-duration-helper';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class TimeEntryController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
   static targets = ['startTimeInput', 'endTimeInput', 'hoursInput', 'hoursHiddenInput', 'form'];
+
+  static values = {
+    hoursPerDay: { type: Number, default: HOURS_PER_DAY_DEFAULT },
+    daysPerMonth: { type: Number, default: DAYS_PER_MONTH_DEFAULT },
+  };
+
+  declare hoursPerDayValue:number;
+
+  declare daysPerMonthValue:number;
 
   declare readonly formTarget:HTMLFormElement;
   declare readonly startTimeInputTarget:HTMLInputElement;
@@ -122,7 +137,7 @@ export default class TimeEntryController extends Controller {
 
     const startTimeInMinutes = parseInt(startTimeParts[0], 10) * 60 + parseInt(startTimeParts[1], 10);
     const endTimeInMinutes = parseInt(endTimeParts[0], 10) * 60 + parseInt(endTimeParts[1], 10);
-    let hoursInMinutes = Math.round(durationStringToSeconds(this.hoursInputTarget.value) / 60);
+    let hoursInMinutes = Math.round(durationStringToSeconds(this.hoursInputTarget.value, this.durationLengthOptions) / 60);
 
     // We calculate the hours field if:
     //  - We have start & end time and no hours
@@ -166,7 +181,7 @@ export default class TimeEntryController extends Controller {
   hoursChanged() {
     // Parse input through our chronic duration parser and then reformat as hours that can be nicely parsed on the
     // backend
-    const duration = durationStringToSeconds(this.hoursInputTarget.value);
+    const duration = durationStringToSeconds(this.hoursInputTarget.value, this.durationLengthOptions);
     this.hoursInputTarget.value = formattedHour(duration);
     this.setHoursPrecise(duration / 3600);
 
@@ -177,6 +192,10 @@ export default class TimeEntryController extends Controller {
 
   private setHoursPrecise(hours:number) {
     this.hoursHiddenInputTarget.value = String(hours);
+  }
+
+  private get durationLengthOptions():DurationLengthOptions {
+    return { hoursPerDay: this.hoursPerDayValue, daysPerMonth: this.daysPerMonthValue };
   }
 
   hoursKeyEnterPress(event:KeyboardEvent) {

@@ -30,177 +30,95 @@
 require "spec_helper"
 
 RSpec.describe UpdateProjectsTypesService do
-  let(:project) { instance_double(Project, types_used_by_work_packages: []) }
-  let(:standard_type) { build_stubbed(:type_standard) }
+  subject(:service_call) { described_class.new(project).call(ids) }
 
-  subject(:instance) { described_class.new(project) }
+  let(:project) { create(:project, no_types: true) }
 
-  before do
-    allow(Type).to receive(:standard_type).and_return standard_type
+  shared_examples "activating custom fields" do
+    let!(:custom_field) { create(:text_wp_custom_field, type_variants: types.map(&:default_variant)) }
+
+    it "updates the active custom fields" do
+      expect { service_call }
+        .to change { project.reload.work_package_custom_field_ids }
+        .from([])
+        .to([custom_field.id])
+    end
+
+    it "does not activate the same custom field twice" do
+      expect { service_call }.to change { project.reload.work_package_custom_field_ids }
+      expect { described_class.new(project).call(ids) }.not_to change { project.reload.work_package_custom_field_ids }
+    end
+
+    context "for a project already using those types" do
+      let(:project) { create(:project, types:, work_package_custom_fields: [create(:text_wp_custom_field)]) }
+
+      it "does not change custom fields" do
+        expect { service_call }.not_to change { project.reload.work_package_custom_field_ids }
+      end
+    end
   end
 
-  describe ".call" do
-    subject { instance.call(ids) }
+  context "with ids provided" do
+    let(:types) { create_list(:type, 2) }
+    let(:ids) { types.map(&:id) }
 
-    before do
-      allow(project).to receive(:type_ids=)
+    it "enables exactly those types, each on its base variant" do
+      expect(service_call).to be_truthy
+      expect(project.enabled_types).to match_array(types)
+      expect(project.project_types.map(&:variant)).to match_array(types.map(&:default_variant))
     end
 
-    shared_examples "activating custom fields" do
-      let(:project) { create(:project, no_types: true) }
-      let!(:custom_field) { create(:text_wp_custom_field, types:) }
+    include_examples "activating custom fields"
+  end
 
-      it "updates the active custom fields" do
-        expect { subject }
-          .to change { project.reload.work_package_custom_field_ids }
-          .from([])
-          .to([custom_field.id])
-      end
+  context "with no id passed" do
+    let(:ids) { [] }
+    let(:project) { create(:project) }
 
-      it "does not activates the same custom field twice" do
-        expect { subject }.to change { project.reload.work_package_custom_field_ids }
-        expect { subject }.not_to change { project.reload.work_package_custom_field_ids }
-      end
-
-      context "for a project with already existing types" do
-        let(:project) { create(:project, types:, work_package_custom_fields: [create(:text_wp_custom_field)]) }
-
-        it "does not change custom fields" do
-          expect { subject }.not_to change { project.reload.work_package_custom_field_ids }
-        end
-      end
+    it "leaves the project without any type" do
+      expect(service_call).to be_truthy
+      expect(project.enabled_types).to be_empty
     end
+  end
 
-    context "with ids provided" do
-      let(:ids) { [1, 2, 3] }
+  context "with nil passed" do
+    let(:ids) { nil }
+    let(:project) { create(:project) }
 
-      it "returns true and updates the ids" do
-        expect(subject).to be_truthy
-        expect(project).to have_received(:type_ids=).with(ids)
-      end
-
-      include_examples "activating custom fields" do
-        let(:types) { create_list(:type, 2) }
-        let(:ids) { types.collect(&:id) }
-      end
+    it "leaves the project without any type" do
+      expect(service_call).to be_truthy
+      expect(project.enabled_types).to be_empty
     end
+  end
 
-    context "with no id passed" do
-      let(:ids) { [] }
+  # A project applies one variant per type, and the bulk form names types only, so a type it
+  # already runs through a named variant keeps that variant rather than being reset to the base.
+  context "when the project applies a named variant of a type it keeps" do
+    shared_let(:type) { create(:type) }
+    shared_let(:variant) { create(:type_variant, type:) }
 
-      it "adds the id of the default type and returns true" do
-        expect(subject).to be_truthy
-        expect(project).to have_received(:type_ids=).with([standard_type.id])
-      end
+    let(:project) { create(:project, types: [variant]) }
+    let(:ids) { [type.id] }
 
-      include_examples "activating custom fields" do
-        let(:standard_type) { create(:type_standard) }
-        let(:types) { [standard_type] }
-      end
+    it "leaves the applied variant alone" do
+      expect(service_call).to be_truthy
+      expect(project.reload.project_types.sole.variant).to eq(variant)
     end
+  end
 
-    context "with nil passed" do
-      let(:ids) { nil }
+  context "when the id of a type in use is not provided" do
+    shared_let(:used_type) { create(:type, name: "In use") }
+    shared_let(:other_type) { create(:type, name: "Other") }
 
-      it "adds the id of the default type and returns true" do
-        expect(subject).to be_truthy
-        expect(project).to have_received(:type_ids=).with([standard_type.id])
-      end
+    let(:project) { create(:project, types: [used_type, other_type]) }
+    let(:ids) { [other_type.id] }
 
-      include_examples "activating custom fields" do
-        let(:standard_type) { create(:type_standard) }
-        let(:types) { [standard_type] }
-      end
-    end
+    before { create(:work_package, project:, type: used_type) }
 
-    context "when the id of a type in use is not provided" do
-      let(:type) { build_stubbed(:type) }
-      let(:ids) { [1] }
-
-      before do
-        allow(project).to receive(:types_used_by_work_packages).and_return([type])
-        allow(project).to receive(:work_package_custom_field_ids=).and_return([type])
-      end
-
-      it "returns false and sets an error message" do
-        errors = instance_double(ActiveModel::Errors)
-        allow(errors).to receive(:add)
-        allow(project).to receive(:errors).and_return(errors)
-
-        expect(subject).to be_falsey
-        expect(errors).to have_received(:add).with(:types, :in_use_by_work_packages, types: type.name)
-        expect(project).not_to have_received(:type_ids=)
-        expect(project).not_to have_received(:work_package_custom_field_ids=)
-      end
-    end
-
-    context "when a variant is provided" do
-      let(:project) { create(:project, no_types: true) }
-      let(:parent_type) { create(:type) }
-      let(:variant) { create(:type, parent: parent_type) }
-      let(:ids) { [variant.id] }
-
-      context "and the variants feature is not active", with_flag: { type_variants: false } do
-        it "returns false and sets an error message" do
-          expect(subject).to be_falsey
-          expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variants_yet)
-          expect(project).not_to have_received(:type_ids=)
-        end
-      end
-
-      context "and the variants feature is active", with_flag: { type_variants: true } do
-        it "returns true and updates the ids" do
-          expect(subject).to be_truthy
-          expect(project).to have_received(:type_ids=).with(ids)
-        end
-      end
-    end
-
-    context "when multiple variants of the same parent are provided", with_flag: { type_variants: true } do
-      let(:project) { create(:project, no_types: true) }
-      let(:parent_type) { create(:type) }
-      let!(:variant) { create(:type, parent: parent_type) }
-      let!(:sibling_variant) { create(:type, parent: parent_type) }
-      let(:ids) { [variant.id, sibling_variant.id] }
-
-      it "returns false and sets an error message" do
-        expect(subject).to be_falsey
-        expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_multiple_variants_of_parent)
-        expect(project).not_to have_received(:type_ids=)
-      end
-
-      context "and the variants belong to different parents" do
-        let(:other_parent_type) { create(:type) }
-        let!(:sibling_variant) { create(:type, parent: other_parent_type) }
-
-        it "returns true and updates the ids" do
-          expect(subject).to be_truthy
-          expect(project).to have_received(:type_ids=).with(ids)
-        end
-      end
-    end
-
-    context "when a variant and its parent are provided", with_flag: { type_variants: true } do
-      let(:project) { create(:project, no_types: true) }
-      let(:parent_type) { create(:type) }
-      let!(:variant) { create(:type, parent: parent_type) }
-      let(:ids) { [parent_type.id, variant.id] }
-
-      it "returns false and sets an error message" do
-        expect(subject).to be_falsey
-        expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
-        expect(project).not_to have_received(:type_ids=)
-      end
-
-      context "and the variant belongs to a different parent than the one provided" do
-        let(:other_parent_type) { create(:type) }
-        let!(:variant) { create(:type, parent: other_parent_type) }
-
-        it "returns true and updates the ids" do
-          expect(subject).to be_truthy
-          expect(project).to have_received(:type_ids=).with(ids)
-        end
-      end
+    it "returns false and sets an error message" do
+      expect(service_call).to be_falsey
+      expect(project.errors.symbols_for(:types)).to contain_exactly(:in_use_by_work_packages)
+      expect(project.enabled_types).to contain_exactly(used_type, other_type)
     end
   end
 end

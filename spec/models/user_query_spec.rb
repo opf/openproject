@@ -273,7 +273,8 @@ RSpec.describe UserQuery do
       expect(Queries::Register.filters[described_class]).to include(
         Queries::Users::Filters::NameFilter,
         Queries::Users::Filters::StatusFilter,
-        Queries::Users::Filters::GroupFilter
+        Queries::Users::Filters::GroupFilter,
+        Queries::Users::Filters::ConsentedAtFilter
       )
     end
 
@@ -282,6 +283,17 @@ RSpec.describe UserQuery do
         Queries::Users::Orders::DefaultOrder,
         Queries::Users::Orders::NameOrder,
         Queries::Users::Orders::GroupOrder
+      )
+    end
+
+    it "registers selects as a side-effect of loading the class" do
+      expect(Queries::Register.selects[described_class]).to include(
+        Queries::Users::Selects::Default,
+        Queries::Users::Selects::Department,
+        Queries::Users::Selects::MemberOfGroup,
+        Queries::Users::Selects::MemberOfProject,
+        Queries::Users::Selects::Status,
+        Queries::Users::Selects::CustomField
       )
     end
   end

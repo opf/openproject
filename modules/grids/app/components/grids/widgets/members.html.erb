@@ -83,7 +83,7 @@ See COPYRIGHT and LICENSE files for more details.
               test_selector: "members-widget-add-button"
             ) do |button|
               button.with_leading_visual_icon(icon: :plus)
-              t("activerecord.models.member")
+              Member.model_name.human
             end
           end
         end

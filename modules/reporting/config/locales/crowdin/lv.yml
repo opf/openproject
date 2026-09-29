@@ -21,6 +21,12 @@
 #++
 ---
 lv:
+  activerecord:
+    models:
+      cost_query:
+        zero: Cost reports
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Save report as...
   comments: Komentârs
   cost_reports_title: Laiks un izmaksas
@@ -46,7 +52,6 @@ lv:
   label_closed: slēgti
   label_columns: Kolonnas
   label_cost_entry_attributes: Izmaksu ieraksta atribūti
-  label_cost_report: Izmaksu pārskats
   label_cost_report_plural: Izmaksu pārskati
   label_count: Skaits
   label_days_ago: pēdējās dienās

@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchCustomFields < Base
+  class SearchCustomFields < SearchTool
     default_title "Search custom fields"
     default_description "Show details of the custom fields matching given criteria."
 
@@ -41,6 +41,7 @@ module McpTools
     filter :name, filter_proc: ->(cfs, v) { cfs.where("name ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
+      additionalProperties: false,
       properties: {
         id: {
           type: %i[number array],
@@ -54,16 +55,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      custom_fields = apply_filters(CustomField.visible, filters)
-      custom_fields, total = apply_pagination(custom_fields, page)
+    def base_scope
+      Success(CustomField.visible)
+    end
 
-      {
-        items: custom_fields.map do |custom_field|
-          ::API::V3::CustomFields::CustomFieldRepresenter.create(custom_field, current_user:)
-        end,
-        total:
-      }
+    def format_item(item)
+      ::API::V3::CustomFields::CustomFieldRepresenter.create(item, current_user:)
     end
   end
 end

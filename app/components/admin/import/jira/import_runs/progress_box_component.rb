@@ -32,9 +32,7 @@ module Admin::Import::Jira::ImportRuns
   class ProgressBoxComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    attr_reader :message
-
-    def initialize(message, **system_arguments)
+    def initialize(message:, abort_path: nil, **system_arguments)
       super
       @message = message
       @system_arguments = system_arguments

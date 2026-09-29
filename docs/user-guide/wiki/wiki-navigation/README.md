@@ -33,7 +33,7 @@ Select a wiki page in the sidebar to display it in the main content area.
 
 You can use the search field at the top of the wiki sidebar to filter the wiki hierarchy using a text search.
 
-When a matching wiki page is displayed, its parent pages are also listed in grey so that you can see where the page is located in the wiki hierarchy.
+When a matching wiki page is displayed, its parent pages are also listed in grey so that you can see where the page is located in the wiki hierarchy. You can also browse for a page without knowing its title. When you enter a search term, the search results replace the page hierarchy. To return to the hierarchy with all pages collapsed, simply clear the search bar.
 
 ![Example of a search field used in the wiki module in OpenProject](openproject_user_guide_wiki_search.png)
 

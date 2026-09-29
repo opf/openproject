@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= turbo_stream.dialog do
-      title = t(".title", source_type: @source_type.name)
+      title = t(".title", source_type: @source_variant.composite_name)
       dialog_id = "copy_from_type_dialog"
       type_variants_enabled = OpenProject::FeatureDecisions.type_variants_active?
       another_type_at_first = @source_role.nil?
@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
         d.with_header(variant: :large)
         d.with_body(classes: type_variants_enabled ? "Overlay-body_autocomplete_height" : nil) do
           settings_primer_form_with(id: "copy_form") do |f|
-            render(Workflows::Copies::Form.new(f, source_type: @source_type, source_role: @source_role, other_types: @other_types, all_roles: @all_roles, append_to: "##{dialog_id}"))
+            render(Workflows::Copies::Form.new(f, source_variant: @source_variant, source_role: @source_role, other_variants: @other_variants, all_roles: @all_roles, append_to: "##{dialog_id}"))
           end
         end
         d.with_footer do
@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :button,
                 type: :submit,
                 form: "copy_form",
-                formaction: type_workflow_copy_from_role_path(@source_type, source_role_id: @source_role&.id),
+                formaction: type_workflow_copy_from_role_path(type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
                 data: { turbo: true }
               )
             ) do
@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :button,
                 type: :submit,
                 form: "copy_form",
-                formaction: type_workflow_copy_from_type_path(@source_type),
+                formaction: type_workflow_copy_from_variant_path(type_id: @source_variant.type_id, variant_id: @source_variant.id),
                 data: {
                   target_name: "mode",
                   value: "from_type",
@@ -84,7 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :button,
                 type: :submit,
                 form: "copy_form",
-                formaction: type_workflow_copy_from_role_path(@source_type, source_role_id: @source_role&.id),
+                formaction: type_workflow_copy_from_role_path(type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
                 data: {
                   target_name: "mode",
                   value: "from_role",

@@ -38,7 +38,7 @@ module WorkPackageTypes
     private
 
     def set_attributes(params)
-      permitted = params.except(:copy_workflow_from)
+      permitted = params.except(:copy_workflow_from, :enabled_in_new_projects)
 
       check_patterns(permitted)
       check_copy_workflow(params)
@@ -47,7 +47,7 @@ module WorkPackageTypes
     end
 
     def validate_and_result
-      success, errors = validate(model, user, options: {})
+      success, errors = validate(model, user, options: contract_options || {})
 
       if @param_validations.empty?
         ServiceResult.new(success:, errors:, result: model)

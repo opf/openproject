@@ -98,16 +98,30 @@ hu:
       cost_entry:
         one: Költség tétel
         other: Költségek rögzítése
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Költségtípus
         other: Költségtípusok
-      rate: Díj
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Belépési idő
         other: Idők rögzítése
       time_entry_activity:
         one: Időkövetési tevékenység
         other: Időnyilvántartási tevékenységek
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ hu:
   label_greater_or_equal: ">="
   label_group_by: Csoportosítás
   label_group_by_add: Csoportosítási mező hozzáadása
-  label_hourly_rate: Óradíj
   label_include_deleted: Töröltekkel együtt
   label_kind: Típus
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ hu:
   label_previous_month: Előző hónap
   label_previous_week: Előző héten
   label_previous_workweek: Előző munkahét
-  label_rate: Díj
   label_rate_plural: Díjak
   label_show: Mutat
   label_specific_day: Nap %{day}
@@ -241,7 +253,6 @@ hu:
   label_today_capitalized: Ma
   label_units: Költség egységek
   label_until: "-ig"
-  label_user: Felhasználó
   label_valid_from: Innentől érvényes
   label_view_mode_switcher: Nézet módosítása
   label_work_package_filter_add: Munkacsomag szűrő hozzáadása

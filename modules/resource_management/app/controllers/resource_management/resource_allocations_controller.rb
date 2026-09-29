@@ -41,7 +41,7 @@ module ::ResourceManagement
       # Opened from a user's utilization dialog: replace it rather than stack on
       # top. It is reopened (refreshed) after a successful create.
       if reopen_user_allocations_dialog?
-        close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
+        close_dialog_via_turbo_stream(ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID)
       end
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
@@ -60,8 +60,8 @@ module ::ResourceManagement
       )
     end
 
-    # Recomputes the inline "outside dates" warning whenever a date field
-    # changes. Only the banner is replaced — replacing the whole form would
+    # Recomputes the inline warnings whenever a date or the selected principal
+    # changes. Only the banners are replaced — replacing the whole form would
     # make Turbo restore focus to the date input afterwards, reopening its
     # date picker. Uses the EmptyContract so in-progress input never surfaces
     # validation errors while the user types.
@@ -70,12 +70,15 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
       )
+      replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation:)
+      )
       respond_with_turbo_streams
     end
 
     def edit
       if reopen_user_allocations_dialog?
-        close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
+        close_dialog_via_turbo_stream(ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID)
       end
 
       respond_with_dialog ResourceAllocations::EditDialogComponent.new(
@@ -240,7 +243,7 @@ module ::ResourceManagement
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.allocate_resource_dialog.success_message")
       )
-      close_dialog_via_turbo_stream("##{ResourceAllocations::NewDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ResourceAllocations::NewDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
       reopen_user_dialog(allocation)
@@ -332,7 +335,7 @@ module ::ResourceManagement
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.edit_allocation_dialog.success_message")
       )
-      close_dialog_via_turbo_stream("##{ResourceAllocations::EditDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
       reopen_user_dialog(allocation)
@@ -345,7 +348,7 @@ module ::ResourceManagement
       )
       # Closes the edit dialog when the delete was triggered from it; a harmless
       # no-op when deleting from a list row, where the dialog is not open.
-      close_dialog_via_turbo_stream("##{ResourceAllocations::EditDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(entity)
       notify_allocation_change(entity)
       respond_with_turbo_streams

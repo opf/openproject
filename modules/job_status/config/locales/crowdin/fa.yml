@@ -1,5 +1,10 @@
 ---
 fa:
+  activerecord:
+    models:
+      job_status/status:
+        one: وضعیت کار پس‌زمینه
+        other: وضعیت‌های کارهای پس‌زمینه
   job_status_dialog:
     click_to_download: یا برای دانلود [اینجا کلیک کنید](download_url).
     download_starts: دانلود باید به‌طور خودکار شروع شود.

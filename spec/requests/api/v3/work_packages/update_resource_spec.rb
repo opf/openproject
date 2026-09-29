@@ -353,7 +353,7 @@ RSpec.describe "API v3 Work package resource",
 
         context "valid type" do
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
           end
 
           include_context "patch request"
@@ -374,9 +374,9 @@ RSpec.describe "API v3 Work package resource",
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
             project.work_package_custom_fields << custom_field
-            target_type.custom_fields << custom_field
+            target_type.default_variant.custom_fields << custom_field
           end
 
           include_context "patch request"
@@ -457,7 +457,7 @@ RSpec.describe "API v3 Work package resource",
 
           before do
             target_project.work_package_custom_fields << custom_field
-            work_package.type.custom_fields << custom_field
+            work_package.type.default_variant.custom_fields << custom_field
           end
 
           include_context "patch request"
@@ -564,7 +564,7 @@ RSpec.describe "API v3 Work package resource",
             include_context "patch request"
 
             context "user doesn't exist" do
-              let(:user_href) { api_v3_paths.user 909090 }
+              let(:user_href) { api_v3_paths.user(not_existing_id(User)) }
 
               it_behaves_like "constraint violation" do
                 let(:message) do
@@ -848,7 +848,7 @@ RSpec.describe "API v3 Work package resource",
         before do
           allow(User).to receive(:current).and_return current_user
           work_package.project.work_package_custom_fields << custom_field
-          work_package.type.custom_fields << custom_field
+          work_package.type.default_variant.custom_fields << custom_field
         end
 
         context "valid" do

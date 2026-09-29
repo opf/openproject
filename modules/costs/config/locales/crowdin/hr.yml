@@ -99,11 +99,26 @@ hr:
         one: Ulazni trošak
         few: Cost entries
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        other: Cost rates
       cost_type:
         one: Vrsta troška
         few: Vrsta troška
         other: Vrsta troška
-      rate: Stopa
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        other: Rates
       time_entry:
         one: Time entry
         few: Time entries
@@ -112,6 +127,10 @@ hr:
         one: Time tracking activity
         few: Time tracking activities
         other: Time tracking activities
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -210,7 +229,6 @@ hr:
   label_greater_or_equal: ">="
   label_group_by: Grupiraj po
   label_group_by_add: Dodajte polje grupiranja
-  label_hourly_rate: Cijena po satu
   label_include_deleted: Uključi izbrisane
   label_kind: Tip
   label_less_or_equal: "<="
@@ -231,7 +249,6 @@ hr:
   label_previous_month: Previous month
   label_previous_week: Prethodni tjedan
   label_previous_workweek: Previous work week
-  label_rate: Stopa
   label_rate_plural: Satnice
   label_show: Prikaži
   label_specific_day: Day %{day}
@@ -245,7 +262,6 @@ hr:
   label_today_capitalized: Today
   label_units: Jedinice troška
   label_until: do
-  label_user: Korisnik
   label_valid_from: Vrijedi od
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Dodaj filter radnog zadatka

@@ -27,6 +27,7 @@ module Saml
     store_attribute :options, :want_assertions_encrypted, :boolean
     store_attribute :options, :digest_method, :string
     store_attribute :options, :signature_method, :string
+    store_attribute :options, :allowed_clock_drift, :float
 
     store_attribute :options, :mapping_login, :string
     store_attribute :options, :mapping_mail, :string
@@ -50,6 +51,10 @@ module Saml
 
     def human_type
       "SAML"
+    end
+
+    def csp_form_action_origin
+      origin_from_url(idp_sso_service_url)
     end
 
     def seeded_from_env?
