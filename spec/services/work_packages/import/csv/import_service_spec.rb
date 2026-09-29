@@ -97,7 +97,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     end
 
     it "counts what was created, defaults included" do
-      expect(import(rows).result.counts)
+      expect(import(rows).result.counts_by_attribute)
         .to eq("type" => { "Task" => 1, "Bug" => 1 },
                "status" => { "New" => 2 },
                "priority" => { "Normal" => 2 },
@@ -109,7 +109,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     it "keys the counts by attribute, not by whatever the caption is in the current language" do
       counts = I18n.with_locale(:de) do
         expect(WorkPackage.human_attribute_name(:type)).to eq("Typ")
-        import(rows).result.counts
+        import(rows).result.counts_by_attribute
       end
 
       expect(counts.keys).to contain_exactly("type", "status", "priority", "category")
@@ -177,7 +177,7 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
       expect(result).to be_success
       expect(result.result).to have_attributes(row_count: 1, created_count: 1, problems: [])
-      expect(result.result.counts).to include("type" => { "Task" => 1 })
+      expect(result.result.counts_by_attribute).to include("type" => { "Task" => 1 })
     end
   end
 

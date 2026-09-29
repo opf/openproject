@@ -67,7 +67,7 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
                                  "created_count" => 2,
                                  "dry_run" => true,
                                  "problems" => [])
-      expect(payload["counts"]).to include("type" => { "Task" => 2 })
+      expect(payload["counts_by_attribute"]).to include("type" => { "Task" => 2 })
     end
 
     it "names the project, the file and the attachment so the page can commit it" do
