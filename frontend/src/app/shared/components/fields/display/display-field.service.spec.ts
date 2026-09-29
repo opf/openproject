@@ -33,8 +33,8 @@ import {
   SingleLineResourcesDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/single-line-resources-display-field.module';
 import {
-  MultipleLinesCustomOptionsDisplayField,
-} from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
+  MultipleLinesResourcesDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/multiple-lines-resources-display-field.module';
 import {
   MultipleLinesUserFieldModule,
 } from 'core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module';
@@ -82,7 +82,7 @@ describe('DisplayFieldService', () => {
   // renders as in the single view for each layout. Users keep their avatar
   // rendering in the singleline layout via a dedicated field.
   const multiValueTypes:[string, DisplayFieldClass, DisplayFieldClass][] = [
-    ['[]Version', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
+    ['[]Version', SingleLineResourcesDisplayField, MultipleLinesResourcesDisplayField],
     ['[]User', SingleLineUserDisplayField, MultipleLinesUserFieldModule],
     ['[]CustomField::Hierarchy::Item', SingleLineResourcesDisplayField, MultipleLinesHierarchyItemDisplayField],
   ];
@@ -112,6 +112,6 @@ describe('DisplayFieldService', () => {
 
   it('renders a multi value list field that cannot nest one value per line', () => {
     expect(fieldFor('[]CustomField::Hierarchy::Item', undefined, { allowsNesting: false }))
-      .toBeInstanceOf(MultipleLinesCustomOptionsDisplayField);
+      .toBeInstanceOf(MultipleLinesResourcesDisplayField);
   });
 });
