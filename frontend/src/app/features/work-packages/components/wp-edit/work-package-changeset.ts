@@ -33,7 +33,7 @@ import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-packa
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
-  public setValue(key:string, val:any) {
+  public setValue(key:string, val:unknown) {
     super.setValue(key, val);
 
     if (key === 'project' || key === 'type') {
