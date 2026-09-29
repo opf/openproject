@@ -58,6 +58,14 @@ RSpec.describe Llm::Adapters::Openrouter, :llm_server_helpers, :webmock do
     expect(adapter.models.pluck(:id)).to contain_exactly("qwen3.6-27b", "bge-m3")
   end
 
+  it "keeps the chat catalogue's card for a model both lists report" do
+    mock_llm_embedding_models_response(base_url, models: [{ id: "bge-m3", owned_by: "embeddings-listing" }])
+
+    card = adapter.models.find { |listed| listed[:id] == "bge-m3" }
+
+    expect(card[:raw]["owned_by"]).to eq("vllm")
+  end
+
   it "keeps the catalogue it did get when the filtered request is refused" do
     mock_llm_embedding_models_response(base_url, response_code: 404)
 

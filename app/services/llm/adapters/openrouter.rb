@@ -42,9 +42,11 @@ module Llm
 
       private
 
+      # Embedding cards lead because SyncModelsService keeps only the first
+      # MAX_CARDS, and the chat catalogue alone can outgrow that.
       def fetch_models
         chat = cards(client.models)
-        chat + embedding_cards.reject { |card| chat.any? { |listed| listed[:id] == card[:id] } }
+        embedding_cards.reject { |card| chat.any? { |listed| listed[:id] == card[:id] } } + chat
       end
 
       # A gateway configured with this format need not implement the filter. It

@@ -310,6 +310,14 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
         .to contain_exactly("qwen3.6-27b", "bge-m3", "voyageai/voyage-4")
     end
 
+    it "keeps the embedding models when the catalogue outgrows the cap" do
+      stub_const("#{described_class}::MAX_CARDS", 2)
+
+      service.call
+
+      expect(connection.models.active.pluck(:external_id)).to include("voyageai/voyage-4")
+    end
+
     it "types a model the card declares an embedding one without spending a probe" do
       service.call
 
