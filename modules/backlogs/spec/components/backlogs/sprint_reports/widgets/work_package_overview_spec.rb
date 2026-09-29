@@ -50,7 +50,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
     let(:changed) do
       Sprints::WorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                  removed_story_points: 2)
+                                                     removed_story_points: 2)
     end
     let(:completed) do
       Sprints::WorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
