@@ -185,14 +185,24 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       expect(page).to have_text("7")
     end
 
+    it "gives the available values a column of their own" do
+      expect(page).to have_css("thead th:last-child", text: "Available")
+      expect(page).to have_css("tbody tr:first-child td:last-child details")
+    end
+
     # An instance can have dozens of statuses, so the list stays folded away rather than
     # pushing every other problem off the screen.
-    it "folds the available values behind a disclosure rather than into the message" do
+    it "folds the values behind a disclosure rather than listing them in the cell" do
       expect(page).to have_css("details summary", text: "3 available values")
       expect(page).to have_css("details", text: "Task, Bug, Milestone")
     end
 
-    it "leaves the message alone for a problem that has no alternatives" do
+    it "keeps the message cell free of them" do
+      expect(page).to have_css("tbody tr:first-child td:nth-child(4)", text: "does not exist in this project.")
+      expect(page).to have_no_css("tbody tr:first-child td:nth-child(4) details")
+    end
+
+    it "leaves the cell empty for a problem that has no alternatives" do
       expect(page).to have_css("td", text: "can't be blank.")
       expect(page).to have_css("details", count: 1)
     end

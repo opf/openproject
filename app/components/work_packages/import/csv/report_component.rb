@@ -101,7 +101,7 @@ module WorkPackages
         def type_counts = payload.dig("counts_by_attribute", "type").to_h
 
         def row_headers
-          %i[row attribute value message].map { |key| t("work_packages.import.report.table.#{key}") }
+          %i[row attribute value message available].map { |key| t("work_packages.import.report.table.#{key}") }
         end
 
         def column_headers
@@ -113,7 +113,8 @@ module WorkPackages
             [{ text: problem["row"], style: :muted },
              { text: caption(problem["attribute"]), style: :strong },
              { text: problem["value"], style: :code },
-             { text: problem["message"], available: available_for(problem), style: :message }]
+             { text: problem["message"], style: :message },
+             { values: available_for(problem), style: :available }]
           end
         end
 

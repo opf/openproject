@@ -22,15 +22,14 @@
               <% else %>
                 <%= render(Primer::Beta::Text.new(tag: :code, color: :muted, font_style: :italic)) { t("work_packages.import.report.table.empty") } %>
               <% end %>
-            <% when :message %>
-              <%= cell[:text] %>
-              <% if cell[:available].present? %>
-                <%= render(Primer::Beta::Details.new(display: :inline_block, ml: 1)) do |details| %>
+            <% when :available %>
+              <% if cell[:values].present? %>
+                <%= render(Primer::Beta::Details.new(display: :inline_block)) do |details| %>
                   <% details.with_summary(button: false, classes: "color-fg-muted") do %>
-                    <%= t("work_packages.import.report.problems.available", count: cell[:available].size) %>
+                    <%= t("work_packages.import.report.problems.available", count: cell[:values].size) %>
                   <% end %>
                   <% details.with_body(display: :block, color: :muted, mt: 1) do %>
-                    <%= cell[:available].join(", ") %>
+                    <%= cell[:values].join(", ") %>
                   <% end %>
                 <% end %>
               <% end %>
