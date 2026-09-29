@@ -171,4 +171,56 @@ RSpec.describe OpenProject::Plugins::ActsAsOpEngine do
       expect(prepending_classes).to eq([target_class])
     end
   end
+
+  describe "#prepend_class_methods" do
+    let(:prepending_classes) { [] }
+    let(:mixin) do
+      tracked = prepending_classes
+
+      Module.new do
+        define_singleton_method(:prepended) { |base| tracked << base }
+
+        def greeting = "#{super} from the mixin"
+      end
+    end
+    let(:target_class) do
+      Class.new do
+        def self.greeting = "hello"
+      end
+    end
+    let(:other_target_class) { Class.new }
+
+    before do
+      stub_const("ActsAsOpEngineTest::Mixin", mixin)
+      stub_const("ActsAsOpEngineTest::Target", target_class)
+      stub_const("ActsAsOpEngineTest::OtherTarget", other_target_class)
+      allow(engine.config).to receive(:to_prepare).and_yield
+    end
+
+    it "prepends the module to the singleton classes of all given classes" do
+      engine.prepend_class_methods("ActsAsOpEngineTest::Mixin",
+                                   into: %w[ActsAsOpEngineTest::Target ActsAsOpEngineTest::OtherTarget])
+
+      expect(target_class.singleton_class.ancestors.first).to eq(mixin)
+      expect(other_target_class.singleton_class.ancestors.first).to eq(mixin)
+    end
+
+    it "overrides the class methods of the class" do
+      engine.prepend_class_methods("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class.greeting).to eq("hello from the mixin")
+    end
+
+    it "does not add the methods to instances of the class" do
+      engine.prepend_class_methods("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class.new).not_to respond_to(:greeting)
+    end
+
+    it "does not prepend the module again when it is already prepended" do
+      2.times { engine.prepend_class_methods("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target") }
+
+      expect(prepending_classes).to eq([target_class.singleton_class])
+    end
+  end
 end

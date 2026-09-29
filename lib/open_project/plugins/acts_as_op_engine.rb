@@ -137,6 +137,10 @@ module OpenProject::Plugins
         add_module_to_classes(:prepend, module_name, into)
       end
 
+      def prepend_class_methods(module_name, into:)
+        add_module_to_classes(:prepend, module_name, into, singleton: true)
+      end
+
       # Define assets provided by the plugin
       def assets(assets)
         self.class.initializer "#{engine_name}.precompile_assets" do |app|
@@ -347,13 +351,14 @@ module OpenProject::Plugins
 
       private
 
-      def add_module_to_classes(strategy, module_name, class_names)
+      def add_module_to_classes(strategy, module_name, class_names, singleton: false)
         self.class.config.to_prepare do
           mod = module_name.constantize
 
           Array(class_names).each do |class_name|
-            klass = class_name.constantize
-            klass.public_send(strategy, mod) unless klass.include?(mod)
+            target = class_name.constantize
+            target = target.singleton_class if singleton
+            target.public_send(strategy, mod) unless target.include?(mod)
           end
         end
       end
