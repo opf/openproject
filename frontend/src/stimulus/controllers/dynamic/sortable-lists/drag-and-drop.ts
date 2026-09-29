@@ -108,7 +108,8 @@ export interface SortableListsRoot {
   availableDestinations(scope:ActionScope, candidates:DestinationIdentity[]):DestinationIdentity[];
   moveToDestination(itemElement:HTMLElement, target:DestinationIdentity):void;
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
-  // A snapshot for menu gating; the click path re-resolves against the live DOM.
+  // A snapshot for menu gating over the invoker's prospective action scope;
+  // the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
   // The element of the list an item currently belongs to; null outside any
   // registered list. Items carry no list reference, so the root resolves it.

@@ -245,9 +245,11 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
           "[data-action='click->sortable-lists--item#move']"
         )
       end
-      expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu']")
+      expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu']", count: 1)
       expect(page).to have_no_field("direction", type: :hidden)
       expect(page).to have_no_field("prev_id", type: :hidden)
+      expect(page).to have_no_field("ids[]", type: :hidden)
+      expect(page).to have_no_css("form[action$='/backlogs/work_packages/move']")
     end
 
     context "when the work package is the only item in its list" do
