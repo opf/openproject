@@ -64,6 +64,22 @@ module Costs::NumberHelper
     0.0
   end
 
+  # Turns a string representing either a number in the current locale or a
+  # duration such as "2d 10h" into a BigDecimal number of hours. Units larger
+  # than an hour are resolved through the systemwide hours per day setting.
+  #
+  # In case the string cannot be parsed, 0.0 is returned.
+  def parse_hours_string_to_number(value)
+    return parse_number_string_to_number(value) unless value.is_a?(String) && value.present?
+
+    number = BigDecimal(parse_number_string(value), exception: false)
+    return number if number
+
+    BigDecimal(DurationConverter.parse(value).to_s)
+  rescue ChronicDuration::DurationParseError, ArgumentError
+    0.0
+  end
+
   # Output currency value without unit
   def unitless_currency_number(value)
     number_to_currency(value, format: "%n")

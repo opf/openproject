@@ -33,6 +33,7 @@ module Settings
     include RequiresAdminGuard
 
     validate :journal_aggregation_time_minutes_is_within_bounds
+    validate :restricted_password_login_requires_sso_provider
 
     protected
 
@@ -44,6 +45,13 @@ module Settings
       unless allowed.cover?(value.to_i)
         errors.add :base, :journal_aggregation_time_minutes_is_out_of_bounds, min: allowed.min, max: allowed.max
       end
+    end
+
+    def restricted_password_login_requires_sso_provider
+      return unless params[:password_login].in?([Users::PasswordLogin::EXCEPT_SSO, Users::PasswordLogin::NONE])
+      return if Users::PasswordLogin.omniauth_configured?
+
+      errors.add :base, :password_login_requires_sso_provider
     end
   end
 end

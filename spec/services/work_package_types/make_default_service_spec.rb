@@ -32,98 +32,64 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::MakeDefaultService do
   let(:user) { create(:admin) }
+  let(:type) { create(:type) }
 
-  subject(:service) { described_class.new(type:, user:) }
+  subject(:service) { described_class.new(variant:, user:) }
 
   describe "#call" do
-    context "when no family member is the default yet" do
-      let(:type) { create(:type, is_default: false) }
+    context "when no variant of the type carries the flag" do
+      let(:variant) { type.default_variant }
 
-      it "marks the type as the default" do
+      it "marks the variant as the one new projects start with" do
         expect(service.call).to be_success
-        expect(type.reload).to be_is_default
+        expect(variant.reload).to be_enabled_in_new_projects
       end
     end
 
-    context "when the type is already the default" do
-      let(:type) { create(:type, is_default: true) }
+    context "when the variant already carries the flag" do
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let(:variant) { type.default_variant }
 
-      it "leaves it as the default" do
+      it "leaves it carrying the flag" do
         expect(service.call).to be_success
-        expect(type.reload).to be_is_default
+        expect(variant.reload).to be_enabled_in_new_projects
       end
     end
 
-    context "when the root is the default and a variant is promoted" do
-      let(:root) { create(:type, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
+    context "when a sibling variant of the same type carries the flag" do
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let!(:sibling) { type.default_variant }
+      let(:variant) { create(:type_variant, type:) }
 
-      it "moves the flag from the root to the variant" do
+      it "moves the flag off the sibling, so only one remains" do
         expect(service.call).to be_success
-        expect(type.reload).to be_is_default
-        expect(root.reload).not_to be_is_default
+        expect(variant.reload).to be_enabled_in_new_projects
+        expect(sibling.reload).not_to be_enabled_in_new_projects
       end
     end
 
-    context "when a sibling variant is the default" do
-      let(:root) { create(:type, is_default: false) }
-      let!(:sibling) { create(:type, parent: root, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
+    context "when another type carries the flag" do
+      let!(:other_type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let(:variant) { type.default_variant }
 
-      it "moves the flag from the sibling to the type" do
+      it "does not touch it: the flag is unique per type, not across them" do
         expect(service.call).to be_success
-        expect(type.reload).to be_is_default
-        expect(sibling.reload).not_to be_is_default
+        expect(variant.reload).to be_enabled_in_new_projects
+        expect(other_type.default_variant.reload).to be_enabled_in_new_projects
       end
     end
 
-    context "when a variant is the default and the root is promoted" do
-      let(:type) { create(:type, is_default: false) }
-      let!(:variant) { create(:type, parent: type, is_default: true) }
+    context "when marking the variant fails" do
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let!(:sibling) { type.default_variant }
+      let(:variant) { create(:type_variant, type:) }
 
-      it "moves the flag from the variant to the root" do
-        expect(service.call).to be_success
-        expect(type.reload).to be_is_default
-        expect(variant.reload).not_to be_is_default
-      end
-    end
+      before { allow(variant).to receive(:valid?).and_return(false) }
 
-    context "when several family members carry the flag" do
-      let(:root) { create(:type, is_default: true) }
-      let!(:sibling) { create(:type, parent: root, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
-
-      it "leaves the type as the only default in the family" do
-        expect(service.call).to be_success
-        expect(type.reload).to be_is_default
-        expect(root.reload).not_to be_is_default
-        expect(sibling.reload).not_to be_is_default
-      end
-    end
-
-    context "with a default in another family" do
-      let(:other_default) { create(:type, is_default: true) }
-      let(:type) { create(:type, is_default: false) }
-
-      it "does not touch it" do
-        expect(service.call).to be_success
-        expect(other_default.reload).to be_is_default
-      end
-    end
-
-    context "when unmarking the previous default fails" do
-      let(:root) { create(:type, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
-
-      before do
-        type
-        root.update_column(:name, "")
-      end
-
-      it "fails and rolls the whole family back" do
+      it "fails and rolls the sibling's demotion back" do
         expect(service.call).to be_failure
-        expect(type.reload).not_to be_is_default
-        expect(root.reload).to be_is_default
+        expect(variant.reload).not_to be_enabled_in_new_projects
+        expect(sibling.reload).to be_enabled_in_new_projects
       end
     end
   end

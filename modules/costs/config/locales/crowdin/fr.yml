@@ -98,16 +98,30 @@ fr:
       cost_entry:
         one: Entrée de coût
         other: Entrées de coûts
+      cost_rate:
+        one: Coût horaire
+        other: Coûts horaires
       cost_type:
         one: Types de coût
         other: Types de coûts
-      rate: Tarif
+      default_hourly_rate:
+        one: Taux horaire par défaut
+        other: Taux horaires par défaut
+      hourly_rate:
+        one: Taux horaire
+        other: Taux horaires
+      rate:
+        one: Tarif
+        other: Tarifs
       time_entry:
         one: Saisie de temps
         other: Saisies de temps
       time_entry_activity:
         one: Activité de suivi du temps
         other: Activités de suivi du temps
+      time_entry_custom_field:
+        one: Champ personnalisé de saisie de temps
+        other: Champs personnalisés de saisie de temps
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ fr:
   label_greater_or_equal: ">="
   label_group_by: Grouper par
   label_group_by_add: Ajouter un champ de regroupement
-  label_hourly_rate: Tarif horaire
   label_include_deleted: Inclure les supprimé(e)s
   label_kind: Type
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ fr:
   label_previous_month: Mois précédent
   label_previous_week: Semaine précédente
   label_previous_workweek: Semaine de travail précédente
-  label_rate: Tarif
   label_rate_plural: Tarifs
   label_show: Afficher
   label_specific_day: Jour %{day}
@@ -241,7 +253,6 @@ fr:
   label_today_capitalized: Aujourd'hui
   label_units: Unités de coût
   label_until: jusque
-  label_user: Utilisateur
   label_valid_from: Valable à partir du
   label_view_mode_switcher: Changer la vue
   label_work_package_filter_add: Ajouter filtre de lot de travaux

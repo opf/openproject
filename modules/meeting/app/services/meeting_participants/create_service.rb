@@ -39,6 +39,7 @@ module MeetingParticipants
     def after_perform(call)
       meeting = call.result.meeting
       meeting.touch_and_save_journals
+      meeting.bump_series_ical_sequence!
 
       if @notify
         since_invited_ids = meeting.participants.where(invited: true).where.not(id: call.result.id).pluck(:user_id)

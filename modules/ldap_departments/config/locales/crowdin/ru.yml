@@ -22,8 +22,16 @@ ru:
           must_contain_base_dn: Базовый DN должен входить в состав базового DN соединения LDAP.
           overlaps_other_tree: Пересекается с базовым DN другой синхронизации, использующей то же LDAP-соединение.
     models:
-      ldap_departments/synchronized_department: Синхронизированное подразделение
-      ldap_departments/synchronized_tree: Синхронизация подразделений с помощью LDAP
+      ldap_departments/synchronized_department:
+        one: Синхронизированное подразделение
+        few: Synchronized departments
+        many: Synchronized departments
+        other: Синхронизированные подразделения
+      ldap_departments/synchronized_tree:
+        one: Синхронизация подразделений с помощью LDAP
+        few: LDAP department synchronizations
+        many: LDAP department synchronizations
+        other: Синхронизации подразделений с помощью LDAP
   ee:
     upsell:
       ldap_departments:

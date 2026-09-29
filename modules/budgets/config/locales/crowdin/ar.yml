@@ -46,9 +46,27 @@ ar:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: الميزانية
-      labor_budget_item: Planned labor cost
-      material_budget_item: الوحدة
+      budget:
+        zero: Budgets
+        one: Budget
+        two: Budgets
+        few: Budgets
+        many: Budgets
+        other: Budgets
+      labor_budget_item:
+        zero: Planned labor costs
+        one: Planned labor cost
+        two: Planned labor costs
+        few: Planned labor costs
+        many: Planned labor costs
+        other: Planned labor costs
+      material_budget_item:
+        zero: Units
+        one: Unit
+        two: Units
+        few: Units
+        many: Units
+        other: Units
   activity:
     filter:
       budget: الميزانيات
@@ -102,7 +120,6 @@ ar:
   help_click_to_edit: اضغط هنا للتعديل.
   help_currency_format: شكل قِيَم العملة المعروضة. %n تم إبداله بقيمة العملة، %u تم إبداله بوحدة العملة.
   help_override_rate: أدخل قيمة هنا لتجاهل المعدل الافتراضي.
-  label_budget: الميزانية
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'الميزانية #%{id}'

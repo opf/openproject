@@ -29,15 +29,11 @@
 #++
 #
 class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], event: nil)
-    import_history = [
-      {
-        "event" => event,
-        "author_name" => author_name,
-        "items" => history
-      }.compact
-    ]
-    additional = { "import_history" => import_history }
+  def initialize(author_name: nil, history: [], migrated: false)
+    entry = { "author_name" => author_name, "items" => history.presence }.compact
+    additional = entry.present? ? { "import_history" => [entry] } : {}
+    additional["migrated"] = true if migrated
+
     super("import", additional)
   end
 end

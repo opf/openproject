@@ -38,6 +38,19 @@ hy:
           attributes:
             labels:
               invalid_schema: պետք է լինի հեշերի զանգված հետևյալ բանալիներով՝ color, title
+    models:
+      gitlab_issue:
+        one: GitLab issue
+        other: GitLab issues
+      gitlab_merge_request:
+        one: GitLab merge request
+        other: GitLab merge requests
+      gitlab_pipeline:
+        one: GitLab pipeline
+        other: GitLab pipelines
+      gitlab_user:
+        one: GitLab user
+        other: GitLab users
   attributes:
     commit: Կոմիտ
     gitlab: GitLab-ի նույնացուցիչ

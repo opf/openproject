@@ -78,21 +78,20 @@ See COPYRIGHT and LICENSE files for more details.
         </tr>
       </thead>
       <tbody>
-        <% projects_types_id = project.types.pluck(:id) %>
+        <% projects_types_id = project.project_types.pluck(:type_id) %>
         <% Type.includes(:color).reorder('lower(name)').each do |type| # rubocop:disable Rails/FindEach %>
           <tr>
             <td>
               <%= icon_for_type(type) %>
-              <%= h type.composite_name %>
+              <%= h type.name %>
             </td>
             <td class='center'>
               <% type_id = "project_planning_element_type_ids_#{type.id}" %>
-              <%= label_tag type_id, t("projects.settings.types.form.enable_type_in_project", type: type.composite_name), class: "sr-only" %>
+              <%= label_tag type_id, t("projects.settings.types.form.enable_type_in_project", type: type.name), class: "sr-only" %>
               <%= check_box_tag "project[type_ids][]",
                                 type.id,
                                 projects_types_id.include?(type.id),
-                                id: type_id,
-                                "data-standard": type.is_standard %>
+                                id: type_id %>
               <%= hidden_field_tag "project[type_ids][]", "", "data-for": type_id %>
             </td>
             <td class='center'>

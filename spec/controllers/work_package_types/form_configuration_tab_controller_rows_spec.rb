@@ -32,11 +32,12 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::FormConfigurationTabController do
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
   let(:user) { create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(user)
-    type.update_column(:attribute_groups, [[:details, %w[priority category]]])
+    variant.update_column(:attribute_groups, [[:details, %w[priority category]]])
   end
 
   describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
@@ -46,14 +47,14 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
           format: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(type.reload.attribute_groups.flat_map(&:members)).not_to include("priority")
+      expect(variant.reload.attribute_groups.flat_map(&:members)).not_to include("priority")
     end
 
     it "moves the row into another active section at the requested position" do
-      type.update_column(:attribute_groups, [
-                           [:details, %w[priority]],
-                           ["Custom group", %w[category]]
-                         ])
+      variant.update_column(:attribute_groups, [
+                              [:details, %w[priority]],
+                              ["Custom group", %w[category]]
+                            ])
 
       put :drop,
           params: { type_id: type.id, row_key: "priority", target_id: "Custom group", position: 1 },
@@ -61,7 +62,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
 
       expect(response).to have_http_status(:ok)
 
-      target_group = type.reload.attribute_groups.find { |group| group.key == "Custom group" }
+      target_group = variant.reload.attribute_groups.find { |group| group.key == "Custom group" }
       expect(target_group.members).to eq(%w[priority category])
     end
   end

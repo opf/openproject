@@ -31,27 +31,34 @@
 class ProjectType < ApplicationRecord
   belongs_to :project
   belongs_to :type
-  belongs_to :variant, class_name: "Type", optional: true
+  belongs_to :variant, class_name: "TypeVariant", inverse_of: :project_types
+
+  before_validation :default_to_base_variant
 
   validates :type_id, uniqueness: { scope: :project_id }
-  validate :type_is_a_root
+  validates :type, presence: true
+  validates :variant, presence: true
   validate :variant_belongs_to_type
-
-  def effective_type
-    variant || type
-  end
+  validate :variant_is_available_to_project
 
   private
 
-  def type_is_a_root
-    return if type.nil? || !type.variant?
-
-    errors.add(:type, :must_be_a_root_type)
+  def default_to_base_variant
+    self.variant ||= type&.default_variant
   end
 
   def variant_belongs_to_type
-    return if variant.nil? || variant.parent_id == type_id
+    return if variant.nil? || type.nil?
+    return if variant.type == type
 
     errors.add(:variant, :must_belong_to_the_type)
+  end
+
+  # Not merely hidden from this project: not activatable here even by an instance administrator.
+  def variant_is_available_to_project
+    return if variant.nil? || !variant.project_owned?
+    return if variant.project_id == project_id
+
+    errors.add(:variant, :must_be_owned_by_the_project)
   end
 end

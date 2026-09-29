@@ -281,7 +281,7 @@ projects:
         assigned_to: :openproject_admin
     boards:
       kanban:
-        t_name: 'Kanban board'
+        t_name: "Kanban board"
         filters:
           - type: :default_type_task
         statuses:
@@ -290,43 +290,43 @@ projects:
           - :default_status_closed
           - :default_status_rejected
       basic:
-        t_name: 'Basic board'
+        t_name: "Basic board"
         lists:
-          - t_name: 'Wish list'
+          - t_name: "Wish list"
             work_packages:
               - :setup_conference_website
               - :upload_presentations_to_website
-          - t_name: 'Short list'
+          - t_name: "Short list"
             work_packages:
               - :invite_attendees_to_conference
-          - t_name: 'Priority list for today'
+          - t_name: "Priority list for today"
             work_packages:
               - :set_date_and_location_of_conference
-          - t_name: 'Never'
+          - t_name: "Never"
             work_packages: []
       parent_child:
-        t_name: 'Work breakdown structure'
+        t_name: "Work breakdown structure"
     project-overview:
       row_count: 6
       column_count: 2
       widgets:
-        - identifier: 'custom_text'
+        - identifier: "custom_text"
           start_row: 1
           end_row: 2
           start_column: 1
           end_column: 3
           options:
-            t_name: 'Welcome'
+            t_name: "Welcome"
             text: '![Teaser](##attachment:"demo_project_teaser.png")'
           attachments:
             - demo_project_teaser.png
-        - identifier: 'custom_text'
+        - identifier: "custom_text"
           start_row: 2
           end_row: 5
           start_column: 1
           end_column: 2
           options:
-            t_name: 'Getting started'
+            t_name: "Getting started"
             t_text: |
               We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -343,38 +343,38 @@ projects:
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
               Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-        - identifier: 'project_status'
+        - identifier: "project_status"
           start_row: 2
           end_row: 3
           start_column: 2
           end_column: 3
-        - identifier: 'project_description'
+        - identifier: "project_description"
           start_row: 3
           end_row: 4
           start_column: 2
           end_column: 3
-        - identifier: 'members'
+        - identifier: "members"
           start_row: 4
           end_row: 5
           start_column: 2
           end_column: 3
           options:
-            name: 'Members'
-        - identifier: 'work_packages_overview'
+            name: "Members"
+        - identifier: "work_packages_overview"
           start_row: 5
           end_row: 6
           start_column: 1
           end_column: 3
           options:
-            t_name: 'Work packages'
-        - identifier: 'work_packages_table'
+            t_name: "Work packages"
+        - identifier: "work_packages_table"
           start_row: 6
           end_row: 7
           start_column: 1
           end_column: 3
           options:
-            t_name: 'Milestones'
-            queryId: '##query.id:demo_project__query__milestones'
+            t_name: "Milestones"
+            queryId: "##query.id:demo_project__query__milestones"
     # For all dates, the reference is the Monday of the current week
     # So
     # * start: 0 references Monday
@@ -392,7 +392,7 @@ projects:
         t_subject: Organize open source conference
         reference: :organize_open_source_conference
         assigned_to: :department__events_operations
-        description: ''
+        description: ""
         status: :default_status_in_progress
         type: :default_type_summary_task
         duration: 15
@@ -402,7 +402,7 @@ projects:
             t_subject: Set date and location of conference
             reference: :set_date_and_location_of_conference
             assigned_to: :user__olga_ops
-            description: ''
+            description: ""
             status: :default_status_in_progress
             type: :default_type_task
             duration: 4
@@ -411,7 +411,7 @@ projects:
               - start: 0
                 t_subject: Send invitation to speakers
                 assigned_to: :user__marko_marketing
-                description: ''
+                description: ""
                 status: :default_status_in_progress
                 type: :default_type_task
                 duration: 1
@@ -421,7 +421,7 @@ projects:
               - start: 0
                 t_subject: Contact sponsoring partners
                 assigned_to: :department__finance_administration
-                description: ''
+                description: ""
                 status: :default_status_new
                 type: :default_type_task
                 duration: 2
@@ -431,7 +431,7 @@ projects:
               - start: 0
                 t_subject: Create sponsorship brochure and hand-outs
                 assigned_to: :user__marko_marketing
-                description: ''
+                description: ""
                 status: :default_status_new
                 type: :default_type_task
                 duration: 4
@@ -442,7 +442,7 @@ projects:
             t_subject: Invite attendees to conference
             reference: :invite_attendees_to_conference
             assigned_to: :user__evan_events
-            description: ''
+            description: ""
             status: :default_status_new
             type: :default_type_task
             duration: 1
@@ -457,7 +457,7 @@ projects:
             t_subject: Setup conference website
             reference: :setup_conference_website
             assigned_to: :user__wanda_web
-            description: ''
+            description: ""
             status: :default_status_new
             type: :default_type_task
             duration: 11
@@ -471,7 +471,7 @@ projects:
       - start: 15
         t_subject: Test and quality-check the conference website
         assigned_to: :user__tessa_tester
-        description: ''
+        description: ""
         status: :default_status_new
         type: :default_type_task
         duration: 3
@@ -484,7 +484,7 @@ projects:
             type: follows
       - start: 15
         t_subject: Conference
-        description: ''
+        description: ""
         status: :default_status_scheduled
         type: :default_type_milestone
         duration: 1
@@ -496,7 +496,7 @@ projects:
         t_subject: Follow-up tasks
         reference: :follow_up_tasks
         assigned_to: :user__adam_admin
-        description: ''
+        description: ""
         status: :default_status_to_be_scheduled
         type: :default_type_summary_task
         duration: 11
@@ -506,7 +506,7 @@ projects:
             t_subject: Upload presentations to website
             reference: :upload_presentations_to_website
             assigned_to: :user__wanda_web
-            description: ''
+            description: ""
             status: :default_status_new
             type: :default_type_task
             duration: 10
@@ -690,27 +690,27 @@ projects:
         hierarchy: true
     boards:
       kanban:
-        t_name: 'Kanban board'
+        t_name: "Kanban board"
         statuses:
           - :default_status_new
           - :default_status_in_progress
           - :default_status_closed
           - :default_status_rejected
       basic:
-        t_name: 'Task board'
+        t_name: "Task board"
         lists:
-          - t_name: 'Wish list'
+          - t_name: "Wish list"
             work_packages:
               - :new_website
               - :ssl_certificate
               - :choose_content_management_system
-          - t_name: 'Short list'
+          - t_name: "Short list"
             work_packages:
               - :new_login_screen
-          - t_name: 'Priority list for today'
+          - t_name: "Priority list for today"
             work_packages:
               - :set_up_staging_environment
-          - t_name: 'Never'
+          - t_name: "Never"
             work_packages:
               - :wrong_hover_color
 
@@ -718,23 +718,23 @@ projects:
       row_count: 6
       column_count: 2
       widgets:
-        - identifier: 'custom_text'
+        - identifier: "custom_text"
           start_row: 1
           end_row: 2
           start_column: 1
           end_column: 3
           options:
-            t_name: 'Welcome'
+            t_name: "Welcome"
             text: '![Teaser](##attachment:"scrum_project_teaser.png")'
           attachments:
             - scrum_project_teaser.png
-        - identifier: 'custom_text'
+        - identifier: "custom_text"
           start_row: 2
           end_row: 5
           start_column: 1
           end_column: 2
           options:
-            t_name: 'Getting started'
+            t_name: "Getting started"
             t_text: |
               We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -750,38 +750,38 @@ projects:
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
               Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-        - identifier: 'project_status'
+        - identifier: "project_status"
           start_row: 2
           end_row: 3
           start_column: 2
           end_column: 3
-        - identifier: 'project_description'
+        - identifier: "project_description"
           start_row: 3
           end_row: 4
           start_column: 2
           end_column: 3
-        - identifier: 'members'
+        - identifier: "members"
           start_row: 4
           end_row: 5
           start_column: 2
           end_column: 3
           options:
-            name: 'Members'
-        - identifier: 'work_packages_overview'
+            name: "Members"
+        - identifier: "work_packages_overview"
           start_row: 5
           end_row: 6
           start_column: 1
           end_column: 3
           options:
-            t_name: 'Work packages'
-        - identifier: 'work_packages_table'
+            t_name: "Work packages"
+        - identifier: "work_packages_table"
           start_row: 6
           end_row: 7
           start_column: 1
           end_column: 3
           options:
-            t_name: 'Project plan'
-            queryId: '##query.id:scrum_project__query__project_plan'
+            t_name: "Project plan"
+            queryId: "##query.id:scrum_project__query__project_plan"
     work_packages:
       - t_subject: New login screen
         reference: :new_login_screen
@@ -1105,29 +1105,26 @@ time_entry_activities:
 types:
   - reference: :default_type_task
     t_name: Task
-    is_default: true
     color_name: :default_color_blue
     is_in_roadmap: true
     position: 1
   - reference: :default_type_milestone
     t_name: Milestone
-    is_default: true
     color_name: :default_color_green_light
     is_milestone: true
     position: 2
   - reference: :default_type_summary_task
     t_name: Summary task
-    is_default: true
-    color_name: 'orange-5'
+    color_name: "orange-5"
     position: 3
   - reference: :default_type_feature
     t_name: Feature
-    color_name: 'indigo-5'
+    color_name: "indigo-5"
     is_in_roadmap: true
     position: 4
   - reference: :default_type_epic
     t_name: Epic
-    color_name: 'violet-5'
+    color_name: "violet-5"
     is_in_roadmap: true
     position: 5
   - reference: :default_type_user_story
@@ -1137,14 +1134,14 @@ types:
     position: 6
   - reference: :default_type_bug
     t_name: Bug
-    color_name: 'red-7'
+    color_name: "red-7"
     is_in_roadmap: true
     position: 7
 
 global_queries:
   - t_name: "Epic children: User stories and bugs"
     reference: :default_type_epic__children_query
-    parent: '{id}'
+    parent: "{id}"
     hidden: true
     public: false
     type:
@@ -1163,7 +1160,7 @@ global_queries:
       - sprint
   - t_name: "User story children: Tasks"
     reference: :default_type_user_story__children_query
-    parent: '{id}'
+    parent: "{id}"
     hidden: true
     public: false
     sort_by:
@@ -1188,6 +1185,12 @@ type_configuration:
     form_configuration:
       - t_group_name: "Tasks"
         query: :default_type_user_story__children_query
+  - type: :default_type_bug
+    merge_form_configuration: true
+    form_configuration:
+      - group_name: :details
+        attributes:
+          - observed_in_versions
 
 workflows:
   - type: :default_type_task

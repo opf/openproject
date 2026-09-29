@@ -20,8 +20,12 @@ sv:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filterbas DN måste finnas i LDAP-anslutningens bas DN
     models:
-      ldap_groups/synchronized_filter: Synkroniseringsfilter för LDAP-grupper
-      ldap_groups/synchronized_group: Synkroniserad LDAP-grupp
+      ldap_groups/synchronized_filter:
+        one: Synkroniseringsfilter för LDAP-grupper
+        other: LDAP-gruppens synkroniseringsfilter
+      ldap_groups/synchronized_group:
+        one: Synkroniserad LDAP-grupp
+        other: Synkroniserade LDAP-grupper
   ee:
     upsell:
       ldap_groups:

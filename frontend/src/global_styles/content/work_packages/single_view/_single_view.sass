@@ -66,12 +66,15 @@
   @include grid-content
   @include grid-size(expand)
   @include details-pane--form-field
+  min-width: 0
+  min-height: 0
 
 
   // Style edit field to look like the display field.
   // Thus we avoid a visual jump when editing the subject.
   &.-active input
     @include toolbar-input-styles
+    width: 100%
     padding: 5px 0 5px 5px
 
 .work-packages--details-content

@@ -40,10 +40,9 @@ module Import
             jira_entity_id: jira_leg&.id,
             jira_entity_class: jira_leg&.class&.to_s,
             jira_import_id: jira_import.id,
-            jira_id: jira_import.jira.id,
             uses_existing: }
         ],
-        unique_by: %i[op_entity_id op_entity_class jira_id]
+        unique_by: %i[jira_import_id op_entity_id op_entity_class]
       )
     end
   end

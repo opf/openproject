@@ -66,6 +66,8 @@ sv:
 
       '
     login_with_auth_provider: eller logga in med ditt befintliga konto
+    omniauth_direct_login_continue: Fortsätt till inloggningen
+    omniauth_direct_login_redirecting: Omdirigerar dig till din identitetsleverantör…
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
     signup_title: Skapa ett konto i %{app_title}
     signup_with_external_account: Registrera dig med ett externt konto
@@ -76,6 +78,28 @@ sv:
         dependencies: Beroenden
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Aktiv
+        injects_type_template: Infoga mall för arbetspaketstyp
+        label: Etikett
+        prompt: Prompt
+        types: Arbetspaketstyper
+        usage_scope: Omfattning
+      ai/text_transform_run:
+        action: Åtgärd
+        cancel_requested: Avbrott har begärts
+        error_message: Felmeddelande
+        finished_at: Slutförd
+        input: Indata
+        status: Status
+        system_prompt: Systeminstruktion
+        user: Användare
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Typ
+        payload: Datainnehåll
+        run: Körning
+        seq: Sekvensnummer
       announcements:
         show_until: Visa fram till
       attachment:
@@ -118,7 +142,9 @@ sv:
         is_for_all: För alla projekt
         is_required: Krävs
         max_length: Maximal längd
+        max_value: Högsta värde
         min_length: Minsta längd
+        min_value: Lägsta värde
         multi_value: Tillåt flerval
         possible_values: Möjliga värden
         regexp: Reguljära uttryck
@@ -236,6 +262,7 @@ sv:
         project_creation_wizard_status_when_submitted: Status vid inskickning
         project_creation_wizard_work_package_comment: Kommentar till arbetspaket
         project_creation_wizard_work_package_type: Arbetspaketstyp
+        project_types: Typer
         public_value:
           false: privat
           title: Synlighet
@@ -255,6 +282,7 @@ sv:
         templated_value:
           false: avmarkerad som mall
           true: markerad som mall
+        type_variant: Variant av arbetspaketstyp
         types: Typer
         versions: Versioner
         work_packages: Arbetspaket
@@ -275,6 +303,8 @@ sv:
         start_gate_name: Namn på fasgrind för start
       project_custom_field:
         custom_field_section: Sektion
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Underordnade arbetspaket
         column_names: Kolumner
@@ -342,18 +372,27 @@ sv:
       token/named:
         token_name: Namn på token
       type:
-        attribute_groups: Ställ in formulär
-        children: Varianter
+        allow_project_variants: Tillåt projektspecifika varianter
         color: Färg
-        dependent_configuration_links: Länkade typer
-        description: Standardtext för beskrivning
-        is_default: Aktiverad som standard för nya projekt
         is_in_roadmap: Visas som standard i roadmap
         is_milestone: Är milstolpe
-        parent: Överordnad typ
-        patterns: Mönster
+        project_types: Projekt
+        variants: Varianter
       type/configuration_link:
         source: Källtyp
+      type_variant:
+        attribute_groups: Formulär
+        default_work_package_description: Standardtext för beskrivning
+        defaults_source: Källa för standardvärden
+        enabled_in_new_projects: Aktiv i nya projekt
+        form_configuration_source: Källa för formulär
+        patterns: Mönster
+        pdf_export_source: Källa för PDF-export
+        project_attributes_source: Källa för projektattribut
+        project_types: Projekt som använder den här varianten
+        variant: Variant
+        variant_name: Namn
+        workflows_source: Källa för arbetsflöden
       user:
         admin: Administratör
         auth_source: Källa för autentisering
@@ -452,6 +491,7 @@ sv:
           true: inkludera arbetsfria dagar
         journal_internal: Intern journal
         notify: Avisera
+        observed_in_versions: Observerad i versioner
         parent: Överordnad
         parent_issue: Överordnad
         parent_work_package: Överordnad
@@ -527,6 +567,8 @@ sv:
         is_for_all_cannot_modify: gäller alla projekt och kan därför inte ändras.
         ldap_managed: Den här avdelningen hanteras av LDAP-synkronisering och kan inte ändras manuellt.
         less_than_or_equal_to: måste vara mindre än eller lika med %{count}.
+        migration_failed: 'Det gick inte att byta variant för projektet ”%{project}”: %{reason}'
+        migration_target_invalid: Den valda varianten måste vara en annan variant av samma typ som alla berörda projekt kan använda.
         not_a_date: är inte är ett giltigt datum.
         not_a_datetime: är inte en giltig datumtid.
         not_a_number: är inte ett nummer.
@@ -548,7 +590,9 @@ sv:
         regex_list_invalid: Raderna %{invalid_lines} kunde inte tolkas som reguljära uttryck.
         regex_match_failed: matchar inte det reguljära uttrycket %{expression}.
         smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal längd.
+        smaller_than_or_equal_to_max_value: måste vara mindre än eller lika med det högsta värdet.
         ssrf_filtered: bryter mot SSRF-policyn för den här OpenProject-instansen.
+        status_transition_invalid: är ogiltig eftersom det finns någon giltig övergång ifrån den gamla till nya statusen för den aktuella användarens roller.
         system_wide_non_working_day_exists: står i konflikt med en befintlig systemomfattande arbetsfri dag för detta datum.
         taken: har redan använts.
         too_long: är för långt (maximalt är %{count} tecken).
@@ -719,9 +763,8 @@ sv:
               blank: Vänligen välj ett projekt.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: måste vara en typ på högsta nivån. Ett projekt använder rottyper och löser en variant separat.
             variant:
+              must_be_owned_by_the_project: får inte vara en variant som ägs av ett annat projekt.
               must_belong_to_the_type: måste vara en variant av den typ som projektet använder.
         queries/filters/base:
           attributes:
@@ -794,6 +837,7 @@ sv:
               hours_per_day_are_missing: Antalet timmar per dag måste anges.
               hours_per_day_is_out_of_bounds: Antalet timmar per dag får inte överstiga 24
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregeringsperioden måste vara mellan %{min} och %{max} minuter.
+              password_login_requires_sso_provider: Begränsningar för lösenordsinloggning kräver minst en tillgänglig SSO-leverantör.
               previous_working_day_changes_unprocessed: De föregående ändringarna av konfigurationen för arbetsdagar har ännu inte tillämpats.
               working_days_are_missing: Minst en veckodag måste definieras som arbetsdag.
         status:
@@ -811,7 +855,7 @@ sv:
               blank: Ange ett tokennamn
               format: "%{message}"
               in_use: Tokennamnet används redan. Välj ett annat
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: Ogiltig attribut för arbetspaket används.
@@ -819,17 +863,33 @@ sv:
               duplicate_group: Namnet %{group} används redan. Gruppnamn måste vara unika.
               group_without_name: Gruppnamnet får inte vara tomt.
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
-            parent:
-              cannot_be_self: kan inte vara typen själv.
-              cannot_change_while_used_by_projects: kan inte ändras medan projekt fortfarande använder den här typen.
-              cannot_have_children: kan inte anges eftersom den här typen redan har varianter.
-              must_be_a_root: måste själv vara en typ på högsta nivån. Typer kan endast kapslas en nivå.
-              standard_type_must_be_root: kan inte anges för standardtypen.
+            base:
+              borrowed_by_variants: Kan inte tas bort medan dess konfiguration återanvänds av %{names}.
+              is_default_variant: Standardkonfigurationen för en typ kan inte tas bort.
+              project_variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
+              restrict_dependent_destroy:
+                has_many: Kan inte tas bort medan projekt fortfarande använder den.
+            defaults_source_id:
+              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
+              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: kan inte anges för en variant som ägs av ett projekt.
+              taken: är redan angivet för en annan konfiguration av den här typen.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
+              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             patterns:
               invalid_tokens: Ett eller flera attribut i fältet är ogiltiga. Korrigera attributen innan du sparar.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
+              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
+              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
+            variant:
+              must_belong_to_the_type: måste vara en variant av den här typen.
+            workflows_source_id:
+              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
               would_create_cycle: skulle länka dessa konfigurationer i en slinga.
         user:
           attributes:
@@ -935,6 +995,9 @@ sv:
             start_date:
               cannot_be_null: kan inte anges till null eftersom slutdatum och varaktighet är kända.
               violates_relationships: kan endast anges till %{soonest_start} eller senare för att inte skada arbetspaketets relationer.
+            status:
+              status_invalid_in_type: är ogiltig eftersom aktuell status inte existerar i den här typen.
+              status_transition_invalid: är ogiltig eftersom det finns någon giltig övergång ifrån den gamla till nya statusen för den aktuella användarens roller.
             status_id:
               status_invalid_in_type: är ogiltig eftersom aktuell status inte existerar i den här typen.
               status_transition_invalid: är ogiltig eftersom det finns någon giltig övergång ifrån den gamla till nya statusen för den aktuella användarens roller.
@@ -949,70 +1012,315 @@ sv:
           one: 1 fel förhindrade denna %{model} från att sparas
           other: "%{count} fel förhindrade denna %{model} från att sparas"
     models:
-      attachment: Fil
+      action:
+        one: Åtgärd
+        other: Åtgärder
+      ai/text_transform_action:
+        one: Åtgärd för textomvandling
+        other: Åtgärder för textomvandling
+      ai/text_transform_run:
+        one: Textbearbetningskörning
+        other: Textbearbetningskörningar
+      ai/text_transform_run_event:
+        one: Händelse i textbearbetningskörning
+        other: Händelser i textbearbetningskörningar
+      announcement:
+        one: Meddelande
+        other: Meddelanden
+      anonymous_user:
+        one: Anonym användare
+        other: Anonyma användare
+      attachment:
+        one: Fil
+        other: Filer
       attribute_help_text:
         one: Hjälptext för attribut
         other: Hjälptexter för attribut
+      attribute_help_text/project:
+        one: Hjälptext för projektattribut
+        other: Hjälptexter för projektattribut
+      attribute_help_text/user:
+        one: Hjälptext för användarattribut
+        other: Hjälptexter för användarattribut
+      attribute_help_text/work_package:
+        one: Hjälptext för arbetspaketsattribut
+        other: Hjälptexter för arbetspaketsattribut
       auth_provider:
         one: Autentiseringsleverantör
         other: Autentiseringsleverantörer
-      category: Kategori
-      color: Färg
-      comment: Kommentar
-      custom_action: Anpassad åtgärd
-      custom_field: Anpassat fält
-      customized: Anpassad
-      doorkeeper/application: OAuth-autentisering
+      backup:
+        one: Säkerhetskopia
+        other: Säkerhetskopior
+      capability:
+        one: Funktion
+        other: Funktioner
+      category:
+        one: Kategori
+        other: Kategorier
+      change:
+        one: Filändring
+        other: Filändringar
+      changeset:
+        one: Uppdateringar
+        other: Uppdateringar
+      color:
+        one: Färg
+        other: Färger
+      comment:
+        one: Kommentar
+        other: Kommentarer
+      custom_action:
+        one: Anpassad åtgärd
+        other: Anpassade åtgärder
+      custom_field:
+        one: Anpassat fält
+        other: Anpassade fält
+      custom_field/hierarchy/item:
+        one: Hierarkiobjekt
+        other: Hierarkiobjekt
+      custom_field_section:
+        one: Avsnitt för anpassade fält
+        other: Avsnitt för anpassade fält
+      custom_option:
+        one: Alternativ för anpassat fält
+        other: Alternativ för anpassade fält
+      custom_style:
+        one: Design
+        other: Designer
+      day:
+        one: Dag
+        other: Dagar
+      deleted_user:
+        one: Raderad användare
+        other: Borttagna användare
+      design_color:
+        one: Designfärg
+        other: Designfärger
+      doorkeeper/application:
+        one: OAuth-autentisering
+        other: OAuth applikationer
+      emoji_reaction:
+        one: Emoji-reaktion
+        other: Emoji-reaktioner
       enterprise_token:
         one: Enterprise-token
         other: Enterprise-token
-      forum: Forum
-      global_role: Global roll
-      group: Grupp
+      enterprise_trial:
+        one: Enterprise-provperiod
+        other: Enterprise-provperioder
+      enumeration:
+        one: Uppräkning
+        other: Textvärden
+      export:
+        one: Export
+        other: Exporter
+      export_setting:
+        one: Exportinställning
+        other: Exportinställningar
+      forum:
+        one: Forum
+        other: Forum
+      global_role:
+        one: Global roll
+        other: Globala roller
+      group:
+        one: Grupp
+        other: Grupper
+      group_custom_field:
+        one: Anpassat gruppfält
+        other: Anpassade gruppfält
+      health_report:
+        one: Hälsorapport
+        other: Hälsorapporter
       issue_priority:
         one: Prioritet
         other: Prioriteter
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Mötesdeltagare
-      member: Medlem
-      message: Meddelande
-      news: Nyheter
+      ldap_auth_source:
+        one: LDAP-anslutning
+        other: LDAP-anslutningar
+      mcp_configuration:
+        one: MCP-konfiguration
+        other: MCP-konfigurationer
+      member:
+        one: Medlem
+        other: Medlemmar
+      menu_item:
+        one: Menyalternativ
+        other: Menyobjekt
+      menu_items/wiki_menu_item:
+        one: Wiki menyalternativ
+        other: Wiki-menyobjekt
+      message:
+        one: Meddelande
+        other: Meddelanden
+      news:
+        one: Nyheter
+        other: Nyheter
+      non_working_day:
+        one: Arbetsfri dag
+        other: Arbetsfria dagar
       notification:
         one: Avisering
         other: Aviseringar
-      placeholder_user: Platshållaranvändare
+      notification_setting:
+        one: Aviseringsinställning
+        other: Inställningar för aviseringar
+      oauth_client:
+        one: OAuth-klient
+        other: OAuth-klienter
+      oauth_client_token:
+        one: OAuth-klienttoken
+        other: OAuth-klienttoken
+      persisted_query:
+        one: Beständig fråga
+        other: Beständiga frågor
+      persisted_view:
+        one: Beständig vy
+        other: Beständiga vyer
+      placeholder_user:
+        one: Platshållaranvändare
+        other: Platshållaranvändare
+      plugin_auth_provider:
+        one: Autentiseringsleverantör från insticksmodul
+        other: Autentiseringsleverantörer från insticksmoduler
+      principal:
+        one: Principal
+        other: Principaler
       project:
         one: Projekt
         other: Projekt
+      project/phase:
+        one: Projektfas
+        other: Projektfaser
+      project/phase_definition:
+        one: Definition av projektfas
+        other: Definitioner av projektfaser
+      project_custom_field:
+        one: Projektattribut
+        other: Projektattribut
+      project_custom_field_section:
+        one: Avsnitt för projektattribut
+        other: Avsnitt för projektattribut
       project_query:
         one: Projektlista
         other: Projektlistor
-      query: Anpassad fråga
-      reminder: Påminnelse
+      project_query_role:
+        one: Roll i projektlista
+        other: Roller i projektlista
+      project_role:
+        one: Projektroll
+        other: Projektroller
+      query:
+        one: Anpassad fråga
+        other: Anpassade frågor
+      relation:
+        one: Relation
+        other: Relationer
+      reminder:
+        one: Påminnelse
+        other: Påminnelser
+      remote_identity:
+        one: Fjärridentitet
+        other: Fjärridentiteter
+      repository:
+        one: Versionsarkiv
+        other: Versionsarkiv
+      repository/git:
+        one: Git-arkiv
+        other: Git-arkiv
+      repository/subversion:
+        one: Subversion-arkiv
+        other: Subversion-arkiv
       role:
         one: Roll
         other: Roll
       scim_client:
         one: SCIM-klient
         other: SCIM-klienter
-      status: Arbetspaketstatus
+      service_account:
+        one: Tjänstekonto
+        other: Tjänstekonton
+      sessions/user_session:
+        one: Session
+        other: Sessioner
+      setting:
+        one: Inställning
+        other: Inställningar
+      status:
+        one: Arbetspaketstatus
+        other: Arbetspaketstatus
+      system_user:
+        one: Systemanvändare
+        other: Systemanvändare
       token/api:
         one: Åtkomsttoken
         other: Åtkomstnycklar
+      token/base:
+        one: Token
+        other: Token
+      token/ical:
+        one: iCalendar-token
+        other: iCalendar-token
       token/rss:
         one: RSS-token
         other: RSS-token
       type:
         one: Typ
         other: Typer
-      user: Användare
-      version: Version
-      wiki: Wiki
-      wiki_page: Wiki-sida
-      work_package: Arbetspaket
-      workflow: Arbetsflöde
+      type_variant:
+        one: Variant
+        other: Varianter
+      user:
+        one: Användare
+        other: Användare
+      user_custom_field:
+        one: Användarattribut
+        other: Användarattribut
+      user_custom_field_section:
+        one: Avsnitt för användarattribut
+        other: Avsnitt för användarattribut
+      user_non_working_time:
+        one: Arbetsfri tid
+        other: Arbetsfria tider
+      user_password:
+        one: Lösenord
+        other: Lösenord
+      user_preference:
+        one: Användarinställning
+        other: Användarinställningar
+      user_query:
+        one: Användarlista
+        other: Användarlistor
+      user_working_hours:
+        one: Arbetstider
+        other: Arbetstider
+      version:
+        one: Version
+        other: Versioner
+      version_custom_field:
+        one: Anpassat fält för version
+        other: Anpassade fält för versioner
+      view:
+        one: Vy
+        other: Vyer
+      wiki:
+        one: Wiki
+        other: Wikier
+      wiki_page:
+        one: Wiki-sida
+        other: Wiki-sidor
+      work_package:
+        one: Arbetspaket
+        other: Arbetspaket
+      work_package_custom_field:
+        one: Anpassat fält för arbetspaket
+        other: Anpassade fält för arbetspaket
+      work_package_role:
+        one: Arbetspaketsroll
+        other: Arbetspaketsroller
+      workflow:
+        one: Arbetsflöde
+        other: Arbetsflöden
   activities:
     index:
       no_results_title_text: Det har inte förekommit någon aktivitet för projektet inom denna tidsram.
@@ -1092,7 +1400,12 @@ sv:
     banners:
       environment_configured_readonly: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
     custom_styles:
+      color_groups:
+        base_colors: Basfärger
+        main_menu: Huvudmeny i sidofältet
+        top_header_colors: Sidhuvudets färger
       color_theme: Färgtema
+      color_theme_caption: Använd något av OpenProjects standardteman eller skapa ett eget tema med dina färger genom att välja Anpassat tema.
       color_theme_custom: "(Anpassad)"
       colors:
         accent-color: Accent
@@ -1101,12 +1414,17 @@ sv:
         main-menu-bg-selected-background: Huvudmeny när vald
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
+      default_colors:
+        description: Ange en färgpalett som kan användas på andra ställen i programmet. Färgerna blir till exempel tillgängliga när du väljer en färg för en status eller typ.
+      edit_color: Redigera %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
         file_too_large: är för stor (maximal storlek är %{count} MB).
       instructions:
         accent-color: Färg för länkar och andra måttligt framhävda element.
+        header-bg-color: Standardbakgrundsfärg för appens sidhuvud.
         main-menu-bg-color: Bakgrundsfärg på den vänstra sidomenyn.
+        main-menu-bg-selected-background: Bakgrundsfärg för markerade menyalternativ.
         primary-button-color: Stark accentfärg som används för den viktigaste knappen på en skärm.
       manage_colors: Redigera alternativ för valbara färger
       tab_branding: Profilering
@@ -1174,6 +1492,7 @@ sv:
         ssl_error: 'SSL-fel vid anslutning till Jira-servern: %{message}'
         ssrf_block_doc_link: Se vår [dokumentation](docs_url).
         ssrf_blocked: 'Anslutningen blockerades: Jira-värden matchar en privat IP-adress. Om Jira-instansen körs i ett internt nätverk tillåter du dess IP-adress via miljövariabeln OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira-API:et saknar slutpunkt på %{path} (status %{status})
       columns:
         added: Tillagd
         creator: Skapare
@@ -1225,6 +1544,7 @@ sv:
           finalizing: Slutför
           finalizing_done: Slutförd
           finalizing_error: Fel vid slutförande
+          import_aborting: Avbryter
           import_error: Fel under import
           import_scope: Välj omfattning
           imported: Granskningsläge
@@ -1236,13 +1556,13 @@ sv:
           projects_meta_done: Data insamlade
           projects_meta_error: Fel vid hämtning av projektdata
           projects_meta_fetching: Hämtar projektdata
-          revert_cancelled: Återställningen avbröts
-          revert_cancelling: Avbryter återställning
           revert_error: Fel under återställning
           reverted: Återställd
           reverting: Återställer
+        step_not_available: Den här åtgärden är inte tillgänglig i importkörningens aktuella tillstånd.
         title: Importkörning
         wizard:
+          button_abort: Avbryt
           button_retry: Försök igen
           finalize_dialog:
             confirm: Jag förstår att den här åtgärden inte kan ångras
@@ -1286,11 +1606,14 @@ sv:
             title: Återställa den här importen permanent?
           sections:
             confirm_import:
+              button_importing: Importerar data
+              button_revert: Återställ import
               button_start: Starta import
               caption: Granska importinställningarna och starta importen
               caption_done: Slutförd
               caption_done_info: Alla data har importerats
               description: Du är på väg att starta en importkörning med följande inställningar.
+              info_importing: Importen pågår nu. Om du stänger den här fliken stoppas den inte, och du kan alltid återvända till importens status genom att öppna körningen.
               label_available_data: Data som ska importeras
               label_import_data: Importerar för närvarande
               label_progress: Import pågår...
@@ -1311,6 +1634,7 @@ sv:
               button_done: Godkänn import
               button_revert: Återställ import
               caption: Granska importkörningen eller återställ importen
+              info: Importerade data är för närvarande i granskningsläge. Klicka på ”Godkänn import” för att göra importen permanent eller ”Återställ import” för att ångra alla ändringar som gjorts i den här importkörningen.
               label_finalize_import: Godkänn import
               label_finalizing: Godkänner import...
               label_finalizing_done: Importen har godkänts.
@@ -1318,7 +1642,6 @@ sv:
               label_revert: Återställ import
               label_revert_progress: Återställer import...
               label_reverted: Importen återställdes.
-              preview_description: Importerade data är för närvarande i granskningsläge. Klicka på ”Godkänn import” för att göra importen permanent eller ”Återställ import” för att ångra alla ändringar som gjorts i den här importkörningen.
               stats:
                 other_settings:
                   label: Övriga inställningar
@@ -1591,6 +1914,41 @@ sv:
         page_header:
           description: Välj mellan klassiska numeriska arbetspakets-ID:n och semantiska projektspecifika identifierare där projektidentifieraren läggs före arbetspakets-ID:t.
         success_banner: Formatet för arbetspaketsidentifierare uppdaterades.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Användarna kommer inte längre att kunna köra den här åtgärden i rich text-redigeraren.
+        heading: Är du säker på att du vill ta bort åtgärden ”%{label}”?
+        title: Ta bort åtgärd för textomvandling
+      form:
+        injects_type_template_caption: Om detta markeras läggs beskrivningsmallen för arbetspaketstypen automatiskt till i prompten. Prompten bör innehålla instruktioner om vad som ska göras med mallen.
+        label_caption: Detta är namnet som visas för användarna i redigeraren.
+        select_types: Välj typer
+        types_caption: Lägg till de arbetspaketstyper som åtgärden ska vara tillgänglig för. Alla tillgängliga varianter inkluderas automatiskt.
+        usage_scope_caption: 'Du kan begränsa var åtgärden är synlig: överallt (inklusive kommentarer, wikier och anpassade fält), för alla arbetspaketstyper eller för vissa arbetspaketstyper.'
+      index:
+        description: Åtgärder för textomvandling ger användarna LLM-drivna funktioner för att skriva, ordna och granska text överallt där rich text-redigeraren används, till exempel i arbetspaketsbeskrivningar, kommentarer och wikisidor. Du skapar nya åtgärder med egna promptar och instruktioner.
+        label_add_action: Åtgärd
+        label_aria_add_action: Lägg till åtgärd för textomvandling
+      index_component:
+        blank_slate:
+          description: Lägg till en åtgärd för att visa den här
+          title: Inga åtgärder för textomvandling har konfigurerats ännu
+        disabled_warning: Åtgärder för textomvandling är inaktiverade. Följande åtgärder kommer inte att vara tillgängliga någonstans.
+        label_disable_all: Inaktivera alla
+        label_enable_all: Aktivera alla
+        title: Åtgärder
+      new:
+        title: Ny åtgärd för textomvandling
+      row_component:
+        label_actions: Åtgärdsmeny
+        label_toggle: Växla %{label}
+        scope_specific_work_package_types:
+          one: "%{count} arbetspaketstyp"
+          other: "%{count} arbetspaketstyper"
+      usage_scopes:
+        all_work_package_types: Alla arbetspaketstyper
+        everywhere: Överallt
+        specific_work_package_types: Specifika arbetspaketstyper
     workflows:
       blankslate:
         description: Lägg till statusar för att börja konfigurera arbetsflöden för den här rollen
@@ -1742,6 +2100,7 @@ sv:
     custom_field: Anpassat fält
     custom_options: Möjliga värden
     custom_values: Anpassade fält
+    customized: Anpassad
     date: Datum
     dates_interval: Datumintervall
     default_columns: Standardkolumnerna
@@ -1768,6 +2127,7 @@ sv:
     is_default: Standardvärde
     is_for_all: För alla projekt
     issue: Arbetspaket
+    jira: Jira
     journal: Journal
     journal_notes: Kommentar
     lastname: Efternamn
@@ -1800,6 +2160,7 @@ sv:
     start_date: Startdatum
     state: Tillstånd
     status: Status
+    status_id: Status
     subject: Ämne
     summary: Sammanfattning
     template: Mall
@@ -1839,6 +2200,7 @@ sv:
     label_delete_token: Ta bort token för säkerhetskopia
     label_reset_token: Återställ token för säkerhetskopia
     label_token_users: Följande användare har aktiva token för säkerhetskopiering
+    missing_attachments_notice_html: "<br/> <b>%{file_count} kunde inte läsas</b> och utelämnades från säkerhetskopian. Arkivets namn fick suffixet ”-incomplete” för att visa att vissa bilagor saknas.\n"
     reset_token:
       action_create: Skapa
       action_reset: Återställ
@@ -2129,6 +2491,9 @@ sv:
       min_max:
         all: 0 innebär ingen begränsning
         project: 0 innebär ingen begränsning
+      min_max_value:
+        all: Lämna tomt för att inte begränsa
+        project: Lämna tomt för att inte begränsa
       multi_select:
         all: Tillåter användaren att tilldela flera värden till det här anpassade fältet.
         project: Tillåter användaren att tilldela flera värden till det här attributet.
@@ -2321,8 +2686,12 @@ sv:
   description_available_columns: Tillgängliga kolumner
   description_category_reassign: Välj kategori
   description_choose_project: Projekt
-  description_compare_from: Jämför formulär
-  description_compare_to: Jämför med
+  description_compare_changeset_from: Jämför från ändringsuppsättning
+  description_compare_changeset_to: Jämför med ändringsuppsättning
+  description_compare_specific_version_from: Jämför från version %{version}
+  description_compare_specific_version_to: Jämför med version %{version}
+  description_compare_version_from: Jämför från version
+  description_compare_version_to: Jämför med version
   description_current_position: 'Du är här: '
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
@@ -2387,7 +2756,6 @@ sv:
       custom_actions: Anpassade åtgärder
       custom_field_hierarchies: Hierarkier
       customize_life_cycle: Anpassa livscykeln
-      date_alerts: Datumaviseringar
       define_custom_style: Anpassat tema och logotyp
       edit_attribute_groups: Redigera attributgrupper
       gantt_pdf_export: PDF-export av Gantt
@@ -2464,14 +2832,12 @@ sv:
         description: Hierarkiska anpassade fält gör det möjligt att organisera hierarkiska strukturer i arbetspaket och projekt med hjälp av flernivålistor.
       customize_life_cycle:
         description: Skapa och organisera andra projektfaser än de som tillhandahålls av PM2:s projektcykelplanering.
-      date_alerts:
-        description: Med datumaviseringar får du meddelanden om kommande start- eller slutdatum så att du aldrig missar eller glömmer en viktig tidsfrist.
       define_custom_style:
         description: Anpassa din OpenProject-installation med din egen logotyp och dina egna färger.
         more_info: 'Obs: logotypen som används kommer att vara allmänt tillgänglig.'
         title: Anpassat färgtema och logotyp
       edit_attribute_groups:
-        description: 'Anpassa formulärkonfigurationen med dessa ytterligare tillägg:'
+        description: 'Anpassa formuläret med dessa ytterligare tillägg:'
         features:
           groups: Lägg till nya attributavsnitt
           related: Lägg till en tabell med relaterade arbetspaket
@@ -2549,18 +2915,17 @@ sv:
   error_attribute_not_highlightable: 'Attribut(en) kan inte markeras: %{attributes}'
   error_auth_source_sso_failed: Singelinloggning (SSO) för användaren '%{value}' misslyckades
   error_can_not_archive_project: 'Det här projektet kan inte arkiveras: %{errors}'
-  error_can_not_deactivate_type: Det går inte att inaktivera typen %{type} eftersom den fortfarande används av %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Det finns även arbetspaket i projekt som du inte kan se.
   error_can_not_delete_custom_field: Det går inte att ta bort anpassat fält
   error_can_not_delete_entry: Kunde inte ta bort inlägg
   error_can_not_delete_in_use_archived_undisclosed: Det finns även arbetspaket i arkiverade projekt. Du måste be en administratör att utföra borttagningen för att se vilka projekt som påverkas.
   error_can_not_delete_in_use_archived_work_packages: 'Det finns även arbetspaket i arkiverade projekt. Du måste först återaktivera följande projekt innan du kan ändra attributet för respektive arbetspaket: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Standardtyper kan inte tas bort.
   error_can_not_delete_type:
     explanation: Den här typen innehåller arbetspaket och kan inte tas bort. Du kan se alla berörda arbetspaket i <a target="_blank" href="%{url}">den här vyn</a>.
   error_can_not_find_all_resources: Kunde inte hitta alla relaterade resurser till denna begäran.
   error_can_not_invite_user: Det gick inte att skicka inbjudan till användare.
   error_can_not_remove_role: Denna roll används och kan inte tas bort.
+  error_can_not_remove_type_from_project: Det går inte att ta bort "%{name}" från projektet "%{project}" eftersom det fortfarande används av %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Ett arbetspaket som tilldelats en stängd version kan inte öppnas igen
   error_can_not_unarchive_project: 'Det här projektet kan inte avarkiveras: %{errors}'
   error_check_user_and_role: Välj en användare och en roll.
@@ -2843,16 +3208,16 @@ sv:
     blocks:
       community: OpenProject community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisterade åtgärder för arbetspaket, kommentarer och relationer med MCP Server (Professional-planen).
-            line_1: Flera målversioner för arbetspaket.
-            line_2: Globala gränser och begränsningar för tidsregistreringar (Professional-planen).
-            line_3: Agila förbättringar för massredigering och dragning av backloggkort till externa program.
-            line_4: Wiki-makron tillgängliga i fler textredigerare.
-            line_5: Förbättrad sökning efter arbetspaketsidentifierare.
-            line_6: 'Släppt till Community: Visa relationer i arbetspaketstabeller.'
-          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, till exempel:
+            line_0: Skapa arbetspaket direkt i Dokument.
+            line_1: Sök och filtrera arbetspaket i Backloggar.
+            line_2: Välj om underordnade arbetspaket ska behållas när du tar bort ett arbetspaket.
+            line_3: Använd MCP-servern för att rapportera tid, söka efter arbetspaket med deras visnings-ID med mera (Professional-abonnemang).
+            line_4: Ange planerad arbetsinsats i timmar, dagar, veckor eller månader.
+            line_5: Följ importförloppet när du använder Jira-migreringsverktyget.
+            line_6: Använd datumaviseringar i Community Edition.
+          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, bland annat:
 
             '
         header: Läs om nya funktioner och produktuppdateringar.
@@ -2898,6 +3263,7 @@ sv:
         field_set: "%{field} angavs till %{value}"
         field_updated: "%{field} uppdaterades"
         header: ändringar av %{author}
+        migrated: från Jira
         set_with_diff: "%{field} angavs (%{link})"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
@@ -3026,7 +3392,6 @@ sv:
   label_available_projects: Tillgängliga projekt
   label_backtrace: Stackspårning
   label_backup: Säkerhetskopia
-  label_backup_code: Reservkod
   label_basic_details: Grundläggande detaljer
   label_between: mellan
   label_blocked_by: blockeras av
@@ -3046,7 +3411,6 @@ sv:
   label_calendar_show: Visa kalendern
   label_calendar_subscriptions: Kalenderprenumerationer
   label_calendars_and_dates: Kalendrar och datum
-  label_category: Kategori
   label_change_parent: Ändra överordnad
   label_change_password: Ändra lösenord
   label_change_plural: Förändringar
@@ -3055,9 +3419,9 @@ sv:
   label_change_status_of_user: 'Ändra status för #{username}'
   label_change_view_all: Visa alla ändringar
   label_changes_details: Uppgifter om alla förändringar
-  label_changeset: Uppdateringar
   label_changeset_id: Uppdaterings-ID
   label_changeset_plural: Uppdateringar
+  label_changeset_versions: Versioner av ändringsuppsättningar
   label_check_uncheck_all_in_column: Markera/avmarkera alla i kolumnen
   label_check_uncheck_all_in_row: Markera/avmarkera allt på raden
   label_checked: vald
@@ -3146,6 +3510,7 @@ sv:
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_item: "(borttagen post)"
   label_deleted_custom_option: "(borttaget alternativ)"
+  label_deleted_version: "(borttagen version)"
   label_departments: Organisation
   label_departments_description_html: 'Definiera företagets struktur genom att skapa avdelningar och underavdelningar hierarkiskt. Det gör att du kan återspegla rapporteringsvägar och behålla en tydlig, strukturerad översikt över organisationen i OpenProject. Du kan också importera en befintlig organisationsstruktur via [LDAP-synkronisering av avdelningar](ldap_docs_article).
 
@@ -3204,6 +3569,7 @@ sv:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key skapad %{value} sen
   label_feeds_access_key_type: RSS
+  label_file: Fil
   label_file_plural: Filer
   label_filter: Filter
   label_filter_add: Lägg till filter
@@ -3214,7 +3580,6 @@ sv:
   label_float: Flyttal
   label_folder: Mapp
   label_follows: följer
-  label_form_configuration: Ställ in formulär
   label_formula: Formel
   label_forum_new: Nytt forum
   label_forum_plural: Forum
@@ -3228,7 +3593,6 @@ sv:
   label_git_path: Sökväg till .git katalog
   label_global: Global
   label_global_modules: Globala moduler
-  label_global_role: Global roll
   label_global_roles: Globala roller
   label_go_back: Gå tillbaka en menynivå
   label_go_forward: Öppna undermenyn %{module}
@@ -3297,7 +3661,6 @@ sv:
   label_last_week: förra veckan
   label_latest_revision: Senaste revisionen
   label_latest_revision_plural: Senaste revisionerna
-  label_ldap_auth_source: LDAP-anslutning
   label_ldap_auth_source_new: Ny LDAP-anslutning
   label_ldap_auth_source_plural: LDAP-anslutningar
   label_ldap_authentication: LDAP autentisering
@@ -3324,9 +3687,9 @@ sv:
   label_me: mig
   label_member_all_admin: "(Alla roller på grund av admin status)"
   label_member_new: Ny medlem
+  label_member_of_group: Medlem i grupp
   label_member_of_project: Medlem i projekt
   label_member_plural: Medlemmar
-  label_member_role: Projektroll
   label_membership_added: Medlem tillagd
   label_membership_plural: Medlemsskap
   label_membership_updated: Medlem uppdaterad
@@ -3341,7 +3704,6 @@ sv:
   label_message_new: Nytt meddelande
   label_message_plural: Meddelanden
   label_message_posted: Meddelande tillaggt
-  label_min_max_length: Min - Maxlängd
   label_minute_plural: minuter
   label_missing_api_access_key: Åtkomstnyckel för API saknas
   label_missing_feeds_access_key: Åtkomstnyckel för RSS saknas
@@ -3439,7 +3801,6 @@ sv:
   label_permissions: Behörigheter
   label_permissions_report: Rapport över behörigheter
   label_personalize_page: Anpassa den här sidan
-  label_placeholder_user: Platshållaranvändare
   label_placeholder_user_new: Ny platshållaranvändare
   label_placeholder_user_plural: Platshållaranvändare
   label_planning: Planering
@@ -3502,7 +3863,6 @@ sv:
   label_related_work_packages: Relaterat arbetspaket
   label_relates: Relaterad till
   label_relates_to: Relaterad till
-  label_relation: Relation
   label_relation_actions: Relationsåtgärder
   label_relation_delete: Ta bort relation
   label_relation_edit: Redigera relation
@@ -3555,7 +3915,6 @@ sv:
   label_send_information: Skicka nya inloggningsuppgifter till användaren
   label_send_invitation: Skicka inbjudan
   label_send_test_email: Skicka test E-post
-  label_session: Session
   label_setting_plural: Inställningar
   label_share: Dela
   label_share_project_list: Dela projektlista
@@ -3631,7 +3990,6 @@ sv:
   label_used_by: Används av
   label_used_by_types: Används av typer
   label_used_in_projects: Används i projekt
-  label_user: Användare
   label_user_activity_html: Aktivitet för %{value}
   label_user_and_permission: Användare och behörigheter
   label_user_anonymous: Anonym
@@ -3662,19 +4020,17 @@ sv:
   label_week: Vecka
   label_weighted_item_list: Viktad postlista
   label_what_is_this: Vad är detta?
-  label_widget: Widget
   label_widget_new: Ny widget
   label_wiki_content_added: Wiki-sidan tillagd
   label_wiki_content_updated: Wiki-sidan uppdaterad
   label_wiki_dont_show_menu_item: Visa inte denna wiki-sida i projektets meny
   label_wiki_edit: Wiki redigering
   label_wiki_edit_plural: Wiki redigeringar
-  label_wiki_menu_item: Wiki menyalternativ
   label_wiki_navigation: Wiki-navigering
-  label_wiki_page: Wiki-sida
   label_wiki_page_attachments: Bilagor till Wiki-sida
   label_wiki_page_id: Wiki-sidans ID
   label_wiki_page_plural: Wiki-sidor
+  label_wiki_page_versions: Wiki-sidversioner
   label_wiki_show_index_page_link: Visa undermenyn "Innehållsförteckning"
   label_wiki_show_menu_item: Visa som menyobjekt i projektets meny
   label_wiki_show_new_page_link: Visa undermenyn "Skapa ny underordnad sida"
@@ -3691,7 +4047,6 @@ sv:
   label_work_package_hierarchy: Arbetspaketshierarki
   label_work_package_new: Nytt arbetspaket
   label_work_package_plural: Arbetspaket
-  label_work_package_status: Arbetspaketstatus
   label_work_package_status_new: Ny status
   label_work_package_status_plural: Arbetspaketstatus
   label_work_package_tracking: Arbetspaketsspårning
@@ -3930,6 +4285,7 @@ sv:
   mail_body_account_information: Din kontoinformation
   mail_body_account_information_external: Du kan använda ditt %{value} konto för att logga in.
   mail_body_backup_ready: 'Den säkerhetskopia du begärde är klar. Du kan hämta den här:'
+  mail_body_backup_ready_incomplete: "%{file_count} kunde inte läsas och utelämnades från säkerhetskopian. Det hämtade arkivets namn har suffixet ”-incomplete” för att visa att vissa bilagor saknas.\n"
   mail_body_backup_token_info: Föregående token är inte längre giltig.
   mail_body_backup_token_reset_admin_info: Säkerhetskopieringstoken för användaren "%{user}" har återställts.
   mail_body_backup_token_reset_user_info: Din säkerhetskopieringstoken har återställts.
@@ -4068,6 +4424,7 @@ sv:
       mail_notification: E-postaviseringar
       mails_and_notifications: E-post och aviseringar
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Åtgärder för textomvandling
     quick_add:
       label: Lägg till…
   more_actions: Fler funktioner
@@ -4253,6 +4610,7 @@ sv:
   notice_account_already_activated: Kontot har redan aktiverats.
   notice_account_invalid_credentials: Ogiltig användare eller lösenord
   notice_account_invalid_credentials_or_blocked: Ogiltig användare eller lösenord eller konto är låst på grund av flera misslyckade inloggningsförsök. Om kontot är låst så kommer det bli upplåst inom kort.
+  notice_account_invalid_credentials_sso_hint: Om ditt konto använder enkel inloggning ska du logga in via din identitetsleverantör i stället.
   notice_account_invalid_token: Ogiltig aktiveringsnyckel
   notice_account_lost_email_sent: Ett E-postmeddelande med instruktioner att välja ett nytt lösenord har skickats till dig.
   notice_account_new_password_forced: Ett nytt lösenord krävs.
@@ -4273,7 +4631,6 @@ sv:
   notice_auth_stage_error: Autentiseringssteg '%{stage}' misslyckades.
   notice_auth_stage_verification_error: Kunde inte verifiera steg '%{stage}'.
   notice_auth_stage_wrong_stage: Väntade sig att avsluta autentiseringssteg '%{expected}', men '%{actual}' returnerade.
-  notice_automatic_set_of_standard_type: Ange standard typ automatiskt.
   notice_bad_request: Felaktig förfrågan.
   notice_can_t_change_password: Detta konto använder en extern autentiseringskälla. Omöjligt att ändra lösenordet.
   notice_custom_options_deleted: Alternativet '%{option_value}' och dess %{num_deleted} instanser togs bort.
@@ -4556,9 +4913,18 @@ sv:
     prev: Föregående
     prev_page: Föregående sida
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Kostnad per enhet
+      description: Beskrivning
+      labor: Personalkostnader
+      material: Enhetskostnader
+      sum: Summa
+      total: Totalt
     dialog:
       footer_center:
         caption: Denna text visas på varje sida i mitten av sidfoten.
+        default_hint_project_name: Om fältet lämnas tomt används projektnamnet som standard.
+        default_hint_subject: Om fältet lämnas tomt används arbetspaketets rubrik som standard.
         label: Sidfots-text
       footer_right:
         caption: Den här texten visas på varje sida till höger i sidfoten.
@@ -4568,6 +4934,12 @@ sv:
         label: Avstavning
       hyphenation_language:
         label: Språk och avstavning
+      include_budget:
+        caption: Ta med projektets budgetar och deras planerade poster för enhetskostnader och arbetskostnader.
+        label: Projektbudgetar
+      include_lifecycle:
+        caption: Ta med projektets faser och deras datumintervall.
+        label: Projektlivscykel
       page_orientation:
         caption: Välj sidorientering för PDF-dokumentet.
         label: Sidorientering
@@ -4587,7 +4959,7 @@ sv:
       caption: Arbetspaketsinformation återgiven som en PMflex-artefakt.
       label: PMflex-artefakt
     template_attributes:
-      caption: Alla attribut som finns i den aktuella formulärkonfigurationen med standardmallen.
+      caption: Alla attribut som finns i det aktuella formuläret med standardmallen.
       label: Attribut och beskrivning
     template_contract:
       caption: Arbetspaketsinformation formaterad enligt det tyska standardavtalsformuläret.
@@ -4661,6 +5033,7 @@ sv:
     '
   permission_manage_placeholder_user: Skapa, redigera och ta bort platshållaranvändare
   permission_manage_project_activities: Hantera projektaktivitet
+  permission_manage_project_variants: Hantera projektets egna typvarianter
   permission_manage_public_bcf_queries: Hantera offentliga BCF-frågor
   permission_manage_public_project_queries: Hantera offentliga projektlistor
   permission_manage_public_queries: Hantera offentliga vyer
@@ -4969,23 +5342,42 @@ sv:
           type_label: Typ
           type_placeholder: Välj en typ
         add_type: Lägg till typ
+        add_variant: Lägg till en projektspecifik variant
+        base_type_in_use: Bastyp som används i det här projektet
         empty_state:
           description: Lägg till en typ så att användare kan skapa arbetspaket av den typen i projektet.
           title: Inga typer är aktiva i det här projektet
         form:
           enable_type_in_project: Aktivera typ "%{type}"
         no_results_title_text: Det finns för närvarande inga typer tillgängliga.
+        project_specific_variant: Projektspecifik variant
         remove_from_project: Ta bort från projekt
-        switch_dialog:
+        switch:
           apply: Tilldela
-          description: Välj en annan variant av den här typen att använda i projektet.
+          impact:
+            hidden_heading: Fält som inte längre kommer att visas
+            missing_statuses_description: Arbetsflödet som du byter till har ingen övergång från dessa statusar, så ingen kommer att kunna flytta dessa arbetspaket vidare.
+            missing_statuses_heading: Arbetspaket som fastnar
+            new_heading: Fält som blir tillgängliga
+            nothing_affected: Inga fält eller statusar påverkas.
+            status_count:
+              one: 1 arbetspaket
+              other: "%{count} arbetspaket"
+            table_suffix: "(tabell)"
+            value_count:
+              one: 1 arbetspaket har ett värde
+              other: "%{count} arbetspaket har ett värde"
+            work_packages:
+              one: 1 arbetspaket kommer att använda den nya konfigurationen
+              other: "%{count} arbetspaket kommer att använda den nya konfigurationen"
           success: Projektet använder nu %{type}.
           target_label: Variant
           title: "%{type}: Byt variant"
-          warning: Om du byter variant kan information som är kopplad till anpassade fält som saknas i den nya varianten gå förlorad.
-        switch_type: Byt variant
         type_not_found: Den valda typen hittades inte.
-        variant_prefix: 'Variant:'
+        use_in_project: Använd i det här projektet
+        variant_in_use: Variant i det här projektet
+        variant_label: Variant
+        variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
       versions:
         no_results_content_text: Skapa en ny version
         no_results_title_text: Det finns för närvarande inga versioner av projektet.
@@ -4998,6 +5390,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
+      no_custom_fields_html: Det här projektet har inga projektattribut aktiverade för guiden. Aktivera minst ett i <a href="%{link}">projektinställningarna</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
@@ -5146,6 +5539,12 @@ sv:
   roles:
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
+    index:
+      filter_label: Sök roller
+      types:
+        all: Alla roller
+        global: Globala roller
+        project: Projektroller
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
@@ -5170,6 +5569,7 @@ sv:
   setting_after_login_default_redirect_url_example_html: 'Ange en standardsökväg som användare ska omdirigeras till efter inloggning om ingen bakåtlänk angavs. Omdirigerar till startsidan om den inte anges. <br/> Exempel: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Aktivera åtgärder för textomvandling
   setting_allowed_link_protocols: Tillåtna länkprotokoll
   setting_allowed_link_protocols_text_html: Tillåt att dessa protokoll återges som länkar i beskrivningar av arbetspaket, långa textfält och kommentarer. Till exempel %{tel_code} eller %{element_code}. Ange ett protokoll per rad. <br/> Protokollen %{http_code}, %{https_code} och %{mailto_code} är alltid tillåtna.
   setting_antivirus_scan_action: Åtgärd för infekterad fil
@@ -5297,6 +5697,14 @@ sv:
   setting_password_active_rules: Lösenordskrav
   setting_password_count_former_banned: Antal senaste använda lösenord som är förbjudna att återanvända
   setting_password_days_valid: Antal dagar varefter lösenordsändring kommer krävas
+  setting_password_login: Lösenordsinloggning
+  setting_password_login_all: Tillåt för alla
+  setting_password_login_all_caption: Alla som har ett internt lösenord kan logga in med det, även användare som är kopplade till en identitetsleverantör.
+  setting_password_login_bypass_principal_ids: Användare och grupper som fortfarande får använda lösenord
+  setting_password_login_except_sso: Tillåt inte för SSO-användare
+  setting_password_login_except_sso_caption: Användare som är kopplade till en identitetsleverantör kan inte logga in med sitt interna lösenord. Andra användare kan fortsätta använda det.
+  setting_password_login_none: Tillåt inte för någon
+  setting_password_login_none_caption_html: Lösenordsformuläret är dolt. Endast användare och grupper som anges nedan kan logga in med lösenord via %{internal_login_link}.
   setting_password_min_length: Minsta längd
   setting_per_page_options: Objekt per sida alternativ
   setting_percent_complete_on_status_closed: "% klart när statusen är stängd"
@@ -5431,6 +5839,15 @@ sv:
     authentication:
       login: Inloggning
       omniauth_direct_login_hint_html: 'Om detta alternativ är aktivt omdirigeras inloggningsbegäranden till den konfigurerade Omniauth-leverantören. Inloggningsmenyn och inloggningssidan inaktiveras. <br/> <strong>Obs!</strong> Om du inte även inaktiverar lösenordsinloggning kan användare, när detta alternativ är aktiverat, fortfarande logga in internt genom att besöka inloggningssidan <code>%{internal_path}</code>.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Även när lösenordsinloggning är inaktiverad kan dessa användare och grupper använda sina lösenord för att logga in. Detta är till exempel användbart om identitetsleverantören blir otillgänglig. Om du inkluderar en grupp utökas åtkomsten till alla användare i den gruppen.
+
+        '
+      password_login_configured_by_environment: 'Följande inställningar konfigureras via miljön och kan inte redigeras här:
+
+        '
+      password_login_requires_sso_provider: 'Begränsningar för lösenordsinloggning är inte tillgängliga eftersom ingen SSO-leverantör är aktiverad. Konfigurera och aktivera en SSO-leverantör innan du ändrar dessa inställningar.
 
         '
       registration: Registrering
@@ -5913,24 +6330,27 @@ sv:
     getting_started: Komma igång
     help_and_support: Hjälp och support
   total_progress: Totalt klart
+  tree_view:
+    label_empty_sub_tree: Inga objekt
   types:
     creation_wizard:
+      add_variant: Lägg till en variant till %{name}
       create_type: Skapa typ
       create_variant: Skapa variant
       fields:
-        inherited_from_parent_html: Ärvs från den överordnade typen <b>%{parent}</b>.
+        variant_name_caption: Ger denna konfiguration av %{type} ett namn. Arbetspaketen fortsätter att använda själva %{type}.
       finish: Slutför
       placeholder_description: Det här steget blir tillgängligt snart.
       progress_label: Steg %{number} av %{total}
       steps:
         defaults: Standardvärden
         details: Detaljer
-        form_configuration: Ställ in formulär
+        form_configuration: Formulär
         pdf: PDF-generering
         project_attributes: Projektattribut
         projects: Projekt
         workflows: Arbetsflöden
-      success: Varianten skapades.
+      success: Skapades.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -5955,8 +6375,11 @@ sv:
             work_package: Arbetspaket
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: För projektadministratörer med behörighet att hantera varianter kan den här typen utökas eller ändras inom ett projekt.
+        inherited_from_type_html: Ärvs från typen <b>%{type}</b>.
         tab: Detaljer
         type_color_text: Den valda färgen skiljer olika typer åt i Gantt-diagram och arbetspaketstabeller. Därför rekommenderas en tydlig färg.
+        variant_name_caption_html: Detta är ett internt namn som endast är synligt för administratörer. Varianter ersätter den ursprungliga överordnade typen, så om varianten används i ett projekt visas den som <b>%{type}</b> för alla medlemmar.
       export_configuration:
         artefact_export:
           attachment:
@@ -5982,15 +6405,19 @@ sv:
           label: Mallar för PDF-export
         tab: Generera PDF
         templates:
+          readonly_error: Kan inte ändras när den är länkad till en källtyp.
           section_title: Mallar för PDF-export
+          settings:
+            edit_link: Redigera inställningar
+            reset_to_default: Återställ till standard
+            title: 'Inställningar: %{template}'
       form_configuration:
         add_attribute_group: Sektion
         add_query_group: Tabell med relaterade arbetspaket
         blankslate_description: Lägg till grupper med knappen ovan eller dra attribut från den vänstra panelen.
         blankslate_title: Inga grupper ännu
-        builtin_field: Inbyggt fält
         confirm_delete_group: Är du säker på att du vill ta bort det här avsnittet? Åtgärden kan inte ångras automatiskt.
-        confirm_reset: Är du säker på att du vill återställa formulärkonfigurationen?
+        confirm_reset: Är du säker på att du vill återställa formuläret?
         custom_field: Anpassat fält
         delete_group: Ta bort avsnitt
         drag_to_activate: Dra fält härifrån för att aktivera dem
@@ -6005,26 +6432,42 @@ sv:
         group_actions: Avsnittsåtgärder
         group_name_label: Avsnittsnamn
         inactive_attributes_heading: Inaktiva attribut
-        invalid_attribute_groups: Nyttolasten för formulärkonfigurationen är ogiltig.
+        invalid_attribute_groups: Formulärets nyttolast är ogiltig.
         invalid_query: Konfigurationen för den inbäddade frågan är ogiltig.
         label_group: Sektion
         no_inactive_attributes: Inga inaktiva attribut
-        not_found: Den begärda posten i formulärkonfigurationen hittades inte.
+        not_found: Den begärda formulärposten hittades inte.
         query_group_label: Tabell med relaterade arbetspaket
         remove_attribute: Ta bort från avsnitt
         rename_group: Döp om sektion
         reset_description: 'Detta återställer attributen till deras standardgrupp och inaktiverar ALLA anpassade fält.
 
           '
-        reset_title: Återställ formulärkonfiguration
+        reset_title: Återställ formulär
         reset_to_defaults: Återställ formulär
         row_actions: Radåtgärder
-        tab: Ställ in formulär
+        tab: Formulär
         untitled_group: Namnlös grupp
+      overview:
+        configuration_mode: Konfigurationsläge
+        dependents: Beroende typer och varianter
+        mode:
+          always_manual: Alltid manuellt
+          inheriting_from_html: Ärver från %{source_name}
+          manual: Manuellt konfigurerad
+        settings: Inställningar
+        tab: Översikt
       project_attributes:
         actions:
           label_disable_all: Inaktivera alla
           label_enable_all: Aktivera alla
+        blankslate:
+          inherited:
+            description: Den här typen har inga projektattribut kopplade till sig.
+            title: Inga projektattribut har konfigurerats
+          manual:
+            description: När du har [skapat projektattribut](administration_url) visas de här och kan läggas till i en typ.
+            title: Inga projektattribut tillgängliga
         description: Välj de projektattribut som du vill aktivera för den här arbetspaketstypen. Aktiverade projektattribut visas på en separat flik i arbetspaket av den här typen. Användare med nödvändiga behörigheter kan visa och redigera attributen där.
         disabled: Inaktiverad
         exclusions:
@@ -6032,6 +6475,17 @@ sv:
         filter: Sök efter avsnitt eller namn
         tab: Projektattribut
       projects:
+        actions:
+          confirm_remove: Ta bort typen %{type} från %{project}?
+          remove_from_project: Ta bort från projekt
+          switch_variant: Byt variant
+        add_dialog:
+          no_projects_selected: Välj minst ett projekt.
+          search_placeholder: Sök projekt
+        disable_all: Inaktivera för alla projekt
+        empty_state:
+          description: Lägg till ett projekt för att använda den här konfigurationen där.
+          no_results: Inga matchande projekt.
         enable_all: Aktivera för alla projekt
         select_projects: Välj projekt
         select_projects_description: Välj de projekt där du vill använda den här typen.
@@ -6043,32 +6497,76 @@ sv:
             description_html: Genom att kopiera data från %{source_name} skriver du över de aktuella inställningarna och kan påverka befintlig information i arbetspaket av den här typen.
             title: Kopiera konfigurationen?
           dialog:
-            description: Kopiera konfigurationen från en källtyp och använd den som engångsbas. Detta länkar inte de två typerna permanent.
-            source_label: Kopieringskälla
+            description: Kopiera konfigurationen från en källtyp och använd den som engångsbas. Konfigurationen förblir manuell och ärver inte senare ändringar från källan.
+            source_label: Källtyp
             source_placeholder: Välj en typ eller variant
             submit: Spara och kopiera
             title: Kopiera konfiguration
           invalid_source: Konfigurationen kan inte kopieras från den valda typen. Välj en annan källtyp.
           success: Konfigurationen har kopierats.
+        dependents:
+          blank:
+            description: Ingen annan typ eller variant ärver från den här konfigurationen
+            title: Inga beroende typer
+          description:
+            one: Följande konfiguration ärvs av 1 annan typ eller variant. Alla ändringar du gör här påverkar även den beroende typen eller varianten.
+            other: Följande konfiguration ärvs av %{count} andra typer eller varianter. Alla ändringar du gör här påverkar även de beroende typerna och varianterna.
+          dialog:
+            description: Dessa typer och varianter ärver konfigurationen för det här avsnittet. En ändring du gör här tillämpas på dem alla.
+            direct_heading: Direkta beroenden
+            indirect_heading: Beroenden via andra typer
+            title: Beroende typer
+            variant_of_html: Variant av %{type_name}
+            variant_of_via_html: Variant av %{type_name}, ärver via %{source_name}
+            via_html: Ärver via %{source_name}
+          title:
+            one: 1 beroende typ
+            other: "%{count} beroende typer"
+          view: Visa beroende typer
         exclusions:
-          not_linked: Den här typen äger sin konfiguration för detta avsnitt, så det finns inget att undanta. Redigera konfigurationen direkt i stället.
+          not_inherited: Den här konfigurationen ärvs inte, så det finns inget att undanta. Redigera konfigurationen direkt i stället.
           unknown_aspect: Okänt konfigurationsavsnitt "%{aspect}".
-        independent:
+        inherited:
+          change_source: Byt källtyp
+          configure_manually: Konfigurera manuellt
+          confirm_dialog:
+            change_source:
+              description_html: Genom att byta källtyp till %{source_name} skriver du över de aktuella inställningarna och kan påverka befintlig information i arbetspaket av den här typen.
+              heading: Byta källtyp?
+              title: Byt källtyp
+            check_box: Jag förstår att detta åsidosätter de aktuella inställningarna
+            from_manual:
+              description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
+              heading: Byta konfigurationsläge?
+              title: Byt konfigurationsläge
+          description: Den här konfigurationen ärvs från källtypen [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: Den här konfigurationen ärvs från källtypen %{source_name}%{source_suffix}.
+          dialog:
+            description: Ärv denna konfiguration från en källtyp. All ny konfiguration som läggs till i källan tillämpas även här.
+            source_label: Källtyp
+            source_placeholder: Välj en typ eller variant
+            submit: Byt
+            title: Ärv från en annan typ
+          invalid_source: Konfigurationen kan inte ärvas från den valda typen. Välj en annan källtyp.
+          success: Konfigurationsläget har bytts.
+          title: Ärvd konfiguration
+        manual:
           confirm_dialog:
             check_box: Jag förstår att detta åsidosätter de aktuella inställningarna
             description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
             heading: Byta konfigurationsläge?
             title: Byt konfigurationsläge
-          copy_from_type: Kopiera från typ
-          description: Inga inställningar ärvs. Om du vill kan du ändå kopiera inställningar från en annan typ en gång.
+          copy_from_type: Kopiera från en annan typ
+          description: Inga inställningar ärvs. Du kan fortfarande kopiera inställningarna från en annan typ en gång.
           dialog:
             submit: Byt
-            title: Oberoende läge
+            title: Konfigurera manuellt
+          inherit_from_type: Ärv från en annan typ
           invalid_mode: Det valda läget är inte tillgängligt för den här konfigurationen. Välj ett annat läge.
           modes:
             copy:
-              caption: Börja med en engångskopia av de aktuella inställningarna i länkat läge.
-              label: Kopiera från länkat
+              caption: Börja med en engångskopia av de inställningar som den här konfigurationen ärver nu.
+              label: Kopiera ärvda inställningar
             default:
               caption: Använd standardinställningarna för nya typer.
               label: Standardinställningar
@@ -6076,36 +6574,30 @@ sv:
               caption: Konfigurera allt från grunden med en tom konfiguration.
               label: Tom
           success: Konfigurationsläget har bytts.
-          switch_to_linked: Byt till länkat läge
-          title: Oberoende läge
-        linked:
-          change_source: Byt källtyp
-          confirm_dialog:
-            change_source:
-              description_html: Genom att byta källtyp till %{source_name} skriver du över de aktuella inställningarna och kan påverka befintlig information i arbetspaket av den här typen.
-              heading: Byta källtyp?
-              title: Byt källtyp
-            check_box: Jag förstår att detta åsidosätter de aktuella inställningarna
-            from_independent:
-              description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
-              heading: Byta konfigurationsläge?
-              title: Byt konfigurationsläge
-          description: Den här konfigurationen är länkad och ärver sina inställningar från källtypen [%{source_name}](source_url)%{source_suffix}.
-          dialog:
-            description: Kopiera och ärv dessa inställningar från en källa. All ny konfiguration som läggs till i källan läggs också till här.
-            source_label: Länkad källa
-            source_placeholder: Välj en typ eller variant
-            submit: Byt
-            title: Länkat läge
-          invalid_source: Konfigurationen kan inte länkas till den valda typen. Välj en annan källtyp.
-          success: Konfigurationsläget har bytts.
-          switch_to_independent: Byt till oberoende läge
-          title: Länkat läge
+          title: Manuell konfiguration
         parent_suffix: "(överordnad)"
+      variants:
+        blankslate:
+          description_html: 'Du kan skapa varianter för att erbjuda olika versioner av den här typen till olika projekt.<br> Varje variant kan ärva, kopiera eller ha en egen anpassad konfiguration för standardmall, anpassade fält, arbetsflöden och inställningar.
+
+            '
+          title: Det finns inga varianter för den här typen
+        created_in_html: Skapad i %{project}
+        delete:
+          description: De projekt som använder den här varianten byts till den variant du väljer nedan innan den här varianten tas bort.
+          title: Ta bort %{name}
+        filter: Filtrera efter text
+        filter_no_results: Inga varianter matchar filtret
+        global_section:
+          description: Dessa varianter är tillgängliga i alla projekt.
+          title: Varianter
+        project_specific_section:
+          description: Dessa varianter är endast tillgängliga i de projekt där de skapades.
+          title: Projektspecifika varianter
       workflow:
         tab: Arbetsflöden
     index:
-      add_variant: Lägg till variant till %{name}
+      add_variant: Lägg till en variant till %{name}
       add_variant_action: Lägg till variant
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
@@ -6117,14 +6609,13 @@ sv:
       make_default_notice: "%{name} aktiveras nu i nya projekt."
       no_results_content_text: Skapa ny typ
       no_results_title_text: Det finns för närvarande inga typer.
+      project_variants_count:
+        one: 1 projektspecifik variant
+        other: "%{count} projektspecifika varianter"
       remove_default: Aktivera inte i nya projekt
       remove_default_notice: "%{name} aktiveras inte längre i nya projekt."
       type_label: Typ
-      variant_enabled_in_new_projects: Varianten %{name} är aktiv i nya projekt
       variant_label: Variant
-      variants_count:
-        one: 1 variant
-        other: "%{count} varianter"
     milestone_indicator: Milstolpe
   unsupported_browser:
     close_warning: Bortse från denna varning.
@@ -6498,6 +6989,13 @@ sv:
       confirm_deletion: Jag bekräftar att de valda arbetspaketen och alla tillhörande data kommer att tas bort.
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Dessa arbetspaket finns i flera projekt: %{projects}'
+      descendants_choice:
+        heading: Ta även bort alla underordnade arbetspaket?
+        question: Du försöker ta bort arbetspaket som har underordnade arbetspaket. Vill du även ta bort dem?
+        self_only_label: Ta endast bort de markerade arbetspaketen
+        self_only_caption: Detta tar inte bort underordnade arbetspaket, men tar bort de hierarkiska relationerna.
+        with_descendants_label: Ta bort de markerade arbetspaketen och deras underordnade arbetspaket
+        with_descendants_caption: Detta tar bort alla underordnade arbetspaket som du kan se. Du får granska den fullständiga listan i nästa steg.
       description: Är du säker på att du vill ta bort de valda arbetspaketen och alla tillhörande data?
       description_with_all_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla deras underordnade objekt?
       description_with_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla följande underordnade objekt?
@@ -6562,6 +7060,13 @@ sv:
       confirm_deletion: Jag bekräftar att arbetspaketet och alla tillhörande data kommer att tas bort.
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Arbetspaket från följande projekt tas bort: %{projects}'
+      descendants_choice:
+        heading: Ta även bort alla underordnade arbetspaket?
+        question: Det här arbetspaketet har underordnade arbetspaket. Vill du även ta bort dem?
+        self_only_label: Ta endast bort det här arbetspaketet
+        self_only_caption: Detta tar inte bort underordnade arbetspaket, men tar bort de hierarkiska relationerna.
+        with_descendants_label: Ta bort det här arbetspaketet och dess underordnade arbetspaket
+        with_descendants_caption: Detta tar bort alla underordnade arbetspaket som du kan se. Du får granska den fullständiga listan i nästa steg.
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:
@@ -6624,18 +7129,18 @@ sv:
           label: Källroll
         target_role_ids:
           label: Målroller
-        target_type_ids:
+        target_variant_ids:
           label: Måltyper
       from_roles:
         create:
           notice:
             one: Arbetsflödet kopierades till rollen "%{role_name}".
             other: Arbetsflödet kopierades till %{count} roller.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Arbetsflödet kopierades till typen "%{type_name}".
-            other: Arbetsflödet kopierades till %{count} typer.
+            one: Arbetsflödet har kopierats till ”%{type_name}”.
+            other: Arbetsflödet har kopierats till %{count} typer.
       new:
         title: Kopiera arbetsflödet för "%{source_type}"
     form:

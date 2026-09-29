@@ -66,15 +66,31 @@ pt-PT:
             host:
               authorization_header_missing: não está totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token portador com base na autorização das solicitações de API. Verifique novamente a configuração do seu servidor HTTP.
               cannot_be_connected_to: não foi possível aceder. Certifique-se de que o anfitrião está acessível e que a aplicação de integração do OpenProject está instalada.
-              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
+              minimal_nextcloud_version_not_met: não cumpre os requisitos mínimos de versão (deve ser o Nextcloud %{minimal_version} ou uma versão superior, mas foi detetada a versão %{detected_version})
               not_nextcloud_server: não é um servidor Nextcloud
               op_application_not_installed: parece não ter a app "OpenProject integration" instalada. Instale-a primeiro e tente novamente.
             password:
               invalid_password: não é válido.
               unknown_error: não foi possível validar com o fornecedor de armazenamento de ficheiros. Verifique se a ligação está a funcionar corretamente.
     models:
-      file_link: Ficheiro
-      storages/storage: Armazenamento
+      storages/file_link:
+        one: Link do ficheiro
+        other: Links do ficheiro
+      storages/nextcloud_storage:
+        one: Armazenamento Nextcloud
+        other: Armazenamentos Nextcloud
+      storages/one_drive_storage:
+        one: Armazenamento OneDrive
+        other: Armazenamentos OneDrive
+      storages/project_storage:
+        one: Armazenamento de projeto
+        other: Armazenamentos de projeto
+      storages/sharepoint_storage:
+        one: Armazenamento SharePoint
+        other: Armazenamentos SharePoint
+      storages/storage:
+        one: Armazenamento
+        other: Armazenamentos
   api_v3:
     errors:
       too_many_elements_created_at_once: Demasiados elementos criados de uma só vez. Esperados %{max} no máximo, obtidos %{actual}.
@@ -135,7 +151,7 @@ pt-PT:
         error: Ocorreu um erro inesperado. Verifique os registos do OpenProject para obter mais informações ou contacte um administrador
         folder_id_collision: Vários repositórios de projetos tentam gerir a pasta do projeto %{folder}. A sua sincronização foi ignorada.
         forbidden: O OpenProject não conseguiu aceder ao recurso solicitado. Verifique a sua configuração de permissões no fornecedor de armazenamento.
-        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
+        invalid_response: O OpenProject não conseguiu processar a resposta recebida do fornecedor de armazenamento. Consulte os registos do OpenProject para mais informações, ou contacte um administrador.
         unauthorized: Não foi possível autenticar o OpenProject com o fornecedor de armazenamento. Certifique-se de que tem acesso ao mesmo.
       models:
         copy_project_folders_service:

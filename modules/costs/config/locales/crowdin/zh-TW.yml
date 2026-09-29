@@ -97,13 +97,22 @@ zh-TW:
     models:
       cost_entry:
         other: 成本項
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: 費用類別
-      rate: 費率
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: 時間項
       time_entry_activity:
         other: 工時紀錄活動
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -202,7 +211,6 @@ zh-TW:
   label_greater_or_equal: 之前
   label_group_by: 分類
   label_group_by_add: 增加群組欄位
-  label_hourly_rate: 小時費率
   label_include_deleted: 包含已刪除的
   label_kind: 類型
   label_less_or_equal: 之後
@@ -223,7 +231,6 @@ zh-TW:
   label_previous_month: 前一個月
   label_previous_week: 前一週
   label_previous_workweek: 前個工作週
-  label_rate: 費率
   label_rate_plural: 費率
   label_show: 顯示
   label_specific_day: "%{day} 日"
@@ -237,7 +244,6 @@ zh-TW:
   label_today_capitalized: 今天
   label_units: 單位成本
   label_until: 到
-  label_user: 使用者
   label_valid_from: 有效期從
   label_view_mode_switcher: 變更檢視
   label_work_package_filter_add: 新增工作套件篩選條件

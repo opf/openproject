@@ -43,6 +43,13 @@ hy:
           invalid_claims_location: պարունակում են չաջակցվող վայրեր՝ %{invalid}։ Աջակցվող վայրերն են՝ %{supported}։
           invalid_claims_values: "%{attribute}-ում զանգված սահմանված չէ։"
           non_object_attribute: "%{attribute}-ում JSON օբյեկտ սահմանված չէ։"
+    models:
+      openid_connect/provider:
+        one: OpenID Connect provider
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        one: OpenID Connect token
+        other: OpenID Connect tokens
   logout_warning: 'Դուք դուրս եք եկել համակարգից։ Ցանկացած ձևի բովանդակություն, որը կուղարկեք, կարող է կորչել։ Խնդրում ենք [մտնել համակարգ]։
 
     '

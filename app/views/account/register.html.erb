@@ -53,6 +53,10 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(RegistrationForm.new(form)) %>
   <% end %>
 
+  <% unless @user.uses_external_authentication? %>
+    <%= render("account/auth_providers", omniauth_title: I18n.t("account.signup_with_external_account"), wide: true) %>
+  <% end %>
+
   <div class="op-account-registration--signin">
     <%= link_to t(:button_login), signin_path %>
   </div>

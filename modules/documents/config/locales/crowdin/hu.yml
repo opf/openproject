@@ -31,13 +31,18 @@ hu:
         document_type:
           one_or_more_required: Nem lehet törölni az utolsó dokumentumtípust
     models:
-      document: Dokumentum
-      documents: Dokumentumok
+      document:
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: Dokumentumok
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Technikai dokumentáció
   default_doc_category_user: Felhasználói dokumentáció
   documents:

@@ -30,73 +30,78 @@
 
 module WorkPackageTypes
   module ExcludedElements
-    # Shared scaffolding for narrowing what a type inherits for one aspect. Subclasses only
+    # Shared scaffolding for narrowing what a variant inherits for one aspect. Subclasses only
     # implement #updated_elements.
     #
-    # Exclusions are a property of a *link*, not of a type: they describe what this type drops
-    # from what it inherits. A type that owns the aspect has nothing to exclude — it edits its
-    # own configuration directly — so the services fail rather than silently doing nothing.
+    # Exclusions describe what this variant drops from what it inherits, so they only mean
+    # something while the aspect is linked. A variant that owns the aspect has nothing to
+    # exclude — it edits its own configuration directly — so the services fail rather than
+    # silently doing nothing.
     #
-    # Writes target the type's own link only. A type can never narrow an ancestor's link; that
-    # ancestor's exclusions reach it through the chain instead.
+    # Writes target this variant's own exclusions only. A variant can never narrow an
+    # ancestor's; that ancestor's exclusions reach it through the chain instead.
     class BaseService < ::BaseServices::BaseCallable
-      def initialize(user:, type:)
+      def initialize(user:, variant:)
         super()
         @user = user
-        @type = type
+        @variant = variant
       end
 
       def perform(*)
         aspect = params[:aspect].to_s
-        return unknown_aspect_result(aspect) unless Type::ConfigurationLink::ASPECTS.include?(aspect)
+        return unknown_aspect_result(aspect) unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
+        return not_linked_result unless variant.linked?(aspect)
 
-        link = type.configuration_links.find_by(aspect:)
-        return not_linked_result unless link
-
-        narrow(link)
+        narrow(aspect)
       end
 
       protected
 
-      attr_reader :type, :user
+      attr_reader :variant, :user
 
-      # The element list to persist, given the link's current list and the requested elements.
       def updated_elements(_current, _requested)
         raise SubclassResponsibilityError
       end
 
       private
 
-      # Excluded attributes are stored in an array of the link aspect.
-      # That's why we need to add a mutex for saving that array to prevent race conditions.
-      def narrow(link)
-        OpenProject::Mutex.with_advisory_lock_transaction(link, "excluded_elements") do
-          link.reload
-          link.update!(excluded_elements: updated_elements(link.excluded_elements, elements_param))
+      # The exclusions are an array column, so the read-modify-write needs a lock. The lock is
+      # taken on the variant rather than per aspect, which serialises concurrent edits to
+      # unrelated aspects of the same variant.
+      def narrow(aspect)
+        column = :"#{TypeVariant.validated_excludable_aspect(aspect)}_excluded_elements"
+
+        OpenProject::Mutex.with_advisory_lock_transaction(variant, "excluded_elements") do
+          variant.reload
+          variant.update!(column => next_elements(column))
         end
 
-        ServiceResult.success(result: type)
+        ServiceResult.success(result: variant)
       rescue ActiveRecord::RecordInvalid
-        ServiceResult.failure(result: type, errors: link.errors)
+        ServiceResult.failure(result: variant, errors: variant.errors)
       end
 
-      # Element keys are aspect-specific strings (see Type::ConfigurationLinkable), so they are
-      # only normalised here — an unknown key is inert rather than invalid, and the aspect's
-      # reader is what interprets them.
+      def next_elements(column)
+        updated_elements(variant.public_send(column), elements_param)
+      end
+
+      # Element keys are aspect-specific strings (see TypeVariant::ConfigurationLinkable), so
+      # they are only normalised here — an unknown key is inert rather than invalid, and the
+      # aspect's reader is what interprets them.
       def elements_param
         Array(params[:elements]).map { |element| element.to_s.strip }.compact_blank
       end
 
       def not_linked_result
-        type.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_linked"))
+        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
 
-        ServiceResult.failure(result: type, errors: type.errors)
+        ServiceResult.failure(result: variant, errors: variant.errors)
       end
 
       def unknown_aspect_result(aspect)
-        type.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.unknown_aspect", aspect:))
+        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.unknown_aspect", aspect:))
 
-        ServiceResult.failure(result: type, errors: type.errors)
+        ServiceResult.failure(result: variant, errors: variant.errors)
       end
     end
   end

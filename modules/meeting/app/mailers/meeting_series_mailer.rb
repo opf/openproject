@@ -46,7 +46,8 @@ class MeetingSeriesMailer < UserMailer
     end
   end
 
-  def updated(series, user, actor, changes:, added_participants: [], removed_participants: [])
+  def updated(series, user, actor, changes:, added_participants: [], removed_participants: [],
+              historic_schedule: false)
     @actor = actor
     @series = series
     @user = user
@@ -56,7 +57,7 @@ class MeetingSeriesMailer < UserMailer
 
     set_headers(series)
 
-    with_attached_ics(series, user) do
+    with_attached_ics(series, user, historic_schedule:) do
       subject = I18n.t("meeting.email.series_updated.title", title: series.title, project_name: series.project.name)
       mail(to: user, subject:)
     end
@@ -64,11 +65,9 @@ class MeetingSeriesMailer < UserMailer
 
   private
 
-  def with_attached_ics(series, user, cancelled: false)
+  def with_attached_ics(series, user, cancelled: false, historic_schedule: false)
     User.execute_as(user) do
-      call = ::RecurringMeetings::ICalService
-        .new(user:, series:)
-        .generate_series(cancelled:)
+      call = ics_service_call(series, user, cancelled:, historic_schedule:)
 
       call.on_success do
         ics_content = call.result
@@ -89,7 +88,21 @@ class MeetingSeriesMailer < UserMailer
     end
   end
 
+  def ics_service_call(series, user, cancelled:, historic_schedule:)
+    service = ::RecurringMeetings::ICalService.new(user:, series:)
+
+    if historic_schedule
+      service.generate_historic_schedule
+    else
+      service.generate_series(cancelled:)
+    end
+  end
+
   def set_headers(series)
     open_project_headers "Project" => series.project.identifier, "Meeting-Id" => series.id
+
+    # As we send too emails for the same series,
+    # try to group them visually in supported mails clients using the References header.
+    references(series)
   end
 end

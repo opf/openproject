@@ -14,6 +14,13 @@ fa:
           end_before_start: مقدار پایان باید از مقدار شروع بزرگ‌تر باشد.
           outside: خارج از شبکه است.
           overlaps: هم‌پوشانی.
+    models:
+      grids/grid:
+        one: شبکه
+        other: شبکه‌ها
+      grids/widget:
+        one: ویجت
+        other: ویجت‌ها
   grids:
     label_widget_in_grid: ویجت موجود در شبکه %{grid_name}
     widgets:

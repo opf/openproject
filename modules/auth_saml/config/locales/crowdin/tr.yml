@@ -3,6 +3,7 @@ tr:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS (Kimlik Doğrulama hizmeti) URL'si
         authn_requests_signed: SAML Kimlik Doğrulama İsteklerini İmzalayın.
         certificate: OpenProject tarafından SAML istekleri için kullanılan sertifika
@@ -32,6 +33,10 @@ tr:
           invalid_certificate: "%{additional_message}, Geçerli bir PEM formatlı sertifika değildir."
           invalid_private_key: "%{additional_message}, Geçerli bir PEM formatında özel anahtar değildir"
           unmatched_private_key: sertifikaya ait değil
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Bu SAML sağlayıcıyı silmek istiyor musunuz?
     delete_title: SAML sağlayıcısını sil
@@ -41,6 +46,9 @@ tr:
         '
       title: SAML Protokolü Yapılandırma Parametreleri
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'İşaretlenirse, OpenProject SAML AuthnRequest''i imzalayacaktır. Aşağıdaki alanları kullanarak bir imzalama sertifikası ve özel anahtar sağlamanız gerekecektir.
 
         '

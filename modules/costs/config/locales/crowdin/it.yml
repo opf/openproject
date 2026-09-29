@@ -98,16 +98,30 @@ it:
       cost_entry:
         one: Voce costi
         other: Voci costi
+      cost_rate:
+        one: Tariffa di costo
+        other: Tariffe di costo
       cost_type:
         one: Tipo di costo
         other: Tipo di costo
-      rate: Tariffa
+      default_hourly_rate:
+        one: Tariffa oraria predefinita
+        other: Tariffe orarie predefinite
+      hourly_rate:
+        one: Tariffa oraria
+        other: Tariffe orarie
+      rate:
+        one: Tariffa
+        other: Tariffe
       time_entry:
         one: Voce tempo
         other: Voci tempi
       time_entry_activity:
         one: Attività di monitoraggio dei tempi
         other: Attività di monitoraggio dei tempi
+      time_entry_custom_field:
+        one: Campo personalizzato delle registrazioni orarie
+        other: Campi personalizzati delle registrazioni orarie
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ it:
   label_greater_or_equal: ">="
   label_group_by: Raggruppa per
   label_group_by_add: Aggiungi campo di raggruppamento
-  label_hourly_rate: Tariffa oraria
   label_include_deleted: Includi eliminati
   label_kind: Tipo
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ it:
   label_previous_month: Mese precedente
   label_previous_week: Settimana precedente
   label_previous_workweek: Settimana lavorativa precedente
-  label_rate: Tariffa
   label_rate_plural: Tariffe
   label_show: Mostra
   label_specific_day: Giorno %{day}
@@ -241,7 +253,6 @@ it:
   label_today_capitalized: Oggi
   label_units: Unità di costo
   label_until: finché
-  label_user: Utente
   label_valid_from: Valido dal
   label_view_mode_switcher: Cambia vista
   label_work_package_filter_add: Aggiungi filtro per macro-attività (work package)

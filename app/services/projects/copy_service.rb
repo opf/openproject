@@ -156,18 +156,8 @@ module Projects
       source.status&.attributes
     end
 
-    # Omitted when the caller names the types itself: project_types and type_ids write the same
-    # rows, so passing both would have them fight over the target's families.
     def source_project_types_attribute
-      return {} if target_project_params.keys.intersect?(%w[types type_ids])
-
-      { project_types: source_project_types }
-    end
-
-    # Whole rows rather than #types, which would yield the roots only and drop which variant
-    # each family resolves to. Assigning them to the target sets their project on save.
-    def source_project_types
-      source.project_types.map(&:dup)
+      { project_types: source.project_types.map(&:dup) }
     end
 
     def source_custom_fields

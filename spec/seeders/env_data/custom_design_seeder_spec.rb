@@ -228,4 +228,57 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
       expect(DesignColor.find_by(variable: "accent-color").hexcode).to eq("#571EFA")
     end
   end
+
+  context "when only_when_empty is true and no CustomStyle exists",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY: "true",
+            OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR: "#571EFA"
+          } do
+    it "seeds the design" do
+      reset(:seed_design)
+
+      seeder.seed!
+
+      expect(CustomStyle.count).to eq(1)
+      expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#571EFA")
+    end
+  end
+
+  context "when only_when_empty is true and a CustomStyle exists",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY: "true",
+            OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR: "#571EFA"
+          } do
+    it "does not change the existing design" do
+      reset(:seed_design)
+
+      CustomStyle.create!
+      DesignColor.create!(variable: "primary-button-color", hexcode: "#FFFFFF")
+
+      seeder.seed!
+
+      expect(CustomStyle.count).to eq(1)
+      expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#FFFFFF")
+    end
+  end
+
+  context "when only_when_empty is false and a CustomStyle exists",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY: "false",
+            OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR: "#571EFA"
+          } do
+    it "overwrites the existing design" do
+      reset(:seed_design)
+
+      CustomStyle.create!
+      DesignColor.create!(variable: "primary-button-color", hexcode: "#FFFFFF")
+
+      seeder.seed!
+
+      expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#571EFA")
+    end
+  end
 end

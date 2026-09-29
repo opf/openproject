@@ -46,7 +46,8 @@ module Type::Attributes
                 parent_id
                 parent
                 readonly
-                schedule_manually].freeze
+                schedule_manually
+                version].freeze
 
   included do
     # Allow plugins to define constraints
@@ -74,7 +75,7 @@ module Type::Attributes
     #
     # E.g.
     #
-    #   ::Type.work_package_form_attributes['author'][:required] # => true
+    #   ::TypeVariant.work_package_form_attributes['author'][:required] # => true
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
@@ -85,7 +86,6 @@ module Type::Attributes
       OpenProject::Cache.fetch_request_cached("all_work_package_form_attributes",
                                               *wp_cf_cache_parts,
                                               EXCLUDED.length,
-                                              Setting::WorkPackageMultipleVersions.active?,
                                               merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
@@ -139,14 +139,7 @@ module Type::Attributes
       # We always want to include the priority even if its required
       return false if key == "priority"
 
-      excluded_version_attribute?(key) || EXCLUDED.include?(key) || definition[:required]
-    end
-
-    # Only one of the two version attributes is offered at a time, matching the
-    # query columns: target_versions with the multiple versions feature enabled,
-    # the deprecated single version without it.
-    def excluded_version_attribute?(key)
-      key == (Setting::WorkPackageMultipleVersions.active? ? "version" : "target_versions")
+      EXCLUDED.include?(key) || definition[:required]
     end
 
     def merge_date_for_form_attributes(attributes)

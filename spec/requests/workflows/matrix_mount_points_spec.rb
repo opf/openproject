@@ -67,7 +67,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
   end
 
   it "omits the Save bar while the workflows aspect is linked to another type" do
-    type.link!(Type::ConfigurationLink::WORKFLOWS, source: create(:type))
+    link_configuration(type, source: create(:type), aspect: TypeVariant::WORKFLOWS)
 
     get edit_type_workflow_path(type)
 

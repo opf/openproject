@@ -226,8 +226,15 @@ class Query < ApplicationRecord
   # `Filters::FilterFormComponent` builds. Mirrors how
   # `Queries::Filters::AvailableFilters#available_advanced_filters` already
   # excludes the inline `name_and_identifier` quick-filter on projects.
+  #
+  # The relation-type filters (blocks, precedes, duplicates, etc.) and the
+  # generic relatable filter are also not supposed to be user selectable filters.
   def available_advanced_filters
-    super.grep_v(::Queries::WorkPackages::Filter::ManualSortFilter)
+    super
+      .grep_v(::Queries::WorkPackages::Filter::ManualSortFilter)
+      .grep_v(::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin)
+      .grep_v(::Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin)
+      .grep_v(::Queries::WorkPackages::Filter::RelatableFilter)
   end
 
   def normalized_name

@@ -22,8 +22,12 @@ sv:
           must_contain_base_dn: Bas-DN måste ligga inom LDAP-anslutningens bas-DN.
           overlaps_other_tree: Överlappar bas-DN för en annan synkronisering på samma LDAP-anslutning.
     models:
-      ldap_departments/synchronized_department: Synkroniserad avdelning
-      ldap_departments/synchronized_tree: LDAP-synkronisering av avdelningar
+      ldap_departments/synchronized_department:
+        one: Synkroniserad avdelning
+        other: Synkroniserade avdelningar
+      ldap_departments/synchronized_tree:
+        one: LDAP-synkronisering av avdelningar
+        other: LDAP-synkroniseringar av avdelningar
   ee:
     upsell:
       ldap_departments:

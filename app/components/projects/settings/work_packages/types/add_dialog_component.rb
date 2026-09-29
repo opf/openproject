@@ -32,9 +32,6 @@ module Projects
   module Settings
     module WorkPackages
       module Types
-        # Picks the type or variant a project should activate. Only families
-        # with no active member are offered; swapping the active member of a
-        # family is FND-188's switch dialog.
         class AddDialogComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
@@ -55,13 +52,11 @@ module Projects
             project_settings_work_packages_types_path(project)
           end
 
-          def addable_types
-            @addable_types ||= ::Type.global.where.not(id: active_root_ids).in_family_order
-          end
-
-          # A family is addable as a whole, so any active member rules out all of it.
-          def active_root_ids
-            @active_root_ids ||= project.types.pluck(:parent_id, :id).map { |parent_id, id| parent_id || id }
+          def addable_variants
+            @addable_variants ||= ::TypeVariant
+                                    .where.not(type_id: project.project_types.select(:type_id))
+                                    .includes(:type)
+                                    .sort_by { |variant| [variant.type.position, variant.variant_name.to_s] }
           end
         end
       end

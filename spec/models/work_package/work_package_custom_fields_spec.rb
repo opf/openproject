@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackage do
   describe "#custom_fields" do
-    let(:type) { create(:type_standard) }
+    let(:type) { create(:type_task) }
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       build(:work_package,
@@ -52,7 +52,7 @@ RSpec.describe WorkPackage do
     shared_context "project with custom field" do |save = true|
       before do
         project.work_package_custom_fields << custom_field
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
 
         work_package.save if save
       end
@@ -257,7 +257,7 @@ RSpec.describe WorkPackage do
 
       before do
         project.work_package_custom_fields << custom_field_2
-        project.types << type_feature
+        project.project_types.create!(type: type_feature)
       end
 
       context "with initial type" do
@@ -401,6 +401,50 @@ RSpec.describe WorkPackage do
 
         expect(work_package.errors.full_messages.first)
           .to eq "PIN is too long (maximum is 4 characters)."
+      end
+    end
+
+    describe "value bound error interpolation" do
+      include_context "project with custom field"
+
+      context "with an integer custom field" do
+        let :custom_field do
+          create(:work_package_custom_field,
+                 name: "Floor",
+                 field_format: "int",
+                 min_value: -5,
+                 max_value: 10)
+        end
+
+        it "names the custom field and the bound" do
+          work_package.custom_field_values.first.value = "11"
+          work_package.custom_values_to_validate = work_package.custom_field_values
+
+          expect { work_package.valid?(:saving_custom_fields) }.not_to raise_error
+          expect(work_package).not_to be_valid(:saving_custom_fields)
+
+          expect(work_package.errors.full_messages.first)
+            .to eq "Floor must be less than or equal to 10."
+        end
+      end
+
+      context "with a float custom field" do
+        let :custom_field do
+          create(:work_package_custom_field,
+                 name: "Ratio",
+                 field_format: "float",
+                 min_value: 0.1234)
+        end
+
+        it "keeps the decimal in the message" do
+          work_package.custom_field_values.first.value = "0.1"
+          work_package.custom_values_to_validate = work_package.custom_field_values
+
+          expect(work_package).not_to be_valid(:saving_custom_fields)
+
+          expect(work_package.errors.full_messages.first)
+            .to eq "Ratio must be greater than or equal to 0.1234."
+        end
       end
     end
   end

@@ -143,6 +143,160 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
+    describe "WITH a text field WITH a minimum length but no maximum length" do
+      before do
+        field.field_format = "text"
+        field.min_length = 2
+        field.max_length = 0
+      end
+
+      it { expect(field).to be_valid }
+    end
+
+    describe "value bounds" do
+      shared_examples "a numeric format" do |field_format|
+        describe "WITH a #{field_format} field WITHOUT bounds" do
+          before { field.field_format = field_format }
+
+          it { expect(field).to be_valid }
+        end
+
+        describe "WITH a #{field_format} field WITH a zero minimum value" do
+          before do
+            field.field_format = field_format
+            field.min_value = 0
+          end
+
+          it { expect(field).to be_valid }
+        end
+
+        describe "WITH a #{field_format} field WITH negative bounds" do
+          before do
+            field.field_format = field_format
+            field.min_value = -10
+            field.max_value = -5
+          end
+
+          it { expect(field).to be_valid }
+        end
+
+        describe "WITH a #{field_format} field WITH only a minimum value" do
+          before do
+            field.field_format = field_format
+            field.min_value = 5
+          end
+
+          it { expect(field).to be_valid }
+        end
+
+        describe "WITH a #{field_format} field WITH only a maximum value" do
+          before do
+            field.field_format = field_format
+            field.max_value = 5
+          end
+
+          it { expect(field).to be_valid }
+        end
+
+        describe "WITH a #{field_format} field WITH equal bounds" do
+          before do
+            field.field_format = field_format
+            field.min_value = 5
+            field.max_value = 5
+          end
+
+          it { expect(field).to be_valid }
+        end
+
+        describe "WITH a #{field_format} field WITH a minimum value above the maximum value" do
+          before do
+            field.field_format = field_format
+            field.min_value = 10
+            field.max_value = 5
+          end
+
+          it "is invalid" do
+            expect(field).not_to be_valid
+            expect(field.errors.symbols_for(:min_value)).to include(:smaller_than_or_equal_to_max_value)
+          end
+        end
+
+        describe "WITH a #{field_format} field WITH a non numeric bound" do
+          before do
+            field.field_format = field_format
+            field.min_value = "abc"
+          end
+
+          it "is invalid" do
+            expect(field).not_to be_valid
+            expect(field.errors.symbols_for(:min_value)).to include(:not_a_number)
+          end
+        end
+
+        describe "WITH a #{field_format} field WITH a blank bound" do
+          before do
+            field.field_format = field_format
+            field.min_value = ""
+          end
+
+          it "reads as unrestricted" do
+            expect(field).to be_valid
+            expect(field.min_value).to be_nil
+            expect(field.min_bound).to be_nil
+          end
+        end
+      end
+
+      it_behaves_like "a numeric format", "int"
+      it_behaves_like "a numeric format", "float"
+
+      describe "WITH an int field WITH a decimal bound" do
+        before do
+          field.field_format = "int"
+          field.min_value = 0.5
+        end
+
+        it "is invalid" do
+          expect(field).not_to be_valid
+          expect(field.errors.symbols_for(:min_value)).to include(:not_an_integer)
+        end
+      end
+
+      describe "WITH an int field WITH an integral bound" do
+        before do
+          field.field_format = "int"
+          field.min_value = 5
+        end
+
+        it "reads back as an integer" do
+          expect(field).to be_valid
+          expect(field.min_bound).to eq(5)
+          expect(field.min_bound).to be_a(Integer)
+        end
+      end
+
+      describe "WITH a float field WITH a decimal bound" do
+        before do
+          field.field_format = "float"
+          field.min_value = "0.1234"
+        end
+
+        it "keeps the decimal" do
+          expect(field).to be_valid
+          expect(field.min_bound).to eq(0.1234)
+        end
+      end
+
+      describe "WITH a text field WITH a value bound" do
+        before do
+          field.field_format = "text"
+          field.min_value = 5
+        end
+
+        it { expect(field).not_to be_valid }
+      end
+    end
+
     describe "WITH a text field WITH an invalid regexp" do
       before do
         field.field_format = "text"

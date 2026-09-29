@@ -33,26 +33,26 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
   shared_let(:admin) { create(:admin) }
 
-  let(:type) { create(:type) }
+  let(:variant) { create(:type).default_variant }
 
-  subject(:service_call) { described_class.new(type:, user: admin).call(source:) }
+  subject(:service_call) { described_class.new(variant:, user: admin).call(source:) }
 
-  def enabled_field_ids(a_type)
-    a_type.own_project_custom_field_type_mappings.reload.map(&:custom_field_id)
+  def enabled_field_ids(a_variant)
+    a_variant.own_project_custom_field_type_mappings.reload.map(&:custom_field_id)
   end
 
   describe "#call" do
     context "with a source" do
-      let(:source) { create(:type) }
+      let(:source) { create(:type).default_variant }
       let(:source_field) { create(:project_custom_field) }
 
       before do
-        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: source_field)
+        ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: source_field)
       end
 
-      it "copies the source's enabled project attributes onto the type" do
+      it "copies the source's enabled project attributes onto the variant" do
         expect(service_call).to be_success
-        expect(enabled_field_ids(type)).to contain_exactly(source_field.id)
+        expect(enabled_field_ids(variant)).to contain_exactly(source_field.id)
       end
 
       it "leaves the source untouched" do
@@ -62,25 +62,22 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
-    # Going Independent has to preserve the configuration the type was presenting, so the
-    # attributes its link chain excluded must not come back as owned rows.
-    context "when the type's link excludes some of the source's attributes",
+    context "when the variant's link excludes some of the source's attributes",
             with_flag: { type_variants: true } do
-      let(:source) { create(:type) }
+      let(:source) { create(:type).default_variant }
       let(:kept_field) { create(:project_custom_field) }
       let(:excluded_field) { create(:project_custom_field) }
 
       before do
-        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: kept_field)
-        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: excluded_field)
-        create(:type_configuration_link, type:, source:,
-                                         aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
-                                         excluded_elements: [excluded_field.attribute_name])
+        ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: kept_field)
+        ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: excluded_field)
+        link_configuration(variant, source: source, aspect: TypeVariant::PROJECT_ATTRIBUTES,
+                                    excluded: [excluded_field.attribute_name])
       end
 
-      it "copies only the attributes the type was actually presenting" do
+      it "copies only the attributes the variant was actually presenting" do
         expect(service_call).to be_success
-        expect(enabled_field_ids(type)).to contain_exactly(kept_field.id)
+        expect(enabled_field_ids(variant)).to contain_exactly(kept_field.id)
       end
 
       it "leaves the source's own mappings complete" do
@@ -90,62 +87,62 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
-    context "when the type already has enabled attributes" do
-      let(:source) { create(:type) }
+    context "when the variant already has enabled attributes" do
+      let(:source) { create(:type).default_variant }
       let(:source_field) { create(:project_custom_field) }
       let(:own_field) { create(:project_custom_field) }
 
       before do
-        ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
-        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: source_field)
+        ProjectCustomFieldTypeMapping.create!(type_variant: variant, project_custom_field: own_field)
+        ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: source_field)
       end
 
-      it "replaces the type's mappings with the source's" do
+      it "replaces the variant's mappings with the source's" do
         expect(service_call).to be_success
-        expect(enabled_field_ids(type)).to contain_exactly(source_field.id)
+        expect(enabled_field_ids(variant)).to contain_exactly(source_field.id)
       end
     end
 
     context "when the source has no enabled attributes" do
-      let(:source) { create(:type) }
+      let(:source) { create(:type).default_variant }
       let(:own_field) { create(:project_custom_field) }
 
       before do
-        ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
+        ProjectCustomFieldTypeMapping.create!(type_variant: variant, project_custom_field: own_field)
       end
 
-      it "clears the type's mappings" do
+      it "clears the variant's mappings" do
         expect(service_call).to be_success
-        expect(enabled_field_ids(type)).to be_empty
+        expect(enabled_field_ids(variant)).to be_empty
       end
     end
 
     context "when the source resolves through a link", with_flag: { type_variants: true } do
-      let(:owner) { create(:type) }
-      let(:source) { create(:type) }
+      let(:owner) { create(:type).default_variant }
+      let(:source) { create(:type).default_variant }
       let(:owner_field) { create(:project_custom_field) }
 
       before do
-        ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
-        source.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: owner)
+        ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: owner_field)
+        link_configuration(source, source: owner, aspect: TypeVariant::PROJECT_ATTRIBUTES)
       end
 
       it "adopts the resolved owner's enabled attributes" do
         expect(service_call).to be_success
-        expect(enabled_field_ids(type)).to contain_exactly(owner_field.id)
+        expect(enabled_field_ids(variant)).to contain_exactly(owner_field.id)
       end
     end
 
     context "with an invalid source" do
       let(:source) { nil }
 
-      it "fails without changing the type" do
+      it "fails without changing the variant" do
         expect(service_call).not_to be_success
       end
     end
 
-    context "when the source is the type itself" do
-      let(:source) { type }
+    context "when the source is the variant itself" do
+      let(:source) { variant }
 
       it "fails" do
         expect(service_call).not_to be_success

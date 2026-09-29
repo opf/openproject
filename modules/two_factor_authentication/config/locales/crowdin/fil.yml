@@ -20,10 +20,21 @@ fil:
             phone_number:
               error_phone_number_format: kinakailangan na ma pormat +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Ang 2FA na aparato
-      two_factor_authentication/device/sms: Ang Mobile phone
-      two_factor_authentication/device/totp: Ang Aplikasyon sa Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Ipagpatuloy
   button_make_active: Activate
   button_make_default: Markahan bilang default

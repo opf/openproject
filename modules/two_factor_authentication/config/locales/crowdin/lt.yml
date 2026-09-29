@@ -20,10 +20,31 @@ lt:
             phone_number:
               error_phone_number_format: formatas turi būti +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA įrenginys
-      two_factor_authentication/device/sms: Mobilus telefonas
-      two_factor_authentication/device/totp: Autentifikatoriaus aplikacija
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        many: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        many: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        many: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        many: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Tęsti
   button_make_active: Activate
   button_make_default: Pažymėti kaip numatytąjį

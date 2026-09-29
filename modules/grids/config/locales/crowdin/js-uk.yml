@@ -35,13 +35,13 @@ uk:
         project_timeline:
           accessible_date_range: "%{start} — %{end}"
           accessible_gate: 'Контрольна точка етапу «%{name}»: %{date}'
-          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_milestone: 'Рубіж «%{name}»: %{date}'
           accessible_phase: 'Етап «%{name}»: %{date}'
-          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          accessible_sprint: 'Спринт %{name}: %{date}. Статус: %{status}'
           sprint_status:
-            active: Active
-            completed: Completed
-            in_planning: In planning
+            active: Активний
+            completed: Завершено
+            in_planning: На етапі планування
           tooltip_type_gate: Контрольна точка етапу
           tooltip_type_milestone: Віха
           tooltip_type_phase: Етап

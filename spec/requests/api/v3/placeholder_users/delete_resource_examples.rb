@@ -38,7 +38,7 @@ RSpec.shared_examples "deletion allowed" do
   end
 
   context "with a non-existent user" do
-    let(:path) { api_v3_paths.placeholder_user 1337 }
+    let(:path) { api_v3_paths.placeholder_user(not_existing_id(PlaceholderUser)) }
 
     it_behaves_like "not found"
   end

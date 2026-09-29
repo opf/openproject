@@ -34,7 +34,7 @@ require "spec_helper"
 # The overlapping membership should not cause a false match between the two groups when filtering.
 RSpec.describe Queries::Filters::Shared::CustomFields::User do
   let(:project) { create(:project) }
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
   let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   let(:user) { create(:user, member_with_roles: { project => [role] }) }
 

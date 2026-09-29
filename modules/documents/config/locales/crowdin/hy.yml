@@ -31,13 +31,18 @@ hy:
         document_type:
           one_or_more_required: Հնարավոր չէ ջնջել փաստաթղթի վերջին տեսակը
     models:
-      document: Փաստաթուղթ
-      documents: Փաստաթղթեր
+      document:
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: Փաստաթղթեր
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus սերվերի URL
+    documents: Documents
   default_doc_category_tech: Տեխնիկական փաստաթղթավորում
   default_doc_category_user: Օգտատիրոջ փաստաթղթավորում
   documents:

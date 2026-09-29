@@ -30,10 +30,6 @@
 
 module ResourceAllocations
   module AllocationStep
-    # The inline "outside dates" warning below the date fields. It has its own
-    # streamable wrapper so date changes can refresh just this banner instead
-    # of the whole form — replacing the form would make Turbo restore focus to
-    # the date input afterwards, reopening its date picker.
     class ScheduleViolationBannerComponent < ApplicationComponent
       include OpTurbo::Streamable
 

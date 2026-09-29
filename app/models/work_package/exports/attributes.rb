@@ -34,9 +34,18 @@ module WorkPackage::Exports
       User.current.allowed_in_project?(:view_project_phases, project) && project.phases.active.any?
     end
 
+    def allowed_to_view_budgets?(project)
+      User.current.allowed_in_project?(:view_budgets, project)
+    end
+
     def allowed_to_view_attribute?(obj, attribute_name)
-      if attribute_name.to_sym == :project_phase && obj.is_a?(WorkPackage)
+      return true unless obj.is_a?(WorkPackage)
+
+      case attribute_name.to_sym
+      when :project_phase
         allowed_to_view_project_phases?(obj.project)
+      when :budget
+        allowed_to_view_budgets?(obj.project)
       else
         true
       end

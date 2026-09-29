@@ -26,12 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import type { FrameElement } from '@hotwired/turbo';
+import { filter } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   selector: 'op-wikis-tab',
@@ -39,15 +43,31 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WikisTabComponent implements OnInit, TabComponent {
+export class WikisTabComponent extends UntilDestroyedMixin implements OnInit, TabComponent {
   private elementRef = inject(ElementRef);
+  private halEvents = inject(HalEventsService);
   readonly PathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
 
   @Input() public workPackage:WorkPackageResource;
+
+  @ViewChild('frameElement') readonly frameElement:ElementRef<FrameElement>;
+
   turboFrameSrc:string;
 
   ngOnInit():void {
     this.turboFrameSrc = `${this.PathHelper.projectWorkPackagePath(this.workPackage.project.id as string, this.workPackage.id as string)}/wikis/tab`;
+    this
+      .halEvents
+      .aggregated$('WorkPackage')
+      .pipe(
+        filter((events) => events.some((event) => event.eventType === 'updated'
+          && event.id === this.workPackage.id
+          && 'description' in (event.commit?.changes ?? {}))),
+        this.untilDestroyed(),
+      )
+      .subscribe(() => {
+        void this.frameElement?.nativeElement.reload();
+      });
   }
 }

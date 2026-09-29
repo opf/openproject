@@ -14,6 +14,15 @@ ro:
           end_before_start: valoarea finală trebuie să fie mai mare decât valoarea inițială.
           outside: se află în afara rețelei.
           overlaps: suprapunere.
+    models:
+      grids/grid:
+        one: Grilă
+        few: Grile
+        other: Grile
+      grids/widget:
+        one: Widget
+        few: Widget-uri
+        other: Widget-uri
   grids:
     label_widget_in_grid: Widget conținut în grila %{grid_name}
     widgets:

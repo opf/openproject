@@ -33,18 +33,18 @@ module WorkPackageTypes
     class ProjectAttributesStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:)
-        super(type)
+      def initialize(variant:)
+        super(variant)
       end
 
       def call
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES
+          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
+                   variant: model,
+                   aspect: TypeVariant::PROJECT_ATTRIBUTES
                  )) +
             render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     type: model,
+                     variant: model,
                      project_custom_field_sections:
                    ))
         end
@@ -57,7 +57,7 @@ module WorkPackageTypes
       end
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
+        type_creation_wizard_path(**model.path_args, step: :project_attributes)
       end
     end
   end

@@ -92,9 +92,15 @@ es:
               task_version_must_be_the_same_as_story_version: debe coincidir con la versión de la historia principal.
           backlog_bucket_xor_sprint: no se puede asignar tanto a un sprint como a un bucket de backlog.
     models:
+      backlog_bucket:
+        one: Bucket de backlog
+        other: Buckets de backlog
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Objetivo de sprint
+        other: Objetivos de sprint
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Añadir un paquete de trabajo existente
@@ -113,6 +119,7 @@ es:
         other: Sprints
         zero: Todos los sprints
       select_panel_title: Seleccionar elementos
+    blankslate_filtered_title: Ningún paquete de trabajo coincide con los criterios de filtrado.
     bucket_component:
       action_menu:
         add_existing_work_package: Añadir un paquete de trabajo existente
@@ -155,6 +162,8 @@ es:
         one: Mostrar 1 artículo más
         other: Mostrar %{count} artículos más
       title: Bandeja de entrada
+    index_subheader_component:
+      label_search_by_subject: Buscar paquetes de trabajo por tema
     label_burndown_chart: Diagrama Burndown
     label_is_done_status: El estado %{status_name} significa completado
     label_sprint_board: Tablero Sprint

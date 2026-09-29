@@ -173,7 +173,7 @@ RSpec.describe "API v3 time_entry resource" do
 
     context "when filtering by work package" do
       let(:unwanted_work_package) do
-        create(:work_package, project:, type: project.types.first)
+        create(:work_package, project:, type: project.enabled_types.first)
       end
 
       let(:other_time_entry) do

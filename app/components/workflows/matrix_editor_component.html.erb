@@ -103,7 +103,7 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: :secondary,
           leading_icon: :plus,
           label: t("admin.workflows.status_button"),
-          href: helpers.status_dialog_type_workflow_matrix_path(type, tab:, role_ids: roles.map(&:id), status_ids: statuses.pluck(:id).presence),
+          href: helpers.status_dialog_type_workflow_matrix_path(**variant.path_args, tab:, role_ids: roles.map(&:id), status_ids: statuses.pluck(:id).presence),
           data: { controller: "async-dialog" }
         ) do
           t("admin.workflows.status_button")
@@ -114,7 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: :secondary,
           leading_icon: :copy,
           label: copy_button_label,
-          href: helpers.new_type_workflow_copy_path(type, source_role_id: roles.first&.id),
+          href: helpers.new_type_workflow_copy_path(**variant.path_args, source_role_id: roles.first&.id),
           aria: { label: copy_button_label },
           title: copy_button_label,
           data: { controller: "async-dialog", "admin--workflow-checkbox-state-confirmation-trigger": "click" }
@@ -129,7 +129,6 @@ See COPYRIGHT and LICENSE files for more details.
     <%# The enclosing form belongs to the host page; this only groups what the dirty-state
         controller needs. %>
     <%= tag.div(id: state_id, data: state_data) do %>
-      <%= hidden_field_tag "type_id", type.id %>
       <% roles.each do |role| %>
         <%= hidden_field_tag "role_ids[]", role.id %>
       <% end %>

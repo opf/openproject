@@ -32,8 +32,8 @@ module Import
   class JiraProject < ApplicationRecord
     self.table_name = "jira_projects"
 
-    belongs_to :jira, class_name: "Import::Jira"
     belongs_to :jira_import, class_name: "Import::JiraImport"
     has_many :jira_issues, class_name: "Import::JiraIssue", dependent: :destroy
+    has_many :jira_versions, class_name: "Import::JiraVersion", dependent: :destroy
   end
 end

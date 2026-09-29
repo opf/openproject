@@ -39,7 +39,8 @@ module ResourceAllocations
           value: formatted_hours,
           invalid: allocated_time_error.present?,
           validation_message: allocated_time_error,
-          data: { controller: "chronic-duration" }
+          data: { controller: "chronic-duration",
+                  **DurationConverter.stimulus_data_values("chronic-duration") }
         )
       end
 

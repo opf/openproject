@@ -65,8 +65,8 @@ RSpec.describe "Editing a work package in the split view after moving it",
 
       move_work_package(target_sprint)
 
-      backlogs_page.expect_work_package_not_in_sprint(work_package, sprint)
-      backlogs_page.expect_work_package_in_sprint(work_package, target_sprint)
+      backlogs_page.expect_no_sprint_items(sprint, items: work_package)
+      backlogs_page.expect_sprint_items(target_sprint, items: work_package)
       split_view.expect_attributes sprint: target_sprint
 
       split_view.edit_field(:subject).update("Updated after move")

@@ -17,10 +17,10 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project_custom_field_section:, project_custom_fields:, linked: false, exclusion_state: nil)
+      def initialize(variant:, project_custom_field_section:, project_custom_fields:, linked: false, exclusion_state: nil)
         super()
 
-        @type = type
+        @variant = variant
         @project_custom_field_section = project_custom_field_section
         @project_custom_fields = project_custom_fields
         @linked = linked
@@ -42,8 +42,8 @@ module WorkPackageTypes
       def bulk_path(action)
         send(
           :"#{action}_type_project_attributes_path",
-          @type,
-          project_custom_field_type_mapping: { type_id: @type.id, custom_field_section_id: @project_custom_field_section.id }
+          **@variant.path_args,
+          project_custom_field_type_mapping: { custom_field_section_id: @project_custom_field_section.id }
         )
       end
 

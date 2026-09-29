@@ -23,8 +23,10 @@ description: |-
   | id          | Sprint id                                     | Integer     | x > 0          | READ                 |
   | name        | Sprint name                                   | String      | not null       | READ                 |
   | description |                                               | Formattable |                | READ                 |
-  | startDate   |                                               | Date        |                | READ                 |
-  | finishDate  |                                               | Date        |                | READ                 |
+  | startDate   | Date when the sprint is planned to start      | Date        |                | READ                 |
+  | finishDate  | Date when the sprint is planned to end        | Date        |                | READ                 |
+  | startedAt   | Time when the sprint actually started         | DateTime    |                | READ                 |
+  | completedAt | Time when the sprint actually ended           | DateTime    |                | READ                 |
   | createdAt   | Time of creation                              | DateTime    | not null       | READ                 |
   | updatedAt   | Time of the most recent change to the sprint  | DateTime    | not null       | READ                 |
 name: Sprints

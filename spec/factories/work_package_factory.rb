@@ -84,7 +84,8 @@ FactoryBot.define do
     end
 
     callback(:after_build) do |work_package, evaluator|
-      work_package.type ||= TestProf::FactoryBot.get_factory_default(:type) || work_package.project.types.first
+      work_package.type ||= TestProf::FactoryBot.get_factory_default(:type) ||
+                            enabled_types_of(work_package.project).first
 
       custom_values = evaluator.custom_values || {}
 
@@ -101,7 +102,7 @@ FactoryBot.define do
 
     callback(:after_stub) do |wp, evaluator|
       unless wp.type_id || evaluator.overrides?(:type) || wp.project.nil?
-        wp.type = wp.project.types.first
+        wp.type = enabled_types_of(wp.project).first
       end
     end
 

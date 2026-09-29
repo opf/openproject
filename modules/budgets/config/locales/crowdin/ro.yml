@@ -46,9 +46,18 @@ ro:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Buget
-      labor_budget_item: Planned labor cost
-      material_budget_item: Unitate
+      budget:
+        one: Budget
+        few: Budgets
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        few: Planned labor costs
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        few: Units
+        other: Units
   activity:
     filter:
       budget: Bugete
@@ -102,7 +111,6 @@ ro:
   help_click_to_edit: Câmpul %s este gol. Click aici pentru a-l edita.
   help_currency_format: Formatul valorilor valutare afișate. %n este înlocuit cu valoarea monedei, %u este înlocuit cu unitatea monetară.
   help_override_rate: Introdu o valoare aici pentru a înlocui rata implicită.
-  label_budget: Buget
   label_budget_available: Buget disponibil
   label_budget_details: Detalii buget
   label_budget_id: 'Buget #%{id}'

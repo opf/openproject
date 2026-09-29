@@ -76,6 +76,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
     end
 
     context "with permission" do
+      let!(:version) { create(:version, project: project2) }
+
       before do
         expect(child_wp.project_id).to eq(project.id)
 
@@ -133,6 +135,18 @@ RSpec.describe "Moving a work package through Rails view", :js do
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
+      end
+
+      it "sets the observed-in version on move" do
+        select version.name, from: "observed_in_version_ids"
+
+        click_on "Move and follow"
+        wait_for_reload
+
+        page.find(".inline-edit--container.subject", text: work_package.subject)
+
+        work_package.reload
+        expect(work_package.observed_in_versions).to contain_exactly(version)
       end
 
       context "when the target project does not have the type" do
@@ -204,7 +218,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
                          projects: [project, project2])
     create(:workflow, type:, old_status: status, new_status:, role: mover_role)
     create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
-    type2.custom_fields << required_cf
+    type2.default_variant.custom_fields << required_cf
 
     visit new_move_work_packages_path(ids: work_packages.map(&:id))
 

@@ -21,6 +21,11 @@
 #++
 ---
 hi:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Save report as...
   comments: टिप्पणी
   cost_reports_title: Time and costs
@@ -46,7 +51,6 @@ hi:
   label_closed: बंद
   label_columns: स्तंभ
   label_cost_entry_attributes: Cost entry attributes
-  label_cost_report: Cost report
   label_cost_report_plural: Cost reports
   label_count: Count
   label_days_ago: during the last days

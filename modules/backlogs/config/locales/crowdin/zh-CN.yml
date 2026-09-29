@@ -74,7 +74,7 @@ zh-CN:
               unfinished_work_packages:
                 other: 此冲刺中有 %{count} 个未完成的工作包。
             status:
-              not_active: 未激活，无法关闭。
+              not_active: 未处于有效状态，因此无法关闭。
         sprint_goal:
           project_already_has_goal: 已为此冲刺设定目标。
         work_package:
@@ -91,8 +91,12 @@ zh-CN:
               task_version_must_be_the_same_as_story_version: 必须与父级故事的版本相同。
           backlog_bucket_xor_sprint: 无法同时指定至冲刺和积压工作存储桶。
     models:
+      backlog_bucket:
+        other: 积压工作存储桶
       sprint:
         other: 冲刺
+      sprint_goal:
+        other: 冲刺目标
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: 添加现有工作包
@@ -111,6 +115,7 @@ zh-CN:
         other: 冲刺
         zero: 所有冲刺
       select_panel_title: 选择条目
+    blankslate_filtered_title: 没有工作包符合筛选条件。
     bucket_component:
       action_menu:
         add_existing_work_package: 添加现有工作包
@@ -152,6 +157,8 @@ zh-CN:
       show_more:
         other: 显示其他 %{count} 个条目
       title: 收件箱
+    index_subheader_component:
+      label_search_by_subject: 按主题搜索工作包
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板
@@ -179,7 +186,7 @@ zh-CN:
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
       drop_zone_label: 拖放到此处以添加此条目
-      label_actions: 冲刺行动
+      label_actions: 冲刺操作
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。

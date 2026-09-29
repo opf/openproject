@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
           Primer::Forms::ToggleSwitchForm.new(
             name: "enable_work_package_type_all_projects",
             label: t("types.edit.projects.enable_all"),
-            src: enable_all_type_projects_path(model),
+            src: enable_all_type_projects_path(**variant.path_args),
             csrf_token: form_authenticity_token,
             status_label_position: :start,
             checked: enabled_for_all_projects?,

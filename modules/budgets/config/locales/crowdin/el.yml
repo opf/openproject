@@ -46,9 +46,15 @@ el:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Προϋπολογισμός
-      labor_budget_item: Planned labor cost
-      material_budget_item: Μονάδα
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Προϋπολογισμοί
@@ -102,7 +108,6 @@ el:
   help_click_to_edit: Κάντε κλικ εδώ για επεξεργασία.
   help_currency_format: Μορφοποίηση των νομισματικών τιμών που εμφανίζονται. %n αντικαθίσταται με την τρέχουσα τιμή, %u αντικαθίσταται με την τρέχουσα μονάδα.
   help_override_rate: Εισάγετε μια τιμή εδώ για να αντικαταστήσετε την τρέχουσα αμοιβή.
-  label_budget: Προϋπολογισμός
   label_budget_available: Διαθέσιμος προϋπολογισμός
   label_budget_details: Λεπτομέρειες προϋπολογισμού
   label_budget_id: 'Προϋπολογισμός #%{id}'

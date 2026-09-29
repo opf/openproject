@@ -39,8 +39,16 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @ifc_model, url: bcf_project_ifc_model_path(@project, @ifc_model), method: "PATCH" do |f| -%>
-  <%= error_messages_for @ifc_model %>
-  <%= render partial: "form", locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+<%=
+  primer_form_with(
+    model: @ifc_model,
+    url: bcf_project_ifc_model_path(@project, @ifc_model),
+    method: :patch
+  ) do |f|
+    render_inline_form(f) do |form|
+      form.text_field(name: :title, label: Bim::IfcModels::IfcModel.human_attribute_name(:title), input_width: :medium)
+      form.check_box(name: :is_default, label: Bim::IfcModels::IfcModel.human_attribute_name(:is_default))
+      form.submit(name: :save, label: I18n.t(:button_save), scheme: :primary)
+    end
+  end
+%>

@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   primer_form_with(
-    url: helpers.confirm_statuses_type_workflow_matrix_path(type, tab:, role_ids: roles.map(&:id)),
+    url: helpers.confirm_statuses_type_workflow_matrix_path(**variant.path_args, tab:, role_ids: roles.map(&:id)),
     method: :post,
     id: FORM_ID,
     data: { turbo_frame: "workflow-table" }

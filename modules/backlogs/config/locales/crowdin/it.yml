@@ -92,9 +92,15 @@ it:
               task_version_must_be_the_same_as_story_version: deve essere uguale alla versione della storia del genitore.
           backlog_bucket_xor_sprint: non può essere assegnato contemporaneamente a uno sprint e a un bucket del backlog.
     models:
+      backlog_bucket:
+        one: Bucket del backlog
+        other: Bucket del backlog
       sprint:
         one: Sprint
         other: Sprint
+      sprint_goal:
+        one: Obiettivo dello sprint
+        other: Obiettivi dello sprint
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Aggiungi macro-attività esistente
@@ -113,6 +119,7 @@ it:
         other: Sprint
         zero: Tutti gli sprint
       select_panel_title: Seleziona elementi
+    blankslate_filtered_title: Nessuna macro-attività corrisponde ai criteri di filtro.
     bucket_component:
       action_menu:
         add_existing_work_package: Aggiungi macro-attività esistente
@@ -155,6 +162,8 @@ it:
         one: Mostra 1 altro elemento
         other: Mostra altri %{count} elementi
       title: Posta in arrivo
+    index_subheader_component:
+      label_search_by_subject: Cerca macro-attività per oggetto
     label_burndown_chart: Grafico Burndown
     label_is_done_status: Lo stato %{status_name} vuol dire completato
     label_sprint_board: Bacheca sprint

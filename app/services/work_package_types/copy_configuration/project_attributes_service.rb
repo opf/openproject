@@ -33,23 +33,23 @@ module WorkPackageTypes
     class ProjectAttributesService < BaseService
       private
 
-      def aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+      def aspect = TypeVariant::PROJECT_ATTRIBUTES
 
-      # Adopts the source's mappings minus the ones the type's link chain excludes: going
-      # Independent has to keep the configuration the type was presenting, not silently
+      # Adopts the source's mappings minus the ones the variant's link chain excludes: going
+      # Independent has to keep the configuration the variant was presenting, not silently
       # re-enable the attributes it was hiding. Runs before the link is severed, so the
       # exclusions are still readable here.
       def copy_from(source)
         custom_field_ids = source.own_project_custom_field_type_mappings.pluck(:custom_field_id) -
-                           type.excluded_custom_field_ids(aspect)
+                           variant.excluded_custom_field_ids(aspect)
 
         ProjectCustomFieldTypeMapping.transaction do
-          type.own_project_custom_field_type_mappings.delete_all
+          variant.own_project_custom_field_type_mappings.delete_all
           next if custom_field_ids.empty?
 
-          type.own_project_custom_field_type_mappings.insert_all(
+          variant.own_project_custom_field_type_mappings.insert_all(
             custom_field_ids.map { |id| { custom_field_id: id } },
-            unique_by: %i[type_id custom_field_id]
+            unique_by: %i[type_variant_id custom_field_id]
           )
         end
       end

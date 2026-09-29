@@ -48,33 +48,42 @@ module Pages
           "/projects/#{project.identifier}/settings/work_packages/types"
         end
 
-        def expect_type_row(type, variant: nil)
-          row = find_row(type)
+        def expect_type_row(variant, variant_name: nil)
+          row = find_row(variant)
 
-          expect(row).to have_text(type.root.name)
-          expect(row).to have_text("Variant: #{variant}") if variant
+          expect(row).to have_text(variant.name)
+          return if variant_name.nil?
+
+          expect(row).to have_css("[data-test-selector='project-types-variant-#{variant.id}']",
+                                  text: "Variant in this project")
+          expect(row).to have_text(variant_name)
         end
 
-        def expect_no_type_row(type)
-          expect(page).to have_no_css("[data-test-selector='project-types-row-#{type.id}']")
+        def expect_no_type_row(variant)
+          expect(page).to have_no_css("[data-test-selector='project-types-row-#{variant.id}']")
         end
 
-        def remove_type(type)
-          within(find_row(type)) { find("action-menu > button").click }
+        def remove_type(variant)
+          open_type_menu(variant)
           click_on "Remove from project"
         end
 
-        def switch_type(type, target:)
-          open_switch_dialog(type)
+        def switch_type(variant, target:)
+          open_switch_dialog(variant)
           choose_switch_target(target)
           apply_switch
         end
 
-        def open_switch_dialog(type)
-          within(find_row(type)) { find("action-menu > button").click }
-          click_on "Switch variant"
+        def open_switch_dialog(variant)
+          open_type_menu(variant)
+          click_on "Use in this project"
 
           expect(switch_dialog).to have_select("Variant")
+        end
+
+        # The type's own menu, not one of the variant rows below it: both live inside the group.
+        def open_type_menu(variant)
+          within(find_row(variant)) { find(".op-border-box-list-header action-menu > button").click }
         end
 
         def choose_switch_target(target)
@@ -85,18 +94,27 @@ module Pages
           within(switch_dialog) { click_on "Apply" }
         end
 
+        def expect_switch_impact(text)
+          expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_text(text)
+        end
+
+        def expect_no_switch_impact
+          expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_no_text(/\S/)
+        end
+
         def switch_dialog
           page.find_by_id("project-types-switch-dialog")
         end
 
-        def expect_no_switch_action(type)
-          within(find_row(type)) { find("action-menu > button").click }
+        def expect_no_switch_action(variant)
+          open_type_menu(variant)
 
-          expect(page).to have_no_text("Switch variant")
+          # Scoped to the group: another type's menu carries the same item, hidden until opened.
+          expect(find_row(variant)).to have_no_text("Use in this project")
         end
 
-        def find_row(type)
-          page.find("[data-test-selector='project-types-row-#{type.id}']")
+        def find_row(variant)
+          page.find("[data-test-selector='project-types-row-#{variant.id}']")
         end
       end
     end

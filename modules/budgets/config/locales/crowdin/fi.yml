@@ -46,9 +46,15 @@ fi:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Budjetti
-      labor_budget_item: Planned labor cost
-      material_budget_item: Yksikkö
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Budjetit
@@ -102,7 +108,6 @@ fi:
   help_click_to_edit: Muokkaa napsauttamalla tätä.
   help_currency_format: Käytetty valuuttamuoto. %n korvataan arvolla, %u korvataan valuuttayksiköllä.
   help_override_rate: Anna tähän arvo ohittaaksesi vakiohinnan.
-  label_budget: Budjetti
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Budjetti #%{id}'

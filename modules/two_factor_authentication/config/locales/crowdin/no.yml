@@ -20,10 +20,21 @@
             phone_number:
               error_phone_number_format: må ha format + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA-enhet
-      two_factor_authentication/device/sms: Mobiltelefon
-      two_factor_authentication/device/totp: Autentiseringsprogram
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Fortsette
   button_make_active: Activate
   button_make_default: Merk som standard

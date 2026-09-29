@@ -107,24 +107,14 @@ RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, "render
       end
     end
 
-    context "without enterprise" do
-      it "does not have the date alert settings in the resulting json" do
-        expect(subject).not_to have_json_path("startDate")
-        expect(subject).not_to have_json_path("dueDate")
-        expect(subject).not_to have_json_path("overdue")
-      end
+    it_behaves_like "property", :startDate do
+      let(:value) { "P1D" }
     end
-
-    context "with enterprise", with_ee: %i[date_alerts] do
-      it_behaves_like "property", :startDate do
-        let(:value) { "P1D" }
-      end
-      it_behaves_like "property", :dueDate do
-        let(:value) { "P1D" }
-      end
-      it_behaves_like "property", :overdue do
-        let(:value) { "P3D" }
-      end
+    it_behaves_like "property", :dueDate do
+      let(:value) { "P1D" }
+    end
+    it_behaves_like "property", :overdue do
+      let(:value) { "P3D" }
     end
   end
 
@@ -142,10 +132,14 @@ RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, "render
       build_stubbed(:notification_setting, project: workspace, start_date: nil, due_date: nil, overdue: nil)
     end
 
-    it "does not represent them in the resulting json" do
-      expect(subject).not_to have_json_path("startDate")
-      expect(subject).not_to have_json_path("dueDate")
-      expect(subject).not_to have_json_path("overdue")
+    it_behaves_like "property", :startDate do
+      let(:value) { nil }
+    end
+    it_behaves_like "property", :dueDate do
+      let(:value) { nil }
+    end
+    it_behaves_like "property", :overdue do
+      let(:value) { nil }
     end
   end
 end

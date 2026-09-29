@@ -91,7 +91,7 @@ module Projects
       end
 
       def available_types
-        model.types.pluck(:name, :id)
+        model.enabled_types.pluck(:name, :id)
       end
     end
   end

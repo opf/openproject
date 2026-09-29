@@ -1,5 +1,12 @@
 ---
 ru:
+  activerecord:
+    models:
+      grids/overview:
+        one: Обзор
+        few: Overviews
+        many: Overviews
+        other: Обзоры
   overviews:
     label_dashboard: Дашборд
     label_home: 'Обзор: %{workspace_type}'

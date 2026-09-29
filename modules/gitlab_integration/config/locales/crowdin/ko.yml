@@ -38,6 +38,15 @@ ko:
           attributes:
             labels:
               invalid_schema: '키가 있는 해시 배열이어야 합니다: color, title'
+    models:
+      gitlab_issue:
+        other: GitLab 이슈
+      gitlab_merge_request:
+        other: GitLab 병합 요청
+      gitlab_pipeline:
+        other: GitLab 파이프라인
+      gitlab_user:
+        other: GitLab 사용자
   attributes:
     commit: 커밋
     gitlab: GitLab 식별자

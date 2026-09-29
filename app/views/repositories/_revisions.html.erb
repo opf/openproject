@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         </colgroup>
         <caption class="sr-only">
           <span>
-            <%= t(:text_table_difference_description, entries: "#{t(:label_changeset)} #{t(:label_version_plural)}") %>
+            <%= t(:text_table_difference_description, entries: t(:label_changeset_versions)) %>
           </span>
         </caption>
         <thead>
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="generic-table--empty-header">
                 <div class="generic-table--header">
                   <span>
-                    <%= "#{t(:description_compare_from)} #{t(:label_changeset)}" %>
+                    <%= t(:description_compare_changeset_from) %>
                   </span>
                 </div>
               </div>
@@ -77,7 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="generic-table--empty-header">
                 <div class="generic-table--header">
                   <span>
-                    <%= "#{t(:description_compare_to)} #{t(:label_changeset)}" %>
+                    <%= t(:description_compare_changeset_to) %>
                   </span>
                 </div>
               </div>
@@ -120,7 +120,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= link_to_revision(changeset, project) %>
               </td>
               <td class="checkbox">
-                <%= label_tag "cb-#{line_num}", "#{t(:description_compare_from)} #{t(:label_changeset)}", class: "sr-only" %>
+                <%= label_tag "cb-#{line_num}", t(:description_compare_changeset_from), class: "sr-only" %>
                 <% if show_diff && (line_num < revisions.size) %>
                 <%= radio_button_tag "rev",
                                      changeset.identifier,
@@ -130,7 +130,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <% end %>
               </td>
               <td class="checkbox">
-                <%= label_tag "cbto-#{line_num}", "#{t(:description_compare_to)} #{t(:label_changeset)}", class: "sr-only" %>
+                <%= label_tag "cbto-#{line_num}", t(:description_compare_changeset_to), class: "sr-only" %>
                 <% if show_diff && (line_num > 1) %>
                 <%= radio_button_tag "rev_to",
                                      changeset.identifier,

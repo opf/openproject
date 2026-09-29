@@ -98,7 +98,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:user) do
     create(:user,
            member_with_permissions: {
-             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases]
+             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
+                           view_budgets]
            })
   end
   let(:another_user) do
@@ -250,7 +251,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Priority", "Normal",
       *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
       *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
-      "Version", work_package.target_versions.first,
+      WorkPackage.human_attribute_name(:version), work_package.target_versions.first,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
@@ -261,7 +262,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Work Package Custom Field Boolean", "Yes",
       "My Link", "https://example.com",
       "Costs",
-      "Spent units", "Labor costs", "Unit costs", "Overall costs", "Budget"
+      "Spent units", "Labor costs", "Unit costs", "Overall costs",
+      *(project.module_enabled?(:budgets) ? ["Budget"] : [])
     ]
   end
 

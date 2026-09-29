@@ -73,8 +73,24 @@ sv:
               invalid_password: är inte giltig.
               unknown_error: kunde inte valideras med fillagringsleverantören. Kontrollera att anslutningen fungerar korrekt.
     models:
-      file_link: Fil
-      storages/storage: Lagring
+      storages/file_link:
+        one: Fillänk
+        other: Fillänkar
+      storages/nextcloud_storage:
+        one: Nextcloud-lagring
+        other: Nextcloud-lagringar
+      storages/one_drive_storage:
+        one: OneDrive-lagring
+        other: OneDrive-lagringar
+      storages/project_storage:
+        one: Projektlagring
+        other: Projektlagringar
+      storages/sharepoint_storage:
+        one: SharePoint-lagring
+        other: SharePoint-lagringar
+      storages/storage:
+        one: Lagring
+        other: Lagringar
   api_v3:
     errors:
       too_many_elements_created_at_once: Alltför många element skapade på en gång. Förväntade %{max} som mest, fick %{actual}.

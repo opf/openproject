@@ -73,8 +73,48 @@ ar:
               invalid_password: is not valid.
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: ملف
-      storages/storage: Storage
+      storages/file_link:
+        zero: File links
+        one: File link
+        two: File links
+        few: File links
+        many: File links
+        other: File links
+      storages/nextcloud_storage:
+        zero: Nextcloud storages
+        one: Nextcloud storage
+        two: Nextcloud storages
+        few: Nextcloud storages
+        many: Nextcloud storages
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        zero: OneDrive storages
+        one: OneDrive storage
+        two: OneDrive storages
+        few: OneDrive storages
+        many: OneDrive storages
+        other: OneDrive storages
+      storages/project_storage:
+        zero: Project storages
+        one: Project storage
+        two: Project storages
+        few: Project storages
+        many: Project storages
+        other: Project storages
+      storages/sharepoint_storage:
+        zero: SharePoint storages
+        one: SharePoint storage
+        two: SharePoint storages
+        few: SharePoint storages
+        many: SharePoint storages
+        other: SharePoint storages
+      storages/storage:
+        zero: Storages
+        one: Storage
+        two: Storages
+        few: Storages
+        many: Storages
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.

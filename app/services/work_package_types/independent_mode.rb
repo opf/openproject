@@ -43,11 +43,11 @@ module WorkPackageTypes
     EMPTY = "empty"
 
     AVAILABLE = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => [COPY, DEFAULT],
-      Type::ConfigurationLink::DEFAULTS => [COPY, EMPTY],
-      Type::ConfigurationLink::PDF_EXPORT => [COPY, DEFAULT],
-      Type::ConfigurationLink::WORKFLOWS => [COPY, EMPTY],
-      Type::ConfigurationLink::PROJECT_ATTRIBUTES => [COPY, EMPTY]
+      TypeVariant::FORM_CONFIGURATION => [COPY, DEFAULT],
+      TypeVariant::DEFAULTS => [COPY, EMPTY],
+      TypeVariant::PDF_EXPORT => [COPY, DEFAULT],
+      TypeVariant::WORKFLOWS => [COPY, EMPTY],
+      TypeVariant::PROJECT_ATTRIBUTES => [COPY, EMPTY]
     }.freeze
 
     module_function

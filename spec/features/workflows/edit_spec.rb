@@ -67,13 +67,15 @@ RSpec.describe "Workflow edit", :js do
     expect(page)
       .to have_field workflow_checkbox(1, 0), checked: true
 
-    expect(Workflow.where(type_id: type.id, role_id: role.id).count).to be 2
+    expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id).count).to be 2
 
-    w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[0].id, new_status_id: statuses[1].id).first
+    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[0].id,
+                       new_status_id: statuses[1].id).first
     assert !w.author
     assert !w.assignee
 
-    w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[1].id, new_status_id: statuses[0].id).first
+    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
+                       new_status_id: statuses[0].id).first
     assert !w.author
     assert !w.assignee
   end
@@ -99,15 +101,19 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_id: type.id, role_id: role.id, author: true).count).to be 2
+      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, author: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[1].id, new_status_id: statuses[0].id).first
+      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
+                         new_status_id: statuses[0].id).first
       assert w.author
       assert !w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[0].id, new_status_id: statuses[1].id,
+      w = Workflow.where(role_id: role.id,
+                         type_variant_id: type.default_variant.id,
+                         old_status_id: statuses[0].id,
+                         new_status_id: statuses[1].id,
                          author: false).first
       assert !w.author
       assert !w.assignee
@@ -135,15 +141,19 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_id: type.id, role_id: role.id, assignee: true).count).to be 2
+      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, assignee: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[1].id, new_status_id: statuses[0].id).first
+      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
+                         new_status_id: statuses[0].id).first
       assert !w.author
       assert w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[0].id, new_status_id: statuses[1].id,
+      w = Workflow.where(role_id: role.id,
+                         type_variant_id: type.default_variant.id,
+                         old_status_id: statuses[0].id,
+                         new_status_id: statuses[1].id,
                          assignee: false).first
       assert !w.author
       assert !w.assignee
@@ -736,7 +746,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     before do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+      link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
       visit_workflow_edit(roles: [role])
     end
 
@@ -752,37 +762,37 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
-  describe "reuse mode banner", with_flag: { type_variants: true } do
+  describe "reuse mode boxes", with_flag: { type_variants: true } do
     let(:source_type) { create(:type, name: "Feature") }
 
     context "when the workflow configuration is independent" do
       before { visit_workflow_edit(roles: [role]) }
 
-      it "shows the independent banner offering to switch to linked, or to copy from type" do
-        expect(page).to have_text("Independent mode")
-        expect(page).to have_link("Switch to linked mode")
-        expect(page).to have_link("Copy from type")
+      it "shows the manual box offering to inherit from another type, or to copy from one" do
+        expect(page).to have_text("Manual configuration")
+        expect(page).to have_link("Inherit from another type")
+        expect(page).to have_link("Copy from another type")
       end
     end
 
     context "when the workflow configuration is linked to a source" do
       before do
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+        link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
         visit_workflow_edit(roles: [role])
       end
 
-      it "shows the linked banner naming the source with change and switch actions" do
-        expect(page).to have_text("Linked mode")
+      it "shows the inherited box naming the source with change and switch actions" do
+        expect(page).to have_text("Inherited configuration")
         expect(page).to have_link("Change source type")
-        expect(page).to have_link("Switch to independent mode")
+        expect(page).to have_link("Configure manually")
       end
     end
 
     context "when the variants feature is disabled", with_flag: { type_variants: false } do
       before { visit_workflow_edit(roles: [role]) }
 
-      it "does not show the reuse mode banner" do
-        expect(page).to have_no_text("Independent mode")
+      it "does not show the reuse mode boxes" do
+        expect(page).to have_no_text("Manual configuration")
       end
     end
   end

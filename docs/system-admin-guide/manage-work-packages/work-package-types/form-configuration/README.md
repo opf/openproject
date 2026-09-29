@@ -18,7 +18,10 @@ To configure the work package form for a type, navigate to **Administration → 
 
 The form preview on the right shows the attributes that are currently displayed when creating or editing work packages of this type. Attributes are organized into sections.
 
-On the left side are all available attributes and [custom fields](../../../custom-fields) that are not currently used in the form. You can filter them using the search field.
+On the left side are all available attributes and [custom fields](../../../custom-fields) that are not currently used in the form. You can filter them using the search field.  User created custom fields are distinguished from system **Built-in** attributes by a label indicating the field's format. 
+
+>[!TIP]
+> Built-in fields can not be permanently removed. If you delete them from the form, they will appear on the left side.
 
 To customize the form:
 
@@ -45,6 +48,22 @@ Changes are saved automatically. Users creating or editing a work package of thi
 Watch the following video to see how you can customize your work packages with custom fields and configure the work package forms:
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4"></video>
+
+### Required fields for work package types
+
+> [!IMPORTANT]
+> This feature is currently available on the **Dev branch**.
+
+Administrators can define which custom fields are mandatory for a specific work package type.
+
+To make a custom field required, select the **More (⋯)** menu at the right end of the custom field row and select **Require in this type**.
+
+![More menu for a work package custom field with the "Require in this type" option](require-custom-field-for-work-package-type.png)
+
+Once marked as required, the custom field is labeled **Required in this type**.
+
+![Work package custom field with the "Required in this type" label](custom-field-required-for-work-package-type.png)
+
 
 ## Add table of related work packages to a work package form (Enterprise add-on)
 

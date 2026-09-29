@@ -52,6 +52,7 @@ module WorkPackageTypes
         attribute(:estimated_time, -> { WorkPackage.human_attribute_name(:estimated_hours) }, ->(wp) { wp.estimated_hours }, DURATION),
         attribute(:remaining_time, -> { WorkPackage.human_attribute_name(:remaining_hours) }, ->(wp) { wp.remaining_hours }, DURATION),
         attribute(:finish_date, -> { WorkPackage.human_attribute_name(:due_date) }, ->(wp) { wp.due_date }, DATE),
+        attribute(:observed_in_versions, -> { WorkPackage.human_attribute_name(:observed_in_versions) }, ->(wp) { wp.observed_in_versions }, ARRAY),
         attribute(:parent_id, -> { WorkPackage.human_attribute_name(:id) }, ->(parent) { parent.id }),
         attribute(:parent_assignee, -> { WorkPackage.human_attribute_name(:assigned_to) }, ->(parent) { parent.assigned_to }),
         attribute(:parent_author, -> { WorkPackage.human_attribute_name(:author) }, ->(parent) { parent.author }),
@@ -60,6 +61,7 @@ module WorkPackageTypes
         attribute(:parent_estimated_time, -> { WorkPackage.human_attribute_name(:estimated_hours) }, ->(parent) { parent.estimated_hours }, DURATION),
         attribute(:parent_remaining_time, -> { WorkPackage.human_attribute_name(:remaining_hours) }, ->(parent) { parent.remaining_hours }, DURATION),
         attribute(:parent_finish_date, -> { WorkPackage.human_attribute_name(:due_date) }, ->(parent) { parent.due_date }, DATE),
+        attribute(:parent_observed_in_versions, -> { WorkPackage.human_attribute_name(:observed_in_versions) }, ->(parent) { parent.observed_in_versions }, ARRAY),
         attribute(:parent_priority, -> { WorkPackage.human_attribute_name(:priority) }, ->(parent) { parent.priority }),
         attribute(:parent_subject, -> { WorkPackage.human_attribute_name(:subject) }, ->(parent) { parent.subject }),
         attribute(:parent_status, -> { WorkPackage.human_attribute_name(:status) }, ->(parent) { parent.status }),
@@ -79,10 +81,10 @@ module WorkPackageTypes
       ].freeze
       # rubocop:enable Layout/LineLength
 
-      def partitioned_tokens_for_type(type)
+      def partitioned_tokens_for_type(variant)
         enabled_tokens = [
           *BASE_ATTRIBUTE_TOKENS,
-          *tokenize(work_package_cfs_for(type)),
+          *tokenize(work_package_cfs_for(variant)),
           *tokenize(project_cfs, "project_"),
           *tokenize(all_work_package_cfs, "parent_")
         ].to_set
@@ -142,8 +144,8 @@ module WorkPackageTypes
         end
       end
 
-      def work_package_cfs_for(type)
-        all_work_package_cfs.merge(type.custom_fields)
+      def work_package_cfs_for(variant)
+        all_work_package_cfs.merge(variant.custom_fields)
       end
 
       def all_work_package_cfs

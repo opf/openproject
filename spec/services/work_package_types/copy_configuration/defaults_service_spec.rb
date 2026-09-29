@@ -33,51 +33,51 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::CopyConfiguration::DefaultsService do
   shared_let(:admin) { create(:admin) }
 
-  let(:type) { create(:type) }
+  let(:variant) { create(:type).default_variant }
 
-  subject(:service_call) { described_class.new(type:, user: admin).call(source:) }
+  subject(:service_call) { described_class.new(variant:, user: admin).call(source:) }
 
   describe "#call" do
     context "with a source" do
       let(:source) do
         create(:type,
                patterns: { subject: { blueprint: "Copied {{id}}", enabled: true } },
-               description: "Copied default description")
+               default_work_package_description: "Copied default description").default_variant
       end
 
-      it "copies the source's subject patterns onto the type" do
+      it "copies the source's subject patterns onto the variant" do
         expect(service_call).to be_success
-        expect(type.reload.patterns.subject.blueprint).to eq("Copied {{id}}")
+        expect(variant.reload.patterns.subject.blueprint).to eq("Copied {{id}}")
       end
 
-      it "copies the source's default description onto the type" do
+      it "copies the source's default work package description onto the variant" do
         expect(service_call).to be_success
-        expect(type.reload.description).to eq("Copied default description")
+        expect(variant.reload.default_work_package_description).to eq("Copied default description")
       end
     end
 
     context "when the source resolves through a link", with_flag: { type_variants: true } do
-      let(:owner) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }) }
-      let(:source) { create(:type) }
+      let(:owner) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }).default_variant }
+      let(:source) { create(:type).default_variant }
 
-      before { source.link!(Type::ConfigurationLink::DEFAULTS, source: owner) }
+      before { link_configuration(source, source: owner, aspect: TypeVariant::DEFAULTS) }
 
       it "adopts the resolved owner's patterns" do
         expect(service_call).to be_success
-        expect(type.reload.patterns.subject.blueprint).to eq("Inherited {{id}}")
+        expect(variant.reload.patterns.subject.blueprint).to eq("Inherited {{id}}")
       end
     end
 
     context "with an invalid source" do
       let(:source) { nil }
 
-      it "fails without changing the type" do
+      it "fails without changing the variant" do
         expect(service_call).not_to be_success
       end
     end
 
-    context "when the source is the type itself" do
-      let(:source) { type }
+    context "when the source is the variant itself" do
+      let(:source) { variant }
 
       it "fails" do
         expect(service_call).not_to be_success

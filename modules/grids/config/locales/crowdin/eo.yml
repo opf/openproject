@@ -14,6 +14,13 @@ eo:
           end_before_start: end value needs to be larger than the start value.
           outside: is outside of the grid.
           overlaps: surmeteco.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Kromprogrameto enhavitaj en la krado %{grid_name}
     widgets:

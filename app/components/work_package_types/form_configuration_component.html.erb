@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "type-form-configuration-page--sidebar") do %>
         <%= render(
               WorkPackageTypes::FormConfiguration::InactiveAttributesSidebarComponent.new(
-                type: @type,
+                variant: @variant,
                 inactive_attributes:
               )
             ) %>

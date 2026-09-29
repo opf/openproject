@@ -64,10 +64,10 @@ See COPYRIGHT and LICENSE files for more details.
                                      action: "keyup->costs--budget-subform#valueChanged"
                                    } %>
         </div>
+        <span class="budget-item--unit-name" id="<%= "#{id_prefix}_unit_name" %>">
+          <%= h material_budget_item.cost_type.unit_plural if material_budget_item.cost_type %>
+        </span>
       </div>
-    </td>
-    <td class="unit_currency form--td budget-table--fields" id="<%= "#{id_prefix}_unit_name" %>">
-      <%= h material_budget_item.cost_type.unit_plural if material_budget_item.cost_type %>
     </td>
     <td class="cost_type">
       <label class="sr-only" for="<%= id_prefix %>_cost_type_id"><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></label>

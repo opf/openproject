@@ -14,6 +14,13 @@ si:
           end_before_start: අවසාන අගය ආරම්භක අගයට වඩා විශාල විය යුතුය.
           outside: ජාලයෙන් පිටත වේ.
           overlaps: අතිච්ඡාදනය.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget contained in Grid %{grid_name}
     widgets:

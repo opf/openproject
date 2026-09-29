@@ -44,6 +44,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     validate_custom_fields = attributes.delete(:validate_custom_fields)
 
     set_attachments_attributes(attributes)
+    claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
     set_static_attributes(attributes)
 
@@ -63,6 +64,16 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     else
       super(attributes)
     end
+  end
+
+  def claim_attachments_referenced_in_description(attributes)
+    return unless model.new_record? && attributes.key?(:description)
+
+    claimable_ids = Attachments::ClaimableIdsFromText.call(attributes[:description], user:)
+    return if claimable_ids.empty?
+
+    explicit_ids = model.attachments_replacements&.ids || []
+    model.attachments_replacements = Attachment.where(id: explicit_ids | claimable_ids)
   end
 
   def set_versions_attributes(attributes)
@@ -240,12 +251,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.effective_type&.description
+    work_package.description = work_package.type_variant&.default_work_package_description
   end
 
   def default_description?
-    Type
-      .pluck(:description)
+    TypeVariant
+      .pluck(:default_work_package_description)
       .compact
       .map(&method(:normalize_whitespace))
       .include?(normalize_whitespace(work_package.description))
@@ -381,7 +392,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     attr = :"#{kind}_version_ids_replacements"
     current_replacements = work_package.send(attr)
 
-    current_ids = current_replacements || persisted_version_ids(kind)
+    current_ids = current_replacements || work_package.assigned_version_ids(kind)
     filtered_ids = current_ids & assignable_ids
 
     return if filtered_ids.sort == current_ids.sort
@@ -394,12 +405,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # is marked as such and exempted from that permission. A user-requested
     # set that merely got filtered stays attributed to the user.
     work_package.mark_system_version_override(kind) if current_replacements.nil?
-  end
-
-  def persisted_version_ids(kind)
-    return [] unless work_package.persisted?
-
-    work_package.work_package_versions.where(kind:).pluck(:version_id)
   end
 
   def set_parent_to_nil
@@ -421,9 +426,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def assign_default_type
-    available_types = work_package.project.types.order(:position)
-
-    work_package.type = available_types.first
+    work_package.type = work_package.project.enabled_types.first
     update_duration_to_one_day_for_milestones
     unify_milestone_dates
 
@@ -440,9 +443,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def reassign_invalid_status_if_type_changed
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
-    if work_package.type_id_changed?
-      reassign_status work_package.effective_type.statuses(include_default: true)
-    end
+    return unless work_package.type_id_changed?
+    return unless work_package.type_variant
+
+    reassign_status work_package.type_variant.statuses(include_default: true)
   end
 
   def new_start_date

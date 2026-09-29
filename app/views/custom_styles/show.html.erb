@@ -36,26 +36,13 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
   <%= error_messages_for "custom_style" %>
   <% if show_theme_selector? %>
-    <%= form_tag update_design_themes_path, method: :post, class: "form" do %>
-      <section class="form--section">
-        <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%= I18n.t("admin.custom_styles.color_theme") %></legend>
-          <div class="form--field">
-            <div class="form--field-container">
-              <%= styled_select_tag "theme",
-                                    options_for_select(@theme_options, @current_theme),
-                                    container_class: "-slim" %>
-            </div>
-          </div>
-
-          <%= styled_button_tag t(:button_save),
-                                data: {
-                                  test_selector: "color-theme-button",
-                                  turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
-                                } %>
-        </fieldset>
-      </section>
-    <% end %>
+    <%= render(
+          CustomStyles::ThemeSelectorComponent.new(
+            theme_options: @theme_options,
+            current_theme: @current_theme,
+            selected_tab_name: selected_tab(design_tabs).fetch(:name)
+          )
+        ) %>
   <% end %>
 
   <%= render_tabs design_tabs %>

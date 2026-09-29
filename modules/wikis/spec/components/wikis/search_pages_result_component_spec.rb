@@ -41,11 +41,12 @@ RSpec.describe Wikis::SearchPagesResultComponent, type: :component do
   let(:wikis_selectable) { false }
 
   let(:page_node) do
-    Wikis::Adapters::Results::PageSearchTreeNode.new(identifier: "42", type: :page, name: "A page", children: [])
+    Wikis::Adapters::Results::PageSearchTreeNode.page("42", "A page")
   end
   let(:wiki_node) do
-    Wikis::Adapters::Results::PageSearchTreeNode.new(identifier: "1", type: :wiki, name: "A wiki",
-                                                     children: [page_node])
+    wiki_node = Wikis::Adapters::Results::PageSearchTreeNode.wiki("1", "A wiki")
+    wiki_node.find_or_add_child(page_node)
+    wiki_node
   end
   let(:tree_nodes) { [wiki_node] }
 

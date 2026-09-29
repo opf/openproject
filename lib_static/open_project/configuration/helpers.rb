@@ -216,7 +216,11 @@ module OpenProject
         @ssrf_protection_ip_allowlist ||= self["ssrf_protection_ip_allowlist"]
           .split(/[\s,]+/)
           .map(&:strip)
-          .map { |addr| IPAddr.new addr }
+          .map do |addr|
+            IPAddr.new(addr)
+          rescue IPAddr::InvalidAddressError => e
+            raise IPAddr::InvalidAddressError, "#{e.message} #{addr.inspect}"
+          end
       end
 
       private

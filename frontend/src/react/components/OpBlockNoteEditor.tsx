@@ -38,10 +38,11 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
+  getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
@@ -58,6 +59,7 @@ export interface OpBlockNoteEditorProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider?:HocuspocusProvider;
   doc:Y.Doc;
@@ -82,6 +84,7 @@ export function OpBlockNoteEditor({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
   doc,
@@ -90,8 +93,8 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
-    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString });
-  }, [openProjectUrl, localeString]);
+    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
+  }, [openProjectUrl, localeString, projectId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     return {
@@ -129,9 +132,26 @@ export function OpBlockNoteEditor({
   type EditorType = typeof editor;
   const theme = useOpTheme();
 
+  // Works around a BlockNote/Yjs bootstrap race where the first block can render with
+  // stale transition-tracking CSS state (e.g. a heading rendering at body-text size)
+  // until the next transaction. Re-applying its own props once, before first paint,
+  // forces that state to recompute cleanly.
+  const forcedInitialBlockRefreshRef = useRef(false);
+  useLayoutEffect(() => {
+    if (!hocuspocusProvider || forcedInitialBlockRefreshRef.current) {
+      return;
+    }
+
+    forcedInitialBlockRefreshRef.current = true;
+    const firstBlock = editor.document[0];
+    if (firstBlock?.id === 'initialBlockId') {
+      editor.updateBlock(firstBlock, { props: { ...firstBlock.props } });
+    }
+  }, [editor, hocuspocusProvider]);
+
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),
-    workPackageSlashMenu(editorInstance),
+    ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
@@ -140,10 +160,12 @@ export function OpBlockNoteEditor({
       <BlockNoteView
         editor={editor}
         slashMenu={false}
+        formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
+        <OpenProjectFormattingToolbar />
         <SuggestionMenuController
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}

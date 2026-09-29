@@ -1,5 +1,10 @@
 ---
 fa:
+  activerecord:
+    models:
+      boards/grid:
+        one: برد
+        other: بردها
   boards:
     board_type_attributes:
       assignee: مسئول انجام

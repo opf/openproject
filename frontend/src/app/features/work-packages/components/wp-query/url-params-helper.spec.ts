@@ -36,8 +36,6 @@ describe('UrlParamsHelper', () => {
   } as any;
 
   let UrlParamsHelper:UrlParamsHelperService;
-  let queryString;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

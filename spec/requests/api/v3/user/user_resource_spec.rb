@@ -223,7 +223,7 @@ RSpec.describe "API v3 User resource", content_type: :json do
       end
 
       context "requesting nonexistent user" do
-        let(:get_path) { api_v3_paths.user 9999 }
+        let(:get_path) { api_v3_paths.user(not_existing_id(User)) }
 
         it_behaves_like "not found"
       end
@@ -279,7 +279,7 @@ RSpec.describe "API v3 User resource", content_type: :json do
       end
 
       context "with a non-existent user" do
-        let(:path) { api_v3_paths.user 1337 }
+        let(:path) { api_v3_paths.user(not_existing_id(User)) }
 
         it_behaves_like "not found"
       end

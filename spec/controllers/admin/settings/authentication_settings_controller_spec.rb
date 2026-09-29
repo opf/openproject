@@ -92,5 +92,36 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
         end
       end
     end
+
+    describe "password_login_bypass_principal_ids" do
+      shared_let(:bypass_user) { create(:user, login: "breakglass") }
+      shared_let(:bypass_group) { create(:group) }
+
+      it "stores the selected principal ids" do
+        patch "update", params: { settings: { password_login_bypass_principal_ids: ["", bypass_user.id.to_s] } }
+
+        expect(Setting.password_login_bypass_principal_ids).to eq [bypass_user.id.to_s]
+      end
+
+      it "stores group ids" do
+        patch "update", params: { settings: { password_login_bypass_principal_ids: ["", bypass_group.id.to_s] } }
+
+        expect(Setting.password_login_bypass_principal_ids).to eq [bypass_group.id.to_s]
+      end
+
+      it "clears the list when the autocompleter submits only its blank entry" do
+        Setting.password_login_bypass_principal_ids = [bypass_user.id.to_s]
+
+        patch "update", params: { settings: { password_login_bypass_principal_ids: [""] } }
+
+        expect(Setting.password_login_bypass_principal_ids).to eq []
+      end
+
+      it "ignores ids that do not belong to a user or group" do
+        patch "update", params: { settings: { password_login_bypass_principal_ids: ["", "0"] } }
+
+        expect(Setting.password_login_bypass_principal_ids).to eq []
+      end
+    end
   end
 end

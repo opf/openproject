@@ -33,15 +33,15 @@ module Projects
     module WorkPackages
       module Types
         class AddForm < ApplicationForm
-          def initialize(types:)
+          def initialize(variants:)
             super()
 
-            @types = types
+            @variants = variants
           end
 
           form do |add_form|
             add_form.autocompleter(
-              name: :type_id,
+              name: :variant_id,
               label: I18n.t("projects.settings.types.add_dialog.type_label"),
               required: true,
               autocomplete_options: {
@@ -53,15 +53,15 @@ module Projects
                 data: { test_selector: "project-types-add-select" }
               }
             ) do |list|
-              types.each do |type|
-                list.option(value: type.id, label: type.composite_name)
+              variants.each do |variant|
+                list.option(value: variant.id, label: variant.composite_name)
               end
             end
           end
 
           private
 
-          attr_reader :types
+          attr_reader :variants
         end
       end
     end

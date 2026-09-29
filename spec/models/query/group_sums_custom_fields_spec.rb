@@ -48,7 +48,7 @@ RSpec.describe Query::Results, "Grouping and summing integer/float custom field 
     create(:integer_wp_custom_field, name: "MyInt")
   end
 
-  let(:type) { create(:type_standard, custom_fields: [float_custom_field, int_custom_field]) }
+  let(:type) { create(:type_task, custom_fields: [float_custom_field, int_custom_field]) }
   let(:project) do
     create(:project,
            types: [type],

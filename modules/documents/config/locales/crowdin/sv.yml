@@ -31,13 +31,18 @@ sv:
         document_type:
           one_or_more_required: Kan inte ta bort den sista dokumenttypen
     models:
-      document: Dokument
-      documents: Dokument
+      document:
+        one: Dokument
+        other: Dokument
+      document_type:
+        one: Dokumenttyp
+        other: Dokumenttyper
   activity:
     filter:
       document: Dokument
   attributes:
     collaborative_editing_hocuspocus_url: URL till Hocuspocus-server
+    documents: Dokument
   default_doc_category_tech: Teknisk dokumentation
   default_doc_category_user: Användardokumentation
   documents:

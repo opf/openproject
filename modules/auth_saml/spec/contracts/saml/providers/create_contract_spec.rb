@@ -29,23 +29,10 @@
 #++
 
 require "spec_helper"
-require "contracts/shared/model_contract_shared_context"
+require_relative "shared_contract_examples"
 
 RSpec.describe Saml::Providers::CreateContract do
-  include_context "ModelContract shared context"
-
   let(:provider) { build(:saml_provider) }
-  let(:contract) { described_class.new provider, current_user }
 
-  context "when admin" do
-    let(:current_user) { build_stubbed(:admin) }
-
-    it_behaves_like "contract is valid"
-  end
-
-  context "when non-admin" do
-    let(:current_user) { build_stubbed(:user) }
-
-    it_behaves_like "contract is invalid", base: :error_unauthorized
-  end
+  include_context "as saml provider contract"
 end

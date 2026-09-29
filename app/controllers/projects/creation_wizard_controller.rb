@@ -33,13 +33,12 @@ class Projects::CreationWizardController < ApplicationController
 
   load_and_authorize_with_permission_in_project :edit_project_attributes
   before_action :load_sections_and_fields, only: %i[show update]
+  before_action :ensure_sections_present, only: %i[show update]
   before_action :find_current_section, only: %i[show update]
 
   layout "no_menu"
 
-  def show
-    render locals: { menu_name: :none }
-  end
+  def show; end
 
   def help_text
     custom_field = ProjectCustomField.visible.find(params[:custom_field_id])
@@ -67,9 +66,7 @@ class Projects::CreationWizardController < ApplicationController
   private
 
   def render_wizard_error_step
-    render :show,
-           locals: { menu_name: :none },
-           status: :unprocessable_entity
+    render :show, status: :unprocessable_entity
   end
 
   def create_work_package_artifact # rubocop:disable Metrics/AbcSize
@@ -103,6 +100,14 @@ class Projects::CreationWizardController < ApplicationController
 
     scoped_fields = @project.available_custom_fields.where(id: enabled_in_wizard_ids)
     @custom_fields_by_section = ProjectCustomFieldSection.grouped_in_order(scoped_fields).to_h
+  end
+
+  def ensure_sections_present
+    return if @custom_fields_by_section.any?
+
+    flash[:error] = t("projects.wizard.no_custom_fields_html",
+                      link: project_settings_project_custom_fields_path(@project))
+    redirect_to project_path(@project)
   end
 
   def find_current_section

@@ -34,7 +34,7 @@ module JournalFormatter
       return render_permission_denied_message(options) unless permission_granted?(options.merge(key: key_with_id))
 
       key = key_with_id.to_s.delete_suffix("_id")
-      label, old_value, value = format_details(key, values, cache: options[:cache])
+      label, old_value, value = format_details(key, values)
 
       if options[:html]
         label, old_value, value = *format_html_details(label, old_value, value)
@@ -45,21 +45,21 @@ module JournalFormatter
 
     private
 
-    def format_details(key, values, cache:)
+    def format_details(key, values)
       label = label(key)
 
-      old_value, value = *format_values(values, key, cache:)
+      old_value, value = *format_values(values, key)
 
       [label, old_value, value]
     end
 
-    def format_values(values, key, cache:)
+    def format_values(values, key)
       klass = class_from_field(key)
 
       values.map do |value|
         next unless klass && value
 
-        name_or_placeholder(associated_object(klass, value.to_i, cache:))
+        name_or_placeholder(associated_object(klass, value.to_i))
       end
     end
 
@@ -74,10 +74,17 @@ module JournalFormatter
     # moved between projects keeps journal entries naming the parent, version,
     # category and budget it had in a project the reader cannot open.
     #
-    # The reader is part of the key, so a verdict left behind in a thread that
-    # outlives a single request cannot be read back for somebody else.
+    # The reader is folded into the cache key by default, so a verdict left behind in
+    # a thread that outlives a single request cannot be read back for somebody else.
+    #
+    # :journal_reachable is used as the "klass" part of the key so this verdict cache
+    # never collides with the raw-record cache entries #associated_object stores under
+    # the object's actual class.
+    #
+    # Overridden by PublicNamedAssociation to skip the check for fields that name
+    # people the journable already names elsewhere (assignee, responsible, author).
     def reachable?(object)
-      RequestStore.fetch("journal_reachable/#{User.current.id}/#{object.class.name}/#{object.id}") do
+      JournalFormatterCache.fetch(:journal_reachable, [object.class, object.id]) do # rubocop:disable Lint/UselessDefaultValueArgument
         reader_may_see?(object)
       end
     end
@@ -93,12 +100,8 @@ module JournalFormatter
       object&.name
     end
 
-    def associated_object(klass, id, cache:)
-      if cache
-        cache.fetch(klass, id) do
-          klass.find_by(id:)
-        end
-      else
+    def associated_object(klass, id)
+      JournalFormatterCache.fetch(klass, id) do # rubocop:disable Lint/UselessDefaultValueArgument
         klass.find_by(id:)
       end
     end

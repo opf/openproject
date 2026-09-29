@@ -20,8 +20,10 @@ ms:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Pangkalan saringan DN mestilah dikandungi dalam DN asas sambungan LDAP
     models:
-      ldap_groups/synchronized_filter: Penyaring sinkronisasi kumpulan LDAP
-      ldap_groups/synchronized_group: Kumpulan LDAP yang diselaraskan
+      ldap_groups/synchronized_filter:
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

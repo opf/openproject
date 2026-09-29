@@ -20,10 +20,16 @@ ja:
             phone_number:
               error_phone_number_format: 形式 +XX XXXXXXXXXでなければなりません
     models:
-      two_factor_authentication/device: 2FAデバイス
-      two_factor_authentication/device/sms: 携帯電話
-      two_factor_authentication/device/totp: 認証システムアプリケーション
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: 続行
   button_make_active: Activate
   button_make_default: デフォルトにする

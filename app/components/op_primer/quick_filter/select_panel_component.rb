@@ -135,9 +135,7 @@ module OpPrimer
       end
 
       def other_filters
-        @query.filters
-          .reject { |f| f.name == @filter_key }
-          .map { |f| { f.class.key.to_s => { "operator" => f.operator.to_s, "values" => f.values } } }
+        OpPrimer::QuickFilter.serialize(@query.filters, except: @filter_key)
       end
 
       def sort

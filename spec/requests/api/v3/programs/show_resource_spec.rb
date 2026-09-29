@@ -67,7 +67,7 @@ RSpec.describe "API v3 Programs resource show", content_type: :json do
     end
 
     context "when requesting nonexistent program" do
-      let(:get_path) { api_v3_paths.program 9999 }
+      let(:get_path) { api_v3_paths.program(not_existing_id(Project)) }
 
       before do
         response

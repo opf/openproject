@@ -17,12 +17,12 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      ASPECT = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+      ASPECT = TypeVariant::PROJECT_ATTRIBUTES
 
-      def initialize(type:, project_custom_field:, linked: false, exclusion_state: nil)
+      def initialize(variant:, project_custom_field:, linked: false, exclusion_state: nil)
         super()
 
-        @type = type
+        @variant = variant
         @project_custom_field = project_custom_field
         @linked = linked
         @exclusion_state = exclusion_state
@@ -36,8 +36,6 @@ module WorkPackageTypes
         @project_custom_field.id
       end
 
-      # Linked mode disables an inherited attribute by excluding it
-      # Independent mode toggles the type's own mapping directly
       def exclusion_toggle
         WorkPackageTypes::ExclusionToggleComponent.new(
           exclusions: @exclusion_state,
@@ -45,21 +43,21 @@ module WorkPackageTypes
           label: t("types.edit.project_attributes.exclusions.attribute_label", attribute: @project_custom_field.name),
           aspect: ASPECT,
           off_label: t("types.edit.project_attributes.disabled"),
-          test_selector: "toggle-type-project-attribute-#{@project_custom_field.id}"
+          test_selector: "toggle-variant-project-attribute-#{@project_custom_field.id}"
         )
       end
 
-      def active_for_type?
-        @type.project_custom_field_type_mappings.any? do |mapping|
+      def active_for_variant?
+        @variant.project_custom_field_type_mappings.any? do |mapping|
           mapping.custom_field_id == @project_custom_field.id
         end
       end
 
       def toggle_path
         toggle_type_project_attributes_path(
-          @type,
+          **@variant.path_args,
           project_custom_field_type_mapping: {
-            type_id: @type.id,
+            variant_id: @variant.id,
             custom_field_id: @project_custom_field.id
           }
         )
@@ -69,7 +67,7 @@ module WorkPackageTypes
         {
           "turbo-method": :post,
           "turbo-stream": true,
-          test_selector: "toggle-type-project-attribute-#{@project_custom_field.id}"
+          test_selector: "toggle-variant-project-attribute-#{@project_custom_field.id}"
         }
       end
     end

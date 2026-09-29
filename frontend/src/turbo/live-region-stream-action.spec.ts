@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it, vi,
-} from 'vitest';
 import { StreamActions } from '@hotwired/turbo';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { registerLiveRegionStreamAction } from './live-region-stream-action';

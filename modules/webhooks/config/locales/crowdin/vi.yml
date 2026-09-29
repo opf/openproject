@@ -14,7 +14,10 @@ vi:
         secret: Chữ ký bí mật
         url: URL tải trọng
     models:
-      webhooks/outgoing_webhook: Webhook gửi đi
+      webhooks/log:
+        other: Webhook logs
+      webhooks/webhook:
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Cung cấp API plug-in để hỗ trợ webhooks OpenProject để tích hợp bên thứ 3 tốt hơn.
     name: Webhooks OpenProject

@@ -54,6 +54,8 @@ ko:
         position: 위치
         presenter: 발표자
         title: 제목
+      meeting_outcome:
+        kind: 종류
       meeting_participant:
         attended: 참석함
         invited: 초대됨
@@ -97,11 +99,20 @@ ko:
         recurring_meeting_interim_response:
           not_an_occurrence: "- 이 반복 미팅에 유효한 항목 시간이 아닙니다"
     models:
-      meeting: 일회성 미팅
-      meeting_agenda: 의제
-      meeting_agenda_item: 의제 항목
-      meeting_section: 섹션
-      recurring_meeting: 반복 미팅
+      meeting:
+        other: 일회성 미팅
+      meeting_agenda_item:
+        other: 의제 항목
+      meeting_outcome:
+        other: 결과
+      meeting_participant:
+        other: 미팅 참가자
+      meeting_section:
+        other: 섹션
+      recurring_meeting:
+        other: 반복 미팅
+      scheduled_meeting:
+        other: 예정된 미팅
       token/ical_meeting:
         other: iCal 미팅 구독
   activity:
@@ -250,7 +261,6 @@ ko:
   label_past_meetings: 지난 미팅
   label_past_meetings_short: 과거
   label_recurring_filter: 반복 필터
-  label_recurring_meeting: 반복 미팅
   label_recurring_meeting_cancel: 이 항목 취소
   label_recurring_meeting_create: 열기
   label_recurring_meeting_delete: 항목 삭제

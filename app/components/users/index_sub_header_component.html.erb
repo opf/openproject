@@ -12,7 +12,7 @@
       tag: :a,
       href: new_user_path
     ) do
-      t("activerecord.models.user")
+      User.model_name.human
     end
 
     subheader.with_filter_input(

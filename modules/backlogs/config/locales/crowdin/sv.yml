@@ -92,9 +92,15 @@ sv:
               task_version_must_be_the_same_as_story_version: måste vara samma som föräldraberättelsens version.
           backlog_bucket_xor_sprint: kan inte tilldelas både en sprint och en backlogggrupp.
     models:
+      backlog_bucket:
+        one: Backlogggrupp
+        other: Backlogggrupper
       sprint:
         one: Sprint
         other: Sprintar
+      sprint_goal:
+        one: Sprintmål
+        other: Sprintmål
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Lägg till befintligt arbetspaket
@@ -113,6 +119,7 @@ sv:
         other: Sprintar
         zero: Alla sprintar
       select_panel_title: Välj objekt
+    blankslate_filtered_title: Inga arbetspaket matchar filtervillkoren.
     bucket_component:
       action_menu:
         add_existing_work_package: Lägg till befintligt arbetspaket
@@ -155,6 +162,8 @@ sv:
         one: Visa 1 objekt till
         other: Visa %{count} objekt till
       title: Inkorg
+    index_subheader_component:
+      label_search_by_subject: Sök arbetspaket efter ämne
     label_burndown_chart: Burndown-diagram
     label_is_done_status: Status %{status_name} innebär klart
     label_sprint_board: Sprinttavla

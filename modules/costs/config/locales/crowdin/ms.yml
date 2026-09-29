@@ -97,13 +97,22 @@ ms:
     models:
       cost_entry:
         other: Cost entries
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: Jenis kos
-      rate: Kadar
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: Time entries
       time_entry_activity:
         other: Aktiviti penjejakan masa
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -202,7 +211,6 @@ ms:
   label_greater_or_equal: ">="
   label_group_by: Kumpulkan mengikut
   label_group_by_add: Tambah ruang kumpulan
-  label_hourly_rate: Kadar jam
   label_include_deleted: Sertakan yang dipadam
   label_kind: Jenis
   label_less_or_equal: "<="
@@ -223,7 +231,6 @@ ms:
   label_previous_month: Previous month
   label_previous_week: Minggu sebelumnya
   label_previous_workweek: Previous work week
-  label_rate: Kadar
   label_rate_plural: Kadar-kadar
   label_show: Paparkan
   label_specific_day: Day %{day}
@@ -237,7 +244,6 @@ ms:
   label_today_capitalized: Hari ini
   label_units: Unit kos
   label_until: sehingga
-  label_user: Pengguna
   label_valid_from: Sah dari
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Tambah saringan pakej kerja

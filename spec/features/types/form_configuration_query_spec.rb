@@ -140,6 +140,27 @@ RSpec.describe "form query configuration", :js do
       end
     end
 
+    it "updates the query of a group whose name contains special characters (Regression INTERNAL-963)" do
+      group_name = "b) > 10.000 / 20.000 Nutzende"
+      form.add_query_group(group_name, :children)
+      form.edit_query_group(group_name)
+
+      modal.switch_to "Filters"
+      filters.expect_filter_count 1
+      filters.add_filter_by("Project", "is (OR)", project.name)
+      filters.expect_filter_count 2
+      filters.save
+      wait_for_network_idle
+
+      visit edit_type_form_configuration_path(type_bug)
+      wait_for_network_idle
+      form.edit_query_group(group_name)
+
+      modal.switch_to "Filters"
+      filters.expect_filter_count 2
+      filters.expect_filter_by("Project", "is (OR)", project.name)
+    end
+
     context "with an archived project" do
       let!(:archived) { create(:project, name: "To be archived") }
 
@@ -177,7 +198,7 @@ RSpec.describe "form query configuration", :js do
       end
 
       type_bug.reload
-      query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Columns Test" }
       expect(query).to be_present
 
       column_names = query.attributes.columns.map(&:name).sort
@@ -194,14 +215,14 @@ RSpec.describe "form query configuration", :js do
       end
 
       type_bug.reload
-      query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Columns Test" }
       expect(query).to be_present
       expect(query.attributes.show_hierarchies).to be(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
-      query = type_bug.attribute_groups.detect { |x| x.key == "Second query" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Second query" }
       expect(query).to be_present
       expect(query.attributes.show_hierarchies).to be(false)
 

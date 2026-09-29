@@ -35,7 +35,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project) }
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
   let(:role) do
     create(:project_role,
            permissions: %i[view_work_packages

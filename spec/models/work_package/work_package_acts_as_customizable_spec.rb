@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage, "acts_as_customizable" do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:user) { create(:user) }
   shared_let(:status) { create(:status) }
@@ -49,7 +49,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
 
   def setup_custom_field(cf)
     project.work_package_custom_fields << cf
-    type.custom_fields << cf
+    type.default_variant.custom_fields << cf
     # Void the custom field caching
     RequestStore.clear!
     cf
@@ -215,7 +215,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       create(:work_package_custom_field,
              name: "Custom field of type and project").tap do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let!(:custom_field_of_project_not_type) do
@@ -227,14 +227,14 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     let!(:custom_field_of_type_not_project) do
       create(:work_package_custom_field,
              name: "Custom field of type not project").tap do |cf|
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let!(:custom_field_for_all_and_type) do
       create(:work_package_custom_field,
              name: "Custom field for all and type",
              is_for_all: true).tap do |cf|
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let!(:custom_field_for_all_not_type) do
@@ -248,9 +248,9 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
              name: "Custom field for all and many types and projects",
              is_for_all: true).tap do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
         project2.work_package_custom_fields << cf
-        type2.custom_fields << cf
+        type2.default_variant.custom_fields << cf
       end
     end
 
@@ -303,18 +303,18 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     let!(:source_cf) do
       create(:work_package_custom_field, name: "Source CF").tap do |cf|
         project.work_package_custom_fields << cf
-        source_type.custom_fields << cf
+        source_type.default_variant.custom_fields << cf
       end
     end
     let!(:linked_own_cf) do
       create(:work_package_custom_field, name: "Linked own CF").tap do |cf|
         project.work_package_custom_fields << cf
-        linked_type.custom_fields << cf
+        linked_type.default_variant.custom_fields << cf
       end
     end
 
     before do
-      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+      link_configuration(linked_type, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "surfaces the source type's custom fields for the linked type's work package" do
@@ -336,12 +336,11 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
            with_flag: { type_variants: true } do
     let(:root_type) { create(:type) }
     let(:variant) do
-      create(:type, parent: root_type).tap do |v|
-        v.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION).destroy!
+      create(:type_variant, type: root_type).tap do |v|
+        unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
     let(:variant_project) { create(:project, types: [variant]) }
-    # The work package stores the root, as every work package does.
     let(:work_package) { build(:work_package, project: variant_project, type: root_type) }
 
     # Activated from the custom field side: Type#custom_fields resolves through the form

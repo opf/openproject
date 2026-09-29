@@ -1634,7 +1634,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       context "when the work package is invalid due to a required custom field" do
         let!(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.types.first.custom_fields << cf
+            project.enabled_variants.first.custom_fields << cf
             project.work_package_custom_fields << cf
           end
         end

@@ -30,27 +30,25 @@
 
 module WorkPackageTypes
   module ConfigurationIndependence
-    # Danger confirmation before switching an aspect to Independent overwrites the
-    # type's current settings. Confirming performs the switch with the chosen mode.
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
       DIALOG_ID = "configuration-independence-confirm-dialog"
 
-      def initialize(type:, aspect:, mode:)
+      def initialize(variant:, aspect:, mode:)
         super()
 
-        @type = type
+        @variant = variant
         @aspect = aspect
         @mode = mode
       end
 
       private
 
-      attr_reader :type, :aspect, :mode
+      attr_reader :variant, :aspect, :mode
 
       def switch_path
-        type_configuration_independence_switch_path(type_id: type.id, aspect:)
+        type_configuration_independence_switch_path(**variant.path_args, aspect:)
       end
     end
   end

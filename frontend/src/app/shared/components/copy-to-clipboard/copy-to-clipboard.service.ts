@@ -41,25 +41,17 @@ export class CopyToClipboardService {
   copy(content:string, successMessage?:string) {
     if (!navigator.clipboard) {
       // fallback for browsers that don't support clipboard API at all
-      this.addNotification('addError', this.I18n.t('js.clipboard.browser_error', { content }));
+      this.toastService.addWarning(this.I18n.t('js.clipboard.browser_error', { content }));
     } else {
       void navigator.clipboard.writeText(content)
         .then(() => {
-          this.addNotification('addSuccess', successMessage || this.I18n.t('js.clipboard.copied_successful'));
+          const notification = this.toastService.addSuccess(successMessage ?? this.I18n.t('js.clipboard.copied_successful'));
+          setTimeout(() => this.toastService.remove(notification), 5000);
         })
         .catch(() => {
           // fallback when running into e.g. browser permission errors
-          this.addNotification('addError', this.I18n.t('js.clipboard.browser_error', { content }));
+          this.toastService.addWarning(this.I18n.t('js.clipboard.browser_error', { content }));
         });
-    }
-  }
-
-  addNotification(type:'addSuccess'|'addError', message:string) {
-    const notification = this.toastService[type](message);
-
-    // Remove the notification some time later
-    if (notification) {
-      setTimeout(() => this.toastService.remove(notification), 5000);
     }
   }
 }

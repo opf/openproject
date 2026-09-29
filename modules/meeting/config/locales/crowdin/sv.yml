@@ -55,6 +55,8 @@ sv:
         position: Position
         presenter: Presentatör
         title: Titel
+      meeting_outcome:
+        kind: Typ
       meeting_participant:
         attended: Deltog
         invited: Inbjuden
@@ -98,11 +100,27 @@ sv:
         recurring_meeting_interim_response:
           not_an_occurrence: är inte en giltig förekomsttid för det här återkommande mötet
     models:
-      meeting: Engångsmöte
-      meeting_agenda: Agenda
-      meeting_agenda_item: Punkt på dagordningen
-      meeting_section: Sektion
-      recurring_meeting: Återkommande möte
+      meeting:
+        one: Engångsmöte
+        other: Engångsmöten
+      meeting_agenda_item:
+        one: Punkt på dagordningen
+        other: Punkter på dagordningen
+      meeting_outcome:
+        one: Resultat
+        other: Resultat
+      meeting_participant:
+        one: Mötesdeltagare
+        other: Mötesdeltagare
+      meeting_section:
+        one: Sektion
+        other: Avsnitt
+      recurring_meeting:
+        one: Återkommande möte
+        other: Återkommande möten
+      scheduled_meeting:
+        one: Schemalagt möte
+        other: Schemalagda möten
       token/ical_meeting:
         one: iCal-mötesprenumeration
         other: iCal-mötesprenumeration
@@ -253,7 +271,6 @@ sv:
   label_past_meetings: Tidigare möten
   label_past_meetings_short: Tidigare
   label_recurring_filter: Återkommande filter
-  label_recurring_meeting: Återkommande möte
   label_recurring_meeting_cancel: Avbryt förekomsten
   label_recurring_meeting_create: Öppna
   label_recurring_meeting_delete: Ta bort förekomst

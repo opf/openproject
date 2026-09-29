@@ -58,16 +58,15 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
       context "without a project" do
         let(:project) { nil }
-        let!(:root) { create(:type) }
 
         it "is true" do
-          allow(Type).to receive(:roots).and_return(Type.where(id: root.id))
+          allow(Type).to receive(:order).and_return(Type.where(id: create(:type).id))
 
           expect(instance).to be_available
         end
 
         it "is false without a type" do
-          allow(Type).to receive(:roots).and_return(Type.none)
+          allow(Type).to receive(:order).and_return(Type.none)
 
           expect(instance).not_to be_available
         end
@@ -92,15 +91,11 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
       context "without a project" do
         let(:project) { nil }
-        let!(:root) { create(:type) }
-
-        before do
-          allow(Type).to receive(:roots).and_return(Type.where(id: root.id))
-        end
+        let!(:type) { create(:type) }
 
         it "returns an array of type options" do
           expect(instance.allowed_values)
-            .to contain_exactly([root.name, root.id.to_s])
+            .to contain_exactly([type.name, type.id.to_s])
         end
       end
     end
@@ -127,38 +122,6 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
       it "returns an array of types" do
         expect(instance.value_objects)
           .to contain_exactly(type1, type2)
-      end
-    end
-
-    describe "#where" do
-      let(:project) { nil }
-      let!(:root) { create(:type) }
-      let!(:variant) { create(:type, parent: root) }
-
-      before do
-        instance.operator = "="
-        instance.values = [root.id.to_s]
-      end
-
-      it "expands a root type to include its variants" do
-        expect(instance.where)
-          .to include(root.id.to_s, variant.id.to_s)
-      end
-
-      it "leaves a childless type unchanged" do
-        instance.values = [variant.id.to_s]
-
-        expect(instance.where)
-          .not_to include(root.id.to_s)
-      end
-
-      it "returns work packages of the root type and its variants, but not unrelated types" do
-        root_work_package = create(:work_package, type: root)
-        sub_work_package = create(:work_package, type: variant)
-        create(:work_package, type: create(:type))
-
-        expect(WorkPackage.where(instance.where))
-          .to contain_exactly(root_work_package, sub_work_package)
       end
     end
   end

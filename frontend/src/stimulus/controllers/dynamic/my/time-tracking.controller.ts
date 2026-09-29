@@ -43,6 +43,11 @@ import { useMeta } from 'stimulus-use';
 import { html, render, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
+
+interface AdditionalDialogCloseData {
+  spent_on?:string;
+}
 
 export default class MyTimeTrackingController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
@@ -520,14 +525,8 @@ export default class MyTimeTrackingController extends Controller {
     );
   }
 
-  dialogCloseListener(event:CustomEvent):void {
-    interface AdditionalDialogCloseData {
-      spent_on?:string;
-    }
-
-    const { detail: { dialog, additional, submitted } } = event as {
-      detail:{ dialog:HTMLDialogElement; additional:AdditionalDialogCloseData|undefined; submitted:boolean }
-    };
+  dialogCloseListener(event:CustomEvent<DialogCloseDetail<AdditionalDialogCloseData>>):void {
+    const { detail: { dialog, additional, submitted } } = event;
     if (dialog.id !== 'time-entry-dialog' || !submitted) { return; }
 
     // we simply refresh the calendar page

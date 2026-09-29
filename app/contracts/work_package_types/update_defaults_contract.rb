@@ -29,9 +29,14 @@
 #++
 
 module WorkPackageTypes
-  class UpdateDefaultsContract < BaseContract
+  # Not BaseContract: that one is the type's, and requires an instance administrator.
+  class UpdateDefaultsContract < ::ModelContract
+    include AuthorizesVariantAuthoring
+
+    def self.model = TypeVariant
+
     attribute :patterns
-    attribute :description
+    attribute :default_work_package_description
 
     validate :enterprise_edition
     validate :validate_subject_generation_pattern

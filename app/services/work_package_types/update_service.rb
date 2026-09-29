@@ -35,8 +35,11 @@ module WorkPackageTypes
     def instance_class = Type
 
     def validate_params
-      # Only set attribute groups when it exists (Regression #28400)
-      if params[:attribute_groups]
+      # Only set attribute groups when it exists (Regression #28400). An empty one is a reset
+      # rather than nothing to do, so ask whether a value was given at all.
+      form_configuration_changed = !params[:attribute_groups].nil?
+
+      if form_configuration_changed
         result = set_attribute_groups(params)
         return result if result.failure?
       end
@@ -44,7 +47,9 @@ module WorkPackageTypes
       # TODO: Remove with type_variants feature flag
       extract_new_project_default_param
 
-      set_active_custom_fields
+      # Only a configuration has a form to keep in sync, and only the form says which custom
+      # fields are active. Renaming a variant or saving its defaults says nothing about either.
+      set_active_custom_fields if form_configuration_changed && model.is_a?(TypeVariant)
 
       super
     end
@@ -59,16 +64,18 @@ module WorkPackageTypes
     private
 
     def extract_new_project_default_param
-      return unless params.key?(:is_default)
+      return unless params.key?(:enabled_in_new_projects)
 
-      @new_project_default = ActiveRecord::Type::Boolean.new.cast(params.delete(:is_default))
+      @new_project_default = ActiveRecord::Type::Boolean.new.cast(params.delete(:enabled_in_new_projects))
     end
 
     def toggle_default_in_new_projects(type)
+      variant = type.default_variant
+
       if @new_project_default
-        MakeDefaultService.new(type:, user:).call
+        MakeDefaultService.new(variant:, user:).call
       else
-        RemoveDefaultService.new(type:, user:).call
+        RemoveDefaultService.new(variant:, user:).call
       end
     end
 

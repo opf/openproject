@@ -46,9 +46,15 @@ bg:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Бюджет
-      labor_budget_item: Planned labor cost
-      material_budget_item: Мерна единица
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Бюджети
@@ -102,7 +108,6 @@ bg:
   help_click_to_edit: Натисни, за да редактираш
   help_currency_format: Формат на показваните валутни стойности. %n се заменя с валутната стойност, %u се заменя с валутната единица.
   help_override_rate: Въведете стойност тук, за да отмените ставката по подразбиране.
-  label_budget: Бюджет
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Бюджет #%{id}'

@@ -1,5 +1,11 @@
 ---
 he:
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        two: Boards
+        other: Boards
   boards:
     board_type_attributes:
       assignee: משויך אל

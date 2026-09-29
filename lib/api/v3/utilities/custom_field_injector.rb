@@ -207,6 +207,8 @@ module API
                         has_default: custom_field.default_value.present?,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
+                        minimum: custom_field.min_bound,
+                        maximum: custom_field.max_bound,
                         regular_expression: cf_regexp(custom_field),
                         options: cf_options(custom_field),
                         formula: cf_formula(custom_field)

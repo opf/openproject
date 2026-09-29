@@ -1,4 +1,8 @@
 ---
 zh-TW:
+  activerecord:
+    models:
+      grids/my_page:
+        other: My pages
   my_page:
     label: 我的頁面

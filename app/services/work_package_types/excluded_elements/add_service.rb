@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   module ExcludedElements
-    # Stops the type inheriting the given elements for an aspect.
+    # Stops the variant inheriting the given elements for an aspect.
     class AddService < BaseService
       protected
 

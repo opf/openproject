@@ -384,7 +384,7 @@ RSpec.describe "API v3 Query resource",
         end
 
         context "when trying to star nonexistent query" do
-          let(:star_path) { api_v3_paths.query_star 999 }
+          let(:star_path) { api_v3_paths.query_star(not_existing_id(Query)) }
 
           it_behaves_like "not found"
         end
@@ -469,7 +469,7 @@ RSpec.describe "API v3 Query resource",
         end
 
         context "when trying to unstar nonexistent query" do
-          let(:unstar_path) { api_v3_paths.query_unstar 999 }
+          let(:unstar_path) { api_v3_paths.query_unstar(not_existing_id(Query)) }
 
           before do
             patch unstar_path

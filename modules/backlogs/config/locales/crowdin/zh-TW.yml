@@ -91,8 +91,12 @@ zh-TW:
               task_version_must_be_the_same_as_story_version: 必須與上層「使用者需求」(User Story)的版本相同。
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        other: Backlog buckets
       sprint:
         other: Sprints
+      sprint_goal:
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -111,6 +115,7 @@ zh-TW:
         other: Sprints
         zero: All sprints
       select_panel_title: Select items
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -152,6 +157,8 @@ zh-TW:
       show_more:
         other: 再顯示 %{count} 項
       title: Inbox
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: 未完成圖
     label_is_done_status: 狀態 %{status_name} 表示完成
     label_sprint_board: 衝刺目標

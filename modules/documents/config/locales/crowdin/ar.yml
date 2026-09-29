@@ -31,13 +31,26 @@ ar:
         document_type:
           one_or_more_required: Cannot delete the last document type
     models:
-      document: الوثيقة
-      documents: Documents
+      document:
+        zero: Documents
+        one: Document
+        two: Documents
+        few: Documents
+        many: Documents
+        other: Documents
+      document_type:
+        zero: Document types
+        one: Document type
+        two: Document types
+        few: Document types
+        many: Document types
+        other: Document types
   activity:
     filter:
       document: الوثائق
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: التوثيق التقني
   default_doc_category_user: توثيق المستخدم
   documents:

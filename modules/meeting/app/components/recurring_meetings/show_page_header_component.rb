@@ -75,7 +75,7 @@ module RecurringMeetings
     end
 
     def label_text
-      I18n.t(:label_recurring_meeting)
+      RecurringMeeting.model_name.human
     end
 
     def page_title

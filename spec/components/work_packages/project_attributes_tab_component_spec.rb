@@ -46,7 +46,7 @@ RSpec.describe WorkPackages::ProjectAttributesTabComponent, type: :component do
 
   def create_field_for(wp_type, section:)
     create(:project_custom_field, project_custom_field_section: section, projects: [project]).tap do |f|
-      wp_type.project_custom_fields << f
+      wp_type.default_variant.project_custom_fields << f
     end
   end
 

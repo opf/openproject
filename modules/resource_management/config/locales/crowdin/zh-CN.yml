@@ -39,10 +39,18 @@ zh-CN:
             query:
               must_be_work_package_query: 必须是工作包查询。
     models:
-      resource_allocation: 资源分配
-      resource_planner: 资源规划工具
-      resource_user_card: 用户卡
-      resource_work_package_list: 工作包列表
+      resource_allocation:
+        other: 资源分配
+      resource_planner:
+        other: 资源规划工具
+      resource_user_card:
+        other: 用户卡
+      resource_user_timeline:
+        other: 用户时间线
+      resource_work_package_list:
+        other: 工作包列表
+      resource_work_package_timeline:
+        other: 工作包时间线
   button_next: 下一步
   ee:
     features:
@@ -81,6 +89,9 @@ zh-CN:
         principal:
           caption: 为特定用户分配小时数。
           label: 用户
+      missing_working_hours:
+        none: 所选用户在这些日期没有配置工作时数，因此被计为没有产能。
+        partial: 所选用户在 %{dates}没有配置工作时数，因此这些日期被计为没有产能。
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:

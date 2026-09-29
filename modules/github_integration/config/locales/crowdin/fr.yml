@@ -21,6 +21,23 @@
 #++
 ---
 fr:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Vérification du statut de déploiement
+        other: Vérifications du statut de déploiement
+      deploy_target:
+        one: Cible de déploiement
+        other: Cibles de déploiement
+      github_check_run:
+        one: Exécution de vérification GitHub
+        other: Exécutions de vérification GitHub
+      github_pull_request:
+        one: Pull request GitHub
+        other: Pull requests GitHub
+      github_user:
+        one: Utilisateur GitHub
+        other: Utilisateurs GitHub
   attributes:
     additions_count: Nombre d'ajouts
     changed_files_count: Fichiers modifiés

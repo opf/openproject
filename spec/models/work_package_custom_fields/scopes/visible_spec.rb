@@ -58,18 +58,16 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
     end
   end
 
-  describe ".visible with a linked form configuration", with_flag: { type_variants: true } do
+  describe ".visible with a linked form configuration" do
     shared_let(:source_type) { create(:type) }
     shared_let(:linked_type) { create(:type) }
     shared_let(:linked_project) { create(:project, types: [linked_type]) }
     shared_let(:source_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], types: [source_type])
+      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [source_type.default_variant])
     end
 
     before do
-      create(:type_configuration_link,
-             type: linked_type, source: source_type,
-             aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+      linked_type.default_variant.update!(form_configuration_source: source_type.default_variant)
     end
 
     context "for a non-privileged user" do
@@ -77,7 +75,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
         create(:user, member_with_permissions: { linked_project => [] })
       end
 
-      it "surfaces the source type's fields through the visibility scope" do
+      it "surfaces the source variant's fields through the visibility scope" do
         expect(WorkPackageCustomField.visible(member_user)).to include(source_cf)
       end
     end

@@ -20,10 +20,16 @@ ms:
             phone_number:
               error_phone_number_format: perlu dalam format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 'Peranti 2FA '
-      two_factor_authentication/device/sms: Telefon bimbit
-      two_factor_authentication/device/totp: Aplikasi pengesahan
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: Teruskan
   button_make_active: Activate
   button_make_default: Tandakan sebagai default

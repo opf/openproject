@@ -30,7 +30,7 @@
 
 module Menus
   class Notifications
-    ENTERPRISE_REASONS = %w[shared date_alert].freeze
+    ENTERPRISE_REASONS = %w[shared].freeze
 
     include Rails.application.routes.url_helpers
 

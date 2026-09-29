@@ -33,11 +33,12 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
   subject(:service_call) { described_class.new(user:, model: project).call(source:, target:) }
 
   let(:user) { create(:admin) }
-  let(:parent_type) { create(:type) }
-  let(:variant) { create(:type, parent: parent_type) }
-  let(:sibling_variant) { create(:type, parent: parent_type) }
+  let(:type) { create(:type) }
+  let(:base_variant) { type.default_variant }
+  let(:variant) { create(:type_variant, type:) }
+  let(:sibling_variant) { create(:type_variant, type:) }
   let(:project) { create(:project, types: [variant]) }
-  let!(:work_package) { create(:work_package, project:, type: parent_type) }
+  let!(:work_package) { create(:work_package, project:, type:) }
 
   let(:source) { variant }
   let(:target) { sibling_variant }
@@ -48,7 +49,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     it "resolves the project to the target" do
       expect(service_call).to be_success
       expect(resolved_variant).to eq(sibling_variant)
-      expect(project.types).to contain_exactly(parent_type)
+      expect(project.enabled_types).to contain_exactly(type)
     end
 
     it "leaves the work packages alone" do
@@ -60,27 +61,26 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when switching to the parent type" do
-    let(:target) { parent_type }
+  context "when switching to the base variant" do
+    let(:target) { base_variant }
 
-    it "resolves the project to the root itself" do
+    it "resolves the project to the type's own configuration" do
       expect(service_call).to be_success
-      expect(resolved_variant).to be_nil
-      expect(project.project_types.sole.effective_type).to eq(parent_type)
+      expect(resolved_variant).to eq(base_variant)
     end
   end
 
-  # A project resolving a family to no variant still has one to offer, so the switch has to
-  # work in this direction too.
-  context "when switching from the parent type to one of its variants" do
-    let(:project) { create(:project, types: [parent_type]) }
-    let(:source) { parent_type }
+  # A project on a type's base variant still has the named ones to offer, so the switch has
+  # to work in this direction too.
+  context "when switching from the base variant to a named one" do
+    let(:project) { create(:project, types: [type]) }
+    let(:source) { base_variant }
     let(:target) { variant }
 
     it "resolves the project to the target" do
       expect(service_call).to be_success
       expect(resolved_variant).to eq(variant)
-      expect(project.reload.types).to contain_exactly(parent_type)
+      expect(project.enabled_types).to contain_exactly(type)
     end
 
     it "leaves the work packages alone" do
@@ -97,12 +97,16 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the target belongs to a different family" do
-    let(:target) { create(:type, parent: create(:type)) }
+  context "when the target belongs to a different type" do
+    let(:target) { create(:type_variant) }
 
     it "fails" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_in_family)
+    end
+
+    it "says nothing about the user's permissions" do
+      expect(service_call.errors.symbols_for(:base)).to be_empty
     end
   end
 
@@ -118,7 +122,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the user is not allowed to manage types" do
+  context "when the user may not author the project's variants" do
     let(:user) { create(:user) }
 
     it "fails without changing anything" do

@@ -30,49 +30,45 @@
 
 module WorkPackageTypes
   module ConfigurationLinks
-    # Danger confirmation before switching an aspect to Linked overwrites the
-    # type's current settings. The wording differs depending on the previous
-    # state: switching in from Independent vs. changing an existing source.
-    # Confirming performs the switch.
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
       DIALOG_ID = "configuration-link-confirm-dialog"
 
-      def initialize(type:, aspect:, source:)
+      def initialize(variant:, aspect:, source:)
         super()
 
-        @type = type
+        @variant = variant
         @aspect = aspect
         @source = source
       end
 
       private
 
-      attr_reader :type, :aspect, :source
+      attr_reader :variant, :aspect, :source
 
       def changing_source?
-        type.linked?(aspect)
+        variant.linked?(aspect)
       end
 
       def title
         if changing_source?
-          t("types.edit.reuse_mode.linked.confirm_dialog.change_source.title")
+          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.title")
         else
-          t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.title")
+          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
         end
       end
 
       def heading
         if changing_source?
-          t("types.edit.reuse_mode.linked.confirm_dialog.change_source.heading")
+          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.heading")
         else
-          t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.heading")
+          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
         end
       end
 
       def switch_path
-        type_configuration_link_switch_path(type_id: type.id, aspect:)
+        type_configuration_link_switch_path(**variant.path_args, aspect:)
       end
     end
   end

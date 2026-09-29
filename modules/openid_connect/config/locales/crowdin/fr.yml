@@ -43,6 +43,13 @@ fr:
           invalid_claims_location: 'contiennent des emplacements non pris en charge : %{invalid}. Les emplacements pris en charge sont les suivants : %{supported}.'
           invalid_claims_values: ne définit pas de tableau pour %{attribute}.
           non_object_attribute: ne définit pas d'objet JSON pour %{attribute}.
+    models:
+      openid_connect/provider:
+        one: Fournisseur OpenID Connect
+        other: Fournisseurs OpenID Connect
+      openid_connect/user_token:
+        one: Jeton OpenID Connect
+        other: Jetons OpenID Connect
   logout_warning: 'Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
 
     '

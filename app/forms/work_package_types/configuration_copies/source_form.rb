@@ -33,10 +33,10 @@ module WorkPackageTypes
     class SourceForm < ApplicationForm
       include WorkPackageTypes::SourceOptions
 
-      def initialize(type:)
+      def initialize(variant:)
         super()
 
-        @type = type
+        @variant = variant
       end
 
       form do |source_form|
@@ -61,7 +61,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type
+      attr_reader :variant
     end
   end
 end

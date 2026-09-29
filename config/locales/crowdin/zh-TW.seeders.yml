@@ -71,6 +71,15 @@ zh-TW:
           name: 成員和專案管理員
         item_1:
           name: 標準全域角色
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:

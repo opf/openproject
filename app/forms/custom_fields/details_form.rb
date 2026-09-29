@@ -60,7 +60,7 @@ module CustomFields
         end
       end
 
-      if show_min_max_field?
+      if show_min_max_length_field?
         details_form.text_field(
           name: :min_length,
           type: :number,
@@ -74,6 +74,28 @@ module CustomFields
           type: :number,
           label: label(:max_length),
           caption: instructions(:min_max),
+          input_width: :small
+        )
+      end
+
+      if show_min_max_value_field?
+        details_form.text_field(
+          name: :min_value,
+          type: :number,
+          step: bound_step,
+          value: model.min_bound,
+          label: label(:min_value),
+          caption: instructions(:min_max_value),
+          input_width: :small
+        )
+
+        details_form.text_field(
+          name: :max_value,
+          type: :number,
+          step: bound_step,
+          value: model.max_bound,
+          label: label(:max_value),
+          caption: instructions(:min_max_value),
           input_width: :small
         )
       end
@@ -207,7 +229,7 @@ module CustomFields
         )
       end
 
-      details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :default)
+      details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
     end
 
     def label(field)
@@ -252,8 +274,16 @@ module CustomFields
       %w[calculated_value bool].exclude?(model.field_format)
     end
 
-    def show_min_max_field?
-      %w[list bool date user version link hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+    def show_min_max_length_field?
+      model.length_limits_possible?
+    end
+
+    def show_min_max_value_field?
+      model.numeric_bounds_possible?
+    end
+
+    def bound_step
+      model.field_format == "int" ? 1 : "any"
     end
 
     def show_regex_field?

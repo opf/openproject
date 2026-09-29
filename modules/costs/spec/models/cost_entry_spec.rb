@@ -35,12 +35,12 @@ RSpec.describe CostEntry do
   let(:project2) { create(:project_with_types) }
   let(:work_package) do
     create(:work_package, project:,
-                          type: project.types.first,
+                          type: project.enabled_types.first,
                           author: user)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                          type: project2.types.first,
+                          type: project2.enabled_types.first,
                           author: user)
   end
   let(:user) { create(:user) }

@@ -102,6 +102,13 @@ ar:
         few: Cost entries
         many: Cost entries
         other: Cost entries
+      cost_rate:
+        zero: Cost rates
+        one: Cost rate
+        two: Cost rates
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         zero: أنواع التكلفة
         one: أنواع التكلفة
@@ -109,7 +116,27 @@ ar:
         few: أنواع التكلفة
         many: أنواع التكلفة
         other: أنواع التكلفة
-      rate: المعدل
+      default_hourly_rate:
+        zero: Default hourly rates
+        one: Default hourly rate
+        two: Default hourly rates
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        zero: Hourly rates
+        one: Hourly rate
+        two: Hourly rates
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        zero: Rates
+        one: Rate
+        two: Rates
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         zero: Time entries
         one: Time entry
@@ -124,6 +151,13 @@ ar:
         few: Time tracking activities
         many: Time tracking activities
         other: Time tracking activities
+      time_entry_custom_field:
+        zero: Time entry custom fields
+        one: Time entry custom field
+        two: Time entry custom fields
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -222,7 +256,6 @@ ar:
   label_greater_or_equal: "=<"
   label_group_by: مجموعة بحسب
   label_group_by_add: أضِف حقل التجميع
-  label_hourly_rate: الأجر بالساعة
   label_include_deleted: يتضمن المحذوف
   label_kind: النّوع
   label_less_or_equal: "=>"
@@ -243,7 +276,6 @@ ar:
   label_previous_month: الشهر السابق
   label_previous_week: الأسبوع الماضي
   label_previous_workweek: Previous work week
-  label_rate: المعدل
   label_rate_plural: الأسعار
   label_show: إظهار
   label_specific_day: Day %{day}
@@ -257,7 +289,6 @@ ar:
   label_today_capitalized: اليوم
   label_units: وحدات التكلفة
   label_until: حتى
-  label_user: المستخدم
   label_valid_from: صالح من
   label_view_mode_switcher: Change view
   label_work_package_filter_add: أضِف عامل تصفية لمجموعة العمل

@@ -61,7 +61,7 @@ This allows individual field components to declare that they always require a di
 
 **Simplified HTML of the `InplaceEditFieldComponent`:**
 ```html
-&lt;%= component_wrapper(tag: :div, class: "op-inplace-edit") do
+<%%= component_wrapper(tag: :div, class: "op-inplace-edit") do
   if display_field_component.present? && (!enforce_edit_mode || !writable?)
     render display_field_component
   else

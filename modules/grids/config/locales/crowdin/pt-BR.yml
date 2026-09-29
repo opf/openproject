@@ -14,6 +14,13 @@ pt-BR:
           end_before_start: o valor final precisa ser maior que o valor inicial.
           outside: está fora da grade.
           overlaps: sobreposição.
+    models:
+      grids/grid:
+        one: Grade
+        other: Grades
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget contido na Grade %{grid_name}
     widgets:

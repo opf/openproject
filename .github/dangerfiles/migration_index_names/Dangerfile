@@ -1,0 +1,101 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# Databases migrated from MySQL using pgloader did prefix index names with idx_<oid>_.
+# That means we cannot reliably use index renaming by name.
+
+MIGRATIONS_REGEX = %r{(modules/.*)?db/migrate/.*\.rb}
+UTILS_REGEX = %r{db/migrate/migration_utils/}
+REMOVE_INDEX_BY_NAME_REGEX = /\bremove_index(?!_)\b.*\bname\s*:/
+RENAME_INDEX_BY_NAME_REGEX = /\brename_index(?!_)\b/
+
+def joined_statements(content)
+  content.lines.each_with_object([]) do |line, statements|
+    stripped = line.sub(/#.*$/, "")
+    next if stripped.strip.empty?
+
+    if statements.last&.rstrip&.match?(/[,(]\s*\z/)
+      statements[-1] = "#{statements.last.rstrip} #{stripped.strip}"
+    else
+      statements << stripped
+    end
+  end
+end
+
+def migrations_using_index_name
+  (git.modified_files + git.added_files)
+    .grep(MIGRATIONS_REGEX)
+    .reject { |file| file.match?(UTILS_REGEX) }
+    .select { |file| File.exist?(file) }
+    .select do |file|
+      joined_statements(File.read(file)).any? do |statement|
+        statement.match?(REMOVE_INDEX_BY_NAME_REGEX) || statement.match?(RENAME_INDEX_BY_NAME_REGEX)
+      end
+    end
+end
+
+flagged_files = migrations_using_index_name
+if flagged_files.any?
+  message_lines = [
+    "**Attention developer & reviewer: migration looks up an index by hardcoded name:**",
+    ""
+  ]
+
+  flagged_files.each do |file|
+    message_lines << "- #{file}"
+  end
+
+  message_lines << <<~MESSAGE
+
+    `remove_index ..., name:` and `rename_index` MAY fail when the live name differs from
+    the canonical one (for example, old databases pgloader prefixes MySQL indexes with `idx_<oid>_`; pre-squash
+    databases may still use the original migration name).
+
+    **Please use `Migration::Utils` instead:**
+
+    ```ruby
+    require Rails.root.join("db/migrate/migration_utils/utils")
+
+    class SomeMigration < ActiveRecord::Migration[8.0]
+      include Migration::Utils
+
+      def up
+        remove_index_on :workflows, "wkfs_role_type_old_status", %w[role_id type_id old_status_id]
+        rename_index_on :workflows, "wkfs_role_type_old_status", "wkfs_role_type_variant_old_status",
+                        %w[role_id type_id old_status_id]
+      end
+    end
+    ```
+
+    Those helpers match the given name, or the name with pgloader prefix, then fall back to columns.
+  MESSAGE
+
+  warn message_lines.join("\n")
+end

@@ -36,6 +36,7 @@ module Queries::Meetings
     filter Filters::AuthorFilter
     filter Filters::DatesIntervalFilter
     filter Filters::RecurringFilter
+    filter Filters::TitleFilter
 
     order Orders::DefaultOrder
   end

@@ -38,6 +38,19 @@ sv:
           attributes:
             labels:
               invalid_schema: 'måste vara en matris med hashvärden med nycklarna: color, title'
+    models:
+      gitlab_issue:
+        one: GitLab-ärende
+        other: GitLab-ärenden
+      gitlab_merge_request:
+        one: GitLab-merge request
+        other: GitLab-merge requests
+      gitlab_pipeline:
+        one: GitLab-pipeline
+        other: GitLab-pipelines
+      gitlab_user:
+        one: GitLab-användare
+        other: GitLab-användare
   attributes:
     commit: Commit
     gitlab: GitLab-identifierare

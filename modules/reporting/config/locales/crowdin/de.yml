@@ -21,6 +21,11 @@
 #++
 ---
 de:
+  activerecord:
+    models:
+      cost_query:
+        one: Kostenbericht
+        other: Kostenberichte
   button_save_report_as: Speichern unter ...
   comments: Kommentar
   cost_reports_title: Zeit und Kosten
@@ -46,7 +51,6 @@ de:
   label_closed: Geschlossen
   label_columns: Spalten
   label_cost_entry_attributes: Attribute am Kosteneintrag
-  label_cost_report: Report
   label_cost_report_plural: Kostenauswertungen
   label_count: Anzahl
   label_days_ago: in den letzten Tagen

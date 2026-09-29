@@ -20,8 +20,12 @@ tr:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filtre tabanı DN'si, LDAP bağlantısının temel DN'si içinde yer almalıdır
     models:
-      ldap_groups/synchronized_filter: LDAP Grubu senkronizasyon filtresi
-      ldap_groups/synchronized_group: Senkronize LDAP grubu
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

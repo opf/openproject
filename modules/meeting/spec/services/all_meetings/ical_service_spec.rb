@@ -56,6 +56,10 @@ RSpec.describe AllMeetings::ICalService, type: :model do
       expect(service.call).to be_success
     end
 
+    it "conforms to RFC 5545" do
+      expect(result).to be_a_conforming_calendar
+    end
+
     context "when exception is raised" do
       subject { service.call }
 
@@ -329,6 +333,9 @@ RSpec.describe AllMeetings::ICalService, type: :model do
           .result
           .tap do |m|
             m.participants.create!(user:)
+            # Moved off its slot, so it needs an override. An occurrence that matches the rule is
+            # drawn from the master and emits none.
+            m.update_column(:start_time, relevant_time - 1.week + 15.minutes)
             m.update_column(:state, Meeting.states[:closed])
           end
       end

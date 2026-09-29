@@ -38,6 +38,27 @@ pl:
           attributes:
             labels:
               invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
+    models:
+      gitlab_issue:
+        one: Zgłoszenie w GitLab
+        few: Zgłoszenia w GitLab
+        many: Zgłoszenia w GitLab
+        other: Zgłoszenia w GitLab
+      gitlab_merge_request:
+        one: Żądanie scalenia GitLab
+        few: Żądania scalenia GitLab
+        many: Żądania scalenia GitLab
+        other: Żądania scalenia GitLab
+      gitlab_pipeline:
+        one: Potok GitLab
+        few: Potoki GitLab
+        many: Potoki GitLab
+        other: Potoki GitLab
+      gitlab_user:
+        one: Użytkownik GitLab
+        few: Użytkownicy GitLab
+        many: Użytkownicy GitLab
+        other: Użytkownicy GitLab
   attributes:
     commit: Zatwierdź
     gitlab: Identyfikator GitLab

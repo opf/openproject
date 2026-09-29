@@ -31,44 +31,16 @@
 require "spec_helper"
 
 RSpec.describe Workflows::Copies::FromRolesController do
-  let!(:source_type) do
-    build_stubbed(:type) do |stub|
-      allow(Type)
-        .to receive(:find_by)
-              .with(id: stub.id.to_s)
-              .and_return(stub)
-    end
-  end
+  shared_let(:admin) { create(:admin) }
+  shared_let(:source_type) { create(:type, name: "Bug") }
+  shared_let(:roles) { create_list(:project_role, 2) }
 
-  let!(:eligible_roles) do
-    instance_double(ActiveRecord::Relation, to_a: all_roles).tap do |relation|
-      allow(Role)
-        .to receive(:where)
-              .with(type: ProjectRole.name)
-              .and_return(relation)
-    end
-  end
-
-  let!(:all_roles) do
-    build_stubbed_list(:project_role, 2)
-  end
-
-  before do
-    allow(eligible_roles).to receive(:find_by).and_return(source_role)
-  end
-
-  current_user { build_stubbed(:admin) }
+  current_user { admin }
 
   describe "#create" do
-    let!(:source_role) { all_roles.sample }
-    let!(:target_roles) do
-      all_roles.tap do |stubs|
-        allow(eligible_roles)
-          .to receive(:where).with(id: target_role_ids)
-            .and_return(stubs)
-      end
-    end
-    let!(:target_role_ids) { all_roles.map { |role| role.id.to_s } }
+    let(:source_variant) { source_type.default_variant }
+    let(:source_role) { roles.first }
+    let(:target_roles) { roles }
 
     before do
       allow(Workflow).to receive(:copy)
@@ -76,22 +48,21 @@ RSpec.describe Workflows::Copies::FromRolesController do
       post :create, params: {
         type_id: source_type.id.to_s,
         source_role_id: source_role.id.to_s,
-        target_role_ids: target_role_ids
+        target_role_ids: target_roles.map { |role| role.id.to_s }
       }, format: :turbo_stream
     end
 
-    it "calls the Workflow.copy method with every target role" do
-      expect(Workflow)
-        .to have_received(:copy).exactly(1).times
+    it "copies from the source variant onto itself for every target role" do
+      expect(Workflow).to have_received(:copy).exactly(1).time
       expect(Workflow)
         .to have_received(:copy)
-              .with(source_type, source_role, [source_type], target_roles)
+              .with(source_variant, source_role, [source_variant], a_collection_containing_exactly(*target_roles))
     end
 
-    it "points the matrix frame at the first target role with a flash notice" do
+    it "points the matrix frame at the target roles with a flash notice" do
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
-      expect(response.body).to include("Successfully copied workflow to 2 roles.")
+      expect(response.body).to include("Successfully copied workflow to #{target_roles.size} roles.")
       expect(response).to have_turbo_stream(action: "turbo_frame_set_src", target: "workflow-table")
     end
   end

@@ -34,7 +34,8 @@ See COPYRIGHT and LICENSE files for more details.
       classes: container_class,
       role: :table,
       aria: { label: mobile_title, colcount: column_count },
-      list_arguments: { tag: :div, role: :rowgroup },
+      data: container_data,
+      list_arguments: { tag: :div, role: :rowgroup, classes: rows_container_class },
       test_selector:
     )
   ) do |component|

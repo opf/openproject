@@ -35,8 +35,8 @@ module WorkPackageTypes
 
       INACTIVE_TARGET = "inactive"
 
-      def initialize(user:, type:, row_key:)
-        super(user:, type:)
+      def initialize(user:, variant:, row_key:)
+        super(user:, variant:)
         @row_key = row_key
       end
 

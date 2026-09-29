@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_for :content_header do %>
   <%=
-    render Primer::OpenProject::PageHeader.new(mb: 0) do |header|
+    render Primer::OpenProject::PageHeader.new do |header|
       header.with_title { t(:label_backlog_and_sprints) }
       header.with_breadcrumbs(
         [{ href: project_overview_path(@project), text: @project.name },
@@ -40,6 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       )
     end
   %>
+  <%= render(Backlogs::IndexSubheaderComponent.new(query: @backlog_query, project: @project)) %>
 <% end %>
 
 <% content_for :content_body do %>

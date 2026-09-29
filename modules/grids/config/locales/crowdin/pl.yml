@@ -14,6 +14,17 @@ pl:
           end_before_start: wartość końcowa musi być większa niż wartość początkowa.
           outside: jest poza siatką.
           overlaps: nałożenie.
+    models:
+      grids/grid:
+        one: Siatka
+        few: Siatki
+        many: Siatki
+        other: Siatki
+      grids/widget:
+        one: Widżet
+        few: Widżety
+        many: Widżety
+        other: Widżety
   grids:
     label_widget_in_grid: Widżet zawarty w siatce %{grid_name}
     widgets:

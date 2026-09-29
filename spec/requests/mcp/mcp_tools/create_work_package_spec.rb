@@ -65,7 +65,7 @@ RSpec.describe McpTools::CreateWorkPackage do
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_item) { parsed_results.fetch("structuredContent") }
 
-  let(:project) { create(:project).tap { |p| p.types << type } }
+  let(:project) { create(:project).tap { |p| p.project_types.create!(type:) } }
   let(:type) { create(:type) }
   let(:status) { create(:status) }
   let!(:priority) { create(:default_priority) }

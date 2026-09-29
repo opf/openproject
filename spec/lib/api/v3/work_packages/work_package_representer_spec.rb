@@ -108,7 +108,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project_phases) { [project_phase, other_project_phase].compact }
   let(:project_phase_definition) { build_stubbed(:project_phase_definition) }
   let(:type) do
-    type = workspace&.types&.first || build_stubbed(:type)
+    type = (workspace && workspace.project_types.first&.type) || build_stubbed(:type)
 
     type.is_milestone = type_milestone
 
@@ -204,22 +204,25 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe "hasProjectAttributes" do
-      let(:type_fields_exist) { false }
+      let(:type_variant) { build_stubbed(:type_variant, type:) }
+      let(:variant_fields_exist) { false }
 
       before do
-        fields = instance_double(ActiveRecord::Relation, any?: type_fields_exist)
-        allow(fields).to receive_messages(reject: [], joins: fields, where: fields)
-        allow(workspace).to receive(:available_custom_fields).and_return(fields)
+        allow(work_package).to receive(:type_variant).and_return(type_variant)
+        fields = instance_double(ActiveRecord::Relation, any?: variant_fields_exist)
+        allow(workspace).to receive(:available_custom_fields_for_variant)
+          .with(type_variant.id)
+          .and_return(fields)
       end
 
-      context "when no custom fields are mapped to the type" do
+      context "when no custom fields are mapped to the variant" do
         it "renders as false" do
           expect(subject).to be_json_eql(false.to_json).at_path("hasProjectAttributes")
         end
       end
 
-      context "when custom fields are mapped to the type" do
-        let(:type_fields_exist) { true }
+      context "when custom fields are mapped to the variant" do
+        let(:variant_fields_exist) { true }
 
         it "renders as true" do
           expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
@@ -556,16 +559,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href) { "/api/v3/types/#{work_package.type_id}" }
         let(:title) { work_package.type.name }
       end
-
-      context "for a variant" do
-        let(:type) { build_stubbed(:type, name: "Bug", parent: build_stubbed(:type, name: "Task")) }
-
-        it_behaves_like "has a titled link" do
-          let(:link) { "type" }
-          let(:href) { "/api/v3/types/#{work_package.type_id}" }
-          let(:title) { "Task" }
-        end
-      end
     end
 
     describe "author" do
@@ -791,6 +784,69 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject)
             .to be_json_eql(other_version.name.to_json)
             .at_path("_embedded/targetVersions/0/name")
+        end
+      end
+    end
+
+    describe "observedInVersions" do
+      context "when no version is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/observedInVersions")
+          expect(subject).to have_json_size(0).at_path("_embedded/observedInVersions")
+        end
+      end
+
+      context "when a version is set" do
+        let!(:version) { create(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:observed_in_versions).and_return([version])
+        end
+
+        it "wraps the version in the links collection" do
+          expect(subject).to have_json_size(1).at_path("_links/observedInVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/observedInVersions/0/href")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_links/observedInVersions/0/title")
+        end
+
+        it "wraps the version in the embedded collection" do
+          expect(subject).to have_json_size(1).at_path("_embedded/observedInVersions")
+          expect(subject)
+            .to be_json_eql("Version".to_json)
+            .at_path("_embedded/observedInVersions/0/_type")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_embedded/observedInVersions/0/name")
+        end
+      end
+
+      context "when versions are assigned but not yet persisted" do
+        let!(:version) { create(:version, project: workspace) }
+        let!(:other_version) { create(:version, project: workspace) }
+
+        before do
+          work_package.observed_in_version_ids_replacements = [other_version.id, version.id]
+        end
+
+        it "renders the pending versions in their requested order" do
+          expect(subject).to have_json_size(2).at_path("_links/observedInVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(other_version.id).to_json)
+            .at_path("_links/observedInVersions/0/href")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/observedInVersions/1/href")
+        end
+
+        it "embeds the pending versions" do
+          expect(subject).to have_json_size(2).at_path("_embedded/observedInVersions")
+          expect(subject)
+            .to be_json_eql(other_version.name.to_json)
+            .at_path("_embedded/observedInVersions/0/name")
         end
       end
     end
