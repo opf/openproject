@@ -114,7 +114,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     this.cdRef.detectChanges();
   }
 
-  public refresh(visible = true, firstPage = false):Promise<any> {
+  public refresh(visible = true, firstPage = false):void {
     const query = this.querySpace.query.value!;
     const pagination = this.wpTablePagination.paginationObject;
 
@@ -133,7 +133,6 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     if (visible) {
       this.loadingIndicator = promise;
     }
-    return promise;
   }
 
   public get isInitialized() {

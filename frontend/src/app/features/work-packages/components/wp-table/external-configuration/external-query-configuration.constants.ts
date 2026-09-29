@@ -27,5 +27,6 @@
 //++
 
 import { InjectionToken } from '@angular/core';
+import type { QueryConfigurationLocals } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
 
-export const OpQueryConfigurationLocalsToken = new InjectionToken<any>('OpQueryConfigurationLocalsToken');
+export const OpQueryConfigurationLocalsToken = new InjectionToken<QueryConfigurationLocals>('OpQueryConfigurationLocalsToken');
