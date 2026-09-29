@@ -121,6 +121,24 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response.body).to include("Last checked")
       expect(response.body).to match(/\d+ passed, \d+ warnings, \d+ failed/)
     end
+
+    it "calls a run with inference a full check" do
+      post llm_connection_health_status_report_path
+
+      get llm_connection_health_status_report_path
+
+      expect(response.body).to include("Full check, including an inference request.")
+    end
+
+    # The scheduled check leaves inference out, and its report can supersede a
+    # failed full check, so the page has to say which of the two it shows.
+    it "says when the report comes without an inference request" do
+      Llm::HealthCheckJob.perform_now
+
+      get llm_connection_health_status_report_path
+
+      expect(response.body).to include("Checked without an inference request")
+    end
   end
 
   describe "POST /admin/llm_connection/health_status_report/create_health_status_report" do

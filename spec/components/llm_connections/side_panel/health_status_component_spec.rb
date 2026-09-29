@@ -56,4 +56,22 @@ RSpec.describe LlmConnections::SidePanel::HealthStatusComponent, type: :componen
     expect(connection).to have_received(:latest_health_report).once
     expect(page).to have_test_selector("llm-connection--health-summary")
   end
+
+  it "says when the report includes an inference request" do
+    store_report(:configuration, :server, :inference)
+
+    render_inline(described_class.new(connection))
+
+    expect(page).to have_test_selector("llm-connection--health-summary",
+                                       text: "Full check, including an inference request.")
+  end
+
+  it "says when the report was checked without an inference request" do
+    store_report(:configuration, :server)
+
+    render_inline(described_class.new(connection))
+
+    expect(page).to have_test_selector("llm-connection--health-summary",
+                                       text: "Checked without an inference request")
+  end
 end

@@ -4640,6 +4640,9 @@ en:
         credentials_accepted: "The server accepts the API key"
         header: "Server"
         reachable: "The server can be reached"
+    health_report_kinds:
+      full: "Full check, including an inference request."
+      without_inference: "Checked without an inference request, as the scheduled check does. Run the checks to include one."
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
