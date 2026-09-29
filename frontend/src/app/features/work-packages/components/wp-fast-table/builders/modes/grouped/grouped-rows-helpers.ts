@@ -29,7 +29,7 @@
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 
 export function groupIdentifier(group:GroupObject) {
-  let value = group.value || 'nullValue';
+  let value = (group.value as string) || 'nullValue';
 
   if (group.href) {
     try {
@@ -44,7 +44,7 @@ export function groupIdentifier(group:GroupObject) {
 }
 
 export function groupName(group:GroupObject) {
-  const { value } = group;
+  const value = group.value as string|null;
   if (value === null) {
     return '-';
   }
