@@ -95,12 +95,12 @@ module WorkPackages
         # language can be read in another.
         def breakdown
           ImportService::COUNTED.filter_map do |attribute|
-            values = payload.dig("counts", attribute.to_s)
+            values = payload.dig("counts_by_attribute", attribute.to_s)
             [WorkPackage.human_attribute_name(attribute), values] if values.present?
           end
         end
 
-        def type_counts = payload.dig("counts", "type").to_h
+        def type_counts = payload.dig("counts_by_attribute", "type").to_h
 
         def row_headers
           %i[row attribute value message].map { |key| t("work_packages.import.report.table.#{key}") }
