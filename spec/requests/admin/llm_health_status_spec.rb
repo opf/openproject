@@ -181,15 +181,52 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
     end
   end
 
-  describe "authorisation" do
-    let!(:connection) { create(:llm_connection, base_url:) }
-
-    it "is refused to a non-admin" do
-      login_as(create(:user))
-
+  shared_examples "a refused request" do |status|
+    it "refuses the page" do
       get llm_connection_health_status_report_path
 
-      expect(response).not_to have_http_status(:ok)
+      expect(response).to have_http_status(status)
+    end
+
+    it "refuses the download" do
+      get llm_connection_health_status_report_path(format: :txt)
+
+      expect(response).to have_http_status(status)
+    end
+
+    it "refuses to run the checks" do
+      expect { post llm_connection_health_status_report_path }
+        .not_to change(HealthReport, :count)
+
+      expect(response).to have_http_status(status)
+    end
+
+    it "refuses to run the checks from the side panel" do
+      expect do
+        post create_health_status_report_llm_connection_health_status_report_path,
+             headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      end.not_to change(HealthReport, :count)
+
+      expect(response).to have_http_status(status)
+    end
+  end
+
+  describe "authorisation" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before do
+      group = HealthReport::ResultGroup.new(key: :configuration, results: [HealthReport::Result.success(:enabled)])
+      connection.health_reports.create!(results: [group])
+    end
+
+    context "as a non-admin" do
+      before { login_as(create(:user)) }
+
+      it_behaves_like "a refused request", :forbidden
+    end
+
+    context "with the feature flag off", with_flag: { llm_connection: false } do
+      it_behaves_like "a refused request", :not_found
     end
   end
 end
