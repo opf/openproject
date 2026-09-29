@@ -1,22 +1,14 @@
 # frozen_string_literal: true
 
 module CostScopes
-  def self.included(base_module)
-    base_module.class_eval do
-      def self.extended(base_class)
-        base_class.class_eval do
-          def self.visible(*args)
-            user = args.first || User.current
-            with_visible_entries_on self, user:, project: args[1]
-          end
+  def visible(*args)
+    user = args.first || User.current
+    with_visible_entries_on self, user:, project: args[1]
+  end
 
-          def self.visible_costs(*args)
-            user = args.first || User.current
-            with_visible_costs_on self, user:, project: args[1]
-          end
-        end
-      end
-    end
+  def visible_costs(*args)
+    user = args.first || User.current
+    with_visible_costs_on self, user:, project: args[1]
   end
 
   def view_allowed_entries_permission
