@@ -32,6 +32,7 @@ module WikiPages
   class FormFooterComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include ApplicationHelper
+    include WikiHelper
 
     def initialize(page:, project:, form_identifier:, create:)
       super
@@ -51,11 +52,7 @@ module WikiPages
     private
 
     def cancel_button_href
-      if @page.new_record?
-        url_for(controller: "/wiki", action: "index", project_id: @project.identifier)
-      else
-        url_for(controller: "/wiki", action: "show", project_id: @project.identifier, id: @page)
-      end
+      wiki_page_cancel_href(@page, @project)
     end
 
     def submit_button_args

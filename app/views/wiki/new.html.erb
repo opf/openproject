@@ -41,6 +41,17 @@ See COPYRIGHT and LICENSE files for more details.
            { href: url_for({ controller: "/wiki", action: "index", project_id: @project.identifier }), text: Wiki.model_name.human },
            t(:create_wiki_page)]
         )
+
+        header.with_action_icon_button(
+          tag: :a,
+          icon: :x,
+          mobile_icon: :x,
+          label: t(:button_cancel),
+          size: :medium,
+          href: wiki_page_cancel_href(@page, @project),
+          aria: { label: t(:button_cancel) },
+          title: t(:button_cancel)
+        )
       end
     %>
   <% end %>

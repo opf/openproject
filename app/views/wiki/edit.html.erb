@@ -37,6 +37,17 @@ See COPYRIGHT and LICENSE files for more details.
           header.with_breadcrumbs(
             breadcrumb_for_page(@project, @page)
           )
+
+          header.with_action_icon_button(
+            tag: :a,
+            icon: :x,
+            mobile_icon: :x,
+            label: t(:button_cancel),
+            size: :medium,
+            href: wiki_page_cancel_href(@page, @project),
+            aria: { label: t(:button_cancel) },
+            title: t(:button_cancel)
+          )
         end %>
   <% end %>
 
