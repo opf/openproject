@@ -33,12 +33,6 @@ module Costs::Patches::ProjectCosts
 
   included do
     has_many :rates, class_name: "HourlyRate"
-
-    has_many :member_groups, -> {
-      includes(:principal)
-        .where("#{Principal.table_name}.type='Group'")
-    }, class_name: "Member"
-    has_many :groups, through: :member_groups, source: :principal
   end
 
   def costs_enabled?
