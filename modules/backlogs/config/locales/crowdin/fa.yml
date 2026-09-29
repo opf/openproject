@@ -26,6 +26,7 @@ fa:
       project:
         allow_multiple_active_sprints: اجازه دادن به چند اسپرینت فعال هم‌زمان
         backlog_excluded_types: انواع بسته‌های کاری مستثنی‌شده
+        estimation_unit: Unit
         sprint_sharing: اشتراک‌گذاری اسپرینت
         statuses_considered_closed: وضعیت‌هایی که بسته‌شده محسوب می‌شوند
       sprint:
@@ -137,6 +138,7 @@ fa:
       show:
         blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
         blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
+    estimation_unit: Units
     excluded_work_package_types_caption: 'انتخاب کنید کدام نوع‌های بسته کاری از بک‌لاگ پنهان شوند. موارد مربوط به نوع‌های انتخاب‌شده به‌صورت خودکار در بک‌لاگ نمایش داده نمی‌شوند تا بک‌لاگ روی کارهای مهم تیم متمرکز بماند. برای مثال، نوع‌هایی مانند Epic یا Milestone که در سطح بالاتری مدیریت می‌شوند، می‌توانند پنهان شوند تا بک‌لاگ روی موارد قابل اقدام متمرکز بماند.
 
       '
@@ -184,6 +186,7 @@ fa:
     remaining_hours: کار باقی‌مانده
     sharing: اشتراک‌گذاری اسپرینت
     show_burndown_chart: نمودار Burndown
+    show_work_package_overview: بسته‌های کاری درون اسپرینت
     sprint_component:
       action_menu:
         add_existing_work_package: افزودن بسته کاری موجود
@@ -209,6 +212,31 @@ fa:
       page_header_component:
         breadcrumb: گزارش
         title: گزارش %{sprint}
+      widgets:
+        work_package_graph:
+          title: نمودار بسته‌های کاری
+        work_package_overview:
+          blankslate:
+            description: برای ایجاد نمای کلی بسته‌های کاری، تاریخ شروع و پایان اسپرینت را تعیین کنید.
+            heading: داده‌ای برای اسپرینت در دسترس نیست
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: تغییر دامنه کار
+              story_points_change: "+%{added} / -%{removed} امتیاز داستان"
+            completed:
+              heading: تکمیل‌شده
+            initially_planned:
+              heading: برنامه‌ریزی اولیه
+            unfinished:
+              heading: ناتمام
+          breakdown_block:
+            blocks:
+              show_all: مشاهده همه
+          closed_work_packages: بسته‌های کاری بسته‌شده
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} از %{total} بسته کاری)"
+            other: "%{percentage}% (%{resolved} از %{total} بسته کاری)"
     sprints:
       row_component:
         action_menu:
@@ -249,8 +277,19 @@ fa:
       add_existing_dialog:
         invalid_target: مقصدی که می‌خواهید مورد را به آن اضافه کنید نامعتبر است.
         target_not_found: اسپرینت یا بک‌لاگی که می‌خواهید مورد را به آن اضافه کنید پیدا نشد.
+      batch_update_service:
+        mixed_projects: همه بسته‌های کاری یک عملیات گروهی باید به یک پروژه تعلق داشته باشند.
+        stale_batch: حداقل یکی از بسته‌های کاری هنگام آماده‌سازی جابه‌جایی تغییر کرده است. لطفاً موقعیت‌های فعلی را بررسی کنید و دوباره تلاش کنید.
+        stale_predecessor: بسته کاری‌ای که باید پس از آن درج شود به جای دیگری منتقل شده است. لطفاً موقعیت‌های فعلی را بررسی کنید و دوباره تلاش کنید.
+        unavailable_target: فهرست مقصد دیگر در دسترس نیست. لطفاً صفحه را دوباره بارگذاری کنید و دوباره تلاش کنید.
+        unexpected_failure: بسته‌های کاری قابل جابه‌جایی نبودند. لطفاً دوباره تلاش کنید.
       move:
         moved_announcement: "%{label} به %{list}، موقعیت %{position} از %{total} منتقل شد"
+      move_collection:
+        invalid_ids: فهرست بسته‌های کاری برای جابه‌جایی نامعتبر است.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: در هر بار نمی‌توان بیش از %{max} بسته کاری را جابه‌جا کرد.
+        work_packages_not_found: حداقل یک بسته کاری در این پروژه پیدا نشد.
       update_service:
         invalid_target_type: 'list_type باید یکی از این مقادیر باشد: backlog_bucket همراه با list_id، sprint همراه با list_id، یا inbox بدون list_id.'
         missing_target: list_type یا list_id باید موجود باشد.
@@ -286,9 +325,11 @@ fa:
   notice_unsuccessful_finish_with_reason: 'اسپرینت قابل تکمیل نبود: %{reason}'
   notice_unsuccessful_start: اسپرینت قابل شروع نبود.
   notice_unsuccessful_start_with_reason: 'اسپرینت قابل شروع نبود: %{reason}'
-  notice_work_package_invisible_after_move: 'بسته کاری به %{backlog} منتقل شد، اما دیده نمی‌شود زیرا نوع یا وضعیت آن از بک‌لاگ مستثنا شده است.
+  notice_work_package_invisible_after_move:
+    one: 'بسته کاری به %{backlog} منتقل شد، اما چون نوع یا وضعیت آن از بک‌لاگ حذف شده است، قابل مشاهده نیست.
 
-    '
+      '
+    other: "%{count} بسته کاری به %{backlog} منتقل شدند، اما چون نوع یا وضعیت آن‌ها از بک‌لاگ حذف شده است، قابل مشاهده نیستند.\n"
   permission_create_sprints: ایجاد اسپرینت‌ها
   permission_manage_sprint_items: مدیریت موارد اسپرینت
   permission_select_backlog_types_and_statuses: انتخاب انواع و وضعیت‌های بک‌لاگ
@@ -307,6 +348,18 @@ fa:
       backlog_buckets: سطل‌های بک‌لاگ
       sprints: اسپرینت‌ها
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -327,6 +380,9 @@ fa:
             label: زیرپروژه‌ها
         sprint_sharing: اشتراک‌گذاری اسپرینت‌ها
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: به‌طور پیش‌فرض، در هر پروژه فقط یک اسپرینت می‌تواند هم‌زمان فعال باشد. می‌توانید این تنظیم را تغییر دهید تا چند اسپرینت در این پروژه به‌صورت موازی فعال باشند.
           heading: تعداد اسپرینت‌های فعال

@@ -64,9 +64,9 @@ da:
           invalid_scheme: Skal anvende en WebSocket-protokol (ws:// eller wss://).
           label: URL til Hocuspocus-server
         page_header:
-          description: |-
-            Når det er aktiveret, giver realtidssamarbejde flere brugere mulighed for at redigere et dokument på samme tid.
-            Det kræver en fungerende %{hocuspocus_server_link} for at fungere.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Jeg forstår, at jeg kan miste data permanent
         confirmation_message: |-
@@ -121,7 +121,7 @@ da:
       currently_offline: Ingen internetforbindelse p.t.
     label_attachment_author: Bilagsforfatter
     label_categories: Kategorier
-    last_updated_at: Last saved %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Alle dokumenter
       collaboration_settings: Samarbejde i realtid

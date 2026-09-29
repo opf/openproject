@@ -48,7 +48,7 @@ ms:
         other: OpenID Connect providers
       openid_connect/user_token:
         other: OpenID Connect tokens
-  logout_warning: 'Anda telah log keluar. Sebarang bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -77,7 +77,7 @@ ms:
       display_name: Nama pembekal. Ini akan dipaparkan sebagai butang log masuk dan dalam senarai pembekal.
       endpoint_url: URL titik akhir yang diberikan kepada anda oleh pembekal OpenID Connect
       group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
-      group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
       group_sync: Automatically extract and synchronise group membership information from the identity provider.
       groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
@@ -102,7 +102,7 @@ ms:
       oidc_information: These values are needed to configure the OpenID Connect provider.
       post_logout_redirect_uri: URL penyedia OpenID Connect harus mengubah hala selepas permintaan log keluar.
       scope: Jika anda ingin meminta skop tersuai, anda boleh menambah satu atau berbilang nilai skop yang dipisahkan oleh ruang di sini. Untuk mendapatkan maklumat lanjut, lihat [dokumentasi OpenID Connect](docs_url).
-      tenant: Sila gantikan penyewa lalai dengan penyewa anda sendiri jika berkenaan. Lihat <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">ini</ a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: Penyedia OpenID
     providers:
       client_details_description: Butiran konfigurasi OpenProject sebagai pelanggan OIDC

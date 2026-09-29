@@ -24,6 +24,10 @@
 zh-CN:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab 项目
+        namespace: GitLab 命名空间
+        project_html_url: GitLab 项目 URL
       gitlab_merge_request:
         labels: 标签
       gitlab_pipeline:
@@ -39,6 +43,8 @@ zh-CN:
             labels:
               invalid_schema: 必须是键为“颜色，标题”的哈希数组
     models:
+      gitlab_branch:
+        other: GitLab 分支
       gitlab_issue:
         other: GitLab 问题
       gitlab_merge_request:
@@ -51,7 +57,6 @@ zh-CN:
     commit: 提交
     gitlab: GitLab 标识符
     gitlab_avatar_url: 头像 URL
-    gitlab_email: GitLab Email
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 合并请求
     gitlab_name: GitLab 名称
@@ -59,10 +64,56 @@ zh-CN:
     gitlab_user_avatar_url: GitLab 头像 URL
     gitlab_username: GitLab 用户名
   gitlab_integration:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      created_by: Created by %{name}.
+      updated_at: Updated on %{date_time}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: "**问题已关闭**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
+    issue_component:
+      created_by: Created by %{name}.
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
     issue_opened_referenced_comment: "**问题已打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
     issue_reopened_referenced_comment: "**问题已重新打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
     merge_request_closed_comment: "**合并请求已关闭**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
+    merge_request_component:
+      created_by: Created by %{name}.
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
     merge_request_merged_comment: "**合并请求已合并**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 合并。\n"
     merge_request_opened_comment: "**合并请求已打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
     merge_request_reopened_comment: "**合并请求已重新打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
@@ -75,6 +126,27 @@ zh-CN:
     push_multiple_commits_comment: "**在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将多个提交 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}\n"
     push_single_commit_comment: "**在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}\n"
     push_single_commit_comment_with_ref: "**在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git snippets
   label_gitlab_actor: GitLab 执行者
   label_gitlab_integration: GitLab 集成
   label_gitlab_webhook_secret: 网络钩子密钥
