@@ -125,10 +125,10 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
   context "when the model list answers 404" do
     before { mock_llm_models_response(base_url, response_code: 404) }
 
-    it "reports the status rather than calling the endpoint merely absent" do
+    it "says the model list is missing at this address, as saving the connection does" do
       expect(result_for(:server, :reachable).state).to eq(:success)
       expect(result_for(:server, :credentials_accepted).state).to eq(:failure)
-      expect(result_for(:server, :credentials_accepted).code).to eq(:server_error)
+      expect(result_for(:server, :credentials_accepted).code).to eq(:models_endpoint_missing)
     end
   end
 

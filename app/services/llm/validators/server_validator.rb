@@ -78,6 +78,8 @@ module Llm
         if error.status.in?(MODELS_ENDPOINT_ABSENT)
           # It simply does not publish a catalogue. A supported deployment.
           warn_check(:credentials_accepted, :no_models_endpoint)
+        elsif error.status == 404
+          fail_check(:credentials_accepted, :models_endpoint_missing)
         else
           fail_check(:credentials_accepted, :server_error, context: { status: error.status.to_s })
         end
