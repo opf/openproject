@@ -161,15 +161,14 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   private getVersionPayload(name:string) {
-    const payload:any = {};
-    payload.name = name;
-    payload._links = {
-      definingProject: {
-        href: this.apiV3Service.projects.id(this.currentProject.id!).path,
+    return {
+      name,
+      _links: {
+        definingProject: {
+          href: this.apiV3Service.projects.id(this.currentProject.id!).path,
+        },
       },
     };
-
-    return payload;
   }
 
   private warnIfNoOptions(values:unknown[]) {
