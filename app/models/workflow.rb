@@ -29,7 +29,7 @@
 #++
 
 class Workflow < ApplicationRecord
-  include WorkPackageTypes::NamedReferences::Named
+  include WorkPackageTypes::NamedReference
 
   # The project owning this workflow, or nil for a workflow every project may use.
   belongs_to :project, optional: true
@@ -46,8 +46,6 @@ class Workflow < ApplicationRecord
   scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }
   scope :available_in, ->(project) { where(project: [nil, project]) }
-
-  def self.named_reference_kind = WorkPackageTypes::NamedReferences::Kind::WORKFLOW
 
   # A name only has to be free within the scope that will hold it, so a project may reuse one
   # administration already has.

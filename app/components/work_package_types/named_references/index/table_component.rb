@@ -36,22 +36,24 @@ module WorkPackageTypes
         main_column :name
         mobile_labels :types_and_variants, :projects
 
-        def initialize(records:, variants:, kind:, filtered: false)
+        def initialize(records:, variants:, model_class:, filtered: false)
           super(rows: records)
 
           @variants = variants
-          @kind = kind
+          @model_class = model_class
           @filtered = filtered
         end
 
-        attr_reader :kind
+        attr_reader :model_class
 
-        def mobile_title = kind.model_class.model_name.human(count: 2)
+        def icon = { ::Workflow => :workflow }.fetch(model_class)
+
+        def mobile_title = model_class.model_name.human(count: 2)
 
         def pagination_params = { allowed_params: %w[filters] }
 
         def headers
-          columns.map { |column| [column, { caption: kind.t("index.columns.#{column}") }] }
+          columns.map { |column| [column, { caption: model_class.reference_t("index.columns.#{column}") }] }
         end
 
         def has_actions? = true
@@ -59,14 +61,14 @@ module WorkPackageTypes
         def variants_for(record) = @variants.fetch(record.id, [])
 
         def blank_title
-          @filtered ? kind.t("index.blank_slate.filtered_title") : kind.t("index.blank_slate.title")
+          model_class.reference_t(@filtered ? "index.blank_slate.filtered_title" : "index.blank_slate.title")
         end
 
         def blank_description
-          @filtered ? kind.t("index.blank_slate.filtered_description") : kind.t("index.blank_slate.description")
+          model_class.reference_t(@filtered ? "index.blank_slate.filtered_description" : "index.blank_slate.description")
         end
 
-        def blank_icon = kind.icon
+        def blank_icon = icon
       end
     end
   end

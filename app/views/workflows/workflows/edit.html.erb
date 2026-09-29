@@ -28,9 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t(:label_workflow_plural), @workflow.name -%>
 
-<% kind = WorkPackageTypes::NamedReferences::Kind::WORKFLOW %>
-<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @workflow, kind:)) %>
-<%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @workflow, kind:)) %>
+<% model_class = ::Workflow %>
+<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @workflow, model_class:)) %>
+<%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @workflow, model_class:)) %>
 
 <% if @roles.any? %>
   <%= form_tag(

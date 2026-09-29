@@ -33,25 +33,25 @@ module WorkPackageTypes
     class PageHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(record:, kind:)
+      def initialize(record:, model_class:)
         super()
 
         @record = record
-        @kind = kind
+        @model_class = model_class
       end
 
       private
 
-      attr_reader :record, :kind
+      attr_reader :record, :model_class
 
       def breadcrumbs
         [{ href: helpers.admin_index_path, text: t("label_administration") },
          { href: helpers.admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-         { href: helpers.polymorphic_path(kind.route_key), text: kind.t(:label_plural) },
+         { href: helpers.polymorphic_path(model_class), text: model_class.model_name.human(count: 2) },
          record.name]
       end
 
-      def test_selector(part) = "#{kind.dom_key}-#{part}"
+      def test_selector(part) = "#{model_class.reference_dom_key}-#{part}"
     end
   end
 end

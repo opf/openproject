@@ -33,11 +33,11 @@ module WorkPackageTypes
     class PanelComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, kind:, candidates:, selected: nil, back_url: nil)
+      def initialize(variant:, model_class:, candidates:, selected: nil, back_url: nil)
         super()
 
         @variant = variant
-        @kind = kind
+        @model_class = model_class
         @candidates = candidates
         @selected = selected
         @back_url = back_url
@@ -45,26 +45,26 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :variant, :kind, :candidates, :back_url
+      attr_reader :variant, :model_class, :candidates, :back_url
 
-      def record = variant.public_send(kind.association)
+      def record = variant.public_send(model_class.reference_association)
 
       def name = record.name
 
-      def prefix = "#{kind.t('selector.prefix')}:"
+      def prefix = "#{model_class.reference_t('selector.prefix')}:"
 
-      def same_as_type_text = kind.t("selector.same_as_type")
+      def same_as_type_text = model_class.reference_t("selector.same_as_type")
 
-      def same_as_type? = variant.public_send(:"type_#{kind.association}")&.id == record.id
+      def same_as_type? = variant.public_send(:"type_#{model_class.reference_association}")&.id == record.id
 
       def selected = @selected || record.id
 
-      def test_selector(part) = "#{kind.dom_key}-#{part}"
+      def test_selector(part) = "#{model_class.reference_dom_key}-#{part}"
 
       def change_path(candidate)
         url_helpers.public_send(
-          :"change_type_#{kind.association}_path",
-          **variant.path_args.merge("#{kind.association}_id": candidate.id, back_url:).compact
+          :"change_type_#{model_class.reference_association}_path",
+          **variant.path_args.merge("#{model_class.reference_association}_id": candidate.id, back_url:).compact
         )
       end
     end

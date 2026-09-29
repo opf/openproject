@@ -100,7 +100,7 @@ module Workflows
     end
 
     def start_dialog(error: nil)
-      WorkPackageTypes::NamedReferences::StartDialogComponent.new(kind:,
+      WorkPackageTypes::NamedReferences::StartDialogComponent.new(model_class:,
                                                                   url: configure_workflows_path,
                                                                   candidates: Workflow.global.in_display_order.to_a,
                                                                   error:)
@@ -129,14 +129,14 @@ module Workflows
     end
 
     def name_dialog(workflow, **)
-      WorkPackageTypes::NamedReferences::NameDialogComponent.new(record: workflow, kind:, **)
+      WorkPackageTypes::NamedReferences::NameDialogComponent.new(record: workflow, model_class:, **)
     end
 
-    def kind = WorkPackageTypes::NamedReferences::Kind::WORKFLOW
+    def model_class = ::Workflow
 
     def render_form_errors(workflow)
       update_via_turbo_stream(
-        component: WorkPackageTypes::NamedReferences::NameFormComponent.new(record: workflow, kind:),
+        component: WorkPackageTypes::NamedReferences::NameFormComponent.new(record: workflow, model_class:),
         status: :unprocessable_entity
       )
       respond_with_turbo_streams

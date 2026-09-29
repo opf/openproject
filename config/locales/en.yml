@@ -2170,10 +2170,6 @@ en:
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
       workflow_button: "Workflow"
-      workflow_selector:
-        prefix: "Workflow"
-        same_as_type: "(same as type)"
-        title: "Select workflow"
   ai:
     text_transform:
       errors:
@@ -7843,11 +7839,11 @@ en:
 
   workflows:
     change:
-      title: "Change workflow"
-      workflow:
+      select:
         caption: "The type uses the status transitions of the workflow you pick here."
         label: "Workflow"
         placeholder: "Select a workflow…"
+      title: "Change workflow"
     copies:
       form:
         target_role_ids:
@@ -7922,6 +7918,10 @@ en:
     page_headers:
       index_component:
         description: "Configure status transitions for each work package type."
+    selector:
+      prefix: "Workflow"
+      same_as_type: "(same as type)"
+      title: "Select workflow"
     start:
       copy:
         caption: "Start with an existing workflow, change it as you wish and save it as a new workflow."

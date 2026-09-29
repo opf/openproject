@@ -31,26 +31,26 @@
 module WorkPackageTypes
   module NamedReferences
     class ChangeForm < ApplicationForm
-      def initialize(variant:, kind:)
+      def initialize(variant:, model_class:)
         super()
 
         @variant = variant
-        @kind = kind
+        @model_class = model_class
       end
 
       form do |change_form|
         change_form.autocompleter(
-          name: :"#{kind.association}_id",
-          label: kind.t("change.select.label"),
-          caption: kind.t("change.select.caption"),
+          name: :"#{model_class.reference_association}_id",
+          label: model_class.reference_t("change.select.label"),
+          caption: model_class.reference_t("change.select.caption"),
           required: true,
           autocomplete_options: {
-            placeholder: kind.t("change.select.placeholder"),
+            placeholder: model_class.reference_t("change.select.placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,
-            append_to: "##{ChangeDialogComponent.dialog_id(kind)}",
-            data: { test_selector: "change-#{kind.dom_key}-select" }
+            append_to: "##{ChangeDialogComponent.dialog_id(model_class)}",
+            data: { test_selector: "change-#{model_class.reference_dom_key}-select" }
           }
         ) do |list|
           candidates.each do |candidate|
@@ -61,11 +61,11 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :variant, :kind
+      attr_reader :variant, :model_class
 
-      def current_id = variant.public_send(:"#{kind.association}_id")
+      def current_id = variant.public_send(:"#{model_class.reference_association}_id")
 
-      def candidates = @candidates ||= kind.model_class.available_in(variant.project).in_display_order.to_a
+      def candidates = @candidates ||= model_class.available_in(variant.project).in_display_order.to_a
     end
   end
 end

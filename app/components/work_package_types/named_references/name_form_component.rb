@@ -34,15 +34,15 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def self.dialog_id(kind) = "#{kind.dom_key}-dialog"
+      def self.dialog_id(model_class) = "#{model_class.reference_dom_key}-dialog"
 
-      def self.form_id(kind) = "#{kind.dom_key}-form"
+      def self.form_id(model_class) = "#{model_class.reference_dom_key}-form"
 
-      def initialize(record:, kind:, copy_from_id: nil, ask_copy_source: true, url: nil)
+      def initialize(record:, model_class:, copy_from_id: nil, ask_copy_source: true, url: nil)
         super()
 
         @record = record
-        @kind = kind
+        @model_class = model_class
         @copy_from_id = copy_from_id
         @ask_copy_source = ask_copy_source
         @url = url
@@ -50,7 +50,7 @@ module WorkPackageTypes
 
       def form_arguments
         {
-          id: self.class.form_id(kind),
+          id: self.class.form_id(model_class),
           model: record,
           scope: record.model_name.param_key,
           url: form_url,
@@ -61,13 +61,13 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :record, :kind, :copy_from_id, :ask_copy_source, :url
+      attr_reader :record, :model_class, :copy_from_id, :ask_copy_source, :url
 
       def form_url
         return url if url.present?
         return url_helpers.polymorphic_path(record) if record.persisted?
 
-        url_helpers.polymorphic_path(kind.route_key)
+        url_helpers.polymorphic_path(model_class)
       end
 
       def error_message

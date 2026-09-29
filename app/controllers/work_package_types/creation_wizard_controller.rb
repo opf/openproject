@@ -190,7 +190,7 @@ module WorkPackageTypes
 
     def naming_dialog(workflow)
       NamedReferences::NameDialogComponent.new(record: workflow,
-                                               kind: NamedReferences::Kind::WORKFLOW,
+                                               model_class: ::Workflow,
                                                ask_copy_source: false,
                                                url: type_creation_wizard_path(**variant_path_args, step: :workflows))
     end

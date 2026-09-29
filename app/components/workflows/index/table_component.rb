@@ -36,7 +36,7 @@ module Workflows
       mobile_labels :types_and_variants, :roles, :projects
 
       def initialize(role_counts:, **)
-        super(kind: WorkPackageTypes::NamedReferences::Kind::WORKFLOW, **)
+        super(model_class: ::Workflow, **)
 
         @role_counts = role_counts
       end

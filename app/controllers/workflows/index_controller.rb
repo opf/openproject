@@ -64,7 +64,7 @@ module Workflows
 
     private
 
-    def kind = WorkPackageTypes::NamedReferences::Kind::WORKFLOW
+    def model_class = ::Workflow
 
     def load_query
       @query = ::Queries::Workflows::WorkflowQuery.new
@@ -109,7 +109,7 @@ module Workflows
     end
 
     def sub_header_component
-      WorkPackageTypes::NamedReferences::Index::SubHeaderComponent.new(query: @query, kind:)
+      WorkPackageTypes::NamedReferences::Index::SubHeaderComponent.new(query: @query, model_class:)
     end
 
     def workflows

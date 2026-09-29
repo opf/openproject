@@ -34,24 +34,24 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(record:, kind:, copy_from_id: nil, ask_copy_source: true, url: nil)
+      def initialize(record:, model_class:, copy_from_id: nil, ask_copy_source: true, url: nil)
         super()
 
         @record = record
-        @kind = kind
-        @form_arguments = { record:, kind:, copy_from_id:, ask_copy_source:, url: }
+        @model_class = model_class
+        @form_arguments = { record:, model_class:, copy_from_id:, ask_copy_source:, url: }
       end
 
       private
 
-      attr_reader :record, :kind, :form_arguments
+      attr_reader :record, :model_class, :form_arguments
 
-      def dialog_id = NameFormComponent.dialog_id(kind)
+      def dialog_id = NameFormComponent.dialog_id(model_class)
 
-      def form_id = NameFormComponent.form_id(kind)
+      def form_id = NameFormComponent.form_id(model_class)
 
       def title
-        record.persisted? ? kind.t("form.edit_title") : kind.t("form.new_title")
+        record.persisted? ? model_class.reference_t("form.edit_title") : model_class.reference_t("form.new_title")
       end
 
       def submit_label

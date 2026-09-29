@@ -30,16 +30,16 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <%= render(
         Primer::OpenProject::SubHeader.new(
-          test_selector: "#{kind.dom_key}s-sub-header",
+          test_selector: "#{model_class.reference_dom_key}s-sub-header",
           data: filters_form_attributes
         )
       ) do |sub_header| %>
     <%
       sub_header.with_filter_input(
         name: name_filter_key,
-        label: kind.t("index.filters.name"),
+        label: model_class.reference_t("index.filters.name"),
         value: name_filter_value,
-        placeholder: kind.t("index.filters.name_placeholder"),
+        placeholder: model_class.reference_t("index.filters.name_placeholder"),
         leading_visual: { icon: :search, size: :small },
         clear_button_id:,
         data: name_filter_attributes

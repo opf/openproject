@@ -29,6 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::BaseComponent.new(tag: :div, mb: 3)) do %>
   <%= primer_form_with(url: "#", method: :get, data: { turbo: false }) do |f| %>
-    <%= render(WorkPackageTypes::NamedReferences::ChoiceForm.new(f, kind:, options:, group_data:)) %>
+    <%= render(WorkPackageTypes::NamedReferences::ChoiceForm.new(f, model_class:, options:, group_data:)) %>
   <% end %>
 <% end %>

@@ -34,35 +34,35 @@ module WorkPackageTypes
       COPY = "copy"
       SCRATCH = "scratch"
 
-      def initialize(kind:, candidates:, type_record_id: nil)
+      def initialize(model_class:, candidates:, type_record_id: nil)
         super()
 
-        @kind = kind
+        @model_class = model_class
         @candidates = candidates
         @type_record_id = type_record_id
       end
 
       form do |start_form|
         start_form.radio_button_group(name: :start,
-                                      label: kind.t("start.label"),
+                                      label: model_class.reference_t("start.label"),
                                       visually_hide_label: true,
                                       data: group_data) do |group|
           if candidates.any?
             group.radio_button(
               value: COPY,
               checked: true,
-              label: kind.t("start.copy.label"),
-              caption: kind.t("start.copy.caption"),
+              label: model_class.reference_t("start.copy.label"),
+              caption: model_class.reference_t("start.copy.caption"),
               data: {
                 "named-references--start-choice-target": "copyRadio",
-                test_selector: "#{kind.dom_key}-start-copy"
+                test_selector: "#{model_class.reference_dom_key}-start-copy"
               }
             ) do |radio|
               radio.nested_form(
                 classes: "mt-2",
                 data: { "named-references--start-choice-target": "copySource" }
               ) do |builder|
-                CopySourceForm.new(builder, kind:, candidates:, selected: candidates.first.id, type_record_id:)
+                CopySourceForm.new(builder, model_class:, candidates:, selected: candidates.first.id, type_record_id:)
               end
             end
           end
@@ -70,16 +70,16 @@ module WorkPackageTypes
           group.radio_button(
             value: SCRATCH,
             checked: candidates.empty?,
-            label: kind.t("start.scratch.label"),
-            caption: kind.t("start.scratch.caption"),
-            data: { test_selector: "#{kind.dom_key}-start-scratch" }
+            label: model_class.reference_t("start.scratch.label"),
+            caption: model_class.reference_t("start.scratch.caption"),
+            data: { test_selector: "#{model_class.reference_dom_key}-start-scratch" }
           )
         end
       end
 
       private
 
-      attr_reader :kind, :candidates, :type_record_id
+      attr_reader :model_class, :candidates, :type_record_id
 
       def group_data
         {

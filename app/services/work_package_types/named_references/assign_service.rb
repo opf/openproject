@@ -31,13 +31,13 @@
 module WorkPackageTypes
   module NamedReferences
     class AssignService
-      def initialize(variant:, kind:)
+      def initialize(variant:, model_class:)
         @variant = variant
-        @kind = kind
+        @model_class = model_class
       end
 
       def call(record)
-        variant.public_send(:"#{kind.association}=", record)
+        variant.public_send(:"#{model_class.reference_association}=", record)
 
         if variant.save
           ServiceResult.success(result: variant)
@@ -48,7 +48,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :variant, :kind
+      attr_reader :variant, :model_class
     end
   end
 end

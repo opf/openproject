@@ -51,8 +51,8 @@ See COPYRIGHT and LICENSE files for more details.
               src: tree_src,
               filter_input_arguments: {
                 autocomplete: "off",
-                placeholder: kind.t("index.filters.projects_placeholder"),
-                data: { test_selector: "#{kind.dom_key}s-projects-filter-search" }
+                placeholder: model_class.reference_t("index.filters.projects_placeholder"),
+                data: { test_selector: "#{model_class.reference_dom_key}s-projects-filter-search" }
               },
               no_results_node_arguments: { label: t("filterable_tree_view.no_results_text") }
             )

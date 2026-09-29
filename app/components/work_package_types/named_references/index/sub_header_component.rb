@@ -35,11 +35,11 @@ module WorkPackageTypes
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(query:, kind:)
+        def initialize(query:, model_class:)
           super()
 
           @query = query
-          @kind = kind
+          @model_class = model_class
         end
 
         def filters_form_attributes
@@ -66,19 +66,19 @@ module WorkPackageTypes
 
         def serialized_filters = OpPrimer::QuickFilter.serialize(query.filters).to_json
 
-        def clear_button_id = "#{kind.dom_key}s-filters-clear-button"
+        def clear_button_id = "#{model_class.reference_dom_key}s-filters-clear-button"
 
         def type_filter_component
-          TypeFilterComponent.new(query:, kind:)
+          TypeFilterComponent.new(query:, model_class:)
         end
 
         def projects_filter_component
-          ProjectsFilterComponent.new(query:, kind:)
+          ProjectsFilterComponent.new(query:, model_class:)
         end
 
         private
 
-        attr_reader :query, :kind
+        attr_reader :query, :model_class
       end
     end
   end

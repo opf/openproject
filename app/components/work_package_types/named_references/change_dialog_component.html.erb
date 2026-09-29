@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
     <%= primer_form_with(**form_arguments) do |form| %>
-      <%= render(WorkPackageTypes::NamedReferences::ChangeForm.new(form, variant:, kind:)) %>
+      <%= render(WorkPackageTypes::NamedReferences::ChangeForm.new(form, variant:, model_class:)) %>
     <% end %>
   <% end %>
 

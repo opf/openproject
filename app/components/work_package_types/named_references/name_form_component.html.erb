@@ -32,6 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mb: 3)) { error_message } %>
     <% end %>
 
-    <%= render(WorkPackageTypes::NamedReferences::NameForm.new(form, kind:, copy_from_id:, ask_copy_source:)) %>
+    <%= render(WorkPackageTypes::NamedReferences::NameForm.new(form, model_class:, copy_from_id:, ask_copy_source:)) %>
   <% end %>
 <% end %>

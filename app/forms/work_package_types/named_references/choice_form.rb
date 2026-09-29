@@ -31,16 +31,16 @@
 module WorkPackageTypes
   module NamedReferences
     class ChoiceForm < ApplicationForm
-      def initialize(kind:, options:, group_data:)
+      def initialize(model_class:, options:, group_data:)
         super()
 
-        @kind = kind
+        @model_class = model_class
         @options = options
         @group_data = group_data
       end
 
       form do |choice_form|
-        choice_form.advanced_radio_button_group(name: :"#{@kind.dom_key}_choice", data: @group_data) do |group|
+        choice_form.advanced_radio_button_group(name: :"#{@model_class.reference_dom_key}_choice", data: @group_data) do |group|
           @options.each { |option| group.radio_button(**option) }
         end
       end

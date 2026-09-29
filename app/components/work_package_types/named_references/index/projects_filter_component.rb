@@ -34,24 +34,24 @@ module WorkPackageTypes
       class ProjectsFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
         FIELD_NAME = "project_ids"
 
-        def self.dialog_id(kind) = "#{kind.dom_key}s-projects-filter-dialog"
+        def self.dialog_id(model_class) = "#{model_class.reference_dom_key}s-projects-filter-dialog"
 
-        def initialize(query:, kind:)
-          super(name: ::Project.model_name.human(count: 2), query:, filter_key: :project_id, path_args: [kind.route_key])
+        def initialize(query:, model_class:)
+          super(name: ::Project.model_name.human(count: 2), query:, filter_key: :project_id, path_args: [model_class])
 
-          @kind = kind
+          @model_class = model_class
         end
 
         def render? = true
 
         private
 
-        attr_reader :kind
+        attr_reader :model_class
 
-        def dialog_id = self.class.dialog_id(kind)
+        def dialog_id = self.class.dialog_id(model_class)
 
         def tree_src
-          helpers.polymorphic_path([:projects_tree, kind.route_key], name: FIELD_NAME, checked_ids: current_values)
+          helpers.polymorphic_path([:projects_tree, model_class], name: FIELD_NAME, checked_ids: current_values)
         end
       end
     end

@@ -41,6 +41,8 @@ module WorkPackageTypes
           @table = table
         end
 
+        def wrapper_key = "#{table.model_class.reference_dom_key}s-index-results-component"
+
         private
 
         attr_reader :table

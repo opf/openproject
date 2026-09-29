@@ -33,17 +33,17 @@ module WorkPackageTypes
     class UsageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(record:, kind:, list_users: true)
+      def initialize(record:, model_class:, list_users: true)
         super()
 
         @record = record
-        @kind = kind
+        @model_class = model_class
         @list_users = list_users
       end
 
       private
 
-      attr_reader :record, :kind
+      attr_reader :record, :model_class
 
       def variants
         @variants ||= record.type_variants.includes(:type).in_display_order
@@ -56,10 +56,10 @@ module WorkPackageTypes
       def variants_only? = variants.any? { !it.is_default_variant? }
 
       def caption
-        return kind.t("usage.unused") if unused?
-        return kind.t("usage.used_by_variants", count: variants.size) if variants_only?
+        return model_class.reference_t("usage.unused") if unused?
+        return model_class.reference_t("usage.used_by_variants", count: variants.size) if variants_only?
 
-        kind.t("usage.used_by_types", count: variants.size)
+        model_class.reference_t("usage.used_by_types", count: variants.size)
       end
 
       def types = variants.select(&:is_default_variant?)
@@ -68,16 +68,16 @@ module WorkPackageTypes
 
       def banner_scheme = unused? ? :default : :warning
 
-      def dialog_id = "#{kind.dom_key}-usage-dialog"
+      def dialog_id = "#{model_class.reference_dom_key}-usage-dialog"
 
-      def test_selector(part) = "#{kind.dom_key}-usage-#{part}"
+      def test_selector(part) = "#{model_class.reference_dom_key}-usage-#{part}"
 
       def dialog_caption
-        kind.t("usage.dialog.caption_html", name: content_tag(:strong, record.name))
+        model_class.reference_t("usage.dialog.caption_html", name: content_tag(:strong, record.name))
       end
 
       def variant_link(variant)
-        href = helpers.public_send(:"edit_type_#{kind.association}_path", **variant.path_args)
+        href = helpers.public_send(:"edit_type_#{model_class.reference_association}_path", **variant.path_args)
 
         render(Primer::Beta::Link.new(href:)) { variant.display_name }
       end

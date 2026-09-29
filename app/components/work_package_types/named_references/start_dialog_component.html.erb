@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <%= primer_form_with(**form_arguments) do |form| %>
-      <%= render(WorkPackageTypes::NamedReferences::StartForm.new(form, kind:, candidates:, type_record_id:)) %>
+      <%= render(WorkPackageTypes::NamedReferences::StartForm.new(form, model_class:, candidates:, type_record_id:)) %>
     <% end %>
   <% end %>
 

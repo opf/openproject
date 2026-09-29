@@ -32,7 +32,7 @@ module WorkPackageTypes
   module NamedReferences
     module Index
       class RowComponent < OpPrimer::BorderBoxRowComponent
-        delegate :kind, to: :table
+        delegate :model_class, :icon, to: :table
 
         def name
           safe_join([title, created_in, description].compact)
@@ -47,11 +47,11 @@ module WorkPackageTypes
         def projects
           return dash if project_count.zero?
 
-          text(kind.t("index.projects_count", count: project_count))
+          text(model_class.reference_t("index.projects_count", count: project_count))
         end
 
         def button_links
-          [render(RowActionsComponent.new(record:, kind:))]
+          [render(RowActionsComponent.new(record:, model_class:, icon:))]
         end
 
         private
@@ -67,7 +67,7 @@ module WorkPackageTypes
         end
 
         def created_in
-          project = kind.project_owned && record.project
+          project = model_class.project_owned? && record.project
           return if project.blank?
 
           link = render(Primer::Beta::Link.new(href: helpers.project_settings_work_packages_types_path(project))) do
@@ -80,11 +80,12 @@ module WorkPackageTypes
         end
 
         def types_and_variants_label
-          types = kind.t("index.types_count", count: variants.map(&:type_id).uniq.size)
+          types = model_class.reference_t("index.types_count", count: variants.map(&:type_id).uniq.size)
           named = variants.count { !it.is_default_variant? }
           return types if named.zero?
 
-          kind.t("index.types_and_variants_count", types:, variants: kind.t("index.variants_count", count: named))
+          variant_count = model_class.reference_t("index.variants_count", count: named)
+          model_class.reference_t("index.types_and_variants_count", types:, variants: variant_count)
         end
 
         def project_count

@@ -52,7 +52,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
 
   def transitions_of(workflow) = workflow.status_transitions.pluck(:old_status_id, :new_status_id)
 
-  def same_as_type = I18n.t("admin.workflows.workflow_selector.same_as_type")
+  def same_as_type = I18n.t("workflows.selector.same_as_type")
 
   # The autocompleter carries its options as JSON rather than as option elements.
   def copy_source_labels

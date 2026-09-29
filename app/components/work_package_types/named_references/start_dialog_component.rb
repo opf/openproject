@@ -34,12 +34,12 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def self.form_id(kind) = "#{kind.dom_key}-start-form"
+      def self.form_id(model_class) = "#{model_class.reference_dom_key}-start-form"
 
-      def initialize(kind:, url:, candidates:, error: nil, type_record_id: nil)
+      def initialize(model_class:, url:, candidates:, error: nil, type_record_id: nil)
         super()
 
-        @kind = kind
+        @model_class = model_class
         @url = url
         @candidates = candidates
         @error = error
@@ -48,13 +48,13 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :kind, :url, :candidates, :error, :type_record_id
+      attr_reader :model_class, :url, :candidates, :error, :type_record_id
 
-      def dialog_id = NameFormComponent.dialog_id(kind)
+      def dialog_id = NameFormComponent.dialog_id(model_class)
 
-      def form_id = self.class.form_id(kind)
+      def form_id = self.class.form_id(model_class)
 
-      def title = kind.t("start.title")
+      def title = model_class.reference_t("start.title")
 
       def form_arguments
         { id: form_id, url:, method: :post, data: { turbo: true } }

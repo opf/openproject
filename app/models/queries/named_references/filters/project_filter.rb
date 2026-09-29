@@ -46,7 +46,7 @@ class Queries::NamedReferences::Filters::ProjectFilter < Queries::Filters::Base
   private
 
   def conditions(used_in)
-    return [used_in] unless model.named_reference_kind.project_owned
+    return [used_in] unless model.project_owned?
 
     [used_in, "COALESCE(#{model.table_name}.project_id IN (:project_ids), FALSE)"]
   end

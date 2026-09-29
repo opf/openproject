@@ -31,25 +31,25 @@
 module WorkPackageTypes
   module NamedReferences
     class NameForm < ApplicationForm
-      def initialize(kind:, copy_from_id: nil, ask_copy_source: true)
+      def initialize(model_class:, copy_from_id: nil, ask_copy_source: true)
         super()
 
-        @kind = kind
+        @model_class = model_class
         @copy_from_id = copy_from_id
         @ask_copy_source = ask_copy_source
       end
 
       form do |name_form|
         name_form.text_field(name: :name,
-                             label: kind.t("form.name.label"),
-                             caption: kind.t("form.name.caption"),
+                             label: model_class.reference_t("form.name.label"),
+                             caption: model_class.reference_t("form.name.caption"),
                              required: true,
                              autofocus: true)
 
         name_form.text_area(name: :description,
                             rows: 3,
-                            label: kind.t("form.description.label"),
-                            caption: kind.t("form.description.caption"))
+                            label: model_class.reference_t("form.description.label"),
+                            caption: model_class.reference_t("form.description.caption"))
 
         next if model.persisted?
 
@@ -62,15 +62,15 @@ module WorkPackageTypes
 
         name_form.autocompleter(
           name: :copy_from_id,
-          label: kind.t("form.copy_from.label"),
-          caption: kind.t("form.copy_from.caption"),
+          label: model_class.reference_t("form.copy_from.label"),
+          caption: model_class.reference_t("form.copy_from.caption"),
           autocomplete_options: {
-            placeholder: kind.t("form.copy_from.placeholder"),
+            placeholder: model_class.reference_t("form.copy_from.placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,
-            append_to: "##{NameFormComponent.dialog_id(kind)}",
-            data: { test_selector: "#{kind.dom_key}-copy-from" }
+            append_to: "##{NameFormComponent.dialog_id(model_class)}",
+            data: { test_selector: "#{model_class.reference_dom_key}-copy-from" }
           }
         ) do |list|
           copy_sources.each { |source| list.option(value: source.id, label: source.name) }
@@ -79,10 +79,10 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :kind, :copy_from_id, :ask_copy_source
+      attr_reader :model_class, :copy_from_id, :ask_copy_source
 
       def copy_sources
-        @copy_sources ||= kind.model_class.available_in(model.try(:project)).in_display_order.to_a
+        @copy_sources ||= model_class.available_in(model.try(:project)).in_display_order.to_a
       end
     end
   end

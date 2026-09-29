@@ -34,20 +34,21 @@ module WorkPackageTypes
       class RowActionsComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        def initialize(record:, kind:)
+        def initialize(record:, model_class:, icon:)
           super()
 
           @record = record
-          @kind = kind
+          @model_class = model_class
+          @icon = icon
         end
 
-        def menu_id = "#{kind.dom_key}-#{record.id}-action-menu"
+        def menu_id = "#{model_class.reference_dom_key}-#{record.id}-action-menu"
 
-        def menu_label = kind.t("index.actions.menu", name: record.name)
+        def menu_label = model_class.reference_t("index.actions.menu", name: record.name)
 
         private
 
-        attr_reader :record, :kind
+        attr_reader :record, :model_class, :icon
 
         def record_actions(menu)
           edit_action(menu)
@@ -58,18 +59,18 @@ module WorkPackageTypes
 
         def edit_action(menu)
           menu.with_item(tag: :a,
-                         label: kind.t("index.actions.edit"),
+                         label: model_class.reference_t("index.actions.edit"),
                          href: edit_polymorphic_path(record)) do |item|
-            item.with_leading_visual_icon(icon: kind.icon)
+            item.with_leading_visual_icon(icon:)
           end
         end
 
         def rename_action(menu)
           menu.with_item(tag: :a,
-                         label: kind.t("index.actions.rename"),
+                         label: model_class.reference_t("index.actions.rename"),
                          href: polymorphic_path([:edit_dialog, record]),
                          content_arguments: { data: { controller: "async-dialog" } },
-                         test_selector: "#{kind.dom_key}-rename-action") do |item|
+                         test_selector: "#{model_class.reference_dom_key}-rename-action") do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
         end

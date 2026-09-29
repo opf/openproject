@@ -33,22 +33,22 @@ module WorkPackageTypes
     class ChoiceComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, kind:, back_url: nil)
+      def initialize(variant:, model_class:, back_url: nil)
         super(variant)
 
-        @kind = kind
+        @model_class = model_class
         @back_url = back_url
       end
 
       private
 
-      attr_reader :kind, :back_url
+      attr_reader :model_class, :back_url
 
       def variant = model
 
       def options = offers_new? ? [existing_option, new_option] : [existing_option]
 
-      def offers_new? = kind.project_owned || variant.project_id.nil?
+      def offers_new? = model_class.project_owned? || variant.project_id.nil?
 
       def group_data
         { controller: "mode-switch-radio", action: "change->mode-switch-radio#select" }
@@ -58,13 +58,13 @@ module WorkPackageTypes
         {
           value: "existing",
           checked: reuses_existing?,
-          label: kind.t("wizard.choice.existing.label"),
-          caption: kind.t("wizard.choice.existing.caption"),
+          label: model_class.reference_t("wizard.choice.existing.label"),
+          caption: model_class.reference_t("wizard.choice.existing.caption"),
           nested_content: panel,
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": dialog_path(:change_dialog),
-            test_selector: "#{kind.dom_key}-choice-existing"
+            test_selector: "#{model_class.reference_dom_key}-choice-existing"
           }
         }
       end
@@ -73,12 +73,12 @@ module WorkPackageTypes
         {
           value: "new",
           checked: !reuses_existing?,
-          label: kind.t("wizard.choice.new.label"),
-          caption: kind.t("wizard.choice.new.caption"),
+          label: model_class.reference_t("wizard.choice.new.label"),
+          caption: model_class.reference_t("wizard.choice.new.caption"),
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": dialog_path(:start_dialog),
-            test_selector: "#{kind.dom_key}-choice-new"
+            test_selector: "#{model_class.reference_dom_key}-choice-new"
           }
         }
       end
@@ -87,25 +87,26 @@ module WorkPackageTypes
         return unless reuses_existing?
         return if candidates.empty?
 
-        PanelComponent.new(variant:, kind:, candidates:, selected: record_id, back_url:)
+        PanelComponent.new(variant:, model_class:, candidates:, selected: record_id, back_url:)
       end
 
       def reuses_existing? = !offers_new? || record_id != started_id
 
-      def record_id = variant.public_send(:"#{kind.association}_id")
+      def record_id = variant.public_send(:"#{model_class.reference_association}_id")
 
-      def started_id = helpers.params[:"started_#{kind.association}_id"].presence&.to_i
+      def started_id = helpers.params[:"started_#{model_class.reference_association}_id"].presence&.to_i
 
       def candidates
         @candidates ||= begin
-          scope = kind.model_class.available_in(variant.project).in_display_order
+          scope = model_class.available_in(variant.project).in_display_order
           scope = scope.where.not(id: record_id) unless reuses_existing?
           scope.to_a
         end
       end
 
       def dialog_path(action)
-        url_helpers.public_send(:"#{action}_type_#{kind.association}_path", **variant.path_args.merge(back_url:).compact)
+        url_helpers.public_send(:"#{action}_type_#{model_class.reference_association}_path",
+                                **variant.path_args.merge(back_url:).compact)
       end
     end
   end

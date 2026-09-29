@@ -31,10 +31,10 @@
 module WorkPackageTypes
   module NamedReferences
     class CopySourceForm < ApplicationForm
-      def initialize(kind:, candidates:, selected:, type_record_id: nil)
+      def initialize(model_class:, candidates:, selected:, type_record_id: nil)
         super()
 
-        @kind = kind
+        @model_class = model_class
         @candidates = candidates
         @selected = selected
         @type_record_id = type_record_id
@@ -43,16 +43,16 @@ module WorkPackageTypes
       form do |source_form|
         source_form.autocompleter(
           name: :copy_from_id,
-          label: kind.t("start.copy.panel_label"),
+          label: model_class.reference_t("start.copy.panel_label"),
           visually_hide_label: true,
           required: true,
           autocomplete_options: {
-            placeholder: kind.t("form.copy_from.placeholder"),
+            placeholder: model_class.reference_t("form.copy_from.placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,
-            append_to: "##{NameFormComponent.dialog_id(kind)}",
-            data: { test_selector: "#{kind.dom_key}-copy-source" }
+            append_to: "##{NameFormComponent.dialog_id(model_class)}",
+            data: { test_selector: "#{model_class.reference_dom_key}-copy-source" }
           }
         ) do |list|
           candidates.each do |candidate|
@@ -63,12 +63,12 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :kind, :candidates, :selected, :type_record_id
+      attr_reader :model_class, :candidates, :selected, :type_record_id
 
       def label_for(candidate)
         return candidate.name unless candidate.id == type_record_id
 
-        "#{candidate.name} #{kind.t('selector.same_as_type')}"
+        "#{candidate.name} #{model_class.reference_t('selector.same_as_type')}"
       end
     end
   end

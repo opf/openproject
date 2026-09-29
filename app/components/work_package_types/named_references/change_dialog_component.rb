@@ -34,32 +34,33 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def self.dialog_id(kind) = "change-#{kind.dom_key}-dialog"
+      def self.dialog_id(model_class) = "change-#{model_class.reference_dom_key}-dialog"
 
-      def self.form_id(kind) = "change-#{kind.dom_key}-form"
+      def self.form_id(model_class) = "change-#{model_class.reference_dom_key}-form"
 
-      def initialize(variant:, kind:, back_url: nil)
+      def initialize(variant:, model_class:, back_url: nil)
         super()
 
         @variant = variant
-        @kind = kind
+        @model_class = model_class
         @back_url = back_url
       end
 
       private
 
-      attr_reader :variant, :kind, :back_url
+      attr_reader :variant, :model_class, :back_url
 
-      def dialog_id = self.class.dialog_id(kind)
+      def dialog_id = self.class.dialog_id(model_class)
 
-      def form_id = self.class.form_id(kind)
+      def form_id = self.class.form_id(model_class)
 
-      def title = kind.t("change.title")
+      def title = model_class.reference_t("change.title")
 
       def form_arguments
         {
           id: form_id,
-          url: url_helpers.public_send(:"change_type_#{kind.association}_path", **variant.path_args.merge(back_url:).compact),
+          url: url_helpers.public_send(:"change_type_#{model_class.reference_association}_path",
+                                       **variant.path_args.merge(back_url:).compact),
           method: :patch,
           data: { turbo: false }
         }

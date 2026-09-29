@@ -45,7 +45,7 @@ module WorkPackageTypes
 
     def change_dialog
       respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant,
-                                                                     kind: NamedReferences::Kind::WORKFLOW,
+                                                                     model_class: ::Workflow,
                                                                      back_url:)
     end
 
@@ -112,7 +112,7 @@ module WorkPackageTypes
     end
 
     def assign(workflow)
-      report(NamedReferences::AssignService.new(variant: @variant, kind: NamedReferences::Kind::WORKFLOW).call(workflow))
+      report(NamedReferences::AssignService.new(variant: @variant, model_class: ::Workflow).call(workflow))
     end
 
     def report(service_call)
@@ -136,7 +136,7 @@ module WorkPackageTypes
 
     def start_dialog_component(url:, error: nil)
       NamedReferences::StartDialogComponent.new(
-        kind: NamedReferences::Kind::WORKFLOW,
+        model_class: ::Workflow,
         url:,
         candidates: Workflow.available_in(@variant.project).in_display_order.to_a,
         error:,
@@ -156,7 +156,7 @@ module WorkPackageTypes
 
     def naming_dialog(workflow, copy_from_id:)
       NamedReferences::NameDialogComponent.new(record: workflow,
-                                               kind: NamedReferences::Kind::WORKFLOW,
+                                               model_class: ::Workflow,
                                                copy_from_id:,
                                                ask_copy_source: false,
                                                url: type_workflow_path(**dialog_args))
@@ -169,7 +169,7 @@ module WorkPackageTypes
     def render_form_errors(workflow)
       update_via_turbo_stream(
         component: NamedReferences::NameFormComponent.new(record: workflow,
-                                                          kind: NamedReferences::Kind::WORKFLOW,
+                                                          model_class: ::Workflow,
                                                           copy_from_id: params.dig(:workflow, :copy_from_id).presence,
                                                           ask_copy_source: false,
                                                           url: type_workflow_path(**dialog_args)),
