@@ -43,31 +43,37 @@ describe('ResourcesDisplayField', () => {
     get: (token:unknown, notFoundValue?:unknown) => serviceMap.get(token) ?? notFoundValue ?? {},
   };
 
-  function buildField(values:string[]):ResourcesDisplayField {
+  function buildField(name:string, type:string, values:string[]):ResourcesDisplayField {
     const resource = {
-      labels: values.map((name) => ({ name })),
+      [name]: values.map((value) => ({ name: value })),
     } as unknown as HalResource;
 
-    const field = new ResourcesDisplayField('labels', {
+    const field = new ResourcesDisplayField(name, {
       injector: mockInjector,
       container: 'single-view',
       options: {},
     } as unknown as DisplayFieldContext);
 
-    field.apply(resource, { type: '[]Label' } as IFieldSchema);
+    field.apply(resource, { type } as IFieldSchema);
 
     return field;
   }
 
   it('joins the resource names with a comma for valueString', () => {
-    const field = buildField(['Bug', 'Feature', 'Needs review']);
+    const field = buildField('labels', '[]Label', ['Bug', 'Feature', 'Needs review']);
 
     expect(field.valueString).toEqual('Bug, Feature, Needs review');
   });
 
   it('returns an empty string for valueString when there are no values', () => {
-    const field = buildField([]);
+    const field = buildField('labels', '[]Label', []);
 
     expect(field.valueString).toEqual('');
+  });
+
+  it('joins target version names with a comma for valueString', () => {
+    const field = buildField('targetVersions', '[]Version', ['Version 1', 'Version 2']);
+
+    expect(field.valueString).toEqual('Version 1, Version 2');
   });
 });
