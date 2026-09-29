@@ -218,7 +218,8 @@ RSpec.describe "Backlogs batch selection", :js, :selenium, :settings_reset do
 
       expect(page).to have_css("[data-batch-selected]", count: 2)
 
-      backlogs_page.open_work_package_details(story3)
+      backlogs_page.send_work_package_card_keys(story3, [:enter])
+      backlogs_page.expect_details_view(story3)
 
       expect(page).to have_css("[data-batch-selected]", count: 2)
       expect(backlogs_page.selected_card_ids).to contain_exactly(story1.id.to_s, story2.id.to_s)

@@ -61,14 +61,29 @@ import {
   type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
+import {
+  SortableActionMenu,
+  type ActionAvailability,
+  type ActionMenuElements,
+} from './action-menu';
 import { renderDragPreview } from './preview';
-import { scopeIds } from './action-scope';
-import { refreshMenuAvailability } from './menu-availability';
+import { scopeIds, type ActionScope } from './action-scope';
 
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'destinationItem', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
+  static targets = [
+    'handle',
+    'preview',
+    'destinationItem',
+    'moveItem',
+    'moveMenu',
+    'invokerGroup',
+    'batchGroup',
+    'groupDivider',
+    'focus',
+  ];
+
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -76,6 +91,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     type: String,
     externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
+    label: String,
+    // I18n key naming the menu, pluralized on the size of the scope it acts
+    // on. The invoker tooltip's own text is no restore source, since a Turbo
+    // snapshot can capture it mid-rename; a consumer that sets no key keeps
+    // the server-rendered name in every scope.
+    menuLabelKey: String,
     // See ItemMobility in list-dom. A `confined` item is still a full drag
     // source; only the lists the batch's permitted set names accept it.
     mobility: { type: String, default: 'free' },
@@ -88,6 +109,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly externalUrlValue:string;
   declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
+  declare readonly labelValue:string;
+  declare readonly hasLabelValue:boolean;
+  declare readonly menuLabelKeyValue:string;
+  declare readonly hasMenuLabelKeyValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
@@ -97,8 +122,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
-  declare readonly moveDividerTarget:HTMLElement;
-  declare readonly hasMoveDividerTarget:boolean;
+  declare readonly invokerGroupTarget:HTMLElement;
+  declare readonly hasInvokerGroupTarget:boolean;
+  declare readonly batchGroupTarget:HTMLElement;
+  declare readonly hasBatchGroupTarget:boolean;
+  declare readonly groupDividerTarget:HTMLElement;
+  declare readonly hasGroupDividerTarget:boolean;
   declare readonly focusTarget:HTMLElement;
   declare readonly hasFocusTarget:boolean;
 
@@ -112,6 +141,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
   private refreshToken?:object;
+  private menu?:SortableActionMenu;
+  private projectedMenuElement?:ActionMenuElement;
 
   private readonly onMenuToggle = (event:Event):void => {
     // The toggle event does not bubble, so listen in capture phase; recompute
@@ -119,17 +150,45 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // shifted siblings meanwhile. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if (this.hasMenuElement
-        && event.target === this.menuElement.popoverElement
-        && (event as ToggleEvent).newState === 'open') {
-      this.refreshActionAvailability();
+    const menu = this.actionMenu;
+    if (!menu?.ownsPopoverEvent(event)) {
+      return;
     }
+
+    const { newState } = event as ToggleEvent;
+    if (newState === 'open') {
+      menu.opening();
+      this.refreshActionAvailability();
+      menu.opened();
+    } else if (newState === 'closed') {
+      menu.closed();
+    }
+  };
+
+  private readonly onContextualBeforeOpen = (event:Event):void => {
+    const focusTarget = this.hasFocusTarget ? this.focusTarget : null;
+    if (event.target === this.element || event.target === focusTarget) {
+      this.prepareActionMenu();
+    }
+  };
+
+  private readonly onMenuBeforeToggle = (event:Event):void => {
+    const menu = this.actionMenu;
+    if ((event as ToggleEvent).newState !== 'open' || !menu?.ownsPopoverEvent(event)) {
+      return;
+    }
+
+    menu.opening();
+    this.prepareActionMenu();
   };
 
   connect():void {
     this.warnOnMissingValues();
     this.register();
+    this.element.addEventListener('contextual-action-menu:beforeOpen', this.onContextualBeforeOpen);
+    this.element.addEventListener('beforetoggle', this.onMenuBeforeToggle, true);
     this.element.addEventListener('toggle', this.onMenuToggle, true);
+    this.actionMenu?.settleName();
   }
 
   disconnect():void {
@@ -140,6 +199,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.clearDropIndicator();
     this.cleanupFn?.();
     this.cleanupFn = undefined;
+    this.element.removeEventListener('contextual-action-menu:beforeOpen', this.onContextualBeforeOpen);
+    this.element.removeEventListener('beforetoggle', this.onMenuBeforeToggle, true);
     this.element.removeEventListener('toggle', this.onMenuToggle, true);
     this.disconnectRoot();
   }
@@ -167,7 +228,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   move(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.menuItemActionable(item)) {
+    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (!this.actionMenu?.isItemActionable(item)) {
       return;
     }
 
@@ -204,7 +269,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   moveToDestination(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!this.menuItemActionable(item)) {
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (!this.actionMenu?.isItemActionable(item)) {
       return;
     }
 
@@ -515,30 +584,88 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.dropIndicatorElement = undefined;
   }
 
-  private refreshActionAvailability():void {
+  private prepareActionMenu():void {
+    const scope = this.root?.selectForAction(this.element);
+    if (scope) {
+      this.refreshActionAvailability(scope);
+    }
+  }
+
+  private refreshActionAvailability(preparedScope?:ActionScope):void {
     this.refreshToken = undefined;
     const root = this.root;
-    if (!root || !this.hasMenuElement || (this.destinationItemTargets.length === 0 && this.moveItemTargets.length === 0)) {
+    const menu = this.actionMenu;
+    if (!root || !menu || (this.destinationItemTargets.length === 0 && this.moveItemTargets.length === 0)) {
       return;
     }
 
-    refreshMenuAvailability({
-      menu: this.menuElement,
-      scope: root.actionScopeFor(this.element),
-      destinationItems: this.destinationItemTargets,
-      moveItems: this.moveItemTargets,
-      moveMenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
-      divider: this.hasMoveDividerTarget ? this.moveDividerTarget : null,
-      hideUnavailable: this.hideUnavailableValue,
-      identifier: this.identifier,
-      availableDestinations: (scope, candidates) => root.availableDestinations(scope, candidates),
-      moveAvailability: () => root.moveAvailability(this.element),
-    });
+    const scope = preparedScope ?? root.actionScopeFor(this.element);
+
+    menu.project(
+      this.menuElements(),
+      { batch: scope.kind === 'batch' && scope.items.length > 1, count: scope.items.length },
+      this.actionAvailability(root, scope),
+    );
   }
 
-  private menuItemActionable(item:EventTarget|null):item is HTMLElement {
-    return this.hasMenuElement && item instanceof HTMLElement
-      && !this.menuElement.isItemDisabled(item) && !this.menuElement.isItemHidden(item);
+  // Rebuilt whenever a morph hands the blessing a new element, carrying the
+  // open state across so a morph mid-popover does not read as a fresh close.
+  private get actionMenu():SortableActionMenu|null {
+    if (!this.hasMenuElement) {
+      return null;
+    }
+
+    if (this.projectedMenuElement !== this.menuElement) {
+      const wasOpen = this.menu?.isOpen ?? false;
+      this.projectedMenuElement = this.menuElement;
+      this.menu = new SortableActionMenu(this.menuElement, this.hideUnavailableValue, this.menuLabelKey());
+      if (wasOpen) {
+        this.menu.opening();
+      }
+    }
+
+    return this.menu ?? null;
+  }
+
+  private menuLabelKey():string|null {
+    return this.hasMenuLabelKeyValue ? this.menuLabelKeyValue : null;
+  }
+
+  private menuElements():ActionMenuElements {
+    return {
+      destinationItems: this.destinationItemTargets,
+      moveItems: this.moveItemTargets,
+      moveSubmenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
+      invokerGroup: this.hasInvokerGroupTarget ? this.invokerGroupTarget : null,
+      batchGroup: this.hasBatchGroupTarget ? this.batchGroupTarget : null,
+      groupDivider: this.hasGroupDividerTarget ? this.groupDividerTarget : null,
+    };
+  }
+
+  // A card that is not itself orderable offers no action in a singular scope:
+  // it is an addressable position, not something a menu can move.
+  private actionAvailability(root:SortableListsRoot, scope:ActionScope):ActionAvailability {
+    if (scope.kind === 'refused' && !isOrderableItem(this.element)) {
+      return { destinationItem: () => false, moveItem: () => false };
+    }
+
+    // Null availability means the item is not in a list yet.
+    const moves = root.moveAvailability(this.element);
+
+    return {
+      destinationItem: (item) => {
+        const candidates = this.destinationCandidates(item);
+        return candidates.length > 0 && root.availableDestinations(scope, candidates).length > 0;
+      },
+      moveItem: moves
+        // Outside a Stimulus action there is no event.params, so read the
+        // param's backing attribute directly.
+        ? (item) => {
+          const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
+          return isMoveDirection(direction) && moves[direction];
+        }
+        : null,
+    };
   }
 
   private destinationCandidates(item:HTMLElement):DestinationIdentity[] {

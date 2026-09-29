@@ -82,10 +82,18 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_label_value: work_package.to_fs(:caption),
-        sortable_lists__item_mobility_value: "free"
+        sortable_lists__item_mobility_value: "free",
+        sortable_lists__item_menu_label_key_value: "js.backlogs.action_menu.menu_label"
       )
       expect(item.row_args[:draggable]).to be(true)
       expect(item.row_args).not_to include(:tabindex)
+    end
+
+    # The client renames the menu from this one key, so its singular form has
+    # to be the very name the card's invoker tooltip already renders.
+    it "names a singular menu exactly as the card's own tooltip does" do
+      expect(I18n.t("js.backlogs.action_menu.menu_label", count: 1))
+        .to eq(I18n.t(:"open_project.common.work_package_card_component.menu.label_actions"))
     end
 
     context "with classic mode",
