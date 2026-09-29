@@ -143,7 +143,7 @@ class Projects::Settings::WorkPackagesImportController < Projects::SettingsContr
   end
 
   def schedule
-    ::WorkPackages::Import::CSV::ScheduleService
+    ::WorkPackages::Import::CSV::ScheduleImportJobService
       .new(user: current_user, project: @project)
       .call(file: uploaded_file, attachment_id: params[:attachment_id], dry_run: dry_run?)
   end
