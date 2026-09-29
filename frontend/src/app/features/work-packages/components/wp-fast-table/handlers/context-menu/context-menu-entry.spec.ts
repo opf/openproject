@@ -26,10 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('Context menu entry', () => {
@@ -55,6 +56,11 @@ describe('Context menu entry', () => {
 
   afterEach(() => harness.destroy());
 
+  const openFromKeyboard = (workPackageId:string) => fireEvent.keyDown(
+    harness.row(workPackageId),
+    { key: 'F10', shiftKey: true, altKey: true },
+  );
+
   it('selects an unselected row and opens the menu for it alone', () => {
     harness.click('2');
 
@@ -77,12 +83,101 @@ describe('Context menu entry', () => {
     expect(menuTargets).toEqual([['1', '2']]);
   });
 
-  it('opens the menu from the keyboard without changing the selection', () => {
+  it('selects an unselected row from the keyboard and opens the menu for it alone', () => {
     harness.click('2');
 
-    expect(fireEvent.keyDown(harness.row('1'), { key: 'F10', shiftKey: true, altKey: true })).toBe(false);
+    expect(openFromKeyboard('1')).toBe(false);
 
-    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
     expect(opened).toHaveBeenCalledTimes(1);
+    expect(menuTargets).toEqual([['1']]);
+  });
+
+  it('selects the row from the keyboard when nothing is selected', () => {
+    openFromKeyboard('1');
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    expect(menuTargets).toEqual([['1']]);
+  });
+
+  it('keeps a batch selection from the keyboard and ranges from the menu row afterwards', () => {
+    harness.click('1');
+    harness.click('2', { shiftKey: true });
+
+    openFromKeyboard('2');
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+    expect(menuTargets).toEqual([['1', '2']]);
+
+    openFromKeyboard('3');
+    harness.click('1', { shiftKey: true });
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
+  });
+
+  it('anchors a following range at the occurrence the keyboard menu was opened on', () => {
+    harness.click('2');
+    const relationRow = harness.addRelationRow('1', '3');
+
+    fireEvent.keyDown(relationRow, { key: 'F10', shiftKey: true, altKey: true });
+    harness.click('3', { shiftKey: true });
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '3']);
+  });
+
+  it('targets only the menu row when it is outside the selection', () => {
+    harness.click('2');
+
+    new WorkPackageTableContextMenu(harness.injector, '1', harness.row('1'), {}, harness.table);
+
+    expect(menuTargets).toEqual([['1']]);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+});
+
+describe('Context menu entry from the actions column button', () => {
+  let harness:TableHarness;
+  let menuTargets:string[][];
+  let opened:ReturnType<typeof vi.spyOn>;
+
+  beforeEach(async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
+      configuration: { contextMenuEnabled: true, actionsColumnEnabled: true },
+    });
+    await harness.render();
+
+    menuTargets = [];
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+      .mockImplementation((workPackages:WorkPackageResource[]) => {
+        menuTargets.push(workPackages.map((wp) => wp.id!));
+        return [];
+      });
+    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+  });
+
+  afterEach(() => harness.destroy());
+
+  const menuButton = (workPackageId:string) => within(harness.row(workPackageId))
+    .getByRole('link', { name: 'js.label_open_context_menu' });
+
+  it('selects an unselected row and opens the menu for it alone', () => {
+    harness.click('2');
+
+    fireEvent.click(menuButton('1'));
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    expect(opened).toHaveBeenCalledTimes(1);
+    expect(menuTargets).toEqual([['1']]);
+  });
+
+  it('keeps a batch selection and opens the menu for the whole batch', () => {
+    harness.click('1');
+    harness.click('2', { shiftKey: true });
+
+    fireEvent.click(menuButton('2'));
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+    expect(menuTargets).toEqual([['1', '2']]);
   });
 });
