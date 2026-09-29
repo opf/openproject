@@ -27,14 +27,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], migrated: false, csv: false)
-    entry = { "author_name" => author_name, "items" => history.presence }.compact
-    additional = entry.present? ? { "import_history" => [entry] } : {}
-    additional["migrated"] = true if migrated
-    additional["csv"] = true if csv
 
-    super("import", additional)
+module WorkPackages
+  module Import
+    module CSV
+      # Something about the file as a whole that stops it being imported, rather than a column or a
+      # row. It has no column and no header, which is what tells it apart from a HeaderMap::Problem
+      # once both have been serialised into the job status payload.
+      FileProblem = Data.define(:message)
+    end
   end
 end
