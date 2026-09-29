@@ -10,7 +10,7 @@
     <% rows.each do |cells| %>
       <tr>
         <% cells.each do |cell| %>
-          <td class="px-3 py-2 border-bottom <%= 'width-25' if cell[:style] == :available %>">
+          <td class="px-3 py-2 border-bottom <%= \"width-25\" if cell[:style] == :available %>">
             <% case cell[:style] %>
             <% when :muted %>
               <%= render(Primer::Beta::Text.new(color: :muted)) { cell[:text].to_s } %>
