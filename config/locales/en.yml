@@ -2810,9 +2810,9 @@ en:
             description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
             title: "Your list of items is empty"
         delete_dialog:
-          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
+          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing data to become invalid."
           heading: "Delete custom field item?"
-          list_description: "This action will irreversibly remove the item. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
+          list_description: "This action will irreversibly remove the item. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing data to become invalid."
           title: "Delete custom field item"
         placeholder:
           label: "Item label"
