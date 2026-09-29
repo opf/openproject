@@ -118,7 +118,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
 
       expect(result).to be_failure
       expect(result.result.first.message).to eq("does not exist in this project.")
-      expect(mapper.available).to eq("version" => ["Sprint 12"])
+      expect(mapper.available_values).to eq("version" => ["Sprint 12"])
     end
 
     # Beside the message rather than inside it, so the report can fold a long list away while
@@ -128,32 +128,32 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
 
       expect(result).to be_failure
       expect(result.result.map(&:message)).to eq(["does not exist in this project."])
-      expect(mapper.available).to eq("type" => ["Task", "Bug"])
+      expect(mapper.available_values).to eq("type" => ["Task", "Bug"])
     end
 
     it "reports a status without claiming it is project specific" do
       result = map(status: "Closed")
 
       expect(result.result.first.message).to eq("does not exist.")
-      expect(mapper.available).to eq("status" => ["New"])
+      expect(mapper.available_values).to eq("status" => ["New"])
     end
 
     # A list per attribute, not per failing cell: at the problem cap the difference is the bulk
     # of what the run stores.
     it "collects each list once, however many cells fail on it" do
       map_row({ type: "Milestone" }, number: 2)
-      first = mapper.available["type"]
+      first = mapper.available_values["type"]
 
       2.times { |n| map_row({ type: "Milestone" }, number: n + 3) }
 
-      expect(mapper.available.keys).to eq(["type"])
-      expect(mapper.available["type"]).to equal(first)
+      expect(mapper.available_values.keys).to eq(["type"])
+      expect(mapper.available_values["type"]).to equal(first)
     end
 
     it "collects nothing for an attribute no row failed on" do
       map(type: "Task")
 
-      expect(mapper.available).to be_empty
+      expect(mapper.available_values).to be_empty
     end
 
     it "hands every cell failing on the same attribute one shared message" do

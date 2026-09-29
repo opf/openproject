@@ -43,7 +43,7 @@ module WorkPackages
           :dated_count,         # work packages that came out with a start or a finish date
           :counts_by_attribute, # attribute name => value name => how many were created with it
           :problems,            # RowMapper::Problem, in row order
-          :available,           # attribute name => the names the project offers, for an unknown value
+          :available_values,    # attribute name => the names the project offers, for an unknown value
           :created_ids          # ids of the created work packages, in row order
         )
 
@@ -102,10 +102,10 @@ module WorkPackages
                                   account_ids: Set.new, dated_count: 0, created_ids: [])
           rows.each { |row| import_row(row, mapper, progress) }
 
-          report(rows.size, progress, mapper.available)
+          report(rows.size, progress, mapper.available_values)
         end
 
-        def report(row_count, progress, available)
+        def report(row_count, progress, available_values)
           Report.new(row_count:,
                      created_count: progress.created_count,
                      query_id: nil,
@@ -113,7 +113,7 @@ module WorkPackages
                      dated_count: progress.dated_count,
                      counts_by_attribute: progress.counts_by_attribute,
                      problems: progress.problems,
-                     available:,
+                     available_values:,
                      created_ids: progress.created_ids)
         end
 

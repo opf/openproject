@@ -128,7 +128,7 @@ module WorkPackages
             dated_count: report.dated_count,
             counts_by_attribute: report.counts_by_attribute,
             problems: problems(report.problems),
-            available: report.available
+            available_values: report.available_values
           }
         end
 
@@ -155,7 +155,7 @@ module WorkPackages
             problems: [],
             file_problems: [],
             column_problems: [],
-            available: {}
+            available_values: {}
           }
         end
 
