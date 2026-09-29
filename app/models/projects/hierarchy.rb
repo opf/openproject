@@ -94,7 +94,9 @@ module Projects::Hierarchy
     end
 
     # Returns the visible/active projects within `boundary` (or, without one, all visible/active
-    # root-level projects) that have no visible/active ancestor also in that set.
+    # projects) that have no visible/active ancestor also in that set. Without a boundary, this
+    # includes true root-level projects, but also deeper projects whose real ancestors are all
+    # invisible or archived - they get promoted to the top level instead of hidden.
     def nearest_visible_descendants(boundary = nil, limit: nil)
       # Both the root case and the within-boundary case reduce to the same question: which
       # projects in a visible set have no ancestor also in that set? Only the set differs -
@@ -108,7 +110,7 @@ module Projects::Hierarchy
       # With awesome_nested_set, for a list of projects ordered by "lft ASC"
       # one part of the criteria for whether a project A is an ancestor of another
       # project B is already given by the position in the list (A.lft < B.lft).
-      # Only projects above the current project can potentially be ancestors and need
+      # Only projects before the current project can potentially be ancestors and need
       # to be checked.
       # Note that here, those that have no ancestors are of interest.
       # We know that a project has no ancestor if its rgt is higher than all the rgt values
