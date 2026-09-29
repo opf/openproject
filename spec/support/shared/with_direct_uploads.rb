@@ -68,7 +68,7 @@ class WithDirectUploads
   end
 
   def mock_attachment
-    allow_any_instance_of(::Attachments::PrepareUploadService)
+    allow_any_instance_of(::Attachments::PrepareUploadService) # rubocop:disable RSpec/AnyInstance
       .to receive(:instance) do
       # We don't use create here because this would cause an infinite loop as FogAttachment's #create
       # uses the base class's #create which is what we are mocking here. All this is necessary to begin
@@ -76,17 +76,16 @@ class WithDirectUploads
       # is ever run and we need remote attachments using the FogFileUploader in this scenario.
       FogAttachment.new
     end
-
-    # This is so the uploaded callback works. Since we can't actually substitute the Attachment class
-    # used there we get a LocalFileUploader file for the attachment which is not readable when
-    # everything else is mocked to be remote.
-    allow_any_instance_of(FileUploader).to receive(:readable?).and_return true
   end
 
   def stub_frontend(redirect: false)
     stub_chrome_background_requests
 
-    proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "options").and_return(
+    # The stubbed S3 endpoint below accepts uploads without storing them, so the staged file
+    # the uploaded callback checks for never exists.
+    allow_any_instance_of(DirectFogUploader).to receive(:readable?).and_return(true) # rubocop:disable RSpec/AnyInstance
+
+    proxy.stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "options").and_return(
       headers: {
         "Access-Control-Allow-Methods" => "POST",
         "Access-Control-Allow-Origin" => "*"
@@ -104,7 +103,7 @@ class WithDirectUploads
 
   def stub_with_redirect
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "post")
+      .stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
@@ -143,7 +142,7 @@ class WithDirectUploads
 
   def stub_with_status
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "post")
+      .stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         {
           code: body.include?("X-Amz-Signature") ? 201 : 403, # check that the expected post to AWS was made with the form fields
