@@ -29,28 +29,21 @@
 #++
 
 module Backlogs
-  class MoveToSprintDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
+  # Lists the work packages a batch action is about to affect.
+  #
+  # The heading carries `description_id`; point the acting control's
+  # `aria-describedby` at that id so the count reaches assistive technology.
+  class SelectedWorkPackagesComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    DIALOG_ID = "move-to-sprint-dialog"
-    FORM_ID = "move-to-sprint-dialog-form"
-    SELECTION_LABEL_ID = "move-to-sprint-dialog-selection"
+    attr_reader :work_packages, :description_id
 
-    attr_reader :work_packages, :sprints, :move_action
-
-    def initialize(work_packages:, sprints:, move_action:)
+    def initialize(work_packages:, description_id:, **system_arguments)
       super()
 
       @work_packages = work_packages
-      @sprints = sprints
-      @move_action = move_action
-    end
-
-    private
-
-    def destination_list_type
-      Backlogs::Target::SprintId.list_type
+      @description_id = description_id
+      @system_arguments = system_arguments
     end
   end
 end

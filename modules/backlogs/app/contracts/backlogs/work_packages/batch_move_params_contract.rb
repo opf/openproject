@@ -30,37 +30,11 @@
 
 module Backlogs
   module WorkPackages
-    class BatchMoveParamsContract < ::ParamsContract
-      validate :ids_distinct_and_present
-      validate :batch_within_cap
+    class BatchMoveParamsContract < CollectionIdsContract
       validate :target_resolvable
       validate :predecessor_well_formed
 
-      # BaseContract#errors returns model.errors whenever the model responds
-      # to it, and project does: without this override, validating the
-      # contract would clear and repopulate the live project's own error bag.
-      def errors
-        @errors ||= ActiveModel::Errors.new(self)
-      end
-
       private
-
-      def ids
-        Array(params[:ids]).map(&:to_s)
-      end
-
-      def ids_distinct_and_present
-        return unless ids.empty? || ids.any?(&:blank?) || ids.uniq.length != ids.length
-
-        errors.add(:base, I18n.t("backlogs.work_packages.move_collection.invalid_ids"))
-      end
-
-      def batch_within_cap
-        return if ids.length <= BatchUpdateService::MAX_BATCH_SIZE
-
-        errors.add(:base, I18n.t("backlogs.work_packages.move_collection.too_many_work_packages",
-                                 max: BatchUpdateService::MAX_BATCH_SIZE))
-      end
 
       def target_resolvable
         return if Backlogs::Target.from_list(params[:list_type], params[:list_id])

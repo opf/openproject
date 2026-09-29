@@ -132,6 +132,40 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
   end
 
   # rubocop:disable-next RSpec/ExampleLength
+  it "rejects an empty append when an independent writer fills the inbox", retry: 0 do
+    service = described_class.new(user:, work_packages: sprint_work_packages)
+    placement_resolved = Concurrent::Event.new
+    release_batch = Concurrent::Event.new
+    batch_result = Queue.new
+    original_ids = source_sprint.work_packages_for(project).order_by_position.ids
+
+    allow(service).to receive(:resolve_placement).and_wrap_original do |method, *args|
+      placement = method.call(*args)
+      placement_resolved.set
+      raise "timed out waiting for inbox insertion" unless release_batch.wait(5)
+
+      placement
+    end
+    batch_thread = Thread.new do
+      ActiveRecord::Base.connection_pool.with_connection do
+        batch_result << service.call(list_type: "inbox")
+      end
+    end
+    raise "append did not resolve its placement" unless placement_resolved.wait(5)
+
+    inserted = create(:work_package, project:, type:)
+    release_batch.set
+    result = Timeout.timeout(5) { batch_result.pop }
+
+    expect(result).to be_failure
+    expect(result.message).to eq I18n.t("backlogs.work_packages.batch_update_service.stale_predecessor")
+    expect(source_sprint.work_packages_for(project).order_by_position.ids).to eq original_ids
+    expect(WorkPackage.where(project:, sprint_id: nil, backlog_bucket_id: nil).ids).to eq [inserted.id]
+  ensure
+    cleanup_concurrency_threads(release_events: [release_batch], threads: [batch_thread])
+  end
+
+  # rubocop:disable-next RSpec/ExampleLength
   it "serializes disjoint batches before resolving append placement in an empty target", retry: 0 do
     first_service = described_class.new(user:, work_packages: sprint_work_packages)
     second_service = described_class.new(user:, work_packages: bucket_work_packages)

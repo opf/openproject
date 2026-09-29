@@ -292,10 +292,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
             click_button "Move"
           end
 
-          planning_page
-            .expect_and_dismiss_error(
-              "Update failed: Sprint is not assignable since it is either not shared with the project or already finished."
-            )
+          expected_error = I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
+          planning_page.expect_and_dismiss_error("Update failed: #{expected_error}")
 
           # Item was *not* moved:
           planning_page.expect_inbox_items(items: inbox_wp1)

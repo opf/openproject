@@ -52,19 +52,23 @@ import {
 } from './drag-and-drop';
 import {
   isMoveDirection,
+  parseDestinationCandidates,
   isOrderableItem,
   itemMobility,
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
+  type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
+import { scopeIds } from './action-scope';
+import { refreshMenuAvailability } from './menu-availability';
 
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
+  static targets = ['handle', 'preview', 'destinationItem', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -89,6 +93,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hasHandleTarget:boolean;
   declare readonly previewTarget:HTMLElement;
   declare readonly hasPreviewTarget:boolean;
+  declare readonly destinationItemTargets:HTMLElement[];
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
@@ -106,6 +111,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
+  private refreshToken?:object;
 
   private readonly onMenuToggle = (event:Event):void => {
     // The toggle event does not bubble, so listen in capture phase; recompute
@@ -113,8 +119,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // shifted siblings meanwhile. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
-      this.refreshMoveMenuAvailability();
+    if (this.hasMenuElement
+        && event.target === this.menuElement.popoverElement
+        && (event as ToggleEvent).newState === 'open') {
+      this.refreshActionAvailability();
     }
   };
 
@@ -125,6 +133,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   disconnect():void {
+    this.refreshToken = undefined;
     // A morph can remove a hovering row mid-drag; without this the drop indicator
     // it owns on a sibling row is never cleared (no onDrop fires, and no other
     // controller may clear a foreign owner), leaving a phantom drop line.
@@ -135,30 +144,73 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // A move item entering the DOM (inline or via a deferred fragment) triggers
-  // an availability refresh here, but `this.root` is usually still unset at
-  // this point (the outlet's connectRoot callback runs later), so this call
-  // typically no-ops. The menu-open toggle handler is what actually
-  // establishes correct availability, refreshing on every open once the root
-  // is connected and after any reorder has shifted siblings. No
-  // include-fragment knowledge, so both hooks work for any menu.
   moveItemTargetConnected():void {
-    this.refreshMoveMenuAvailability();
+    this.scheduleAvailabilityRefresh();
+  }
+
+  destinationItemTargetConnected():void {
+    this.scheduleAvailabilityRefresh();
+  }
+
+  private scheduleAvailabilityRefresh():void {
+    if (this.refreshToken) return;
+
+    const token = {};
+    this.refreshToken = token;
+    queueMicrotask(() => {
+      if (this.refreshToken !== token) return;
+
+      this.refreshToken = undefined;
+      if (this.element.isConnected) this.refreshActionAvailability();
+    });
   }
 
   move(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+    if (!isOrderableItem(this.element) || !this.menuItemActionable(item)) {
       return;
     }
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
+    }
+  }
+
+  prepareDialog(event:CustomEvent<{ form:HTMLFormElement|null }>):void {
+    const root = this.root;
+    if (!root || root.busy) {
+      event.preventDefault();
+      return;
+    }
+
+    const scope = root.selectForAction(this.element);
+    const form = event.detail.form;
+    if (!form || !scope || scope.kind === 'refused') {
+      event.preventDefault();
+      return;
+    }
+
+    form.querySelectorAll('[data-sortable-lists-generated-id]').forEach((input) => input.remove());
+    scopeIds(scope).forEach((id) => {
+      const input = form.ownerDocument.createElement('input');
+      input.type = 'hidden';
+      input.name = 'ids[]';
+      input.value = id;
+      input.dataset.sortableListsGeneratedId = '';
+      form.append(input);
+    });
+  }
+
+  moveToDestination(event:ActionEvent):void {
+    const item = event.currentTarget;
+    if (!this.menuItemActionable(item)) {
+      return;
+    }
+
+    const candidates = this.destinationCandidates(item);
+    if (candidates.length === 1) {
+      this.root?.moveToDestination(this.element, candidates[0]);
     }
   }
 
@@ -463,81 +515,33 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.dropIndicatorElement = undefined;
   }
 
-  private refreshMoveMenuAvailability():void {
+  private refreshActionAvailability():void {
+    this.refreshToken = undefined;
     const root = this.root;
-    if (!root || !this.hasMenuElement) {
+    if (!root || !this.hasMenuElement || (this.destinationItemTargets.length === 0 && this.moveItemTargets.length === 0)) {
       return;
     }
 
-    // Null availability means the item is not in a list yet; leave the menu
-    // alone until the outlet wiring settles.
-    const availability = root.moveAvailability(this.element);
-    if (!availability) {
-      return;
-    }
-
-    let available = 0;
-    for (const item of this.moveItemTargets) {
-      // Outside a Stimulus action there is no event.params, so read the
-      // param's backing attribute directly.
-      const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
-      const enabled = isMoveDirection(direction) && availability[direction];
-      this.setAvailability(item, enabled);
-      if (enabled) {
-        available += 1;
-      }
-    }
-
-    if (this.hasMoveMenuTarget) {
-      this.setAvailability(this.moveMenuTarget, available > 0);
-    }
-
-    this.refreshMoveDivider();
+    refreshMenuAvailability({
+      menu: this.menuElement,
+      scope: root.actionScopeFor(this.element),
+      destinationItems: this.destinationItemTargets,
+      moveItems: this.moveItemTargets,
+      moveMenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
+      divider: this.hasMoveDividerTarget ? this.moveDividerTarget : null,
+      hideUnavailable: this.hideUnavailableValue,
+      identifier: this.identifier,
+      availableDestinations: (scope, candidates) => root.availableDestinations(scope, candidates),
+      moveAvailability: () => root.moveAvailability(this.element),
+    });
   }
 
-  // The divider that opens the move group is rendered server-side from a
-  // permission check alone, so hiding the last entry below it would otherwise
-  // leave a separator with nothing to separate. It never goes through
-  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
-  // which a divider does not have — and in that mode the group stays visible
-  // anyway, only disabled.
-  private refreshMoveDivider():void {
-    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
-      return;
-    }
-
-    const divider = this.moveDividerTarget;
-    let sibling = divider.nextElementSibling;
-
-    while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
-        divider.removeAttribute('hidden');
-        return;
-      }
-
-      sibling = sibling.nextElementSibling;
-    }
-
-    divider.setAttribute('hidden', 'hidden');
+  private menuItemActionable(item:EventTarget|null):item is HTMLElement {
+    return this.hasMenuElement && item instanceof HTMLElement
+      && !this.menuElement.isItemDisabled(item) && !this.menuElement.isItemHidden(item);
   }
 
-  // Availability goes through the action-menu element's API: disableItem sets the
-  // ActionListItem--disabled class plus aria-disabled on the item's content, and
-  // hideItem toggles hidden. It operates on any descendant li, including the ones
-  // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
-  private setAvailability(item:HTMLElement, available:boolean):void {
-    const menu = this.menuElement;
-
-    if (this.hideUnavailableValue) {
-      if (available) {
-        menu.showItem(item);
-      } else {
-        menu.hideItem(item);
-      }
-    } else if (available) {
-      menu.enableItem(item);
-    } else {
-      menu.disableItem(item);
-    }
+  private destinationCandidates(item:HTMLElement):DestinationIdentity[] {
+    return parseDestinationCandidates(item.dataset.sortableListsDestinations);
   }
 }
