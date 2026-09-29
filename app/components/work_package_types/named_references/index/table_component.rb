@@ -32,6 +32,8 @@ module WorkPackageTypes
   module NamedReferences
     module Index
       class TableComponent < OpPrimer::BorderBoxTableComponent
+        include Translatable
+
         columns :name, :types_and_variants, :projects
         main_column :name
         mobile_labels :types_and_variants, :projects
@@ -53,7 +55,7 @@ module WorkPackageTypes
         def pagination_params = { allowed_params: %w[filters] }
 
         def headers
-          columns.map { |column| [column, { caption: model_class.reference_t("index.columns.#{column}") }] }
+          columns.map { |column| [column, { caption: reference_translate("index.columns.#{column}") }] }
         end
 
         def has_actions? = true
@@ -61,11 +63,11 @@ module WorkPackageTypes
         def variants_for(record) = @variants.fetch(record.id, [])
 
         def blank_title
-          model_class.reference_t(@filtered ? "index.blank_slate.filtered_title" : "index.blank_slate.title")
+          reference_translate(@filtered ? "index.blank_slate.filtered_title" : "index.blank_slate.title")
         end
 
         def blank_description
-          model_class.reference_t(@filtered ? "index.blank_slate.filtered_description" : "index.blank_slate.description")
+          reference_translate(@filtered ? "index.blank_slate.filtered_description" : "index.blank_slate.description")
         end
 
         def blank_icon = icon

@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     Primer::Alpha::SelectPanel.new(
       select_variant: :single,
       fetch_strategy: :local,
-      title: model_class.reference_t("selector.title"),
+      title: reference_translate("selector.title"),
       test_selector: test_selector("panel")
     )
   ) do |panel|

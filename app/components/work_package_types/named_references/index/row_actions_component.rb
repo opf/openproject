@@ -32,6 +32,7 @@ module WorkPackageTypes
   module NamedReferences
     module Index
       class RowActionsComponent < ApplicationComponent
+        include Translatable
         include OpPrimer::ComponentHelpers
 
         def initialize(record:, model_class:, icon:)
@@ -44,7 +45,7 @@ module WorkPackageTypes
 
         def menu_id = "#{dom_class(model_class)}-#{record.id}-action-menu"
 
-        def menu_label = model_class.reference_t("index.actions.menu", name: record.name)
+        def menu_label = reference_translate("index.actions.menu", name: record.name)
 
         private
 
@@ -59,7 +60,7 @@ module WorkPackageTypes
 
         def edit_action(menu)
           menu.with_item(tag: :a,
-                         label: model_class.reference_t("index.actions.edit"),
+                         label: reference_translate("index.actions.edit"),
                          href: edit_polymorphic_path(record)) do |item|
             item.with_leading_visual_icon(icon:)
           end
@@ -67,7 +68,7 @@ module WorkPackageTypes
 
         def rename_action(menu)
           menu.with_item(tag: :a,
-                         label: model_class.reference_t("index.actions.rename"),
+                         label: reference_translate("index.actions.rename"),
                          href: polymorphic_path([:edit_dialog, record]),
                          content_arguments: { data: { controller: "async-dialog" } },
                          test_selector: "#{dom_class(model_class)}-rename-action") do |item|

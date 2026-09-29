@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class ChangeForm < ApplicationForm
+      include Translatable
       include ActionView::RecordIdentifier
 
       def initialize(variant:, model_class:)
@@ -42,12 +43,12 @@ module WorkPackageTypes
 
       form do |change_form|
         change_form.autocompleter(
-          name: :"#{model_class.reference_association}_id",
-          label: model_class.reference_t("change.select.label"),
-          caption: model_class.reference_t("change.select.caption"),
+          name: :"#{model_class.model_name.singular}_id",
+          label: reference_translate("change.select.label"),
+          caption: reference_translate("change.select.caption"),
           required: true,
           autocomplete_options: {
-            placeholder: model_class.reference_t("change.select.placeholder"),
+            placeholder: reference_translate("change.select.placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,
@@ -65,7 +66,7 @@ module WorkPackageTypes
 
       attr_reader :variant, :model_class
 
-      def current_id = variant.public_send(:"#{model_class.reference_association}_id")
+      def current_id = variant.public_send(:"#{model_class.model_name.singular}_id")
 
       def candidates = @candidates ||= model_class.available_in(variant.project).in_display_order.to_a
     end

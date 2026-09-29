@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class StartDialogComponent < ApplicationComponent
+      include Translatable
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
@@ -54,7 +55,7 @@ module WorkPackageTypes
 
       def form_id = self.class.form_id(model_class)
 
-      def title = model_class.reference_t("start.title")
+      def title = reference_translate("start.title")
 
       def form_arguments
         { id: form_id, url:, method: :post, data: { turbo: true } }

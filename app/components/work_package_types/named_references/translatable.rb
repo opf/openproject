@@ -30,43 +30,9 @@
 
 module WorkPackageTypes
   module NamedReferences
-    class PanelComponent < ApplicationComponent
-      include Translatable
-      include OpPrimer::ComponentHelpers
-
-      def initialize(variant:, model_class:, candidates:, selected: nil, back_url: nil)
-        super()
-
-        @variant = variant
-        @model_class = model_class
-        @candidates = candidates
-        @selected = selected
-        @back_url = back_url
-      end
-
-      private
-
-      attr_reader :variant, :model_class, :candidates, :back_url
-
-      def record = variant.public_send(model_class.model_name.singular)
-
-      def name = record.name
-
-      def prefix = "#{reference_translate('selector.prefix')}:"
-
-      def same_as_type_text = reference_translate("selector.same_as_type")
-
-      def same_as_type? = variant.public_send(:"type_#{model_class.model_name.singular}")&.id == record.id
-
-      def selected = @selected || record.id
-
-      def test_selector(part) = "#{dom_class(model_class)}-#{part}"
-
-      def change_path(candidate)
-        url_helpers.public_send(
-          :"change_type_#{model_class.model_name.singular}_path",
-          **variant.path_args.merge("#{model_class.model_name.singular}_id": candidate.id, back_url:).compact
-        )
+    module Translatable
+      def reference_translate(key, **)
+        ActiveSupport::HtmlSafeTranslation.translate(key, scope: model_class.model_name.plural, **)
       end
     end
   end

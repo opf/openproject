@@ -51,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
               src: tree_src,
               filter_input_arguments: {
                 autocomplete: "off",
-                placeholder: model_class.reference_t("index.filters.projects_placeholder"),
+                placeholder: reference_translate("index.filters.projects_placeholder"),
                 data: { test_selector: "#{dom_class(model_class)}s-projects-filter-search" }
               },
               no_results_node_arguments: { label: t("filterable_tree_view.no_results_text") }

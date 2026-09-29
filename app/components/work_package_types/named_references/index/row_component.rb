@@ -32,6 +32,8 @@ module WorkPackageTypes
   module NamedReferences
     module Index
       class RowComponent < OpPrimer::BorderBoxRowComponent
+        include Translatable
+
         delegate :model_class, :icon, to: :table
 
         def name
@@ -47,7 +49,7 @@ module WorkPackageTypes
         def projects
           return dash if project_count.zero?
 
-          text(model_class.reference_t("index.projects_count", count: project_count))
+          text(reference_translate("index.projects_count", count: project_count))
         end
 
         def button_links
@@ -80,12 +82,12 @@ module WorkPackageTypes
         end
 
         def types_and_variants_label
-          types = model_class.reference_t("index.types_count", count: variants.map(&:type_id).uniq.size)
+          types = reference_translate("index.types_count", count: variants.map(&:type_id).uniq.size)
           named = variants.count { !it.is_default_variant? }
           return types if named.zero?
 
-          variant_count = model_class.reference_t("index.variants_count", count: named)
-          model_class.reference_t("index.types_and_variants_count", types:, variants: variant_count)
+          variant_count = reference_translate("index.variants_count", count: named)
+          reference_translate("index.types_and_variants_count", types:, variants: variant_count)
         end
 
         def project_count

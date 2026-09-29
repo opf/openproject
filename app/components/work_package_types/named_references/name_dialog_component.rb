@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class NameDialogComponent < ApplicationComponent
+      include Translatable
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
@@ -51,7 +52,7 @@ module WorkPackageTypes
       def form_id = NameFormComponent.form_id(model_class)
 
       def title
-        record.persisted? ? model_class.reference_t("form.edit_title") : model_class.reference_t("form.new_title")
+        record.persisted? ? reference_translate("form.edit_title") : reference_translate("form.new_title")
       end
 
       def submit_label

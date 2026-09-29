@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class ChoiceComponent < ApplicationComponent
+      include Translatable
       include OpPrimer::ComponentHelpers
 
       def initialize(variant:, model_class:, back_url: nil)
@@ -58,8 +59,8 @@ module WorkPackageTypes
         {
           value: "existing",
           checked: reuses_existing?,
-          label: model_class.reference_t("wizard.choice.existing.label"),
-          caption: model_class.reference_t("wizard.choice.existing.caption"),
+          label: reference_translate("wizard.choice.existing.label"),
+          caption: reference_translate("wizard.choice.existing.caption"),
           nested_content: panel,
           data: {
             "mode-switch-radio-target": "radio",
@@ -73,8 +74,8 @@ module WorkPackageTypes
         {
           value: "new",
           checked: !reuses_existing?,
-          label: model_class.reference_t("wizard.choice.new.label"),
-          caption: model_class.reference_t("wizard.choice.new.caption"),
+          label: reference_translate("wizard.choice.new.label"),
+          caption: reference_translate("wizard.choice.new.caption"),
           data: {
             "mode-switch-radio-target": "radio",
             "dialog-url": dialog_path(:start_dialog),
@@ -92,9 +93,9 @@ module WorkPackageTypes
 
       def reuses_existing? = !offers_new? || record_id != started_id
 
-      def record_id = variant.public_send(:"#{model_class.reference_association}_id")
+      def record_id = variant.public_send(:"#{model_class.model_name.singular}_id")
 
-      def started_id = helpers.params[:"started_#{model_class.reference_association}_id"].presence&.to_i
+      def started_id = helpers.params[:"started_#{model_class.model_name.singular}_id"].presence&.to_i
 
       def candidates
         @candidates ||= begin
@@ -105,7 +106,7 @@ module WorkPackageTypes
       end
 
       def dialog_path(action)
-        url_helpers.public_send(:"#{action}_type_#{model_class.reference_association}_path",
+        url_helpers.public_send(:"#{action}_type_#{model_class.model_name.singular}_path",
                                 **variant.path_args.merge(back_url:).compact)
       end
     end

@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class CopySourceForm < ApplicationForm
+      include Translatable
       include ActionView::RecordIdentifier
 
       def initialize(model_class:, candidates:, selected:, type_record_id: nil)
@@ -45,11 +46,11 @@ module WorkPackageTypes
       form do |source_form|
         source_form.autocompleter(
           name: :copy_from_id,
-          label: model_class.reference_t("start.copy.panel_label"),
+          label: reference_translate("start.copy.panel_label"),
           visually_hide_label: true,
           required: true,
           autocomplete_options: {
-            placeholder: model_class.reference_t("form.copy_from.placeholder"),
+            placeholder: reference_translate("form.copy_from.placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,
@@ -70,7 +71,7 @@ module WorkPackageTypes
       def label_for(candidate)
         return candidate.name unless candidate.id == type_record_id
 
-        "#{candidate.name} #{model_class.reference_t('selector.same_as_type')}"
+        "#{candidate.name} #{reference_translate('selector.same_as_type')}"
       end
     end
   end

@@ -44,10 +44,6 @@ module WorkPackageTypes
     end
 
     class_methods do
-      def reference_association = model_name.singular.to_sym
-
-      def reference_t(key, **) = I18n.t("#{model_name.plural}.#{key}", **)
-
       def project_owned? = reflect_on_association(:project).present?
 
       def build_with_available_name(base, project: nil, **attributes)
@@ -56,11 +52,11 @@ module WorkPackageTypes
 
       def implicit_name(source, project: nil)
         base = source.to_s.strip.presence
-        available_name(base && reference_t("name.implicit", name: base), project:)
+        available_name(base && I18n.t("name.implicit", scope: model_name.plural, name: base), project:)
       end
 
       def available_name(base, project: nil)
-        base = base.to_s.strip.presence || reference_t("name.fallback")
+        base = base.to_s.strip.presence || I18n.t("name.fallback", scope: model_name.plural)
         taken = name_scope(project)
         return base unless taken.exists?(["LOWER(name) = LOWER(?)", base])
 

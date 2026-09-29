@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class StartForm < ApplicationForm
+      include Translatable
       include ActionView::RecordIdentifier
 
       COPY = "copy"
@@ -46,15 +47,15 @@ module WorkPackageTypes
 
       form do |start_form|
         start_form.radio_button_group(name: :start,
-                                      label: model_class.reference_t("start.label"),
+                                      label: reference_translate("start.label"),
                                       visually_hide_label: true,
                                       data: group_data) do |group|
           if candidates.any?
             group.radio_button(
               value: COPY,
               checked: true,
-              label: model_class.reference_t("start.copy.label"),
-              caption: model_class.reference_t("start.copy.caption"),
+              label: reference_translate("start.copy.label"),
+              caption: reference_translate("start.copy.caption"),
               data: {
                 "named-references--start-choice-target": "copyRadio",
                 test_selector: "#{dom_class(model_class)}-start-copy"
@@ -72,8 +73,8 @@ module WorkPackageTypes
           group.radio_button(
             value: SCRATCH,
             checked: candidates.empty?,
-            label: model_class.reference_t("start.scratch.label"),
-            caption: model_class.reference_t("start.scratch.caption"),
+            label: reference_translate("start.scratch.label"),
+            caption: reference_translate("start.scratch.caption"),
             data: { test_selector: "#{dom_class(model_class)}-start-scratch" }
           )
         end

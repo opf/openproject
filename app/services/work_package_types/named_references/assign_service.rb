@@ -37,7 +37,7 @@ module WorkPackageTypes
       end
 
       def call(record)
-        variant.public_send(:"#{model_class.reference_association}=", record)
+        variant.public_send(:"#{model_class.model_name.singular}=", record)
 
         if variant.save
           ServiceResult.success(result: variant)

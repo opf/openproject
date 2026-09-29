@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class NameForm < ApplicationForm
+      include Translatable
       include ActionView::RecordIdentifier
 
       def initialize(model_class:, copy_from_id: nil, ask_copy_source: true)
@@ -43,15 +44,15 @@ module WorkPackageTypes
 
       form do |name_form|
         name_form.text_field(name: :name,
-                             label: model_class.reference_t("form.name.label"),
-                             caption: model_class.reference_t("form.name.caption"),
+                             label: reference_translate("form.name.label"),
+                             caption: reference_translate("form.name.caption"),
                              required: true,
                              autofocus: true)
 
         name_form.text_area(name: :description,
                             rows: 3,
-                            label: model_class.reference_t("form.description.label"),
-                            caption: model_class.reference_t("form.description.caption"))
+                            label: reference_translate("form.description.label"),
+                            caption: reference_translate("form.description.caption"))
 
         next if model.persisted?
 
@@ -64,10 +65,10 @@ module WorkPackageTypes
 
         name_form.autocompleter(
           name: :copy_from_id,
-          label: model_class.reference_t("form.copy_from.label"),
-          caption: model_class.reference_t("form.copy_from.caption"),
+          label: reference_translate("form.copy_from.label"),
+          caption: reference_translate("form.copy_from.caption"),
           autocomplete_options: {
-            placeholder: model_class.reference_t("form.copy_from.placeholder"),
+            placeholder: reference_translate("form.copy_from.placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,

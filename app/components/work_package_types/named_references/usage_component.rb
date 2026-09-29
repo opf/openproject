@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class UsageComponent < ApplicationComponent
+      include Translatable
       include OpPrimer::ComponentHelpers
 
       def initialize(record:, model_class:, list_users: true)
@@ -56,10 +57,10 @@ module WorkPackageTypes
       def variants_only? = variants.any? { !it.is_default_variant? }
 
       def caption
-        return model_class.reference_t("usage.unused") if unused?
-        return model_class.reference_t("usage.used_by_variants", count: variants.size) if variants_only?
+        return reference_translate("usage.unused") if unused?
+        return reference_translate("usage.used_by_variants", count: variants.size) if variants_only?
 
-        model_class.reference_t("usage.used_by_types", count: variants.size)
+        reference_translate("usage.used_by_types", count: variants.size)
       end
 
       def types = variants.select(&:is_default_variant?)
@@ -73,11 +74,11 @@ module WorkPackageTypes
       def test_selector(part) = "#{dom_class(model_class)}-usage-#{part}"
 
       def dialog_caption
-        model_class.reference_t("usage.dialog.caption_html", name: content_tag(:strong, record.name))
+        reference_translate("usage.dialog.caption_html", name: content_tag(:strong, record.name))
       end
 
       def variant_link(variant)
-        href = helpers.public_send(:"edit_type_#{model_class.reference_association}_path", **variant.path_args)
+        href = helpers.public_send(:"edit_type_#{model_class.model_name.singular}_path", **variant.path_args)
 
         render(Primer::Beta::Link.new(href:)) { variant.display_name }
       end

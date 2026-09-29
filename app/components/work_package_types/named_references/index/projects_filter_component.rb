@@ -32,6 +32,8 @@ module WorkPackageTypes
   module NamedReferences
     module Index
       class ProjectsFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+        include Translatable
+
         FIELD_NAME = "project_ids"
 
         def self.dialog_id(model_class) = "#{ActionView::RecordIdentifier.dom_class(model_class)}s-projects-filter-dialog"

@@ -34,7 +34,7 @@ class Queries::NamedReferences::Filters::NameFilter < Queries::Filters::Base
   end
 
   def human_name
-    model.reference_t("index.filters.name")
+    I18n.t("index.filters.name", scope: model.model_name.plural)
   end
 
   def self.key

@@ -32,6 +32,7 @@ module WorkPackageTypes
   module NamedReferences
     module Index
       class SubHeaderComponent < ApplicationComponent
+        include Translatable
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 

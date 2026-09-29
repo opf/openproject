@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class ChangeDialogComponent < ApplicationComponent
+      include Translatable
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
@@ -54,12 +55,12 @@ module WorkPackageTypes
 
       def form_id = self.class.form_id(model_class)
 
-      def title = model_class.reference_t("change.title")
+      def title = reference_translate("change.title")
 
       def form_arguments
         {
           id: form_id,
-          url: url_helpers.public_send(:"change_type_#{model_class.reference_association}_path",
+          url: url_helpers.public_send(:"change_type_#{model_class.model_name.singular}_path",
                                        **variant.path_args.merge(back_url:).compact),
           method: :patch,
           data: { turbo: false }

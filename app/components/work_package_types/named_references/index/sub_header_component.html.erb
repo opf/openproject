@@ -37,9 +37,9 @@ See COPYRIGHT and LICENSE files for more details.
     <%
       sub_header.with_filter_input(
         name: name_filter_key,
-        label: model_class.reference_t("index.filters.name"),
+        label: reference_translate("index.filters.name"),
         value: name_filter_value,
-        placeholder: model_class.reference_t("index.filters.name_placeholder"),
+        placeholder: reference_translate("index.filters.name_placeholder"),
         leading_visual: { icon: :search, size: :small },
         clear_button_id:,
         data: name_filter_attributes

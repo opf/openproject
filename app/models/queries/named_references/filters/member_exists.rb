@@ -41,7 +41,7 @@ module Queries::NamedReferences::Filters::MemberExists
         SELECT 1
         FROM type_variants members
         #{extra_joins}
-        WHERE members.#{model.reference_association}_id = #{model.table_name}.id
+        WHERE members.#{model.model_name.singular}_id = #{model.table_name}.id
           AND #{condition}
       )
     SQL
