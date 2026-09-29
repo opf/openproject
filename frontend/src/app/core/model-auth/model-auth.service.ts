@@ -30,7 +30,7 @@ import { input } from '@openproject/reactivestates';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-export type ModelLinks = Record<string, any>;
+export type ModelLinks = Record<string, unknown>;
 export type ModelLinksHash = Record<string, ModelLinks>;
 
 @Injectable({ providedIn: 'root' })
@@ -45,7 +45,7 @@ export class AuthorisationService {
     });
   }
 
-  public observeUntil(unsubscribe:Observable<any>) {
+  public observeUntil(unsubscribe:Observable<unknown>) {
     return this.links.values$().pipe(takeUntil(unsubscribe));
   }
 
