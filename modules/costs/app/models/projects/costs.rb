@@ -28,10 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::ConfiguredCurrency
-  def i18n_opts
-    super.merge(unit: ERB::Util.h(Setting.costs_currency),
-                format: ERB::Util.h(Setting.costs_currency_format),
-                negative_format: "-#{ERB::Util.h(Setting.costs_currency_format)}")
+module Projects::Costs
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :rates, class_name: "HourlyRate" # rubocop:disable Rails/HasManyOrHasOneDependent
+  end
+
+  def costs_enabled?
+    module_enabled?(:costs)
+  end
+
+  def cost_types_available?
+    return @cost_types_available if defined?(@cost_types_available)
+
+    @cost_types_available = CostType.available_for_project(self).active.exists?
   end
 end

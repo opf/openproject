@@ -28,20 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::ProjectCosts
-  extend ActiveSupport::Concern
+module Members::CurrentRateCell
+  include ActionView::Helpers::NumberHelper
 
-  included do
-    has_many :rates, class_name: "HourlyRate"
+  delegate :project, :costs_enabled?, to: :table
+
+  def current_rate
+    if show_rate?
+      link_to(
+        number_to_currency(rate),
+        controller: "/hourly_rates",
+        action: "show",
+        id: member.principal,
+        project_id: project
+      )
+    end
   end
 
-  def costs_enabled?
-    module_enabled?(:costs)
+  def column_css_class(name)
+    if name == :current_rate
+      "currency"
+    else
+      super
+    end
   end
 
-  def cost_types_available?
-    return @cost_types_available if defined?(@cost_types_available)
+  def rate
+    member.principal.current_rate(project).try(:rate) || 0.0
+  end
 
-    @cost_types_available = CostType.available_for_project(self).active.exists?
+  def show_rate?
+    costs_enabled? && user? && allow_view?
+  end
+
+  def allow_view?
+    table.current_user.allowed_in_project?(:view_hourly_rates, project)
   end
 end

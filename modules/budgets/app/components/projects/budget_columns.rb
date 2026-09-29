@@ -28,10 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Budgets::Patches::ChecksumBudget
-  protected
+module Projects::BudgetColumns
+  def budget_planned
+    with_budget_aggregation do |aggregation|
+      number_to_currency(aggregation.total_planned, precision: 0)
+    end
+  end
 
-  def checksum_associations
-    super + [:budget]
+  def budget_spent
+    with_budget_aggregation do |aggregation|
+      number_to_currency(aggregation.total_spent, precision: 0)
+    end
+  end
+
+  def budget_spent_ratio
+    with_budget_aggregation do |aggregation|
+      helpers.extended_progress_bar(aggregation.total_ratio,
+                                    legend: aggregation.total_ratio.to_s)
+    end
+  end
+
+  def budget_available
+    with_budget_aggregation do |aggregation|
+      number_to_currency(aggregation.total_available, precision: 0)
+    end
+  end
+
+  def with_budget_aggregation
+    @budget_aggregation ||= Budgets::ProjectBudgetAggregation.new(project)
+    return unless @budget_aggregation.any?
+    return unless User.current.allowed_in_project?(:view_budgets, project)
+
+    yield @budget_aggregation
   end
 end

@@ -28,37 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Budgets::Patches::Projects::BudgetColumns
-  def budget_planned
-    with_budget_aggregation do |aggregation|
-      number_to_currency(aggregation.total_planned, precision: 0)
+module WorkPackages::BudgetAssignment
+  extend ActiveSupport::Concern
+
+  included do
+    belongs_to :budget, inverse_of: :work_packages, optional: true
+
+    validate :validate_budget
+  end
+
+  def validate_budget
+    # Also re-validate when the work package is moved to another project, since
+    # the set of valid budgets is project-scoped. Otherwise a budget belonging
+    # to the source project would silently survive the move.
+    if (budget_id_changed? || project_id_changed?) &&
+       !(budget_id.blank? || project.budget_ids.include?(budget_id))
+      errors.add :budget, :inclusion
     end
   end
 
-  def budget_spent
-    with_budget_aggregation do |aggregation|
-      number_to_currency(aggregation.total_spent, precision: 0)
-    end
-  end
-
-  def budget_spent_ratio
-    with_budget_aggregation do |aggregation|
-      helpers.extended_progress_bar(aggregation.total_ratio,
-                                    legend: aggregation.total_ratio.to_s)
-    end
-  end
-
-  def budget_available
-    with_budget_aggregation do |aggregation|
-      number_to_currency(aggregation.total_available, precision: 0)
-    end
-  end
-
-  def with_budget_aggregation
-    @budget_aggregation ||= Budgets::ProjectBudgetAggregation.new(project)
-    return unless @budget_aggregation.any?
-    return unless User.current.allowed_in_project?(:view_budgets, project)
-
-    yield @budget_aggregation
+  # Wraps the association to get the Cost Object subject.  Needed for the
+  # Query and filtering
+  def budget_subject
+    budget&.subject
   end
 end

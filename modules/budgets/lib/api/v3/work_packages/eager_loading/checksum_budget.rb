@@ -28,8 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::MembersTableCurrentUser
-  def members_table_options(_roles)
-    super.merge current_user:
+module API::V3::WorkPackages::EagerLoading::ChecksumBudget
+  protected
+
+  def checksum_associations
+    super + [:budget]
   end
 end

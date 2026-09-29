@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Budgets::Patches::Projects::BudgetColumns do
+RSpec.describe Projects::BudgetColumns do
   let(:project) do
     create(:project,
            enabled_module_names: %i[budgets work_package_tracking],
@@ -41,7 +41,7 @@ RSpec.describe Budgets::Patches::Projects::BudgetColumns do
   let(:table) { TableComponent.new }
   let(:component_class) do
     Class.new(Projects::RowComponent) do
-      prepend Budgets::Patches::Projects::BudgetColumns
+      prepend Projects::BudgetColumns
     end
   end
   let(:component) { component_class.new(row: [project, 0], table: table) }

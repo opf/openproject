@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,5 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches
+module BasicData::EnableCostsModuleByDefault
+  def data
+    original_data = super
+
+    if original_data["default_projects_modules"]&.exclude? "costs"
+      original_data["default_projects_modules"] << "costs"
+    end
+
+    original_data
+  end
 end
