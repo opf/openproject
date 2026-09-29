@@ -43,7 +43,7 @@ module WorkPackageTypes
 
       form do |change_form|
         change_form.autocompleter(
-          name: :"#{model_class.model_name.singular}_id",
+          name: model_class.variant_reflection.foreign_key,
           label: reference_translate("change.select.label"),
           caption: reference_translate("change.select.caption"),
           required: true,
@@ -66,7 +66,7 @@ module WorkPackageTypes
 
       attr_reader :variant, :model_class
 
-      def current_id = variant.public_send(:"#{model_class.model_name.singular}_id")
+      def current_id = variant[model_class.variant_reflection.foreign_key]
 
       def candidates = @candidates ||= model_class.available_in(variant.project).in_display_order.to_a
     end
