@@ -40,7 +40,8 @@ module WorkPackages
           @file = file
         end
 
-        # @return [ServiceResult] success carries an array of Row, failure an array of HeaderMap::Problem
+        # @return [ServiceResult] success carries an array of Row, failure an array of
+        #   FileProblem and HeaderMap::Problem
         def call
           @header = HeaderSniffer.call(path, header_map)
 
@@ -68,7 +69,7 @@ module WorkPackages
           rows = read_rows
 
           return ServiceResult.failure(result: [file_problem(:no_rows)]) if rows.empty?
-          return ServiceResult.failure(result: [too_many_rows]) if rows.size > max_rows
+          return ServiceResult.failure(result: [file_problem(:too_many_rows, limit: max_rows)]) if rows.size > max_rows
 
           ServiceResult.success(result: rows)
         end
@@ -132,14 +133,7 @@ module WorkPackages
         def mapping = header_result.result
 
         def file_problem(key, **)
-          HeaderMap::Problem.new(column: nil, header: nil,
-                                 message: I18n.t("work_packages.import.csv.file.#{key}", **))
-        end
-
-        def too_many_rows
-          HeaderMap::Problem.new(column: nil, header: nil,
-                                 message: I18n.t("work_packages.import.csv.file.too_many_rows",
-                                                 limit: max_rows))
+          FileProblem.new(message: I18n.t("work_packages.import.csv.file.#{key}", **))
         end
       end
     end
