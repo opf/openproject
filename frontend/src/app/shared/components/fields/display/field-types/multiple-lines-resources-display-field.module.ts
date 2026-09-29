@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { cssClassCustomOption } from 'core-app/shared/components/fields/display/display-field.module';
+import { cssClassResourceValue } from 'core-app/shared/components/fields/display/display-field.module';
 import { ResourcesDisplayField } from './resources-display-field.module';
 
 export class MultipleLinesResourcesDisplayField extends ResourcesDisplayField {
@@ -51,7 +51,7 @@ export class MultipleLinesResourcesDisplayField extends ResourcesDisplayField {
   protected renderValues(values:string[], element:HTMLElement) {
     values.forEach((value) => {
       const div = document.createElement('div');
-      div.classList.add(cssClassCustomOption, '-multiple-lines');
+      div.classList.add(cssClassResourceValue, '-multiple-lines');
       div.setAttribute('title', value);
       div.textContent = value;
 
