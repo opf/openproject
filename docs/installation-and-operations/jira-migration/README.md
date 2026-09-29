@@ -74,11 +74,6 @@ Therefore, please make sure that you have [a backup of your OpenProject instance
 
 Navigate to _Administration → Import_. To create a new import configuration, click the **+ Jira configuration** button.
 
-![Jira importer settings under OpenProject administration](openproject_admin_import_jira_import_initial.png)
-> [!IMPORTANT]
->
-> To activate the configuration, you need to activate project-based semantic identifiers on the OpenProject side first. If not yet active, you will see a warning banner. Once activated, the button will become selectable. 
-
 ![Jira importer settings under OpenProject administration](openproject_admin_import_jira_import.png)
 
 Provide the following details:
