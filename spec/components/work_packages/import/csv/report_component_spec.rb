@@ -48,6 +48,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       "finished_at" => "2026-09-21T09:01:30Z",
       "counts_by_attribute" => { "type" => { "Task" => 96, "Bug" => 46 }, "status" => { "New" => 142 } },
       "problems" => [],
+      "file_problems" => [],
       "column_problems" => []
     }
   end
@@ -286,9 +287,8 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
                      "row_count" => 0,
                      "created_count" => 0,
                      "counts_by_attribute" => {},
-                     "column_problems" => [{ "column" => nil, "header" => nil,
-                                             "message" => "This file has more rows than can be " \
-                                                          "imported at once. The most is 5000." }])
+                     "file_problems" => [{ "message" => "This file has more rows than can be " \
+                                                        "imported at once. The most is 5000." }])
     end
 
     it "puts the message in the banner" do

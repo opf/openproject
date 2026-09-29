@@ -63,9 +63,7 @@ module WorkPackages
 
         # A problem about the file as a whole names neither a column nor a header, so there is
         # nothing to tabulate: the message is the whole report.
-        def file_problems = column_problems.select { |problem| problem["column"].blank? && problem["header"].blank? }
-
-        def header_problems = column_problems - file_problems
+        def file_problems = payload["file_problems"].to_a
 
         def file_banner
           Primer::Alpha::Banner
@@ -78,7 +76,7 @@ module WorkPackages
 
         def shown_problems = @shown_problems ||= problems.first(SHOWN_PROBLEMS)
 
-        def shown_header_problems = @shown_header_problems ||= header_problems.first(SHOWN_PROBLEMS)
+        def shown_column_problems = @shown_column_problems ||= column_problems.first(SHOWN_PROBLEMS)
 
         def problem_count = problems.size
 
@@ -120,7 +118,7 @@ module WorkPackages
         end
 
         def column_problem_rows
-          shown_header_problems.map do |problem|
+          shown_column_problems.map do |problem|
             [{ text: problem["column"], style: :muted },
              { text: problem["header"], style: :code },
              { text: problem["message"], style: :message }]
@@ -136,7 +134,7 @@ module WorkPackages
             t("work_packages.import.report.problems.all", count: problem_count)
         end
 
-        def omitted_headers_count = capped_count(header_problems, shown_header_problems)
+        def omitted_columns_count = capped_count(column_problems, shown_column_problems)
 
         def capped_count(all, shown)
           return if all.size <= shown.size
