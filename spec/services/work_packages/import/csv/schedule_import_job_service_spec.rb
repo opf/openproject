@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::Import::CSV::ScheduleService do
+RSpec.describe WorkPackages::Import::CSV::ScheduleImportJobService do
   subject(:service) { described_class.new(user:, project:) }
 
   shared_let(:project) { create(:project) }
