@@ -56,8 +56,10 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
 
     it "accepts a CSV of plain ASCII, which is reported as us-ascii rather than utf-8" do
       with_file("Subject\nBuild\n") do |file|
-        expect(described_class.new(file).detected.last).to eq("us-ascii")
-        expect(described_class.call(file)).to be_success
+        result = described_class.call(file)
+
+        expect(result).to be_success
+        expect(result.result[:charset]).to eq("us-ascii")
       end
     end
 
@@ -117,6 +119,20 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
     it "reports the same verdict as any other unreadable file" do
       with_file("Subject\nStra\xDFe\n".b) do |file|
         expect(described_class.call(file).result).to eq(:unknown)
+      end
+    end
+  end
+
+  describe "what a success carries" do
+    it "names the content type and the charset" do
+      expect(described_class.call(fixture("work_packages.csv")).result)
+        .to eq(content_type: "text/csv", charset: "us-ascii")
+    end
+
+    it "names them for an empty file too, which has no charset" do
+      with_file("") do |file|
+        expect(described_class.call(file).result)
+          .to eq(content_type: OpenProject::ContentTypeDetector::EMPTY_TYPE, charset: nil)
       end
     end
   end
