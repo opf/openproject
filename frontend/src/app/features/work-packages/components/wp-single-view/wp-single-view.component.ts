@@ -87,6 +87,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
   templateUrl: './wp-single-view.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -416,9 +417,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     );
   }
 
-  private getAttributesGroupId(group:any):string {
+  private getAttributesGroupId(group:{ name:string }):string {
     const overflowingIdentifier = this.element
-      .querySelector<HTMLElement>(`[data-group-name=\'${group.name}\']`)
+      .querySelector<HTMLElement>(`[data-group-name='${group.name}']`)
       ?.dataset[overflowingContainerAttribute];
 
     if (overflowingIdentifier) {

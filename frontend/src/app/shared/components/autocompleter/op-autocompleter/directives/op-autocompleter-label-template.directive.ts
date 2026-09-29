@@ -29,6 +29,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[op-autocompleter-label-tmp]',
   standalone: false,
 })

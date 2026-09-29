@@ -67,6 +67,7 @@ import {
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-list-view',
   templateUrl: './wp-list-view.component.html',
   styleUrls: ['./wp-list-view.component.sass'],

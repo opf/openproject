@@ -78,6 +78,7 @@ import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-p
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-card',
   styleUrls: ['./wp-single-card.component.sass'],
   templateUrl: './wp-single-card.component.html',
@@ -115,6 +116,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showAsGhost = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();

@@ -50,7 +50,7 @@ describe('lazy service', () => {
     };
     lazy(obj, 'prop', () => '');
 
-    expect(obj.propertyIsEnumerable('prop')).toBeTruthy();
+    expect(Object.prototype.propertyIsEnumerable.call(obj, 'prop')).toBeTruthy();
   });
 
   it('should add a configurable property', () => {

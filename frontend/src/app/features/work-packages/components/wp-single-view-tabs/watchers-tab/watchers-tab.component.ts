@@ -45,6 +45,7 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 @Component({
   templateUrl: './watchers-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-watchers-tab',
   standalone: false,
 })

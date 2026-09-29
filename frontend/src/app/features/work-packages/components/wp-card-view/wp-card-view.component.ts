@@ -80,6 +80,7 @@ export interface WorkPackageAddedResult {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-card-view',
   styleUrls: ['./styles/wp-card-view.component.sass', './styles/wp-card-view-horizontal.sass', './styles/wp-card-view-vertical.sass'],
   templateUrl: './wp-card-view.component.html',
@@ -105,6 +106,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
   readonly deviceService = inject(DeviceService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
 
   @Input() public dragInto:boolean;
@@ -141,6 +143,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef<HTMLElement>;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onMoved = new EventEmitter<void>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();

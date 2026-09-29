@@ -35,6 +35,7 @@ declare global {
 }
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'op-drag-scroll',
   standalone: false,
 })

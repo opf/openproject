@@ -34,6 +34,7 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-filter-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-filter-button.html',

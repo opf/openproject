@@ -137,7 +137,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public comment(entry:TimeEntryResource):string | undefined {
-    return entry.comment && entry.comment.raw;
+    return entry.comment?.raw;
   }
 
   public hours(entry:TimeEntryResource):string {

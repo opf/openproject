@@ -38,6 +38,7 @@ export interface QuerySharingChange {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'query-sharing-form',
   templateUrl: './query-sharing-form.html',
   standalone: false,
@@ -58,6 +59,7 @@ export class QuerySharingFormComponent {
 
   @Input() public isPublic:boolean;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onChange = new EventEmitter<QuerySharingChange>();
 
   public text = {

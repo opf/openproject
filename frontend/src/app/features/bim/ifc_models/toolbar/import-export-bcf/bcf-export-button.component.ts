@@ -48,6 +48,7 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
       <span class="button--text"> {{text.export}} </span>
     </a>
   `,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-export-button',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

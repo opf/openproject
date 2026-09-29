@@ -111,7 +111,7 @@ export class HalResource {
 
   public static matchFromLink(href:string, expectedResource:string):string|null {
     const match = new RegExp(`/api/v3/${expectedResource}/(\\d+)`).exec(href);
-    return match && match[1];
+    return match?.[1] ?? null;
   }
 
   public $initialize(source:any) {

@@ -34,6 +34,7 @@ export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'editable-toolbar-title',
   templateUrl: './editable-toolbar-title.html',
   styleUrls: ['./editable-toolbar-title.sass'],
@@ -47,6 +48,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   readonly injector = inject(Injector);
   private cdRef = inject(ChangeDetectorRef);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('title') public inputTitle:string;
 
   @Input() public editable = true;
@@ -59,8 +61,10 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   @Input() public smallHeader = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<string>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onEmptySubmit = new EventEmitter<void>();
 
   @HostBinding('class.title-container') baseClass = true;

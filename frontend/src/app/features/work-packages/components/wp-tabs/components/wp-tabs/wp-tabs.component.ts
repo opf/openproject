@@ -64,7 +64,7 @@ export class WpTabsComponent implements OnInit {
   public canViewWatchers = false;
 
   ngOnInit():void {
-    this.canViewWatchers = !!(this.workPackage && this.workPackage.watchers);
+    this.canViewWatchers = !!this.workPackage?.watchers;
     this.tabs = this.getDisplayableTabs();
   }
 

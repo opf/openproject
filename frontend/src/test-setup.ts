@@ -53,8 +53,8 @@ window.I18n = new I18n();
 if (typeof CSS === 'undefined' || typeof CSS.escape !== 'function') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).CSS = (globalThis as any).CSS || {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (globalThis as any).CSS.escape = (value:string) => String(value).replace(/[^a-zA-Z0-9_\-]/g, (ch) => `\\${ch}`);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+  (globalThis as any).CSS.escape = (value:string) => String(value).replace(/[^a-zA-Z0-9_-]/g, (ch) => `\\${ch}`);
 }
 
 // jsdom does not implement ResizeObserver. The shim declares the native

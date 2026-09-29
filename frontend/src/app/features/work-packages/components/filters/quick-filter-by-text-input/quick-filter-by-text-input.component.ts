@@ -39,6 +39,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-filter-by-text-input',
   templateUrl: './quick-filter-by-text-input.html',
   standalone: false,

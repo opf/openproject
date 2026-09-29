@@ -36,6 +36,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-status-button',
   styleUrls: ['./wp-status-button.component.sass'],
   templateUrl: './wp-status-button.html',
