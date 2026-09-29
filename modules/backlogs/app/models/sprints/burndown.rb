@@ -141,16 +141,22 @@ module Sprints
       from = origin.at.in_time_zone(zone)
       days = days_until_scheduled_finish(from)
       shares = days.map { available_share(it, from) }
-      capacity = shares.sum
 
-      return [origin] if capacity.zero?
+      return [origin] if shares.sum.zero?
 
-      # Each point states the share still ahead of it rather than subtracting what is behind,
-      # so the last one is left with an empty slice and lands exactly on zero.
       days.each_with_object([origin]).with_index do |(day, points), index|
-        points << Point.new(at: day.date.in_time_zone(zone).end_of_day,
-                            value: origin.value * (shares[(index + 1)..].sum / capacity))
+        points << declined_point(origin, day, share_ahead(shares, index))
       end
+    end
+
+    # The portion of the whole still to come after +index+. Reading it forwards rather than
+    # subtracting what is behind leaves the last day an empty slice, so the series lands on zero.
+    def share_ahead(shares, index)
+      shares[(index + 1)..].sum / shares.sum
+    end
+
+    def declined_point(origin, day, ahead)
+      Point.new(at: day.date.in_time_zone(zone).end_of_day, value: origin.value * ahead)
     end
 
     # How much of +day+ is left to the series, as a fraction of a whole day.
