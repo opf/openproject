@@ -126,7 +126,7 @@ gem "bcrypt", "~> 3.1.22"
 gem "multi_json", "~> 1.21.2"
 
 gem "daemons"
-gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -140,7 +140,7 @@ gem "rack-attack", "~> 6.8.0"
 gem "browser", "~> 6.2.0"
 
 # Providing health checks
-gem "okcomputer", "~> 1.19.1"
+gem "okcomputer", "~> 1.20.0"
 
 # Lograge to provide sane and non-verbose logging
 gem "lograge", "~> 0.15.0"
@@ -201,7 +201,7 @@ gem "nokogiri", "~> 1.19.4"
 gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
-gem "ssrf_filter", "~> 1.3"
+gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
@@ -235,7 +235,7 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.35.1", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
@@ -431,5 +431,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.37.0"
   gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.3"
+  gem "openproject-primer_view_components", "~>0.91.4"
 end

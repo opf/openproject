@@ -35,6 +35,7 @@ export interface WorkPackageFixture {
   subject?:string;
   /** Further resource attributes, e.g. a linked `status` the table groups by. */
   attributes?:Record<string, unknown>;
+  ancestors?:WorkPackageFixture[];
 }
 
 export interface GroupFixture {
@@ -55,6 +56,7 @@ export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource
     $href: href,
     $links: { self: { href } },
     $source: { id: fixture.id, subject, _links: { self: { href } } },
+    getAncestors: () => (fixture.ancestors ?? []).map(buildWorkPackage),
     subjectWithId: () => `#${fixture.id} ${subject}`,
   } as unknown as WorkPackageResource;
 }

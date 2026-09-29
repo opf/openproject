@@ -37,19 +37,6 @@ module WorkPackageTypes
         super(variant)
       end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PDF_EXPORT
-                 )) +
-            render(WorkPackageTypes::ExportConfigurationComponent.new(
-                     model,
-                     readonly: model.linked?(TypeVariant::PDF_EXPORT)
-                   ))
-        end
-      end
-
       private
 
       def reload_url

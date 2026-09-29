@@ -496,6 +496,7 @@ pl:
           title: Dni robocze
           true: włącz dni wolne od pracy
         journal_internal: Dziennik wewnętrzny
+        labels: Labels
         notify: Powiadom
         observed_in_versions: Zauważono w następujących wersjach
         parent: Rodzic
@@ -620,6 +621,10 @@ pl:
         user_in_ldap_managed_department: Ten użytkownik należy do działu zarządzanego za pomocą synchronizacji LDAP i nie można go przenieść.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -1622,6 +1627,23 @@ pl:
     banners:
       environment_configured_readonly: Wartości te są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Kolory podstawowe
         main_menu: Główne menu boczne
@@ -1654,7 +1676,11 @@ pl:
       tab_interface: Interfejs
       tab_pdf_export_font: Czcionka eksportu PDF
       tab_pdf_export_styles: Style eksportu PDF
-      theme_warning: Zmiana motywu poskutkuje zastąpieniem stylu niestandardowego. Projekt zostanie wówczas utracony. Czy na pewno chcesz kontynuować?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Wyślij swój token wsparcia wersji Enterprise
       book_now: Zarezerwuj teraz
@@ -2240,6 +2266,11 @@ pl:
         ignore: Zignoruj zmiany
         save: Zapisz zmiany i kontynuuj
         title: Zapisać zmiany przed kontynuowaniem?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Rola: %{role}'
         no_role: Wybierz rolę
@@ -2273,6 +2304,11 @@ pl:
           assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
           author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
         menu_label: Pokazane przejścia
+      workflow_button: Workflow
+      workflow_selector:
+        prefix: Workflow
+        same_as_type: "(same as type)"
+        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -3819,8 +3855,6 @@ pl:
   label_custom_field_default_type: Typ pusty
   label_custom_field_new: Nowe pole niestandardowe
   label_custom_field_plural: Pola niestandardowe
-  label_custom_logo: Komputer z logotypem niestandardowym
-  label_custom_logo_mobile: Telefon komórkowy z logotypem niestandardowym
   label_custom_pdf_export_settings: Niestandardowe ustawienia eksportu w formacie PDF
   label_custom_style: Kompozycja
   label_custom_style_description: Skonfiguruj wygląd OpenProject za pomocą motywów, wybierz domyślne kolory do wykorzystania w aplikacji i zaprojektuj wygląd eksportu produktów.
@@ -6608,12 +6642,6 @@ pl:
 
     '
   text_custom_field_possible_values_info: Jeden wiersz dla każdej wartości
-  text_custom_logo_instructions: 'Logotyp jest automatycznie skalowany, aby pasował do nagłówka. Aby uzyskać najlepsze wyniki, prześlij biały logotyp na przezroczystym obrazie o rozmiarze 130 × 47 pikseli. Możesz dodać dowolne odstępy wewnątrz tego obrazu.
-
-    '
-  text_custom_logo_mobile_instructions: 'Logotyp jest automatycznie skalowany, aby pasował do nagłówka. Aby uzyskać najlepsze wyniki, prześlij biały logotyp na przezroczystym obrazie o rozmiarze 130 × 35 pikseli. Możesz dodać dowolne odstępy wewnątrz tego obrazu.
-
-    '
   text_custom_touch_icon_instructions: 'Jest to ikona, która pojawia się na telefonie komórkowym lub tablecie po umieszczeniu zakładki na ekranie głównym. Musi to być plik kwadratowego obrazu PNG o rozmiarze 180 na 180 pikseli. Upewnij się, że tło obrazu nie jest przezroczyste, w przeciwnym razie będzie źle wyglądać w systemie iOS.
 
     '
@@ -6815,11 +6843,37 @@ pl:
       add_variant: Dodaj wariant do %{name}
       create_type: Utwórz typ
       create_variant: Utwórz wariant
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Nazywa tę konfigurację %{type}. Pakiety robocze nadal używają samego %{type}.
       finish: Zakończ
       placeholder_description: Ten krok będzie wkrótce dostępny.
       progress_label: Krok %{number} z %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: Domyślne
         details: Szczegóły
@@ -6827,6 +6881,7 @@ pl:
         pdf: Generowanie pliku PDF
         project_attributes: Atrybuty projektu
         projects: Projekty
+        start: Start
         workflows: Przepływy pracy
       success: Utworzono.
     edit:
@@ -6937,7 +6992,6 @@ pl:
         untitled_group: Grupa bez nazwy
       overview:
         configuration_mode: Tryb konfiguracji
-        dependents: Zależne typy i warianty
         mode:
           always_manual: Zawsze ręczny
           inheriting_from_html: Dziedziczenie z %{source_name}
@@ -6991,25 +7045,6 @@ pl:
             title: Skopiuj konfigurację
           invalid_source: Nie można skopiować konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
           success: Konfiguracja została skopiowana.
-        dependents:
-          blank:
-            description: Żaden inny typ ani wariant nie dziedziczy z tej konfiguracji
-            title: Brak typów zależnych
-          description:
-            one: Poniższa konfiguracja jest dziedziczona przez 1 inny typ lub wariant. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na element zależny.
-            few: Poniższa konfiguracja jest dziedziczona przez %{count} inne typy lub warianty. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na elementy zależne.
-            many: Poniższa konfiguracja jest dziedziczona przez %{count} innych typów lub wariantów. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na elementy zależne.
-            other: Poniższa konfiguracja jest dziedziczona przez %{count} innego typu lub wariantu. Wszelkie zmiany wprowadzone w tym miejscu będą miały również wpływ na elementy zależne.
-          dialog:
-            description: Te typy i warianty dziedziczą konfigurację z tej sekcji. Wszelkie zmiany wprowadzone w tym miejscu mają zastosowanie do nich wszystkich.
-            title: Typy zależne
-            variant_of_html: Wariant %{type_name}
-          title:
-            one: 1 typ zależny
-            few: "%{count} typy zależne"
-            many: "%{count} typów zależnych"
-            other: "%{count} typu zależnego"
-          view: Wyświetl typy zależne
         exclusions:
           not_inherited: Ta konfiguracja nie jest dziedziczona, więc nie ma czego wykluczać. Zamiast tego edytuj konfigurację bezpośrednio.
           unknown_aspect: Nieznana sekcja konfiguracji „%{aspect}”.
@@ -7021,8 +7056,16 @@ pl:
               description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
               heading: Przełączyć tryb konfiguracji?
               title: Przełącz tryb konfiguracji
-          from_parent: This configuration is inherited from the parent type [%{source_name}](source_url).
-          from_parent_unlinked: This configuration is inherited from the parent type %{source_name}.
+          dialog:
+            description: Dziedzicz tę konfigurację z typu źródłowego. Każda nowa konfiguracja dodana do źródła ma również zastosowanie tutaj.
+            source_label: Typ źródłowy
+            source_placeholder: Wybierz typ lub wariant
+            submit: Przełącz
+            title: Dziedzicz z innego typu
+          invalid_source: Nie można dziedziczyć konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: Tryb konfiguracji został przełączony.
           title: Dziedziczona konfiguracja
         manual:
@@ -7031,13 +7074,14 @@ pl:
             description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
             heading: Przełączyć tryb konfiguracji?
             title: Przełącz tryb konfiguracji
-          copy_from_type: Kopiuj z innego typu
           description: Żadne ustawienia nie są dziedziczone. Nadal można jednak jednorazowo skopiować ustawienia z innego typu.
           dialog:
             submit: Przełącz
             title: Skonfiguruj ręcznie
           inherit_from_type: Inherit from parent
           invalid_mode: Wybrany tryb nie jest dostępny dla tej konfiguracji. Wybierz inny tryb.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Zacznij od jednorazowego skopiowania ustawień, które ta konfiguracja dziedziczy teraz.
@@ -7118,6 +7162,13 @@ pl:
       type_label: Typ
       variant_label: Wariant
     milestone_indicator: Kamień milowy
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.
@@ -7663,7 +7714,7 @@ pl:
             many: Przepływ pracy został skopiowany do %{count} ról.
             other: Przepływ pracy został skopiowany do %{count} roli.
       new:
-        title: Kopiuj przepływ pracy z „%{source_type}”
+        dialog_title: Copy workflow of "%{source}"
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
@@ -7731,29 +7782,28 @@ pl:
         other: "%{count} variants"
     name:
       fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Skonfiguruj przejścia statusów dla każdego typu pakietu roboczego.
-    reuse_mode:
-      change_workflow: Change workflow
-      create_workflow: Create new workflow
-      independent:
-        description: Only this type or variant uses [%{name}](workflow_url).
-        title: Independent configuration
-      shared:
-        description: Other types and variants use this workflow as well.
-        title: Reuses workflow [%{name}](workflow_url)
-      usage:
-        blank:
-          description: A change to these transitions applies to this type or variant only.
-          title: Not used anywhere else
-        description: 'A change to these transitions also applies to:'
-        title:
-          one: Used in 1 other place
-          few: Used in %{count} other places
-          many: Used in %{count} other places
-          other: Used in %{count} other places
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
     usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.
@@ -7765,6 +7815,14 @@ pl:
         few: This workflow is used by %{count} types and variants.
         many: This workflow is used by %{count} types and variants.
         other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Zmień dni robocze
     dialog:

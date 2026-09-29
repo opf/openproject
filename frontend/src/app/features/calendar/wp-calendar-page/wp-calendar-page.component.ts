@@ -139,11 +139,9 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
   /**
    * We need to set the current partition to the grid to ensure
    * either side gets expanded to full width if we're not in '-split' mode.
-   *
-   * @param state The current or entering state
    */
-  setPartition(state:{ data:{ partition?:ViewPartitionState } }):void {
-    this.currentPartition = state.data?.partition || '-split';
+  setPartition():void {
+    this.currentPartition = '-split';
   }
 
   protected staticQueryName(_query:QueryResource):string {

@@ -46,8 +46,7 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
   @ViewChild('activitiesTabContent', { static: true }) public activitiesTabContentElement!:ElementRef<HTMLElement>;
 
   ngOnInit() {
-    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
-    this.workPackageId = (this.workPackage.id!) || workPackageId;
+    this.workPackageId = this.workPackage.id!;
 
     super.ngOnInit();
     if (window.location.hash) {

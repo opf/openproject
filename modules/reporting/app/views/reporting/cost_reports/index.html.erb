@@ -37,6 +37,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%# Applying a filter navigates this frame, so the filter form keeps its state. %>
 <%= turbo_frame_tag "result-table" do %>
+  <%# The header sits outside the frame, but its export links carry the applied filters. %>
+  <% if turbo_frame_request? %>
+    <%= CostReports::IndexPageHeaderComponent
+          .new(query: @report, project: @project)
+          .render_as_turbo_stream(view_context: self, action: :update) %>
+  <% end %>
   <%= render_widget Widget::Table, @report %>
 <% end %>
 <p class="footnote">

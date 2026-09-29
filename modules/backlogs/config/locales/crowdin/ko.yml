@@ -26,6 +26,7 @@ ko:
       project:
         allow_multiple_active_sprints: 여러 활성 스프린트 허용
         backlog_excluded_types: 제외된 작업 패키지 유형
+        estimation_unit: Unit
         sprint_sharing: 스프린트 공유
         statuses_considered_closed: 마감됨으로 간주되는 상태
       sprint:
@@ -133,6 +134,7 @@ ko:
       show:
         blankslate_description: 스프린트의 시작 날짜와 종료 날짜를 설정하여 번다운 차트를 생성합니다.
         blankslate_title: 사용 가능한 번다운 데이터 없음
+    estimation_unit: Units
     excluded_work_package_types_caption: '백로그에서 숨길 작업 패키지 유형을 선택합니다. 선택한 유형의 항목은 백로그에 자동으로 표시되지 않으므로 팀에 중요한 작업에 집중할 수 있습니다. 예를 들어, 상위 수준에서 관리되는 에픽이나 마일스톤과 같은 유형은 백로그를 실행 가능한 항목에 집중할 수 있도록 숨길 수 있습니다.
 
       '
@@ -335,6 +337,18 @@ ko:
       backlog_buckets: 백로그 버킷
       sprints: 스프린트
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -355,6 +369,9 @@ ko:
             label: 하위 프로젝트
         sprint_sharing: 스프린트 공유
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: 기본적으로 프로젝트당 한 번에 하나의 스프린트만 활성 상태일 수 있습니다. 해당 프로젝트에서 병렬로 여러 스프린트를 활성 상태로 유지할 수 있도록 이 설정을 변경할 수 있습니다.
           heading: 활성 스프린트 수

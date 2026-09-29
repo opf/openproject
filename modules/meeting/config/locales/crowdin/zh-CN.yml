@@ -432,15 +432,15 @@ zh-CN:
     notifications:
       dialog:
         confirm_label:
-          disable: 禁用电子邮件更新
-          enable: 启用电子邮件更新
+          disable: 禁用电子邮件动态
+          enable: 启用电子邮件动态
         message:
           disable: 如果他们已经收到这次会议的邀请，该邀请的信息可能不再准确。
           enable: 启用后，将立即向所有参与者发送电子邮件。
         title:
           disable: 禁用电子邮件日历更新？
           enable: 启用电子邮件日历更新？
-      disabled: 参与者不会收到向其通知日期、时间或参与者名单更改的电子邮件更新。
+      disabled: 参与者不会收到向其通知日期、时间或参与者名单更改的电子邮件动态。
       enabled: 所有参与者都将收到通知其日期、时间或参与者名单更改的更新日历邀请。
       sidepanel:
         description:

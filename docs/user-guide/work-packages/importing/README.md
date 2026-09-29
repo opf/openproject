@@ -28,7 +28,7 @@ You can create many work packages at once by uploading a CSV file. Existing work
 > [!NOTE]
 > You need the **Import work packages** permission in order to import work packages into a project. It can be assigned to a role in the [roles and permissions](../../../system-admin-guide/users-permissions/roles-permissions/) administration, together with the **Add work packages** permission it requires.
 
-To open the import page, go to the **Work packages** module in your project, click the green **+ Create** button above the work packages table and select **Import from CSV**.
+To open the import page, go to **Project settings** in your project and select **Work packages importer** in the sidebar.
 
 Start from the template. The **Download the template** link on the import page gives you a CSV file with the exact column headers this project accepts and two example lines. Replace the examples with your own, keep the header line, and save the file as **CSV UTF-8**.
 

@@ -52,6 +52,8 @@ class ResourceAllocation < ApplicationRecord
   # request stays readable.
   belongs_to :placeholder_user, optional: true, inverse_of: :resource_allocations, autosave: true
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
+  belongs_to :visible_principal, -> { visible }, class_name: "User", foreign_key: :principal_id, optional: true,
+                                                 inverse_of: false
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
   belongs_to :principal_assigned_by, class_name: "User", optional: true

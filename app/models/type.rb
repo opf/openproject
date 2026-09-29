@@ -93,7 +93,7 @@ class Type < ApplicationRecord
 
     variants.build(is_default_variant: true,
                    variant_name: nil,
-                   workflow: Workflow.build_with_available_name(name))
+                   workflow: Workflow.new(name: Workflow.implicit_name(name)))
   end
 
   def check_integrity # rubocop:disable Naming/PredicateMethod

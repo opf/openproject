@@ -26,6 +26,7 @@ cs:
       project:
         allow_multiple_active_sprints: Povolit více aktivních sprintů
         backlog_excluded_types: Vyloučené typy pracovních balíčků
+        estimation_unit: Unit
         sprint_sharing: Sdílení sprintu
         statuses_considered_closed: Stavy považované za uzavřené
       sprint:
@@ -145,6 +146,7 @@ cs:
       show:
         blankslate_description: Nastavte datum začátku a konce sprintu pro vygenerování Burndown grafu.
         blankslate_title: Nedostupná data pro Burndown
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Zvolte, které typy pracovních balíčků se mají skrýt z backlogu. Položky vybraných typů se v backlogu automaticky nezobrazí, takže zůstane soustředěn na práci, která je pro váš tým důležitá. Například typy jako Epicy nebo Milníky, které jsou řízeny na vyšší úrovni, lze skrýt, aby se backlog soustředil na položky, které lze realizovat.
 
       '
@@ -364,6 +366,18 @@ cs:
       backlog_buckets: Backlog buckets
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -384,6 +398,9 @@ cs:
             label: Podprojekty
         sprint_sharing: Sdílet sprinty
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
           heading: Počet aktivních sprintů

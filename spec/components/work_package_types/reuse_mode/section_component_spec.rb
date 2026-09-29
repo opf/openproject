@@ -31,23 +31,30 @@ require "rails_helper"
 
 RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component do
   shared_let(:type) { create(:type, name: "Task") }
-  shared_let(:variant) { type.default_variant }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
   subject(:component) { described_class.new(variant:, aspect:) }
 
-  context "with a manually configured aspect" do
+  context "for a named variant" do
+    let(:variant) { create(:type_variant, type:) }
+
     before { render_inline(component) }
 
-    it "shows the reuse mode and the dependents side by side" do
-      expect(page).to have_text("Manual configuration")
-      expect(page).to have_text("No dependent types")
+    it "renders the mode selector" do
+      expect(page).to have_text("Use the same settings as the type")
+      expect(page).to have_text("Configure this page manually")
     end
+  end
 
-    it "gives both boxes half of the row" do
-      expect(page).to have_css(".d-flex.flex-column.flex-md-row.gap-3")
-      expect(page).to have_css(".flex-1", count: 2)
+  context "for the base variant" do
+    let(:variant) { type.default_variant }
+
+    it "renders nothing, since a base variant has no mode to choose" do
+      render_inline(component)
+
+      expect(page).to have_no_text("Use the same settings as the type")
+      expect(page).to have_no_text("Configure this page manually")
     end
   end
 end

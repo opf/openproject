@@ -42,7 +42,7 @@ module API::V3::StorageFiles
 
         case body.transform_keys(&:to_sym)
         in { projectId: project_id, fileName: file_name, parent: parent }
-          authorize_in_project(:manage_file_links, project: Project.find(project_id))
+          authorize_in_project(:manage_file_links, project: @storage.projects.find(project_id))
           ServiceResult.success(result: { folder_id: parent, file_name: })
         else
           raise API::Errors::BadRequest.new("Request body malformed!")

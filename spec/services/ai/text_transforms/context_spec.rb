@@ -82,6 +82,14 @@ RSpec.describe AI::TextTransforms::Context do
 
       expect(context.template).to eq("## Steps")
     end
+
+    it "resolves the variant once" do
+      allow(project).to receive(:type_variant).and_call_original
+
+      3.times { context.template }
+
+      expect(project).to have_received(:type_variant).once
+    end
   end
 
   describe ".none" do

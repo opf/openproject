@@ -19,7 +19,7 @@ Starting with OpenProject 12.5.6 we publish our containers for two architectures
 1. AMD64 (x86)
 2. ARM64
 
-The OpenProject **BIM Edition** is only supported on AMD64, however.
+The OpenProject **BIM edition** is only supported on AMD64, however.
 
 ***
 

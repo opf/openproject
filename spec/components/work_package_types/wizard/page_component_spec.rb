@@ -60,16 +60,24 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   end
 
   describe "sidebar step markers" do
-    it "marks the current and pending steps, and completed steps by reuse mode" do
+    it "marks completed steps with a check, the current step as a draft, and pending steps as a circle" do
       variant = create(:type_variant, type:)
-      link_configuration(variant, aspect: TypeVariant::DEFAULTS)
 
       render_inline(described_class.new(type:, current_step: :workflows, variant:))
 
-      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-pencil")
-      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-link")
-      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-dot-fill")
+      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-check-circle-fill")
+      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-check-circle-fill")
+      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-issue-draft")
       expect(find_test_selector("wizard-step-pdf")).to have_css(".octicon-circle")
+    end
+
+    it "gives the intro Start step no status marker" do
+      variant = create(:type_variant, type:)
+
+      render_inline(described_class.new(type:, current_step: :workflows, variant:))
+
+      expect(find_test_selector("wizard-step-start"))
+        .to have_no_css(".octicon-check-circle-fill, .octicon-issue-draft, .octicon-circle")
     end
   end
 

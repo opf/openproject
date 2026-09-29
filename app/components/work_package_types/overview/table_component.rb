@@ -31,11 +31,10 @@
 module WorkPackageTypes
   module Overview
     class TableComponent < OpPrimer::BorderBoxTableComponent
-      columns :setting, :configuration_mode, :dependents
-      # No cell may truncate: a source variant's composite name and the dependents count both
-      # have to stay readable.
-      main_column :setting, :configuration_mode, :dependents
-      mobile_labels :configuration_mode, :dependents
+      columns :setting, :configuration_mode
+      # No cell may truncate: a source variant's composite name has to stay readable.
+      main_column :setting, :configuration_mode
+      mobile_labels :configuration_mode
 
       def initialize(variant:, tabs:)
         super(rows: tabs.reject { |tab| tab[:name] == ::TypesHelper::SETTINGS_TAB })
@@ -47,8 +46,7 @@ module WorkPackageTypes
       def headers
         [
           [:setting, { caption: t("types.edit.overview.settings") }],
-          [:configuration_mode, { caption: t("types.edit.overview.configuration_mode") }],
-          [:dependents, { caption: t("types.edit.overview.dependents") }]
+          [:configuration_mode, { caption: t("types.edit.overview.configuration_mode") }]
         ]
       end
 

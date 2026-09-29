@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Ng2StateDeclaration } from '@uirouter/angular';
 import { take } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -43,7 +42,6 @@ import { WorkPackageDetailsViewButtonComponent } from 'core-app/features/work-pa
 import { WorkPackageTimelineButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
-import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
@@ -68,10 +66,6 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
-      inputs: {
-        stateName$: of(this.stateName),
-        routedFromAngular: false,
-      },
     },
     {
       component: OpProjectIncludeComponent,
@@ -156,17 +150,9 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
    * anymore (the split view/create form render via a Rails Turbo frame instead), so
    * the partition is derived from the URL rather than from state data.
    */
-  protected override setPartition(_state:Ng2StateDeclaration):void {
+  protected override setPartition():void {
     const partition:ViewPartitionState = window.location.pathname.includes('/details/') ? '-split' : '-left-only';
     this.currentPartition = partition;
-  }
-
-  private get stateName() {
-    if (this.isGantt) {
-      return 'gantt.partitioned.list.new';
-    }
-
-    return 'work-packages.partitioned.list.new';
   }
 
   private get isGantt() {

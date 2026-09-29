@@ -1,0 +1,66 @@
+# /api/v3/work_packages/{id}/ai_text_transform_actions
+---
+get:
+  summary: List AI text transform actions for a work package
+  operationId: list_ai_text_transform_actions_by_work_package
+  tags:
+    - AI
+    - Work Packages
+  description: |-
+    Lists the active AI text transform actions that can be run on the description of the given
+    work package: actions usable everywhere, actions scoped to all work package types and actions
+    scoped to the work package's type. Actions that inject the type template are listed only when
+    the work package's type, as configured in its project, has a default description.
+
+    The collection is empty when the feature flag `ai_text_transform_actions` is off, when the
+    administrative setting is off or when no LLM connection is ready. An empty collection means
+    "assistant not available".
+
+    **Required permission:** edit work packages
+  parameters:
+    - description: Work package id
+      example: 42
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/ai_text_transform_action_collection_model.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work packages
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work packages

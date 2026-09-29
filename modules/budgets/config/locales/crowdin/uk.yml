@@ -68,7 +68,7 @@ uk:
     budget: Бюджет
   budgets:
     labor_budget_items:
-      no_rate_at_fixed_date: No hourly rate on %{date}
+      no_rate_at_fixed_date: 'Не вказано погодинну ставку для цієї дати: %{date}'
     widgets:
       budget_by_cost_type:
         blankslate:

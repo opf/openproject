@@ -29,15 +29,11 @@
 import { Injectable, Injector, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { StateService } from '@uirouter/core';
 import { CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 
 @Injectable()
 export abstract class ViewerBridgeService {
   readonly injector = inject(Injector);
-
-  @LazyInject() state:StateService;
 
   /**
    * Determine whether a viewer should be shown

@@ -55,6 +55,9 @@ export class WorkPackageAuthorization {
       case 'copy_to_other_project':
         link = this.bulkCopyLink();
         break;
+      case 'log_time':
+        link = this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!);
+        break;
       default:
         link = (this.workPackage[action.link!] as HalLink).href!;
     }

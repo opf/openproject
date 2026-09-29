@@ -26,6 +26,7 @@ uk:
       project:
         allow_multiple_active_sprints: Дозволити кілька активних спринтів
         backlog_excluded_types: Виключені типи пакетів робіт
+        estimation_unit: Unit
         sprint_sharing: Спільний доступ до спринту
         statuses_considered_closed: Статуси, що вважаються закритими
       sprint:
@@ -145,6 +146,7 @@ uk:
       show:
         blankslate_description: Визначте дату початку й завершення спринту, щоб згенерувати діаграму згорання завдань.
         blankslate_title: Немає даних про згорання завдань
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Виберіть, які типи пакетів робіт слід приховати в беклогу. Елементи вибраних типів не відображатимуться в беклогу автоматично, що дає змогу зосередитися на завданнях своєї команди. Наприклад, ви можете приховати такі типи, як епіки чи віхи, якими керують на вищому рівні, щоб переглядати лише ті завдання, з якими можна працювати.
 
       '
@@ -364,6 +366,18 @@ uk:
       backlog_buckets: Сегменти беклогу
       sprints: Спринти
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -384,6 +398,9 @@ uk:
             label: Підпроєкти
         sprint_sharing: Надання доступу до спринтів
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: За замовчуванням у кожному проєкті може бути активний лише один спринт. Це можна змінити, щоб у цьому проєкті одночасно могли бути активними кілька спринтів.
           heading: Кількість активних спринтів

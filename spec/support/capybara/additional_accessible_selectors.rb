@@ -44,6 +44,18 @@ CapybaraAccessibleSelectors.add_role_selector(:list_item, role: :listitem, withi
   filter_set(:capybara_accessible_selectors, %i[aria described_by])
 end
 
+# Border Box Tables render `role="row"` inside a `div` rowgroup with no
+# `aria-rowindex`, which the gem's `rowindex:` filter cannot resolve.
+Capybara.modify_selector(:row) do
+  expression_filter(:position, skip_if: nil) do |xpath, position|
+    xpath[position]
+  end
+
+  describe_expression_filters do |position: nil, **|
+    position ? " at position #{position}" : ""
+  end
+end
+
 module Capybara
   module RSpecMatchers
     # Following finder methods are defined:

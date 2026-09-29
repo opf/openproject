@@ -29,7 +29,6 @@
 import { skip } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import type { ApplicationRef } from '@angular/core';
-import { runBootstrap } from 'core-app/app.module';
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 
 export interface AngularTurboBridgeOptions {
@@ -47,8 +46,10 @@ export interface AngularTurboBridgeOptions {
   // Resolves the Angular plugin context carrying the `appRef`. Defaults to the
   // real `window.OpenProject` lookup; injected so specs need no global.
   getPluginContext?:() => Promise<OpenProjectPluginContext>;
-  // Re-bootstraps the root application onto a fresh `appBaseSelector`. Defaults
-  // to `app.module`'s `runBootstrap`.
+  // Re-bootstraps a dynamic Angular root after teardown, if the new page has one.
+  // No page renders one anymore (every Angular island is its own scoped custom
+  // element with its own connect/disconnect lifecycle), so this defaults to a
+  // no-op; kept as an injection point for a future page that might need one.
   bootstrap?:(appRef:ApplicationRef) => void;
   // Issues a Turbo visit to force a real render. Defaults to the global
   // `Turbo.visit` (provided by `@hotwired/turbo-rails`); injected so specs
@@ -62,7 +63,8 @@ export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
     windowTarget = window,
     signal,
     getPluginContext = () => window.OpenProject.getPluginContext(),
-    bootstrap = runBootstrap,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    bootstrap = () => {},
     visit = (location, visitOptions) => Turbo.visit(location, visitOptions),
   } = options;
 
@@ -86,6 +88,11 @@ export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
 
           // Run bootstrap again to initialize the new application
           bootstrap(appRef);
+
+          // Re-flag every subsequent page too, not just the very first one bootstrapModule()
+          // ran on - spec/support/angular.rb#expect_angular_frontend_initialized polls for this
+          // class on whatever page a test navigates to via Turbo, not just the entry page.
+          document.body.classList.add('__ng2-bootstrap-has-run');
         });
     });
 
