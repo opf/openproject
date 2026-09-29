@@ -217,6 +217,25 @@ RSpec.describe RepositoriesController do
         end
       end
 
+      describe "committer labels" do
+        let(:malicious_committer) { "Example User <user@example.org><script>alert('xss')</script>" }
+
+        it "keeps only the display name" do
+          allow(controller).to receive(:repository_commits_by_author)
+                                 .with(repository)
+                                 .and_return([[malicious_committer, 2]])
+          allow(controller).to receive(:repository_changes_by_author)
+                                 .with(repository)
+                                 .and_return({ malicious_committer => 3 })
+
+          fields, commits, changes = controller.send(:commits_per_author_data, repository)
+
+          expect(fields).to eq(["Example User"])
+          expect(commits).to eq([2])
+          expect(changes).to eq([3])
+        end
+      end
+
       describe "committers" do
         let(:permissions) { [:manage_repository] }
 

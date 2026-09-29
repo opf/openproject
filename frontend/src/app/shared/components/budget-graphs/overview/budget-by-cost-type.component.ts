@@ -79,7 +79,11 @@ export class BudgetByCostTypeComponent {
   readonly currency = input<string>('€');
 
   readonly pieChartData = computed<ChartData<'pie'>>(() => JSON.parse(this.chartData()) as ChartData<'pie'>);
-  readonly hasChartData = computed(() => this.pieChartData().datasets[0].data.length > 0);
+  readonly hasChartData = computed(() => {
+    const { datasets } = this.pieChartData();
+    return datasets.length > 0 && datasets[0].data.length > 0;
+  });
+
   readonly chartDescription = computed(() => {
     const { labels = [], datasets } = this.pieChartData();
     const values = labels.map((label, index) => this.i18n.t(

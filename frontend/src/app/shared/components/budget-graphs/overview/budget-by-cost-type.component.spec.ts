@@ -144,6 +144,12 @@ describe('BudgetByCostTypeComponent', () => {
     expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
   });
 
+  it('renders nothing without datasets', () => {
+    renderWith([]);
+    expect(element.querySelector('canvas')).toBeNull();
+    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+  });
+
   it('drops the tooltip renderer together with its host', () => {
     renderWith([{ data: [10] }]);
     const removeListener = vi.spyOn(document, 'removeEventListener');

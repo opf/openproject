@@ -336,39 +336,61 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_month(repository)
-    @date_to = Date.today
-    @date_from = @date_to << 11
-    @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = Changeset.where(
-      ["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]
-    ).group(:commit_date).size
-    commits_by_month = [0] * 12
-    commits_by_day.each do |c|
-      commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last
-    end
-
-    changes_by_day = Change.includes(:changeset)
-                     .where(["#{Changeset.table_name}.repository_id = ? " \
-                             "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
-                             repository.id, @date_from, @date_to])
-                     .references(:changesets)
-                     .group(:commit_date)
-                     .size
-    changes_by_month = [0] * 12
-    changes_by_day.each do |c|
-      changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last
-    end
-
-    fields = []
-    12.times do |m|
-      fields << month_name(((Date.today.month - 1 - m) % 12) + 1)
-    end
-
+    fields, commits_by_month, changes_by_month = commits_per_month_data(repository)
     title = I18n.t(:label_commits_per_month)
-    fields.reverse!
-    commits_by_month = commits_by_month[0..11].reverse
-    changes_by_month = changes_by_month[0..11].reverse
+    graph = commits_per_month_graph(fields, commits_by_month, changes_by_month, title)
 
+    accessible_graph(
+      graph,
+      title:,
+      description: graph_description(title, fields, commits_by_month, changes_by_month)
+    )
+  end
+
+  def graph_commits_per_author(repository)
+    fields, commits_data, changes_data = commits_per_author_data(repository)
+    title = I18n.t(:label_commits_per_author)
+    description = graph_description(title, fields, commits_data, changes_data)
+    graph = commits_per_author_graph(fields, commits_data, changes_data, title)
+
+    accessible_graph(graph, title:, description:)
+  end
+
+  def commits_per_month_data(repository)
+    date_to = Date.current
+    date_from = (date_to << 11).beginning_of_month
+    fields = Array.new(12) { |offset| month_name(((date_to.month - 1 - offset) % 12) + 1) }.reverse
+    commits = monthly_counts(repository_commits_by_day(repository, date_from, date_to), date_to)
+    changes = monthly_counts(repository_changes_by_day(repository, date_from, date_to), date_to)
+
+    [fields, commits, changes]
+  end
+
+  def repository_commits_by_day(repository, date_from, date_to)
+    Changeset.where(
+      ["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, date_from, date_to]
+    ).group(:commit_date).size
+  end
+
+  def repository_changes_by_day(repository, date_from, date_to)
+    Change.includes(:changeset)
+          .where(["#{Changeset.table_name}.repository_id = ? " \
+                  "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
+                  repository.id, date_from, date_to])
+          .references(:changesets)
+          .group(:commit_date)
+          .size
+  end
+
+  def monthly_counts(counts_by_day, date_to)
+    counts = Array.new(12, 0)
+    counts_by_day.each do |date, count|
+      counts[(date_to.month - date.to_date.month) % 12] += count
+    end
+    counts.reverse
+  end
+
+  def commits_per_month_graph(fields, commits, changes, title)
     graph = SVG::Graph::Bar.new(
       height: 300,
       width: 800,
@@ -380,49 +402,33 @@ class RepositoriesController < ApplicationController
       graph_title: title,
       show_graph_title: true
     )
-
-    graph.add_data(
-      data: commits_by_month,
-      title: I18n.t(:label_revision_plural)
-    )
-
-    graph.add_data(
-      data: changes_by_month,
-      title: I18n.t(:label_change_plural)
-    )
-
-    accessible_graph(
-      graph,
-      title:,
-      description: graph_description(title, fields, commits_by_month, changes_by_month)
-    )
+    add_repository_graph_data(graph, commits, changes)
   end
 
-  def graph_commits_per_author(repository)
-    commits_by_author = Changeset.where(["repository_id = ?", repository.id]).group(:committer).size
-    commits_by_author.to_a.sort_by!(&:last)
+  def commits_per_author_data(repository)
+    commits = repository_commits_by_author(repository)
+    changes = repository_changes_by_author(repository)
+    fields = commits.map { |committer, _count| committer.split("<").first.strip }
+    commits_data = commits.map(&:last)
+    changes_data = commits.map { |committer, _count| changes.fetch(committer, 0) }
 
-    changes_by_author = Change.includes(:changeset)
-                        .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
-                        .references(:changesets)
-                        .group(:committer)
-                        .size
-    h = changes_by_author.inject({}) do |o, i|
-      o[i.first] = i.last
-      o
-    end
+    [fields, commits_data, changes_data]
+  end
 
-    fields = commits_by_author.map(&:first)
-    commits_data = commits_by_author.map(&:last)
-    changes_data = commits_by_author.map { |r| h[r.first] || 0 }
+  def repository_commits_by_author(repository)
+    Changeset.where(repository_id: repository.id).group(:committer).size.sort_by(&:last)
+  end
 
-    fields = fields.map { |committer| committer.gsub(%r{<.+@.+>}, "") }
-    title = I18n.t(:label_commits_per_author)
-    description = graph_description(title, fields, commits_data, changes_data)
+  def repository_changes_by_author(repository)
+    Change.includes(:changeset)
+          .where(changesets: { repository_id: repository.id })
+          .references(:changesets)
+          .group(:committer)
+          .size
+  end
 
-    fields = fields + ([""] * (10 - fields.length)) if fields.length < 10
-    commits_data = commits_data + ([0] * (10 - commits_data.length)) if commits_data.length < 10
-    changes_data = changes_data + ([0] * (10 - changes_data.length)) if changes_data.length < 10
+  def commits_per_author_graph(fields, commits, changes, title)
+    fields, commits, changes = pad_author_graph_data(fields, commits, changes)
 
     graph = SVG::Graph::BarHorizontal.new(
       height: 400,
@@ -435,15 +441,18 @@ class RepositoriesController < ApplicationController
       graph_title: title,
       show_graph_title: true
     )
-    graph.add_data(
-      data: commits_data,
-      title: I18n.t(:label_revision_plural)
-    )
-    graph.add_data(
-      data: changes_data,
-      title: I18n.t(:label_change_plural)
-    )
-    accessible_graph(graph, title:, description:)
+    add_repository_graph_data(graph, commits, changes)
+  end
+
+  def pad_author_graph_data(fields, commits, changes)
+    padding = [10 - fields.length, 0].max
+    [fields + Array.new(padding, ""), commits + Array.new(padding, 0), changes + Array.new(padding, 0)]
+  end
+
+  def add_repository_graph_data(graph, commits, changes)
+    graph.add_data(data: commits, title: I18n.t(:label_revision_plural))
+    graph.add_data(data: changes, title: I18n.t(:label_change_plural))
+    graph
   end
 
   def graph_description(title, labels, revisions, changes)
