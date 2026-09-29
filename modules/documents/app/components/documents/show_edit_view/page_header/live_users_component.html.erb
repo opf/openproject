@@ -61,11 +61,22 @@
         render Primer::Beta::Popover.new(
           position: :absolute,
           display: :none, # hidden by default
+          classes: "op-live-users--popover",
           data: { "documents--live-events-target": "popover" }
         ) do |component|
           component.with_body(caret: :top_left) do
             concat(
-              flex_layout(justify_content: :space_between, align_items: :center, mb: 2) do |header|
+              flex_layout(
+                justify_content: :space_between,
+                align_items: :center,
+                border: :bottom,
+                mt: -3,
+                ml: -4,
+                mr: -4,
+                mb: 3,
+                pb: 2,
+                px: 4
+              ) do |header|
                 header.with_column do
                   render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t("documents.active_editors") }
                 end
@@ -76,8 +87,6 @@
                       icon: :x,
                       scheme: :invisible,
                       size: :small,
-                      mt: -1,
-                      mb: -1,
                       mr: -2,
                       aria: { label: I18n.t(:button_close) },
                       data: { action: "documents--live-events#closePopover" }
