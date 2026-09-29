@@ -40,7 +40,8 @@ class WorkPackages::Import::CSV::Upload < Export
                      allow_uncontainered: false
 
   def self.file_of(user, attachment_id)
-    Attachment.where(author: user, container: all).find_by(id: attachment_id)
+    Attachment.where(author: user, container_type: base_class.name, container_id: select(:id))
+              .find_by(id: attachment_id)
   end
 
   def ready?
