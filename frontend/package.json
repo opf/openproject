@@ -67,7 +67,7 @@
     "@angular/forms": "^22.1.8",
     "@angular/platform-browser": "^22.1.8",
     "@angular/platform-browser-dynamic": "^22.0.7",
-    "@angular/router": "^22.1.8",
+    "@angular/router": "^22.2.0",
     "@appsignal/javascript": "^1.6.1",
     "@appsignal/plugin-breadcrumbs-console": "^1.1.37",
     "@appsignal/plugin-breadcrumbs-network": "^1.1.24",
