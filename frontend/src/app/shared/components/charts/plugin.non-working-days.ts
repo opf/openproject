@@ -34,13 +34,13 @@
 // is also passed in and then used to determine the start and end of the day according to that time zone. Most of the
 // time, this will be the local time zone of the user.
 //
-// The non-working days can have a legend. Its colour and its visibility are the plugin's own, so it
-// offers the entry rather than leaving a caller to restate them; how the entry is shaped and where it
-// sits among the others is left to whoever builds the legend. Same as for other datasets, the user
-// can be toggle the dataset at which point it fades in and out just like the other datasets. But this needs
-// to be hand rolled because chart.js would only allow this for datasets.
+// The non-working days can have a legend and be toggled like any other series. Rather than hand
+// rolling that, a caller stands them in with a dataset carrying no points: chart.js draws nothing
+// for it, but it earns a legend entry and a visibility that the default legend toggles, and this
+// plugin follows it through +datasetIndex+. The painting and its fade still have to be hand rolled,
+// because there is no data for chart.js to animate.
 
-import { Chart, ChartType, LegendItem, Plugin, Scale } from 'chart.js';
+import { Chart, ChartType, Plugin, Scale } from 'chart.js';
 import moment from 'moment-timezone';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
@@ -51,8 +51,10 @@ export interface NonWorkingInterval {
 
 export interface NonWorkingDaysPluginOptions {
   intervals?:NonWorkingInterval[];
-  hidden?:boolean;
   zone?:string;
+  // The pointless dataset standing in for the bands, whose visibility they follow. Without one
+  // they are always shown, there being nothing to toggle them.
+  datasetIndex?:number;
 }
 
 declare module 'chart.js' {
@@ -115,35 +117,13 @@ export function bandFor(interval:NonWorkingInterval, scale:Scale, zone:string):B
   return { left, width: right - left };
 }
 
-function bandColor():string {
+// Exported so that the dataset standing in for the bands can wear their colour in the legend.
+export function nonWorkingDaysColor():string {
   return getCSSVariable('--bgColor-neutral-muted', '#818b981f');
 }
 
-function pluginOptions(chart:Chart):NonWorkingDaysPluginOptions {
-  return (chart.options.plugins?.['non-working-days'] ?? {}) as NonWorkingDaysPluginOptions;
-}
-
-// The colour the bands are painted in and whether they are currently shown, which a caller would
-// otherwise have to know about the plugin to state. It carries no shape, so the legend it joins
-// decides how the swatch looks and where the entry sits.
-export function nonWorkingDaysLegendItem(chart:Chart, text:string):LegendItem {
-  const color = bandColor();
-
-  return {
-    text,
-    fillStyle: color,
-    strokeStyle: color,
-    hidden: pluginOptions(chart).hidden ?? false,
-  };
-}
-
-// The bands are drawn by this plugin rather than by a dataset, so chart.js has nothing to hide or
-// show and their visibility is toggled here instead.
-export function toggleNonWorkingDays(chart:Chart):void {
-  const options = pluginOptions(chart);
-
-  options.hidden = !options.hidden;
-  chart.update();
+function bandsShown(chart:Chart, options:NonWorkingDaysPluginOptions):boolean {
+  return options.datasetIndex === undefined || chart.isDatasetVisible(options.datasetIndex);
 }
 
 // A chart with the animation turned off gets none here either. A scriptable duration is not
@@ -197,7 +177,7 @@ export const NonWorkingDaysPlugin:Plugin = {
 
   // Toggling runs through an update, so the fade starts here and the draw only paints it.
   afterUpdate(chart:Chart, _args, options:NonWorkingDaysPluginOptions) {
-    const to = options?.hidden ? 0 : BAND_OPACITY;
+    const to = bandsShown(chart, options) ? BAND_OPACITY : 0;
     const previous = fades.get(chart);
 
     if (!previous) {
@@ -222,7 +202,7 @@ export const NonWorkingDaysPlugin:Plugin = {
       return;
     }
 
-    const settled = options?.hidden ? 0 : BAND_OPACITY;
+    const settled = bandsShown(chart, options) ? BAND_OPACITY : 0;
     const opacity = opacityNow(chart, fades.get(chart) ?? { from: settled, to: settled, startedAt: 0 });
 
     if (opacity <= 0) {
@@ -232,7 +212,7 @@ export const NonWorkingDaysPlugin:Plugin = {
     const { ctx, chartArea } = chart;
 
     ctx.save();
-    ctx.fillStyle = bandColor();
+    ctx.fillStyle = nonWorkingDaysColor();
     ctx.globalAlpha = opacity;
 
     const zone = options.zone ?? moment.tz.guess();
