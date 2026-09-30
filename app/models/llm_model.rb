@@ -35,6 +35,9 @@
 # deployment calls the model -- provider-specific and not comparable across
 # vendors, which is why it is never used as a lookup key into a public catalogue.
 class LlmModel < ApplicationRecord
+  # The connection columns that reference a model row, cleared when it goes.
+  CONNECTION_DEFAULTS = %i[default_chat_model_id default_embedding_model_id].freeze
+
   # Bounded because the value is a btree index entry and comes from whatever the
   # remote server chose to call its models.
   MAX_EXTERNAL_ID_LENGTH = 512
@@ -51,7 +54,39 @@ class LlmModel < ApplicationRecord
   scope :manual, -> { where(manual: true) }
   scope :by_identifier, -> { order(:external_id) }
 
-  def name = display_name.presence || external_id
+  # Everything that points at a model does so by its identifier string, so a
+  # rename has to carry them along or it silently orphans them.
+  #
+  # Renaming is a correction of the name, not a change of model, which is why
+  # this writes directly: a locked binding must not refuse to follow the model
+  # it is locked to. The connection defaults reference this row, so they follow
+  # on their own.
+  def cascade_rename!(previous_external_id)
+    return if previous_external_id.blank? || previous_external_id == external_id
+
+    llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
+  end
+
+  # The counterpart of the rename. Verdicts are keyed by the identifier string,
+  # not by foreign key, so leaving them behind would silently apply them to a
+  # future model re-added under the same name, and a connection default naming a
+  # model that no longer exists is one no AI feature could resolve.
+  def cascade_delete!
+    llm_connection.capability_verdicts.where(model_id: external_id).delete_all
+    clear_connection_defaults
+  end
+
+  # display_name is an administrator's; the name the server or the registry
+  # reported is metadata, so a refresh updates one and never the other.
+  def name = display_name.presence || raw_metadata["name"].presence || external_id
+
+  def clear_connection_defaults
+    defaults = CONNECTION_DEFAULTS
+                 .select { |attribute| llm_connection.public_send(attribute) == id }
+                 .index_with(nil)
+
+    llm_connection.update_columns(defaults) if defaults.any?
+  end
 
   # Precedence: what an administrator set, then what the server reported (vLLM
   # and SGLang publish the operator's actual --max-model-len), then what a
@@ -62,6 +97,16 @@ class LlmModel < ApplicationRecord
       raw_metadata["context_window"]
   end
 
+  def admin_context_window = raw_metadata["admin_context_window"]
+
+  # Written into raw_metadata rather than a column, so the validation has to read
+  # back what the setter wrote. Without it "abc" became 0 and "-5" stayed -5,
+  # both present enough for context_window_source to call them an administrator's
+  # and mask the figure the server reported.
+  validates :admin_context_window,
+            numericality: { only_integer: true, greater_than: 0 },
+            allow_nil: true
+
   def context_window_source
     return :admin if raw_metadata["admin_context_window"].present?
     return :server if raw_metadata["max_model_len"].present?
@@ -70,11 +115,53 @@ class LlmModel < ApplicationRecord
     nil
   end
 
+  # Stored as given when it is not a number at all, so the validation has
+  # something to reject rather than silently turning "abc" into 0.
+  def admin_context_window=(value)
+    self.raw_metadata = if value.blank?
+                          raw_metadata.except("admin_context_window")
+                        else
+                          raw_metadata.merge("admin_context_window" => Integer(value, exception: false) || value)
+                        end
+  end
+
+  # Capability assertions are stored as verdicts, not columns. These virtual
+  # attributes let the edit form treat them as ordinary fields, so the whole
+  # screen can be a single Primer form rather than hand-written inputs.
+  Llm::Capabilities::CHAT.each do |capability|
+    define_method(:"capability_#{capability}") do
+      capability_overrides.fetch(capability.to_s) { admin_capability_state(capability) }
+    end
+
+    define_method(:"capability_#{capability}=") do |value|
+      capability_overrides[capability.to_s] = value.presence
+    end
+  end
+
+  def capability_overrides = @capability_overrides ||= {}
+
+  # Only an administrator's own assertion is shown as the field's value. A
+  # verdict from a probe or a registry is displayed alongside instead, so that
+  # saving the form does not silently adopt it as the administrator's.
+  def admin_capability_state(capability)
+    verdict_for(capability)&.then { |verdict| verdict.source_admin? ? verdict.state : nil }
+  end
+
   # A model is an embedding model when its embeddings verdict says so, and a
   # chat model otherwise. There is no third kind, and no model is both.
   def embedding? = verdict_for(:embeddings)&.state == "supported"
 
-  def model_type = embedding? ? :embedding : :chat
+  # A model being added has no type until an administrator picks one, so the
+  # form offers no preselected type to submit as if it had been chosen.
+  def model_type
+    return @model_type if @model_type || new_record?
+
+    embedding? ? :embedding : :chat
+  end
+
+  def model_type=(value)
+    @model_type = value.presence&.to_sym
+  end
 
   def verdict_for(capability)
     llm_connection.capability_verdicts

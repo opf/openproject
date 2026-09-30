@@ -40,6 +40,11 @@ RSpec.describe LlmModel do
       expect(llm_model.model_type).to eq(:chat)
     end
 
+    it "is unset on a model being added until one is chosen" do
+      expect(connection.models.new(external_id: "bge-m3").model_type).to be_nil
+      expect(connection.models.new(external_id: "bge-m3", model_type: "chat").model_type).to eq(:chat)
+    end
+
     it "is embedding once the embeddings verdict says so" do
       connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
                                              state: "supported", source: "admin", checked_at: Time.current)

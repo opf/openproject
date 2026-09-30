@@ -81,6 +81,19 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
       end
 
+      # ".icon:before" carries the padding and colour and "a.icon:hover" removes
+      # the underline, and both select the anchor, so the classes cannot sit on
+      # an inner <i> as op_icon would place them.
+      it "puts the icon classes on the action anchor itself" do
+        create(:llm_connection, :with_models, base_url:)
+        llm_model = LlmModel.find_by(external_id: "qwen3.6-27b")
+
+        get llm_models_path
+
+        expect(page).to have_css("a.icon.icon-edit[href='#{edit_llm_model_path(llm_model)}']", visible: :all)
+        expect(page).to have_css("a.icon.icon-edit .sr-only", text: I18n.t(:button_edit), visible: :all)
+      end
+
       it "warns that the list predates the current settings" do
         connection = create(:llm_connection, :with_models, base_url:)
         connection.update!(connection_fingerprint: connection.settings_fingerprint)
@@ -244,6 +257,519 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       get llm_models_path
 
       expect(rendered_rows(response.body)).to eq(3)
+    end
+  end
+
+  # Manual entry exists for servers that route /v1/chat/completions but expose no
+  # model list -- OpenProject's own hosted gateway does exactly that today.
+  describe "models entered by hand" do
+    let!(:connection) { create(:llm_connection, base_url:) }
+
+    before { login_as admin }
+
+    describe "POST /admin/llm_models" do
+      it "accepts everything the edit screen accepts" do
+        post llm_models_path, params: { llm_model: { external_id: "bge-m3",
+                                                     display_name: "BGE M3",
+                                                     admin_context_window: "8192",
+                                                     model_type: "embedding" } }
+
+        llm_model = connection.models.find_by(external_id: "bge-m3")
+        expect(llm_model.display_name).to eq("BGE M3")
+        expect(llm_model.context_window).to eq(8192)
+
+        verdicts = connection.capability_verdicts.for_model("bge-m3").pluck(:capability, :state, :source)
+        expect(verdicts).to include(["embeddings", "supported", "admin"])
+      end
+
+      it "adds a model an administrator names" do
+        post llm_models_path, params: { llm_model: { external_id: "qwen3.6-35b-a3b" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        llm_model = connection.models.find_by(external_id: "qwen3.6-35b-a3b")
+        expect(llm_model).to be_manual
+        expect(connection.available_model_ids).to include("qwen3.6-35b-a3b")
+      end
+
+      it "pins no type when the form is submitted untouched" do
+        get new_llm_model_path
+        form = response.parsed_body.at_css("[data-test-selector='llm-model--add-form']")
+        fields = form.css("input[name^='llm_model['], select[name^='llm_model[']").to_h do |field|
+          value = field.name == "select" ? (field.at_css("option[selected]") || field.at_css("option"))["value"] : field["value"]
+          [field["name"][/\[(.+)\]/, 1], value.to_s]
+        end
+
+        post llm_models_path, params: { llm_model: fields.merge("external_id" => "text-embedding-3-small") }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(fields).to include("model_type" => "")
+        expect(connection.capability_verdicts.for_model("text-embedding-3-small")).to be_empty
+      end
+
+      it "rejects a duplicate" do
+        create(:llm_model, llm_connection: connection, external_id: "already-there")
+
+        post llm_models_path, params: { llm_model: { external_id: "already-there" } }
+
+        expect(connection.models.where(external_id: "already-there").count).to eq(1)
+      end
+    end
+
+    describe "a refresh that cannot see the manual model" do
+      it "keeps it, and withdraws discovered models instead" do
+        create(:llm_model, llm_connection: connection, external_id: "was-discovered")
+        post llm_models_path, params: { llm_model: { external_id: "hand-typed" } }
+        mock_llm_models_response(base_url)
+
+        post refresh_llm_models_path
+
+        expect(connection.models.find_by(external_id: "hand-typed")).to be_active
+        expect(connection.models.find_by(external_id: "was-discovered")).not_to be_active
+        expect(connection.available_model_ids).to include("hand-typed", "qwen3.6-27b")
+      end
+
+      # The server reports an id and nothing else, so a refresh that adopts the
+      # card verbatim would throw away the name an administrator gave the model.
+      it "keeps an edited display name across a refresh that reports the model" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "qwen3.6-27b")
+        patch llm_model_path(llm_model), params: { llm_model: { display_name: "Our house model" } }
+        mock_llm_models_response(base_url)
+
+        post refresh_llm_models_path
+
+        expect(llm_model.reload.display_name).to eq("Our house model")
+      end
+    end
+
+    describe "PATCH /admin/llm_models/:id" do
+      let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+      it "stores capabilities an administrator asserts" do
+        patch llm_model_path(llm_model),
+              params: { llm_model: { display_name: "Hand typed",
+                                     model_type: "chat",
+                                     capability_vision: "unsupported" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(llm_model.reload.display_name).to eq("Hand typed")
+
+        verdicts = connection.capability_verdicts.for_model("hand-typed").pluck(:capability, :state, :source)
+        expect(verdicts).to include(["vision", "unsupported", "admin"])
+      end
+
+      it "stores a context window an administrator supplies" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "32768" } }
+
+        expect(llm_model.reload.context_window).to eq(32_768)
+        expect(llm_model.context_window_source).to eq(:admin)
+      end
+
+      # The administrator's figure wins over whatever the server or a registry said.
+      it "prefers the administrator's context window over a reported one" do
+        llm_model.update!(raw_metadata: { "max_model_len" => 8192 })
+
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "32768" } }
+
+        expect(llm_model.reload.context_window).to eq(32_768)
+      end
+
+      it "falls back to the reported figure when cleared" do
+        llm_model.update!(raw_metadata: { "max_model_len" => 8192, "admin_context_window" => 32_768 })
+
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "" } }
+
+        expect(llm_model.reload.context_window).to eq(8192)
+        expect(llm_model.context_window_source).to eq(:server)
+      end
+
+      # Clearing an assertion records nothing rather than recording ignorance as
+      # fact, so detection can still fill it in later.
+      it "clears an assertion when set back to unspecified" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "" } }
+
+        expect(connection.capability_verdicts.for_model("hand-typed").for_capability(:vision)).to be_empty
+      end
+
+      # An administrator looked at this deployment; a published registry did not.
+      it "is not overwritten by registry enrichment" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        LlmConnections::EnrichCapabilitiesService.new(connection).call
+
+        verdict = connection.capability_verdicts.find_by(model_id: "hand-typed", capability: "embeddings")
+        expect(verdict.source).to eq("admin")
+        expect(verdict.state).to eq("supported")
+      end
+    end
+
+    describe "choosing the model type" do
+      let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+      it "offers the chat capabilities to a chat model" do
+        get edit_llm_model_path(llm_model)
+
+        expect(page).to have_css("[data-test-selector='llm-model--chat-capabilities']", visible: :visible)
+      end
+
+      # An embedding model answers no chat request, so tool calling and the rest
+      # cannot apply to it.
+      it "hides the chat capabilities from an embedding model" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        get edit_llm_model_path(llm_model)
+
+        expect(page).to have_css("[data-test-selector='llm-model--chat-capabilities']", visible: :hidden)
+        expect(page).to have_no_css("[data-test-selector='llm-model--chat-capabilities']", visible: :visible)
+      end
+
+      it "drops chat assertions when a model becomes an embedding model" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat", capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        verdicts = connection.capability_verdicts.for_model("hand-typed").pluck(:capability, :state)
+        expect(verdicts).to contain_exactly(%w[embeddings supported])
+      end
+
+      # Saving a discovered model without touching its type must not turn what a
+      # probe or a registry found into the administrator's own assertion.
+      it "leaves the stored verdict alone when the type was not changed" do
+        discovered = create(:llm_model, llm_connection: connection, external_id: "from-server")
+        connection.capability_verdicts.create!(model_id: "from-server", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+
+        patch llm_model_path(discovered), params: { llm_model: { model_type: "chat", display_name: "From server" } }
+
+        verdict = connection.capability_verdicts.find_by(model_id: "from-server", capability: "embeddings")
+        expect(verdict.source).to eq("probe")
+      end
+
+      it "re-renders the form when an asserted state is not a state" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat", capability_vision: "maybe" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(connection.capability_verdicts.for_model("hand-typed")).to be_empty
+      end
+    end
+
+    describe "the model type shown in the list" do
+      it "reads as an embedding model once the type says so" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "bge-m3")
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        get llm_models_path
+
+        expect(response.body).to include("Embedding")
+      end
+
+      it "reads as a chat model when the type says so" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "qwen")
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat" } }
+
+        get llm_models_path
+
+        expect(response.body).to include("Chat")
+      end
+    end
+
+    describe "GET /admin/llm_models/new" do
+      it "renders the add-model form" do
+        get new_llm_model_path
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Model name")
+      end
+
+      # Not every administrator knows what an embedding model is.
+      it "points at the documentation about model types" do
+        get new_llm_model_path
+
+        expect(page).to have_link("Read more", href: %r{huggingface\.co/blog/getting-started-with-embeddings})
+      end
+
+      it "re-renders with the error inline when the name is taken" do
+        create(:llm_model, llm_connection: connection, external_id: "already-there")
+
+        post llm_models_path, params: { llm_model: { external_id: "already-there" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(connection.models.where(external_id: "already-there").count).to eq(1)
+      end
+    end
+
+    describe "renaming to a taken id" do
+      it "re-renders the form with the error instead of failing" do
+        create(:llm_model, llm_connection: connection, external_id: "taken")
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "mine")
+
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(llm_model.reload.external_id).to eq("mine")
+      end
+    end
+
+    describe "DELETE /admin/llm_models/:id" do
+      it "removes a manual model" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+
+        delete llm_model_path(llm_model)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(LlmModel.where(id: llm_model.id)).to be_empty
+      end
+
+      # cascade_rename! keeps the defaults pointing at the model; deleting one has
+      # to let go of it, or the connection keeps a default no model answers to.
+      it "lets go of a connection default that named the deleted model" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+        connection.update!(default_chat_model: llm_model)
+
+        delete llm_model_path(llm_model)
+
+        expect(connection.reload.default_chat_model).to be_nil
+      end
+
+      # Discovered models are the server's to add and remove, not the administrator's.
+      it "refuses to remove a discovered model" do
+        llm_model = create(:llm_model, llm_connection: connection, external_id: "from-server")
+
+        delete llm_model_path(llm_model)
+
+        expect(response).to have_http_status(:not_found)
+        expect(LlmModel.where(id: llm_model.id)).to exist
+      end
+    end
+
+    describe "the capability assertions a save touches" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # An admin-sourced verdict is the one thing detection must never undo, and
+      # a PATCH carrying one field used to clear all four: absent read the same
+      # as blank, and blank means "withdraw the assertion".
+      it "leaves an assertion alone when its field was not submitted" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { display_name: "Renamed" } }
+
+        expect(llm_model.reload.display_name).to eq("Renamed")
+        expect(llm_model.verdict_for(:vision)&.state).to eq("supported")
+      end
+
+      it "withdraws an assertion whose field is submitted blank" do
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "" } }
+
+        expect(llm_model.reload.verdict_for(:vision)).to be_nil
+      end
+
+      # Admin verdicts are sticky, so an untouched dropdown that asserted
+      # "not an embedding model" could only be undone by editing the model again.
+      it "asserts no type for a model created without one" do
+        post llm_models_path, params: { llm_model: { external_id: "text-embedding-3-small" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings)).to be_nil
+      end
+
+      it "asserts the type a create actually chose" do
+        post llm_models_path,
+             params: { llm_model: { external_id: "text-embedding-3-small", model_type: "embedding" } }
+
+        created = connection.models.find_by(external_id: "text-embedding-3-small")
+        expect(created.verdict_for(:embeddings).state).to eq("supported")
+        expect(created.verdict_for(:embeddings).source).to eq("admin")
+      end
+    end
+
+    describe "an administrator's context window" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      it "refuses one that is not a positive number" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "abc" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+
+      it "keeps the rejected value in the field so the typo can be corrected" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "12k" } }
+
+        expect(page).to have_field("llm_model[admin_context_window]", with: "12k", type: "text")
+      end
+
+      it "refuses a negative one" do
+        patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "-5" } }
+
+        expect(llm_model.reload.admin_context_window).to be_nil
+      end
+    end
+
+    describe "GET /admin/llm_models/:id/delete_dialog" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      end
+
+      # Requested by the async-dialog Stimulus controller, which asks for a turbo
+      # stream rather than HTML.
+      it "names a connection default as something that would break" do
+        connection.update!(default_chat_model: llm_model)
+
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("stop working until another model is selected")
+        expect(response.body).to include(LlmConnection.human_attribute_name(:default_chat_model_id))
+      end
+
+      it "says only that the model goes when nothing depends on it" do
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include("no longer be offered to AI features")
+        expect(response.body).not_to include("stop working until another model is selected")
+      end
+    end
+
+    describe "renaming a manually added model" do
+      let!(:llm_model) do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")
+      end
+
+      before do
+        connection.update!(default_chat_model: llm_model)
+        connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+      end
+
+      it "offers the identifier field on the edit page" do
+        get edit_llm_model_path(llm_model)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("llm_model[external_id]")
+      end
+
+      it "does not offer it for a discovered model" do
+        discovered = create(:llm_model, llm_connection: connection, external_id: "server-named")
+
+        get edit_llm_model_path(discovered)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("llm_model[external_id]")
+      end
+
+      # A typo in a hand-typed identifier was previously only fixable by deleting
+      # the model, which threw away everything asserted about it.
+      it "renames it and carries every reference along" do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+        expect(llm_model.reload.external_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+        expect(connection.reload.default_chat_model).to eq(llm_model)
+        expect(connection.capability_verdicts.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      end
+
+      # The server names its own models; renaming one here would only be undone by
+      # the next refresh.
+      it "refuses to rename a discovered model" do
+        discovered = create(:llm_model, llm_connection: connection, external_id: "server-named")
+
+        patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
+
+        expect(discovered.reload.external_id).to eq("server-named")
+      end
+    end
+
+    # Two administrators saving the same free identifier both pass the
+    # uniqueness validation, so the second save only fails at the index.
+    describe "an identifier taken after the uniqueness validation passed" do
+      let(:taken) { I18n.t("activerecord.errors.messages.taken") }
+
+      before do
+        create(:llm_model, :manual, llm_connection: connection, external_id: "taken-meanwhile")
+        uniqueness = LlmModel.validators_on(:external_id).grep(ActiveRecord::Validations::UniquenessValidator).first
+        allow(uniqueness).to receive(:validate_each)
+      end
+
+      it "re-renders the new model form with the error" do
+        post llm_models_path, params: { llm_model: { external_id: "taken-meanwhile" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(taken)
+        expect(connection.models.where(external_id: "taken-meanwhile").count).to eq(1)
+      end
+
+      it "re-renders the edit form with the error" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken-meanwhile" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(taken)
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+      end
+    end
+
+    # Administrator verdicts outlive the discovered models a deployment change
+    # purges, so an identifier no model owns can still carry some.
+    describe "renaming onto an identifier with leftover verdicts" do
+      let(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+      before do
+        %w[hand-typed purged].each do |model_id|
+          connection.capability_verdicts.create!(model_id:, capability: "vision", state: "supported",
+                                                 source: "admin", checked_at: Time.current)
+        end
+      end
+
+      it "re-renders the edit form saying the assertions conflict, not that the name is taken" do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "purged" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to include(I18n.t("activerecord.errors.models.llm_model.attributes.external_id.conflicting_capabilities"))
+        expect(response.body).not_to include(I18n.t("activerecord.errors.messages.taken"))
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+        expect(connection.capability_verdicts.for_model("hand-typed").count).to eq(1)
+      end
+    end
+
+    describe "how an inherited capability verdict is shown" do
+      let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "qwen3.6-27b") }
+
+      # The blank option names what applies while nothing is asserted here, so
+      # that choosing it is understood as "follow the server" rather than as an
+      # assertion of ignorance.
+      it "offers to inherit the value the server reports" do
+        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "function_calling",
+                                               state: "supported", source: "metadata", checked_at: Time.current)
+
+        get edit_llm_model_path(llm_model)
+
+        expect(response.body).to include("Inherit from server (supported)")
+      end
+
+      it "says the server has not verified it when nothing is known" do
+        get edit_llm_model_path(llm_model)
+
+        expect(response.body).to include("Inherit from server (not verified)")
+      end
+
+      # An administrator's own assertion is loaded into the field, so the blank
+      # option must not claim it as inherited.
+      it "does not present an administrator's own assertion as inherited" do
+        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "function_calling",
+                                               state: "supported", source: "admin", checked_at: Time.current)
+
+        get edit_llm_model_path(llm_model)
+
+        expect(response.body).to include("Inherit from server (not verified)")
+        expect(response.body).not_to include("Inherit from server (supported)")
+      end
     end
   end
 end
