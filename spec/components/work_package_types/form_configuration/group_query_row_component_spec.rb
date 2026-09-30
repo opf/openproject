@@ -22,9 +22,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
     let(:type) { create(:type) }
     let(:variant) { type.default_variant }
     let(:exclusions) do
-      WorkPackageTypes::ExclusionState.new(
-        variant:, own: [], effective: []
-      )
+      WorkPackageTypes::ExclusionState.new(variant:, excluded: [])
     end
 
     it "is keyed on the query and labelled with the section name", :aggregate_failures do

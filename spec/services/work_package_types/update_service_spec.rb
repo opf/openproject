@@ -101,7 +101,7 @@ module WorkPackageTypes
           expect(type).to have_received(:reset_attribute_groups)
         end
 
-        it "set the attribute groups to the passed values" do
+        it "set the attribute groups to the passed values, placing an attribute listed twice once" do
           service_result = service.call(params)
 
           expect(service_result).to be_success
@@ -110,7 +110,7 @@ module WorkPackageTypes
           expect(group1.key).to eq("group1")
           expect(group1.attributes).to contain_exactly(cf1.attribute_name, cf2.attribute_name)
           expect(groups.key).to eq("groups")
-          expect(groups.attributes).to contain_exactly(cf2.attribute_name)
+          expect(groups.attributes).to be_empty
         end
       end
     end

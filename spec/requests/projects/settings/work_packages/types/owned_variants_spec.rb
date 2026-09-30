@@ -98,18 +98,12 @@ RSpec.describe "Configuring the variants a project owns",
       expect(ours.reload.default_work_package_description).to eq("Start here")
     end
 
-    # Renaming a group is an Enterprise action, so the guard has to be satisfied for the
-    # authorization underneath it to be the thing under test.
-    it "rewrites the form configuration", with_ee: %i[edit_attribute_groups] do
-      groups = [{ type: "attribute",
-                  name: "People",
-                  attributes: [{ key: "assignee", is_cf: nil, is_required: nil, translation: "Assignee" }],
-                  query: nil }]
+    it "leaves the form itself to administration" do
+      put drop_form_configuration_row_path(ours.form_configuration, row_key: "assignee"),
+          params: { target_id: "inactive", position: 1 },
+          as: :turbo_stream
 
-      patch type_form_configuration_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
-            params: { type: { attribute_groups: groups.to_json } }
-
-      expect(ours.reload.attribute_groups.map(&:key)).to eq(%w[People])
+      expect(response).to have_http_status(:forbidden)
     end
   end
 

@@ -76,7 +76,8 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     link_configuration(clone, aspect: form, excluded: ["responsible"])
     link_configuration(owned, aspect: form)
     link_configuration(twin, aspect: form)
-    twin.update!(workflow: base.workflow)
+    owned.update!(required_attributes: base.required_attributes)
+    twin.update!(workflow: base.workflow, required_attributes: base.required_attributes)
 
     login_as(admin)
   end
@@ -131,14 +132,7 @@ RSpec.describe "Comparing the variants of a work package type", :js do
       expect(page).to have_css("#comparison-configuration-#{aspect}")
     end
 
-    within_row(:configuration, TypeVariant::FORM_CONFIGURATION) do
-      within_column(mobile) do
-        expect(page).to have_text(I18n.t("types.comparison.values.inheriting_from"))
-        expect(page).to have_link("Bug",
-                                  href: edit_type_form_configuration_path(type_id: type.id, variant_id: base.id))
-      end
-      within_column(base) { expect(page).to have_text(I18n.t("types.edit.overview.mode.manual")) }
-    end
+    expect(page).to have_no_css("#comparison-configuration-#{TypeVariant::FORM_CONFIGURATION}")
 
     within_row(:configuration, TypeVariant::PDF_EXPORT) do
       within_column(mobile) { expect(page).to have_text(I18n.t("types.edit.overview.mode.manual")) }
@@ -229,7 +223,6 @@ RSpec.describe "Comparing the variants of a work package type", :js do
 
       case aspect
       when TypeVariant::DEFAULTS then edit_type_defaults_path(**args)
-      when TypeVariant::FORM_CONFIGURATION then edit_type_form_configuration_path(**args)
       when TypeVariant::PROJECT_ATTRIBUTES then edit_type_project_attributes_path(**args)
       else edit_type_pdf_export_template_index_path(**args)
       end
@@ -241,7 +234,7 @@ RSpec.describe "Comparing the variants of a work package type", :js do
 
     before do
       TypeVariant::ASPECTS.each { link_configuration(inheriting, aspect: it) }
-      link_configuration(project_specific, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(project_specific, aspect: TypeVariant::DEFAULTS)
 
       visit comparison_type_variants_path(type_id: overview_type.id)
     end
@@ -267,14 +260,13 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     end
 
     it "reports the aspects of a project-specific variant one by one" do
-      within_row(:configuration, TypeVariant::FORM_CONFIGURATION) do
+      within_row(:configuration, TypeVariant::DEFAULTS) do
         within_column(project_specific) do
-          expect(page).to have_link(overview_type.name,
-                                    href: aspect_path(overview_base, TypeVariant::FORM_CONFIGURATION))
+          expect(page).to have_link(overview_type.name, href: aspect_path(overview_base, TypeVariant::DEFAULTS))
         end
       end
 
-      (TypeVariant::ASPECTS - [TypeVariant::FORM_CONFIGURATION]).each do |aspect|
+      (TypeVariant::ASPECTS - [TypeVariant::DEFAULTS]).each do |aspect|
         within_row(:configuration, aspect) do
           within_column(project_specific) { expect(page).to have_text(manual) }
         end

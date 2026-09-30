@@ -95,7 +95,7 @@ module WorkPackageTypes
 
       def record_id = variant[model_class.variant_reflection.foreign_key]
 
-      def started_id = helpers.params[:started_id].presence&.to_i
+      def started_id = helpers.params[:"started_#{model_class.variant_reflection.foreign_key}"].presence&.to_i
 
       def candidates
         @candidates ||= begin

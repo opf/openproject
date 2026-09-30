@@ -33,21 +33,19 @@ module WorkPackageTypes
     module Concern
       extend ActiveSupport::Concern
 
-      def initialize(user:, variant:, **)
+      def initialize(user:, form_configuration:, **)
         super()
         @user = user
-        @variant = variant
+        @form_configuration = form_configuration
       end
 
       private
 
-      attr_reader :variant,
+      attr_reader :form_configuration,
                   :user
 
-      # `variant` is the configuration being edited, so the reads below take its own groups
-      # on purpose — resolving through a link would edit the variant it borrows from.
       def active_groups
-        variant.attribute_groups.reject { |group| group.key.to_s == "__empty" }
+        form_configuration.attribute_groups.reject { |group| group.key.to_s == "__empty" }
       end
 
       def find_group(group_key)
@@ -55,7 +53,7 @@ module WorkPackageTypes
       end
 
       def find_attribute_group(group_key)
-        variant.attribute_groups.find do |group|
+        form_configuration.attribute_groups.find do |group|
           group.group_type == :attribute && group_identifier_match?(group, group_key)
         end
       end
@@ -89,14 +87,14 @@ module WorkPackageTypes
         assign_groups(groups)
         return contract_failure unless form_configuration_contract.validate
 
-        persist_variant
+        persist_form
       end
 
       def failure_with_message(message)
-        variant.errors.clear
-        variant.errors.add(:base, message)
+        form_configuration.errors.clear
+        form_configuration.errors.add(:base, message)
 
-        ServiceResult.failure(result: variant, errors: variant.errors)
+        ServiceResult.failure(result: form_configuration, errors: form_configuration.errors)
       end
 
       def build_query(query_props, name:)
@@ -111,7 +109,7 @@ module WorkPackageTypes
         prune_unavailable_attribute_group_items(groups)
 
         if groups.empty?
-          [::Type::AttributeGroup.new(variant, :__empty, [])]
+          [::Type::AttributeGroup.new(form_configuration, :__empty, [])]
         else
           groups
         end
@@ -128,18 +126,6 @@ module WorkPackageTypes
         Type::FormGroup.next_untitled_key(seen_keys).tap { |key| seen_keys << key }
       end
 
-      def sync_active_custom_fields!
-        variant.custom_field_ids = active_groups
-                                .select { |group| group.group_type == :attribute }
-                                .flat_map(&:members)
-                                .filter_map do |attribute|
-                                  next unless CustomField.custom_field_attribute?(attribute)
-
-                                  attribute.delete_prefix("custom_field_").to_i
-                                end
-                                .uniq
-      end
-
       def prune_unavailable_attribute_group_items(groups)
         groups.each do |group|
           group.attributes = group.members if group.group_type == :attribute
@@ -147,24 +133,24 @@ module WorkPackageTypes
       end
 
       def assign_groups(groups)
-        variant.attribute_groups_will_change!
-        variant.attribute_groups_objects = normalized_groups(groups)
-        sync_active_custom_fields!
+        form_configuration.attribute_groups_will_change!
+        form_configuration.attribute_groups_objects = normalized_groups(groups)
       end
 
       def form_configuration_contract
-        @form_configuration_contract ||= ::WorkPackageTypes::UpdateFormConfigurationContract.new(variant, user, options: {})
+        @form_configuration_contract ||=
+          ::WorkPackageTypes::UpdateFormConfigurationContract.new(form_configuration, user, options: {})
       end
 
       def contract_failure
-        ServiceResult.failure(result: variant, errors: form_configuration_contract.errors)
+        ServiceResult.failure(result: form_configuration, errors: form_configuration_contract.errors)
       end
 
-      def persist_variant
-        if variant.save
-          ServiceResult.success(result: variant)
+      def persist_form
+        if form_configuration.save
+          ServiceResult.success(result: form_configuration)
         else
-          ServiceResult.failure(result: variant, errors: variant.errors)
+          ServiceResult.failure(result: form_configuration, errors: form_configuration.errors)
         end
       end
     end

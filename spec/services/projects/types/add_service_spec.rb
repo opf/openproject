@@ -46,7 +46,7 @@ RSpec.describe Projects::Types::AddService do
     end
 
     it "enables the type's work package custom fields on the project" do
-      custom_field = create(:text_wp_custom_field, type_variants: [variant])
+      custom_field = create(:text_wp_custom_field, types: [variant])
 
       expect { service_call }
         .to change { project.reload.work_package_custom_field_ids }
@@ -86,10 +86,10 @@ RSpec.describe Projects::Types::AddService do
     # Without this the work package form is empty for the variant: a variant inheriting its
     # form configuration owns no custom_fields_types rows of its own.
     context "when the variant inherits its form configuration" do
-      let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
+      let!(:type_custom_field) { create(:text_wp_custom_field, types: [type.default_variant]) }
 
       before do
-        variant.link!(TypeVariant::FORM_CONFIGURATION)
+        link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
       end
 
       it "enables the fields the variant actually shows, which are the type's" do
@@ -101,8 +101,8 @@ RSpec.describe Projects::Types::AddService do
     end
 
     context "when the variant owns its form configuration" do
-      let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
-      let!(:variant_custom_field) { create(:text_wp_custom_field, type_variants: [variant]) }
+      let!(:type_custom_field) { create(:text_wp_custom_field, types: [type.default_variant]) }
+      let!(:variant_custom_field) { create(:text_wp_custom_field, types: [variant]) }
 
       it "enables its own fields rather than the type's" do
         expect { service_call }

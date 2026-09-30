@@ -48,7 +48,7 @@ module WorkPackageTypes
 
         attr_reader :model_class
 
-        def icon = { ::Workflow => :workflow }.fetch(model_class)
+        def icon = { ::Workflow => :workflow, ::FormConfiguration => :rows }.fetch(model_class)
 
         def mobile_title = model_class.model_name.human(count: 2)
 

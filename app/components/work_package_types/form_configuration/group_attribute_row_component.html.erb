@@ -39,17 +39,23 @@
       row.with_column(py: 1, mr: 2) { render(exclusion_toggle) }
     end
 
+    if show_required_action?
+      row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
+        render(Primer::Alpha::ActionMenu.new) do |menu|
+          menu.with_show_button(**actions_button_arguments)
+
+          menu.with_item(**toggle_required_item_arguments) do |item|
+            item.with_leading_visual_icon(icon: toggle_required_icon)
+            item.with_description { toggle_required_hint } if required_action_disabled?
+          end
+        end
+      end
+    end
+
     unless readonly?
       row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
         render(Primer::Alpha::ActionMenu.new) do |menu|
-          menu.with_show_button(
-            icon: "kebab-horizontal",
-            scheme: :invisible,
-            size: :small,
-            classes: "type-form-configuration-page--actions-button",
-            test_selector: "type-form-configuration-attribute-actions-#{@attribute[:key]}",
-            "aria-label": t("types.edit.form_configuration.row_actions")
-          )
+          menu.with_show_button(**actions_button_arguments)
 
           if attribute_can_move_up?
             move_action(
@@ -81,16 +87,7 @@
             )
           end
 
-          if show_required_action?
-            menu.with_divider if attribute_can_move_up? || attribute_can_move_down?
-
-            menu.with_item(**toggle_required_item_arguments) do |item|
-              item.with_leading_visual_icon(icon: toggle_required_icon)
-              item.with_description { toggle_required_hint } if required_action_disabled?
-            end
-          end
-
-          menu.with_divider if show_delete_divider?
+          menu.with_divider if attribute_can_move_up? || attribute_can_move_down?
 
           menu.with_item(
             label: t("button_delete"),

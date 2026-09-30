@@ -50,7 +50,7 @@ RSpec.describe "Reset form configuration",
       custom_field
 
       login_as(admin)
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
     end
 
     it "resets the form properly after changes with CFs (Regression test #27487)" do
@@ -79,7 +79,7 @@ RSpec.describe "Reset form configuration",
                   "Costs"
                 ])
 
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
 
       expect(form.group_order).to eq(
         [

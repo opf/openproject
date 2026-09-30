@@ -114,7 +114,7 @@ module WorkPackageTypes
     def types_for_index
       ::Type
         .includes(:color, :projects,
-                  variants: %i[workflow custom_fields])
+                  variants: [:workflow, { form_configuration: :custom_fields }])
         .page(page_param)
         .per_page(per_page_param)
     end

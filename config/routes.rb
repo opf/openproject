@@ -180,19 +180,19 @@ Rails.application.routes.draw do
 
     resource :details, controller: "details_tab", only: %i[update edit]
 
-    resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
-      get :reset_dialog
-      resource :group, only: %i[create edit update destroy], controller: "form_configuration_groups_tab" do
-        post :add_group
-        post :cancel_edit
-        put :drop
-        put :move
-        patch :update_query
-      end
-      resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
+    resource :form_configuration, only: %i[edit], controller: "form_configuration_tab" do
+      get :change_dialog
+      patch :change
+
+      get :start_dialog
+      post :start
+
+      get :configure_dialog
+      post :configure
+      post :create
+
+      resources :rows, only: [], controller: "form_configuration_tab", param: :row_key do
         member do
-          put :drop
-          put :move
           put :toggle_required
         end
       end
@@ -348,6 +348,38 @@ Rails.application.routes.draw do
 
     resource :copy, only: %i[new], controller: "workflows/copies" do
       resource :from_role, only: %i[create], controller: "workflows/copies/from_roles"
+    end
+  end
+
+  resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :form_configurations,
+            path: "forms",
+            only: %i[edit update destroy],
+            controller: "form_configurations/form_configurations" do
+    member do
+      get :edit_dialog
+      get :reset_dialog
+      patch :reset
+    end
+
+    resource :group, only: %i[create edit update destroy], controller: "form_configurations/groups" do
+      post :add_group
+      post :cancel_edit
+      put :drop
+      put :move
+      patch :update_query
+    end
+
+    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key do
+      member do
+        put :drop
+        put :move
+      end
     end
   end
 

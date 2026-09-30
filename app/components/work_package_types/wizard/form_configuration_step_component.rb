@@ -35,14 +35,18 @@ module WorkPackageTypes
     class FormConfigurationStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:)
+      def initialize(variant:, back_url: nil)
         super(variant)
+
+        @back_url = back_url
       end
 
       private
 
+      def context = @context ||= WorkPackageTypes::FormConfiguration::EditorContext.for_variant(model)
+
       def reload_url
-        type_creation_wizard_path(**model.path_args, step: :form_configuration)
+        @back_url || type_creation_wizard_path(**model.path_args, step: :form_configuration)
       end
 
       def no_filter_query

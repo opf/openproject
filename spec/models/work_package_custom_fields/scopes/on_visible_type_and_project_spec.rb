@@ -67,10 +67,10 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     shared_let(:root_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [root_type.default_variant])
+      create(:integer_wp_custom_field, projects: [variant_project], types: [root_type.default_variant])
     end
     shared_let(:variant_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [variant])
+      create(:integer_wp_custom_field, projects: [variant_project], types: [variant])
     end
 
     subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }
@@ -81,7 +81,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     context "when the variant inherits its form configuration" do
-      before { variant.link!(TypeVariant::FORM_CONFIGURATION) }
+      before { link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION) }
 
       it "surfaces the type's fields" do
         expect(subject).to include(root_cf)

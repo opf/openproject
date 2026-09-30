@@ -39,8 +39,8 @@ RSpec.describe Query::Results, "sums" do
   end
   shared_let(:type) do
     create(:type) do |t|
-      t.default_variant.custom_fields << int_cf
-      t.default_variant.custom_fields << float_cf
+      t.default_variant.custom_field_ids |= [int_cf.id]
+      t.default_variant.custom_field_ids |= [float_cf.id]
     end
   end
   shared_let(:project) do

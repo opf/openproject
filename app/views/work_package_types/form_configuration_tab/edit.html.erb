@@ -37,11 +37,12 @@ See COPYRIGHT and LICENSE files for more details.
         reload_url: edit_type_form_configuration_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::FORM_CONFIGURATION)) %>
+  <%= render(WorkPackageTypes::FormConfiguration::TabSubHeaderComponent.new(variant: @variant)) %>
+  <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context: form_editor_context)) %>
   <%= render(
         WorkPackageTypes::FormConfigurationComponent.new(
-          variant: @variant,
-          form_attributes: form_configuration_groups(@variant),
+          context: form_editor_context,
+          form_attributes: form_configuration_groups(form_editor_context),
           no_filter_query:
         )
       ) %>

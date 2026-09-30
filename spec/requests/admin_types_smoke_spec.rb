@@ -11,7 +11,8 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   let(:variant) { type.reload.default_variant }
 
   it "renders the types index, including a type's named variants" do
-    type.variants.create!(variant_name: "Hardware", workflow: type.default_variant.workflow)
+    type.variants.create!(variant_name: "Hardware", workflow: type.default_variant.workflow,
+                          form_configuration: type.default_variant.form_configuration)
 
     get types_path
     expect(response).to have_http_status(:ok)

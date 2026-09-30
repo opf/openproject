@@ -49,5 +49,5 @@ module AuthorizesVariantAuthoring
 
   private
 
-  def owning_project = model.project
+  def owning_project = model.try(:project)
 end

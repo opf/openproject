@@ -188,6 +188,21 @@ en:
         company: "Company"
       favorite:
         favorited: "Item"
+      form_configuration:
+        attribute_groups: "Form"
+        description: "Description"
+        name: "Name"
+        type_variants: "Types and variants using this form"
+      form_configuration_attribute:
+        attribute_key: "Attribute"
+        custom_field: "Custom field"
+        group: "Group"
+        position: "Position"
+      form_configuration_group:
+        default_key: "Default group"
+        kind: "Kind"
+        label: "Label"
+        query: "Query"
       grids/grid:
         column_count: "Number of columns"
         page: "Page"
@@ -694,6 +709,14 @@ en:
           general_consent: "Please accept the terms and conditions."
         favorite:
           already_favorited: "has already been favorited."
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: "Invalid work package attribute used."
+              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
+              group_without_name: "Group name can't be blank."
+              query_invalid: "The embedded query '%{group}' is invalid: %{details}"
         grids/grid:
           end_before_start: "end value needs to be larger than the start value."
           outside: "is outside of the grid."
@@ -891,12 +914,6 @@ en:
               in_use_by_work_packages: "This type cannot be deleted while work packages still use it."
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: "Invalid work package attribute used."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
-              duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
-              group_without_name: "Group name can't be blank."
-              query_invalid: "The embedded query '%{group}' is invalid: %{details}"
             base:
               is_default_variant: "The default configuration of a type cannot be deleted."
               project_variants_not_allowed: "This type does not allow creation of variants inside projects."
@@ -1141,6 +1158,9 @@ en:
       export_setting:
         one: "Export setting"
         other: "Export settings"
+      form_configuration:
+        one: "Form"
+        other: "Forms"
       forum:
         one: "Forum"
         other: "Forums"
@@ -3358,6 +3378,102 @@ en:
       selected: "Selected"
     include_sub_items: "Include sub-items"
     no_results_text: "No results"
+  form_configurations:
+    button: "Form"
+    change:
+      select:
+        caption: "The type shows its work packages with the attribute groups of the form you pick here."
+        label: "Form"
+        placeholder: "Select a form…"
+      title: "Change form"
+    form:
+      copy_from:
+        caption: "The new form starts with a copy of that form's attribute groups."
+        label: "Copy from"
+        placeholder: "Select a form…"
+      description:
+        caption: "Add a short description about where and how will this form be used."
+        label: "Description"
+      edit_title: "Edit form"
+      name:
+        caption: "Pick a name that will let you identify this form later in other places."
+        label: "Form name"
+      new_title: "Create form"
+    index:
+      actions:
+        edit: "Edit form"
+        menu: "Actions for %{name}"
+        rename: "Edit name and description"
+      blank_slate:
+        description: "Create a form to define the attribute groups a type or variant shows on its work packages."
+        filtered_description: "No form matches the current filters."
+        filtered_title: "No matching forms"
+        title: "No forms"
+      columns:
+        name: "Form name"
+        projects: "Projects"
+        types_and_variants: "Types and variants"
+      description: "Every named work package form in this instance, with the types and variants using it."
+      filters:
+        name: "Form"
+        name_placeholder: "Filter by form name or description…"
+        projects_placeholder: "Filter projects…"
+      projects_count:
+        one: "1 project"
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: "1 type"
+        other: "%{count} types"
+      variants_count:
+        one: "1 variant"
+        other: "%{count} variants"
+    name:
+      fallback: "Form"
+      implicit: "%{name} form"
+    selector:
+      prefix: "Form"
+      same_as_type: "(same as type)"
+      title: "Select form"
+    start:
+      copy:
+        caption: "Start with an existing form, change it as you wish and save it as a new form."
+        label: "Start with a copy of an existing form"
+        missing: "Select the form to copy, or start from scratch instead."
+        panel_label: "Form to copy"
+      label: "Starting point"
+      scratch:
+        caption: "Start with the default attribute groups and arrange them yourself."
+        label: "Start from scratch"
+      title: "Configure a new form"
+    tab:
+      read_only:
+        edit_action: "Edit form"
+        text_html: >
+          The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark
+          custom fields as required.
+    usage:
+      dialog:
+        button: "View dependent types"
+        caption_html: "The form %{name} is used in the following types and variants."
+        title: "Form used in types"
+        variant_of: "Variant of %{type}"
+        variants: "Variants"
+      unused: "No type or variant uses this form yet."
+      used_by_types:
+        one: "This form is used by 1 type. Changes apply to it."
+        other: "This form is used by %{count} types. Changes apply to all of them."
+      used_by_variants:
+        one: "This form is used by 1 type or variant."
+        other: "This form is used by %{count} types and variants."
+    wizard:
+      choice:
+        existing:
+          caption: "Use an existing form for this type with a pre-defined set of attribute groups."
+          label: "Use an existing form"
+        new:
+          caption: "Arrange the attribute groups of a new form for this type."
+          label: "Configure a new form"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -3842,6 +3958,7 @@ en:
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"
+  label_form_configuration_plural: "Forms"
   label_formula: "Formula"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"
@@ -6924,6 +7041,8 @@ en:
         blankslate_description: "Add groups using the button above or drag attributes from the left panel."
         blankslate_title: "No groups yet"
         confirm_delete_group: "Are you sure you want to delete this section? This action cannot be automatically reversed."
+        defaults_not_generated:
+          already_configured: "This form already has groups or attributes."
         confirm_reset: "Are you sure you want to reset the form?"
         custom_field: "Custom field"
         delete_group: "Delete section"
@@ -6954,7 +7073,6 @@ en:
           globally_hint: "Change this on the custom field"
           mark: "Require in this type"
           not_a_custom_field: "Only a custom field can be made required for a single type."
-          not_available_when_linked: "This configuration is inherited. Configure it manually to change what is required."
           unmark: "Do not require in this type"
         reset_description: >
           This will reset the attributes to their default group and disable ALL custom fields.

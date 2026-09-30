@@ -590,18 +590,16 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
-  # Match custom fields on the variant that owns the form configuration, excluding the ones it hides.
   def self.form_configuration_custom_fields_join(variant_ids)
     values = variant_ids.map { |id| "(#{id})" }.join(", ")
     driving_table = "JOIN (VALUES #{values}) AS wp_variants(own_id) ON TRUE"
-    join, source_variant_id, excluded =
-      TypeVariant.effective_configuration_join("wp_variants.own_id", TypeVariant::FORM_CONFIGURATION)
+    join, form_configuration_id, excluded = TypeVariant.form_configuration_join("wp_variants.own_id")
     exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
     "#{driving_table} #{join} " \
-      "JOIN custom_fields_types cft " \
-      "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
-      "AND #{exclusion}"
+      "JOIN form_configuration_attributes fca " \
+      "ON fca.custom_field_id = custom_fields.id AND fca.form_configuration_id = #{form_configuration_id} " \
+      "AND fca.form_configuration_group_id IS NOT NULL AND #{exclusion}"
   end
   private_class_method :form_configuration_custom_fields_join
 

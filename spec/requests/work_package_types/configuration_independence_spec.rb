@@ -40,7 +40,7 @@ RSpec.describe "Work package type configuration independence",
 
   describe "GET dialog" do
     it "renders the manual mode picker with the aspect's modes" do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::FORM_CONFIGURATION),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::PDF_EXPORT),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)

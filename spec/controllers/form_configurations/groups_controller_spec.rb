@@ -30,9 +30,10 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
+RSpec.describe FormConfigurations::GroupsController do
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
+  let(:form) { variant.form_configuration }
   let(:user) { create(:admin) }
   let(:temporary_group_key) { described_class::TEMPORARY_GROUP_KEY }
 
@@ -43,7 +44,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
   describe "POST #add_group", with_ee: %i[edit_attribute_groups] do
     it "renders a temporary attribute group from group_type params" do
       expect do
-        post :add_group, params: { type_id: type.id, group_type: "attribute" }, format: :turbo_stream
+        post :add_group, params: { form_configuration_id: form.id, group_type: "attribute" }, format: :turbo_stream
       end.not_to change { variant.reload.attribute_groups.count }
 
       expect(response).to have_http_status(:ok)
@@ -55,7 +56,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
       expect do
         post :create,
              params: {
-               type_id: type.id,
+               form_configuration_id: form.id,
                group: { group_type: "attribute", name: "New Group" }
              },
              format: :turbo_stream
@@ -73,7 +74,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
       post :create,
            params: {
-             type_id: type.id,
+             form_configuration_id: form.id,
              group: { group_type: "query", name: "Empty test", query: query_props }
            },
            format: :turbo_stream
@@ -88,17 +89,17 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "PATCH #update (rename)", with_ee: %i[edit_attribute_groups] do
     before do
-      variant.update_column(:attribute_groups, [
-                           ["First group", %w[priority]],
-                           ["Second group", %w[assignee]]
-                         ])
+      form.update!(attribute_groups: [
+                     ["First group", %w[priority]],
+                     ["Second group", %w[assignee]]
+                   ])
     end
 
     context "when renaming to a duplicate name" do
       it "returns an error without the attribute prefix" do
         patch :update,
               params: {
-                type_id: type.id,
+                form_configuration_id: form.id,
                 key: "First group",
                 group: { name: "Second group" }
               },
@@ -113,7 +114,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
       it "preserves the entered name in the input field" do
         patch :update,
               params: {
-                type_id: type.id,
+                form_configuration_id: form.id,
                 key: "First group",
                 group: { name: "Second group" }
               },
@@ -127,7 +128,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
       it "returns an error" do
         patch :update,
               params: {
-                type_id: type.id,
+                form_configuration_id: form.id,
                 key: "First group",
                 group: { name: "" }
               },
@@ -141,7 +142,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
       it "flashes the failure rather than re-rendering the editor of a gone group" do
         patch :update,
               params: {
-                type_id: type.id,
+                form_configuration_id: form.id,
                 key: "Gone group",
                 group: { name: "Any name" }
               },
@@ -156,11 +157,11 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "without a group key", with_ee: %i[edit_attribute_groups] do
     before do
-      variant.update_column(:attribute_groups, [["First group", %w[priority]]])
+      form.update!(attribute_groups: [["First group", %w[priority]]])
     end
 
     it "rejects the request instead of reporting a missing group", :aggregate_failures do
-      patch :update, params: { type_id: type.id, group: { name: "Renamed" } }, format: :turbo_stream
+      patch :update, params: { form_configuration_id: form.id, group: { name: "Renamed" } }, format: :turbo_stream
 
       expect(response).to have_http_status(:bad_request)
       expect(response.body).to eq("Required parameter missing: key")
@@ -168,7 +169,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     end
 
     it "rejects a blank key" do
-      delete :destroy, params: { type_id: type.id, key: "" }, format: :turbo_stream
+      delete :destroy, params: { form_configuration_id: form.id, key: "" }, format: :turbo_stream
 
       expect(response).to have_http_status(:bad_request)
     end
@@ -176,13 +177,13 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "POST #create (duplicate name)", with_ee: %i[edit_attribute_groups] do
     before do
-      variant.update_column(:attribute_groups, [["Existing group", %w[priority]]])
+      form.update!(attribute_groups: [["Existing group", %w[priority]]])
     end
 
     it "returns an error when creating a group with a duplicate name" do
       post :create,
            params: {
-             type_id: type.id,
+             form_configuration_id: form.id,
              group: { group_type: "attribute", name: "Existing group" }
            },
            format: :turbo_stream
@@ -196,7 +197,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     it "returns a main content turbo stream response" do
       post :create,
            params: {
-             type_id: type.id,
+             form_configuration_id: form.id,
              group: { group_type: "attribute", name: "Existing group" }
            },
            format: :turbo_stream
@@ -211,7 +212,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
       post :create,
            params: {
-             type_id: type.id,
+             form_configuration_id: form.id,
              group: { group_type: "query", name: "Existing group", query: query_props }
            },
            format: :turbo_stream
@@ -226,7 +227,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     it "returns an error when creating a group with the visible name of a default group" do
       post :create,
            params: {
-             type_id: type.id,
+             form_configuration_id: form.id,
              group: { group_type: "attribute", name: "Details" }
            },
            format: :turbo_stream
@@ -241,11 +242,11 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     let(:group_name) { "b) > 10.000 / 20.000 Nutzende" }
 
     before do
-      variant.update_column(:attribute_groups, [[group_name, %w[priority]]])
+      form.update!(attribute_groups: [[group_name, %w[priority]]])
     end
 
     it "deletes a group whose name contains special characters" do
-      delete :destroy, params: { type_id: type.id, key: group_name }, format: :turbo_stream
+      delete :destroy, params: { form_configuration_id: form.id, key: group_name }, format: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(variant.reload.attribute_groups.map(&:key)).not_to include(group_name)
@@ -254,14 +255,14 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
     it "reorders groups using the requested position" do
-      variant.update_column(:attribute_groups, [
-                           [:details, %w[priority]],
-                           ["Custom group", %w[version]],
-                           [:people, %w[assignee]]
-                         ])
+      form.update!(attribute_groups: [
+                     [:details, %w[priority]],
+                     ["Custom group", %w[version]],
+                     [:people, %w[assignee]]
+                   ])
 
       put :drop,
-          params: { type_id: type.id, key: "Custom group", position: 1 },
+          params: { form_configuration_id: form.id, key: "Custom group", position: 1 },
           format: :turbo_stream
 
       expect(response).to have_http_status(:ok)

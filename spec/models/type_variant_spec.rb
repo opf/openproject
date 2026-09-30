@@ -45,7 +45,8 @@ RSpec.describe TypeVariant do
 
     it "is the only one a type may have" do
       duplicate = bug.variants.new(is_default_variant: true, variant_name: nil,
-                                   workflow: bug.default_variant.workflow)
+                                   workflow: bug.default_variant.workflow,
+                                   form_configuration: bug.default_variant.form_configuration)
 
       expect { duplicate.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
     end
@@ -103,15 +104,15 @@ RSpec.describe TypeVariant do
     let(:aspect) { TypeVariant::FORM_CONFIGURATION }
     let(:leaf) { create(:type_variant, type: bug, variant_name: "Hardware") }
 
-    it "are the variant's own exclusions for an inherited aspect" do
-      leaf.link!(aspect)
+    it "are the variant's own exclusions for the form it shares" do
+      link_configuration(leaf, aspect:)
       leaf.update!(form_configuration_excluded_elements: %w[assignee custom_field_7])
 
       expect(leaf.excluded_elements(aspect)).to match_array(%w[assignee custom_field_7])
     end
 
     it "report a repeated element once" do
-      leaf.link!(aspect)
+      link_configuration(leaf, aspect:)
       leaf.update!(form_configuration_excluded_elements: %w[assignee assignee])
 
       expect(leaf.excluded_elements(aspect)).to eq(["assignee"])
