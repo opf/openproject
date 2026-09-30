@@ -249,11 +249,6 @@ class WorkPackage < ApplicationRecord
       .exists?
   end
 
-  def add_time_entry(attributes = {})
-    attributes.reverse_merge!(project:, entity: self)
-    time_entries.build(attributes)
-  end
-
   def to_s = to_fs
 
   # Human-readable label composed from the work package's type, id and subject.
@@ -642,15 +637,6 @@ class WorkPackage < ApplicationRecord
     @derived_progress_hints ||= {}
   end
 
-  def add_time_entry_for(user, attributes)
-    return if time_entry_blank?(attributes)
-
-    attributes.reverse_merge!(user:,
-                              spent_on: Time.zone.today)
-
-    time_entries.build(attributes)
-  end
-
   def convert_duration_to_hours(value)
     if value.is_a?(String)
       begin
@@ -667,24 +653,6 @@ class WorkPackage < ApplicationRecord
       value = PercentageConverter.parse(value)
     end
     value
-  end
-
-  ##
-  # Checks if the time entry defined by the given attributes is blank.
-  # A time entry counts as blank despite a selected activity if that activity
-  # is simply the default activity and all other attributes are blank.
-  def time_entry_blank?(attributes)
-    return true if attributes.nil?
-
-    key = "activity_id"
-    id = attributes[key]
-    default_id = if id.present?
-                   Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
-                 else
-                   true
-                 end
-
-    default_id && attributes.except(key).values.all?(&:blank?)
   end
 
   # Default assignment based on category
