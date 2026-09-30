@@ -30,13 +30,13 @@
 
 module Highlighting
   class Registry
-    DEFAULT_RESOURCE_COLOURS = {
-      "status" => ::Status.includes(:color),
-      "priority" => ::IssuePriority.includes(:color),
-      "type" => ::Type.includes(:color),
-      "project_phase_definition" => ::Project::PhaseDefinition.includes(:color),
-      "project_status" => ::Projects::Statuses::AVAILABLE,
-      "color" => ::Color.all
+    DEFAULT_RESOURCE_COLORS = {
+      "status" => -> { ::Status.includes(:color) },
+      "priority" => -> { ::IssuePriority.includes(:color) },
+      "type" => -> { ::Type.includes(:color) },
+      "project_phase_definition" => -> { ::Project::PhaseDefinition.includes(:color) },
+      "project_status" => -> { ::Projects::Statuses::AVAILABLE },
+      "color" => -> { ::Color.all }
     }.freeze
 
     class << self
@@ -44,14 +44,14 @@ module Highlighting
         @all ||= {}
       end
 
-      def register_default_resource_colours
-        DEFAULT_RESOURCE_COLOURS.each do |key, values|
-          register_resource_colours(key:, values:)
+      def register_default_resource_colors
+        DEFAULT_RESOURCE_COLORS.each do |key, value_fn|
+          register_resource_colors(key:, value_fn:)
         end
       end
 
-      def register_resource_colours(key:, values:)
-        all[key] = values
+      def register_resource_colors(key:, value_fn:)
+        all[key.to_s] = value_fn
       end
     end
   end

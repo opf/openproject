@@ -1,6 +1,6 @@
 <%# Color variables per highlightable resource. The rules consuming them live in the %>
 <%# "Highlighting colors" section of frontend/src/global_styles/layout/_colors.sass %>
 
-<% Highlighting::Registry.all.each_pair do |key, values| %>
-  <%= resource_color_css(key, values) %>
+<% Highlighting::Registry.all.each_pair do |key, value_fn| %>
+  <%= resource_color_css(key, value_fn.call) %>
 <% end %>

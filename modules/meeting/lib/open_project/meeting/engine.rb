@@ -209,8 +209,8 @@ module OpenProject::Meeting
     end
 
     config.after_initialize do
-      ::Highlighting::Registry.register_resource_colours(key: "meeting_status",
-                                                         values: ::Meetings::Statuses::AVAILABLE)
+      ::Highlighting::Registry.register_resource_colors(key: "meeting_status",
+                                                        value_fn: -> { ::Meetings::Statuses::AVAILABLE })
     end
 
     add_api_path :meetings do
