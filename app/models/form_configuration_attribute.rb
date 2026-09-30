@@ -90,6 +90,6 @@ class FormConfigurationAttribute < ApplicationRecord
   def group_is_an_attribute_group_of_the_owner
     return if group.nil?
 
-    errors.add(:group, :invalid) if group.form_configuration_id != form_configuration_id || !group.attribute?
+    errors.add(:group, :invalid) if group.form_configuration_id != form_configuration_id || !group.kind_attribute?
   end
 end

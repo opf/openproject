@@ -39,7 +39,7 @@ RSpec.describe FormConfigurationGroup do
 
   describe "validations" do
     it "requires a label unless it is a default group" do
-      group = described_class.new(form_configuration: form, kind: described_class::ATTRIBUTE)
+      group = described_class.new(form_configuration: form, kind: :attribute)
 
       expect(group).not_to be_valid
       expect(group.errors[:label]).to be_present
@@ -49,14 +49,28 @@ RSpec.describe FormConfigurationGroup do
     end
 
     it "requires a query for a query group and forbids one for an attribute group" do
-      query_group = described_class.new(form_configuration: form, kind: described_class::QUERY, label: "Related")
+      query_group = described_class.new(form_configuration: form, kind: :query, label: "Related")
       expect(query_group).not_to be_valid
       expect(query_group.errors[:query]).to be_present
 
-      attribute_group = described_class.new(form_configuration: form, kind: described_class::ATTRIBUTE,
+      attribute_group = described_class.new(form_configuration: form, kind: :attribute,
                                             label: "Details", query: create(:query))
       expect(attribute_group).not_to be_valid
       expect(attribute_group.errors[:query]).to be_present
+    end
+
+    it "refuses a kind that is neither attribute nor query" do
+      group = described_class.new(form_configuration: form, kind: "section", label: "Details")
+
+      expect(group).not_to be_valid
+      expect(group.errors).to be_of_kind(:kind, :inclusion)
+    end
+
+    it "keeps the query methods of its columns" do
+      group = build(:form_configuration_group, form_configuration: form, label: "Details")
+
+      expect(group.label?).to be(true)
+      expect(group.default_key?).to be(false)
     end
 
     it "allows one group per default key and owner" do

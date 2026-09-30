@@ -49,7 +49,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GenerateDefaultsService do
 
     expect(result).to be_success
     expect(groups_as_tuples).to eq form.default_attribute_groups
-    expect(form.form_groups.pluck(:kind).uniq).to eq [FormConfigurationGroup::ATTRIBUTE]
+    expect(form.form_groups.pluck(:kind).uniq).to eq ["attribute"]
     expect(form.form_groups.pluck(:label).uniq).to eq [nil]
     expect(form.form_groups.pluck(:position)).to eq (1..form.form_groups.size).to_a
   end

@@ -65,7 +65,7 @@ class FormConfiguration
 
     def tuple_of(group)
       key = group.default_key ? group.default_key.to_sym : group.label
-      members = group.query? ? [group.query] : group.members.map(&:key)
+      members = group.kind_query? ? [group.query] : group.members.map(&:key)
 
       [key, members, (group.label if group.default_key), group.id]
     end
@@ -131,10 +131,10 @@ class FormConfiguration
     end
 
     def kind_of(group)
-      return { kind: FormConfigurationGroup::ATTRIBUTE, query: nil } unless group.is_a?(Type::QueryGroup)
+      return { kind: :attribute, query: nil } unless group.is_a?(Type::QueryGroup)
 
       group.query.save! if query_changed?(group)
-      { kind: FormConfigurationGroup::QUERY, query: group.query }
+      { kind: :query, query: group.query }
     end
 
     def place_members(row, group)
@@ -186,7 +186,7 @@ class FormConfiguration
 
     def signature_of_rows
       group_rows.includes(:members).map do |group|
-        [{ default_key: group.default_key, label: group.label }, group.query? ? [group.query_id] : group.members.map(&:key)]
+        [{ default_key: group.default_key, label: group.label }, group.kind_query? ? [group.query_id] : group.members.map(&:key)]
       end
     end
   end

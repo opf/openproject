@@ -57,7 +57,7 @@ module WorkPackageTypes
       end
 
       def create_group(default_key, members)
-        group = form.form_groups.create!(kind: FormConfigurationGroup::ATTRIBUTE, default_key: default_key.to_s)
+        group = form.form_groups.create!(kind: :attribute, default_key: default_key.to_s)
 
         members.each_with_index do |key, index|
           form.form_attributes.create!(group:, position: index + 1, **FormConfigurationAttribute.reference_for(key))

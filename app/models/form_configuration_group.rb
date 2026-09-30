@@ -29,11 +29,6 @@
 #++
 
 class FormConfigurationGroup < ApplicationRecord
-  KINDS = [
-    ATTRIBUTE = "attribute",
-    QUERY = "query"
-  ].freeze
-
   belongs_to :form_configuration, inverse_of: :form_groups
   belongs_to :query, optional: true, dependent: :destroy
   has_many :members,
@@ -43,18 +38,16 @@ class FormConfigurationGroup < ApplicationRecord
            inverse_of: :group,
            dependent: :restrict_with_exception
 
+  enum :kind, { attribute: "attribute", query: "query" }, prefix: true, validate: true
+
   acts_as_list scope: :form_configuration
   include Lists::MoveAfterAnchor
 
-  validates :kind, inclusion: { in: KINDS }
   validates :label, presence: true, if: -> { default_key.blank? }
-  validates :query, presence: true, if: :query?
-  validates :query, absence: true, if: :attribute?
+  validates :query, presence: true, if: :kind_query?
+  validates :query, absence: true, if: :kind_attribute?
   validates :default_key, uniqueness: { scope: :form_configuration_id }, allow_nil: true
   validates :query_id, uniqueness: true, allow_nil: true
-
-  def attribute? = kind == ATTRIBUTE
-  def query? = kind == QUERY
 
   def translated_label
     return label if label.present?

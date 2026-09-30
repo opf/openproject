@@ -31,7 +31,7 @@
 FactoryBot.define do
   factory :form_configuration_group do
     form_configuration
-    kind { FormConfigurationGroup::ATTRIBUTE }
+    kind { :attribute }
     sequence(:label) { |n| "Group #{n}" }
 
     trait :default do
@@ -40,7 +40,7 @@ FactoryBot.define do
     end
 
     trait :query do
-      kind { FormConfigurationGroup::QUERY }
+      kind { :query }
       query
     end
   end

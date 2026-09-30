@@ -74,7 +74,7 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
   def tuples(variant)
     form_of(variant).form_groups.reload.map do |group|
       key = group.default_key ? group.default_key.to_sym : group.label
-      [key, group.query? ? [:"query_#{group.query_id}"] : group.members.map(&:key)]
+      [key, group.kind_query? ? [:"query_#{group.query_id}"] : group.members.map(&:key)]
     end
   end
 
@@ -146,7 +146,7 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
     migrate_up
 
     group = form_of(owner).form_groups.first
-    expect(group).to be_query
+    expect(group).to be_kind_query
     expect(group.query).to eq(query)
   end
 
