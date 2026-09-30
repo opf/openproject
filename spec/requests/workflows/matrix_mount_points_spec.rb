@@ -120,7 +120,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).to have_css("[data-test-selector='workflow-panel']")
 
     get type_creation_wizard_path(type, step: :workflows,
-                                        started_id: type.default_variant.workflow_id)
+                                        started_workflow_id: type.default_variant.workflow_id)
 
     expect(response.body).to have_css("[data-test-selector='workflow-choice-new'][checked]")
     expect(response.body).to have_no_css("[data-test-selector='workflow-panel']")

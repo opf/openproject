@@ -48,6 +48,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
   def create_type_through_wizard(name)
     visit types_path
     click_on I18n.t("activerecord.attributes.work_package.type")
+    click_on I18n.t("types.creation_wizard.start.submit")
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
@@ -70,7 +71,9 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
 
     wait_for_turbo_stream { find_test_selector("form_configuration-choice-existing").click }
     within_dialog I18n.t("form_configurations.change.title") do
-      select_autocomplete(find_test_selector("change-form-select"), query: "Standard", results_selector: "#change-form-dialog")
+      select_autocomplete(find_test_selector("change-form_configuration-select"),
+                          query: "Standard",
+                          results_selector: "#change-form_configuration-dialog")
       click_on I18n.t(:button_save)
     end
 

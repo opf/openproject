@@ -108,7 +108,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
     it "names the workflow after the type and returns to the step" do
       expect { start(start: "scratch") }.to change(Workflow, :count).by(1)
 
-      expect(response).to redirect_to(%r{/creation_wizard\?started_id=#{assigned.id}&step=workflows})
+      expect(response).to redirect_to(%r{/creation_wizard\?started_workflow_id=#{assigned.id}&step=workflows})
       expect(assigned.name).to eq("Bug workflow (2)")
       expect(transitions_of(assigned)).to be_empty
     end

@@ -58,7 +58,7 @@ RSpec.describe "The overview of a work package type",
 
     within("#overview-details") { expect(page).to have_text("Always manual") }
     within("#overview-workflow") { expect(page).to have_text("Always manual") }
-    within("#overview-form_configuration") { expect(page).to have_text("Manually configured") }
+    within("#overview-form_configuration") { expect(page).to have_text("Always manual") }
     within("#overview-defaults") do
       expect(page).to have_text("Inheriting from Bug")
       expect(page).to have_link("Bug",
