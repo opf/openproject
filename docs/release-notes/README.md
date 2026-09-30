@@ -19,6 +19,11 @@ Release date: 2026-09-30
 
 [Release Notes](17-9-0/)
 
+## 17.8.1
+
+Release date: 2026-09-30
+
+[Release Notes](17-8-1/)
 
 ## 17.8.0
 
