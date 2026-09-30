@@ -32,11 +32,11 @@ See COPYRIGHT and LICENSE files for more details.
     if editable_here?
       banner.with_action_button(
         tag: :a,
-        href: helpers.edit_form_configuration_path(form),
+        href: helpers.edit_form_configuration_path(form_configuration),
         data: { turbo_frame: "_top" }
       ) { t("form_configurations.tab.read_only.edit_action") }
     end
 
-    t("form_configurations.tab.read_only.text_html", name: form.name)
+    t("form_configurations.tab.read_only.text_html", name: form_configuration.name)
   end
 %>

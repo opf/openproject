@@ -41,7 +41,7 @@ module WorkPackageTypes
 
       attr_reader :context
 
-      def form = context.form
+      def form_configuration = context.form_configuration
 
       def editable_here? = User.current.admin?
     end

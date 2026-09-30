@@ -34,7 +34,7 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
 
     def initialize(context:, form_attributes:, no_filter_query:)
-      super(context.form)
+      super(context.form_configuration)
       @context = context
       @form_attributes = form_attributes
       @no_filter_query = no_filter_query
