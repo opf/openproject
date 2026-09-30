@@ -29,14 +29,38 @@
 #++
 
 module WikiPages
-  class ShowSubHeaderComponent < ApplicationComponent
+  class FormFooterComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include ApplicationHelper
+    include WikiHelper
 
-    def initialize(page:, project:)
+    def initialize(page:, project:, form_identifier:, create:)
       super
       @page = page
       @project = project
+      @form_identifier = form_identifier
+      @create = create
+    end
+
+    def call
+      render(StepWizard::FooterComponent.new(form_identifier: @form_identifier, total_steps: 1, current_step: 1)) do |footer|
+        footer.with_cancel_button(href: cancel_button_href, data: { turbo_confirm: I18n.t(:text_are_you_sure) })
+        footer.with_submit_button(**submit_button_args)
+      end
+    end
+
+    private
+
+    def cancel_button_href
+      wiki_page_cancel_href(@page, @project)
+    end
+
+    def submit_button_args
+      {
+        form: @form_identifier,
+        label: @create ? t(:button_create) : t(:button_save),
+        name: :save
+      }
     end
   end
 end
