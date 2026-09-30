@@ -40,7 +40,6 @@ export interface TimelineButtonText extends ButtonControllerText {
 
 @Component({
   templateUrl: './wp-timeline-toggle-button.html',
-  styleUrls: ['./wp-timeline-toggle-button.sass'],
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-toggle-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -126,7 +125,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline.updateZoomWithDelta(delta);
   }
 
-  public performAction(event:Event) {
+  public performAction(_event:Event) {
     this.toggleTimeline();
   }
 

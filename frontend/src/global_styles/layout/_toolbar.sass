@@ -79,6 +79,7 @@ $nm-color-success-background: #d8fdd1
 .toolbar-items
   display: flex
   flex-wrap: wrap
+  gap: 10px
   margin: 0
   padding: 0
   justify-content: flex-end
@@ -87,15 +88,6 @@ $nm-color-success-background: #d8fdd1
     list-style-type: none
 
   .toolbar-item
-    margin-right: 10px
-
-    &:last-of-type
-      margin-right: 0
-
-    // hide right margin for e.g., conditional buttons
-    &.-no-spacing
-      margin-right: 0
-
     &.-no-grow
       flex-grow: 0
 
@@ -116,14 +108,16 @@ $nm-color-success-background: #d8fdd1
       margin: 0
       padding: 0
 
+    // Special case for WP Timeline Buttons
+    &:has(.toolbar-button-group:empty)
+      display: none
+
   .toolbar-button-group
     display: flex
     justify-content: flex-end
     flex-direction: row
-    margin-left: 0px
-
-    > li
-      margin-right: 2px
+    margin-left: 0
+    gap: 2px
 
   .button
     // Overwrite Foundastion's default padding. Let line-height fix vertical

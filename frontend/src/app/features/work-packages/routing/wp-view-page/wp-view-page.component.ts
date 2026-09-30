@@ -88,7 +88,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageTimelineButtonComponent,
-      containerClasses: 'hidden-for-tablet -no-spacing',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,
