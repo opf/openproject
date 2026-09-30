@@ -34,11 +34,13 @@
 // is also passed in and then used to determine the start and end of the day according to that time zone. Most of the
 // time, this will be the local time zone of the user.
 //
-// The non-working days can have a legend (designed outside of this plugin). Same as for other datasets, the user
+// The non-working days can have a legend. Its colour and its visibility are the plugin's own, so it
+// offers the entry rather than leaving a caller to restate them; how the entry is shaped and where it
+// sits among the others is left to whoever builds the legend. Same as for other datasets, the user
 // can be toggle the dataset at which point it fades in and out just like the other datasets. But this needs
 // to be hand rolled because chart.js would only allow this for datasets.
 
-import { Chart, ChartType, Plugin, Scale } from 'chart.js';
+import { Chart, ChartType, LegendItem, Plugin, Scale } from 'chart.js';
 import moment from 'moment-timezone';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
@@ -68,7 +70,11 @@ export interface Band {
 // The bands rendered for the background of non working days are painted by this plugin rather
 // than held in a dataset, so nothing animates them when the legend toggles. These reproduce what chart.js
 // gives a dataset it hides or shows.
-const BAND_OPACITY = 0.5;
+//
+// A band settles at full opacity because the colour it is painted in brings its own: the token is a
+// background meant to sit under content, so it is already faint. That also leaves the legend swatch,
+// which is painted flat, the same weight as the band itself.
+const BAND_OPACITY = 1;
 
 interface Fade {
   from:number;
@@ -110,7 +116,34 @@ export function bandFor(interval:NonWorkingInterval, scale:Scale, zone:string):B
 }
 
 function bandColor():string {
-  return getCSSVariable('--borderColor-muted', '#d0d7de');
+  return getCSSVariable('--bgColor-neutral-muted', '#818b981f');
+}
+
+function pluginOptions(chart:Chart):NonWorkingDaysPluginOptions {
+  return (chart.options.plugins?.['non-working-days'] ?? {}) as NonWorkingDaysPluginOptions;
+}
+
+// The colour the bands are painted in and whether they are currently shown, which a caller would
+// otherwise have to know about the plugin to state. It carries no shape, so the legend it joins
+// decides how the swatch looks and where the entry sits.
+export function nonWorkingDaysLegendItem(chart:Chart, text:string):LegendItem {
+  const color = bandColor();
+
+  return {
+    text,
+    fillStyle: color,
+    strokeStyle: color,
+    hidden: pluginOptions(chart).hidden ?? false,
+  };
+}
+
+// The bands are drawn by this plugin rather than by a dataset, so chart.js has nothing to hide or
+// show and their visibility is toggled here instead.
+export function toggleNonWorkingDays(chart:Chart):void {
+  const options = pluginOptions(chart);
+
+  options.hidden = !options.hidden;
+  chart.update();
 }
 
 // A chart with the animation turned off gets none here either. A scriptable duration is not
