@@ -26,6 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+// A plugin for chart.js that renders a background band for non-working days.
+// The non-working days behave like a dataset but have no data in the chart.js sense to back it up.
+// For every non-working day, the plugin provides a gray background band. Even though days typically
+// don't have a time zone, users perceive a day to start at midnight and end at midnight of the next day.
+// This makes them subject to the time zone of the chart. While the days are just provided as dates, the zone
+// is also passed in and then used to determine the start and end of the day according to that time zone. Most of the
+// time, this will be the local time zone of the user.
+//
+// The non-working days can have a legend (designed outside of this plugin). Same as for other datasets, the user
+// can be toggle the dataset at which point it fades in and out just like the other datasets. But this needs
+// to be hand rolled because chart.js would only allow this for datasets.
+
 import { Chart, ChartType, Plugin, Scale } from 'chart.js';
 import moment from 'moment-timezone';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
@@ -53,8 +65,9 @@ export interface Band {
   width:number;
 }
 
-// The bands are painted by this plugin rather than held in a dataset, so nothing animates them
-// when the legend toggles. These reproduce what chart.js gives a dataset it hides or shows.
+// The bands rendered for the background of non working days are painted by this plugin rather
+// than held in a dataset, so nothing animates them when the legend toggles. These reproduce what chart.js
+// gives a dataset it hides or shows.
 const BAND_OPACITY = 0.5;
 
 interface Fade {
