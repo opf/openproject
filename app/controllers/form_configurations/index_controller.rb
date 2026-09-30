@@ -137,17 +137,7 @@ module FormConfigurations
       return scope.to_a if tree_term.blank?
 
       matching = scope.where("LOWER(projects.name) LIKE LOWER(?)", "%#{sanitized_tree_term}%")
-      (matching.to_a + ancestors_of(matching)).uniq(&:id).sort_by(&:lft)
-    end
-
-    def ancestors_of(projects)
-      return [] if projects.empty?
-
-      ::Project.where(
-        "EXISTS (SELECT 1 FROM projects descendants WHERE descendants.id IN (:ids) " \
-        "AND projects.lft < descendants.lft AND projects.rgt > descendants.rgt)",
-        ids: projects.map(&:id)
-      ).to_a
+      scope.self_and_ancestors_of(matching).to_a
     end
 
     def tree_term = params[:query].to_s.strip
