@@ -85,8 +85,10 @@ export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipCo
 }
 
 function chipAt(editor:AnyEditor, position:number):ProsemirrorNode | null {
-  const node = editor.prosemirrorState.doc.nodeAt(position);
-  return node?.type.name === INLINE_WP_TYPE ? node : null;
+  return editor.transact((tr) => {
+    const node = tr.doc.nodeAt(position);
+    return node?.type.name === INLINE_WP_TYPE ? node : null;
+  });
 }
 
 export function selectInlineChipAt(editor:AnyEditor, position:number):void {
@@ -123,7 +125,7 @@ export function promoteInlineChipToBlockAt(
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = ((node.attrs.displayId || String(node.attrs.wpid)) as string);
 
-  const $position = editor.prosemirrorState.doc.resolve(position);
+  const $position = editor.transact((tr) => tr.doc.resolve(position));
 
   let blockId:string | undefined;
   for (let depth = $position.depth; depth > 0; depth--) {

@@ -3,6 +3,7 @@ import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertInlineWorkPackageViaSlashMenu,
+  insertBlockWorkPackageViaHash,
   insertInlineWorkPackageViaHash,
   convertToCompactCard,
   openInlineWorkPackageSizeMenu,
@@ -62,6 +63,16 @@ describe('Undo (Ctrl+Z)', () => {
 
     await expect.element(page.getByText('#123')).not.toBeInTheDocument();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
+  });
+
+  it('undoes block card inserted via #### hash — card is gone', async () => {
+    renderEditor();
+    await insertBlockWorkPackageViaHash();
+
+    await ctrl_z();
+
+    await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
+    await expect.element(page.getByText('#123')).not.toBeInTheDocument();
   });
 
   it('undoes inline -> block conversion — block card is gone, inline chip is restored', async () => {

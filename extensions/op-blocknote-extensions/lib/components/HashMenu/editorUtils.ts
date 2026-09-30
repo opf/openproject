@@ -1,68 +1,68 @@
 import type { AnyEditor } from '../../editorTypes';
-import { chipContentOf } from '../../utils/inlineChipActions';
-import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackage } from '../../openProjectTypes';
+import { chipContentOf, promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
+import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
+import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
+import type { HashTarget } from './hashTrigger';
 
-interface RawNode {
-  type:string;
-  text?:string;
-  props?:Record<string, string | undefined>;
-  [key:string]:unknown;
-}
+// Discarded right away, so the cheapest chip to render will do.
+const SPLIT_MARKER_SIZE:InlineWpSize = 'xxs';
 
-/**
- * Determines the inline chip size based on how many `#` characters
- * the user typed before the search query in the current block.
- *
- *   #query -> "xxs" (ID only)
- *   ##query -> "xs" (ID + Type + Subject)
- *   ###query -> "s" (ID + Type + Status + Subject)
- */
-export function getSizeFromCurrentBlock(editor:AnyEditor):InlineWpSize {
-  const block = editor.getTextCursorPosition()?.block;
-  if (!block) return 'xxs';
-
-  const content = (block.content ?? []) as RawNode[];
-  let lastHashCount:number | null = null;
-
-  for (const node of content) {
-    if (node.type !== 'text') continue;
-    const text = node.text ?? '';
-    const matches = [...text.matchAll(/#+/g)];
-    if (matches.length > 0) {
-      lastHashCount = matches[matches.length - 1][0].length;
-    }
-  }
-
-  if (lastHashCount === null) return 'xxs';
-  if (lastHashCount >= 3) return 's';
-  if (lastHashCount === 2) return 'xs';
-  return 'xxs';
+export function insertWpForTarget(
+  editor:AnyEditor,
+  workPackage:WorkPackage,
+  target:HashTarget
+):void {
+  if (target.kind === 'inline') insertWpChip(editor, workPackage, target.size);
+  else if (target.kind === 'block') insertWpBlockCard(editor, workPackage, target.size);
 }
 
 /**
  * Inserts a chip followed by a trailing space at the cursor, then removes any
  * leftover trigger hashes immediately before it.
  *
- * The chip and its trailing space are inserted together; `insertInlineContent`
- * leaves the cursor directly after the space, which is exactly where we want it.
- * We deliberately avoid placing the cursor with a separate selection
- * transaction — under real-time collaboration (Yjs/Hocuspocus) any selection
- * change dispatched after the menu insertion leaves the editor in a state where
- * the following native keyboard input (e.g. Backspace) is silently dropped.
- * Relying on the natural post-insertion cursor sidesteps that entirely.
+ * `insertInlineContent` leaves the cursor directly after the space, which is
+ * exactly where we want it. We deliberately avoid placing the cursor with a
+ * separate selection transaction — under real-time collaboration
+ * (Yjs/Hocuspocus) any selection change dispatched after the menu insertion
+ * leaves the editor in a state where the following native keyboard input
+ * (e.g. Backspace) is silently dropped.
  */
-export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize):void {
-  (editor.insertInlineContent as (content:unknown[]) => void)([
-    chipContentOf(wp, size),
-    { type: 'text', text: ' ', styles: {} },
-  ]);
-
-  // The chip (nodeSize 1) and its trailing space (length 1) were just inserted;
-  // insertInlineContent leaves the cursor right after the space.
-  const chipPosition = editor.prosemirrorState.selection.from - 2;
-  removeTriggerBeforeChip(editor, chipPosition);
+export function insertWpChip(
+  editor:AnyEditor,
+  workPackage:WorkPackage,
+  size:InlineWpSize
+):void {
+  insertChipAtCursor(editor, workPackage, size, { withTrailingSpace: true });
   editor.focus();
+}
+
+function insertWpBlockCard(
+  editor:AnyEditor,
+  workPackage:WorkPackage,
+  size:BlockWpSize
+):void {
+  editor.transact(() => {
+    const chipPosition = insertChipAtCursor(editor, workPackage, SPLIT_MARKER_SIZE, {
+      withTrailingSpace: false,
+    });
+    promoteInlineChipToBlockAt(editor, chipPosition, size);
+  });
+}
+
+function insertChipAtCursor(
+  editor:AnyEditor,
+  workPackage:WorkPackage,
+  size:InlineWpSize,
+  { withTrailingSpace }:{ withTrailingSpace:boolean }
+):number {
+  const content:unknown[] = [chipContentOf(workPackage, size)];
+  if (withTrailingSpace) content.push({ type: 'text', text: ' ', styles: {} });
+
+  const chipPosition = editor.transact((tr) => tr.selection.from);
+  (editor.insertInlineContent as (content:unknown[]) => void)(content);
+
+  return removeTriggerBeforeChip(editor, chipPosition);
 }
 
 export function restoreHashQuery(editor:AnyEditor, query:string):void {
@@ -72,23 +72,23 @@ export function restoreHashQuery(editor:AnyEditor, query:string):void {
 }
 
 /**
- * Removes the leftover trigger hashes (`#`/`##`) that BlockNote's suggestion menu
- * leaves directly before the chip for `##`/`###` triggers.
+ * Removes the leftover trigger hashes (`#`/`##`/`###`) that BlockNote's
+ * suggestion menu leaves directly before the chip for `##`-and-longer triggers,
+ * and returns the chip's position afterwards.
  */
-export function removeTriggerBeforeChip(editor:AnyEditor, chipPosition:number):void {
-  const { doc } = editor.prosemirrorState;
+export function removeTriggerBeforeChip(editor:AnyEditor, chipPosition:number):number {
+  return editor.transact((tr) => {
+    const chipNode = tr.doc.nodeAt(chipPosition);
+    if (chipNode?.type.name !== INLINE_WP_TYPE) return chipPosition;
 
-  const chipNode = doc.nodeAt(chipPosition);
-  if (chipNode?.type.name !== 'openProjectWorkPackageInline') return;
+    const nodeBeforeChip = tr.doc.resolve(chipPosition).nodeBefore;
+    if (!nodeBeforeChip?.isText || nodeBeforeChip.text == null) return chipPosition;
 
-  const nodeBeforeChip = doc.resolve(chipPosition).nodeBefore;
-  if (!nodeBeforeChip?.isText || nodeBeforeChip.text == null) return;
+    const match = /#+$/.exec(nodeBeforeChip.text);
+    if (!match) return chipPosition;
 
-  const match = /#+$/.exec(nodeBeforeChip.text);
-  if (!match) return;
-
-  const triggerStart = chipPosition - (nodeBeforeChip.text.length - match.index);
-  editor.transact((tr) => {
+    const triggerStart = chipPosition - (nodeBeforeChip.text.length - match.index);
     tr.delete(triggerStart, chipPosition);
+    return triggerStart;
   });
 }
