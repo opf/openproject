@@ -28,14 +28,14 @@
 
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
 import {
-  Chart, ChartData, ChartDataset, ChartEvent, ChartOptions, LegendElement, LegendItem, PointStyle, TooltipItem,
+  Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import NonWorkingDaysPlugin, {
-  NonWorkingInterval, nonWorkingDaysLegendItem, toggleNonWorkingDays,
+  NonWorkingInterval, nonWorkingDaysColor,
 } from 'core-app/shared/components/charts/plugin.non-working-days';
 import 'core-app/shared/components/charts/interaction.series-at-x';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
@@ -46,8 +46,15 @@ interface BurndownPoint {
   y:number;
 }
 
+// The non-working days are one of these too, standing in for the bands a plugin paints. It brings
+// no points, so chart.js draws nothing for it, but it earns the legend entry and the visibility
+// that make it behave like the rest.
+type SeriesKey = 'remaining'|'guideline'|'projection'|'non-working-days';
+
+const NON_WORKING_KEY = 'non-working-days' satisfies SeriesKey;
+
 interface BurndownSeries {
-  id:'remaining'|'guideline'|'projection';
+  id:SeriesKey;
   label:string;
   data:BurndownPoint[];
 }
@@ -64,10 +71,6 @@ interface BurndownChartData {
 const Y_AXIS_HEADROOM = 1.1;
 
 const MINUTE_IN_MS = 60 * 1000;
-
-const NON_WORKING_LEGEND_KEY = 'non-working-days';
-
-type SeriesKey = BurndownSeries['id']|typeof NON_WORKING_LEGEND_KEY;
 
 // Chart.js takes a swatch shape per legend item but the decision to honour it at all is global,
 // hence usePointStyle on the labels.
@@ -131,10 +134,11 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
     order: 2,
     color: () => ({ border: remainingColor() }),
   },
-  [NON_WORKING_LEGEND_KEY]: {
+  [NON_WORKING_KEY]: {
     swatch: 'rect',
     borderDash: [],
     borderWidth: 0,
+    color: () => ({ border: nonWorkingDaysColor(), background: nonWorkingDaysColor() }),
   },
   guideline: {
     swatch: 'line',
@@ -187,22 +191,40 @@ export class BurndownChartComponent {
 
   private readonly parsedInput = computed(() => JSON.parse(this.chartData()) as BurndownChartData);
 
-  readonly hasChartData = computed(() => this.parsedInput().series.some((series) => series.data.length > 0));
+  // The non-working days join the series they are drawn among, without data points but present, so that the legend and
+  // its toggle reach them through chart.js.
+  private readonly series = computed<BurndownSeries[]>(() => {
+    const { series, nonWorkingIntervals } = this.parsedInput();
+
+    if (nonWorkingIntervals.length === 0) {
+      return series;
+    }
+
+    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.burndown.non_working_day'), data: [] }];
+  });
+
+  private readonly nonWorkingDatasetIndex = computed(() => {
+    const index = this.series().findIndex((series) => series.id === NON_WORKING_KEY);
+
+    return index === -1 ? undefined : index;
+  });
+
+  readonly hasChartData = computed(() => this.series().some((series) => series.data.length > 0));
 
   readonly lineChartData = computed<ChartData<'line', BurndownPoint[]>>(() => ({
-    datasets: this.parsedInput().series.map((series) => this.datasetFor(series)),
+    datasets: this.series().map((series) => this.datasetFor(series)),
   }));
 
   // Both bounds are taken across every series, so that hiding one does not refit the axes to
   // what is left.
   private readonly chartedRange = computed(() => {
-    const times = this.parsedInput().series.flatMap((series) => series.data.map((point) => Date.parse(point.x)));
+    const times = this.series().flatMap((series) => series.data.map((point) => Date.parse(point.x)));
 
     return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
   });
 
   private readonly yAxisMaximum = computed(() => {
-    const values = this.parsedInput().series.flatMap((series) => series.data.map((point) => point.y));
+    const values = this.series().flatMap((series) => series.data.map((point) => point.y));
 
     return values.length === 0 ? undefined : Math.max(...values) * Y_AXIS_HEADROOM;
   });
@@ -240,6 +262,7 @@ export class BurndownChartComponent {
         'non-working-days': {
           intervals: this.parsedInput().nonWorkingIntervals,
           zone,
+          datasetIndex: this.nonWorkingDatasetIndex(),
         },
         legend: {
           position: 'bottom',
@@ -248,7 +271,6 @@ export class BurndownChartComponent {
             pointStyleWidth: SWATCH_WIDTH,
             generateLabels: (chart) => this.legendLabels(chart),
           },
-          onClick: (event, item, legend) => this.toggleLegendItem(event, item, legend),
         },
         tooltip: {
           itemSort: (a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex),
@@ -313,48 +335,16 @@ export class BurndownChartComponent {
   }
 
   private legendLabels(chart:Chart):LegendItem[] {
-    const labels:LegendItem[] = Chart.defaults.plugins.legend.labels.generateLabels(chart)
-      .map((label) => ({ ...label, ...legendStyle(this.seriesId(label.datasetIndex)) }));
-
-    if (this.parsedInput().nonWorkingIntervals.length > 0) {
-      labels.push(this.nonWorkingLegendItem(chart));
-    }
-
-    return labels.sort((a, b) => this.legendRank(a) - this.legendRank(b));
+    return Chart.defaults.plugins.legend.labels.generateLabels(chart)
+      .map((label) => ({ ...label, ...legendStyle(this.seriesId(label.datasetIndex)) }))
+      .sort((a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex));
   }
 
-  private seriesId(datasetIndex:number|undefined):BurndownSeries['id']|undefined {
-    return datasetIndex === undefined ? undefined : this.parsedInput().series[datasetIndex]?.id;
+  private seriesId(datasetIndex:number|undefined):SeriesKey|undefined {
+    return datasetIndex === undefined ? undefined : this.series()[datasetIndex]?.id;
   }
 
-  // The colour and the visibility come from the plugin that paints the bands; only the swatch's
-  // shape and its place in the legend are this chart's to decide.
-  private nonWorkingLegendItem(chart:Chart):LegendItem {
-    return {
-      ...nonWorkingDaysLegendItem(chart, this.i18n.t('js.burndown.non_working_day')),
-      ...legendStyle(NON_WORKING_LEGEND_KEY),
-    };
-  }
-
-  // The non-working days carry no dataset index, which is also how the toggle tells them apart.
-  private legendRank(item:LegendItem):number {
-    return item.datasetIndex === undefined
-      ? seriesRank(NON_WORKING_LEGEND_KEY)
-      : this.datasetRank(item.datasetIndex);
-  }
-
-  private datasetRank(datasetIndex:number):number {
+  private datasetRank(datasetIndex:number|undefined):number {
     return seriesRank(this.seriesId(datasetIndex));
-  }
-
-  // The non-working days are drawn by a plugin rather than a dataset, so their entry carries no dataset
-  // index and has to toggle the plugin's own visibility.
-  private toggleLegendItem(event:ChartEvent, item:LegendItem, legend:LegendElement<'line'>):void {
-    if (item.datasetIndex === undefined) {
-      toggleNonWorkingDays(legend.chart);
-      return;
-    }
-
-    Chart.defaults.plugins.legend.onClick.call(legend, event, item, legend);
   }
 }
