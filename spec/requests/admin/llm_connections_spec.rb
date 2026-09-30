@@ -137,11 +137,80 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(connection.api_key).to eq("sk-test")
       end
 
+      it "fills the catalogue once when none is stored" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(LlmConnection.first.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+      end
+
       it "confirms the connection once LLMs are switched on" do
         patch llm_connection_path,
               params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
 
         expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.success"))
+      end
+
+      context "when models are already stored" do
+        let!(:connection) { create(:llm_connection, :with_models, base_url:, api_key: "sk-test") }
+
+        before do
+          connection.update!(connection_fingerprint: connection.settings_fingerprint)
+          connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                                 state: "supported", source: "admin", checked_at: Time.current)
+        end
+
+        it "replaces the stored catalogue when the host URL changes" do
+          elsewhere = "https://elsewhere.example/v1"
+          mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
+
+          patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
+
+          connection.reload
+          expect(connection.available_model_ids).to contain_exactly("llama4-8b")
+          expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+          expect(connection).not_to be_models_stale
+        end
+
+        it "refreshes the catalogue but keeps the models and defaults when only the API key is rotated" do
+          chat_model = connection.models.find_by!(external_id: "qwen3.6-27b")
+          embedding_model = connection.models.find_by!(external_id: "bge-m3")
+          connection.update!(default_chat_model: chat_model, default_embedding_model: embedding_model)
+          model_ids = connection.models.order(:id).pluck(:id)
+
+          expect { patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-rotated" } } }
+            .to change { connection.reload.last_synced_at }
+
+          expect(connection.api_key).to eq("sk-rotated")
+          expect(connection.models.order(:id).pluck(:id)).to eq(model_ids)
+          expect(connection.default_chat_model_id).to eq(chat_model.id)
+          expect(connection.default_embedding_model_id).to eq(embedding_model.id)
+          expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+        end
+
+        it "keeps a model an administrator entered by hand" do
+          elsewhere = "https://elsewhere.example/v1"
+          create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+          mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
+
+          patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
+
+          expect(connection.reload.models.pluck(:external_id)).to contain_exactly("llama4-8b", "hand-typed")
+        end
+      end
+    end
+
+    # The case that matters for OpenProject's own gateway: chat completions are
+    # routed, the model list is not.
+    context "with a server that exposes no model list" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 405) }
+
+      it "still saves the connection and says models must be added by hand" do
+        patch llm_connection_path,
+              params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        expect(LlmConnection.first.base_url).to eq(base_url)
+        expect(flash[:warning]).to be_present
       end
     end
 
@@ -298,9 +367,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
+  describe "GET /admin/llm_connection/delete_api_key_dialog" do
+    let!(:connection) { create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    before { login_as admin }
+
+    it "offers the confirmation" do
+      # Requested by the async-dialog Stimulus controller, which asks for a
+      # turbo stream rather than HTML.
+      get delete_api_key_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Remove the stored API key?")
+    end
+  end
+
   describe "disconnecting" do
     let!(:connection) do
-      create(:llm_connection,
+      create(:llm_connection, :with_models,
              base_url: "https://example.com/v1", api_key: "sk-test")
     end
 
@@ -325,6 +410,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.api_key).to be_blank
       expect(Setting.llm_features_enabled?).to be(false)
       expect(connection.base_url).to eq("https://example.com/v1")
+      expect(connection.models.count).to eq(2)
     end
 
     it "is refused to a non-admin" do
