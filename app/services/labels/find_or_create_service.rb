@@ -29,17 +29,31 @@
 #++
 
 module Labels
-  class CreateService < ::BaseServices::Create
-    protected
+  class FindOrCreateService
+    attr_reader :user
 
-    # The savepoint keeps a unique index violation from aborting a transaction the caller may already have open.
-    def persist(service_result)
-      Label.transaction(requires_new: true) { super }
-    rescue ActiveRecord::RecordNotUnique
-      service_result.result.errors.add(:name, :taken)
-      service_result.errors = service_result.result.errors
-      service_result.success = false
-      service_result
+    def initialize(user:)
+      @user = user
+    end
+
+    def call(name:)
+      existing = Label.named(name).first
+      return ServiceResult.success(result: existing) if existing
+
+      create(name)
+    end
+
+    private
+
+    def create(name)
+      call = CreateService.new(user:).call(name:)
+      return call if call.success? || call.errors.symbols_for(:name).exclude?(:taken)
+
+      existing(name)
+    end
+
+    def existing(name)
+      ServiceResult.success(result: Label.named(name).first!)
     end
   end
 end
