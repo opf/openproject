@@ -67,8 +67,8 @@ ja:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -84,16 +84,15 @@ ja:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**クローズ：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がクローズされました。\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -114,6 +113,7 @@ ja:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**マージ済み：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がマージされました。\n"
     merge_request_opened_comment: "**オープン：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がオープンされました。\n"
     merge_request_reopened_comment: "**MR Reopened:** マージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の%{repository}](%{repository_url}) は [%{gitlab_user}](%{gitlab_user_url} ) によって再び開かれました。\n"

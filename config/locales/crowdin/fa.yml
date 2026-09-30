@@ -386,12 +386,12 @@ fa:
         attribute_groups: فرم
         default_work_package_description: متن پیش‌فرض توضیحات
         enabled_in_new_projects: فعال در پروژه‌های جدید
-        linked_aspects: Inherited configuration
+        linked_aspects: پیکربندی موروثی
         patterns: الگوها
         project_types: پروژه‌های استفاده‌کننده از این گونه
         variant: گونه
         variant_name: نام
-        workflow: Workflow
+        workflow: گردش کاری
       user:
         admin: مدیر
         auth_source: منبع احراز هویت
@@ -496,7 +496,7 @@ fa:
           title: روزهای کاری
           true: شامل روزهای غیرکاری
         journal_internal: ژورنال داخلی
-        labels: Labels
+        labels: برچسب‌ها
         notify: اعلان
         observed_in_versions: مشاهده‌شده در نسخه‌ها
         parent: بالادستی
@@ -526,9 +526,9 @@ fa:
       work_package_version:
         kind: نوع
       workflow:
-        description: Description
-        name: Name
-        type_variants: Types and variants using this workflow
+        description: توضیحات
+        name: نام
+        type_variants: انواع و گونه‌های استفاده‌کننده از این گردش کاری
     errors:
       messages:
         accepted: باید پذیرفته شود.
@@ -622,7 +622,7 @@ fa:
         ai/text_transform_run:
           attributes:
             base:
-              not_available: This action is not available.
+              not_available: این عملیات در دسترس نیست.
         attachment:
           attributes:
             content_type:
@@ -703,10 +703,10 @@ fa:
         label:
           attributes:
             name:
-              blank: Name cannot be empty.
+              blank: نام نمی‌تواند خالی باشد.
               format: "%{message}"
-              taken: A label with this name already exists. Please use another one.
-              too_long: Name is too long (maximum is %{count} characters).
+              taken: برچسبی با این نام از قبل وجود دارد. لطفاً نام دیگری استفاده کنید.
+              too_long: نام بیش از حد طولانی است (حداکثر %{count} نویسه).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -899,7 +899,7 @@ fa:
             variant:
               must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
             workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
+              not_available_to_this_variant: باید گردش کاری‌ای باشد که این پروژه بتواند از آن استفاده کند.
         user:
           attributes:
             base:
@@ -1411,21 +1411,21 @@ fa:
     custom_styles:
       branding:
         desktop:
-          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
-          title: Custom desktop logos
+          description: به‌طور پیش‌فرض از لوگوهای OpenProject استفاده می‌شود، اما اگر لوگوهای جدید بارگذاری کنید، پوسته به‌طور خودکار به پوسته سفارشی تغییر می‌کند. برای نتیجه بهتر، لوگویی با پس‌زمینه شفاف پیشنهاد می‌کنیم.
+          title: لوگوهای سفارشی دسکتاپ
         mobile:
-          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
-          title: Custom mobile logos
+          description: به‌طور پیش‌فرض در نسخه مرورگر موبایل از لوگوهای OpenProject استفاده می‌شود؛ برنامه بومی موبایل با این تغییر به‌روزرسانی نخواهد شد. برای نتیجه بهتر، لوگویی با پس‌زمینه شفاف پیشنهاد می‌کنیم.
+          title: لوگوهای سفارشی موبایل
         modes:
           dark:
-            description: The app header will be black. We recommend a white logo on transparent background.
-            name: Dark mode logo
+            description: سربرگ برنامه سیاه خواهد بود. پیشنهاد می‌کنیم از لوگوی سفید با پس‌زمینه شفاف استفاده کنید.
+            name: لوگوی حالت تیره
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
-            name: Light mode logo
+            description: مطمئن شوید لوگوی بارگذاری‌شده با رنگ انتخاب‌شده برای سربرگ برنامه کنتراست کافی دارد.
+            name: لوگوی حالت روشن
           light_high_contrast:
-            description: The app header will be grey. We recommend a black logo on transparent background.
-            name: High contrast mode logo
+            description: سربرگ برنامه خاکستری خواهد بود. پیشنهاد می‌کنیم از لوگوی سیاه با پس‌زمینه شفاف استفاده کنید.
+            name: لوگوی حالت کنتراست بالا
       color_groups:
         base_colors: رنگ‌های پایه
         main_menu: منوی کناری اصلی
@@ -1441,7 +1441,7 @@ fa:
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: یک پالت رنگ برای استفاده در بخش‌های دیگر برنامه تعریف کنید. این رنگ‌ها برای نمونه هنگام انتخاب رنگ برای نمایش یک وضعیت یا نوع در دسترس خواهند بود.
       edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
@@ -1459,10 +1459,10 @@ fa:
       tab_pdf_export_font: فونت خروجی PDF
       tab_pdf_export_styles: سبک‌های خروجی PDF
       theme_warning:
-        confirmation: I understand that this action cannot be reversed
-        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
-        heading: Change color theme?
-        title: Change color theme
+        confirmation: می‌دانم که این عملیات قابل بازگشت نیست
+        description: تغییر پوسته، سبک‌ها و رنگ‌های سفارشی را بازنویسی می‌کند. مقادیر طراحی ایجادشده از دست خواهند رفت.
+        heading: پوسته رنگی تغییر کند؟
+        title: تغییر پوسته رنگی
     enterprise:
       add_token: بارگذاری توکن پشتیبانی نسخه Enterprise
       book_now: همین حالا رزرو کنید
@@ -1522,7 +1522,7 @@ fa:
         ssl_error: 'خطای SSL هنگام اتصال به سرور Jira: %{message}'
         ssrf_block_doc_link: لطفاً [مستندات](docs_url) را ببینید.
         ssrf_blocked: 'اتصال مسدود شد: میزبان Jira به یک نشانی IP خصوصی Resolve می‌شود. اگر نمونه Jira شما روی شبکه داخلی اجرا می‌شود، IP آن را از طریق متغیر محیطی OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST مجاز کنید.'
-        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
+        unsupported_endpoint: API جیرا در مسیر %{path} هیچ endpointی ندارد (وضعیت %{status})
       columns:
         added: افزوده‌شده
         creator: ایجادکننده
@@ -1564,6 +1564,43 @@ fa:
           button_edit_configuration: ویرایش پیکربندی
           button_import_run: اجرای Import
           description: در هر اجرای Import می‌توانید مجموعه متفاوتی از داده‌ها را وارد کنید. لغو Import بلافاصله در حالت بازبینی ممکن است، اما پس از نهایی‌سازی دیگر ممکن نیست.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'در حال واردکردن پروژه‌ای با شناسه از قبل استفاده‌شده هستید: %{taken_identifier}. لطفاً شناسه پروژه را در Jira به‌روزرسانی کرده و سپس روی تلاش مجدد کلیک کنید.'
         remove_error: اجرای Import از Jira در حال اجرا قابل حذف نیست
         side_panel:
@@ -1592,13 +1629,17 @@ fa:
         step_not_available: این عملیات در وضعیت فعلی فرایند واردسازی در دسترس نیست.
         title: اجرای Import
         wizard:
+          application_trace: Application trace
           button_abort: لغو
           button_retry: تلاش مجدد
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: می‌دانم که این اقدام قابل بازگشت نیست
             confirm_button: متوجه شدم
             description: پس از تأیید، این Import دیگر قابل بازگردانی نیست و همه داده‌های واردشده دائمی خواهند شد.
             title: این Import تأیید شود؟
+          full_trace: Full trace
           groups:
             configuration:
               title: پیکربندی Import
@@ -1615,6 +1656,9 @@ fa:
             issues:
               one: ۱ Issue
               other: "%{count} Issue"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: ۱ پروژه
               other: "%{count} پروژه"
@@ -1704,6 +1748,7 @@ fa:
                 issues: Issueها
                 permissions: مجوزها
                 project_ids: شناسه‌های پروژه
+                project_versions: Project versions
                 projects: پروژه‌ها
                 relations: روابط بین Issueها
                 schemes: Schemaها
@@ -1711,7 +1756,7 @@ fa:
                 users: کاربران و گروه‌های درگیر
                 workflows: گردش‌کارهای سطح پروژه
               label_coming_later: بعداً اضافه می‌شود
-              label_coming_soon: به‌زودی (سه‌ماهه سوم ۲۰۲۶)
+              label_coming_soon: Coming soon
               label_import: پروژه‌هایی را که می‌خواهید وارد کنید انتخاب کنید.
               label_info: توجه داشته باشید این ابزار Import در مرحله Beta است و نمی‌تواند همه انواع داده را وارد کند. در اینجا خلاصه‌ای از داده‌های قابل Import در نمونه میزبان Jira و مواردی که ابزار در حال حاضر قادر به واردکردن آن‌هاست آمده است.
               label_progress: در حال دریافت داده‌ها
@@ -1725,6 +1770,38 @@ fa:
             filter_projects: فیلتر بر اساس متن
             info: فقط پروژه‌هایی که مالک توکن Jira عضو آن‌هاست قابل انتخاب به‌عنوان دامنه Import هستند.
             title: انتخاب پروژه‌ها برای Import
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API وضعیت خطای %{status} برگرداند. لطفاً نشانی نمونه Jira و توکن API را بررسی کنید.
         connection_error: 'خطای اتصال: %{message}'
@@ -1745,33 +1822,33 @@ fa:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
-        heading: Delete this label?
-        title: Delete this label?
+        confirmation: می‌دانم که این عملیات برگشت‌پذیر نیست
+        description_html: این کار برچسب <strong>%{name}</strong> را از همه بسته‌های کاری در همه پروژه‌ها حذف می‌کند.
+        heading: این برچسب حذف شود؟
+        title: این برچسب حذف شود؟
       dialog_component:
-        create_title: Create label
-        rename_title: Rename "%{name}"
+        create_title: ایجاد برچسب
+        rename_title: تغییر نام «%{name}»
       index:
-        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+        description: همه کاربرانی که امکان ویرایش بسته‌های کاری را دارند می‌توانند آزادانه بسته‌های کاری را با برچسب‌های موجود علامت‌گذاری کنند یا فوراً برچسب جدید بسازند. این شامل همه برچسب‌هایی است که کاربران در تمام پروژه‌ها ساخته‌اند.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          other: "%{count} work packages"
+          one: "%{count} بسته کاری"
+          other: "%{count} بسته کاری"
       sub_header_component:
-        button_add: Label
-        label_add: Add label
-        search_placeholder: Type here to search
+        button_add: برچسب
+        label_add: افزودن برچسب
+        search_placeholder: برای جستجو اینجا تایپ کنید
       table_component:
         blank_slate:
-          description: Labels created by users on work packages will appear here.
-          title: No labels yet
+          description: برچسب‌هایی که کاربران روی بسته‌های کاری ایجاد می‌کنند در اینجا نمایش داده خواهند شد.
+          title: هنوز برچسبی وجود ندارد
         headers:
-          name: Label
-          usage: Used in
+          name: برچسب
+          usage: استفاده‌شده در
         no_matches:
-          description: Try a different search term.
-          title: No labels match your search
+          description: عبارت جستجوی دیگری را امتحان کنید.
+          title: هیچ برچسبی با جستجوی شما مطابقت ندارد
     mcp_configurations:
       index:
         description: Model Context Protocol به Agentهای هوش مصنوعی اجازه می‌دهد ابزارها و منابع ارائه‌شده توسط این نمونه OpenProject را در اختیار کاربرانشان قرار دهند. این قابلیت هنوز در مرحله Beta است.
@@ -2027,8 +2104,8 @@ fa:
         save: ذخیره تغییرات و ادامه
         title: تغییرات پیش از ادامه ذخیره شوند؟
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: ویرایش گردش کاری
+        text_html: 'شما از یک گردش کاری موجود استفاده می‌کنید. برای ایجاد تغییر، یا گردش کاری اصلی را ویرایش کنید یا برای ساخت یک گردش کاری جدید روی <b>+ %{action}</b> در بالا کلیک کنید.
 
           '
       role_selector:
@@ -2060,11 +2137,7 @@ fa:
           assignee: انتقال‌های اضافی در دسترس مسئول انجام بسته کاری.
           author: انتقال‌های اضافی در دسترس نویسنده بسته کاری.
         menu_label: انتقال‌های نمایش‌داده‌شده
-      workflow_button: Workflow
-      workflow_selector:
-        prefix: Workflow
-        same_as_type: "(same as type)"
-        title: Select workflow
+      workflow_button: گردش کاری
   ai:
     text_transform:
       errors:
@@ -3290,14 +3363,14 @@ fa:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: بسته‌های کاری را مستقیماً در اسناد ایجاد کنید.
+            line_1: بسته‌های کاری را در بک‌لاگ‌ها جستجو و فیلتر کنید.
+            line_2: هنگام حذف یک بسته کاری، انتخاب کنید که زیرمجموعه‌ها حفظ شوند یا خیر.
+            line_3: از سرور MCP برای ثبت زمان، جستجوی بسته‌های کاری بر اساس شناسه نمایشی آن‌ها و موارد بیشتر استفاده کنید (طرح Professional).
+            line_4: کار برنامه‌ریزی‌شده را به ساعت، روز، هفته یا ماه وارد کنید.
+            line_5: هنگام استفاده از Jira Migrator پیشرفت واردسازی را مشاهده کنید.
+            line_6: از هشدارهای تاریخ در نسخه Community استفاده کنید.
+          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید متنوعی است، از جمله:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -3337,13 +3410,14 @@ fa:
       budget_deleted: بودجه حذف شده است
       import:
         changed_with_diff: "%{field} تغییر کرد (%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} حذف شد (%{link})"
         field_changed: "%{field} از %{old_value} به %{new_value} تغییر کرد"
         field_removed: "%{field} حذف شد"
         field_set: "%{field} روی %{value} تنظیم شد"
         field_updated: "%{field} به‌روزرسانی شد"
         header: تغییرات توسط %{author}
-        migrated: from Jira
+        migrated: از جیرا
         set_with_diff: "%{field} تنظیم شد (%{link})"
       meeting_cancelled: "(لغوشده)"
       meeting_deleted: "(حذف‌شده)"
@@ -3588,7 +3662,7 @@ fa:
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
   label_deleted_custom_item: "(مورد حذف‌شده)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
-  label_deleted_version: "(deleted version)"
+  label_deleted_version: "(نسخه حذف‌شده)"
   label_departments: سازمان
   label_departments_description_html: 'ساختار شرکت خود را با ایجاد واحدهای سازمانی و زیرواحدها به‌صورت سلسله‌مراتبی تعریف کنید. این کار امکان بازتاب خطوط گزارش‌دهی و حفظ نمایی شفاف و ساختاریافته از سازمان در OpenProject را فراهم می‌کند. همچنین می‌توانید ساختار سازمانی موجود را از طریق [همگام‌سازی واحدهای سازمانی LDAP](ldap_docs_article) وارد کنید.
 
@@ -3727,7 +3801,7 @@ fa:
   label_journal_diff: مقایسه توضیحات
   label_jump_to_a_project: رفتن به یک پروژه...
   label_keyword_plural: کلیدواژه‌ها
-  label_label_plural: Labels
+  label_label_plural: برچسب‌ها
   label_language: زبان
   label_language_based: براساس زبان کاربر
   label_languages: زبان‌ها
@@ -5095,6 +5169,7 @@ fa:
   permission_export_projects: خروجی‌گرفتن از پروژه‌ها
   permission_export_work_packages: خروجی‌گرفتن از بسته‌های کاری
   permission_header_for_project_module_work_package_tracking: بسته‌های کاری و نمودارهای گانت
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: دعوت اعضا از طریق ایمیل
   permission_invite_members_by_email_explanation: 'به کاربران اجازه می‌دهد اعضای جدید را از طریق ایمیل دعوت کنند. کاربران دعوت‌شده ایمیلی با پیوند تنظیم گذرواژه و فعال‌سازی حساب دریافت می‌کنند. وابسته به مجوز مدیریت اعضا است.
 
@@ -5470,7 +5545,7 @@ fa:
         variants_not_allowed: این نوع اجازه ایجاد گونه درون پروژه‌ها را نمی‌دهد.
       versions:
         no_results_content_text: ایجاد نسخه جدید
-        no_results_title_text: No versions matching the filter criteria were found for this project.
+        no_results_title_text: هیچ نسخه‌ای مطابق معیارهای فیلتر برای این پروژه پیدا نشد.
         show_work_packages: نمایش بسته‌های کاری
         work_packages_graph: گراف بسته‌های کاری
       work_package_priorities:
@@ -5480,7 +5555,7 @@ fa:
     wizard:
       create_artifact_storage_error: ذخیره آرتیفکت در Storage فایل ناموفق بود
       create_artifact_work_package_error: ایجاد بسته کاری آرتیفکت ناموفق بود
-      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
+      no_custom_fields_html: این پروژه هیچ ویژگی پروژه‌ای فعالی برای جادوگر ندارد. لطفاً دست‌کم یکی را در <a href="%{link}">تنظیمات پروژه</a> فعال کنید.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها
@@ -5674,15 +5749,15 @@ fa:
       section_check_all_label: تخصیص همه مجوزهای %{module}
       section_uncheck_all_label: لغو تخصیص همه مجوزهای %{module}
     permissions_dialog:
-      edit_permissions: Edit role permissions
-      implicit_permission: Always granted
-      no_permissions: This role does not grant any permissions.
+      edit_permissions: ویرایش مجوزهای نقش
+      implicit_permission: همیشه اعطا می‌شود
+      no_permissions: این نقش هیچ مجوزی اعطا نمی‌کند.
       permission_count:
-        one: 1 permission
-        other: "%{count} permissions"
-      preview_action: View permissions
-      preview_aria_label: View the permissions of %{role}
-      title: Permissions of "%{name}"
+        one: ۱ مجوز
+        other: "%{count} مجوز"
+      preview_action: مشاهده مجوزها
+      preview_aria_label: مشاهده مجوزهای %{role}
+      title: مجوزهای «%{name}»
     report:
       matrix_caption: ماتریس مجوزهای ماژول %{module}
       matrix_check_all_label: تخصیص همه مجوزهای %{module} به همه نقش‌ها
@@ -5902,6 +5977,7 @@ fa:
   setting_start_of_week: هفته شروع می‌شود از
   setting_sys_api_description: Web Service مدیریت مخزن، یکپارچه‌سازی و مجوزدهی کاربر برای دسترسی به مخازن را فراهم می‌کند.
   setting_sys_api_enabled: فعال‌سازی Web Service مدیریت مخزن
+  setting_sys_api_key: API key
   setting_time_format: زمان
   setting_total_percent_complete_mode: محاسبه مجموع سلسله‌مراتبی ٪ تکمیل
   setting_total_percent_complete_mode_simple_average: میانگین ساده
@@ -6467,84 +6543,84 @@ fa:
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: موردی وجود ندارد
   types:
     comparison:
-      action: Compare variants
+      action: مقایسه گونه‌ها
       blankslate:
-        description: Add a second variant to this type to see what sets them apart.
-        title: There is nothing to compare yet
-      description: Compare the variants of this type with the parent type.
+        description: یک گونه دوم به این نوع اضافه کنید تا تفاوت‌های آن‌ها را ببینید.
+        title: هنوز چیزی برای مقایسه وجود ندارد
+      description: گونه‌های این نوع را با نوع والد مقایسه کنید.
       labels:
-        duplicate: Possible duplicate
-        duplicate_of: Configured exactly like %{names}
+        duplicate: احتمالاً تکراری
+        duplicate_of: دقیقاً مانند %{names} پیکربندی شده است
         duplicate_of_more:
-          one: "%{names} and 1 more"
-          other: "%{names} and %{count} more"
-        parent_type: Parent type
-        same_as_type: Same as parent type
+          one: "%{names} و ۱ مورد دیگر"
+          other: "%{names} و %{count} مورد دیگر"
+        parent_type: نوع والد
+        same_as_type: همانند نوع والد
       rows:
         form:
-          fields: Fields
-          groups: Sections
-          required: Of which required
-          same_as_base: Same as parent type
+          fields: فیلدها
+          groups: بخش‌ها
+          required: از میان آن‌ها الزامی
+          same_as_base: همانند نوع والد
         scope:
-          availability: Available to
-          enabled_in_new_projects: Active in new projects
-          projects: Projects
+          availability: در دسترس برای
+          enabled_in_new_projects: فعال در پروژه‌های جدید
+          projects: پروژه‌ها
         workflows:
-          roles: Roles involved
-          same_as_base: Same as parent type
-          statuses: Statuses
-          transitions: Transitions
+          roles: نقش‌های درگیر
+          same_as_base: همانند نوع والد
+          statuses: وضعیت‌ها
+          transitions: انتقال‌ها
       sections:
-        configuration: Configuration overview
-        form: Form
-        scope: Scope
-        workflows: Workflows
-      title: Compare variants
-      title_for_type: Compare variants of %{name}
+        configuration: نمای کلی پیکربندی
+        form: فرم
+        scope: دامنه
+        workflows: گردش‌های کاری
+      title: مقایسه گونه‌ها
+      title_for_type: مقایسه گونه‌های %{name}
       values:
-        global: All projects
-        inheriting_from: Inheriting from
-        project_specific: Project-specific ([%{project}](project_url))
-        same_as_base: Identical to the parent type
+        global: همه پروژه‌ها
+        inheriting_from: ارث‌بری از
+        project_specific: ویژه پروژه ([%{project}](project_url))
+        same_as_base: یکسان با نوع والد
     creation_wizard:
       add_variant: افزودن یک گونه به %{name}
       create_type: ایجاد نوع
       create_variant: ایجاد گونه
       descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
+        defaults: انتخاب کنید که اعضای پروژه بتوانند بسته‌های کاری را آزادانه نام‌گذاری کنند یا عنوان‌ها به‌صورت خودکار ایجاد شوند.
+        form_configuration: این‌ها فیلدهایی هستند که عضو پروژه هنگام ایجاد یا ویرایش یک بسته کاری از این نوع می‌بیند.
+        pdf: پیکربندی کنید خروجی‌های PDF بسته‌های کاری این نوع چگونه نمایش داده شوند.
+        project_attributes: می‌توانید مشخص کنید برخی ویژگی‌های پروژه در همه بسته‌های کاری این نوع قابل مشاهده باشند.
+        projects: این نوع در کدام پروژه‌ها در دسترس باشد؟
       fields:
         variant_name_caption: این پیکربندی %{type} را نام‌گذاری می‌کند. بسته‌های کاری همچنان از خود %{type} استفاده می‌کنند.
       finish: پایان
       placeholder_description: این مرحله به‌زودی در دسترس خواهد بود.
       progress_label: مرحله %{number} از %{total}
       start:
-        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
-        inherit_title: Use the same settings as the type
-        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
-        reuse_heading: Reuse existing type configuration
-        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
-        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
-        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
-        submit: Start
+        inherit_description: این صفحه پیکربندی موجود را از نوع دیگری به ارث می‌برد. تغییرات منبع به‌طور خودکار در اینجا نیز اعمال می‌شوند.
+        inherit_title: استفاده از همان تنظیمات نوع
+        manual_description: می‌توانید این صفحه را آزادانه پیکربندی کنید یا پیکربندی را از نوع دیگری کپی کنید.
+        manual_title: پیکربندی دستی
+        reuse_heading: استفاده مجدد از پیکربندی نوع موجود
+        reuse_inherit: برای همه موارد دیگر، می‌توانید انتخاب کنید در بخش‌هایی که تفاوتی نمی‌خواهید به‌طور خودکار همان تنظیمات نوع (%{type_name}) استفاده شود و فقط صفحه‌هایی را که باید متفاوت باشند به‌صورت دستی پیکربندی کنید.
+        reuse_intro: برای هر صفحه می‌توانید تعیین کنید چه رابطه‌ای با نوع اصلی داشته باشد.
+        reuse_named: برای گردش‌های کاری و فرم‌ها می‌توانید از پیکربندی‌های موجود استفاده کنید تا هر بار هنگام ایجاد نوع یا گونه جدید مجبور به تعریف پیکربندی متفاوت نباشید. اگر هیچ پیکربندی موجودی نیاز شما را برآورده نکند، می‌توانید یک پیکربندی جدید بسازید.
+        submit: شروع
         type:
-          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
-          heading: Create a new type
-          lead_html: You are about to create a new type in your instance.
-          step_by_step: You will configure a new type step-by-step in the following pages.
+          description: نوع، یک نوع مشخص از آیتم را نشان می‌دهد؛ مانند قابلیت یا خطا. هر نوع یک نام، یک رنگ، مجموعه‌ای از فیلدها، قوانینی برای انتقال بین وضعیت‌ها و تنظیمات دیگری دارد. می‌توانید انواع مختلف را در پروژه‌های مختلف فعال و استفاده کنید.
+          heading: ایجاد نوع جدید
+          lead_html: در حال ایجاد یک نوع جدید در این نمونه هستید.
+          step_by_step: در صفحه‌های بعد، نوع جدید را مرحله‌به‌مرحله پیکربندی خواهید کرد.
         variant:
-          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
-          heading: Create a new variant
-          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
-          step_by_step: You will configure this new variant step-by-step in the following pages.
+          description: گونه، نسخه‌ای جایگزین از یک نوع با چند تفاوت است. می‌توانید از گونه‌ها برای برآوردن نیازهای ویژه پروژه بدون ایجاد یک نوع کاملاً جدید استفاده کنید.
+          heading: ایجاد گونه جدید
+          lead_html: در حال ایجاد یک گونه جدید از <b>%{type_name}</b> در این نمونه هستید.
+          step_by_step: در صفحه‌های بعد، این گونه جدید را مرحله‌به‌مرحله پیکربندی خواهید کرد.
       steps:
         defaults: پیش‌فرض‌ها
         details: جزئیات
@@ -6552,7 +6628,7 @@ fa:
         pdf: تولید PDF
         project_attributes: ویژگی‌های پروژه
         projects: پروژه‌ها
-        start: Start
+        start: شروع
         workflows: گردش‌کارها
       success: با موفقیت ایجاد شد.
     edit:
@@ -6734,9 +6810,9 @@ fa:
             submit: تغییر
             title: ارث‌بری از نوع دیگر
           invalid_source: پیکربندی نمی‌تواند از نوع انتخاب‌شده به ارث برده شود. لطفاً نوع منبع دیگری را انتخاب کنید.
-          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
-          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
-          mode_label: Use the same settings as the type
+          mode_description: این گونه از همان تنظیمات نوع ([%{source_name}](source_url)) استفاده خواهد کرد. هر تغییری در آنجا به‌طور خودکار در اینجا نیز اعمال می‌شود.
+          mode_description_unlinked: این گونه از همان تنظیمات نوع استفاده خواهد کرد. هر تغییری در آنجا به‌طور خودکار در اینجا نیز اعمال می‌شود.
+          mode_label: استفاده از همان تنظیمات نوع
           success: حالت پیکربندی تغییر کرد.
           title: پیکربندی موروثی
         manual:
@@ -6749,10 +6825,10 @@ fa:
           dialog:
             submit: تغییر
             title: پیکربندی دستی
-          inherit_from_type: Inherit from parent
+          inherit_from_type: ارث‌بری از والد
           invalid_mode: حالت انتخاب‌شده برای این پیکربندی در دسترس نیست. لطفاً حالت دیگری را انتخاب کنید.
-          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
-          mode_label: Configure this page manually
+          mode_description: این صفحه را به‌صورت دستی پیکربندی کنید. تغییرات نوع والد دیگر بر آن اثر نخواهد گذاشت.
+          mode_label: پیکربندی دستی این صفحه
           modes:
             copy:
               caption: با یک کپی یک‌باره از تنظیماتی که این پیکربندی اکنون به ارث می‌برد شروع کنید.
@@ -6795,7 +6871,7 @@ fa:
         text: 'با این کار، این گونه ویژه پروژه به یک گونه سراسری تبدیل می‌شود که برای همه پروژه‌ها در دسترس است. مدیر پروژه دیگر نمی‌تواند آن را ویرایش کند.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+        workflow_text: 'گردش کاری «%{name}» متعلق به این پروژه است و آن نیز سراسری خواهد شد.
 
           '
       convert_to_global_notice: "%{name} اکنون یک گونه سراسری است."
@@ -6831,11 +6907,11 @@ fa:
     milestone_indicator: نقطه عطف
     patterns:
       formats:
-        hierarchy_default: Default (label and short)
-        hierarchy_label: Label only
-        hierarchy_short: Short only
-        weighted_item_list_default: Default (label and weight)
-        weighted_item_list_weight: Weight only
+        hierarchy_default: پیش‌فرض (برچسب و کوتاه)
+        hierarchy_label: فقط برچسب
+        hierarchy_short: فقط کوتاه
+        weighted_item_list_default: پیش‌فرض (برچسب و وزن)
+        weighted_item_list_weight: فقط وزن
   unsupported_browser:
     close_warning: این هشدار را نادیده بگیرید.
     message: ممکن است در این صفحه با خطا و تجربه کاربری ضعیف‌تر روبه‌رو شوید.
@@ -7023,11 +7099,11 @@ fa:
   version_status_open: باز
   versions:
     filter_status_labels:
-      closed: Closed
-      locked: Locked
-      open: Open
+      closed: بسته
+      locked: قفل‌شده
+      open: باز
     index:
-      filter_label: Search versions
+      filter_label: جستجوی نسخه‌ها
     overview:
       no_results_title_text: در حال حاضر هیچ بسته کاری به این نسخه تخصیص نیافته است.
       work_packages_in_archived_projects: این نسخه با پروژه‌های بایگانی‌شده‌ای به اشتراک گذاشته شده که هنوز بسته کاری به آن تخصیص یافته است. این موارد شمرده می‌شوند، اما در نماهای پیوندشده ظاهر نمی‌شوند.
@@ -7307,6 +7383,141 @@ fa:
       undeletable_descendants_warning_html:
         one: به‌دلیل نداشتن مجوز لازم در %{projects} نمی‌توانید یک فرزند را حذف کنید. آن مورد حفظ می‌شود اما رابطه سلسله‌مراتبی برداشته خواهد شد.
         other: به‌دلیل نداشتن مجوز لازم در %{projects} نمی‌توانید %{count} فرزند را حذف کنید. این موارد حفظ می‌شوند اما روابط سلسله‌مراتبی آن‌ها برداشته خواهد شد.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            one: 1 line checked, no problems found
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            one: View the imported work package
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            one: 1 problem.
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          one: 1 line
+          other: "%{count} lines"
+        x_problems:
+          one: 1 problem
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: 'نوع‌های بسته‌های کاری یا فرزندان آن‌ها در پروژه مقصد فعال نیستند. اگر می‌خواهید بدون تغییر باقی بمانند، نوع‌های مفقود را در پروژه مقصد فعال کنید؛ در غیر این صورت یکی از نوع‌های موجود پروژه مقصد را از فهرست انتخاب کنید.
 
@@ -7342,11 +7553,11 @@ fa:
       other: "%{count} فرزند بسته کاری"
   workflows:
     change:
-      title: Change workflow
-      workflow:
+      select:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Workflow
         placeholder: Select a workflow…
+      title: تغییر گردش کاری
     copies:
       form:
         target_role_ids:
@@ -7357,16 +7568,16 @@ fa:
             one: گردش‌کار با موفقیت به نقش «%{role_name}» کپی شد.
             other: گردش‌کار با موفقیت به %{count} نقش کپی شد.
       new:
-        dialog_title: Copy workflow of "%{source}"
+        dialog_title: کپی گردش کاری «%{source}»
     form:
       copy_from:
-        caption: The new workflow starts with a copy of that workflow's status transitions.
-        label: Copy from
-        placeholder: Select a workflow…
+        caption: گردش کاری جدید با کپی انتقال‌های وضعیت آن گردش کاری شروع می‌شود.
+        label: کپی از
+        placeholder: یک گردش کاری انتخاب کنید…
       description:
-        caption: Add a short description about where and how will this workflow be used.
-        label: Description
-      edit_title: Edit workflow
+        caption: توضیح کوتاهی درباره اینکه این گردش کاری کجا و چگونه استفاده خواهد شد اضافه کنید.
+        label: توضیحات
+      edit_title: ویرایش گردش کاری
       matrix_caption: ماتریس گردش‌کار
       matrix_caption_assignee: ماتریس گردش‌کار برای مسئول انجام
       matrix_caption_author: ماتریس گردش‌کار برای ایجادکننده
@@ -7376,84 +7587,88 @@ fa:
       matrix_checkbox_label: اجازه انتقال از %{old_status} به %{new_status}
       matrix_uncheck_all_label: عدم اجازه همه انتقال‌ها
       name:
-        caption: Pick a name that will let you identify this workflow later in other places.
-        label: Workflow name
-      new_title: Create workflow
+        caption: نامی انتخاب کنید که بعداً بتوانید این گردش کاری را در بخش‌های دیگر شناسایی کنید.
+        label: نام گردش کاری
+      new_title: ایجاد گردش کاری
     index:
       actions:
-        create: Workflow
-        edit: Edit transitions
-        menu: Actions for %{name}
-        rename: Edit name and description
+        create: گردش کاری
+        edit: ویرایش انتقال‌ها
+        menu: عملیات %{name}
+        rename: ویرایش نام و توضیحات
       blank_slate:
-        description: Create a workflow to define the status transitions a type or variant may use.
-        filtered_description: No workflow matches the current filters.
-        filtered_title: No matching workflows
-        title: No workflows
+        description: یک گردش کاری ایجاد کنید تا انتقال‌های وضعیتی را که یک نوع یا گونه می‌تواند استفاده کند تعریف کنید.
+        filtered_description: هیچ گردش کاری با فیلترهای فعلی مطابقت ندارد.
+        filtered_title: هیچ گردش کاری مطابقی وجود ندارد
+        title: هیچ گردش کاری وجود ندارد
       columns:
-        name: Workflow name
-        projects: Projects
-        roles: Roles
-        types_and_variants: Types and variants
-      description: Every named set of status transitions in this instance, with the types and variants using it.
+        name: نام گردش کاری
+        projects: پروژه‌ها
+        roles: نقش‌ها
+        types_and_variants: انواع و گونه‌ها
+      description: همه مجموعه‌های نام‌گذاری‌شده انتقال وضعیت در این نمونه، همراه با انواع و گونه‌هایی که از آن‌ها استفاده می‌کنند.
       filters:
-        name: Workflow
-        name_placeholder: Filter by workflow name or description…
-        projects_placeholder: Filter projects…
+        name: گردش کاری
+        name_placeholder: فیلتر بر اساس نام یا توضیحات گردش کاری…
+        projects_placeholder: فیلتر پروژه‌ها…
       projects_count:
-        one: 1 project
-        other: "%{count} projects"
+        one: ۱ پروژه
+        other: "%{count} پروژه"
       roles_count:
-        one: 1 role
-        other: "%{count} roles"
+        one: ۱ نقش
+        other: "%{count} نقش"
       type_filter:
         label: فیلتر بر اساس نام نوع…
-      types_and_variants_count: "%{types} (including %{variants})"
+      types_and_variants_count: "%{types} (شامل %{variants})"
       types_count:
-        one: 1 type
-        other: "%{count} types"
+        one: ۱ نوع
+        other: "%{count} نوع"
       variants_count:
-        one: 1 variant
-        other: "%{count} variants"
+        one: ۱ گونه
+        other: "%{count} گونه"
     name:
-      fallback: Workflow
-      implicit: "%{name} workflow"
+      fallback: گردش کاری
+      implicit: گردش کاری %{name}
     page_headers:
       index_component:
         description: انتقال وضعیت را برای هر نوع بسته کاری پیکربندی کنید.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
     start:
       copy:
-        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
-        label: Start with a copy of an existing workflow
-        missing: Select the workflow to copy, or start from scratch instead.
-        panel_label: Workflow to copy
-      label: Starting point
+        caption: با یک گردش کاری موجود شروع کنید، آن را هرطور می‌خواهید تغییر دهید و به‌عنوان یک گردش کاری جدید ذخیره کنید.
+        label: شروع با کپی یک گردش کاری موجود
+        missing: گردش کاری موردنظر برای کپی را انتخاب کنید یا به‌جای آن از ابتدا شروع کنید.
+        panel_label: گردش کاری برای کپی
+      label: نقطه شروع
       scratch:
-        caption: Start with a blank workflow and build it manually.
-        label: Start from scratch
-      title: Configure a new workflow
+        caption: با یک گردش کاری خالی شروع کنید و آن را به‌صورت دستی بسازید.
+        label: شروع از ابتدا
+      title: پیکربندی گردش کاری جدید
     usage:
       dialog:
-        button: View dependent types
-        caption_html: The workflow %{name} is used in the following types and variants.
-        title: Workflow used in types
-        variant_of: Variant of %{type}
-        variants: Variants
-      unused: No type or variant uses this workflow yet.
+        button: مشاهده انواع وابسته
+        caption_html: گردش کاری %{name} در انواع و گونه‌های زیر استفاده می‌شود.
+        title: گردش کاری استفاده‌شده در انواع
+        variant_of: گونه‌ای از %{type}
+        variants: گونه‌ها
+      unused: هنوز هیچ نوع یا گونه‌ای از این گردش کاری استفاده نمی‌کند.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
-        other: This workflow is used by %{count} types. Changes apply to all of them.
+        one: این گردش کاری توسط ۱ نوع استفاده می‌شود. تغییرات روی آن اعمال می‌شود.
+        other: این گردش کاری توسط %{count} نوع استفاده می‌شود. تغییرات روی همه آن‌ها اعمال می‌شود.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
-        other: This workflow is used by %{count} types and variants.
+        one: این گردش کاری توسط ۱ نوع یا گونه استفاده می‌شود.
+        other: این گردش کاری توسط %{count} نوع و گونه استفاده می‌شود.
     wizard:
       choice:
         existing:
-          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
-          label: Use an existing workflow
+          caption: برای این نوع از یک گردش کاری موجود با مجموعه‌ای از پیش تعریف‌شده از انتقال‌های وضعیت برای مجموعه‌ای از نقش‌ها استفاده کنید.
+          label: استفاده از گردش کاری موجود
         new:
-          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
-          label: Configure a new workflow
+          caption: برای این نوع یک گردش کاری جدید را به‌صورت دستی تعریف کنید و مشخص کنید کدام انتقال‌های وضعیت برای کدام نقش‌ها مجاز هستند.
+          label: پیکربندی گردش کاری جدید
   working_days:
     change_button: تغییر روزهای کاری
     dialog:

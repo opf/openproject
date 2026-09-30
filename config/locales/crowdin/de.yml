@@ -1566,6 +1566,43 @@ de:
           button_edit_configuration: Konfiguration bearbeiten
           button_import_run: Importlauf
           description: Sie können bei jedem Importlauf verschiedene Datensätze importieren. Es ist möglich, einen Importlauf unmittelbar danach rückgängig zu machen, aber nicht nach dem Abschluss-Schritt.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1594,13 +1631,17 @@ de:
         step_not_available: Diese Aktion ist für den aktuellen Status des Importvorgangs nicht verfügbar.
         title: Importlauf
         wizard:
+          application_trace: Application trace
           button_abort: Abbrechen
           button_retry: Erneut versuchen
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
             confirm_button: Verstanden
             description: Sobald der Import bestätigt ist, kann er nicht mehr rückgängig gemacht werden. Alle importierten Daten werden dann dauerhaft übernommen.
             title: Diesen Import bestätigen?
+          full_trace: Full trace
           groups:
             configuration:
               title: Import konfigurieren
@@ -1617,6 +1658,9 @@ de:
             issues:
               one: 1 Ticket
               other: "%{count} Tickets"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 Projekt
               other: "%{count} Projekte"
@@ -1706,6 +1750,7 @@ de:
                 issues: Tickets
                 permissions: Berechtigungen
                 project_ids: Projektkennungen
+                project_versions: Project versions
                 projects: Projekte
                 relations: Beziehungen zwischen Tickets
                 schemes: Schemas
@@ -1713,7 +1758,7 @@ de:
                 users: Beteiligte Benutzer und Gruppen
                 workflows: Workflows auf Projektebene
               label_coming_later: Kommt später
-              label_coming_soon: In Kürze verfügbar (3. Quartal 2026)
+              label_coming_soon: Coming soon
               label_import: Wählen Sie die Projekte aus, die Sie importieren möchten.
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               label_progress: Daten werden abgerufen
@@ -1727,6 +1772,38 @@ de:
             filter_projects: Nach Text filtern
             info: Nur Projekte, bei denen der Besitzer des Jira Token Mitglied ist, sind für den Import auswählbar.
             title: Projekte zum Importieren auswählen
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
         connection_error: 'Verbindungsfehler: %{message}'
@@ -2063,10 +2140,6 @@ de:
           author: Zusätzliche Übergänge, die dem Author des Arbeitspakets zur Verfügung stehen.
         menu_label: Dargestellte Übergänge
       workflow_button: Workflow
-      workflow_selector:
-        prefix: Workflow
-        same_as_type: "(entspricht dem Typ)"
-        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -3339,6 +3412,7 @@ de:
       budget_deleted: Budget wurde gelöscht
       import:
         changed_with_diff: "%{field} geändert (%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} gelöscht (%{link})"
         field_changed: "%{field} geändert von %{old_value} zu %{new_value}"
         field_removed: "%{field} entfernt"
@@ -5102,6 +5176,7 @@ de:
   permission_export_projects: Projekte exportieren
   permission_export_work_packages: Arbeitspakete exportieren
   permission_header_for_project_module_work_package_tracking: Arbeitspakete und Gantt-Diagramme
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: Mitglieder per E-Mail einladen
   permission_invite_members_by_email_explanation: 'Ermöglicht es Benutzern, neue Mitglieder per E-Mail einzuladen. Eingeladene Benutzer erhalten eine E-Mail mit einem Link, über den sie ihr Passwort festlegen und ihr Konto aktivieren können. Abhängig von der Berechtigung zur Mitgliederverwaltung
 
@@ -5907,6 +5982,7 @@ de:
   setting_start_of_week: Wochenanfang am
   setting_sys_api_description: Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive.
   setting_sys_api_enabled: Den Web-Service zur Projektarchiv-Verwaltung aktivieren
+  setting_sys_api_key: API key
   setting_time_format: Zeit
   setting_total_percent_complete_mode: Berechnung des Gesamtwerts % abgeschlossen in Hierarchien
   setting_total_percent_complete_mode_simple_average: Einfacher Durchschnitt
@@ -7307,6 +7383,141 @@ de:
       undeletable_descendants_warning_html:
         one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
         other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            one: 1 line checked, no problems found
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            one: View the imported work package
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            one: 1 problem.
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          one: 1 line
+          other: "%{count} lines"
+        x_problems:
+          one: 1 problem
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.
 
@@ -7342,11 +7553,11 @@ de:
       other: "%{count} untergeordnete Arbeitspakete"
   workflows:
     change:
-      title: Change workflow
-      workflow:
+      select:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Workflow
         placeholder: Select a workflow…
+      title: Change workflow
     copies:
       form:
         target_role_ids:
@@ -7421,6 +7632,10 @@ de:
     page_headers:
       index_component:
         description: Konfigurieren Sie die Statusübergänge für jeden Arbeitspaket-Typ.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
     start:
       copy:
         caption: Start with an existing workflow, change it as you wish and save it as a new workflow.

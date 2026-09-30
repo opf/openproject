@@ -72,8 +72,8 @@ hu:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -89,16 +89,15 @@ hu:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Kérdés lezárva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Kérdés megnyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
     issue_reopened_referenced_comment: "**Kérdés újranyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
     merge_request_closed_comment: "**MR lezárva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -119,6 +118,7 @@ hu:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR egyesítve:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) egyesítve [%{gitlab_user}](%{gitlab_user_url}) által.\n"
     merge_request_opened_comment: "**MR megnyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
     merge_request_reopened_comment: "**MR újranyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"

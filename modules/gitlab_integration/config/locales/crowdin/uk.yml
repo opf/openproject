@@ -82,8 +82,8 @@ uk:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -99,16 +99,15 @@ uk:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Закрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**Закрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -129,6 +128,7 @@ uk:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**Об’єднано MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**Відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**Повторно відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"

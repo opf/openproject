@@ -25,9 +25,9 @@ fa:
   activerecord:
     attributes:
       gitlab_branch:
-        gitlab_project: GitLab project
-        namespace: GitLab namespace
-        project_html_url: GitLab project URL
+        gitlab_project: پروژه GitLab
+        namespace: فضای نام GitLab
+        project_html_url: نشانی URL پروژه GitLab
       gitlab_merge_request:
         labels: برچسب‌ها
       gitlab_pipeline:
@@ -44,8 +44,8 @@ fa:
               invalid_schema: باید آرایه‌ای از hashها با کلیدهای color و title باشد
     models:
       gitlab_branch:
-        one: GitLab branch
-        other: GitLab branches
+        one: شاخه GitLab
+        other: شاخه‌های GitLab
       gitlab_issue:
         one: مسئله GitLab
         other: مسائل GitLab
@@ -70,55 +70,55 @@ fa:
     gitlab_username: نام کاربری GitLab
   gitlab_integration:
     branch_component:
-      copy_name: Copy branch name
-      create_merge_request: Create merge request
-      created_by: Created by %{name}.
-      updated_at: Updated on %{date_time}.
+      copy_name: کپی نام شاخه
+      create_merge_request: ایجاد merge request
+      updated_at: به‌روزرسانی‌شده در %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
-      authored_at: Authored on %{date_time}.
-      copy_sha: Copy SHA to clipboard
-      created_by: Created by %{name}.
+      authored_at: ثبت‌شده در %{date_time}.
+      copy_sha: کپی SHA در کلیپ‌بورد
+      created_by: ایجادشده توسط %{name}.
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
-      branch_name: Branch name
-      commit_message: Commit message
-      copy_branch_name: Copy branch name
-      copy_commit_message: Copy commit message
-      copy_create_branch_command: Copy command to create a branch with empty commit
-      create_branch_with_empty_commit: Create branch with empty commit
-      title: Git quick snippets
+      branch_name: نام شاخه
+      commit_message: پیام commit
+      copy_branch_name: کپی نام شاخه
+      copy_commit_message: کپی پیام commit
+      copy_create_branch_command: کپی فرمان ایجاد شاخه با commit خالی
+      create_branch_with_empty_commit: ایجاد شاخه با commit خالی
+      title: قطعه‌کدهای سریع Git
     issue_closed_referenced_comment: "**Issue بسته شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) بسته شد.\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
-        closed: Closed
-        opened: Open
-      updated_at: Updated on %{date_time}.
+        closed: بسته
+        opened: باز
+      updated_at: به‌روزرسانی‌شده در %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Issue باز شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) باز شد.\n"
     issue_reopened_referenced_comment: "**Issue دوباره باز شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) دوباره باز شد.\n"
     merge_request_closed_comment: "**MR بسته شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) بسته شد.\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
-        canceled: Canceled
-        canceling: Canceling
-        created: Created
-        failed: Failed
-        manual: Manual
-        pending: Pending
-        preparing: Preparing
-        running: Running
-        scheduled: Scheduled
-        skipped: Skipped
-        success: Success
-        waiting_for_callback: Waiting for callback
-        waiting_for_resource: Waiting for resource
+        canceled: لغوشده
+        canceling: در حال لغو
+        created: ایجادشده
+        failed: ناموفق
+        manual: دستی
+        pending: در انتظار
+        preparing: در حال آماده‌سازی
+        running: در حال اجرا
+        scheduled: زمان‌بندی‌شده
+        skipped: نادیده گرفته‌شده
+        success: موفق
+        waiting_for_callback: در انتظار callback
+        waiting_for_resource: در انتظار منبع
       states:
-        closed: Closed
-        locked: Locked
-        merged: Merged
-        opened: Open
-      updated_at: Updated on %{date_time}.
+        closed: بسته
+        locked: قفل‌شده
+        merged: ادغام‌شده
+        opened: باز
+      updated_at: به‌روزرسانی‌شده در %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR ادغام شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) ادغام شد.\n"
     merge_request_opened_comment: "**MR باز شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) باز شد.\n"
     merge_request_reopened_comment: "**MR دوباره باز شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) دوباره باز شد.\n"
@@ -134,24 +134,24 @@ fa:
     work_package_gitlab_tab_component:
       blank_slates:
         branches:
-          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
-          title: No branches
+          description_html: یک شاخه را با نام‌گذاری آن به‌گونه‌ای پیوند دهید که با %{code} یا فقط %{identifier} شروع شود.
+          title: هیچ شاخه‌ای وجود ندارد
         commits:
-          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
-          title: No commits
+          description_html: یک commit را با افزودن کد %{code} یا %{url} به پیام commit پیوند دهید.
+          title: هیچ commitی وجود ندارد
         issues:
-          description_html: Link an issue by adding the code %{code} to the title or description.
-          title: No issues
+          description_html: یک issue را با افزودن کد %{code} به عنوان یا توضیحات پیوند دهید.
+          title: هیچ issueی وجود ندارد
         merge_requests:
-          description_html: Link a merge request by adding the code %{code} to the title or description.
-          title: No merge requests
-      branches: Branches
-      commits: Commits
-      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
-      git_snippets: Git snippets
-      issues: Issues
-      merge_requests: Merge requests
-      snippets_button_label: Git snippets
+          description_html: یک merge request را با افزودن کد %{code} به عنوان یا توضیحات پیوند دهید.
+          title: هیچ merge requestی وجود ندارد
+      branches: شاخه‌ها
+      commits: commitها
+      description_html: یک عنصر موجود GitLab را با افزودن کد %{code} به عنوان یا توضیحات پیوند دهید.
+      git_snippets: قطعه‌کدهای Git
+      issues: issueها
+      merge_requests: merge requestها
+      snippets_button_label: قطعه‌کدهای Git
   label_gitlab_actor: عامل GitLab
   label_gitlab_integration: یکپارچه‌سازی GitLab
   label_gitlab_webhook_secret: رمز Webhook

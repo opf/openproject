@@ -72,8 +72,8 @@ de:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -89,16 +89,15 @@ de:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Ticket geschlossen:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Ticket erstellt:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) erstellt.\n"
     issue_reopened_referenced_comment: "**Wiedereröffnetes Ticket:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.\n"
     merge_request_closed_comment: "**MR geschlossen:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -119,6 +118,7 @@ de:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR Zusammengeführt:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) zusammengeführt.\n"
     merge_request_opened_comment: "**MR eröffnet:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) eröffnet.\n"
     merge_request_reopened_comment: "**MR Wiedereröffnet:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.\n"
