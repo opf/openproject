@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
           html: { id: form_identifier },
           data: { turbo: false }
         ) do |f| %>
-      <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+      <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg, first_in_source: :main)) do |layout| %>
         <% layout.with_main do %>
           <%= render WikiPages::Form.new(f, create: false) %>
         <% end %>
