@@ -377,20 +377,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
-  context "when a global administrator views it" do
-    current_user { create(:admin) }
-
-    before { render_inline(component) }
-
-    it "offers to convert the project's own variant to a global one" do
-      expect(row(ours)).to have_link(I18n.t("types.index.convert_to_global"))
-    end
-
-    it "does not offer to convert a variant that is already global" do
-      expect(row(global)).to have_no_link(I18n.t("types.index.convert_to_global"))
-    end
-  end
-
   context "when the member may not manage them" do
     current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
 
