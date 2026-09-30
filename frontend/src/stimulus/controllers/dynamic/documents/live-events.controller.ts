@@ -70,8 +70,18 @@ export default class extends ApplicationController {
     this.provider = null;
   }
 
-  toggle_popover() {
+  togglePopover() {
     this.popoverTarget.classList.toggle('d-none');
+  }
+
+  closePopover() {
+    this.popoverTarget.classList.add('d-none');
+  }
+
+  closeOnClickOutside(event:MouseEvent) {
+    if (!this.element.contains(event.target as Node)) {
+      this.closePopover();
+    }
   }
 
   private onAwarenessUpdate = (data:onAwarenessUpdateParameters) => {
