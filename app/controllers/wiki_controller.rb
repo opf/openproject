@@ -143,8 +143,9 @@ class WikiController < ApplicationController
 
   # edit an existing page or a new one
   def edit
-    load_page_for_edit
-    render layout: "no_menu" unless performed?
+    return render_403 unless load_page_for_edit
+
+    render layout: "no_menu"
   end
 
   def create
@@ -396,8 +397,9 @@ class WikiController < ApplicationController
     return unless @page.new_record?
 
     if User.current.allowed_in_project?(:edit_wiki_pages, @project) && editable?
-      load_page_for_edit
-      render action: :new, layout: "no_menu" unless performed?
+      return render_403 unless load_page_for_edit
+
+      render action: :new, layout: "no_menu"
     elsif params[:id] == "wiki"
       flash[:info] = I18n.t("wiki.page_not_editable_index")
       redirect_to action: :index
@@ -406,11 +408,11 @@ class WikiController < ApplicationController
     end
   end
 
-  # Loads @page for the edit and new_child (via handle_new_wiki_page) actions.
-  # May call render_403, in which case the caller must not render again.
+  # Loads @page for the edit action and the new_child-like fallback in handle_new_wiki_page.
+  # Returns nil if the page turns out not to be editable, leaving the error handling to the caller.
   def load_page_for_edit
     page = @wiki.find_or_new_page(wiki_page_title)
-    return render_403 unless editable?(page)
+    return nil unless editable?(page)
 
     if page.new_record? && flash[:_related_wiki_page_id]
       page.parent_id = flash[:_related_wiki_page_id]
