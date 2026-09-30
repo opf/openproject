@@ -72,15 +72,15 @@ RSpec.describe "CSP form-action for OmniAuth SSO", type: :rails_request do
     end
   end
 
-  context "with a Microsoft Entra provider without discovered endpoints",
+  context "with a Microsoft Entra provider whose issuer is this application",
           with_ee: %i[sso_auth_providers] do
     let!(:azure_provider) do
       create(:oidc_provider,
              slug: "azure",
              oidc_provider: "microsoft_entra",
+             host: "login.microsoftonline.com",
              authorization_endpoint: nil,
-             issuer: nil,
-             host: nil)
+             issuer: OpenProject::StaticRouting::StaticUrlHelpers.new.root_url)
     end
 
     it "allows the Microsoft login origin on the auto-submit form" do

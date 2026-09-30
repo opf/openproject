@@ -239,8 +239,19 @@ RSpec.describe OpenIDConnect::Provider do
               oidc_provider: "microsoft_entra",
               authorization_endpoint: nil,
               issuer: nil,
-              host: nil)
-        .csp_form_action_origin
+              host: nil).csp_form_action_origin
+      end
+
+      it { is_expected.to eq("https://login.microsoftonline.com/") }
+    end
+
+    context "with a Microsoft Entra provider whose issuer is this application" do
+      subject do
+        build(:oidc_provider,
+              oidc_provider: "microsoft_entra",
+              authorization_endpoint: nil,
+              host: nil,
+              issuer: OpenProject::StaticRouting::StaticUrlHelpers.new.root_url).csp_form_action_origin
       end
 
       it { is_expected.to eq("https://login.microsoftonline.com/") }

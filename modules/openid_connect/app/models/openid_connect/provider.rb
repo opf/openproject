@@ -88,9 +88,9 @@ module OpenIDConnect
     end
 
     def csp_form_action_origin
-      origin_from_url(authorization_endpoint) ||
-        origin_from_url(issuer) ||
-        origin_from_url(host_origin_url) ||
+      idp_origin(authorization_endpoint) ||
+        idp_origin(issuer) ||
+        idp_origin(host_origin_url) ||
         default_oidc_origin
     end
 
@@ -181,6 +181,18 @@ module OpenIDConnect
     end
 
     private
+
+    # Blank issuers are stored as this application's root URL.
+    def idp_origin(url)
+      origin = origin_from_url(url)
+      return if origin.blank? || origin == application_origin
+
+      origin
+    end
+
+    def application_origin
+      origin_from_url(OpenProject::StaticRouting::StaticUrlHelpers.new.root_url)
+    end
 
     def host_origin_url
       return if host.blank?
