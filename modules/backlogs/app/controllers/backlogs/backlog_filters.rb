@@ -30,7 +30,6 @@
 
 module Backlogs
   BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
-
     def initialize(bucket_ids: nil, sprint_ids: nil, all: nil, filters: nil)
       super(
         bucket_ids: parse_ids(bucket_ids).presence,
