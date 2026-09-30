@@ -61,7 +61,7 @@ module Backlogs
 
     def backlog_filters
       RequestStore.fetch(:backlog_filters) do
-        Backlogs::BacklogFilters.new(**permitted_params.backlog_filters.to_h.symbolize_keys)
+        Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
       end
     end
 

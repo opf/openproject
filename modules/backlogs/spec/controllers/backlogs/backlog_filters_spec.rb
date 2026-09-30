@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::BacklogFilters, type: :model do
-  subject(:filters) { described_class.new(**params) }
+  subject(:filters) { described_class.from_params(params) }
 
   describe "#bucket_ids" do
     context "when bucket_ids are absent" do
@@ -95,7 +95,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     context "when bucket_ids is valid JSON but not a list of ids" do
       %w[{"a":1} [[1]] true null].each do |value|
         it "ignores #{value}" do
-          expect(described_class.new(bucket_ids: value).bucket_ids).to be_nil
+          expect(described_class.from_params(bucket_ids: value).bucket_ids).to be_nil
         end
       end
     end
@@ -278,12 +278,20 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
       end
     end
 
-    context "when fed back into the constructor" do
+    context "when fed back into from_params" do
       let(:params) { { all: "1", bucket_ids: %w[1 inbox].to_json, sprint_ids: "2".to_json, filters: 'status_id = "1"' } }
 
       it "round-trips" do
-        expect(described_class.new(**filters.to_h)).to eq(filters)
+        expect(described_class.from_params(filters.to_h)).to eq(filters)
       end
+    end
+  end
+
+  describe "#with" do
+    let(:params) { { bucket_ids: %w[1 inbox].to_json, all: "1" } }
+
+    it "returns a copy with the given members replaced" do
+      expect(filters.with(show_all: false)).to have_attributes(bucket_ids: [1, "inbox"], show_all: false)
     end
   end
 
