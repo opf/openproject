@@ -42,26 +42,23 @@ RSpec.describe "Creating a workflow for a project-owned variant", :skip_csrf, ty
   end
   shared_let(:outsider) { create(:user, member_with_permissions: { other_project => %i[manage_project_variants] }) }
 
-  let(:in_project) { { in_project_id: project, type_id: type.id, variant_id: variant.id } }
-  let(:in_administration) { { type_id: type.id, variant_id: variant.id } }
+  let(:in_project) { "/projects/#{project.identifier}/settings/work_packages/types/#{type.id}/variants/#{variant.id}" }
+  let(:in_administration) { type_variant_workflow_path(type_id: type.id, variant_id: variant.id) }
 
-  def create_workflow(path_args, name: "Release flow")
-    post type_workflow_path(**path_args), params: { workflow: { name: } }
+  def create_workflow(path, name: "Release flow")
+    post path, params: { workflow: { name: } }
   end
 
   describe "inside a project" do
     before { login_as project_admin }
 
     it "has no page for starting one" do
-      get configure_dialog_type_workflow_path(**in_project), as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
+      expect { get "#{in_project}/workflow/configure_dialog", as: :turbo_stream }
+        .to raise_error(ActionController::RoutingError)
     end
 
-    it "refuses the create itself" do
-      expect { create_workflow(in_project) }.not_to change(Workflow, :count)
-
-      expect(response).to have_http_status(:not_found)
+    it "has no route for the create itself" do
+      expect { create_workflow("#{in_project}/workflow") }.to raise_error(ActionController::RoutingError)
     end
   end
 
@@ -69,7 +66,7 @@ RSpec.describe "Creating a workflow for a project-owned variant", :skip_csrf, ty
     before { login_as admin }
 
     it "opens the dialog" do
-      get configure_dialog_type_workflow_path(**in_administration), as: :turbo_stream
+      get configure_dialog_type_variant_workflow_path(type_id: type.id, variant_id: variant.id), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
     end
@@ -95,12 +92,8 @@ RSpec.describe "Creating a workflow for a project-owned variant", :skip_csrf, ty
   it "is refused a member of another project" do
     login_as outsider
 
-    expect { create_workflow(in_project) }.not_to change(Workflow, :count)
-    expect(response).not_to have_http_status(:redirect)
-  end
+    get edit_project_type_variant_workflow_path(project_id: project, type_id: type.id, variant_id: variant.id)
 
-  it "keeps the project in the path rather than a query parameter" do
-    expect(type_workflow_path(**in_project)).to include("in-project/#{project.identifier}")
-    expect(type_workflow_path(**in_project)).not_to include("in_project_id=")
+    expect(response).not_to have_http_status(:ok)
   end
 end

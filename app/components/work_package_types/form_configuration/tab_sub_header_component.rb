@@ -32,6 +32,7 @@ module WorkPackageTypes
   module FormConfiguration
     class TabSubHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:)
         super()
@@ -51,7 +52,7 @@ module WorkPackageTypes
 
       def button_label = t("form_configurations.button")
 
-      def configure_dialog_path = url_helpers.configure_dialog_type_form_configuration_path(**variant.path_args)
+      def configure_dialog_path = configure_dialog_variant_form_configuration_path(variant)
     end
   end
 end

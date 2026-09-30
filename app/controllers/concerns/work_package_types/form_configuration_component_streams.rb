@@ -96,7 +96,8 @@ module WorkPackageTypes
     end
 
     def form_editor_context
-      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.for_variant(@variant)
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext
+                                 .for_variant(@variant, scope_project: variant_scope_project)
     end
   end
 end

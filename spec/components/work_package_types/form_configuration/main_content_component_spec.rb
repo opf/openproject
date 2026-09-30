@@ -6,7 +6,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::MainContentComponent, type: 
   let(:variant) { create(:type).default_variant }
 
   def editor_context(readonly: false, exclusions: nil)
-    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant).tap do |context|
+    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant, scope_project: nil).tap do |context|
       allow(context).to receive_messages(readonly?: readonly, exclusions:)
     end
   end

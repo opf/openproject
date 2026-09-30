@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Types
     class TypeActionsComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def self.menu_id(type)
         "type-#{type.id}-action-menu"
@@ -71,7 +72,7 @@ module WorkPackageTypes
 
       def add_variant_action(menu)
         menu.with_item(label: t("types.index.add_variant_action"),
-                       href: new_creation_wizard_types_path(type_id: type.id, back_url: types_path)) do |item|
+                       href: new_variant_creation_wizard_path(nil, type, back_url: types_path)) do |item|
           item.with_leading_visual_icon(icon: :plus)
         end
       end

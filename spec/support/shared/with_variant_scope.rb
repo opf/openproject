@@ -28,39 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module ProjectsTab
-    class VariantFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
-      def initialize(type:, variant:, query:)
-        @type = type
-        @variant = variant
+# Stands in for the WorkPackageTypes::ConfiguredInScope controllers a variant screen is
+# rendered by, which expose the scope to their views.
+class VariantScopeTestController < ApplicationController
+  helper_method :variant_scope_project
 
-        super(name: TypeVariant.model_name.human, query:, filter_key: :type_variant_id, path_args: [])
+  attr_accessor :variant_scope_project
+end
 
-        type.variants.in_display_order.each do |sibling|
-          with_item(label: "#{sibling.composite_name} (#{project_counts[sibling.id]})", value: sibling.id)
-        end
-      end
+# Renders components as a variant screen does, in administration unless the example names a
+# project with `let(:variant_scope_project)`.
+RSpec.shared_context "with variant scope" do
+  let(:variant_scope_project) { nil }
 
-      private
+  def vc_test_controller_class = VariantScopeTestController
 
-      def project_counts
-        @project_counts ||= Hash.new(0).merge(
-          ProjectType.where(type_id: @type.id).group(:variant_id).count
-        )
-      end
-
-      def base_url = tab_path(base_url_params)
-
-      def item_href(value)
-        selected = other_filters + [{ @filter_key.to_s => { "operator" => @operator, "values" => [value.to_s] } }]
-
-        tab_path(filters: selected.to_json)
-      end
-
-      def tab_path(params)
-        helpers.edit_variant_projects_path(@variant, **params)
-      end
-    end
-  end
+  before { vc_test_controller.variant_scope_project = variant_scope_project }
 end

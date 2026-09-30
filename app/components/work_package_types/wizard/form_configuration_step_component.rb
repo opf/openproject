@@ -34,6 +34,7 @@ module WorkPackageTypes
     # its own turbo endpoints; the wizard only navigates between steps.
     class FormConfigurationStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:, back_url: nil)
         super(variant)
@@ -43,10 +44,13 @@ module WorkPackageTypes
 
       private
 
-      def context = @context ||= WorkPackageTypes::FormConfiguration::EditorContext.for_variant(model)
+      def context
+        @context ||= WorkPackageTypes::FormConfiguration::EditorContext
+                       .for_variant(model, scope_project: helpers.variant_scope_project)
+      end
 
       def reload_url
-        @back_url || type_creation_wizard_path(**model.path_args, step: :form_configuration)
+        @back_url || variant_creation_wizard_path(helpers.variant_scope_project, model, step: :form_configuration)
       end
 
       def no_filter_query

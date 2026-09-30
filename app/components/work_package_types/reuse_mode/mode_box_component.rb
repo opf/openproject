@@ -32,6 +32,7 @@ module WorkPackageTypes
   module ReuseMode
     class ModeBoxComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:, aspect:)
         @aspect = aspect
@@ -107,11 +108,11 @@ module WorkPackageTypes
         source.project_id == helpers.variant_scope_project.id
       end
 
-      def link_dialog_path = type_configuration_link_dialog_path(**dialog_path_args)
+      def link_dialog_path = variant_configuration_link_dialog_path(helpers.variant_scope_project, variant, aspect)
 
-      def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
-
-      def dialog_path_args = variant.path_args.merge(aspect:)
+      def independent_dialog_path
+        variant_configuration_independence_dialog_path(helpers.variant_scope_project, variant, aspect)
+      end
     end
   end
 end

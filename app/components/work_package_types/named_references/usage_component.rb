@@ -33,6 +33,7 @@ module WorkPackageTypes
     class UsageComponent < ApplicationComponent
       include Translatable
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(record:, model_class:, list_users: true)
         super()
@@ -78,8 +79,7 @@ module WorkPackageTypes
       end
 
       def variant_link(variant)
-        href = helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
-                                        action: :edit, **variant.path_args)
+        href = variant_reference_path(nil, variant, model_class, action: :edit)
 
         render(Primer::Beta::Link.new(href:)) { variant.display_name }
       end

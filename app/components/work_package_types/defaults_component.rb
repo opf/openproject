@@ -33,6 +33,7 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     def initialize(model, subject_configuration_form_data: nil, readonly: false, **)
       @subject_configuration_form_data = subject_configuration_form_data
@@ -46,7 +47,7 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: type_defaults_path(type_id: variant.type_id, variant_id: variant.id),
+        url: variant_defaults_path(helpers.variant_scope_project, variant),
         method: :put,
         model: subject_form_object,
         readonly: @readonly,

@@ -76,7 +76,7 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
     it "counts them in a row above the add action", :aggregate_failures do
       count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
-      add_link = "a[href='#{new_creation_wizard_types_path(type_id: root_type.id, back_url: types_path)}']"
+      add_link = "a[href='#{new_creation_wizard_type_variants_path(type_id: root_type.id, back_url: types_path)}']"
 
       expect(rendered_component).to have_css(".Box-row #{count_link}")
       expect(rendered_component).to have_no_css(".Box-footer #{count_link}")

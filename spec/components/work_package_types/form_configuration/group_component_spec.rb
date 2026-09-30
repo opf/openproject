@@ -18,7 +18,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   end
 
   def editor_context(readonly: false, exclusions: nil)
-    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant).tap do |context|
+    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant, scope_project: nil).tap do |context|
       allow(context).to receive_messages(readonly?: readonly, exclusions:)
     end
   end

@@ -38,8 +38,6 @@ module WorkPackageTypes
       :types
     end
 
-    administration_only! :start_dialog, :start, :configure_dialog, :configure, :create
-
     def edit; end
 
     def toggle_required
@@ -63,20 +61,22 @@ module WorkPackageTypes
     def change
       assign(::FormConfiguration.find(params.expect(:form_configuration_id)))
 
-      redirect_to back_url || edit_type_form_configuration_path(**@variant.path_args), status: :see_other
+      redirect_to back_url || edit_variant_form_configuration_path(variant_scope_project, @variant),
+                  status: :see_other
     end
 
     def start_dialog
-      respond_with_dialog start_dialog_component(url: start_type_form_configuration_path(**dialog_args))
+      respond_with_dialog start_dialog_component(url: start_variant_form_configuration_path(@variant, **dialog_params))
     end
 
     def configure_dialog
-      respond_with_dialog start_dialog_component(url: configure_type_form_configuration_path(**dialog_args))
+      respond_with_dialog start_dialog_component(url: configure_variant_form_configuration_path(@variant,
+                                                                                                **dialog_params))
     end
 
     def configure
       if copying_without_a_source?
-        return reject_missing_copy_source(configure_type_form_configuration_path(**dialog_args))
+        return reject_missing_copy_source(configure_variant_form_configuration_path(@variant, **dialog_params))
       end
 
       respond_with_dialog naming_dialog(::FormConfiguration.new(name: provisional_name), copy_from_id: chosen_copy_from_id)
@@ -91,7 +91,9 @@ module WorkPackageTypes
     end
 
     def start
-      return reject_missing_copy_source(start_type_form_configuration_path(**dialog_args)) if copying_without_a_source?
+      if copying_without_a_source?
+        return reject_missing_copy_source(start_variant_form_configuration_path(@variant, **dialog_params))
+      end
 
       service_call = start_form
       return render_name_errors(service_call.result) unless service_call.success?
@@ -154,7 +156,7 @@ module WorkPackageTypes
       )
     end
 
-    def dialog_args = @variant.path_args.merge(back_url:).compact
+    def dialog_params = { back_url: }.compact
 
     def provisional_name = ::FormConfiguration.implicit_name(@variant.composite_name)
 
@@ -163,7 +165,7 @@ module WorkPackageTypes
                                                model_class:,
                                                copy_from_id:,
                                                ask_copy_source: false,
-                                               url: type_form_configuration_path(**dialog_args))
+                                               url: variant_form_configuration_path(@variant, **dialog_params))
     end
 
     def form_configuration_params
@@ -176,7 +178,7 @@ module WorkPackageTypes
                                                           model_class:,
                                                           copy_from_id: params.dig(:form_configuration, :copy_from_id).presence,
                                                           ask_copy_source: false,
-                                                          url: type_form_configuration_path(**dialog_args)),
+                                                          url: variant_form_configuration_path(@variant, **dialog_params)),
         status: :unprocessable_entity
       )
       respond_with_turbo_streams

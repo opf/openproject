@@ -32,6 +32,7 @@ module WorkPackageTypes
   class PdfExportTemplateController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
+    include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
 
     before_action :find_type,
@@ -66,7 +67,7 @@ module WorkPackageTypes
         save_settings!
       end
 
-      redirect_to edit_type_pdf_export_template_index_path(**@variant.path_args),
+      redirect_to edit_variant_pdf_export_template_index_path(variant_scope_project, @variant),
                   notice: I18n.t(:notice_successful_update)
     end
 
@@ -155,7 +156,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message:)
         respond_with_turbo_streams(status: :forbidden)
       else
-        redirect_to edit_type_pdf_export_template_index_path(**@variant.path_args), alert: message
+        redirect_to edit_variant_pdf_export_template_index_path(variant_scope_project, @variant), alert: message
       end
     end
 

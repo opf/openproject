@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, type: :component do
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
   let(:attribute) do
@@ -11,7 +13,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   def editor_context(readonly: false, exclusions: nil)
-    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant).tap do |context|
+    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant, scope_project: nil).tap do |context|
       allow(context).to receive_messages(readonly?: readonly, exclusions:)
     end
   end

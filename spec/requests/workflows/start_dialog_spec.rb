@@ -79,7 +79,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
     it "marks the workflow the type uses when a variant is the one starting" do
       variant = create(:type_variant, type:, variant_name: "Mobile")
 
-      get start_dialog_type_workflow_path(type_id: type.id, variant_id: variant.id), headers: turbo
+      get start_dialog_type_variant_workflow_path(type_id: type.id, variant_id: variant.id), headers: turbo
 
       expect(copy_source_labels)
         .to include("#{type.default_variant.workflow.name} #{same_as_type}")

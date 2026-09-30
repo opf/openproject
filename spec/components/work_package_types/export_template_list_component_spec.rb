@@ -33,6 +33,8 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
   let(:draggable_records) { variant.pdf_export_templates.list }
@@ -40,7 +42,7 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
   subject(:rendered_component) { render_inline(described_class.new(variant:)) }
 
   def drop_url_for(template)
-    drop_type_pdf_export_template_path(**variant.path_args, id: template.id)
+    drop_type_pdf_export_template_path(type_id: type.id, id: template.id)
   end
 
   it_behaves_like "rendering Box", row_count: 3
@@ -62,7 +64,7 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     draggable_records.each do |template|
       expect(rendered_component).to have_link(
         template.label,
-        href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+        href: edit_settings_type_pdf_export_template_path(type_id: type.id, id: template.id)
       )
     end
   end
@@ -97,7 +99,7 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     it "renders each template label as plain text instead of a link to its settings page" do
       draggable_records.each do |template|
         expect(rendered_component).to have_no_link(
-          href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+          href: edit_settings_type_pdf_export_template_path(type_id: type.id, id: template.id)
         )
         expect(rendered_component).to have_text(template.label)
       end

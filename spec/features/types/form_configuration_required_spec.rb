@@ -124,7 +124,7 @@ RSpec.describe "form configuration required attributes", :js do
 
     before do
       owner.update!(required_attributes: [custom_field.attribute_name])
-      visit edit_type_form_configuration_path(**sharer.path_args)
+      visit edit_type_variant_form_configuration_path(type_id: sharer.type_id, variant_id: sharer.id)
     end
 
     it "keeps a required list of its own" do

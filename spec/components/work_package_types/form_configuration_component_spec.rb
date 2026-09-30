@@ -3,11 +3,13 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
+  include_context "with variant scope"
+
   let(:type) { create(:type, name: "Bug") }
   let(:base) { type.default_variant }
   let(:variant) { create(:type_variant, type:, variant_name: "Mobile app bug") }
   let(:no_filter_query) { "{}" }
-  let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant) }
+  let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant, scope_project: nil) }
   let(:form_attributes) { ApplicationController.helpers.form_configuration_groups(context) }
 
   before do

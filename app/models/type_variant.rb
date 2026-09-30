@@ -122,14 +122,7 @@ class TypeVariant < ApplicationRecord
     variant_name.presence || type.name
   end
 
-  # How the admin routes address this variant. The base one is implied by its type, so naming
-  # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
-
-  def path_args
-    args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
-    project_id.nil? ? args : args.merge(in_project_id: project)
-  end
 
   def type_reference_id(reflection)
     type.default_variant[reflection.foreign_key] unless is_default_variant?

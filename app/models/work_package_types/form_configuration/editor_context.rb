@@ -31,13 +31,18 @@
 module WorkPackageTypes
   module FormConfiguration
     class EditorContext
-      attr_reader :form_configuration, :variant
+      include WorkPackageTypes::VariantRoutes
 
-      def self.for_variant(variant) = new(form_configuration: variant.form_configuration, variant:)
+      attr_reader :form_configuration, :variant, :scope_project
 
-      def initialize(form_configuration:, variant: nil)
+      def self.for_variant(variant, scope_project:)
+        new(form_configuration: variant.form_configuration, variant:, scope_project:)
+      end
+
+      def initialize(form_configuration:, variant: nil, scope_project: nil)
         @form_configuration = form_configuration
         @variant = variant
+        @scope_project = scope_project
       end
 
       def readonly? = variant.present?
@@ -69,7 +74,7 @@ module WorkPackageTypes
       end
 
       def toggle_required_path(row_key)
-        routes.toggle_required_type_form_configuration_row_path(**variant.path_args, row_key:)
+        toggle_required_variant_form_configuration_row_path(scope_project, variant, row_key)
       end
 
       private

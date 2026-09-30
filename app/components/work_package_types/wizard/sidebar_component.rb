@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Wizard
     class SidebarComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
         super(type)
@@ -74,14 +75,16 @@ module WorkPackageTypes
       def status_step?(step) = step != Steps.first
 
       def href_for(step)
-        type_creation_wizard_path(**variant_path_args, step:, **carried_params) if record_persisted?
+        return unless record_persisted?
+
+        variant_creation_wizard_path(helpers.variant_scope_project, wizard_variant, step:, **carried_params)
       end
 
       def carried_params
         { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
       end
 
-      def variant_path_args = variant&.path_args || { type_id: type.id }
+      def wizard_variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
 
       def record_persisted? = variant ? variant.persisted? : type.persisted?
     end

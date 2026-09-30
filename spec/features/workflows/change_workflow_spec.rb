@@ -252,7 +252,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
     shared_let(:theirs) { create(:project_owned_workflow, project: other_project, name: "Foundry flow") }
 
     let(:tab_path) do
-      edit_type_workflow_path(in_project_id: project, type_id: type.id, variant_id: owned_variant.id)
+      edit_project_type_variant_workflow_path(project_id: project, type_id: type.id, variant_id: owned_variant.id)
     end
 
     before { login_as project_admin }
