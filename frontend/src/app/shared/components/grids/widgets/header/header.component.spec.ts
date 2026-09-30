@@ -57,6 +57,6 @@ describe('WidgetHeaderComponent', () => {
 
     const heading = fixture.nativeElement.querySelector('h3') as HTMLHeadingElement;
 
-    expect(heading.id).toEqual('widget-heading-1');
+    expect(heading).toHaveAttribute('id', 'widget-heading-1');
   });
 });

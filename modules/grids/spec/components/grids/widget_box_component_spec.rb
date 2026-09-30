@@ -44,7 +44,11 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
 
   it "labels the widget box with its visible heading" do
     expect(rendered_component).to have_css(
-      ".widget-box[role='group'][aria-labelledby='cool_widget-header'] h3#cool_widget-header",
+      ".widget-box[role='group']",
+      aria: { labelledby: "cool_widget-header" }
+    )
+    expect(rendered_component).to have_css(
+      "h3#cool_widget-header",
       text: "Cool Widget"
     )
   end
@@ -57,7 +61,8 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
     )
 
     expect(rendered_component).to have_css(
-      ".widget-box[aria-labelledby='cool_widget-header'][aria-describedby='cool_widget-description']"
+      ".widget-box",
+      aria: { labelledby: "cool_widget-header", describedby: "cool_widget-description" }
     )
   end
 
@@ -68,9 +73,7 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
       aria: { labelledby: "custom-heading" }
     )
 
-    expect(rendered_component).to have_css(
-      ".widget-box[aria-labelledby='custom-heading']"
-    )
+    expect(rendered_component).to have_css(".widget-box", aria: { labelledby: "custom-heading" })
   end
 
   it "does not reference a heading when the title is blank" do
@@ -78,7 +81,7 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
 
     expect(rendered_component).to have_css(".widget-box", text: "Content")
     expect(rendered_component).to have_no_css(".widget-box[role='group']")
-    expect(rendered_component).to have_no_css(".widget-box[aria-labelledby]")
+    expect(rendered_component).to have_css(".widget-box", aria: { labelledby: nil })
   end
 
   it "renders turbo-frame around content" do

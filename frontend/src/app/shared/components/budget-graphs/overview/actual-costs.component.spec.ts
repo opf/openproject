@@ -88,7 +88,7 @@ describe('ActualCostsComponent', () => {
     renderWith([{ label: 'Labour', data: [10] }]);
 
     const canvas = element.querySelector('canvas')!;
-    expect(canvas).not.toBeNull();
+    expect(canvas).toBeInTheDocument();
     expect(canvas.nextElementSibling?.tagName).toBe('DIV');
   });
 
@@ -106,13 +106,13 @@ describe('ActualCostsComponent', () => {
     const descriptionId = canvas.getAttribute('aria-describedby')!;
     const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
 
-    expect(canvas.getAttribute('role')).toEqual('img');
-    expect(canvas.getAttribute('aria-label')).toEqual('Actual costs by month chart');
-    expect(description.hidden).toBe(true);
-    expect(description.textContent?.trim()).toEqual(
+    expect(canvas).toHaveAttribute('role', 'img');
+    expect(canvas).toHaveAccessibleName('Actual costs by month chart');
+    expect(description).not.toBeVisible();
+    expect(description).toHaveTextContent(
       'Actual costs by month: January 2026: Labour: €1,000, Materials: €500; February 2026: Labour: €1,200, Materials: €0.',
     );
-    expect(canvas.textContent?.trim()).toEqual(description.textContent?.trim());
+    expect(canvas).toHaveTextContent(description.textContent.trim());
   });
 
   it('formats description values using the selected locale', () => {
@@ -128,7 +128,7 @@ describe('ActualCostsComponent', () => {
       maximumFractionDigits: 0,
     }).format(1_000);
 
-    expect(description.textContent).toContain(`Labour: ${formattedValue}`);
+    expect(description).toHaveTextContent(`Labour: ${formattedValue}`);
   });
 
   it('uses a unique description ID for each chart', () => {

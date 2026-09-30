@@ -91,11 +91,11 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
     const descriptionId = canvas.getAttribute('aria-describedby')!;
     const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
 
-    expect(canvas.getAttribute('role')).toEqual('img');
-    expect(canvas.getAttribute('aria-label')).toEqual('Work packages graph');
-    expect(description.hidden).toBe(true);
-    expect(description.textContent?.trim()).toEqual('Bar chart showing work packages which are 2 Open.');
-    expect(canvas.textContent?.trim()).toEqual('2 Open');
+    expect(canvas).toHaveAttribute('role', 'img');
+    expect(canvas).toHaveAccessibleName('Work packages graph');
+    expect(description).not.toBeVisible();
+    expect(description).toHaveTextContent('Bar chart showing work packages which are 2 Open.');
+    expect(canvas).toHaveTextContent('2 Open');
   });
 
   it('uses a unique description ID for each graph', () => {

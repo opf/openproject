@@ -63,8 +63,9 @@ describe('AbstractWidgetComponent', () => {
     const host = fixture.nativeElement as HTMLElement;
     const heading = host.querySelector<HTMLHeadingElement>('h3')!;
 
-    expect(host.getAttribute('role')).toEqual('group');
-    expect(host.getAttribute('aria-labelledby')).toEqual(heading.id);
+    expect(host).toHaveAttribute('role', 'group');
+    expect(host).toHaveAttribute('aria-labelledby', heading.id);
+    expect(host).toHaveAccessibleName('Widget title');
     expect(heading.id).toMatch(/^widget-heading-/);
   });
 
@@ -82,7 +83,7 @@ describe('AbstractWidgetComponent', () => {
 
     const host = fixture.nativeElement as HTMLElement;
 
-    expect(host.hasAttribute('role')).toBe(false);
-    expect(host.hasAttribute('aria-labelledby')).toBe(false);
+    expect(host).not.toHaveAttribute('role');
+    expect(host).not.toHaveAttribute('aria-labelledby');
   });
 });
