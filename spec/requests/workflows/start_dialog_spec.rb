@@ -176,7 +176,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
       it "starts from scratch once that loss is confirmed" do
         expect { start(start: "scratch", confirmed: "true") }.to change(Workflow, :count).by(1)
 
-        expect(response).to redirect_to(%r{/creation_wizard\?started_id=#{assigned.id}&step=workflows})
+        expect(response).to redirect_to(%r{/creation_wizard\?started_workflow_id=#{assigned.id}&step=workflows})
         expect(transitions_of(assigned)).to be_empty
       end
 
