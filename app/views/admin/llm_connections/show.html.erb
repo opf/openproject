@@ -32,12 +32,23 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t("menus.admin.llm_connection") }
-    header.with_description { t(".description") }
+    header.with_description do
+      if Setting.llm_features_enabled?
+        link_translate(
+          "admin.llm_connections.show.description_enabled",
+          links: { models_url: llm_models_path },
+          external: false
+        )
+      else
+        t("admin.llm_connections.show.description")
+      end
+    end
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
        { href: mcp_configurations_path, text: t("menus.admin.ai") },
        t("menus.admin.llm_connection")]
     )
+    render_tab_header_nav(header, llm_settings_tabs, test_selector: "llm-settings--tabs")
 
     if @connection.persisted?
       header.with_action_menu(
