@@ -126,7 +126,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline.updateZoomWithDelta(delta);
   }
 
-  public performAction(event:Event) {
+  public performAction(_event:Event) {
     this.toggleTimeline();
   }
 
