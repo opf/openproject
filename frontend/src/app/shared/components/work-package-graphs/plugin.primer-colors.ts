@@ -32,6 +32,7 @@ import {
   ChartType,
   Plugin,
 } from 'chart.js';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 export interface PrimerColorsPluginOptions {
   enabled?:boolean;
@@ -66,10 +67,6 @@ const PRIMER_COLORS = [
   'olive',  // (subdued green, background tone)
   'lime',   // (subdued green, good closing color)
 ];
-
-function getCSSVariable(variable:string) {
-  return getComputedStyle(document.body).getPropertyValue(variable).trim();
-}
 
 function getEmphasisColors() {
   return PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-6`));

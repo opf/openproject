@@ -36,6 +36,7 @@ import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-res
 import NonWorkingDaysPlugin, { NonWorkingDaysPluginOptions, NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
 import 'core-app/shared/components/charts/interaction.series-at-x';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 interface BurndownPoint {
   x:string;
@@ -117,7 +118,7 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
     fill: true,
     color: () => ({
       border: remainingColor(),
-      background: cssVariable('--display-red-scale-2', '#fda5a7'),
+      background: getCSSVariable('--display-red-scale-2', '#fda5a7'),
     }),
   },
   projection: {
@@ -138,7 +139,7 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
     borderWidth: 2,
     order: 1,
     pointHoverRadius: 0,
-    color: () => ({ border: cssVariable('--fgColor-muted', '#59636e') }),
+    color: () => ({ border: getCSSVariable('--fgColor-muted', '#59636e') }),
   },
 };
 
@@ -155,13 +156,9 @@ function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
   return { pointStyle: style.swatch, lineDash: style.borderDash, lineWidth: style.borderWidth };
 }
 
-function cssVariable(name:string, fallback:string):string {
-  return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
-}
-
 // The projection continues the remaining series, so the two share a colour.
 function remainingColor():string {
-  return cssVariable('--display-red-scale-6', '#c50d28');
+  return getCSSVariable('--display-red-scale-6', '#c50d28');
 }
 
 @Component({
@@ -320,7 +317,7 @@ export class BurndownChartComponent {
   }
 
   private nonWorkingLegendItem(chart:Chart):LegendItem {
-    const bandColor = cssVariable('--borderColor-muted', '#d0d7de');
+    const bandColor = getCSSVariable('--borderColor-muted', '#d0d7de');
 
     return {
       text: this.i18n.t('js.burndown.non_working_day'),

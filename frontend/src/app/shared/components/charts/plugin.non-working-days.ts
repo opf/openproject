@@ -28,6 +28,7 @@
 
 import { Chart, ChartType, Plugin, Scale } from 'chart.js';
 import moment from 'moment-timezone';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 export interface NonWorkingInterval {
   from:string;
@@ -96,7 +97,7 @@ export function bandFor(interval:NonWorkingInterval, scale:Scale, zone:string):B
 }
 
 function bandColor():string {
-  return getComputedStyle(document.body).getPropertyValue('--borderColor-muted').trim() || '#d0d7de';
+  return getCSSVariable('--borderColor-muted', '#d0d7de');
 }
 
 // A chart with the animation turned off gets none here either. A scriptable duration is not
