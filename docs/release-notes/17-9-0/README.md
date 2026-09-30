@@ -28,7 +28,7 @@ Take a look at our release video showing the most important features introduced 
 ![Release video of OpenProject 17.9](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_17_9_release.mp4)
 
 
-### Create work packages directly from documents
+### Create work packages directly from Documents
 
 OpenProject 17.9 makes it easier to turn planning content into actionable work without interrupting the flow of writing and collaboration.
 
