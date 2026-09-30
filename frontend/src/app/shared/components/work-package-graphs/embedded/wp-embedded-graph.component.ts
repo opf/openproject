@@ -33,6 +33,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from './../plugin.primer-colors';
 import { chartTypeLocaleKey } from './../chart-type';
 
@@ -140,9 +141,9 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   protected setChartOptions() {
-    const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
-    const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-muted');
-    const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
+    const bodyFontColor = getCSSVariable('--body-font-color');
+    const gridLineColor = getCSSVariable('--borderColor-muted');
+    const backdropColor = getCSSVariable('--overlay-backdrop-bgColor');
 
     const valueAxisGrace = this.isBarChart() ? '10%' : 0;
 
