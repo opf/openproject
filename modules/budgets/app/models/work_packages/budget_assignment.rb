@@ -28,22 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Exports::Formatters
-  class BudgetSpentRatio < ::Exports::Formatters::Default
-    def self.apply?(attribute, _export_format)
-      attribute.to_sym == :budget_spent_ratio
+module WorkPackages::BudgetAssignment
+  extend ActiveSupport::Concern
+
+  included do
+    belongs_to :budget, inverse_of: :work_packages, optional: true
+
+    validate :validate_budget
+  end
+
+  def validate_budget
+    # Also re-validate when the work package is moved to another project, since
+    # the set of valid budgets is project-scoped. Otherwise a budget belonging
+    # to the source project would silently survive the move.
+    if (budget_id_changed? || project_id_changed?) &&
+       !(budget_id.blank? || project.budget_ids.include?(budget_id))
+      errors.add :budget, :inclusion
     end
+  end
 
-    def format(project, **)
-      return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
-
-      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
-
-      (aggregation.total_ratio.to_f / 100).ceil(2) if aggregation&.total_ratio
-    end
-
-    def format_options
-      { number_format: percentage_format }
-    end
+  # Wraps the association to get the Cost Object subject.  Needed for the
+  # Query and filtering
+  def budget_subject
+    budget&.subject
   end
 end

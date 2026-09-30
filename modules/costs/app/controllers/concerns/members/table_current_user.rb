@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,5 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches
+module Members::TableCurrentUser
+  def members_table_options(_roles)
+    super.merge current_user:
+  end
 end

@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
+RSpec.describe Projects::BudgetColumns do
   let(:project) do
     create(:project,
            enabled_module_names: %i[budgets work_package_tracking],
@@ -41,7 +41,7 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
   let(:table) { TableComponent.new }
   let(:component_class) do
     Class.new(Projects::RowComponent) do
-      include Budgets::Patches::Projects::RowComponentPatch
+      prepend Projects::BudgetColumns
     end
   end
   let(:component) { component_class.new(row: [project, 0], table: table) }
@@ -50,134 +50,7 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
     login_as(user)
   end
 
-  describe "ProjectBudgets" do
-    describe "#total_planned" do
-      subject { described_class::ProjectBudgets.new(project) }
-
-      context "with multiple budgets" do
-        let!(:budget1) { create(:budget, project:, base_amount: 1000) }
-        let!(:budget2) { create(:budget, project:, base_amount: 2000) }
-
-        it "sums up all budget amounts" do
-          expect(subject.total_planned).to eq(budget1.budget + budget2.budget)
-        end
-      end
-
-      context "with no budgets" do
-        it "returns zero" do
-          expect(subject.total_planned).to eq(BigDecimal(0))
-        end
-      end
-    end
-
-    describe "#total_spent" do
-      subject { described_class::ProjectBudgets.new(project) }
-
-      context "with multiple budgets with spent amounts" do
-        let!(:budget1) { create(:budget, project:) }
-        let!(:budget2) { create(:budget, project:) }
-
-        it "sums up all spent amounts" do
-          expect(subject.total_spent).to eq(budget1.spent + budget2.spent)
-        end
-      end
-
-      context "with no budgets" do
-        it "returns zero" do
-          expect(subject.total_spent).to eq(BigDecimal(0))
-        end
-      end
-    end
-
-    describe "#total_available" do
-      subject { described_class::ProjectBudgets.new(project) }
-
-      context "with multiple budgets with available amounts" do
-        let!(:budget1) { create(:budget, project:) }
-        let!(:budget2) { create(:budget, project:) }
-
-        it "sums up all available amounts" do
-          expect(subject.total_available).to eq(budget1.available + budget2.available)
-        end
-      end
-
-      context "with no budgets" do
-        it "returns zero" do
-          expect(subject.total_available).to eq(BigDecimal(0))
-        end
-      end
-    end
-
-    describe "#total_ratio" do
-      subject { described_class::ProjectBudgets.new(project) }
-
-      context "when total planned is greater than zero" do
-        before do
-          allow(subject).to receive_messages(
-            total_planned: BigDecimal(1000),
-            total_spent: BigDecimal(250)
-          )
-        end
-
-        it "returns the percentage ratio rounded" do
-          expect(subject.total_ratio).to eq(25)
-        end
-      end
-
-      context "when total planned is zero" do
-        before do
-          allow(subject).to receive_messages(
-            total_planned: BigDecimal(1000),
-            total_spent: BigDecimal(0)
-          )
-        end
-
-        it "returns zero" do
-          expect(subject.total_ratio).to eq(0)
-        end
-      end
-
-      context "with decimal ratio" do
-        before do
-          allow(subject).to receive_messages(
-            total_planned: BigDecimal(3000),
-            total_spent: BigDecimal(1000)
-          )
-        end
-
-        it "rounds to the nearest integer" do
-          expect(subject.total_ratio).to eq(33)
-        end
-      end
-    end
-
-    describe "#budgets" do
-      subject { described_class::ProjectBudgets.new(project) }
-
-      context "with budgets in the project" do
-        let!(:budget1) { create(:budget, project:) }
-        let!(:budget2) { create(:budget, project:) }
-
-        it "returns all project budgets as an array" do
-          expect(subject.budgets).to contain_exactly(budget1, budget2)
-        end
-
-        it "memoizes the result" do
-          first_call = subject.budgets
-          second_call = subject.budgets
-          expect(first_call).to be(second_call)
-        end
-      end
-
-      context "with no budgets" do
-        it "returns an empty array" do
-          expect(subject.budgets).to eq([])
-        end
-      end
-    end
-  end
-
-  describe "InstanceMethods" do
+  describe "columns" do
     describe "#budget_planned" do
       context "when user has permission and project has budgets" do
         let!(:budget) { create(:budget, project:, base_amount: 1500) }
@@ -208,10 +81,8 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
       context "when user has permission and project has budgets" do
         let!(:budget) { create(:budget, project:) }
 
-        it "returns formatted currency" do
-          allow(component).to receive(:number_to_currency).and_call_original
-          result = component.budget_spent
-          expect(result).to be_a(String) if result
+        it "returns the spent amount formatted as currency" do
+          expect(component.budget_spent).to eq(component.number_to_currency(budget.spent, precision: 0))
         end
       end
 
@@ -234,7 +105,7 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
     describe "#budget_spent_ratio" do
       context "when user has permission and project has budgets" do
         let!(:budget) { create(:budget, project:) }
-        let(:helpers_mock) { double("helpers") }
+        let(:helpers_mock) { instance_double(CostlogHelper) }
 
         before do
           allow(component).to receive(:helpers).and_return(helpers_mock)
@@ -242,8 +113,9 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
 
         it "returns extended progress bar with ratio" do
           allow(helpers_mock).to receive(:extended_progress_bar).and_return("<progress>0%</progress>")
-          result = component.budget_spent_ratio
-          expect(result).to be_a(String) if result
+
+          expect(component.budget_spent_ratio).to eq("<progress>0%</progress>")
+          expect(helpers_mock).to have_received(:extended_progress_bar).with(0, legend: "0")
         end
       end
 
@@ -268,9 +140,7 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
         let!(:budget) { create(:budget, project:, base_amount: 500) }
 
         it "returns formatted currency" do
-          allow(component).to receive(:number_to_currency).and_call_original
-          result = component.budget_available
-          expect(result).to be_a(String) if result
+          expect(component.budget_available).to include("500")
         end
       end
 
@@ -290,28 +160,28 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
       end
     end
 
-    describe "#with_project_budgets" do
+    describe "#with_budget_aggregation" do
       context "when project has budgets and user has permission" do
         let!(:budget) { create(:budget, project:) }
 
-        it "yields the project budgets instance" do
-          expect { |b| component.with_project_budgets(&b) }.to yield_with_args(kind_of(described_class::ProjectBudgets))
+        it "yields the budget aggregation" do
+          expect { |b| component.with_budget_aggregation(&b) }.to yield_with_args(kind_of(Budgets::ProjectBudgetAggregation))
         end
 
-        it "memoizes the project budgets instance" do
-          first_budgets = nil
-          second_budgets = nil
+        it "memoizes the budget aggregation" do
+          first_aggregation = nil
+          second_aggregation = nil
 
-          component.with_project_budgets { |pb| first_budgets = pb }
-          component.with_project_budgets { |pb| second_budgets = pb }
+          component.with_budget_aggregation { |aggregation| first_aggregation = aggregation }
+          component.with_budget_aggregation { |aggregation| second_aggregation = aggregation }
 
-          expect(first_budgets).to be(second_budgets)
+          expect(first_aggregation).to be(second_aggregation)
         end
       end
 
       context "when project has no budgets" do
         it "does not yield" do
-          expect { |b| component.with_project_budgets(&b) }.not_to yield_control
+          expect { |b| component.with_budget_aggregation(&b) }.not_to yield_control
         end
       end
 
@@ -320,7 +190,7 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
         let!(:budget) { create(:budget, project:) }
 
         it "does not yield" do
-          expect { |b| component.with_project_budgets(&b) }.not_to yield_control
+          expect { |b| component.with_budget_aggregation(&b) }.not_to yield_control
         end
       end
 
@@ -332,7 +202,7 @@ RSpec.describe Budgets::Patches::Projects::RowComponentPatch do
         end
 
         it "does not yield" do
-          expect { |b| component.with_project_budgets(&b) }.not_to yield_control
+          expect { |b| component.with_budget_aggregation(&b) }.not_to yield_control
         end
       end
     end

@@ -28,28 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Budgets::Patches::WorkPackagePatch
-  extend ActiveSupport::Concern
-
-  included do
-    belongs_to :budget, inverse_of: :work_packages, optional: true
-
-    validate :validate_budget
-  end
-
-  def validate_budget
-    # Also re-validate when the work package is moved to another project, since
-    # the set of valid budgets is project-scoped. Otherwise a budget belonging
-    # to the source project would silently survive the move.
-    if (budget_id_changed? || project_id_changed?) &&
-       !(budget_id.blank? || project.budget_ids.include?(budget_id))
-      errors.add :budget, :inclusion
-    end
-  end
-
-  # Wraps the association to get the Cost Object subject.  Needed for the
-  # Query and filtering
-  def budget_subject
-    budget&.subject
+module Costs::ConfiguredCurrency
+  def i18n_opts
+    super.merge(unit: ERB::Util.h(Setting.costs_currency),
+                format: ERB::Util.h(Setting.costs_currency_format),
+                negative_format: "-#{ERB::Util.h(Setting.costs_currency_format)}")
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenProject::GitlabIntegration
   module Patches
     module WorkPackagePatch
@@ -12,5 +14,3 @@ module OpenProject::GitlabIntegration
     end
   end
 end
-
-WorkPackage.include OpenProject::GitlabIntegration::Patches::WorkPackagePatch

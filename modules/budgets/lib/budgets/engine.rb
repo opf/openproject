@@ -56,8 +56,10 @@ module Budgets
            icon: "op-budget"
     end
 
-    patches %i[WorkPackage]
-    patch_with_namespace :Projects, :RowComponent
+    include_module "WorkPackages::BudgetAssignment", into: "WorkPackage"
+    prepend_module "Projects::BudgetColumns", into: "Projects::RowComponent"
+    prepend_class_methods "API::V3::WorkPackages::EagerLoading::ChecksumBudget",
+                          into: "API::V3::WorkPackages::EagerLoading::Checksum"
 
     # Allow assigning a budget when moving work packages
     additional_permitted_attributes move_work_package: %i[budget_id]

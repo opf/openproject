@@ -28,22 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Exports::Formatters
-  class BudgetSpentRatio < ::Exports::Formatters::Default
-    def self.apply?(attribute, _export_format)
-      attribute.to_sym == :budget_spent_ratio
+module BasicData::EnableCostsModuleByDefault
+  def data
+    original_data = super
+
+    if original_data["default_projects_modules"]&.exclude? "costs"
+      original_data["default_projects_modules"] << "costs"
     end
 
-    def format(project, **)
-      return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
-
-      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
-
-      (aggregation.total_ratio.to_f / 100).ceil(2) if aggregation&.total_ratio
-    end
-
-    def format_options
-      { number_format: percentage_format }
-    end
+    original_data
   end
 end

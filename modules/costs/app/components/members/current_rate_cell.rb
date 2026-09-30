@@ -28,22 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Exports::Formatters
-  class BudgetSpentRatio < ::Exports::Formatters::Default
-    def self.apply?(attribute, _export_format)
-      attribute.to_sym == :budget_spent_ratio
+module Members::CurrentRateCell
+  include ActionView::Helpers::NumberHelper
+
+  delegate :project, :costs_enabled?, to: :table
+
+  def current_rate
+    if show_rate?
+      link_to(
+        number_to_currency(rate),
+        controller: "/hourly_rates",
+        action: "show",
+        id: member.principal,
+        project_id: project
+      )
     end
+  end
 
-    def format(project, **)
-      return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
-
-      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
-
-      (aggregation.total_ratio.to_f / 100).ceil(2) if aggregation&.total_ratio
+  def column_css_class(name)
+    if name == :current_rate
+      "currency"
+    else
+      super
     end
+  end
 
-    def format_options
-      { number_format: percentage_format }
-    end
+  def rate
+    member.principal.current_rate(project).try(:rate) || 0.0
+  end
+
+  def show_rate?
+    costs_enabled? && user? && allow_view?
+  end
+
+  def allow_view?
+    table.current_user.allowed_in_project?(:view_hourly_rates, project)
   end
 end

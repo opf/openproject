@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,20 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
+require "spec_helper"
+require_relative Rails.root.join("spec/lib/api/v3/work_packages/eager_loading/eager_loading_mock_wrapper")
+
+RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum, "integration" do
+  shared_let(:project) { create(:project) }
+  shared_let(:budget) { create(:budget, project:) }
+  shared_let(:other_budget) { create(:budget, project:) }
+  shared_let(:work_package) do
+    create(:work_package,
+           project:,
+           budget:)
   end
 
-  module InstanceMethods
-    def data
-      original_data = super
+  describe ".apply" do
+    def checksum
+      EagerLoadingMockWrapper.wrap(described_class, [work_package]).first.cache_checksum
+    end
 
-      if original_data["default_projects_modules"]&.exclude? "costs"
-        original_data["default_projects_modules"] << "costs"
-      end
+    it "produces a different checksum on changes to the budget id" do
+      expect { WorkPackage.where(id: work_package.id).update_all(budget_id: other_budget.id) }
+        .to change { checksum }
+    end
 
-      original_data
+    it "produces a different checksum on changes to the budget" do
+      expect { budget.update_attribute(:updated_at, 10.seconds.from_now) }
+        .to change { checksum }
     end
   end
 end
