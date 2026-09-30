@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class TypeVariant
+module TypeVariants
   module FormReference
     extend ActiveSupport::Concern
 

@@ -49,7 +49,7 @@ class TypeVariant < ApplicationRecord
   include ::Scopes::Scoped
   include ::Type::Attributes
   include ::Type::AttributeGroups
-  include ::TypeVariant::FormReference
+  include ::TypeVariants::FormReference
   prepend ::TypeVariant::ConfigurationLinkable
 
   attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
