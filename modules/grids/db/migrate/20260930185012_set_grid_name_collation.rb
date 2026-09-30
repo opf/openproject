@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,49 +26,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-module Boards
-  class Menu < Submenu
-    attr_reader :view_type, :project
+#++
 
-    def initialize(project: nil, params: nil)
-      @project = project
-      @params = params
+class SetGridNameCollation < ActiveRecord::Migration[8.1]
+  def up
+    # It should probably be a string (varchar), but there is no difference for
+    # postgresql, so keeping it as is
+    change_column :grids, :name, :text, collation: "natural_sort_order"
+  end
 
-      super(view_type: nil, project:, params:)
-    end
-
-    def global_queries
-      Boards::Grid.includes(:project)
-                  .references(:project)
-                  .where(project: @project)
-                  .order(:name)
-                  .pluck(:id, :name)
-                  .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
-    end
-
-    def starred_queries
-      []
-    end
-
-    def default_queries
-      []
-    end
-
-    def custom_queries
-      []
-    end
-
-    def selected?(query_params)
-      query_params[:id].to_s == params[:id]
-    end
-
-    def query_params(id)
-      { id: }
-    end
-
-    def query_path(query_params)
-      project_work_package_board_path(project, query_params)
-    end
+  def down
+    change_column :grids, :name, :text
   end
 end

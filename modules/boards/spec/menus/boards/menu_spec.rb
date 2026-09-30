@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,49 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-module Boards
-  class Menu < Submenu
-    attr_reader :view_type, :project
+#++
 
-    def initialize(project: nil, params: nil)
-      @project = project
-      @params = params
+require "spec_helper"
 
-      super(view_type: nil, project:, params:)
+RSpec.describe Boards::Menu do
+  let(:project) { create(:project) }
+  let(:instance) { described_class.new(project:, params: {}) }
+
+  describe "order" do
+    before do
+      [
+        "Board 10",
+        "Board 2",
+        "Board 1"
+      ].each do |name|
+        create(:board_grid, project:, name:)
+      end
     end
 
-    def global_queries
-      Boards::Grid.includes(:project)
-                  .references(:project)
-                  .where(project: @project)
-                  .order(:name)
-                  .pluck(:id, :name)
-                  .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
-    end
-
-    def starred_queries
-      []
-    end
-
-    def default_queries
-      []
-    end
-
-    def custom_queries
-      []
-    end
-
-    def selected?(query_params)
-      query_params[:id].to_s == params[:id]
-    end
-
-    def query_params(id)
-      { id: }
-    end
-
-    def query_path(query_params)
-      project_work_package_board_path(project, query_params)
+    it "orders boards by name with numbers naturally" do
+      expect(instance.global_queries)
+        .to match(["Board 1", "Board 2", "Board 10"].map { have_attributes(title: it) })
     end
   end
 end
