@@ -50,7 +50,11 @@ module WorkPackageTypes
     end
 
     def change
-      assign_and_redirect(Workflow.available_in(@variant.project).find(params.expect(:workflow_id)))
+      workflow = Workflow.available_in(@variant.project).find(params.expect(:workflow_id))
+      missing_statuses = statuses_lost_by_switching_to(workflow)
+      return confirm_change(workflow, missing_statuses) if missing_statuses.any? && !params[:confirmed]
+
+      assign_and_redirect(workflow)
     end
 
     def start_dialog
@@ -63,7 +67,9 @@ module WorkPackageTypes
 
     def configure
       return reject_missing_copy_source(configure_type_workflow_path(**dialog_args)) if copying_without_a_source?
+      return confirm_new_workflow if new_workflow_needs_confirmation?
 
+      close_dialog_via_turbo_stream(confirm_dialog_id) if params[:confirmed]
       respond_with_dialog naming_dialog(Workflow.new(project: @variant.project, name: provisional_name),
                                         copy_from_id: chosen_copy_from_id)
     end
@@ -79,6 +85,7 @@ module WorkPackageTypes
 
     def start
       return reject_missing_copy_source(start_type_workflow_path(**dialog_args)) if copying_without_a_source?
+      return confirm_new_workflow if new_workflow_needs_confirmation?
 
       service_call = start_workflow
       return render_form_errors(service_call.result) unless service_call.success?
@@ -88,6 +95,81 @@ module WorkPackageTypes
     end
 
     private
+
+    def statuses_lost_by_switching_to(workflow)
+      return Status.none if @variant.workflow == workflow
+
+      @variant.workflow.statuses_missing_in(workflow, roles: eligible_roles).order(:position)
+    end
+
+    def confirm_change(workflow, missing_statuses)
+      respond_with_dialog confirm_dialog(
+        workflow:,
+        missing_statuses:,
+        hidden_fields: { workflow_id: workflow.id, confirmed: true },
+        form_arguments: {
+          action: change_type_workflow_path(**@variant.path_args.merge(back_url:).compact),
+          method: :patch,
+          data: { turbo: false }
+        }
+      )
+    end
+
+    def new_workflow_needs_confirmation?
+      !params[:confirmed] && statuses_lost_by_new_workflow.any?
+    end
+
+    def confirm_new_workflow
+      close_dialog_via_turbo_stream(start_dialog_id)
+      respond_with_dialog confirm_dialog(
+        workflow: copy_source,
+        missing_statuses: statuses_lost_by_new_workflow,
+        hidden_fields: { start: params[:start], copy_from_id: chosen_copy_from_id, confirmed: true }.compact,
+        form_arguments: {
+          action: new_workflow_resume_path,
+          method: :post,
+          data: { turbo: true }
+        }
+      )
+    end
+
+    def statuses_lost_by_new_workflow
+      @statuses_lost_by_new_workflow ||= begin
+        source = copy_source
+
+        if source
+          statuses_lost_by_switching_to(source)
+        elsif params[:start] == NamedReferences::StartForm::SCRATCH
+          @variant.workflow.statuses_used_by(eligible_roles).order(:position)
+        else
+          Status.none
+        end
+      end
+    end
+
+    def confirm_dialog(missing_statuses:, form_arguments:, hidden_fields:, workflow: nil)
+      ::Workflows::ChangeWorkflow::ConfirmDialogComponent.new(
+        variant: @variant, workflow:, missing_statuses:, form_arguments:, hidden_fields:
+      )
+    end
+
+    def confirm_dialog_id = ::Workflows::ChangeWorkflow::ConfirmDialogComponent::DIALOG_ID
+
+    def start_dialog_id = NamedReferences::NameFormComponent.dialog_id(::Workflow)
+
+    def new_workflow_resume_path
+      path = action_name == "start" ? :start_type_workflow_path : :configure_type_workflow_path
+      public_send(path, **dialog_args)
+    end
+
+    def copy_source
+      return if chosen_copy_from_id.blank?
+      return @copy_source if defined?(@copy_source)
+
+      @copy_source = Workflow.available_in(@variant.project).find_by(id: chosen_copy_from_id)
+    end
+
+    def eligible_roles = ::Workflows::StatusTransition.eligible_roles
 
     def assign_and_redirect(workflow)
       assign(workflow)

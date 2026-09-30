@@ -28,44 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module NamedReferences
-    class ChangeDialogComponent < ApplicationComponent
-      include Translatable
+module Workflows
+  module ChangeWorkflow
+    class ConfirmDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def self.dialog_id(model_class) = "change-#{ActionView::RecordIdentifier.dom_class(model_class)}-dialog"
+      DIALOG_ID = "change-workflow-confirm-dialog"
 
-      def self.form_id(model_class) = "change-#{ActionView::RecordIdentifier.dom_class(model_class)}-form"
-
-      def initialize(variant:, model_class:, back_url: nil)
+      def initialize(variant:, missing_statuses:, form_arguments:, hidden_fields:, workflow: nil)
         super()
 
         @variant = variant
-        @model_class = model_class
-        @back_url = back_url
+        @workflow = workflow
+        @missing_statuses = missing_statuses
+        @form_arguments = form_arguments
+        @hidden_fields = hidden_fields
       end
 
       private
 
-      attr_reader :variant, :model_class, :back_url
+      attr_reader :variant, :workflow, :missing_statuses, :form_arguments, :hidden_fields
 
-      def dialog_id = self.class.dialog_id(model_class)
+      def description
+        return I18n.t("workflows.change.confirm.description_blank", type: variant.composite_name) if workflow.nil?
 
-      def form_id = self.class.form_id(model_class)
-
-      def title = reference_translate("change.title")
-
-      def form_arguments
-        {
-          id: form_id,
-          url: url_helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
-                                            action: :change,
-                                            **variant.path_args.merge(back_url:).compact),
-          method: :patch
-        }
+        key = target_empty? ? "description_empty" : "description"
+        I18n.t("workflows.change.confirm.#{key}", name: workflow.name, type: variant.composite_name)
       end
+
+      def target_empty?
+        workflow.nil? || workflow.status_transitions.where(role: eligible_roles).none?
+      end
+
+      def eligible_roles = Workflows::StatusTransition.eligible_roles
     end
   end
 end

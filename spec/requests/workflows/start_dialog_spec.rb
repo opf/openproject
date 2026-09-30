@@ -151,6 +151,49 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
       expect(streamed).to have_text(I18n.t("workflows.start.copy.missing"))
       expect(type.default_variant.reload.workflow).to eq(original)
     end
+
+    describe "when the workflow in use would lose statuses" do
+      let(:closed) { create(:status, name: "Closed") }
+
+      before do
+        create(:status_transition,
+               workflow: type.default_variant.workflow,
+               role:,
+               old_status: status_b,
+               new_status: closed)
+      end
+
+      it "asks before starting from scratch, and creates nothing yet" do
+        expect { start(start: "scratch") }.not_to change(Workflow, :count)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to have_turbo_stream(action: "closeDialog", target: "workflow-dialog")
+        expect(streamed).to have_text(I18n.t("workflows.change.confirm.description_blank", type: "Bug"))
+        expect(streamed).to have_css("input[name='start'][value='scratch']", visible: :all)
+        expect(streamed).to have_css("input[name='confirmed'][value='true']", visible: :all)
+      end
+
+      it "starts from scratch once that loss is confirmed" do
+        expect { start(start: "scratch", confirmed: "true") }.to change(Workflow, :count).by(1)
+
+        expect(response).to redirect_to(%r{/creation_wizard\?started_id=#{assigned.id}&step=workflows})
+        expect(transitions_of(assigned)).to be_empty
+      end
+
+      it "asks before copying a workflow that lacks a status" do
+        expect { start(start: "copy", copy_from_id: source.id) }.not_to change(Workflow, :count)
+
+        expect(streamed).to have_text("Closed")
+        expect(streamed).to have_text("Standard flow")
+        expect(streamed).to have_css("input[name='copy_from_id'][value='#{source.id}']", visible: :all)
+      end
+
+      it "copies once that loss is confirmed" do
+        start(start: "copy", copy_from_id: source.id, confirmed: "true")
+
+        expect(transitions_of(assigned)).to contain_exactly([status_a.id, status_b.id])
+      end
+    end
   end
 
   describe "starting from a tab or the index" do
@@ -168,6 +211,46 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
       expect(streamed).to have_no_field("workflow[copy_from_id]", type: :hidden)
       expect(streamed).to have_no_css("[data-test-selector='workflow-copy-from']",
                                       visible: :all)
+    end
+
+    it "asks before naming a blank workflow that would drop statuses, then opens the name dialog once confirmed" do
+      create(:status_transition,
+             workflow: type.default_variant.workflow,
+             role:,
+             old_status: status_a,
+             new_status: status_b)
+
+      expect do
+        post configure_type_workflow_path(type_id: type.id), params: { start: "scratch" }, headers: turbo
+      end.not_to change(Workflow, :count)
+
+      expect(streamed).to have_text(I18n.t("workflows.change.confirm.description_blank", type: "Bug"))
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "workflow-dialog")
+
+      post configure_type_workflow_path(type_id: type.id),
+           params: { start: "scratch", confirmed: "true" }, headers: turbo
+
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "change-workflow-confirm-dialog")
+      expect(streamed).to have_field("Workflow name")
+    end
+
+    it "asks before naming a copy that lacks a status, then carries the source once confirmed" do
+      closed = create(:status, name: "Closed")
+      create(:status_transition,
+             workflow: type.default_variant.workflow,
+             role:,
+             old_status: status_b,
+             new_status: closed)
+
+      post configure_type_workflow_path(type_id: type.id),
+           params: { start: "copy", copy_from_id: source.id }, headers: turbo
+
+      expect(streamed).to have_text("Closed")
+
+      post configure_type_workflow_path(type_id: type.id),
+           params: { start: "copy", copy_from_id: source.id, confirmed: "true" }, headers: turbo
+
+      expect(streamed).to have_css("input[name='workflow[copy_from_id]'][value='#{source.id}']", visible: :all)
     end
 
     it "offers the same pair on the workflows index, where no variant is involved" do
