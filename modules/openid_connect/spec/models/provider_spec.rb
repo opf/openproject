@@ -222,7 +222,28 @@ RSpec.describe OpenIDConnect::Provider do
       let(:authorization_endpoint) { nil }
       let(:issuer) { nil }
 
+      it "falls back to the host origin" do
+        expect(subject).to eq("https://keycloak.local/")
+      end
+    end
+
+    context "when authorization endpoint, issuer, and host are blank" do
+      subject { build(:oidc_provider, authorization_endpoint: nil, issuer: nil, host: nil).csp_form_action_origin }
+
       it { is_expected.to be_nil }
+    end
+
+    context "with a Microsoft Entra provider without discovered endpoints" do
+      subject do
+        build(:oidc_provider,
+              oidc_provider: "microsoft_entra",
+              authorization_endpoint: nil,
+              issuer: nil,
+              host: nil)
+        .csp_form_action_origin
+      end
+
+      it { is_expected.to eq("https://login.microsoftonline.com/") }
     end
   end
 end

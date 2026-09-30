@@ -60,8 +60,13 @@ class OmniAuthStartController < ApplicationController
   end
 
   def append_omniauth_form_action(provider_name)
-    origin = AuthProvider.find_by(slug: provider_name)&.csp_form_action_origin
-    return if origin.blank?
+    provider = AuthProvider.find_by(slug: provider_name)
+    return if provider.nil?
+
+    origin = provider.csp_form_action_origin
+    if origin.blank?
+      raise ArgumentError, "Unable to determine CSP form-action origin for #{provider.class.name} #{provider.slug.inspect}"
+    end
 
     append_content_security_policy_directives(form_action: [origin])
   end
