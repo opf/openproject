@@ -365,7 +365,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.37.0"
+  gem "rubocop-rails", "~> 2.38"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
