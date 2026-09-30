@@ -234,8 +234,12 @@ export class BurndownChartComponent {
     // instants, so both have to agree on where a day begins and ends.
     const zone = this.timezoneService.userTimezone();
 
+    const fontColor = getCSSVariable('--body-font-color', '#333333');
+    const gridColor = getCSSVariable('--borderColor-muted', '#d0d7de');
+
     return {
       maintainAspectRatio: false,
+      color: fontColor,
       interaction: { mode: 'series-at-x', intersect: false },
       scales: {
         x: {
@@ -244,13 +248,19 @@ export class BurndownChartComponent {
           adapters: { date: { zone } },
           time: { unit: 'day' },
           ticks: {
+            color: fontColor,
             // getDateFormat() yields a moment token string, which the luxon adapter would
             // misread, so the label is formatted here rather than through displayFormats.
             callback: (value:string|number) => this.timezoneService.formattedDate(new Date(Number(value)).toISOString()),
           },
+          grid: { color: gridColor },
+          border: { color: fontColor },
         },
         y: {
-          title: { display: true, text: this.i18n.t('js.burndown.story_points') },
+          title: { display: true, text: this.i18n.t('js.burndown.story_points'), color: fontColor },
+          ticks: { color: fontColor },
+          grid: { color: gridColor },
+          border: { color: fontColor },
           beginAtZero: true,
           suggestedMax: this.yAxisMaximum(),
         },
