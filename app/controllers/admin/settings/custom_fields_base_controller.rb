@@ -34,6 +34,7 @@ module Admin
     class CustomFieldsBaseController < ::Admin::SettingsController
       include ::CustomFields::SharedActions
       include ::CustomFields::AttributeHelpTextActions
+      include ::CustomFields::AdminRoutes
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :find_custom_field,
@@ -47,7 +48,7 @@ module Admin
 
       helper_method :index_path, :new_path, :edit_path, :member_path, :delete_option_path, :list_item_path,
                     :reorder_alphabetical_path, :attribute_help_text_path, :update_attribute_help_text_path,
-                    :items_path, :projects_path, :custom_field_page_title, :section_label, :customizable_name
+                    :custom_field_page_title, :section_label, :customizable_name
 
       def index
         @custom_fields = custom_field_scope
@@ -83,49 +84,15 @@ module Admin
         raise SubclassResponsibilityError, "#{self.class} must implement #section_label"
       end
 
+      # The collection-level paths take a subject; on the index/new pages there is
+      # no record yet, so bind them to this controller's type. The record-level
+      # helpers (edit_path, member_path, ...) come straight from CustomFields::AdminRoutes.
       def index_path(*, **params)
-        url_for(only_path: true, action: :index, **params)
+        super(custom_field_class, **params)
       end
 
       def new_path(field_format: nil)
-        url_for(only_path: true, action: :new, field_format:)
-      end
-
-      def edit_path(custom_field, *, **)
-        url_for(only_path: true, action: :edit, id: custom_field)
-      end
-
-      def member_path(custom_field)
-        url_for(only_path: true, action: :show, id: custom_field)
-      end
-
-      def delete_option_path(custom_field, custom_option)
-        url_for(only_path: true, action: :delete_option, id: custom_field.id || 0, option_id: custom_option.id || 0)
-      end
-
-      def list_item_path(custom_field, *, **)
-        url_for(only_path: true, action: :list_items, id: custom_field)
-      end
-
-      def reorder_alphabetical_path(custom_field)
-        url_for(only_path: true, action: :reorder_alphabetical, id: custom_field)
-      end
-
-      def attribute_help_text_path(custom_field)
-        url_for(only_path: true, action: :attribute_help_text, id: custom_field)
-      end
-
-      def update_attribute_help_text_path(custom_field)
-        url_for(only_path: true, action: :update_attribute_help_text, id: custom_field)
-      end
-
-      # Hierarchy items and project mappings stay on the shared global routes
-      def items_path(custom_field)
-        custom_field_items_path(custom_field)
-      end
-
-      def projects_path(custom_field)
-        custom_field_projects_path(custom_field)
+        super(custom_field_class, field_format:)
       end
 
       def customizable_name

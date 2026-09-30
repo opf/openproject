@@ -31,6 +31,8 @@
 module Admin
   module CustomFields
     class EditFormHeaderComponent < ApplicationComponent
+      include ::CustomFields::AdminRoutes
+
       def initialize(custom_field:, selected:, **)
         @custom_field = custom_field
         @selected = selected
@@ -43,23 +45,15 @@ module Admin
 
       private
 
-      def member_route
-        "admin_settings_#{@custom_field.class.name.underscore}"
-      end
-
-      def collection_route
-        "admin_settings_#{@custom_field.class.name.underscore.pluralize}"
-      end
-
       def details_tab
-        { name: "edit", path: public_send(:"edit_#{member_route}_path", @custom_field), label: t(:label_details) }
+        { name: "edit", path: edit_path(@custom_field), label: t(:label_details) }
       end
 
       def items_tab
         if @custom_field.hierarchical_list?
           { name: "items", path: custom_field_items_path(@custom_field), label: t(:label_item_plural) }
         elsif @custom_field.list?
-          { name: "items", path: public_send(:"list_items_#{member_route}_path", @custom_field), label: t(:label_item_plural) }
+          { name: "items", path: list_item_path(@custom_field), label: t(:label_item_plural) }
         end
       end
 
@@ -67,7 +61,7 @@ module Admin
         return [] unless @custom_field.is_a?(WorkPackageCustomField)
 
         [{ name: "custom_field_projects", path: custom_field_projects_path(@custom_field), label: t(:label_project_plural) },
-         { name: "attribute_help_text", path: public_send(:"attribute_help_text_#{member_route}_path", @custom_field),
+         { name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
            label: AttributeHelpText.human_attribute_name(:help_text) }]
       end
 
@@ -79,7 +73,7 @@ module Admin
       def breadcrumbs_items
         [
           { href: admin_index_path, text: t(:label_administration) },
-          { href: public_send(:"#{collection_route}_path"), text: I18n.t(@custom_field.type_name) },
+          { href: index_path(@custom_field), text: I18n.t(@custom_field.type_name) },
           helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format),
                                             @custom_field.attribute_in_database("name"))
         ]

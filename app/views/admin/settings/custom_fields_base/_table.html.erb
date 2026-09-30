@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,10 +25,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++# %>
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">
+    <% if work_package %>
+      <div class="op-toast -info">
+        <div class="op-toast--content">
+          <p><%= t("text_custom_field_hint_activate_per_project_and_type") %></p>
+        </div>
+      </div>
+    <% end %>
     <table class="generic-table" data-controller="table-highlighting">
       <colgroup>
         <col>
@@ -46,21 +53,27 @@ See COPYRIGHT and LICENSE files for more details.
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span><%= CustomField.human_attribute_name(:name) %></span>
+                <span>
+                  <%= CustomField.human_attribute_name(:name) %>
+                </span>
               </div>
             </div>
           </th>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span><%= CustomField.human_attribute_name(:field_format) %></span>
+                <span>
+                  <%= CustomField.human_attribute_name(:field_format) %>
+                </span>
               </div>
             </div>
           </th>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span><%= CustomField.human_attribute_name(:is_required) %></span>
+                <span>
+                  <%= CustomField.human_attribute_name(:is_required) %>
+                </span>
               </div>
             </div>
           </th>
@@ -68,29 +81,38 @@ See COPYRIGHT and LICENSE files for more details.
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <span><%= CustomField.human_attribute_name(:is_for_all) %></span>
+                  <span>
+                    <%= CustomField.human_attribute_name(:is_for_all) %>
+                  </span>
                 </div>
               </div>
             </th>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <span><%= t(:label_used_in_projects) %></span>
+                  <span>
+                    <%= t(:label_used_in_projects) %>
+                  </span>
                 </div>
               </div>
             </th>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <span><%= t("custom_fields.contained_in_type") %></span>
+                  <span>
+                    <%= t("custom_fields.contained_in_type") %>
+                  </span>
                 </div>
               </div>
             </th>
-          <% else %>
+          <% end %>
+          <% unless work_package %>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <span><%= t(:button_sort) %></span>
+                  <span>
+                    <%= t(:button_sort) %>
+                  </span>
                 </div>
               </div>
             </th>
@@ -124,7 +146,8 @@ See COPYRIGHT and LICENSE files for more details.
                 <% end %>
                 <%= safe_join(type_links, ", ") %>
               </td>
-            <% else %>
+            <% end %>
+            <% unless work_package %>
               <td><%= reorder_links("custom_field", { action: "update", id: custom_field, back_url: index_path }, method: :put) %></td>
             <% end %>
             <td class="buttons">

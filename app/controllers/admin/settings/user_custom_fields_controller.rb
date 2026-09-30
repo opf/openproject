@@ -32,9 +32,12 @@ module Admin::Settings
   class UserCustomFieldsController < ::Admin::SettingsController
     include CustomFields::SharedActions
     include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::UserCustomFields::ComponentStreams
+
+    helper_method :delete_option_path
 
     menu_item :user_custom_fields_settings
 
@@ -176,21 +179,5 @@ module Admin::Settings
       render "custom_fields/attribute_help_texts/show_user", status:
     end
 
-    def index_path(_custom_field, params = {})
-      admin_settings_user_custom_fields_path(**params)
-    end
-
-    def edit_path(_custom_field, params = {})
-      edit_admin_settings_user_custom_field_path(**params)
-    end
-
-    def list_item_path(_custom_field, params = {})
-      list_items_admin_settings_user_custom_field_path(**params)
-    end
-
-    def delete_option_path(custom_field, custom_option)
-      delete_option_of_admin_settings_user_custom_field_path(custom_field.id || 0, custom_option.id || 0)
-    end
-    helper_method :delete_option_path
   end
 end
