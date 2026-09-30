@@ -119,7 +119,7 @@ describe('BudgetByCostTypeComponent', () => {
       maximumFractionDigits: 0,
     }).format(10_000);
 
-    expect(description).toHaveTextContent(`Labour: ${formattedValue}`);
+    expect(description.textContent).toContain(`Labour: ${formattedValue}`);
   });
 
   it('uses a unique description ID for each chart', () => {
