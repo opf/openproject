@@ -161,7 +161,7 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     caption_rate_history: История оценок
     card:
       add_new: Добавить новую карту
@@ -810,12 +810,36 @@ ru:
       sorting_disabled: сортировка отключена
     sortable_lists:
       announcements:
+        batch_too_large: Нельзя переместить %{count} элементов за один раз. Выберите не более %{max}.
         fallback_item_label: Элемент
         fallback_list_name: другой список
         move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
+        move_failed_check_positions_batch:
+          other: Перемещение не удалось. Проверьте текущие позиции элементов.
         move_failed_rolled_back: Перемещение не удалось. %{label} вернулся на прежнюю позицию.
+        move_failed_rolled_back_batch:
+          other: Перемещение не удалось. %{count} элементов вернулось на прежние позиции.
         moved: "%{label} перемещен на позицию %{position} из %{total}"
+        moved_batch:
+          other: "%{count} элементов перемещёно на позиции с %{first} по %{last} из %{total}"
+        moved_batch_to_list:
+          other: "%{count} элементов перенесены в %{list}, на позиции с %{first} по %{last} из %{total}"
         moved_to_list: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
+      selection:
+        cleared: Выборка очищена.
+        not_selectable: Выборка не изменилась. Этот элемент не принимает участия в сортировке этого списка.
+        range_blocked: Выборка не изменилась. Этот диапазон содержит элемент, который не принимает участия в сортировке этого списка.
+        range_restarted:
+          one: Не удалось расширить диапазон. Выбран 1 элемент.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Не удалось расширить диапазон. Выбрано %{count} элементов.
+        range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
+        selected:
+          one: 1 элемент выбран.
+          few: "%{count} элемента выбрано."
+          many: "%{count} элементов выбрано."
+          other: "%{count} элементов выбрано."
     spot:
       drop_modal:
         close: Закрыть диалоговое окно

@@ -222,6 +222,7 @@ sv:
         title: Titel
       member:
         blocked: Blockerad
+        principal_type: Medlemstyp
         roles: Roll
       notification:
         read_ian: Läst i appen
@@ -234,6 +235,7 @@ sv:
         position: Position
       persisted_query:
         filters: Filter
+        group_bys: Gruppera resultat efter
         name: Namn
         orders: Sorteringar
         selects: Val
@@ -383,16 +385,13 @@ sv:
       type_variant:
         attribute_groups: Formulär
         default_work_package_description: Standardtext för beskrivning
-        defaults_source: Källa för standardvärden
         enabled_in_new_projects: Aktiv i nya projekt
-        form_configuration_source: Källa för formulär
+        linked_aspects: Ärvd konfiguration
         patterns: Mönster
-        pdf_export_source: Källa för PDF-export
-        project_attributes_source: Källa för projektattribut
         project_types: Projekt som använder den här varianten
         variant: Variant
         variant_name: Namn
-        workflows_source: Källa för arbetsflöden
+        workflow: Arbetsflöde
       user:
         admin: Administratör
         auth_source: Källa för autentisering
@@ -440,6 +439,13 @@ sv:
         time_zone: Tidszon
         warn_on_leaving_unsaved: Varna mig när jag lämnar ett arbetspaket med osparade ändringar
         workdays: Arbetsdagar
+      user_resource:
+        description: Beskrivning
+        name: Namn
+        user_filter: Användarfilter
+      user_resource_detail:
+        description: Beskrivning
+        user_filter: Användarfilter
       user_working_hours:
         availability_factor: Tillgänglighetsfaktor
         days: Arbetsdagar
@@ -490,6 +496,7 @@ sv:
           title: Arbetsdagar
           true: inkludera arbetsfria dagar
         journal_internal: Intern journal
+        labels: Etiketter
         notify: Avisera
         observed_in_versions: Observerad i versioner
         parent: Överordnad
@@ -518,6 +525,10 @@ sv:
         work_package: Arbetspaket
       work_package_version:
         kind: Typ
+      workflow:
+        description: Beskrivning
+        name: Namn
+        type_variants: Typer och varianter som använder det här arbetsflödet
     errors:
       messages:
         accepted: måste accepteras.
@@ -610,6 +621,10 @@ sv:
         user_in_ldap_managed_department: Den här användaren tillhör en avdelning som hanteras av LDAP-synkronisering och kan inte flyttas.
         wrong_length: har fel längd (måste vara %{count} tecken).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: Den här åtgärden är inte tillgänglig.
         attachment:
           attributes:
             content_type:
@@ -687,6 +702,13 @@ sv:
               not_unique: används redan. Välj ett annat namn.
         jira:
           invalid_protocol: Ange ett giltigt protokoll (http eller https)
+        label:
+          attributes:
+            name:
+              blank: Namnet får inte vara tomt.
+              format: "%{message}"
+              taken: En etikett med det här namnet finns redan. Välj ett annat namn.
+              too_long: Namnet är för långt (högst %{count} tecken).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -742,7 +764,6 @@ sv:
             types:
               cannot_assign_multiple_variants_of_parent: Endast en variant av en typ kan aktiveras i projektet
               cannot_assign_variant_and_parent: Det går inte att tilldela både en variant och dess överordnade variant
-              cannot_assign_variants_yet: Varianter kan ännu inte aktiveras i ett projekt. Aktivera funktionsflaggan för att prova varianter
               in_use_by_work_packages: 'används fortfarande av arbetspaket: %{types}'
               switch_target_blank: Välj varianten att byta till
               switch_target_identical: Måltypen måste skilja sig från den typ som projektet använder nu
@@ -855,6 +876,10 @@ sv:
               blank: Ange ett tokennamn
               format: "%{message}"
               in_use: Tokennamnet används redan. Välj ett annat
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: Den här typen kan inte tas bort så länge arbetspaket använder den.
         type_variant:
           attributes:
             attribute_groups:
@@ -864,33 +889,19 @@ sv:
               group_without_name: Gruppnamnet får inte vara tomt.
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
             base:
-              borrowed_by_variants: Kan inte tas bort medan dess konfiguration återanvänds av %{names}.
               is_default_variant: Standardkonfigurationen för en typ kan inte tas bort.
               project_variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
               restrict_dependent_destroy:
                 has_many: Kan inte tas bort medan projekt fortfarande använder den.
-            defaults_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: kan inte anges för en variant som ägs av ett projekt.
               taken: är redan angivet för en annan konfiguration av den här typen.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             patterns:
               invalid_tokens: Ett eller flera attribut i fältet är ogiltiga. Korrigera attributen innan du sparar.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             variant:
               must_belong_to_the_type: måste vara en variant av den här typen.
-            workflows_source_id:
-              must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
-              would_create_cycle: skulle länka dessa konfigurationer i en slinga.
+            workflow:
+              not_available_to_this_variant: måste vara ett arbetsflöde som det här projektet får använda.
         user:
           attributes:
             base:
@@ -1400,6 +1411,23 @@ sv:
     banners:
       environment_configured_readonly: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: Basfärger
         main_menu: Huvudmeny i sidofältet
@@ -1432,7 +1460,11 @@ sv:
       tab_interface: Gränssnitt
       tab_pdf_export_font: Typsnitt för PDF-export
       tab_pdf_export_styles: Formatmallar för PDF-export
-      theme_warning: Ändra temat kommer att skriva över din egen stil. Designen kommer då att gå förlorad. Är du säker på att du vill fortsätta?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Ladda upp en supporttoken för Enterprise-utgåvan
       book_now: Boka nu
@@ -1790,6 +1822,35 @@ sv:
       caption_with_maximum: 'Användaråtgärder på ett arbetspaket (ändringar av beskrivning, status eller värden samt kommentarer) grupperas om de utförs inom den här perioden. Den styr även fördröjningar för aviseringar och [webhooks](webhook_link). Högsta värdet är %{max} minuter.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: Jag förstår att den här åtgärden inte kan ångras
+        description_html: Detta tar bort etiketten <strong>%{name}</strong> från alla arbetspaket i alla projekt.
+        heading: Ta bort den här etiketten?
+        title: Ta bort den här etiketten?
+      dialog_component:
+        create_title: Skapa etikett
+        rename_title: Byt namn på ”%{name}”
+      index:
+        description: Alla användare som kan redigera arbetspaket kan fritt märka dem med befintliga etiketter eller skapa nya direkt. Detta omfattar alla etiketter som användare har skapat i samtliga projekt.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} arbetspaket"
+          other: "%{count} arbetspaket"
+      sub_header_component:
+        button_add: Etikett
+        label_add: Lägg till etikett
+        search_placeholder: Skriv här för att söka
+      table_component:
+        blank_slate:
+          description: Etiketter som användare skapar på arbetspaket visas här.
+          title: Inga etiketter ännu
+        headers:
+          name: Etikett
+          usage: Används i
+        no_matches:
+          description: Prova ett annat sökord.
+          title: Inga etiketter matchar sökningen
     mcp_configurations:
       index:
         description: Model Context Protocol gör det möjligt för AI-agenter att ge sina användare verktyg och resurser som exponeras av den här OpenProject-instansen. Funktionen är fortfarande i betaversion.
@@ -1820,6 +1881,14 @@ sv:
       update:
         failure: MCP-konfigurationen kunde inte uppdateras.
         success: MCP-konfigurationen uppdaterades.
+    members:
+      index:
+        blank_description: Inget medlemskap matchar det aktuella filtret.
+        blank_title: Inga medlemskap
+        filter_label: Sök användare
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Medlemsskap
     plugins:
       no_results_content_text: Mer information finns på vår sida för integrationer och insticksmoduler.
       no_results_title_text: Det finns för närvarande inga installerade insticksmoduler.
@@ -2036,6 +2105,11 @@ sv:
         ignore: Ignorera ändringar
         save: Spara ändringar och fortsätt
         title: Spara ändringarna innan du fortsätter?
+      read_only:
+        edit_action: Redigera arbetsflöde
+        text_html: 'Du använder ett befintligt arbetsflöde. För att göra ändringar kan du antingen redigera det ursprungliga arbetsflödet eller klicka på <b>+ %{action}</b> ovan för att skapa ett nytt.
+
+          '
       role_selector:
         label: 'Roll: %{role}'
         no_role: Välj roll
@@ -2065,6 +2139,14 @@ sv:
           assignee: Ytterligare övergångar som är tillgängliga för den som tilldelats arbetspaketet.
           author: Ytterligare övergångar som är tillgängliga för arbetspaketets författare.
         menu_label: Visade övergångar
+      workflow_button: Arbetsflöde
+  ai:
+    text_transform:
+      errors:
+        connection_failed: Det gick inte att nå AI-tjänsten.
+        not_available: AI-assistenten är inte tillgänglig.
+        timeout: AI-tjänsten svarade inte i tid.
+        upstream_error: AI-tjänsten returnerade ett fel.
   announcements:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
@@ -2127,10 +2209,6 @@ sv:
       not_found:
         reminder: Påminnelsen du söker kunde inte hittas eller har tagits bort.
         work_package: Arbetspaketet du söker kunde inte hittas eller har tagits bort.
-      render:
-        context_not_parsable: Kontexten som angavs är inte en länk till en resurs.
-        context_object_not_found: Kan inte hitta den angivna resursen som kontext.
-        unsupported_context: Resursen som angavs stöds inte som kontext.
       unable_to_create_attachment: Bilagan kunde inte skapas
       unable_to_create_attachment_permissions: Bilagan kunde inte sparas på grund av brist på filsystemsrättigheter
       user:
@@ -3334,6 +3412,7 @@ sv:
       budget_deleted: Budgeten har tagits bort
       import:
         changed_with_diff: "%{field} ändrades (%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} togs bort (%{link})"
         field_changed: "%{field} ändrades från %{old_value} till %{new_value}"
         field_removed: "%{field} togs bort"
@@ -3535,10 +3614,10 @@ sv:
   label_copy_target: Mål
   label_copy_workflow_from: Kopiera arbetsflöde från
   label_copy_workflow_from_role: Kopiera till andra roller
-  label_copy_workflow_from_type: Kopiera till en annan typ
   label_core_build: Kärnbygge
   label_core_version: Kärnversion
   label_created_by: Skapad av %{user}
+  label_criteria: Kriterier
   label_current_status: Nuvarande status
   label_current_version: Aktuell version
   label_custom_comment: "%{name}-kommentar"
@@ -3562,8 +3641,6 @@ sv:
   label_custom_field_default_type: Tom typ
   label_custom_field_new: Nytt anpassat fält
   label_custom_field_plural: Anpassade fält
-  label_custom_logo: Anpassad logotyp för dator
-  label_custom_logo_mobile: Anpassad logotyp för mobil
   label_custom_pdf_export_settings: Anpassade inställningar för PDF-export
   label_custom_style: Design
   label_custom_style_description: Välj hur OpenProject ska se ut för dig med teman, vilka standardfärger som ska användas i programmet och hur exporter ska se ut.
@@ -3726,6 +3803,7 @@ sv:
   label_journal_diff: Jämför beskrivning
   label_jump_to_a_project: Hoppa till projekt...
   label_keyword_plural: Nyckelord
+  label_label_plural: Etiketter
   label_language: Språk
   label_language_based: Baserat på användarens språk
   label_languages: Språk
@@ -4114,6 +4192,8 @@ sv:
   label_wiki_start: Startsida
   label_wiki_toc: Innehållsförteckning
   label_wiki_toc_empty: Innehållsförteckningen är tom eftersom det inte finns några rubriker.
+  label_with_criteria: Med kriterier
+  label_without_criteria: Utan kriterier
   label_work: Arbete
   label_work_package: Arbetspaket
   label_work_package_attachments: Bilagor till arbetspaket
@@ -4940,8 +5020,6 @@ sv:
       not_found: hittades inte.
       respond_to?: implementerar inte den obligatoriska metoden.
       rules:
-        copy_workflow_from:
-          workflow_missing: har inget eget arbetsflöde.
         custom_field:
           format_not_supported: formatet "%{field_format}" stöds inte.
         item:
@@ -4961,7 +5039,6 @@ sv:
     or: eller
     rules:
       blueprint: Mönsterritning
-      copy_workflow_from: Typ för kopiering av arbetsflöde
       depth: Djup
       enabled: Aktiverad
       item: Objekt
@@ -5092,6 +5169,7 @@ sv:
   permission_export_projects: Exportera projekt
   permission_export_work_packages: Exportera arbetspaket
   permission_header_for_project_module_work_package_tracking: Arbetspaket och Gantt-diagram
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: Bjud in medlemmar via e-post
   permission_invite_members_by_email_explanation: 'Tillåter användare att bjuda in nya medlemmar via e-post. Inbjudna användare får ett e-postmeddelande med en länk där de kan ange sitt lösenord och aktivera kontot. Kräver behörighet att hantera medlemmar
 
@@ -5164,6 +5242,16 @@ sv:
   permission_work_package_assigned: Bli tilldelad/ansvarig
   permission_work_package_assigned_explanation: Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet
   placeholder_users:
+    criteria:
+      activate: Aktivera filterkriterier
+      activate_caption: 'Gör det möjligt att lägga till filter för den här platshållaranvändaren för att ange vilka användare som uppfyller de önskade kriterierna.
+
+        '
+      enable: Matcha användare efter kriterier
+      enable_caption: Beskriv vilken sorts användare den här platshållaren representerar, så att matchande användare kan föreslås.
+      matching_users: Användare som uppfyller filterkriterierna
+      no_matching_users: Ingen användare uppfyller kriterierna.
+      show_all_matching_users: Visa alla %{count} matchande användare
     delete_tooltip: Ta bort platshållaranvändare
     deletion_info:
       data_consequences: 'Alla förekomster av platshållaranvändaren (t.ex. som tilldelad, ansvarig eller andra användarvärden) tilldelas på nytt till ett konto som heter "Borttagen användare". Eftersom data från varje borttaget konto tilldelas detta konto går det inte att skilja data som användaren skapade från data som skapats av ett annat borttaget konto.
@@ -5457,7 +5545,7 @@ sv:
         variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
       versions:
         no_results_content_text: Skapa en ny version
-        no_results_title_text: Det finns för närvarande inga versioner av projektet.
+        no_results_title_text: Inga versioner som matchar filterkriterierna hittades för det här projektet.
         show_work_packages: Visa arbetspaket
         work_packages_graph: Graf för arbetspaket
       work_package_priorities:
@@ -5614,6 +5702,31 @@ sv:
     warnings:
       cannot_annotate: Den här filen kan inte kommenteras.
   roles:
+    delete_dialog:
+      confirm: Vill du verkligen ta bort den här rollen?
+      entry_projects:
+        one: "(Projekt: %{projects})"
+        other: "(Projekt: %{projects})"
+      entry_projects_truncated:
+        one: "(Projekt: %{projects} och 1 till)"
+        other: "(Projekt: %{projects} och %{count} till)"
+      heading:
+        one: 'Den här rollen är fortfarande tilldelad 1 medlem:'
+        other: 'Den här rollen är fortfarande tilldelad %{count} medlemmar:'
+      heading_unused: Vill du verkligen ta bort rollen ”%{name}”?
+      losing_project_access:
+        one: Av dessa användare förlorar 1 åtkomsten till projekt där detta var användarens enda roll. Vill du verkligen ta bort rollen?
+        other: Av dessa användare förlorar %{count} åtkomsten till projekt där detta var deras enda roll. Vill du verkligen ta bort rollen?
+        zero: Ingen av dessa användare förlorar åtkomsten till något av sina projekt. Vill du verkligen ta bort rollen?
+      show_memberships: Visa alla medlemskap med den här rollen
+      summary: "%{users} i %{projects}"
+      summary_projects:
+        one: 1 projekt
+        other: "%{count} projekt"
+      summary_users:
+        one: 1 användare
+        other: "%{count} användare"
+      title: Ta bort roll
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
     index:
@@ -5625,6 +5738,16 @@ sv:
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
+    permissions_dialog:
+      edit_permissions: Redigera rollbehörigheter
+      implicit_permission: Alltid beviljad
+      no_permissions: Den här rollen ger inga behörigheter.
+      permission_count:
+        one: 1 behörighet
+        other: "%{count} behörigheter"
+      preview_action: Visa behörigheter
+      preview_aria_label: Visa behörigheterna för %{role}
+      title: Behörigheter för ”%{name}”
     report:
       matrix_caption: Behörighetsmatris för modulen %{module}
       matrix_check_all_label: Tilldela alla %{module}-behörigheter till alla roller
@@ -5844,6 +5967,7 @@ sv:
   setting_start_of_week: Veckan börjar med
   setting_sys_api_description: Webtjänsten arkivhantering ger integrering och användarautentisering för att åtkomst av arkiv.
   setting_sys_api_enabled: Aktivera webbtjänsten arkivhantering
+  setting_sys_api_key: API key
   setting_time_format: Tid
   setting_total_percent_complete_mode: Beräkning av hierarkins totalsumma för % klart
   setting_total_percent_complete_mode_simple_average: Enkelt medelvärde
@@ -6201,13 +6325,14 @@ sv:
         <br>
         <strong>Obs!</strong> Ärvda värden (t.ex. från underordnade objekt eller relationer) tillämpas fortfarande.
     index:
+      could_not_be_moved: Det gick inte att flytta statusen.
       headers:
-        excluded_from_totals: Undantagen från totalsummor
         is_closed: Stängt
-        is_default: Standard
         is_readonly: Skrivskyddad
+      no_filter_results_title_text: Ingen status matchar det aktuella filtret.
       no_results_content_text: Lägg till ny status
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
+      status_actions: Statusåtgärder
   support:
     array:
       sentence_connector: och
@@ -6256,12 +6381,6 @@ sv:
 
     '
   text_custom_field_possible_values_info: En rad för varje värde
-  text_custom_logo_instructions: 'Logotypen skalas automatiskt så att den passar i sidhuvudet. För bästa resultat laddar du upp en vit logotyp på en transparent bild på 130 × 47 px. Du kan lägga till så mycket mellanrum i bilden som du vill.
-
-    '
-  text_custom_logo_mobile_instructions: 'Logotypen skalas automatiskt så att den passar i sidhuvudet. För bästa resultat laddar du upp en vit logotyp på en transparent bild på 130 × 33 px. Du kan lägga till så mycket mellanrum i bilden som du vill.
-
-    '
   text_custom_touch_icon_instructions: 'Det här är ikonen som visas på din mobil eller surfplatta när du lägger till ett bokmärke på startskärmen. Den måste vara en kvadratisk PNG-bild på 180 × 180 pixlar. Se till att bildens bakgrund inte är transparent, annars kan den se dålig ut i iOS.
 
     '
@@ -6410,15 +6529,82 @@ sv:
   tree_view:
     label_empty_sub_tree: Inga objekt
   types:
+    comparison:
+      action: Jämför varianter
+      blankslate:
+        description: Lägg till en andra variant av den här typen för att se vad som skiljer dem åt.
+        title: Det finns inget att jämföra ännu
+      description: Jämför varianterna av den här typen med den överordnade typen.
+      labels:
+        duplicate: Möjlig dubblett
+        duplicate_of: Konfigurerad exakt som %{names}
+        duplicate_of_more:
+          one: "%{names} och 1 till"
+          other: "%{names} och %{count} till"
+        parent_type: Överordnad typ
+        same_as_type: Samma som överordnad typ
+      rows:
+        form:
+          fields: Fält
+          groups: Avsnitt
+          required: Varav obligatoriska
+          same_as_base: Samma som överordnad typ
+        scope:
+          availability: Tillgänglig för
+          enabled_in_new_projects: Aktiv i nya projekt
+          projects: Projekt
+        workflows:
+          roles: Berörda roller
+          same_as_base: Samma som överordnad typ
+          statuses: Statusar
+          transitions: Övergångar
+      sections:
+        configuration: Konfigurationsöversikt
+        form: Formulär
+        scope: Omfattning
+        workflows: Arbetsflöden
+      title: Jämför varianter
+      title_for_type: Jämför varianter av %{name}
+      values:
+        global: Alla projekt
+        inheriting_from: Ärver från
+        project_specific: Projektspecifik ([%{project}](project_url))
+        same_as_base: Identisk med den överordnade typen
     creation_wizard:
       add_variant: Lägg till en variant till %{name}
       create_type: Skapa typ
       create_variant: Skapa variant
+      descriptions:
+        defaults: Välj om projektmedlemmar ska kunna namnge arbetspaket fritt eller om titlarna ska skapas automatiskt.
+        form_configuration: Detta är fälten som en projektmedlem ser när ett arbetspaket av den här typen skapas eller redigeras.
+        pdf: Ange hur PDF-exporter av arbetspaket av den här typen ska se ut.
+        project_attributes: Du kan välja att visa vissa projektattribut i alla arbetspaket av den här typen.
+        projects: I vilka projekt ska den här typen vara tillgänglig?
       fields:
         variant_name_caption: Ger denna konfiguration av %{type} ett namn. Arbetspaketen fortsätter att använda själva %{type}.
       finish: Slutför
       placeholder_description: Det här steget blir tillgängligt snart.
       progress_label: Steg %{number} av %{total}
+      start:
+        inherit_description: Sidan ärver befintlig konfiguration från en annan typ. Ändringar i källan återspeglas då automatiskt här.
+        inherit_title: Använd samma inställningar som typen
+        manual_description: Du kan konfigurera den här sidan fritt eller kopiera konfigurationen från en annan typ.
+        manual_title: Manuell konfiguration
+        reuse_heading: Återanvänd befintlig typkonfiguration
+        reuse_inherit: För allt annat kan du välja att automatiskt använda samma inställningar som typen (%{type_name}) där du inte vill ha några skillnader och bara konfigurera de sidor manuellt där du vill göra något annorlunda.
+        reuse_intro: För varje sida kan du välja hur den ska förhålla sig till huvudtypen.
+        reuse_named: För arbetsflöden och formulär kan du använda befintliga konfigurationer så att du slipper definiera en ny varje gång du skapar en typ eller variant. Om ingen befintlig konfiguration passar dina behov kan du förstås skapa en ny.
+        submit: Starta
+        type:
+          description: En typ representerar en viss sorts objekt, till exempel en funktion eller ett fel. Den har ett namn, en färg, en uppsättning fält, regler för övergångar mellan statusar och annan konfiguration. Du kan aktivera och använda olika typer i olika projekt.
+          heading: Skapa ny typ
+          lead_html: Du är på väg att skapa en ny typ i din instans.
+          step_by_step: På följande sidor konfigurerar du den nya typen steg för steg.
+        variant:
+          description: En variant är en alternativ version av en typ med några skillnader. Varianter kan användas för att uppfylla projektspecifika krav utan att skapa en helt ny typ.
+          heading: Skapa en ny variant
+          lead_html: Du är på väg att skapa en ny variant av <b>%{type_name}</b> i din instans.
+          step_by_step: På följande sidor konfigurerar du den nya varianten steg för steg.
       steps:
         defaults: Standardvärden
         details: Detaljer
@@ -6426,6 +6612,7 @@ sv:
         pdf: PDF-generering
         project_attributes: Projektattribut
         projects: Projekt
+        start: Starta
         workflows: Arbetsflöden
       success: Skapades.
     edit:
@@ -6517,6 +6704,15 @@ sv:
         query_group_label: Tabell med relaterade arbetspaket
         remove_attribute: Ta bort från avsnitt
         rename_group: Döp om sektion
+        required:
+          already_required_globally: Det här anpassade fältet är obligatoriskt för alla typer.
+          for_variant: Obligatoriskt för den här typen
+          globally: Krävs
+          globally_hint: Ändra detta i det anpassade fältet
+          mark: Gör obligatoriskt för den här typen
+          not_a_custom_field: Endast anpassade fält kan göras obligatoriska för en enskild typ.
+          not_available_when_linked: Den här konfigurationen ärvs. Konfigurera den manuellt för att ändra vilka fält som är obligatoriska.
+          unmark: Gör valfritt för den här typen
         reset_description: 'Detta återställer attributen till deras standardgrupp och inaktiverar ALLA anpassade fält.
 
           '
@@ -6527,7 +6723,6 @@ sv:
         untitled_group: Namnlös grupp
       overview:
         configuration_mode: Konfigurationsläge
-        dependents: Beroende typer och varianter
         mode:
           always_manual: Alltid manuellt
           inheriting_from_html: Ärver från %{source_name}
@@ -6581,43 +6776,17 @@ sv:
             title: Kopiera konfiguration
           invalid_source: Konfigurationen kan inte kopieras från den valda typen. Välj en annan källtyp.
           success: Konfigurationen har kopierats.
-        dependents:
-          blank:
-            description: Ingen annan typ eller variant ärver från den här konfigurationen
-            title: Inga beroende typer
-          description:
-            one: Följande konfiguration ärvs av 1 annan typ eller variant. Alla ändringar du gör här påverkar även den beroende typen eller varianten.
-            other: Följande konfiguration ärvs av %{count} andra typer eller varianter. Alla ändringar du gör här påverkar även de beroende typerna och varianterna.
-          dialog:
-            description: Dessa typer och varianter ärver konfigurationen för det här avsnittet. En ändring du gör här tillämpas på dem alla.
-            direct_heading: Direkta beroenden
-            indirect_heading: Beroenden via andra typer
-            title: Beroende typer
-            variant_of_html: Variant av %{type_name}
-            variant_of_via_html: Variant av %{type_name}, ärver via %{source_name}
-            via_html: Ärver via %{source_name}
-          title:
-            one: 1 beroende typ
-            other: "%{count} beroende typer"
-          view: Visa beroende typer
         exclusions:
           not_inherited: Den här konfigurationen ärvs inte, så det finns inget att undanta. Redigera konfigurationen direkt i stället.
           unknown_aspect: Okänt konfigurationsavsnitt "%{aspect}".
         inherited:
-          change_source: Byt källtyp
           configure_manually: Konfigurera manuellt
           confirm_dialog:
-            change_source:
-              description_html: Genom att byta källtyp till %{source_name} skriver du över de aktuella inställningarna och kan påverka befintlig information i arbetspaket av den här typen.
-              heading: Byta källtyp?
-              title: Byt källtyp
             check_box: Jag förstår att detta åsidosätter de aktuella inställningarna
             from_manual:
               description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
               heading: Byta konfigurationsläge?
               title: Byt konfigurationsläge
-          description: Den här konfigurationen ärvs från källtypen [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Den här konfigurationen ärvs från källtypen %{source_name}%{source_suffix}.
           dialog:
             description: Ärv denna konfiguration från en källtyp. All ny konfiguration som läggs till i källan tillämpas även här.
             source_label: Källtyp
@@ -6625,6 +6794,9 @@ sv:
             submit: Byt
             title: Ärv från en annan typ
           invalid_source: Konfigurationen kan inte ärvas från den valda typen. Välj en annan källtyp.
+          mode_description: Den här varianten använder samma inställningar som typen ([%{source_name}](source_url)). Alla ändringar där återspeglas automatiskt här.
+          mode_description_unlinked: Den här varianten använder samma inställningar som typen. Alla ändringar där återspeglas automatiskt här.
+          mode_label: Använd samma inställningar som typen
           success: Konfigurationsläget har bytts.
           title: Ärvd konfiguration
         manual:
@@ -6633,13 +6805,14 @@ sv:
             description: Alla aktuella valda inställningar åsidosätts och kan påverka befintlig information i arbetspaket av den här typen.
             heading: Byta konfigurationsläge?
             title: Byt konfigurationsläge
-          copy_from_type: Kopiera från en annan typ
           description: Inga inställningar ärvs. Du kan fortfarande kopiera inställningarna från en annan typ en gång.
           dialog:
             submit: Byt
             title: Konfigurera manuellt
-          inherit_from_type: Ärv från en annan typ
+          inherit_from_type: Ärv från överordnad typ
           invalid_mode: Det valda läget är inte tillgängligt för den här konfigurationen. Välj ett annat läge.
+          mode_description: Konfigurera den här sidan manuellt. Ändringar i den överordnade typen påverkar den inte längre.
+          mode_label: Konfigurera den här sidan manuellt
           modes:
             copy:
               caption: Börja med en engångskopia av de inställningar som den här konfigurationen ärver nu.
@@ -6667,7 +6840,7 @@ sv:
         filter_no_results: Inga varianter matchar filtret
         global_section:
           description: Dessa varianter är tillgängliga i alla projekt.
-          title: Varianter
+          title: Globala varianter
         project_specific_section:
           description: Dessa varianter är endast tillgängliga i de projekt där de skapades.
           title: Projektspecifika varianter
@@ -6676,6 +6849,28 @@ sv:
     index:
       add_variant: Lägg till en variant till %{name}
       add_variant_action: Lägg till variant
+      convert_to_global: Omvandla till global variant
+      convert_to_global_dialog:
+        confirm: Omvandla
+        text: 'Detta gör den projektspecifika varianten global och tillgänglig för alla projekt. Projektadministratören kan då inte längre redigera den.
+
+          '
+        workflow_text: 'Dess arbetsflöde ”%{name}” tillhör det här projektet och blir också globalt.
+
+          '
+      convert_to_global_notice: "%{name} är nu en global variant."
+      convert_to_global_rename:
+        confirm: Omvandla
+        text: En global variant med det här namnet finns redan. Välj ett annat namn.
+        title: Välj ett annat namn för den här varianten
+      delete:
+        description: Typen tas bort permanent. Åtgärden kan inte ångras.
+        description_with_variants: Typen och alla dess varianter tas bort permanent. Åtgärden kan inte ångras.
+        heading: Ta bort typen ”%{name}”?
+        projects:
+          one: 'Typen tas bort från 1 projekt:'
+          other: 'Typen tas bort från %{count} projekt:'
+        title: Ta bort typ
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
         '
@@ -6694,6 +6889,13 @@ sv:
       type_label: Typ
       variant_label: Variant
     milestone_indicator: Milstolpe
+    patterns:
+      formats:
+        hierarchy_default: Standard (etikett och kortnamn)
+        hierarchy_label: Endast etikett
+        hierarchy_short: Endast kortnamn
+        weighted_item_list_default: Standard (etikett och vikt)
+        weighted_item_list_weight: Endast vikt
   unsupported_browser:
     close_warning: Bortse från denna varning.
     message: Du kan stöta på fel och få försämrad upplevelse på denna sida.
@@ -6880,6 +7082,12 @@ sv:
   version_status_locked: låst
   version_status_open: öppen
   versions:
+    filter_status_labels:
+      closed: Stängd
+      locked: Låst
+      open: Öppna
+    index:
+      filter_label: Sök versioner
     overview:
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade till denna version.
       work_packages_in_archived_projects: Versionen delas med arkiverade projekt som fortfarande har arbetspaket tilldelade till den här versionen. De räknas med men visas inte i de länkade vyerna.
@@ -7159,6 +7367,141 @@ sv:
       undeletable_descendants_warning_html:
         one: Du kan inte ta bort ett underordnat objekt eftersom du saknar nödvändiga behörigheter i %{projects}. Det bevaras, men den hierarkiska relationen tas bort.
         other: Du kan inte ta bort %{count} underordnade objekt eftersom du saknar nödvändiga behörigheter i %{projects}. De bevaras, men alla hierarkiska relationer tas bort.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            one: 1 line checked, no problems found
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            one: View the imported work package
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            one: 1 problem.
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          one: 1 line
+          other: "%{count} lines"
+        x_problems:
+          one: 1 problem
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: 'Typerna för arbetspaketen eller deras underordnade objekt är inte aktiverade i målprojektet. Aktivera de saknade typerna i målprojektet om du vill att de ska förbli oförändrade. Annars väljer du en tillgänglig typ i målprojektet från listan.
 
@@ -7193,34 +7536,32 @@ sv:
       one: Ett underliggande arbetspaket
       other: "%{count} underliggande arbetspaket"
   workflows:
+    change:
+      select:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
+      title: Byt arbetsflöde
     copies:
       form:
-        mode:
-          from_role:
-            caption: Kopiera det aktuella arbetsflödet till en eller flera roller inom samma arbetspaketstyp. Om den valda rollen redan har ett arbetsflöde skrivs det aktuella över.
-            label: Kopiera till andra roller
-          from_type:
-            caption: Kopiera det aktuella arbetsflödet till en annan arbetspaketstyp. Om den valda typen redan har ett arbetsflöde skrivs det aktuella över. Detta påverkar alla roller.
-            label: Kopiera till en annan typ
-        source_role_id:
-          label: Källroll
         target_role_ids:
           label: Målroller
-        target_variant_ids:
-          label: Måltyper
       from_roles:
         create:
           notice:
             one: Arbetsflödet kopierades till rollen "%{role_name}".
             other: Arbetsflödet kopierades till %{count} roller.
-      from_variants:
-        create:
-          notice:
-            one: Arbetsflödet har kopierats till ”%{type_name}”.
-            other: Arbetsflödet har kopierats till %{count} typer.
       new:
-        title: Kopiera arbetsflödet för "%{source_type}"
+        dialog_title: Kopiera arbetsflödet för ”%{source}”
     form:
+      copy_from:
+        caption: Det nya arbetsflödet börjar som en kopia av det valda arbetsflödets statusövergångar.
+        label: Kopiera från
+        placeholder: Välj ett arbetsflöde…
+      description:
+        caption: Lägg till en kort beskrivning av var och hur arbetsflödet ska användas.
+        label: Beskrivning
+      edit_title: Redigera arbetsflöde
       matrix_caption: Arbetsflödesmatris
       matrix_caption_assignee: Arbetsflödesmatris för tilldelad
       matrix_caption_author: Arbetsflödesmatris för upphovsperson
@@ -7229,12 +7570,89 @@ sv:
       matrix_check_uncheck_all_in_row_label_html: Växla övergångar från <em>%{old_status}</em> till alla nya statusar
       matrix_checkbox_label: Tillåt övergång från %{old_status} till %{new_status}
       matrix_uncheck_all_label: Tillåt inga övergångar
+      name:
+        caption: Välj ett namn som gör det lätt att känna igen arbetsflödet på andra ställen senare.
+        label: Arbetsflödets namn
+      new_title: Skapa arbetsflöde
     index:
+      actions:
+        create: Arbetsflöde
+        edit: Redigera övergångar
+        menu: Åtgärder för %{name}
+        rename: Redigera namn och beskrivning
+      blank_slate:
+        description: Skapa ett arbetsflöde för att ange vilka statusövergångar en typ eller variant får använda.
+        filtered_description: Inget arbetsflöde matchar de aktuella filtren.
+        filtered_title: Inga matchande arbetsflöden
+        title: Inga arbetsflöden
+      columns:
+        name: Arbetsflödets namn
+        projects: Projekt
+        roles: Roll
+        types_and_variants: Typer och varianter
+      description: Alla namngivna uppsättningar statusövergångar i den här instansen och de typer och varianter som använder dem.
+      filters:
+        name: Arbetsflöde
+        name_placeholder: Filtrera efter arbetsflödets namn eller beskrivning…
+        projects_placeholder: Filtrera projekt…
+      projects_count:
+        one: 1 projekt
+        other: "%{count} projekt"
+      roles_count:
+        one: 1 roll
+        other: "%{count} roller"
       type_filter:
         label: Filtrera efter typnamn…
+      types_and_variants_count: "%{types} (inklusive %{variants})"
+      types_count:
+        one: 1 typ
+        other: "%{count} typer"
+      variants_count:
+        one: 1 variant
+        other: "%{count} varianter"
+    name:
+      fallback: Arbetsflöde
+      implicit: Arbetsflödet %{name}
     page_headers:
       index_component:
         description: Konfigurera statusövergångar för varje arbetspaketstyp.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
+    start:
+      copy:
+        caption: Utgå från ett befintligt arbetsflöde, ändra det efter behov och spara det som ett nytt arbetsflöde.
+        label: Börja med en kopia av ett befintligt arbetsflöde
+        missing: Välj det arbetsflöde som ska kopieras eller börja från grunden i stället.
+        panel_label: Arbetsflöde att kopiera
+      label: Utgångspunkt
+      scratch:
+        caption: Börja med ett tomt arbetsflöde och bygg upp det manuellt.
+        label: Börja från grunden
+      title: Konfigurera ett nytt arbetsflöde
+    usage:
+      dialog:
+        button: Visa beroende typer
+        caption_html: Arbetsflödet %{name} används av följande typer och varianter.
+        title: Arbetsflöde som används av typer
+        variant_of: Variant av %{type}
+        variants: Varianter
+      unused: Ingen typ eller variant använder det här arbetsflödet ännu.
+      used_by_types:
+        one: Det här arbetsflödet används av 1 typ. Ändringarna tillämpas på den.
+        other: Det här arbetsflödet används av %{count} typer. Ändringarna tillämpas på alla dessa.
+      used_by_variants:
+        one: Det här arbetsflödet används av 1 typ eller variant.
+        other: Det här arbetsflödet används av %{count} typer och varianter.
+    wizard:
+      choice:
+        existing:
+          caption: Använd ett befintligt arbetsflöde för den här typen med fördefinierade statusövergångar för en uppsättning roller.
+          label: Använd ett befintligt arbetsflöde
+        new:
+          caption: Definiera ett nytt arbetsflöde för den här typen manuellt genom att välja vilka statusövergångar som är tillåtna för vilka roller.
+          label: Konfigurera ett nytt arbetsflöde
   working_days:
     change_button: Ändra arbetsdagar
     dialog:

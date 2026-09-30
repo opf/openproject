@@ -72,6 +72,10 @@ zh-TW:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -198,6 +202,7 @@ zh-TW:
   label_costlog: 已紀錄的單位成本
   label_costs: 費用
   label_costs_per_page: 每頁的成本
+  label_current: Current
   label_current_default_rate: 目前基本費率
   label_date_on: 開啟
   label_day: 日
@@ -224,6 +229,8 @@ zh-TW:
   label_next_week: 下一週
   label_next_workweek: 下個工作週
   label_no: 否
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: 無時間追蹤
   label_option_plural: 選項
   label_overall_costs: 總計
@@ -235,6 +242,7 @@ zh-TW:
   label_show: 顯示
   label_specific_day: "%{day} 日"
   label_specific_month: "%{month} 月"
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 已完成
   label_time: 時間
@@ -244,6 +252,7 @@ zh-TW:
   label_today_capitalized: 今天
   label_units: 單位成本
   label_until: 到
+  label_using_current_default_rate: Using current default rate
   label_valid_from: 有效期從
   label_view_mode_switcher: 變更檢視
   label_work_package_filter_add: 新增工作套件篩選條件
@@ -263,6 +272,10 @@ zh-TW:
   permission_edit_rates: 編輯費率
   permission_log_costs: 已紀錄的單位成本
   permission_log_own_costs: 為自己紀錄單位成本
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: 查看紀錄的成本
   permission_view_cost_rates: 查看成本費率
   permission_view_hourly_rates: 查看所有小時費率
@@ -300,6 +313,11 @@ zh-TW:
   text_destroy_cost_entries_question: 您即將刪除的工作套件中已有 %{cost_entries} 筆成本項目被回報。請問您希望如何處理？
   text_destroy_time_and_cost_entries: 刪除已回報的小時數和成本
   text_destroy_time_and_cost_entries_question: 您即將刪除的工作套件中，已回報 %{hours} 小時的工時及 %{cost_entries} 筆成本。請問您要如何處理？
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 將已回報的工時與成本重新指派給此工作套件：
   text_warning_hidden_elements: 一些資料可能已排除在合併之外。
   total_times:

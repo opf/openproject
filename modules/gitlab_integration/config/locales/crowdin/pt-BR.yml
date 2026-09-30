@@ -24,6 +24,10 @@
 pt-BR:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Projeto GitLab
+        namespace: Namespace do GitLab
+        project_html_url: URL do projeto GitLab
       gitlab_merge_request:
         labels: Rótulos
       gitlab_pipeline:
@@ -39,6 +43,9 @@ pt-BR:
             labels:
               invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
     models:
+      gitlab_branch:
+        one: Branch do GitLab
+        other: Branches do GitLab
       gitlab_issue:
         one: Problema do GitLab
         other: Problemas do GitLab
@@ -55,7 +62,6 @@ pt-BR:
     commit: Commit
     gitlab: Identificador do GitLab
     gitlab_avatar_url: URL da imagem de perfil
-    gitlab_email: E-mail do GitLab
     gitlab_html_url: 'URL de HTML do GitLab  '
     gitlab_merge_request: Merge Request
     gitlab_name: Nome no GitLab
@@ -63,10 +69,56 @@ pt-BR:
     gitlab_user_avatar_url: URL da imagem de perfil do GitLab
     gitlab_username: Nome de usuário do GitLab
   gitlab_integration:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: "**Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_component:
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**SC Fechada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechada por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**SC Combinada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi combinado por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR Aberto:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**SC Reaberta:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
@@ -79,6 +131,27 @@ pt-BR:
     push_multiple_commits_comment: "**Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu várias confirmações [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment: "**Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment_with_ref: "**Submetido em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git snippets
   label_gitlab_actor: Ator do GitLab
   label_gitlab_integration: Integração do GitLab
   label_gitlab_webhook_secret: Segredo do webhook
