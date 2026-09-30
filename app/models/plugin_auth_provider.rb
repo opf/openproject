@@ -71,9 +71,9 @@ class PluginAuthProvider < AuthProvider
   private
 
   def plugin_host_url(config)
-    host = config[:host]
+    host = config[:host].to_s
     return if host.blank?
-    return host.to_s if host.to_s.start_with?("http://", "https://")
+    return host if host.start_with?("http://", "https://")
 
     "#{config[:scheme].presence || 'https'}://#{host}"
   end
