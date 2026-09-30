@@ -51,7 +51,8 @@ See COPYRIGHT and LICENSE files for more details.
           name: :attachment_max_size,
           size: 6,
           input_width: :xsmall,
-          trailing_visual: { text: { text: t(:"number.human.storage_units.units.kb") } }
+          trailing_visual: { text: { text: t(:"number.human.storage_units.units.kb") } },
+          caption: (t("settings.attachments.attachment_max_size_env_caption") if form.setting_disabled?(:attachment_max_size))
         )
 
         form.text_area(
