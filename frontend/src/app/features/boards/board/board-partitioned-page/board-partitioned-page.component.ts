@@ -64,6 +64,7 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-partitioned-page',
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [

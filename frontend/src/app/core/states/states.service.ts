@@ -106,7 +106,7 @@ export class States extends StatesGroup {
     const stateName = `${camelCase(resource._type)}s`;
     const state = this.forType<T>(stateName);
 
-    return state && state.get(resource.id!);
+    return state?.get(resource.id!);
   }
 
   public add(name:string, state:MultiInputState<HalResource>) {

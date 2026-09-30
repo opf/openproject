@@ -35,6 +35,7 @@ export interface SpotToggleOption<T> {
 };
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-toggle',
   templateUrl: './toggle.component.html',
   providers: [{

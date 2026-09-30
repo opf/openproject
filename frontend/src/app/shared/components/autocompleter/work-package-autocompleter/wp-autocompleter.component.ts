@@ -31,6 +31,7 @@ import { CreateAutocompleterComponent } from 'core-app/shared/components/autocom
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-autocompleter',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

@@ -471,7 +471,7 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :import_work_packages,
                      {
-                       "work_packages/import": %i[show create template]
+                       "projects/settings/work_packages_import": %i[show status create template problems]
                      },
                      permissible_on: :project,
                      require: :member,

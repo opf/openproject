@@ -31,6 +31,7 @@ import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-form-field',
   templateUrl: './form-field.component.html',
   standalone: false,

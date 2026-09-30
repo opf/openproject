@@ -208,9 +208,16 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    patches %i[Project PermittedParams WorkPackage]
-    patch_with_namespace :BasicData, :SettingSeeder
-    patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
+    include_module "Projects::Costs", into: "Project"
+    include_module "PermittedParams::Costs", into: "PermittedParams"
+    include_module "WorkPackages::Costs", into: "WorkPackage"
+    include_module "WorkPackages::SpentTime", into: "WorkPackage"
+
+    prepend_module "BasicData::EnableCostsModuleByDefault", into: "BasicData::SettingSeeder"
+    prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
+    prepend_module "Members::TableCurrentUser", into: "MembersController"
+    prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"
+    prepend_module "Members::CurrentRateCell", into: "Members::RowComponent"
 
     add_tab_entry :user,
                   name: "rates",
@@ -433,7 +440,6 @@ module Costs
       TimeEntryActivity
 
       OpenProject::ProjectLatestActivity.register on: "TimeEntry"
-      Costs::Patches::MembersPatch.mixin!
 
       ##
       # Add a new group

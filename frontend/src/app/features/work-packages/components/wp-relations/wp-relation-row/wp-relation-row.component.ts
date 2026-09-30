@@ -41,6 +41,7 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relation-row',
   templateUrl: './wp-relation-row.template.html',
   standalone: false,
@@ -135,7 +136,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public get relationReady() {
-    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+    return this.relatedWorkPackage?.$loaded;
   }
 
   public startDescriptionEdit() {

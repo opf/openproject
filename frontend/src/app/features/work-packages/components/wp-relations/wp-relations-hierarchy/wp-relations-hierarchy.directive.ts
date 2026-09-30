@@ -39,6 +39,7 @@ import {
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-hierarchy',
   templateUrl: './wp-relations-hierarchy.template.html',
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],

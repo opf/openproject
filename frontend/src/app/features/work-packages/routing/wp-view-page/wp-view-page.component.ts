@@ -48,6 +48,7 @@ import { OpBaselineModalComponent } from 'core-app/features/work-packages/compon
 import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-view-page',
   templateUrl: '../partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
@@ -87,7 +88,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageTimelineButtonComponent,
-      containerClasses: 'hidden-for-tablet -no-spacing',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,

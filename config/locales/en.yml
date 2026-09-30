@@ -2170,10 +2170,6 @@ en:
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
       workflow_button: "Workflow"
-      workflow_selector:
-        prefix: "Workflow"
-        same_as_type: "(same as type)"
-        title: "Select workflow"
   ai:
     text_transform:
       errors:
@@ -2182,6 +2178,7 @@ en:
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
   announcements:
+    content: "Content"
     is_active: currently displayed
     is_inactive: currently not displayed
     show_until: Show until
@@ -7668,6 +7665,9 @@ en:
           %{projects}. These will be preserved but any hierarchical relations will be removed.
 
     import:
+      check_file: "Check file"
+      checking_file: "Checking %{filename}"
+      clear: "Clear"
       csv:
         file:
           empty: "This file is empty."
@@ -7713,6 +7713,92 @@ en:
               description: "The error appears after a failed password reset."
               subject: "Fix the login error"
         view_name: "CSV import on %{datetime}"
+      download_template: "Download the template"
+      drop_or_click: "Drop a CSV file here or click to select one."
+      dry_run_caption: "Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before."
+      dry_run_label: "Check the file first, without importing"
+      file_label: "CSV file"
+      guidance:
+        column_reference: "column reference"
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: "UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}."
+        names_html: "Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}."
+        title: "Before you start"
+      import_file: "Import file"
+      importing_file: "Importing %{filename}"
+      intro: "Create many work packages at once from a CSV file. Existing work packages are not changed."
+      menu_title: "Work packages importer"
+      report:
+        announcement:
+          checked: "The file has been checked. The report is below."
+          file_rejected: "The file was not imported. The report says what is wrong with its column headers."
+          imported: "The import has finished. The report is below."
+          rows_rejected: "Nothing was imported. The report lists the problems."
+        checked:
+          heading: "Ready to import"
+          import: "Import %{work_packages}"
+          kept: "The checked file is kept for a few hours, so importing it does not need a second upload."
+          text: "Nothing has been created yet. Review the summary below, then import."
+          title:
+            one: "1 line checked, no problems found"
+            other: "%{count} lines checked, no problems found"
+        download_problems: "Download as CSV"
+        file_rejected:
+          heading: "Header line"
+          line: "line 1 of %{filename}"
+          nothing: "Nothing was imported. Correct the file and upload it again."
+          text: "Correct the headers in the file and upload it again."
+          title: "The column headers could not be read"
+        headline:
+          accounts:
+            label: "Accounts"
+            subtitle: "assignee, accountable and author"
+          dated:
+            label: "Lines with dates"
+            subtitle: "a start or finish date"
+          types:
+            label: "Types"
+            subtitle: "used in this file"
+          work_packages:
+            label: "Work packages"
+            subtitle: "one for every line"
+        imported:
+          again: "Import another file"
+          heading: "Import summary"
+          link:
+            one: "View the imported work package"
+            other: "View the %{count} imported work packages"
+          notifications: "Notifications were not sent for these work packages."
+          text_html: "Imported from %{filename} on %{date} at %{time}."
+          title: "%{work_packages} created"
+          work_packages: "work packages"
+        problems:
+          all:
+            one: "1 problem."
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: "Problems"
+        rows_rejected:
+          text: "Everything was rolled back. Correct the lines below and upload the file again."
+          title: "Nothing was imported: %{problems} in %{lines}"
+        table:
+          attribute: "Column"
+          available: "Available values"
+          column: "Column"
+          empty: "empty"
+          header: "Header"
+          message: "Problem"
+          row: "Line"
+          value: "Value"
+        x_lines:
+          one: "1 line"
+          other: "%{count} lines"
+        x_problems:
+          one: "1 problem"
+          other: "%{count} problems"
+      run_failed: "This run did not finish, and nothing was created. Upload the file again."
+      running_note: "This runs in the background. Please do not close the page."
+      title: "Import work packages"
 
     move:
       bulk_current_type_not_available_in_target_project: >
@@ -7754,11 +7840,17 @@ en:
 
   workflows:
     change:
-      title: "Change workflow"
-      workflow:
+      confirm:
+        consequence: "Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible."
+        description: "The following statuses don’t exist in the workflow you have selected (\"%{name}\"):"
+        description_blank: "The new workflow has no transitions. All status transitions of %{type} will be removed."
+        description_empty: "The workflow you have selected (\"%{name}\") has no transitions. All status transitions of %{type} will be removed."
+        title: "Use a different workflow for %{name}?"
+      select:
         caption: "The type uses the status transitions of the workflow you pick here."
         label: "Workflow"
         placeholder: "Select a workflow…"
+      title: "Change workflow"
     copies:
       form:
         target_role_ids:
@@ -7833,6 +7925,10 @@ en:
     page_headers:
       index_component:
         description: "Configure status transitions for each work package type."
+    selector:
+      prefix: "Workflow"
+      same_as_type: "(same as type)"
+      title: "Select workflow"
     start:
       copy:
         caption: "Start with an existing workflow, change it as you wish and save it as a new workflow."

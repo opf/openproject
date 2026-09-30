@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -38,5 +39,3 @@ module OpenProject::Meeting
     end
   end
 end
-
-Project.include OpenProject::Meeting::Patches::ProjectPatch

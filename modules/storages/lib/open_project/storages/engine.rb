@@ -299,15 +299,11 @@ module OpenProject::Storages
           filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
         end
       end
-
-      WorkPackages::SetAttributesService.include Storages::FileLinks::SetReplacements
-
-      WorkPackages::CreateService.include Storages::FileLinks::ReplaceFileLinks
-      WorkPackages::UpdateService.include Storages::FileLinks::ReplaceFileLinks
-
-      WorkPackages::CreateContract.include Storages::FileLinks::ValidateReplacements
-      WorkPackages::UpdateContract.include Storages::FileLinks::ValidateReplacements
     end
+
+    include_module "Storages::FileLinks::SetReplacements", into: "WorkPackages::SetAttributesService"
+    include_module "Storages::FileLinks::ReplaceFileLinks", into: %w[WorkPackages::CreateService WorkPackages::UpdateService]
+    include_module "Storages::FileLinks::ValidateReplacements", into: %w[WorkPackages::CreateContract WorkPackages::UpdateContract]
 
     extend_api_response(:v3, :work_packages, :work_package) do
       link :fileLinks, cache_if: -> { current_user.allowed_in_project?(:view_file_links, represented.project) } do

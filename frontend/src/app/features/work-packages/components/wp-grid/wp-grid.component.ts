@@ -39,6 +39,7 @@ import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/c
 import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-grid',
   template: `
     <wp-card-view opSortableLists

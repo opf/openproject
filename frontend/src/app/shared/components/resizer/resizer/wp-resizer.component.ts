@@ -33,6 +33,7 @@ import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.componen
 import { fromEvent } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-resizer',
   template: `
     <op-resizer [customHandler]="false"

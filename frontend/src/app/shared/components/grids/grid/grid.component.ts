@@ -61,6 +61,7 @@ export const GRID_PROVIDERS = [
 
 @Component({
   templateUrl: './grid.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'grid',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

@@ -69,7 +69,7 @@ export class BcfAuthorizationService {
       .values$()
       .pipe(
         map(
-          (resource) => resource[extension] && resource[extension].includes(action),
+          (resource) => resource[extension]?.includes(action),
         ),
       );
   }

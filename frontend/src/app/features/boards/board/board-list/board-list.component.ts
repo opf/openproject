@@ -102,6 +102,7 @@ export interface DisabledButtonPlaceholder {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-list',
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
@@ -139,6 +140,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   readonly pathHelper = inject(PathHelperService);
 
   /** Output fired upon query removal */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<void>();
 
   /* Output fired after it is assured whether a user has the right to see the list */
@@ -347,7 +349,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public get listName() {
-    return this.query && this.query.name;
+    return this.query?.name;
   }
 
   public showCardStatusButton() {

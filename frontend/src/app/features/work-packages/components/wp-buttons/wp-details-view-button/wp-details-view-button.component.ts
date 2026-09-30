@@ -42,6 +42,7 @@ import {
 @Component({
   templateUrl: '../wp-button.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-details-view-button',
   standalone: false,
 })

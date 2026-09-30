@@ -85,4 +85,142 @@ RSpec.describe OpenProject::Plugins::ActsAsOpEngine do
       expect(property_names(Class.new(parent_representer))).to include("original", "added")
     end
   end
+
+  describe "#include_module" do
+    let(:including_classes) { [] }
+    let(:mixin) do
+      tracked = including_classes
+
+      Module.new do
+        define_singleton_method(:included) { |base| tracked << base }
+      end
+    end
+    let(:target_class) { Class.new }
+    let(:other_target_class) { Class.new }
+
+    before do
+      stub_const("ActsAsOpEngineTest::Mixin", mixin)
+      stub_const("ActsAsOpEngineTest::Target", target_class)
+      stub_const("ActsAsOpEngineTest::OtherTarget", other_target_class)
+      allow(engine.config).to receive(:to_prepare).and_yield
+    end
+
+    it "includes the module into all given classes" do
+      engine.include_module("ActsAsOpEngineTest::Mixin",
+                            into: %w[ActsAsOpEngineTest::Target ActsAsOpEngineTest::OtherTarget])
+
+      expect(target_class).to include(mixin)
+      expect(other_target_class).to include(mixin)
+    end
+
+    it "accepts a single class name" do
+      engine.include_module("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class).to include(mixin)
+    end
+
+    it "does not include the module again when it is already included" do
+      2.times { engine.include_module("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target") }
+
+      expect(including_classes).to eq([target_class])
+    end
+  end
+
+  describe "#prepend_module" do
+    let(:prepending_classes) { [] }
+    let(:mixin) do
+      tracked = prepending_classes
+
+      Module.new do
+        define_singleton_method(:prepended) { |base| tracked << base }
+
+        def greeting = "#{super} from the mixin"
+      end
+    end
+    let(:target_class) do
+      Class.new do
+        def greeting = "hello"
+      end
+    end
+    let(:other_target_class) { Class.new }
+
+    before do
+      stub_const("ActsAsOpEngineTest::Mixin", mixin)
+      stub_const("ActsAsOpEngineTest::Target", target_class)
+      stub_const("ActsAsOpEngineTest::OtherTarget", other_target_class)
+      allow(engine.config).to receive(:to_prepare).and_yield
+    end
+
+    it "prepends the module to all given classes" do
+      engine.prepend_module("ActsAsOpEngineTest::Mixin",
+                            into: %w[ActsAsOpEngineTest::Target ActsAsOpEngineTest::OtherTarget])
+
+      expect(target_class.ancestors.first).to eq(mixin)
+      expect(other_target_class.ancestors.first).to eq(mixin)
+    end
+
+    it "overrides the methods of the class" do
+      engine.prepend_module("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class.new.greeting).to eq("hello from the mixin")
+    end
+
+    it "does not prepend the module again when it is already prepended" do
+      2.times { engine.prepend_module("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target") }
+
+      expect(prepending_classes).to eq([target_class])
+    end
+  end
+
+  describe "#prepend_class_methods" do
+    let(:prepending_classes) { [] }
+    let(:mixin) do
+      tracked = prepending_classes
+
+      Module.new do
+        define_singleton_method(:prepended) { |base| tracked << base }
+
+        def greeting = "#{super} from the mixin"
+      end
+    end
+    let(:target_class) do
+      Class.new do
+        def self.greeting = "hello"
+      end
+    end
+    let(:other_target_class) { Class.new }
+
+    before do
+      stub_const("ActsAsOpEngineTest::Mixin", mixin)
+      stub_const("ActsAsOpEngineTest::Target", target_class)
+      stub_const("ActsAsOpEngineTest::OtherTarget", other_target_class)
+      allow(engine.config).to receive(:to_prepare).and_yield
+    end
+
+    it "prepends the module to the singleton classes of all given classes" do
+      engine.prepend_class_methods("ActsAsOpEngineTest::Mixin",
+                                   into: %w[ActsAsOpEngineTest::Target ActsAsOpEngineTest::OtherTarget])
+
+      expect(target_class.singleton_class.ancestors.first).to eq(mixin)
+      expect(other_target_class.singleton_class.ancestors.first).to eq(mixin)
+    end
+
+    it "overrides the class methods of the class" do
+      engine.prepend_class_methods("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class.greeting).to eq("hello from the mixin")
+    end
+
+    it "does not add the methods to instances of the class" do
+      engine.prepend_class_methods("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target")
+
+      expect(target_class.new).not_to respond_to(:greeting)
+    end
+
+    it "does not prepend the module again when it is already prepended" do
+      2.times { engine.prepend_class_methods("ActsAsOpEngineTest::Mixin", into: "ActsAsOpEngineTest::Target") }
+
+      expect(prepending_classes).to eq([target_class.singleton_class])
+    end
+  end
 end

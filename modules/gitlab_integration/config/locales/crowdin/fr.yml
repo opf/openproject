@@ -72,8 +72,8 @@ fr:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -89,16 +89,15 @@ fr:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Ticket fermé :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Ticket ouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Ticket rouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR fermée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -119,6 +118,7 @@ fr:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR fusionnée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR ouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR rouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"

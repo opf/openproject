@@ -67,8 +67,8 @@ zh-TW:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -84,16 +84,15 @@ zh-TW:
       title: Git quick snippets
     issue_closed_referenced_comment: "** 問題關閉：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "** 問題已開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 開啟。\n"
     issue_reopened_referenced_comment: "** 問題重新開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。\n"
     merge_request_closed_comment: "**MR 已關閉：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -114,6 +113,7 @@ zh-TW:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR 已合併：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 合併。\n"
     merge_request_opened_comment: "**MR 已開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}).。\n"
     merge_request_reopened_comment: "**MR 已重新開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。\n"

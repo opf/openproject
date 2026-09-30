@@ -72,8 +72,8 @@ hy:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -89,16 +89,15 @@ hy:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Խնդիրը փակված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) փակվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Խնդիրը բացված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) բացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
     issue_reopened_referenced_comment: "**Խնդիրը վերաբացված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) վերաբացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
     merge_request_closed_comment: "**MR-ը փակված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) փակվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -119,6 +118,7 @@ hy:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR-ը միաձուլված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) միաձուլվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
     merge_request_opened_comment: "**MR-ը բացված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) բացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
     merge_request_reopened_comment: "**MR-ը վերաբացված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) վերաբացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"

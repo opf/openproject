@@ -45,6 +45,7 @@ import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/
 import { firstValueFrom } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-form,[edit-form]',
   template: '<ng-content />',
   standalone: false,
@@ -64,10 +65,12 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   @Input() resource:HalResource;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('inEditMode') initializeEditMode = false;
 
   @Input() skippedFields:string[] = [];
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix, @angular-eslint/no-output-rename
   @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:Record<string, EditableAttributeFieldComponent> = {};

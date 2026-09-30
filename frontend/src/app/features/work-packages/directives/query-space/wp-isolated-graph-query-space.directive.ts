@@ -112,6 +112,7 @@ export const WpIsolatedGraphQuerySpaceProviders = [
  * in a module.
  */
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wp-isolated-graph-query-space]',
   providers: WpIsolatedGraphQuerySpaceProviders,
 })

@@ -53,7 +53,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
      * @param file
      */
     public lookupDownloadLocationByName(file:string):string|null {
-      if (!(this.attachments && this.attachments.elements)) {
+      if (!this.attachments?.elements) {
         return null;
       }
 

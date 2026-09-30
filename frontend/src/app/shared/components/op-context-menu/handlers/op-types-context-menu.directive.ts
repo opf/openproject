@@ -52,6 +52,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
 
   @Input() public projectIdentifier:string|null|undefined;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('dropdownActive') active:boolean;
 
   /** Whether this dropdown is mounted on the full work package view rather than a list toolbar. */

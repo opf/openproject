@@ -67,8 +67,8 @@ ms:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -84,16 +84,15 @@ ms:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Isu Ditutup:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Isu Dibuka:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Isu Dibuka Semula:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**PP Ditutup:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -114,6 +113,7 @@ ms:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**PP Digabungkan:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah digabungkan oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**PP Dibuka:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**PP Dibuka Semula:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).\n"

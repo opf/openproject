@@ -242,7 +242,7 @@ export class SingleRowBuilder {
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id!];
 
-    return form && form.activeFields[column.id];
+    return form?.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {

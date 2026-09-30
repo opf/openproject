@@ -36,6 +36,7 @@ import { WorkPackagesListService } from 'core-app/features/work-packages/compone
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-new-split-view',
   templateUrl: './wp-new-split-view.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
