@@ -200,53 +200,59 @@ export class BurndownChartComponent {
     return values.length === 0 ? undefined : Math.max(...values) * Y_AXIS_HEADROOM;
   });
 
-  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
-    maintainAspectRatio: false,
-    interaction: { mode: 'series-at-x', intersect: false },
-    scales: {
-      x: {
-        type: 'time',
-        ...this.chartedRange(),
-        adapters: { date: { zone: this.timezoneService.userTimezone() } },
-        time: { unit: 'day' },
-        ticks: {
-          // getDateFormat() yields a moment token string, which the luxon adapter would
-          // misread, so the label is formatted here rather than through displayFormats.
-          callback: (value:string|number) => this.timezoneService.formattedDate(new Date(Number(value)).toISOString()),
+  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => {
+    // The axis positions the series and the non-working days are painted between two of its
+    // instants, so both have to agree on where a day begins and ends.
+    const zone = this.timezoneService.userTimezone();
+
+    return {
+      maintainAspectRatio: false,
+      interaction: { mode: 'series-at-x', intersect: false },
+      scales: {
+        x: {
+          type: 'time',
+          ...this.chartedRange(),
+          adapters: { date: { zone } },
+          time: { unit: 'day' },
+          ticks: {
+            // getDateFormat() yields a moment token string, which the luxon adapter would
+            // misread, so the label is formatted here rather than through displayFormats.
+            callback: (value:string|number) => this.timezoneService.formattedDate(new Date(Number(value)).toISOString()),
+          },
+        },
+        y: {
+          title: { display: true, text: this.i18n.t('js.burndown.story_points') },
+          beginAtZero: true,
+          suggestedMax: this.yAxisMaximum(),
         },
       },
-      y: {
-        title: { display: true, text: this.i18n.t('js.burndown.story_points') },
-        beginAtZero: true,
-        suggestedMax: this.yAxisMaximum(),
-      },
-    },
-    plugins: {
-      // Registered globally by the other charts, it would otherwise reassign the colours
-      // this chart sets deliberately, on every layout.
-      'primer-colors': { enabled: false },
-      'non-working-days': {
-        intervals: this.parsedInput().nonWorkingIntervals,
-        zone: this.timezoneService.userTimezone(),
-      },
-      legend: {
-        position: 'bottom',
-        labels: {
-          usePointStyle: true,
-          pointStyleWidth: SWATCH_WIDTH,
-          generateLabels: (chart) => this.legendLabels(chart),
+      plugins: {
+        // Registered globally by the other charts, it would otherwise reassign the colours
+        // this chart sets deliberately, on every layout.
+        'primer-colors': { enabled: false },
+        'non-working-days': {
+          intervals: this.parsedInput().nonWorkingIntervals,
+          zone,
         },
-        onClick: (event, item, legend) => this.toggleLegendItem(event, item, legend),
-      },
-      tooltip: {
-        itemSort: (a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex),
-        callbacks: {
-          title: (items) => this.tooltipTitle(items),
-          label: (item) => this.tooltipLabel(item),
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            pointStyleWidth: SWATCH_WIDTH,
+            generateLabels: (chart) => this.legendLabels(chart),
+          },
+          onClick: (event, item, legend) => this.toggleLegendItem(event, item, legend),
+        },
+        tooltip: {
+          itemSort: (a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex),
+          callbacks: {
+            title: (items) => this.tooltipTitle(items),
+            label: (item) => this.tooltipLabel(item),
+          },
         },
       },
-    },
-  }));
+    };
+  });
 
   // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
   // property under its own name.
