@@ -1683,10 +1683,10 @@ DEPENDENCIES
   openproject-ldap_departments!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.37.0)!
-  openproject-octicons_helper (~> 19.37.0)!
+  openproject-octicons (~> 19.37.0)
+  openproject-octicons_helper (~> 19.37.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.91.4)!
+  openproject-primer_view_components (~> 0.91.4)
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
