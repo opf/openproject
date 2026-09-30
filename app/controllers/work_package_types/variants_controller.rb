@@ -32,9 +32,6 @@ module WorkPackageTypes
   class VariantsController < BaseTabController
     include OpTurbo::ComponentStream
 
-    administration_only! :index, :comparison, :make_default, :remove_default,
-                         :convert_to_global_dialog, :convert_to_global
-
     current_menu_item do
       :types
     end

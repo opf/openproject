@@ -35,6 +35,7 @@ module Projects
         class ListComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
+          include WorkPackageTypes::VariantRoutes
 
           def initialize(project:)
             super()
@@ -133,19 +134,11 @@ module Projects
             }
           end
 
-          # Named explicitly: this page is not one of the variant screens, so no request carries
-          # the project for it.
-          def add_variant_path(type)
-            new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
-          end
+          def add_variant_path(type) = new_variant_creation_wizard_path(project, type)
 
-          def edit_variant_path(variant)
-            type_settings_path(in_project_id: project, type_id: variant.type_id, variant_id: variant.id)
-          end
+          def edit_variant_path(variant) = variant_settings_path(project, variant)
 
-          def delete_variant_path(variant)
-            type_variant_path(in_project_id: project, type_id: variant.type_id, id: variant.id)
-          end
+          def delete_variant_path(variant) = variant_path(project, variant)
 
           def actionable?(project_type, variant)
             usable?(project_type, variant) || configurable?(variant)

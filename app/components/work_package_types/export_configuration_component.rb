@@ -32,6 +32,7 @@ module WorkPackageTypes
   class ExportConfigurationComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
+    include WorkPackageTypes::VariantRoutes
 
     def initialize(model, readonly: false, **)
       @readonly = readonly
@@ -43,7 +44,7 @@ module WorkPackageTypes
     def artefact_export_form_options
       {
         model:,
-        url: update_artefact_export_type_pdf_export_template_index_path(**model.path_args),
+        url: update_artefact_export_variant_pdf_export_template_index_path(helpers.variant_scope_project, model),
         method: :put,
         readonly: @readonly,
         data: artefact_export_form_data

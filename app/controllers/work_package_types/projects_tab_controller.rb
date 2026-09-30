@@ -30,8 +30,6 @@
 
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
-    administration_only!
-
     include OpTurbo::ComponentStream
     include TypeDeactivationErrorMessage
 
@@ -61,7 +59,7 @@ module WorkPackageTypes
       result = sync_projects(desired_project_ids)
 
       if result.success?
-        redirect_to edit_type_projects_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
+        redirect_to edit_variant_projects_path(@variant), notice: I18n.t(:notice_successful_update)
       else
         flash.now[:error] = aggregate_refusal_message(result)
         render :edit, status: :unprocessable_entity
@@ -197,7 +195,7 @@ module WorkPackageTypes
     end
 
     def switch_path
-      switch_type_projects_path(**@variant.path_args, project_id: @linked_project.id)
+      switch_variant_projects_path(@variant, project_id: @linked_project.id)
     end
 
     def sync_projects(desired)

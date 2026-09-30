@@ -344,10 +344,11 @@ module WorkPackageTypes
                  **)
     end
 
-    def edit_variant_projects_path(variant)
+    def edit_variant_projects_path(variant, **)
       administration_variant_route(variant,
                                    base: :edit_type_projects_path,
-                                   named: :edit_type_variant_projects_path)
+                                   named: :edit_type_variant_projects_path,
+                                   **)
     end
 
     def variant_projects_path(variant)

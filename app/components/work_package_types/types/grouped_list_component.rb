@@ -33,6 +33,7 @@ module WorkPackageTypes
     class GroupedListComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(types:, expanded_type_id: nil)
         super()
@@ -80,7 +81,7 @@ module WorkPackageTypes
       end
 
       def add_variant_path(type)
-        new_creation_wizard_types_path(type_id: type.id, back_url: types_path)
+        new_variant_creation_wizard_path(nil, type, back_url: types_path)
       end
 
       def menu_id(type)

@@ -34,6 +34,7 @@ module WorkPackageTypes
       include Translatable
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def self.dialog_id(model_class) = "change-#{ActionView::RecordIdentifier.dom_class(model_class)}-dialog"
 
@@ -60,9 +61,8 @@ module WorkPackageTypes
       def form_arguments
         {
           id: form_id,
-          url: url_helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
-                                            action: :change,
-                                            **variant.path_args.merge(back_url:).compact),
+          url: variant_reference_path(helpers.variant_scope_project, variant, model_class,
+                                      action: :change, **{ back_url: }.compact),
           method: :patch
         }
       end

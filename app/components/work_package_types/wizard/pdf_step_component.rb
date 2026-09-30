@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Wizard
     class PdfStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:)
         super(variant)
@@ -40,7 +41,7 @@ module WorkPackageTypes
       private
 
       def reload_url
-        type_creation_wizard_path(**model.path_args, step: :pdf)
+        variant_creation_wizard_path(helpers.variant_scope_project, model, step: :pdf)
       end
     end
   end

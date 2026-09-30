@@ -33,6 +33,7 @@ module WorkPackageTypes
     class PanelComponent < ApplicationComponent
       include Translatable
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:, model_class:, candidates:, selected: nil, back_url: nil)
         super()
@@ -63,10 +64,10 @@ module WorkPackageTypes
       def test_selector(part) = "#{dom_class(model_class)}-#{part}"
 
       def change_path(candidate)
-        url_helpers.polymorphic_path(
-          [:type, model_class.model_name.singular_route_key.to_sym],
+        variant_reference_path(
+          helpers.variant_scope_project, variant, model_class,
           action: :change,
-          **variant.path_args.merge(model_class.variant_reflection.foreign_key => candidate.id, back_url:).compact
+          **{ model_class.variant_reflection.foreign_key => candidate.id, back_url: }.compact
         )
       end
     end

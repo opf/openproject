@@ -29,12 +29,9 @@
 #++
 
 module WorkPackageTypes
-  # What a variant configuration screen says about where it is. The paths need no help: the
-  # project is a segment of the route being generated, filled in from the path already served.
+  # What a variant configuration screen says about where it is.
   module VariantScopeHelper
-    # rubocop:disable Rails/HelperInstanceVariable
-    def variant_scope_project = @project
-    # rubocop:enable Rails/HelperInstanceVariable
+    include VariantRoutes
 
     # A project administrator cannot open administration's roots, so the trail starts elsewhere.
     def variant_scope_breadcrumb_roots
@@ -46,12 +43,10 @@ module WorkPackageTypes
        { href: project_settings_work_packages_types_path(project), text: I18n.t(:label_work_package_plural) }]
     end
 
-    # This route has no in_project_id segment to absorb the one the request carries, so it has to
-    # be dropped or it rides along as a query parameter.
     def variant_scope_types_path
       return types_path if variant_scope_project.nil?
 
-      project_settings_work_packages_types_path(variant_scope_project, in_project_id: nil)
+      project_settings_work_packages_types_path(variant_scope_project)
     end
 
     # The layout appends the project itself, so naming it here would say it twice.

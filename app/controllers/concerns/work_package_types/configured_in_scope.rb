@@ -38,6 +38,8 @@ module WorkPackageTypes
     included do
       layout -> { variant_scope_project ? "base" : "admin" }
 
+      helper_method :variant_scope_project
+
       # Accounts::Authorization credits a controller by the callback's name, so these have to be
       # named here rather than called from a guard of our own. Both run after user_setup and
       # before any callback a controller adds, which read what they resolve.

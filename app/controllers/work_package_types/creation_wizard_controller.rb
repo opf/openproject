@@ -33,6 +33,7 @@ module WorkPackageTypes
   class CreationWizardController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
+    include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
 
     layout "no_menu"
@@ -53,8 +54,6 @@ module WorkPackageTypes
 
         @variant = @type.variants.new(project: variant_scope_project)
       else
-        return render_404 if variant_scope_project # a type itself is created in administration
-
         @type = Type.new
       end
 
@@ -64,7 +63,6 @@ module WorkPackageTypes
 
     def create
       return create_variant if params[:type_id]
-      return render_404 if variant_scope_project # a type itself is created in administration
 
       create_type
     end
@@ -191,7 +189,7 @@ module WorkPackageTypes
     def editing_own_workflow? = @variant.workflow&.used_by_one_variant?
 
     def naming_dialog(workflow)
-      url = type_creation_wizard_path(**variant_path_args, step: :workflows, **carried_params)
+      url = variant_creation_wizard_path(variant_scope_project, wizard_variant, step: :workflows, **carried_params)
 
       NamedReferences::NameDialogComponent.new(record: workflow,
                                                model_class: ::Workflow,
@@ -218,10 +216,11 @@ module WorkPackageTypes
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(**variant_path_args, step:, **carried_params), status: :see_other
+        redirect_to variant_creation_wizard_path(variant_scope_project, wizard_variant, step:, **carried_params),
+                    status: :see_other
       else
         flash[:notice] = t("types.creation_wizard.success")
-        redirect_back_or_default(finished_path, status: :see_other)
+        redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
       end
     end
 
@@ -237,17 +236,9 @@ module WorkPackageTypes
       @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
     end
 
-    # types_path carries no project, so naming it while scoped would append the project as a query
-    # parameter and land on a screen the caller cannot open.
-    def finished_path
-      return types_path if variant_scope_project.nil?
-
-      project_settings_work_packages_types_path(variant_scope_project)
-    end
-
     # @variant is the type itself while a type is being created until there is a variant to be used
-    def variant_path_args
-      adding_variant? ? @variant.path_args : { type_id: @type.id }
+    def wizard_variant
+      adding_variant? ? @variant : @type.default_variant
     end
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?

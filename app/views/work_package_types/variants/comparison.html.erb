@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Primer::Beta::Blankslate.new(border: true, spacious: true, test_selector: "comparison-blankslate")) do |blankslate| %>
     <% blankslate.with_heading(tag: :h3) { t("types.comparison.blankslate.title") } %>
     <% blankslate.with_description { t("types.comparison.blankslate.description") } %>
-    <% blankslate.with_primary_action(href: new_creation_wizard_types_path(type_id: @type.id, back_url: request.fullpath)) do %>
+    <% blankslate.with_primary_action(href: new_variant_creation_wizard_path(nil, @type, back_url: request.fullpath)) do %>
       <%= t("types.index.add_variant_action") %>
     <% end %>
   <% end %>
