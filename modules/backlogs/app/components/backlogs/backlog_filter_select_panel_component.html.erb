@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(
           Primer::Beta::Button.new(
             scheme: :secondary,
-            type: :submit,
+            type: :button,
             disabled: selected_ids.blank?,
             data: {
               action: "click->backlogs--filter-select-panel#clear",
@@ -71,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(
           Primer::Beta::Button.new(
             scheme: :primary,
-            type: :submit,
+            type: :button,
             disabled: true,
             data: {
               action: "click->backlogs--filter-select-panel#apply",

@@ -81,9 +81,5 @@ module Backlogs
     def filter_field_name
       filter_field == :sprint_ids ? "sprint" : "backlog_bucket"
     end
-
-    def clear_form_id
-      "#{filter_field_name}-clear-form"
-    end
   end
 end

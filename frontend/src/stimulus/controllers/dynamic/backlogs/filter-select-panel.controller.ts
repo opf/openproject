@@ -28,7 +28,6 @@
 
 import { Controller } from '@hotwired/stimulus';
 import type { SelectPanelElement } from '@primer/view-components/app/components/primer/alpha/select_panel_element';
-import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
 
 export default class FilterSelectPanelController extends Controller<SelectPanelElement> {
   static targets = ['applyButton', 'clearButton'];
@@ -51,8 +50,8 @@ export default class FilterSelectPanelController extends Controller<SelectPanelE
   }
 
   refreshButtons() {
-    this.applyButtonTarget.disabled = this.selectedIds().join(',') == this.appliedIds.join(',');
-    this.clearButtonTarget.disabled = this.selectedIds().length == 0;
+    this.applyButtonTarget.disabled = this.selectedIds().join(',') === this.appliedIds.join(',');
+    this.clearButtonTarget.disabled = this.selectedIds().length === 0;
   }
 
   revertOnClose() {
@@ -87,14 +86,11 @@ export default class FilterSelectPanelController extends Controller<SelectPanelE
   }
 
   private selectedIds():string[] {
-    return [
-      ...new Set(
-        this.element
-        .selectedItems
-        .map((item) => item.value)
-        .filter((value):value is string => value != null && value.length > 0)
-      )
-    ].sort();
+    return this.element
+      .selectedItems
+      .map((item) => item.value)
+      .filter((value):value is string => !!value)
+      .sort();
   }
 
   private parseIds(param:string|null):string[] {
@@ -118,7 +114,7 @@ export default class FilterSelectPanelController extends Controller<SelectPanelE
   }
 
   private filterString() {
-    const filters = this.selectedIds().map(escapeFilterValue);
-    return JSON.stringify(filters.length > 1 ? filters : filters[0]);
+    const ids = this.selectedIds();
+    return JSON.stringify(ids.length > 1 ? ids : ids[0]);
   }
 }
