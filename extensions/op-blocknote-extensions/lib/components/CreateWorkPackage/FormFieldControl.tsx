@@ -10,11 +10,13 @@ import { MultiValueTypeahead } from './MultiValueTypeahead';
 import { ProjectPicker } from './ProjectPicker';
 import {
   CheckboxRow,
-  DisabledControl,
   FieldError,
   FieldHint,
   FieldLabel,
   FieldRow,
+  GeneratedControl,
+  GeneratedField,
+  GeneratedText,
   Notice,
   RequiredMark,
   TextAreaControl,
@@ -159,17 +161,16 @@ export const FormFieldControl = ({
       );
       break;
     // Nothing to fill in: what the type will generate says itself why.
-    case 'generated':
+    case 'generated': {
+      const generated = placeholder ?? '';
       control = (
-        <DisabledControl
-          id={id}
-          type="text"
-          readOnly
-          value={placeholder ?? ''}
-          {...invalid}
-        />
+        <GeneratedField>
+          <GeneratedControl id={id} rows={1} readOnly value={generated} {...invalid} />
+          <GeneratedText>{generated}</GeneratedText>
+        </GeneratedField>
       );
       break;
+    }
     case 'textarea':
       control = (
         <TextAreaControl
