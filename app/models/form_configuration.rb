@@ -32,6 +32,9 @@ class FormConfiguration < ApplicationRecord
   include WorkPackageTypes::NamedReference
   include ::Type::AttributeGroups
 
+  before_save :take_over_default, if: -> { is_default? && is_default_changed? }
+  before_destroy :keep_default_form, prepend: true
+
   has_many :type_variants, dependent: :restrict_with_error, inverse_of: :form_configuration
 
   has_many :form_attributes, class_name: "FormConfigurationAttribute", inverse_of: :form_configuration,
@@ -51,6 +54,8 @@ class FormConfiguration < ApplicationRecord
   after_save :persist_staged_attribute_groups
 
   delegate :default_attribute_groups, :work_package_attributes, to: :neutral_variant
+
+  def self.default_form = find_by(is_default: true)
 
   def stored_attribute_groups
     return if new_record?
@@ -90,6 +95,17 @@ class FormConfiguration < ApplicationRecord
   private
 
   def attribute_group_rows = AttributeGroupRows.new(self)
+
+  def take_over_default
+    FormConfiguration.where(is_default: true).where.not(id:).update_all(is_default: false)
+  end
+
+  def keep_default_form
+    return unless is_default?
+
+    errors.add(:base, :default_undeletable)
+    throw :abort
+  end
 
   def persist_staged_attribute_groups
     groups = @staged_attribute_groups

@@ -90,7 +90,7 @@ module WorkPackageTypes
 
       if service_call.success?
         reuse_existing_workflow
-        @started_form_configuration_id = @type.default_variant.form_configuration_id
+        reuse_default_form
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
@@ -112,6 +112,19 @@ module WorkPackageTypes
     def reusable_workflow(started_id)
       candidates = Workflow.global.where.not(id: started_id).in_display_order
       candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
+    end
+
+    def reuse_default_form
+      default = ::FormConfiguration.default_form
+      variant = @type.default_variant
+
+      if default
+        started_id = variant.form_configuration_id
+        variant.update!(form_configuration: default)
+        ::FormConfiguration.find(started_id).destroy!
+      else
+        @started_form_configuration_id = variant.form_configuration_id
+      end
     end
 
     def create_variant

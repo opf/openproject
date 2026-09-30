@@ -30,5 +30,14 @@
 
 module FormConfigurations
   class UpdateContract < BaseContract
+    attribute :is_default
+
+    validate :keeps_the_default
+
+    private
+
+    def keeps_the_default
+      errors.add(:is_default, :unremovable) if model.is_default_changed?(from: true, to: false)
+    end
   end
 end

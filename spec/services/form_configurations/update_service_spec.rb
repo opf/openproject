@@ -27,33 +27,40 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::DefaultFormConfigurationSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
+
+require "spec_helper"
+
+RSpec.describe FormConfigurations::UpdateService, type: :service do
+  shared_let(:admin) { create(:admin) }
+
+  let(:form) { create(:form_configuration) }
+
+  def update(model, **params) = described_class.new(user: admin, model:).call(**params)
+
+  before { login_as(admin) }
+
+  it "marks a form as default, taking the mark from the previous one" do
+    previous = create(:form_configuration, is_default: true)
+
+    expect(update(form, is_default: true)).to be_success
+    expect(form.reload).to be_is_default
+    expect(previous.reload).not_to be_is_default
   end
 
-  def namespace
-    "BasicData"
+  it "refuses to remove the mark from the default form" do
+    default = create(:form_configuration, is_default: true)
+
+    result = update(default, is_default: false)
+
+    expect(result).to be_failure
+    expect(result.errors).to be_of_kind(:is_default, :unremovable)
+    expect(default.reload).to be_is_default
+  end
+
+  it "refuses someone who is not an administrator" do
+    result = described_class.new(user: create(:user), model: form).call(is_default: true)
+
+    expect(result).to be_failure
+    expect(form.reload).not_to be_is_default
   end
 end

@@ -27,33 +27,34 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::DefaultFormConfigurationSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
+
+require "spec_helper"
+
+RSpec.describe BasicData::DefaultFormConfigurationSeeder do
+  include_context "with basic seed data"
+
+  subject(:seeder) { described_class.new(basic_seed_data) }
+
+  it "seeds a default form with the default groups of the code" do
+    seeder.seed!
+
+    form = FormConfiguration.default_form
+    expect(form.name).to eq(I18n.t("form_configurations.default.name"))
+    expect(form.form_groups.map { it.default_key.to_sym }).to eq(form.default_attribute_groups.map(&:first))
   end
 
-  def namespace
-    "BasicData"
+  it "takes the next free name when a form already has the default name" do
+    create(:form_configuration, name: I18n.t("form_configurations.default.name"))
+
+    seeder.seed!
+
+    expect(FormConfiguration.default_form.name).to eq("#{I18n.t('form_configurations.default.name')} (2)")
+  end
+
+  it "seeds nothing when a default form exists" do
+    default = create(:form_configuration, is_default: true)
+
+    expect { seeder.seed! }.not_to change(FormConfiguration, :count)
+    expect(FormConfiguration.default_form).to eq(default)
   end
 end

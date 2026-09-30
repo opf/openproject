@@ -36,7 +36,9 @@ module WorkPackageTypes
       validates :name, presence: true, length: { maximum: 255 }
       validates :description, length: { maximum: 255 }
 
-      scope :in_display_order, -> { order(Arel.sql("LOWER(name) ASC")) }
+      scope :in_display_order, -> {
+        (defaultable? ? order(is_default: :desc) : all).order(Arel.sql("LOWER(name) ASC"))
+      }
 
       scope :with_name_like, ->(query) {
         where("name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
@@ -45,6 +47,8 @@ module WorkPackageTypes
 
     class_methods do
       def project_owned? = reflect_on_association(:project).present?
+
+      def defaultable? = column_names.include?("is_default")
 
       def variant_reflection = reflect_on_association(:type_variants).inverse_of
 
@@ -71,6 +75,8 @@ module WorkPackageTypes
 
       def available_in(_project) = all
     end
+
+    def marked_default? = self.class.defaultable? && is_default?
 
     def used_by_one_variant?
       type_variants.one?

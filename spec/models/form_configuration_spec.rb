@@ -122,6 +122,48 @@ RSpec.describe FormConfiguration do
       expect(form.destroy).to be_falsey
       expect(form.errors).to be_of_kind(:base, :"restrict_dependent_destroy.has_many")
     end
+
+    it "is refused for the default form, and keeps its groups" do
+      form = create(:form_configuration, is_default: true)
+      form.update!(attribute_groups: [["Details", %w[assignee]]])
+
+      expect(form.destroy).to be_falsey
+      expect(form.errors).to be_of_kind(:base, :default_undeletable)
+      expect(form.reload.form_groups).to be_present
+    end
+  end
+
+  describe "the default form" do
+    it "is the one form marked as default" do
+      create(:form_configuration)
+      default = create(:form_configuration, is_default: true)
+
+      expect(described_class.default_form).to eq(default)
+    end
+
+    it "moves to the form marked last" do
+      previous = create(:form_configuration, is_default: true)
+      form = create(:form_configuration)
+
+      form.update!(is_default: true)
+
+      expect(previous.reload).not_to be_is_default
+      expect(described_class.default_form).to eq(form)
+    end
+
+    it "comes first in the display order, the others by name" do
+      create(:form_configuration, name: "beta")
+      create(:form_configuration, name: "Alpha")
+      create(:form_configuration, name: "Zulu", is_default: true)
+
+      expect(described_class.in_display_order.pluck(:name)).to eq(%w[Zulu Alpha beta])
+    end
+
+    it "does not exist until one is marked" do
+      create(:form_configuration)
+
+      expect(described_class.default_form).to be_nil
+    end
   end
 
   describe "embedded queries" do

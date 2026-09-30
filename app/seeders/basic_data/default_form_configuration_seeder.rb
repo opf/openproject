@@ -27,33 +27,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::DefaultFormConfigurationSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
-  end
 
-  def namespace
-    "BasicData"
+module BasicData
+  class DefaultFormConfigurationSeeder < Seeder
+    def seed_data!
+      form = FormConfiguration.create!(name: default_name, is_default: true)
+      WorkPackageTypes::FormConfiguration::GenerateDefaultsService.new(form).call
+    end
+
+    def applicable?
+      FormConfiguration.default_form.nil?
+    end
+
+    def not_applicable_message
+      "Skipping default form as there is already one"
+    end
+
+    private
+
+    def default_name
+      FormConfiguration.available_name(I18n.t("form_configurations.default.name", locale: Setting.default_language))
+    end
   end
 end

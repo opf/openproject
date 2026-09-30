@@ -365,6 +365,7 @@ Rails.application.routes.draw do
       get :edit_dialog
       get :reset_dialog
       patch :reset
+      patch :mark_default
     end
 
     resource :group, only: %i[create edit update destroy], controller: "form_configurations/groups" do
