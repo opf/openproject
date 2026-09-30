@@ -1426,6 +1426,43 @@ ko:
           button_edit_configuration: 구성 편집
           button_import_run: 가져오기 실행
           description: 가져오기를 실행할 때마다 다른 데이터 세트를 가져올 수 있습니다. 검토 모드에서 가져오기 실행은 직후에 실행 취소할 수 있지만 마무리한 후에는 실행 취소할 수 없습니다.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: '이미 사용된 식별자가 있는 프로젝트를 가져오려고 합니다: %{taken_identifier}. Jira에서 프로젝트 식별자를 업데이트한 후에 ''다시 시도''를 클릭하세요.'
         remove_error: 실행되는 동안에는 Jira 가져오기 실행을 제거할 수 없습니다
         side_panel:
@@ -1454,13 +1491,17 @@ ko:
         step_not_available: 현재 상태의 가져오기 실행에서는 이 작업을 사용할 수 없습니다.
         title: 가져오기 실행
         wizard:
+          application_trace: Application trace
           button_abort: 중단
           button_retry: 다시 시도
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: 이 작업을 취소할 수 없음을 이해합니다.
             confirm_button: 이해함
             description: 승인된 후에는 이 가져오기를 더 이상 되돌릴 수 없습니다. 가져온 모든 데이터는 영구적으로 저장됩니다.
             title: 이 가져오기를 승인하시겠습니까?
+          full_trace: Full trace
           groups:
             configuration:
               title: 가져오기 구성
@@ -1476,6 +1517,8 @@ ko:
           parts:
             issues:
               other: "%{count}개 이슈"
+            jobs:
+              other: "%{count} jobs"
             projects:
               other: "%{count}개 프로젝트"
             statuses:
@@ -1559,6 +1602,7 @@ ko:
                 issues: 이슈
                 permissions: 권한
                 project_ids: 프로젝트 식별자
+                project_versions: Project versions
                 projects: 프로젝트
                 relations: 이슈 간의 관계
                 schemes: 스키마
@@ -1566,7 +1610,7 @@ ko:
                 users: 참여 사용자 및 그룹
                 workflows: 프로젝트 수준 워크플로
               label_coming_later: 추후 제공 예정
-              label_coming_soon: 곧 제공 예정(2026년 3분기)
+              label_coming_soon: Coming soon
               label_import: 가져올 프로젝트를 선택합니다.
               label_info: 이 가져오기 도구는 베타 버전이며 일부 유형의 데이터를 가져올 수 없다는 점에 유의하세요. 호스트 Jira 인스턴스에서 가져오기용으로 제공하는 항목과 이 도구에서 현재 가져올 수 있는 항목에 대한 요약은 다음과 같습니다.
               label_progress: 데이터를 가져오는 중
@@ -1580,6 +1624,38 @@ ko:
             filter_projects: 텍스트로 필터링
             info: Jira 토큰 소유자가 멤버인 프로젝트만 가져오기 범위로 선택할 수 있습니다.
             title: 가져올 프로젝트 선택
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API가 오류 상태 %{status}을(를) 반환했습니다. Jira 인스턴스 URL 및 API 토큰을 확인하세요.
         connection_error: '연결 오류: %{message}'
@@ -6852,10 +6928,10 @@ ko:
       descendants_choice:
         heading: 모든 하위 항목도 삭제하시겠습니까?
         question: 하위 항목이 있는 작업 패키지를 삭제하려고 합니다. 해당 하위 항목도 함께 삭제하시겠습니까?
-        self_only_label: 선택된 작업 패키지만 삭제
         self_only_caption: 이렇게 하면 하위 항목이 삭제되지 않지만, 계층적 관계는 제거됩니다.
-        with_descendants_label: 선택한 작업 패키지 및 해당 하위 항목 삭제
+        self_only_label: 선택된 작업 패키지만 삭제
         with_descendants_caption: 이렇게 하면 내게 표시되는 모든 자식 작업 패키지가 삭제됩니다. 다음 단계에서 전체 목록을 검토할 수 있습니다.
+        with_descendants_label: 선택한 작업 패키지 및 해당 하위 항목 삭제
       description: 선택한 작업 패키지 및 모든 관련 데이터를 삭제하시겠습니까?
       description_with_all_descendants: 선택한 작업 패키지 및 모든 해당 하위 항목을 삭제하시겠습니까?
       description_with_descendants: 선택한 작업 패키지 및 다음의 모든 하위 항목을 삭제하시겠습니까?
@@ -6919,10 +6995,10 @@ ko:
       descendants_choice:
         heading: 모든 하위 항목도 삭제하시겠습니까?
         question: 이 작업 패키지에는 하위 항목이 있습니다. 이 항목도 함께 삭제하시겠습니까?
-        self_only_label: 이 작업 패키지만 삭제
         self_only_caption: 이렇게 하면 하위 항목이 삭제되지 않지만, 계층적 관계는 제거됩니다.
-        with_descendants_label: 이 작업 패키지 및 하위 항목 삭제
+        self_only_label: 이 작업 패키지만 삭제
         with_descendants_caption: 이렇게 하면 내게 표시되는 모든 자식 작업 패키지가 삭제됩니다. 다음 단계에서 전체 목록을 검토할 수 있습니다.
+        with_descendants_label: 이 작업 패키지 및 하위 항목 삭제
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:

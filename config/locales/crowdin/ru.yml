@@ -1750,6 +1750,43 @@ ru:
           button_edit_configuration: Изменить конфигурацию
           button_import_run: Выполнение импорта
           description: С каждым запуском импорта можно импортировать различные наборы данных. Отмена импорта возможна сразу же после завершения процесса проверки, но не после завершения.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Вы пытаетесь импортировать проект с уже использованным идентификатором: %{taken_identifier}. Пожалуйста, обновите идентификатор проекта в Jira, затем нажмите «Повторить».'
         remove_error: Запуск импорта Jira не может быть удалён, пока он запущен
         side_panel:
@@ -1778,13 +1815,17 @@ ru:
         step_not_available: Это действие недоступно для текущего состояния импорта.
         title: Выполнение импорта
         wizard:
+          application_trace: Application trace
           button_abort: Прервать
           button_retry: Повторить
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Я понимаю, что это действие не может быть отменено
             confirm_button: Понятно
             description: После завершения импорта его уже нельзя будет отменить. Все импортированные данные будут импортированы навсегда.
             title: Завершить импорт?
+          full_trace: Full trace
           groups:
             configuration:
               title: Настроить импорт
@@ -1803,6 +1844,11 @@ ru:
               few: "%{count} проблем"
               many: "%{count} проблем"
               other: "%{count} проблем"
+            jobs:
+              one: 1 job
+              few: "%{count} jobs"
+              many: "%{count} jobs"
+              other: "%{count} jobs"
             projects:
               one: 1 проект
               few: "%{count} проектов"
@@ -1904,6 +1950,7 @@ ru:
                 issues: Задачи
                 permissions: Разрешения
                 project_ids: Идентификаторы проекта
+                project_versions: Project versions
                 projects: Проекты
                 relations: Отношения между проблемами
                 schemes: Схемы
@@ -1911,7 +1958,7 @@ ru:
                 users: Вовлеченные пользователи и группы
                 workflows: Рабочие процессы на уровне проекта
               label_coming_later: Ожидается позже
-              label_coming_soon: Скоро (Q3 2026)
+              label_coming_soon: Coming soon
               label_import: Выберите проекты, которые Вы хотите импортировать.
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
               label_progress: Получение данных
@@ -1925,6 +1972,38 @@ ru:
             filter_projects: Фильтр по тексту
             info: Только проекты, в которых владелец токена Jira является участником, выбираются в качестве области импорта.
             title: Выберите проекты для импорта
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API вернул статус ошибки %{status}. Пожалуйста, проверьте ваш экземпляр Jira URL и API токен.
         connection_error: 'Ошибка соединения: %{message}'
@@ -7331,10 +7410,10 @@ ru:
       descendants_choice:
         heading: Удалить также всех потомков?
         question: Вы пытаетесь удалить пакеты работ, у которых есть потомки. Вы хотите их удалить?
-        self_only_label: Удалить только выбранные пакеты работ
         self_only_caption: Это не приведёт к удалению потомков, но удалит иерархические связи.
-        with_descendants_label: Удалить выбранные пакеты работ и их потомков
+        self_only_label: Удалить только выбранные пакеты работ
         with_descendants_caption: Это удалит видимые вам дочерние пакеты работ. В следующем шаге у вас будет возможность просмотреть полный список.
+        with_descendants_label: Удалить выбранные пакеты работ и их потомков
       description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
       description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
       description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
@@ -7410,10 +7489,10 @@ ru:
       descendants_choice:
         heading: Удалить также всех потомков?
         question: У данного рабочего пакета есть дочерние элементы. Хотите удалить их также?
-        self_only_label: Удалить только этот пакет работ
         self_only_caption: Это не приведёт к удалению потомков, но удалит иерархические связи.
-        with_descendants_label: Удалить этот пакет работ и потомков
+        self_only_label: Удалить только этот пакет работ
         with_descendants_caption: Это удалит видимые вам дочерние пакеты работ. В следующем шаге у вас будет возможность просмотреть полный список.
+        with_descendants_label: Удалить этот пакет работ и потомков
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:

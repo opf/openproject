@@ -1534,6 +1534,43 @@ fr:
           button_edit_configuration: Éditer la configuration
           button_import_run: Cycle d'importation
           description: Vous pouvez importer différents ensembles de données à chaque cycle d'importation. Il est possible d'annuler un cycle d'importation immédiatement après en mode révision, mais pas après la finalisation.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Vous essayez d''importer un projet avec un identifiant déjà utilisé : %{taken_identifier}. Veuillez mettre à jour l''identifiant du projet dans Jira, puis cliquez sur Réessayer.'
         remove_error: Un cycle d'importation Jira ne peut pas être supprimé pendant son exécution
         side_panel:
@@ -1562,13 +1599,17 @@ fr:
         step_not_available: Cette action n'est pas disponible dans l'état actuel de l'exécution de l'importation.
         title: Cycle d'importation
         wizard:
+          application_trace: Application trace
           button_abort: Interrompre
           button_retry: Réessayer
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Je comprends que cette action ne peut pas être annulée
             confirm_button: Compris
             description: Une fois approuvée, cette importation ne pourra plus être annulée. Toutes les données importées deviendront permanentes.
             title: Approuver cette importation ?
+          full_trace: Full trace
           groups:
             configuration:
               title: Configurer l'importation
@@ -1585,6 +1626,9 @@ fr:
             issues:
               one: 1 ticket
               other: "%{count} tickets"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 projet
               other: "%{count} projets"
@@ -1674,6 +1718,7 @@ fr:
                 issues: Tickets
                 permissions: Permissions
                 project_ids: Identifiants de projet
+                project_versions: Project versions
                 projects: Projets
                 relations: Relations entre les tickets
                 schemes: Schémas
@@ -1681,7 +1726,7 @@ fr:
                 users: Utilisateurs et groupes concernés
                 workflows: Flux de travail au niveau du projet
               label_coming_later: À venir
-              label_coming_soon: À venir (3e trimestre 2026)
+              label_coming_soon: Coming soon
               label_import: Sélectionnez les projets que vous souhaitez importer.
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
               label_progress: Récupération des données
@@ -1695,6 +1740,38 @@ fr:
             filter_projects: Filtrer par texte
             info: Seuls les projets dont le titulaire du jeton Jira est membre peuvent être sélectionnés dans le périmètre d'importation.
             title: Sélectionner les projets à importer
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -7005,10 +7082,10 @@ fr:
       descendants_choice:
         heading: Supprimer également tous les descendants ?
         question: Vous essayez de supprimer des lots de travaux qui ont des descendants. Voulez-vous également les supprimer ?
-        self_only_label: Supprimer uniquement les lots de travaux sélectionnés
         self_only_caption: Les descendants ne seront pas supprimés, mais les relations hiérarchiques seront retirées.
-        with_descendants_label: Supprimer les lots de travaux sélectionnés et leurs descendants
+        self_only_label: Supprimer uniquement les lots de travaux sélectionnés
         with_descendants_caption: Tous les lots de travaux enfants visibles pour vous seront supprimés. Vous pourrez consulter la liste complète à l'étape suivante.
+        with_descendants_label: Supprimer les lots de travaux sélectionnés et leurs descendants
       description: Voulez-vous vraiment supprimer les lots de travaux sélectionnés et toutes les données associées ?
       description_with_all_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous leurs descendants ?
       description_with_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous les descendants suivants ?
@@ -7076,10 +7153,10 @@ fr:
       descendants_choice:
         heading: Supprimer également tous les descendants ?
         question: Ce lot de travaux a des descendants. Voulez-vous également les supprimer ?
-        self_only_label: Supprimer uniquement ce lot de travaux
         self_only_caption: Les descendants ne seront pas supprimés, mais les relations hiérarchiques seront retirées.
-        with_descendants_label: Supprimer ce lot de travaux et ses descendants
+        self_only_label: Supprimer uniquement ce lot de travaux
         with_descendants_caption: Tous les lots de travaux enfants visibles pour vous seront supprimés. Vous pourrez consulter la liste complète à l'étape suivante.
+        with_descendants_label: Supprimer ce lot de travaux et ses descendants
       description: Voulez-vous vraiment supprimer « %{name} » ?
       heading: Supprimer définitivement ce lot de travaux ?
       hidden_descendants_only_warning:

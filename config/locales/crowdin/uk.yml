@@ -1754,6 +1754,43 @@ uk:
           button_edit_configuration: Змінити конфігурацію
           button_import_run: Цикл імпорту
           description: Ви можете переносити різні набори даних у різних циклах імпорту. Цикл імпорту можна скасувати відразу після виконання в режимі перевірки, але не після завершення.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Ви намагаєтесь імпортувати проєкт з ідентифікатором, який уже використовується: %{taken_identifier}. Будь ласка, оновіть ідентифікатор проєкту в Jira, а потім натисніть на кнопку «Повторити спробу».'
         remove_error: Цикл імпорту Jira не можна видалити, поки він виконується
         side_panel:
@@ -1782,13 +1819,17 @@ uk:
         step_not_available: Ця дія недоступна для поточного статусу процесу імпорту.
         title: Цикл імпорту
         wizard:
+          application_trace: Application trace
           button_abort: Перервати
           button_retry: Повторити спробу
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Я розумію, що цю дію не можна відмінити
             confirm_button: Зрозуміло
             description: Якщо ви схвалите цей імпорт, то більше не зможете його скасувати. Усі імпортовані дані буде остаточно збережено в системі.
             title: Схвалити цей імпорт?
+          full_trace: Full trace
           groups:
             configuration:
               title: Налаштуйте імпорт
@@ -1807,6 +1848,11 @@ uk:
               few: "%{count} задачі"
               many: "%{count} задач"
               other: "%{count} задачі"
+            jobs:
+              one: 1 job
+              few: "%{count} jobs"
+              many: "%{count} jobs"
+              other: "%{count} jobs"
             projects:
               one: 1 проєкт
               few: "%{count} проєкти"
@@ -1908,6 +1954,7 @@ uk:
                 issues: Задачі
                 permissions: Дозволи
                 project_ids: Ідентифікатори проєктів
+                project_versions: Project versions
                 projects: Проєкти
                 relations: Зв’язки між задачами
                 schemes: Схеми
@@ -1915,7 +1962,7 @@ uk:
                 users: Залучені користувачі й групи
                 workflows: Робочі процеси на рівні проєктів
               label_coming_later: З’явиться пізніше
-              label_coming_soon: З’явиться незабаром (у 3 кв. 2026 р.)
+              label_coming_soon: Coming soon
               label_import: Виберіть проєкти, які ви хочете імпортувати.
               label_info: 'Зверніть увагу: цей інструмент доступний лише в бета-версії і не може імпортувати всі типи даних. Ось короткий опис вмісту, доступного для імпорту в хост-екземплярі Jira, а також даних, які інструмент може перенести прямо зараз.'
               label_progress: Отримання даних
@@ -1929,6 +1976,38 @@ uk:
             filter_projects: Фільтрувати за текстом
             info: В обсяг імпорту можна включити лише ті проєкти, учасником яких є власник маркера Jira.
             title: Виберіть проєкти для імпорту
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Інтерфейс Jira API повернув статус помилки «%{status}». Перевірте URL-адресу свого екземпляра Jira й маркер API.
         connection_error: 'Помилка з’єднання: %{message}'
@@ -7346,10 +7425,10 @@ uk:
       descendants_choice:
         heading: Видалити також усіх нащадків?
         question: Ви намагаєтеся видалити пакети робіт, які мають нащадків. Видалити їх також?
-        self_only_label: Видалити лише вибрані пакети робіт
         self_only_caption: Це не призведе до видалення нащадків, але усуне ієрархічні зв’язки.
-        with_descendants_label: Видалити вибрані пакети робіт та їхніх нащадків
+        self_only_label: Видалити лише вибрані пакети робіт
         with_descendants_caption: Це призведе до видалення всіх доступних вам дочірніх пакетів робіт. На наступному кроці ви зможете переглянути повний список.
+        with_descendants_label: Видалити вибрані пакети робіт та їхніх нащадків
       description: Справді видалити вибрані пакети робіт і всі пов’язані з ними дані?
       description_with_all_descendants: Справді видалити вибрані пакети робіт разом зі всіма їх нащадками?
       description_with_descendants: Справді видалити вибрані пакети робіт разом зі всіма нащадками, наведеними нижче?
@@ -7425,10 +7504,10 @@ uk:
       descendants_choice:
         heading: Видалити також усіх нащадків?
         question: Цей пакет робіт має нащадків. Видалити їх також?
-        self_only_label: Видалити тільки цей пакет робіт
         self_only_caption: Це не призведе до видалення нащадків, але усуне ієрархічні зв’язки.
-        with_descendants_label: Видалити цей пакет робіт і його нащадків
+        self_only_label: Видалити тільки цей пакет робіт
         with_descendants_caption: Це призведе до видалення всіх доступних вам дочірніх пакетів робіт. На наступному кроці ви зможете переглянути повний список.
+        with_descendants_label: Видалити цей пакет робіт і його нащадків
       description: Справді видалити обʼєкт «%{name}»?
       heading: Видалити цей пакет робіт остаточно?
       hidden_descendants_only_warning:

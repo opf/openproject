@@ -1426,6 +1426,43 @@ zh-CN:
           button_edit_configuration: 编辑配置
           button_import_run: 导入运行
           description: 每次导入运行都可以导入不同的数据集。可以在审核模式后立即撤消导入运行，但不能在完成后撤消。
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
         side_panel:
@@ -1454,13 +1491,17 @@ zh-CN:
         step_not_available: 此操作对导入运行的当前状态不可用。
         title: 导入运行
         wizard:
+          application_trace: Application trace
           button_abort: 中止
           button_retry: 重试
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: 我明白此操作无法撤消
             confirm_button: 明白了
             description: 一旦批准，此次导入将不再可逆。所有导入的数据将成为永久数据。
             title: 批准这次导入？
+          full_trace: Full trace
           groups:
             configuration:
               title: 配置导入
@@ -1476,6 +1517,8 @@ zh-CN:
           parts:
             issues:
               other: "%{count} 个问题"
+            jobs:
+              other: "%{count} jobs"
             projects:
               other: "%{count} 个项目"
             statuses:
@@ -1559,6 +1602,7 @@ zh-CN:
                 issues: 问题
                 permissions: 权限
                 project_ids: 项目标识符
+                project_versions: Project versions
                 projects: 项目
                 relations: 问题之间的关系
                 schemes: 方案
@@ -1566,7 +1610,7 @@ zh-CN:
                 users: 参与的用户和组
                 workflows: 项目级工作流
               label_coming_later: 稍后推出
-              label_coming_soon: 即将推出（2026 年第三季度）
+              label_coming_soon: Coming soon
               label_import: 选择要导入的项目。
               label_info: 请注意，此导入工具仍处于测试阶段，不能导入所有类型的数据。以下是主机 Jira 实例提供的导入摘要，以及此工具目前能够导入的内容。
               label_progress: 正在获取数据
@@ -1580,6 +1624,38 @@ zh-CN:
             filter_projects: 按文本筛选
             info: 只有 Jira 令牌所有者为成员的项目才能被选作导入范围。
             title: 选择要导入的项目
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API 返回错误状态 %{status}。请检查您的 Jira 实例 URL 和 API 令牌。
         connection_error: 连接错误：%{message}
@@ -6832,10 +6908,10 @@ zh-CN:
       descendants_choice:
         heading: 同时删除所有子项？
         question: 您正在尝试删除包含子项的工作包。是否也要一并删除这些子项？
-        self_only_label: 只删除所选工作包
         self_only_caption: 此操作不会删除子项，但会移除层级关系。
-        with_descendants_label: 删除所选工作包及其子项
+        self_only_label: 只删除所选工作包
         with_descendants_caption: 此操作将删除对您可见的所有子工作包。在下一步中，您将有机会查看完整列表。
+        with_descendants_label: 删除所选工作包及其子项
       description: 确定要删除所选工作包和所有相关数据吗？
       description_with_all_descendants: 确定要删除所选工作包及其所有后代吗？
       description_with_descendants: 确定要删除所选工作包和以下所有后代吗？
@@ -6899,10 +6975,10 @@ zh-CN:
       descendants_choice:
         heading: 同时删除所有子项？
         question: 此工作包包含子项。是否也要一并删除这些子项？
-        self_only_label: 只删除此工作包
         self_only_caption: 此操作不会删除子项，但会移除层级关系。
-        with_descendants_label: 删除此工作包及子项
+        self_only_label: 只删除此工作包
         with_descendants_caption: 此操作将删除对您可见的所有子工作包。在下一步中，您将有机会查看完整列表。
+        with_descendants_label: 删除此工作包及子项
       description: 确定要删除“%{name}”吗？
       heading: 是否永久删除此工作包？
       hidden_descendants_only_warning:

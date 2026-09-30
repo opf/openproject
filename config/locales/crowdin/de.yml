@@ -1534,6 +1534,43 @@ de:
           button_edit_configuration: Konfiguration bearbeiten
           button_import_run: Importlauf
           description: Sie können bei jedem Importlauf verschiedene Datensätze importieren. Es ist möglich, einen Importlauf unmittelbar danach rückgängig zu machen, aber nicht nach dem Abschluss-Schritt.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1562,13 +1599,17 @@ de:
         step_not_available: Diese Aktion ist für den aktuellen Status des Importvorgangs nicht verfügbar.
         title: Importlauf
         wizard:
+          application_trace: Application trace
           button_abort: Abbrechen
           button_retry: Erneut versuchen
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
             confirm_button: Verstanden
             description: Sobald der Import bestätigt ist, kann er nicht mehr rückgängig gemacht werden. Alle importierten Daten werden dann dauerhaft übernommen.
             title: Diesen Import bestätigen?
+          full_trace: Full trace
           groups:
             configuration:
               title: Import konfigurieren
@@ -1585,6 +1626,9 @@ de:
             issues:
               one: 1 Ticket
               other: "%{count} Tickets"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 Projekt
               other: "%{count} Projekte"
@@ -1674,6 +1718,7 @@ de:
                 issues: Tickets
                 permissions: Berechtigungen
                 project_ids: Projektkennungen
+                project_versions: Project versions
                 projects: Projekte
                 relations: Beziehungen zwischen Tickets
                 schemes: Schemas
@@ -1681,7 +1726,7 @@ de:
                 users: Beteiligte Benutzer und Gruppen
                 workflows: Workflows auf Projektebene
               label_coming_later: Kommt später
-              label_coming_soon: In Kürze verfügbar (3. Quartal 2026)
+              label_coming_soon: Coming soon
               label_import: Wählen Sie die Projekte aus, die Sie importieren möchten.
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               label_progress: Daten werden abgerufen
@@ -1695,6 +1740,38 @@ de:
             filter_projects: Nach Text filtern
             info: Nur Projekte, bei denen der Besitzer des Jira Token Mitglied ist, sind für den Import auswählbar.
             title: Projekte zum Importieren auswählen
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
         connection_error: 'Verbindungsfehler: %{message}'
@@ -7008,10 +7085,10 @@ de:
       descendants_choice:
         heading: Auch alle untergeordneten Arbeitspakete löschen?
         question: Sie versuchen, Arbeitspakete zu löschen, die untergeordnete Arbeitspakete haben. Möchten Sie diese ebenfalls löschen?
-        self_only_label: Nur die ausgewählten Arbeitspakete löschen
         self_only_caption: Dadurch werden zwar keine untergeordneten Arbeitspakete gelöscht, jedoch werden die hierarchischen Beziehungen aufgehoben.
-        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
+        self_only_label: Nur die ausgewählten Arbeitspakete löschen
         with_descendants_caption: Dadurch werden alle Ihnen sichtbaren untergeordneten Arbeitspakete gelöscht. Im nächsten Schritt haben Sie die Möglichkeit, die vollständige Liste zu überprüfen.
+        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
       description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
       description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
       description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
@@ -7079,10 +7156,10 @@ de:
       descendants_choice:
         heading: Sollen auch alle untergeordneten Arbeitspakete gelöscht werden?
         question: Dieses Arbeitspaket hat untergeordnete Arbeitspakete. Möchten Sie diese ebenfalls löschen?
-        self_only_label: Nur dieses Arbeitspaket löschen
         self_only_caption: Dadurch werden zwar keine untergeordneten Arbeitspakete gelöscht, jedoch werden die hierarchischen Beziehungen aufgehoben.
-        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
+        self_only_label: Nur dieses Arbeitspaket löschen
         with_descendants_caption: Dadurch werden alle Ihnen sichtbaren untergeordneten Arbeitspakete gelöscht. Im nächsten Schritt haben Sie die Möglichkeit, die vollständige Liste zu überprüfen.
+        with_descendants_label: Dieses Arbeitspaket und alle darunter liegenden löschen
       description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:

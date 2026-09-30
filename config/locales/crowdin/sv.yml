@@ -1534,6 +1534,43 @@ sv:
           button_edit_configuration: Redigera konfiguration
           button_import_run: Importkörning
           description: Du kan importera olika datauppsättningar vid varje importkörning. Det går att ångra en import direkt efteråt i granskningsläget, men inte efter att den har slutförts.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Du försöker importera ett projekt med en identifierare som redan används: %{taken_identifier}. Uppdatera projektidentifieraren i Jira och klicka sedan på Försök igen.'
         remove_error: En Jira-importkörning kan inte tas bort medan den körs
         side_panel:
@@ -1562,13 +1599,17 @@ sv:
         step_not_available: Den här åtgärden är inte tillgänglig i importkörningens aktuella tillstånd.
         title: Importkörning
         wizard:
+          application_trace: Application trace
           button_abort: Avbryt
           button_retry: Försök igen
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Jag förstår att den här åtgärden inte kan ångras
             confirm_button: Jag förstår
             description: När importen har godkänts kan den inte längre återställas. Alla importerade data blir permanenta.
             title: Godkänna denna import?
+          full_trace: Full trace
           groups:
             configuration:
               title: Konfigurera import
@@ -1585,6 +1626,9 @@ sv:
             issues:
               one: 1 ärende
               other: "%{count} ärenden"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 projekt
               other: "%{count} projekt"
@@ -1674,6 +1718,7 @@ sv:
                 issues: Problem
                 permissions: Behörigheter
                 project_ids: Projektidentifierare
+                project_versions: Project versions
                 projects: Projekt
                 relations: Relationer mellan ärenden
                 schemes: Scheman
@@ -1681,7 +1726,7 @@ sv:
                 users: Berörda användare och grupper
                 workflows: Arbetsflöden på projektnivå
               label_coming_later: Kommer senare
-              label_coming_soon: Kommer snart (Q3 2026)
+              label_coming_soon: Coming soon
               label_import: Välj vilka projekt du vill importera.
               label_info: Observera att detta importverktyg är i betaversion och inte kan importera alla datatyper. Här är en sammanfattning av vad Jira-värdinstansen erbjuder för import och vad verktyget kan importera just nu.
               label_progress: Hämtar data
@@ -1695,6 +1740,38 @@ sv:
             filter_projects: Filtrera efter text
             info: Endast projekt där ägaren till Jira-token är medlem kan väljas som importomfattning.
             title: Välj projekt att importera
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira-API:t returnerade felstatus %{status}. Kontrollera URL:en till Jira-instansen och API-token.
         connection_error: 'Anslutningsfel: %{message}'
@@ -6992,10 +7069,10 @@ sv:
       descendants_choice:
         heading: Ta även bort alla underordnade arbetspaket?
         question: Du försöker ta bort arbetspaket som har underordnade arbetspaket. Vill du även ta bort dem?
-        self_only_label: Ta endast bort de markerade arbetspaketen
         self_only_caption: Detta tar inte bort underordnade arbetspaket, men tar bort de hierarkiska relationerna.
-        with_descendants_label: Ta bort de markerade arbetspaketen och deras underordnade arbetspaket
+        self_only_label: Ta endast bort de markerade arbetspaketen
         with_descendants_caption: Detta tar bort alla underordnade arbetspaket som du kan se. Du får granska den fullständiga listan i nästa steg.
+        with_descendants_label: Ta bort de markerade arbetspaketen och deras underordnade arbetspaket
       description: Är du säker på att du vill ta bort de valda arbetspaketen och alla tillhörande data?
       description_with_all_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla deras underordnade objekt?
       description_with_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla följande underordnade objekt?
@@ -7063,10 +7140,10 @@ sv:
       descendants_choice:
         heading: Ta även bort alla underordnade arbetspaket?
         question: Det här arbetspaketet har underordnade arbetspaket. Vill du även ta bort dem?
-        self_only_label: Ta endast bort det här arbetspaketet
         self_only_caption: Detta tar inte bort underordnade arbetspaket, men tar bort de hierarkiska relationerna.
-        with_descendants_label: Ta bort det här arbetspaketet och dess underordnade arbetspaket
+        self_only_label: Ta endast bort det här arbetspaketet
         with_descendants_caption: Detta tar bort alla underordnade arbetspaket som du kan se. Du får granska den fullständiga listan i nästa steg.
+        with_descendants_label: Ta bort det här arbetspaketet och dess underordnade arbetspaket
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:

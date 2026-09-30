@@ -1413,7 +1413,7 @@ fa:
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: یک پالت رنگ برای استفاده در بخش‌های دیگر برنامه تعریف کنید. این رنگ‌ها برای نمونه هنگام انتخاب رنگ برای نمایش یک وضعیت یا نوع در دسترس خواهند بود.
       edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
@@ -1490,7 +1490,7 @@ fa:
         ssl_error: 'خطای SSL هنگام اتصال به سرور Jira: %{message}'
         ssrf_block_doc_link: لطفاً [مستندات](docs_url) را ببینید.
         ssrf_blocked: 'اتصال مسدود شد: میزبان Jira به یک نشانی IP خصوصی Resolve می‌شود. اگر نمونه Jira شما روی شبکه داخلی اجرا می‌شود، IP آن را از طریق متغیر محیطی OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST مجاز کنید.'
-        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
+        unsupported_endpoint: API جیرا در مسیر %{path} هیچ endpointی ندارد (وضعیت %{status})
       columns:
         added: افزوده‌شده
         creator: ایجادکننده
@@ -1532,6 +1532,43 @@ fa:
           button_edit_configuration: ویرایش پیکربندی
           button_import_run: اجرای Import
           description: در هر اجرای Import می‌توانید مجموعه متفاوتی از داده‌ها را وارد کنید. لغو Import بلافاصله در حالت بازبینی ممکن است، اما پس از نهایی‌سازی دیگر ممکن نیست.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'در حال واردکردن پروژه‌ای با شناسه از قبل استفاده‌شده هستید: %{taken_identifier}. لطفاً شناسه پروژه را در Jira به‌روزرسانی کرده و سپس روی تلاش مجدد کلیک کنید.'
         remove_error: اجرای Import از Jira در حال اجرا قابل حذف نیست
         side_panel:
@@ -1560,13 +1597,17 @@ fa:
         step_not_available: این عملیات در وضعیت فعلی فرایند واردسازی در دسترس نیست.
         title: اجرای Import
         wizard:
+          application_trace: Application trace
           button_abort: لغو
           button_retry: تلاش مجدد
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: می‌دانم که این اقدام قابل بازگشت نیست
             confirm_button: متوجه شدم
             description: پس از تأیید، این Import دیگر قابل بازگردانی نیست و همه داده‌های واردشده دائمی خواهند شد.
             title: این Import تأیید شود؟
+          full_trace: Full trace
           groups:
             configuration:
               title: پیکربندی Import
@@ -1583,6 +1624,9 @@ fa:
             issues:
               one: ۱ Issue
               other: "%{count} Issue"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: ۱ پروژه
               other: "%{count} پروژه"
@@ -1672,6 +1716,7 @@ fa:
                 issues: Issueها
                 permissions: مجوزها
                 project_ids: شناسه‌های پروژه
+                project_versions: Project versions
                 projects: پروژه‌ها
                 relations: روابط بین Issueها
                 schemes: Schemaها
@@ -1679,7 +1724,7 @@ fa:
                 users: کاربران و گروه‌های درگیر
                 workflows: گردش‌کارهای سطح پروژه
               label_coming_later: بعداً اضافه می‌شود
-              label_coming_soon: به‌زودی (سه‌ماهه سوم ۲۰۲۶)
+              label_coming_soon: Coming soon
               label_import: پروژه‌هایی را که می‌خواهید وارد کنید انتخاب کنید.
               label_info: توجه داشته باشید این ابزار Import در مرحله Beta است و نمی‌تواند همه انواع داده را وارد کند. در اینجا خلاصه‌ای از داده‌های قابل Import در نمونه میزبان Jira و مواردی که ابزار در حال حاضر قادر به واردکردن آن‌هاست آمده است.
               label_progress: در حال دریافت داده‌ها
@@ -1693,6 +1738,38 @@ fa:
             filter_projects: فیلتر بر اساس متن
             info: فقط پروژه‌هایی که مالک توکن Jira عضو آن‌هاست قابل انتخاب به‌عنوان دامنه Import هستند.
             title: انتخاب پروژه‌ها برای Import
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API وضعیت خطای %{status} برگرداند. لطفاً نشانی نمونه Jira و توکن API را بررسی کنید.
         connection_error: 'خطای اتصال: %{message}'
@@ -3208,14 +3285,14 @@ fa:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: بسته‌های کاری را مستقیماً در اسناد ایجاد کنید.
+            line_1: بسته‌های کاری را در بک‌لاگ‌ها جستجو و فیلتر کنید.
+            line_2: هنگام حذف یک بسته کاری، انتخاب کنید که زیرمجموعه‌ها حفظ شوند یا خیر.
+            line_3: از سرور MCP برای ثبت زمان، جستجوی بسته‌های کاری بر اساس شناسه نمایشی آن‌ها و موارد بیشتر استفاده کنید (طرح Professional).
+            line_4: کار برنامه‌ریزی‌شده را به ساعت، روز، هفته یا ماه وارد کنید.
+            line_5: هنگام استفاده از Jira Migrator پیشرفت واردسازی را مشاهده کنید.
+            line_6: از هشدارهای تاریخ در نسخه Community استفاده کنید.
+          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید متنوعی است، از جمله:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -3261,7 +3338,7 @@ fa:
         field_set: "%{field} روی %{value} تنظیم شد"
         field_updated: "%{field} به‌روزرسانی شد"
         header: تغییرات توسط %{author}
-        migrated: from Jira
+        migrated: از جیرا
         set_with_diff: "%{field} تنظیم شد (%{link})"
       meeting_cancelled: "(لغوشده)"
       meeting_deleted: "(حذف‌شده)"
@@ -3508,7 +3585,7 @@ fa:
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
   label_deleted_custom_item: "(مورد حذف‌شده)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
-  label_deleted_version: "(deleted version)"
+  label_deleted_version: "(نسخه حذف‌شده)"
   label_departments: سازمان
   label_departments_description_html: 'ساختار شرکت خود را با ایجاد واحدهای سازمانی و زیرواحدها به‌صورت سلسله‌مراتبی تعریف کنید. این کار امکان بازتاب خطوط گزارش‌دهی و حفظ نمایی شفاف و ساختاریافته از سازمان در OpenProject را فراهم می‌کند. همچنین می‌توانید ساختار سازمانی موجود را از طریق [همگام‌سازی واحدهای سازمانی LDAP](ldap_docs_article) وارد کنید.
 
@@ -5390,7 +5467,7 @@ fa:
     wizard:
       create_artifact_storage_error: ذخیره آرتیفکت در Storage فایل ناموفق بود
       create_artifact_work_package_error: ایجاد بسته کاری آرتیفکت ناموفق بود
-      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
+      no_custom_fields_html: این پروژه هیچ ویژگی پروژه‌ای فعالی برای جادوگر ندارد. لطفاً دست‌کم یکی را در <a href="%{link}">تنظیمات پروژه</a> فعال کنید.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها
@@ -6347,7 +6424,7 @@ fa:
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: موردی وجود ندارد
   types:
     creation_wizard:
       add_variant: افزودن یک گونه به %{name}
@@ -7008,10 +7085,10 @@ fa:
       descendants_choice:
         heading: همه زیرمجموعه‌ها نیز حذف شوند؟
         question: در حال حذف بسته‌های کاری‌ای هستید که زیرمجموعه دارند. آیا می‌خواهید آن‌ها نیز حذف شوند؟
-        self_only_label: فقط بسته‌های کاری انتخاب‌شده حذف شوند
         self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
-        with_descendants_label: بسته‌های کاری انتخاب‌شده و زیرمجموعه‌های آن‌ها حذف شوند
+        self_only_label: فقط بسته‌های کاری انتخاب‌شده حذف شوند
         with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
+        with_descendants_label: بسته‌های کاری انتخاب‌شده و زیرمجموعه‌های آن‌ها حذف شوند
       description: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط را حذف کنید؟
       description_with_all_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان آن‌ها را حذف کنید؟
       description_with_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان زیر را حذف کنید؟
@@ -7079,10 +7156,10 @@ fa:
       descendants_choice:
         heading: همه زیرمجموعه‌ها نیز حذف شوند؟
         question: این بسته کاری زیرمجموعه دارد. آیا می‌خواهید آن‌ها نیز حذف شوند؟
-        self_only_label: فقط همین بسته کاری حذف شود
         self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
-        with_descendants_label: این بسته کاری و زیرمجموعه‌های آن حذف شوند
+        self_only_label: فقط همین بسته کاری حذف شود
         with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
+        with_descendants_label: این بسته کاری و زیرمجموعه‌های آن حذف شوند
       description: مطمئنید می‌خواهید «%{name}» را حذف کنید؟
       heading: این بسته کاری برای همیشه حذف شود؟
       hidden_descendants_only_warning:

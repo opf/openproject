@@ -1538,6 +1538,43 @@ it:
           button_edit_configuration: Modifica configurazione
           button_import_run: Importa esecuzione
           description: È possibile importare diversi set di dati a ogni importazione. È possibile annullare un'importazione subito dopo in modalità di revisione, ma non dopo la finalizzazione.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Stai tentando di importare un progetto con un identificatore già utilizzato: %{taken_identifier}. Aggiorna l''identificatore del progetto in Jira e poi fai clic su Riprova.'
         remove_error: Un'importazione di Jira non può essere rimossa mentre è in esecuzione
         side_panel:
@@ -1566,13 +1603,17 @@ it:
         step_not_available: Questa azione non è disponibile nello stato attuale dell'esecuzione dell'importazione.
         title: Importa esecuzione
         wizard:
+          application_trace: Application trace
           button_abort: Interrompi
           button_retry: Riprova
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Comprendo che questa azione non può essere annullata
             confirm_button: Ho capito
             description: Una volta approvata, questa importazione non potrà più essere annullata. Tutti i dati importati diventeranno permanenti.
             title: Approvare questa importazione?
+          full_trace: Full trace
           groups:
             configuration:
               title: Configura importazione
@@ -1589,6 +1630,9 @@ it:
             issues:
               one: 1 problema
               other: "%{count} problemi"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 progetto
               other: "%{count} progetti"
@@ -1678,6 +1722,7 @@ it:
                 issues: Problemi
                 permissions: Permessi
                 project_ids: Identificatori di progetto
+                project_versions: Project versions
                 projects: Progetti
                 relations: Relazioni tra i problemi
                 schemes: Schemi
@@ -1685,7 +1730,7 @@ it:
                 users: Utenti e gruppi coinvolti
                 workflows: Flussi di lavoro a livello di progetto
               label_coming_later: Disponibile prossimamente
-              label_coming_soon: Prossimamente (terzo trimestre del 2026)
+              label_coming_soon: Coming soon
               label_import: Seleziona quali progetti vuoi importare.
               label_info: Tieni presente che questo strumento di importazione è in versione beta e non può importare tutti i tipi di dati. Ecco un riepilogo di ciò che l'istanza host di Jira offre per l'importazione e di ciò che questo strumento è in grado di importare al momento.
               label_progress: Recupero dei dati
@@ -1699,6 +1744,38 @@ it:
             filter_projects: Filtra per testo
             info: Come ambito di importazione sono selezionabili solo i progetti di cui è membro il proprietario del token Jira.
             title: Seleziona i progetti da importare
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: L'API Jira ha restituito lo stato di errore %{status}. Controlla l'URL dell'istanza Jira e il token API.
         connection_error: 'Errore di connessione: %{message}'
@@ -7008,10 +7085,10 @@ it:
       descendants_choice:
         heading: Eliminare anche tutti i discendenti?
         question: Stai tentando di eliminare macro-attività che hanno discendenti. Vuoi eliminare anche questi ultimi?
-        self_only_label: Elimina solo le macro-attività selezionate
         self_only_caption: I discendenti non verranno eliminati, ma verranno rimosse le relazioni gerarchiche.
-        with_descendants_label: Elimina le macro-attività selezionate e i relativi discendenti
+        self_only_label: Elimina solo le macro-attività selezionate
         with_descendants_caption: Verranno eliminate tutte le macro-attività figlie visibili. Potrai esaminare l'elenco completo nel passaggio successivo.
+        with_descendants_label: Elimina le macro-attività selezionate e i relativi discendenti
       description: Vuoi davvero eliminare le macro-attività selezionate e tutti i dati associati?
       description_with_all_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i loro discendenti?
       description_with_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i seguenti discendenti?
@@ -7079,10 +7156,10 @@ it:
       descendants_choice:
         heading: Eliminare anche tutti i discendenti?
         question: Questa macro-attività ha dei discendenti. Vuoi eliminare anche questi ultimi?
-        self_only_label: Elimina solo questa macro-attività
         self_only_caption: I discendenti non verranno eliminati, ma verranno rimosse le relazioni gerarchiche.
-        with_descendants_label: Elimina questa macro-attività e i relativi discendenti
+        self_only_label: Elimina solo questa macro-attività
         with_descendants_caption: Verranno eliminate tutte le macro-attività figlie visibili. Potrai esaminare l'elenco completo nel passaggio successivo.
+        with_descendants_label: Elimina questa macro-attività e i relativi discendenti
       description: Vuoi davvero eliminare "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
       hidden_descendants_only_warning:

@@ -1534,6 +1534,43 @@ es:
           button_edit_configuration: Editar configuración
           button_import_run: Importar ejecución
           description: Puede importar diferentes conjuntos de datos con cada ejecución de importación. Se puede deshacer una ejecución de importación inmediatamente después en el modo de revisión, pero no después de finalizarla.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Estás intentando importar un proyecto con un identificador que ya está en uso: %{taken_identifier}. Actualiza el identificador del proyecto en Jira y, a continuación, haz clic en «Reintentar».'
         remove_error: No se puede eliminar una importación de Jira mientras se está ejecutando
         side_panel:
@@ -1562,13 +1599,17 @@ es:
         step_not_available: Esta acción no está disponible para el estado actual de la importación.
         title: Importar ejecución
         wizard:
+          application_trace: Application trace
           button_abort: Cancelar
           button_retry: Reintentar
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Entiendo que esta acción no se puede deshacer
             confirm_button: Entendido
             description: Una vez aprobada, esta importación ya no podrá revertirse. Todos los datos importados pasarán a ser permanentes.
             title: "¿Aprobar esta importación?"
+          full_trace: Full trace
           groups:
             configuration:
               title: Configurar importación
@@ -1585,6 +1626,9 @@ es:
             issues:
               one: 1 incidencia
               other: "%{count} incidencias"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 proyecto
               other: "%{count} projectos"
@@ -1674,6 +1718,7 @@ es:
                 issues: Incidencias
                 permissions: Permisos
                 project_ids: Identificadores de proyecto
+                project_versions: Project versions
                 projects: Proyectos
                 relations: Relaciones entre incidencias
                 schemes: Esquemas
@@ -1681,7 +1726,7 @@ es:
                 users: Usuarios y grupos implicados
                 workflows: Flujos de trabajo a nivel de proyecto
               label_coming_later: Más tarde
-              label_coming_soon: Próximamente (tercer trimestre de 2026)
+              label_coming_soon: Coming soon
               label_import: Seleccione los proyectos que desea importar.
               label_info: Tenga en cuenta que esta herramienta de importación se encuentra en fase beta y no puede importar todos los tipos de datos. A continuación se ofrece un resumen de lo que la instancia de host de Jira ofrece para importar y lo que esta herramienta puede importar en este momento.
               label_progress: Obteniendo datos
@@ -1695,6 +1740,38 @@ es:
             filter_projects: Filtrar por texto
             info: Solo se pueden seleccionar como ámbito de importación aquellos proyectos de los que el titular del token de Jira sea miembro.
             title: Seleccionar proyectos para importar
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: La API de Jira ha devuelto el estado de error %{status}. Compruebe la URL de su instancia de Jira y el token de la API.
         connection_error: 'Error de conexión: %{message}'
@@ -6991,10 +7068,10 @@ es:
       descendants_choice:
         heading: "¿Eliminar también todos los elementos descendientes?"
         question: Está intentando eliminar paquetes de trabajo que tienen elementos descendientes. ¿Quiere eliminarlos también?
-        self_only_label: Eliminar solo los paquetes de trabajo seleccionados
         self_only_caption: Esto no eliminará los elementos descendientes, pero sí las relaciones jerárquicas.
-        with_descendants_label: Eliminar los paquetes de trabajo seleccionados y sus descendientes
+        self_only_label: Eliminar solo los paquetes de trabajo seleccionados
         with_descendants_caption: Con esta acción, se eliminarán todos los paquetes de trabajo secundarios visibles para usted. Tendrá la oportunidad de revisar la lista completa en el siguiente paso.
+        with_descendants_label: Eliminar los paquetes de trabajo seleccionados y sus descendientes
       description: "¿Seguro que quiere eliminar los paquetes de trabajo seleccionados y todos los datos asociados?"
       description_with_all_descendants: "¿Seguro que quiere eliminar los paquetes de trabajo seleccionados y todos sus elementos secundarios?"
       description_with_descendants: "¿Seguro que quiere eliminar los paquetes de trabajo seleccionados y todos los elementos secundarios siguientes?"
@@ -7062,10 +7139,10 @@ es:
       descendants_choice:
         heading: "¿Eliminar también todos los elementos descendientes?"
         question: Este paquete de trabajo tiene elementos descendientes. ¿Quieres eliminarlos también?
-        self_only_label: Eliminar solo el paquete de trabajo
         self_only_caption: Con esta acción, no se eliminarán los elementos descendientes, pero sí las relaciones jerárquicas.
-        with_descendants_label: Eliminar este paquete de trabajo y los elementos descendientes
+        self_only_label: Eliminar solo el paquete de trabajo
         with_descendants_caption: Con esta acción, se eliminarán todos los paquetes de trabajo secundarios visibles para usted. Tendrá la oportunidad de revisar la lista completa en el siguiente paso.
+        with_descendants_label: Eliminar este paquete de trabajo y los elementos descendientes
       description: "¿Seguro que quiere eliminar «%{name}»?"
       heading: "¿Eliminar este paquete de trabajo de forma permanente?"
       hidden_descendants_only_warning:

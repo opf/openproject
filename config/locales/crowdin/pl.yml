@@ -1750,6 +1750,43 @@ pl:
           button_edit_configuration: Edytuj konfigurację
           button_import_run: Uruchomienie importu
           description: Przy każdym uruchomieniu importu możesz importować różne zestawy danych. Cofnięcie uruchomionego importu możliwe jest natychmiast po przejściu z trybu przeglądu, ale nie po sfinalizowaniu importu.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Próbujesz zaimportować projekt z już używanym identyfikatorem: %{taken_identifier}. Zaktualizuj identyfikator projektu w Jira, a następnie kliknij przycisk Ponów próbę.'
         remove_error: Importu Jira nie można usunąć, gdy jest uruchomiony
         side_panel:
@@ -1778,13 +1815,17 @@ pl:
         step_not_available: To działanie jest niedostępne w bieżącym stanie wykonania importu.
         title: Uruchomienie importu
         wizard:
+          application_trace: Application trace
           button_abort: Przerwij
           button_retry: Ponów próbę
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Rozumiem, że tego działania nie będzie można cofnąć
             confirm_button: Rozumiem
             description: Po zatwierdzeniu tego importu nie można go już cofnąć. Wszystkie zaimportowane dane staną się trwałe.
             title: Czy zatwierdzić ten import?
+          full_trace: Full trace
           groups:
             configuration:
               title: Sknfiguruj import
@@ -1803,6 +1844,11 @@ pl:
               few: "%{count} problemy"
               many: "%{count} problemów"
               other: "%{count} problemu"
+            jobs:
+              one: 1 job
+              few: "%{count} jobs"
+              many: "%{count} jobs"
+              other: "%{count} jobs"
             projects:
               one: 1 projekt
               few: "%{count} projekty"
@@ -1904,6 +1950,7 @@ pl:
                 issues: Problemy
                 permissions: Uprawnienia
                 project_ids: Identyfikatory projektów
+                project_versions: Project versions
                 projects: Projekty
                 relations: Relacje między problemami
                 schemes: Schematy
@@ -1911,7 +1958,7 @@ pl:
                 users: Zaangażowani użytkownicy i grupy
                 workflows: Przepływy pracy na poziomie projektu
               label_coming_later: W późniejszym terminie
-              label_coming_soon: Wkrótce (III kwartał 2026 r.)
+              label_coming_soon: Coming soon
               label_import: Wybierz projekty, które chcesz zaimportować.
               label_info: Pamiętaj, że to narzędzie importu jest w wersji beta i nie może importować wszystkich typów danych. Poniżej znajduje się podsumowanie tego, co wystąpienie hosta Jira oferuje do importu i co to narzędzie jest obecnie w stanie zaimportować.
               label_progress: Pobieranie danych
@@ -1925,6 +1972,38 @@ pl:
             filter_projects: Filtruj według tekstu
             info: Jako zakres importu można wybrać jedynie te projekty, których członkiem jest właściciel tokenu Jira.
             title: Wybierz projekty do zaimportowania
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Interfejs API Jira zwrócił status błędu %{status}. Sprawdź adres URL wystąpienia usługi Jira i token interfejsu API.
         connection_error: 'Błąd połączenia: %{message}'
@@ -7331,10 +7410,10 @@ pl:
       descendants_choice:
         heading: Czy usunąć również wszystkie elementy potomne?
         question: Próbujesz usunąć pakiety robocze, które mają elementy potomne. Czy chcesz je również usunąć?
-        self_only_label: Usuń tylko wybrane pakiety robocze
         self_only_caption: Spowoduje to usunięcie relacji hierarchicznych, ale nie usunie elementów potomnych.
-        with_descendants_label: Usuń wybrane pakiety robocze i ich elementy potomne
+        self_only_label: Usuń tylko wybrane pakiety robocze
         with_descendants_caption: Spowoduje to usunięcie wszystkich podrzędnych pakietów roboczych, które są dla Ciebie widoczne. W następnym kroku będzie możliwe przejrzenie całej listy.
+        with_descendants_label: Usuń wybrane pakiety robocze i ich elementy potomne
       description: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie powiązane dane?
       description_with_all_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie ich elementy potomne?
       description_with_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie następujące elementy potomne?
@@ -7410,10 +7489,10 @@ pl:
       descendants_choice:
         heading: Czy usunąć również wszystkie elementy potomne?
         question: Ten pakiet roboczy ma elementy potomne. Czy chcesz je również usunąć?
-        self_only_label: Usuń tylko ten pakiet roboczy
         self_only_caption: Spowoduje to usunięcie relacji hierarchicznych, ale nie usunie elementów potomnych.
-        with_descendants_label: Usuń ten pakiet roboczy wraz z elementami potomnymi
+        self_only_label: Usuń tylko ten pakiet roboczy
         with_descendants_caption: Spowoduje to usunięcie wszystkich podrzędnych pakietów roboczych, które są dla Ciebie widoczne. W następnym kroku będzie możliwe przejrzenie całej listy.
+        with_descendants_label: Usuń ten pakiet roboczy wraz z elementami potomnymi
       description: Czy na pewno chcesz usunąć „%{name}”?
       heading: Czy trwale usunąć ten pakiet roboczy?
       hidden_descendants_only_warning:

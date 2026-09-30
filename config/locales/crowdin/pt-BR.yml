@@ -1534,6 +1534,43 @@ pt-BR:
           button_edit_configuration: Editar configuração
           button_import_run: Execução de importação
           description: Você pode importar diferentes conjuntos de dados em cada execução de importação. É possível desfazer uma execução de importação imediatamente após o modo de revisão, mas não após a finalização.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Você está tentando importar um projeto com um identificador já em uso: %{taken_identifier}. Atualize o identificador do projeto no Jira e clique em Tentar novamente.'
         remove_error: Uma importação do Jira não pode ser removida enquanto estiver em execução
         side_panel:
@@ -1562,13 +1599,17 @@ pt-BR:
         step_not_available: Esta ação não está disponível no estado atual da execução da importação.
         title: Execução de importação
         wizard:
+          application_trace: Application trace
           button_abort: Interromper
           button_retry: Tentar novamente
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Compreendo que esta ação é irreversível
             confirm_button: Compreendido
             description: Depois de aprovada, esta importação não poderá mais ser revertida. Todos os dados importados se tornarão permanentes.
             title: Aprovar esta importação?
+          full_trace: Full trace
           groups:
             configuration:
               title: Configurar importação
@@ -1585,6 +1626,9 @@ pt-BR:
             issues:
               one: 1 tarefa
               other: "%{count} tarefas"
+            jobs:
+              one: 1 job
+              other: "%{count} jobs"
             projects:
               one: 1 projeto
               other: "%{count} projetos"
@@ -1674,6 +1718,7 @@ pt-BR:
                 issues: Itens
                 permissions: Permissões
                 project_ids: Identificadores de projeto
+                project_versions: Project versions
                 projects: Projetos
                 relations: Relações entre tarefas
                 schemes: Esquemas
@@ -1681,7 +1726,7 @@ pt-BR:
                 users: Usuários e grupos envolvidos
                 workflows: Fluxos de trabalho no nível do projeto
               label_coming_later: Mais tarde
-              label_coming_soon: Em breve (Q3 2026)
+              label_coming_soon: Coming soon
               label_import: Selecione os projetos que você deseja importar.
               label_info: Observe que esta ferramenta de importação está em versão beta e não consegue importar todos os tipos de dados. A seguir, um resumo do que a instância Jira host oferece para importação e do que esta ferramenta consegue importar no momento.
               label_progress: Buscando dados
@@ -1695,6 +1740,38 @@ pt-BR:
             filter_projects: Filtrar por texto
             info: Somente os projetos dos quais o proprietário do token do Jira é membro podem ser selecionados como escopo de importação.
             title: Selecione os projetos para importar
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: A API do Jira retornou o status de erro %{status}. Verifique o URL da sua instância do Jira e o token da API.
         connection_error: 'Erro de conexão: %{message}'
@@ -6996,10 +7073,10 @@ pt-BR:
       descendants_choice:
         heading: Excluir todos os descendentes também?
         question: Você está tentando excluir pacotes de trabalho que têm descendentes. Deseja excluí-los também?
-        self_only_label: Excluir apenas este pacote de trabalho
         self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
-        with_descendants_label: Excluir este pacote de trabalho e descendentes
+        self_only_label: Excluir apenas este pacote de trabalho
         with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
       description: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seguintes descendentes?
@@ -7067,10 +7144,10 @@ pt-BR:
       descendants_choice:
         heading: Excluir todos os descendentes também?
         question: Este pacote de trabalho possui itens descendentes. Deseja excluí-los também?
-        self_only_label: Excluir apenas este pacote de trabalho
         self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
-        with_descendants_label: Excluir este pacote de trabalho e descendentes
+        self_only_label: Excluir apenas este pacote de trabalho
         with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
       description: Tem certeza de que deseja excluir "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
       hidden_descendants_only_warning:
