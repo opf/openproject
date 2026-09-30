@@ -94,6 +94,18 @@ RSpec.describe Llm::Errors do
         .to be_a(Llm::Errors::ParseError)
     end
 
+    it "maps a failed TLS handshake onto its own connection error" do
+      expect(described_class.translate(Faraday::SSLError.new("certificate verify failed")))
+        .to be_a(Llm::Errors::SslError)
+      expect(described_class.translate(OpenSSL::SSL::SSLError.new("certificate verify failed")))
+        .to be_a(Llm::Errors::SslError)
+    end
+
+    it "keeps a TLS failure rescuable as a connection error" do
+      expect(described_class.translate(Faraday::SSLError.new("certificate verify failed")))
+        .to be_a(Llm::Errors::ConnectionError)
+    end
+
     it "passes an already translated error through untouched" do
       original = Llm::Errors::SsrfError.new("Host resolves to a blocked address")
 

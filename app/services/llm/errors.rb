@@ -50,6 +50,8 @@ module Llm
     class SsrfError < ConnectionError; end
     # The server took too long to answer.
     class TimeoutError < ConnectionError; end
+    # The TLS handshake failed, so nothing was exchanged with the server.
+    class SslError < ConnectionError; end
     # The server answered, but rejected our credentials.
     class AuthenticationError < Error; end
 
@@ -131,7 +133,9 @@ module Llm
       case error
       when Faraday::TimeoutError, Timeout::Error, Errno::ETIMEDOUT
         TimeoutError.new("Request timed out")
-      when Faraday::ConnectionFailed, Faraday::SSLError, SocketError, Errno::ECONNREFUSED
+      when Faraday::SSLError, OpenSSL::SSL::SSLError
+        SslError.new(error.class.name)
+      when Faraday::ConnectionFailed, SocketError, Errno::ECONNREFUSED
         ConnectionError.new(error.class.name)
       when JSON::ParserError
         ParseError.new("Response is not valid JSON")

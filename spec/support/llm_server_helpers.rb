@@ -40,10 +40,12 @@ module LlmServerHelpers
                                models: DEFAULT_MODELS,
                                response_code: 200,
                                body: nil,
-                               timeout: false)
+                               timeout: false,
+                               raise_error: nil)
     stub = stub_request(:get, "#{base_url.chomp('/')}/models")
 
     return stub.to_timeout if timeout
+    return stub.to_raise(raise_error) if raise_error
 
     stub.to_return(
       status: response_code,
@@ -121,10 +123,15 @@ module LlmServerHelpers
   RESOLVED_ADDRESSES = [IPAddr.new("93.184.216.34")].freeze
 
   # Specs never hit real DNS: every hostname resolves to a public address
-  # unless a spec declares it unresolvable.
-  def stub_llm_dns(unresolvable: [])
+  # unless a spec declares it unresolvable or gives its addresses.
+  def stub_llm_dns(unresolvable: [], addresses: {})
     allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(
-      ->(host) { unresolvable.include?(host) ? [] : RESOLVED_ADDRESSES }
+      lambda do |host|
+        next [] if unresolvable.include?(host)
+        next addresses[host].map { |address| IPAddr.new(address) } if addresses.key?(host)
+
+        RESOLVED_ADDRESSES
+      end
     )
   end
 end

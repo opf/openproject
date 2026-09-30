@@ -1,0 +1,56 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module LlmConnections
+  # Validations that hold for every write, including provisioning from the
+  # environment. Deliberately makes no network request; see UpdateContract.
+  class BaseContract < ModelContract
+    attribute :llm_features_enabled
+    attribute :api_format
+    attribute :base_url
+    attribute :api_key
+
+    validates :base_url, presence: true
+    validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
+    validates :api_format, exclusion: { in: Llm::Session::UNSUPPORTED_FORMATS, message: :not_supported },
+                           unless: -> { api_format.blank? }
+
+    validate :features_require_connection
+
+    private
+
+    def features_require_connection
+      return unless model.llm_features_enabled
+      return if model.base_url.present?
+
+      errors.add :llm_features_enabled, :requires_connection
+    end
+  end
+end
