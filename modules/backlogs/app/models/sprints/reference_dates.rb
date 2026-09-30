@@ -38,29 +38,33 @@ module Sprints
       @sprint = sprint
     end
 
+    # The point in time at which the sprint has started or will start.
     def start
       return sprint.started_at if sprint.started_at?
 
-      sprint.start_date.in_time_zone.beginning_of_day
+      scheduled_start
     end
 
+    # The point in time up until which a statement can be made about the sprint.
     def finish
       return sprint.completed_at if sprint.completed_at?
-
-      scheduled_finish = sprint.finish_date.in_time_zone.end_of_day
 
       return scheduled_finish unless sprint.started_at?
 
       [scheduled_finish, Time.zone.now].max
     end
 
-    # What the sprint was planned with, which the guideline keeps pointing at even when the
-    # sprint overruns.
+    # The point in time the sprint was scheduled to finish.
+    # People expect the end day to still count fully as part of the sprint.
     def scheduled_finish
       sprint.finish_date.in_time_zone.end_of_day
     end
 
     private
+
+    def scheduled_start
+      sprint.start_date.in_time_zone.beginning_of_day
+    end
 
     attr_reader :sprint
   end
