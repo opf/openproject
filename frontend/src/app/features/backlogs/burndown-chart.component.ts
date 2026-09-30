@@ -143,12 +143,11 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
   },
 };
 
-const SERIES_READING_ORDER:string[] = Object.keys(SERIES_STYLE);
-
 function seriesRank(key:SeriesKey|undefined):number {
-  const rank = SERIES_READING_ORDER.indexOf(key ?? '');
+  const readingOrder = Object.keys(SERIES_STYLE);
+  const rank = readingOrder.indexOf(key ?? '');
 
-  return rank === -1 ? SERIES_READING_ORDER.length : rank;
+  return rank === -1 ? readingOrder.length : rank;
 }
 
 function cssVariable(name:string, fallback:string):string {
