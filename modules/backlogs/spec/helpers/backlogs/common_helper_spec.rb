@@ -210,6 +210,8 @@ RSpec.describe Backlogs::CommonHelper do
   end
 
   describe "#filtered_sprints_for" do
+    current_user { create(:admin) }
+
     let(:project) { create(:project, enabled_module_names: %w[backlogs]) }
     let!(:sprint_a) { create(:sprint, project:) }
     let!(:sprint_b) { create(:sprint, project:) }
