@@ -90,7 +90,7 @@ module WorkPackageTypes
       end
 
       def menu_src(type)
-        menu_type_path(type)
+        menu_type_path(type, **context_args)
       end
 
       def variant_menu_id(variant)

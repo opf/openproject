@@ -219,6 +219,11 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     it "carries page context through the pagination links" do
       expect(rendered_component).to have_link("1", href: types_path(page: 1, per_page: 2, expand: expanded.id))
     end
+
+    it "carries page context into the lazy menus" do
+      expect(rendered_component)
+        .to have_element(:"include-fragment", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
+    end
   end
 
   describe "a lone type" do

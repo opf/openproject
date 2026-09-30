@@ -78,4 +78,48 @@ RSpec.describe "Paginated type ordering", :js, :selenium,
     end
     expect(bug.variants.non_default_variants.in_display_order).to eq([alpha, zeta])
   end
+
+  it "moves up across pages and refreshes the next lazy menu" do
+    visit types_path(page: 2, per_page: 2)
+    index_page.move("C", "Move up")
+
+    index_page.expect_page_order("B", "D")
+    index_page.expect_db_order("A", "C", "B", "D", "E")
+    expect(page).to have_text("Successful update.")
+    expect(page).to have_current_path(types_path(page: 2, per_page: 2))
+
+    index_page.move("B", "Move up")
+    index_page.expect_page_order("C", "D")
+    index_page.expect_db_order("A", "B", "C", "D", "E")
+  end
+
+  it "moves to the global top while keeping index pagination links" do
+    visit types_path(page: 2, per_page: 2)
+    index_page.move("D", "Move to top")
+
+    index_page.expect_page_order("B", "C")
+    index_page.expect_db_order("D", "A", "B", "C", "E")
+    page.refresh
+    index_page.expect_page_order("B", "C")
+
+    within(".op-pagination--pages") { click_on "1" }
+    index_page.expect_page_order("D", "A")
+    expect(page).to have_current_path(types_path(page: 1, per_page: 2))
+  end
+
+  it "moves down into the next page" do
+    visit types_path(page: 2, per_page: 2)
+    index_page.move("D", "Move down")
+
+    index_page.expect_page_order("C", "E")
+    index_page.expect_db_order("A", "B", "C", "E", "D")
+  end
+
+  it "moves to the global bottom" do
+    visit types_path(page: 2, per_page: 2)
+    index_page.move("C", "Move to bottom")
+
+    index_page.expect_page_order("D", "E")
+    index_page.expect_db_order("A", "B", "D", "E", "C")
+  end
 end

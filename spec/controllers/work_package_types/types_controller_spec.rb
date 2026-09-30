@@ -97,11 +97,10 @@ RSpec.describe WorkPackageTypes::TypesController do
         let(:params) { { "id" => type.id, "type" => { move_to: "lower" } } }
 
         before do
-          post :move, params:
+          post :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to have_http_status(:ok) }
 
         it "has the position updated" do
           expect(Type.find_by(name: "My type").position).to eq(2)
@@ -117,13 +116,13 @@ RSpec.describe WorkPackageTypes::TypesController do
           allow(Type).to receive(:find).and_return(type)
           allow(type).to receive(:update).and_return false
 
-          post :move, params:
+          post :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to have_http_status(:unprocessable_entity) }
 
         it "has an unsuccessful move flash" do
-          expect(flash[:error]).to eq(I18n.t(:error_type_could_not_be_saved))
+          expect(response.body).to include(I18n.t(:error_type_could_not_be_saved))
         end
 
         it "doesn't update the position" do

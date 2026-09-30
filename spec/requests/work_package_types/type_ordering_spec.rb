@@ -159,11 +159,56 @@ RSpec.describe "Type ordering", :skip_csrf,
     expect([alpha.reload.type_id, zeta.reload.type_id]).to eq([type_named("D").id] * 2)
   end
 
+  {
+    highest: ["D", %w[D A B C E]],
+    higher: ["C", %w[A C B D E]],
+    lower: ["D", %w[A B C E D]],
+    lowest: ["C", %w[A B D E C]]
+  }.each do |direction, (name, names)|
+    it "moves #{direction} globally and refreshes the current page", :aggregate_failures do
+      post move_types_path(type_named(name), page: 2, per_page: 2),
+           params: { type: { move_to: direction } }, as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect_order(*names)
+      expect(response.body).to include(I18n.t(:notice_successful_update))
+      expect(turbo_fragment.all(:heading).map { it.text.squish }).to eq(names[2, 2])
+      expect(turbo_fragment).to have_link("1", href: types_path(page: 1, per_page: 2))
+      expect(turbo_fragment).to have_link("3", href: types_path(page: 3, per_page: 2))
+    end
+  end
+
+  [nil, "sideways", false, [], {}].each do |direction|
+    it "rejects invalid direction #{direction.inspect}" do
+      post move_types_path(type_named("D"), page: 2, per_page: 2),
+           params: { type: { move_to: direction } }, as: :json,
+           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect_refused("A", "B", "C", "D", "E")
+    end
+  end
+
+  it "keeps page context in the lazy menu forms", :aggregate_failures do
+    get menu_type_path(type_named("C"), page: 2, per_page: 2, expand: type_named("C").id)
+
+    expect(response).to have_http_status(:ok)
+    form_action = move_types_path(type_named("C"), page: 2, per_page: 2, expand: type_named("C").id)
+    expect(response.body).to have_element(:form, action: form_action, count: 4)
+    expect(response.body).to have_field("type[move_to]", type: :hidden, with: "higher")
+  end
+
   context "without admin permission" do
     current_user { create(:user) }
 
     it "rejects dragging" do
       drop("D")
+
+      expect(response).to have_http_status(:forbidden)
+      expect_order("A", "B", "C", "D", "E")
+    end
+
+    it "rejects menu moves" do
+      post move_types_path(type_named("D")), params: { type: { move_to: "highest" } }, as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)
       expect_order("A", "B", "C", "D", "E")

@@ -53,12 +53,7 @@ module WorkPackageTypes
     end
 
     def move
-      if @type.update(permitted_params.type_move)
-        flash[:notice] = I18n.t(:notice_successful_update)
-      else
-        flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
-      end
-      redirect_to types_path
+      render_ordering_result(move_in_direction, error_message: I18n.t(:error_type_could_not_be_saved))
     end
 
     def destroy
@@ -98,7 +93,7 @@ module WorkPackageTypes
     end
 
     def menu
-      render Types::TypeActionsComponent.new(type: @type), layout: false
+      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:), layout: false
     end
 
     protected
@@ -177,6 +172,14 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message: error_message)
       end
       respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+    end
+
+    def move_in_direction
+      type_params = params[:type]
+      return false unless type_params.is_a?(ActionController::Parameters)
+
+      direction = type_params[:move_to]
+      direction.in?(%w[highest higher lower lowest]) && @type.update(move_to: direction)
     end
 
     def valid_drop_request?

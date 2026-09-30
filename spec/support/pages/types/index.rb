@@ -59,7 +59,7 @@ module Pages
       def move(type, direction_label)
         within_actions_menu(type) do |menu|
           within(open_controlled_menu(menu.find(:menuitem, I18n.t(:button_move), exact: true))) do |submenu|
-            submenu.find(:menuitem, direction_label, exact: true).click
+            wait_for_turbo_stream { submenu.find(:menuitem, direction_label, exact: true).click }
           end
         end
       end
