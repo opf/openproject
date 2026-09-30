@@ -1,0 +1,206 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe LlmConnection do
+  describe "#api_key", with_config: { "database_cipher_key" => "secret" } do
+    it "is stored as it was given, even with a cipher key configured" do
+      connection = create(:llm_connection, api_key: "sk-plain-key")
+
+      expect(connection.reload.api_key).to eq("sk-plain-key")
+      expect(described_class.where(id: connection.id).pick(:api_key)).to eq("sk-plain-key")
+    end
+  end
+
+  describe "#api_key_stored?" do
+    it "is false for a connection that was never saved" do
+      expect(build(:llm_connection, api_key: "sk-test-key")).not_to be_api_key_stored
+    end
+
+    it "is false for a saved connection without a key" do
+      expect(create(:llm_connection, api_key: nil)).not_to be_api_key_stored
+    end
+
+    it "is true for a saved connection with a key" do
+      expect(create(:llm_connection, api_key: "sk-test-key")).to be_api_key_stored
+    end
+
+    it "is false when a key was assigned but the save failed" do
+      connection = create(:llm_connection, api_key: nil)
+      connection.assign_attributes(api_key: "sk-test-key", base_url: "")
+
+      expect(connection.save).to be(false)
+      expect(connection).not_to be_api_key_stored
+    end
+  end
+
+  describe "the single active connection" do
+    it "allows only one connection to be active" do
+      create(:llm_connection)
+      second = build(:llm_connection, active: true)
+
+      expect(second).not_to be_valid
+      expect(second.errors).to be_of_kind(:base, :singleton)
+    end
+
+    it "allows any number of inactive connections beside it" do
+      create(:llm_connection)
+
+      expect(build(:llm_connection, active: false)).to be_valid
+    end
+
+    it "is capped by the database as well as the validation" do
+      create(:llm_connection)
+      second = build(:llm_connection, active: true)
+
+      expect { second.save!(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it "hands out the active connection, unsaved when there is none" do
+      expect(described_class.active_connection).to be_new_record
+      expect(described_class.active_connection).to be_active
+
+      connection = create(:llm_connection)
+
+      expect(described_class.active_connection).to eq(connection)
+    end
+  end
+
+  describe ".available?" do
+    context "with the feature flag and the setting on",
+            with_flag: { llm_connection: true },
+            with_settings: { llm_features_enabled: true } do
+      it "is true when an active connection is stored" do
+        create(:llm_connection)
+
+        expect(described_class).to be_available
+      end
+
+      it "is false when only an inactive connection is stored" do
+        create(:llm_connection, active: false)
+
+        expect(described_class).not_to be_available
+      end
+    end
+
+    it "is false with the feature flag off",
+       with_flag: { llm_connection: false },
+       with_settings: { llm_features_enabled: true } do
+      create(:llm_connection)
+
+      expect(described_class).not_to be_available
+    end
+
+    it "is false with the setting off",
+       with_flag: { llm_connection: true },
+       with_settings: { llm_features_enabled: false } do
+      create(:llm_connection)
+
+      expect(described_class).not_to be_available
+    end
+  end
+
+  # The environment seeder and direct writes reach the model without the
+  # contract, so these have to hold on the model itself.
+  describe "validations" do
+    it "requires an identifier, rather than failing on the NOT NULL column" do
+      connection = build(:llm_connection, identifier: nil)
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:identifier, :blank)
+    end
+
+    it "refuses a format no adapter serves" do
+      connection = build(:llm_connection, api_format: "no-such-format")
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:api_format, :inclusion)
+    end
+
+    it "accepts custom headers that map names to plain strings" do
+      expect(build(:llm_connection, custom_headers: { "api-version" => "2024-02-01" })).to be_valid
+    end
+
+    it "refuses a header value that is not a string" do
+      connection = build(:llm_connection, custom_headers: { "x-retries" => 3 })
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:custom_headers, :invalid)
+    end
+
+    it "refuses a nested header value" do
+      expect(build(:llm_connection, custom_headers: { "x-gateway" => { "key" => "value" } })).not_to be_valid
+    end
+
+    it "refuses a header value carrying a line break" do
+      expect(build(:llm_connection, custom_headers: { "x-gateway" => "one\r\nInjected: two" })).not_to be_valid
+    end
+
+    it "refuses a header name carrying a line break" do
+      connection = build(:llm_connection, custom_headers: { "x-gateway\r\nInjected" => "two" })
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:custom_headers, :invalid)
+    end
+
+    it "refuses a header name that is not an HTTP token", :aggregate_failures do
+      ["x gateway", "x-gateway:", "x-gäteway", "(x-gateway)", ""].each do |name|
+        expect(build(:llm_connection, custom_headers: { name => "value" })).not_to be_valid, name.inspect
+      end
+    end
+
+    it "accepts a header name built from any HTTP token character" do
+      expect(build(:llm_connection, custom_headers: { "X-Gateway_1.v2!\#$%&'*+^`|~" => "value" })).to be_valid
+    end
+
+    it "accepts an absolute http or https base URL", :aggregate_failures do
+      %w[https://example.com/v1 http://10.0.0.5:8000/v1].each do |base_url|
+        expect(build(:llm_connection, base_url:)).to be_valid, base_url
+      end
+    end
+
+    it "refuses a base URL without an http scheme or a host", :aggregate_failures do
+      %w[//host/path http:host http:// localhost:8080/v1 ftp://example.com].each do |base_url|
+        connection = build(:llm_connection, base_url:)
+
+        expect(connection).not_to be_valid, base_url
+        expect(connection.errors).to be_of_kind(:base_url, :invalid_url)
+      end
+    end
+
+    it "refuses a base URL that cannot be parsed" do
+      connection = build(:llm_connection, base_url: "https://example.com/a b")
+
+      expect(connection).not_to be_valid
+      expect(connection.errors).to be_of_kind(:base_url, :invalid_url)
+    end
+  end
+end
