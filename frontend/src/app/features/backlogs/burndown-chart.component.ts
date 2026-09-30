@@ -150,6 +150,12 @@ function seriesRank(key:SeriesKey|undefined):number {
   return rank === -1 ? readingOrder.length : rank;
 }
 
+function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
+  const style = SERIES_STYLE[key ?? 'remaining'];
+
+  return { pointStyle: style.swatch, lineDash: style.borderDash, lineWidth: style.borderWidth };
+}
+
 function cssVariable(name:string, fallback:string):string {
   return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
 }
@@ -297,22 +303,13 @@ export class BurndownChartComponent {
 
   private legendLabels(chart:Chart):LegendItem[] {
     const labels:LegendItem[] = Chart.defaults.plugins.legend.labels.generateLabels(chart)
-      .map((label) => ({ ...label, ...BurndownChartComponent.swatchStyle(this.seriesId(label.datasetIndex)) }));
+      .map((label) => ({ ...label, ...legendStyle(this.seriesId(label.datasetIndex)) }));
 
     if (this.parsedInput().nonWorkingIntervals.length > 0) {
       labels.push(this.nonWorkingLegendItem(chart));
     }
 
     return labels.sort((a, b) => this.legendRank(a) - this.legendRank(b));
-  }
-
-  // Asked for point styles, chart.js takes the swatch's stroke from the point at index 0 rather
-  // than from the line, and a point carries neither a dash nor the line's weight. Both are
-  // stated here from the same descriptor the line itself is drawn with.
-  private static swatchStyle(key:SeriesKey|undefined):Partial<LegendItem> {
-    const style = SERIES_STYLE[key ?? 'remaining'];
-
-    return { pointStyle: style.swatch, lineDash: style.borderDash, lineWidth: style.borderWidth };
   }
 
   private seriesId(datasetIndex:number|undefined):BurndownSeries['id']|undefined {
@@ -324,7 +321,7 @@ export class BurndownChartComponent {
 
     return {
       text: this.i18n.t('js.burndown.non_working_day'),
-      ...BurndownChartComponent.swatchStyle(NON_WORKING_LEGEND_KEY),
+      ...legendStyle(NON_WORKING_LEGEND_KEY),
       fillStyle: bandColor,
       strokeStyle: bandColor,
       hidden: this.nonWorkingOptions(chart).hidden ?? false,
