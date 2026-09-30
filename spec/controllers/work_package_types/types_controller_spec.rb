@@ -228,10 +228,10 @@ RSpec.describe WorkPackageTypes::TypesController do
       let!(:first_type) { create(:type, name: "First") }
       let!(:second_type) { create(:type, name: "Second") }
 
-      it "reorders the dropped type to the given position" do
+      it "reorders the dropped type before the first item" do
         expect(first_type.position).to be < second_type.position
 
-        put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+        put :drop, params: { id: second_type.id, list_type: "type", list_id: "", prev_id: "" }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(second_type.reload.position).to eq(1)

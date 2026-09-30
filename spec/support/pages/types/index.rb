@@ -32,9 +32,53 @@ require "support/pages/page"
 
 module Pages
   module Types
+    # Drives the type index; type groups are addressed by name.
     class Index < ::Pages::Page
       def path
         "/types"
+      end
+
+      def type_list
+        page.find(:list, accessible_name: I18n.t(:label_type_plural))
+      end
+
+      def type_group(type)
+        type_list.find(:heading, canonical_name(type), exact: true).ancestor(:list_item)
+      end
+
+      def within_type_header(type, &)
+        within(type_group(type).find(".Box-header"), &)
+      end
+
+      def within_actions_menu(type, &)
+        within_type_header(type) do
+          within(open_controlled_menu(find(:button, accessible_name: I18n.t(:label_actions))), &)
+        end
+      end
+
+      def move(type, direction_label)
+        within_actions_menu(type) do |menu|
+          within(open_controlled_menu(menu.find(:menuitem, I18n.t(:button_move), exact: true))) do |submenu|
+            submenu.find(:menuitem, direction_label, exact: true).click
+          end
+        end
+      end
+
+      def drag(type, before:)
+        target = type_group(before)
+
+        perform_native_drag(source: drag_handle(type), target:, offset_y: -(target.native.rect.height / 4))
+      end
+
+      def expect_page_order(*names)
+        page.document.synchronize do
+          found = type_list.all(:heading).map { it.text.squish }
+          raise Capybara::ExpectationNotMet, "Expected #{names}, got #{found}" unless found == names
+        end
+      end
+
+      def expect_db_order(*names)
+        expect(::Type.order(:position).pluck(:name)).to eq(names)
       end
 
       def expect_listed(*types)
@@ -48,9 +92,7 @@ module Pages
       end
 
       def delete(type)
-        open_actions(type)
-
-        click_link I18n.t(:button_delete)
+        click_delete(type)
 
         expect(page).to have_css("##{deletion_dialog_id}[open]")
 
@@ -58,27 +100,26 @@ module Pages
       end
 
       def delete_expecting_refusal(type)
-        open_actions(type)
-
-        click_link I18n.t(:button_delete)
+        click_delete(type)
       end
 
       private
 
-      def open_actions(type)
-        within_header(type) { find("action-menu > button").click }
+      def click_delete(type)
+        within_actions_menu(type) { |menu| menu.find(:menuitem, I18n.t(:button_delete)).click }
+      end
+
+      def drag_handle(type)
+        type_group(type).find(:button, accessible_name: I18n.t("drag_handle.button_drag"))
+      end
+
+      def open_controlled_menu(button)
+        button.click
+        page.find(:menu, id: button["aria-controls"])
       end
 
       def deletion_dialog_id
         WorkPackageTypes::Types::TypeDeletionDialogComponent::DIALOG_ID
-      end
-
-      def within_header(type)
-        header = page.find(".Box-header", text: canonical_name(type))
-
-        within header do
-          yield header
-        end
       end
 
       def canonical_name(type)

@@ -61,6 +61,7 @@ RSpec.describe "Comparing the variants of a work package type", :js do
   shared_let(:twin) { create(:type_variant, type:, variant_name: "Twin") }
 
   let(:form) { TypeVariant::FORM_CONFIGURATION }
+  let(:index_page) { Pages::Types::Index.new }
 
   def within_row(section, key, &) = within("#comparison-#{section}-#{key}", &)
 
@@ -85,21 +86,15 @@ RSpec.describe "Comparing the variants of a work package type", :js do
   it "opens from the type's action menu, and only where there is something to compare" do
     visit types_path
 
-    within("[data-draggable-id='#{type.id}'] .Box-header") do
-      find("action-menu > button").click
-
-      click_on I18n.t("types.comparison.action")
-    end
+    index_page.within_actions_menu(type) { |menu| menu.find(:menuitem, "Compare variants").click }
 
     expect(page).to have_current_path(comparison_type_variants_path(type_id: type.id))
     expect(page).to have_test_selector("variant-comparison")
 
     visit types_path
 
-    within("[data-draggable-id='#{plain_type.id}'] .Box-header") do
-      find("action-menu > button").click
-
-      expect(page).to have_no_link(I18n.t("types.comparison.action"))
+    index_page.within_actions_menu(plain_type) do |menu|
+      expect(menu).to have_no_selector(:menuitem, "Compare variants")
     end
   end
 
