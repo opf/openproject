@@ -195,7 +195,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       accept_lost_statuses
 
-      expect(page).to have_current_path(/started_id=/)
+      expect(page).to have_current_path(/started_workflow_id=/)
       started = variant.reload.workflow
       create(:status_transition, workflow: started, role:, old_status: status_a, new_status: create(:status, name: "Closed"))
 
