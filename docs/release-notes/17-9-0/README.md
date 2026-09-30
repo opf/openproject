@@ -187,6 +187,40 @@ For restricted configurations, selected users or groups can be added to a **brea
 
 Existing environment-based configuration continues to be supported and takes precedence over configuration through the administration interface.
 
+## Security fixes
+
+### GHSA-4p83-c4wg-59q4 -  Meeting agenda item API leaks private work package subjects through the shared representer cache
+Caching Work package links in the meeting API endpoints could result in leaking work package subjects to users having no access to them.
+
+Reported through GitHub advisory by user [@kewmine](https://github.com/kewmine)
+
+For more information, please see the [GitHub advisory #GHSA-4p83-c4wg-59q4](https://github.com/opf/openproject/security/advisories/GHSA-4p83-c4wg-59q4)
+
+### GHSA-c5j2-2mfg-49h7 - Reusable direct-upload policy can alter trusted attachment content after antivirus scanning
+
+Direct uploads to S3-compatible attachment storage could be replayed after the upload had completed. A user allowed to add attachments could reuse the signed upload form of their own attachment to replace its content after the antivirus scan had already passed it. Other users downloading that attachment then received the replaced, unscanned content, while OpenProject still listed the attachment as scanned.
+
+Only installations using remote (S3-compatible) attachment storage with direct uploads enabled are affected. Direct uploads are on by default whenever S3 storage is configured. Installations storing attachments on the local filesystem are not affected. The impact is highest where antivirus scanning is used, since the scan result no longer reflects what is served.
+
+
+### GHSA-q7fh-rhcq-ppg7 - Authorization context mismatch in external-storage upload preparation endpoint
+OpenProject contains an authorization-context mismatch in the external-storage upload preparation endpoint. The endpoint `POST /api/v3/storages/:storage_id/files/prepare_upload` selects the target external storage from the `storage_id` path parameter, but performs the `manage_file_links` authorization check against the independently supplied `projectId` request-body parameter.
+
+An authenticated user who can access an external storage through one project, but lacks `manage_file_links` permission on that project, may be able to supply the ID of an unrelated project where they do have `manage_file_links`. This causes authorization to succeed against the unrelated project while the upload preparation operation is performed against the storage selected in the URL.
+
+The demonstrated impact is a cross-project authorization bypass that allows the upload preparation service to be invoked for a storage/project combination the user is not authorized to manage. Downstream access remains subject to the external storage provider’s own authorization rules, and unauthorized provider-side file write access has not been demonstrated.
+
+This vulnerability was reported by Github user **@kaizhi888**
+
+For more information, please see the [GitHub advisory #GHSA-q7fh-rhcq-ppg7](https://github.com/opf/openproject/security/advisories/GHSA-q7fh-rhcq-ppg7)
+
+### GHSA-r374-cr8p-hmp9 - Active sessions remain valid after password change
+The application does not invalidate existing authenticated sessions after a user changes their password. As a result, other active sessions for the same account, including sessions on other browsers or devices, remain authenticated and usable after the password change is completed.
+
+This can allow an attacker who has already obtained a valid session token or authenticated browser session to retain access even after the legitimate user changes their password. The issue weakens the effectiveness of password rotation as an account recovery measure and may allow continued unauthorized access to account data and user-level actions until the retained session expires or is manually revoked.
+
+For more information, please see the [GitHub advisory #GHSA-r374-cr8p-hmp9](https://github.com/opf/openproject/security/advisories/GHSA-r374-cr8p-hmp9)
+
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
