@@ -30,61 +30,43 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::WorkPackageSumsRepresenter do
-  let(:custom_field) do
-    build_stubbed(:integer_wp_custom_field, id: 1) do |cf|
-      allow(WorkPackageCustomField)
-        .to receive(:summable)
-              .and_return([cf])
-    end
-  end
-  let(:sums) do
-    API::ParserStruct.new(
-      story_points: 5,
-      remaining_hours: 10,
-      estimated_hours: 5,
-      done_ratio: 50,
-      custom_field_1: 5,
-      available_custom_fields: [custom_field]
-    )
-  end
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
+  let(:schema) { instance_double(API::V3::WorkPackages::Schema::WorkPackageSumsSchema, available_custom_fields: []) }
   let(:current_user) { build_stubbed(:user) }
+
   let(:representer) do
-    described_class.create(sums, current_user)
+    described_class.create(schema, current_user:)
   end
 
   subject { representer.to_json }
 
-  describe "estimated_time" do
-    it "is represented" do
-      expected = "PT5H"
-      expect(subject).to be_json_eql(expected.to_json).at_path("estimatedTime")
+  describe "overallCosts" do
+    it_behaves_like "has basic schema properties" do
+      let(:path) { "overallCosts" }
+      let(:type) { "String" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.overall_costs") }
+      let(:required) { false }
+      let(:writable) { false }
     end
   end
 
-  describe "remainingTime" do
-    it "is represented" do
-      expected = "PT10H"
-      expect(subject).to be_json_eql(expected.to_json).at_path("remainingTime")
+  describe "laborCosts" do
+    it_behaves_like "has basic schema properties" do
+      let(:path) { "laborCosts" }
+      let(:type) { "String" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.labor_costs") }
+      let(:required) { false }
+      let(:writable) { false }
     end
   end
 
-  describe "percentageDone" do
-    it "is represented" do
-      expected = 50
-      expect(subject).to be_json_eql(expected.to_json).at_path("percentageDone")
-    end
-  end
-
-  describe "storyPoints" do
-    it "is represented" do
-      expect(subject).to be_json_eql(sums.story_points.to_json).at_path("storyPoints")
-    end
-  end
-
-  describe "custom field x" do
-    it "is represented" do
-      expect(subject).to be_json_eql(sums.custom_field_1.to_json).at_path("customField1")
+  describe "materialCosts" do
+    it_behaves_like "has basic schema properties" do
+      let(:path) { "materialCosts" }
+      let(:type) { "String" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.material_costs") }
+      let(:required) { false }
+      let(:writable) { false }
     end
   end
 end
