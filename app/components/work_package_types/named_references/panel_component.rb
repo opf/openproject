@@ -56,6 +56,8 @@ module WorkPackageTypes
 
       def same_as_type_text = reference_translate("selector.same_as_type")
 
+      def default_text = reference_translate("selector.default")
+
       def same_as_type? = variant.type_reference_id(model_class.variant_reflection) == record.id
 
       def selected = @selected || record.id

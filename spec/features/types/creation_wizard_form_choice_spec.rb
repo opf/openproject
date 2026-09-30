@@ -95,4 +95,49 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       expect(page).to have_text(I18n.t("form_configurations.selector.same_as_type"))
     end
   end
+
+  describe "with a default form" do
+    shared_let(:default_form) { create(:form_configuration, name: "Company form", is_default: true) }
+
+    it "opens the form step of a new type on the default form", :aggregate_failures do
+      type = create_type_through_wizard("Incident")
+      click_on I18n.t(:button_continue)
+
+      expect(page).to have_current_path(/step=form_configuration/)
+      expect_chosen("existing")
+      expect(page).to have_test_selector("form_configuration-selector",
+                                         text: "Company form #{I18n.t('form_configurations.selector.default')}")
+      expect(type.default_variant.reload.form_configuration).to eq(default_form)
+      expect(FormConfiguration.where(name: "Incident form")).to be_empty
+    end
+
+    it "marks the default form in the list of existing forms" do
+      create_type_through_wizard("Incident")
+      click_on I18n.t(:button_continue)
+
+      find_test_selector("form_configuration-selector").click
+
+      within_test_selector("form_configuration-panel") do
+        expect(page).to have_css(".ActionListItem", text: "Company form") { |item|
+          item.has_css?(".ActionListItem-visual--trailing", text: I18n.t("form_configurations.selector.default"))
+        }
+        expect(page).to have_css(".ActionListItem", text: "Standard form") { |item|
+          item.has_no_css?(".ActionListItem-visual--trailing")
+        }
+      end
+    end
+
+    it "still opens the form step of a new variant on its type's form" do
+      variant = WorkPackageTypes::CreateVariantService.new(user: admin, type: other_type)
+                                                      .call(variant_name: "Hardware").result
+
+      visit type_creation_wizard_path(**variant.path_args, step: :form_configuration)
+
+      expect_chosen("existing")
+      expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
+      expect(page).to have_no_test_selector("form_configuration-selector",
+                                            text: I18n.t("form_configurations.selector.default"))
+      expect(variant.reload.form_configuration).to eq(existing)
+    end
+  end
 end

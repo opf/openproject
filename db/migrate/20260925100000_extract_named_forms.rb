@@ -203,10 +203,13 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
     create_table :form_configurations do |t|
       t.string :name, null: false
       t.text :description
+      t.boolean :is_default, null: false, default: false
       t.timestamps
     end
 
     add_index :form_configurations, "lower(name)", unique: true, name: "index_form_configurations_on_LOWER_name"
+    add_index :form_configurations, :is_default, unique: true, where: "is_default",
+                                                 name: "index_form_configurations_on_default"
     add_column :type_variants, :form_configuration_id, :bigint
   end
 

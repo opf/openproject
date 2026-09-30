@@ -128,6 +128,63 @@ RSpec.describe "Forms index", :js do
     expect(phase.default_variant.form_configuration.reload.name).to eq("Phase layout")
   end
 
+  describe "the default form" do
+    let!(:company_form) { create(:form_configuration, name: "Company form", is_default: true) }
+
+    def open_row_menu(name)
+      within(row_for(name)) do
+        click_button accessible_name: I18n.t("form_configurations.index.actions.menu", name:)
+      end
+    end
+
+    it "is listed first, before the forms sorted by name" do
+      visit form_configurations_path
+
+      expect_listed(*all_forms)
+      expect(page.all("#{results} .name a").map(&:text)).to eq(["Company form", *all_forms])
+    end
+
+    it "carries a label in its row and offers no deletion there" do
+      visit form_configurations_path
+
+      within(row_for("Company form")) { expect(page).to have_test_selector("form_configuration-default-label") }
+      within(row_for("Phase form")) { expect(page).to have_no_test_selector("form_configuration-default-label") }
+
+      open_row_menu("Company form")
+      expect(page).to have_no_test_selector("form_configuration-mark-default-action")
+      expect(page).to have_no_css(".ActionListItem", text: I18n.t(:button_delete))
+    end
+
+    it "moves to another form marked from its row" do
+      visit form_configurations_path
+
+      open_row_menu("Phase form")
+      find_test_selector("form_configuration-mark-default-action").click
+
+      expect_flash(message: I18n.t("form_configurations.default.marked", name: "Phase form"))
+      within(row_for("Phase form")) { expect(page).to have_test_selector("form_configuration-default-label") }
+      within(row_for("Company form")) { expect(page).to have_no_test_selector("form_configuration-default-label") }
+      expect(FormConfiguration.default_form).to eq(phase.default_variant.form_configuration)
+    end
+
+    it "moves to the form marked on its page, which then offers no deletion" do
+      visit edit_form_configuration_path(phase.default_variant.form_configuration)
+
+      find_test_selector("form_configuration-actions").click
+      find_test_selector("form_configuration-mark-default-action").click
+
+      expect_flash(message: I18n.t("form_configurations.default.marked", name: "Phase form"))
+      expect(page).to have_current_path(edit_form_configuration_path(phase.default_variant.form_configuration))
+      expect(page).to have_test_selector("form_configuration-default-label")
+
+      find_test_selector("form_configuration-actions").click
+      expect(page).to have_test_selector("form_configuration-edit-action")
+      expect(page).to have_no_test_selector("form_configuration-mark-default-action")
+      expect(page).to have_no_test_selector("form_configuration-delete-action")
+      expect(company_form.reload).not_to be_is_default
+    end
+  end
+
   describe "a type's form tab" do
     it "shows the form read-only and leads to its page for editing", :aggregate_failures do
       visit edit_type_form_configuration_path(type_id: bug.id)

@@ -31,6 +31,7 @@
 module WorkPackageTypes
   module NamedReferences
     class PageHeaderComponent < ApplicationComponent
+      include Translatable
       include OpPrimer::ComponentHelpers
 
       def initialize(record:, model_class:)
@@ -50,6 +51,8 @@ module WorkPackageTypes
          { href: helpers.polymorphic_path(model_class), text: model_class.model_name.human(count: 2) },
          record.name]
       end
+
+      def mark_default? = model_class.defaultable? && !record.marked_default?
 
       def test_selector(part) = "#{dom_class(model_class)}-#{part}"
     end

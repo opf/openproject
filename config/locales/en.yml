@@ -717,6 +717,8 @@ en:
               duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
               group_without_name: "Group name can't be blank."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
+            base:
+              default_undeletable: "The default form cannot be deleted. Mark another form as default first."
         grids/grid:
           end_before_start: "end value needs to be larger than the start value."
           outside: "is outside of the grid."
@@ -3386,6 +3388,11 @@ en:
         label: "Form"
         placeholder: "Select a form…"
       title: "Change form"
+    default:
+      label: "Default"
+      mark: "Mark as default"
+      marked: "%{name} is now the default form. New types use it."
+      name: "Default form"
     form:
       copy_from:
         caption: "The new form starts with a copy of that form's attribute groups."
@@ -3432,6 +3439,7 @@ en:
       fallback: "Form"
       implicit: "%{name} form"
     selector:
+      default: "(Default)"
       prefix: "Form"
       same_as_type: "(same as type)"
       title: "Select form"

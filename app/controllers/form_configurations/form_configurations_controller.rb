@@ -78,6 +78,18 @@ module FormConfigurations
       end
     end
 
+    def mark_default
+      service_call = UpdateService.new(user: current_user, model: @form_configuration).call(is_default: true)
+
+      if service_call.success?
+        flash[:notice] = t("form_configurations.default.marked", name: @form_configuration.name)
+      else
+        flash[:error] = service_call.errors.full_messages.to_sentence
+      end
+
+      redirect_back_or_to edit_form_configuration_path(@form_configuration), status: :see_other
+    end
+
     def destroy
       report_destruction
 
