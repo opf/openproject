@@ -57,23 +57,4 @@ class PluginAuthProvider < AuthProvider
   def human_type
     "Plug-in-based authentication provider"
   end
-
-  def csp_form_action_origin
-    config = Hash(OpenProject::Plugins::AuthPlugin.find_provider_by_name(slug))
-
-    origin_from_url(config[:authorization_endpoint]) ||
-      origin_from_url(config[:issuer]) ||
-      origin_from_url(config[:idp_sso_service_url]) ||
-      origin_from_url(plugin_host_url(config))
-  end
-
-  private
-
-  def plugin_host_url(config)
-    host = config[:host].to_s
-    return if host.blank?
-    return host if host.start_with?("http://", "https://")
-
-    "#{config[:scheme].presence || 'https'}://#{host}"
-  end
 end

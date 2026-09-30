@@ -201,49 +201,4 @@ RSpec.describe OpenIDConnect::Provider do
       end
     end
   end
-
-  describe "#csp_form_action_origin" do
-    subject { build(:oidc_provider, authorization_endpoint:, issuer:).csp_form_action_origin }
-
-    let(:authorization_endpoint) { "https://keycloak.local/realms/master/protocol/openid-connect/auth" }
-    let(:issuer) { "https://keycloak.local/realms/master" }
-
-    it { is_expected.to eq("https://keycloak.local/") }
-
-    context "when the authorization endpoint is relative" do
-      let(:authorization_endpoint) { "/realms/master/protocol/openid-connect/auth" }
-
-      it "falls back to the issuer origin" do
-        expect(subject).to eq("https://keycloak.local/")
-      end
-    end
-
-    context "when authorization endpoint and issuer are blank" do
-      let(:authorization_endpoint) { nil }
-      let(:issuer) { nil }
-
-      it "falls back to the host origin" do
-        expect(subject).to eq("https://keycloak.local/")
-      end
-    end
-
-    context "when authorization endpoint, issuer, and host are blank" do
-      subject { build(:oidc_provider, authorization_endpoint: nil, issuer: nil, host: nil).csp_form_action_origin }
-
-      it { is_expected.to be_nil }
-    end
-
-    context "with a Microsoft Entra provider without discovered endpoints" do
-      subject do
-        build(:oidc_provider,
-              oidc_provider: "microsoft_entra",
-              authorization_endpoint: nil,
-              issuer: nil,
-              host: nil)
-        .csp_form_action_origin
-      end
-
-      it { is_expected.to eq("https://login.microsoftonline.com/") }
-    end
-  end
 end

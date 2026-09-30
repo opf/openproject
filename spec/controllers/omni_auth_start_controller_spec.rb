@@ -57,12 +57,36 @@ RSpec.describe OmniAuthStartController do
       expect(response).to have_http_status :not_found
     end
 
-    context "with a provider that has no IdP origin", with_ee: %i[sso_auth_providers] do
-      let!(:provider) { create(:saml_provider, slug: "saml-broken", idp_sso_service_url: nil) }
+    context "with a plug-in provider" do
+      before do
+        allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name).and_call_original
+        allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name).with("my-plugin")
+          .and_return(plugin_provider)
+      end
 
-      it "raises" do
-        expect { get :show, params: { provider: provider.slug } }
-          .to raise_error(ArgumentError, /CSP form-action origin.*saml-broken/)
+      context "when it declares a form action URL" do
+        let(:plugin_provider) { { name: "my-plugin", form_action_url: "https://idp.example.com/sso/login" } }
+
+        it "renders the form" do
+          get :show, params: { provider: "my-plugin" }
+
+          expect(response).to render_template "omni_auth_start/show"
+          expect(response.body).to include('action="/auth/my-plugin"')
+        end
+      end
+
+      context "when it declares no form action URL" do
+        let(:plugin_provider) do
+          { name: "my-plugin", display_name: "My Login", idp_sso_service_url: "https://idp.example.com/sso" }
+        end
+
+        it "tells the user to contact an administrator", :aggregate_failures do
+          get :show, params: { provider: "my-plugin" }
+
+          expect(response).to have_http_status :internal_server_error
+          expect(response.body).to include(I18n.t(:error_omniauth_provider_incomplete, provider: "My Login"))
+          expect(response.body).not_to include('action="/auth/my-plugin"')
+        end
       end
     end
 

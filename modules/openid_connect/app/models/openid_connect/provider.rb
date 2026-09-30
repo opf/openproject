@@ -87,13 +87,6 @@ module OpenIDConnect
       "OpenID Connect"
     end
 
-    def csp_form_action_origin
-      origin_from_url(authorization_endpoint) ||
-        origin_from_url(issuer) ||
-        origin_from_url(host_origin_url) ||
-        default_oidc_origin
-    end
-
     def seeded_from_env?
       (Setting.seed_oidc_provider || {}).key?(slug)
     end
@@ -178,23 +171,6 @@ module OpenIDConnect
       claims = { "id_token" => { groups_claim => nil } }.deep_merge(claims) if sync_groups
 
       claims
-    end
-
-    private
-
-    def host_origin_url
-      return if host.blank?
-      return host if host.start_with?("http://", "https://")
-
-      "#{scheme.presence || 'https'}://#{host}"
-    end
-
-    def default_oidc_origin
-      if entra_id?
-        "https://login.microsoftonline.com/"
-      elsif google?
-        "https://accounts.google.com/"
-      end
     end
   end
 end

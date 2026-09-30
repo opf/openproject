@@ -83,6 +83,7 @@ register_auth_providers do
         name: 'my_provider',
         display_name: 'Optional Label', # (optional) provider's name as shown in OpenProject
         icon: 'my_auth_plugin/optional_provider_icon.png', # (optional) provider icon
+        form_action_url: 'https://idp.example.com/authorize', # (required) URL the strategy redirects the browser to
         # example options depending on your strategy:
         host: Setting.plugin_openproject_my_auth_plugin["auth_server_address"]
       }
@@ -90,6 +91,12 @@ register_auth_providers do
   end
 end
 ```
+
+OpenProject starts the login with a form that sends a POST request to `/auth/my_provider`.
+Your strategy then redirects the browser to the identity provider.
+Browsers apply the Content Security Policy `form-action` directive to this redirect.
+Set `form_action_url` to the URL that your strategy redirects to, so that OpenProject can allow its origin.
+If `form_action_url` is missing or is not an absolute HTTP(S) URL, the login fails with an error.
 
 OmniAuth will try to look up a strategy based on the passed symbol `:my_auth_plugin_strategy`, meaning that in this case it would expect a strategy class to be defined as follows:
 
