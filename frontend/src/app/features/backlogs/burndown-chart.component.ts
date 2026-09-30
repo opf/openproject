@@ -172,24 +172,24 @@ export class BurndownChartComponent {
 
   readonly chartData = input.required<string>();
 
-  private readonly parsed = computed(() => JSON.parse(this.chartData()) as BurndownChartData);
+  private readonly parsedInput = computed(() => JSON.parse(this.chartData()) as BurndownChartData);
 
-  readonly hasChartData = computed(() => this.parsed().series.some((series) => series.data.length > 0));
+  readonly hasChartData = computed(() => this.parsedInput().series.some((series) => series.data.length > 0));
 
   readonly lineChartData = computed<ChartData<'line', BurndownPoint[]>>(() => ({
-    datasets: this.parsed().series.map((series) => this.datasetFor(series)),
+    datasets: this.parsedInput().series.map((series) => this.datasetFor(series)),
   }));
 
   // Both bounds are taken across every series, so that hiding one does not refit the axes to
   // what is left.
   private readonly chartedRange = computed(() => {
-    const times = this.parsed().series.flatMap((series) => series.data.map((point) => Date.parse(point.x)));
+    const times = this.parsedInput().series.flatMap((series) => series.data.map((point) => Date.parse(point.x)));
 
     return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
   });
 
   private readonly yAxisMaximum = computed(() => {
-    const values = this.parsed().series.flatMap((series) => series.data.map((point) => point.y));
+    const values = this.parsedInput().series.flatMap((series) => series.data.map((point) => point.y));
 
     return values.length === 0 ? undefined : Math.max(...values) * Y_AXIS_HEADROOM;
   });
@@ -220,7 +220,7 @@ export class BurndownChartComponent {
       // this chart sets deliberately, on every layout.
       'primer-colors': { enabled: false },
       'non-working-days': {
-        intervals: this.parsed().nonWorkingIntervals,
+        intervals: this.parsedInput().nonWorkingIntervals,
         zone: this.timezoneService.userTimezone(),
       },
       legend: {
@@ -264,7 +264,7 @@ export class BurndownChartComponent {
   // to projection. That way, the finer granularity is offered as long as it is available.
   // The remaining series has the finest granularity of all the data series (by hour - sometimes by day).
   private tooltipTitle(items:TooltipItem<'line'>[]):string {
-    const { series } = this.parsed();
+    const { series } = this.parsedInput();
     const at = (id:BurndownSeries['id']) => items.find((item) => series[item.datasetIndex]?.id === id);
     const dated = at('remaining') ?? at('projection') ?? items[0];
 
@@ -275,7 +275,7 @@ export class BurndownChartComponent {
   // left behind. Naming it 10:00 is what a reader expects. Hours are therefore rounded.
   // A day end must be truncated instead: rounding it would land on the following date.
   private formattedTick(timestamp:number):string {
-    if (this.parsed().step === 'day') {
+    if (this.parsedInput().step === 'day') {
       return this.timezoneService.formattedDate(new Date(timestamp).toISOString());
     }
 
@@ -287,7 +287,7 @@ export class BurndownChartComponent {
   // Remaining is a sum of whole story points, while the two projected series divide them
   // across working days and would otherwise read to full float precision.
   private tooltipLabel(item:TooltipItem<'line'>):string {
-    const { series } = this.parsed();
+    const { series } = this.parsedInput();
     const value = series[item.datasetIndex]?.id === 'remaining'
       ? item.formattedValue
       : (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
@@ -299,7 +299,7 @@ export class BurndownChartComponent {
     const labels:LegendItem[] = Chart.defaults.plugins.legend.labels.generateLabels(chart)
       .map((label) => ({ ...label, ...BurndownChartComponent.swatchStyle(this.seriesId(label.datasetIndex)) }));
 
-    if (this.parsed().nonWorkingIntervals.length > 0) {
+    if (this.parsedInput().nonWorkingIntervals.length > 0) {
       labels.push(this.nonWorkingLegendItem(chart));
     }
 
@@ -316,7 +316,7 @@ export class BurndownChartComponent {
   }
 
   private seriesId(datasetIndex:number|undefined):BurndownSeries['id']|undefined {
-    return datasetIndex === undefined ? undefined : this.parsed().series[datasetIndex]?.id;
+    return datasetIndex === undefined ? undefined : this.parsedInput().series[datasetIndex]?.id;
   }
 
   private nonWorkingLegendItem(chart:Chart):LegendItem {
