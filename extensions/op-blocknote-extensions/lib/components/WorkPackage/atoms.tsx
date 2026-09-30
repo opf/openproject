@@ -30,7 +30,7 @@ export const defaultWpVariables = css`
   [data-color-scheme="dark"] & {
     --lightness-threshold: 0.6;
     --background-alpha: 0.10;
-    --op-chip-bg: var(--bn-colors-disabled-text);
+    --op-chip-bg: var(--bgColor-muted, #151b23);
     --op-item-hover-bg: rgba(255, 255, 255, 0.12);
   }
 `;

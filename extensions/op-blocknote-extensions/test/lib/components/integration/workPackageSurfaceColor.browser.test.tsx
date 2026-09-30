@@ -7,7 +7,7 @@ import {
 } from '../../../helpers/editorHelpers';
 
 const PRIMER_MUTED_LIGHT = 'rgb(246, 248, 250)';
-const BLOCKNOTE_DARK = 'rgb(63, 63, 63)';
+const PRIMER_MUTED_DARK = 'rgb(21, 27, 35)';
 
 function surfaceOf(selector:string) {
   return getComputedStyle(document.querySelector(selector)!).backgroundColor;
@@ -47,12 +47,12 @@ describe('Work package surface colour', () => {
     expect(surfaceOf('[data-testid="block-wp-wrapper"]')).toBe('rgb(1, 2, 3)');
   });
 
-  it('leaves the dark mode surface untouched', async () => {
+  it('paints the dark mode surface on the Primer muted dark fallback', async () => {
     renderEditor();
     await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
     switchToDarkScheme();
 
-    expect(surfaceOf('[data-testid="block-wp-wrapper"]')).toBe(BLOCKNOTE_DARK);
+    expect(surfaceOf('[data-testid="block-wp-wrapper"]')).toBe(PRIMER_MUTED_DARK);
   });
 });
