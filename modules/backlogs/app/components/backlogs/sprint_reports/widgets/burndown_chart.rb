@@ -66,7 +66,7 @@ module Backlogs
             guideline: burndown.guideline,
             projection: burndown.projection }
             .reject { |_, points| points.empty? }
-            .map { |id, points| { id:, label: t("backlogs.burndown.series.#{id}"), data: points_for(points) } }
+            .map { |id, points| { id:, label: t("backlogs.burndown_chart.series.#{id}"), data: points_for(points) } }
         end
 
         def points_for(points)

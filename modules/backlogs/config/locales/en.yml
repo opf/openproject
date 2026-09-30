@@ -151,13 +151,11 @@ en:
       details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
       title: "Delete backlog bucket?"
 
-    burndown:
+    burndown_chart:
       series:
         guideline: "Guideline"
         projection: "Remaining story points (projection)"
         remaining: "Remaining story points"
-
-    burndown_chart:
       show:
         blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
         blankslate_title: "No burndown data available"
