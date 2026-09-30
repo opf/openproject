@@ -187,6 +187,9 @@ For restricted configurations, selected users or groups can be added to a **brea
 
 Existing environment-based configuration continues to be supported and takes precedence over configuration through the administration interface.
 
+<!-- END AUTOMATED SECTION -->
+<!-- Warning: Anything above this line will be automatically removed by the release script -->
+
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
