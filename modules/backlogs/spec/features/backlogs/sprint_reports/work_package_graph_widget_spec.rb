@@ -79,10 +79,8 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
     expect(page).to have_element(:"opce-wp-overview-graph")
 
     within "opce-wp-overview-graph" do
-      description_id = find("canvas[aria-describedby]", wait: 20)["aria-describedby"]
-
       expect(page).to have_css(
-        "##{description_id}",
+        "#chart-desc",
         exact_text: "Bar chart showing work packages which are " \
                     "3 #{status_new.name}; 1 #{status_in_progress.name}; 2 #{status_closed.name}.",
         visible: :all

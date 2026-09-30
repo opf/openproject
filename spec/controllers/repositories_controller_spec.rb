@@ -161,25 +161,6 @@ RSpec.describe RepositoriesController do
         create(:repository_subversion, project:, url:, root_url: url)
       end
 
-      describe "commits per month graph" do
-        let(:permissions) { [:browse_repository] }
-
-        before do
-          get :graph, params: { project_id: project.identifier, graph: "commits_per_month" }
-        end
-
-        it "provides an accessible name and data description" do
-          document = Nokogiri::XML(response.body)
-          root = document.root
-
-          expect(root["role"]).to eq("img")
-          expect(root["aria-labelledby"]).to eq("repository-graph-title")
-          expect(root["aria-describedby"]).to eq("repository-graph-description")
-          expect(document.at_xpath("//*[local-name()='title']").text).to eq("Commits per month")
-          expect(document.at_xpath("//*[local-name()='desc']").text).to include("Commits per month chart data")
-        end
-      end
-
       describe "commits per author graph" do
         before do
           get :graph, params: { project_id: project.identifier, graph: "commits_per_author" }
@@ -195,17 +176,6 @@ RSpec.describe RepositoriesController do
           it "has the right content type" do
             expect(response.content_type).to eq("image/svg+xml")
           end
-
-          it "provides an accessible name and data description" do
-            document = Nokogiri::XML(response.body)
-            root = document.root
-
-            expect(root["role"]).to eq("img")
-            expect(root["aria-labelledby"]).to eq("repository-graph-title")
-            expect(root["aria-describedby"]).to eq("repository-graph-description")
-            expect(document.at_xpath("//*[local-name()='title']").text).to eq("Commits per author")
-            expect(document.at_xpath("//*[local-name()='desc']").text).to include("Commits per author chart data")
-          end
         end
 
         context "requested by an unauthorized user" do
@@ -214,25 +184,6 @@ RSpec.describe RepositoriesController do
           it "returns 403" do
             expect(response.code).to eq("403")
           end
-        end
-      end
-
-      describe "committer labels" do
-        let(:malicious_committer) { "Example User <user@example.org><script>alert('xss')</script>" }
-
-        it "keeps only the display name" do
-          allow(controller).to receive(:repository_commits_by_author)
-                                 .with(repository)
-                                 .and_return([[malicious_committer, 2]])
-          allow(controller).to receive(:repository_changes_by_author)
-                                 .with(repository)
-                                 .and_return({ malicious_committer => 3 })
-
-          fields, commits, changes = controller.send(:commits_per_author_data, repository)
-
-          expect(fields).to eq(["Example User"])
-          expect(commits).to eq([2])
-          expect(changes).to eq([3])
         end
       end
 

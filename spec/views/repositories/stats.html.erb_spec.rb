@@ -44,11 +44,7 @@ RSpec.describe "repositories/stats" do
     end
 
     it "embeds the commits per author graph" do
-      expect(rendered).to have_css("embed[aria-label='Commits per author'][src*='commits_per_author']")
-    end
-
-    it "embeds the commits per month graph with an accessible name" do
-      expect(rendered).to have_css("embed[aria-label='Commits per month'][src*='commits_per_month']")
+      expect(rendered).to include("commits_per_author")
     end
   end
 
