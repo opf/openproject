@@ -1,14 +1,13 @@
 import { useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PickerArrowsGlyph } from './PickerArrows';
+import { PickerToggle, toggleList } from './PickerToggle';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import type { AllowedValue, ListedValue } from './formSchema';
 import {
   OptionColorDot,
   PickerControl,
   TrailingActions,
-  TrailingButton,
   TypeColorDot,
   TypeaheadWrapper,
 } from './atoms';
@@ -93,14 +92,17 @@ export const AllowedValuesSelect = ({
     setOpen(true);
   };
 
+  const close = () => setOpen(false);
+  const toggle = (next:boolean) => toggleList(next, { open, close, field: inputEl });
+
   const pick = (option:AllowedValue | undefined) => {
     if (!option) return;
-    setOpen(false);
+    close();
     onChange(option.href);
   };
 
   const deselect = () => {
-    setOpen(false);
+    close();
     if (value) onChange('');
   };
 
@@ -138,10 +140,10 @@ export const AllowedValuesSelect = ({
       case 'Escape':
         if (!shown) return;
         event.stopPropagation();
-        setOpen(false);
+        close();
         return;
       case 'Tab':
-        setOpen(false);
+        close();
         return;
     }
 
@@ -193,27 +195,19 @@ export const AllowedValuesSelect = ({
         autoComplete="off"
         placeholder={placeholder}
         value={selected?.label ?? ''}
-        onClick={() => { if (isOpen) setOpen(false); else open(); }}
+        onClick={() => toggle(!isOpen)}
         onKeyDown={handleKeyDown}
       />
 
       {selectedColor && <TypeColorDot $color={selectedColor} />}
 
       <TrailingActions>
-        <TrailingButton
-          aria-label={t(isOpen ? 'createWorkPackage.closeOptions' : 'createWorkPackage.openOptions')}
-          aria-expanded={isOpen}
-          aria-controls={listId}
-          data-testid={`${id}-toggle`}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={() => {
-            if (isOpen) setOpen(false);
-            else open();
-            inputEl?.focus();
-          }}
-        >
-          <PickerArrowsGlyph />
-        </TrailingButton>
+        <PickerToggle
+          isOpen={isOpen}
+          controls={listId}
+          testId={`${id}-toggle`}
+          onToggle={toggle}
+        />
       </TrailingActions>
 
       {mounted && (

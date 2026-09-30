@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
-import { PickerArrowsGlyph } from './PickerArrows';
+import { PickerToggle, toggleList } from './PickerToggle';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import type { AllowedValue } from './formSchema';
@@ -84,6 +84,8 @@ export const ProjectPicker = ({
     onChange(option.href, option.label);
     close(true);
   };
+
+  const toggle = (next:boolean) => toggleList(next, { open, close, field: inputEl });
 
   const startTerm = (term:string) => {
     setQuery(term);
@@ -191,7 +193,7 @@ export const ProjectPicker = ({
         spellCheck={false}
         placeholder={hint}
         value={shownValue}
-        onClick={open}
+        onClick={() => toggle(!isOpen)}
         onChange={(event) => startTerm(event.target.value)}
         onPaste={(event) => {
           if (isOpen) return;
@@ -213,20 +215,12 @@ export const ProjectPicker = ({
           </TrailingButton>
         )}
 
-        <TrailingButton
-          aria-label={t(isOpen ? 'createWorkPackage.closeOptions' : 'createWorkPackage.openOptions')}
-          aria-expanded={isOpen}
-          aria-controls={listId}
-          data-testid={`${id}-toggle`}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={() => {
-            if (isOpen) close();
-            else open();
-            inputEl?.focus();
-          }}
-        >
-          <PickerArrowsGlyph />
-        </TrailingButton>
+        <PickerToggle
+          isOpen={isOpen}
+          controls={listId}
+          testId={`${id}-toggle`}
+          onToggle={toggle}
+        />
       </TrailingActions>
 
       {mounted && (
