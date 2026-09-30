@@ -1064,6 +1064,42 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :work_package_custom_fields, controller: "/admin/settings/work_package_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+      end
+
+      resources :version_custom_fields, controller: "/admin/settings/version_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+      end
+
+      resources :group_custom_fields, controller: "/admin/settings/group_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+      end
+
       resource :working_days_and_hours, controller: "/admin/settings/working_days_and_hours_settings", only: %i[show update] do
         post :confirm_changes
       end

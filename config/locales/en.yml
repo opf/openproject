@@ -4121,6 +4121,7 @@ en:
   label_group_by: "Group by"
   label_group_named: "Group %{name}"
   label_group_new: "New group"
+  label_group_attributes_plural: "Group attributes"
   label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
@@ -4526,6 +4527,7 @@ en:
   label_value_x: "Value: %{x}"
   label_version_edit: "Edit version"
   label_version_new: "New version"
+  label_version_custom_field_plural: "Version custom fields"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
   label_version_sharing_hierarchy: "With project hierarchy"
