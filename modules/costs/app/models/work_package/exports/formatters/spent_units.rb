@@ -36,10 +36,7 @@ module WorkPackage::Exports
 
       def format(work_package, **)
         cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
-        values = cost_helper.summarized_cost_entries.map do |kvp|
-          cost_type = kvp[0]
-          volume = kvp[1]
-          BigDecimal("1.0")
+        values = cost_helper.summarized_cost_entries.map do |cost_type, volume|
           type_unit = volume.to_d == BigDecimal("1.0") ? cost_type.unit : cost_type.unit_plural
           "#{volume} #{type_unit}"
         end

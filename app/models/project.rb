@@ -91,8 +91,6 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :cost_types_projects, dependent: :delete_all
-  has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
   has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
