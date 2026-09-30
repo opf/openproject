@@ -40,14 +40,17 @@ const getParentElement = (element:Element):Element | null => {
 
 const getViewportRect = ():VisibleRect => {
   const viewport = window.visualViewport;
-  const unzoomed = viewport?.scale === 1 ? viewport : undefined;
+  if (viewport?.scale !== 1) {
+    return { top: 0, left: 0, right: window.innerWidth, bottom: window.innerHeight };
+  }
 
-  return {
-    top: 0,
-    left: 0,
-    right: Math.min(unzoomed?.width ?? Infinity, window.innerWidth),
-    bottom: Math.min(unzoomed?.height ?? Infinity, window.innerHeight),
-  };
+  // Chromium reads client rects off the layout viewport and Safari off the visual
+  // one, so offsetTop fits only one of them; the root's rect fits both.
+  const root = document.documentElement.getBoundingClientRect();
+  const top = root.top + viewport.pageTop;
+  const left = root.left + viewport.pageLeft;
+
+  return { top, left, right: left + viewport.width, bottom: top + viewport.height };
 };
 
 // A fixed popover is taken out of the flow, so only the viewport clips it; an

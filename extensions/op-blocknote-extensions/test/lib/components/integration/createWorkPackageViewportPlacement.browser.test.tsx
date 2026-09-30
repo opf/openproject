@@ -16,13 +16,14 @@ const SCREEN_HEIGHT = 640;
 const KEYBOARD_HEIGHT = 300;
 const ROOM_BELOW_FIELD = 30;
 const REPORTED_OFFSET = 400;
+const PANNED_BY = 200;
 const MAX_GAP_TO_FIELD = 4;
 const PINCHED_IN = 3;
 
 const supervisorList = () => pickerList('Supervisor').getBoundingClientRect();
 
-const scrollFieldJustAboveTheKeyboard = (field:Element) => {
-  const keyboardTop = SCREEN_HEIGHT - KEYBOARD_HEIGHT;
+const scrollFieldJustAboveTheKeyboard = (field:Element, panned = 0) => {
+  const keyboardTop = panned + SCREEN_HEIGHT - KEYBOARD_HEIGHT;
   modalBody().scrollTop += field.getBoundingClientRect().bottom - (keyboardTop - ROOM_BELOW_FIELD);
 };
 
@@ -70,8 +71,21 @@ describe('Create work package - suggestions and the visual viewport', () => {
       .toBeGreaterThanOrEqual(Math.round(field.getBoundingClientRect().bottom));
   });
 
-  it('ignores an offset the viewport reports between itself and the layout one', async () => {
+  it('keeps the suggestions on the field when the visual viewport pans down the layout one', async () => {
     const { viewport, field } = await openTheFormOnAPhone();
+    viewport.raiseKeyboard(KEYBOARD_HEIGHT);
+    viewport.scrollTo(PANNED_BY);
+    scrollFieldJustAboveTheKeyboard(field, PANNED_BY);
+
+    await openTheSupervisorList();
+
+    await expect.poll(() => gapToField('Supervisor', field)).toBeLessThanOrEqual(MAX_GAP_TO_FIELD);
+    expect(supervisorList().top).toBeGreaterThanOrEqual(PANNED_BY);
+  });
+
+  it('ignores the offset where client rects are read off the visual viewport', async () => {
+    const { viewport, field } = await openTheFormOnAPhone();
+    viewport.readClientRectsOffTheVisualViewport();
     viewport.raiseKeyboard(KEYBOARD_HEIGHT);
     viewport.scrollTo(REPORTED_OFFSET);
 
