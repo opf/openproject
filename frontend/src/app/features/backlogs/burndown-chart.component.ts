@@ -34,7 +34,9 @@ import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import NonWorkingDaysPlugin, { NonWorkingDaysPluginOptions, NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
+import NonWorkingDaysPlugin, {
+  NonWorkingInterval, nonWorkingDaysLegendItem, toggleNonWorkingDays,
+} from 'core-app/shared/components/charts/plugin.non-working-days';
 import 'core-app/shared/components/charts/interaction.series-at-x';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
@@ -119,7 +121,7 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
     fill: true,
     color: () => ({
       border: remainingColor(),
-      background: getCSSVariable('--display-red-scale-2', '#fda5a7'),
+      background: remainingColorBackground(),
     }),
   },
   projection: {
@@ -140,7 +142,7 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
     borderWidth: 2,
     order: 1,
     pointHoverRadius: 0,
-    color: () => ({ border: getCSSVariable('--fgColor-muted', '#59636e') }),
+    color: () => ({ border: guidelineColor() }),
   },
 };
 
@@ -160,6 +162,14 @@ function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
 // The projection continues the remaining series, so the two share a colour.
 function remainingColor():string {
   return getCSSVariable('--display-red-scale-6', '#c50d28');
+}
+
+function remainingColorBackground():string {
+  return getCSSVariable('--display-red-scale-2', '#fda5a7');
+}
+
+function guidelineColor():string {
+  return getCSSVariable('--fgColor-muted', '#59636e');
 }
 
 @Component({
@@ -317,15 +327,12 @@ export class BurndownChartComponent {
     return datasetIndex === undefined ? undefined : this.parsedInput().series[datasetIndex]?.id;
   }
 
+  // The colour and the visibility come from the plugin that paints the bands; only the swatch's
+  // shape and its place in the legend are this chart's to decide.
   private nonWorkingLegendItem(chart:Chart):LegendItem {
-    const bandColor = getCSSVariable('--borderColor-muted', '#d0d7de');
-
     return {
-      text: this.i18n.t('js.burndown.non_working_day'),
+      ...nonWorkingDaysLegendItem(chart, this.i18n.t('js.burndown.non_working_day')),
       ...legendStyle(NON_WORKING_LEGEND_KEY),
-      fillStyle: bandColor,
-      strokeStyle: bandColor,
-      hidden: this.nonWorkingOptions(chart).hidden ?? false,
     };
   }
 
@@ -343,17 +350,11 @@ export class BurndownChartComponent {
   // The non-working days are drawn by a plugin rather than a dataset, so their entry carries no dataset
   // index and has to toggle the plugin's own visibility.
   private toggleLegendItem(event:ChartEvent, item:LegendItem, legend:LegendElement<'line'>):void {
-    if (item.datasetIndex !== undefined) {
-      Chart.defaults.plugins.legend.onClick.call(legend, event, item, legend);
+    if (item.datasetIndex === undefined) {
+      toggleNonWorkingDays(legend.chart);
       return;
     }
 
-    const options = this.nonWorkingOptions(legend.chart);
-    options.hidden = !options.hidden;
-    legend.chart.update();
-  }
-
-  private nonWorkingOptions(chart:Chart):NonWorkingDaysPluginOptions {
-    return (chart.options.plugins?.['non-working-days'] ?? {}) as NonWorkingDaysPluginOptions;
+    Chart.defaults.plugins.legend.onClick.call(legend, event, item, legend);
   }
 }
