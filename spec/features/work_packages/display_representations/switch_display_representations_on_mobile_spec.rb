@@ -36,33 +36,33 @@ RSpec.describe "Switching work package view on mobile", :js, :selenium do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:cards) { Pages::WorkPackageCards.new(project) }
 
-  let(:wp_1) do
+  let(:wp1) do
     create(:work_package,
            project:)
   end
-  let(:wp_2) do
+  let(:wp2) do
     create(:work_package,
            project:)
   end
 
   before do
-    wp_1
-    wp_2
+    wp1
+    wp2
 
     login_as(user)
     wp_table.visit!
-    wp_table.expect_work_package_listed wp_1, wp_2
+    wp_table.expect_work_package_listed wp1, wp2
   end
 
-  context "switching to mobile card view" do
+  context "in mobile card view" do
     include_context "with mobile screen size"
 
     it "can switch the representation automatically on mobile after a refresh" do
       # It shows the elements as cards
-      cards.expect_work_package_listed wp_1, wp_2
+      cards.expect_work_package_listed wp1, wp2
 
       # A single click leads to the full view
-      cards.select_work_package(wp_1)
+      cards.select_work_package(wp1)
       expect(page).to have_css(".work-packages--details--subject",
                                text: wp_1.subject)
       page.go_back
@@ -74,8 +74,8 @@ RSpec.describe "Switching work package view on mobile", :js, :selenium do
       # Since the query is unchanged, the WPs will be displayed as list on larger screens again
       page.driver.browser.manage.window.resize_to(700, 1080)
       page.driver.browser.navigate.refresh
-      wp_table.expect_work_package_listed wp_1, wp_2
-      wp_table.expect_work_package_order wp_1, wp_2
+      wp_table.expect_work_package_listed wp1, wp2
+      wp_table.expect_work_package_order wp1, wp2
     end
   end
 end
