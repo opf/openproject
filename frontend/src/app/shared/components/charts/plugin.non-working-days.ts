@@ -69,13 +69,6 @@ export interface Band {
   width:number;
 }
 
-// The bands rendered for the background of non working days are painted by this plugin rather
-// than held in a dataset, so nothing animates them when the legend toggles. These reproduce what chart.js
-// gives a dataset it hides or shows.
-//
-// A band settles at full opacity because the colour it is painted in brings its own: the token is a
-// background meant to sit under content, so it is already faint. That also leaves the legend swatch,
-// which is painted flat, the same weight as the band itself.
 const BAND_OPACITY = 1;
 
 interface Fade {
