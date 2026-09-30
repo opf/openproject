@@ -23,20 +23,41 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-class EnvDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      EnvData::CustomDesignSeeder,
-      EnvData::LdapSeeder,
-      EnvData::ScimClientSeeder,
-      EnvData::TokenSeeder
-    ]
-  end
+#++
 
-  def namespace
-    "EnvData"
+module LlmConnections
+  class FormComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
+    def self.wrapper_key = :llm_connection_form
+
+    alias_method :connection, :model
+
+    private
+
+    def wrapper_options
+      {
+        data: {
+          controller: "llm--connection-form show-when-checked show-when-value-selected",
+          test_selector: "llm-connection--form"
+        }
+      }
+    end
+
+    # The save can turn the connection on, which adds the tabs to the page
+    # header outside this frame, so the response replaces the whole page.
+    def form_options
+      {
+        model: connection,
+        url: llm_connection_path,
+        method: :patch,
+        data: { turbo_frame: "_top" }
+      }
+    end
   end
 end

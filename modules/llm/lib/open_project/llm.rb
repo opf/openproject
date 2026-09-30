@@ -26,17 +26,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-class EnvDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      EnvData::CustomDesignSeeder,
-      EnvData::LdapSeeder,
-      EnvData::ScimClientSeeder,
-      EnvData::TokenSeeder
-    ]
-  end
+#++
 
-  def namespace
-    "EnvData"
+module OpenProject
+  module Llm
+    require "open_project/llm/features"
+    require "open_project/llm/engine"
   end
 end

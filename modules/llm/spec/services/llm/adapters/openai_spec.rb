@@ -23,20 +23,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-class EnvDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      EnvData::CustomDesignSeeder,
-      EnvData::LdapSeeder,
-      EnvData::ScimClientSeeder,
-      EnvData::TokenSeeder
-    ]
-  end
+#++
 
-  def namespace
-    "EnvData"
+require "spec_helper"
+require_module_spec_helper
+
+RSpec.describe Llm::Adapters::Openai, :llm_server_helpers, :webmock do
+  subject(:adapter) { described_class.new(connection) }
+
+  let(:base_url) { "https://example.com/v1" }
+  let(:connection) { build(:llm_connection, base_url:, api_format: "openai", api_key: "sk-test") }
+
+  describe "#models" do
+    it "reads the cards of the catalogue" do
+      mock_llm_models_response(base_url)
+
+      expect(adapter.models.pluck(:id)).to contain_exactly("qwen3.6-27b", "bge-m3")
+    end
+
+    it "skips a bare array's entries that are not model cards" do
+      mock_llm_models_response(base_url, body: [nil, 5, "grid", ["id"], { id: "bge-m3" }].to_json)
+
+      expect(adapter.models.pluck(:id)).to eq(["bge-m3"])
+      expect(adapter.server_flavour).to eq("unknown")
+    end
   end
 end
