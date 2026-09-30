@@ -46,6 +46,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     set_attachments_attributes(attributes)
     claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
+    set_labels_attributes(attributes)
     set_static_attributes(attributes)
 
     model.change_by_system do
@@ -82,6 +83,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
     model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
     model.observed_in_version_ids_replacements = Array(observed_in_ids).map(&:to_i) if observed_in_ids
+  end
+
+  def set_labels_attributes(attributes)
+    label_ids = attributes.delete(:label_ids)
+
+    model.label_id_replacements = label_ids if label_ids
   end
 
   def set_static_attributes(attributes)

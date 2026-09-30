@@ -53,6 +53,17 @@ See COPYRIGHT and LICENSE files for more details.
               ) do
                 I18n.t("types.index.variant_label")
               end
+
+              subheader.with_action_button(
+                scheme: :default,
+                leading_icon: :"git-compare",
+                label: I18n.t("types.comparison.action"),
+                tag: :a,
+                href: comparison_path,
+                test_selector: "compare-type-variants"
+              ) do
+                I18n.t("types.comparison.action")
+              end
             end
           end
         end

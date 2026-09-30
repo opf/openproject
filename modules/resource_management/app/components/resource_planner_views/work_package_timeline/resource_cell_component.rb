@@ -34,6 +34,7 @@ module ResourcePlannerViews
     # Rendered server-side so it stays consistent with the work package list view.
     class ResourceCellComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include ResourceManagement::PlannerRoutes
 
       def initialize(work_package:, allocations: [], project: nil, resource_planner: nil, view: nil,
                      first: false, last: false)
@@ -66,6 +67,23 @@ module ResourcePlannerViews
 
       def progress
         render(ResourceAllocations::ProgressComponent.new(work_package: @work_package, allocations: @allocations))
+      end
+
+      # A global planner spans projects, so the row has to say which one it is
+      # looking at. Inside a project it would only repeat the page.
+      def global?
+        @project.nil?
+      end
+
+      def project_link
+        render(
+          Primer::Beta::Link.new(
+            href: helpers.project_overview_path(@work_package.project),
+            font_size: :small,
+            color: :muted,
+            underline: false
+          )
+        ) { @work_package.project.name }
       end
 
       def context_menu
@@ -106,9 +124,7 @@ module ResourcePlannerViews
       def move_action(submenu, direction:, label:, icon:)
         submenu.with_item(
           label:,
-          href: helpers.move_work_package_project_resource_planner_view_path(
-            @project, @resource_planner, @view, work_package_id: @work_package.id, direction:
-          ),
+          href: move_planner_view_work_package_path(@resource_planner, @view, @work_package.id, direction:),
           form_arguments: { method: :put }
         ) do |item|
           item.with_leading_visual_icon(icon:)
@@ -120,9 +136,7 @@ module ResourcePlannerViews
         menu.with_item(
           label: t("resource_management.work_package_list.context_menu.remove"),
           scheme: :danger,
-          href: helpers.remove_work_package_project_resource_planner_view_path(
-            @project, @resource_planner, @view, work_package_id: @work_package.id
-          ),
+          href: remove_planner_view_work_package_path(@resource_planner, @view, @work_package.id),
           form_arguments: {
             method: :delete,
             data: { turbo_confirm: t("resource_management.work_package_list.context_menu.remove_confirmation") }
@@ -136,7 +150,7 @@ module ResourcePlannerViews
         menu.with_item(
           label: t("resource_management.work_package_list.context_menu.see_allocation"),
           tag: :a,
-          href: helpers.project_work_package_resource_allocations_path(@project, @work_package),
+          href: work_package_allocations_path(@project, @work_package),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :hourglass)
@@ -147,9 +161,7 @@ module ResourcePlannerViews
         menu.with_item(
           label: t("resource_management.work_package_list.context_menu.edit_total_work"),
           tag: :a,
-          href: helpers.edit_project_resource_planner_view_work_package_progress_path(
-            @project, @resource_planner, @view, @work_package
-          ),
+          href: edit_planner_view_work_package_progress_path(@resource_planner, @view, @work_package),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :pencil)

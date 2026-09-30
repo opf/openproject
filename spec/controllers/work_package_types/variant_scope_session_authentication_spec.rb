@@ -35,8 +35,7 @@ require "spec_helper"
 # ApplicationController#user_setup fills in — so they resolve User.current whether or not
 # user_setup ran, and a controller authorizing ahead of it passes them while redirecting every
 # real signed-in administrator to the login page.
-RSpec.describe "Project-scoped variant screens for a session-authenticated user", # rubocop:disable RSpec/DescribeClass
-               with_flag: { type_variants: true } do
+RSpec.describe "Project-scoped variant screens for a session-authenticated user" do # rubocop:disable RSpec/DescribeClass
   shared_let(:project) { create(:project) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:ours) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }

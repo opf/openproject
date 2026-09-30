@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "../../spec_helper"
 
 RSpec.describe "Create BCF", :js,
@@ -78,7 +80,7 @@ RSpec.describe "Create BCF", :js,
       end
 
       work_package = WorkPackage.last
-      split_page = Pages::SplitWorkPackage.new(work_package, project)
+      split_page = Pages::PrimerizedSplitWorkPackage.new(work_package, project)
       split_page.ensure_page_loaded
       split_page.expect_subject
 
@@ -141,7 +143,7 @@ RSpec.describe "Create BCF", :js,
       let(:work_package) { create(:work_package, project:) }
 
       before do
-        visit bcf_project_frontend_path(project, "details/#{work_package.id}")
+        visit bcf_project_details_path(project, work_package_id: work_package.id)
         index_page.finished_loading
         index_page.expect_details_path
       end

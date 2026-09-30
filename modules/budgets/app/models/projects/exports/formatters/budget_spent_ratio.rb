@@ -37,9 +37,9 @@ module Projects::Exports::Formatters
     def format(project, **)
       return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
 
-      project_budgets = ::Budgets::Patches::Projects::RowComponentPatch::ProjectBudgets.new(project)
+      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
 
-      (project_budgets.total_ratio.to_f / 100).ceil(2) if project_budgets&.total_ratio
+      (aggregation.total_ratio.to_f / 100).ceil(2) if aggregation&.total_ratio
     end
 
     def format_options

@@ -14,13 +14,15 @@
           <% end %>
         <% end %>
 
-        <% row.with_column(ml: 2) do %>
-          <% if completed?(step) %>
-            <%= render(Primer::Beta::Octicon.new(icon: linked?(step) ? :link : :pencil, color: :accent)) %>
-          <% elsif current?(step) %>
-            <%= render(Primer::Beta::Octicon.new(icon: :"dot-fill", color: :accent)) %>
-          <% else %>
-            <%= render(Primer::Beta::Octicon.new(icon: :circle, color: :muted)) %>
+        <% if status_step?(step) %>
+          <% row.with_column(ml: 2) do %>
+            <% if completed?(step) %>
+              <%= render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)) %>
+            <% elsif current?(step) %>
+              <%= render(Primer::Beta::Octicon.new(icon: :"issue-draft", color: :muted)) %>
+            <% else %>
+              <%= render(Primer::Beta::Octicon.new(icon: :circle, color: :muted)) %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>

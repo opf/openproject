@@ -137,6 +137,6 @@ export class OpModalOverlayComponent extends UntilDestroyedMixin {
     this.overlay.nativeElement.focus();
 
     // Focus on the first element
-    instance && instance.onOpen();
+    instance?.onOpen();
   }
 }

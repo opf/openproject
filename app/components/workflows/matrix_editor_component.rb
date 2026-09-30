@@ -45,26 +45,33 @@ module Workflows
 
     attr_reader :context
 
-    delegate :variant, :tab, :roles, :eligible_roles, :statuses, :readonly?, to: :context
+    delegate :variant, :workflow, :tab, :roles, :eligible_roles, :statuses, :variant_tab?, :readonly?, to: :context
 
     def state_id = STATE_ID
 
-    # TODO: Remove with type_variants feature flag
-    def copy_button_label
-      if OpenProject::FeatureDecisions.type_variants_active?
-        I18n.t(:label_copy_workflow_from_role)
-      else
-        I18n.t(:button_copy)
-      end
+    def copy_button_label = I18n.t(:label_copy_workflow_from_role)
+
+    def workflow_button_label = I18n.t("admin.workflows.workflow_button")
+
+    def workflow_candidates
+      @workflow_candidates ||= Workflow.available_in(variant.project).in_display_order.to_a
+    end
+
+    def workflow_page_path = url_helpers.edit_workflow_path(workflow)
+
+    def administration_tab? = variant_tab? && variant.project_id.nil?
+
+    def create_workflow_dialog_path
+      url_helpers.configure_dialog_type_workflow_path(**variant.path_args)
     end
 
     def state_data
       {
         controller: "admin--workflow-checkbox-state",
-        "admin--workflow-checkbox-state-variant-id-value": variant.id,
+        "admin--workflow-checkbox-state-variant-id-value": variant&.id || workflow.id,
         "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?,
         # for saving the workflow when switching tabs
-        "admin--workflow-checkbox-state-save-url-value": helpers.type_workflow_matrix_path(**variant.path_args, tab:)
+        "admin--workflow-checkbox-state-save-url-value": context.matrix_path(tab:)
       }
     end
 
@@ -77,7 +84,7 @@ module Workflows
         name:,
         label: I18n.t(:"admin.workflows.tabs.#{name}"),
         description: I18n.t(:"admin.workflows.tabs.descriptions.#{name}"),
-        path: helpers.type_workflow_matrix_path(**variant.path_args, tab: name, role_ids: roles.map(&:id)),
+        path: context.matrix_path(tab: name, role_ids: roles.map(&:id)),
         data: {
           controller: "admin--workflow-tab-select",
           action: "click->admin--workflow-tab-select#select",
@@ -94,7 +101,7 @@ module Workflows
     def data_attributes
       {
         controller: "admin--workflow-role-select",
-        "admin--workflow-role-select-base-url-value": helpers.type_workflow_matrix_path(**variant.path_args, tab:),
+        "admin--workflow-role-select-base-url-value": context.matrix_path(tab:),
         "admin--workflow-role-select-current-role-ids-value": roles.map(&:id),
         "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{STATE_ID}"
       }

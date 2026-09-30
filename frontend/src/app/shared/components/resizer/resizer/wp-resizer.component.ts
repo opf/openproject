@@ -28,12 +28,12 @@
 
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
-import { TransitionService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
 import { fromEvent } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-resizer',
   template: `
     <op-resizer [customHandler]="false"
@@ -48,7 +48,6 @@ import { fromEvent } from 'rxjs';
 })
 export class WpResizerComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly $transitions = inject(TransitionService);
 
   @Input() elementClass:string;
 

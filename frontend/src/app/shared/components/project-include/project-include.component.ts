@@ -182,7 +182,9 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
             (project) => {
               const searchText = this.searchableProjectListService.searchText;
               if (searchText.length) {
-                const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
+                const lowered = searchText.toLowerCase();
+                const matches = project.name.toLowerCase().includes(lowered)
+                  || project.identifier.toLowerCase().includes(lowered);
 
                 if (!matches) {
                   return false;

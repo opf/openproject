@@ -38,6 +38,7 @@ import {
 import { Observable, of } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-details-toolbar',
   templateUrl: './wp-details-toolbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

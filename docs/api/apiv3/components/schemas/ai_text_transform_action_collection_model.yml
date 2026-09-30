@@ -1,0 +1,61 @@
+# Schema: AITextTransformActionCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This text transform action collection
+
+                  **Resource**: AITextTransformActionCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The actions available in the requested context, ordered by position.
+              An empty array means that the assistant is not available.
+            items:
+              $ref: './ai_text_transform_action_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: /api/v3/work_packages/42/ai_text_transform_actions
+  _embedded:
+    elements:
+      - _type: AITextTransformAction
+        id: 1
+        label: Improve writing
+        position: 1
+        injectsTypeTemplate: false
+        _links:
+          self:
+            href: /api/v3/ai_text_transform_actions/1
+            title: Improve writing
+      - _type: AITextTransformAction
+        id: 2
+        label: Apply the type template
+        position: 2
+        injectsTypeTemplate: true
+        _links:
+          self:
+            href: /api/v3/ai_text_transform_actions/2
+            title: Apply the type template

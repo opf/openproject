@@ -30,6 +30,7 @@
 
 require_relative "../toasts/expectations"
 require_relative "../flash/expectations"
+require_relative "../capybara/sub_header_helpers"
 require_relative "../capybara/wait_helpers"
 
 module Pages
@@ -42,6 +43,7 @@ module Pages
     include Toasts::Expectations
     include Flash::Expectations
     include RSpec::Wait
+    include SubHeaderHelpers
     include WaitHelpers
 
     def current_page?
@@ -53,7 +55,7 @@ module Pages
 
       visit(path)
 
-      wait_for_reload
+      wait_for_reload if using_cuprite?
     end
 
     def reload!
@@ -231,6 +233,13 @@ module Pages
       )
 
       sleep 1
+    end
+
+    def send_select_all(element)
+      platform = page.evaluate_script("navigator.userAgentData?.platform || navigator.platform")
+      apple_platform = platform.match?(/mac|iphone|ipad|ipod/i)
+      element.execute_script("this.focus()")
+      element.send_keys [apple_platform ? :command : :control, "a"]
     end
 
     def path

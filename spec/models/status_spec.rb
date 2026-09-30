@@ -135,7 +135,7 @@ RSpec.describe Status do
       workflow = create(:workflow)
 
       expect { workflow.old_status.destroy }
-        .to change { Workflow.exists?(id: workflow.id) }
+        .to change { Workflows::StatusTransition.exists?(id: workflow.id) }
               .from(true)
               .to(false)
     end

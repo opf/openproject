@@ -32,6 +32,7 @@ import {
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-field-controls',
   templateUrl: './edit-field-controls.component.html',
   standalone: false,
@@ -45,10 +46,13 @@ export class EditFieldControlsComponent {
 
   @Input() public saveTitle:string;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('fieldController') public field:EditFieldComponent;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCancel = new EventEmitter<void>();
 
   public save() {

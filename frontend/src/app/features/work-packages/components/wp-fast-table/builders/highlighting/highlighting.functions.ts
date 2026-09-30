@@ -26,20 +26,53 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+// Resources whose color reads as text rather than as a leading dot. Anything not listed
+// here gets a dot from `inlineClass`.
+const FOREGROUND_PROPERTIES = ['project_phase_definition', 'meeting_status', 'project_status'];
+
+/**
+ * Highlighting is split in two: `app/views/highlighting/styles.css.erb` emits a
+ * `__hl_<property>_<id>` class per resource carrying nothing but the color as custom
+ * properties, and the `__hl_background` / `__hl_foreground` / `__hl_dot` classes in
+ * `global_styles/layout/_colors.sass` turn those into styling. Both go on the same element,
+ * so every function below returns a space separated pair. Use `classList.add(...cls.split(' '))`
+ * when applying one imperatively.
+ */
 export namespace Highlighting {
+  export function resourceClass(property:string, id:string|number) {
+    return `__hl_${property}_${id}`;
+  }
+
   export function backgroundClass(property:string, id:string|number) {
-    return `__hl_background_${property}_${id}`;
+    return `__hl_background ${resourceClass(property, id)}`;
   }
 
+  export function foregroundClass(property:string, id:string|number) {
+    return `__hl_foreground ${resourceClass(property, id)}`;
+  }
+
+  export function dotClass(property:string, id:string|number) {
+    return `__hl_dot ${resourceClass(property, id)}`;
+  }
+
+  // Work package types are rendered as uppercase bold text instead of getting a dot
+  export function typeClass(id:string|number) {
+    return `__hl_uppercase ${foregroundClass('type', id)}`;
+  }
+
+  /**
+   * Picks the treatment for a property that is only known at runtime.
+   */
   export function inlineClass(property:string, id:string|number) {
-    return `__hl_inline_${property}_${id}`;
-  }
-
-  export function colorClass(highlightColorTextInline:boolean, id:string|number) {
-    if (highlightColorTextInline) {
-      return `__hl_inline_color_${id}_text`;
+    if (property === 'type') {
+      return typeClass(id);
     }
-    return `__hl_inline_color_${id}_dot`;
+
+    if (FOREGROUND_PROPERTIES.includes(property)) {
+      return foregroundClass(property, id);
+    }
+
+    return dotClass(property, id);
   }
 
   /**

@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:admin) { create(:admin) }
 
   shared_let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
@@ -487,6 +489,35 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     edit_page = index_ca_page.edit("Status")
     page.within "#custom-actions-form--actions" do
       edit_page.expect_selected_option "Close"
+    end
+  end
+
+  describe "searching a project by its identifier in the project condition" do
+    let(:target_project) { other_project }
+    let(:control_project) { project }
+    let(:new_ca_page) { index_ca_page.new }
+
+    before do
+      index_ca_page.visit!
+
+      new_ca_page.set_name("Identifier search")
+    end
+
+    def search_project(query)
+      search_autocomplete(page.find("#custom-actions-form--conditions opce-project-autocompleter"),
+                          query:,
+                          results_selector: "body")
+    end
+
+    it_behaves_like "a project picker searchable by identifier"
+
+    it "selects the project found by its identifier" do
+      dropdown = search_project(target_project.identifier)
+      dropdown.find(".ng-option", text: target_project.name).click
+
+      page.within "#custom-actions-form--conditions" do
+        new_ca_page.expect_selected_option target_project.name
+      end
     end
   end
 

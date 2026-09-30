@@ -33,35 +33,17 @@ class Workflows::Copies::FromRolesController < ApplicationController
   include ::WorkPackageTypes::ConfiguredInScope
   include OpTurbo::ComponentStream
 
-  before_action :set_source_variant
+  before_action :set_workflow
   before_action :set_source_role
   before_action :set_target_roles
 
-  def create # rubocop:disable Metrics/AbcSize
-    if @source_variant.nil? || @source_role.nil?
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:error_workflow_copy_source),
-        scheme: :danger
-      )
-      @turbo_status = :unprocessable_entity
+  def create
+    if @workflow.nil? || @source_role.nil?
+      reject_with(I18n.t(:error_workflow_copy_source))
     elsif @target_roles.blank?
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:error_workflow_copy_target),
-        scheme: :danger
-      )
-      @turbo_status = :unprocessable_entity
+      reject_with(I18n.t(:error_workflow_copy_target))
     else
-      Workflow.copy(@source_variant, @source_role, [@source_variant], @target_roles)
-
-      close_dialog_via_turbo_stream("copy_from_type_dialog")
-      render_success_flash_message_via_turbo_stream(
-        message: t(".notice", count: @target_roles.size, role_name: @target_roles.first.name)
-      )
-      set_frame_src_via_turbo_stream(
-        "workflow-table",
-        type_workflow_matrix_path(**@source_variant.path_args,
-                                  tab: params[:tab], role_ids: @target_roles.map(&:id))
-      )
+      copy_to_target_roles
     end
 
     respond_with_turbo_streams
@@ -69,12 +51,15 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   private
 
+  def standalone? = params[:workflow_id].present?
+
   # A stale dialog can name a source that is gone; #create answers that with a flash rather
   # than a 404, so a miss has to arrive here as nil.
-  def set_source_variant
-    @source_variant = addressed_variant
+  def set_workflow
+    @source_variant = addressed_variant unless standalone?
+    @workflow = standalone? ? Workflow.find(params.expect(:workflow_id)) : @source_variant.workflow
   rescue ActiveRecord::RecordNotFound
-    @source_variant = nil
+    @workflow = nil
   end
 
   def set_source_role
@@ -86,6 +71,31 @@ class Workflows::Copies::FromRolesController < ApplicationController
   end
 
   def eligible_roles
-    @eligible_roles ||= Workflow.eligible_roles
+    @eligible_roles ||= Workflows::StatusTransition.eligible_roles
+  end
+
+  def copy_to_target_roles
+    Workflows::StatusTransition.copy(@workflow, @source_role, [@workflow], @target_roles)
+
+    close_dialog_via_turbo_stream("copy_from_type_dialog")
+    render_success_flash_message_via_turbo_stream(
+      message: t(".notice", count: @target_roles.size, role_name: @target_roles.first.name)
+    )
+    set_frame_src_via_turbo_stream("workflow-table", matrix_path)
+  end
+
+  def matrix_path
+    role_ids = @target_roles.map(&:id)
+
+    if standalone?
+      workflow_matrix_path(@workflow, tab: params[:tab], role_ids:)
+    else
+      type_workflow_matrix_path(**@source_variant.path_args, tab: params[:tab], role_ids:)
+    end
+  end
+
+  def reject_with(message)
+    render_flash_message_via_turbo_stream(message:, scheme: :danger)
+    @turbo_status = :unprocessable_entity
   end
 end

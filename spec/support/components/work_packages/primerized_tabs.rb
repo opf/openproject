@@ -16,6 +16,16 @@ module Components
       def expect_no_counter(tab)
         expect(page).not_to have_test_selector("wp-details-tab-component--#{tab}-counter")
       end
+
+      # Check that the given tab is shown in the tab bar
+      def expect_tab(tab)
+        expect(page).to have_test_selector("wp-details-tab-component--tab-#{tab.downcase}")
+      end
+
+      # Tab should not be displayed, e.g. because the user lacks the permission
+      def expect_no_tab(tab)
+        expect(page).not_to have_test_selector("wp-details-tab-component--tab-#{tab.downcase}")
+      end
     end
   end
 end

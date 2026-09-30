@@ -47,7 +47,6 @@ RSpec.describe "project settings index" do
     login_as(user)
   end
 
-  @javascript
   it "see versions listed in semver order" do
     visit project_settings_versions_path(project)
 
@@ -55,5 +54,23 @@ RSpec.describe "project settings index" do
 
     expect(names_in_order)
       .to eql [version6.name, version4.name, version5.name, version3.name, version2.name, version1.name]
+  end
+
+  it "keeps the status filter when filtering by name", :js do
+    version2.update!(status: "locked")
+
+    visit project_settings_versions_path(project)
+
+    wait_for_turbo { click_on I18n.t("versions.filter_status_labels.locked") }
+
+    expect(page.all(".version .name").map { |element| element.text.strip }).to eq([version2.name])
+
+    expand_sub_header_search(I18n.t("versions.index.filter_label"))
+
+    wait_for_turbo_frame(frame: Settings::ProjectVersions::IndexComponent::FRAME_ID) do
+      fill_in I18n.t("versions.index.filter_label"), with: "aaaaa"
+    end
+
+    expect(page.all(".version .name").map { |element| element.text.strip }).to eq([version2.name])
   end
 end

@@ -67,11 +67,119 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
       expect(response.body).to include("Visible work")
     end
 
-    it "lumps hidden work packages together" do
+    it "shows each allocation's own date range" do
+      get path, as: :turbo_stream
+
+      expect(response.body).to include("01/05/2026 - 01/09/2026")
+    end
+
+    it "names the planner's time frame the utilization is measured over" do
+      get path, as: :turbo_stream
+
+      expect(response.body).to include(
+        I18n.t("resource_management.timeframe.full", start: "01/01/2026", end: "01/31/2026")
+      )
+    end
+
+    it "leaves the working time out for a user without a working schedule" do
+      get path, as: :turbo_stream
+
+      expect(response.body).not_to match(/\d+h total/)
+    end
+
+    context "when the user has a working schedule" do
+      # 8h on each of January 2026's 22 working days.
+      before { create(:user_working_hours, user: card_user, valid_from: Date.new(2025, 1, 1)) }
+
+      it "shows the working time the planner's time frame holds" do
+        get path, as: :turbo_stream
+
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.total_time",
+                                                hours: "176h"))
+      end
+    end
+
+    # The utilization above the list counts every allocation, so every allocation
+    # gets a row and the two cannot disagree.
+    it "shows a hidden work package as an undisclosed row rather than dropping it" do
       get path, as: :turbo_stream
 
       expect(response.body).not_to include("Secret work")
-      expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.other_work_packages.one"))
+      expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.hidden_work_package"))
+    end
+
+    context "when the other project is visible to the viewer as well" do
+      shared_let(:user) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_resource_planners view_work_packages],
+                 other_project => %i[view_resource_planners view_work_packages]
+               })
+      end
+
+      it "shows the work package and names the project it reaches into" do
+        get path, as: :turbo_stream
+
+        expect(response.body).to include("Secret work")
+        expect(response.body).to include(other_project.name)
+        expect(response.body).not_to include(I18n.t("resource_management.user_allocations_dialog.hidden_work_package"))
+      end
+    end
+
+    context "with an allocation outside the planner's time frame" do
+      shared_let(:later_wp) { create(:work_package, project:, subject: "Later work") }
+
+      before do
+        create(:resource_allocation, entity: later_wp, principal: card_user,
+                                     start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 6))
+      end
+
+      it "lists only the allocations reaching into the time frame" do
+        get path, as: :turbo_stream
+
+        expect(response.body).to include("Visible work")
+        expect(response.body).not_to include("Later work")
+      end
+    end
+
+    context "when no allocation falls into the planner's time frame" do
+      shared_let(:resource_planner) do
+        create(:resource_planner, project:, principal: user, public: true,
+                                  start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 30))
+      end
+      shared_let(:card_view) do
+        create(:resource_user_card, parent: resource_planner, project:, principal: user)
+      end
+
+      it "renders the blank message naming the time frame" do
+        get path, as: :turbo_stream
+
+        expect(response.body).not_to include("Visible work")
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.blank_in_timeframe"))
+      end
+    end
+
+    context "when the planner has no time frame" do
+      shared_let(:resource_planner) do
+        create(:resource_planner, project:, principal: user, public: true)
+      end
+      shared_let(:card_view) do
+        create(:resource_user_card, parent: resource_planner, project:, principal: user)
+      end
+
+      shared_let(:later_wp) { create(:work_package, project:, subject: "Later work") }
+
+      before do
+        create(:resource_allocation, entity: later_wp, principal: card_user,
+                                     start_date: Date.new(2027, 3, 2), end_date: Date.new(2027, 3, 6))
+      end
+
+      it "lists every allocation of the user" do
+        get path, as: :turbo_stream
+
+        expect(response.body).to include("Visible work")
+        expect(response.body).to include("Later work")
+      end
     end
 
     it "offers no allocation actions to a user who may not allocate" do

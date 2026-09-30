@@ -65,7 +65,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
 
       own_variant_expr = "COALESCE(pt.variant_id, base_tv.id)"
       source_join, source_variant_id, excluded =
-        TypeVariant::FormConfigurationSql.remap(own_variant_expr)
+        TypeVariant.effective_configuration_join(own_variant_expr, TypeVariant::FORM_CONFIGURATION)
       exclusion = TypeVariant.excluded_custom_field_condition(custom_field.id.to_s, excluded)
 
       joins = <<~SQL.squish

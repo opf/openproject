@@ -58,14 +58,12 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     evt.preventDefault();
     evt.stopPropagation();
 
-    // Locate the row from event
-    const element = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
-    const wpId = element.dataset.workPackageId!;
+    const row = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
 
     super.openContextMenu(
       component.workPackageTable,
       evt,
-      wpId,
+      row,
       // Set position args to open at element
       { placement: 'bottom-start', reference: target }
     );

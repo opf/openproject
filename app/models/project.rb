@@ -63,10 +63,16 @@ class Project < ApplicationRecord
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
   }, class_name: "Member"
+
+  has_many :member_groups, -> {
+    includes(:principal)
+      .where("#{Principal.table_name}.type='Group'")
+  }, class_name: "Member"
   # rubocop:enable Rails/HasManyOrHasOneDependent, Rails/InverseOf
 
   has_many :memberships, class_name: "Member"
   has_many :users, through: :member_users, source: :principal
+  has_many :groups, through: :member_groups, source: :principal
   has_many :principals, through: :members, source: :principal
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 

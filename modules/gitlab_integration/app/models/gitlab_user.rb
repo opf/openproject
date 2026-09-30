@@ -35,7 +35,6 @@ class GitlabUser < ApplicationRecord
   validates :gitlab_id,
             :gitlab_name,
             :gitlab_username,
-            :gitlab_email,
             :gitlab_avatar_url,
             presence: true
 end

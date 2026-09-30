@@ -44,9 +44,6 @@ module WorkPackageTypes
         return result if result.failure?
       end
 
-      # TODO: Remove with type_variants feature flag
-      extract_new_project_default_param
-
       # Only a configuration has a form to keep in sync, and only the form says which custom
       # fields are active. Renaming a variant or saving its defaults says nothing about either.
       set_active_custom_fields if form_configuration_changed && model.is_a?(TypeVariant)
@@ -54,30 +51,7 @@ module WorkPackageTypes
       super
     end
 
-    # TODO: Remove with type_variants feature flag
-    def after_perform(service_call)
-      return service_call if @new_project_default.nil?
-
-      service_call.merge!(toggle_default_in_new_projects(service_call.result))
-    end
-
     private
-
-    def extract_new_project_default_param
-      return unless params.key?(:enabled_in_new_projects)
-
-      @new_project_default = ActiveRecord::Type::Boolean.new.cast(params.delete(:enabled_in_new_projects))
-    end
-
-    def toggle_default_in_new_projects(type)
-      variant = type.default_variant
-
-      if @new_project_default
-        MakeDefaultService.new(variant:, user:).call
-      else
-        RemoveDefaultService.new(variant:, user:).call
-      end
-    end
 
     def default_contract_class = UpdateDetailsContract
 

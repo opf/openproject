@@ -30,6 +30,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-menu',
   templateUrl: './widget-menu.component.html',
   styleUrls: ['./widget-menu.component.css'],

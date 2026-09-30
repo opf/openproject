@@ -40,7 +40,7 @@ module API
         private
 
         def endpoint_name(endpoint)
-          endpoint&.options && endpoint.options[:for].to_s
+          endpoint&.api&.to_s
         end
       end
     end

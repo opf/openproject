@@ -31,9 +31,9 @@ import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
-import { StateService } from '@uirouter/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 export const detailsLinkClassName = 'wp-table--details-link';
 
@@ -41,10 +41,10 @@ export class OpDetailsTableAction extends OpTableAction {
   public readonly identifier = 'open-details-action';
 
   private uiStatebuilder = new UiStateLinkBuilder(
-    this.injector.get(StateService),
     this.injector.get(KeepTabService),
     this.injector.get(CurrentProjectService),
-    this.injector.get(PathHelperService));
+    this.injector.get(PathHelperService),
+    this.injector.get(UrlParamsService));
 
   private text = {
     button: this.I18n.t('js.button_open_details'),

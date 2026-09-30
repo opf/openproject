@@ -29,7 +29,7 @@
   ++#
 %>
 
-<% html_title(t(:label_document_plural), @document.title) %>
+<% html_title(*document_html_title_parts) %>
 
 <% if @document.collaborative? %>
   <% if Setting.real_time_text_collaboration_enabled? %>

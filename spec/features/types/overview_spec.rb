@@ -31,11 +31,9 @@
 require "spec_helper"
 
 RSpec.describe "The overview of a work package type",
-               :js,
-               with_flag: { type_variants: true } do
+               :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
-  shared_let(:source_type) { create(:type, name: "Feature") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
   before { login_as(admin) }
@@ -54,30 +52,19 @@ RSpec.describe "The overview of a work package type",
   end
 
   it "reports how each setting is configured" do
-    link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
+    link_configuration(variant, aspect: TypeVariant::DEFAULTS)
 
-    visit type_settings_path(type_id: type.id)
+    visit type_settings_path(**variant.path_args)
 
     within("#overview-details") { expect(page).to have_text("Always manual") }
-    within("#overview-defaults") { expect(page).to have_text("Manually configured") }
-    within("#overview-workflow") do
-      expect(page).to have_text("Inheriting from Feature")
-      expect(page).to have_link("Feature",
-                                href: edit_type_workflow_path(type_id: source_type.id,
-                                                              variant_id: source_type.default_variant.id))
+    within("#overview-workflow") { expect(page).to have_text("Always manual") }
+    within("#overview-form_configuration") { expect(page).to have_text("Manually configured") }
+    within("#overview-defaults") do
+      expect(page).to have_text("Inheriting from Bug")
+      expect(page).to have_link("Bug",
+                                href: edit_type_defaults_path(type_id: type.id,
+                                                              variant_id: type.default_variant.id))
     end
-  end
-
-  it "counts the dependents of a setting and lists them in a dialog" do
-    link_configuration(source_type, source: type, aspect: TypeVariant::DEFAULTS)
-
-    visit type_settings_path(type_id: type.id)
-
-    within("#overview-workflow") { expect(page).to have_text("-") }
-    within("#overview-defaults") { click_on "1 dependent type" }
-
-    expect(page).to have_text("These types and variants inherit the configuration of this section")
-    within_test_selector("direct-dependents-list") { expect(page).to have_link("Feature") }
   end
 
   it "drops the variants tab from a named variant" do
@@ -105,13 +92,13 @@ RSpec.describe "The overview of a work package type",
     end
 
     it "names a source of administration's without a link the project cannot follow" do
-      link_configuration(owned, source: source_type, aspect: TypeVariant::WORKFLOWS)
+      link_configuration(owned, aspect: TypeVariant::DEFAULTS)
 
       visit type_settings_path(**owned.path_args)
 
-      within("#overview-workflow") do
-        expect(page).to have_text("Inheriting from Feature")
-        expect(page).to have_no_link("Feature")
+      within("#overview-defaults") do
+        expect(page).to have_text("Inheriting from Bug")
+        expect(page).to have_no_link("Bug")
       end
     end
   end

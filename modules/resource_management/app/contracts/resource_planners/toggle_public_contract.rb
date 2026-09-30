@@ -41,11 +41,7 @@ module ResourcePlanners
     private
 
     def user_allowed_to_manage_public
-      return if model.project.nil?
-
-      unless user.allowed_in_project?(:manage_public_resource_planners, model.project)
-        errors.add :base, :error_unauthorized
-      end
+      errors.add :base, :error_unauthorized unless model.public_manageable_by?(user)
     end
   end
 end

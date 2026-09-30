@@ -40,6 +40,12 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
 
   before { login_as(user) }
 
+  describe ".stored_key" do
+    it "is nil" do
+      expect(described_class.stored_key).to be_nil
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:project) { actual_project }
     let(:type) { :list_optional }

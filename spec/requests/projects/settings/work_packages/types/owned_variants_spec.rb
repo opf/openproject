@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Configuring the variants a project owns",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:project) { create(:project) }
   shared_let(:stranger) { create(:project) }
   shared_let(:type) { create(:type, name: "Bug") }
@@ -186,16 +185,6 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
-  describe "with the variants feature disabled", with_flag: { type_variants: false } do
-    it "hides every tab" do
-      tab_paths(ours).each do |name, path|
-        get path
-
-        expect(response).to have_http_status(:not_found), "expected the #{name} tab to be absent"
-      end
-    end
-  end
-
   describe "creating one" do
     it "opens the wizard" do
       get new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
@@ -243,28 +232,11 @@ RSpec.describe "Configuring the variants a project owns",
       expect(response).to have_http_status(:ok)
     end
 
-    it "links to a global source" do
+    it "links the aspect to the type's base variant" do
       post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: global.id }, as: :turbo_stream
+           as: :turbo_stream
 
-      expect(ours.reload.source_for(aspect)).to eq(global)
-    end
-
-    it "links to a sibling the same project owns" do
-      sibling = create(:project_owned_type_variant, type:, project:, variant_name: "Sibling")
-
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: sibling.id }, as: :turbo_stream
-
-      expect(ours.reload.source_for(aspect)).to eq(sibling)
-    end
-
-    # The rule the whole feature turns on, at the endpoint rather than in the picker.
-    it "refuses a source another project owns" do
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: theirs.id }, as: :turbo_stream
-
-      expect(ours.reload.source_for(aspect)).to be_nil
+      expect(ours.reload.source_for(aspect)).to eq(type.default_variant)
     end
 
     it "refuses to copy from a source another project owns" do
@@ -282,15 +254,6 @@ RSpec.describe "Configuring the variants a project owns",
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-    end
-
-    # This was the escalation: the targets are written to, so an id naming another project's
-    # variant must not be copied into.
-    it "refuses to copy into a variant another project owns" do
-      expect do
-        post type_workflow_copy_from_variant_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
-             params: { target_variant_ids: [theirs.id] }, as: :turbo_stream
-      end.not_to change { theirs.reload.own_workflows.count }
     end
   end
 

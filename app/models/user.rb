@@ -49,6 +49,8 @@ class User < Principal
   include ::Associations::Groupable
   include ::Users::Avatars
   include ::Users::PermissionChecks
+  include ::Users::SemanticCustomFields
+  include ::Costs::HasRates
   extend DeprecatedAlias
 
   # Join association backing #departments. The group_users lifecycle is already

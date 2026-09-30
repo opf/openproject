@@ -34,6 +34,7 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 
 @Component({
   templateUrl: './config-menu.template.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table-config-menu',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

@@ -89,6 +89,7 @@ module DemoData
       wp_attr = base_work_package_attributes attributes
 
       set_target_versions! wp_attr, attributes
+      set_observed_in_versions! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -173,11 +174,19 @@ module DemoData
     end
 
     def set_target_versions!(wp_attr, attributes)
-      version_ids = Array(attributes["target_versions"]).filter_map do |reference|
-        seed_data.find_reference(reference)&.id
-      end
+      version_ids = version_ids_for(attributes, "target_versions")
 
       wp_attr[:target_version_ids_replacements] = version_ids if version_ids.any?
+    end
+
+    def set_observed_in_versions!(wp_attr, attributes)
+      version_ids = version_ids_for(attributes, "observed_in_versions")
+
+      wp_attr[:observed_in_version_ids_replacements] = version_ids if version_ids.any?
+    end
+
+    def version_ids_for(attributes, key)
+      seed_data.find_references(attributes[key]).filter_map { it&.id }
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)

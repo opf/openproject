@@ -1,18 +1,19 @@
 <%= render(Primer::OpenProject::SubHeader.new) do |component|
       component.with_filter_component do
-        render(My::TimeTracking::ModeSwitcherComponent.new(current_mode: mode, view_mode: view_mode, date: date))
+        render(mode_switcher)
       end
 
       component.with_text { title }
 
       component.with_action_button_group do |group|
-        group.with_button(icon: "arrow-left", tag: :a, **previous_attrs)
-        group.with_button(icon: "arrow-right", tag: :a, **next_attrs)
+        group.with_button(icon: "arrow-left", tag: :a, data: link_data.merge(test_selector: "time-tracking-previous"), **previous_attrs)
+        group.with_button(icon: "arrow-right", tag: :a, data: link_data.merge(test_selector: "time-tracking-next"), **next_attrs)
       end
 
       component.with_action_button(
         tag: :a,
         href: today_href,
+        data: link_data,
         leading_icon: :"op-calendar-day",
         label: I18n.t(:label_today)
       ) do

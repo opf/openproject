@@ -31,6 +31,7 @@
 module ResourceAllocations
   module AllocationStep
     class FooterComponent < ApplicationComponent
+      include ResourceManagement::PlannerRoutes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
@@ -82,7 +83,7 @@ module ResourceAllocations
         buttons.with_component(
           Primer::Beta::Button.new(
             tag: :a,
-            href: helpers.project_resource_allocation_path(@allocation.project, @allocation),
+            href: allocation_path(@allocation.project, @allocation),
             scheme: :danger,
             mr: :auto,
             data: {

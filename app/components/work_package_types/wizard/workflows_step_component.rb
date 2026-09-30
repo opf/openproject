@@ -46,6 +46,7 @@ module WorkPackageTypes
       def matrix_url
         helpers.type_workflow_matrix_path(
           **variant.path_args,
+          wizard: true,
           tab: helpers.params[:tab],
           role_ids: roles.map(&:id),
           status_ids: helpers.params[:status_ids]
@@ -53,7 +54,7 @@ module WorkPackageTypes
       end
 
       def roles
-        Workflow.selected_roles(helpers.params[:role_ids])
+        Workflows::StatusTransition.selected_roles(helpers.params[:role_ids])
       end
     end
   end

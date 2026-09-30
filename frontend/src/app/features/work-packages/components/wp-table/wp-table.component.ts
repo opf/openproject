@@ -67,6 +67,7 @@ export interface WorkPackageFocusContext {
   styleUrls: ['./wp-table.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table',
   standalone: false,
 })
@@ -86,9 +87,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   @Input() projectIdentifier:string;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
-
-  @Output() selectionChanged = new EventEmitter<string[]>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 

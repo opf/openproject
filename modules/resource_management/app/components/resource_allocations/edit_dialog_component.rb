@@ -49,10 +49,6 @@ module ResourceAllocations
 
     attr_reader :project, :allocation, :view
 
-    def allocation_kind
-      allocation.principal_explicit? ? "principal" : "filter"
-    end
-
     def title
       I18n.t("resource_management.edit_allocation_dialog.title")
     end

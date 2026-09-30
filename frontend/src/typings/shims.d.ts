@@ -45,7 +45,6 @@ import { Screenfull } from 'screenfull';
 import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 import { I18n } from 'i18n-js';
 
-declare module 'observable-array';
 declare module 'dom-autoscroller';
 declare module 'core-vendor/enjoyhint';
 

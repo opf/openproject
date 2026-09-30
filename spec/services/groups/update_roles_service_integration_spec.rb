@@ -216,6 +216,107 @@ RSpec.describe Groups::UpdateRolesService, "integration", type: :model do
     end
   end
 
+  context "with a global membership alongside a project query share" do
+    shared_let(:query) { create(:project_query) }
+    shared_let(:query_role) { create(:view_project_query_role) }
+    shared_let(:role) { create(:global_role) }
+
+    let!(:group) do
+      create(:group, members: users).tap do |group|
+        create(:global_member, principal: group, roles: [role])
+        create(:project_query_member, principal: group, entity: query, roles: [query_role])
+
+        Groups::CreateInheritedRolesService
+          .new(group, current_user: User.system, contract_class: EmptyContract)
+          .call(user_ids: users.map(&:id))
+      end
+    end
+
+    let(:global_member) { Member.find_by(principal: group, entity_type: nil) }
+    let(:share_member) { Member.find_by(principal: group, entity: query) }
+
+    context "when adding a global role" do
+      shared_let(:added_role) { create(:global_role) }
+
+      let(:member) { global_member }
+
+      before do
+        member.roles << added_role
+      end
+
+      it "adds the roles to the inherited global memberships" do
+        service_call
+
+        Member.where(principal: users, entity_type: nil).find_each do |inherited|
+          expect(inherited.roles).to contain_exactly(role, added_role)
+        end
+      end
+
+      it "leaves the inherited project query shares untouched" do
+        service_call
+
+        Member.where(principal: users, entity: query).find_each do |inherited|
+          expect(inherited.roles).to contain_exactly(query_role)
+        end
+      end
+    end
+
+    context "when adding a project query role to the share" do
+      shared_let(:added_query_role) { create(:edit_project_query_role) }
+
+      let(:member) { share_member }
+
+      before do
+        member.roles << added_query_role
+      end
+
+      it "adds the roles to the inherited project query shares" do
+        service_call
+
+        Member.where(principal: users, entity: query).find_each do |inherited|
+          expect(inherited.roles).to contain_exactly(query_role, added_query_role)
+        end
+      end
+
+      it "leaves the inherited global memberships untouched" do
+        service_call
+
+        Member.where(principal: users, entity_type: nil).find_each do |inherited|
+          expect(inherited.roles).to contain_exactly(role)
+        end
+      end
+    end
+
+    context "when removing a project query role from the share" do
+      shared_let(:removed_query_role) { create(:edit_project_query_role) }
+
+      let(:member) { share_member }
+
+      before do
+        member.roles << removed_query_role
+        described_class.new(group, current_user:).call(member:, send_notifications: false)
+
+        member.roles = [query_role]
+      end
+
+      it "removes the roles from the inherited project query shares" do
+        service_call
+
+        Member.where(principal: users, entity: query).find_each do |inherited|
+          expect(inherited.roles).to contain_exactly(query_role)
+        end
+      end
+
+      it "leaves the inherited global memberships untouched" do
+        service_call
+
+        Member.where(principal: users, entity_type: nil).find_each do |inherited|
+          expect(inherited.roles).to contain_exactly(role)
+        end
+      end
+    end
+  end
+
   context "when adding a role but with one user having had the role before (no inherited from)" do
     shared_let(:added_role) { create(:project_role) }
 

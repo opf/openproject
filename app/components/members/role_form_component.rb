@@ -30,6 +30,8 @@
 
 module Members
   class RoleFormComponent < ::ApplicationComponent
+    include RolesHelper
+
     options :row, :params, :roles
 
     def member

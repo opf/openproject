@@ -128,7 +128,7 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
       return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
     }
     const isUserMultiLinesField = ['[]User'].includes(schema.type);
-    if (context.container === 'single-view' && isUserMultiLinesField) {
+    if (context.container === 'single-view' && isUserMultiLinesField && !this.fieldType(fieldName)) {
       return new MultipleLinesUserFieldModule(fieldName, context);
     }
 

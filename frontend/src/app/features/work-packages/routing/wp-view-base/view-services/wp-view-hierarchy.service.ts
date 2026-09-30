@@ -61,7 +61,7 @@ export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateServ
    * Return whether the current hierarchy mode is active
    */
   public get isEnabled():boolean {
-    return !!(this.current && this.current.isVisible);
+    return !!this.current?.isVisible;
   }
 
   public setEnabled(active = true) {

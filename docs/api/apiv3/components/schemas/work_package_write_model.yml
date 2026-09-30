@@ -134,6 +134,14 @@ properties:
           List of versions in which the behaviour described by the work package was observed
 
           **Resource**: Collection of Version
+      labels:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of labels attached to the work package
+
+          **Resource**: Collection of Label
       parent:
         allOf:
           - $ref: './link.yml'

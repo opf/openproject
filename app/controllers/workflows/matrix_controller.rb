@@ -71,7 +71,11 @@ class Workflows::MatrixController < ApplicationController
 
   private
 
+  def standalone? = params[:workflow_id].present?
+
   def variant
+    return if standalone?
+
     @variant ||= addressed_variant
   end
 
@@ -79,13 +83,27 @@ class Workflows::MatrixController < ApplicationController
     @matrix_context ||= build_matrix_context
   end
 
+  def workflow
+    @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : variant.workflow
+  end
+
+  def matrix_page_path(**)
+    if standalone?
+      edit_workflow_path(workflow, **)
+    else
+      edit_type_workflow_path(**variant.path_args, **)
+    end
+  end
+
   def build_matrix_context
     Workflows::MatrixContext.new(
+      workflow:,
       variant:,
       tab: params[:tab],
       role_ids: params[:role_ids],
       status_ids: params[:status_ids],
-      displayed_status_ids: params[:displayed_status_ids]
+      displayed_status_ids: params[:displayed_status_ids],
+      wizard: params[:wizard].present?
     )
   end
 
@@ -95,7 +113,7 @@ class Workflows::MatrixController < ApplicationController
 
   def persist_matrix
     Workflows::MatrixUpdateService
-      .new(variant:, roles: matrix_context.roles, tab: matrix_context.tab)
+      .new(workflow:, roles: matrix_context.roles, tab: matrix_context.tab)
       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
   end
 

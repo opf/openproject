@@ -45,6 +45,7 @@ import { TablePaginationComponent } from 'core-app/shared/components/table-pagin
 @Component({
   templateUrl: '../../../../../shared/components/table-pagination/table-pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table-pagination',
   standalone: false,
 })

@@ -56,7 +56,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(
             Primer::Beta::Text.new(
               tag: :span,
-              classes: "op-work-package-card--priority __hl_inline_priority_#{work_package.priority.id} __hl_inline__small_dot no-wrap"
+              classes: class_names(
+                "op-work-package-card--priority",
+                "__hl_dot_small",
+                "no-wrap",
+                helpers.hl_dot_class("priority", work_package.priority)
+              )
             )
           ) do %>
         <span class="op-work-package-card--priority-name"><%= work_package.priority.name %></span>

@@ -40,8 +40,6 @@ module TimeEntries
 
     private
 
-    delegate :project, :work_package, to: :time_entry
-
     def base_errors
       time_entry.errors.full_messages_for(:base)
     end
