@@ -47,16 +47,18 @@ module WorkPackageTypes
 
     # @param linked [Boolean] whether the name leads to the variant's configuration. Pass false
     #   where the reader may not open it.
-    def initialize(variant:, linked: true)
+    # @param project [Project, nil] the project whose list this is, nil in administration.
+    def initialize(variant:, linked: true, project: nil)
       super()
 
       @variant = variant
       @linked = linked
+      @project = project
     end
 
     private
 
-    attr_reader :variant, :linked
+    attr_reader :variant, :linked, :project
 
     alias_method :linked?, :linked
 
