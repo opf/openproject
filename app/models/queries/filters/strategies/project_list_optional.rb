@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Queries::Filters::Strategies
+  class ProjectListOptional < IntegerListOptional
+    private
 
-RSpec.describe Queries::News::Filters::ProjectFilter do
-  include_context "with visible projects"
-
-  let(:model) { News }
-
-  it_behaves_like "project_id list_optional filter"
+    def error_message
+      :inclusion
+    end
+  end
 end
