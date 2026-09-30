@@ -28,53 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class PluginAuthProvider < AuthProvider
-  class << self
-    def register_for_plugin(config)
-      slug = config[:name]
-      display_name = (config[:display_name] || slug).to_s
+require "spec_helper"
 
-      registry[slug] = display_name
+RSpec.describe PluginAuthProvider do
+  describe "#csp_form_action_origin" do
+    subject { described_class.new(slug: "azure").csp_form_action_origin }
+
+    it "does not raise when the plugin config has no IdP URL" do
+      allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name).and_return(nil)
+
+      expect(subject).to be_nil
     end
 
-    def create_all_registered
-      registry.each do |slug, display_name|
-        find_or_create_by!(slug:) do |provider|
-          provider.available = false
-          provider.display_name = display_name
-          provider.creator = User.system
-        end
-      end
+    it "uses the plugin host when endpoints are relative" do
+      allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name)
+        .and_return(name: "azure", host: "login.microsoftonline.com", authorization_endpoint: "/oauth2/v2.0/authorize")
+
+      expect(subject).to eq("https://login.microsoftonline.com/")
     end
-
-    private
-
-    def registry
-      @registry ||= {}
-    end
-  end
-
-  def human_type
-    "Plug-in-based authentication provider"
-  end
-
-  def csp_form_action_origin
-    config = OpenProject::Plugins::AuthPlugin.find_provider_by_name(slug)
-    return if config.blank?
-
-    origin_from_url(config[:authorization_endpoint]) ||
-      origin_from_url(config[:issuer]) ||
-      origin_from_url(config[:idp_sso_service_url]) ||
-      origin_from_url(plugin_host_url(config))
-  end
-
-  private
-
-  def plugin_host_url(config)
-    host = config[:host]
-    return if host.blank?
-    return host.to_s if host.to_s.start_with?("http://", "https://")
-
-    "#{config[:scheme].presence || 'https'}://#{host}"
   end
 end
