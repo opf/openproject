@@ -34,7 +34,7 @@ RSpec.describe PluginAuthProvider do
   describe "#csp_form_action_origin" do
     subject { described_class.new(slug: "azure").csp_form_action_origin }
 
-    it "does not raise when the plugin config has no IdP URL" do
+    it "returns nil when the plugin config has no IdP URL" do
       allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name).and_return(nil)
 
       expect(subject).to be_nil

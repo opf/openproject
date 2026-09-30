@@ -57,6 +57,15 @@ RSpec.describe OmniAuthStartController do
       expect(response).to have_http_status :not_found
     end
 
+    context "with a provider that has no IdP origin", with_ee: %i[sso_auth_providers] do
+      let!(:provider) { create(:saml_provider, slug: "saml-broken", idp_sso_service_url: nil) }
+
+      it "raises" do
+        expect { get :show, params: { provider: provider.slug } }
+          .to raise_error(ArgumentError, /CSP form-action origin.*saml-broken/)
+      end
+    end
+
     context "when already logged in" do
       let(:user) { create(:user) }
 

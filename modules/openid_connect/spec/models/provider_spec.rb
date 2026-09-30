@@ -234,7 +234,14 @@ RSpec.describe OpenIDConnect::Provider do
     end
 
     context "with a Microsoft Entra provider without discovered endpoints" do
-      subject { build(:oidc_provider, oidc_provider: "microsoft_entra", authorization_endpoint: nil, issuer: nil, host: nil).csp_form_action_origin }
+      subject do
+        build(:oidc_provider,
+              oidc_provider: "microsoft_entra",
+              authorization_endpoint: nil,
+              issuer: nil,
+              host: nil)
+        .csp_form_action_origin
+      end
 
       it { is_expected.to eq("https://login.microsoftonline.com/") }
     end

@@ -59,8 +59,7 @@ class PluginAuthProvider < AuthProvider
   end
 
   def csp_form_action_origin
-    config = OpenProject::Plugins::AuthPlugin.find_provider_by_name(slug)
-    return if config.blank?
+    config = Hash(OpenProject::Plugins::AuthPlugin.find_provider_by_name(slug))
 
     origin_from_url(config[:authorization_endpoint]) ||
       origin_from_url(config[:issuer]) ||
