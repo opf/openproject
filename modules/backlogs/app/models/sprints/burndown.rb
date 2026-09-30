@@ -59,11 +59,12 @@ module Sprints
     end
 
     # The constant reduction the sprint was planned with, pinned to what it started with and
-    # to the date it was planned to finish, however the sprint actually went.
+    # to the date it was planned to finish, however the sprint actually went. The first sample is
+    # taken at the sprint's start, so it is what the sprint began with.
     def guideline
-      return [] if too_long_to_chart?
+      return [] if remaining.empty?
 
-      @guideline ||= decline_from(Point.new(at: reference_dates.start, value: initial_story_points))
+      @guideline ||= decline_from(remaining.first)
     end
 
     # Where the current pace would land, drawn only while the sprint can still meet its date.
@@ -79,12 +80,6 @@ module Sprints
       @non_working_intervals ||= Day.non_working_intervals(from: reference_dates.start.to_date, to: charted_until)
     end
 
-    def story_points?
-      open_sprint_journals.where.not(story_points: nil).exists?
-    end
-
-    # Series are sampled at period ends, so a tick reads correctly only once presentation knows
-    # which period it closes: an hour end names the hour it opens, a day end names its own date.
     def step
       (reference_dates.start.to_date..charted_until).count > HOURLY_STEP_LIMIT ? :day : :hour
     end
@@ -113,10 +108,6 @@ module Sprints
 
     def story_points_per_tick
       timeline(ticks).group(:tick).sum(:story_points).transform_keys(&:to_i)
-    end
-
-    def initial_story_points
-      timeline([reference_dates.start]).sum(:story_points).to_f
     end
 
     def timeline(instants)
@@ -168,7 +159,12 @@ module Sprints
     end
 
     def days_until_scheduled_finish(from)
-      Day.from_range(from: from.to_date, to: reference_dates.scheduled_finish.to_date)
+      scheduled_days.select { it.date >= from.to_date }
+    end
+
+    def scheduled_days
+      @scheduled_days ||= Day.from_range(from: reference_dates.start.in_time_zone(zone).to_date,
+                                         to: reference_dates.scheduled_finish.to_date).to_a
     end
   end
 end

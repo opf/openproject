@@ -198,12 +198,22 @@ RSpec.describe Sprints::Burndown do
     end
 
     context "with a sprint spanning only non-working days" do
+      let(:now) { at_hour(saturday, 12) }
       let(:sprint) do
         create(:sprint, project:, start_date: saturday, finish_date: saturday, started_at: at_hour(saturday, 0))
       end
 
       it "declines nowhere rather than dividing by zero" do
         expect(burndown.guideline.map(&:value)).to eq [10.0]
+      end
+    end
+
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { at_hour(first_monday - 7.days, 12) }
+
+      it "draws nothing, there being no sample to begin from" do
+        expect(burndown.guideline).to be_empty
       end
     end
   end
@@ -292,22 +302,6 @@ RSpec.describe Sprints::Burndown do
       it "extends past the planned finish date" do
         expect(burndown.non_working_intervals.last).to eq next_saturday..next_sunday
       end
-    end
-  end
-
-  describe "#story_points?" do
-    it { expect(burndown.story_points?).to be false }
-
-    context "with a story pointed work package" do
-      before { story_pointed(sprint_start => { story_points: 3 }) }
-
-      it { expect(burndown.story_points?).to be true }
-    end
-
-    context "with a work package left unestimated" do
-      before { story_pointed(sprint_start => { story_points: nil }) }
-
-      it { expect(burndown.story_points?).to be false }
     end
   end
 end
