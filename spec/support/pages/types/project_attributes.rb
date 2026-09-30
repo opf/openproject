@@ -23,7 +23,7 @@ module Pages
       end
 
       def path
-        return edit_type_project_attributes_path(type_id: @type.id, variant_id: @variant.id) if @variant
+        return edit_type_variant_project_attributes_path(type_id: @type.id, variant_id: @variant.id) if @variant
 
         edit_type_project_attributes_path(@type)
       end

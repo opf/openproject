@@ -88,7 +88,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
     def get_matrix
-      get type_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
+      get type_variant_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
                                     tab: "always", role_ids: [role.id]),
           headers: { "Turbo-Frame" => "workflow-table" }
     end

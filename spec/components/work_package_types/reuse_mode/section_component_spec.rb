@@ -30,6 +30,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component do
+  include_context "with variant scope"
+
   shared_let(:type) { create(:type, name: "Task") }
 
   let(:aspect) { TypeVariant::DEFAULTS }

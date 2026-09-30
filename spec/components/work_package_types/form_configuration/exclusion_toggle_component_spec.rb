@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, type: :component do
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { create(:type_variant, type:) }
 

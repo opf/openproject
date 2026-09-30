@@ -118,7 +118,7 @@ RSpec.describe "Choosing the form a type uses", :js do
     shared_let(:owned) { create(:project_owned_type_variant, type:, project:, variant_name: "Local") }
 
     it "switches between forms but starts none" do
-      visit edit_type_form_configuration_path(**owned.path_args)
+      visit edit_type_variant_form_configuration_path(type_id: type.id, variant_id: owned.id)
 
       expect(page).to have_test_selector("form_configuration-selector")
       expect(page).to have_no_test_selector("form-create-new")

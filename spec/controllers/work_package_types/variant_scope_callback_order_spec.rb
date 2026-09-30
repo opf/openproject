@@ -76,27 +76,18 @@ RSpec.describe "Variant configuration callback order" do # rubocop:disable RSpec
 
       it "decides who is asking only once the current user is known" do
         expect(filters.index(:require_admin)).to be > filters.index(:user_setup)
-        expect(filters.index(:find_project_by_in_project_id)).to be > filters.index(:user_setup)
+        expect(filters.index(:find_variant_scope_project)).to be > filters.index(:user_setup)
       end
 
       it "authorizes a project's request with the project it named" do
-        expect(filters.index(:authorize)).to be > filters.index(:find_project_by_in_project_id)
-      end
-
-      # An administration-only screen answers before authorization on purpose: the permission map
-      # does not define it for a project, so #authorize would raise instead of being reached.
-      it "turns a project away from an administration-only screen before authorizing" do
-        rejection = filters.index(:reject_administration_only_screen)
-
-        expect(rejection).to be > filters.index(:user_setup)
-        expect(rejection).to be < filters.index(:authorize)
+        expect(filters.index(:authorize)).to be > filters.index(:find_variant_scope_project)
       end
 
       # Everything else the controller adds of its own reads what these resolve.
       it "runs its own callbacks only after the scope is resolved" do
         guard = filters.index(:authorize)
         inherited = before_filters(ApplicationController) +
-                    %i[reject_administration_only_screen require_admin find_project_by_in_project_id authorize]
+                    %i[require_admin find_variant_scope_project authorize]
 
         (filters - inherited).each do |filter|
           next unless filters.index(filter) # symbols only; inline blocks have no name

@@ -42,7 +42,8 @@ RSpec.describe "Work package type excluded elements",
   before { login_as admin }
 
   def toggle(value:, element: "assignee")
-    post type_excluded_element_toggle_path(type_id: type.id, variant_id: link.id, aspect:, element:), params: { value: }
+    post type_variant_excluded_element_toggle_path(type_id: type.id, variant_id: link.id, aspect:, element:),
+         params: { value: }
   end
 
   context "when the type is Linked for the aspect" do

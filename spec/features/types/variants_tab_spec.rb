@@ -49,7 +49,7 @@ RSpec.describe "Work package type variants tab", :js do
 
   it "lists the type's variants" do
     expect(page).to have_link(hardware.variant_name,
-                              href: type_settings_path(type_id: bug_type.id, variant_id: hardware.id))
+                              href: type_variant_settings_path(type_id: bug_type.id, variant_id: hardware.id))
   end
 
   it "stays on the tab after activating a variant in new projects" do

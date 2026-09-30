@@ -28,37 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+# Stands in for the WorkPackageTypes::ConfiguredInScope controllers a variant screen is
+# rendered by, which expose the scope to their views.
+class VariantScopeTestController < ApplicationController
+  helper_method :variant_scope_project
 
-RSpec.describe WorkPackageTypes::ProjectsTab::AddDialogComponent, type: :component do
-  include Rails.application.routes.url_helpers
+  attr_accessor :variant_scope_project
+end
 
-  shared_let(:type) { create(:type) }
+# Renders components as a variant screen does, in administration unless the example names a
+# project with `let(:variant_scope_project)`.
+RSpec.shared_context "with variant scope" do
+  let(:variant_scope_project) { nil }
 
-  let(:variant) { type.default_variant }
+  def vc_test_controller_class = VariantScopeTestController
 
-  before { render_inline(described_class.new(variant:)) }
-
-  it "keeps the form inside the body, with the footer outside it" do
-    expect(page).to have_css(".Overlay-body form##{WorkPackageTypes::ProjectsTab::AddFormComponent::FORM_ID}")
-    expect(page).to have_no_css(".Overlay-footer form")
-  end
-
-  it "submits that form from the footer by id" do
-    expect(page).to have_css(
-      ".Overlay-footer button[type=submit][form='#{WorkPackageTypes::ProjectsTab::AddFormComponent::FORM_ID}']"
-    )
-  end
-
-  it "posts to the variant's link action" do
-    expect(page).to have_css("form[action='#{link_type_projects_path(type_id: type.id)}']")
-  end
-
-  it "names the tree's form field after the field the controller expects" do
-    expect(page).to have_css(
-      "input[data-target='tree-view.formInputPrototype']" \
-      "[name='#{WorkPackageTypes::ProjectsTab::AddFormComponent::FIELD_NAME}[]']",
-      visible: :all
-    )
-  end
+  before { vc_test_controller.variant_scope_project = variant_scope_project }
 end
