@@ -81,10 +81,7 @@ interface SeriesColor {
   background?:string;
 }
 
-// Every property but +swatch+ and +color+ is named as chart.js names it, so that a dataset can
-// take them as they stand.
 interface SeriesStyle {
-  // An area for the one that was measured, a bare line for the two that are only ever a line.
   swatch:PointStyle;
   borderDash:number[];
   borderWidth:number;
@@ -94,9 +91,9 @@ interface SeriesStyle {
   pointRadius?:number;
   pointHitRadius?:number;
   pointHoverRadius?:number;
-  // Read on demand rather than held as a value, because the colours come off the document and
+  // Read on demand rather than held as a value, because the colors come off the document and
   // would otherwise freeze at import time, before the stylesheet resolves and against whichever
-  // theme is in force. The non-working days are painted by a plugin and coloured there.
+  // theme is in force.
   color?:() => SeriesColor;
 }
 
@@ -163,7 +160,7 @@ function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
   return { pointStyle: style.swatch, lineDash: style.borderDash, lineWidth: style.borderWidth };
 }
 
-// The projection continues the remaining series, so the two share a colour.
+// The projection continues the remaining series, so the two share a color.
 function remainingColor():string {
   return getCSSVariable('--display-red-scale-6', '#c50d28');
 }
@@ -249,8 +246,6 @@ export class BurndownChartComponent {
           time: { unit: 'day' },
           ticks: {
             color: fontColor,
-            // getDateFormat() yields a moment token string, which the luxon adapter would
-            // misread, so the label is formatted here rather than through displayFormats.
             callback: (value:string|number) => this.timezoneService.formattedDate(new Date(Number(value)).toISOString()),
           },
           grid: { color: gridColor },
@@ -266,7 +261,7 @@ export class BurndownChartComponent {
         },
       },
       plugins: {
-        // Registered globally by the other charts, it would otherwise reassign the colours
+        // Registered globally by the other charts, it would otherwise reassign the colors
         // this chart sets deliberately, on every layout.
         'primer-colors': { enabled: false },
         'non-working-days': {
