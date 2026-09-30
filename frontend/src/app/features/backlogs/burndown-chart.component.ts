@@ -270,8 +270,7 @@ export class BurndownChartComponent {
   // to projection. That way, the finer granularity is offered as long as it is available.
   // The remaining series has the finest granularity of all the data series (by hour - sometimes by day).
   private tooltipTitle(items:TooltipItem<'line'>[]):string {
-    const { series } = this.parsedInput();
-    const at = (id:BurndownSeries['id']) => items.find((item) => series[item.datasetIndex]?.id === id);
+    const at = (id:BurndownSeries['id']) => items.find((item) => this.seriesId(item.datasetIndex) === id);
     const dated = at('remaining') ?? at('projection') ?? items[0];
 
     return this.formattedTick(Number(dated.parsed.x));
@@ -293,8 +292,7 @@ export class BurndownChartComponent {
   // Remaining is a sum of whole story points, while the two projected series divide them
   // across working days and would otherwise read to full float precision.
   private tooltipLabel(item:TooltipItem<'line'>):string {
-    const { series } = this.parsedInput();
-    const value = series[item.datasetIndex]?.id === 'remaining'
+    const value = this.seriesId(item.datasetIndex) === 'remaining'
       ? item.formattedValue
       : (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
