@@ -218,13 +218,11 @@ RSpec.describe "Comparing the variants of a work package type", :js do
 
     let(:manual) { I18n.t("types.edit.overview.mode.manual") }
 
-    def aspect_path(variant, aspect)
-      args = { type_id: variant.type_id, variant_id: variant.id }
-
+    def base_aspect_path(type, aspect)
       case aspect
-      when TypeVariant::DEFAULTS then edit_type_defaults_path(**args)
-      when TypeVariant::PROJECT_ATTRIBUTES then edit_type_project_attributes_path(**args)
-      else edit_type_pdf_export_template_index_path(**args)
+      when TypeVariant::DEFAULTS then edit_type_defaults_path(type_id: type.id)
+      when TypeVariant::PROJECT_ATTRIBUTES then edit_type_project_attributes_path(type_id: type.id)
+      else edit_type_pdf_export_template_index_path(type_id: type.id)
       end
     end
 
@@ -244,7 +242,7 @@ RSpec.describe "Comparing the variants of a work package type", :js do
         within_row(:configuration, aspect) do
           within_column(inheriting) do
             expect(page).to have_text(I18n.t("types.comparison.values.inheriting_from"))
-            expect(page).to have_link(overview_type.name, href: aspect_path(overview_base, aspect))
+            expect(page).to have_link(overview_type.name, href: base_aspect_path(overview_type, aspect))
           end
         end
       end
@@ -262,7 +260,7 @@ RSpec.describe "Comparing the variants of a work package type", :js do
     it "reports the aspects of a project-specific variant one by one" do
       within_row(:configuration, TypeVariant::DEFAULTS) do
         within_column(project_specific) do
-          expect(page).to have_link(overview_type.name, href: aspect_path(overview_base, TypeVariant::DEFAULTS))
+          expect(page).to have_link(overview_type.name, href: base_aspect_path(overview_type, TypeVariant::DEFAULTS))
         end
       end
 
