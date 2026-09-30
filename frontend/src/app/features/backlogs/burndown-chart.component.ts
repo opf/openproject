@@ -196,7 +196,7 @@ export class BurndownChartComponent {
       return series;
     }
 
-    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.burndown.non_working_day'), data: [] }];
+    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.burndown_chart.non_working_day'), data: [] }];
   });
 
   private readonly nonWorkingDatasetIndex = computed(() => {
@@ -251,7 +251,7 @@ export class BurndownChartComponent {
           border: { color: fontColor },
         },
         y: {
-          title: { display: true, text: this.i18n.t('js.burndown.story_points'), color: fontColor },
+          title: { display: true, text: this.i18n.t('js.burndown_chart.story_points'), color: fontColor },
           ticks: { color: fontColor },
           grid: { color: gridColor },
           border: { color: fontColor },
