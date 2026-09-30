@@ -336,6 +336,20 @@ module OpenProject::Plugins
           Principals::ReplaceReferencesService.add_replacements(attributes_by_class_name)
         end
       end
+
+      # Adds action option for custom actions
+      def add_custom_action(class_name)
+        config.to_prepare do
+          CustomActions::Register.add(:action, class_name)
+        end
+      end
+
+      # Adds condition for custom actions
+      def add_custom_action_condition(class_name)
+        config.to_prepare do
+          CustomActions::Register.add(:condition, class_name)
+        end
+      end
     end
   end
 end
