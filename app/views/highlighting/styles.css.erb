@@ -1,14 +1,6 @@
 <%# Color variables per highlightable resource. The rules consuming them live in the %>
 <%# "Highlighting colors" section of frontend/src/global_styles/layout/_colors.sass %>
-<%= resource_color_css("status", ::Status.includes(:color)) %>
-<%= resource_color_css("priority", ::IssuePriority.includes(:color)) %>
-<%= resource_color_css("type", ::Type.includes(:color)) %>
-<%= resource_color_css("project_phase_definition", ::Project::PhaseDefinition.includes(:color)) %>
-<%= resource_color_css("meeting_status", Meetings::Statuses::AVAILABLE) %>
-<%= resource_color_css("project_status", Projects::Statuses::AVAILABLE) %>
-<%= resource_color_css("color", ::Color.all) %>
 
-/* TODO: move to module */
-<%= resource_color_css("gitlab_issue_status", GitlabIntegration::IssueStatuses::AVAILABLE) %>
-<%= resource_color_css("gitlab_merge_request_status", GitlabIntegration::MergeRequestStatuses::AVAILABLE) %>
-<%= resource_color_css("gitlab_pipeline_status", GitlabIntegration::PipelineStatuses::AVAILABLE) %>
+<% Highlighting::Registry.all.each_pair do |key, values| %>
+  <%= resource_color_css(key, values) %>
+<% end %>
