@@ -35,8 +35,8 @@ module WorkPackageTypes
 
       INACTIVE_TARGET = "inactive"
 
-      def initialize(user:, form:, row_key:)
-        super(user:, form:)
+      def initialize(user:, form_configuration:, row_key:)
+        super(user:, form_configuration:)
         @row_key = row_key
       end
 

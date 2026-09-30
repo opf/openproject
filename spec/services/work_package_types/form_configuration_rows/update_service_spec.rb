@@ -37,7 +37,7 @@ module WorkPackageTypes
       let(:type) { create(:type, name: "Legacy type") }
       let(:variant) { type.default_variant }
 
-      subject(:service) { described_class.new(user:, form: variant.form_configuration, row_key: "priority") }
+      subject(:service) { described_class.new(user:, form_configuration: variant.form_configuration, row_key: "priority") }
 
       before do
         variant.form_configuration.update!(attribute_groups: [
@@ -73,7 +73,7 @@ module WorkPackageTypes
                                              [:details, [:version]]
                                            ])
 
-        result = described_class.new(user:, form: variant.form_configuration, row_key: "version")
+        result = described_class.new(user:, form_configuration: variant.form_configuration, row_key: "version")
                                 .call(target_id: "inactive", position: 1)
 
         expect(result).to be_success
@@ -89,7 +89,7 @@ module WorkPackageTypes
                                            ])
 
         result = described_class
-          .new(user:, form: variant.form_configuration, row_key: custom_field.attribute_name)
+          .new(user:, form_configuration: variant.form_configuration, row_key: custom_field.attribute_name)
           .call(target_id: "Legacy custom group", position: 1)
 
         expect(result).to be_success

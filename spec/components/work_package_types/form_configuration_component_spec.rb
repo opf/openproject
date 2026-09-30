@@ -74,7 +74,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   end
 
   context "on the form's own page" do
-    let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.new(form: variant.form_configuration) }
+    let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: variant.form_configuration) }
 
     it "renders the editable page with the inactive sidebar", :aggregate_failures do
       render_component

@@ -91,7 +91,7 @@ module FormConfigurations
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationGroups::DeleteService
-        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
         .call
 
       if call.success?
@@ -105,7 +105,7 @@ module FormConfigurations
 
     def drop
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
         .call(position: params[:position])
 
       if call.success?
@@ -119,7 +119,7 @@ module FormConfigurations
 
     def move
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
         .call(move_to: params[:move_to])
 
       if call.success?
@@ -133,7 +133,7 @@ module FormConfigurations
 
     def update_query
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
         .call(query_props: params[:query])
 
       if call.success?
@@ -185,7 +185,7 @@ module FormConfigurations
 
     def create_group_call
       ::WorkPackageTypes::FormConfigurationGroups::CreateService
-        .new(user: current_user, form: @form_configuration)
+        .new(user: current_user, form_configuration: @form_configuration)
         .call(
           group_type: group_params[:group_type],
           name: group_params[:name],
@@ -195,7 +195,7 @@ module FormConfigurations
 
     def rename_group_call
       ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form: @form_configuration, group_key: group_key_param)
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
         .call(name: group_params[:name])
     end
 
@@ -248,7 +248,7 @@ module FormConfigurations
     end
 
     def form_editor_context
-      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form: @form_configuration)
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
     end
   end
 end

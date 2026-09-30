@@ -92,7 +92,7 @@ module FormConfigurations
     def model_class = ::FormConfiguration
 
     def form_editor_context
-      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form: @form_configuration)
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
     end
 
     def report_destruction

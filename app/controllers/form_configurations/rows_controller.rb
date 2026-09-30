@@ -47,7 +47,7 @@ module FormConfigurations
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
-        .new(user: current_user, form: @form_configuration, row_key: params[:row_key])
+        .new(user: current_user, form_configuration: @form_configuration, row_key: params[:row_key])
         .call
 
       respond_to_row_update(call)
@@ -57,7 +57,7 @@ module FormConfigurations
 
     def row_update_service
       ::WorkPackageTypes::FormConfigurationRows::UpdateService
-        .new(user: current_user, form: @form_configuration, row_key: params[:row_key])
+        .new(user: current_user, form_configuration: @form_configuration, row_key: params[:row_key])
     end
 
     def respond_to_row_update(call)
@@ -75,7 +75,7 @@ module FormConfigurations
     end
 
     def form_editor_context
-      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form: @form_configuration)
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
     end
   end
 end

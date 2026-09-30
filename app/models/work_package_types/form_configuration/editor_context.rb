@@ -31,12 +31,12 @@
 module WorkPackageTypes
   module FormConfiguration
     class EditorContext
-      attr_reader :form, :variant
+      attr_reader :form_configuration, :variant
 
-      def self.for_variant(variant) = new(form: variant.form_configuration, variant:)
+      def self.for_variant(variant) = new(form_configuration: variant.form_configuration, variant:)
 
-      def initialize(form:, variant: nil)
-        @form = form
+      def initialize(form_configuration:, variant: nil)
+        @form_configuration = form_configuration
         @variant = variant
       end
 
@@ -56,16 +56,16 @@ module WorkPackageTypes
 
       def required_attributes = variant&.required_attributes || []
 
-      def reset_dialog_path = routes.reset_dialog_form_configuration_path(form)
+      def reset_dialog_path = routes.reset_dialog_form_configuration_path(form_configuration)
 
-      def reset_path = routes.reset_form_configuration_path(form)
+      def reset_path = routes.reset_form_configuration_path(form_configuration)
 
       def group_path(action = nil, **)
-        routes.public_send([action, "form_configuration_group_path"].compact.join("_"), form, **)
+        routes.public_send([action, "form_configuration_group_path"].compact.join("_"), form_configuration, **)
       end
 
       def row_path(action = nil, **)
-        routes.public_send([action, "form_configuration_row_path"].compact.join("_"), form, **)
+        routes.public_send([action, "form_configuration_row_path"].compact.join("_"), form_configuration, **)
       end
 
       def toggle_required_path(row_key)
@@ -74,7 +74,7 @@ module WorkPackageTypes
 
       private
 
-      def owner = variant || form
+      def owner = variant || form_configuration
 
       def routes = Rails.application.routes.url_helpers
     end

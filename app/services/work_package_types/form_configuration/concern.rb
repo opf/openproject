@@ -33,19 +33,19 @@ module WorkPackageTypes
     module Concern
       extend ActiveSupport::Concern
 
-      def initialize(user:, form:, **)
+      def initialize(user:, form_configuration:, **)
         super()
         @user = user
-        @form = form
+        @form_configuration = form_configuration
       end
 
       private
 
-      attr_reader :form,
+      attr_reader :form_configuration,
                   :user
 
       def active_groups
-        form.attribute_groups.reject { |group| group.key.to_s == "__empty" }
+        form_configuration.attribute_groups.reject { |group| group.key.to_s == "__empty" }
       end
 
       def find_group(group_key)
@@ -53,7 +53,7 @@ module WorkPackageTypes
       end
 
       def find_attribute_group(group_key)
-        form.attribute_groups.find do |group|
+        form_configuration.attribute_groups.find do |group|
           group.group_type == :attribute && group_identifier_match?(group, group_key)
         end
       end
@@ -91,10 +91,10 @@ module WorkPackageTypes
       end
 
       def failure_with_message(message)
-        form.errors.clear
-        form.errors.add(:base, message)
+        form_configuration.errors.clear
+        form_configuration.errors.add(:base, message)
 
-        ServiceResult.failure(result: form, errors: form.errors)
+        ServiceResult.failure(result: form_configuration, errors: form_configuration.errors)
       end
 
       def build_query(query_props, name:)
@@ -109,7 +109,7 @@ module WorkPackageTypes
         prune_unavailable_attribute_group_items(groups)
 
         if groups.empty?
-          [::Type::AttributeGroup.new(form, :__empty, [])]
+          [::Type::AttributeGroup.new(form_configuration, :__empty, [])]
         else
           groups
         end
@@ -133,23 +133,24 @@ module WorkPackageTypes
       end
 
       def assign_groups(groups)
-        form.attribute_groups_will_change!
-        form.attribute_groups_objects = normalized_groups(groups)
+        form_configuration.attribute_groups_will_change!
+        form_configuration.attribute_groups_objects = normalized_groups(groups)
       end
 
       def form_configuration_contract
-        @form_configuration_contract ||= ::WorkPackageTypes::UpdateFormConfigurationContract.new(form, user, options: {})
+        @form_configuration_contract ||=
+          ::WorkPackageTypes::UpdateFormConfigurationContract.new(form_configuration, user, options: {})
       end
 
       def contract_failure
-        ServiceResult.failure(result: form, errors: form_configuration_contract.errors)
+        ServiceResult.failure(result: form_configuration, errors: form_configuration_contract.errors)
       end
 
       def persist_form
-        if form.save
-          ServiceResult.success(result: form)
+        if form_configuration.save
+          ServiceResult.success(result: form_configuration)
         else
-          ServiceResult.failure(result: form, errors: form.errors)
+          ServiceResult.failure(result: form_configuration, errors: form_configuration.errors)
         end
       end
     end
