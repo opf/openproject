@@ -191,6 +191,11 @@ The Activity tab polling interval can now be configured using the `WORK_PACKAGES
 
 Users can also reduce the minimum width of split-screen views to **430 px**, providing more room for the main content area. This applies to all split-screen views except the Gantt chart.
 
+<!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
+
+<!-- END SECURITY FIXES AUTOMATED SECTION -->
+<!--more-->
+
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
