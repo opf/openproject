@@ -36,43 +36,30 @@ module Workflows
 
       DIALOG_ID = "change-workflow-confirm-dialog"
 
-      def initialize(variant:, workflow:, missing_statuses:, back_url: nil)
+      def initialize(variant:, missing_statuses:, form_arguments:, hidden_fields:, workflow: nil)
         super()
 
         @variant = variant
         @workflow = workflow
         @missing_statuses = missing_statuses
-        @back_url = back_url
+        @form_arguments = form_arguments
+        @hidden_fields = hidden_fields
       end
 
       private
 
-      attr_reader :variant, :workflow, :missing_statuses, :back_url
-
-      def form_arguments
-        {
-          action: url_helpers.change_type_workflow_path(**variant.path_args.merge(back_url:).compact),
-          method: :patch,
-          data: { turbo: false }
-        }
-      end
-
-      def usage_summary(status)
-        transitions = current_transitions.where(old_status: status).or(current_transitions.where(new_status: status))
-
-        I18n.t("workflows.change.confirm.usage",
-               transitions: I18n.t("workflows.change.confirm.transitions", count: transitions.count),
-               roles: I18n.t("workflows.change.confirm.roles", count: transitions.distinct.count(:role_id)))
-      end
+      attr_reader :variant, :workflow, :missing_statuses, :form_arguments, :hidden_fields
 
       def description
+        return I18n.t("workflows.change.confirm.description_blank", type: variant.composite_name) if workflow.nil?
+
         key = target_empty? ? "description_empty" : "description"
         I18n.t("workflows.change.confirm.#{key}", name: workflow.name, type: variant.composite_name)
       end
 
-      def target_empty? = workflow.status_transitions.where(role: eligible_roles).none?
-
-      def current_transitions = variant.workflow.status_transitions.where(role: eligible_roles)
+      def target_empty?
+        workflow.nil? || workflow.status_transitions.where(role: eligible_roles).none?
+      end
 
       def eligible_roles = Workflows::StatusTransition.eligible_roles
     end
