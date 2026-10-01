@@ -57,8 +57,9 @@ module ::ResourceManagement
     # make Turbo restore focus to the date input afterwards, reopening its
     # date picker. Uses the EmptyContract so in-progress input never surfaces
     # validation errors while the user types.
-    def refresh_form
-      allocation = set_attributes(allocation_params, contract_class: EmptyContract).result
+    def refresh_form # rubocop:disable Metrics/AbcSize
+      model = params[:id].present? ? find_resource_allocation : ResourceAllocation.new
+      allocation = set_attributes(allocation_params, contract_class: EmptyContract, model:).result
 
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
@@ -228,9 +229,9 @@ module ::ResourceManagement
       @availability ||= ResourceAllocations::Availability.new(user: allocation.principal)
     end
 
-    def set_attributes(attributes, contract_class: ResourceAllocations::CreateContract)
+    def set_attributes(attributes, contract_class: ResourceAllocations::CreateContract, model: ResourceAllocation.new)
       ResourceAllocations::SetAttributesService
-        .new(user: current_user, model: ResourceAllocation.new, contract_class:)
+        .new(user: current_user, model:, contract_class:)
         .call(attributes)
     end
 
