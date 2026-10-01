@@ -62,6 +62,20 @@ RSpec.describe "CSP form-action for OmniAuth SSO", type: :rails_request do
     end
   end
 
+  context "with a SAML provider that redirects through other servers", with_ee: %i[sso_auth_providers] do
+    let!(:saml_provider) do
+      create(:saml_provider,
+             additional_form_action_urls: ["https://idp.prod.soloidp.dk/login?authId=1", "https://broker.example.com:8443/"])
+    end
+
+    it "also allows the origins of the additional URLs" do
+      get omniauth_login_path(saml_provider.slug)
+
+      expect(form_action_sources)
+        .to include("https://example.com/", "https://idp.prod.soloidp.dk/", "https://broker.example.com:8443/")
+    end
+  end
+
   context "with an OpenID Connect provider", with_ee: %i[sso_auth_providers] do
     let!(:oidc_provider) { create(:oidc_provider) }
 
