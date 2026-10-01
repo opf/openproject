@@ -60,7 +60,7 @@ jobs:
       run: |
         bin/ci ruby -v
         mkdir -p cache/docker
-        docker save openproject/ci:v1 -o cache/docker/image.tar
+        docker save openproject-ci -o cache/docker/image.tar
     - name: Cache GEM
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:

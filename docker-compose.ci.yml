@@ -3,7 +3,7 @@ name: "openproject-ci"
 services:
   # Note: not using a database container since it adds 1min to pull and start it on CI
   app:
-    image: openproject/ci:v1
+    image: openproject-ci
     build:
       context: .
       dockerfile: ./docker/ci/Dockerfile
