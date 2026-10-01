@@ -53,8 +53,8 @@ RSpec.describe Sprints::Timeframe do
       expect(timeframe.planned_start).to eq sprint.start_date.in_time_zone.beginning_of_day
     end
 
-    it "has been observed only up to now, the finish still being ahead" do
-      expect(timeframe.observed_until).to be_within(1.second).of(Time.zone.now)
+    it "has been measured only up to now, the finish still being ahead" do
+      expect(timeframe.measured_until).to be_within(1.second).of(Time.zone.now)
     end
   end
 
@@ -88,8 +88,8 @@ RSpec.describe Sprints::Timeframe do
       expect(timeframe.effective_finish).to eq sprint.completed_at
     end
 
-    it "has been observed only up to the completion, which is already past" do
-      expect(timeframe.observed_until).to eq sprint.completed_at
+    it "has been measured only up to the completion, which is already past" do
+      expect(timeframe.measured_until).to eq sprint.completed_at
     end
   end
 
@@ -107,6 +107,34 @@ RSpec.describe Sprints::Timeframe do
     end
   end
 
+  # A sprint is planned in dates, so where its days begin is whatever the caller's zone says.
+  context "with a zone of its own" do
+    subject(:timeframe) { described_class.new(sprint, zone: ActiveSupport::TimeZone["Asia/Kolkata"]) }
+
+    let(:sprint) do
+      build_stubbed(:sprint,
+                    start_date: Date.new(2026, 10, 12),
+                    finish_date: Date.new(2026, 10, 23),
+                    started_at: Time.utc(2026, 10, 12, 20))
+    end
+
+    it "opens the planned start on that zone's midnight, not the application's" do
+      expect(timeframe.planned_start).to eq Time.utc(2026, 10, 11, 18, 30)
+    end
+
+    it "closes the planned finish on that zone's midnight" do
+      expect(timeframe.planned_finish.utc.strftime("%Y-%m-%d %H:%M")).to eq "2026-10-23 18:29"
+    end
+
+    # The instant is the same either way; what changes is the day it is taken to fall on, which
+    # is what the series are sampled and declined over.
+    it "hands an actual start back in that zone, so its date reads as the viewer's" do
+      expect(timeframe.effective_start).to eq sprint.started_at
+      expect(timeframe.effective_start.to_date).to eq Date.new(2026, 10, 13)
+      expect(sprint.started_at.to_date).to eq Date.new(2026, 10, 12)
+    end
+  end
+
   context "when the sprint has not started yet" do
     let(:sprint) do
       build_stubbed(:sprint, start_date: 3.days.from_now.to_date, finish_date: 10.days.from_now.to_date)
@@ -120,11 +148,8 @@ RSpec.describe Sprints::Timeframe do
       expect(timeframe.effective_finish).to eq sprint.finish_date.in_time_zone.end_of_day
     end
 
-    # Nothing has happened yet, so the interval between the two runs backwards and yields no
-    # samples rather than inventing them.
-    it "has been observed up to now, which is before it even starts" do
-      expect(timeframe.observed_until).to be_within(1.second).of(Time.zone.now)
-      expect(timeframe.observed_until).to be < timeframe.effective_start
+    it "has measured nothing, there being nothing yet to measure" do
+      expect(timeframe.measured_until).to be_nil
     end
   end
 end
