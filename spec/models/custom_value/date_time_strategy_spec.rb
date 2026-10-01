@@ -96,6 +96,24 @@ RSpec.describe CustomValue::DateTimeStrategy do
       expect(instance.parse_value(DateTime.iso8601("2026-10-01T14:30:00+02:00"))).to eq("2026-10-01 12:30:00")
     end
 
+    it "keeps a date without a time of day so that validation can reject it" do
+      expect(instance.parse_value("2026-10-01")).to eq("2026-10-01")
+    end
+
+    it "reads the string form of a UTC Time (as assigned through the customizable setter)" do
+      expect(instance.parse_value(Time.utc(2026, 10, 1, 12, 30).to_s)).to eq("2026-10-01 12:30:00")
+    end
+
+    it "reads the string form of a TimeWithZone" do
+      time = Time.utc(2026, 10, 1, 12, 30).in_time_zone("Asia/Tokyo")
+
+      expect(instance.parse_value(time.to_s)).to eq("2026-10-01 12:30:00")
+    end
+
+    it "honours an offset without a colon (as sent by Jira)" do
+      expect(instance.parse_value("2026-10-01T14:30:00.000+0200")).to eq("2026-10-01 12:30:00")
+    end
+
     it "keeps unparsable input so that validation can reject it" do
       expect(instance.parse_value("chicken")).to eq("chicken")
     end
@@ -142,6 +160,12 @@ RSpec.describe CustomValue::DateTimeStrategy do
       let(:value) { "2026-10-01T12:30:00Z" }
 
       it { is_expected.to be_nil }
+    end
+
+    context "when value is a date without a time of day" do
+      let(:value) { "2026-10-01" }
+
+      it { is_expected.to be(:not_a_datetime) }
     end
 
     context "when value is an impossible datetime" do

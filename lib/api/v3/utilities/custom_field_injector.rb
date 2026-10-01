@@ -85,6 +85,20 @@ module API
             end
           end
 
+          def parse_datetime_value(fragment, custom_field)
+            return if fragment.blank?
+
+            property_name = custom_field.attribute_name(:camel_case)
+
+            unless fragment.is_a?(String) && CustomValue::DateTimeStrategy::WITH_TIME_PATTERN.match?(fragment)
+              raise ::API::Errors::PropertyFormatError.new(property_name,
+                                                           I18n.t("api_v3.errors.expected.datetime"),
+                                                           fragment)
+            end
+
+            ::API::V3::Utilities::DateTimeFormatter.parse_datetime(fragment, property_name)
+          end
+
           private
 
           def linked_field?(custom_field)
@@ -337,8 +351,7 @@ module API
                     when "text"
                       fragment && fragment["raw"]
                     when "datetime"
-                      fragment.presence && ::API::V3::Utilities::DateTimeFormatter
-                                             .parse_datetime(fragment, custom_field.attribute_name(:camel_case))
+                      ::API::V3::Utilities::CustomFieldInjector.parse_datetime_value(fragment, custom_field)
                     else
                       fragment
                     end

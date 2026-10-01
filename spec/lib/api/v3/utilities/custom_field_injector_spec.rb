@@ -711,6 +711,11 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         expect { modified_class.new(represented, current_user: nil).from_json({ cf_path => "chicken" }.to_json) }
           .to raise_error(API::Errors::PropertyFormatError)
       end
+
+      it "rejects a date without a time of day" do
+        expect { modified_class.new(represented, current_user: nil).from_json({ cf_path => "2026-10-01" }.to_json) }
+          .to raise_error(API::Errors::PropertyFormatError)
+      end
     end
 
     context "for text custom field" do

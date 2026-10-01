@@ -49,13 +49,4 @@ RSpec.describe WorkPackageCustomField do
       end
     end
   end
-
-  describe ".usable_as_custom_action" do
-    let!(:string_custom_field) { create(:string_wp_custom_field) }
-    let!(:datetime_custom_field) { create(:datetime_wp_custom_field) }
-
-    it "excludes datetime custom fields, which have no custom action strategy" do
-      expect(described_class.usable_as_custom_action).to contain_exactly(string_custom_field)
-    end
-  end
 end

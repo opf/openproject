@@ -31,11 +31,16 @@
 # Values are persisted in UTC as "YYYY-MM-DD HH:MM:SS". That layout compares correctly as a
 # string against the timestamps the date and datetime filter operators render, which keeps
 # the text-typed custom_values.value column usable for filtering and sorting without casts.
+# String input must include a time of day: a date-only value has no unambiguous midnight.
 class CustomValue::DateTimeStrategy < CustomValue::FormatStrategy
   include Redmine::I18n
 
   STORAGE_FORMAT = "%Y-%m-%d %H:%M:%S"
   STORAGE_PATTERN = /\A\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\z/
+  WITH_TIME_PATTERN = /\A\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}/
+  # acts_as_customizable stringifies assigned values, so Time and TimeWithZone arrive in their #to_s layout.
+  RUBY_TIME_FORMAT = "%Y-%m-%d %H:%M:%S %z"
+  RUBY_TIME_PATTERN = /\A\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} (UTC|[+-]\d{4})\z/
 
   def typed_value
     return if value.blank?
@@ -67,12 +72,12 @@ class CustomValue::DateTimeStrategy < CustomValue::FormatStrategy
   end
 
   def parse_string(str)
-    return if str.blank?
+    return unless WITH_TIME_PATTERN.match?(str)
 
-    time = if STORAGE_PATTERN.match?(str)
-             ::DateTime.strptime(str, STORAGE_FORMAT).to_time
-           else
-             User.current.time_zone.iso8601(str)
+    time = case str
+           when STORAGE_PATTERN then ::DateTime.strptime(str, STORAGE_FORMAT).to_time
+           when RUBY_TIME_PATTERN then ::DateTime.strptime(str, RUBY_TIME_FORMAT).to_time
+           else User.current.time_zone.iso8601(str)
            end
 
     time.utc.change(usec: 0)

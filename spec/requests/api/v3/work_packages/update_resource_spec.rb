@@ -985,6 +985,19 @@ RSpec.describe "API v3 Work package resource",
                                       .at_path("errorIdentifier")
           end
         end
+
+        context "with a date without a time of day" do
+          let(:value) { "2026-10-01" }
+
+          include_context "patch request"
+
+          it "responds with a format error and keeps the value unset", :aggregate_failures do
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(subject.body).to be_json_eql("urn:openproject-org:api:v3:errors:PropertyFormatError".to_json)
+                                      .at_path("errorIdentifier")
+            expect(work_package.reload.typed_custom_value_for(custom_field)).to be_nil
+          end
+        end
       end
 
       describe "update with read-only attributes" do
