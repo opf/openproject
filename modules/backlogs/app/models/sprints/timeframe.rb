@@ -65,9 +65,9 @@ module Sprints
 
     # The point in time up until which the sprint is expected to finish.
     # The expectations change depending on what is currently known.
-    # If the sprint is completed, use that.
-    # If the sprint is just planned, use the planned time.
-    # If the sprint has started, use the planned time. But since time progresses and the plan might not be accurate,
+    # - If the sprint is completed, use that.
+    # - If the sprint is just planned, use the planned time.
+    # - If the sprint has started, use the planned time. But since time progresses and the plan might not be accurate,
     #   use the current time if that is later.
     def effective_finish
       return zoned(sprint.completed_at) if sprint.completed_at?

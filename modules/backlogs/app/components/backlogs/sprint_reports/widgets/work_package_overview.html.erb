@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(
             BreakdownBlock.new(
               heading: t(".blocks.initially_planned.heading"),
-              show_all_href: show_all_path(timestamps: breakdown.start_timestamp)
+              show_all_href: show_all_path(timestamps: breakdown.reference_start)
             )
           ) do |block|
             block.with_count { breakdown.initially_planned.work_package_count.to_s }
@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(
             BreakdownBlock.new(
               heading: t(".blocks.changed_after_start.heading"),
-              show_all_href: show_all_path(timestamps: [breakdown.start_timestamp, breakdown.finish_timestamp])
+              show_all_href: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
             )
           ) do |block|
             block.with_count do
@@ -104,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
               heading: t(".blocks.completed.heading"),
               count_color: :success,
               show_all_href: show_all_path(
-                timestamps: [breakdown.finish_timestamp],
+                timestamps: [breakdown.reference_finish],
                 status_filter_operator: "="
               )
             )
@@ -120,7 +120,7 @@ See COPYRIGHT and LICENSE files for more details.
               heading: t(".blocks.unfinished.heading"),
               count_color: :muted,
               show_all_href: show_all_path(
-                timestamps: [breakdown.finish_timestamp],
+                timestamps: [breakdown.reference_finish],
                 status_filter_operator: "!"
               )
             )
