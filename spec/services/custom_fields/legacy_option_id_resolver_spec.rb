@@ -32,15 +32,8 @@ require "spec_helper"
 
 RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hierarchies] do
   let(:custom_field) { create(:list_wp_custom_field) }
-  let(:root) { custom_field.hierarchy_root }
-  let(:item) do
-    CustomFields::Hierarchy::HierarchicalItemService
-      .new
-      .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Kept").value!
-  end
-
-  let!(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: item) }
-  let(:legacy_id) { mapping.custom_option_id.to_s }
+  let!(:item) { create(:legacy_list_item, custom_field:) }
+  let(:legacy_id) { item.legacy_option_id.to_s }
 
   it "translates a mapped legacy id" do
     expect(described_class.resolve(custom_field:, id: legacy_id)).to eq(item.id.to_s)
