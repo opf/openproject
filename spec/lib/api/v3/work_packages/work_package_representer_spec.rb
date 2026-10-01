@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
+  include WorkPackageTypes::VariantRoutes
+
   include API::V3::Utilities::PathHelper
 
   let(:member) { build_stubbed(:user) }
@@ -1550,7 +1552,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
           it "points at the configuration in force rather than the type's own" do
             expect(generated)
-              .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
+              .to be_json_eql(edit_variant_form_configuration_path(variant.project, variant).to_json)
                     .at_path("_links/configureForm/href")
           end
 
@@ -1558,8 +1560,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             before { variant.update!(project: workspace) }
 
             it "addresses it through the owning project" do
-              href = "/types/#{variant.type_id}/in-project/#{workspace.identifier}" \
-                     "/variants/#{variant.id}/form_configuration/edit"
+              href = "/projects/#{workspace.identifier}/settings/work_packages" \
+                     "/types/#{variant.type_id}/variants/#{variant.id}/form_configuration/edit"
 
               expect(generated).to be_json_eql(href.to_json).at_path("_links/configureForm/href")
             end
@@ -1578,7 +1580,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
           it_behaves_like "has a titled link" do
             let(:link) { "configureForm" }
-            let(:href) { edit_type_form_configuration_path(**variant.path_args) }
+            let(:href) { edit_variant_form_configuration_path(variant.project, variant) }
             let(:title) { "Configure form" }
           end
         end

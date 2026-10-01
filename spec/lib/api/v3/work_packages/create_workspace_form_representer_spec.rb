@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::CreateWorkspaceFormRepresenter do
+  include WorkPackageTypes::VariantRoutes
+
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
@@ -177,7 +179,7 @@ RSpec.describe API::V3::WorkPackages::CreateWorkspaceFormRepresenter do
 
         it "has a link to the configuration the project owns" do
           expect(generated)
-            .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
+            .to be_json_eql(edit_variant_form_configuration_path(variant.project, variant).to_json)
             .at_path("_links/configureForm/href")
         end
       end

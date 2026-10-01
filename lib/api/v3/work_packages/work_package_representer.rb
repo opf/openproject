@@ -40,6 +40,7 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include TimestampedRepresenter
+        include ::WorkPackageTypes::VariantRoutes
 
         cached_representer key_parts: %i(project),
                            disabled: false,
@@ -167,7 +168,7 @@ module API
           next unless variant
 
           {
-            href: edit_type_form_configuration_path(**variant.path_args),
+            href: edit_variant_form_configuration_path(variant.project, variant),
             type: "text/html",
             title: "Configure form"
           }
