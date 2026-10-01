@@ -453,7 +453,7 @@ RSpec.describe WorkPackage do
     let(:project) { create(:project, types: [type]) }
     let(:work_package) { create(:work_package, project:, type:) }
 
-    before { type.default_variant.custom_fields << field }
+    before { type.default_variant.custom_field_ids |= [field.id] }
 
     it "offers a field the applied variant's form configuration shows" do
       expect(work_package.available_custom_fields).to include(field)

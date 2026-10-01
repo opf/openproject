@@ -79,7 +79,7 @@ RSpec.describe Projects::Scopes::AvailableCustomFields do
     end
 
     it "follows a variant that inherits the configuration rather than owning it" do
-      variant = create(:type_variant, type:, form_configuration_source: type.default_variant)
+      variant = create(:type_variant, type:, form_configuration: type.default_variant.form_configuration)
       ProjectType.find_by(project: using_project, type:).update!(variant:)
 
       expect(Project.with_available_custom_fields([work_package_custom_field.id]))
@@ -88,7 +88,7 @@ RSpec.describe Projects::Scopes::AvailableCustomFields do
 
     it "drops a project whose variant excludes the field" do
       variant = create(:type_variant, type:,
-                                      form_configuration_source: type.default_variant,
+                                      form_configuration: type.default_variant.form_configuration,
                                       form_configuration_excluded_elements: [work_package_custom_field.attribute_name])
       ProjectType.find_by(project: using_project, type:).update!(variant:)
 

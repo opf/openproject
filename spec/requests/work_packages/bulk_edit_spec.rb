@@ -54,7 +54,7 @@ RSpec.describe "Bulk editing work packages across projects", type: :rails_reques
 
     # The narrow project applies a variant that drops one of the two fields.
     variant = create(:type_variant, type:,
-                                    form_configuration_source: base,
+                                    form_configuration: base.form_configuration,
                                     form_configuration_excluded_elements: [only_here.attribute_name])
     ProjectType.find_by(project: narrow, type:).update!(variant:)
 

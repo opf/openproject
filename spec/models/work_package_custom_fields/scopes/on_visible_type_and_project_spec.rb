@@ -117,7 +117,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     shared_let(:project) { create(:project, types: [type]) }
     shared_let(:member) { create(:user, member_with_permissions: { project => [] }) }
     shared_let(:configured_field) do
-      create(:integer_wp_custom_field, type_variants: [type.default_variant])
+      create(:integer_wp_custom_field, types: [type.default_variant])
     end
 
     it "surfaces it for every project applying that configuration" do
@@ -129,7 +129,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     shared_let(:type) { create(:type) }
     shared_let(:project) { create(:project, types: [type]) }
     shared_let(:member) { create(:user, member_with_permissions: { project => [] }) }
-    shared_let(:custom_field) { create(:integer_wp_custom_field, type_variants: [type.default_variant]) }
+    shared_let(:custom_field) { create(:integer_wp_custom_field, types: [type.default_variant]) }
 
     it "surfaces the field for a project the user can merely see" do
       expect(WorkPackageCustomField.on_visible_type_and_project(member)).to include(custom_field)

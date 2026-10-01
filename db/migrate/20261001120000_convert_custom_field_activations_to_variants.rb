@@ -38,8 +38,8 @@
 # For the project admin, no visible changes except for the UI changing.
 # custom_fields_projects table is kept to have a record of the previous data. It is dropped later.
 # https://community.openproject.org/projects/AUTOWORK/work_packages/AUTOWORK-310/activity
-class ConvertCustomFieldActivationsToVariants < ActiveRecord::Migration[8.0]
-  ASPECTS = %w[pdf_export defaults workflows form_configuration project_attributes].freeze
+class ConvertCustomFieldActivationsToVariants < ActiveRecord::Migration[8.1]
+  LINKED_ASPECTS = %w[pdf_export defaults project_attributes].freeze
 
   NAME_BUDGET = 100
   NAME_LIMIT = 255
@@ -100,9 +100,10 @@ class ConvertCustomFieldActivationsToVariants < ActiveRecord::Migration[8.0]
       FROM project_types pt
       JOIN types t ON t.id = pt.type_id
       JOIN type_variants applied ON applied.id = pt.variant_id
-      JOIN custom_fields_types cft
-        ON cft.type_variant_id = COALESCE(applied.form_configuration_source_id, applied.id)
-      JOIN custom_fields cf ON cf.id = cft.custom_field_id
+      JOIN form_configuration_attributes fca
+        ON fca.form_configuration_id = applied.form_configuration_id
+       AND fca.form_configuration_group_id IS NOT NULL
+      JOIN custom_fields cf ON cf.id = fca.custom_field_id
       WHERE cf.is_for_all = FALSE
         AND NOT ('custom_field_' || cf.id = ANY (applied.form_configuration_excluded_elements))
         AND NOT EXISTS (
@@ -162,24 +163,34 @@ class ConvertCustomFieldActivationsToVariants < ActiveRecord::Migration[8.0]
   end
 
   def create_variants(shapes)
-    columns = ASPECTS.map { "#{it}_source_id" }.join(", ")
-
-    shapes.each { it[:variant_id] = insert_variant(it, columns).to_i }
+    shapes.each { it[:variant_id] = insert_variant(it).to_i }
   end
 
-  # Reuse every aspect including workflows and forms
-  # TODO this will change when named forms and workflows are introduced
-  def insert_variant(shape, columns)
-    source = sql_value(shape[:source_id])
-    sources = ([source] * ASPECTS.size).join(", ")
+  # The new variant shows the same form as the variant the project applied, narrowed by the
+  # fields the project had switched off, and inherits every other aspect from the base variant.
+  def insert_variant(shape)
+    excluded = array_literal(shape[:excluded_elements])
 
     select_value(<<~SQL.squish)
       INSERT INTO type_variants
         (type_id, project_id, variant_name, is_default_variant, enabled_in_new_projects,
-         #{columns}, form_configuration_excluded_elements, workflow_id, created_at, updated_at)
-      VALUES (#{sql_value(shape[:type_id])}, #{sql_value(shape[:owner_id])}, #{sql_value(shape[:variant_name])},
-              FALSE, FALSE, #{sources}, #{array_literal(shape[:excluded_elements])},
-              (SELECT workflow_id FROM type_variants WHERE id = #{source}), NOW(), NOW())
+         linked_aspects, form_configuration_id, workflow_id,
+         form_configuration_excluded_elements, project_attributes_excluded_elements,
+         required_attributes, created_at, updated_at)
+      SELECT applied.type_id, #{sql_value(shape[:owner_id])}, #{sql_value(shape[:variant_name])},
+             FALSE, FALSE,
+             #{array_literal(LINKED_ASPECTS)},
+             applied.form_configuration_id,
+             applied.workflow_id,
+             applied.form_configuration_excluded_elements || #{excluded},
+             applied.project_attributes_excluded_elements,
+             ARRAY(SELECT required.attribute
+                   FROM unnest(applied.required_attributes) WITH ORDINALITY AS required(attribute, position)
+                   WHERE NOT required.attribute = ANY (#{excluded})
+                   ORDER BY required.position),
+             NOW(), NOW()
+      FROM type_variants applied
+      WHERE applied.id = #{sql_value(shape[:source_id])}
       RETURNING id
     SQL
   end
