@@ -43,6 +43,8 @@ module OpenProject
             # Remember saml session values when logging in user
             h[:retain_from_session] = %w[saml_uid saml_session_index saml_transaction_id]
 
+            h[:form_action_url] = h[:idp_sso_service_url]
+
             # remember the origin in RelayState
             h[:idp_sso_service_url_runtime_params] = { origin: :RelayState } # omniauth-saml 2.x
             h[:idp_sso_target_url_runtime_params] = { origin: :RelayState } # omniauth-saml 1.10
