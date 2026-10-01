@@ -23,7 +23,7 @@ li:
         empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
         search_placeholder: Search...
       remove_assignee: Remove assignee
-      today: Today
+      today: Vandaag
       two_weeks: 2-week
       unsaved_title: Unnamed team planner
       work_week: Work week

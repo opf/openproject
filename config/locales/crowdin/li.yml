@@ -84,7 +84,7 @@ li:
         label: Label
         prompt: Prompt
         types: Work package types
-        usage_scope: Scope
+        usage_scope: Reikwiedte
       ai/text_transform_run:
         action: Action
         cancel_requested: Cancel requested
@@ -139,7 +139,7 @@ li:
         formula: Formula
         has_comment: Add a comment text field
         is_filter: Used as a filter
-        is_for_all: For all projects
+        is_for_all: Veur alle projekte
         is_required: Required
         max_length: Maximum length
         max_value: Maximum value
@@ -162,7 +162,7 @@ li:
         enabled: Active
         owner: Owner
         redirect_uri: Redirect URI
-        scopes: Scopes
+        scopes: Reikwiedtes
         secret: Client secret
         uid: Client ID
       emoji_reaction:
@@ -199,7 +199,7 @@ li:
         jira: Jira
         jira_import: Jira Migrator
       jira_import:
-        projects: Projects
+        projects: Projekte
       journal:
         cause_type: Cause type
         notes: Notes
@@ -252,7 +252,7 @@ li:
         enabled_modules: Enabled modules
         identifier: Identifier
         latest_activity_at: Latest activity at
-        parent: Subproject of
+        parent: Subprojek van
         portfolio: Portfolio
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
@@ -261,7 +261,7 @@ li:
         project_creation_wizard_send_confirmation_email: Confirmation email
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
-        project_creation_wizard_work_package_type: Work package type
+        project_creation_wizard_work_package_type: Werkpakket type
         project_types: Types
         public_value:
           false: private
@@ -285,7 +285,7 @@ li:
         type_variant: Work package type variant
         types: Types
         versions: Versions
-        work_packages: Work Packages
+        work_packages: Werkpakkette
         workspace_type: Workspace type
       project/phase:
         date_range: Date range
@@ -376,7 +376,7 @@ li:
         color: Color
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
-        project_types: Projects
+        project_types: Projekte
         variants: Variants
       type/configuration_link:
         source: Source type
@@ -495,7 +495,7 @@ li:
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
-        priority: Priority
+        priority: Prioriteit
         progress: "% Complete"
         readonly: Read only
         relatable: Relatable to
@@ -506,7 +506,7 @@ li:
         shared_with_users: Shared with
         spent_hours: Spent time
         spent_time: Spent time
-        subproject: Subproject
+        subproject: Subprojek
         target_version: Target version
         target_versions: Target versions
         time_entries: Log time
@@ -523,7 +523,7 @@ li:
         accepted: must be accepted.
         after: must be after %{date}.
         after_or_equal_to: must be after or equal to %{date}.
-        after_today: must be in the future.
+        after_today: mot in de toekoms zien.
         before: must be before %{date}.
         before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
@@ -760,7 +760,7 @@ li:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: Please select a project.
+              blank: Astebleef, selecteer een projek.
         project_type:
           attributes:
             variant:
@@ -1133,8 +1133,8 @@ li:
         one: Health report
         other: Health reports
       issue_priority:
-        one: Priority
-        other: Priorities
+        one: Prioriteit
+        other: Prioriteite
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1187,10 +1187,10 @@ li:
         one: Principal
         other: Principals
       project:
-        one: Project
-        other: Projects
+        one: Projek
+        other: Projekte
       project/phase:
-        one: Project phase
+        one: Projek fase
         other: Project phases
       project/phase_definition:
         one: Project phase definition
@@ -1208,8 +1208,8 @@ li:
         one: Project list role
         other: Project list roles
       project_role:
-        one: Project role
-        other: Project roles
+        one: Projek rol
+        other: Projek rolle
       query:
         one: Custom query
         other: Custom queries
@@ -1247,8 +1247,8 @@ li:
         one: Setting
         other: Settings
       status:
-        one: Work package status
-        other: Work package statuses
+        one: Werkpakket status
+        other: Werkpakket statusse
       system_user:
         one: System user
         other: System users
@@ -1310,8 +1310,8 @@ li:
         one: Wiki page
         other: Wiki pages
       work_package:
-        one: Work package
-        other: Work packages
+        one: Werkpakket
+        other: Werkpakkette
       work_package_custom_field:
         one: Work package custom field
         other: Work package custom fields
@@ -1356,11 +1356,11 @@ li:
       changeset: Changesets
       message: Forums
       news: News
-      project_details: Project details
+      project_details: Projek details
       subproject: Include subprojects
       time_entry: Spent time
       wiki_edit: Wiki
-      work_package: Work packages
+      work_package: Werkpakkette
     item:
       added_by_on: added by %{user} on %{datetime}
       added_on: added on %{datetime}
@@ -1371,7 +1371,7 @@ li:
       deleted_by_on: deleted by %{user} on %{datetime}
       deleted_on: deleted on %{datetime}
       parent_no_longer: No longer subproject of
-      parent_without_of: Subproject
+      parent_without_of: Subprojek
       removed_by_on: removed by %{user} on %{datetime}
       removed_on: removed on %{datetime}
       time_entry:
@@ -1577,13 +1577,13 @@ li:
           open_history: Open the run history
           run_status: Run status
         status:
-          configuring: Select scope
+          configuring: Selecteer reikwiedte
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
           import_aborting: Aborting
           import_error: Error during import
-          import_scope: Select scope
+          import_scope: Selecteer reikwiedte
           imported: Review mode
           importing: In progress
           initial: Start
@@ -1642,8 +1642,8 @@ li:
               one: 1 user
               other: "%{count} users"
             work_packages:
-              one: 1 work package
-              other: "%{count} work packages"
+              one: 1 Werkpakket
+              other: "%{count} werkpakkette"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
             description: This will delete all imported objects (including whole projects).
@@ -1698,15 +1698,15 @@ li:
                   label: Users & groups
                   subtitle: 'Involved in imported projects '
                 work_packages:
-                  label: Work packages
+                  label: Werkpakkette
                   subtitle: With attachments
               title: Import run results
             import_scope:
-              button_continue: Continue
-              button_select: Select projects
+              button_continue: Doorgaon
+              button_select: Selecteer projek
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
-              caption_done: Completed
+              caption_done: Aafgeslaote
               caption_done_description:
                 one: 1 project selected as scope
                 other: "%{count} projects selected as scope"
@@ -1768,7 +1768,7 @@ li:
               title: Create project versions
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
-              title: Create work packages
+              title: Creëer werkpakkette
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
@@ -2020,10 +2020,10 @@ li:
         label_actions: Action menu
         label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} werkpakket type"
+          other: "%{count} werkpakket types"
       usage_scopes:
-        all_work_package_types: All work package types
+        all_work_package_types: Alle werkpakket type
         everywhere: Everywhere
         specific_work_package_types: Specific work package types
     workflows:
@@ -2169,7 +2169,7 @@ li:
     body: Body
     category: Category
     color: Color
-    comment: Comment
+    comment: Commentaar
     comments: Comment
     content: Content
     created_at: Created on
@@ -2203,7 +2203,7 @@ li:
     id: ID
     is_default: Default value
     is_for_all: For all projects
-    issue: Work package
+    issue: Werkpakket
     jira: Jira
     journal: Journal
     journal_notes: Comment
@@ -2219,7 +2219,7 @@ li:
     options: Options
     password: Password
     principal: User or group
-    priority: Priority
+    priority: Prioriteit
     project: Project
     project_ids: Project IDs
     project_phase: Project phase
@@ -2257,8 +2257,8 @@ li:
     values: Values
     version: Version
     visible: Visible
-    work_package: Work package
-    work_package_id: Work package
+    work_package: Werkpakket
+    work_package_id: Werkpakket
   authentication:
     login_and_registration: Login and registration
   background_jobs:
@@ -2332,12 +2332,12 @@ li:
   button_configure: Configure
   button_configure_menu_entry: Configure menu item
   button_confirm: Confirm
-  button_continue: Continue
+  button_continue: Doorgaon
   button_copy: Copy
   button_copy_link_to_clipboard: Copy link to clipboard
   button_copy_to_clipboard: Copy to clipboard
   button_create: Create
-  button_create_and_continue: Create and continue
+  button_create_and_continue: Aanmake en doorgaon
   button_decline: Decline
   button_delete: Delete
   button_delete_menu_entry: Delete menu item
@@ -2786,7 +2786,7 @@ li:
   description_query_sort_criteria_attribute: Sort attribute
   description_query_sort_criteria_direction: Sort direction
   description_search: Searchfield
-  description_select_work_package: Select work package
+  description_select_work_package: Selecteer werkpakket
   description_selected_columns: Selected Columns
   description_sub_work_package: Sub work package of current
   description_toc_toggle: Show/Hide table of contents
@@ -3079,7 +3079,7 @@ li:
     time_entry: Timelog edited
     title:
       project_html: 'Project: %{name}'
-      subproject_html: 'Subproject: %{name}'
+      subproject_html: 'Subprojek: %{name}'
     wiki_page: Wiki page edited
     work_package_closed: Work Package closed
     work_package_edit: Work Package edited
@@ -3208,11 +3208,11 @@ li:
   general_first_day_of_week: '7'
   general_pdf_encoding: ISO-8859-1
   general_text_No: 'No'
-  general_text_Yes: 'Yes'
+  general_text_Yes: Jao
   general_text_false: 'false'
   general_text_no: 'no'
   general_text_true: 'true'
-  general_text_yes: 'yes'
+  general_text_yes: jao
   global_search:
     overwritten_tabs:
       all: All
@@ -3479,7 +3479,7 @@ li:
   label_board_plural: Boards
   label_boolean: Boolean
   label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_true: is jao
   label_branch: Branch
   label_browse: Browse
   label_builtin: Built-in
@@ -4014,7 +4014,7 @@ li:
   label_spent_time: Spent time
   label_start_to_end: start to end
   label_start_to_start: start to start
-  label_starts_with: starts with
+  label_starts_with: begint mit
   label_statistics: Statistics
   label_status: Status
   label_status_plural: Statuses
@@ -4025,9 +4025,9 @@ li:
   label_string: Text
   label_subitems: Subitems
   label_subject_or_id: Subject or ID
-  label_subproject: Subproject
+  label_subproject: Subprojek
   label_subproject_add: Add subproject
-  label_subproject_plural: Subprojects
+  label_subproject_plural: Subprojekte
   label_subtask_plural: Subtasks
   label_summary: Summary
   label_system: System
@@ -4046,11 +4046,11 @@ li:
   label_time_entry_activity_plural: Spent time activities
   label_time_entry_plural: Spent time
   label_title: Title
-  label_today: today
-  label_today_as_date: Select today as date.
-  label_today_as_due_date: Select today as finish date.
-  label_today_as_start_date: Select today as start date.
-  label_today_capitalized: Today
+  label_today: vandaag
+  label_today_as_date: Selecteer vandaag as datum.
+  label_today_as_due_date: Selecteer vandaag as ind datum.
+  label_today_as_start_date: Selecteer vandaag as start datum.
+  label_today_capitalized: Vandaag
   label_token_version: Token Version
   label_top_menu: Top Menu
   label_topic_plural: Topics
@@ -4084,11 +4084,11 @@ li:
   label_version_edit: Edit version
   label_version_new: New version
   label_version_plural: Versions
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_descendants: Mit subprojekte
+  label_version_sharing_hierarchy: Mit projek hiërarchie
   label_version_sharing_none: Not shared
-  label_version_sharing_system: With all projects
-  label_version_sharing_tree: With project tree
+  label_version_sharing_system: Mit alle projekte
+  label_version_sharing_tree: Mit projekstructuur
   label_versions_and_categories: Versions and categories
   label_videos: Videos
   label_view_all_revisions: View all revisions
@@ -4169,16 +4169,16 @@ li:
     other: "%{count} projects"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: 1 Werkpakket
     other: "%{count} work packages"
-    zero: No work packages
+    zero: Gen werkpakket
   label_x_working_days:
     one: 1 working day
     other: "%{count} working days"
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
-  label_yesterday: yesterday
+  label_yesterday: gister
   label_zen_mode: Zen mode
   ldap_auth_sources:
     attribute_texts:
@@ -4267,7 +4267,7 @@ li:
       errors:
         invalid_type: No type found with name '%{type}' in project '%{project}'.
         no_project_context: Calling create_work_package_link macro from outside project context.
-      link_name: New work package
+      link_name: Nie werkpakket
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:
@@ -4304,7 +4304,7 @@ li:
         allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
         create_account: To access this work package, you will need to create and activate an account on %{instance}.
         enterprise_text: Share work packages with users who are not members of the project.
-        open_work_package: Open work package
+        open_work_package: Äöpen werkpakket
         subject: Work package %{id} was shared with you
         summary:
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -4651,7 +4651,7 @@ li:
         submit_button: Update preferences
         title: Non-participating
         work_package_commented: All new comments
-        work_package_created: New work packages
+        work_package_created: Nieje werkpakkette
         work_package_prioritized: All priority changes
         work_package_processed: All status changes
         work_package_scheduled: All date changes
@@ -4833,7 +4833,7 @@ li:
       new: New OAuth application
       non_confidential: Non confidential
       plural: OAuth applications
-      scopes: Scopes
+      scopes: Reikwiedtes
       singular: OAuth application
     authorization_dialog:
       authorize: Authorize
@@ -5467,7 +5467,7 @@ li:
         show_work_packages: Show work packages
         work_packages_graph: Work packages graph
       work_package_priorities:
-        new_label: New priority
+        new_label: Nieje prioriteit
     status:
       button_edit: Edit status
     wizard:
@@ -5501,7 +5501,7 @@ li:
     member_of_group: Assignee's group
     name_or_identifier: Name or identifier
     only_subproject_id: Only subproject
-    shared_with_me: Shared with me
+    shared_with_me: Gedeild mit mich
     shared_with_user: Shared with users
     subproject_id: Including subproject
   reactions:

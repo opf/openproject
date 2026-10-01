@@ -91,7 +91,7 @@ li:
         last_week: last week
         last_working_day: last working day
         none: "-"
-        yesterday: yesterday
+        yesterday: gister
       from: From
       header_description: Highlight changes made to this list since any point in the past.
       help_description: Reference time zone for the baseline.
@@ -126,7 +126,7 @@ li:
     button_collapse_all: Collapse all
     button_configure-form: Configure form
     button_confirm: Confirm
-    button_continue: Continue
+    button_continue: Doorgaon
     button_copy: Copy
     button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
@@ -161,7 +161,7 @@ li:
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Uncheck all
-    button_update: Update
+    button_update: Beejwerke
     caption_rate_history: Rate history
     card:
       add_new: Add new card
@@ -330,9 +330,9 @@ li:
         weeks: Weeks
         years: Years
     general_text_No: 'No'
-    general_text_Yes: 'Yes'
+    general_text_Yes: Jao
     general_text_no: 'no'
-    general_text_yes: 'yes'
+    general_text_yes: jao
     global_search:
       all_projects: In all projects
       close_search: Close search
@@ -569,7 +569,7 @@ li:
     label_sum_for: Sum for
     label_this_week: this week
     label_time_entry_plural: Spent time
-    label_today: Today
+    label_today: Vandaag
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% Total progress"
     label_total_sum: Total sum
@@ -649,7 +649,7 @@ li:
         overdue_since: for %{difference_in_days}.
         property_is: is in %{difference_in_days}.
         property_is_deleted: is deleted.
-        property_today: is today.
+        property_today: is vandaag.
         property_was: was %{difference_in_days} ago.
       no_unread: No unread notifications
       reasons:
@@ -1004,7 +1004,7 @@ li:
         percentComplete: "% Complete"
         percentCompleteAlternative: Progress
         percentageDone: Percentage done
-        priority: Priority
+        priority: Prioriteit
         projectName: Project
         remainingTime: Remaining work
         remainingWork: Remaining work
@@ -1014,7 +1014,7 @@ li:
         startDate: Start date
         status: Status
         subject: Subject
-        subproject: Subproject
+        subproject: Subprojek
         title: Title
         type: Type
         updatedAt: Updated on
@@ -1095,7 +1095,7 @@ li:
           inline: Highlighted attribute(s)
           inline_all: All attributes
           none: No highlighting
-          priority: Priority
+          priority: Prioriteit
           status: Status
           type: Type
         modal_title: Work package table configuration

@@ -37,7 +37,7 @@ li:
         participants_attended: Attendees
         participants_invited: Invitees
         participants_removed: 'Participants removed:'
-        project: Project
+        project: Projek
         recurrence_start_time: Scheduled start time
         sharing: Sharing
         start_date: Date
@@ -126,7 +126,7 @@ li:
         other: iCal Meeting subscriptions
   activity:
     filter:
-      meeting: Meetings
+      meeting: Vergaderinge
     item:
       meeting_agenda_item:
         duration:
@@ -198,11 +198,11 @@ li:
   label_existing_work_package: Existing work package
   label_icalendar: Send iCalendar
   label_icalendar_download: Download iCalendar event
-  label_initial_meeting_details: Meeting
+  label_initial_meeting_details: Vergadering
   label_invitations: Invitations
   label_invited_user: Invited user
   label_involvement: Involvement
-  label_meeting: Meeting
+  label_meeting: Vergadering
   label_meeting_actions: Meeting actions
   label_meeting_agenda: Agenda
   label_meeting_agenda_close: Close the agenda to begin the Minutes
@@ -225,7 +225,7 @@ li:
   label_meeting_index_delete: Delete
   label_meeting_index_later: Next week and later
   label_meeting_index_this_week: Later this week
-  label_meeting_index_today: Today
+  label_meeting_index_today: Vandaag
   label_meeting_index_tomorrow: Tomorrow
   label_meeting_last_updated: Last updated
   label_meeting_minutes: Minutes
@@ -238,7 +238,7 @@ li:
   label_meeting_open: Open
   label_meeting_open_action: Open meeting
   label_meeting_open_this_meeting: Open this meeting
-  label_meeting_plural: Meetings
+  label_meeting_plural: Vergaderinge
   label_meeting_reload: Reload
   label_meeting_reopen_action: Reopen meeting
   label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
@@ -261,7 +261,7 @@ li:
   label_meeting_template_edit: Edit template
   label_meeting_template_new: New template
   label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_descendants: With subprojects
+  label_meeting_template_sharing_descendants: Mit subprojekte
   label_meeting_template_sharing_none: Only with this project
   label_meeting_template_sharing_system: With all projects
   label_meeting_templates: Templates
@@ -554,7 +554,7 @@ li:
   plugin_openproject_meeting:
     description: This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
     name: OpenProject Meeting
-  project_module_meetings: Meetings
+  project_module_meetings: Vergaderinge
   recurring_meeting:
     actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
     caption:

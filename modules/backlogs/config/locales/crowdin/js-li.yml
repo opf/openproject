@@ -23,8 +23,8 @@
 li:
   js:
     burndown:
-      day: Day
-      points: Points
+      day: Dag
+      points: Punte
     work_packages:
       properties:
-        storyPoints: Story Points
+        storyPoints: Story punte
