@@ -127,6 +127,26 @@ RSpec.describe "ResourceManagement PlaceholderUsers requests",
     end
   end
 
+  describe "DELETE destroy" do
+    let(:placeholder_user) { create(:placeholder_user) }
+
+    context "when the placeholder user is used in a resource allocation" do
+      before { create(:resource_allocation, placeholder_user:, principal: nil) }
+
+      it "refuses the deletion and explains why" do
+        delete placeholder_user_path(placeholder_user)
+
+        expect(response).to redirect_to(placeholder_users_path)
+        expect(flash[:error]).to include(
+          I18n.t("activerecord.errors.models.placeholder_user.used_in_resource_allocations")
+        )
+        expect(flash[:info]).to be_nil
+        expect(Principals::DeleteJob).not_to have_been_enqueued
+        expect(placeholder_user.reload).to be_active
+      end
+    end
+  end
+
   describe "without the manage_placeholder_user permission" do
     shared_let(:allocator) do
       create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
