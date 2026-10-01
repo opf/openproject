@@ -157,8 +157,7 @@ module WorkPackageTypes
         menu.with_item(
           component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
           label: t(:button_move),
-          select_variant: :none,
-          form_arguments: {}
+          select_variant: :none
         ) do |submenu|
           submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 

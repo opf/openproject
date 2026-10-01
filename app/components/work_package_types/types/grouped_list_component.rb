@@ -109,33 +109,44 @@ module WorkPackageTypes
         page_args.merge(expand: expanded_type_id).compact
       end
 
-      def root_data
+      def wrapper_data_attributes
         {
           controller: "sortable-lists",
-          sortable_lists_move_url_template_value: drop_type_path("__id__", **context_args).sub("__id__", "{id}"),
+          sortable_lists_move_url_template_value: move_url_template,
           sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
           sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
         }
       end
 
-      def drop_target_config
+      # Built from the route helper with a sentinel so relative-URL-root
+      # installations keep working; {id} is expanded client-side.
+      def move_url_template
+        id_placeholder = "__id__"
+        drop_type_path(id_placeholder, **context_args).sub(id_placeholder, "{id}")
+      end
+
+      def list_data
         {
           controller: "sortable-lists--list",
-          sortable_lists__list_type_value: ::Type.model_name.param_key,
-          sortable_lists__list_accepted_type_value: ::Type.model_name.param_key,
+          sortable_lists__list_type_value: sortable_list_type,
+          sortable_lists__list_accepted_type_value: sortable_list_type,
           sortable_lists__list_name_value: t(:label_type_plural)
         }
       end
 
-      def draggable_item_config(root)
+      def item_data(root)
         {
           controller: "sortable-lists--item",
           sortable_lists__item_target: "preview",
           sortable_lists__item_id_value: root.id,
-          sortable_lists__item_type_value: ::Type.model_name.param_key,
+          sortable_lists__item_type_value: sortable_list_type,
           sortable_lists__item_label_value: root.name,
           sortable_lists__item_mobility_value: ("fixed" unless reorderable?(root))
         }.compact
+      end
+
+      def sortable_list_type
+        ::Type.model_name.param_key
       end
     end
   end

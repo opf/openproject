@@ -27,18 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(data: root_data) do %>
+<%= component_wrapper(data: wrapper_data_attributes) do %>
   <%= flex_layout(
         role: :list,
         aria: { label: t(:label_type_plural) },
-        data: drop_target_config
+        data: list_data
       ) do |container| %>
     <% types.each do |root| %>
       <% container.with_row(
            id: "sortable-type-#{root.id}",
            role: :listitem,
            mt: 3,
-           data: draggable_item_config(root)
+           data: item_data(root)
          ) do %>
         <%= render(
               OpenProject::Common::BorderBoxListComponent.new(

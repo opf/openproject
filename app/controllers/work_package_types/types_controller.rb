@@ -179,19 +179,15 @@ module WorkPackageTypes
       return false unless type_params.is_a?(ActionController::Parameters)
 
       direction = type_params[:move_to]
-      direction.in?(%w[highest higher lower lowest]) && @type.update(move_to: direction)
-    end
+      return false unless direction.in?(%w[highest higher lower lowest])
 
-    def valid_drop_request?
-      params[:list_type] == ::Type.model_name.param_key &&
-        (params[:list_id].nil? || params[:list_id] == "") &&
-        params.key?(:prev_id)
+      @type.update(move_to: direction)
     end
 
     def move_after_anchor
       return false unless valid_drop_request?
 
-      predecessor = params[:prev_id]
+      predecessor = drop_params[:prev_id]
       if predecessor.nil? || predecessor == ""
         move_to_page_start
       else
@@ -205,6 +201,26 @@ module WorkPackageTypes
 
       predecessor = ::Type.offset(current_page.offset - 1).pick(:id) if current_page.offset.positive?
       @type.move_after_anchor(predecessor, scope: ::Type.all)
+    end
+
+    def valid_drop_request?
+      drop_params[:list_type] == sortable_list_type &&
+        unscoped_list_id? &&
+        drop_params.key?(:prev_id)
+    end
+
+    # The type list carries no list id. The raw param is checked because
+    # permit cannot tell an absent value from a filtered-out array or hash.
+    def unscoped_list_id?
+      params[:list_id].nil? || params[:list_id] == ""
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def sortable_list_type
+      ::Type.model_name.param_key
     end
   end
 end
