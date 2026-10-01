@@ -6100,6 +6100,9 @@ en:
       remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."
       unavailable: "The repository is unavailable."
+    statistics:
+      graph_description: "%{title} chart data: %{data}."
+      graph_entry: "%{label}: %{revision_count} %{revisions}, %{change_count} %{changes}"
     git:
       instructions:
         managed_url: "This is the URL of the managed (local) Git repository."
