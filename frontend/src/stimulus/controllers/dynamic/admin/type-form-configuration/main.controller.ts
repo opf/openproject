@@ -35,6 +35,7 @@ export default class TypeFormConfigurationController extends Controller {
 
   declare readonly groupsContainerTarget:HTMLElement;
   declare readonly inactiveContainerTarget:HTMLElement;
+  declare readonly hasInactiveContainerTarget:boolean;
 
   static values = {
     addGroupUrl: String,
@@ -45,6 +46,8 @@ export default class TypeFormConfigurationController extends Controller {
   declare readonly noFilterQueryValue:string;
 
   declare services:Promise<PickedServices<'turboRequests'|'externalRelationQueryConfiguration'>>;
+
+  private filterFrame?:number;
 
   initialize() {
     useAngularServices(this);
@@ -58,12 +61,42 @@ export default class TypeFormConfigurationController extends Controller {
     });
   }
 
-  inactiveContainerTargetConnected() {
-    const filterListElement = this.element.querySelector<HTMLElement>('[data-controller~="filter--filter-list"]');
-    if (!filterListElement) return;
+  disconnect() {
+    if (this.filterFrame !== undefined) {
+      cancelAnimationFrame(this.filterFrame);
+      this.filterFrame = undefined;
+    }
+  }
 
-    const filterListController = this.application.getControllerForElementAndIdentifier(filterListElement, 'filter--filter-list') as { filterLists:() => void }|null;
-    filterListController?.filterLists();
+  confirmDiscardingEdit(event:Event) {
+    if (!this.element.querySelector('[data-edit-mode="true"]')) {
+      return;
+    }
+
+    if (!window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
+      event.preventDefault();
+    }
+  }
+
+  inactiveContainerTargetConnected() {
+    this.applyInactiveFilter();
+  }
+
+  // A morph keeps the container connected and strips the classes the filter
+  // set, so the target-connected hook above does not cover it.
+  reapplyInactiveFilter(event:Event) {
+    if (!this.hasInactiveContainerTarget || !(event.target instanceof Node)) {
+      return;
+    }
+
+    if (!this.inactiveContainerTarget.contains(event.target) || this.filterFrame !== undefined) {
+      return;
+    }
+
+    this.filterFrame = requestAnimationFrame(() => {
+      this.filterFrame = undefined;
+      this.applyInactiveFilter();
+    });
   }
 
   editQuery(event:Event) {
@@ -85,6 +118,14 @@ export default class TypeFormConfigurationController extends Controller {
         }
       });
     });
+  }
+
+  private applyInactiveFilter() {
+    const filterListElement = this.element.querySelector<HTMLElement>('[data-controller~="filter--filter-list"]');
+    if (!filterListElement) return;
+
+    const filterListController = this.application.getControllerForElementAndIdentifier(filterListElement, 'filter--filter-list') as { filterLists:() => void }|null;
+    filterListController?.filterLists();
   }
 
   private async postNewGroup(groupType:'attribute'|'query', queryProps?:unknown):Promise<void> {
