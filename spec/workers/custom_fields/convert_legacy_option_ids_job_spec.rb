@@ -31,9 +31,10 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
-  let(:mapping) { create(:legacy_option_mapping) }
-  let(:legacy_id) { mapping.custom_option_id.to_s }
-  let(:item_id) { mapping.hierarchical_item_id.to_s }
+  let(:list_field) { create(:list_wp_custom_field) }
+  let(:legacy_item) { create(:legacy_list_item, custom_field: list_field) }
+  let(:legacy_id) { legacy_item.legacy_option_id.to_s }
+  let(:item_id) { legacy_item.id.to_s }
   let(:other_list_field) { create(:list_wp_custom_field, possible_values: %w[Other]) }
 
   def store(record, column, raw)
@@ -50,7 +51,7 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
     let(:query) { create(:query).reload }
     let(:filters) do
       {
-        "cf_#{mapping.custom_field_id}" => { operator: "=", values: [legacy_id] },
+        "cf_#{list_field.id}" => { operator: "=", values: [legacy_id] },
         "cf_#{other_list_field.id}" => { operator: "=", values: [legacy_id] },
         "status_id" => { operator: "o", values: [] },
         "cf_0" => { operator: "=", values: [legacy_id] }
@@ -64,18 +65,18 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
 
     it "points the list filter at the item without marking the query as edited" do
       expect { query.reload }.not_to change(query, :updated_at)
-      expect(load_yaml(stored(query, :filters))["cf_#{mapping.custom_field_id}"][:values]).to eq([item_id])
+      expect(load_yaml(stored(query, :filters))["cf_#{list_field.id}"][:values]).to eq([item_id])
     end
 
     it "leaves the other filters as stored, including another field sharing the number" do
-      expect(load_yaml(stored(query, :filters)).except("cf_#{mapping.custom_field_id}"))
-        .to eq(filters.except("cf_#{mapping.custom_field_id}"))
+      expect(load_yaml(stored(query, :filters)).except("cf_#{list_field.id}"))
+        .to eq(filters.except("cf_#{list_field.id}"))
     end
   end
 
   context "with a work package query already holding item ids" do
     let(:query) { create(:query) }
-    let(:raw) { YAML.dump("cf_#{mapping.custom_field_id}" => { operator: "=", values: [item_id] }) }
+    let(:raw) { YAML.dump("cf_#{list_field.id}" => { operator: "=", values: [item_id] }) }
 
     before { store(query, :filters, raw) }
 
@@ -88,12 +89,12 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
 
   context "with a work package query that cannot be loaded" do
     let(:broken_query) { create(:query) }
-    let(:broken) { "cf_#{mapping.custom_field_id}: [unclosed" }
+    let(:broken) { "cf_#{list_field.id}: [unclosed" }
     let(:query) { create(:query) }
 
     before do
       store(broken_query, :filters, broken)
-      store(query, :filters, YAML.dump("cf_#{mapping.custom_field_id}" => { operator: "=", values: [legacy_id] }))
+      store(query, :filters, YAML.dump("cf_#{list_field.id}" => { operator: "=", values: [legacy_id] }))
       allow(OpenProject.logger).to receive(:error)
 
       described_class.perform_now
@@ -102,34 +103,34 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
     it "logs it, leaves it as stored and still converts the others" do
       expect(OpenProject.logger).to have_received(:error).with(/Query #{broken_query.id}:/)
       expect(stored(broken_query, :filters)).to eq(broken)
-      expect(load_yaml(stored(query, :filters))["cf_#{mapping.custom_field_id}"][:values]).to eq([item_id])
+      expect(load_yaml(stored(query, :filters))["cf_#{list_field.id}"][:values]).to eq([item_id])
     end
   end
 
   context "with a project query" do
-    let(:mapping) { create(:legacy_option_mapping, custom_field: create(:list_project_custom_field, possible_values: %w[Kept])) }
+    let(:list_field) { create(:list_project_custom_field) }
     let(:query) { create(:project_query) }
 
     before do
-      store(query, :filters, [{ "attribute" => "cf_#{mapping.custom_field_id}", "operator" => "=", "values" => [legacy_id] },
+      store(query, :filters, [{ "attribute" => "cf_#{list_field.id}", "operator" => "=", "values" => [legacy_id] },
                               { "attribute" => "active", "operator" => "=", "values" => ["t"] }].to_json)
       described_class.perform_now
     end
 
     it "points the list filter at the item and keeps the others" do
       expect(JSON.parse(stored(query, :filters)))
-        .to eq([{ "attribute" => "cf_#{mapping.custom_field_id}", "operator" => "=", "values" => [item_id] },
+        .to eq([{ "attribute" => "cf_#{list_field.id}", "operator" => "=", "values" => [item_id] },
                 { "attribute" => "active", "operator" => "=", "values" => ["t"] }])
     end
   end
 
   context "with a user query" do
-    let(:mapping) { create(:legacy_option_mapping, custom_field: create(:user_custom_field, :list, possible_values: %w[Kept])) }
+    let(:list_field) { create(:user_custom_field, :list) }
     let(:query) { create(:user_query) }
 
     before do
       store(query, :filters,
-            [{ "attribute" => "cf_#{mapping.custom_field_id}", "operator" => "=", "values" => [legacy_id] }].to_json)
+            [{ "attribute" => "cf_#{list_field.id}", "operator" => "=", "values" => [legacy_id] }].to_json)
       described_class.perform_now
     end
 
@@ -140,7 +141,7 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
 
   context "with a cost report query, which filters list fields by label" do
     let(:query) { create(:user_query).becomes!(CostReportQuery).tap(&:save!) }
-    let(:raw) { [{ "attribute" => "cf_#{mapping.custom_field_id}", "operator" => "=", "values" => [legacy_id] }].to_json }
+    let(:raw) { [{ "attribute" => "cf_#{list_field.id}", "operator" => "=", "values" => [legacy_id] }].to_json }
 
     before { store(query, :filters, raw) }
 
@@ -156,14 +157,14 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
     let(:other_item_id) { other_list_field.possible_values.first.id.to_s }
 
     before do
-      store(custom_action, :actions, YAML.dump([[:"custom_field_#{mapping.custom_field_id}", [legacy_id]],
+      store(custom_action, :actions, YAML.dump([[:"custom_field_#{list_field.id}", [legacy_id]],
                                                 [:"custom_field_#{other_list_field.id}", [other_item_id]]]))
       described_class.perform_now
     end
 
     it "points the list action at the item and keeps the others" do
       expect(YAML.safe_load(stored(custom_action, :actions), permitted_classes: [Symbol]))
-        .to eq([[:"custom_field_#{mapping.custom_field_id}", [item_id]],
+        .to eq([[:"custom_field_#{list_field.id}", [item_id]],
                 [:"custom_field_#{other_list_field.id}", [other_item_id]]])
     end
   end

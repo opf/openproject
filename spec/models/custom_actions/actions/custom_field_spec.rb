@@ -713,15 +713,9 @@ RSpec.describe CustomActions::Actions::CustomField do
       context "for a list custom field carrying a legacy option id", with_ee: [:custom_field_hierarchies] do
         let(:custom_field) { create(:list_wp_custom_field) }
         let(:root) { custom_field.hierarchy_root }
-        let(:migrated_item) do
-          CustomFields::Hierarchy::HierarchicalItemService
-            .new
-            .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label: "Kept").value!
-        end
+        let(:migrated_item) { create(:legacy_list_item, custom_field:, label: "Kept") }
 
-        let(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: migrated_item) }
-
-        let(:action_instance) { described_class.for(custom_field.attribute_name).new([mapping.custom_option_id]) }
+        let(:action_instance) { described_class.for(custom_field.attribute_name).new([migrated_item.legacy_option_id]) }
 
         it "holds the migrated item, so the admin form shows it" do
           expect(action_instance.values).to eq([migrated_item.id])

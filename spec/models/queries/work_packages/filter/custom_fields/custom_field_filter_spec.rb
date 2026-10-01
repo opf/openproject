@@ -118,11 +118,10 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
         end
 
         context "given a legacy custom option id" do
-          let(:item) { list_wp_custom_field.possible_values.first }
-          let(:mapping) { create(:legacy_option_mapping, custom_field: list_wp_custom_field, hierarchical_item: item) }
+          let(:item) { create(:legacy_list_item, custom_field: list_wp_custom_field) }
 
           before do
-            instance.values = [mapping.custom_option_id]
+            instance.values = [item.legacy_option_id]
           end
 
           it "resolves it to the migrated item, so the filter validates against the current value" do

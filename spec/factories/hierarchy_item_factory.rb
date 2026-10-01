@@ -31,5 +31,15 @@
 FactoryBot.define do
   factory :hierarchy_item, class: "CustomField::Hierarchy::Item" do
     sequence(:label) { |n| "Item #{n}" }
+
+    factory :legacy_list_item do
+      transient do
+        custom_field factory: :list_wp_custom_field
+      end
+
+      parent { custom_field.hierarchy_root }
+      # Kept apart from item ids: a legacy id equal to its item's id would let a broken translation pass.
+      sequence(:legacy_option_id) { |n| 990_000 + n }
+    end
   end
 end

@@ -37,19 +37,19 @@ module API
             end
 
             helpers do
-              def legacy_custom_option(id)
-                mapping = CustomField::LegacyOptionMapping.find_by(custom_option_id: id)
-                raise API::Errors::NotFound unless mapping
+              def legacy_list_item(id)
+                item = CustomField::Hierarchy::Item.includes(parent: :custom_field).find_by(legacy_option_id: id)
+                raise API::Errors::NotFound unless item
 
-                mapping
+                item
               end
 
-              def authorize_custom_option_visibility(custom_option)
-                case custom_option.custom_field
+              def authorize_custom_option_visibility(custom_field)
+                case custom_field
                 when WorkPackageCustomField
-                  authorized_work_package_option(custom_option)
+                  authorized_work_package_option(custom_field)
                 when ProjectCustomField
-                  authorized_project_custom_option(custom_option)
+                  authorized_project_custom_option(custom_field)
                 when TimeEntryCustomField
                   authorize_in_any_work_package(:log_own_time) do
                     authorize_in_any_project(:log_time) do
@@ -57,67 +57,67 @@ module API
                     end
                   end
                 when UserCustomField
-                  authorized_user_custom_option(custom_option)
+                  authorized_user_custom_option(custom_field)
                 when GroupCustomField
-                  authorized_group_custom_option(custom_option)
+                  authorized_group_custom_option(custom_field)
                 else
                   raise API::Errors::NotFound
                 end
               end
 
-              def authorized_work_package_option(custom_option)
+              def authorized_work_package_option(custom_field)
                 allowed = Project
                   .with_visible_work_packages(current_user)
                   .joins(:work_package_custom_fields)
-                  .exists?(custom_fields: { id: custom_option.custom_field_id })
+                  .exists?(custom_fields: { id: custom_field.id })
 
                 unless allowed
                   raise API::Errors::NotFound
                 end
               end
 
-              def authorized_project_custom_option(custom_option)
+              def authorized_project_custom_option(custom_field)
                 unless Project
                   .visible(current_user)
                   .joins(:project_custom_field_project_mappings)
-                  .exists?(project_custom_field_project_mappings: { custom_field_id: custom_option.custom_field_id })
+                  .exists?(project_custom_field_project_mappings: { custom_field_id: custom_field.id })
                   raise API::Errors::NotFound
                 end
               end
 
-              def authorized_user_custom_option(custom_option)
+              def authorized_user_custom_option(custom_field)
                 unless UserCustomField
                   .visible(current_user)
-                  .exists?(id: custom_option.custom_field_id)
+                  .exists?(id: custom_field.id)
                   raise API::Errors::NotFound
                 end
               end
 
-              def authorized_group_custom_option(custom_option)
+              def authorized_group_custom_option(custom_field)
                 unless GroupCustomField
                   .visible(current_user)
-                  .exists?(id: custom_option.custom_field_id)
+                  .exists?(id: custom_field.id)
                   raise API::Errors::NotFound
                 end
               end
             end
 
             get do
-              mapping = legacy_custom_option(params[:id])
+              item = legacy_list_item(params[:id])
 
-              authorize_custom_option_visibility(mapping)
+              authorize_custom_option_visibility(item.parent.custom_field)
 
               header "Deprecation", "true"
-              header "Link", "<#{api_v3_paths.custom_field_item(mapping.hierarchical_item_id)}>; rel=\"successor-version\""
+              header "Link", "<#{api_v3_paths.custom_field_item(item.id)}>; rel=\"successor-version\""
 
               {
                 _type: "CustomOption",
-                id: mapping.custom_option_id,
-                value: mapping.hierarchical_item.label,
+                id: item.legacy_option_id,
+                value: item.label,
                 _links: {
                   self: {
-                    href: api_v3_paths.custom_option(mapping.custom_option_id),
-                    title: mapping.hierarchical_item.label
+                    href: api_v3_paths.custom_option(item.legacy_option_id),
+                    title: item.label
                   }
                 }
               }

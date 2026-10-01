@@ -91,7 +91,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
   end
 
   def mapped_item_id(option_id)
-    conn.select_value("SELECT hierarchical_item_id FROM legacy_custom_option_mappings WHERE custom_option_id = #{option_id}")
+    conn.select_value("SELECT id FROM hierarchical_items WHERE legacy_option_id = #{option_id}")
   end
 
   def migrate!
@@ -321,10 +321,7 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
         RETURNING id
       SQL
       item_id = insert_item(root_id, "colliding", 0)
-      conn.execute(<<~SQL.squish)
-        INSERT INTO legacy_custom_option_mappings (custom_option_id, hierarchical_item_id, custom_field_id)
-        VALUES (#{item_id}, #{item_id}, #{cf})
-      SQL
+      conn.execute("UPDATE hierarchical_items SET legacy_option_id = #{item_id} WHERE id = #{item_id}")
 
       migration = described_class.new
       expect { migration.send(:assert_ids_disjoint!) }
@@ -381,7 +378,6 @@ RSpec.describe MigrateListCustomFieldsToHierarchyItems, type: :model do
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
       expect(conn.select_value("SELECT COUNT(*) FROM hierarchical_items WHERE custom_field_id = #{cf}")).to eq(0)
-      expect(conn.select_value("SELECT COUNT(*) FROM legacy_custom_option_mappings WHERE custom_field_id = #{cf}")).to eq(0)
     end
   end
 end

@@ -785,10 +785,10 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
   end
 
   describe "writing links to a multi-value list field" do
-    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, possible_values: %w[pear apple]) }
-    let(:pear) { custom_field.possible_values.find_by!(label: "pear") }
+    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, possible_values: %w[apple]) }
+    let(:pear) { create(:legacy_list_item, custom_field:, label: "pear") }
     let(:apple) { custom_field.possible_values.find_by!(label: "apple") }
-    let!(:legacy_pear) { create(:legacy_option_mapping, custom_field:, hierarchical_item: pear) }
+    let(:legacy_pear_id) { pear.legacy_option_id }
     let(:base_class) do
       Class.new(API::Decorators::Single) do
         def self.custom_field_injector_config
@@ -800,7 +800,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
     it "resolves all legacy ids in a single lookup, keeping the links' order" do
       allow(CustomFields::LegacyOptionIdResolver).to receive(:resolve_all).and_call_original
-      links = [{ href: api_v3_paths.custom_option(legacy_pear.custom_option_id) },
+      links = [{ href: api_v3_paths.custom_option(legacy_pear_id) },
                { href: api_v3_paths.custom_field_item(apple.id) }]
 
       described_class.create_value_representer([custom_field], base_class)

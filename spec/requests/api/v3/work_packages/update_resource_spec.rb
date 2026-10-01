@@ -953,13 +953,12 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when setting a list custom field through a legacy custom option href" do
-        let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[pear]) }
-        let(:item) { custom_field.possible_values.first }
-        let(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: item) }
+        let(:custom_field) { create(:list_wp_custom_field) }
+        let(:item) { create(:legacy_list_item, custom_field:) }
         let(:params) do
           valid_params.merge(
             _links: {
-              custom_field.attribute_name.camelize(:lower) => { href: api_v3_paths.custom_option(mapping.custom_option_id) }
+              custom_field.attribute_name.camelize(:lower) => { href: api_v3_paths.custom_option(item.legacy_option_id) }
             }
           )
         end

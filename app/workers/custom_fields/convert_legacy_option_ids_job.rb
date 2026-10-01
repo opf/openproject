@@ -38,7 +38,7 @@ module CustomFields
     queue_with_priority :default
 
     def perform
-      return unless CustomField::LegacyOptionMapping.exists?
+      return unless CustomField::Hierarchy::Item.where.not(legacy_option_id: nil).exists?
 
       resave(Query.where("filters LIKE '%cf\\_%'"), :filters)
       resave(ProjectQuery.where("filters::text LIKE '%cf\\_%'"), :filters)

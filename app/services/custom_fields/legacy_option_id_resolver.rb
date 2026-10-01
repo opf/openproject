@@ -33,7 +33,7 @@ module CustomFields
   # migration advances hierarchical_items' sequence past every custom option id
   # ever issued, so every item of a list field has a higher id than any of its
   # former options. Items of other fields may share an option id, hence the lookup
-  # by custom field.
+  # among the field's own items.
   class LegacyOptionIdResolver
     class << self
       def resolve(custom_field:, id:)
@@ -43,12 +43,12 @@ module CustomFields
       def resolve_all(custom_field:, ids:)
         return ids unless custom_field.list?
 
-        mapping = CustomField::LegacyOptionMapping
-                    .where(custom_field_id: custom_field.id, custom_option_id: ids)
-                    .pluck(:custom_option_id, :hierarchical_item_id)
-                    .to_h
+        items = CustomField::Hierarchy::Item
+                  .where(parent: custom_field.hierarchy_root, legacy_option_id: ids)
+                  .pluck(:legacy_option_id, :id)
+                  .to_h
 
-        ids.map { |id| mapping[id.to_i]&.to_s || id }
+        ids.map { |id| items[id.to_i]&.to_s || id }
       end
     end
   end

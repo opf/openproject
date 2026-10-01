@@ -38,13 +38,13 @@ RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:custom_field) do
-    cf = create(:list_wp_custom_field, possible_values: %w[pear])
+    cf = create(:list_wp_custom_field)
     project.work_package_custom_fields << cf
     cf
   end
 
-  let(:mapping) { create(:legacy_option_mapping, custom_field:) }
-  let(:legacy_id) { mapping.custom_option_id }
+  let(:item) { create(:legacy_list_item, custom_field:, label: "pear") }
+  let(:legacy_id) { item.legacy_option_id }
 
   before do
     login_as(user)
@@ -68,6 +68,6 @@ RSpec.describe "GET /api/v3/custom_options/:id", :with_no_ee do
 
   it "points at the custom field item that replaces it" do
     expect(last_response.headers["Link"])
-      .to eq(%(<#{api_v3_paths.custom_field_item(mapping.hierarchical_item_id)}>; rel="successor-version"))
+      .to eq(%(<#{api_v3_paths.custom_field_item(item.id)}>; rel="successor-version"))
   end
 end
