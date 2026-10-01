@@ -12,6 +12,7 @@ An ADR becomes part of the project’s architecture documentation and is authori
 |----------------------------------------------------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | [ADR-0000](adr-0000-introduce-adrs.md)                   | Decision records     | Significant technical decisions are documented as ADRs in `docs/decisions/`, agreed on via pull request, and binding once merged.                                       | accepted |
 | [ADR-0001](adr-0001-ai-assisted-pull-request-reviews.md) | AI-assisted reviews  | AI review only by mutual agreement of author and reviewer, on top of human review. A human reviewer owns and triages every AI comment; across teams, confirm first.       | proposed |
+| [ADR-0002](adr-0002-server-rendered-ui-with-hotwire.md) | Frontend architecture | New UI is server-rendered with ViewComponent, Primer and Hotwire. No new Angular; existing Angular is migrated when significantly changed and embedded as custom elements. | proposed |
 
 ---
 
@@ -92,7 +93,9 @@ If unsure: **create an ADR**. It is better to document one decision too many tha
 
 4. **Open a Pull Request**
 
-   Create a pull request containing only the ADR (and related material if necessary).
+   Create a pull request containing only the ADR (and related material if necessary). Add a row for the ADR to the
+   [decision log](#decision-log) in the same pull request, summarising the outcome in one or two sentences so the log
+   can be read on its own.
 
 5. **Notify the team**
 
@@ -149,6 +152,8 @@ If a decision changes:
 2. Reference the previous one
 3. Mark the old ADR as _superseded_ in the status header
 4. Move the ADR to the `/docs/decisions/archived/` directory as part of the pull request that introduces the new ADR.
+5. Update the old ADR's row in the [decision log](#decision-log): link to its archived location and set the status to
+   _superseded by ADR-XXXX_.
 
 Architecture history must remain traceable.
 
