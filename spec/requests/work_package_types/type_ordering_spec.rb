@@ -51,7 +51,7 @@ RSpec.describe "Type ordering", :skip_csrf,
   end
 
   def drop(name, request_params = drag_params, page: 2, **context)
-    put drop_type_path(type_named(name), page:, per_page: 2, **context),
+    put move_type_path(type_named(name), page:, per_page: 2, **context),
         params: request_params,
         as: :json,
         headers: { "Accept" => "text/vnd.turbo-stream.html" }
@@ -75,7 +75,7 @@ RSpec.describe "Type ordering", :skip_csrf,
       expand = type_named("D").id
       expect(turbo_fragment).to have_link("1", href: types_path(page: 1, per_page: 2, expand:))
       expect(turbo_fragment).to have_link("3", href: types_path(page: 3, per_page: 2, expand:))
-      expect(turbo_fragment).to have_no_css("[href*='/drop']")
+      expect(turbo_fragment).to have_no_css("[href*='/move']")
     end
 
     it "moves to the global beginning on page one for #{anchor.inspect}" do
@@ -166,8 +166,8 @@ RSpec.describe "Type ordering", :skip_csrf,
     lowest: ["C", %w[A B D E C]]
   }.each do |direction, (name, names)|
     it "moves #{direction} globally and refreshes the current page", :aggregate_failures do
-      post move_types_path(type_named(name), page: 2, per_page: 2),
-           params: { type: { move_to: direction } }, as: :turbo_stream
+      put move_type_path(type_named(name), page: 2, per_page: 2),
+          params: { move_to: direction }, as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect_order(*names)
@@ -180,9 +180,9 @@ RSpec.describe "Type ordering", :skip_csrf,
 
   [nil, "sideways", false, [], {}].each do |direction|
     it "rejects invalid direction #{direction.inspect}" do
-      post move_types_path(type_named("D"), page: 2, per_page: 2),
-           params: { type: { move_to: direction } }, as: :json,
-           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      put move_type_path(type_named("D"), page: 2, per_page: 2),
+          params: { move_to: direction }, as: :json,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect_refused("A", "B", "C", "D", "E")
     end
@@ -192,9 +192,10 @@ RSpec.describe "Type ordering", :skip_csrf,
     get menu_type_path(type_named("C"), page: 2, per_page: 2, expand: type_named("C").id)
 
     expect(response).to have_http_status(:ok)
-    form_action = move_types_path(type_named("C"), page: 2, per_page: 2, expand: type_named("C").id)
+    form_action = move_type_path(type_named("C"), page: 2, per_page: 2, expand: type_named("C").id)
     expect(response.body).to have_element(:form, action: form_action, count: 4)
-    expect(response.body).to have_field("type[move_to]", type: :hidden, with: "higher")
+    expect(response.body).to have_field("_method", type: :hidden, with: "put", count: 4)
+    expect(response.body).to have_field("move_to", type: :hidden, with: "higher")
   end
 
   context "without admin permission" do
@@ -208,7 +209,7 @@ RSpec.describe "Type ordering", :skip_csrf,
     end
 
     it "rejects menu moves" do
-      post move_types_path(type_named("D")), params: { type: { move_to: "highest" } }, as: :turbo_stream
+      put move_type_path(type_named("D")), params: { move_to: "highest" }, as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)
       expect_order("A", "B", "C", "D", "E")

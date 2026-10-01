@@ -177,8 +177,8 @@ module WorkPackageTypes
         submenu.with_item(
           label:,
           tag: :button,
-          href: move_types_path(type, **page_args, expand: expanded_type_id),
-          form_arguments: { method: :post, inputs: [{ name: "type[move_to]", value: move_to.to_s }] }
+          href: move_type_path(type, **page_args, expand: expanded_type_id),
+          form_arguments: { method: :put, inputs: [{ name: "move_to", value: move_to.to_s }] }
         ) do |item|
           item.with_leading_visual_icon(icon:)
         end

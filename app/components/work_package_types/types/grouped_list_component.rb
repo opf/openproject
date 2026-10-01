@@ -122,7 +122,7 @@ module WorkPackageTypes
       # installations keep working; {id} is expanded client-side.
       def move_url_template
         id_placeholder = "__id__"
-        drop_type_path(id_placeholder, **context_args).sub(id_placeholder, "{id}")
+        move_type_path(id_placeholder, **context_args).sub(id_placeholder, "{id}")
       end
 
       def list_data

@@ -36,7 +36,7 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :find_type, only: %i[move destroy drop duplicate menu deletion_dialog]
+    before_action :find_type, only: %i[move destroy duplicate menu deletion_dialog]
 
     current_menu_item do
       :types
@@ -53,7 +53,11 @@ module WorkPackageTypes
     end
 
     def move
-      render_ordering_result(move_in_direction, error_message: I18n.t(:error_type_could_not_be_saved))
+      if params.key?(:move_to)
+        render_ordering_result(move_in_direction, error_message: I18n.t(:error_type_could_not_be_saved))
+      else
+        render_ordering_result(move_after_anchor, error_message: I18n.t(:error_invalid_list_move_anchor))
+      end
     end
 
     def destroy
@@ -86,10 +90,6 @@ module WorkPackageTypes
       end
 
       redirect_to types_path, status: :see_other
-    end
-
-    def drop
-      render_ordering_result(move_after_anchor, error_message: I18n.t(:error_invalid_list_move_anchor))
     end
 
     def menu
@@ -175,10 +175,7 @@ module WorkPackageTypes
     end
 
     def move_in_direction
-      type_params = params[:type]
-      return false unless type_params.is_a?(ActionController::Parameters)
-
-      direction = type_params[:move_to]
+      direction = params[:move_to]
       return false unless direction.in?(%w[highest higher lower lowest])
 
       @type.update(move_to: direction)

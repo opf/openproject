@@ -208,8 +208,8 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       end
     end
 
-    it "carries page context through the drop URL" do
-      expected = drop_type_path("__id__", page: 2, per_page: 2, expand: expanded.id).sub("__id__", "{id}")
+    it "carries page context through the move URL" do
+      expected = move_type_path("__id__", page: 2, per_page: 2, expand: expanded.id).sub("__id__", "{id}")
 
       expect(rendered_component).to have_element(id: wrapper) do |root|
         expect(root["data-sortable-lists-move-url-template-value"]).to eq(expected)

@@ -93,14 +93,15 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
       end
     end
 
-    it "keeps all directions for a page's first type and posts with page context" do
+    it "keeps all directions for a page's first type and submits with page context" do
       first_on_page = page_two.first
       expect(first_on_page).not_to eq(ordered.first)
 
       rendered = render_for(first_on_page, page_args:)
 
       expect_directions(rendered, present: %i[label_sort_highest label_sort_higher label_sort_lower label_sort_lowest])
-      expect(rendered).to have_element(:form, action: move_types_path(first_on_page, **page_args), method: "post")
+      expect(rendered).to have_element(:form, action: move_type_path(first_on_page, **page_args), count: 4)
+      expect(rendered).to have_field("_method", type: :hidden, with: "put", count: 4)
     end
 
     it "keeps downward moves for a page's last type" do
