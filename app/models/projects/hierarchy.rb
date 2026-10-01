@@ -93,10 +93,14 @@ module Projects::Hierarchy
       project_tree_from_hierarchy(projects_hierarchy, 0, &)
     end
 
-    # Returns the visible/active projects within `boundary` (or, without one, all visible/active
-    # projects) that have no visible/active ancestor also in that set. Without a boundary, this
-    # includes true root-level projects, but also deeper projects whose real ancestors are all
-    # invisible or archived - they get promoted to the top level instead of hidden.
+    # Returns `boundary`'s nearest visible/active descendants - normally its direct children,
+    # but if a child is invisible or archived, its own visible/active children are surfaced instead
+    # of hiding that whole branch (repeating as needed, so a chain of several invisible
+    # ancestors is skipped entirely).
+    #
+    # Without a boundary, this does the same thing for the whole instance: the result is the
+    # visible/active root-level projects, plus any deeper project promoted to the top level
+    # because its real ancestors are all invisible or archived.
     def nearest_visible_descendants(boundary = nil, limit: nil)
       # Both the root case and the within-boundary case reduce to the same question: which
       # projects in a visible set have no ancestor also in that set? Only the set differs -
@@ -147,7 +151,7 @@ module Projects::Hierarchy
     # Used to decide whether a node gets an expand arrow or renders as a leaf
     # has_subprojects?/leaf? is not enough, as it only looks at lft/rgt and would count an archived or invisible
     # descendant as "has children" too.
-    def with_visible_descendants(candidates)
+    def having_visible_descendants(candidates)
       candidates = Array(candidates)
       return none if candidates.empty?
 

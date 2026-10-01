@@ -179,30 +179,38 @@ class Header::ProjectsController < ApplicationController
   # Builds the nested tree from a flat, lft-ordered list of projects and
   # decorates each node with its query-match and expansion state.
   def build_tree(projects)
-    if lazy_loading?
-      # Needed to know which projects have visible descendants so we can display a chevron next to them
-      @projects_with_visible_descendants = Project.with_visible_descendants(projects).pluck(:id).to_set
-    end
-    decorate_nodes(Project.build_projects_hierarchy(projects))
+    # Empty outside browse mode rather than skipped, so defer_children? doesn't need to know why -
+    # it just checks membership. Search/favorited already load everything eagerly. Computed once
+    # here and passed down, rather than recomputed per node.
+    project_ids_having_visible_descendants =
+      lazy_loading? ? Project.having_visible_descendants(projects).pluck(:id).to_set : Set.new
+    decorate_nodes(Project.build_projects_hierarchy(projects), project_ids_having_visible_descendants)
   end
 
-  def decorate_nodes(nodes)
+  def decorate_nodes(nodes, project_ids_having_visible_descendants)
     nodes.each do |node|
-      decorate_nodes(node[:children])
+      decorate_nodes(node[:children], project_ids_having_visible_descendants)
       node[:matches_query] = @matching_ids.nil? || @matching_ids.include?(node[:project].id)
       node[:expanded] = expanded_node?(node)
-      node[:deferred_children_path] = deferred_children_path_for(node)
+      node[:deferred_children_path] = deferred_children_path_for(node, project_ids_having_visible_descendants)
     end
   end
 
-  def deferred_children_path_for(node)
-    return unless lazy_loading? && node[:children].empty? && @projects_with_visible_descendants.include?(node[:project].id)
+  def deferred_children_path_for(node, project_ids_having_visible_descendants)
+    return unless defer_children?(node, project_ids_having_visible_descendants)
 
     children_header_projects_path(
       parent_id: node[:project].id,
       current_project_id: @current_project_id,
       jump: @jump
     )
+  end
+
+  # A node's children are deferred (shown behind a lazy-load link instead of loaded eagerly)
+  # when we're browsing (search/favorited load everything eagerly), its children aren't loaded
+  # yet, and it actually has visible descendants to show.
+  def defer_children?(node, project_ids_having_visible_descendants)
+    lazy_loading? && node[:children].empty? && project_ids_having_visible_descendants.include?(node[:project].id)
   end
 
   def lazy_loading?
