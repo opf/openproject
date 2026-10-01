@@ -56,6 +56,10 @@ module ResourcePlannerViews
         allocation.filter_based?
       end
 
+      def deleted_user?
+        allocation.principal.is_a?(DeletedUser)
+      end
+
       def principal_visible?
         return false unless allocation.user_assigned?
         return true if visible_principal_ids.nil?
@@ -94,6 +98,7 @@ module ResourcePlannerViews
       # The bar is often too narrow to show the name and job title, so the full
       # text is reachable by hovering anywhere on it.
       def label_tooltip
+        return allocation.principal.name if deleted_user?
         return placeholder_label unless principal_visible?
 
         [allocation.principal.name, job_title].compact_blank.join(" - ")
