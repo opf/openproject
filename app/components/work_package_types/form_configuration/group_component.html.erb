@@ -31,7 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper(
     data: wrapper_data
   ) do
-    render(border_box_container(mt: 3, mb: (last? ? 3 : 0), padding: :condensed, data: row_drop_target_config)) do |box|
+    render(border_box_container(mt: 3, mb: (last? ? 3 : 0), padding: :condensed, data: box_data)) do |box|
+      # The group item resolves its menu as the first action-menu inside it: the header stays above the rows.
       box.with_header(font_weight: :bold) do
         render(
           WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
@@ -69,25 +70,12 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       elsif !attributes.empty?
-        attributes.each_with_index do |attribute, index|
-          row_data = if readonly?
-                       {}
-                     else
-                       {
-                         attr_key: attribute[:key],
-                         attr_translation: attribute[:translation],
-                         attr_is_cf: attribute[:is_cf],
-                         "draggable-id": attribute[:key],
-                         "draggable-type": "attribute",
-                         "drop-url": row_drop_path(attribute)
-                       }
-                     end
-          box.with_row(data: row_data) do
+        attributes.each do |attribute|
+          box.with_row(data: attribute_item_data(attribute)) do
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
                 context: @context,
-                index:,
                 total_count: attributes.length
               )
             )

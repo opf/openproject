@@ -100,8 +100,10 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     it "leaves the form itself to administration" do
-      put drop_form_configuration_row_path(ours.form_configuration, row_key: "assignee"),
-          params: { target_id: "inactive", position: 1 },
+      membership = create(:form_configuration_attribute, form_configuration: ours.form_configuration)
+
+      put move_form_configuration_attribute_path(ours.form_configuration, membership),
+          params: { list_type: "inactive_attribute" },
           as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)

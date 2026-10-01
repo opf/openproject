@@ -45,22 +45,24 @@ module WorkPackageTypes
         {
           "test-selector": "type-form-configuration-inactive-container",
           "admin--type-form-configuration--main-target": "inactiveContainer",
-          "admin--type-form-configuration--rows-drag-and-drop-target": "container",
-          "target-container-accessor": "[data-test-selector='type-form-configuration-inactive-list']",
-          "target-id": "inactive",
-          "target-allowed-drag-type": "attribute"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: SortableTypes::INACTIVE_ATTRIBUTE,
+          sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
+          sortable_lists__list_name_value: t("types.edit.form_configuration.inactive_attributes_heading"),
+          sortable_lists__list_rows_container_element: ".type-form-configuration-page--inactive-list"
         }
       end
 
       def item_data(attribute)
-        {
-          attr_key: attribute[:key],
-          attr_translation: attribute[:translation],
-          attr_is_cf: attribute[:is_cf],
-          "draggable-id": attribute[:key],
-          "draggable-type": "attribute",
-          "drop-url": @context.row_path(:drop, row_key: attribute[:key])
-        }
+        data = { attr_key: attribute[:key], attr_translation: attribute[:translation], attr_is_cf: attribute[:is_cf] }
+        return data if attribute[:id].blank?
+
+        data.merge(
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: attribute[:id],
+          sortable_lists__item_type_value: SortableTypes::ATTRIBUTE,
+          sortable_lists__item_label_value: attribute[:translation]
+        )
       end
     end
   end

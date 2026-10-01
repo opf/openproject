@@ -38,12 +38,12 @@ module WorkPackageTypes
 
     private
 
-    def update_form_configuration_via_turbo_stream(**)
-      update_main_content_via_turbo_stream(**)
-      update_inactive_attributes_via_turbo_stream
+    def update_form_configuration_via_turbo_stream(method: nil, **)
+      update_main_content_via_turbo_stream(**, **{ method: }.compact)
+      update_inactive_attributes_via_turbo_stream(**{ method: }.compact)
     end
 
-    def update_main_content_via_turbo_stream(groups: active_groups_for_form, editing_group_key: nil, form_model: nil)
+    def update_main_content_via_turbo_stream(groups: active_groups_for_form, editing_group_key: nil, form_model: nil, **)
       ee_available = EnterpriseToken.allows_to?(:edit_attribute_groups)
       group_components = build_group_components(
         groups:,
@@ -57,17 +57,19 @@ module WorkPackageTypes
           context: form_editor_context,
           group_components:,
           ee_available:
-        )
+        ),
+        **
       )
     end
 
-    def update_inactive_attributes_via_turbo_stream
+    def update_inactive_attributes_via_turbo_stream(**)
       replace_via_turbo_stream(
         component: WorkPackageTypes::FormConfiguration::InactiveAttributesListComponent.new(
           inactive_attributes: form_configuration_groups(form_editor_context)[:inactives],
           context: form_editor_context
         ),
-        target: "type-form-configuration-inactive-container"
+        target: "type-form-configuration-inactive-container",
+        **
       )
     end
 

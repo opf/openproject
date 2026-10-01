@@ -23,7 +23,15 @@ RSpec.describe WorkPackageTypes::FormConfiguration::MainContentComponent, type: 
 
     expect(page).to have_no_test_selector("type-form-configuration-reset-button")
     expect(page).to have_no_test_selector("type-form-configuration-add-button")
-    expect(page).to have_no_css("[data-admin--type-form-configuration--drag-and-drop-target]")
+    expect(page).to have_no_css("[data-controller*='sortable-lists']")
     expect(page).to have_test_selector("type-form-configuration-groups-container")
+  end
+
+  describe "the groups container" do
+    subject(:rendered_component) do
+      render_inline(described_class.new(context: editor_context, group_components: [], ee_available: true))
+    end
+
+    it_behaves_like "a sortable-lists list", list_type: "group", name: nil
   end
 end

@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% else %>
     <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "type-form-configuration-page")) do |content| %>
-      <% content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "type-form-configuration-page--sidebar") do %>
+      <% content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "type-form-configuration-page--sidebar", data: scrollable_data) do %>
         <%= render(
               WorkPackageTypes::FormConfiguration::InactiveAttributesSidebarComponent.new(
                 context: @context,
@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% content.with_main(classes: "type-form-configuration-page--main") do %>
         <%= tag.div(
               class: "type-form-configuration-page--active-list",
-              data: active_list_data
+              data: scrollable_data
             ) do %>
           <%= render(EnterpriseEdition::BannerComponent.new(:edit_attribute_groups, mb: 3)) %>
 

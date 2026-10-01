@@ -98,29 +98,7 @@ module Components
       end
 
       def drag_and_drop(handle, target)
-        target_container = drop_container_for(target)
-        source_row = handle.find(:xpath, "./ancestor::li[1]")
-
-        scroll_to_element(target_container)
-        source_row.hover
-
-        page.driver.browser.action
-            .move_to(handle.native)
-            .click_and_hold(handle.native)
-            .perform
-
-        scroll_to_element(target_container)
-
-        target_container.all(":scope > li", visible: true).each do |item|
-          page.driver.browser.action
-              .move_to(item.native)
-              .perform
-        end
-
-        page.driver.browser.action
-            .move_to(target_container.native)
-            .release
-            .perform
+        perform_native_drag(source: handle, target: drop_container_for(target))
       end
 
       def add_query_group(name, relation_filter, expect: true)
@@ -251,10 +229,6 @@ module Components
         end
       end
 
-      def attribute_order(group_name)
-        find_group(group_name).find("ul").all(":scope > li[data-attr-key]", visible: true).pluck("data-attr-key")
-      end
-
       def open_attribute_menu(attribute)
         open_menu("type-form-configuration-attribute-actions-#{attribute}")
       end
@@ -262,16 +236,6 @@ module Components
       def open_query_menu(name)
         group_key = find_group(name)["data-group-key"]
         open_menu("type-form-configuration-query-actions-#{group_key}")
-      end
-
-      def close_menu(menu_id)
-        page.find("body").send_keys(:escape)
-        expect(page).to have_no_css("##{menu_id}")
-      end
-
-      def invoke_group_action(name, label)
-        click_menu_action(-> { open_group_menu(name) }, label)
-        wait_for_turbo
       end
 
       def invoke_attribute_action(attribute, label)

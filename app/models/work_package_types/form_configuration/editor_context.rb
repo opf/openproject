@@ -77,6 +77,20 @@ module WorkPackageTypes
         toggle_required_variant_form_configuration_row_path(scope_project, variant, row_key)
       end
 
+      def move_url_templates
+        id_placeholder = "__id__"
+        {
+          SortableTypes::GROUP =>
+            routes.move_form_configuration_group_path(form_configuration, id_placeholder).sub(id_placeholder, "{id}"),
+          SortableTypes::ATTRIBUTE =>
+            routes.move_form_configuration_attribute_path(form_configuration, id_placeholder).sub(id_placeholder, "{id}")
+        }
+      end
+
+      def membership_ids
+        @membership_ids ||= readonly? ? {} : form_configuration.form_attributes.to_h { [it.key, it.id] }
+      end
+
       private
 
       def owner = variant || form_configuration

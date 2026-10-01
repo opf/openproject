@@ -202,6 +202,12 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component).to have_no_element(:li, "data-controller": "sortable-lists--item")
     end
 
+    it "identifies each type group by its record" do
+      page_two.each do |type|
+        expect(rendered_component).to have_sortable_item(type, type: "type")
+      end
+    end
+
     it "gives each type group a single drag handle as its item handle" do
       expect(rendered_component).to have_button(accessible_name: "Drag to reorder", count: 2) do |handle|
         handle["data-sortable-lists--item-target"] == "handle"

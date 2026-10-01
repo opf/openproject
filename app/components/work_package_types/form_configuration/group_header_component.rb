@@ -32,6 +32,7 @@ module WorkPackageTypes
   module FormConfiguration
     class GroupHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include SortableLists::MoveMenu
 
       def initialize(group:, context:, ee_available:, first:, last:, edit_mode:, form_model: nil)
         super
@@ -72,6 +73,8 @@ module WorkPackageTypes
         @last
       end
 
+      def sole_group? = first? && last?
+
       def edit_path
         @context.group_path(:edit, key: @group[:key])
       end
@@ -90,10 +93,6 @@ module WorkPackageTypes
         @context.group_path(:cancel_edit, key: @group[:key])
       end
 
-      def move_path(move_to)
-        @context.group_path(:move, key: @group[:key], move_to:)
-      end
-
       def destroy_path
         @context.group_path(key: @group[:key])
       end
@@ -104,17 +103,6 @@ module WorkPackageTypes
 
       def create_path
         @context.group_path
-      end
-
-      def move_action(menu:, href:, label:, icon:)
-        menu.with_item(
-          label:,
-          tag: :a,
-          href:,
-          content_arguments: { data: { turbo_method: :put, turbo_stream: true } }
-        ) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
       end
     end
   end

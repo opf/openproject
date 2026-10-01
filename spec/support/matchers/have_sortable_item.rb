@@ -28,43 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module FormConfigurations
-  class RowsController < ApplicationController
-    include TypesHelper
-    include OpTurbo::ComponentStream
-    include FormConfigurations::EditorRecords
-    include WorkPackageTypes::FormConfigurationComponentStreams
+RSpec::Matchers.define :have_sortable_item do |record, type:, label: record.try(:name)|
+  identity = "[data-sortable-lists--item-id-value='#{record.id}']" \
+             "[data-sortable-lists--item-type-value='#{type}']"
+  selector = "[data-controller~='sortable-lists--item']#{identity}"
 
-    before_action :require_admin
-    before_action :load_form_configuration
-    before_action :reconcile_editor_records
+  def capybara_node(rendered)
+    rendered.respond_to?(:has_css?) ? rendered : Capybara.string(rendered.to_s)
+  end
 
-    def destroy
-      call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
-        .new(user: current_user, form_configuration: @form_configuration, row_key: params[:row_key])
-        .call
+  match do |rendered|
+    node = capybara_node(rendered)
+    node.has_css?(selector, count: 1) &&
+      node.find(selector)["data-sortable-lists--item-label-value"] == label
+  end
 
-      respond_to_row_update(call)
-    end
+  match_when_negated do |rendered|
+    capybara_node(rendered).has_no_css?(identity)
+  end
 
-    private
-
-    def respond_to_row_update(call)
-      if call.success?
-        update_form_configuration_via_turbo_stream
-      else
-        render_form_configuration_error(call)
-      end
-
-      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
-    end
-
-    def load_form_configuration
-      @form_configuration = FormConfiguration.find(params.expect(:form_configuration_id))
-    end
-
-    def form_editor_context
-      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
-    end
+  failure_message do
+    "expected one sortable-lists item of type #{type.inspect} with id #{record.id} and label #{label.inspect}"
   end
 end

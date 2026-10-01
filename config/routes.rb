@@ -391,17 +391,22 @@ Rails.application.routes.draw do
     resource :group, only: %i[create edit update destroy], controller: "form_configurations/groups" do
       post :add_group
       post :cancel_edit
-      put :drop
-      put :move
       patch :update_query
     end
 
-    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key do
+    resources :groups, only: [], controller: "form_configurations/groups" do
       member do
-        put :drop
         put :move
       end
     end
+
+    resources :attributes, only: [], controller: "form_configurations/attributes" do
+      member do
+        put :move
+      end
+    end
+
+    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key
   end
 
   get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",

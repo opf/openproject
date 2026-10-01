@@ -105,32 +105,16 @@ module FormConfigurations
       respond_with_turbo_streams(status: turbo_status_for(call))
     end
 
-    def drop
-      call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
-        .call(position: params[:position])
-
-      if call.success?
-        update_main_content_via_turbo_stream
-      else
-        render_form_configuration_error(call)
-      end
-
-      respond_with_turbo_streams(status: turbo_status_for(call))
-    end
-
     def move
-      call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
-        .call(move_to: params[:move_to])
+      group = @form_configuration.form_groups.find(params.expect(:id))
+      call = valid_drop_request? ? move_group_call(group) : nil
 
-      if call.success?
-        update_main_content_via_turbo_stream
+      if call&.success?
+        update_main_content_via_turbo_stream(method: :morph)
+        respond_with_turbo_streams
       else
-        render_form_configuration_error(call)
+        render_invalid_move(call)
       end
-
-      respond_with_turbo_streams(status: turbo_status_for(call))
     end
 
     def update_query
@@ -199,6 +183,30 @@ module FormConfigurations
       ::WorkPackageTypes::FormConfigurationGroups::UpdateService
         .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
         .call(name: group_params[:name])
+    end
+
+    def move_group_call(group)
+      ::WorkPackageTypes::FormConfigurationGroups::MoveService
+        .new(user: current_user, form_configuration: @form_configuration, record: group)
+        .call(prev_id: drop_params[:prev_id])
+    end
+
+    # The raw list_id is checked because permit cannot tell an absent value
+    # from a filtered-out collection one.
+    def valid_drop_request?
+      drop_params[:list_type] == WorkPackageTypes::FormConfiguration::SortableTypes::GROUP &&
+        params[:list_id].blank? &&
+        drop_params.key?(:prev_id)
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def render_invalid_move(call)
+      message = call&.message.presence || I18n.t(:error_invalid_list_move_anchor)
+      render_error_flash_message_via_turbo_stream(message:)
+      respond_with_turbo_streams(status: :unprocessable_entity)
     end
 
     def render_create_error(call)
