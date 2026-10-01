@@ -98,6 +98,8 @@ class TypeVariant < ApplicationRecord
   scope :default_variant, -> { where(is_default_variant: true) }
   scope :non_default_variants, -> { where(is_default_variant: false) }
 
+  scope :created_by_migration, -> { where(created_by_migration: true) }
+
   scope :global, -> { where(project_id: nil) }
   scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }

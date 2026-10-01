@@ -174,11 +174,11 @@ class ConvertCustomFieldActivationsToVariants < ActiveRecord::Migration[8.1]
     select_value(<<~SQL.squish)
       INSERT INTO type_variants
         (type_id, project_id, variant_name, is_default_variant, enabled_in_new_projects,
-         linked_aspects, form_configuration_id, workflow_id,
+         created_by_migration, linked_aspects, form_configuration_id, workflow_id,
          form_configuration_excluded_elements, project_attributes_excluded_elements,
          required_attributes, created_at, updated_at)
       SELECT applied.type_id, #{sql_value(shape[:owner_id])}, #{sql_value(shape[:variant_name])},
-             FALSE, FALSE,
+             FALSE, FALSE, TRUE,
              #{array_literal(LINKED_ASPECTS)},
              applied.form_configuration_id,
              applied.workflow_id,
