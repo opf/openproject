@@ -39,8 +39,7 @@ module Components
       include Toasts::Expectations
 
       def open_for(work_package, check_if_open: true, card_view: nil)
-        # Close
-        find("body").send_keys :escape
+        close_if_open
         sleep 0.5 unless using_cuprite?
 
         retry_block do
@@ -62,6 +61,14 @@ module Components
         expect(page).to have_selector(:menu, work_package_context_menu_label)
       end
 
+      # Escape would also clear the selection when no menu owns it.
+      def close_if_open
+        return unless page.has_selector?(:menu, work_package_context_menu_label, wait: 0)
+
+        find("body").send_keys :escape
+        expect_closed
+      end
+
       def expect_closed
         expect(page).to have_no_selector(:menu, work_package_context_menu_label)
       end
@@ -74,10 +81,9 @@ module Components
 
       def choose_delete_and_confirm_deletion
         choose "Delete"
-        # only handle the case where the modal does _not_ ask for descendants deletion confirmation
-        within_modal(I18n.t("js.modals.destroy_work_package.title", label: "work package")) do
-          click_button "Delete"
-        end
+
+        dialog = ::Components::WorkPackages::DestroyModal.new
+        dialog.confirm_deletion
       end
 
       def expect_no_options(*options)

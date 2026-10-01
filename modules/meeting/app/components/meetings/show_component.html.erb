@@ -1,7 +1,7 @@
 <%=
   flex_layout(data: show_page_data_attributes) do |show_page|
     show_page.with_row do
-      render(Meetings::HeaderComponent.new(meeting: @meeting))
+      render(Meetings::HeaderComponent.new(meeting: @meeting, state: @state))
     end
 
     show_page.with_row do

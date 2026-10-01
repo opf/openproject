@@ -86,16 +86,16 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
   context "when viewing a recurring meeting" do
     let(:meeting) { recurring_meeting }
 
-    let!(:next_meeting) do
-      # Initialize the next occurrence
-      RecurringMeetings::InitNextOccurrenceJob.perform_now(series, series.next_occurrence)
-      series.meetings.not_templated.last
-    end
-
-    let(:next_meeting_page) { Pages::Meetings::Show.new(next_meeting) }
-
     context "with manage_agendas permission" do
       let(:current_user) { user_with_manage_permissions }
+
+      let!(:next_meeting) do
+        # Initialize the next occurrence
+        RecurringMeetings::InitNextOccurrenceJob.perform_now(series, series.next_occurrence)
+        series.meetings.not_templated.last
+      end
+
+      let(:next_meeting_page) { Pages::Meetings::Show.new(next_meeting) }
 
       it "shows the 'duplicate in next meeting' option and duplicates the item" do
         meeting_page.expect_agenda_item(title: "Test agenda item")
@@ -141,9 +141,9 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
       end
 
       let!(:cancelled_occurrence) do
-        create(:scheduled_meeting,
-               :cancelled,
+        create(:recurring_meeting_occurrence,
                recurring_meeting: series,
+               state: :cancelled,
                start_time: first_occurrence_time)
       end
 
@@ -159,7 +159,7 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
         end
 
         expect(page).to have_text("Duplicate in next meeting?")
-        expect(page).to have_text("Note: Skipping cancelled occurrence")
+        expect(page).to have_text("Note: Skipping cancelled meeting")
 
         page.within_modal "Duplicate in next meeting?" do
           click_on "Duplicate"
@@ -173,6 +173,18 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
     end
 
     context "with manage_agendas permission, but multiple next occurrences are cancelled" do
+      def cancel_or_create_occurrence(at:)
+        series.meetings.not_templated.find_or_initialize_by(recurrence_start_time: at).tap do |instance|
+          instance.start_time = at
+          instance.state = :cancelled
+          instance.project ||= series.project
+          instance.author ||= series.author
+          instance.title ||= series.template.title
+          instance.duration ||= series.template.duration
+          instance.save!
+        end
+      end
+
       let(:current_user) { user_with_manage_permissions }
       let(:first_occurrence_time) { series.next_occurrence(from_time: Time.current) }
       let(:second_occurrence_time) { series.next_occurrence(from_time: first_occurrence_time) }
@@ -184,16 +196,10 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
       end
 
       let!(:first_cancelled_occurrence) do
-        create(:scheduled_meeting,
-               :cancelled,
-               recurring_meeting: series,
-               start_time: first_occurrence_time)
+        cancel_or_create_occurrence(at: first_occurrence_time)
       end
       let!(:second_cancelled_occurrence) do
-        create(:scheduled_meeting,
-               :cancelled,
-               recurring_meeting: series,
-               start_time: second_occurrence_time)
+        cancel_or_create_occurrence(at: second_occurrence_time)
       end
 
       let(:target_meeting_page) { Pages::Meetings::Show.new(target_meeting) }
@@ -208,7 +214,100 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
         end
 
         expect(page).to have_text("Duplicate in next meeting?")
-        expect(page).to have_text("Note: Skipping 2 cancelled occurrences")
+        expect(page).to have_text("Note: Skipping 2 cancelled meetings")
+
+        page.within_modal "Duplicate in next meeting?" do
+          click_on "Duplicate"
+        end
+
+        expect_and_dismiss_flash(message: "Agenda item duplicated in the next meeting")
+
+        target_meeting_page.visit!
+        target_meeting_page.expect_agenda_item(title: "Test agenda item")
+      end
+    end
+
+    context "with manage_agendas permission, but next occurrence is closed" do
+      let(:current_user) { user_with_manage_permissions }
+      let(:first_occurrence_time) { series.next_occurrence(from_time: Time.current) }
+      let(:second_occurrence_time) { series.next_occurrence(from_time: first_occurrence_time) }
+
+      let!(:target_meeting) do
+        RecurringMeetings::InitNextOccurrenceJob.perform_now(series, second_occurrence_time)
+        series.meetings.not_templated.find_by(start_time: second_occurrence_time)
+      end
+
+      let!(:closed_occurrence) do
+        RecurringMeetings::InitNextOccurrenceJob.perform_now(series, first_occurrence_time)
+        occurrence = series.meetings.not_templated.find_by(start_time: first_occurrence_time)
+        occurrence.update!(state: :closed)
+        occurrence
+      end
+
+      let(:target_meeting_page) { Pages::Meetings::Show.new(target_meeting) }
+
+      it "skips the closed occurrence and duplicates to the next available one" do
+        meeting_page.visit!
+        meeting_page.expect_agenda_item(title: "Test agenda item")
+
+        meeting_page.open_menu(agenda_item) do
+          click_on "Duplicate"
+          click_on "Duplicate in next meeting"
+        end
+
+        expect(page).to have_text("Duplicate in next meeting?")
+        expect(page).to have_text("Note: Skipping closed meeting")
+
+        page.within_modal "Duplicate in next meeting?" do
+          click_on "Duplicate"
+        end
+
+        expect_and_dismiss_flash(message: "Agenda item duplicated in the next meeting")
+
+        target_meeting_page.visit!
+        target_meeting_page.expect_agenda_item(title: "Test agenda item")
+      end
+    end
+
+    context "with manage_agendas permission, but next occurrence is cancelled and the one after is closed" do
+      let(:current_user) { user_with_manage_permissions }
+      let(:first_occurrence_time) { series.next_occurrence(from_time: Time.current) }
+      let(:second_occurrence_time) { series.next_occurrence(from_time: first_occurrence_time) }
+      let(:third_occurrence_time) { series.next_occurrence(from_time: second_occurrence_time) }
+
+      let!(:target_meeting) do
+        RecurringMeetings::InitNextOccurrenceJob.perform_now(series, third_occurrence_time)
+        series.meetings.not_templated.find_by(start_time: third_occurrence_time)
+      end
+
+      let!(:cancelled_occurrence) do
+        create(:recurring_meeting_occurrence,
+               state: :cancelled,
+               recurring_meeting: series,
+               start_time: first_occurrence_time)
+      end
+
+      let!(:closed_occurrence) do
+        RecurringMeetings::InitNextOccurrenceJob.perform_now(series, second_occurrence_time)
+        occurrence = series.meetings.not_templated.find_by(start_time: second_occurrence_time)
+        occurrence.update!(state: :closed)
+        occurrence
+      end
+
+      let(:target_meeting_page) { Pages::Meetings::Show.new(target_meeting) }
+
+      it "skips both and shows both notes in the dialog" do
+        meeting_page.visit!
+        meeting_page.expect_agenda_item(title: "Test agenda item")
+
+        meeting_page.open_menu(agenda_item) do
+          click_on "Duplicate"
+          click_on "Duplicate in next meeting"
+        end
+
+        expect(page).to have_text("Duplicate in next meeting?")
+        expect(page).to have_text("Note: Skipping cancelled meeting")
+        expect(page).to have_text("and closed meeting")
 
         page.within_modal "Duplicate in next meeting?" do
           click_on "Duplicate"

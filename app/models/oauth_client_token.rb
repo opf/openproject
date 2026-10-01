@@ -36,7 +36,7 @@ class OAuthClientToken < ApplicationRecord
   validates :user, uniqueness: { scope: :oauth_client }
 
   validates :access_token, presence: true
-  validates :refresh_token, presence: true
+  validates :refresh_token, presence: true, if: -> { expires_in.present? }
 
   scope :for_user_and_client, ->(user, client) { where(user:, oauth_client: client) }
 end

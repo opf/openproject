@@ -1,0 +1,16 @@
+<%= render(Primer::Box.new(bg: :success, border: true, border_color: :success, border_radius: 3, p: 4)) do
+      concat(
+        render(Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center, mb: 3)) do
+          concat(render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { title })
+          concat(action) if action?
+        end
+      )
+      concat(
+        render(Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "gap-3")) do
+          stats.each do |stat|
+            card = render(Users::WorkingHours::StatCardComponent.new(label: stat[:label], value: stat[:value], subtitle: stat[:subtitle]))
+            concat(stat[:url].present? ? render(Primer::Beta::Link.new(href: stat[:url], target: "_blank", underline: false, display: :flex, flex: 1)) { card } : card)
+          end
+        end
+      )
+    end %>

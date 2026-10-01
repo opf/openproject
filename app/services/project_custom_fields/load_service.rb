@@ -31,26 +31,19 @@
 module ProjectCustomFields
   class LoadService
     def initialize(project:, project_custom_fields:)
-      super()
-      @project = project
-      @project_custom_fields = project_custom_fields
-      eager_load_project_custom_field_values
+      @values_by_custom_field_id =
+        CustomValue
+          .includes(custom_field: :custom_options)
+          .where(
+            custom_field: project_custom_fields,
+            customized: project
+          )
+          .order(:id)
+          .group_by(&:custom_field_id)
     end
 
     def get_eager_loaded_project_custom_field_values_for(custom_field_id)
-      @eager_loaded_project_custom_field_values.select { |pcfv| pcfv.custom_field_id == custom_field_id }
-    end
-
-    private
-
-    def eager_load_project_custom_field_values
-      @eager_loaded_project_custom_field_values = CustomValue
-                                                    .includes(custom_field: :custom_options)
-                                                    .where(
-                                                      custom_field_id: @project_custom_fields.pluck(:id),
-                                                      customized_id: @project.id
-                                                    )
-                                                    .to_a
+      @values_by_custom_field_id[custom_field_id] || []
     end
   end
 end

@@ -193,14 +193,6 @@ RSpec.describe "Meetings CRUD",
       end
 
       context "for meeting series, across the same occurrence" do
-        before_all do
-          travel_to(Date.new(2024, 12, 1))
-        end
-
-        after(:all) do # rubocop:disable RSpec/BeforeAfterAll
-          travel_back
-        end
-
         let(:recurring_meeting) do
           create :recurring_meeting,
                  project:,
@@ -220,6 +212,10 @@ RSpec.describe "Meetings CRUD",
           # Assuming the first occurrence is open
           first_occurrence_time = recurring_meeting.first_occurrence.to_time
           RecurringMeetings::InitNextOccurrenceJob.perform_now(recurring_meeting, first_occurrence_time)
+        end
+
+        after do
+          travel_back
         end
 
         it_behaves_like "no flash appears when interacting with backlog in multiple windows"

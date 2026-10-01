@@ -56,7 +56,7 @@ module My
 
       def token_available?
         case token_type.to_s
-        when "Token::API" then Setting.rest_api_enabled?
+        when "Token::API" then Setting.api_tokens_enabled?
         when "Token::ICalMeeting" then Setting.ical_enabled?
         when "Token::RSS" then Setting.feeds_enabled?
         else raise ArgumentError, "Unknown token type: #{token_type}"

@@ -47,7 +47,7 @@ module API
           end
 
           def ancestors_sql(walker_result)
-            <<-SQL.squish
+            <<~SQL.squish
               SELECT id, CASE WHEN count(link) = 0 THEN '[]' ELSE json_agg(link) END ancestors
               FROM
                 (
@@ -73,8 +73,12 @@ module API
           end
 
           def ancestor_projection
+            undisclosed_ancestor_title = OpenProject::SqlSanitization.sanitize(
+              "?", I18n.t(:"api_v3.undisclosed.ancestor")
+            )
+
             if User.current.admin?
-              <<-SQL.squish
+              <<~SQL.squish
                 CASE
                   WHEN ancestors.id IS NOT NULL
                     THEN #{workspace_type_link_case('ancestors')}
@@ -82,13 +86,13 @@ module API
                 END
               SQL
             else
-              <<-SQL.squish
+              <<~SQL.squish
                 CASE
                   WHEN ancestors.id IS NOT NULL AND ancestors.id IN (SELECT id FROM visible_projects)
                     THEN #{workspace_type_link_case('ancestors')}
                   WHEN ancestors.id IS NOT NULL AND ancestors.id NOT IN (SELECT id FROM visible_projects)
                     THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}',
-                                           'title', #{ActiveRecord::Base.connection.quote(I18n.t(:"api_v3.undisclosed.ancestor"))})
+                                           'title', #{undisclosed_ancestor_title})
                   ELSE NULL
                 END
               SQL

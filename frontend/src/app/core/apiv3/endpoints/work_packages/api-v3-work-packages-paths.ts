@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -62,31 +62,58 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * Load a collection of work packages and put them all into cache
    *
    * @param ids
+   * @param timestamps Baseline timestamps to load the work packages at, if any
    */
-  public requireAll(ids:string[]):Promise<unknown> {
+  public requireAll(ids:string[], timestamps?:string[]):Promise<unknown> {
     if (ids.length === 0) {
       return Promise.resolve();
     }
 
+    const uniqueIds = Array.from(new Set(ids));
     return new Promise<undefined>((resolve, reject) => {
       this
-        .loadCollectionsFor(_.uniq(ids))
+        .loadCollectionsFor(uniqueIds, timestamps)
         .then((pagedResults:WorkPackageCollectionResource[]) => {
-          _.each(pagedResults, (results) => {
-            if (results.schemas) {
-              _.each(results.schemas.elements, (schema:SchemaResource) => {
-                this.states.schemas.get(schema.href!).putValue(schema);
-              });
-            }
+          const loadedIds = this.cacheCollection(pagedResults);
 
-            if (results.elements) {
-              this.cache.updateWorkPackageList(results.elements);
-            }
-          });
+          // Load current state of WPs that didn't exist at any timestamp
+          if (timestamps?.length && uniqueIds.length !== loadedIds.size) {
+            const missingIds = uniqueIds.filter(id => !loadedIds.has(String(id)));
 
-          resolve(undefined);
+            if (missingIds.length > 0) {
+              this
+                .loadCollectionsFor(missingIds)
+                .then((fallbackResults:WorkPackageCollectionResource[]) => {
+                  this.cacheCollection(fallbackResults);
+                  resolve(undefined);
+                }, reject);
+            } else {
+              resolve(undefined);
+            }
+          } else {
+            resolve(undefined);
+          }
         }, reject);
     });
+  }
+
+  private cacheCollection(pagedResults:WorkPackageCollectionResource[]):Set<string> {
+    const loadedIds = new Set<string>;
+
+    pagedResults.forEach(results => {
+      if (results.schemas) {
+        results.schemas.elements.forEach((schema:SchemaResource) => {
+          this.states.schemas.get(schema.href!).putValue(schema);
+        });
+      }
+
+      if (results.elements) {
+        this.cache.updateWorkPackageList(results.elements);
+        results.elements.forEach(el => loadedIds.add(String(el.id)));
+      }
+    });
+
+    return loadedIds;
   }
 
   /**
@@ -105,7 +132,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   }
 
   filtered<R = ApiV3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:Record<string, string> = {}):R {
-    return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
+    return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as unknown as R;
   }
 
   /**
@@ -124,7 +151,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
     }
 
     const params = {
-      sortBy: '[["updatedAt","desc"]]',
+      sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
       offset: '1',
       pageSize: '10',
       ...additionalParams,
@@ -158,7 +185,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param ids
    * @return {WorkPackageCollectionResource[]}
    */
-  protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
+  protected loadCollectionsFor(ids:string[], timestamps?:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
       .getAllPaginated(
@@ -166,6 +193,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
         {
           filters: ApiV3Filter('id', '=', ids).toJson(),
           valid_subset: true,
+          ...(timestamps?.length ? { timestamps: timestamps.join(',') } : {}),
         },
       )
       .toPromise() as Promise<WorkPackageCollectionResource[]>;

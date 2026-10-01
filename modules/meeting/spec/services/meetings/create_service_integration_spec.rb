@@ -109,4 +109,22 @@ RSpec.describe Meetings::CreateService, "integration", type: :model do
       end
     end
   end
+
+  describe "sharing" do
+    context "when creating a regular meeting" do
+      it "does not set sharing" do
+        expect(subject).to be_success
+        expect(subject.result.sharing).to be_nil
+      end
+    end
+
+    context "when creating an onetime template" do
+      let(:default_params) { { project:, title: "My template", template: true } }
+
+      it "sets sharing to none by default" do
+        expect(subject).to be_success
+        expect(subject.result.sharing).to eq("none")
+      end
+    end
+  end
 end

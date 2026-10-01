@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "project export", :js do
+  include PDFExportSpecUtils
+
   shared_let(:important_project) { create(:project, name: "Important schedule plan", description: "Important description") }
   shared_let(:party_project) { create(:project, name: "Christmas party", description: "Christmas description") }
   shared_let(:user) do
@@ -106,7 +108,7 @@ RSpec.describe "project export", :js do
       it "exports with that filter" do
         index_page.expect_projects_listed(important_project, party_project)
 
-        index_page.open_filters
+        click_button accessible_name: "Project name filter"
 
         index_page.set_filter("name_and_identifier",
                               "Name or identifier",
@@ -193,7 +195,7 @@ RSpec.describe "project export", :js do
       end
 
       within_window new_window do
-        expect(page.source).to have_css("[type='application/pdf']")
+        expect_current_url_to_be_pdf
       end
     end
   end

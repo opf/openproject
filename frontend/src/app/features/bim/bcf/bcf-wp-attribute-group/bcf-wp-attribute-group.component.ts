@@ -21,23 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewChild,
-} from '@angular/core';
-import { StateService } from '@uirouter/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
@@ -53,6 +43,7 @@ import { BcfViewpointItem } from 'core-app/features/bim/bcf/api/viewpoints/bcf-v
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { filter, take } from 'rxjs/operators';
+import * as Turbo from '@hotwired/turbo';
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
@@ -62,6 +53,17 @@ import { filter, take } from 'rxjs/operators';
   standalone: false,
 })
 export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy, OnInit {
+  readonly urlParams = inject(UrlParamsService);
+  readonly bcfAuthorization = inject(BcfAuthorizationService);
+  readonly viewerBridge = inject(ViewerBridgeService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly wpCreate = inject(WorkPackageCreateService);
+  readonly toastService = inject(ToastService);
+  readonly bcfViewer = inject(BcfViewService, { optional: true });
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+  readonly viewpointsService = inject(ViewpointsService);
+
   @Input() workPackage:WorkPackageResource;
 
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
@@ -145,19 +147,6 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   viewerVisible = false;
 
   projectId:string;
-
-  constructor(readonly state:StateService,
-    readonly bcfAuthorization:BcfAuthorizationService,
-    readonly viewerBridge:ViewerBridgeService,
-    readonly apiV3Service:ApiV3Service,
-    readonly wpCreate:WorkPackageCreateService,
-    readonly toastService:ToastService,
-    @Optional() readonly bcfViewer:BcfViewService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-    readonly viewpointsService:ViewpointsService) {
-    super();
-  }
 
   ngAfterViewInit():void {
     // Observe changes on the work package to update the viewpoints
@@ -260,13 +249,19 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   protected loadViewpointFromRoute(workPackage:WorkPackageResource) {
-    if (typeof (this.state.params.viewpoint) === 'number') {
-      const index = this.state.params.viewpoint;
-      this.showViewpoint(workPackage, index);
-      this.showIndex = index;
-      this.selectViewpointInGallery();
-      void this.state.go('.', { ...this.state.params, viewpoint: undefined }, { reload: false });
+    const viewpointParam = this.urlParams.get('viewpoint');
+    const index = viewpointParam === null ? NaN : parseInt(viewpointParam, 10);
+    if (Number.isNaN(index)) {
+      return;
     }
+
+    this.showViewpoint(workPackage, index);
+    this.showIndex = index;
+    this.selectViewpointInGallery();
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('viewpoint');
+    Turbo.session.history.replace(url, Turbo.session.history.restorationIdentifier);
   }
 
   public shouldShowGroup() {

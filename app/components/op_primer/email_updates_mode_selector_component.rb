@@ -38,7 +38,7 @@ module OpPrimer
       super()
 
       if !show_button && alt_text.blank?
-        raise NotImplementedError, "alt_text must be provided when the button is shown conditionally"
+        raise ArgumentError, "alt_text must be provided when the button is shown conditionally"
 
       end
 

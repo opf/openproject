@@ -35,54 +35,80 @@ RSpec.describe NewsController do
 
   include BecomeMember
 
-  let(:news) { create(:news) }
+  let!(:news) { create(:news, project: project) }
+  let!(:news_in_other_project) { create(:news) }
 
   shared_let(:project) { create(:project) }
   shared_current_user { create(:admin) }
 
   describe "#index" do
-    it "renders index" do
-      get :index
+    context "when requesting the global index" do
+      it "renders index" do
+        get :index
 
-      expect(response).to be_successful
-      expect(response).to render_template "index"
+        expect(response).to be_successful
+        expect(response).to render_template "index"
 
-      expect(assigns(:project)).to be_nil
-      expect(assigns(:newss)).not_to be_nil
+        expect(assigns(:project)).to be_nil
+        expect(assigns(:news)).to contain_exactly(news, news_in_other_project)
+      end
     end
 
-    it "renders index with project" do
-      get :index, params: { project_id: project.id }
+    context "when requesting the project index" do
+      it "renders index with project" do
+        get :index, params: { project_id: project.id }
 
-      expect(response).to be_successful
-      expect(response).to render_template "index"
-      expect(assigns(:newss)).not_to be_nil
+        expect(response).to be_successful
+        expect(response).to render_template "index"
+        expect(assigns(:news)).to contain_exactly(news)
+        expect(assigns(:project)).to eq(project)
+      end
     end
   end
 
   describe "#show" do
-    it "renders show" do
-      get :show, params: { id: news.id }
+    context "when routed through the global news path" do
+      it "renders show" do
+        get :show, params: { id: news.id }
 
-      expect(response).to be_successful
-      expect(response).to render_template "show"
+        expect(response).to be_successful
+        expect(response).to render_template "show"
 
-      expect(assigns(:news)).to eq news
+        expect(assigns(:news)).to eq news
+        expect(assigns(:project)).to eq news.project
+      end
     end
 
-    it "renders show with slug" do
-      get :show, params: { id: "#{news.id}-some-news-title" }
+    context "when routed through the project" do
+      it "renders show" do
+        get :show, params: { project_id: news.project_id, id: news.id }
 
-      expect(response).to be_successful
-      expect(response).to render_template "show"
+        expect(response).to be_successful
+        expect(response).to render_template "show"
 
-      expect(assigns(:news)).to eq news
-    end
+        expect(assigns(:news)).to eq news
+      end
 
-    it "renders error if news item is not found" do
-      get :show, params: { id: -1 }
+      it "renders show with slug" do
+        get :show, params: { project_id: news.project_id, id: "#{news.id}-some-news-title" }
 
-      expect(response).to be_not_found
+        expect(response).to be_successful
+        expect(response).to render_template "show"
+
+        expect(assigns(:news)).to eq news
+      end
+
+      it "renders error if news item is not found" do
+        get :show, params: { project_id: news.project_id, id: -1 }
+
+        expect(response).to be_not_found
+      end
+
+      it "renders edit link with correct project identifier" do
+        get :show, params: { project_id: news.project_id, id: news.id }
+
+        expect(response.body).to include edit_project_news_path(project, news)
+      end
     end
   end
 
@@ -141,7 +167,7 @@ RSpec.describe NewsController do
 
   describe "#edit" do
     it "renders edit" do
-      get :edit, params: { id: news.id }
+      get :edit, params: { project_id: news.project_id, id: news.id }
       expect(response).to be_successful
       expect(response).to render_template "edit"
     end
@@ -150,9 +176,9 @@ RSpec.describe NewsController do
   describe "#update" do
     it "updates the news element" do
       put :update,
-          params: { id: news.id, news: { description: "Description changed by test_post_edit" } }
+          params: { project_id: news.project_id, id: news.id, news: { description: "Description changed by test_post_edit" } }
 
-      expect(response).to redirect_to news_path(news)
+      expect(response).to redirect_to project_news_path(news.project, news)
 
       news.reload
       expect(news.description).to eq "Description changed by test_post_edit"
@@ -161,7 +187,7 @@ RSpec.describe NewsController do
 
   describe "#destroy" do
     it "deletes the news item and redirects with 303 See Other" do
-      delete :destroy, params: { id: news.id }
+      delete :destroy, params: { project_id: news.project_id, id: news.id }
 
       expect(response).to have_http_status(:see_other)
       expect(response).to redirect_to project_news_index_path(news.project)

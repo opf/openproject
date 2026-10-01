@@ -32,18 +32,19 @@ module MeetingAgendaItems
   class DuplicateInNextMeetingDialogComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    def initialize(agenda_item:, datetime:, skipped: nil)
+    def initialize(agenda_item:, datetime:, skipped_cancelled: nil, skipped_closed: nil, next_occurrence: nil)
       super
 
       @agenda_item = agenda_item
       @datetime = datetime
-      @skipped = skipped
+      @skipped_cancelled = skipped_cancelled
+      @skipped_closed = skipped_closed
+      @next_occurrence = next_occurrence
     end
 
     private
-
-    def dialog_id = "duplicate-in-next-meeting-dialog"
 
     def title = I18n.t(:label_agenda_item_duplicate_in_next_title)
 
@@ -54,18 +55,32 @@ module MeetingAgendaItems
         time: format_time(@datetime, include_date: false)
       )
 
-      if @skipped.present?
-        "#{base_message}\n\n#{skipped_message}"
+      note = skipped_note
+      note.present? ? "#{base_message}\n\n#{note}" : base_message
+    end
+
+    def skipped_note
+      parts = []
+      parts << skipped_cancelled_part if @skipped_cancelled.present?
+      parts << skipped_closed_part if @skipped_closed.present?
+      return if parts.empty?
+
+      I18n.t(:text_agenda_item_dialog_skipping_note, details: parts.to_sentence)
+    end
+
+    def skipped_cancelled_part
+      if @skipped_cancelled.one?
+        I18n.t(:text_agenda_item_dialog_skipping_cancelled_one, date: format_date(@skipped_cancelled.first))
       else
-        base_message
+        I18n.t(:text_agenda_item_dialog_skipping_cancelled_many, count: @skipped_cancelled.size)
       end
     end
 
-    def skipped_message
-      if @skipped.one?
-        I18n.t(:text_agenda_item_dialog_skipping_cancelled_one, date: format_date(DateTime.iso8601(@skipped.first)))
+    def skipped_closed_part
+      if @skipped_closed.one?
+        I18n.t(:text_agenda_item_dialog_skipping_closed_one, date: format_date(@skipped_closed.first))
       else
-        I18n.t(:text_agenda_item_dialog_skipping_cancelled_many, count: @skipped.size)
+        I18n.t(:text_agenda_item_dialog_skipping_closed_many, count: @skipped_closed.size)
       end
     end
   end

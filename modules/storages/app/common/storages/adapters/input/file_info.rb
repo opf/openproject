@@ -36,7 +36,7 @@ module Storages
         private_class_method :new
 
         def self.build(file_id:, contract: FileInfoContract.new)
-          contract.call(file_id:).to_monad.fmap { |it| new(**it.to_h) }
+          contract.call(file_id:).to_monad.fmap { new(**it.to_h) }
         end
       end
     end

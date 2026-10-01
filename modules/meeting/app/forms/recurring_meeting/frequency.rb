@@ -42,8 +42,13 @@ class RecurringMeeting::Frequency < ApplicationForm
     ) do |list|
       RecurringMeeting.frequencies.each_key do |value|
         label =
-          if value.to_s == "working_days"
+          case value.to_s
+          when "working_days"
             I18n.t(:"recurring_meeting.frequency.working_days")
+          when "monthly_day_of_month"
+            I18n.t("recurring_meeting.frequency.monthly_day_of_month")
+          when "monthly_nth_weekday"
+            I18n.t("recurring_meeting.frequency.monthly_nth_weekday")
           else
             I18n.t(:"recurring_meeting.frequency.x_#{value}", count: 1)
           end

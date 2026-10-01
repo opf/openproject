@@ -1,0 +1,13 @@
+<%# Standalone usage: the form owns the Stimulus controller wrapper so it %>
+<%# works without any surrounding scaffolding. %>
+<%= primer_form_with(url: "/foo", method: :post) do |f| %>
+  <%=
+    render(
+      Filters::FilterFormComponent.new(
+        builder: f,
+        query: query,
+        wrap_with_controller: true
+      )
+    )
+  %>
+<% end %>

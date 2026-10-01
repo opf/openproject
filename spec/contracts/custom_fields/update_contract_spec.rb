@@ -44,6 +44,8 @@ RSpec.describe CustomFields::UpdateContract do
                     is_required: custom_field_is_required,
                     max_length: custom_field_max_length,
                     min_length: custom_field_min_length,
+                    max_value: custom_field_max_value,
+                    min_value: custom_field_min_value,
                     possible_values: custom_field_possible_values,
                     regexp: custom_field_regexp,
                     formula: custom_field_formula,
@@ -58,8 +60,7 @@ RSpec.describe CustomFields::UpdateContract do
 
     subject(:contract) { described_class.new(custom_field, current_user) }
 
-    context "for a calculated field", with_ee: %i[calculated_values],
-                                      with_flag: { calculated_value_project_attribute: true } do
+    context "for a calculated field", with_ee: %i[calculated_values] do
       let(:custom_field_field_format) { "calculated_value" }
 
       let(:custom_field_formula) { "1 + 1" }

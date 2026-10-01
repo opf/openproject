@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,11 +29,11 @@
 import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 export class ApiV3NotificationPaths extends ApiV3GettableResource<INotification> {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   public markRead():Observable<unknown> {
     return this

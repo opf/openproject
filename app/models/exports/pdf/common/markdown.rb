@@ -35,6 +35,7 @@ module Exports::PDF::Common::Markdown
     include MarkdownToPDF::Core
     include MarkdownToPDF::Parser
     include Exports::PDF::Common::Common
+    include Exports::PDF::Common::WorkPackageMentions
 
     def initialize(styling_yml, pdf, hyphenation_language)
       @styles = MarkdownToPDF::Styles.new(styling_yml)
@@ -94,45 +95,14 @@ module Exports::PDF::Common::Markdown
       wp_mention_macro(tag.attr("data-text") || "", tag.attr("data-id") || "", opts)
     end
 
-    def expand_wp_mention(work_package, content)
-      detail_level = content.count("#")
-      return content if detail_level == 1
-
-      # ##1234: {Type} #{ID}: {Subject}
-      content = "#{work_package.type} ##{work_package.id}: #{work_package.subject}"
-      return content if detail_level == 2
-
-      # ###1234: {Status} {Type} #{ID}: {Subject} ({Start Date} - {End Date})
-      "#{work_package.status.name} #{content}#{work_package_dates(work_package)}"
-    end
-
     def wp_mention_macro(content, id, opts)
-      id = id[/\d+/]
       return [text_hash(content, opts)] if id.blank?
 
-      work_package = WorkPackage.find_by(id: id)
+      work_package = WorkPackage.find_by_display_id(id)
       return [text_hash(content, opts)] unless work_package&.visible?
 
       content = expand_wp_mention(work_package, content)
-      [text_hash(content, opts.merge({ link: url_helpers.work_package_url(id) }))]
-    end
-
-    def work_package_dates(work_package)
-      return "" if work_package.start_date.blank? && work_package.due_date.blank?
-
-      if work_package.due_date.present? && work_package.start_date == work_package.due_date
-        return " (#{format_date(work_package.due_date)})"
-      end
-
-      work_package_date_range(work_package)
-    end
-
-    def work_package_date_range(work_package)
-      content = [
-        work_package.start_date.present? ? format_date(work_package.start_date) : I18n.t("label_no_start_date"),
-        work_package.due_date.present? ? format_date(work_package.due_date) : I18n.t("label_no_due_date")
-      ].join(" - ")
-      " (#{content})"
+      [text_hash(content, opts.merge({ link: url_helpers.work_package_url(work_package) }))]
     end
 
     def handle_mention_html_tag(tag, node, opts)

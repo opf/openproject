@@ -63,6 +63,38 @@ RSpec.describe DemoData::ProjectSeeder do
     expect(seed_data.find_reference(:product_backlog)).to eq(created_version)
   end
 
+  it "creates versions without dates when start is not given" do
+    project_seeder.seed!
+
+    expect(Version.find_by!(name: "The product backlog"))
+      .to have_attributes(start_date: nil, effective_date: nil)
+  end
+
+  context "for a version with start and duration" do
+    before do
+      project_data.update(
+        "versions" => [
+          {
+            "name" => "1.0",
+            "reference" => :version_1_0,
+            "sharing" => "none",
+            "status" => "open",
+            "start" => 14,
+            "duration" => 5
+          }
+        ]
+      )
+    end
+
+    it "counts start from the Monday of the current week and duration in calendar days" do
+      project_seeder.seed!
+
+      expect(Version.find_by!(name: "1.0"))
+        .to have_attributes(start_date: Date.current.monday + 14.days,
+                            effective_date: Date.current.monday + 18.days)
+    end
+  end
+
   context "for a version with a wiki" do
     before do
       project_data.update(
@@ -87,7 +119,7 @@ RSpec.describe DemoData::ProjectSeeder do
       project_seeder.seed!
       created_version = Version.find_by!(name: "First sprint")
       expect(created_version.wiki_page.text)
-        .to eq("Please see the [Task board](/projects/some-project/sprints/#{created_version.id}/taskboard).")
+        .to eq("Please see the [Task board](/projects/some-project/backlogs/sprints/#{created_version.id}/taskboard).")
     end
   end
 
@@ -99,7 +131,7 @@ RSpec.describe DemoData::ProjectSeeder do
             "subject" => "Some work package",
             "status" => :default_status_new,
             "type" => :default_type_task,
-            "version" => :product_backlog
+            "target_versions" => [:product_backlog]
           }
         ]
       )
@@ -109,7 +141,7 @@ RSpec.describe DemoData::ProjectSeeder do
       project_seeder.seed!
       version = Version.find_by!(name: "The product backlog")
       work_package = WorkPackage.find_by!(subject: "Some work package")
-      expect(work_package.version).to eq(version)
+      expect(work_package.target_versions).to contain_exactly(version)
     end
   end
 
@@ -131,7 +163,7 @@ RSpec.describe DemoData::ProjectSeeder do
       version = Version.find_by(name: "The product backlog")
       query = Query.find_by(name: "Product Backlog query")
       expect(query.filters)
-        .to include(a_filter(Queries::WorkPackages::Filter::VersionFilter, values: [version.id.to_s]))
+        .to include(a_filter(Queries::WorkPackages::Filter::TargetVersionsFilter, values: [version.id.to_s]))
     end
   end
 

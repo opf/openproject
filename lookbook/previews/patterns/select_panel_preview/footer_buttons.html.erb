@@ -1,0 +1,25 @@
+<%=
+  render(
+    Primer::Alpha::SelectPanel.new(
+      select_variant: :multiple,
+      fetch_strategy: :local,
+      title: "Select roles",
+      open_on_load: true
+    )
+  ) do |panel|
+    panel.with_show_button(scheme: :secondary) do |button|
+      button.with_trailing_visual_icon(icon: :"triangle-down")
+      "3 roles selected"
+    end
+    panel.with_item(label: "Admin", active: true, item_id: "1")
+    panel.with_item(label: "Developer", active: true, item_id: "2")
+    panel.with_item(label: "Designer", active: true, item_id: "3")
+    panel.with_item(label: "Viewer", item_id: "4")
+    panel.with_item(label: "Copy project", item_id: "5")
+    panel.with_footer(show_divider: true) do
+      render(
+        Primer::Beta::Button.new(scheme: :primary)
+      ) { t(:button_apply) }
+    end
+  end
+%>

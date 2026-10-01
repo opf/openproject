@@ -33,9 +33,8 @@ class NotificationsController < ApplicationController
 
   before_action :require_login
   before_action :filtered_query, only: :mark_all_read
-  no_authorization_required! :index, :split_view, :update_counter, :mark_all_read, :date_alerts, :share_upsell
+  no_authorization_required! :index, :split_view, :update_counter, :mark_all_read, :share_upsell
 
-  before_action :check_filter, only: %i[index]
   before_action :validate_query, only: %i[index]
 
   def index
@@ -62,10 +61,6 @@ class NotificationsController < ApplicationController
     end
 
     redirect_back fallback_location: notifications_path
-  end
-
-  def date_alerts
-    render_notifications_layout
   end
 
   def share_upsell
@@ -95,14 +90,6 @@ class NotificationsController < ApplicationController
     end
 
     @filtered_query = query
-  end
-
-  def check_filter
-    return if EnterpriseToken.allows_to?(:date_alerts)
-
-    if params[:filter] == "reason" && params[:name] == "dateAlert"
-      redirect_to notifications_date_alert_upsell_path
-    end
   end
 
   def validate_query

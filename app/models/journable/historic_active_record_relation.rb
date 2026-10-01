@@ -101,7 +101,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   # SELECT * from work_packages
 
-  def build_arel(connection, aliases = nil)
+  def build_arel(aliases = nil)
     substitute_join_tables_in_where_clause(self)
 
     # Based on the previous modifications, build the algebra object and prepend
@@ -229,7 +229,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
                           raise NoMethodError, "Unknown timestamp type: #{timestamp.class}"
                         end
 
-      "WHEN \"#{Journal.table_name}\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN '#{timestamp}'"
+      quoted = ApplicationRecord.connection.quote(timestamp.to_s)
+      "WHEN \"#{Journal.table_name}\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN #{quoted}"
     end
       .join(" ")
   end

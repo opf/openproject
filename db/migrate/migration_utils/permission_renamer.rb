@@ -28,26 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/permission_adder")
+
 module Migration
   module MigrationUtils
     class PermissionRenamer
       class << self
-        def rename(from, to)
-          ActiveRecord::Base.connection.execute <<-SQL.squish
-          UPDATE #{role_permissions_table}
-          SET permission = #{quote_value(to)}
-          WHERE permission = #{quote_value(from)}
-          SQL
-        end
-
-        private
-
-        def role_permissions_table
-          @role_permissions_table ||= ActiveRecord::Base.connection.quote_table_name("role_permissions")
-        end
-
-        def quote_value(value)
-          ActiveRecord::Base.connection.quote(value)
+        # The `force: true` argument is the default because usually when a rename
+        # happens, the `from`` permission is no longer defined.
+        def rename(from, to, force: true)
+          ::Migration::MigrationUtils::PermissionAdder.add(from, to, force:)
+          RolePermission.delete_by(permission: from)
         end
       end
     end

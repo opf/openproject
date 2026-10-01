@@ -1,20 +1,49 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectorRef, Component, DebugElement, Input } from '@angular/core';
-import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
-import { GitActionsMenuDirective } from "core-app/features/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive";
-import { TabPrsComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
+import { ChangeDetectorRef, Component, DebugElement, Input, ChangeDetectionStrategy } from '@angular/core';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
+import { GitActionsMenuDirective } from 'core-app/features/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive';
+import { TabPrsComponent } from 'core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component';
 import { GithubPullRequestResourceService } from '../state/github-pull-request.service';
-import { ApiV3Service } from "core-app/core/apiv3/api-v3.service";
-import { of } from "rxjs";
-import { PullRequestComponent } from "core-app/features/plugins/linked/openproject-github_integration/pull-request/pull-request.component";
-import { By } from "@angular/platform-browser";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { of } from 'rxjs';
+import { PullRequestComponent } from 'core-app/features/plugins/linked/openproject-github_integration/pull-request/pull-request.component';
+import { By } from '@angular/platform-browser';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IGithubPullRequest } from '../state/github-pull-request.model';
 import { PullRequestStateComponent } from '../pull-request/pull-request-state.component';
 
 @Component({
   selector: 'op-date-time',
   template: '<p>OpDateTimeComponent </p>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class OpDateTimeComponent {
@@ -26,18 +55,18 @@ describe('TabPrsComponent', () => {
   let component:TabPrsComponent;
   let fixture:ComponentFixture<TabPrsComponent>;
   let element:DebugElement;
-  let githubPullRequestResourceServiceSpy:jasmine.SpyObj<GithubPullRequestResourceService>;
-  let changeDetectorRef: jasmine.SpyObj<ChangeDetectorRef>;
+  let githubPullRequestResourceServiceSpy:{ ofWorkPackage:ReturnType<typeof vi.fn> };
+  let changeDetectorRef:ChangeDetectorRef & { detectChanges:ReturnType<typeof vi.fn> };
   const I18nServiceStub = {
-    t: function(key:string) {
+    t: function (key:string) {
       return 'test translation';
     }
-  }
+  };
   const ApiV3Stub = {
     work_packages: {
-      id: () => ({github_pull_requests: 'prpath'})
+      id: () => ({ github_pull_requests: 'prpath' })
     }
-  }
+  };
 
   const pullRequests:IGithubPullRequest[] = [
     {
@@ -123,28 +152,32 @@ describe('TabPrsComponent', () => {
   ];
 
   beforeEach(async () => {
-    const changeDetectorSpy = jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']);
-    githubPullRequestResourceServiceSpy = jasmine.createSpyObj('GithubPullRequestResourceService', ['ofWorkPackage']);
+    const changeDetectorSpy = {
+      detectChanges: vi.fn().mockName('ChangeDetectorRef.detectChanges')
+    };
+    githubPullRequestResourceServiceSpy = {
+      ofWorkPackage: vi.fn().mockName('GithubPullRequestResourceService.ofWorkPackage')
+    };
     // @ts-ignore
-    githubPullRequestResourceServiceSpy.ofWorkPackage.and.returnValue(of(pullRequests));
+    githubPullRequestResourceServiceSpy.ofWorkPackage.mockReturnValue(of(pullRequests));
 
     await TestBed
       .configureTestingModule({
-        declarations: [
-          TabPrsComponent,
-          OpIconComponent,
-          GitActionsMenuDirective,
-          PullRequestComponent,
-          PullRequestStateComponent,
-          OpDateTimeComponent,
-        ],
-        providers: [
-          { provide: I18nService, useValue: I18nServiceStub },
-          { provide: ApiV3Service, useValue: ApiV3Stub },
-          { provide: ChangeDetectorRef, useValue: changeDetectorSpy },
-          { provide: GithubPullRequestResourceService, useValue: githubPullRequestResourceServiceSpy },
-        ],
-      })
+      declarations: [
+        TabPrsComponent,
+        OpIconComponent,
+        GitActionsMenuDirective,
+        PullRequestComponent,
+        PullRequestStateComponent,
+        OpDateTimeComponent,
+      ],
+      providers: [
+        { provide: I18nService, useValue: I18nServiceStub },
+        { provide: ApiV3Service, useValue: ApiV3Stub },
+        { provide: ChangeDetectorRef, useValue: changeDetectorSpy },
+        { provide: GithubPullRequestResourceService, useValue: githubPullRequestResourceServiceSpy },
+      ],
+    })
       .compileComponents();
   });
 
@@ -152,7 +185,7 @@ describe('TabPrsComponent', () => {
     fixture = TestBed.createComponent(TabPrsComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    changeDetectorRef = fixture.debugElement.injector.get(ChangeDetectorRef) as jasmine.SpyObj<ChangeDetectorRef>;
+    changeDetectorRef = fixture.debugElement.injector.get(ChangeDetectorRef) as ChangeDetectorRef & { detectChanges:ReturnType<typeof vi.fn> };
     // @ts-ignore
     component.workPackage = { id: 'testId' };
 

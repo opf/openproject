@@ -79,6 +79,6 @@ Clicking on the title of a news will bring you to the news details in the corres
 
 You can also include your latest news from a project on the Project home page.
 
-Find out how to [configure your project home](../project-home/project-widgets/#news-widget) page.
+Find out how to [configure your project home](../projects/project-home/project-widgets/#news-widget) page.
 
 ![latest-news-project-overview](latest-news-project-overview.png)

@@ -52,6 +52,8 @@ class Document < ApplicationRecord
                      references: :projects,
                      date_column: "#{table_name}.created_at"
 
+  normalizes :title, with: OpenProject::RemoveInvisibleCharacters
+
   validates :title, presence: true, length: { maximum: 255 }
 
   scope :visible, ->(user = User.current) {

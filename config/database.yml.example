@@ -38,7 +38,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: openproject_development
-  pool: 5
+  pool: 100
   username: openproject_development
   password:
 

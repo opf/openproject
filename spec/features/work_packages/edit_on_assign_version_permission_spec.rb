@@ -3,7 +3,7 @@
 require "spec_helper"
 require "features/page_objects/notification"
 
-RSpec.describe "edit work package", :js do
+RSpec.describe "edit work package", :js, with_settings: { work_package_multiple_versions: false } do
   let(:current_user) do
     create(:user,
            firstname: "Dev",
@@ -43,10 +43,10 @@ RSpec.describe "edit work package", :js do
 
   context "as a user having only the assign_versions permission" do
     it "can only change the version" do
-      wp_page.update_attributes version: version.name
+      wp_page.fill_in_attributes targetVersions: version.name
 
       wp_page.expect_toast(message: "Successful update")
-      wp_page.expect_attributes version: version.name
+      wp_page.expect_attributes targetVersions: version.name
 
       subject_field = wp_page.work_package_field("subject")
       subject_field.expect_read_only
@@ -57,7 +57,7 @@ RSpec.describe "edit work package", :js do
     let(:permissions) { %i[view_work_packages edit_work_packages] }
 
     it "can not change the version" do
-      version_field = wp_page.work_package_field("version")
+      version_field = wp_page.work_package_field("targetVersions")
       version_field.expect_read_only
     end
   end

@@ -27,18 +27,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
 
 @Injectable()
 export class WorkPackagesGitlabIssueService extends WorkPackageLinkedResourceCache<HalResource[]> {
+  ConfigurationService = inject(ConfigurationService);
 
-  constructor(public ConfigurationService:ConfigurationService) {
-    super();
-  }
 
   protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
     return workPackage.gitlab_issues.$update().then((data:any) => {
@@ -47,6 +46,6 @@ export class WorkPackagesGitlabIssueService extends WorkPackageLinkedResourceCac
   }
 
   protected sortList(gitlabIssue:HalResource[], attr = 'createdAt'):HalResource[] {
-    return _.sortBy(_.flatten(gitlabIssue), attr);
+    return sortBy(gitlabIssue.flat(), attr);
   }
 }

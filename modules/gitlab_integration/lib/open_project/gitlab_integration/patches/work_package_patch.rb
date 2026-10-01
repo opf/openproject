@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenProject::GitlabIntegration
   module Patches
     module WorkPackagePatch
@@ -6,9 +8,9 @@ module OpenProject::GitlabIntegration
       included do
         has_and_belongs_to_many :gitlab_merge_requests
         has_and_belongs_to_many :gitlab_issues
+        has_and_belongs_to_many :gitlab_commits
+        has_many :gitlab_branches, dependent: :destroy
       end
     end
   end
 end
-
-WorkPackage.include OpenProject::GitlabIntegration::Patches::WorkPackagePatch

@@ -89,25 +89,25 @@ RSpec.describe "form query configuration", :js do
   describe "with EE token", with_ee: %i[edit_attribute_groups] do
     before do
       login_as(admin)
-      visit edit_type_form_configuration_path(type_bug)
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
     end
 
     it "can save an empty query group" do
-      form.add_query_group("Empty test", :children)
-      form.save_changes
-      expect_and_dismiss_flash(message: "Successful update.")
-      type_bug.reload
+      form.add_query_group("Empty test", :children, expect: false)
+      form.expect_group("Empty test", "Empty test")
+    end
 
-      query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
-      expect(query_group.attributes).to be_a(Query)
-      expect(query_group.key).to eq("Empty test")
+    it "can edit a query group by clicking the related work packages table link" do
+      form.add_query_group("Link test", :children, expect: false)
+      form.expect_group("Link test", "Link test")
+
+      form.edit_query_group_via_link("Link test")
+      modal.expect_open
+      modal.cancel
     end
 
     it "loads the children from the table split view (Regression #28490)" do
       form.add_query_group("Subtasks", :children)
-      # Save changed query
-      form.save_changes
-      expect_and_dismiss_flash(message: "Successful update.")
 
       # Visit wp_table
       wp_table.visit!
@@ -131,9 +131,6 @@ RSpec.describe "form query configuration", :js do
 
       it "does not show a subgroup (Regression #29582)" do
         form.add_query_group("Subtasks", :children)
-        # Save changed query
-        form.save_changes
-        expect_and_dismiss_flash(message: "Successful update.")
 
         # Visit new wp page
         visit new_project_work_packages_path(project)
@@ -141,6 +138,27 @@ RSpec.describe "form query configuration", :js do
         wp_page.expect_no_group "Subtasks"
         expect(page).to have_no_text "Subtasks"
       end
+    end
+
+    it "updates the query of a group whose name contains special characters (Regression INTERNAL-963)" do
+      group_name = "b) > 10.000 / 20.000 Nutzende"
+      form.add_query_group(group_name, :children)
+      form.edit_query_group(group_name)
+
+      modal.switch_to "Filters"
+      filters.expect_filter_count 1
+      filters.add_filter_by("Project", "is (OR)", project.name)
+      filters.expect_filter_count 2
+      filters.save
+      wait_for_network_idle
+
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
+      wait_for_network_idle
+      form.edit_query_group(group_name)
+
+      modal.switch_to "Filters"
+      filters.expect_filter_count 2
+      filters.expect_filter_by("Project", "is (OR)", project.name)
     end
 
     context "with an archived project" do
@@ -153,14 +171,12 @@ RSpec.describe "form query configuration", :js do
           filters.expect_filter_count 1
           filters.add_filter_by("Project", "is (OR)", archived.name)
           filters.expect_filter_count 2
+          filters.save
         end
-
-        form.save_changes
-        expect_and_dismiss_flash(message: "Successful update.")
 
         archived.update_attribute(:active, false)
 
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
         form.edit_query_group("Archived project")
 
         # Expect we now get the valid subset without the invalid project
@@ -178,14 +194,11 @@ RSpec.describe "form query configuration", :js do
         columns.uncheck_all save_changes: false
         columns.add "ID", save_changes: false
         columns.add "Subject", save_changes: false
+        columns.apply
       end
 
-      # Save changed query
-      form.save_changes
-      expect_and_dismiss_flash(message: "Successful update.")
-
       type_bug.reload
-      query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Columns Test" }
       expect(query).to be_present
 
       column_names = query.attributes.columns.map(&:name).sort
@@ -198,21 +211,18 @@ RSpec.describe "form query configuration", :js do
         columns.assume_opened
         columns.uncheck_all save_changes: false
         columns.add "ID", save_changes: false
+        columns.apply
       end
 
-      # Save changed query
-      form.save_changes
-      expect_and_dismiss_flash(message: "Successful update.")
-
       type_bug.reload
-      query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Columns Test" }
       expect(query).to be_present
       expect(query.attributes.show_hierarchies).to be(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
-      query = type_bug.attribute_groups.detect { |x| x.key == "Second query" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Second query" }
       expect(query).to be_present
       expect(query.attributes.show_hierarchies).to be(false)
 
@@ -245,10 +255,8 @@ RSpec.describe "form query configuration", :js do
           # the templated filter should be hidden in the Filters tab
           filters.expect_filter_count 1
           filters.add_filter_by("Type", "is (OR)", type_task.name)
+          filters.save
         end
-
-        form.save_changes
-        expect_and_dismiss_flash(message: "Successful update.")
 
         # Visit work package with that type
         wp_page.visit!
@@ -278,7 +286,7 @@ RSpec.describe "form query configuration", :js do
         embedded_table.reference_work_package unrelated_task
 
         # Go back to type configuration
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
 
         # Edit query to remove filters
         form.edit_query_group("Subtasks")
@@ -292,9 +300,6 @@ RSpec.describe "form query configuration", :js do
         # Remove the filter again
         filters.remove_filter "type"
         filters.save
-
-        # Save changes
-        form.save_changes
 
         # Visit wp_page again, expect both listed
         wp_page.visit!

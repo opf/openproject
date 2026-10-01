@@ -42,6 +42,11 @@ module Admin
         )
 
         sf.text_field(
+          name: :organization_name,
+          input_width: :medium
+        )
+
+        sf.text_field(
           name: :per_page_options,
           input_width: :medium
         )
@@ -73,12 +78,6 @@ module Admin
 
         sf.text_field(
           name: :feeds_limit,
-          type: :number,
-          input_width: :xsmall
-        )
-
-        sf.text_field(
-          name: :work_packages_projects_export_limit,
           type: :number,
           input_width: :xsmall
         )

@@ -96,7 +96,7 @@ module Copy
     end
 
     def copy_dependency(params:)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
   end
 end

@@ -29,7 +29,7 @@ Yes, you can [download a meeting as an iCalendar event](../one-time-meetings/#do
 
 ## Are the meetings shown in calendar widgets?
 
-Yes, the Calendar widget on the [project home page](../../project-home/project-widgets/#calendar-widget) and [My page](../../../getting-started/my-page/#add-widgets) displays meetings. Meetings links in this widget are clickable and open the meeting directly.
+Yes, the Calendar widget on the [project home page](../../projects/project-home/project-widgets/#calendar-widget) and [My page](../../../getting-started/my-page/#add-widgets) displays meetings. Meetings links in this widget are clickable and open the meeting directly.
 
 ## What makes OpenProject a great choice for managing meetings?
 

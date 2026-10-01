@@ -32,13 +32,12 @@ require_relative "../support/board_page"
 
 RSpec.describe "Subproject action board",
                :js,
-               :selenium,
-               with_ee: %i[board_view] do
+               :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
   end
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let(:project) do
     create(:project, name: "Parent", types: [type], enabled_module_names: %i[work_package_tracking board_view])
   end
@@ -53,7 +52,7 @@ RSpec.describe "Subproject action board",
   let(:board_index) { Pages::BoardIndex.new(project) }
 
   let(:permissions) do
-    %i[show_board_views manage_board_views add_work_packages
+    %i[show_board_views manage_board_views add_work_packages save_queries
        edit_work_packages view_work_packages manage_public_queries move_work_packages]
   end
 
@@ -70,7 +69,7 @@ RSpec.describe "Subproject action board",
 
   context "without the move_work_packages permission" do
     let(:permissions) do
-      %i[show_board_views manage_board_views add_work_packages
+      %i[show_board_views manage_board_views add_work_packages save_queries
          edit_work_packages view_work_packages manage_public_queries]
     end
 

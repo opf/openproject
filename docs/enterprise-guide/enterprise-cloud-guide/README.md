@@ -28,4 +28,3 @@ For the Enterprise cloud edition, installation and maintenance are managed by Op
 | [Backups](./backups/)                                        | How backups work in the cloud.                               |
 | [Support](../support/)                                       | How to get support as Enterprise cloud user.                 |
 | [GDPR and DPA](./gdpr-compliance/)                           | Review and sign a Data Processing Agreement (DPA).           |
-

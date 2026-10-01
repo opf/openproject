@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Configuring the workflow for work package sharing",
+RSpec.describe "Configuring the workflow for work package sharing", :js,
                with_config: { show_warning_bars: true },
                with_ee: %i[work_package_sharing] do
   let!(:role) { create(:project_role) }
@@ -47,6 +47,7 @@ RSpec.describe "Configuring the workflow for work package sharing",
            author: false,
            assignee: false)
   end
+  let(:target_roles_autocompleter) { FormFields::Primerized::AutocompleteField.new("target_roles", selector: "[data-test-selector='target_roles_autocomplete']") }
 
   current_user { create(:admin) }
 
@@ -58,30 +59,40 @@ RSpec.describe "Configuring the workflow for work package sharing",
     # There is a warning bar at the bottom informing of the missing workflow
     within ".warning-bar--item" do
       expect(page)
-        .to have_content("No workflow is configured for the '#{work_package_role.name}' role. " \
-                         "Without a workflow, the shared with user cannot alter the status of the work package.")
+        .to have_text("No workflow is configured for the '#{work_package_role.name}' role. " \
+                      "Without a workflow, the shared with user cannot alter the status of the work package.")
 
       click_link "Configure the workflows in the administration."
     end
 
-    # On the copy workflow form, select the already existing workflow for copying
-    select type.name, from: "source_type_id"
-    select role.name, from: "source_role_id"
-    select type.name, from: "target_type_ids"
-    select work_package_role.name, from: "target_role_ids"
+    # The warning links to the types administration; open the type's workflow tab from there,
+    # then follow the read-only banner to the workflow that the type uses.
+    expect(page).to have_current_path(types_path)
+    visit edit_type_workflow_path(type)
+    within_test_selector("workflow-read-only") { click_link I18n.t("admin.workflows.read_only.edit_action") }
 
-    page.find_test_selector("op-admin-workflows--button-copy").click
+    # On the copy workflow form, the source role is pre-selected;
+    # copy its workflow to the work package edit role.
+    within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
+    target_roles_autocompleter.select_option work_package_role.name
+    target_roles_autocompleter.close_autocompleter
 
-    # Copying succeeds which results in the edit role having a workflow and the warning disappearing.
+    click_button "Copy"
+
+    # Copying succeeds which results in the edit role having a workflow.
     expect(page)
-      .to have_content "Successful update"
+      .to have_text "Successfully copied workflow"
 
-    expect(Workflow.where(role_id: work_package_role.id,
-                          type_id: type.id,
-                          old_status_id: start_status.id,
-                          new_status_id: end_status.id,
-                          author: false,
-                          assignee: false).count).to eq(1)
+    expect(Workflows::StatusTransition.where(role_id: work_package_role.id,
+                                             workflow_id: type.default_variant.workflow_id,
+                                             old_status_id: start_status.id,
+                                             new_status_id: end_status.id,
+                                             author: false,
+                                             assignee: false).count).to eq(1)
+
+    # Copying to another role stays in place and only updates the matrix frame;
+    # the layout warning bar recomputes on the next page load.
+    page.refresh
 
     expect(page)
       .to have_no_css(".warning-bar--item")

@@ -59,14 +59,14 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::Files do
-  describe "build_uploaded_file" do
+  describe ".build_uploaded_file" do
     let(:original_filename) { "test.png" }
     let(:content_type) { "image/png" }
     let(:file) do
-      OpenProject::Files.create_temp_file(name: original_filename)
+      Tempfile.new(File.basename(original_filename))
     end
 
-    subject { OpenProject::Files.build_uploaded_file(file, content_type) }
+    subject { described_class.build_uploaded_file(file, content_type, file_name: original_filename) }
 
     it "has the original file name" do
       expect(subject.original_filename).to eql(original_filename)
@@ -79,7 +79,7 @@ RSpec.describe OpenProject::Files do
     context "with custom file name" do
       let(:file_name) { "my-custom-filename.png" }
 
-      subject { OpenProject::Files.build_uploaded_file(file, content_type, file_name:) }
+      subject { described_class.build_uploaded_file(file, content_type, file_name:) }
 
       it "has the custom file name" do
         expect(subject.original_filename).to eql(file_name)
@@ -87,39 +87,16 @@ RSpec.describe OpenProject::Files do
     end
   end
 
-  describe "create_uploaded_file" do
-    context "without parameters" do
-      let(:file) { OpenProject::Files.create_uploaded_file }
-
-      it 'creates a file with the default name "test.txt"' do
-        expect(file.original_filename).to eq "test.txt"
-      end
-
-      it "creates distinct files even with identical names" do
-        file_2 = OpenProject::Files.create_uploaded_file
-
-        expect(file.original_filename).to eq file_2.original_filename
-        expect(file.path).not_to eq file_2.path
-      end
-
-      it 'writes some default content "test content"' do
-        expect(file.read).to eq "test content"
-      end
-
-      it 'set default content type "text/plain"' do
-        expect(file.content_type).to eq "text/plain"
-      end
-    end
-
+  describe ".create_uploaded_file" do
     context "with a custom name, content and content type" do
       let(:name)         { "foo.jpg" }
       let(:content)      { "not-really-a-jpg" }
       let(:content_type) { "image/jpeg" }
 
       let(:file) do
-        OpenProject::Files.create_uploaded_file name:,
-                                                content:,
-                                                content_type:
+        described_class.create_uploaded_file name:,
+                                             content:,
+                                             content_type:
       end
 
       it 'creates a file called "foo.jpg"' do
@@ -138,7 +115,14 @@ RSpec.describe OpenProject::Files do
     context "with binary content" do
       let(:content) { "\xD1\x9B\x86".b }
       let(:binary)  { false }
-      let(:file)    { OpenProject::Files.create_uploaded_file content:, binary: }
+      let(:file)    do
+        described_class.create_uploaded_file(
+          name: "binary_file",
+          content_type: "application/octet-stream",
+          content: content,
+          binary: binary
+        )
+      end
 
       it "fails when the content is not marked as binary" do
         expect { file }.to raise_error(Encoding::UndefinedConversionError)
@@ -149,6 +133,52 @@ RSpec.describe OpenProject::Files do
 
         it "succeeds" do
           expect(file.read).to eq content
+        end
+      end
+    end
+
+    context "when a relative filename is provided" do
+      let(:name) { "../../hello/../../../foo.txt" }
+      let(:file) do
+        described_class.create_uploaded_file name:,
+                                             content: "content",
+                                             content_type: "text/plain"
+      end
+
+      it "sanitizes the file name" do
+        expect(file.original_filename).to eq "foo.txt"
+      end
+    end
+  end
+
+  describe ".create_temp_file" do
+    let(:name) { "tempfile.txt" }
+    let(:content) { "temporary content" }
+    let(:binary) { false }
+
+    subject do
+      described_class.create_temp_file(name:, content:, binary:, &:read)
+    end
+
+    it "yields a file with the given content" do
+      expect(subject).to eq content
+    end
+
+    context "with binary content" do
+      let(:content) { "\xD1\x9B\x86".b }
+      let(:binary)  { true }
+
+      it "yields the binary content" do
+        expect(subject).to eq content
+      end
+    end
+
+    context "when a relative filename is provided" do
+      let(:name) { "../../tempfile.txt" }
+
+      it "sanitizes the file name" do
+        described_class.create_temp_file(name:, content:, binary:) do |f|
+          expect(f.path).to eq(File.expand_path(f.path))
         end
       end
     end

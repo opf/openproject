@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,69 +31,102 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage do
-  describe "#backlogs_types" do
-    it "returns all the ids of types that are configures to be considered backlogs types" do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [1], "task_type" => 2 })
+  describe "associations" do
+    it { is_expected.to belong_to(:backlog_bucket).class_name("BacklogBucket").optional(true) }
+    it { is_expected.to belong_to(:sprint).class_name("Sprint").optional(true) }
+  end
 
-      expect(described_class.backlogs_types).to contain_exactly(1, 2)
+  describe "validations" do
+    let(:work_package) do
+      build(:work_package)
     end
 
-    it "returns an empty array if nothing is defined" do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({})
+    describe "story points" do
+      before do
+        work_package.project.enabled_module_names += ["backlogs"]
+      end
 
-      expect(described_class.backlogs_types).to eq([])
-    end
+      it "allows empty values" do
+        expect(work_package.story_points).to be_nil
+        expect(work_package).to be_valid
+      end
 
-    it "reflects changes to the configuration" do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [1], "task_type" => 2 })
-      expect(described_class.backlogs_types).to contain_exactly(1, 2)
+      it "allows values greater than or equal to 0" do
+        work_package.story_points = "0"
+        expect(work_package).to be_valid
 
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [3], "task_type" => 4 })
-      expect(described_class.backlogs_types).to contain_exactly(3, 4)
+        work_package.story_points = "1"
+        expect(work_package).to be_valid
+      end
+
+      it "allows values less than 10.000" do
+        work_package.story_points = "9999"
+        expect(work_package).to be_valid
+      end
+
+      it "disallows negative values" do
+        work_package.story_points = "-1"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows greater or equal than 10.000" do
+        work_package.story_points = "10000"
+        expect(work_package).not_to be_valid
+
+        work_package.story_points = "10001"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows string values, that are not numbers" do
+        work_package.story_points = "abc"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows non-integers" do
+        work_package.story_points = "1.3"
+        expect(work_package).not_to be_valid
+      end
     end
   end
 
-  describe "#story" do
-    shared_let(:project) { create(:project) }
-    shared_let(:status) { create(:status) }
-    shared_let(:story_type) { create(:type, name: "Story") }
-    shared_let(:task_type) { create(:type, name: "Task") }
+  describe "#backlogs_enabled?" do
+    let(:project) { build(:project) }
+    let(:work_package) { build(:work_package) }
 
-    before do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [story_type.id],
-                                                                           "task_type" => task_type.id })
+    it "is false without a project" do
+      work_package.project = nil
+      expect(work_package).not_to be_backlogs_enabled
     end
 
-    context "for a WorkPackage" do
-      let(:work_package) { build_stubbed(:work_package) }
+    it "is true with a project having the backlogs module" do
+      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
+      work_package.project = project
 
-      it "returns nil" do
-        expect(work_package.story).to be_nil
-      end
+      expect(work_package).to be_backlogs_enabled
     end
 
-    context "for a Story" do
-      let(:story) { create(:story, project:, status:, type: story_type) }
+    it "is false with a project not having the backlogs module" do
+      work_package.project = project
+      work_package.project.enabled_module_names = nil
 
-      it "returns self" do
-        expect(story.story).to eq(story)
-      end
+      expect(work_package).not_to be_backlogs_enabled
     end
+  end
 
-    context "for a Task" do
-      let(:parent_parent_story) { create(:story, project:, status:, type: story_type) }
-      let(:parent_story) { create(:story, parent: parent_parent_story, project:, status:, type: story_type) }
-      let(:task) { create(:task, parent: parent_story, project:, status:, type: task_type) }
+  describe ".order_by_position" do
+    let(:work_packages) { create_list(:work_package, 3) }
 
-      it "returns the closest WorkPackage ancestor being a Story" do
-        expect(task.story).to eq(described_class.find(parent_story.id))
-
-        # transform the parent_story into a task
-        parent_story.update(type: task_type)
-
-        # the returned story is now the grand parent
-        expect(task.story).to eq(described_class.find(parent_parent_story.id))
+    it "sorts by position ascending and places NULL positions last" do
+      work_packages.each_with_index do |wp, idx|
+        position = idx == 0 ? nil : idx
+        wp.update_columns(position:)
       end
+
+      ordered_positions = described_class
+                      .where(id: work_packages.map(&:id))
+                      .order_by_position
+                      .pluck(:position)
+      expect(ordered_positions).to eq([1, 2, nil])
     end
   end
 end

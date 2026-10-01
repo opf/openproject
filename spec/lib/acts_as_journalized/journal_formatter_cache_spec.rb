@@ -56,5 +56,34 @@ RSpec.describe JournalFormatterCache do
       cache.fetch(Project, 62) { "another value" }
       expect(cache.fetch(Project, 62)).to eq("project_62")
     end
+
+    context "with an explicit user:" do
+      let(:user1) { instance_double(User, id: 1) }
+      let(:user2) { instance_double(User, id: 2) }
+
+      it "keeps independent cache slots per user for the same klass/id" do
+        cache.fetch(User, 3, user: user1) { "seen by user1" }
+
+        expect(cache.fetch(User, 3, user: user2)).to be_nil
+        expect(cache.fetch(User, 3, user: user2) { "seen by user2" }).to eq("seen by user2")
+        expect(cache.fetch(User, 3, user: user1)).to eq("seen by user1")
+      end
+
+      it "defaults to User.current when no user is given" do
+        allow(User).to receive(:current).and_return(user1)
+
+        cache.fetch(User, 3) { "current user's value" } # rubocop:disable Lint/UselessDefaultValueArgument
+
+        expect(cache.fetch(User, 3, user: user1)).to eq("current user's value")
+      end
+    end
+  end
+
+  describe ".fetch" do
+    it "delegates to the per-request singleton, so separate calls share one cache" do
+      expect(described_class.fetch(User, 3) { "user_3" }).to eq("user_3") # rubocop:disable Lint/UselessDefaultValueArgument
+      expect(described_class.fetch(User, 3) { "another value" }).to eq("user_3") # rubocop:disable Lint/UselessDefaultValueArgument
+      expect(described_class.request_instance).to be(described_class.request_instance) # rubocop:disable RSpec/IdenticalEqualityAssertion
+    end
   end
 end

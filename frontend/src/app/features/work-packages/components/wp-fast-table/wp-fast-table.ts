@@ -1,9 +1,37 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
@@ -18,15 +46,15 @@ import { WorkPackageTableEditingContext } from './wp-table-editing';
 import { WorkPackageTableRow } from './wp-table.interfaces';
 
 export class WorkPackageTable {
-  @InjectField() querySpace:IsolatedQuerySpace;
+  @LazyInject() querySpace:IsolatedQuerySpace;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
-  @InjectField() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
+  @LazyInject() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
 
   public originalRows:string[] = [];
 
@@ -62,18 +90,18 @@ export class WorkPackageTable {
   ) {
   }
 
-  public get renderedRows() {
+  public get renderedRows():RenderedWorkPackage[] {
     return this.querySpace.tableRendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedWorkPackage] {
-    const index = _.findIndex(this.renderedRows, (row) => row.classIdentifier === classIdentifier);
+    const index = this.renderedRows.findIndex((row) => row.classIdentifier === classIdentifier);
 
     return [index, this.renderedRows[index]];
   }
 
   public get rowBuilder():RowsBuilder {
-    return _.find(this.builders, (builder:RowsBuilder) => builder.isApplicable(this))!;
+    return this.builders.find((builder:RowsBuilder) => builder.isApplicable(this))!;
   }
 
   /**
@@ -142,7 +170,7 @@ export class WorkPackageTable {
       return;
     }
 
-    _.each(pass.renderedOrder, (row) => {
+    pass.renderedOrder.forEach((row) => {
       if (row.workPackage?.id === workPackage.id!) {
         debugLog(`Refreshing rendered row ${row.classIdentifier}`);
         row.workPackage = workPackage;

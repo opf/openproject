@@ -21,19 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-//++    Ng1FieldControlsWrapper,
+//++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Injector, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -59,43 +52,42 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class WorkPackageQuickinfoMacroComponent implements OnInit {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly injector = inject(Injector);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly displayField = inject(DisplayFieldService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   // Whether the value could not be loaded
   error:string|null = null;
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: (name:string) => this.I18n.t('js.editor.macro.attribute_reference.aria_label_with_name', {
+      name,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      description: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link'),
+    }),
   };
-
-  @HostBinding('title') hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
 
   combinedDateDisplayField = CombinedDateDisplayField;
 
-  workPackageLink:string;
-
   workPackageHoverCardUrl:string;
 
   detailed = false;
 
-  constructor(readonly elementRef:ElementRef,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly schemaCache:SchemaCacheService,
-    readonly displayField:DisplayFieldService,
-    readonly pathHelper:PathHelperService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-  }
-
   ngOnInit() {
-    const element = this.elementRef.nativeElement as HTMLElement;
-    const id:string = element.dataset.id!;
+    const element = this.elementRef.nativeElement;
+    // Prefer `data-display-id`; fall back to `data-id` for legacy
+    // stored markdown emitted before the attribute split.
+    const id:string = element.dataset.displayId ?? element.dataset.id!;
     this.detailed = element.dataset.detailed === 'true';
-    this.workPackageLink = this.pathHelper.workPackagePath(id);
     this.workPackageHoverCardUrl = this.pathHelper.workPackageHoverCardPath(id);
 
     this.workPackage$ = this

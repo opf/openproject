@@ -31,15 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Queries::Members::Filters::RoleFilter do
-  let(:role1) { build_stubbed(:project_role) }
-  let(:role2) { build_stubbed(:project_role) }
-
-  before do
-    allow(Role)
-      .to receive(:pluck)
-      .with(:name, :id)
-      .and_return([[role1.name, role1.id], [role2.name, role2.id]])
-  end
+  shared_let(:role1) { create(:project_role, name: "Bravo") }
+  shared_let(:role2) { create(:project_role, name: "Alpha") }
 
   it_behaves_like "basic query filter" do
     let(:class_key) { :role_id }
@@ -47,10 +40,14 @@ RSpec.describe Queries::Members::Filters::RoleFilter do
     let(:name) { Member.human_attribute_name(:role) }
 
     describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expected = [[role1.name, role1.id], [role2.name, role2.id]]
+      it "is a list of the possible values, ordered by name" do
+        expect(instance.allowed_values).to eq([[role2.name, role2.id], [role1.name, role1.id]])
+      end
 
-        expect(instance.allowed_values).to match_array(expected)
+      it "lists a role holding several permissions only once" do
+        expect(role1.permissions.size).to be > 1
+
+        expect(instance.allowed_values.count { |(_, id)| id == role1.id }).to eq(1)
       end
     end
   end

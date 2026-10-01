@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +30,7 @@ import { WorkPackageCreateComponent } from 'core-app/features/work-packages/comp
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-new-full-view',
   host: { class: 'work-packages-page--ui-view' },
   templateUrl: './wp-new-full-view.html',
@@ -37,8 +38,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: false,
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState = (this.$state?.current?.data?.successState as string) || '';
-
   breadcrumbItems() {
     const items = [];
     if (this.currentProjectService?.identifier) {

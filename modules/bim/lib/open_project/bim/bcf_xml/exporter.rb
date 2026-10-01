@@ -2,6 +2,10 @@ require "fileutils"
 
 module OpenProject::Bim::BcfXml
   class Exporter < ::WorkPackage::Exports::QueryExporter
+    # Strict UUID format used to protect against path traversal when building
+    # filesystem paths (issue folders, viewpoint files) from BCF GUIDs.
+    UUID_REGEX = /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i
+
     def initialize(object, options = {})
       object.add_filter("bcf_issue_associated", "=", ["t"])
       super
@@ -96,6 +100,12 @@ module OpenProject::Bim::BcfXml
     # Create and return the issue folder
     # /dir/<uuid>/
     def topic_folder_for(dir, issue)
+      # Sanity check for the issue GUID, to protect against path traversal
+      # when generating the issue folder name.
+      unless issue.uuid.to_s.match?(UUID_REGEX)
+        raise ArgumentError, "Refusing to export BCF issue with invalid uuid: #{issue.uuid.inspect}"
+      end
+
       File.join(dir, issue.uuid).tap do |issue_dir|
         Dir.mkdir issue_dir
       end
@@ -111,9 +121,13 @@ module OpenProject::Bim::BcfXml
 
     ##
     # Write viewpoints
-    def viewpoints_for(issue_dir, issue)
+    def viewpoints_for(issue_dir, issue) # rubocop:disable Metrics/AbcSize
       [].tap do |files|
         issue.viewpoints.find_each do |vp|
+          # Sanity check for the viewpoints GUID, to protect against
+          # path traversal when generating the viewpoint file name
+          next unless vp.uuid.to_s.match?(UUID_REGEX)
+
           vp_file = File.join(issue_dir, "#{vp.uuid}.bcfv")
           snapshot_file = File.join(issue_dir, "#{vp.uuid}#{vp.snapshot.extension}")
 

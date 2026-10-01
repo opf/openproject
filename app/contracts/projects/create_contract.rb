@@ -54,7 +54,7 @@ module Projects
     protected
 
     def collect_available_custom_field_attributes
-      model.all_visible_custom_fields.map(&:attribute_name)
+      model.all_visible_custom_fields.flat_map(&:all_attribute_names)
     end
 
     private
@@ -70,7 +70,7 @@ module Projects
       user.allowed_in_any_project?(:edit_project_attributes)
     end
 
-    def without_custom_fields(changes) = changes.grep_v(/^custom_field_/)
+    def without_custom_fields(changes) = changes.grep_v(/^custom_(?:field|comment)_/)
 
     def validate_user_allowed_to_manage
       if model.project?

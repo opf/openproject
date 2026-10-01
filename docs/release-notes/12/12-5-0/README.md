@@ -75,11 +75,11 @@ With OpenProject 12.5, administrators can now also define additional individual 
 
 ## View project activity
 
-Starting with OpenProject 12.5, the Activities module (if enabled) will now include the changes to project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the *More* menu of a particular project and then choosing *Project activity*.
+Starting with OpenProject 12.5, the Activities module (if enabled) will now include the changes to project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the _More_ menu of a particular project and then choosing _Project activity_.
 
 ![project-list-activity](project-list-activity.png)
 
-You can also access project activity by clicking on *Activity* on the project sidebar menu and using the filters at the bottom of the sidebar to filter for the attributes you wish to view.
+You can also access project activity by clicking on _Activity_ on the project sidebar menu and using the filters at the bottom of the sidebar to filter for the attributes you wish to view.
 
 ![project-activity-tracking](project-activity-tracking.png)
 

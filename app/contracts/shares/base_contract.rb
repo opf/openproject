@@ -48,7 +48,7 @@ module Shares
     end
 
     def user_allowed_to_manage?
-      raise NotImplementedError, "Must be overridden by subclass"
+      raise SubclassResponsibilityError
     end
 
     def single_non_inherited_role
@@ -76,7 +76,7 @@ module Shares
     end
 
     def assignable_role_class
-      raise NotImplementedError, "Must be overridden by subclass"
+      raise SubclassResponsibilityError
     end
   end
 end

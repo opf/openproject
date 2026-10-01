@@ -53,17 +53,17 @@ class Widget::Table::ReportTable < Widget::Table
       unless row.fields.empty?
         subrows[0] = capture do
           concat content_tag(:th, show_row(row), class: "top left -breakword", rowspan: subrows.size)
-          concat html_safe_gsub(subrows[0], "class='normal", "class='top")
+          concat subrows[0].html_safe_gsub("class='normal", "class='top")
           concat content_tag(:th, show_result(row), class: "top right", rowspan: subrows.size)
         end
       end
-      subrows[-1] = html_safe_gsub(subrows.last, "class='normal", "class='bottom")
-      subrows[-1] = html_safe_gsub(subrows.last, "class='top", "class='bottom top")
+      subrows[-1] = subrows.last.html_safe_gsub("class='normal", "class='bottom")
+      subrows[-1] = subrows.last.html_safe_gsub("class='top", "class='bottom top")
 
       subrows
     end
 
-    @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
+    @walker.for_empty_cell { content_tag(:td, "\u00A0", class: "normal empty") }
 
     @walker.for_cell do |result|
       content_tag(:td, show_result(result), class: "normal right")
@@ -87,7 +87,7 @@ class Widget::Table::ReportTable < Widget::Table
     odd = true
     walker.body do |line|
       if first
-        line = html_safe_gsub(line, "class='normal", "class='top")
+        line = line.html_safe_gsub("class='normal", "class='top")
         first = false
       end
       line = mark_penultimate_column(line)
@@ -98,7 +98,7 @@ class Widget::Table::ReportTable < Widget::Table
   end
 
   def mark_penultimate_column(line)
-    html_safe_gsub(line, /(<td class='([^']+)'[^<]+<\/td>)[^<]*<th .+/) do |m|
+    line.html_safe_gsub(/(<td class='([^']+)'[^<]+<\/td>)[^<]*<th .+/) do |m|
       m.sub /class='([^']+)'/, 'class=\'\1 penultimate\''
     end
   end

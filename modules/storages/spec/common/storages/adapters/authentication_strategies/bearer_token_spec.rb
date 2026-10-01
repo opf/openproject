@@ -38,13 +38,14 @@ module Storages
         let(:storage) { create(:nextcloud_storage) }
         let(:access_token) { "my_access_token" }
 
-        it "must yield with passed access token without" do
+        it "must yield with the passed access token" do
           strategy = Input::Strategy.build(key: :bearer_token, token: access_token)
           was_yielded = false
 
           Authentication[strategy].call(storage:) do |http|
             was_yielded = true
-            expect(http.instance_variable_get(:@options).headers["authorization"]).to eq("Bearer #{access_token}")
+            expect(http.instance_variable_get(:@options).auth_header_type).to eq("Bearer")
+            expect(http.instance_variable_get(:@options).auth_header_value).to eq(access_token)
           end
 
           expect(was_yielded).to be_truthy

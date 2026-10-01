@@ -21,20 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-//++    Ng1FieldControlsWrapper,
+//++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
@@ -46,6 +38,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { snakeCase } from 'lodash-es';
 import { capitalize } from 'core-app/shared/helpers/string-helpers';
 import { firstValueFrom } from 'rxjs';
 import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
@@ -60,16 +53,26 @@ import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
   standalone: false,
 })
 export class AttributeLabelMacroComponent implements OnInit {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly injector = inject(Injector);
+  readonly resourceLoader = inject(AttributeModelLoaderService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly displayField = inject(DisplayFieldService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   // Whether the value could not be loaded
   error:string|null = null;
 
   text = {
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: (model:SupportedAttributeModels) => this.I18n.t(
+      `js.editor.macro.attribute_reference.aria_label_${snakeCase(model)}_attribute`,
+    ),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  ariaContext = '';
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
@@ -83,22 +86,12 @@ export class AttributeLabelMacroComponent implements OnInit {
   // The label to render
   label:string|undefined;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly injector:Injector,
-    readonly resourceLoader:AttributeModelLoaderService,
-    readonly schemaCache:SchemaCacheService,
-    readonly displayField:DisplayFieldService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-  }
-
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
+    this.ariaContext = this.text.aria_label(model);
     this.attributeScope = capitalize(model);
 
     void this.loadResourceAttribute(model, id, attributeName);
@@ -119,7 +112,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     }
 
     const schema = await this.schemaCache.ensureLoaded(this.resource);
-    this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
+    this.attribute = schema.attributeFromLocalizedName(attributeName) ?? attributeName;
     this.label = (schema[this.attribute] as IOPFieldSchema|undefined)?.name;
 
     if (!this.label) {

@@ -55,12 +55,12 @@ module Storages
 
             # rubocop:disable Metrics/AbcSize
             def handle_response(response)
-              error = Results::Error.new(payload: response, source: self.class)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
                 info "Folder successfully created."
-                StorageFileTransformer.new(site_name).transform(response.json(symbolize_keys: true))
+                StorageFileTransformer.new(host_uri).transform(response.json(symbolize_keys: true))
               in { status: 400 }
                 parse_invalid_request(response.json(symbolize_keys: true), error)
               in { status: 404 }
@@ -70,7 +70,7 @@ module Storages
               in { status: 409 }
                 Failure(error.with(code: :conflict))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
             # rubocop:enable Metrics/AbcSize

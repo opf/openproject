@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 /**
  * A PortalOutlet that lets multiple components live for the lifetime of the outlet,
  * allowing faster switching and persistent data.
@@ -5,8 +33,8 @@
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
+  createComponent,
   EmbeddedViewRef,
   Injector,
 } from '@angular/core';
@@ -36,14 +64,13 @@ export class TabPortalOutlet {
   constructor(
     public availableTabs:TabInterface[],
     public outletElement:HTMLElement,
-    private componentFactoryResolver:ComponentFactoryResolver,
     private appRef:ApplicationRef,
     private injector:Injector,
   ) {
   }
 
   public get activeComponents():TabComponent[] {
-    const tabs = _.values(this.activeTabs);
+    const tabs = Object.values(this.activeTabs);
     return tabs.map((tab:ActiveTabInterface) => tab.componentRef.instance);
   }
 
@@ -79,7 +106,7 @@ export class TabPortalOutlet {
    */
   dispose():void {
     // Dispose all active tabs
-    _.each(this.activeTabs, (active) => active.dispose());
+    Object.values(this.activeTabs).forEach((active) => active.dispose());
 
     // Remove outlet element
     if (this.outletElement.parentNode != null) {
@@ -96,8 +123,10 @@ export class TabPortalOutlet {
   }
 
   private createComponent(tab:TabInterface):ActiveTabInterface {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(tab.componentClass);
-    const componentRef = componentFactory.create(this.injector);
+    const componentRef = createComponent(tab.componentClass, {
+      environmentInjector: this.appRef.injector,
+      elementInjector: this.injector,
+    });
     const portal = new ComponentPortal(tab.componentClass, null, this.injector);
 
     // Attach component view

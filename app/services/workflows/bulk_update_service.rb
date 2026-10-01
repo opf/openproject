@@ -28,10 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Workflows::BulkUpdateService < BaseServices::Update
-  def initialize(role:, type:, tab:)
+class Workflows::BulkUpdateService < BaseServices::BaseCallable
+  def initialize(role:, workflow:, tab:)
+    super()
     @role = role
-    @type = type
+    @workflow = workflow
     @tab = tab
   end
 
@@ -54,19 +55,19 @@ class Workflows::BulkUpdateService < BaseServices::Update
 
   private
 
-  attr_accessor :role, :type
+  attr_accessor :role, :workflow
 
   def build_workflows(status_transitions)
     new_workflows = []
 
     (status_transitions || {}).each do |status_id, transitions|
-      transitions.each do |new_status_id, options|
-        new_workflows << Workflow.new(type:,
-                                      role:,
-                                      old_status: status_map[status_id.to_i],
-                                      new_status: status_map[new_status_id.to_i],
-                                      author: author?,
-                                      assignee: assignee?)
+      transitions.each_key do |new_status_id|
+        new_workflows << Workflows::StatusTransition.new(workflow:,
+                                                         role:,
+                                                         old_status: status_map[status_id.to_i],
+                                                         new_status: status_map[new_status_id.to_i],
+                                                         author: author?,
+                                                         assignee: assignee?)
       end
     end
 
@@ -75,21 +76,25 @@ class Workflows::BulkUpdateService < BaseServices::Update
 
   def delete_current
     if author?
-      Workflow.where(role_id: role.id, type_id: type.id, author: true).delete_all
+      current_workflows.where(author: true).delete_all
     elsif assignee?
-      Workflow.where(role_id: role.id, type_id: type.id, assignee: true).delete_all
+      current_workflows.where(assignee: true).delete_all
     else
-      Workflow.where(role_id: role.id, type_id: type.id, assignee: false, author: false).delete_all
+      current_workflows.where(assignee: false, author: false).delete_all
     end
   end
 
   def bulk_insert(workflows)
     return unless workflows.any?
 
-    columns = %w(role_id type_id old_status_id new_status_id author assignee)
+    columns = %w(role_id workflow_id old_status_id new_status_id author assignee)
     values = workflows.map { |w| w.attributes.slice(*columns) }
 
-    Workflow.insert_all values
+    Workflows::StatusTransition.insert_all values
+  end
+
+  def current_workflows
+    Workflows::StatusTransition.where(role_id: role.id, workflow_id: workflow.id)
   end
 
   def status_map

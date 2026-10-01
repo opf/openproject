@@ -60,4 +60,41 @@ RSpec.describe DocumentsMailer do
       expect(contents).to all include("http://my.openproject.com/documents/#{document.id}")
     end
   end
+
+  describe "document description referencing a work package",
+           with_settings: { host_name: "my.openproject.com" } do
+    shared_let(:persisted_project) { create(:project, identifier: "docsproj") }
+    shared_let(:persisted_user) { create(:admin) }
+    shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
+    shared_let(:document) do
+      create(:document,
+             project: persisted_project,
+             title: "Doc Title",
+             description: "see ##{referenced_wp.id}")
+    end
+
+    let(:html_body) do
+      User.execute_as(persisted_user) do
+        described_class.document_added(persisted_user, document).html_part.body.to_s
+      end
+    end
+
+    context "with classic mode",
+            with_settings: { work_packages_identifier: "classic" } do
+      it "renders the numeric reference as an absolute work-package link" do
+        expect(html_body).to match(%r{href="http[^"]*/work_packages/#{referenced_wp.id}"})
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      before do
+        referenced_wp.update_columns(identifier: "DOCSPROJ-1", sequence_number: 1)
+      end
+
+      it "renders the formatted_id in the html body" do
+        expect(html_body).to include("DOCSPROJ-1")
+      end
+    end
+  end
 end

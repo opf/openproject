@@ -53,4 +53,53 @@ RSpec.describe Messages::UpdateContract do
       end
     end
   end
+
+  context "when moving a message to another forum" do
+    let(:project) { create(:project) }
+    let(:forum) { create(:forum, project: project) }
+    let(:other_forum) { create(:forum, project: project) }
+    let(:message) { create(:message, forum: forum) }
+    let(:forum_in_other_project) { create(:forum) }
+
+    let(:current_user) { create(:user, member_with_permissions: { project => [:edit_messages] }) }
+
+    subject(:contract) { described_class.new(message, current_user) }
+
+    context "when moving the message to another forum in the same project" do
+      before do
+        message.forum = other_forum
+      end
+
+      it "is valid" do
+        expect(contract).to be_valid
+      end
+    end
+
+    context "when moving the message to a forum in another project" do
+      before do
+        message.forum = forum_in_other_project
+      end
+
+      it "is invalid" do
+        expect(contract).not_to be_valid
+        expect(contract.errors[:forum_id]).to include("A message cannot be moved to a forum of a different project.")
+      end
+    end
+
+    context "when the user only has edit_own_messages" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i[view_messages edit_own_messages] })
+      end
+      let(:message) { create(:message, forum:, author: current_user) }
+
+      before do
+        message.forum = other_forum
+      end
+
+      it "is invalid" do
+        expect(contract).not_to be_valid
+        expect(contract.errors.symbols_for(:forum_id)).to include(:error_readonly)
+      end
+    end
+  end
 end

@@ -9,7 +9,7 @@
       ) do |panel|
         available_project_custom_fields_grouped_by_section.each do |project_custom_field_section, project_custom_fields|
           panel.with_section(
-            Overviews::ProjectCustomFields::ShowComponent.new(
+            Overviews::ProjectCustomFields::SectionComponent.new(
               project: @project,
               project_custom_field_section:,
               project_custom_fields: project_custom_fields

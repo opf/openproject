@@ -1,3 +1,9 @@
+---
 nl:
+  activerecord:
+    models:
+      grids/my_page:
+        one: Mijn pagina
+        other: Mijn pagina's
   my_page:
-    label: "Mijn pagina"
+    label: Mijn pagina

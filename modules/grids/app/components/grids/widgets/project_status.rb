@@ -39,6 +39,10 @@ module Grids
       def title
         Project.human_attribute_name(:status)
       end
+
+      def wrapper_arguments
+        { attribute_label: { model: project, attribute: :status, current_user: } }
+      end
     end
   end
 end

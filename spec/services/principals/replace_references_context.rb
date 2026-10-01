@@ -28,22 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = Integer|
+RSpec.shared_examples_for "rewritten record" do |factory_or_class, attribute, format = Integer|
   let!(:model) do
-    klass = FactoryBot.factories.find(factory).build_class
     all_attributes = other_attributes.merge(attribute => principal_id)
-    all_attributes[:created_at] ||= "NOW()" if klass.column_names.include?("created_at")
-    all_attributes[:updated_at] ||= "NOW()" if klass.column_names.include?("updated_at")
+    if factory_or_class.is_a?(Symbol)
+      create(factory_or_class, **all_attributes)
+    else
+      klass = factory_or_class
+      all_attributes[:created_at] ||= "NOW()" if klass.column_names.include?("created_at")
+      all_attributes[:updated_at] ||= "NOW()" if klass.column_names.include?("updated_at")
 
-    inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
-      INSERT INTO #{klass.table_name}
-      (#{all_attributes.keys.join(', ')})
-      VALUES
-      (#{all_attributes.values.join(', ')})
-      RETURNING id
-    SQL
+      inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
+        INSERT INTO #{klass.table_name}
+        (#{all_attributes.keys.join(', ')})
+        VALUES
+        (#{all_attributes.values.join(', ')})
+        RETURNING id
+      SQL
 
-    klass.find(inserted["id"])
+      klass.find(inserted["id"])
+    end
   end
 
   let(:other_attributes) do
@@ -58,7 +62,7 @@ RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = In
     end
   end
 
-  context "for #{factory}" do
+  context "for #{factory_or_class}" do
     context "when #{attribute} is set to the replaced user" do
       let(:principal_id) { principal.id }
 

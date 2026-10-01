@@ -35,12 +35,15 @@ See COPYRIGHT and LICENSE files for more details.
                bottom_spacing: false
              } %>
 
+  <% new_schedule = @changes.fetch(:new_schedule) { @series.full_schedule_in_words } %>
+  <% current_location = @changes.fetch(:new_location) { @series.location.presence || @series.template&.location } %>
+
   <%= render layout: "mailer/border_table" do %>
     <tr>
       <%= placeholder_cell("24px", vertical: true) %>
       <td>
         <table>
-          <% if @changes[:old_schedule] != @series.full_schedule_in_words %>
+          <% if @changes[:old_schedule].present? && @changes[:old_schedule] != new_schedule %>
           <tr>
             <td style="<%= placeholder_text_styles(width: "30%") %>">
               <%= t("meeting.email.series_updated.old_schedule") %>:
@@ -56,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= t("meeting.email.series_updated.new_schedule") %>:
             </td>
             <td style="<%= placeholder_text_styles(color: "#1f2328", "font-weight": "bold") %>">
-              <%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+              <%= new_schedule %> (<%= formatted_time_zone_offset %>)
             </td>
           </tr>
           <% else %>
@@ -65,13 +68,13 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= I18n.t(:label_recurring_meeting_schedule) %>:
               </td>
               <td style="<%= placeholder_text_styles %>">
-                <%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+                <%= new_schedule %> (<%= formatted_time_zone_offset %>)
               </td>
             </tr>
           <% end %>
 
-          <% if @changes[:old_location].present? || @series.location.present? %>
-            <% if @changes[:old_location] != @series.location %>
+          <% if @changes[:old_location].present? || current_location.present? %>
+            <% if @changes[:old_location] != current_location %>
               <tr>
                 <td style="<%= placeholder_text_styles(width: "30%") %>">
                   <%= t("meeting.email.updated.old_location") %>
@@ -87,7 +90,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= t("meeting.email.updated.new_location") %>
                 </td>
                 <td style="<%= placeholder_text_styles(color: "#1f2328", "font-weight": "bold") %>">
-                  <%= @series.location.blank? ? "-" : (auto_link @series.location) %>
+                  <%= current_location.blank? ? "-" : (auto_link current_location) %>
                 </td>
               </tr>
             <% else %>
@@ -96,7 +99,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= Meeting.human_attribute_name(:location) %>
                 </td>
                 <td style="<%= placeholder_text_styles %>">
-                  <%= auto_link @series.location %>
+                  <%= auto_link current_location %>
                 </td>
               </tr>
             <% end %>
@@ -119,6 +122,27 @@ See COPYRIGHT and LICENSE files for more details.
               <%= @series.author %>
             </td>
           </tr>
+
+          <% if @added_participants.any? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: "30%") %>">
+                <%= I18n.t("meeting.email.updated.added_participants") %>
+              </td>
+              <td style="<%= placeholder_text_styles(color: "#1f2328", "font-weight": "bold") %>">
+                <%= @added_participants.join(", ") %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @removed_participants.any? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: "30%") %>">
+                <%= I18n.t("meeting.email.updated.removed_participants") %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <s><%= @removed_participants.join(", ") %></s>
+              </td>
+            </tr>
+          <% end %>
         </table>
       </td>
     </tr>

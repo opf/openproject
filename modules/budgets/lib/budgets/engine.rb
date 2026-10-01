@@ -43,7 +43,8 @@ module Budgets
                    {
                      budgets: %i[index show edit update destroy destroy_info new create copy]
                    },
-                   permissible_on: :project
+                   permissible_on: :project,
+                   dependencies: :view_budgets
       end
 
       menu :project_menu,
@@ -55,7 +56,13 @@ module Budgets
            icon: "op-budget"
     end
 
-    patch_with_namespace :Projects, :RowComponent
+    include_module "WorkPackages::BudgetAssignment", into: "WorkPackage"
+    prepend_module "Projects::BudgetColumns", into: "Projects::RowComponent"
+    prepend_class_methods "API::V3::WorkPackages::EagerLoading::ChecksumBudget",
+                          into: "API::V3::WorkPackages::EagerLoading::Checksum"
+
+    # Allow assigning a budget when moving work packages
+    additional_permitted_attributes move_work_package: %i[budget_id]
 
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
@@ -87,12 +94,16 @@ module Budgets
         formatter Project, Projects::Exports::Formatters::BudgetSpentRatio
       end
 
+      ::WorkPackage::Exports::Attributes.add_attribute_visibility_check(:budget) do |work_package|
+        User.current.allowed_in_project?(:view_budgets, work_package.project)
+      end
+
       OpenProject::ProjectLatestActivity.register on: "Budget"
 
       # Add to the budget to the costs group
-      ::Type.add_default_mapping(:costs, :budget)
+      ::TypeVariant.add_default_mapping(:costs, :budget)
 
-      ::Type.add_constraint :budget, ->(_type, project: nil) {
+      ::TypeVariant.add_constraint :budget, ->(_type, project: nil) {
         project.nil? || project.module_enabled?(:budgets)
       }
 

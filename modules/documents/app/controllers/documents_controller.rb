@@ -35,11 +35,11 @@ class DocumentsController < ApplicationController
   include OpTurbo::ComponentStream
 
   default_search_scope :documents
-  model_object Document
+
+  helper_method :document_html_title_parts
 
   before_action :find_project_by_project_id, only: %i[index search new create]
-  before_action :find_model_object, except: %i[index search new create]
-  before_action :find_project_from_association, except: %i[index search new create]
+  before_action :find_document, except: %i[index search new create]
   before_action :authorize
 
   def index
@@ -50,7 +50,7 @@ class DocumentsController < ApplicationController
 
   def search
     index
-    replace_via_turbo_stream component: Documents::ListComponent.new(@documents, project: @project)
+    replace_via_turbo_stream component: Documents::TableComponent.new(rows: @documents, project: @project)
     current_url = url_for(params.permit(:controller, :filters, :sortBy).merge(action: "index"))
     turbo_streams << turbo_stream.push_state(current_url)
 
@@ -68,7 +68,7 @@ class DocumentsController < ApplicationController
 
   def render_avatars
     user_ids = params[:user_ids]
-    @users = User.where(id: user_ids)
+    @users = User.visible.where(id: user_ids)
     update_via_turbo_stream(component: Documents::ShowEditView::PageHeader::LiveUsersComponent.new(users: @users))
 
     respond_with_turbo_streams
@@ -76,21 +76,6 @@ class DocumentsController < ApplicationController
 
   def render_last_saved_at
     update_via_turbo_stream(component: Documents::ShowEditView::PageHeader::LiveSavedAtComponent.new(@document))
-
-    respond_with_turbo_streams
-  end
-
-  def render_connection_error
-    update_via_turbo_stream(component: Documents::ShowEditView::ConnectionErrorNoticeComponent.new)
-
-    respond_with_turbo_streams
-  end
-
-  def render_connection_recovery
-    render_success_flash_message_via_turbo_stream(
-      message: I18n.t("documents.show_edit_view.connection_recovery_notice.description"),
-      unique_key: "document-connection-recovery-notice-#{@document.id}"
-    )
 
     respond_with_turbo_streams
   end
@@ -145,6 +130,7 @@ class DocumentsController < ApplicationController
 
     state = call.success? ? :show : :edit
     update_header_component_via_turbo_stream(state:)
+    set_page_title_via_turbo_stream(*document_html_title_parts, project: @project) if call.success?
 
     respond_with_turbo_streams
   end
@@ -187,6 +173,15 @@ class DocumentsController < ApplicationController
   end
 
   private
+
+  def document_html_title_parts
+    [I18n.t(:label_document_plural), @document.title]
+  end
+
+  def find_document
+    @document = Document.visible.find(params[:id])
+    @project = @document.project
+  end
 
   def document_params
     params.fetch(:document, {}).permit("type_id", "title", "description", "content_binary", "kind")

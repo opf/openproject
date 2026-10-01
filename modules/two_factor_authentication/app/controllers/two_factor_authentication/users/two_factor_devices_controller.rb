@@ -14,6 +14,7 @@ module ::TwoFactorAuthentication
 
       # Password confirmation helpers and actions
       include PasswordConfirmation
+
       before_action :check_password_confirmation,
                     only: :make_default
 
@@ -106,7 +107,7 @@ module ::TwoFactorAuthentication
       end
 
       def find_user
-        @user = User.find(params[:id])
+        @user = User.visible.find(params[:id])
       end
 
       def target_user

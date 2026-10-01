@@ -41,7 +41,12 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
     xml.entry do
       xml.title   "#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}: #{work_package.subject}"
       xml.link    "rel" => "alternate", "href" => work_package_url(work_package)
-      xml.id      url_for(controller: "/work_packages", action: "show", id: work_package, journal_id: change,
+      # RFC 4287 §4.2.6.1: atom:id MUST NOT change over time. Feed readers
+      # key entry deduplication on its byte value, so flipping the URL
+      # across a work_packages_identifier mode change would re-surface every
+      # historical entry as new in subscribers' readers. Pin to the numeric
+      # primary key to keep the id stable.
+      xml.id      url_for(controller: "/work_packages", action: "show", id: work_package.id, journal_id: change,
                           only_path: false)
       xml.updated change.created_at.xmlschema
       xml.author do

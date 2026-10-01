@@ -27,7 +27,7 @@ A work package in OpenProject can basically be everything you need to keep track
 
 ## Create a new work package
 
-To get started, create a new work package in your project, [open the project](../projects/#open-an-existing-project) with the project drop-down menu, navigate to the **work packages module** in the project menu.
+To get started, create a new work package in your project, [open the project](../projects/#open-an-existing-project) with the project dropdown menu and navigate to the **work packages module** in the project menu.
 
 Within the work packages module, click the + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone. 
 
@@ -69,13 +69,13 @@ Click any of the fields to **update a work package**, e.g. description. Click th
 
 ![Update a work package in a split screen view in OpenProject](openproject_getting_started_work_packages_wp_detailed_view_edit.png)
 
-To **update the status**, click on the highlighted displayed status on top of the form and select the new status from the drop-down.
+To **update the status**, click on the highlighted displayed status on top of the form and select the new status from the dropdown.
 
 ![Work package status dropdown menu opened in a detailed work package view in OpenProject](openproject_getting_started_work_packages_update_status.png)
 
 ## Activity of work packages
 
-To keep informed about all changes to a work package, open the *Activity* tab in the details view.
+To keep informed about all changes to a work package, open the _Activity_ tab in the details view.
 
 Here you will see all changes which have been made to this work package.
 

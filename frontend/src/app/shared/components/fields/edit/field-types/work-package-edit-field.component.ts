@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   DebouncedRequestSwitchmap,
@@ -40,6 +40,10 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 @Component({
   templateUrl: './work-package-edit-field.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   /** Keep a switchmap for search term and loading state */
@@ -69,19 +73,22 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     if (this.name === 'parent') {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      return this.schema.allowedValues.$link.$fetch({ query }) as Promise<CollectionResource>;
+      return this.schema.allowedValues.$link.$fetch({
+        query,
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
+      }) as Promise<CollectionResource>;
     }
 
     return super.fetchAllowedValueQuery(query);
   }
 
-  protected allowedValuesFilter(query?:string):{} {
+  protected allowedValuesFilter(query?:string):Record<string, unknown> {
     let filterParams = super.allowedValuesFilter(query);
 
     if (query) {
       const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
-      filters.add('subjectOrId', '**', [query]);
+      filters.add('typeahead', '**', [query]);
 
       filterParams = { filters: filters.toJson() };
     }

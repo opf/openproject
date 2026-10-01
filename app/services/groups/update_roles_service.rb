@@ -32,7 +32,7 @@
 
 module Groups
   class UpdateRolesService < ::BaseServices::BaseContracted
-    include Groups::Concerns::MembershipManipulation
+    include MembershipManipulation
 
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group
@@ -45,13 +45,19 @@ module Groups
 
     def modify_members_and_roles(params)
       member = params.fetch(:member)
+      user_ids = params.fetch(:user_ids) do
+        group_ids = model.descendants.pluck(:id)
+        (model.self_and_descendants.flat_map(&:user_ids) + group_ids).uniq
+      end
 
       sql_query = ::OpenProject::SqlSanitization
-                    .sanitize update_roles_cte,
-                              group_id: model.id,
+                    .sanitize(update_roles_cte,
                               member_id: member.id,
                               project_id: member.project_id,
-                              role_ids: member.role_ids
+                              entity_type: member.entity_type,
+                              entity_id: member.entity_id,
+                              role_ids: member.role_ids,
+                              user_ids:)
 
       execute_query(sql_query)
     end
@@ -59,18 +65,14 @@ module Groups
     def update_roles_cte
       <<~SQL
         WITH
-        -- select all users of the group
-        group_users AS (
-          SELECT user_id
-          FROM #{GroupUser.table_name}
-          WHERE group_id = :group_id
-        ),
-        -- select all members of the users of the group
+        -- select all members of the users of the group (direct and descendants)
         user_members AS (
           SELECT id
           FROM #{Member.table_name}
-          WHERE user_id IN (SELECT user_id FROM group_users)
+          WHERE user_id IN (:user_ids)
           AND project_id IS NOT DISTINCT FROM :project_id
+          AND entity_type IS NOT DISTINCT FROM :entity_type
+          AND entity_id IS NOT DISTINCT FROM :entity_id
         ),
         -- select all member roles the group has for the member
         group_member_roles AS (
@@ -78,6 +80,7 @@ module Groups
                  member_roles.id
           FROM #{MemberRole.table_name} member_roles
           WHERE member_roles.member_id = :member_id
+          AND member_roles.inherited_from IS NULL
         ),
         -- delete all roles assigned to users that group no longer has but keep those that the user
         -- has independently of the group (not inherited) or inherited from a different group

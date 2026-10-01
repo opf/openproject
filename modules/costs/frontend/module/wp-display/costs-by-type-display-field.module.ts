@@ -21,15 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { LazyInject } from "core-app/shared/helpers/angular/lazy-inject.decorator";
 import { ApiV3Service } from "core-app/core/apiv3/api-v3.service";
 
 interface ICostsByType {
@@ -46,7 +45,7 @@ interface ICostsByType {
 
 export class CostsByTypeDisplayField extends DisplayField {
 
-    @InjectField() apiV3Service:ApiV3Service;
+    @LazyInject() apiV3Service:ApiV3Service;
 
     public apply(resource:any, schema:IFieldSchema) {
       super.apply(resource, schema);

@@ -85,7 +85,11 @@ module Pages
     end
 
     def path
-      cost_reports_path(project)
+      if project
+        project_reporting_cost_reports_path(project)
+      else
+        reporting_cost_reports_path
+      end
     end
   end
 end

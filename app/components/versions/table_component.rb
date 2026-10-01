@@ -35,7 +35,28 @@ module Versions
     columns :name, :project, :start_date, :effective_date, :description, :status, :sharing, :wiki_page_title
 
     def sortable?
-      false
+      true
+    end
+
+    def sortable_column?(name)
+      sortable_columns_correlation.key? name.to_s
+    end
+
+    def initial_sort
+      %i[name asc]
+    end
+
+    def sortable_columns_correlation
+      {
+        "name" => "versions.name",
+        "start_date" => "versions.start_date",
+        "effective_date" => "versions.effective_date",
+        "status" => "versions.status"
+      }.with_indifferent_access
+    end
+
+    def initial_sort_correlation
+      ["versions.name", "asc"]
     end
 
     def headers

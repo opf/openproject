@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe FilesInfoQuery, :vcr, :webmock do
+          RSpec.describe FilesInfoQuery, :disable_ssrf_filter, :vcr, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:sharepoint_storage, :sandbox, oauth_client_token_user: user) }
             let(:auth_strategy) { Registry["sharepoint.authentication.user_bound"].call(user, storage) }
@@ -75,7 +75,7 @@ module Storages
                     owner_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
                     last_modified_by_name: "Eric Schubert",
                     last_modified_by_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
-                    location: "/Shared%20Documents/Folder"
+                    location: "/Shared Documents/Folder"
                   ),
                   Results::StorageFileInfo.new(
                     status: "ok",
@@ -90,7 +90,7 @@ module Storages
                     owner_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
                     last_modified_by_name: "Eric Schubert",
                     last_modified_by_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
-                    location: "/Shared%20Documents/Folder/authurl.txt"
+                    location: "/Shared Documents/Folder/authurl.txt"
                   ),
                   Results::StorageFileInfo.new(
                     status: "ok",
@@ -105,7 +105,7 @@ module Storages
                     owner_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
                     last_modified_by_name: "Eric Schubert",
                     last_modified_by_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
-                    location: "/Shared%20Documents/Folder/Nested%20Folder/release_meme.jpg"
+                    location: "/Shared Documents/Folder/Nested Folder/release_meme.jpg"
                   )
                 ]
               end
@@ -131,7 +131,7 @@ module Storages
                     owner_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
                     last_modified_by_name: "Eric Schubert",
                     last_modified_by_id: "5b5a7dc4-4539-41ba-9fa9-100f0a26acb7",
-                    location: "/Shared%20Documents/Folder/authurl.txt"
+                    location: "/Shared Documents/Folder/authurl.txt"
                   ),
                   Results::StorageFileInfo.new(
                     status: :not_found,

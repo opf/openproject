@@ -1,0 +1,62 @@
+The `WorkPackageCard` is a compact representation of a work package, designed for use in list and board views such as sprint and backlog views.
+
+## Overview
+
+<%= embed OpenProject::Common::WorkPackageCardComponentPreview, :default %>
+
+## Anatomy
+
+The card is structured in up to three rows:
+
+**Row 1 — Metadata**
+Contains the info line (type, ID, status), followed by optional elements: assignee, metric (e.g. story points), priority, and the actions menu. When `show_drag_handle: true`, a drag handle icon appears on the far left, spanning all rows, aligned to the top (row 1).
+
+**Row 2 — Subject**
+The work package title, always visible.
+
+**Row 3 — Footer** *(only rendered when content is present)*
+Shows a link to the parent work package (when `show_parent: true` and a parent exists) and/or the `with_additional_details` slot.
+
+## Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `work_package` | `WorkPackage` | required | The work package to display |
+| `menu_src` | `String` | `nil` | Optional lazy-load URL for the actions menu |
+| `show_assignee` | `Boolean` | `false` | Show the assignee icon and name |
+| `show_priority` | `Boolean` | `false` | Show a priority badge |
+| `show_drag_handle` | `Boolean` | `false` | Show a drag handle icon |
+| `show_parent` | `Boolean` | `false` | Show a link to the parent work package in row 3. Only rendered when `work_package.parent` is present. |
+| `status_scheme` | `Symbol` | `:default` | Status label style: `:default` (highlighted) or `:secondary` (neutral label) |
+
+## Slots
+
+| Slot | Description |
+|---|---|
+| `with_metric` | Numeric value shown in row 1 (e.g. story points) |
+| `with_menu` | Custom actions menu, replaces the default lazy menu |
+| `with_additional_details` | Additional content appended to row 3 |
+
+## Variants
+
+<%= embed OpenProject::Common::WorkPackageCardComponentPreview, :playground, panels: %i[params source] %>
+
+## Code structure
+
+```ruby
+render OpenProject::Common::WorkPackageCardComponent.new(
+  work_package: @work_package,
+  show_assignee: true,
+  show_priority: true,
+  show_parent: true,
+  status_scheme: :secondary
+) do |card|
+  card.with_metric { @work_package.story_points }
+  card.with_menu do |menu|
+    menu.with_item(label: "Open", href: work_package_path(@work_package))
+  end
+  card.with_additional_details do
+    # Whatever else you want to show
+  end
+end
+```

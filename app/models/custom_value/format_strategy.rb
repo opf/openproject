@@ -42,7 +42,7 @@ class CustomValue::FormatStrategy
   # Returns the value of the CustomValue in a typed fashion (i.e. not as the string
   # that is used for representation in the database)
   def typed_value
-    raise "SubclassResponsibility"
+    raise SubclassResponsibilityError
   end
 
   # Returns the value of the CustomValue formatted to a string
@@ -59,6 +59,6 @@ class CustomValue::FormatStrategy
   # Validates the type of the custom field and returns a symbol indicating the validation error
   # if an error occurred; returns nil if no error occurred
   def validate_type_of_value
-    raise "SubclassResponsibility"
+    raise SubclassResponsibilityError
   end
 end

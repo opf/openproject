@@ -14,7 +14,7 @@ get:
       required: true
       schema:
         type: integer
-      example: '1'
+      example: 1
   responses:
     '200':
       description: OK

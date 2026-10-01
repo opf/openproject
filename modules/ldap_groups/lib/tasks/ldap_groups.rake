@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -86,10 +88,31 @@ namespace :ldap_groups do
 
       filter.save!
 
+      puts "Set up group synchronization filter 'All groups' and synchronizing LDAP groups..."
       LdapGroups::SynchronizationJob.perform_now
+      puts "  → Synchronized #{LdapGroups::SynchronizedGroup.count} group(s)."
+
+      # The fixture also ships a nested organizational unit tree below ou=org, which is mirrored
+      # into departments so the development server demonstrates department synchronization too.
+      tree = LdapDepartments::SynchronizedTree.find_or_initialize_by(ldap_auth_source: source, name: "Organization")
+      tree.base_dn = "ou=org,dc=example,dc=com"
+      tree.structure_filter_string = "(objectClass=organizationalUnit)"
+      tree.ou_name_attribute = "ou"
+      tree.sync_users = true
+      tree.save!
+
+      puts "Set up department synchronization 'Organization' and synchronizing organizational units..."
+      LdapDepartments::SynchronizationService.synchronize!
+      puts "  → Synchronized #{LdapDepartments::SynchronizedDepartment.count} department(s)."
 
       puts <<~INFO
         LDAP server ready at localhost:12389
+
+        Synchronizations configured:
+          - Group synchronization via filter "All groups" (base ou=groups)
+          - Department synchronization via tree "Organization" (base ou=org)
+
+        --------------------------------------------------------
 
         Connection details
 
@@ -130,6 +153,12 @@ namespace :ldap_groups do
         uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
         uid=bölle,ou=people,dc=example,dc=com (Password: bólle)
 
+        Department members (below ou=org):
+
+        uid=jdoe,ou=Frontend,ou=Development,ou=IT,ou=org,dc=example,dc=com (Password: john)
+        uid=bsmith,ou=Backend,ou=Development,ou=IT,ou=org,dc=example,dc=com (Password: bob)
+        uid=hwest,ou=Recruiting,ou=Human Resources,ou=org,dc=example,dc=com (Password: helen)
+
         --------------------------------------------------------
 
         Groups
@@ -137,11 +166,93 @@ namespace :ldap_groups do
         cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
         cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
 
+        --------------------------------------------------------
+
+        Organizational units / Departments (synced from ou=org,dc=example,dc=com)
+
+        IT
+          Development
+            Frontend          (member: jdoe)
+            Backend           (member: bsmith)
+          Support
+        Human Resources
+          Recruiting          (member: hwest)
+          Support
+
+        Manage under Administration > Authentication > LDAP department synchronization.
+        Departments appear under Administration > Departments.
+
       INFO
 
       puts "Send CTRL+D to stop the server"
       require "irb"
-      binding.irb
+      binding.irb # rubocop:disable Lint/Debugger
+
+      ldap_server.stop
+    end
+
+    desc "Create a development LDAP server using groupOfUniqueNames/uniqueMember (forward lookup, no memberOf on users)"
+    task ldap_server_forward: :environment do
+      require "ladle"
+      ldif = ENV.fetch("LDIF_FILE") { Rails.root.join("spec/fixtures/ldap/users_unique_member.ldif") }
+      ldap_server = Ladle::Server.new(quiet: false, port: "12389", domain: "dc=example,dc=com", ldif:).start
+
+      source = LdapAuthSource.find_or_initialize_by(name: "ladle forward lookup")
+
+      source.attributes = {
+        host: "localhost",
+        port: "12389",
+        tls_mode: "plain_ldap",
+        account: "uid=admin,ou=system",
+        account_password: "secret",
+        base_dn: "dc=example,dc=com",
+        onthefly_register: true,
+        attr_login: "uid",
+        attr_firstname: "givenName",
+        attr_lastname: "sn",
+        attr_mail: "mail"
+      }
+
+      source.save!
+
+      filter = LdapGroups::SynchronizedFilter.find_or_initialize_by(ldap_auth_source: source, name: "All groups")
+      filter.group_name_attribute = "dn"
+      filter.sync_users = true
+      filter.filter_string = "(cn=*)"
+      filter.base_dn = "ou=groups,dc=example,dc=com"
+      filter.member_lookup_attribute = "uniqueMember"
+
+      filter.save!
+
+      LdapGroups::SynchronizationJob.perform_now
+
+      puts <<~INFO
+        LDAP server ready at localhost:12389 (forward lookup mode)
+
+        member_lookup_attribute: uniqueMember
+        Groups use groupOfUniqueNames — users have NO memberOf attribute.
+
+        --------------------------------------------------------
+
+        Users
+
+        uid=aa729,ou=people,dc=example,dc=com (Password: smada)    → engineering, cross-functional
+        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)  → engineering
+        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac) → management, cross-functional
+
+        --------------------------------------------------------
+
+        Groups
+
+        cn=engineering,ou=groups,dc=example,dc=com    (Members: aa729, bb459)
+        cn=management,ou=groups,dc=example,dc=com     (Members: cc414)
+        cn=cross-functional,ou=groups,dc=example,dc=com (Members: aa729, cc414)
+
+      INFO
+
+      puts "Send CTRL+D to stop the server"
+      require "irb"
+      binding.irb # rubocop:disable Lint/Debugger
 
       ldap_server.stop
     end

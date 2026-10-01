@@ -1,6 +1,7 @@
+---
 ms:
   js:
     work_packages:
-      label_gantt_chart_plural: "Carta Gantt"
       default_queries:
-        milestones: 'Pencapaian'
+        milestones: Pencapaian
+      label_gantt_chart_plural: Carta Gantt

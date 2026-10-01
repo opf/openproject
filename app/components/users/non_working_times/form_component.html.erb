@@ -1,0 +1,51 @@
+<%= component_wrapper do %>
+  <%= primer_form_with(
+        model: non_working_time,
+        url: form_url,
+        method: form_method,
+        id: FORM_ID,
+        data: {
+          controller: "users--non-working-times-form",
+          "users--non-working-times-form-preview-url-value" => working_days_preview_url
+        }
+      ) do |form|
+        render_inline_form(form) do |f|
+          f.group(layout: :horizontal) do |g|
+            g.single_date_picker(
+              name: :start_date,
+              label: I18n.t(:label_start_date),
+              required: true,
+              value: model.start_date&.iso8601,
+              datepicker_options: {
+                inDialog: Users::NonWorkingTimes::DialogComponent::DIALOG_ID,
+                data: {
+                  action: "change->users--non-working-times-form#previewWorkingDays"
+                }
+              }
+            )
+
+            g.single_date_picker(
+              name: :end_date,
+              label: I18n.t(:label_end_date),
+              required: true,
+              value: model.end_date&.iso8601,
+              datepicker_options: {
+                inDialog: Users::NonWorkingTimes::DialogComponent::DIALOG_ID,
+                data: {
+                  action: "change->users--non-working-times-form#previewWorkingDays"
+                }
+              }
+            )
+
+            g.text_field(
+              name: :working_days_display,
+              label: I18n.t(:label_working_days),
+              readonly: true,
+              value: model.working_days_count,
+              datepicker_options: { inDialog: Users::NonWorkingTimes::DialogComponent::DIALOG_ID },
+              data: { "users--non-working-times-form-target": "workingDaysInput" }
+            )
+          end
+        end
+      end %>
+<% end %>

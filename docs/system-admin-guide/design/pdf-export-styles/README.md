@@ -33,5 +33,5 @@ border:
   color: d3dee3
   height: 1px
 ```
-Where the color is a hexadecimal color code and the height is the height of the border in pixels.
 
+Where the color is a hexadecimal color code and the height is the height of the border in pixels.

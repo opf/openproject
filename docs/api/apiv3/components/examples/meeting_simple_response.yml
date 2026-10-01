@@ -1,0 +1,42 @@
+description: |-
+  A simple meeting response.
+value:
+  _type: 'Meeting'
+  id: 1
+  title: 'Meeting No 42'
+  location: 'Death Star - Level 1337 L13/42'
+  lockVersion: 13
+  startTime: '2026-02-16T10:00:00.000Z'
+  endTime: '2026-02-16T11:00:00.000Z'
+  duration: 1.0
+  createdAt: '2026-02-13T14:47:12.315Z'
+  updatedAt: '2026-02-13T14:47:12.315Z'
+  _links: 
+    attachments: 
+      href: '/api/v3/meetings/1/attachments'
+    addAttachment: 
+      href: '/api/v3/meetings/1/attachments'
+      method: 'post'
+    self: 
+      href: '/api/v3/meetings/1'
+      title: 'Meeting No 42'
+    author: 
+      href: '/api/v3/users/4'
+      title: 'Darth Vader'
+    project: 
+      href: '/api/v3/projects/10'
+      title: 'Death Star'
+  _embedded:
+    _abbreviated: Embedded resources shortened for brevity
+    attachments:
+      _type: Collection
+      total: 2
+      count: 2
+    author:
+      _type: User
+      name: Darth Vader 
+      id: 4
+    project:
+      _type: Project
+      name: Death Star
+      id: 10

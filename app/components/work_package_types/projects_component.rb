@@ -33,15 +33,15 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     def form_options
       {
-        url: type_projects_path(type_id: model.id),
+        url: variant_projects_path(variant),
         method: :put,
         model:,
         data: {
-          controller: "admin--work-package-type-projects",
-          "admin--work-package-type-projects-initially-selected-projects-value": model.projects.pluck(:id).join(",")
+          controller: "admin--work-package-type-projects"
         }
       }
     end
@@ -52,13 +52,19 @@ module WorkPackageTypes
       add_sub_tree(tree, nested_project_list)
     end
 
+    def enable_all_available? = variant.is_default_variant?
+
     def enabled_for_all_projects?
-      model.projects.pluck(:id).sort == projects.pluck(:id).sort
+      enable_all_available? && enabled_project_ids.sort == projects.pluck(:id).sort
     end
+
+    def variant = options[:variant]
 
     private
 
     def projects = options[:projects]
+
+    def enabled_project_ids = @enabled_project_ids ||= variant.projects.pluck(:id)
 
     def add_sub_tree(tree, project_list)
       project_list.each do |project_hash|
@@ -79,7 +85,7 @@ module WorkPackageTypes
         select_variant: :multiple,
         label: item.name,
         data: { project_id: item.id },
-        checked: model.projects.include?(item)
+        checked: enabled_project_ids.include?(item.id)
       }
     end
   end

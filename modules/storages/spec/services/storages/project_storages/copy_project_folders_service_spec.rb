@@ -154,7 +154,7 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   private
 
   def build_failure(code)
-    error = Storages::Adapters::Results::Error.new(source: copy_folder_command).with(code:)
+    error = SimpleError.new(source: copy_folder_command, code:)
     Failure(error)
   end
 end

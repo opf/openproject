@@ -47,7 +47,7 @@ module OpenIDConnect
           required: true,
           disabled: provider.seeded_from_env?,
           value: provider.tenant || "common",
-          caption: I18n.t("openid_connect.instructions.tenant").html_safe,
+          caption: helpers.t("openid_connect.instructions.tenant_html"),
           input_width: :medium
         )
       end

@@ -34,8 +34,8 @@ RSpec.describe LaborBudgetItems::Scopes::Visible do
   shared_let(:other_user) { create(:user) }
   shared_let(:user) do
     create(:user,
-           member_with_permissions: { view_project => %i[view_hourly_rates],
-                                      view_own_project => %i[view_own_hourly_rate] })
+           member_with_permissions: { view_project => %i[view_hourly_rates work_package_assigned],
+                                      view_own_project => %i[view_own_hourly_rate work_package_assigned] })
   end
   shared_let(:view_budget) { create(:budget, project: view_project) }
   shared_let(:view_own_budget) { create(:budget, project: view_own_project) }

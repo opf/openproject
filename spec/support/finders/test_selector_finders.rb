@@ -66,4 +66,5 @@ RSpec.configure do |config|
   Capybara::DSL.extend(TestSelectorFinders)
   config.include TestSelectorFinders, type: :feature
   config.include TestSelectorFinders, type: :component
+  config.include TestSelectorFinders, type: :rails_request
 end

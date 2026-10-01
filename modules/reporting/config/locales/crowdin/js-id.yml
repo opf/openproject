@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 id:
   js:
     reporting_engine:
-      label_remove: "Hapus"
-      label_response_error: "Terjadi kesalahan saat memproses permintaan."
+      label_remove: Hapus
+      label_response_error: Terjadi kesalahan saat memproses permintaan.

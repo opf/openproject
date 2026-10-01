@@ -89,7 +89,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
                 name: "Work packages assigned to me",
                 queryProps: {
                   "columns[]": %w(id project type subject),
-                  filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assigned_to\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
+                  filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assignee\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
                 }
               },
               startRow: 1,

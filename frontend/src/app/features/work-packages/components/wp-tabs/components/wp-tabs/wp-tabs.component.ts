@@ -1,8 +1,32 @@
-import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
-import {
-  KeepTabService,
-} from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, Component, EventEmitter, Injector, Input, OnInit, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import {
@@ -21,70 +45,36 @@ import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-t
   standalone: false,
 })
 export class WpTabsComponent implements OnInit {
+  readonly wpTabsService = inject(WorkPackageTabsService);
+  readonly I18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly pathHelper = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+
   @Input() workPackage:WorkPackageResource;
 
   @Input() view:'full'|'split';
 
-  @Input() routedFromAngular = true;
-
   @Input() public currentTabId:string|null = null;
+
+  @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
   public tabs:TabDefinition[];
 
   public canViewWatchers = false;
 
-  text = {
-    details: {
-      close: this.I18n.t('js.button_close_details'),
-      goToFullScreen: this.I18n.t('js.button_show_fullscreen'),
-    },
-  };
-
-  constructor(
-    readonly wpTabsService:WorkPackageTabsService,
-    readonly I18n:I18nService,
-    readonly injector:Injector,
-    readonly $state:StateService,
-    readonly uiRouterGlobals:UIRouterGlobals,
-    readonly keepTab:KeepTabService,
-    readonly pathHelper:PathHelperService,
-    readonly currentProject:CurrentProjectService,
-  ) {
-  }
-
   ngOnInit():void {
-    this.canViewWatchers = !!(this.workPackage && this.workPackage.watchers);
+    this.canViewWatchers = !!this.workPackage?.watchers;
     this.tabs = this.getDisplayableTabs();
   }
 
   private getDisplayableTabs():WpTabDefinition[]{
     return this
       .wpTabsService
-      .getDisplayableTabs(this.workPackage, this.routedFromAngular)
-      .map((tab) => {
-        if (this.routedFromAngular) {
-          return ({
-              ...tab,
-              route: '.tabs',
-              routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id },
-            });
-        }
-
-        return ({
-          ...tab,
-          path: this.pathHelper.genericWorkPackagePath(this.currentProject.identifier, this.workPackage.id!, tab.id),
-        });
-      });
-  }
-
-  public switchToFullscreen():void {
-    this.keepTab.goCurrentShowState(this.workPackage.id!);
-  }
-
-  public close():void {
-    this.$state.go(
-      this.uiRouterGlobals.current.data.baseRoute,
-      this.uiRouterGlobals.params,
-    );
+      .getDisplayableTabs(this.workPackage)
+      .map((tab) => ({
+        ...tab,
+        path: this.pathHelper.genericWorkPackagePath(this.currentProject.identifier, this.workPackage.displayId, tab.id),
+      }));
   }
 }

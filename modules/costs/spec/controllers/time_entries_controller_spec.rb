@@ -254,6 +254,47 @@ RSpec.describe TimeEntriesController do
         end
       end
     end
+
+    describe "prefilling a new entry" do
+      before do
+        role = create(:project_role, permissions: %i[view_project log_own_time])
+        create(:member, user:, project: project1, roles: [role])
+      end
+
+      def prefilled(params)
+        get :dialog, params: params.merge(project_id: project1), format: :turbo_stream
+        assigns(:time_entry)
+      end
+
+      it "takes the date from the date param" do
+        time_entry = prefilled(date: "2026-09-23")
+
+        expect(time_entry.spent_on).to eq(Date.civil(2026, 9, 23))
+        expect(time_entry.hours).to be_nil
+        expect(time_entry.start_time).to be_nil
+      end
+
+      it "takes the duration from the hours param, leaving the start time unset" do
+        time_entry = prefilled(date: "2026-09-23", hours: "2.5")
+
+        expect(time_entry.spent_on).to eq(Date.civil(2026, 9, 23))
+        expect(time_entry.hours).to eq(2.5)
+        expect(time_entry.start_time).to be_nil
+      end
+
+      it "ignores an hours param without a date" do
+        time_entry = prefilled(hours: "2.5")
+
+        expect(time_entry.hours).to be_nil
+      end
+
+      it "still derives the duration from a start and end time" do
+        time_entry = prefilled(startTime: "2026-09-23T08:00:00Z", endTime: "2026-09-23T10:00:00Z")
+
+        expect(time_entry.hours).to eq(2.0)
+        expect(time_entry.start_time).not_to be_nil
+      end
+    end
   end
 
   describe "#user_tz_caption" do
@@ -287,6 +328,46 @@ RSpec.describe TimeEntriesController do
       it "returns no notice" do
         get :user_tz_caption, params: { user_id: other_user.id }, format: :turbo_stream
         expect(response.body).to include("caption=\"\"")
+      end
+    end
+  end
+
+  describe "#update" do
+    let(:user) { create(:admin) } # so we don't have to mock permissions'
+    let!(:time_entry) { create(:time_entry, user: other_user, project: project1, entity: work_package1) }
+
+    render_views
+
+    def update_with_user_id(user_id)
+      put :update,
+          params: {
+            id: time_entry.id,
+            time_entry: {
+              user_id:,
+              show_user: "true",
+              show_work_package: "true",
+              hours: "1",
+              spent_on: Time.zone.today.iso8601
+            }
+          },
+          format: :turbo_stream
+    end
+
+    context "when the submitted user does not resolve to a record" do
+      it "re-renders the form for a blank user_id" do
+        update_with_user_id("")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("time_entry_user_id")
+        expect(time_entry.reload.user).to eq(other_user)
+      end
+
+      it "re-renders the form for a non-existent user_id" do
+        update_with_user_id(User.maximum(:id) + 1)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("time_entry_user_id")
+        expect(time_entry.reload.user).to eq(other_user)
       end
     end
   end

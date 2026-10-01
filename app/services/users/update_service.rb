@@ -45,8 +45,9 @@ module Users
     def persist(_service_result)
       service_result = super
 
-      if service_result.success?
-        service_result.success = model.pref.save
+      if service_result.success? && params[:pref].present?
+        preference_service = UserPreferences::UpdateService.new(user:, model: model.pref)
+        service_result.add_dependent!(preference_service.call(params[:pref]))
       end
 
       service_result

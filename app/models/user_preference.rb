@@ -173,16 +173,49 @@ class UserPreference < ApplicationRecord
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end
 
+  def daily_reminders=(value)
+    hash = value.to_h.with_indifferent_access
+    self.settings = settings.merge(
+      "daily_reminders" => {
+        "enabled" => ActiveRecord::Type::Boolean.new.cast(hash[:enabled]),
+        "times" => Array(hash[:times]).compact_blank
+      }
+    )
+  end
+
   def workdays
     super || WORKDAYS_FROM_MONDAY_TO_FRIDAY
+  end
+
+  def workdays=(value)
+    self.settings = settings.merge("workdays" => Array(value).map(&:to_i))
   end
 
   def immediate_reminders
     super.presence || { mentioned: true, personal_reminder: true }.with_indifferent_access
   end
 
+  def immediate_reminders=(value)
+    self.settings = settings.merge(
+      "immediate_reminders" => value.to_h.with_indifferent_access.transform_values { |v| ActiveRecord::Type::Boolean.new.cast(v) }
+    )
+  end
+
+  def mentioned
+    immediate_reminders[:mentioned]
+  end
+
+  def personal_reminder
+    immediate_reminders[:personal_reminder]
+  end
+
   def pause_reminders
     super.presence || { enabled: false }.with_indifferent_access
+  end
+
+  def pause_reminders=(value)
+    hash = value.to_h.with_indifferent_access
+    self.settings = settings.merge("pause_reminders" => pause_reminders_hash(hash))
   end
 
   def dismissed_banner?(feature)
@@ -205,5 +238,22 @@ class UserPreference < ApplicationRecord
 
   def attribute?(name)
     %i[user user_id].include?(name.to_sym)
+  end
+
+  def pause_reminders_hash(hash)
+    result = { "enabled" => ActiveRecord::Type::Boolean.new.cast(hash[:enabled]) }
+    date_fields = if hash[:date_range].present?
+                    parsed_date_range(hash[:date_range])
+                  else
+                    { "first_day" => hash[:first_day].presence, "last_day" => hash[:last_day].presence }
+                  end
+    result.merge(date_fields).compact
+  end
+
+  def parsed_date_range(date_range)
+    return {} if date_range.blank?
+
+    first_day, last_day = date_range.split(" - ", 2)
+    { "first_day" => first_day.presence, "last_day" => last_day.presence }
   end
 end

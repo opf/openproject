@@ -35,8 +35,10 @@ module FileHelpers
                          content_type: "text/plain",
                          content: "test content",
                          binary: false)
+    ::OpenProject::Files.create_uploaded_file(name:, content_type:, content:, binary:)
 
-    tmp = ::OpenProject::Files.create_temp_file(name:, content:, binary:)
-    Rack::Test::UploadedFile.new tmp.path, content_type, binary
+    ::OpenProject::Files.create_temp_file(name:, content:, binary:) do |tmp|
+      Rack::Test::UploadedFile.new tmp.path, content_type, binary, original_filename: File.basename(name)
+    end
   end
 end

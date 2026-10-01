@@ -169,9 +169,7 @@ RSpec.describe Projects::CreateService, type: :model do
           end
         end
 
-        context "with for_all custom fields",
-                with_ee: %i[calculated_values],
-                with_flag: { calculated_value_project_attribute: true } do
+        context "with for_all custom fields", with_ee: %i[calculated_values] do
           let!(:calculated_custom_field) do
             create(:calculated_value_project_custom_field,
                    project_custom_field_section: section)
@@ -230,9 +228,7 @@ RSpec.describe Projects::CreateService, type: :model do
         end
       end
 
-      describe "calculated custom fields",
-               with_ee: %i[calculated_values],
-               with_flag: { calculated_value_project_attribute: true } do
+      describe "calculated custom fields", with_ee: %i[calculated_values] do
         shared_let(:cf_static) { create(:integer_project_custom_field, is_for_all: true) }
         let(:project) { create(:project) }
         let!(:model_instance) { project }

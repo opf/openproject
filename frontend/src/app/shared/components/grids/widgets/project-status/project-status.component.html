@@ -2,26 +2,12 @@
   [name]="widgetName"
   [editable]="isEditable">
 
-  <attribute-help-text slot="prepend"
-    attribute="status"
-  [attributeScope]="'Project'" />
+  <attribute-help-text slot="append"
+                       attribute="status"
+                       [attributeScope]="'Project'" />
 
   <widget-menu slot="menu"
     [resource]="resource" />
 </widget-header>
 
-<div class="op-widget-box--body -allow-inner-overflow">
-  @if ((project$ | async); as project) {
-    <edit-form [resource]="project">
-      <div class="project-status--container">
-        <op-editable-attribute-field [resource]="project"
-          fieldName="status"
-          wrapperClasses="project-status--display-field" />
-      </div>
-      <div class="project-status-explanation--container">
-        <op-editable-attribute-field [resource]="project"
-          fieldName="statusExplanation" />
-      </div>
-    </edit-form>
-  }
-</div>
+<turbo-frame class="grid--widget-content" [id]="frameId" [src]="src" loading="lazy" />

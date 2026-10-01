@@ -64,6 +64,38 @@ def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
   drag_release
 end
 
+# Single-sequence primitive for native HTML5 drags (Pragmatic drag and drop):
+# once the native drag loop starts, Chrome swallows input from later action
+# chains, so multi-`perform` sequences never deliver the drop. Offsets are
+# relative to the target element's center (callers pick the exact drop point
+# for edge targeting), so callers don't need to keep the target scrolled into
+# view before computing them.
+#
+# `dwell` adds a second pointer move over the target before releasing. One
+# move produces a single dragover, and a drag engine that paints its drop
+# feedback on an animation frame has not painted by then; a caller asserting
+# that feedback needs the extra event.
+def perform_native_drag(source:, target:, offset_x: 0, offset_y: 0, dwell: false)
+  # Ensure both elements are on the page, note this works only if the screen
+  # size can fit both.
+  scroll_to_element(source, block: :nearest)
+  scroll_to_element(target, block: :nearest)
+
+  action = page
+    .driver
+    .browser
+    .action
+    .move_to(source.native)
+    .click_and_hold(source.native)
+    .pause(duration: 0.1)
+    .move_to(target.native, offset_x, offset_y)
+    .pause(duration: 0.1)
+
+  action = action.move_by(0, 1).pause(duration: 0.1) if dwell
+
+  action.release.perform
+end
+
 def drag_by_pixel(element:, by_x:, by_y:)
   scroll_to_element(element, block: :center)
 

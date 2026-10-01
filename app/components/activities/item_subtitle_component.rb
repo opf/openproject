@@ -42,10 +42,12 @@ class Activities::ItemSubtitleComponent < ViewComponent::Base
   def user_html
     return unless @user
 
-    [
+    parts = [
       helpers.avatar(@user, size: "mini"),
       helpers.content_tag("span", helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(" ")
+    ]
+
+    safe_join(parts, " ")
   end
 
   def datetime_html

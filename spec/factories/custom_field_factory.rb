@@ -29,6 +29,19 @@
 #++
 
 FactoryBot.define do
+  trait :activatable_on_types do
+    transient do
+      types { [] }
+    end
+
+    after(:create) do |custom_field, evaluator|
+      next if evaluator.types.empty?
+
+      variants = evaluator.types.map { |type| type.is_a?(TypeVariant) ? type : type.default_variant }
+      variants.each { |variant| variant.custom_field_ids |= [custom_field.id] }
+    end
+  end
+
   factory :custom_field do
     transient do
       # These values are used internally to customize the custom field name
@@ -59,8 +72,16 @@ FactoryBot.define do
       RequestStore.store.delete_if { |key, _| key.to_s.include?("_custom_fields") }
     end
 
+    trait :is_for_all do
+      is_for_all { true }
+    end
+
     trait :admin_only do
       admin_only { true }
+    end
+
+    trait :has_comment do
+      has_comment { true }
     end
 
     trait :multi_value do
@@ -235,13 +256,17 @@ FactoryBot.define do
       end
     end
 
-    factory :user_custom_field, class: "UserCustomField"
+    factory :user_custom_field, class: "UserCustomField" do
+      user_custom_field_section
+    end
 
     factory :group_custom_field, class: "GroupCustomField"
 
     factory :wp_custom_field, class: "WorkPackageCustomField" do
       _type_name { "WP custom field" }
       is_filter { true }
+
+      activatable_on_types
 
       transient do
         projects { [] }
@@ -273,6 +298,8 @@ FactoryBot.define do
 
     factory :issue_custom_field, class: "WorkPackageCustomField" do
       _type_name { "issue custom field" }
+
+      activatable_on_types
     end
 
     factory :time_entry_custom_field, class: "TimeEntryCustomField" do

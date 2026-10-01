@@ -55,6 +55,20 @@ class MeetingAgendaItem < ApplicationRecord
 
   scope :with_includes_to_render, -> { includes(:author, :meeting) }
 
+  def self.linked_to_work_package(work_package)
+    where(<<~SQL.squish, wp_id: work_package.id)
+      meeting_agenda_items.work_package_id = :wp_id OR
+      meeting_agenda_items.id IN (
+        SELECT meeting_agenda_item_id FROM meeting_outcomes WHERE meeting_outcomes.work_package_id = :wp_id
+      )
+    SQL
+  end
+
+  def self.visible_linked_to_work_package(user, work_package)
+    linked_to_work_package(work_package)
+      .where(meeting_id: Meeting.not_templated.visible(user))
+  end
+
   # The primer form depends on meeting_id being validated, even though Rails pattern would suggest
   # to validate only :meeting. When copying meetings however,
   # we build meetings and agenda items together, so meeting_id will stay empty.

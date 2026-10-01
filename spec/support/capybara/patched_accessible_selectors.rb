@@ -62,19 +62,3 @@ end
 
 Ferrum::Page.include FerrumPageExtensions
 Capybara::Cuprite::Node.include CupriteNodeExtensions
-
-#  Modifies combo_box_list_box provided by Capybara Accessible Selectors
-#  to work with our autocompleter (ng-select) implementation: we allow
-# `aria-owns`/`aria-controls` to be specified on ancestor of the
-# `listbox`.
-Capybara.modify_selector(:combo_box_list_box) do
-  xpath do |input|
-    ids = (input[:"aria-owns"] || input[:"aria-controls"])&.split(/\s+/)&.compact
-    raise Capybara::ElementNotFound, "listbox cannot be found without attributes aria-owns or aria-controls" if ids.blank?
-
-    XPath.anywhere[[
-      XPath.descendant[XPath.attr(:role) == "listbox"],
-      ids.map { |id| XPath.attr(:id) == id }.reduce(:|)
-    ].reduce(:&)]
-  end
-end

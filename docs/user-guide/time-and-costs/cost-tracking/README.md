@@ -26,7 +26,7 @@ To log costs to a work package you can either press the button on the top right 
 
 A new form is opened, where you can log unit costs. You can edit the following information:
 
-1. **Work package ID**. By default, the work package ID of the work package where you selected *Log unit costs* option is shown. You can change this number, in which case the unit costs will be logged for the respective work package.
+1. **Work package ID**. By default, the work package ID of the work package where you selected _Log unit costs_ option is shown. You can change this number, in which case the unit costs will be logged for the respective work package.
 
 2. The **date**, for which the unit costs are logged.
 

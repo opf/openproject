@@ -75,77 +75,57 @@ class ProjectQueries::Static
     private
 
     def static_query_active
-      list_with(:"projects.lists.active") do |query|
-        query.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
-      end
+      static_query("active", "=", OpenProject::Database::DB_VALUE_TRUE, name: :"projects.lists.active")
     end
 
     def static_query_active_portfolios
-      list_with(:"portfolios.lists.active") do |query|
-        query.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
-      end
+      static_query("active", "=", OpenProject::Database::DB_VALUE_TRUE, name: :"portfolios.lists.active")
     end
 
     def static_query_my
-      list_with(:"projects.lists.my") do |query|
-        query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
-      end
+      static_query("member_of", "=", OpenProject::Database::DB_VALUE_TRUE, name: :"projects.lists.my")
     end
 
     def static_query_my_portfolios
-      list_with(:"portfolios.lists.my") do |query|
-        query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
-      end
+      static_query("member_of", "=", OpenProject::Database::DB_VALUE_TRUE, name: :"portfolios.lists.my")
     end
 
     def static_query_favorited
-      list_with(:"projects.lists.favorited") do |query|
-        query.where("favorited", "=", OpenProject::Database::DB_VALUE_TRUE)
-      end
+      static_query("favorited", "=", OpenProject::Database::DB_VALUE_TRUE, name: :"projects.lists.favorited")
     end
 
     def static_query_favorited_portfolios
-      list_with(:"portfolios.lists.favorited") do |query|
-        query.where("favorited", "=", OpenProject::Database::DB_VALUE_TRUE)
-      end
+      static_query("favorited", "=", OpenProject::Database::DB_VALUE_TRUE, name: :"portfolios.lists.favorited")
     end
 
     def static_query_archived
-      list_with(:"projects.lists.archived") do |query|
-        query.where("active", "=", OpenProject::Database::DB_VALUE_FALSE)
-      end
+      static_query("active", "=", OpenProject::Database::DB_VALUE_FALSE, name: :"projects.lists.archived")
     end
 
     def static_query_archived_portfolios
-      list_with(:"portfolios.lists.archived") do |query|
-        query.where("active", "=", OpenProject::Database::DB_VALUE_FALSE)
-      end
+      static_query("active", "=", OpenProject::Database::DB_VALUE_FALSE, name: :"portfolios.lists.archived")
     end
 
     def static_query_status_on_track
-      list_with(:"activerecord.attributes.project.status_codes.on_track") do |query|
-        query.where("project_status_code", "=", Project.status_codes[:on_track])
-      end
+      static_query("project_status_code", "=", Project.status_codes[:on_track],
+                   name: :"activerecord.attributes.project.status_codes.on_track")
     end
 
     def static_query_status_off_track
-      list_with(:"activerecord.attributes.project.status_codes.off_track") do |query|
-        query.where("project_status_code", "=", Project.status_codes[:off_track])
-      end
+      static_query("project_status_code", "=", Project.status_codes[:off_track],
+                   name: :"activerecord.attributes.project.status_codes.off_track")
     end
 
     def static_query_status_at_risk
-      list_with(:"activerecord.attributes.project.status_codes.at_risk") do |query|
-        query.where("project_status_code", "=", Project.status_codes[:at_risk])
-      end
+      static_query("project_status_code", "=", Project.status_codes[:at_risk],
+                   name: :"activerecord.attributes.project.status_codes.at_risk")
     end
 
-    def list_with(name)
+    def static_query(field, operator, value, name:)
       ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order("lft" => "asc")
         query.select(*Setting.enabled_projects_columns, add_not_existing: false)
-
-        yield query
+        query.where(field, operator, value)
 
         # This method is used to create static queries, so assume clean state after building
         query.clear_changes_information

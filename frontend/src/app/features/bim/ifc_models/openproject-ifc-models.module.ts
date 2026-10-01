@@ -21,18 +21,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { NgModule } from '@angular/core';
-import { UIRouterModule } from '@uirouter/angular';
 
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
-import { IFC_ROUTES } from 'core-app/features/bim/ifc_models/openproject-ifc-models.routes';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { IFCViewerPageComponent } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-viewer-page.component';
+import { IfcViewerEntryComponent } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-viewer-entry.component';
 import {
   BcfViewToggleButtonComponent,
 } from 'core-app/features/bim/ifc_models/toolbar/view-toggle/bcf-view-toggle-button.component';
@@ -51,6 +51,9 @@ import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.modu
 import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';
 import { BcfSplitLeftComponent } from 'core-app/features/bim/ifc_models/bcf/split/left/bcf-split-left.component';
 import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-split-right.component';
+import {
+  BcfContentRightEntryComponent,
+} from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-content-right-entry.component';
 
 @NgModule({
   imports: [
@@ -59,9 +62,6 @@ import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/spl
     OpenprojectHalModule,
     OpenprojectBcfModule,
     OpenprojectWorkPackagesModule,
-    UIRouterModule.forChild({
-      states: IFC_ROUTES,
-    }),
     IconModule,
   ],
   providers: [
@@ -71,6 +71,8 @@ import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/spl
   declarations: [
     // Pages
     IFCViewerPageComponent,
+    IfcViewerEntryComponent,
+    BcfContentRightEntryComponent,
 
     // Regions of pages
     BcfSplitLeftComponent,

@@ -49,7 +49,7 @@ RSpec.describe Notifications::CreateFromModelService,
       author: other_user,
       responsible: other_user,
       assigned_to: other_user,
-      type: project.types.first
+      type: project.enabled_types.first
     }
 
     if %i[responsible assigned_to].include?(user_property)

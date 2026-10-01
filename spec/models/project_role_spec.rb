@@ -42,21 +42,45 @@ RSpec.describe ProjectRole do
     it { expect(described_class.givable).to contain_exactly project_role }
   end
 
-  describe ".in_new_project" do
+  describe ".assignable_to_project_creator" do
     let!(:ungivable_role) { create(:non_member) }
+    let!(:role_with_all_perms) do
+      create(:project_role, permissions: ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR + %i[view_work_packages])
+    end
+    let!(:role_missing_one_perm) do
+      create(:project_role, permissions: [ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR.first])
+    end
+    let!(:role_with_unrelated_perms) do
+      create(:project_role, permissions: %i[view_work_packages])
+    end
+
+    it "includes only givable roles that grant all required permissions" do
+      expect(described_class.assignable_to_project_creator)
+        .to contain_exactly(role_with_all_perms)
+    end
+  end
+
+  describe ".in_new_project" do
+    let(:required_permissions) { ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR }
+    let!(:ungivable_role) { create(:non_member) }
+    let!(:role_without_required_permissions) do
+      create(:project_role, permissions: %i[view_work_packages]).tap do |r|
+        r.update_column(:position, 0)
+      end
+    end
     let!(:second_role) do
-      create(:project_role).tap do |r|
+      create(:project_role, permissions: required_permissions).tap do |r|
         r.update_column(:position, 100)
       end
     end
     let!(:first_role) do
-      create(:project_role).tap do |r|
+      create(:project_role, permissions: required_permissions).tap do |r|
         r.update_column(:position, 1)
       end
     end
 
     context "without a specified role" do
-      it "returns the first role (by position)" do
+      it "returns the first qualifying role (by position)" do
         expect(described_class.in_new_project)
           .to eql first_role
       end
@@ -82,9 +106,19 @@ RSpec.describe ProjectRole do
                 .and_return("-1")
       end
 
-      it "returns the first role (by position)" do
+      it "returns the first qualifying role (by position)" do
         expect(described_class.in_new_project)
           .to eql first_role
+      end
+    end
+
+    context "when no role has the required permissions" do
+      before do
+        described_class.where.not(id: role_without_required_permissions.id).destroy_all
+      end
+
+      it "returns nil" do
+        expect(described_class.in_new_project).to be_nil
       end
     end
   end

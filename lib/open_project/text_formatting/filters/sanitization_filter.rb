@@ -31,16 +31,29 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      def allowlist
+      # Prefix for all id and name attributes so they cannot clobber document/window
+      # (e.g. id="constructor" becomes id="op-frag-constructor"). Anchors still work
+      # because we rewrite fragment links to use the same prefix. Used by
+      # TableOfContentsFilter when it assigns heading ids.
+      FRAGMENT_ID_PREFIX = "op-frag-"
+
+      def allowlist # rubocop:disable Metrics/AbcSize
         base = super
+        # Ensure id is allowed (for anchors); we make it safe by prefixing in the transformer.
+        base_attrs = base[:attributes].deep_dup
+        all_attrs = Array(base_attrs[:all])
+        base_attrs[:all] = all_attrs.include?("id") ? all_attrs : all_attrs + ["id"]
 
         Sanitize::Config.merge(
           base,
           elements: base[:elements] + %w[macro mention],
+          # Strip SVG entirely (tag + all nested content). SVG is not on the allowlist, but
+          # without remove_contents Sanitize would keep SVG child nodes as orphaned content.
+          remove_contents: Array(base[:remove_contents]) | %w[svg style],
 
-          attributes: base[:attributes].deep_merge(
-            # Whitelist class and data-* attributes on all macros
-            "macro" => ["class", :data],
+          attributes: base_attrs.deep_merge(
+            # Explicit allowlist of data-* attributes used by registered macros.
+            "macro" => %w[class data-type data-classes data-page data-include-parent data-macro-name data-query-props data-pull-request-id data-pull-request-state],
             # mentions
             "mention" => %w[data-type data-text data-id class],
             # add styles to tables
@@ -53,16 +66,29 @@ module OpenProject::TextFormatting
             "td" => ["style"]
           ),
 
-          # Add rel attribute to prevent tabnabbing
+          # Add rel attribute to prevent tabnabbing and SEO spam
           add_attributes: {
-            "a" => { "rel" => "noopener noreferrer" }
+            "a" => { "rel" => "noopener noreferrer nofollow" }
           },
 
           # Add custom transformer logic for more complex modifications
           transformers: base[:transformers] + transformers,
 
-          # Allow relaxed CSS styles for the given attributes
-          css: ::Sanitize::Config::RELAXED[:css],
+          # Restrict CSS to still allow some basic color and text styles
+          # used within the CKEditor table layout plugins
+          css: {
+            properties: %w[
+              text-align vertical-align font-weight font-style font-size
+              text-decoration color background-color
+              border border-collapse border-spacing border-color border-style border-width
+              width height max-width max-height min-width min-height
+              padding padding-top padding-right padding-bottom padding-left
+              margin margin-top margin-right margin-bottom margin-left
+              white-space word-wrap overflow-wrap
+              list-style-type
+              float clear
+            ]
+          },
 
           # Allow our protocols, and relative links always
           protocols: {
@@ -75,9 +101,50 @@ module OpenProject::TextFormatting
 
       def transformers
         [
+          fragment_id_prefix_transformer,
+          fragment_link_rewrite_transformer,
           todo_list_transformer,
           code_block_transformer
         ]
+      end
+
+      # Prefix all id and name attributes so they cannot clobber document/window.
+      # e.g. id="constructor" -> id="op-frag-constructor"; anchors still work.
+      def fragment_id_prefix_transformer
+        prefix = FRAGMENT_ID_PREFIX
+        lambda { |env|
+          node = env[:node]
+          next unless node.element?
+
+          %w[id name].each do |attr|
+            val = node[attr]
+            next if val.blank?
+            next if val.start_with?(prefix)
+
+            node[attr] = "#{prefix}#{val}"
+          end
+        }
+      end
+
+      # Rewrite same-document fragment links to use the same prefix so anchors match.
+      # e.g. <a href="#section"> -> href="#op-frag-section"
+      def fragment_link_rewrite_transformer
+        prefix = FRAGMENT_ID_PREFIX
+        lambda { |env|
+          node = env[:node]
+          next unless node.name == "a"
+
+          href = node["href"]
+          return if href.blank?
+
+          # Only rewrite fragment-only links (#foo), not full URLs with fragment
+          next unless href.start_with?("#") && href.length > 1
+
+          fragment = href.slice(1..)
+          next if fragment.empty? || fragment.start_with?(prefix)
+
+          node["href"] = "##{prefix}#{fragment}"
+        }
       end
 
       # Transformer to fix task lists in sanitization

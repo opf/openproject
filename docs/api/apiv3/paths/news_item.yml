@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: news id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true
@@ -86,7 +86,7 @@ patch:
     When calling this endpoint the client provides a single object, containing the properties and links to be updated, in the body.
   parameters:
     - description: News id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -162,7 +162,7 @@ delete:
     - News
   parameters:
     - description: News id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

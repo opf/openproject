@@ -40,21 +40,26 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= styled_form_tag(admin_settings_incoming_mails_path, method: :patch) do %>
-  <section class="form--section">
-    <div class="form--field">
-      <%= setting_text_area :mail_handler_body_delimiters, rows: 5, container_class: "-wide" %>
-      <div class="form--field-instructions"><%= t(:text_line_separated) %></div>
-    </div>
-    <div class="form--field">
-      <%= setting_text_field :mail_handler_body_delimiter_regex, container_class: "-wide" %>
-      <div class="form--field-instructions"><%= t(:text_regexp_multiline) %></div>
-    </div>
-    <div class="form--field">
-      <%= setting_text_area :mail_handler_ignore_filenames, rows: 5, container_class: "-wide" %>
-      <div class="form--field-instructions"><%= t("incoming_mails.ignore_filenames") %></div>
-    </div>
-  </section>
+<%=
+  settings_primer_form_with(
+    url: admin_settings_incoming_mails_path,
+    scope: :settings,
+    method: :patch,
+    data: { turbo: false }
+  ) do |form|
+    render_inline_settings_form(form) do |f|
+      f.text_area name: :mail_handler_body_delimiters,
+                  rows: 5,
+                  caption: t(:text_line_separated)
 
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+      f.text_field name: :mail_handler_body_delimiter_regex,
+                   caption: t(:text_regexp_multiline)
+
+      f.text_area name: :mail_handler_ignore_filenames,
+                  rows: 5,
+                  caption: t("incoming_mails.ignore_filenames")
+
+      f.submit
+    end
+  end
+%>

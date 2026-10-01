@@ -66,7 +66,9 @@ module MembersHelper
   end
 
   def principal_membership_path(principal, global_member, options = {})
-    if principal.is_a?(Group)
+    if principal.is_a?(Group) && principal.organizational_unit?
+      membership_of_admin_department_path(principal, global_member, options)
+    elsif principal.is_a?(Group)
       membership_of_group_path(principal, global_member, options)
     else
       user_membership_path(principal, global_member, options)
@@ -74,7 +76,9 @@ module MembersHelper
   end
 
   def principal_memberships_path(principal, options = {})
-    if principal.is_a?(Group)
+    if principal.is_a?(Group) && principal.organizational_unit?
+      memberships_of_admin_department_path(principal, options)
+    elsif principal.is_a?(Group)
       memberships_of_group_path(principal, options)
     else
       user_memberships_path(principal, options)

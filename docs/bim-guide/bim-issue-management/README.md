@@ -8,7 +8,7 @@ keywords: BIM, BCF, IFC, BIM Issue Management, BCF-Management
 
 # BIM issue management (BIM feature)
 
-Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Issues get stored as BCFs centrally and are available to every team member in real time. Below you find the most important features how to use the BCF Module to create, inspect and manage issues.
+Within the _BCF-Module_ you are able to manage _BIM Issues (BCF)_. All BIM Issues get stored as BCFs centrally and are available to every team member in real time. Below you find the most important features how to use the BCF Module to create, inspect and manage issues.
 
 ## What is a BIM issue?
 
@@ -16,7 +16,7 @@ A BIM Issue is a special kind of work package to communicate directly within the
 
 The BIM Issue is not only a description of a problem, the view of the building model is stored within the issue as well. This includes the current selection, view , rotation & zoom of the model.
 
-OpenProject BIM supports the standard of the ***BIM Collaboration Format (BCF)***. All BIM Issues which are created within another *Open BIM* Software can be imported to work with this issue within our project management solution.
+OpenProject BIM supports the standard of the _**BIM Collaboration Format (BCF)**_. All BIM Issues which are created within another _Open BIM_ Software can be imported to work with this issue within our project management solution.
 
 ## Create a BIM issue
 
@@ -43,7 +43,7 @@ Click on the **+ Create new work package** and select the type of work package y
 
 Now you can see a detail view of the new Issue. Describe all necessary information to work on that task and add a viewpoint by clicking on the **"+ Viewpoint"**-Button. Now the current Viewpoint of the Building Model is added to the Issue. After saving your new BIM issue is created.
 
-*Within the viewpoint the current status of your building model is saved. So please check the view before - is there everything shown within the model viewer?*
+_Within the viewpoint the current status of your building model is saved. So please check the view before - is there everything shown within the model viewer?_
 
 ![Create a viewpoint](Create-a-viewpoint.png)
 
@@ -134,7 +134,7 @@ BIM Issues are also listed in the work package module. This supports you to mana
 
 ## Import and export BCF issues using BCF
 
-Within the BCF module you are able to upload BIM Issues which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the ***"Import"-Button*** or ***"Export"-Button*** within the OpenProject Toolbar.
+Within the BCF module you are able to upload BIM Issues which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the _**"Import"-Button**_ or _**"Export"-Button**_ within the OpenProject Toolbar.
 
 ### Import of attributes
 

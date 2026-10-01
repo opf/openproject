@@ -19,9 +19,10 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 hr:
   js:
-    label_meetings: 'Sastanci'
+    label_meetings: Sastanci
     work_packages:
       tabs:
-        meetings: 'Sastanci'
+        meetings: Sastanci

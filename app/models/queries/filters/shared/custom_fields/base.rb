@@ -73,12 +73,21 @@ module Queries::Filters::Shared
       end
 
       def strategies
-        strategies = Queries::Filters::STRATEGIES.dup
-        # Override the integer and float strategies
-        strategies[:integer] = Queries::Filters::Strategies::CfInteger
-        strategies[:float] = Queries::Filters::Strategies::CfFloat
-
-        strategies
+        # Override the integer and float strategies, for simplicity
+        # calculated_value hijacks float instead of adding separate strategy.
+        {
+          **Queries::Filters::STRATEGIES,
+          string: Queries::Filters::Strategies::CfString,
+          text: Queries::Filters::Strategies::CfText,
+          date: Queries::Filters::Strategies::CfDate,
+          hierarchy: Queries::Filters::Strategies::CfHierarchy,
+          integer: Queries::Filters::Strategies::CfInteger,
+          float: if custom_field.field_format == "calculated_value"
+                   Queries::Filters::Strategies::CfCalculatedValue
+                 else
+                   Queries::Filters::Strategies::CfFloat
+                 end
+        }
       end
 
       def type
@@ -101,12 +110,15 @@ module Queries::Filters::Shared
       def where
         model_db_table = model.table_name
 
-        <<-SQL
-          #{model_db_table}.id IN
-          (SELECT #{model_db_table}.id
-          FROM #{model_db_table}
-          #{custom_field_context.where_subselect_joins(custom_field)}
-          WHERE #{condition})
+        <<~SQL.squish
+          #{model_db_table}.id IN (
+            SELECT
+              #{model_db_table}.id
+            FROM #{model_db_table}
+            #{custom_field_context.where_subselect_joins(custom_field)}
+            WHERE
+              #{condition}
+          )
         SQL
       end
 

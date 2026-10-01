@@ -204,9 +204,7 @@ RSpec.describe Project, "customizable" do
         .to contain_exactly(text_custom_field, bool_custom_field)
     end
 
-    describe "#valid?",
-             with_ee: %i[calculated_values],
-             with_flag: { calculated_value_project_attribute: true } do
+    describe "#valid?", with_ee: %i[calculated_values] do
       let(:another_section) { create(:project_custom_field_section) }
       let(:project) do
         build(:project, custom_field_values: {
@@ -377,9 +375,7 @@ RSpec.describe Project, "customizable" do
         .to eq("bar")
     end
 
-    describe "#valid?",
-             with_ee: %i[calculated_values],
-             with_flag: { calculated_value_project_attribute: true } do
+    describe "#valid?", with_ee: %i[calculated_values] do
       let!(:project) do
         create(:project, custom_field_values: {
                  text_custom_field.id => "foo",

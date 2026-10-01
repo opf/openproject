@@ -82,6 +82,6 @@ class Queries::Principals::Filters::InternalMentionableOnWorkPackageFilter <
   end
 
   def work_package
-    WorkPackage.find(values.first)
+    WorkPackage.visible.find(values.first)
   end
 end

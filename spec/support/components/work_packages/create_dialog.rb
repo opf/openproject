@@ -47,6 +47,8 @@ module Components
         in_dialog do
           select_combo_box_option value, from: "Type"
         end
+
+        wait_for_network_idle # form is updated
       end
 
       def set_subject(value)

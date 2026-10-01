@@ -1,0 +1,74 @@
+This TreeView component is currently an internal implementation for OpenProject. It nevertheless follows the requirements that Primer has set up for their [(react) TreeView](https://primer.style/product/components/tree-view/) as closely as possible.
+
+## Overview
+
+<%= embed OpenProject::Common::TreeViewPreview, :default %>
+
+## Anatomy
+
+![Tree view anatomy](<%= image_path("lookbook/tree_view_anatomy.png") %>)
+
+Basically, we follow Primer's specification of a TreeView:
+
+1. Parent node: Expands/collapses to show/hide child nodes
+2. End node: A node with no children (internally called "leaf")
+3. Chevron: Expands/collapses a parent node and indicates an expanded / collapsed state
+4. Nesting level indicator lines: Each line represents a level of nesting depth
+5. Leading action (optional): An IconButton to allow interaction with the node besides activating or expanding
+6. Leading visual (optional): A visual cue for additional context
+7. Node label: The text label for the node
+8. Trailing visual (optional): Same as a leading visual, but placed to the right of all other elements
+
+### Multi-select
+
+In addition to Primer's guidelines, we introduced an option called `select_variant` which can either be
+
+* `none` (default)
+* `single`: When `single` is chosen, one item can be selected. The selection is indicated via an arrow in the slot of the trailing visual
+* `multiple`: When `multiple` is chosen, there is a checkbox rendered between the leading action and the leading visual to afford multi-selection
+
+Further, in multi-select mode, a `selection_strategy` can also be configured. This determines the influence checking a parent has on its children:
+
+* `descendants` (default): Checking a parent will automatically select all children. Subsequently deselecting any child will then leave the parent in a so called "mixed" state
+* `self`: Checking a parent does not affect the children (and vice versa); every leaf or node behaves independently of others
+
+<%= embed OpenProject::Common::TreeViewPreview, :multi_select, panels: %i[params] %>
+
+### Loading strategies
+
+We support two loading strategies:
+
+* static (default): All items are loaded when the component is rendered
+* dynamic: Sub-nodes are loaded from the server as soon as a node is expanded. Please note that this option is currently not available for the `select_variant: :multiple` in combination with `select_strategy: :descendants` or `select_strategy: :mixed_descendants`.
+
+For more examples, have a look [here](../../../inspect/primer/alpha/tree_view/loading_skeleton).
+
+### FileTreeView
+
+There is a special component called `FileTreeView` which is a pre-configured `TreeView` for the use case of showing a file hierarchy. For more information, have a look at the [detailed examples here](../../../inspect/primer/alpha/file_tree_view/default).
+
+<%= embed OpenProject::Common::TreeViewPreview, :file_tree, panels: %i[params source] %>
+
+## Best practices
+
+**Do**
+- Use the simplest component as far as possible ('self' selection strategy, static loading strategy)
+- Before using a basic TreeView with multi-select, check if related components like FilterableTreeView are more suited to your use case
+
+**Don't**
+
+- Don't use multi-select mode with a dynamic loading strategy; multi-select requires static loading
+
+## Used in
+
+* The details view of a hierarchy CustomField
+
+## Examples
+
+For detailed examples have a look at the other [preview examples](../../../inspect/primer/alpha/tree_view/playground) of the component.
+
+Please check out also the [playground for the individual items](../../../inspect/primer/alpha/tree_view/leaf_node_playground).
+
+This is an exemplary playground of the `Primer::Alpha::TreeView`.
+
+<%= embed OpenProject::Common::TreeViewPreview, :default, panels: %i[params source] %>

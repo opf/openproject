@@ -15,7 +15,6 @@ You can use **OneDrive** as an integrated file storage in OpenProject.
 > [!NOTE]
 > This feature includes using both OneDrive and SharePoint integrations.
 
-
 This integration makes it possible for you to:
 
 - Link files and folders stored in OneDrive with work packages in OpenProject
@@ -62,7 +61,7 @@ To link a OneDrive file to the current work package, you can either:
 
 ![Select a OneDrive file or folder to link to an OpenProject work package](openproject_onedrive_link_files.png)
 
-Select any folder or file (or multiple ones) you want to link , then click the *Link* button.
+Select any folder or file (or multiple ones) you want to link , then click the _Link_ button.
 
 ![Select files to link to an OpenProject work package from a OneDrive file storage](openproject_user_guide_onedrive_storage_select_multiple_files_to_link.png)
 
@@ -122,7 +121,7 @@ When a file or folder from OneDrive is linked to a work package, an OpenProject 
 - See when it was last modified (or created, if it has not yet been modified)
 - See who last modified it (or who created it, if it has not yet been modified)
 
-However, all available actions depend on permissions the OpenProject user (or more precisely, the OneDrive account tied to that user) has in OneDrive. In other words, a user who does not have the permission to access the file in OneDrive will also *not* be able to open, download, or modify the file in OpenProject.
+However, all available actions depend on permissions the OpenProject user (or more precisely, the OneDrive account tied to that user) has in OneDrive. In other words, a user who does not have the permission to access the file in OneDrive will also _not_ be able to open, download, or modify the file in OpenProject.
 
 Please note, that with automatically managed project folders these permissions are set by OpenProject based on user permissions in OpenProject.
 

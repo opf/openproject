@@ -36,10 +36,10 @@ class CustomFields::Inputs::Text < CustomFields::Inputs::Base::Input
   def rich_text_options
     {
       resource: nil,
-      macros: "none",
+      macros: "wiki",
       data: {
         "custom-field-id": @custom_field.id,
-        "qa-field-name": qa_field_name
+        "test-selector": test_selector
       }
     }
   end

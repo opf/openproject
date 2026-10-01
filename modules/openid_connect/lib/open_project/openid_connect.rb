@@ -34,13 +34,10 @@ require "open_project/openid_connect/engine"
 
 module OpenProject
   module OpenIDConnect
-    ACCESS_TOKEN_TYPE = "urn:ietf:params:oauth:token-type:access_token"
-    TOKEN_EXCHANGE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:token-exchange"
-
     def self.configuration
       providers = ::OpenIDConnect::Provider.where(available: true)
 
-      OpenProject::Cache.fetch(providers.cache_key_with_version) do
+      OpenProject::ConfidentialCache.fetch(providers.cache_key_with_version) do
         providers.each_with_object({}) do |provider, hash|
           hash[provider.slug.to_sym] = provider.to_h
         end

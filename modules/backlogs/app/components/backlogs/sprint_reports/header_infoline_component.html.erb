@@ -1,0 +1,10 @@
+<%= render(Primer::BaseComponent.new(tag: :div, mb: 2, classes: "op-sprint-report-infoline")) do %>
+  <%= render(Backlogs::SprintStatusBadgeComponent.new(sprint:)) %>
+
+  <% if sprint.date_range_set? %>
+    <%= render(Primer::Beta::Text.new(role: :group, ml: 2)) do %>
+      <%= render(Primer::Beta::Octicon.new(:calendar, size: :small, mr: 1)) %>
+      <%= format_date_range([sprint.start_date, sprint.finish_date]) %>
+    <% end %>
+  <% end %>
+<% end %>

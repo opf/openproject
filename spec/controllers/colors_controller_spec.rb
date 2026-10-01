@@ -37,13 +37,6 @@ RSpec.describe ColorsController do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe "index.html" do
-    def fetch
-      get "index"
-    end
-    it_behaves_like "a controller action with require_admin"
-  end
-
   describe "new.html" do
     def fetch
       get "new"
@@ -57,7 +50,7 @@ RSpec.describe ColorsController do
     end
 
     def expect_redirect_to
-      Regexp.new(colors_path)
+      Regexp.new(Regexp.escape(custom_style_path(tab: :default_colors)))
     end
     it_behaves_like "a controller action with require_admin"
   end
@@ -77,15 +70,7 @@ RSpec.describe ColorsController do
     end
 
     def expect_redirect_to
-      colors_path
-    end
-    it_behaves_like "a controller action with require_admin"
-  end
-
-  describe "confirm_destroy.html" do
-    def fetch
-      @available_color = create(:color, id: "1337")
-      get "confirm_destroy", params: { id: "1337" }
+      custom_style_path(tab: :default_colors)
     end
     it_behaves_like "a controller action with require_admin"
   end
@@ -97,13 +82,13 @@ RSpec.describe ColorsController do
     end
 
     def expect_redirect_to
-      colors_path
+      custom_style_path(tab: :default_colors)
     end
     it_behaves_like "a controller action with require_admin"
 
     it "redirects with 303 See Other" do
       expect(fetch).to have_http_status(:see_other)
-      expect(fetch).to redirect_to(colors_path)
+      expect(fetch).to redirect_to(custom_style_path(tab: :default_colors))
     end
   end
 end

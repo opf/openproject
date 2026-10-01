@@ -1,7 +1,0 @@
-inherit_from: ../.rubocop.yml
-
-Style/RescueModifier:
-  Enabled: false
-
-Rails/FindEach:
-  Enabled: false

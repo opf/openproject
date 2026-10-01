@@ -21,15 +21,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { environment } from '../../../environments/environment';
@@ -39,7 +40,7 @@ const BURNDOWN_Y_SCALE_MIN = 25;
 @Component({
   selector: 'op-burndown-chart',
   templateUrl: './burndown-chart.component.html',
-  imports: [BaseChartDirective, JsonPipe],
+  imports: [BaseChartDirective, JsonPipe, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -53,6 +54,10 @@ export class BurndownChartComponent {
     return data;
   });
 
+  readonly hasChartData = computed(() =>
+    this.lineChartData().datasets.some((ds) => ds.data.length > 0)
+  );
+
   readonly maxValue = computed(() => {
     return this.lineChartData().datasets
       .flatMap((dataset) => dataset.data)
@@ -60,7 +65,7 @@ export class BurndownChartComponent {
       .reduce((a, b) => Math.max(a, b), 0);
   });
 
-  readonly lineChartOptions = computed<ChartOptions<'line'>>(() => ({
+  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
     scales: {
       x: {
         title: {

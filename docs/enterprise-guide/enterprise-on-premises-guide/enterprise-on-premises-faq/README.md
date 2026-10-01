@@ -27,7 +27,7 @@ The Enterprise on-premises edition is an upgrade of the self-hosted Community ed
 2. Click on the "Book now" button.
 3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email, which you can use to upgrade your Community edition to the Enterprise on-premises edition.
 
-If you prefer to test the Enterprise on-premises edition before purchasing, you can request a 14-day trial license from within your system (*Administration -> Enterprise edition*). Simply click on the green **Start free trial** button to receive a 14-day trial license. If you want to continue, you can navigate to our [pricing page](https://www.openproject.org/pricing/) and choose a plan. Otherwise, you will automatically be downgraded to the Community edition. There is no need to cancel the trial.
+If you prefer to test the Enterprise on-premises edition before purchasing, you can request a 14-day trial license from within your system (_Administration -> Enterprise edition_). Simply click on the green **Start free trial** button to receive a 14-day trial license. If you want to continue, you can navigate to our [pricing page](https://www.openproject.org/pricing/) and choose a plan. Otherwise, you will automatically be downgraded to the Community edition. There is no need to cancel the trial.
 
 Find more information [here](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/).
 
@@ -35,7 +35,7 @@ Find more information [here](https://www.openproject.org/blog/enterprise-edition
 
 Please use the link "Manage subscription" in the email you received confirming your subscription or contact [support@openproject.com](mailto:support@openproject.com).
 
-## Is it possible to only upgrade *some* users to the Enterprise edition?
+## Is it possible to only upgrade _some_ users to the Enterprise edition?
 
 This is not possible, as the Enterprise add-ons affect the whole OpenProject instance and not the individual users.
 

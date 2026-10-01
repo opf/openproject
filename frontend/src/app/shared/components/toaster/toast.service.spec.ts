@@ -21,40 +21,36 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { Observable, of } from 'rxjs';
-import { HttpEvent, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpEvent, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('ToastService', () => {
   let toastService:ToastService;
 
-  beforeEach(waitForAsync(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
     imports: [OpenprojectHalModule],
     providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
         I18nService,
         ToastService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
     ]
-})
-      .compileComponents()
-      .then(() => {
-        toastService = TestBed.inject(ToastService);
-      });
-  }));
+}).compileComponents();
+    toastService = TestBed.inject(ToastService);
+  });
 
   it('should be able to create warnings', () => {
     const toaster = toastService.addWarning('warning!');
@@ -105,7 +101,7 @@ describe('ToastService', () => {
 
   it('sends a broadcast to remove the first toaster upon adding a second success toaster',
     () => {
-      const firstToast = toastService.addSuccess('blubs');
+      toastService.addSuccess('blubs');
 
       expect(toastService.current.value!.length).toEqual(1);
 
@@ -116,7 +112,7 @@ describe('ToastService', () => {
 
   it('sends a broadcast to remove the first toaster upon adding a second error toaster',
     () => {
-      const firstToast = toastService.addSuccess('blubs');
+      toastService.addSuccess('blubs');
       toastService.addError('blubs2');
 
       expect(toastService.current.value!.length).toEqual(1);

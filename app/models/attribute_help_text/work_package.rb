@@ -31,7 +31,7 @@
 class AttributeHelpText::WorkPackage < AttributeHelpText
   def self.available_attributes
     RequestStore.fetch(:attribute_help_text_work_package_attributes) do
-      attributes = ::Type.translated_work_package_form_attributes
+      attributes = ::TypeVariant.translated_work_package_form_attributes
 
       # Start and finish dates are joined into a single field for non-milestones
       attributes.delete "start_date"
@@ -53,7 +53,7 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
 
   def self.visible_condition(user)
     visible_cf_names = WorkPackageCustomField
-      .manageable_by_user(user)
+      .visible(user)
       .pluck(:id)
       .map { |id| "custom_field_#{id}" }
 

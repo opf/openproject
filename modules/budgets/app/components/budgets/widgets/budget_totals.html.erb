@@ -1,0 +1,50 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%=
+  widget_wrapper do
+    render(Grids::WidgetGridComponent.new(aria: { label: t(".title") })) do |grid|
+      grid.with_widget(InlineWidget, key: :total_actual_costs, title: t(".total_actual_costs")) do
+        render_currency(spent_total)
+      end
+
+      grid.with_widget(InlineWidget, key: :total_planned_budget, title: t(".total_planned_budget")) do
+        render_currency(budgeted_total)
+      end
+
+      grid.with_widget(InlineWidget, key: :spent_budget, title: t(".spent_budget")) do
+        render_percentage(spent_ratio * 100)
+      end
+
+      grid.with_widget(InlineWidget, key: :remaining_budget, title: t(".remaining_budget")) do
+        render_currency(remaining)
+      end
+    end
+  end
+%>

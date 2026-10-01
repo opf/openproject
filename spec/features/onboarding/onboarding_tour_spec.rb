@@ -34,8 +34,8 @@ RSpec.describe "onboarding tour for new users",
                :js, :selenium do
   let(:user) { create(:admin) }
   let(:project) do
-    create(:project, name: "Demo project", identifier: "demo-project", public: true,
-                     enabled_module_names: %w[work_package_tracking gantt wiki])
+    create(:project, :with_internal_wiki, name: "Demo project", identifier: "demo-project", public: true,
+                                          enabled_module_names: %w[work_package_tracking gantt]).reload
   end
 
   let!(:wp1) { create(:work_package, project:) }
@@ -54,7 +54,7 @@ RSpec.describe "onboarding tour for new users",
       select "Deutsch", from: "user_language"
       click_button "Save"
 
-      expect(page).to have_text "Neueste sichtbare Projekte in dieser Instanz."
+      expect(page).to have_text "Favorisierte Projekte"
     end
 
     it "I can start the tour without selecting a language" do

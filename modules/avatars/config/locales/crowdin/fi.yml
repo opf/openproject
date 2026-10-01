@@ -1,38 +1,28 @@
-#English strings go here
+---
 fi:
-  plugin_openproject_avatars:
-    name: "Kuvat"
-    description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: "Kuva"
-  label_avatar_plural: "Kuvat"
-  label_current_avatar: "Nykyinen kuva"
-  label_choose_avatar: "Valitse kuva tiedostosta"
-  message_avatar_uploaded: "Kuva vaihdettu."
-  error_image_upload: "Virhe tallentaessa kuvaa"
-  error_image_size: "Kuva on liian suuri"
-  are_you_sure_delete_avatar: "Haluatko varmasti poistaa kuvan?"
-  avatar_deleted: "Kuva poistettu."
-  unable_to_delete_avatar: "Kuvaa ei voitu poistaa."
-  wrong_file_format: "Sallitut tiedostomuodot jpg, png, gif"
-  empty_file_error: "Lisää kuva sallitussa tiedostomuodossa (jpg, png, gif)"
+  are_you_sure_delete_avatar: Haluatko varmasti poistaa kuvan?
+  avatar_deleted: Kuva poistettu.
   avatars:
-    label_avatar: "Kuva"
-    label_gravatar: 'Gravatar'
-    label_current_avatar: 'Nykyinen kuva'
-    label_local_avatar: 'Valinnainen kuva'
-    text_current_avatar: |
-      Ohessa nykyinen kuva.
-    text_upload_instructions: |
-      Lisää oma kuvasi, jonka koko on 128x128 pikseliä. Suuremmat kuvat pienennetään ja leikataan sopiviksi. Kuvan esikatselu näytetään kun olet valinnut kuvatiedoston.
-    text_change_gravatar_html: 'Vaihtaaksesi kuva sähköpostiosoitteellesi, siirry %{gravatar_url}.'
-    text_your_local_avatar: |
-      Voit lisätä oman kuvasi OpenProjectiin.
-    text_local_avatar_over_gravatar: |
-      Lisätty kuva korvaa gravatar -kuvan.
-    text_your_current_gravatar: |
-      OpenProject käyttää gravatar -kuvaa jos olet rekisteröinyt sellaisen tai oletuskuvaa tai ikonia mikäli sellainen on olemassa. Nykyinen gravatar -kuva:
+    label_avatar: Kuva
+    label_gravatar: Gravatar
+    label_local_avatar: Valinnainen kuva
     settings:
-      enable_gravatars: 'Salli käyttäjien gravatar kuvat'
-      gravatar_default: "Oletus Gravatar käyttäjäikoni"
-      enable_local_avatars: 'Salli käyttäjien omat kuvat'
+      enable_gravatars: Salli käyttäjien gravatar kuvat
+      enable_local_avatars: Salli käyttäjien omat kuvat
+      gravatar_default: Oletus Gravatar käyttäjäikoni
+    text_avatar_gravatar_html: OpenProject käyttää Gravatar-kuvaasi, jos olet rekisteröinyt sellaisen osoitteessa %{gravatar_url}, tai oletuskuvaa tai -kuvaketta, jos sellainen on olemassa.
+    text_avatar_local: Voit myös ladata oman avatarin, joka korvaa Gravatar-kuvan, napsauttamalla kuvaa. Suosittelemme 128 × 128 pikselin kokoista kuvaa.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+  empty_file_error: Lisää kuva sallitussa tiedostomuodossa (jpg, png, gif)
+  error_image_size: Kuva on liian suuri
+  error_image_upload: Virhe tallentaessa kuvaa
+  label_avatar: Kuva
+  label_avatar_plural: Kuvat
+  label_choose_avatar: Valitse kuva tiedostosta
+  label_current_avatar: Nykyinen kuva
+  message_avatar_uploaded: Kuva vaihdettu.
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: Kuvat
+  unable_to_delete_avatar: Kuvaa ei voitu poistaa.
+  wrong_file_format: Sallitut tiedostomuodot jpg, png, gif

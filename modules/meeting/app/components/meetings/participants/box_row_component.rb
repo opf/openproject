@@ -45,5 +45,15 @@ module Meetings
     def wrapper_uniq_by
       @participant.id
     end
+
+    private
+
+    def remove_button_data_attributes
+      {
+        turbo_method: :delete,
+        test_selector: "remove_button_#{@participant.user_id}",
+        "meetings--participants--update-occurrence-participants-target": (@meeting.series_template? ? "removeButton" : nil)
+      }
+    end
   end
 end

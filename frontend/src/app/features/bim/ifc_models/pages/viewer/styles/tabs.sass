@@ -121,7 +121,7 @@
 $pill-padding-left: 8px
 
 .xeokit-tab
-  ul
+  ul:not(.TreeViewRootUlStyles)
     list-style: none
     padding-left: 30px
     margin-left: -1 * $pill-padding-left
@@ -140,7 +140,8 @@ $pill-padding-left: 8px
 
         .main-menu &:not(.Button)
           // reset main menu indents
-          padding: initial
+          padding: initial !important
+          border: 0
 
         &:hover,
         &:focus,

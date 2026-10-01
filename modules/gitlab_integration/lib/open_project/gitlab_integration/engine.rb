@@ -40,9 +40,30 @@ module OpenProject::GitlabIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    # TODO: webhook_secret should be marked as `secret: true`, but that is only supported
+    # for string settings, not for keys inside this plugin settings hash.
+    def self.settings
+      {
+        default: {
+          "gitlab_user_id" => nil,
+          "webhook_secret" => nil
+        }
+      }
+    end
+
     register "openproject-gitlab_integration",
              author_url: "https://github.com/btey/openproject",
-             bundled: true do
+             bundled: true,
+             settings: do
+      ::Redmine::MenuManager.map(:admin_menu) do |menu|
+        menu.push :admin_gitlab_integration,
+                  { controller: "/gitlab_integration/admin/settings", action: "show" },
+                  parent: :admin_integrations,
+                  if: ->(_) { User.current.admin? },
+                  caption: "GitLab",
+                  icon: :"op-logo-gitlab"
+      end
+
       project_module(:gitlab, dependencies: :work_package_tracking) do
         permission(:show_gitlab_content,
                    {},
@@ -58,7 +79,9 @@ module OpenProject::GitlabIntegration
            skip_permissions_check: true,
            badge: ->(work_package:, **) {
              work_package.gitlab_merge_requests.count +
-               work_package.gitlab_issues.count
+               work_package.gitlab_issues.count +
+               work_package.gitlab_branches.count +
+               work_package.gitlab_commits.count
            },
            before: :watchers,
            caption: :project_module_github
@@ -83,8 +106,6 @@ module OpenProject::GitlabIntegration
                                              &NotificationHandlers.method(:push_hook))
       ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook",
                                              &NotificationHandlers.method(:pipeline_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.system_hook",
-                                             &NotificationHandlers.method(:system_hook))
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

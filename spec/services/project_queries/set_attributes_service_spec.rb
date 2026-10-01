@@ -58,25 +58,9 @@ RSpec.describe ProjectQueries::SetAttributesService, type: :model do
   let(:params) { {} }
   let!(:custom_field) do
     build_stubbed(:project_custom_field, id: 1) do |cf|
-      scope = instance_double(ActiveRecord::Relation)
-
       allow(ProjectCustomField)
         .to receive(:visible)
-              .and_return(scope)
-
-      allow(scope)
-        .to receive(:includes)
-              .with(:calculated_value_errors)
-              .and_return(scope)
-
-      allow(scope)
-        .to receive(:where)
               .and_return([cf])
-
-      allow(scope)
-        .to receive(:pluck)
-              .with(:id)
-              .and_return([cf.id])
     end
   end
 

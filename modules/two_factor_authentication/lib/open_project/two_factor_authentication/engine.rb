@@ -24,14 +24,6 @@ module OpenProject::TwoFactorAuthentication
                env_alias: "OPENPROJECT_2FA"
              },
              bundled: true do
-               menu :my_menu,
-                    :two_factor_authentication,
-                    { controller: "/two_factor_authentication/my/two_factor_devices", action: :index },
-                    caption: ->(*) { I18n.t("two_factor_authentication.label_two_factor_authentication") },
-                    after: :password,
-                    if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? },
-                    icon: "shield-lock"
-
                menu :admin_menu,
                     :two_factor_authentication,
                     { controller: "/two_factor_authentication/two_factor_settings", action: :show },
@@ -52,6 +44,7 @@ module OpenProject::TwoFactorAuthentication
     config.to_prepare do
       # Verify the validity of the configuration
       ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.validate_configuration!
+      require "open_project/two_factor_authentication/hooks/my_security_page_hook"
     end
 
     config.after_initialize do

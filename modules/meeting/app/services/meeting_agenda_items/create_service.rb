@@ -30,13 +30,14 @@
 module MeetingAgendaItems
   class CreateService < ::BaseServices::Create
     include AfterPerformHook
+    include JournalizeWorkPackageActivity
     include Concerns::CopyAttachments
 
     alias_method :original_after_perform, :after_perform
 
-    def call(params, source_meeting_id: nil)
-      @source_meeting_id = source_meeting_id
-      super(params)
+    def call(params)
+      @source_meeting_id = params.delete(:source_meeting_id)
+      super
     end
 
     def after_perform(call)
@@ -45,7 +46,10 @@ module MeetingAgendaItems
       call.result.reload
       original_after_perform(call)
 
-      copy_attachments_from_source(call.result) if call.success?
+      if call.success?
+        copy_attachments_from_source(call.result)
+        journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemAdded.new(call.result.meeting))
+      end
 
       call
     end

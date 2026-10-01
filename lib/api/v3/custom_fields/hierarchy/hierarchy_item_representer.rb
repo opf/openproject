@@ -61,7 +61,7 @@ module API
             {
               href: api_v3_paths.custom_field_item(parent.id),
               title: parent.label
-            }
+            }.compact
           end
 
           links :children do

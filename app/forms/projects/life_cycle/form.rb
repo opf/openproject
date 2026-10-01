@@ -29,6 +29,8 @@
 #++
 module Projects::LifeCycle
   class Form < ApplicationForm
+    include BrowserAware
+
     form do |f|
       f.group(layout: :horizontal) do |horizontal_form|
         start_date_input(horizontal_form)
@@ -39,7 +41,7 @@ module Projects::LifeCycle
 
     private
 
-    def qa_field_name
+    def test_selector
       "life-cycle-step-#{model.id}"
     end
 
@@ -60,7 +62,7 @@ module Projects::LifeCycle
           "overview--project-life-cycle-form-target": field_name.to_s.camelize(:lower)
         },
         wrapper_data_attributes: {
-          "qa-field-name": qa_field_name
+          "test-selector": test_selector
         }
       }
     end
@@ -151,16 +153,6 @@ module Projects::LifeCycle
 
     def placeholder
       browser.device.mobile? ? "yyyy-mm-dd" : nil
-    end
-
-    # N.B. This is an inelegant, and very likely brittle solution.
-    #
-    # The Browser gem uses `helper_method(:browser)` to declare a
-    # controller method as a helper. This helper is available in classic
-    # Rails views, but since upgrading to ViewComponent 4.0, no longer
-    # works with Primer Forms.
-    def browser
-      @view_context.controller.send(:browser)
     end
   end
 end

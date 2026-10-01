@@ -43,15 +43,14 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <div class="op-admin-settings-form-wrapper">
-<%=
-  primer_form_with(
-    model: @attribute_help_text,
-    scope: :attribute_help_text,
-    url: { action: :update },
-    method: :patch,
-    data: { turbo: false } # reload page to update previews
-  ) do |f|
-    render AttributeHelpTexts::Form.new(f)
-  end
-%>
+<%= primer_form_with(
+      model: @attribute_help_text,
+      scope: :attribute_help_text,
+      url: { action: :update },
+      method: :patch,
+      data: { turbo: false } # reload page to update previews
+    ) do |f| %>
+  <%= back_url_hidden_field_tag %>
+  <%= render AttributeHelpTexts::Form.new(f) %>
+<% end %>
 </div>

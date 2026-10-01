@@ -1,37 +1,33 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { User } from '@blocknote/core/comments';
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import { Application } from '@hotwired/stimulus';
-import FlashController from 'core-stimulus/controllers/flash.controller';
 import { LiveCollaborationManager } from 'core-stimulus/helpers/live-collaboration-helpers';
 import { ShadowDomWrapper } from 'op-blocknote-extensions';
 import React from 'react';
@@ -40,25 +36,25 @@ import { createRoot } from 'react-dom/client';
 import OpBlockNoteContainer from '../react/OpBlockNoteContainer';
 
 class BlockNoteElement extends HTMLElement {
-  private mount:HTMLDivElement;
-  private errorContainer:HTMLDivElement;
+  private editorRoot:HTMLDivElement;
+  private editorMount:HTMLDivElement;
   private reactRoot:Root|null = null;
-  private stimulusApp:Application|null = null;
+  private renderCallback:((provider:HocuspocusProvider) => void) | null = null;
 
   constructor() {
     super();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
-    // Container for connection error/recovery messages (rendered by React via fetchConnectionTemplate)
-    this.errorContainer = document.createElement('div');
-    this.errorContainer.id = 'documents-show-edit-view-connection-error-notice-component';
-    this.errorContainer.dataset.controller = 'flash';
-    this.errorContainer.dataset.flashAutohideValue = 'true';
-    this.mount = document.createElement('div');
+    this.editorRoot = document.createElement('div');
+    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ').filter(Boolean) ?? [];
+    if (browserSpecificClasses.length > 0) {
+      this.editorRoot.classList.add(...browserSpecificClasses);
+    }
 
-    shadowRoot.appendChild(this.errorContainer);
-    shadowRoot.appendChild(this.mount);
+    this.editorMount = document.createElement('div');
+    this.editorRoot.appendChild(this.editorMount);
+    shadowRoot.appendChild(this.editorRoot);
 
     const blockNoteStylesheetUrl = this.getAttribute('blocknote-stylesheet-url');
     if (blockNoteStylesheetUrl) {
@@ -78,55 +74,53 @@ class BlockNoteElement extends HTMLElement {
   }
 
   connectedCallback() {
-    // Initialize Stimulus application within shadow DOM
-    this.stimulusApp = Application.start(this.errorContainer);
-    this.stimulusApp.register('flash', FlashController);
-
-    // Initialize React application within shadow DOM
-    this.reactRoot = createRoot(this.mount);
-
     const collaborationEnabled = this.getAttribute('collaboration-enabled') === 'true';
+    if (!collaborationEnabled) return;
 
-    const render = (provider?:HocuspocusProvider) => {
-      this.reactRoot?.render(
-        React.createElement(React.StrictMode, null, this.BlockNoteReactContainer(provider))
-      );
+    this.reactRoot = createRoot(this.editorMount);
+
+    this.renderCallback = (provider:HocuspocusProvider) => {
+      // Do NOT wrap in React.StrictMode. StrictMode's dev-mode double-mount causes
+      // BlockNoteView to destroy and recreate the ProseMirror view between the two mounts.
+      // y-prosemirror's `yUndoPlugin` destroys the Y.UndoManager on view-destroy (removing
+      // its `afterTransaction` handler from the Y.Doc), but the plugin's STATE retains the
+      // now-destroyed UndoManager reference. On the second mount the editor reuses the
+      // destroyed UndoManager, no `afterTransaction` handler is ever re-attached, no stack
+      // items are recorded, and Ctrl+Z becomes a no-op.
+      this.reactRoot?.render(this.BlockNoteReactContainer(provider));
     };
 
-    if (collaborationEnabled) {
-      LiveCollaborationManager.onReady(render);
-    } else {
-      render();
-    }
+    LiveCollaborationManager.onReady(this.renderCallback);
   }
 
   disconnectedCallback() {
+    // Deregister before unmount to prevent stale callbacks firing into a detached element
+    if (this.renderCallback) {
+      LiveCollaborationManager.offReady(this.renderCallback);
+      this.renderCallback = null;
+    }
+
     if (this.reactRoot) {
       this.reactRoot.unmount();
       this.reactRoot = null;
     }
-
-    if (this.stimulusApp) {
-      this.stimulusApp.stop();
-      this.stimulusApp = null;
-    }
   }
 
-  private BlockNoteReactContainer = (hocuspocusProvider?:HocuspocusProvider) => {
+  private BlockNoteReactContainer = (hocuspocusProvider:HocuspocusProvider) => {
     return React.createElement(
       ShadowDomWrapper,
-      { target: this.mount },
+      { target: this.editorMount },
       React.createElement(
         OpBlockNoteContainer,
         {
-          inputField: document.createElement('input'),
           activeUser: this.parseActiveUser()!,
           readOnly: this.getAttribute('read-only') === 'true',
           openProjectUrl: this.getAttribute('open-project-url') ?? '',
           attachmentsUploadUrl: this.getAttribute('attachments-upload-url') ?? '',
           attachmentsCollectionKey: this.getAttribute('attachments-collection-key') ?? '',
-          hocuspocusProvider: hocuspocusProvider,
-          errorContainer: this.errorContainer,
+          projectId: this.getAttribute('project-id') ?? '',
+          captureExternalLinks: document.body.dataset.externalLinksEnabledValue === 'true',
+          hocuspocusProvider,
         }
       )
     );
@@ -144,7 +138,6 @@ class BlockNoteElement extends HTMLElement {
     }
     return null;
   }
-
 }
 
 if (!customElements.get('op-block-note')) {

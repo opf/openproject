@@ -270,7 +270,7 @@ RSpec.describe ProjectsController do
             end
           end
 
-          context "when the parent is invalid", with_flag: { portfolio_models: true } do
+          context "when the parent is invalid" do
             shared_let(:invalid_parent) { create(:project, workspace_type: :program) }
             let(:project_params) { { name: "Valid Project", parent_id: invalid_parent.id, workspace_type: :portfolio } }
 
@@ -385,7 +385,7 @@ RSpec.describe ProjectsController do
                .with(user: admin, model: template)
                .and_return(copy_service)
         dependencies = %w[
-          boards storages storage_project_folders forums phases members overview
+          backlog_buckets boards storages storage_project_folders forums phases members overview sprints
           versions wiki wiki_page_attachments work_packages work_package_attachments
           categories file_links queries work_package_shares
         ]
@@ -417,7 +417,7 @@ RSpec.describe ProjectsController do
         end
       end
 
-      context "when service call fails", with_flag: { portfolio_models: true } do
+      context "when service call fails" do
         let(:name) { "" }
         let(:project) { Project.new }
         let(:service_result) { ServiceResult.failure(result: project, message: "") }
@@ -478,7 +478,8 @@ RSpec.describe ProjectsController do
     let(:service_result) { ServiceResult.new(success:) }
 
     before do
-      allow(Project).to receive(:find).and_return(project)
+      allow(Project).to receive(:find).with(project.id.to_s).and_return(project)
+
       deletion_service = instance_double(Projects::ScheduleDeletionService,
                                          call: service_result)
 
@@ -550,9 +551,9 @@ RSpec.describe ProjectsController do
     context "as a non-admin without copy_projects permissions" do
       let(:user) { build_stubbed(:user) }
 
-      it "returns 403 Not Authorized" do
+      it "returns 404 Not Found" do
         expect(response).not_to be_successful
-        expect(response).to have_http_status :forbidden
+        expect(response).to have_http_status :not_found
       end
     end
   end

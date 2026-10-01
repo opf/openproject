@@ -40,20 +40,20 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= styled_form_tag(
-      admin_settings_icalendar_path,
-      method: :patch,
-      class: "op-icalendar-admin-settings"
-    ) do %>
+<%=
+  settings_primer_form_with(
+    url: admin_settings_icalendar_path,
+    scope: :settings,
+    method: :patch,
+    class: "op-icalendar-admin-settings",
+    data: { turbo: false }
+  ) do |form|
+    render_inline_settings_form(form) do |f|
+      f.check_box name: :ical_enabled,
+                  caption: t("settings.icalendar.enable_subscriptions_text_html",
+                             link: OpenProject::Static::Links.url_for(:ical_docs))
 
-  <section class="form--section">
-    <div class="form--field">
-      <%= setting_check_box :ical_enabled, size: 6 %>
-      <div class="form--field-instructions">
-        <p><%= t("settings.icalendar.enable_subscriptions_text_html", link: OpenProject::Static::Links.url_for(:ical_docs)) %></p>
-      </div>
-    </div>
-  </section>
-
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+      f.submit
+    end
+  end
+%>

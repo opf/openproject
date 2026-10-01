@@ -40,6 +40,7 @@ class NextcloudApplicationCredentialsValidator
 
     response = OpenProject
                  .httpx
+                 .plugin(:basic_auth)
                  .basic_auth(contract.username, contract.password)
                  .head(Storages::UrlBuilder.url(contract.model.uri, "remote.php/dav"))
     case response

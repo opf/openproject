@@ -33,8 +33,8 @@ import { HalResourceClass } from 'core-app/modules/hal/resources/hal-resource';
 export interface ISnippet {
   id:string;
   name:string;
-  textToDisplay:()=>string;
-  textToCopy:()=>string
+  multiline?:boolean;
+  text:()=>string;
 }
 
 export interface IGitlabIssueResource extends HalResourceClass {
@@ -82,7 +82,6 @@ export interface IGitlabMergeRequestResource extends HalResourceClass {
 
 export interface IGitlabUserResource {
   avatarUrl:string;
-  email:string;
   login:string;
 }
 

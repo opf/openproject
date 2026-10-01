@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Commands
-          RSpec.describe CreateListCommand, :webmock do
+          RSpec.describe CreateListCommand, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
 
             let(:site_url) { URI.parse(storage.host).host }

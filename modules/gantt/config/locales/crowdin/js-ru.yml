@@ -1,6 +1,7 @@
+---
 ru:
   js:
     work_packages:
-      label_gantt_chart_plural: "Диаграммы Ганта"
       default_queries:
-        milestones: 'Вехи'
+        milestones: Вехи
+      label_gantt_chart_plural: Диаграммы Ганта

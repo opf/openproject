@@ -23,7 +23,7 @@ keywords: file storages, project folder, storages
 ## Files module overview
 
 Under the **Files** module you will be able to manage external file storages, such as Nextcloud or OneDrive and manage
-attachments upload under *Files* tab in work packages. Navigate to **Project settings -> Files** to get here.
+attachments upload under _Files_ tab in work packages. Navigate to **Project settings -> Files** to get here.
 
 ## Add a new storage to a project
 
@@ -149,9 +149,9 @@ To be able to delete a storage from a project you will be asked to confirm the a
 
 ## Show attachments in the work packages files tab
 
-To activate or de-activate the attachments being shown under **Files** tab in work packages, navigate to *Project settings > Files* and select the *Attachments* tab. Here you can decide whether the attachments option will be shown under *Files* tab of work packages detailed view for a specific project. 
+To activate or de-activate the attachments being shown under **Files** tab in work packages, navigate to _Project settings > Files_ and select the _Attachments_ tab. Here you can decide whether the attachments option will be shown under _Files_ tab of work packages detailed view for a specific project. 
 
 ![Show attachments in the work packages files tab in OpenProject](project-settings-attachments.png)
 
 > [!NOTE]
-> Please note that you need a *Manage files in project* permission to be able to activate or deactivate this work package attachment option.
+> Please note that you need a _Manage files in project_ permission to be able to activate or deactivate this work package attachment option.

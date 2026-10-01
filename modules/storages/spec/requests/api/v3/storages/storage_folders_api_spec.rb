@@ -108,7 +108,7 @@ RSpec.describe "API v3 storage folders", :storage_server_helpers, :webmock, cont
     end
 
     context "with query failed" do
-      let(:error_result) { Storages::Adapters::Results::Error.new(code: error, source: self) }
+      let(:error_result) { SimpleError.new(code: error, source: self) }
 
       before do
         allow(create_folder_double).to receive(:call).with(storage:, auth_strategy:, input_data:)

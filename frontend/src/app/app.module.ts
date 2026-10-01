@@ -21,14 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ApplicationRef, DoBootstrap, inject, Injector, NgModule, provideAppInitializer } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   OpContextMenuTrigger,
@@ -39,13 +39,11 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
+import { OpenprojectBoardsModule } from 'core-app/features/boards/openproject-boards.module';
+import { OpenprojectBimModule } from 'core-app/features/bim/openproject-bim.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
-import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
-import {
-  OpenprojectWorkPackageRoutesModule,
-} from 'core-app/features/work-packages/openproject-work-package-routes.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
@@ -67,13 +65,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
-import {
-  OpHeaderProjectSelectComponent,
-} from 'core-app/shared/components/header-project-select/header-project-select.component';
-import {
-  OpHeaderProjectSelectListComponent,
-} from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
-
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -84,7 +75,6 @@ import { LinkedPluginsModule } from 'core-app/features/plugins/linked-plugins.mo
 import {
   OpenProjectInAppNotificationsModule,
 } from 'core-app/features/in-app-notifications/in-app-notifications.module';
-import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import {
   OpenprojectContentLoaderModule,
@@ -120,6 +110,9 @@ import {
   UserAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 import {
+  ResourceAllocationAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter.component';
+import {
   MeetingAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/meeting-autocompleter/meeting-autocompleter.component';
 import { AttributeValueMacroComponent } from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
@@ -135,12 +128,6 @@ import {
 } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 import { OpenProjectJobStatusModule } from 'core-app/features/job-status/openproject-job-status.module';
-import {
-  NotificationsSettingsPageComponent,
-} from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
-import {
-  ReminderSettingsPageComponent,
-} from 'core-app/features/user-preferences/reminder-settings/page/reminder-settings-page.component';
 import { OpenProjectMyAccountModule } from 'core-app/features/user-preferences/user-preferences.module';
 import { OpAttachmentsComponent } from 'core-app/shared/components/attachments/attachments.component';
 import {
@@ -149,6 +136,19 @@ import {
 import {
   WorkPackageSplitViewEntryComponent,
 } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
+import {
+  WorkPackageSplitCreateEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
+import {
+  BoardEntryComponent,
+} from 'core-app/features/boards/board/board-partitioned-page/board-entry.component';
+import { CalendarEntryComponent } from 'core-app/features/calendar/calendar-entry.component';
+import { IfcViewerEntryComponent } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-viewer-entry.component';
+import {
+  BcfContentRightEntryComponent,
+} from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-content-right-entry.component';
+import { TeamPlannerEntryComponent } from 'core-app/features/team-planner/team-planner/team-planner-entry.component';
+import { TeamPlannerModule } from 'core-app/features/team-planner/team-planner/team-planner.module';
 import {
   StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
@@ -162,7 +162,6 @@ import { OpModalOverlayComponent } from 'core-app/shared/components/modal/modal-
 import {
   InAppNotificationBellComponent,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
-import { BackupComponent } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EditableQueryPropsComponent,
 } from 'core-app/features/admin/editable-query-props/editable-query-props.component';
@@ -177,7 +176,6 @@ import {
   OpNonWorkingDaysListComponent,
 } from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
 import { PersistentToggleComponent } from 'core-app/shared/components/persistent-toggle/persistent-toggle.component';
-import { TypeFormConfigurationComponent } from 'core-app/features/admin/types/type-form-configuration.component';
 import { ToastsContainerComponent } from 'core-app/shared/components/toaster/toasts-container.component';
 import { GlobalSearchWorkPackagesComponent } from 'core-app/core/global_search/global-search-work-packages.component';
 import {
@@ -190,7 +188,6 @@ import { ColorsAutocompleterComponent } from 'core-app/shared/components/colors/
 import {
   StaticAttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
-import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.component';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -204,9 +201,13 @@ import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/s
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
+import { WorkPackageViewPageEntryComponent } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component';
 import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
+import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
+import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
+import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -237,16 +238,6 @@ export function initializeServices(injector:Injector) {
   };
 }
 
-export function runBootstrap(appRef:ApplicationRef) {
-  // Try to bootstrap a dynamic root element
-  const root = document.querySelector(appBaseSelector);
-  if (root) {
-    appRef.bootstrap(ApplicationBaseComponent, root);
-  }
-
-  document.body.classList.add('__ng2-bootstrap-has-run');
-}
-
 @NgModule({
   declarations: [
     OpContextMenuTrigger,
@@ -257,10 +248,6 @@ export function runBootstrap(appRef:ApplicationRef) {
 
     // Main menu
     MainMenuResizerComponent,
-
-    // Project selector
-    OpHeaderProjectSelectComponent,
-    OpHeaderProjectSelectListComponent,
 
     // Form configuration
     OpDragScrollDirective,
@@ -276,8 +263,6 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpSpotModule,
     // State module
     OpenProjectStateModule,
-    // Router module
-    OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
     OpenProjectJobStatusModule,
@@ -289,14 +274,21 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpenprojectGridsModule,
     OpenprojectAttachmentsModule,
 
-    // Work packages and their routes
+    // Work packages
     OpenprojectWorkPackagesModule,
-    OpenprojectWorkPackageRoutesModule,
+
+    // Boards
+    OpenprojectBoardsModule,
+
+    // BIM/BCF
+    OpenprojectBimModule,
 
     // Work packages in graph representation
     OpenprojectWorkPackageGraphsModule,
     // Calendar module
     OpenprojectCalendarModule,
+    // Team Planner module
+    TeamPlannerModule,
 
     // MyPage
     OpenprojectMyPageModule,
@@ -350,17 +342,16 @@ export function runBootstrap(appRef:ApplicationRef) {
       deps: [ConfigurationService, HttpClient],
     },
     PaginationService,
-    OpenProjectBackupService,
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
     CopyToClipboardService,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
   ],
 })
 export class OpenProjectModule implements DoBootstrap {
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
-    runBootstrap(appRef);
+    document.body.classList.add('__ng2-bootstrap-has-run');
     this.registerCustomElements(appRef.injector);
   }
 
@@ -374,6 +365,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
     registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });
     registerCustomElement('opce-user-autocompleter', UserAutocompleterComponent, { injector });
+    registerCustomElement('opce-resource-allocation-autocompleter', ResourceAllocationAutocompleterComponent, { injector });
     registerCustomElement('opce-meeting-autocompleter', MeetingAutocompleterComponent, { injector });
     registerCustomElement('opce-time-entries-work-package-autocompleter', TimeEntriesWorkPackageAutocompleterComponent, { injector });
     registerCustomElement('opce-macro-attribute-value', AttributeValueMacroComponent, { injector });
@@ -387,12 +379,16 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
     registerCustomElement('opce-custom-modal-overlay', OpCustomModalOverlayComponent, { injector });
 
-    // TODO: These elements are now registered custom elements, but are actually single-use components. They should be removed when we move these pages to Rails.
-    registerCustomElement('opce-notification-settings', NotificationsSettingsPageComponent, { injector });
-    registerCustomElement('opce-reminder-settings', ReminderSettingsPageComponent, { injector });
     registerCustomElement('opce-notification-center', InAppNotificationCenterComponent, { injector });
     registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
+    registerCustomElement('opce-wp-split-create', WorkPackageSplitCreateEntryComponent, { injector });
+    registerCustomElement('opce-board-view', BoardEntryComponent, { injector });
+    registerCustomElement('opce-ifc-viewer-view', IfcViewerEntryComponent, { injector });
+    registerCustomElement('opce-bcf-content-right', BcfContentRightEntryComponent, { injector });
+    registerCustomElement('opce-calendar-view', CalendarEntryComponent, { injector });
+    registerCustomElement('opce-team-planner-view', TeamPlannerEntryComponent, { injector });
     registerCustomElement('opce-wp-full-view', WorkPackageFullViewEntryComponent, { injector });
+    registerCustomElement('opce-work-packages-view', WorkPackageViewPageEntryComponent, { injector });
     registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
     registerCustomElement('opce-timer-account-menu', TimerAccountMenuComponent, { injector });
@@ -402,16 +398,13 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-spot-switch', SpotSwitchComponent, { injector });
     registerCustomElement('opce-modal-overlay', OpModalOverlayComponent, { injector });
     registerCustomElement('opce-in-app-notification-bell', InAppNotificationBellComponent, { injector });
-    registerCustomElement('opce-backup', BackupComponent, { injector });
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
     registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
-    registerCustomElement('opce-header-project-select', OpHeaderProjectSelectComponent, { injector });
     registerCustomElement('opce-no-results', NoResultsComponent, { injector });
     registerCustomElement('opce-non-working-days-list', OpNonWorkingDaysListComponent, { injector });
     registerCustomElement('opce-main-menu-resizer', MainMenuResizerComponent, { injector });
     registerCustomElement('opce-persistent-toggle', PersistentToggleComponent, { injector });
-    registerCustomElement('opce-admin-type-form-configuration', TypeFormConfigurationComponent, { injector });
     registerCustomElement('opce-toasts-container', ToastsContainerComponent, { injector });
     registerCustomElement('opce-global-search-work-packages', GlobalSearchWorkPackagesComponent, { injector });
     registerCustomElement('opce-custom-date-action-admin', CustomDateActionAdminComponent, { injector });
@@ -421,5 +414,8 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-my-page', MyPageComponent, { injector });
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
     registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
+    registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
+    registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
+    registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });
   }
 }

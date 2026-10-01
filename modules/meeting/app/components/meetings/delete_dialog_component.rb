@@ -49,31 +49,34 @@ module Meetings
 
     def title
       if recurring_meeting.present?
-        I18n.t("meeting.delete_dialog.occurrence.title")
+        I18n.t("meeting.delete_dialog.#{occurrence_key}.title")
       else
-        I18n.t("meeting.delete_dialog.one_time.title")
+        template = @meeting.onetime_template? ? ".template" : ""
+        I18n.t("meeting.delete_dialog.one_time#{template}.title")
       end
     end
 
     def heading
       if recurring_meeting.present?
-        I18n.t("meeting.delete_dialog.occurrence.heading")
+        I18n.t("meeting.delete_dialog.#{occurrence_key}.heading")
       else
-        I18n.t("meeting.delete_dialog.one_time.heading")
+        template = @meeting.onetime_template? ? ".template" : ""
+        I18n.t("meeting.delete_dialog.one_time#{template}.heading")
       end
     end
 
     def confirmation_message
       if recurring_meeting.present?
-        t("meeting.delete_dialog.occurrence.confirmation_message_html")
+        t("meeting.delete_dialog.#{occurrence_key}.confirmation_message_html")
       else
-        t("meeting.delete_dialog.one_time.confirmation_message_html")
+        template = @meeting.onetime_template? ? ".template" : ""
+        t("meeting.delete_dialog.one_time#{template}.confirmation_message_html")
       end
     end
 
     def confirm_button_text
       if recurring_meeting.present?
-        I18n.t("meeting.delete_dialog.occurrence.confirm_button")
+        I18n.t("meeting.delete_dialog.#{occurrence_key}.confirm_button")
       else
         I18n.t("button_delete")
       end
@@ -85,6 +88,10 @@ module Meetings
       else
         I18n.t("button_cancel")
       end
+    end
+
+    def occurrence_key
+      @meeting.past? ? "occurrence_past" : "occurrence"
     end
   end
 end

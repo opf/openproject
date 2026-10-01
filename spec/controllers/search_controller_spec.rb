@@ -32,19 +32,15 @@ require "spec_helper"
 
 RSpec.describe SearchController do
   shared_let(:project) do
-    create(:project,
-           name: "eCookbook")
+    create(:project, :with_internal_wiki, name: "eCookbook").reload
   end
 
   shared_let(:other_project) do
-    create(:project,
-           name: "Other project")
+    create(:project, name: "Other project")
   end
 
   shared_let(:subproject) do
-    create(:project,
-           name: "Child project",
-           parent: project)
+    create(:project, name: "Child project", parent: project)
   end
 
   shared_let(:role) do
@@ -220,6 +216,16 @@ RSpec.describe SearchController do
         it { expect(assigns(:results)).to include work_package_1 }
 
         it { expect(assigns(:tokens)).to include "note" }
+      end
+    end
+  end
+
+  describe "unsupported request format" do
+    context "when requesting JSON format" do
+      it "raises UnknownFormat (rendered as 406 Not Acceptable)" do
+        expect do
+          get :index, format: :json
+        end.to raise_error(ActionController::UnknownFormat)
       end
     end
   end

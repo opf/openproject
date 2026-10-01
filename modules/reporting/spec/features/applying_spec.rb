@@ -38,7 +38,7 @@ RSpec.describe "Cost report page apply", :js do
 
   before do
     login_as user
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
     report_page.save as: "Testreport"
   end
 

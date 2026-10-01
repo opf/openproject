@@ -28,7 +28,7 @@
               <option [textContent]="text.none"
                 [selected]="!selectedType"
               [value]=""></option>
-              @for (type of availableTypes; track type) {
+              @for (type of availableTypes; track type.href) {
                 <option
                   [textContent]="type.name"
                   [selected]="selectedType === type.name"

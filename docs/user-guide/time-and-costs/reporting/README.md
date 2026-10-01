@@ -44,7 +44,7 @@ You can select and apply various filters, such as work package, author, start da
 
 > [!TIP]
 >
-> Autocomplete supports following filters: author, user, logged by, assignee, responsible, work package and project. 
+> Autocomplete supports following filters: author, user, logged by, assignee, responsible, work package (name, ID, type and status) and project. 
 
 The **Projects** filter allows selection of multiple projects. Depending on your rights within a project, multiple users can also be selected.
 
@@ -104,7 +104,7 @@ You can then continue working in the Excel spreadsheet to filter, group, or impo
 
 ## Export time sheets
 
-You can  **export reports for time entries** in PDF format in the *Time and costs* module of your project. 
+You can  **export reports for time entries** in PDF format in the _Time and costs_ module of your project. 
 
 > [!TIP]
 > Keep in mind that this report will only include time entries, but not the cost ones.

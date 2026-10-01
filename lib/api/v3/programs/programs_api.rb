@@ -33,10 +33,6 @@ module API
     module Programs
       class ProgramsAPI < ::API::OpenProjectAPI
         resources :programs do
-          after_validation do
-            guard_feature_flag :portfolio_models
-          end
-
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex.new(model: Project,
                                                                        scope: -> {
                                                                          Project

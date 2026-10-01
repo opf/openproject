@@ -41,9 +41,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
 
-  # specify which model #find_model_object should look up
-  model_object Storages::NextcloudStorage
-  before_action :find_model_object, only: %i[new create edit update]
+  before_action :find_nextcloud_storage, only: %i[new create edit update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -69,6 +67,13 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     respond_with_ampf_form_turbo_stream_or_edit_html
   end
 
+  # Renders an edit page (allowing the user to change automatically_managed bool and password).
+  # Used by: The StoragesController#edit, when user wants to update application credentials.
+  # Called by: Global app/config/routes.rb to serve Web page
+  def edit
+    respond_with_ampf_form_turbo_stream_or_edit_html
+  end
+
   def create
     service_result = call_update_service
 
@@ -81,13 +86,6 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     else
       respond_with_ampf_form_turbo_stream_or_edit_html
     end
-  end
-
-  # Renders an edit page (allowing the user to change automatically_managed bool and password).
-  # Used by: The StoragesController#edit, when user wants to update application credentials.
-  # Called by: Global app/config/routes.rb to serve Web page
-  def edit
-    respond_with_ampf_form_turbo_stream_or_edit_html
   end
 
   # Update is similar to create above
@@ -119,12 +117,8 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     end
   end
 
-  # Override default url param `:id` to `:storage` controller is a nested storage resource
-  # GET    /admin/settings/storages/:storage_id/automatically_managed_project_folders/new
-  # POST   /admin/settings/storages/:storage_id/automatically_managed_project_folders
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
+  def find_nextcloud_storage
+    @storage = Storages::Storage.find(params[:storage_id])
   end
 
   def call_update_service

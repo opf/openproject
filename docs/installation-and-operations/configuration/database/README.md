@@ -67,7 +67,6 @@ OpenProject will merge the settings from `DATABASE_URL` with manually specified 
 | OPENPROJECT_DB_SSLCOMPRESSION           | Uses libpq default | https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLCOMPRESSION |                                                              |
 | OPENPROJECT_DB_SSL_MIN_PROTOCOL_VERSION | Uses libpq default | https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSL-MIN-PROTOCOL-VERSION |                                                              |
 
-
 ## Using SSL/TLS with a PostgreSQL database
 
 By default, the packaged installation installs a local database and does not use SSL encryption. If you provide a custom PostgreSQL database that supports SSL/TLS connections for servers and/or clients, you can pass the options as part of the DATABASE_URL. See the above guides on how to set this environment variable for Docker or packaged installations.

@@ -30,10 +30,6 @@
 
 module Projects::CreationWizard
   class ReuploadArtifactOnStatusChangesService
-    include Contracted
-    include ProjectHelper
-    include ArtifactExporter
-    include Rails.application.routes.url_helpers
     prepend Projects::Concerns::UpdateDemoData
 
     attr_reader :current_user, :artifact_work_package
@@ -45,60 +41,31 @@ module Projects::CreationWizard
       @artifact_work_package = work_package
     end
 
+    def self.applicable?(work_package:, changes:)
+      return false if changes["status_id"].blank?
+
+      work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
+    end
+
     def call!(changes:)
-      return if changes["status_id"].blank?
-      return unless update_is_artifact_work_package?
+      return unless self.class.applicable?(work_package: artifact_work_package, changes:)
 
       User.execute_as_admin(current_user) do
         update_artifact
       end
     end
 
-    def update_is_artifact_work_package?
-      project.project_creation_wizard_artifact_work_package_id.to_s == artifact_work_package.id.to_s
-    end
-
     private
 
     def update_artifact
-      call = store_artifact
+      call = UploadArtifactService
+        .new(user: current_user, project:, work_package: artifact_work_package)
+        .call
+
       if call.success?
         Rails.logger.debug { "Updated artifact for creation wizard in ##{artifact_work_package.id}" }
       else
         Rails.logger.error("Failed to process artifact change for ##{artifact_work_package.id}: ##{call.message}")
-      end
-    end
-
-    def store_artifact
-      if store_attachment_locally?
-        return add_attachment_locally
-      end
-
-      if project_storage.nil?
-        return ServiceResult.failure(message: I18n.t("projects.wizard.create_artifact_storage_error"))
-      end
-
-      upload_artifact_to_storage
-    end
-
-    def add_attachment_locally
-      export = create_pdf_export!
-      file = OpenProject::Files.create_uploaded_file(
-        name: export.title,
-        content_type: export.mime_type,
-        content: export.content,
-        binary: true
-      )
-
-      attachment = artifact_work_package.attachments.create(
-        author: current_user,
-        file:
-      )
-
-      if attachment.persisted?
-        ServiceResult.success(result: attachment)
-      else
-        ServiceResult.failure(result: attachment, errors: attachment.errors)
       end
     end
   end

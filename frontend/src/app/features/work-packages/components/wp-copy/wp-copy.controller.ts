@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,8 +33,7 @@ import { WorkPackageRelationsService } from 'core-app/features/work-packages/com
 
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { Directive, OnInit } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { Directive, OnInit, inject } from '@angular/core';
 
 @Directive()
 export class WorkPackageCopyController extends WorkPackageCreateComponent implements OnInit {
@@ -45,9 +44,9 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
   /** Are we in the copying substates ? */
   public copying = true;
 
-  @InjectField() wpRelations:WorkPackageRelationsService;
+  readonly wpRelations = inject(WorkPackageRelationsService);
 
-  @InjectField() halEditing:HalResourceEditingService;
+  readonly halEditing = inject(HalResourceEditingService);
 
   ngOnInit() {
     super.ngOnInit();
@@ -66,16 +65,12 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
   public cancelAndBack() {
     this.wpCreate.cancelCreation();
 
-    if (this.routedFromAngular) {
-      this.$state.go(this.cancelState, this.$state.params);
-    } else {
-      const link = this.pathHelper.genericWorkPackagePath(this.currentProjectService.id, this.copiedWorkPackageId);
-      Turbo.visit(link + window.location.search, { action: 'advance' });
-    }
+    const link = this.pathHelper.genericWorkPackagePath(this.currentProjectService.id, this.copiedWorkPackageId);
+    Turbo.visit(link + window.location.search, { action: 'advance' });
   }
 
   protected createdWorkPackage() {
-    this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId;
+    this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId!;
     return new Promise<WorkPackageChangeset>((resolve, reject) => {
       this
         .apiV3Service

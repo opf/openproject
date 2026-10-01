@@ -35,12 +35,21 @@ RSpec.describe RecurringMeetings::CreateService, "integration", type: :model do
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i(view_meetings create_meetings) })
   end
+  let(:business_day_at_noon) { Time.zone.parse("2025-01-08T12:00:00Z") }
   let(:instance) { described_class.new(user:) }
   let(:service_result) { subject }
   let(:series) { service_result.result }
   let(:params) { {} }
 
   subject { instance.call(**params) }
+
+  before do
+    travel_to(business_day_at_noon)
+  end
+
+  after do
+    travel_back
+  end
 
   shared_examples "creates the series" do
     it "creates the series and template" do
@@ -140,6 +149,27 @@ RSpec.describe RecurringMeetings::CreateService, "integration", type: :model do
         expect(service_result).not_to be_success
         expect(service_result.errors[:start_date]).to include "must be in the future."
         expect(series).to be_new_record
+      end
+    end
+
+    context "when the start time keeps the default of a minute that already started" do
+      let(:params) do
+        {
+          frequency: "daily",
+          interval: 1,
+          end_after: "never",
+          project:,
+          title: "My daily"
+        }
+      end
+
+      before { travel_to(business_day_at_noon.change(sec: 10)) }
+
+      it_behaves_like "creates the series"
+
+      it "starts the series in the current minute" do
+        expect(service_result).to be_success
+        expect(series.reload.start_time).to eq(business_day_at_noon)
       end
     end
   end

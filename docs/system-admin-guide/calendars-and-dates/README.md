@@ -9,7 +9,7 @@ keywords: working non-working days work week dates calendars ical icalendar
 
 Configure working days, dates formats and calendar subscriptions.
 
-Navigate to *Administration → Calendar and dates*.
+Navigate to _Administration → Calendar and dates_.
 
 | Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
@@ -26,7 +26,7 @@ To change this setting, navigate to **Working days** inside of the **Calendar an
 > [!NOTE]
 > By default, a working day is considered to have 8 hours, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
 
-Here the **duration format** can also be set for *Work, Remaining work and Time spent* fields. The options include **hours only** and **days and hours**. The default setting is *hours only*.
+Here the **duration format** can also be set for _Work, Remaining work and Time spent_ fields. The options include **hours only** and **days and hours**. The default setting is _hours only_.
 
  ![The 'Working days' entry in Calendar and dates settings ](openeproject_system_admin_guide_calendars_dates.png)
 
@@ -48,9 +48,9 @@ Click on **Apply changes** at the end of the page for the changes to take effect
 
 ### Effect on scheduling
 
-As an instance-level setting, any change here will affect the scheduling of *all work packages* in *all projects* in that instance. It is currently not possible to define working days at a project-level.
+As an instance-level setting, any change here will affect the scheduling of _all work packages_ in _all projects_ in that instance. It is currently not possible to define working days at a project-level.
 
-However, it *is* possible to override this setting at the level of individual work packages via the date picker. For more information on how to schedule work packages on non-working days, refer to [Duration and Non-working days in the user guide](../../user-guide/work-packages/set-change-dates/#working-days-and-duration).
+However, it _is_ possible to override this setting at the level of individual work packages via the date picker. For more information on how to schedule work packages on non-working days, refer to [Duration and Non-working days in the user guide](../../user-guide/work-packages/set-change-dates/#working-days-and-duration).
 
 > [!IMPORTANT]
 > Changing this setting will reschedule work packages automatically to the next available working day after clicking on **Save**. For example, removing Friday as a working day by unchecking it will mean that work packages that included Friday will now end one day in the future, and ones that started or ended on Friday will now start and end on Monday.
@@ -79,8 +79,8 @@ To change this setting, navigate to **Date format** inside of the **Calendar and
    You can also choose to start a week always on Mondays, Sundays or Saturdays.
    If you set **Week starts on**, you must also set the **First week in year contains** or you will probably get inconsistencies in week numbering in calendars and the Gantt chart.
 4. **First week in year contains**: select the day that needs to be contained in the first week of the year. This value is used together with _Week starts on_ to determine the first week of the year.
-   - For European ISO-8601 standard, set **Week starts on** to `Monday` and First week in year to `Thursday`.
-   - For US and Canada, set **First week in year contains** to `Sunday` and Day of Year to `6`.
+   - For European ISO-8601 standard, set **Week starts on** to `Monday` and **First week in year contains** to `Thursday`.
+   - For US and Canada, set **Week starts on** to `Saturday` and **First week in year contains** to `Sunday`.
    - If you leave both on `Based on user's language`, the information provided by moment.js will be used: For more information, please also see [this document from moment.js](https://momentjscom.readthedocs.io/en/latest/moment/07-customization/16-dow-doy/).
    - For more information on the way the first week of the year is computed according to ISO standards, see [wikipedia](https://en.wikipedia.org/wiki/ISO_week_date#First_week)
 5. Do not forget to **save** your changes.

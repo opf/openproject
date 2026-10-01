@@ -38,7 +38,7 @@ RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
   let(:last_modified_at) { DateTime.now }
 
   let(:parent) do
-    Storages::StorageFile.new(
+    Storages::Adapters::Results::StorageFile.new(
       id: 23,
       name: "Documents",
       size: 2048,
@@ -53,7 +53,7 @@ RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
   end
 
   let(:file) do
-    Storages::StorageFile.new(
+    Storages::Adapters::Results::StorageFile.new(
       id: 42,
       name: "readme.md",
       size: 4096,
@@ -68,7 +68,7 @@ RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
   end
 
   let(:ancestor) do
-    Storages::StorageFile.new(
+    Storages::Adapters::Results::StorageFile.new(
       id: 47,
       name: "/",
       size: 4096,
@@ -83,7 +83,7 @@ RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
   end
 
   let(:files) do
-    Storages::StorageFiles.new([file], parent, [ancestor])
+    Storages::Adapters::Results::StorageFileCollection.new([file], parent, [ancestor])
   end
 
   let(:representer) { described_class.new(files, storage, current_user: user) }

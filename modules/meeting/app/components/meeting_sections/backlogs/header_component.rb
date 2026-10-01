@@ -34,12 +34,11 @@ module MeetingSections
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(backlog:, collapsed:, current_occurrence:, box: nil)
+    def initialize(backlog:, collapsed:, current_occurrence:)
       super
 
       @backlog = backlog
       @meeting = backlog.meeting
-      @box = box
       @current_occurrence = current_occurrence
 
       # When a specific collapsed state is needed, collapsed is passed in as either true or false

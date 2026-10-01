@@ -31,73 +31,81 @@
 require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
-  let(:version) { build_stubbed(:version) }
+  let(:actual_project) { create(:project) }
+  let(:version) { create(:version, project: actual_project) }
+  let(:other_project_version) { create(:version, project: create(:project)) }
+
+  let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+  let(:user) { create(:user, member_with_roles: { actual_project => role }) }
+
+  before { login_as(user) }
+
+  describe ".stored_key" do
+    it "is target_version_id" do
+      expect(described_class.stored_key).to eq(:target_version_id)
+    end
+  end
 
   it_behaves_like "basic query filter" do
+    let(:project) { actual_project }
     let(:type) { :list_optional }
     let(:class_key) { :version_id }
     let(:values) { [version.id.to_s] }
     let(:name) { WorkPackage.human_attribute_name("version") }
-    let(:scope) { instance_double(ActiveRecord::Relation) }
-    before do
-      if project
-        allow(project)
-          .to receive_message_chain(:shared_versions, :pluck)
-          .and_return [version.id]
-      else
-        allow(Version).to receive(:visible).and_return(scope)
-        allow(scope).to receive(:or).with(Version.systemwide).and_return(scope)
-        allow(scope).to receive(:pluck).with(:id).and_return([version.id])
+
+    describe "#available?" do
+      context "with the setting enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        it "is not available" do
+          expect(instance).not_to be_available
+        end
+      end
+
+      context "with the setting disabled",
+              with_settings: { work_package_multiple_versions: false } do
+        it "is available" do
+          expect(instance).to be_available
+        end
       end
     end
 
     describe "#valid?" do
       context "within a project" do
-        it "is true if the value exists as a version" do
-          expect(instance).to be_valid
+        context "and the version belongs to the project" do
+          it "is valid" do
+            expect(instance).to be_valid
+          end
         end
 
-        it "is false if the value does not exist as a version" do
-          allow(project)
-            .to receive_message_chain(:shared_versions, :pluck)
-            .and_return []
+        context "and the version is from another project" do
+          let(:values) { [other_project_version.id.to_s] }
 
-          expect(instance).not_to be_valid
+          it "is not valid" do
+            expect(instance).not_to be_valid
+          end
         end
       end
 
-      context "outside of a project" do
+      context "without a project" do
         let(:project) { nil }
 
-        it "is true if the value exists as a version" do
-          expect(instance).to be_valid
+        context "and the version is visible to the user" do
+          it "is valid" do
+            expect(instance).to be_valid
+          end
         end
 
-        it "is false if the value does not exist as a version" do
-          allow(scope).to receive(:pluck).with(:id).and_return([])
+        context "and the version does not exist" do
+          let(:values) { ["12345"] }
 
-          expect(instance).not_to be_valid
+          it "is not valid" do
+            expect(instance).not_to be_valid
+          end
         end
       end
     end
 
-    describe "#allowed_values" do
-      context "within a project" do
-        before do
-          expect(instance.allowed_values)
-            .to contain_exactly([version.id.to_s, version.id.to_s])
-        end
-      end
-
-      context "outside of a project" do
-        let(:project) { nil }
-
-        before do
-          expect(instance.allowed_values)
-            .to contain_exactly([version.id.to_s, version.id.to_s])
-        end
-      end
-    end
+    it_behaves_like "version filter options"
 
     describe "#ar_object_filter?" do
       it "is true" do
@@ -107,20 +115,10 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     end
 
     describe "#value_objects" do
-      let(:version1) { build_stubbed(:version) }
-      let(:version2) { build_stubbed(:version) }
+      let!(:other_version) { create(:version, project: actual_project) }
 
-      before do
-        allow(project)
-          .to receive(:shared_versions)
-          .and_return([version1, version2])
-
-        instance.values = [version1.id.to_s]
-      end
-
-      it "returns an array of versions" do
-        expect(instance.value_objects)
-          .to contain_exactly(version1)
+      it "returns the Version records matching the filter values" do
+        expect(instance.value_objects).to contain_exactly(version)
       end
     end
 
@@ -161,23 +159,96 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     end
 
     describe "#joins" do
-      context "for status operators" do
-        %w[o c l].each do |op|
-          context "with operator '#{op}'" do
-            let(:operator) { op }
+      %w[= ! * !* o c l].each do |op|
+        context "with operator '#{op}'" do
+          let(:operator) { op }
 
-            it "returns :version" do
-              expect(instance.joins).to eq(:version)
-            end
+          it "returns nil, as the conditions are self-contained subqueries" do
+            expect(instance.joins).to be_nil
           end
         end
       end
+    end
 
-      context "for other operators" do
-        let(:operator) { "=" }
+    describe "#where" do
+      let(:where_project) { create(:project) }
+      let(:open_version) { create(:version, project: where_project) }
+      let(:closed_version) { create(:version, project: where_project, status: "closed") }
 
-        it "returns nil" do
-          expect(instance.joins).to be_nil
+      let!(:wp_targeting_open) do
+        create(:work_package, project: where_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: open_version, kind: :target)
+        end
+      end
+      let!(:wp_targeting_closed) do
+        create(:work_package, project: where_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: closed_version, kind: :target)
+        end
+      end
+      let!(:wp_observed_only) do
+        create(:work_package, project: where_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: open_version, kind: :observed_in)
+        end
+      end
+      let!(:wp_without_versions) { create(:work_package, project: where_project) }
+
+      subject(:result) { WorkPackage.where(instance.where) }
+
+      it "does not filter on the version_id column" do
+        expect(instance.where)
+          .not_to include("#{WorkPackage.table_name}.version_id")
+      end
+
+      context 'for "=" with a version' do
+        let(:values) { [open_version.id.to_s] }
+
+        it "returns work packages targeting that version" do
+          expect(result).to contain_exactly(wp_targeting_open)
+        end
+      end
+
+      context 'for "!" with a version' do
+        let(:operator) { "!" }
+        let(:values) { [open_version.id.to_s] }
+
+        it "returns work packages not targeting that version, including ones without target versions" do
+          expect(result).to contain_exactly(wp_targeting_closed, wp_observed_only, wp_without_versions)
+        end
+      end
+
+      context 'for "*" (any target version)' do
+        let(:operator) { "*" }
+        let(:values) { [] }
+
+        it "returns work packages with at least one target version" do
+          expect(result).to contain_exactly(wp_targeting_open, wp_targeting_closed)
+        end
+      end
+
+      context 'for "!*" (no target version)' do
+        let(:operator) { "!*" }
+        let(:values) { [] }
+
+        it "returns work packages without any target version" do
+          expect(result).to contain_exactly(wp_observed_only, wp_without_versions)
+        end
+      end
+
+      context 'for "o" (open version)' do
+        let(:operator) { "o" }
+        let(:values) { [] }
+
+        it "returns work packages targeting an open version" do
+          expect(result).to contain_exactly(wp_targeting_open)
+        end
+      end
+
+      context 'for "c" (closed version)' do
+        let(:operator) { "c" }
+        let(:values) { [] }
+
+        it "returns work packages targeting a closed version" do
+          expect(result).to contain_exactly(wp_targeting_closed)
         end
       end
     end

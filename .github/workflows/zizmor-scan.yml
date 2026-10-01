@@ -1,0 +1,30 @@
+name: GitHub Actions Security Analysis with zizmor 🌈
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - ".github/actions/**"
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  zizmor:
+    name: Run zizmor 🌈
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'opf'
+    permissions:
+      security-events: write # Required for upload-sarif
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor 🌈
+        uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4

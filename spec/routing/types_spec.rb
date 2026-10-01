@@ -36,4 +36,100 @@ RSpec.describe "types routes" do
                                                 action: "move",
                                                 id: "123")
   end
+
+  describe "form configuration groups (mounted on the form page)" do
+    let(:key) { "b) > 10.000 / 20.000 Nutzende" }
+    let(:query) { Rack::Utils.build_query(key:) }
+
+    it "carries the group key as a query param rather than a path segment" do
+      expect(delete("/forms/42/group?#{query}"))
+        .to route_to("form_configurations/groups#destroy", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(patch("/forms/42/group?#{query}"))
+        .to route_to("form_configurations/groups#update", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(get("/forms/42/group/edit?#{query}"))
+        .to route_to("form_configurations/groups#edit", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(put("/forms/42/group/move?#{query}&move_to=higher"))
+        .to route_to("form_configurations/groups#move", form_configuration_id: "42", key:, move_to: "higher")
+    end
+
+    it do
+      expect(patch("/forms/42/group/update_query?#{query}"))
+        .to route_to("form_configurations/groups#update_query", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(put("/forms/42/group/drop?#{query}"))
+        .to route_to("form_configurations/groups#drop", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(post("/forms/42/group/cancel_edit?#{query}"))
+        .to route_to("form_configurations/groups#cancel_edit", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(post("/forms/42/group/add_group"))
+        .to route_to("form_configurations/groups#add_group", form_configuration_id: "42")
+    end
+  end
+
+  describe "workflow tab (mounted on the type edit page)" do
+    it do
+      expect(get("/types/42/workflow/edit"))
+        .to route_to("work_package_types/workflow_tab#edit", type_id: "42")
+    end
+
+    it do
+      expect(get("/types/42/workflow/matrix"))
+        .to route_to("workflows/matrix#show", type_id: "42")
+    end
+
+    it do
+      expect(patch("/types/42/workflow/matrix"))
+        .to route_to("workflows/matrix#update", type_id: "42")
+    end
+
+    it do
+      expect(get("/types/42/workflow/matrix/status_dialog"))
+        .to route_to("workflows/matrix#status_dialog", type_id: "42")
+    end
+
+    it do
+      expect(post("/types/42/workflow/matrix/confirm_statuses"))
+        .to route_to("workflows/matrix#confirm_statuses", type_id: "42")
+    end
+
+    it "carries the transition tab as a query param rather than a path segment" do
+      expect(get("/types/42/workflow/matrix?tab=author"))
+        .to route_to("workflows/matrix#show", type_id: "42", tab: "author")
+    end
+  end
+
+  describe "workflow copy (nested under the type)" do
+    it do
+      expect(get("/types/42/workflow/copy/new"))
+        .to route_to("workflows/copies#new", type_id: "42")
+    end
+
+    it do
+      expect(post("/types/42/workflow/copy/from_role"))
+        .to route_to("workflows/copies/from_roles#create", type_id: "42")
+    end
+  end
+
+  describe "workflow summary (types collection action)" do
+    it do
+      expect(get("/types/workflow_summary"))
+        .to route_to("workflows/summaries#show")
+    end
+  end
 end

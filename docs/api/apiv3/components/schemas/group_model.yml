@@ -2,6 +2,7 @@
 ---
 allOf:
   - $ref: './principal_model.yml'
+  - $ref: "./custom_field_properties.yml"
   - type: object
     required:
       - _type
@@ -18,10 +19,17 @@ allOf:
             type: array
             description: Embedded list of members.
             items:
-              - $ref: './user_model.yml'
+              $ref: './user_model.yml'
       _links:
         type: object
         properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This group resource
+
+                  **Resource**: Group
           members:
             type: array
             items:
@@ -35,6 +43,13 @@ allOf:
                     - user has permission `manage_members` in any project
 
                     **Resource**: User
+          memberships:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An collection of all memberships of the group.
+
+                  **Resource**: MembershipCollection
           delete:
             allOf:
               - $ref: './link.yml'

@@ -17,13 +17,14 @@
       </div>
     }
     @if (viewerVisible && createAllowed) {
-      <a
-        [title]="text.add_viewpoint"
+      <button
+        role="button"
         class="button"
+        [title]="text.add_viewpoint"
         (click)="saveViewpoint(workPackage)">
         <op-icon icon-classes="button--icon icon-add" />
         <span class="button--text"> {{text.viewpoint}} </span>
-      </a>
+      </button>
     }
   </div>
 }

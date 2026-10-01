@@ -31,6 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Reminders::SetAttributesService do
+  let(:business_day_at_noon) { Time.zone.local(2025, 1, 8, 12, 0, 0) }
   let(:user) { build_stubbed(:user) }
   let(:model_instance) { Reminder.new }
   let(:remindable) { build_stubbed(:work_package) }
@@ -42,6 +43,14 @@ RSpec.describe Reminders::SetAttributesService do
     described_class.new(user: user,
                         model: model_instance,
                         contract_class:)
+  end
+
+  before do
+    travel_to(business_day_at_noon)
+  end
+
+  after do
+    travel_back
   end
 
   describe "building remind_at timestamp" do

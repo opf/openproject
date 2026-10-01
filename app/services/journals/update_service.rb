@@ -40,7 +40,8 @@ module Journals
 
       OpenProject::Notifications.send(OpenProject::Events::JOURNAL_UPDATED,
                                       journal: call.result,
-                                      send_notification: Journal::NotificationConfiguration.active?)
+                                      send_notification: Journal::NotificationConfiguration.active?,
+                                      trigger_callbacks: Journal::EventConfiguration.active?)
 
       call
     end

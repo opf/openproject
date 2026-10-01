@@ -1,0 +1,30 @@
+# Schema: MeetingCollectionModel
+---
+allOf:
+  - $ref: './paginated_collection_model.yml'
+  - type: object
+    required:
+      - _embedded
+      - _links
+    properties:
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './meeting_model.yml'
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  The link to this meeting collection resource
+                  
+                  **Resource**: MeetingCollection

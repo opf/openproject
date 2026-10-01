@@ -49,12 +49,12 @@ sub create_repository {
   my ($r, $vendor, $repository, $repository_root, $request) = @_;
 
   my $command = {
-    git => "git init $repository --shared --bare",
-    subversion => "svnadmin create $repository"
+    git => [qw(git init), $repository, qw(--shared --bare)],
+    subversion => [qw(svnadmin create), $repository]
   }->{$vendor};
 
   die "No create command known for vendor '$vendor'\n" unless defined($command);
-  die "Could not create repository.\n" unless system($command) == 0;
+  die "Could not create repository.\n" unless system(@$command) == 0;
 }
 
 ##

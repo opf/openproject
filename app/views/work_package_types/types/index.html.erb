@@ -37,8 +37,23 @@ See COPYRIGHT and LICENSE files for more details.
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        t(:label_type_plural)]
     )
+    header.with_description { t("types.index.description") }
+
+    header.with_action_menu(
+      menu_arguments: { anchor_align: :end },
+      button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_more) }
+    ) do |menu|
+      menu.with_item(
+        tag: :a,
+        label: t(:label_workflow_summary),
+        href: workflow_summary_types_path
+      ) do |item|
+        item.with_leading_visual_icon(icon: :workflow)
+      end
+    end
   end
 %>
+<% type_creation_path = new_creation_wizard_types_path %>
 <%=
   render(Primer::OpenProject::SubHeader.new) do |subheader|
     subheader.with_action_button(
@@ -47,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
       label: t(:label_type_new),
       test_selector: "op-admin-types--button-new",
       tag: :a,
-      href: new_type_path
+      href: type_creation_path
     ) do
       t("activerecord.attributes.work_package.type")
     end
@@ -55,10 +70,13 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if @types.any? %>
-  <%= render WorkPackageTypes::Types::TableComponent.new(rows: @types) %>
+  <%= render WorkPackageTypes::Types::GroupedListComponent.new(types: @types, expanded_type_id: @expanded_type_id) %>
 <% else %>
-  <%= no_results_box(
-      action_url: new_type_path,
+  <%=
+    no_results_box(
+      action_url: type_creation_path,
       display_action: true,
-      custom_action_text: t("types.index.no_results_content_text")) %>
+      custom_action_text: t("types.index.no_results_content_text")
+    )
+  %>
 <% end %>

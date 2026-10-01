@@ -75,7 +75,7 @@ get:
             $ref: '../components/schemas/membership_read_model.yml'
           examples:
             'simple membership':
-              $ref: '../components/examples/membership-simple-response.yml'
+              $ref: '../components/examples/membership_simple_response.yml'
     '404':
       content:
         application/hal+json:
@@ -121,7 +121,7 @@ patch:
           $ref: '../components/schemas/membership_write_model.yml'
         examples:
           'add roles':
-            $ref: '../components/examples/membership-update-additional-roles.yml'
+            $ref: '../components/examples/membership_update_additional_roles.yml'
   responses:
     '200':
       description: OK
@@ -131,7 +131,7 @@ patch:
             $ref: '../components/schemas/membership_read_model.yml'
           examples:
             'simple membership':
-              $ref: '../components/examples/membership-simple-response.yml'
+              $ref: '../components/examples/membership_simple_response.yml'
     '400':
       $ref: '../components/responses/invalid_request_body.yml'
     '403':

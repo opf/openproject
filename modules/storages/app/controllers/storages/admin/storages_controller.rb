@@ -41,15 +41,12 @@ module Storages
       # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
       layout "admin"
 
-      # specify which model #find_model_object should look up
-      model_object Storage
-
       # Before executing any action below: Make sure the current user is an admin
       # and set the @<controller_name> variable to the object referenced in the URL.
       before_action :require_admin
-      before_action :find_model_object,
+      before_action :find_storage,
                     only: %i[show_oauth_application destroy edit edit_host edit_storage_audience confirm_destroy update
-                             change_health_notifications_enabled replace_oauth_application]
+                             change_health_notifications_enabled replace_oauth_application ampf_sync_now]
       before_action :ensure_valid_wizard_parameters, only: [:new]
       before_action :require_ee_token, only: [:new]
 
@@ -193,7 +190,7 @@ module Storages
         service_result.on_success do
           flash[:notice] = I18n.t(:notice_successful_delete)
         end
-        redirect_to admin_settings_storages_path
+        redirect_to admin_settings_storages_path, status: :see_other
       end
 
       def replace_oauth_application
@@ -214,7 +211,20 @@ module Storages
         end
       end
 
+      def ampf_sync_now
+        ::Storages::AutomaticallyManagedStorageSyncJob.perform_later(@storage)
+
+        update_via_turbo_stream(
+          component: ::Storages::Admin::SidePanel::HealthNotificationsComponent.new(storage: @storage, sync_pending: true)
+        )
+        respond_with_turbo_streams
+      end
+
       private
+
+      def find_storage
+        @storage = ::Storages::Storage.visible.find(params[:id])
+      end
 
       def prepare_storage_for_access_management_form
         return unless @storage.automatic_management_unspecified?

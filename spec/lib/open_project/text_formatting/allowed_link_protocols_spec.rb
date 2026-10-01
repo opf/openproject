@@ -44,7 +44,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link to <a href="https://www.openproject.org" rel="noopener noreferrer" target="_top" class="op-uc-link">OpenProject</a></p>
+          <p class="op-uc-p">A link to <a href="https://www.openproject.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">OpenProject</a></p>
         EXPECTED
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">Contact us via <a href="mailto:info@openproject.org" rel="noopener noreferrer" target="_top" class="op-uc-link">email</a></p>
+          <p class="op-uc-p">Contact us via <a href="mailto:info@openproject.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">email</a></p>
         EXPECTED
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link with <a rel="noopener noreferrer" target="_top" class="op-uc-link">custom protocol</a></p>
+          <p class="op-uc-p">A link with <a rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">custom protocol</a></p>
         EXPECTED
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link to <a href="https://www.openproject.org" rel="noopener noreferrer" target="_top" class="op-uc-link">OpenProject</a></p>
+          <p class="op-uc-p">A link to <a href="https://www.openproject.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">OpenProject</a></p>
         EXPECTED
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link with <a href="ftp://example.org" rel="noopener noreferrer" target="_top" class="op-uc-link">FTP protocol</a></p>
+          <p class="op-uc-p">A link with <a href="ftp://example.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">FTP protocol</a></p>
         EXPECTED
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">An autolinked <a href="ftp://example.org" rel="noopener noreferrer" target="_top" class="op-uc-link">ftp://example.org</a></p>
+          <p class="op-uc-p">An autolinked <a href="ftp://example.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">ftp://example.org</a></p>
         EXPECTED
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">An autolinked <a href="ftp://example.org" rel="noopener noreferrer" target="_top" class="op-uc-link">ftp://example.org</a>.</p>
+          <p class="op-uc-p">An autolinked <a href="ftp://example.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">ftp://example.org</a>.</p>
         EXPECTED
       end
     end
@@ -158,7 +158,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link with <a href="sftp://example.org" rel="noopener noreferrer" target="_top" class="op-uc-link">SFTP protocol</a></p>
+          <p class="op-uc-p">A link with <a href="sftp://example.org" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">SFTP protocol</a></p>
         EXPECTED
       end
     end
@@ -172,7 +172,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link with <a rel="noopener noreferrer" target="_top" class="op-uc-link">data protocol</a></p>
+          <p class="op-uc-p">A link with <a rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">data protocol</a></p>
         EXPECTED
       end
     end
@@ -188,7 +188,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link with <a href="data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" rel="noopener noreferrer" target="_top" class="op-uc-link">data protocol</a></p>
+          <p class="op-uc-p">A link with <a href="data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">data protocol</a></p>
         EXPECTED
       end
     end
@@ -202,7 +202,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">An autolinked <a href="data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" rel="noopener noreferrer" target="_top" class="op-uc-link">data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==</a>.</p>
+          <p class="op-uc-p">An autolinked <a href="data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==</a>.</p>
         EXPECTED
       end
     end

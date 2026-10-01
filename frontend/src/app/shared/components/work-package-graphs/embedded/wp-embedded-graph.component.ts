@@ -1,11 +1,40 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions } from 'chart.js';
+import { ChartOptions, Plugin } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import PrimerColorsPlugin from './../plugin.primer-colors';
+import { chartTypeLocaleKey } from './../chart-type';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -27,10 +56,16 @@ interface ChartDataSet {
     BaseChartDirective
   ],
   providers: [
-    provideCharts(withDefaultRegisterables(ChartDataLabels, PrimerColorsPlugin)),
-  ]
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
+  ],
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedGraphComponent implements OnChanges {
+  readonly i18n = inject(I18nService);
+
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
   @Input() public chartOptions:ChartOptions;
@@ -51,11 +86,11 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   public initialized = false;
 
+  public readonly plugins:Plugin[] = [ChartDataLabels];
+
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
   };
-
-  constructor(readonly i18n:I18nService) {}
 
   ngOnChanges(changes:SimpleChanges) {
     if (changes.datasets) {
@@ -71,10 +106,10 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private updateChartData() {
-    let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
+    let uniqLabels = Array.from(new Set(this.datasets.reduce((array, dataset) => {
       const groups = (dataset.groups || []).map((group) => group.value) as any;
       return array.concat(groups);
-    }, [])) as string[];
+    }, []))) as string[];
 
     const labelCountMaps = this.datasets.map((dataset) => {
       const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({
@@ -109,6 +144,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-muted');
     const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
 
+    const valueAxisGrace = this.isBarChart() ? '10%' : 0;
+
     const defaults:ChartOptions = {
       color: bodyFontColor,
       responsive: true,
@@ -135,6 +172,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           },
         },
         y: {
+          grace: valueAxisGrace,
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
@@ -146,6 +184,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           },
         },
         x: {
+          grace: valueAxisGrace,
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
@@ -189,12 +228,12 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   public get chartDescription():string {
-    const chartDataDescriptions = _.map(this.chartLabels, (label, index) => {
+    const chartDataDescriptions = this.chartLabels.map((label, index) => {
       if (this.chartData.length === 1) {
         const allCount = this.chartData[0].data[index];
         return `${allCount} ${label}`;
       }
-      const labelCounts = _.map(this.chartData, (dataset) => `${dataset.data[index]} ${dataset.label}`);
+      const labelCounts = this.chartData.map((dataset) => `${dataset.data[index]} ${dataset.label}`);
       return `${label}: ${labelCounts.join(', ')}`;
     });
 
@@ -202,7 +241,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private setHeight() {
-    if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
+    if (this.chartType === 'horizontalBar' && this.datasets?.[0]) {
       const labels:string[] = [];
       this.datasets.forEach((d) => { d.groups!.forEach((g) => {
         if (!labels.includes(g.value)) {
@@ -234,7 +273,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   public get chartSummary():string {
-    const chartTypeLabel = this.chartType ? this.i18n.t(`js.chart.types.${this.chartType}`) : '';
+    const chartTypeLabel = this.chartType ? this.i18n.t(`js.chart.types.${chartTypeLocaleKey(this.chartType)}`) : '';
     return this.i18n.t('js.grid.widgets.work_packages_graph.summary', { chartType: chartTypeLabel, description: this.chartDescription });
   }
 }

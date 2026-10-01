@@ -76,6 +76,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
     end
 
     context "with permission" do
+      let!(:version) { create(:version, project: project2) }
+
       before do
         expect(child_wp.project_id).to eq(project.id)
 
@@ -135,6 +137,18 @@ RSpec.describe "Moving a work package through Rails view", :js do
         expect(child_wp.project_id).to eq(project2.id)
       end
 
+      it "sets the observed-in version on move" do
+        select version.name, from: "observed_in_version_ids"
+
+        click_on "Move and follow"
+        wait_for_reload
+
+        page.find(".inline-edit--container.subject", text: work_package.subject)
+
+        work_package.reload
+        expect(work_package.observed_in_versions).to contain_exactly(version)
+      end
+
       context "when the target project does not have the type" do
         let!(:project2) { create(:project, name: "Target", types: [type2]) }
 
@@ -162,6 +176,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
         it "does not moves the work package when the required field is missing" do
           select "Risk", from: "Type"
           expect(page).to have_field(required_cf.name)
+          project_autocompleter = find_test_selector("new_project_id")
+          expect_current_autocompleter_value(project_autocompleter, "Target")
 
           # Clicking move and follow might be broken due to the location.href
           # in the refresh-on-form-changes component
@@ -190,6 +206,75 @@ RSpec.describe "Moving a work package through Rails view", :js do
     end
   end
 
+  it "preserves move form values when refreshing after a project change", :js do
+    notes_editor = Components::WysiwygEditor.new
+    assignable_role = create(:project_role, permissions: %i[view_work_packages work_package_assigned])
+    assignee = create(:user, member_with_roles: { project => assignable_role, project2 => assignable_role })
+    new_status = create(:status, name: "Ready")
+    priority = create(:priority, name: "High")
+    required_cf = create(:integer_wp_custom_field,
+                         name: "Risk score",
+                         is_required: true,
+                         projects: [project, project2])
+    create(:workflow, type:, old_status: status, new_status:, role: mover_role)
+    create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
+    type2.default_variant.custom_field_ids |= [required_cf.id]
+
+    visit new_move_work_packages_path(ids: work_packages.map(&:id))
+
+    select type2.name, from: "Type"
+    expect(page).to have_field(required_cf.name)
+    select new_status.name, from: "Status"
+    select priority.name, from: "Priority"
+    select assignee.name, from: "Assignee"
+    select "nobody", from: "Accountable"
+    fill_in required_cf.name, with: "42"
+    notes_editor.set_markdown "Keep this note"
+
+    wait_for_turbo_stream do
+      select_autocomplete page.find_test_selector("new_project_id"),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: "body"
+    end
+
+    expect(page).to have_select("Type", selected: type2.name)
+    expect(page).to have_select("Status", selected: new_status.name)
+    expect(page).to have_select("Priority", selected: priority.name)
+    expect(page).to have_select("Assignee", selected: assignee.name)
+    expect(page).to have_select("Accountable", selected: "nobody")
+    expect(page).to have_field(required_cf.name, with: "42")
+    notes_editor.expect_value "Keep this note"
+  end
+
+  describe "searching the target project by its identifier" do
+    let(:target_project) { project2 }
+    let(:control_project) { project }
+
+    before do
+      context_menu.open_for work_package
+      context_menu.choose "Move to another project"
+    end
+
+    def search_project(query)
+      search_autocomplete page.find_test_selector("new_project_id"),
+                          query:,
+                          results_selector: "body"
+    end
+
+    it_behaves_like "a project picker searchable by identifier"
+
+    it "selects the project found by its identifier" do
+      dropdown = search_project(target_project.identifier)
+
+      wait_for_turbo_stream do
+        dropdown.find(".ng-option", text: target_project.name).click
+      end
+
+      expect_current_autocompleter_value(page.find_test_selector("new_project_id"), target_project.name)
+    end
+  end
+
   describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
     let(:work_package2_status) { create(:status, is_readonly: true) }
@@ -197,7 +282,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     before do
       loading_indicator_saveguard
       # Select all work packages
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
 
       context_menu.open_for work_package2
       context_menu.choose "Bulk change of project"

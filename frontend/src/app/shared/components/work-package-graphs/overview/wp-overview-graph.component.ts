@@ -1,11 +1,34 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, InputSignal, OnInit, ViewChild, inject, input,
+  booleanAttribute, model,
 } from '@angular/core';
 import {
   WorkPackageEmbeddedGraphComponent,
@@ -21,6 +44,7 @@ import {
   WpGraphQueryParams,
 } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
+type GraphFilter = Record<string, { operator:string; values:unknown[] }>;
 
 @Component({
   selector: 'opce-wp-overview-graph',
@@ -33,17 +57,26 @@ import {
   standalone: false,
 })
 export class WorkPackageOverviewGraphComponent implements OnInit {
-  @Input() initialFilters:any;
+  readonly I18n = inject(I18nService);
+  readonly graphConfigurationService = inject(WpGraphConfigurationService);
+  protected readonly cdr = inject(ChangeDetectorRef);
 
-  @Input() globalScope:boolean;
+  // Rendered as a custom element, so inputs may arrive as attribute strings.
+  readonly initialFilters = input<GraphFilter[]|null, string|GraphFilter[]|null>(null, {
+    transform: (value) => (typeof value === 'string' ? JSON.parse(value) as GraphFilter[] : value),
+  });
+
+  readonly globalScope = input(false, { transform: booleanAttribute });
 
   @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
 
   @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
 
-  @Input() groupBy = 'status';
+  readonly groupBy = model('status');
 
-  @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
+  readonly showGroupByOptions = input(true, { transform: booleanAttribute });
+
+  readonly chartOptions:InputSignal<ChartOptions> = input<ChartOptions>({ maintainAspectRatio: false });
 
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
 
@@ -53,12 +86,9 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
   public error:string|null = null;
 
-  constructor(
-    readonly elementRef:ElementRef<Element>,
-    readonly I18n:I18nService,
-    readonly graphConfigurationService:WpGraphConfigurationService,
-    protected readonly cdr:ChangeDetectorRef,
-  ) {
+  constructor() {
+    const I18n = this.I18n;
+
     this.availableGroupBy = [{ label: I18n.t('js.work_packages.properties.category'), key: 'category' },
       { label: I18n.t('js.work_packages.properties.type'), key: 'type' },
       { label: I18n.t('js.work_packages.properties.status'), key: 'status' },
@@ -68,22 +98,6 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement;
-
-    const initialFiltersAttr =
-      element.getAttribute('initial-filters') ??
-      element.getAttribute('data-initial-filters');
-
-    this.initialFilters = initialFiltersAttr
-      ? (JSON.parse(initialFiltersAttr) as [])
-      : null;
-
-    const globalScopeAttr =
-      element.getAttribute('global-scope') ??
-      element.getAttribute('data-global-scope');
-
-    this.globalScope = globalScopeAttr === 'true';
-
     this.setQueryProps();
   }
 
@@ -93,7 +107,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     const params = this.graphParams;
 
     this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
-    this.graphConfigurationService.globalScope = this.globalScope;
+    this.graphConfigurationService.globalScope = this.globalScope();
 
     // 'finally' was not available yet so the code for the change detection is duplicated
     this
@@ -114,7 +128,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   public get graphParams() {
     const params = [];
 
-    if (this.groupBy === 'status') {
+    if (this.groupBy() === 'status') {
       this.displayModeSingle = true;
 
       params.push({ name: this.I18n.t('js.label_all'), props: this.propsBoth });
@@ -146,12 +160,12 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     return this.baseProps({ status: { operator: 'c', values: [] } });
   }
 
-  private baseProps(filter?:any) {
-    const filters = [];
+  private baseProps(filter?:GraphFilter) {
+    const filters:GraphFilter[] = [];
 
-    if (Array.isArray(this.initialFilters)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      filters.push(...this.initialFilters);
+    const initialFilters = this.initialFilters();
+    if (initialFilters) {
+      filters.push(...initialFilters);
     } else {
       filters.push({ subprojectId: { operator: '*', values: [] } });
     }
@@ -163,7 +177,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     return {
       'columns[]': [],
       filters: JSON.stringify(filters),
-      group_by: this.groupBy,
+      group_by: this.groupBy(),
       pageSize: 0,
     };
   }

@@ -1,0 +1,112 @@
+The work package split view and split create panels can be rendered on **any page** in OpenProject — not just the work packages index. This document explains the integration steps required.
+
+## Overview
+
+The split view renders a work package detail panel on the right side of the page when a `details/:work_package_id` route is visited. The split create panel renders a "new work package" form in the same position when `details/new` is visited.
+
+Both panels are loaded via Turbo Frames, so the main page content stays intact while the panel is rendered in the right column.
+
+## How to add it
+
+### 1. View
+
+Render both panels inside the `content_body_right` content area:
+
+```erb
+<!-- app/views/foo/show.html.erb -->
+
+<%% content_for :content_body_right do %>
+  <%%= render(split_view_instance) if render_work_package_split_view? %>
+  <%%= render(split_create_instance) if render_work_package_split_create? %>
+<%% end %>
+```
+
+The helper methods `render_work_package_split_view?`, `split_view_instance`, `render_work_package_split_create?`, and `split_create_instance` are provided by `WorkPackages::SplitViewHelper`, which is automatically available in views when the controller includes `WorkPackages::WithSplitView`.
+
+### 2. Controller
+
+Include `WorkPackages::WithSplitView` and add the `split_view` and `split_create` actions. Both actions render their respective shared partial when handling a Turbo Frame request, and fall back to the main page otherwise:
+
+```ruby
+class FooController < ApplicationController
+  include WorkPackages::WithSplitView
+
+  def split_view
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request_id == "content-bodyRight"
+          render "work_packages/split_view", layout: false
+        else
+          render :show
+        end
+      end
+    end
+  end
+
+  def split_create
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request_id == "content-bodyRight"
+          render "work_packages/split_create", layout: false
+        else
+          render :show
+        end
+      end
+    end
+  end
+
+  private
+
+  def split_view_base_route
+    foo_path(@project, params[:id], request.query_parameters)
+  end
+end
+```
+
+`split_view_base_route` is required by `WorkPackages::WithSplitView` to construct links that keep the split panel open while navigating within the page. It should return the URL of the current page, preserving any query parameters.
+
+### 3. Routes
+
+Use the `with_split_view` and `with_split_create` route concerns defined in `config/routes.rb`:
+
+```ruby
+resources :foo, only: :index do
+  collection do
+    concerns :with_split_view
+    concerns :with_split_create
+  end
+end
+```
+
+These concerns expand to:
+
+```ruby
+# with_split_view
+get "details/:work_package_id(/:tab)",
+    action: :split_view,
+    defaults: { tab: :overview },
+    as: :details,
+    work_package_split_view: true
+
+# with_split_create
+get "details/new",
+    action: :split_create,
+    as: :split_create,
+    work_package_split_create: true
+```
+
+The `work_package_split_view: true` and `work_package_split_create: true` defaults set the corresponding `params` keys that the helper methods check.
+
+> **Note:** If the route structure of your resource doesn't fit the concern (e.g. nested or module-namespaced routes), you can inline the `get` calls directly in your routes block, as done in `modules/team_planner/config/routes.rb`.
+
+## How it works
+
+When a user clicks on a work package row, the frontend navigates to the `details/:work_package_id` URL. Because the split view link targets a Turbo Frame, only the panel is loaded. The `split_view_base_route` is used by the component to construct navigation links (e.g. next/previous work package, closing the panel) that keep the correct base URL.
+
+The split create panel works the same way: navigating to `details/new` opens a work package creation form in the right panel, submitting it navigates back to the base route.
+
+## Real-world examples
+
+- `app/controllers/notifications_controller.rb` — split view only (no split create)
+- `modules/team_planner/app/controllers/team_planner/team_planner_controller.rb` — both split view and split create
+- `modules/calendar/app/controllers/calendar/calendars_controller.rb` — both split view and split create

@@ -16,7 +16,7 @@ get:
       description: Page number inside the requested collection.
       in: query
       required: false
-      example: '25'
+      example: 25
     - name: pageSize
       schema:
         type: integer
@@ -24,7 +24,7 @@ get:
       description: Number of elements to display per page.
       in: query
       required: false
-      example: '25'
+      example: 25
     - name: filters
       schema:
         type: string

@@ -1,0 +1,22 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.check_box_group(name: :colors, include_hidden: true, label: "Favorite colors") do |group|
+        group.check_box(value: "red",   label: "Red")
+        group.check_box(value: "green", label: "Green")
+        group.check_box(value: "blue",  label: "Blue")
+      end
+
+      f.submit(name: "submit", label: "Save")
+    end
+  end
+%>
+
+<%=
+  primer_form_with(
+    url: "/abc",
+    method: :post
+  ) do |f|
+    render(the_form.new(f))
+  end
+%>

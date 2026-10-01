@@ -103,13 +103,13 @@ See our user guide to [learn how to present a meeting in OpenProject](../../user
 
 #### Multiple text-based outcomes per agenda item
 
-Agenda items can now hold **multiple text-based outcomes**: The **+ Outcome** button remains available while the meeting is *In progress* and allows moderators to record more than one result for the same item. The first outcome is labelled "Outcome", additional ones are numbered ("Outcome 1", "Outcome 2", and so on). These outcomes are also supported in the PDF exports of meetings. This feature is a preparation for future improvements, such as [creating work packages as outcomes](https://community.openproject.org/work_packages/62093).
+Agenda items can now hold **multiple text-based outcomes**: The **+ Outcome** button remains available while the meeting is _In progress_ and allows moderators to record more than one result for the same item. The first outcome is labelled "Outcome", additional ones are numbered ("Outcome 1", "Outcome 2", and so on). These outcomes are also supported in the PDF exports of meetings. This feature is a preparation for future improvements, such as [creating work packages as outcomes](https://community.openproject.org/work_packages/62093).
 
-![OpenProject meeting which is in progess, below the first agenda item (a work package) are "Outcome 1" and "Outcome 2" displayed, and the + Outcome button is still available as well](openproject-17-0-meeting-multiple-outcomes.png)
+![OpenProject meeting which is in progress, below the first agenda item (a work package) are "Outcome 1" and "Outcome 2" displayed, and the + Outcome button is still available as well](openproject-17-0-meeting-multiple-outcomes.png)
 
 #### Unified “My meetings” iCal subscription
 
-To avoid duplicate or confusing calendar invites, **users can now subscribe to all their meetings through a single iCal subscription URL** from the My meetings page or settings. External calendars (for example Outlook, Apple Calendar, or Open-Xchange) stay in sync automatically. Individual *.ics files* remain available when needed, but sending them is now more clearly controlled via dedicated options when creating or updating meetings.
+To avoid duplicate or confusing calendar invites, **users can now subscribe to all their meetings through a single iCal subscription URL** from the My meetings page or settings. External calendars (for example Outlook, Apple Calendar, or Open-Xchange) stay in sync automatically. Individual _.ics files_ remain available when needed, but sending them is now more clearly controlled via dedicated options when creating or updating meetings.
 
 ![My meetings page: Clicking on the More menu on the upper right corner opens a clickable option to "Subscribe to calendar"](openproject-17-0-meeting-subscribe-calendar.png)
 
@@ -119,18 +119,18 @@ See our user guide to [learn how to subscribe to OpenProject meetings](../../use
 
 Before OpenProject 17.0, the Microsoft 365 file storage integration was a single combined OneDrive/SharePoint integration available as an Enterprise add-on in the Professional plan. With this release, it is now split into **two separate integrations** — one for **OneDrive** and one for **SharePoint** — giving administrators clearer setup options and more flexibility.
 
-For the SharePoint integration, OpenProject 17.0 introduces support for Microsoft's *Sites.Selected* permission model. This allows administrators to grant the OpenProject Entra ID application access only to specific SharePoint sites, instead of using the broader *`Files.ReadWrite.All`* permission required in earlier versions.
+For the SharePoint integration, OpenProject 17.0 introduces support for Microsoft's _Sites.Selected_ permission model. This allows administrators to grant the OpenProject Entra ID application access only to specific SharePoint sites, instead of using the broader _`Files.ReadWrite.All`_ permission required in earlier versions.
 
 This new option helps organizations meet stricter security and compliance requirements while preserving all existing functionality.
 
 When configuring SharePoint storage, administrators now benefit from:
 
 - Separate, clearer setup options for OneDrive and SharePoint.
-- Support for the *Sites.Selected* permission scope, requiring a SharePoint Site ID.
+- Support for the _Sites.Selected_ permission scope, requiring a SharePoint Site ID.
 - Improved helper texts and documentation links.
 - Enhanced validation and error messages during configuration.
 
-OpenProject continues to support both the legacy permission model and the new *Sites.Selected* approach, allowing administrators to choose whichever fits their security standards.
+OpenProject continues to support both the legacy permission model and the new _Sites.Selected_ approach, allowing administrators to choose whichever fits their security standards.
 
 See our system admin guide to learn more about the [SharePoint integration](../../user-guide/file-management/sharepoint-integration/) and now separate [OneDrive integration](../../user-guide/file-management/one-drive-integration/) for OpenProject.
 
@@ -147,7 +147,7 @@ The redesign also introduces a **new widget for Subitems** and improves existing
 
 ![OpenProject Project home showing both the Overview tab and the Dashboard tab](openproject-17-0-home-dashboard-overview.jpg)
 
-[Learn more about the project home page in our user guide](../../user-guide/project-home/).
+[Learn more about the project home page in our user guide](../../user-guide/projects/project-home/).
 
 ### Improved project creation flow with better template selection
 
@@ -187,9 +187,9 @@ The global search now understands **work package type**, **status**, and **meta-
 
 Examples:
 
-- Searching for *bug* shows only work packages of type *Bug*.
-- Searching for *bug new* shows only work packages of typ *Bug* and status *New*.
-- Searching for *open* shows only items in an open status.
+- Searching for _bug_ shows only work packages of type _Bug_.
+- Searching for _bug new_ shows only work packages of typ _Bug_ and status _New_.
+- Searching for _open_ shows only items in an open status.
 
 These improvements **also benefit several autocompleters throughout the application**, such as the `#` and `##` work package quick-link references in comments and descriptions, helping users filter large datasets more precisely.
 
@@ -208,7 +208,7 @@ These improvements make OpenProject easier to navigate for users relying on scre
 
 ### Enhanced project attribute help texts with captions and direct editing
 
-Administrators can now **manage attribute help texts directly from each project attribute or custom field** without navigating to the separate *Attribute help texts* section. Additionally, a new **caption** field allows adding short clarifying text shown below input fields in forms to guide users more effectively. Please note that for now, this only applies for project attributes, not for (work package) custom fields.
+Administrators can now **manage attribute help texts directly from each project attribute or custom field** without navigating to the separate _Attribute help texts_ section. Additionally, a new **caption** field allows adding short clarifying text shown below input fields in forms to guide users more effectively. Please note that for now, this only applies for project attributes, not for (work package) custom fields.
 
 Help texts continue to appear in the familiar dialog triggered by the question-mark icon.
 
@@ -237,7 +237,7 @@ Project attributes now have a separate **Required** setting. This works in the s
 
 Long text custom fields and descriptions included via macros such as the following are now supported in PDF exports:
 
-```
+```text
 workPackageValue:description  
 projectValue:"Field name"
 ```
@@ -280,7 +280,7 @@ OpenProject now includes a built-in OAuth application that simplifies authentica
 
 ### Improved perceived performance of the project selector
 
-The project selector has been optimised to feel significantly faster, especially in instances with many projects. Instead of loading the full project tree at once, OpenProject now loads up to 300 projects initially and fetches additional entries dynamically during search. This reduces waiting times and improves responsiveness across the application.
+The project selector has been optimized to feel significantly faster, especially in instances with many projects. Instead of loading the full project tree at once, OpenProject now loads up to 300 projects initially and fetches additional entries dynamically during search. This reduces waiting times and improves responsiveness across the application.
 
 ### Removal of special semver
 
@@ -377,7 +377,7 @@ Reference: \[[#67036](https://community.openproject.org/wp/67036)\]
 - Bugfix: Missing notification when a one-time meeting exits draft mode \[[#70109](https://community.openproject.org/wp/70109)\]
 - Bugfix: Missing notification when the title of a one-time meeting is updated \[[#70110](https://community.openproject.org/wp/70110)\]
 - Bugfix: Missing notification when a series is ended \[[#70111](https://community.openproject.org/wp/70111)\]
-- Bugfix: Race condition allows to create resurces with the same name, bypassing our uniqueness validation \[[#70112](https://community.openproject.org/wp/70112)\]
+- Bugfix: Race condition allows to create resources with the same name, bypassing our uniqueness validation \[[#70112](https://community.openproject.org/wp/70112)\]
 - Bugfix: Missing notification when restoring a cancelled occurrence \[[#70113](https://community.openproject.org/wp/70113)\]
 - Bugfix: Inconsistent label for „Status“ and „Project status“ \[[#70142](https://community.openproject.org/wp/70142)\]
 - Bugfix: Newly created project attributes are added as columns to the default project list \[[#70147](https://community.openproject.org/wp/70147)\]
@@ -390,7 +390,7 @@ Reference: \[[#67036](https://community.openproject.org/wp/67036)\]
 - Bugfix: There is a recent change in Capabilities API without backward compatibility  \[[#70356](https://community.openproject.org/wp/70356)\]
 - Bugfix: Fix close button accessibility errors found by eslint, ERB Lint \[[#70420](https://community.openproject.org/wp/70420)\]
 - Feature: Have specific role or permission to access templated project, but membership is not instantiated on copy \[[#43571](https://community.openproject.org/wp/43571)\]
-- Feature: Reduce visibility of all users when addings members to a project \[[#55270](https://community.openproject.org/wp/55270)\]
+- Feature: Reduce visibility of all users when adding members to a project \[[#55270](https://community.openproject.org/wp/55270)\]
 - Feature: Add work package type, status and meta status to what the global search is searching on during typeahead  \[[#56831](https://community.openproject.org/wp/56831)\]
 - Feature: Configure project attribute sections to be shown as widgets on the project overview page \[[#61445](https://community.openproject.org/wp/61445)\]
 - Feature: A single &#39;My Meetings&#39; iCal calendar subscription action so users can always have their calendars in sync with the meetings \[[#63463](https://community.openproject.org/wp/63463)\]
@@ -444,7 +444,7 @@ Reference: \[[#67036](https://community.openproject.org/wp/67036)\]
 - Feature: Truncate breadcrumb in PageHeader \[[#68906](https://community.openproject.org/wp/68906)\]
 - Feature: Introduce &quot;Create program&quot; and &quot;Create portfolio&quot; permission \[[#68918](https://community.openproject.org/wp/68918)\]
 - Feature: Sync up last updated at via hocuspocus awareness protocol \[[#68939](https://community.openproject.org/wp/68939)\]
-- Feature: Primerize Administation &gt; Attribute help texts forms \[[#68953](https://community.openproject.org/wp/68953)\]
+- Feature: Primerize Administration &gt; Attribute help texts forms \[[#68953](https://community.openproject.org/wp/68953)\]
 - Feature: Style the rich-link workpackage macro (dark theme) \[[#68978](https://community.openproject.org/wp/68978)\]
 - Feature: Primerize Admin &gt; System Settings forms \[[#69095](https://community.openproject.org/wp/69095)\]
 - Feature: Move &quot;meetings&quot; tab before GitHub and GitLab \[[#69118](https://community.openproject.org/wp/69118)\]
@@ -480,4 +480,3 @@ Last but not least, we are very grateful for our very engaged translation contri
 - [Sharmin](https://crowdin.com/profile/sh.shokri.software.engineer), for a great number of translations into Persian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
-

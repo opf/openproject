@@ -8,10 +8,6 @@ keywords: copy work package,duplicate work package, delete work package, move wo
 
 # Duplicate, move to another project or delete a work package
 
-> [!TIP] 
-> In OpenProject 14.5 the term *Copy a work package* was replaced by *Duplicate a work package*.
-> *Change project* was replaced by *Move to another project*.
-
 If you right-click in a work package table, editing options will be displayed. Here, you can move a work package to another project, duplicate a work package, or copy its URL to the clipboard, delete it or duplicate it in another project.
 
 ![Work package editing options in a work package table view in OpenProject](openproject_user_guide_copy_move_delete_wptableview.png)
@@ -38,7 +34,7 @@ This option copies a short link to the work package to your clipboard  so you ca
 
 ## Move a work package to a different project
 
-The *Move to another project* option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on *Move*.
+The _Move to another project_ option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on _Move_.
 
 > [!NOTE]
 > You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
@@ -55,6 +51,14 @@ The *Move to another project* option moves a work package to another project or 
 
 ## Delete a work package
 
-The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project.
+The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project. 
 
-You can select these options either in the detail view under *More* or via the context menu by right-clicking into the work package table. The latter option allows you to perform an action (such as copying, moving or deleting a work package) on multiple work packages at once.
+You can select these options either in the detail view under _More_ or via the context menu by right-clicking into the work package table. The latter option allows you to perform an action (such as copying, moving or deleting a work package) on multiple work packages at once.
+
+If a work package has descendants, a confirmation dialog asks whether you want to delete only the parent work package or the parent and all its descendants.
+
+![Dialog form to delete a work package](openproject_user_guide_delete_work_package.png)
+
+If you select *Delete this work package and descendants,* a warning dialog appears. Review the action, select the confirmation checkbox, and click **Delete permanently**.
+
+![Danger dialog form to delete a work package and its descendants](openproject_user_guide_delete_work_package_danger_dialog_form.png)

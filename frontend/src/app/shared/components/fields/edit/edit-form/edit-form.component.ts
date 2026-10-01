@@ -21,25 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Output,
-  ApplicationRef,
-} from '@angular/core';
-import { StateService, Transition, TransitionService } from '@uirouter/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
 import { input } from '@openproject/reactivestates';
 import { filter, map, take } from 'rxjs/operators';
@@ -53,62 +40,48 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
-import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
 import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-form,[edit-form]',
   template: '<ng-content />',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
+  readonly injector:Injector;
+  protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private appRef = inject(ApplicationRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  protected readonly editingPortalService = inject(EditingPortalService);
+  protected readonly I18n = inject(I18nService);
+  private globalEditFormChangesTrackerService = inject(GlobalEditFormChangesTrackerService);
+
   @Input() resource:HalResource;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('inEditMode') initializeEditMode = false;
 
   @Input() skippedFields:string[] = [];
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix, @angular-eslint/no-output-rename
   @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:Record<string, EditableAttributeFieldComponent> = {};
 
   private registeredFields = input<string[]>();
 
-  private unregisterListener:Function;
+  constructor() {
+    const injector = inject(Injector);
 
-  constructor(public readonly injector:Injector,
-    protected readonly elementRef:ElementRef,
-    private appRef:ApplicationRef,
-    protected readonly $transitions:TransitionService,
-    protected readonly ConfigurationService:ConfigurationService,
-    protected readonly editingPortalService:EditingPortalService,
-    protected readonly $state:StateService,
-    protected readonly I18n:I18nService,
-    @Optional() protected readonly editFormRouting:EditFormRoutingService,
-    private globalEditFormChangesTrackerService:GlobalEditFormChangesTrackerService) {
     super(injector);
-    const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
-    const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
-
-    this.unregisterListener = $transitions.onBefore({}, (transition:Transition) => {
-      if (!this.editing) {
-        return undefined;
-      }
-
-      // Show confirmation message when transitioning to a new state
-      // that's not within the edit mode.
-      if (!this.editFormRouting || this.editFormRouting.blockedTransition(transition)) {
-        if (requiresConfirmation && !window.confirm(confirmText)) {
-          return false;
-        }
-
-        this.cancel(false);
-      }
-
-      return true;
-    });
+    this.injector = injector;
   }
 
   ngOnInit() {
@@ -121,7 +94,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.unregisterListener();
     this.globalEditFormChangesTrackerService.removeFromActiveForms(this);
   }
 
@@ -179,7 +151,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public register(field:EditableAttributeFieldComponent) {
     this.fields[field.fieldName] = field;
-    this.registeredFields.putValue(_.keys(this.fields));
+    this.registeredFields.putValue(Object.keys(this.fields));
 
     const shouldActivate = (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
 
@@ -199,13 +171,14 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public start() {
-    _.each(this.fields, (ctrl) => this.activate(ctrl.fieldName));
+    Object.values(this.fields).forEach((ctrl) => { void this.activate(ctrl.fieldName); });
   }
 
   protected focusOnFirstError():void {
+    this.cdRef.detectChanges();
     // Focus the first field that is erroneous
     this.elementRef.nativeElement
-      .querySelector(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+      .querySelector<HTMLElement>(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
       ?.focus();
   }
 

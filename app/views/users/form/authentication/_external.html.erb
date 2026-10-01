@@ -1,19 +1,16 @@
-<div class="form--field -reduced-margin">
-  <%= styled_label_tag nil, I18n.t("user.authentication_provider") %>
-  <div class="form--field-container">
-    <%= @user.human_authentication_provider %>
-  </div>
-</div>
-<div class="form--field-instructions">
-  <%= I18n.t("user.authentication_settings_disabled_due_to_external_authentication") %>
-</div>
+<%# locals: (user:) -%>
+<%= render(Primer::Box.new) do %>
+  <%= render(Primer::Beta::Text.new(tag: :div, font_weight: :bold)) { I18n.t("user.authentication_provider") } %>
+  <%= render(Primer::Beta::Text.new(tag: :div)) { user.human_authentication_provider } %>
+  <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+    <%= I18n.t("user.authentication_settings_disabled_due_to_external_authentication") %>
+  <% end %>
+<% end %>
 
-<div class="form--field -top-margin -reduced-margin">
-  <%= styled_label_tag nil, User.human_attribute_name(:identity_url) %>
-  <div class="form--field-container -empty">
-    <%= @user.identity_url.split(":", 2).last %>
-  </div>
-</div>
-<div class="form--field-instructions">
-  <%= I18n.t("user.identity_url_text") %>
-</div>
+<%= render(Primer::Box.new) do %>
+  <%= render(Primer::Beta::Text.new(tag: :div, font_weight: :bold)) { User.human_attribute_name(:identity_url) } %>
+  <%= render(Primer::Beta::Text.new(tag: :div)) { user.identity_url&.split(":", 2)&.last } %>
+  <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+    <%= I18n.t("user.identity_url_text") %>
+  <% end %>
+<% end %>

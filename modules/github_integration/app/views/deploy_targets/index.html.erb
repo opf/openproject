@@ -29,15 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_github_integration), t(:label_deploy_target_plural) %>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_github_integration) }
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t("label_administration") },
-       t(:label_github_integration)]
-    )
-  end
-%>
+<%= render(GithubIntegration::Admin::PageHeaderComponent.new) %>
 
 <%=
   render(Primer::OpenProject::SubHeader.new) do |subheader|

@@ -37,7 +37,7 @@ RSpec.describe "Wiki Activity", :js do
                                                     edit_wiki_pages
                                                     view_wiki_edits] })
   end
-  let(:project) { create(:project, enabled_module_names: %w[wiki activity]) }
+  let(:project) { create(:project, :with_internal_wiki, enabled_module_names: %w[activity]) }
   let(:wiki) { project.wiki }
   let(:editor) { Components::WysiwygEditor.new }
 
@@ -53,7 +53,7 @@ RSpec.describe "Wiki Activity", :js do
 
     editor.set_markdown("First content")
 
-    click_button "Save"
+    click_button "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -105,7 +105,6 @@ RSpec.describe "Wiki Activity", :js do
 
     visit project_activity_index_path(project)
 
-    expect(page)
-      .to have_no_content("Wiki edits")
+    expect(page).to have_no_text("Wiki edits") # rubocop:disable Capybara/RSpec/NegationMatcherAfterVisit
   end
 end

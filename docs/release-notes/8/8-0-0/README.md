@@ -102,7 +102,7 @@ OpenProject’s overall usability has been improved. The functionality of
 several existing modules has changed.  
 In particular, the work package page configuration has been updated to
 be usable for embedded tables as well. In addition
-*Responsible* has been renamed to *Accountable*.
+_Responsible_ has been renamed to _Accountable_.
 
 ## New design
 

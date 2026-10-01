@@ -39,6 +39,5 @@ RSpec.describe Projects::Settings::StatusForm, type: :forms do
     expect(page).to have_field "Status description", with: "example status info", visible: :hidden
     expect(page).to have_element "opce-ckeditor-augmented-textarea",
                                  "data-test-selector": "augmented-text-area-status_explanation"
-    expect(page).to have_element "opce-ckeditor-augmented-textarea", "data-qa-field-name": "statusExplanation"
   end
 end

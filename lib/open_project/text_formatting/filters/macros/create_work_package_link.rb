@@ -54,7 +54,7 @@ module OpenProject::TextFormatting::Filters::Macros
       class_name = macro["data-classes"] == "button" ? "button" : nil
 
       if type_name.present?
-        type = project.types.find_by(name: type_name)
+        type = project.enabled_types.find_by(name: type_name)
         if type.nil?
           raise I18n.t(
             "macros.create_work_package_link.errors.invalid_type",
@@ -64,7 +64,7 @@ module OpenProject::TextFormatting::Filters::Macros
         end
 
         ApplicationController.helpers.link_to(
-          I18n.t("macros.create_work_package_link.link_name_type", type_name:),
+          "+ #{type_name}",
           new_project_work_packages_path(project_id: project.identifier, type: type.id),
           class: class_name
         )

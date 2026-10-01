@@ -67,6 +67,20 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     end
   end
 
+  context "when the pattern has observed in versions" do
+    let(:subject_pattern) { "Observed in: {{observed_in_versions}}" }
+
+    let(:observed_version) { create(:version, project: work_package.project, name: "1.0") }
+
+    before do
+      create(:work_package_version, work_package:, version: observed_version, kind: :observed_in)
+    end
+
+    it "resolves the pattern" do
+      expect(subject.resolve(work_package)).to eq("Observed in: 1.0")
+    end
+  end
+
   context "when the pattern has time attributes" do
     let(:subject_pattern) { "Time left: {{remaining_time}}" }
 
@@ -79,7 +93,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     let(:custom_field) { create(:string_wp_custom_field) }
     let(:multi_value_field) { create(:multi_list_wp_custom_field) }
     let(:custom_field_not_configured) { create(:string_wp_custom_field) }
-    let(:type) { create(:type, custom_fields: [custom_field, multi_value_field]) }
+    let(:type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [custom_field, multi_value_field]) } }
     let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field, multi_value_field]) }
     let(:project_custom_field) { create(:project_custom_field, projects: [project], field_format: "string") }
 
@@ -116,6 +130,26 @@ RSpec.describe WorkPackageTypes::PatternResolver do
       it "resolves the pattern" do
         expect(subject.resolve(work_package)).to eq("pattern: N/A")
       end
+    end
+  end
+
+  context "when the variant inherits its form configuration from its base" do
+    let(:source_cf) { create(:string_wp_custom_field) }
+    let(:root_type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [source_cf]) } }
+    let(:variant) { create(:type_variant, type: root_type) }
+    let(:project) { create(:project, types: [variant], work_package_custom_fields: [source_cf]) }
+    let(:subject_pattern) { "CF: {{custom_field_#{source_cf.id}}}" }
+
+    let(:work_package) do
+      create(:work_package, type: root_type, project:, custom_values: { source_cf.id => "Borrowed Value" })
+    end
+
+    before do
+      link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
+    end
+
+    it "resolves the custom field token via the inherited configuration" do
+      expect(subject.resolve(work_package)).to eq("CF: Borrowed Value")
     end
   end
 end

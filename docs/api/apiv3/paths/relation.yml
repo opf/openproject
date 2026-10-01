@@ -8,7 +8,7 @@ get:
   description: Get a single relation specified by its unique identifier.
   parameters:
     - description: Relation id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -48,7 +48,7 @@ delete:
   description: Deletes the relation.
   parameters:
     - description: The unique identifier of the relation resource
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -108,7 +108,7 @@ patch:
     It is not allowed to change a relation's involved work packages.
   parameters:
     - description: Relation ID
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

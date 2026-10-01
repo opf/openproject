@@ -1,0 +1,19 @@
+<%=
+  component_wrapper do
+    render(
+      Primer::OpenProject::SidePanel::Section.new(
+        classes: "op-project-custom-field-section-container",
+        test_selector: "project-custom-field-section-#{@project_custom_field_section.id}"
+      )
+    ) do |section|
+      section.with_title { @project_custom_field_section.name }
+
+      render(
+        Overviews::ProjectCustomFields::ItemsComponent.new(
+          project_custom_fields: @project_custom_fields,
+          project: @project
+        )
+      )
+    end
+  end
+%>

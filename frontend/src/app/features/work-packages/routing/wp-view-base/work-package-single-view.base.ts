@@ -21,17 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  Injector,
-  Input,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, Injector, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
@@ -50,10 +45,6 @@ import {
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import {
-  take,
-} from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -67,55 +58,52 @@ import { ProjectsResourceService } from 'core-app/core/state/projects/projects.s
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StateService } from '@uirouter/angular';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
-  @Input() routedFromAngular = true;
+  injector = inject(Injector);
 
   @Input() workPackageId:string;
 
   @Input() activeTab = 'activity';
 
-  @InjectField() states:States;
+  readonly states = inject(States);
 
-  @InjectField() $state:StateService;
+  readonly i18n = inject(I18nService);
 
-  @InjectField() i18n:I18nService;
+  readonly keepTab = inject(KeepTabService);
 
-  @InjectField() keepTab:KeepTabService;
+  readonly PathHelper = inject(PathHelperService);
 
-  @InjectField() PathHelper:PathHelperService;
+  readonly halEditing = inject(HalResourceEditingService);
 
-  @InjectField() halEditing:HalResourceEditingService;
+  readonly wpTableFocus = inject(WorkPackageViewFocusService);
 
-  @InjectField() wpTableFocus:WorkPackageViewFocusService;
+  readonly notificationService = inject(WorkPackageNotificationService);
 
-  @InjectField() notificationService:WorkPackageNotificationService;
+  readonly authorisationService = inject(AuthorisationService);
 
-  @InjectField() authorisationService:AuthorisationService;
+  private readonly attachmentsResourceService = inject(AttachmentsResourceService);
 
-  @InjectField() private readonly attachmentsResourceService:AttachmentsResourceService;
+  private readonly fileLinkResourceService = inject(FileLinksResourceService);
 
-  @InjectField() private readonly fileLinkResourceService:FileLinksResourceService;
+  private readonly projectsResourceService = inject(ProjectsResourceService);
 
-  @InjectField() private readonly projectsResourceService:ProjectsResourceService;
+  private readonly storages = inject(StoragesResourceService);
 
-  @InjectField() private readonly storages:StoragesResourceService;
+  private readonly toastService = inject(ToastService);
 
-  @InjectField() private readonly toastService:ToastService;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() cdRef:ChangeDetectorRef;
+  readonly titleService = inject(OpTitleService);
 
-  @InjectField() readonly titleService:OpTitleService;
+  readonly apiV3Service = inject(ApiV3Service);
 
-  @InjectField() readonly apiV3Service:ApiV3Service;
+  readonly hooks = inject(HookService);
 
-  @InjectField() readonly hooks:HookService;
+  readonly actions$ = inject(ActionsService);
 
-  @InjectField() readonly actions$:ActionsService;
-
-  @InjectField() readonly storeService:WpSingleViewService;
+  readonly storeService = inject(WpSingleViewService);
 
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
@@ -128,19 +116,19 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   public displayNotificationsButton$:Observable<boolean>;
 
-  constructor(
-    public injector:Injector,
-  ) {
-    super();
-
-    if (this.routedFromAngular && this.workPackageId === undefined) {
-      this.workPackageId = this.$state.params.workPackageId as string;
-    }
-  }
-
   /**
    * Observe changes of work package and re-run initialization.
    * Needs to be run explicitly by descendants.
+   *
+   * Note: this.workPackageId may be a semantic identifier (e.g. "PROJ-7")
+   * from the route param. In that case the initial load and stream are
+   * keyed under the semantic id, but cache writes elsewhere (e.g.
+   * cache.updateWorkPackage on save) key by the numeric PK on wp.id.
+   * If they differ, we open a parallel subscription on the numeric slot
+   * after the first emission so subsequent updates reach us — otherwise
+   * this.workPackage would freeze at the initial load. In classic mode
+   * (route param == numeric PK) no parallel subscription is opened, so
+   * the emission count is unchanged from the original behavior.
    */
   protected observeWorkPackage():void {
     this
@@ -150,20 +138,39 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .requireAndStream()
       .pipe(this.untilDestroyed())
       .subscribe((wp:WorkPackageResource) => {
-        if (!this.workPackage) {
-          this.workPackage = wp;
-          this.init();
-        } else {
-          this.workPackage = wp;
+        if (wp.id && this.workPackageId !== wp.id) {
+          this.workPackageId = wp.id;
+          this.subscribeToNumericCacheSlot(wp.id);
         }
 
-        // Push the current title
-        this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
-
-        this.cdRef.detectChanges();
+        this.applyWorkPackage(wp);
       }, (error) => {
         this.handleLoadingError(error);
       });
+  }
+
+  private subscribeToNumericCacheSlot(numericId:string):void {
+    this
+      .apiV3Service
+      .work_packages
+      .cache
+      .state(numericId)
+      .values$()
+      .pipe(this.untilDestroyed())
+      .subscribe((nextWp:WorkPackageResource) => this.applyWorkPackage(nextWp));
+  }
+
+  private applyWorkPackage(wp:WorkPackageResource):void {
+    if (!this.workPackage) {
+      this.workPackage = wp;
+      this.init();
+    } else {
+      this.workPackage = wp;
+    }
+
+    this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
+
+    this.cdRef.detectChanges();
   }
 
   /**

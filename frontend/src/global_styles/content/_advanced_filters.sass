@@ -32,6 +32,11 @@ $advanced-filters--values-size: 25%
 $advanced-filters--values-and-operator-size: 45%
 $advanced-filters--close-icon-size: 50px
 $advanced-filters--grid-gap: 10px
+// Primer exposes its form control widths only as classes capping the inner field wrap, so these
+// have to be literals. The operator column fits the widest operator label ("more than days ago"
+// needs 158px including the select's arrow reserve); Primer's scale jumps 144px -> 256px.
+$advanced-filters--operator-column-width: 160px
+$advanced-filters--value-min-width: 256px
 
 .advanced-filters--container
   @extend %filters--container
@@ -131,10 +136,68 @@ $advanced-filters--grid-gap: 10px
   height: 1px
   margin: 0.75rem 0
 
-.advanced-filters--spacer,
-.advanced-filters--filter
-  &.hidden
-    display: none !important
+
+.op-filters-form
+  // Caps the inputs so they stay readable when the box spans a full width page region. The
+  // box itself always follows its container; only the inputs inside it are capped.
+  --op-filters-form-content-max-width: 752px
+  display: none
+  margin-top: 1rem
+  position: relative
+
+  &.-expanded
+    display: block
+
+  &--with-footer
+    padding-top: 0
+
+  &--full-width
+    --op-filters-form-content-max-width: none
+
+  .advanced-filters--actions
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    gap: var(--base-size-8)
+    margin-top: var(--base-size-16)
+
+  .FormControl-horizontalGroup.advanced-filters--filter
+    align-items: center
+    flex-wrap: wrap
+    gap: $advanced-filters--grid-gap
+    max-width: var(--op-filters-form-content-max-width)
+
+    > .advanced-filters--filter-name
+      flex: 0 0 100%
+      text-align: left
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+    > .FormControl
+      flex: 1 1 $advanced-filters--value-min-width
+      min-width: 0
+
+    > .FormControl:has([data-filter--filters-form-target="operator"])
+      flex: 0 0 $advanced-filters--operator-column-width
+
+    > .advanced-filters--remove-filter
+      margin-left: auto
+      flex-shrink: 0
+
+  .FormControl:has([data-filter--filters-form-target="addFilterSelect"])
+    border-top: 1px solid var(--borderColor-muted)
+    margin-top: var(--base-size-8)
+    padding-top: var(--base-size-16)
+    max-width: var(--op-filters-form-content-max-width)
+
+  .advanced-filters--filter-value .FormControl-select-wrap
+    display: flex
+    align-items: center
+    gap: var(--base-size-4)
+
+    .FormControl-select
+      flex: 1 1 auto
 
 .work-packages-embedded-view--container .advanced-filters--container
   margin: 0 0 1rem 0

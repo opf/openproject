@@ -49,6 +49,11 @@ module AllMeetings
         calendar.calendar_title = "#{Setting.app_title} - #{I18n.t('label_my_meetings')}"
 
         recurring_meetings.each do |recurring_meeting|
+          # Subscriptions render the whole calendar including all historic schedules
+          recurring_meeting.historic_schedules.each do |historic|
+            calendar.historic_schedule_event(recurring_meeting:, historic:)
+          end
+
           calendar.add_series_event(recurring_meeting:, cancelled: false)
         end
 
@@ -65,14 +70,17 @@ module AllMeetings
     private
 
     def recurring_meetings
-      @recurring_meetings ||= RecurringMeeting.visible(user).participated_by(user)
+      @recurring_meetings ||= RecurringMeeting
+                                .visible(user)
+                                .participated_by(user)
+                                .includes(:historic_schedules)
     end
 
     def single_meetings
       @single_meetings ||= if include_historic
                              Meeting.not_recurring.visible(user).participated_by(user)
                            else
-                             Meeting.not_recurring.from_today.visible(user).participated_by(user)
+                             Meeting.not_recurring.from_today_or_recently_started.visible(user).participated_by(user)
                            end
     end
   end

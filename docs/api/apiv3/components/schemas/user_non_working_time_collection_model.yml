@@ -1,0 +1,61 @@
+# Schema: UserNonWorkingTimeCollectionModel
+---
+allOf:
+  - $ref: "./collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This collection of non-working times records.
+                  **Resource**: UserNonWorkingTimeCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of personal non-working times for the user, ordered by start date ascending.
+            items:
+              $ref: "./user_non_working_time_model.yml"
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: /api/v3/users/42/non_working_times
+  _embedded:
+    elements:
+      - _type: UserNonWorkingTime
+        id: 7
+        startDate: "2025-06-16"
+        endDate: "2025-06-20"
+        _links:
+          self:
+            href: /api/v3/users/42/non_working_times/7
+          user:
+            href: /api/v3/users/42
+            title: Jane Doe
+      - _type: UserNonWorkingTime
+        id: 8
+        startDate: "2025-12-24"
+        endDate: "2025-12-24"
+        _links:
+          self:
+            href: /api/v3/users/42/non_working_times/8
+          user:
+            href: /api/v3/users/42
+            title: Jane Doe

@@ -2,6 +2,7 @@
 ---
 post:
   summary: Form for creating Work Packages in a Project
+  deprecated: true
   operationId: form_create_work_package_in_project
   tags:
     - Work Packages
@@ -18,7 +19,7 @@ post:
       required: true
       schema:
         type: integer
-      example: '1'
+      example: 1
   requestBody:
     content:
       application/json:

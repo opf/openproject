@@ -142,7 +142,7 @@ RSpec.describe "MCP configuration page", :js do
     it "hides the entire form, but shows an enterprise banner" do
       visit mcp_configurations_path
 
-      expect(page).to have_enterprise_banner(:corporate)
+      expect(page).to have_enterprise_banner(:professional)
 
       expect(page).to have_no_test_selector("mcp-configuration--server-config-form")
       expect(page).to have_no_test_selector("mcp-configuration--config-row-name")

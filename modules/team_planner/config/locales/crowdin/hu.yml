@@ -1,21 +1,21 @@
-#English strings go here
+---
 hu:
-  plugin_openproject_team_planner:
-    name: "OpenProject Csapat tervező"
-    description: "Csapat tervező nézeteket biztosít."
-  permission_view_team_planner: "Csoport tervező megtekintése"
-  permission_manage_team_planner: "Csoport tervező kezelése"
-  project_module_team_planner_view: "Csoport tervezők"
   ee:
     feature_names:
-      team_planner_view: "Csoport tervező"
+      team_planner_view: Csoport tervező
     upsell:
       team_planner_view:
-        title: "Csoport tervező"
-        description: "Szerezz áttekintést arról, hogy a csapatod mit tervez a Csapattervezővel. Nyújtsd, rövidítsd, fogd és dobd a munkacsomagokat, hogy módosítsd az időpontokat, áthelyezd őket vagy megváltoztasd a hozzárendelt felhasználót."
+        description: Szerezz áttekintést arról, hogy a csapatod mit tervez a Csapattervezővel. Nyújtsd, rövidítsd, fogd és dobd a munkacsomagokat, hogy módosítsd az időpontokat, áthelyezd őket vagy megváltoztasd a hozzárendelt felhasználót.
+        title: Csoport tervező
+  permission_manage_team_planner: Csoport tervező kezelése
+  permission_view_team_planner: Csoport tervező megtekintése
+  plugin_openproject_team_planner:
+    description: Csapat tervező nézeteket biztosít.
+    name: OpenProject Csapat tervező
+  project_module_team_planner_view: Csoport tervezők
   team_planner:
-    label_team_planner: "Csoport tervező"
-    label_new_team_planner: "Új csapattervező"
-    label_create_new_team_planner: "Új csoport tervező létrehozása"
-    label_team_planner_plural: "Csoport tervezők"
-    label_assignees: "Megbízottak"
+    label_assignees: Megbízottak
+    label_create_new_team_planner: Új csoport tervező létrehozása
+    label_new_team_planner: Új csapattervező
+    label_team_planner: Csoport tervező
+    label_team_planner_plural: Csoport tervezők

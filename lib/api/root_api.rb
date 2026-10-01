@@ -279,8 +279,7 @@ module API
 
     def self.auth_headers
       lambda do
-        header = OpenProject::Authentication::WWWAuthenticate
-                   .response_header(scope: authentication_scope, request_headers: env)
+        header = OpenProject::Authentication::WWWAuthenticate.response_header(env:, scope: authentication_scope)
 
         { "WWW-Authenticate" => header }
       end
@@ -304,9 +303,11 @@ module API
 
     error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound, log: false
     error_response ActiveRecord::StaleObjectError, ::API::Errors::Conflict, log: false
+
+    # TODO: Where do we expect this to be raised and **not** be a programming error?
     error_response NotImplementedError, ::API::Errors::NotImplemented, log: false
 
-    error_response MultiJson::ParseError, ::API::Errors::ParseError
+    error_response MultiJSON::ParseError, ::API::Errors::ParseError
 
     error_response ::API::Errors::Unauthenticated, headers: auth_headers, log: false
     error_response ::API::Errors::ErrorBase, rescue_subclasses: true, log: false

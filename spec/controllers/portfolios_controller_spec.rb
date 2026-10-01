@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe PortfoliosController, with_flag: { portfolio_models: true } do
+RSpec.describe PortfoliosController do
   shared_let(:admin) { create(:admin) }
   shared_let(:restricted_user) { create(:user) }
 
@@ -92,41 +92,21 @@ RSpec.describe PortfoliosController, with_flag: { portfolio_models: true } do
     let(:parent) { nil }
 
     context "as an admin" do
-      context "with flag enabled", with_flag: { portfolio_models: true } do
-        it_behaves_like "successful request"
-      end
-
-      context "with flag disabled", with_flag: { portfolio_models: false } do
-        it "returns 403 Not Authorized" do
-          expect(response).not_to be_successful
-          expect(response).to have_http_status :forbidden
-        end
-      end
+      it_behaves_like "successful request"
     end
 
     context "as a non-admin with global add_portfolios permission" do
       let(:user) { create(:user, global_permissions: [:add_portfolios]) }
 
-      context "with flag enabled", with_flag: { portfolio_models: true } do
-        it_behaves_like "successful request"
-      end
-
-      context "with flag disabled", with_flag: { portfolio_models: false } do
-        it "returns 403 Not Authorized" do
-          expect(response).not_to be_successful
-          expect(response).to have_http_status :forbidden
-        end
-      end
+      it_behaves_like "successful request"
     end
 
     context "as a non-admin without add_portfolios permission" do
       let(:user) { create(:user) }
 
-      context "with flag enabled", with_flag: { portfolio_models: true } do
-        it "returns 403 Not Authorized" do
-          expect(response).not_to be_successful
-          expect(response).to have_http_status :forbidden
-        end
+      it "returns 403 Not Authorized" do
+        expect(response).not_to be_successful
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -172,49 +152,43 @@ RSpec.describe PortfoliosController, with_flag: { portfolio_models: true } do
       end
     end
 
-    context "without the portfolio feature flag set", with_flag: { portfolio_models: false } do
+    it_behaves_like "successful index"
+
+    it "includes active portfolios in the result" do
+      query = assigns(:query)
+      expect(query).to be_a_new(ProjectQuery)
+      expect(query).to be_valid
+
+      expect(query.results.portfolio).to eq([portfolio_a, portfolio_b, portfolio_c])
+    end
+
+    context "with a user who does not have permission to see the portfolio module" do
+      let(:user) { restricted_user }
+
       it_behaves_like "forbidden index request"
     end
 
-    context "with the portfolio feature flag set" do
-      it_behaves_like "successful index"
+    context "with a user who has permission to see the portfolio module" do
+      context "when the user has the global add_portfolios permission" do
+        let(:user) { create(:user, global_permissions: [:add_portfolios]) }
 
-      it "includes active portfolios in the result" do
-        query = assigns(:query)
-        expect(query).to be_a_new(ProjectQuery)
-        expect(query).to be_valid
-
-        expect(query.results.portfolio).to eq([portfolio_a, portfolio_b, portfolio_c])
+        it_behaves_like "successful index"
       end
 
-      context "with a user who does not have permission to see the portfolio module" do
-        let(:user) { restricted_user }
+      context "when the user has a view_project permission on an active portfolio" do
+        let(:user) do
+          create(:user, member_with_permissions: { portfolio_a => [:view_project] })
+        end
+
+        it_behaves_like "successful index"
+      end
+
+      context "when the user has a view_project permission on an inactive portfolio" do
+        let(:user) do
+          create(:user, member_with_permissions: { portfolio_d => [:view_project] })
+        end
 
         it_behaves_like "forbidden index request"
-      end
-
-      context "with a user who has permission to see the portfolio module" do
-        context "when the user has the global add_portfolios permission" do
-          let(:user) { create(:user, global_permissions: [:add_portfolios]) }
-
-          it_behaves_like "successful index"
-        end
-
-        context "when the user has a view_project permission on an active portfolio" do
-          let(:user) do
-            create(:user, member_with_permissions: { portfolio_a => [:view_project] })
-          end
-
-          it_behaves_like "successful index"
-        end
-
-        context "when the user has a view_project permission on an inactive portfolio" do
-          let(:user) do
-            create(:user, member_with_permissions: { portfolio_d => [:view_project] })
-          end
-
-          it_behaves_like "forbidden index request"
-        end
       end
     end
   end

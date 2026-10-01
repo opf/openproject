@@ -41,4 +41,36 @@ RSpec.describe Queries::Members::Filters::ProjectFilter do
     let(:model) { Member }
     let(:valid_values) { ["1"] }
   end
+
+  describe "the global sentinel" do
+    let(:instance) do
+      described_class.create!(name: :project_id, operator: "=", values:)
+    end
+
+    context "when selected on its own" do
+      let(:values) { [described_class::GLOBAL_VALUE] }
+
+      it { expect(instance).to be_valid }
+
+      it "matches memberships without a project" do
+        expect(instance.where).to eq("members.project_id IS NULL")
+      end
+    end
+
+    context "when selected alongside projects" do
+      let(:values) { [described_class::GLOBAL_VALUE, "1", "2"] }
+
+      it { expect(instance).to be_valid }
+
+      it "matches those projects as well as the global memberships" do
+        expect(instance.where).to eq("members.project_id IS NULL OR members.project_id IN ('1','2')")
+      end
+    end
+
+    context "when combined with a non numeric project id" do
+      let(:values) { [described_class::GLOBAL_VALUE, "not-an-id"] }
+
+      it { expect(instance).not_to be_valid }
+    end
+  end
 end

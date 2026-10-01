@@ -42,15 +42,17 @@ module API
                 when WorkPackageCustomField
                   authorized_work_package_option(custom_option)
                 when ProjectCustomField
-                  authorize_in_any_project(%i[view_project]) { raise API::Errors::NotFound }
+                  authorized_project_custom_option(custom_option)
                 when TimeEntryCustomField
                   authorize_in_any_work_package(:log_own_time) do
                     authorize_in_any_project(:log_time) do
                       raise API::Errors::NotFound
                     end
                   end
-                when UserCustomField, GroupCustomField
-                  true
+                when UserCustomField
+                  authorized_user_custom_option(custom_option)
+                when GroupCustomField
+                  authorized_group_custom_option(custom_option)
                 else
                   raise API::Errors::NotFound
                 end
@@ -63,6 +65,31 @@ module API
                   .exists?(custom_fields: { id: custom_option.custom_field_id })
 
                 unless allowed
+                  raise API::Errors::NotFound
+                end
+              end
+
+              def authorized_project_custom_option(custom_option)
+                unless Project
+                  .visible(current_user)
+                  .joins(:project_custom_field_project_mappings)
+                  .exists?(project_custom_field_project_mappings: { custom_field_id: custom_option.custom_field_id })
+                  raise API::Errors::NotFound
+                end
+              end
+
+              def authorized_user_custom_option(custom_option)
+                unless UserCustomField
+                  .visible(current_user)
+                  .exists?(id: custom_option.custom_field_id)
+                  raise API::Errors::NotFound
+                end
+              end
+
+              def authorized_group_custom_option(custom_option)
+                unless GroupCustomField
+                  .visible(current_user)
+                  .exists?(id: custom_option.custom_field_id)
                   raise API::Errors::NotFound
                 end
               end

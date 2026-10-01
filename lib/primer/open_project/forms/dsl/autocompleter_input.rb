@@ -5,29 +5,32 @@ module Primer
     module Forms
       module Dsl
         class AutocompleterInput < Primer::Forms::Dsl::Input
-          attr_reader :name, :label, :autocomplete_options, :select_options, :wrapper_data_attributes
+          attr_reader :name, :label, :autocomplete_options, :select_options, :wrapper_data_attributes, :wrapper_classes
 
           class Option
-            attr_reader :label, :value, :selected, :classes, :group_by
+            attr_reader :label, :value, :selected, :classes, :group_by, :disabled
 
-            def initialize(label:, value:, classes: nil, selected: false, group_by: nil)
+            def initialize(label:, value:, classes: nil, selected: false, group_by: nil, disabled: false)
               @label = label
               @value = value
               @selected = selected
               @classes = classes
               @group_by = group_by
+              @disabled = disabled
             end
 
             def to_h
-              { id: value, name: label }.merge({ group_by:, classes: }.compact)
+              { id: value, name: label }.merge({ selected:, disabled:, group_by:, classes: }.compact)
             end
           end
 
-          def initialize(name:, label:, autocomplete_options:, wrapper_data_attributes: {}, **system_arguments)
+          def initialize(name:, label:, autocomplete_options:, wrapper_data_attributes: {}, wrapper_classes: [],
+                         **system_arguments)
             @name = name
             @label = label
             @autocomplete_options = derive_autocompleter_options(autocomplete_options)
             @wrapper_data_attributes = wrapper_data_attributes
+            @wrapper_classes = wrapper_classes
             @select_options = []
 
             super(**system_arguments)
@@ -46,7 +49,7 @@ module Primer
           end
 
           def to_component
-            Autocompleter.new(input: self, autocomplete_options:, wrapper_data_attributes:)
+            Autocompleter.new(input: self, autocomplete_options:, wrapper_data_attributes:, wrapper_classes:)
           end
 
           def type

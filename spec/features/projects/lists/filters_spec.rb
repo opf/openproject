@@ -84,6 +84,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     it "only shows the matching projects and filters" do
       load_and_open_filters admin
 
+      click_button accessible_name: "Project name filter"
       projects_page.filter_by_name_and_identifier("Plain")
 
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
@@ -98,6 +99,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     load_and_open_filters admin
 
     # Filter on model attribute 'name'
+    click_button accessible_name: "Project name filter"
     projects_page.filter_by_name_and_identifier("Plain")
     wait_for_reload
 
@@ -142,7 +144,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       load_and_open_filters admin
 
       # value selection defaults to "active"'
-      expect(page).to have_css('li[data-filter-name="active"]')
+      expect(page).to have_css('.advanced-filters--filter[data-filter-name="active"]')
 
       projects_page.expect_projects_listed(parent_project,
                                            child_project,
@@ -150,8 +152,10 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                            development_project,
                                            public_project)
 
-      accept_alert do
-        projects_page.click_menu_item_of("Archive", parent_project)
+      projects_page.click_menu_item_of("Archive", parent_project)
+
+      within("#archive-project-dialog") do
+        click_on "Archive"
       end
       wait_for_reload
 
@@ -161,11 +165,11 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_listed(project, development_project, public_project)
 
       visit project_overview_path(parent_project)
-      expect(page).to have_text("The project you're trying to access has been archived.")
+      expect(page).to have_text("[Error 404] The page you were trying to access doesn't exist or has been removed.")
 
       # The child project gets archived automatically
       visit project_overview_path(child_project)
-      expect(page).to have_text("The project you're trying to access has been archived.")
+      expect(page).to have_text("[Error 404] The page you were trying to access doesn't exist or has been removed.")
 
       load_and_open_filters admin
 
@@ -188,7 +192,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       # The child project does not get unarchived automatically
       visit project_path(child_project)
-      expect(page).to have_text("The project you're trying to access has been archived.")
+      expect(page).to have_text("The page you were trying to access doesn't exist or has been removed.")
 
       visit project_path(parent_project)
       expect(page).to have_text(parent_project.name)
@@ -264,7 +268,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                "Status",
                                "is (OR)",
                                ["On track"])
-      wait_for_reload
 
       expect(page).to have_text(green_project.name)
       expect(page).to have_no_text(no_status_project.name)
@@ -273,7 +276,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                "Status",
                                "is not empty",
                                [])
-      wait_for_reload
 
       expect(page).to have_text(green_project.name)
       expect(page).to have_no_text(no_status_project.name)
@@ -282,7 +284,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                "Status",
                                "is empty",
                                [])
-      wait_for_reload
 
       expect(page).to have_no_text(green_project.name)
       expect(page).to have_text(no_status_project.name)
@@ -291,7 +292,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                "Status",
                                "is not",
                                ["On track"])
-      wait_for_reload
 
       expect(page).to have_no_text(green_project.name)
       expect(page).to have_text(no_status_project.name)
@@ -444,10 +444,22 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                            project_created_on_this_week,
                                            project_created_on_fixed_date)
 
+      # a range row without dates yet is not a filter: the list and the URL stay as they are.
+      # The operator change submits behind a 300 ms debounce, so the quiet period must outlast it
+      # for the assertions below to see a request that should not have happened.
       projects_page.set_filter("created_at",
                                "Created on",
-                               "between",
-                               ["2017-11-10", "2017-11-12"])
+                               "between")
+      wait_for_network_idle(duration: 0.5)
+
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+      expect(page).to have_no_current_path(/created_at/)
+
+      projects_page.within_filter("created_at") do
+        projects_page.set_datetime_filter("created_at", "between", ["2017-11-10", "2017-11-12"])
+      end
 
       projects_page.expect_projects_not_listed(project_created_on_today)
       projects_page.expect_projects_listed(project_created_on_fixed_date)
@@ -605,20 +617,22 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_listed(project)
 
       # switching to multiselect keeps the current selection
-      cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+      cf_filter = page.find(".advanced-filters--filter[data-filter-name='#{list_custom_field.column_name}']")
 
       select_value_id = "#{list_custom_field.column_name}_value"
 
       within(cf_filter) do
         projects_page.expect_ng_value_label(select_value_id, list_custom_field.possible_values[2].value)
-        projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value, clear: false
       end
+      projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value,
+                                            filter_name: list_custom_field.column_name,
+                                            clear: false
       wait_for_reload
 
       projects_page.expect_projects_not_listed(development_project)
       projects_page.expect_projects_listed(project)
 
-      cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+      cf_filter = page.find(".advanced-filters--filter[data-filter-name='#{list_custom_field.column_name}']")
       within(cf_filter) do
         # Query has two values for that filter.
         projects_page.expect_ng_value_label(select_value_id,
@@ -668,6 +682,116 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       # The first version is not available to select,
       # because is already selected.
       projects_page.expect_autocomplete_options_for(version_custom_field, versions[1..])
+    end
+  end
+
+  describe "portfolio filter" do
+    context "with EE", with_ee: %i[portfolio_management] do
+      context "when a portfolio is visible to the user" do
+        shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
+        shared_let(:other_portfolio) { create(:portfolio, name: "Consumer Portfolio") }
+        shared_let(:program) { create(:program, name: "Growth Program", parent: portfolio) }
+        shared_let(:portfolio_child) { create(:project, name: "Growth Initiative", parent: program) }
+
+        it "offers only portfolios in the autocomplete and filters for their descendants" do
+          load_and_open_filters admin
+
+          projects_page.expect_filter_available("Part of Portfolio")
+
+          selected_filter = projects_page.select_filter("portfolio", "Part of Portfolio")
+          within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+
+          projects_page.expect_ng_option(selected_filter, portfolio.name)
+          projects_page.expect_ng_option(selected_filter, other_portfolio.name)
+          projects_page.expect_no_ng_option(selected_filter, program.name)
+          projects_page.expect_no_ng_option(selected_filter, project.name)
+
+          projects_page.set_filter("portfolio", "Part of Portfolio", "is (OR)", [portfolio.name])
+
+          wait_for_network_idle
+
+          projects_page.expect_projects_listed(program, portfolio_child)
+          projects_page.expect_projects_not_listed(portfolio, other_portfolio,
+                                                   project, public_project,
+                                                   development_project)
+        end
+      end
+
+      context "when no portfolio is visible to the user" do
+        shared_let(:invisible_portfolio) { create(:portfolio) }
+
+        it "does not offer the filter" do
+          load_and_open_filters manager
+
+          projects_page.expect_filter_not_available("Part of Portfolio")
+        end
+      end
+    end
+
+    context "without EE" do
+      shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
+
+      it "does not offer the filter" do
+        load_and_open_filters admin
+
+        projects_page.expect_filter_not_available("Part of Portfolio")
+      end
+    end
+  end
+
+  describe "program filter" do
+    context "with EE", with_ee: %i[portfolio_management] do
+      context "when a program is visible to the user" do
+        # portfolio is intentionally unrelated to program: were it its parent, the autocompleter
+        # would legitimately display it as a disabled ancestor entry for tree context.
+        shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
+        shared_let(:program) { create(:program, name: "Growth Program") }
+        shared_let(:other_program) { create(:program, name: "Retention Program") }
+        shared_let(:program_child) { create(:project, name: "Growth Initiative", parent: program) }
+
+        it "offers only programs in the autocomplete and filters for their descendants" do
+          load_and_open_filters admin
+
+          projects_page.expect_filter_available("Part of Program")
+
+          selected_filter = projects_page.select_filter("program", "Part of Program")
+          within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+
+          projects_page.expect_ng_option(selected_filter, program.name)
+          projects_page.expect_ng_option(selected_filter, other_program.name)
+          projects_page.expect_no_ng_option(selected_filter, portfolio.name)
+          projects_page.expect_no_ng_option(selected_filter, project.name)
+
+          projects_page.set_filter("program", "Part of Program", "is (OR)", [program.name])
+
+          wait_for_network_idle
+
+          projects_page.expect_projects_listed(program_child)
+          projects_page.expect_projects_not_listed(portfolio, program,
+                                                   other_program, project,
+                                                   public_project, development_project)
+        end
+      end
+
+      context "when no program is visible to the user" do
+        shared_let(:invisible_program) { create(:program) }
+
+        it "does not offer the filter" do
+          load_and_open_filters manager
+
+          projects_page.expect_filter_not_available("Part of Program")
+        end
+      end
+    end
+
+    context "without EE" do
+      shared_let(:program) { create(:program, name: "Growth Program") }
+
+      it "does not offer the filter" do
+        load_and_open_filters admin
+
+        projects_page.expect_filter_not_available("Part of Program")
+      end
     end
   end
 
@@ -731,6 +855,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       # Applies the filters to the filters section
       projects_page.expect_filter_set "active"
+      click_button accessible_name: "Project name filter"
       projects_page.expect_filter_set "name_and_identifier"
 
       # Columns are taken from the default set as defined by the setting
@@ -738,9 +863,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     end
   end
 
-  context "when filtering via calculated values",
-          with_ee: %i[calculated_values],
-          with_flag: { calculated_value_project_attribute: true } do
+  context "when filtering via calculated values", with_ee: %i[calculated_values] do
     let(:projects_with_calculated_value) do
       [project, public_project]
     end
@@ -796,7 +919,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project)
         projects_page.expect_projects_in_order(project, public_project)
 
-        projects_page.remove_filter("project_phase_any")
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -807,7 +930,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project)
         projects_page.expect_projects_in_order(project, public_project)
 
-        projects_page.remove_filter("project_phase_any")
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -819,7 +942,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project)
         projects_page.expect_projects_in_order(project, public_project)
 
-        projects_page.remove_filter("project_phase_any")
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -830,7 +953,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project)
         projects_page.expect_projects_in_order(project, public_project)
 
-        projects_page.remove_filter("project_phase_any")
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -868,7 +991,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project, public_project)
         projects_page.expect_projects_in_order(project)
 
-        projects_page.remove_filter("project_phase_#{stage.definition_id}")
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -879,7 +1002,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project, public_project)
         projects_page.expect_projects_in_order(project)
 
-        projects_page.remove_filter("project_phase_#{stage.definition_id}")
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -891,7 +1014,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project, public_project)
         projects_page.expect_projects_in_order(project)
 
-        projects_page.remove_filter("project_phase_#{stage.definition_id}")
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -902,7 +1025,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.expect_projects_not_listed(development_project, public_project)
         projects_page.expect_projects_in_order(project)
 
-        projects_page.remove_filter("project_phase_#{stage.definition_id}")
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
 
         projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -939,7 +1062,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
           projects_page.expect_projects_not_listed(development_project, project)
           projects_page.expect_projects_in_order(public_project)
 
-          projects_page.remove_filter("project_finish_gate_#{gate.definition_id}")
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
 
           projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -950,7 +1073,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
           projects_page.expect_projects_not_listed(development_project, project)
           projects_page.expect_projects_in_order(public_project)
 
-          projects_page.remove_filter("project_finish_gate_#{gate.definition_id}")
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
 
           projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -962,7 +1085,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
           projects_page.expect_projects_not_listed(development_project, project)
           projects_page.expect_projects_in_order(public_project)
 
-          projects_page.remove_filter("project_finish_gate_#{gate.definition_id}")
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
 
           projects_page.expect_projects_in_order(development_project, project, public_project)
 
@@ -973,7 +1096,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
           projects_page.expect_projects_not_listed(development_project, project)
           projects_page.expect_projects_in_order(public_project)
 
-          projects_page.remove_filter("project_finish_gate_#{gate.definition_id}")
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
 
           projects_page.expect_projects_in_order(development_project, project, public_project)
 

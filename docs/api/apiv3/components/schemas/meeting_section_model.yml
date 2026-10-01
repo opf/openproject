@@ -1,0 +1,54 @@
+# Schema: MeetingSectionModel
+---
+type: object
+required:
+  - _type
+  - id
+  - title
+  - position
+  - createdAt
+  - updatedAt
+properties:
+  _type:
+    type: string
+    enum:
+      - MeetingSection
+  id:
+    type: integer
+    description: Identifier of this section
+    minimum: 1
+  title:
+    type: string
+    description: The section's title.
+  position:
+    type: integer
+    description: The position of the section within the meeting.
+  backlog:
+    type: boolean
+    description: |-
+      Whether this section is the meeting's backlog. Backlog sections are read-only via the API.
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation.
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change.
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This section
+
+              **Resource**: MeetingSection
+      meeting:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The meeting this section belongs to
+
+              **Resource**: Meeting

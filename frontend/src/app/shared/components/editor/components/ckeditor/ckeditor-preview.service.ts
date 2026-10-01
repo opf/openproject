@@ -21,21 +21,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from '@angular/core';
+import { ApplicationRef, ComponentRef, Injectable, inject } from '@angular/core';
 
 @Injectable()
 export class CKEditorPreviewService {
-  constructor(
-    private readonly componentFactoryResolver:ComponentFactoryResolver,
-    private readonly appRef:ApplicationRef,
-    private readonly injector:Injector,
-  ) {
-  }
+  private readonly appRef = inject(ApplicationRef);
 
   /**
    * Render preview into the given element, return a remover function to disconnect all
@@ -47,7 +42,7 @@ export class CKEditorPreviewService {
    */
   public render(hostElement:HTMLElement, preview:string):() => void {
     hostElement.innerHTML = preview;
-    const refs:ComponentRef<any>[] = [];
+    const refs:ComponentRef<unknown>[] = [];
 
     return () => {
       refs.forEach((ref) => {

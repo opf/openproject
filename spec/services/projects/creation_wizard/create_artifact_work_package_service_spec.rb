@@ -147,6 +147,25 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
       expect(artifact_work_package.last_journal.notes).to include(/data-type="user"/)
     end
 
+    context "when 'Assignee when submitted' is not configured" do
+      before do
+        project.update(project_creation_wizard_assignee_custom_field_id: nil)
+      end
+
+      it "creates the artifact work package without an assignee and without a mention in the comment" do
+        result = instance.call
+
+        expect(result.errors.full_messages).to be_empty
+        project = result.result
+
+        artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+        expect(artifact_work_package.assigned_to).to be_nil
+        expect(artifact_work_package.last_journal.notes).not_to include("<mention")
+        expected_path = Rails.application.routes.url_helpers.project_creation_wizard_path(project)
+        expect(artifact_work_package.last_journal.notes).to include(expected_path)
+      end
+    end
+
     context "when assignee is a group" do
       let(:group) { create(:group, firstname: "test group") }
 
@@ -292,69 +311,6 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
 
           artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
           expect(artifact_work_package.attachments.count).to eq(0)
-        end
-      end
-    end
-
-    context "when an artifact work package already exists" do
-      shared_let(:already_existing_artifact_work_package) do
-        create(:work_package, project:, subject: "Fake project initiation request")
-      end
-
-      before do
-        project.update(project_creation_wizard_artifact_work_package_id: already_existing_artifact_work_package.id)
-      end
-
-      it "does not create a new artifact work package" do
-        result = instance.call
-        expect(result).to be_success
-        expect(result.errors.full_messages).to be_empty
-
-        project = result.result
-        expect(project.project_creation_wizard_artifact_work_package_id)
-          .to eq(already_existing_artifact_work_package.id)
-        expect(project.work_packages.count).to eq(1)
-      end
-
-      it "does not try to validate the contract" do
-        instance.call
-        expect(mocked_contract).not_to have_received(:validate)
-      end
-
-      context "when artifact storage is project storage" do
-        before do
-          # setup storage to ensure it's not called
-          storage = create(:nextcloud_storage_with_local_connection)
-          project_storage = create(:project_storage, project:, storage:, project_folder_id: "/project_folder")
-          project.update(
-            project_creation_wizard_artifact_export_type: "file_link",
-            project_creation_wizard_artifact_export_storage: project_storage.id
-          )
-
-          allow(Storages::UploadFileService)
-            .to receive(:call)
-                  .and_return(ServiceResult.success)
-        end
-
-        it "does not try to create another artifact pdf and upload it" do
-          result = instance.call
-          expect(result).to be_success
-          expect(result.errors.full_messages).to be_empty
-          expect(Storages::UploadFileService).not_to have_received(:call)
-        end
-      end
-
-      context "when the already existing artifact work package gets deleted " \
-                "(dangling artifact work package id in project settings)" do
-        before do
-          already_existing_artifact_work_package.destroy
-        end
-
-        it "creates a new artifact work package" do
-          result = instance.call
-          expect(result).to be_success
-          expect(result.errors.full_messages).to be_empty
-          expect(project.project_creation_wizard_artifact_work_package_id).not_to eq(already_existing_artifact_work_package.id)
         end
       end
     end

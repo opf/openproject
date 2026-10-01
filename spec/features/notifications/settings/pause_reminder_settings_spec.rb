@@ -20,9 +20,9 @@ RSpec.describe "Pause reminder settings", :js do
                                          first:,
                                          last:)
 
-      reminders_settings_page.save
+      reminders_settings_page.save_paused_reminders
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
+      reminders_settings_page.expect_and_dismiss_flash
 
       reminders_settings_page.reload!
 

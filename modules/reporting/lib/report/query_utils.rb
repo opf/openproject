@@ -35,17 +35,6 @@ module Report::QueryUtils
 
   include Costs::NumberHelper
 
-  ##
-  # Graceful string quoting.
-  #
-  # @param [Object] str String to quote
-  # @return [Object] Quoted version
-  def quote_string(str)
-    return str unless str.respond_to? :to_str
-
-    engine.reporting_connection.quote_string(str)
-  end
-
   def current_language
     ::I18n.locale
   end
@@ -53,7 +42,7 @@ module Report::QueryUtils
   ##
   # Creates a SQL fragment representing a collection/array.
   #
-  # @see quote_string
+  # @see quote_sql_string_value
   # @param [#flatten] *values Ruby collection
   # @return [String] SQL collection
   def collection(*values)
@@ -67,7 +56,7 @@ module Report::QueryUtils
           split_with_safe_return(str)
         end
 
-    "(#{v.flatten.map { |x| "'#{quote_string(x)}'" }.join(', ')})"
+    "(#{v.flatten.map { |x| quote_sql_string_value(x) }.join(', ')})"
   end
 
   def split_with_safe_return(str)
@@ -80,11 +69,11 @@ module Report::QueryUtils
   ##
   # Graceful, internationalized quoted string.
   #
-  # @see quote_string
+  # @see quote_sql_string_value
   # @param [Object] str String to quote/translate
   # @return [Object] Quoted, translated version
   def quoted_label(ident)
-    "'#{quote_string ::I18n.t(ident)}'"
+    quote_sql_string_value(::I18n.t(ident))
   end
 
   def quoted_date(date)
@@ -202,8 +191,12 @@ module Report::QueryUtils
   end
 
   def typed(type, value, escape = true)
-    safe_value = escape ? "'#{quote_string value}'" : value
+    safe_value = escape ? quote_sql_string_value(value) : value
     "#{safe_value}::#{type}"
+  end
+
+  def quote_sql_string_value(value)
+    engine.reporting_connection.quote(value.to_s)
   end
 
   def iso_year_week(field_name)

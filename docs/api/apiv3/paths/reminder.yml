@@ -15,7 +15,7 @@ patch:
     - name: id
       in: path
       description: Reminder ID
-      example: '1'
+      example: 1
       required: true
       schema:
         type: integer
@@ -63,7 +63,7 @@ delete:
     - name: id
       in: path
       description: Reminder ID
-      example: '1'
+      example: 1
       required: true
       schema:
         type: integer

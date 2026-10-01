@@ -145,27 +145,4 @@ RSpec.describe PermittedParams do
       end
     end
   end
-
-  describe "#user_rates" do
-    let(:attribute) { :user_rates }
-    let(:hash_key) { :user }
-
-    context "new_rate_attributes" do
-      let(:hash) do
-        { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
-                                     "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
-      end
-
-      it_behaves_like "allows params"
-    end
-
-    context "existing_rate_attributes" do
-      let(:hash) do
-        { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
-                                          "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
-      end
-
-      it_behaves_like "allows params"
-    end
-  end
 end

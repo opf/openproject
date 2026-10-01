@@ -1,0 +1,5 @@
+<%= render OpenProject::Common::WorkPackageCardComponent.new(work_package:) do |card|
+      card.with_additional_details do
+        render(Primer::Beta::Text.new(tag: :span, font_size: :small, color: :subtle)) { "Some bottom line" }
+      end
+    end %>

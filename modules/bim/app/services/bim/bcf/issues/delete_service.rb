@@ -42,7 +42,7 @@ module Bim::Bcf
       end
 
       def work_package_delete_call(params)
-        associated_wp = WorkPackage.find(model.work_package_id)
+        associated_wp = WorkPackage.visible(user).find(model.work_package_id)
         # Load the project association as AR fails do do so once the work package
         # is destroyed.
         model.project

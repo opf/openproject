@@ -35,9 +35,10 @@ module Storages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(storage:)
+      def initialize(storage:, sync_pending: false)
         super
         @storage = storage
+        @sync_pending = sync_pending
       end
 
       def render?
@@ -55,6 +56,10 @@ module Storages
         else
           { scheme: :attention, label: I18n.t("storages.health.label_pending") }
         end
+      end
+
+      def sync_pending?
+        @sync_pending
       end
 
       # This method returns the health identifier, description and the time since when the error occurs in a

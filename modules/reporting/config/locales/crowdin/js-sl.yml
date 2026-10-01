@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 sl:
   js:
     reporting_engine:
-      label_remove: "Izbriši"
-      label_response_error: "Pri obdelavi poizvedbe je prišlo do napake."
+      label_remove: Izbriši
+      label_response_error: Pri obdelavi poizvedbe je prišlo do napake.

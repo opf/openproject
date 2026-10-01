@@ -32,11 +32,10 @@ class Storages::ProjectStoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
 
   menu_item :overview
-  model_object Storages::ProjectStorage
 
   before_action :require_login
-  before_action :find_model_object
   before_action :find_project_by_project_id
+  before_action :find_project_storage
   before_action :render_403, unless: -> { User.current.allowed_in_project?(:view_file_links, @project) }
   no_authorization_required! :open
 
@@ -52,6 +51,10 @@ class Storages::ProjectStoragesController < ApplicationController
   end
 
   private
+
+  def find_project_storage
+    @project_storage = @project.project_storages.find(params[:id])
+  end
 
   def ensure_remote_identity
     case Storages::Adapters::Authentication.authorization_state(storage:, user: current_user)
@@ -92,7 +95,7 @@ class Storages::ProjectStoragesController < ApplicationController
   def ensure_connection_url
     oauth_clients_ensure_connection_url(
       oauth_client_id: storage.oauth_client.client_id,
-      storage_id: storage.id,
+      integration_id: storage.id,
       destination_url: request.url
     )
   end
@@ -114,11 +117,11 @@ class Storages::ProjectStoragesController < ApplicationController
   end
 
   def storage
-    @object.storage
+    @project_storage.storage
   end
 
   def project_storage_scope
-    Storages::ProjectStorage.where(id: @project_storage.id)
+    @project.project_storages.where(id: @project_storage.id)
   end
 
   def test_folder_access
@@ -129,6 +132,6 @@ class Storages::ProjectStoragesController < ApplicationController
 
   def show_error(message)
     flash[:error] = Array(message) + [I18n.t("project_storages.open.contact_admin")]
-    redirect_back(fallback_location: project_path(id: @project_storage.project_id))
+    redirect_back_or_to(project_path(id: @project_storage.project_id))
   end
 end

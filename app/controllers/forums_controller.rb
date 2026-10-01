@@ -30,10 +30,12 @@
 
 class ForumsController < ApplicationController
   default_search_scope :messages
-  before_action :find_project_by_project_id,
-                :authorize
+  before_action :find_project_by_project_id
   before_action :new_forum, only: %i[new create]
   before_action :find_forum, only: %i[show edit update move destroy]
+
+  before_action :authorize
+
   accept_key_auth :show
 
   include SortHelper
@@ -47,7 +49,7 @@ class ForumsController < ApplicationController
     :forums
   end
 
-  def show
+  def show # rubocop:disable Metrics/AbcSize
     sort_init "updated_at", "desc"
     sort_update "created_at" => "#{Message.table_name}.created_at",
                 "replies" => "#{Message.table_name}.replies_count",
@@ -59,11 +61,11 @@ class ForumsController < ApplicationController
         @message = Message.new
         render action: "show", layout: !request.xhr?
       end
-      format.json do
-        set_topics
-
-        render template: "messages/index"
-      end
+      # The JSON template does not exist anymore, this never rendered
+      #    format.json do
+      #      set_topics
+      #      render template: "messages/index"
+      #    end
       format.atom do
         @messages = @forum
                     .messages
@@ -92,35 +94,33 @@ class ForumsController < ApplicationController
   def create
     if @forum.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to action: "index"
+      redirect_to project_forums_path(@project)
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
     if @forum.update(permitted_params.forum)
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: "index"
+      redirect_to project_forums_path(@project)
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def move
-    if @forum.update(permitted_params.forum_move)
-      flash[:notice] = t(:notice_successful_update)
-    else
-      flash.now[:error] = t("forum_could_not_be_saved")
-      render action: :edit, status: :unprocessable_entity
-    end
-    redirect_to action: "index"
+    @forum.update!(permitted_params.forum_move)
+
+    flash[:notice] = t(:notice_successful_update)
+    redirect_to project_forums_path(@project)
   end
 
   def destroy
-    @forum.destroy
+    @forum.destroy!
+
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: "index", status: :see_other
+    redirect_to project_forums_path(@project), status: :see_other
   end
 
   private

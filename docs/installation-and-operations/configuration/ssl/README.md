@@ -32,9 +32,11 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 1. Go to [certbot.eff.org](https://certbot.eff.org), and select "Apache" and your Linux distribution (e.g. Ubuntu 20.04) to get access to the installation instructions for your specific OS.
 2. Follow the installation instructions to get the `certbot` CLI installed.
 3. Run the `certbot` CLI to generate the certificate (and only the certificate):
+
    ```shell
    sudo certbot certonly --apache
    ```
+
    The CLI will ask for a few details and to agree to the Let's Encrypt terms of usage. Then it will perform the Let's Encrypt challenge and finally issue a certificate file and a private key file if the challenge succeeded.
    At the end, it will store the certificate (`fullchain.pem`) and private key (`privkey.pem`) under `/etc/letsencrypt/live/openproject.mydomain.com/`.
    You can now configure OpenProject to use them by running `openproject reconfigure`: hit ENTER until you get to the SSL wizard, and select "Yes" when the wizard asks for SSL support:

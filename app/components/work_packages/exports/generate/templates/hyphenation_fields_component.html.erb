@@ -1,0 +1,32 @@
+<%= flex_layout do |fields|
+      fields.with_row(mt: 0) do
+        render(
+          Primer::Alpha::CheckBox.new(
+            id: "hyphenation_enabled_#{template_id}",
+            name: "hyphenation",
+            checked: enabled,
+            value: "true",
+            unchecked_value: "false",
+            label: I18n.t("pdf_generator.dialog.hyphenation.label"),
+            caption: I18n.t("pdf_generator.dialog.hyphenation.caption"),
+            visually_hide_label: false,
+            disabled: disabled
+          )
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
+          Primer::Alpha::Select.new(
+            id: "hyphenation_language_#{template_id}",
+            name: "hyphenation_language",
+            label: I18n.t("pdf_generator.dialog.hyphenation_language.label"),
+            input_width: :large,
+            disabled: disabled
+          )
+        ) do |component|
+          hyphenation_options.each do |entry|
+            component.option(label: entry[:label], value: entry[:value], selected: entry[:value] == language)
+          end
+        end
+      end
+    end %>

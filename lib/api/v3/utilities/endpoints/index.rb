@@ -117,7 +117,7 @@ module API
           end
 
           def calculate_groups(query)
-            return if !query.respond_to?(:group_by) || !query.group_by
+            return if !query.respond_to?(:group_bys) || query.group_bys.empty?
 
             query.group_values.map do |group, count|
               ::API::Decorators::AggregationGroup.new(group, count, query:, current_user: User.current)
@@ -159,8 +159,6 @@ module API
           end
 
           def apply_scope_constraint(constraint, result_scope)
-            result_scope = result_scope.eager_load(render_representer.to_eager_load)
-                                       .preload(render_representer.to_preload)
             if constraint.is_a?(Class)
               result_scope
             else

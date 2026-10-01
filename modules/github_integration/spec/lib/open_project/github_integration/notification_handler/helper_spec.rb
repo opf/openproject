@@ -46,27 +46,42 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
 
     it "finds a work package by code" do
       source = "Blabla\nOP#1234\n"
-      expect(handler.extract_work_package_ids(source)).to eq([1234])
+      expect(handler.extract_work_package_ids(source)).to eq(["1234"])
+    end
+
+    it "finds a work package by semantic code" do
+      source = "Blabla\nOP#PROJ-42\n"
+      expect(handler.extract_work_package_ids(source)).to eq(["PROJ-42"])
     end
 
     it "finds a plain work package url" do
       source = 'Blabla\nhttps://example.net/work_packages/234\n'
-      expect(handler.extract_work_package_ids(source)).to eq([234])
+      expect(handler.extract_work_package_ids(source)).to eq(["234"])
+    end
+
+    it "finds a plain work package url with a semantic id" do
+      source = 'Blabla\nhttps://example.net/work_packages/PROJ-42\n'
+      expect(handler.extract_work_package_ids(source)).to eq(["PROJ-42"])
     end
 
     it "finds a work package url in markdown link syntax" do
       source = 'Blabla\n[WP 234](https://example.net/work_packages/234)\n'
-      expect(handler.extract_work_package_ids(source)).to eq([234])
+      expect(handler.extract_work_package_ids(source)).to eq(["234"])
     end
 
     it "finds multiple work package urls" do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/wp/234)\n"
-      expect(handler.extract_work_package_ids(source)).to eq([434, 234])
+      expect(handler.extract_work_package_ids(source)).to eq(["434", "234"])
     end
 
     it "finds multiple occurrences of a work package only once" do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
-      expect(handler.extract_work_package_ids(source)).to eq([434])
+      expect(handler.extract_work_package_ids(source)).to eq(["434"])
+    end
+
+    it "finds mixed numeric and semantic ids" do
+      source = "OP#1234 and https://example.net/wp/PROJ-99"
+      expect(handler.extract_work_package_ids(source)).to eq(["1234", "PROJ-99"])
     end
   end
 
@@ -80,7 +95,7 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
 
       before do
         allow(WorkPackage).to receive(:includes).and_return(WorkPackage)
-        allow(WorkPackage).to receive(:where).with(id: ids).and_return(work_packages)
+        allow(WorkPackage).to receive(:where_display_id_in).with(ids).and_return(work_packages)
 
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_package_comments, project: :project_with_permissions

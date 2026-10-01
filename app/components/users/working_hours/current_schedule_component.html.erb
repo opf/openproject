@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Box.new(border: true, border_radius: 3, bg: :accent, p: 3)) do %>
+  <%= render(Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center, mb: 3)) do %>
+    <%= render(Primer::Beta::Heading.new(tag: :h3)) do %>
+      <%= t("users.working_hours.current_schedule.title") %>
+    <% end %>
+    <% if editable? %>
+      <%= render(
+            Primer::Beta::IconButton.new(
+              icon: :pencil,
+              tag: :a,
+              href: create_or_edit_path,
+              "aria-label": t("button_edit"),
+              data: { controller: "async-dialog" }
+            )
+          ) %>
+    <% end %>
+  <% end %>
+
+  <%= render(Primer::Box.new(display: :flex, classes: "gap-3")) do %>
+    <%= render(
+          Users::WorkingHours::StatCardComponent.new(
+            label: t("users.working_hours.current_schedule.work_days"),
+            value: work_days_value,
+            subtitle: work_days_subtitle
+          )
+        ) %>
+
+    <%= render(
+          Users::WorkingHours::StatCardComponent.new(
+            label: t("users.working_hours.current_schedule.work_hours"),
+            value: weekly_hours_value,
+            subtitle: weekly_hours_subtitle
+          )
+        ) %>
+
+    <%= render(
+          Users::WorkingHours::StatCardComponent.new(
+            label: t("users.working_hours.current_schedule.availability_factor"),
+            value: availability_value,
+            subtitle: t("users.working_hours.current_schedule.availability_subtitle")
+          )
+        ) %>
+
+    <%= render(
+          Users::WorkingHours::StatCardComponent.new(
+            label: t("users.working_hours.current_schedule.effective_hours"),
+            value: effective_hours_value,
+            subtitle: t("users.working_hours.current_schedule.effective_subtitle")
+          )
+        ) %>
+  <% end %>
+<% end %>

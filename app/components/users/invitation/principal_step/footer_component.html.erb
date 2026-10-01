@@ -10,7 +10,8 @@
             data: {
               turbo_method: :post
             }
-          )) do
+          )
+        ) do
           I18n.t(:button_back)
         end
       end
@@ -20,6 +21,7 @@
           buttons.with_component(
             Primer::Beta::Button.new(
               data: { "close-dialog-id": Users::Invitation::DialogComponent::DIALOG_ID },
+              mr: 1
             )
           ) do
             I18n.t(:button_cancel)

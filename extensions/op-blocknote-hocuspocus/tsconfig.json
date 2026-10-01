@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2024",
+      "ESNext.Array",
+      "ESNext.Collection",
+      "ESNext.Iterator",
+      "DOM"
+    ],
+    "module": "esnext",
+    "target": "es2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "types": [
+      "node"
+    ]
+  }
+}

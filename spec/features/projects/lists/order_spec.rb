@@ -273,9 +273,7 @@ RSpec.describe "Projects lists ordering", :js, with_settings: { login_required?:
     projects_page.expect_project_at_place(project, 1)
   end
 
-  context "when sorting calculated value custom fields",
-          with_ee: %i[calculated_values],
-          with_flag: { calculated_value_project_attribute: true } do
+  context "when sorting calculated value custom fields", with_ee: %i[calculated_values] do
     let(:projects_with_calculated_value) do
       [project, development_project, public_project, child_project_m, child_project_a]
     end

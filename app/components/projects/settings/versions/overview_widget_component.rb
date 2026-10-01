@@ -41,7 +41,7 @@ module Projects
         def call
           widget_wrapper do |widget|
             widget.with_body(padding: :default) do
-              render partial: "versions/overview", locals: { version: }
+              render partial: "versions/overview", locals: { version: }, formats: [:html]
             end
           end
         end

@@ -44,7 +44,7 @@ module Documents
     def sub_header_data_attributes
       {
         controller: "filter--filters-form",
-        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-turbo-stream-request-value": true,
         "filter--filters-form-url-path-name-value": search_project_documents_path(project),
         "filter--filters-form-output-format-value": "json",
         "filter--filters-form-clear-button-id-value": clear_button_id,
@@ -72,11 +72,12 @@ module Documents
     def new_document_path_options
       if Setting.real_time_text_collaboration_enabled?
         {
-          data: { turbo_method: :post },
+          data: { turbo_method: :post, controller: "disable-when-clicked" },
           href: project_documents_path(project)
         }
       else
         {
+          data: { controller: "disable-when-clicked" },
           href: new_project_document_path(project)
         }
       end

@@ -1,0 +1,10 @@
+<%=
+  render(Primer::OpenProject::DangerDialog.new(title:, form_arguments:)) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { heading }
+      message.with_description do
+        safe_join([content_tag(:p, confirmation_text), content_tag(:p, info_text)])
+      end
+    end
+  end
+%>

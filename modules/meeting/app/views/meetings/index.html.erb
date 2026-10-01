@@ -31,14 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Meetings::IndexPageHeaderComponent.new(project: @project)) %>
 <%= render(Meetings::IndexSubHeaderComponent.new(query: @query, project: @project, params:)) %>
 
-<% if @grouped_meetings -%>
-  <%= render partial: "grouped_meetings" %>
-<% elsif @meetings.empty? -%>
-  <%= render Meetings::BlankSlateComponent.new(project: @project) %>
-<% else %>
-  <%= render Meetings::TableComponent.new(
-        rows: @meetings,
-        current_project: @project,
-        upcoming: params[:upcoming]
-      ) %>
-<% end -%>
+<%= render Meetings::IndexResultsComponent.new(
+      grouped_meetings: @grouped_meetings,
+      meetings: @meetings,
+      project: @project,
+      upcoming: params[:upcoming]
+    ) %>

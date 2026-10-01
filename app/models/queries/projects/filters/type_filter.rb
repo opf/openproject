@@ -29,23 +29,19 @@
 #++
 
 class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
-  def allowed_values
-    @allowed_values ||= Type.pluck(:name, :id)
-  end
-
-  def joins
-    :types
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, Type.table_name, :id)
-  end
-
-  def type
-    :list
-  end
+  include Queries::Projects::Filters::FilterOnProjectType
 
   def self.key
+    :type_id
+  end
+
+  def allowed_values
+    @allowed_values ||= Type.order(:position).pluck(:name, :id)
+  end
+
+  private
+
+  def project_type_column
     :type_id
   end
 end

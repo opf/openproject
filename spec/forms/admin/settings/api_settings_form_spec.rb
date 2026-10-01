@@ -41,8 +41,8 @@ RSpec.describe Admin::Settings::APISettingsForm, type: :forms do
   end
 
   it "renders", :aggregate_failures do
-    expect(rendered_form).to have_field "Enable REST web service", type: :checkbox do |field|
-      expect(field["name"]).to eq "settings[rest_api_enabled]"
+    expect(rendered_form).to have_field "Enable API tokens", type: :checkbox do |field|
+      expect(field["name"]).to eq "settings[api_tokens_enabled]"
     end
 
     expect(rendered_form).to have_field "Maximum API page size", type: :number do |field|

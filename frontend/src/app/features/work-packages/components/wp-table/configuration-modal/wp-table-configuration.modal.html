@@ -14,7 +14,7 @@
 
     @if (tabPortalHost) {
       <op-scrollable-tabs [tabs]="availableTabs"
-        [currentTabId]="tabPortalHost.currentTab?.id"
+        [currentTabId]="$safeNavigationMigration(tabPortalHost.currentTab?.id)"
         (tabSelected)="switchTo($event)"
          />
     }

@@ -46,7 +46,7 @@ RSpec.describe "my access tokens", :js do
   end
 
   describe "API tokens" do
-    context "when API access is disabled via global settings", with_settings: { rest_api_enabled: false } do
+    context "when API tokens are disabled via global setting", with_settings: { api_tokens_enabled: false } do
       it "shows notice about disabled token" do
         visit my_access_tokens_path
 
@@ -57,7 +57,7 @@ RSpec.describe "my access tokens", :js do
       end
     end
 
-    context "when API access is enabled via global settings", with_settings: { rest_api_enabled: true } do
+    context "when API tokens are enabled via global setting", with_settings: { api_tokens_enabled: true } do
       it "API tokens can be generated and revoked" do
         visit my_access_tokens_path
 
@@ -72,6 +72,7 @@ RSpec.describe "my access tokens", :js do
 
         # create API token
         fill_in "token_api[token_name]", with: "Testing Token"
+        user.reload
         find_test_selector("create-api-token-button").click
 
         within("dialog#api-created-dialog") do
@@ -266,6 +267,7 @@ RSpec.describe "my access tokens", :js do
 
         # create iCal meeting token
         fill_in "token_ical_meeting[token_name]", with: "Testing Token"
+        user.reload
         find_test_selector("create-api-token-button").click
 
         within("dialog#ical_meeting-created-dialog") do

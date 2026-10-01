@@ -36,6 +36,12 @@ module MessagesHelper
   end
 
   def message_url(message)
-    topic_url(message.root, r: message.id, anchor: "message-#{message.id}")
+    project_forum_topic_url(
+      message.forum.project,
+      message.forum,
+      message.root,
+      r: message.id,
+      anchor: "message-#{message.id}"
+    )
   end
 end

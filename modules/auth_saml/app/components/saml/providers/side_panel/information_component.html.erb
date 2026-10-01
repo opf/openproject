@@ -9,7 +9,7 @@
       end
 
       collection.with_component(
-        OpPrimer::CopyToClipboardComponent.new(provider.sp_entity_id, scheme: :input)
+        OpPrimer::CopyToClipboardComponent.new(provider.sp_entity_id, scheme: :value)
       )
 
       collection.with_component(Primer::Beta::Heading.new(tag: :h5, mt: 4, mb: 1)) do

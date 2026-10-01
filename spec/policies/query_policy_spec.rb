@@ -78,15 +78,10 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "action on persisted" do |action, global|
+    shared_examples "action on persisted" do |action, global:|
       context "for #{action} #{global ? 'in global context' : 'in project context'}" do
         if global
           let(:project) { nil }
-        end
-
-        before do
-          allow(query).to receive(:new_record?).and_return false
-          allow(query).to receive(:persisted?).and_return true
         end
 
         it "is false if the user has no permission in the project" do
@@ -170,7 +165,7 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "action on unpersisted" do |action, global|
+    shared_examples "action on unpersisted" do |action, global:|
       context "for #{action} #{global ? 'in global context' : 'in project context'}" do
         if global
           let(:project) { nil }
@@ -210,7 +205,7 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "publicize" do |global|
+    shared_examples "publicize" do |global:|
       context (global ? "in global context" : "in project context").to_s do
         if global
           let(:project) { nil }
@@ -247,7 +242,7 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "depublicize" do |global|
+    shared_examples "depublicize" do |global:|
       context (global ? "in global context" : "in project context").to_s do
         if global
           let(:project) { nil }
@@ -286,7 +281,7 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "star" do |global|
+    shared_examples "star" do |global:|
       context (global ? "in global context" : "in project context").to_s do
         if global
           let(:project) { nil }
@@ -302,7 +297,7 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "update ordered_work_packages" do |global|
+    shared_examples "update ordered_work_packages" do |global:|
       context (global ? "in global context" : "in project context").to_s do
         if global
           let(:project) { nil }
@@ -367,7 +362,7 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
-    shared_examples "share via ical" do |global|
+    shared_examples "share via ical" do |global:|
       context (global ? "in global context" : "in project context").to_s do
         if global
           let(:project) { nil }
@@ -391,9 +386,127 @@ RSpec.describe QueryPolicy, type: :controller do
       end
     end
 
+    shared_examples "action on destroy in global context" do
+      let(:project) { nil }
+
+      context "if the user has no permission " \
+              "AND it is a global query " \
+              "AND it is the user's query " \
+              "AND the user is logged in" \
+              "AND the query is not public" do
+        it "is true" do
+          mock_permissions_for(user) { it&.forbid_everything }
+
+          query.user = user
+          query.public = false
+
+          expect(subject)
+            .to be_allowed(query, :destroy)
+        end
+      end
+
+      context "if the user has no permission AND it is a global query AND it is another user's query" do
+        it "is false" do
+          mock_permissions_for(user) { it&.forbid_everything }
+
+          query.user = build_stubbed(:user)
+          query.public = false
+
+          expect(subject)
+            .not_to be_allowed(query, :destroy)
+        end
+      end
+
+      context "if the user has no permission " \
+              "AND it is a project query " \
+              "AND it is the user's query " \
+              "AND the user is logged in" \
+              "AND the query is not public" do
+        it "is false" do
+          mock_permissions_for(user) { it&.forbid_everything }
+
+          query.user = user
+          query.project = build_stubbed(:project)
+          query.public = false
+
+          expect(subject)
+            .not_to be_allowed(query, :destroy)
+        end
+      end
+
+      context "if the user has no permission " \
+              "AND it is a global query " \
+              "AND it is the user's query " \
+              "AND the user is not logged in " \
+              "AND the query is not public" do
+        # This case shouldn't happen as anonymous users cannot create queries
+        let(:user) { build_stubbed(:anonymous) }
+
+        it "is false" do
+          mock_permissions_for(user) { it&.forbid_everything }
+          query.user = user
+          query.public = false
+
+          expect(subject)
+            .not_to be_allowed(query, :destroy)
+        end
+      end
+
+      context "if the user has no permission " \
+              "AND it is a global query " \
+              "AND it is the user's query " \
+              "AND the query is not persisted" do
+        let(:query) { Query.new(attributes_for(:query, project:, user:)) }
+
+        it "is false" do
+          mock_permissions_for(user) { it&.forbid_everything }
+          query.user = user
+          query.public = false
+          allow(query).to receive(:persisted?).and_return false
+
+          expect(subject)
+            .not_to be_allowed(query, :destroy)
+        end
+      end
+
+      context "if the user has the permission to manage_public_queries " \
+              "AND it is a global query " \
+              "AND it is another user's query " \
+              "AND it is a public query" do
+        it "is true" do
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project :manage_public_queries, project: build_stubbed(:project)
+          end
+
+          query.user = build_stubbed(:user)
+          query.public = true
+
+          expect(subject)
+            .to be_allowed(query, :destroy)
+        end
+      end
+
+      context "if the user has the permission to manage_public_queries " \
+              "AND it is a global query " \
+              "AND it is another user's query " \
+              "AND it isn't a public query" do
+        it "is false" do
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project :manage_public_queries, project: build_stubbed(:project)
+          end
+
+          query.user = build_stubbed(:user)
+          query.public = false
+
+          expect(subject)
+            .not_to be_allowed(query, :destroy)
+        end
+      end
+    end
+
     it_behaves_like "action on persisted", :update, global: true
     it_behaves_like "action on persisted", :update, global: false
-    it_behaves_like "action on persisted", :destroy, global: true
+    it_behaves_like "action on destroy in global context"
     it_behaves_like "action on persisted", :destroy, global: false
     it_behaves_like "action on unpersisted", :create, global: true
     it_behaves_like "action on unpersisted", :create, global: false

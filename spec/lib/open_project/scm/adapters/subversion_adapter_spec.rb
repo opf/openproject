@@ -128,6 +128,32 @@ RSpec.describe OpenProject::SCM::Adapters::Subversion do
     end
   end
 
+  describe "path validation" do
+    shared_examples "rejects encoded parent traversal" do |method_name, *args|
+      it "rejects encoded parent traversal in ##{method_name}" do
+        allow(adapter).to receive(:capture_svn)
+        allow(adapter).to receive(:popen3)
+
+        expect { adapter.public_send(method_name, "%252e%252e/other_repo/credentials.txt", *args) }
+          .to raise_error(OpenProject::SCM::Exceptions::CommandFailed) { |error|
+            expect(error.message).to eq("Invalid repository path")
+          }
+
+        expect(adapter).not_to have_received(:capture_svn)
+        expect(adapter).not_to have_received(:popen3)
+      end
+    end
+
+    include_examples "rejects encoded parent traversal", :entries
+    include_examples "rejects encoded parent traversal", :cat
+    include_examples "rejects encoded parent traversal", :diff, 2, 1
+    include_examples "rejects encoded parent traversal", :annotate
+
+    it "allows dots that are not parent traversal" do
+      expect(adapter.send(:target, "subversion_test/file..txt")).to eq("#{url}/subversion_test/file..txt")
+    end
+  end
+
   describe "empty repository" do
     include_context "with tmpdir"
     let(:root_url) { tmpdir }
@@ -178,7 +204,7 @@ RSpec.describe OpenProject::SCM::Adapters::Subversion do
 
         out, process = Open3.capture2e("svn", "info", url)
         expect(process.exitstatus).to eq(0)
-        expect(out).to include("Repository UUID")
+        expect(out).to match(/UUID.*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)
       end
 
       it "is available" do
@@ -389,7 +415,9 @@ RSpec.describe OpenProject::SCM::Adapters::Subversion do
 
         it "provides the selected diff for the given range" do
           diff = adapter.diff("subversion_test/helloworld.c", 8, 6).map(&:chomp)
-          expect(diff).to eq(<<~DIFF.split("\n"))
+          normalized_diff = diff.map { |line| line.gsub(/\((?i:revision) (\d+)\)/, "(revision \\1)") }
+
+          expect(normalized_diff).to eq(<<~DIFF.split("\n"))
             Index: helloworld.c
             ===================================================================
             --- helloworld.c	(revision 6)

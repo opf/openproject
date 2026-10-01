@@ -31,7 +31,7 @@ A form will open, where you can specify the project, name, description, priority
 
 > [!TIP]
 >
-> If you have not yet selected the project, *Assignee* and *Accountable* will show no selectable values. Once you select a project, members of the selected project will be selectable. 
+> If you have not yet selected the project, _Assignee_ and _Accountable_ will show no selectable values. Once you select a project, members of the selected project will be selectable. 
 
 ![Form to create a new work package in OpenProject](openproject_user_guide_work_package_create_new_wp_form.png)
 
@@ -46,7 +46,6 @@ You can also create a work package directly from within the work package module 
 Click the **+ Create** button above the work packages table and select the type of work package you want to create. 
 
 ![Button to create a new work package above the work packages table view in OpenProject](openproject_user_guide_work_package_create_new_wp_button_wp_table.png)
-
 
 ### Create a Work package in the table view
 

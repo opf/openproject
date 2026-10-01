@@ -1,0 +1,289 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "open_project/plugins"
+
+module OpenProject::ResourceManagement
+  class Engine < ::Rails::Engine
+    engine_name :openproject_resource_management
+
+    include OpenProject::Plugins::ActsAsOpEngine
+
+    patches %i[PlaceholderUser WorkPackage]
+
+    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
+                                                            principal_assigned_by_id]
+
+    register "openproject-resource_management",
+             author_url: "https://www.openproject.org",
+             bundled: true,
+             settings: {} do
+      project_module :resource_management,
+                     enterprise_feature: "resource_management" do
+        permission :view_resource_planners,
+                   {
+                     "resource_management/resource_planners": %i[index show overview new create edit update destroy],
+                     "resource_management/resource_planner_views": %i[show new create edit update destroy
+                                                                      new_work_package add_work_package
+                                                                      remove_work_package move_work_package
+                                                                      reorder_work_package
+                                                                      new_user add_user remove_user],
+                     "resource_management/work_package_resource_allocations": %i[index],
+                     "resource_management/work_package_timeline/resources": %i[index],
+                     "resource_management/work_package_timeline/events": %i[index],
+                     "resource_management/user_timeline/resources": %i[index],
+                     "resource_management/user_timeline/events": %i[index],
+                     "resource_management/user_resource_allocations": %i[index],
+                     "resource_management/menus": %i[show]
+                   },
+                   permissible_on: :project
+
+        permission :manage_public_resource_planners,
+                   { "resource_management/resource_planners": %i[toggle_public] },
+                   permissible_on: :project,
+                   dependencies: %i[view_resource_planners]
+
+        permission :view_global_resource_planners,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin
+
+        permission :manage_public_global_resource_planners,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin,
+                   dependencies: %i[view_global_resource_planners]
+
+        permission :allocate_user_resources,
+                   { "resource_management/resource_allocations": %i[new refresh_form create edit update destroy] },
+                   permissible_on: :project,
+                   dependencies: %i[view_resource_planners],
+                   contract_actions: { resource_allocation: %i[create update destroy] }
+
+        # Independent of `allocate_user_resources`: a user may be allowed to staff
+        # without being allowed to create or edit allocations.
+        permission :assign_users_to_generic_allocations,
+                   { "resource_management/staffing": %i[index assign_form assign] },
+                   permissible_on: :project,
+                   dependencies: %i[view_resource_planners]
+      end
+
+      # Menu items outside a project are not permission-filtered by the menu
+      # manager, so this proc is the only gate.
+      should_render_global_menu_item = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+          ResourcePlanner.section_visible_to?(User.current)
+      end
+
+      menu :global_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index, project_id: nil },
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management",
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :resource_planners_menu,
+           { controller: "/resource_management/resource_planners", action: :index },
+           parent: :resource_management,
+           partial: "resource_management/menus/menu",
+           last: true,
+           caption: :label_resource_management,
+           if: should_render_global_menu_item
+
+      menu :top_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index, project_id: nil },
+           context: :modules,
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management",
+           if: should_render_global_menu_item
+
+      menu :project_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index },
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management"
+
+      menu :project_menu,
+           :resource_planners_menu,
+           { controller: "/resource_management/resource_planners", action: :index },
+           parent: :resource_management,
+           partial: "resource_management/menus/menu",
+           last: true,
+           caption: :label_resource_management
+    end
+
+    initializer "resource_management.permissions" do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:manage_placeholder_user)
+                                  .controller_actions
+                                  .push(
+                                    "resource_management/placeholder_users/new",
+                                    "resource_management/placeholder_users/create"
+                                  )
+      end
+    end
+
+    config.to_prepare do
+      ::Queries::Register.register(::Query) do
+        filter ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
+        exclude ::Queries::WorkPackages::Filter::ResourceManagementEnabledFilter
+      end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:allocated_time) do |eager_scope, work_package_scope, _current_user|
+          eager_scope.include_allocated_time(work_package_scope)
+        end
+
+      ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
+        .add_eager_loading_extension(:allocated_principals) do |eager_scope, _work_package_scope, _current_user|
+          eager_scope.preload(allocated_resource_allocations: %i[placeholder_user visible_principal])
+        end
+
+      resource_management_constraint = ->(_type, project: nil) {
+        project.nil? || project.module_enabled?(:resource_management)
+      }
+
+      ::Exports::Register.register do
+        formatter WorkPackage, WorkPackage::Exports::Formatters::AllocatedTime
+        formatter WorkPackage, WorkPackage::Exports::Formatters::AllocatedPrincipals
+      end
+
+      ::WorkPackage::Exports::Attributes
+        .add_attribute_visibility_check(:allocated_time, :allocated_principals) do |work_package|
+          EnterpriseToken.allows_to?(:resource_management) &&
+            User.current.allowed_in_project?(:view_resource_planners, work_package.project)
+        end
+
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :allocated_time, :allocated_principals)
+      ::TypeVariant.add_constraint :allocated_time, resource_management_constraint
+      ::TypeVariant.add_constraint :allocated_principals, resource_management_constraint
+    end
+
+    add_api_path :allocatable_principals do
+      "#{root}/allocatable_principals"
+    end
+
+    add_api_path :allocatable_work_packages do
+      "#{root}/allocatable_work_packages"
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI
+      mount ::API::V3::AllocatableWorkPackages::AllocatableWorkPackagesAPI
+    end
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      link :allocateResource,
+           cache_if: -> {
+             EnterpriseToken.allows_to?(:resource_management) &&
+               current_user.allowed_in_project?(:allocate_user_resources, represented.project)
+           } do
+        next if represented.new_record? || represented.project.nil?
+
+        {
+          href: new_project_resource_allocation_path(represented.project, work_package_id: represented.id),
+          type: "text/vnd.turbo-stream.html",
+          title: "Allocate resource to '#{represented.subject}'"
+        }
+      end
+
+      link :showResourceAllocations,
+           cache_if: -> { resource_allocations_visible? } do
+        next if represented.new_record? || represented.project.nil?
+
+        {
+          href: project_work_package_resource_allocations_path(represented.project, represented.id),
+          type: "text/vnd.turbo-stream.html",
+          title: "Resource allocations of '#{represented.subject}'"
+        }
+      end
+
+      property :allocated_time,
+               exec_context: :decorator,
+               getter: ->(*) { datetime_formatter.format_duration_from_hours(represented.allocated_minutes / 60.0) },
+               if: ->(*) { resource_allocations_visible? },
+               uncacheable: true
+
+      links :allocatedPrincipals,
+            uncacheable: true do
+        next unless resource_allocations_visible?
+
+        principal_links = represented.allocated_principals.map do |principal|
+          {
+            href: api_v3_paths.send(API::V3::Principals::PrincipalType.for(principal), principal.id),
+            title: principal.name
+          }
+        end
+
+        if represented.undisclosed_allocated_principals?
+          principal_links << {
+            href: API::V3::URN_UNDISCLOSED,
+            title: I18n.t("api_v3.undisclosed.allocatedPrincipal")
+          }
+        end
+
+        principal_links
+      end
+
+      send(:define_method, :resource_allocations_visible?) do
+        EnterpriseToken.allows_to?(:resource_management) &&
+          current_user.allowed_in_project?(:view_resource_planners, represented.project)
+      end
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      resource_allocations_visible = ->(*) {
+        EnterpriseToken.allows_to?(:resource_management) &&
+          current_user.allowed_in_project?(:view_resource_planners, represented.project)
+      }
+
+      schema :allocated_time,
+             type: "Duration",
+             required: false,
+             writable: false,
+             show_if: resource_allocations_visible
+
+      schema :allocated_principals,
+             type: "[]User",
+             location: :link,
+             required: false,
+             writable: false,
+             show_if: resource_allocations_visible
+    end
+  end
+end

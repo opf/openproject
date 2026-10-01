@@ -30,16 +30,16 @@
 
 require "spec_helper"
 
-RSpec.describe McpResources::TypeList, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpResources::TypeList do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
-    header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
   end
 
   let(:access_token) { create(:oauth_access_token, scopes: "mcp", resource_owner: user) }
-  let(:user) { create(:admin) } # using an admin, to ensure visibility of everything
+  let(:user) { create(:user) }
+  let(:permissions) { %i[view_work_packages] }
   let(:request_body) do
     {
       jsonrpc: "2.0",
@@ -59,6 +59,7 @@ RSpec.describe McpResources::TypeList, with_flag: { mcp_server: true } do
   let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
 
   before do
+    create(:member, user:, roles: [create(:project_role, permissions: permissions)])
     server_config.save!
     resource_config.save!
   end
@@ -67,7 +68,7 @@ RSpec.describe McpResources::TypeList, with_flag: { mcp_server: true } do
     it_behaves_like "MCP text resource response"
 
     it "responds with a properly formatted type list" do
-      subject
+      mcp_request
       text_content = parsed_results.fetch("contents").first
       types = text_content.fetch("text")
       expect(types).to match_json_schema.from_docs("types_model")
@@ -78,11 +79,24 @@ RSpec.describe McpResources::TypeList, with_flag: { mcp_server: true } do
 
       it_behaves_like "MCP empty resource response"
     end
+
+    context "when lacking permission to see types" do
+      let(:permissions) { [] }
+
+      it_behaves_like "MCP text resource response"
+
+      it "responds with an empty list" do
+        mcp_request
+        text_content = parsed_results.fetch("contents").first
+        types_collection = JSON.parse(text_content.fetch("text"))
+        expect(types_collection.dig("_embedded", "elements")).to be_empty
+      end
+    end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

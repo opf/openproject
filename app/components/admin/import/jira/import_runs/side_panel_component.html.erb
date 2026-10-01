@@ -1,0 +1,11 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel.new(spacious: true)) do |panel|
+      [
+        Admin::Import::Jira::ImportRuns::SidePanel::StatusComponent.new(@jira_import)
+      ].each do |component|
+        panel.with_section(component)
+      end
+    end
+  end
+%>

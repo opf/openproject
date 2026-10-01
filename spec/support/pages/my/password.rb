@@ -43,7 +43,7 @@ module Pages
         page.fill_in("new_password", with: new_password)
         page.fill_in("new_password_confirmation", with: confirmation)
 
-        page.click_link_or_button "Save"
+        page.click_button "Change password"
       end
 
       def expect_password_reuse_error_message(count)
@@ -53,7 +53,7 @@ module Pages
 
       def expect_password_weak_error_message
         expect_flash(type: :error,
-                     message: "Password Must contain characters of the following classes (at least 2 of 3): lowercase (e.g. 'a'), uppercase (e.g. 'A'), numeric (e.g. '1')")
+                     message: "Password Must include characters of the following types")
       end
 
       def expect_password_updated_message

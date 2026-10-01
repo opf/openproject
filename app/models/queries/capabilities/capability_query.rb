@@ -43,7 +43,7 @@ class Queries::Capabilities::CapabilityQuery
 
   def default_scope
     Capability
-      .default
+      .visible
       .distinct
   end
 

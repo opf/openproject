@@ -137,7 +137,7 @@ RSpec.describe "Activity page navigation", :js do
     it "can filter by user" do
       # using the user filter through the activity link on the user profile page
       visit user_path(user.id)
-      click_on("Activity")
+      wait_for_turbo { click_on("Activity") }
 
       expect(page).to have_heading("#{user.name}'s activity")
       expect(page).to have_link(user.name)
@@ -282,7 +282,7 @@ RSpec.describe "Activity page navigation", :js do
         activity_page_path = page.current_path
 
         if is_work_package
-          wp_page = Pages::SplitWorkPackage.new(project_work_package, project)
+          wp_page = Pages::PrimerizedSplitWorkPackage.new(project_work_package, project)
           wp_page.switch_to_tab tab: :activity
           wp_page.wait_for_activity_tab
         end

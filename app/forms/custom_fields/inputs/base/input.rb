@@ -50,7 +50,7 @@ class CustomFields::Inputs::Base::Input < ApplicationForm
       {
         data: {
           "custom-field-id": @custom_field.id,
-          "qa-field-name": qa_field_name
+          "test-selector": test_selector
         }
       }
     )

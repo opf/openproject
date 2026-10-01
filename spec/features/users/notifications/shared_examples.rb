@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples "notification settings workflow" do
-  describe "with another project the user can see",
-           with_ee: %i[date_alerts] do
+  describe "with another project the user can see" do
     shared_let(:project) { create(:project) }
     shared_let(:project_alt) { create(:project) }
     shared_let(:role) { create(:project_role, permissions: %i[view_project]) }
@@ -13,24 +12,25 @@ RSpec.shared_examples "notification settings workflow" do
       # Expect default settings
       settings_page.expect_represented
 
-      # Add projects columns
-      settings_page.add_project project
-      settings_page.add_project project_alt
-
       # Set settings for global email
       settings_page.configure_global assignee: true,
                                      responsible: true,
-                                     shared: true,
-                                     work_package_commented: true,
+                                     shared: true
+      settings_page.save_participating
+
+      settings_page.configure_global work_package_commented: true,
                                      work_package_created: true,
                                      work_package_processed: true,
                                      work_package_prioritized: true,
                                      work_package_scheduled: true
+      settings_page.save_non_participating
 
       # Set settings for global date alerts
-      settings_page.set_reminder("start-date", "3 days before")
+      settings_page.set_reminder("start_date", "3 days before")
       settings_page.enable_date_alert("overdue", true)
-      settings_page.set_reminder("overdue", "every week")
+      settings_page.set_reminder("overdue", "7 days after")
+
+      settings_page.save_date_alerts
 
       # Set settings for project email
       settings_page.configure_project project:,
@@ -44,15 +44,14 @@ RSpec.shared_examples "notification settings workflow" do
                                       work_package_scheduled: false
 
       # Set settings for project date alerts
-      settings_page.set_project_reminder("start-date", "3 days before", project)
-      settings_page.set_project_reminder("due-date", "3 days before", project)
-      settings_page.set_project_reminder("overdue", "every week", project)
+      settings_page.set_project_reminder("start_date", "3 days before")
+      settings_page.set_project_reminder("due_date", "3 days before")
+      settings_page.set_project_reminder("overdue", "7 days after")
 
-      settings_page.save
-      settings_page.expect_and_dismiss_toaster(message: "Successful update")
+      settings_page.save_project
 
       notification_settings = user.reload.notification_settings
-      expect(notification_settings.count).to eq 3
+      expect(notification_settings.count).to eq 2
       expect(notification_settings.where(project: nil).count).to eq(1)
       expect(notification_settings.where(project:).count).to eq 1
 
@@ -87,20 +86,22 @@ RSpec.shared_examples "notification settings workflow" do
       expect(project_settings.overdue).to eq(7)
 
       # Unset global date alert settings
-      settings_page.enable_date_alert("start", false)
+      settings_page.enable_date_alert("start_date", false)
       settings_page.enable_date_alert("overdue", false)
-      settings_page.enable_date_alert("due", false)
+      settings_page.enable_date_alert("due_date", false)
+
+      settings_page.save_date_alerts
 
       # Unset project date alert settings
-      settings_page.set_project_reminder("start-date", "No notification", project)
-      settings_page.set_project_reminder("due-date", "No notification", project)
-      settings_page.set_project_reminder("overdue", "No notification", project)
+      settings_page.edit_project project
+      settings_page.disable_project_date_alert("start_date")
+      settings_page.disable_project_date_alert("due_date")
+      settings_page.disable_project_date_alert("overdue")
 
-      settings_page.save
-      settings_page.expect_and_dismiss_toaster(message: "Successful update")
+      settings_page.save_project
 
       notification_settings = user.reload.notification_settings
-      expect(notification_settings.count).to eq 3
+      expect(notification_settings.count).to eq 2
       expect(notification_settings.where(project: nil).count).to eq(1)
       expect(notification_settings.where(project:).count).to eq 1
 
@@ -115,11 +116,44 @@ RSpec.shared_examples "notification settings workflow" do
       expect(project_settings.overdue).to be_nil
 
       # Trying to add the same project again will not be possible (Regression #38072)
-      click_button "Add setting for project"
-      container = page.find('[data-test-selector="notification-setting-inline-create"] ng-select')
+      click_link "Add project-specific notifications"
+      container = page.find('[data-test-selector="my-notifications-project-autocompleter"] ng-select')
       settings_page.search_autocomplete container, query: project.name, results_selector: "body"
-      expect(page).to have_text "This project is already selected"
-      expect(page).to have_css(".ng-option-disabled", text: project.name)
+      expect(page).to have_no_css(".ng-option", text: project.name)
+    end
+
+    it_behaves_like "a project picker searchable by identifier" do
+      # Membership is required for the autocompleter to offer these projects at
+      # all when the logged-in user is not an admin (as in "as a regular user").
+      let(:target_project) do
+        create(:project, name: "Alpha Initiative", identifier: "zulu-target", members: { user => role })
+      end
+      # A project without notification settings of its own, so that it is
+      # offered by the autocompleter unless the search filters it out.
+      let(:control_project) do
+        create(:project, name: "Beta Initiative", identifier: "yankee-other", members: { user => role })
+      end
+
+      before do
+        click_link "Add project-specific notifications"
+      end
+
+      def search_project(query)
+        container = page.find('[data-test-selector="my-notifications-project-autocompleter"] ng-select')
+        settings_page.search_autocomplete container, query:, results_selector: "body"
+      end
+    end
+
+    it "deletes project-specific notification settings without a routing error" do
+      create(:notification_setting, user:, project:)
+      settings_page.visit!
+
+      settings_page.delete_project project
+      settings_page.expect_and_dismiss_flash
+
+      expect(page).to have_current_path(settings_page.path)
+      expect(user.reload.notification_settings.where(project:)).to be_empty
+      expect(page).to have_no_test_selector("project-specific-settings-list", text: project.name)
     end
 
     context "when overdue alerts are disabled for one project, enabled for another" do
@@ -137,27 +171,8 @@ RSpec.shared_examples "notification settings workflow" do
         setting_alt.save!
 
         mail_settings_page.visit!
-        mail_settings_page.save
-        mail_settings_page.expect_and_dismiss_toaster(message: "Successful update")
-      end
-    end
-
-    context "without enterprise", with_ee: false do
-      it "does not render the date alerts" do
-        # Expect default settings
-        settings_page.expect_represented
-
-        # Add projects columns
-        settings_page.add_project project
-
-        # Expect no date alert fields
-        settings_page.expect_no_date_alert_setting("start-date")
-        settings_page.expect_no_date_alert_setting("due-date")
-        settings_page.expect_no_date_alert_setting("overdue")
-
-        settings_page.expect_no_project_date_alert_setting("start-date", project)
-        settings_page.expect_no_project_date_alert_setting("due-date", project)
-        settings_page.expect_no_project_date_alert_setting("overdue", project)
+        mail_settings_page.save_daily_reminders_form
+        mail_settings_page.expect_and_dismiss_flash
       end
     end
   end

@@ -33,11 +33,12 @@ module Migration
     module PermissionAdder
       module_function
 
-      # Adds a permission to all roles that have the filter permission.
+      # Adds a permission to all roles that have the filter permission(s).
       # E.g. this can be used to add a new permission to all roles having the :view_work_packages permission.
+      # When an array is passed for `having`, only roles that have ALL of those permissions are selected.
       # It is possible to force adding the permission. This might be necessary for older migrations
       # where the permission has been removed/renamed in the meantime.
-      # @param [Symbol] having The permission to filter the roles by
+      # @param [Symbol, Array<Symbol>] having The permission(s) to filter the roles by
       # @param [Symbol] add The permission to add
       # @param [FalseClass, TrueClass] force Whether to force adding the permission even if it is not a valid permission.
       def add(having, add, force: false) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -48,10 +49,16 @@ module Migration
           return
         end
 
+        having_permissions = Array(having)
+        # Select all the roles that have all the permissions enumerated
+        # in the `having_permissions` variable.
+
         role_scope = Role
+          .unscoped
           .joins(:role_permissions)
-          .where(role_permissions: { permission: having.to_s })
-          .references(:role_permissions)
+          .where(role_permissions: { permission: having_permissions })
+          .group("roles.id")
+          .having("COUNT(DISTINCT role_permissions.permission) = ?", having_permissions.length)
 
         role_scope.find_each do |role|
           # Check if the add-permission already exists before adding

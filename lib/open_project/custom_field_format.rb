@@ -42,6 +42,8 @@ module OpenProject
                    edit_as: name,
                    only: nil,
                    multi_value_possible: false,
+                   numeric_bounds_possible: false,
+                   length_limits_possible: false,
                    enterprise_feature: nil,
                    enabled: lambda { true },
                    formatter: "CustomValue::StringStrategy")
@@ -51,6 +53,8 @@ module OpenProject
       @edit_as = edit_as
       @class_names = only
       @multi_value_possible = multi_value_possible
+      @numeric_bounds_possible = numeric_bounds_possible
+      @length_limits_possible = length_limits_possible
       @enterprise_feature = enterprise_feature
       @enabled = enabled
       @formatter = formatter
@@ -58,6 +62,14 @@ module OpenProject
 
     def multi_value_possible?
       @multi_value_possible
+    end
+
+    def numeric_bounds_possible?
+      @numeric_bounds_possible
+    end
+
+    def length_limits_possible?
+      @length_limits_possible
     end
 
     def formatter
@@ -82,53 +94,46 @@ module OpenProject
     end
 
     def for_class_name?(class_name)
-      @class_names.nil? || @class_names.include?(class_name)
+      (@class_names.nil? || @class_names.include?(class_name)) && !label.nil?
     end
 
     class << self
-      def registered = registered_by_name.values
+      def register(name, **)
+        return if registered_by_name.has_key?(name)
 
-      def map(&)
-        yield self
-      end
-
-      # Registers a custom field format
-      def register(custom_field_format, _options = {})
-        return if registered_by_name.has_key?(custom_field_format.name)
-
-        registered_by_name[custom_field_format.name] = custom_field_format
-      end
-
-      def available
-        registered.select(&:available?)
-      end
-
-      def enabled
-        registered.select(&:enabled?)
-      end
-
-      def available_formats
-        available.map(&:name)
+        registered_by_name[name] = new(name, **)
+        @registered = nil
       end
 
       def find_by(name:)
         registered_by_name[name.to_s]
       end
 
+      def registered
+        @registered ||= registered_by_name.values.sort_by(&:order)
+      end
+
+      def available = registered.select(&:available?)
+      def enabled = registered.select(&:enabled?)
+      def disabled = registered.select(&:disabled?)
+
+      def registered_formats = registered.map(&:name)
+      def available_formats = available.map(&:name)
+      def enabled_formats = enabled.map(&:name)
+      def disabled_formats = disabled.map(&:name)
+
       def enabled_for_class_name(class_name)
-        enabled
-          .select { |format| format.for_class_name?(class_name) && !format.label.nil? }
-          .sort_by(&:order)
+        filter_for_class_name(enabled, class_name)
       end
 
       def available_for_class_name(class_name)
-        available
-          .select { |format| format.for_class_name?(class_name) && !format.label.nil? }
-          .sort_by(&:order)
+        filter_for_class_name(available, class_name)
       end
 
-      def disabled_formats
-        registered.select(&:disabled?).map(&:name)
+      private
+
+      def filter_for_class_name(list, class_name)
+        list.select { |format| format.for_class_name?(class_name) }
       end
     end
   end

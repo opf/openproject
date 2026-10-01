@@ -31,6 +31,7 @@
 module Documents
   class BaseContract < ::ModelContract
     include Attachments::ValidateReplacements
+    include UnchangedProject
 
     def self.model
       Document
@@ -43,11 +44,26 @@ module Documents
     attribute :description
     attribute :content_binary
 
-    validate :validate_manage_allowed
+    validate :validate_manage_allowed_in_source_project
+    validate :validate_manage_allowed_in_destination_project
 
     private
 
-    def validate_manage_allowed
+    def validate_manage_allowed_in_source_project
+      if model.new_record?
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(:manage_documents, model.project)
+        return
+      end
+
+      with_unchanged_project_id do
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(:manage_documents, model.project)
+      end
+    end
+
+    def validate_manage_allowed_in_destination_project
+      return if model.new_record?
+      return unless model.project_id_changed?
+
       unless user.allowed_in_project?(:manage_documents, model.project)
         errors.add :base, :error_unauthorized
       end

@@ -316,11 +316,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
-      describe "version" do
+      describe "version", with_settings: { work_package_multiple_versions: false } do
         let(:version) { build_stubbed(:version) }
 
         before do
-          work_package.version = version
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "linked property" do
@@ -328,7 +328,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
 
-        it_behaves_like "linked property with 0 value", :version, :version
+        context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
+          it "does not offer the deprecated property as writable" do
+            expect(representer.writable_attributes).not_to include("version")
+            expect(subject).not_to have_json_path("_links/version")
+          end
+        end
       end
 
       describe "category" do
@@ -597,17 +602,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
     end
 
-    describe "version" do
-      before do
-        work_package.version_id = 1
-      end
-
-      it_behaves_like "linked resource" do
-        let(:attribute_name) { "version" }
-        let(:association_name) { "version_id" }
-      end
-    end
-
     describe "type" do
       it_behaves_like "linked resource" do
         let(:attribute_name) { "type" }
@@ -675,12 +669,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     describe "parent" do
       let(:parent) { build_stubbed(:work_package) }
       let(:new_parent) do
-        wp = build_stubbed(:work_package)
-        allow(WorkPackage)
-          .to receive(:find_by)
-          .with(id: wp.id.to_s)
-          .and_return(wp)
-        wp
+        build_stubbed(:work_package).tap do |wp|
+          visible_relation = instance_double(ActiveRecord::Relation)
+          allow(WorkPackage).to receive(:visible).and_return(visible_relation)
+          allow(visible_relation).to receive(:find_by).with(id: wp.id.to_s).and_return(wp)
+        end
       end
       let(:path) { api_v3_paths.work_package(new_parent.id) }
       let(:links) do

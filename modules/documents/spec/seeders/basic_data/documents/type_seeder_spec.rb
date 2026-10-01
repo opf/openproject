@@ -58,72 +58,6 @@ RSpec.describe BasicData::Documents::TypeSeeder do
   end
 
   describe "#seed!" do
-    context "when there are 3 or fewer document types" do
-      before do
-        create(:document_type, name: "Existing Type 1")
-        create(:document_type, name: "Existing Type 2")
-      end
-
-      it "seeds additional types from seed data" do
-        expect { seeder.seed! }
-          .to change(DocumentType, :count)
-          .by(3)
-
-        aggregate_failures "creates types with correct attributes from seed data" do
-          seeded_document_types = ["Note", "Idea", "Proposal"]
-
-          expect(DocumentType.pluck(:name)).to contain_exactly(
-            "Existing type 1",
-            "Existing type 2",
-            *seeded_document_types
-          )
-        end
-      end
-
-      context "when no default type exists and there is a defaultable type" do
-        it "sets the first type as default" do
-          expect(DocumentType.where(is_default: true).count).to eq(0)
-          seeder.seed!
-
-          default_types = DocumentType.where(is_default: true)
-          expect(default_types.count).to eq(1)
-          expect(default_types.first.name).to eq("Note")
-        end
-      end
-
-      context "when a default type already exists" do
-        before do
-          create(:document_type, name: "Custom Default", is_default: true)
-        end
-
-        it "does not override the existing default" do
-          expect(DocumentType.where(is_default: true).count).to eq(1)
-          seeder.seed!
-
-          default_types = DocumentType.where(is_default: true)
-          expect(default_types.count).to eq(1)
-          expect(default_types.first.name).to eq("Custom default")
-        end
-      end
-    end
-
-    context "when there are more than 3 document types" do
-      before do
-        create_list(:document_type, 3)
-        create(:document_type, name: "Type 4", is_default: true)
-      end
-
-      it "does not seed additional types" do
-        expect { seeder.seed! }
-          .not_to change(DocumentType, :count)
-
-        aggregate_failures "does not modify existing types" do
-          expect(DocumentType.count).to eq(4)
-          expect(DocumentType.find_by(name: "Type 4", is_default: true)).to be_present
-        end
-      end
-    end
-
     context "when no document types exist" do
       it "seeds all types from seed data" do
         expect { seeder.seed! }
@@ -137,19 +71,37 @@ RSpec.describe BasicData::Documents::TypeSeeder do
         default_type = DocumentType.find_by(is_default: true)
         expect(default_type.name).to eq("Note")
       end
-    end
 
-    context "with duplicate type names in seed data and database" do
-      before do
-        create(:document_type, name: "Note", is_default: false)
-      end
-
-      it "does not create duplicate types" do
+      it "stores references for all seeded types" do
         seeder.seed!
 
-        expect(DocumentType.where(name: "Note").count).to eq(1)
-        note_type = DocumentType.find_by(name: "Note")
-        expect(note_type.is_default).to be(false)
+        expect(seed_data.find_reference("doc_type_note")).to eq(DocumentType.find_by(name: "Note"))
+        expect(seed_data.find_reference("doc_type_idea")).to eq(DocumentType.find_by(name: "Idea"))
+        expect(seed_data.find_reference("doc_type_proposal")).to eq(DocumentType.find_by(name: "Proposal"))
+      end
+    end
+
+    context "when document types already exist" do
+      before do
+        create(:document_type, name: "Note")
+        create(:document_type, name: "Custom Type", is_default: true)
+      end
+
+      it "does not seed additional types" do
+        expect { seeder.seed! }
+          .not_to change(DocumentType, :count)
+      end
+
+      it "does not modify existing types" do
+        seeder.seed!
+
+        expect(DocumentType.find_by(name: "Custom Type", is_default: true)).to be_present
+      end
+
+      it "stores references for existing types matching seed data names" do
+        seeder.seed!
+
+        expect(seed_data.find_reference("doc_type_note")).to eq(DocumentType.find_by(name: "Note"))
       end
     end
   end

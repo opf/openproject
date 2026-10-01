@@ -21,53 +21,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit,
+  ChangeDetectionStrategy,
+  Component,
 } from '@angular/core';
-import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { Observable } from 'rxjs';
-import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { AbstractTurboWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-turbo-widget.component';
 
 @Component({
+  selector: 'op-project-description-widget',
   templateUrl: './project-description.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    HalResourceEditingService,
-  ],
   standalone: false,
 })
-export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent implements OnInit {
-  public project$:Observable<ProjectResource>;
-
-  constructor(protected readonly i18n:I18nService,
-    protected readonly injector:Injector,
-    protected readonly apiV3Service:ApiV3Service,
-    protected readonly currentProject:CurrentProjectService,
-    protected readonly cdRef:ChangeDetectorRef) {
-    super(i18n, injector);
-  }
-
-  ngOnInit():void {
-    if (this.currentProject.id) {
-      this.project$ = this
-        .apiV3Service
-        .projects
-        .id(this.currentProject.id)
-        .get();
-      this.cdRef.detectChanges();
-    }
-  }
-
-  public get isEditable():boolean {
-    return false;
-  }
+export class WidgetProjectDescriptionComponent extends AbstractTurboWidgetComponent {
+  override frameId = 'grids-widgets-description';
+  override name = 'description';
 }

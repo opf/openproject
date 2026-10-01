@@ -45,23 +45,23 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
 
   context "with MeetingAgendaItem" do
     it_behaves_like "rewritten record",
-                    :meeting_agenda_item,
+                    MeetingAgendaItem,
                     :author_id
 
     it_behaves_like "rewritten record",
-                    :meeting_agenda_item,
+                    MeetingAgendaItem,
                     :presenter_id
   end
 
   context "with MeetingOutcome" do
     it_behaves_like "rewritten record",
-                    :meeting_outcome,
+                    MeetingOutcome,
                     :author_id
   end
 
   context "with Journal::MeetingAgendaItemJournal" do
     it_behaves_like "rewritten record",
-                    :journal_meeting_agenda_item_journal,
+                    Journal::MeetingAgendaItemJournal,
                     :author_id
   end
 end

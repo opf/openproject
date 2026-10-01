@@ -73,7 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
         <h4 class="author additional-information">
           <%= avatar(message.author) %>
-          <%= link_to h(message.subject), topic_path(@topic,
+          <%= link_to h(message.subject), project_forum_topic_path(@project, @forum, @topic,
                                                      r: message,
                                                      page: @offset,
                                                      anchor: "message-#{message.id}") %>
@@ -99,7 +99,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       <%= labelled_tabular_form_for @reply,
                                     as: :reply,
-                                    url: reply_to_topic_path(@topic),
+                                    url: reply_to_project_forum_topic_path(@project, @forum, @topic),
                                     html: {
                                       multipart: true,
                                       id: 'message-form',

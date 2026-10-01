@@ -42,8 +42,9 @@ module Projects
 
             @project = project
             @project_custom_field_section = project_custom_field_section
-            enabled_custom_field_ids = project.enabled_custom_field_ids
-            @project_custom_fields = project_custom_field_section.custom_fields.where(id: enabled_custom_field_ids)
+            enabled_ids = project.enabled_custom_field_ids.to_set
+            @project_custom_fields = project_custom_field_section.custom_fields_in_order
+                                                                 .select { |cf| enabled_ids.include?(cf.id) }
           end
 
           private

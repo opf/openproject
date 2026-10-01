@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Queries
-          RSpec.describe FilesInfoQuery, :vcr, :webmock do
+          RSpec.describe FilesInfoQuery, :disable_ssrf_filter, :vcr, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
             let(:auth_strategy) { Registry["one_drive.authentication.user_bound"].call(user, storage) }
@@ -74,7 +74,7 @@ module Storages
                     owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                     last_modified_by_name: "Eric Schubert",
                     last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-                    location: "/Folder%20with%20spaces"
+                    location: "/Folder with spaces"
                   ),
                   Results::StorageFileInfo.new(
                     status: "ok",

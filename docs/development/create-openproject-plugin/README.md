@@ -126,7 +126,7 @@ It is probably best to use READMEs of already released plugins as a template.
 - `gem push <name>-<version>.gem`. This asks for your user/password
 - Go to [rubygems.org](https://rubygems.org), log in, go to the dashboard, click on the uploaded gem, click edit.  Set URLs, at least source code URL and Bug Tracker URL
 - You are done .
-- *Be careful when publishing a gem. Once it is published, it cannot be replaced in the same version*. It is only possible to take a version out of the index and publish a new version.
+- _Be careful when publishing a gem. Once it is published, it cannot be replaced in the same version_. It is only possible to take a version out of the index and publish a new version.
 
 ### Create public visibility
 
@@ -161,9 +161,9 @@ _CAVEAT: npm dependencies for hybrid plugins are not yet resolved._
 
 **To use a hybrid plugin:**
 
-* declare the dependency in `Gemfile.plugins` within the `:opf_plugins` group
+- declare the dependency in `Gemfile.plugins` within the `:opf_plugins` group
   using the Bundler DSL.
-* then run `bundle install`.
+- then run `bundle install`.
 
-Provided Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
-will bundle their assets.
+Provided Ruby Bundler is aware of these plugins, the frontend build pipeline
+(Angular CLI with esbuild) will bundle their assets.

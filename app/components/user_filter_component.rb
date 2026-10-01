@@ -55,7 +55,7 @@ class UserFilterComponent < IndividualPrincipalBaseFilterComponent
     end
 
     def base_query
-      Queries::Users::UserQuery
+      UserQuery
     end
 
     protected

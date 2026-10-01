@@ -5,7 +5,7 @@
     role="menu"
     [attr.aria-label]="locals.label"
     [ngClass]="{'-empty': items.length === 0 }">
-    @for (item of items; track item) {
+    @for (item of items; track (item.href || item.linkText || item.ariaLabel || item.title || 'item') + ':' + $index) {
       @if (item.isHeader) {
         <li role="none">
           <span

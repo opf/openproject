@@ -38,13 +38,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_with model: false, scope: :wiki_page, url: { action: "replace_main_menu_item" } do |f| %>
   <fieldset class="form--fieldset" id="wiki_menu_item_setting">
-    <legend class="form--fieldset-legend"><%= t(:label_wiki_page) %></legend>
+    <legend class="form--fieldset-legend"><%= WikiPage.model_name.human %></legend>
     <p>
       <%= f.select :id,
                    wiki_page_options_for_select(@possible_wiki_pages),
                    { label: WikiPage.human_attribute_name(:title) },
-                   { size: @possible_wiki_pages.size,
-                     id: "main-menu-item-select" } %>
+                   { id: "main-menu-item-select" } %>
     </p>
   </fieldset>
   <%= submit_tag t(:button_save), class: "button -primary" %>

@@ -57,7 +57,7 @@ class SharesController < ApplicationController
     visible_shares_before_adding = sharing_strategy.shares.present?
 
     find_or_create_users(send_notification: send_notification?) do |member_params|
-      user = User.find_by(id: member_params[:user_id])
+      user = User.visible.find_by(id: member_params[:user_id])
       if user.present? && (user.locked? || user.deleted?)
         @errors.add(:base, I18n.t("sharing.warning_locked_user", user: user.name))
       else

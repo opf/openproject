@@ -21,21 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { StateService } from '@uirouter/core';
+import { isEqual } from 'lodash-es';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
 
@@ -64,6 +56,7 @@ import { ProjectStoragesResourceService } from 'core-app/core/state/project-stor
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export interface FieldDescriptor {
   name:string;
@@ -94,11 +87,28 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
   templateUrl: './wp-single-view.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
+  protected readonly injector = inject(Injector);
+  private readonly states = inject(States);
+  private readonly I18n = inject(I18nService);
+  private readonly hook = inject(HookService);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly PathHelper = inject(PathHelperService);
+  private readonly schemaCache = inject(SchemaCacheService);
+  private readonly currentProject = inject(CurrentProjectService);
+  private readonly halEditing = inject(HalResourceEditingService);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly currentUserService = inject(CurrentUserService);
+  private readonly displayFieldService = inject(DisplayFieldService);
+  private readonly projectsResourceService = inject(ProjectsResourceService);
+  private readonly projectStoragesService = inject(ProjectStoragesResourceService);
+
   @Input() public workPackage:WorkPackageResource;
 
   /** Should we show the project field */
@@ -117,6 +127,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   };
 
   public text = {
+    linkProject: (name:string) => this.I18n.t('js.project.click_to_switch_to_project', { projectname: name }),
     attachments: {
       label: this.I18n.t('js.label_attachments'),
     },
@@ -138,39 +149,14 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public isNewResource:boolean;
 
-  public uiSelfRef:string;
-
   element:HTMLElement;
 
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
 
-  constructor(
-    protected readonly injector:Injector,
-    private readonly states:States,
-    private readonly I18n:I18nService,
-    private readonly hook:HookService,
-    private readonly $state:StateService,
-    private readonly elementRef:ElementRef,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly PathHelper:PathHelperService,
-    private readonly schemaCache:SchemaCacheService,
-    private readonly currentProject:CurrentProjectService,
-    private readonly halEditing:HalResourceEditingService,
-    private readonly halResourceService:HalResourceService,
-    private readonly currentUserService:CurrentUserService,
-    private readonly displayFieldService:DisplayFieldService,
-    private readonly projectsResourceService:ProjectsResourceService,
-    private readonly projectStoragesService:ProjectStoragesResourceService,
-  ) {
-    super();
-  }
-
   public ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.isNewResource = isNewResource(this.workPackage);
-
-    this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.refresh(change);
@@ -183,7 +169,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       .pipe(
         this.untilDestroyed(),
         map((resource) => this.contextFrom(resource)),
-        distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
+        distinctUntilChanged<ResourceContextChange>((a, b) => isEqual(a, b)),
         map(() => this.halEditing.changeFor(this.workPackage)),
       )
       .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
@@ -204,7 +190,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
       this.projectContext = {
         id: project.id,
-        href: this.PathHelper.projectWorkPackagePath(project.id, workPackageId),
+        href: this.PathHelper.projectWorkPackagePath(project.id, this.workPackage.displayId),
         matches: project.href === this.currentProject.apiv3Path,
       };
     }
@@ -293,19 +279,20 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Returns the work package label
    */
   public get idLabel():string {
-    return `#${this.workPackage.id || ''}`;
+    return this.workPackage.formattedId;
+  }
+
+  public get selectEntireId():boolean {
+    return isSemanticWorkPackageId(this.idLabel);
   }
 
   public showSwitchToProjectBanner():boolean {
     return !this.isNewResource && this.projectContext && !this.projectContext.matches;
   }
 
-  public get switchToProjectText():string {
+  public get switchToProjectPath():string {
     const id = idFromLink(this.workPackage.project.href);
-    const projectPath = this.PathHelper.projectPath(id);
-    const projectName = this.workPackage.project.name as string;
-    const project = `<a href="${projectPath}" target="_self" class="project-context--switch-link">${projectName}</a>`;
-    return this.I18n.t('js.project.click_to_switch_to_project', { projectname: project });
+    return this.PathHelper.projectPath(id);
   }
 
   showTwoColumnLayout():boolean {
@@ -430,9 +417,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     );
   }
 
-  private getAttributesGroupId(group:any):string {
+  private getAttributesGroupId(group:{ name:string }):string {
     const overflowingIdentifier = this.element
-      .querySelector<HTMLElement>(`[data-group-name=\'${group.name}\']`)
+      .querySelector<HTMLElement>(`[data-group-name='${group.name}']`)
       ?.dataset[overflowingContainerAttribute];
 
     if (overflowingIdentifier) {

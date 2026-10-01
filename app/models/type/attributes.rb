@@ -46,7 +46,8 @@ module Type::Attributes
                 parent_id
                 parent
                 readonly
-                schedule_manually].freeze
+                schedule_manually
+                version].freeze
 
   included do
     # Allow plugins to define constraints
@@ -74,7 +75,7 @@ module Type::Attributes
     #
     # E.g.
     #
-    #   ::Type.work_package_form_attributes['author'][:required] # => true
+    #   ::TypeVariant.work_package_form_attributes['author'][:required] # => true
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
@@ -82,10 +83,10 @@ module Type::Attributes
         WorkPackageCustomField.pluck(Arel.sql("max(updated_at), count(id)")).flatten
       end
 
-      OpenProject::Cache.fetch("all_work_package_form_attributes",
-                               *wp_cf_cache_parts,
-                               EXCLUDED.length,
-                               merge_date) do
+      OpenProject::Cache.fetch_request_cached("all_work_package_form_attributes",
+                                              *wp_cf_cache_parts,
+                                              EXCLUDED.length,
+                                              merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
     end
@@ -153,7 +154,8 @@ module Type::Attributes
           required: field.is_required,
           has_default: field.default_value.present?,
           is_cf: true,
-          display_name: field.name
+          display_name: field.name,
+          field_format: field.field_format
         }
       end
     end
@@ -200,12 +202,6 @@ module Type::Attributes
     # Check other constraints (none in the core, but costs/backlogs adds constraints)
     constraint = attribute_constraints[attribute.to_sym]
     constraint.nil? || constraint.call(self, project:)
-  end
-
-  ##
-  # Returns the active custom_field_attributes
-  def active_custom_field_attributes
-    custom_field_ids.map { |id| "custom_field_#{id}" }
   end
 
   ##

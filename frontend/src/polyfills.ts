@@ -1,54 +1,31 @@
-/**
- * This file includes polyfills needed by Angular and is loaded before the app.
- * You can add your own extra polyfills to this file.
- *
- * This file is divided into 2 sections:
- *   1. Browser polyfills. These are applied before loading ZoneJS and are sorted by browsers.
- *   2. Application imports. Files imported after ZoneJS that should be loaded before your main
- *      file.
- *
- * The current setup is for so-called "evergreen" browsers; the last versions of browsers that
- * automatically update themselves. This includes Safari >= 10, Chrome >= 55 (including Opera),
- * Edge >= 13 on the desktop, and iOS 10 and Chrome on mobile.
- *
- * Learn more in https://angular.io/guide/browser-support
- */
-
-/** *************************************************************************************************
-* BROWSER POLYFILLS
-*/
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 // Ensure global is set for ng2-dragula and others
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
 (window as any).global = window;
-
-/*
- * in IE/Edge developer tools, the addEventListener will also be wrapped by zone.js
- * with the following flag, it will bypass `zone.js` patch for IE/Edge
- */
-// (window as any).__Zone_enable_cross_context_check = true;
-
-/** *************************************************************************************************
- * Zone JS is required by default for Angular itself.
- */
-import 'zone.js';
-
-/** IE10 and IE11 requires the following for the Reflect API. */
-// import 'core-js/es6/reflect';
-
-/** Evergreen browsers require these. * */
-// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-// import 'core-js/es7/reflect';
-
-/**
- * By default, zone.js will patch all possible macroTask and DomEvents
- * user can disable parts of macroTask/DomEvents patch by setting following flags
- */
-
-// (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
-// (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
-(window as any).__zone_symbol__BLACK_LISTED_EVENTS = ['scroll', 'mousemove', 'mouseover', 'mouseout', 'mousewheel']; // Included with Angular CLI.
-
-/** *************************************************************************************************
- * APPLICATION IMPORTS
- */

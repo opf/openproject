@@ -112,9 +112,8 @@ RSpec.describe OpPrimer::ListComponent, type: :component do
     end
 
     it "renders list items" do
-      expect(rendered_component).to have_list_item count: 3
+      expect(rendered_component).to have_list_item count: 2
       expect(rendered_component).to have_list_item position: 1, text: "List item 1"
-      expect(rendered_component).to have_list_item position: 2, role: "presentation"
       expect(rendered_component).to have_list_item position: 3, text: "List item 2"
     end
   end

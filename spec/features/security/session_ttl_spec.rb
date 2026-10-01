@@ -50,7 +50,7 @@ RSpec.describe "Session TTL",
       visit "/my/account"
 
       within_test_selector "my-account-form" do
-        expect(page).to have_field "user_username", with: admin.login
+        expect(page).to have_field "user_login", with: admin.login
       end
 
       # Expire the session
@@ -63,7 +63,6 @@ RSpec.describe "Session TTL",
 
   describe "outdated TTL on API request" do
     it "expires on the next APIv3 request" do
-      page.driver.header("X-Requested-With", "XMLHttpRequest")
       visit "/api/v3/work_packages/#{work_package.id}"
 
       body = JSON.parse(page.body)

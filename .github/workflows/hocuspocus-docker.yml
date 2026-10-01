@@ -1,0 +1,69 @@
+name: "Hocuspocus / Dockerize"
+
+# NOTE: The hocuspocus image build moved to opf/openproject-flavours
+# (.github/workflows/hocuspocus-docker.yml, which checks out this repo to build the
+# extensions/op-blocknote-hocuspocus context). This thin dispatcher forwards changes to
+# that extension (and manual runs) to the flavours workflow via the workflow-dispatch API.
+
+on:
+  # auto-build when the hocuspocus extension changes on dev / release branches
+  push:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - 'extensions/op-blocknote-hocuspocus/**'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch or tag of opf/openproject to build hocuspocus from"
+        required: true
+        type: string
+      deploy_target:
+        description: "Optional saas deploy target ('edge' or 'stage'). Empty = no deploy."
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    if: github.repository == 'opf/openproject'
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute deploy target
+        id: dt
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_DEPLOY: ${{ inputs.deploy_target }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            DEPLOY="$INPUT_DEPLOY"
+          elif [ "$REF_NAME" = "dev" ]; then
+            DEPLOY="edge"
+          # NOTE: keep this in sync with the current release branch (devkit-managed in core).
+          elif [ "$REF_NAME" = "release/17.9" ]; then
+            DEPLOY="stage"
+          else
+            DEPLOY=""
+          fi
+          echo "deploy_target=$DEPLOY" >> "$GITHUB_OUTPUT"
+      - name: Dispatch flavours hocuspocus build
+        env:
+          TOKEN: ${{ secrets.OPENPROJECTCI_FLAVOUR_TRIGGER_TOKEN }}
+          REPOSITORY: opf/openproject-flavours
+          WORKFLOW_ID: hocuspocus-docker.yml
+          BRANCH: ${{ inputs.branch || github.ref_name }}
+          DEPLOY_TARGET: ${{ steps.dt.outputs.deploy_target }}
+        run: |
+          PAYLOAD=$(jq -n --arg branch "$BRANCH" --arg dt "$DEPLOY_TARGET" \
+            '{"ref": "dev", "inputs": {"branch": $branch, "deploy_target": $dt}}')
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
+            -XPOST -H"Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
+            -d "$PAYLOAD"

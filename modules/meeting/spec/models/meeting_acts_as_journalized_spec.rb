@@ -280,6 +280,136 @@ RSpec.describe Meeting do
     end
   end
 
+  describe "participants" do
+    shared_let(:participant_user) { create(:user) }
+
+    let(:participant) { meeting.participants.find_by(user: participant_user) }
+    let(:participant_journals) { meeting.journals.last.participant_journals }
+
+    before do
+      meeting.participants << MeetingParticipant.new(user: participant_user, invited: true, attended: false)
+      meeting.touch_and_save_journals
+    end
+
+    context "when a participant is added" do
+      it "creates a participant journal entry" do
+        expect(participant_journals.count).to eq(1)
+      end
+
+      it "records the correct user, invited, and attended values" do
+        expect(participant_journals.last).to have_attributes(
+          user_id: participant_user.id,
+          invited: true,
+          attended: false
+        )
+      end
+    end
+
+    context "when a participant is removed", with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:remove_participant) do
+        participant.destroy
+        meeting.touch_and_save_journals
+      end
+
+      it "creates a new journal" do
+        expect { remove_participant }.to change { meeting.journals.count }.by(1)
+      end
+
+      it "removes the participant journal from the new journal" do
+        remove_participant
+        expect(meeting.journals.last.participant_journals).to be_empty
+      end
+
+      it "keeps the participant journal in the previous journal" do
+        remove_participant
+
+        previous_journal = meeting.journals.order(:id).second_to_last
+        expect(previous_journal.participant_journals.count).to eq(1)
+        expect(previous_journal.participant_journals.first.user_id).to eq(participant_user.id)
+      end
+    end
+
+    context "when a participant's invited status changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:update_participant) do
+        participant.update!(invited: false)
+        meeting.touch_and_save_journals
+      end
+
+      it "creates a new journal" do
+        expect { update_participant }.to change { meeting.journals.count }.by(1)
+      end
+
+      it "reflects the updated invited value in the new journal" do
+        update_participant
+        expect(meeting.journals.last.participant_journals.last).to have_attributes(invited: false)
+      end
+    end
+
+    context "when no participant changes occur" do
+      it "does not create a new journal" do
+        expect do
+          meeting.save_journals
+        end.not_to change(Journal, :count)
+      end
+    end
+
+    context "when save_journals is called again within the aggregation window (regression: PG::UniqueViolation)" do
+      it "does not raise a unique violation" do
+        # Simulates save_journals being called a second time while the first journal is still
+        # the aggregation predecessor (e.g., template_completed updates the meeting right after creation)
+        meeting.update_column(:title, "Updated title")
+        expect { meeting.save_journals }.not_to raise_error
+      end
+
+      it "participant journals reflect the current state" do
+        meeting.update_column(:title, "Updated title")
+        meeting.save_journals
+        expect(meeting.journals.last.participant_journals.count).to eq(1)
+      end
+    end
+  end
+
+  describe "participant change details" do
+    shared_let(:participant505) { create(:user, firstname: "Participant", lastname: "505") }
+    shared_let(:participant401) { create(:user, firstname: "Oliver", lastname: "Captchatest") }
+    shared_let(:participant502) { create(:user, firstname: "Test", lastname: "Calculated Values") }
+    shared_let(:participant328) { create(:user, firstname: "Participant", lastname: "328") }
+    shared_let(:participant329) { create(:user, firstname: "Test", lastname: "User 329") }
+
+    let(:details_meeting) do
+      User.execute_as current_user do
+        create(:meeting, author: user)
+      end
+    end
+
+    it "computes added and removed participants from previous snapshot in journal order",
+       with_settings: { journal_aggregation_time_minutes: 0 } do
+      details_meeting.participants << MeetingParticipant.new(user: participant505, invited: true, attended: false)
+      details_meeting.touch_and_save_journals
+
+      details_meeting.participants << MeetingParticipant.new(user: participant401, invited: true, attended: false)
+      details_meeting.participants << MeetingParticipant.new(user: participant502, invited: true, attended: false)
+      details_meeting.touch_and_save_journals
+
+      details_meeting.participants.find_by(user: participant502).destroy!
+      details_meeting.participants << MeetingParticipant.new(user: participant328, invited: true, attended: false)
+      details_meeting.participants << MeetingParticipant.new(user: participant329, invited: true, attended: false)
+      details_meeting.touch_and_save_journals
+
+      details_meeting.participants.find_by(user: participant401).destroy!
+      details_meeting.participants.find_by(user: participant329).destroy!
+      details_meeting.touch_and_save_journals
+
+      journal = details_meeting.journals.last
+      allow(journal).to receive(:predecessor).and_return(details_meeting.journals.first)
+
+      expect(journal.details).to include(
+        participants_removed: [nil, "Oliver Captchatest, Test User 329"]
+      )
+      expect(journal.details[:participants_added]).to be_nil
+    end
+  end
+
   describe "#destroy" do
     let(:meeting_agenda_item) { create(:meeting_agenda_item, meeting:) }
 

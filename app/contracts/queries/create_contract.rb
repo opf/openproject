@@ -30,5 +30,10 @@
 
 module Queries
   class CreateContract < BaseContract
+    validate :user_allowed_to_save
+
+    def user_allowed_to_save
+      errors.add :base, :error_unauthorized unless user_allowed_to_save_queries?
+    end
   end
 end

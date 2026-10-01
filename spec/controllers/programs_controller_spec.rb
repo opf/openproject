@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe ProgramsController, with_flag: { portfolio_models: true } do
+RSpec.describe ProgramsController do
   shared_let(:admin) { create(:admin) }
   shared_let(:add_programs_user) { create(:user, global_permissions: [:add_programs]) }
   shared_let(:no_permission_user) { create(:user) }
@@ -94,41 +94,21 @@ RSpec.describe ProgramsController, with_flag: { portfolio_models: true } do
     let(:parent) { nil }
 
     context "as an admin" do
-      context "with flag enabled", with_flag: { portfolio_models: true } do
-        it_behaves_like "successful request"
-      end
-
-      context "with flag disabled", with_flag: { portfolio_models: false } do
-        it "returns 403 Not Authorized" do
-          expect(response).not_to be_successful
-          expect(response).to have_http_status :forbidden
-        end
-      end
+      it_behaves_like "successful request"
     end
 
     context "as a non-admin with global add_programs permission" do
       let(:user) { add_programs_user }
 
-      context "with flag enabled", with_flag: { portfolio_models: true } do
-        it_behaves_like "successful request"
-      end
-
-      context "with flag disabled", with_flag: { portfolio_models: false } do
-        it "returns 403 Not Authorized" do
-          expect(response).not_to be_successful
-          expect(response).to have_http_status :forbidden
-        end
-      end
+      it_behaves_like "successful request"
     end
 
     context "as a non-admin without add_programs permission" do
       let(:user) { no_permission_user }
 
-      context "with flag enabled", with_flag: { portfolio_models: true } do
-        it "returns 403 Not Authorized" do
-          expect(response).not_to be_successful
-          expect(response).to have_http_status :forbidden
-        end
+      it "returns 403 Not Authorized" do
+        expect(response).not_to be_successful
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -162,7 +142,7 @@ RSpec.describe ProgramsController, with_flag: { portfolio_models: true } do
       post :create, params: { project: { name: "New Program" }, parent_id: parent&.id }
     end
 
-    context "as a non-admin without global add_programs permission", with_flag: { portfolio_models: true } do
+    context "as a non-admin without global add_programs permission" do
       let(:user) { no_permission_user }
 
       it "returns 403 Not Authorized" do
@@ -171,7 +151,7 @@ RSpec.describe ProgramsController, with_flag: { portfolio_models: true } do
       end
     end
 
-    context "as a non-admin with global add_programs permission", with_flag: { portfolio_models: true } do
+    context "as a non-admin with global add_programs permission" do
       let(:user) { add_programs_user }
 
       it "redirects to project show", :aggregate_failures do

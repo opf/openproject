@@ -60,7 +60,7 @@ module API
     private
 
     def deduce_representer(_model)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def parsing_representer

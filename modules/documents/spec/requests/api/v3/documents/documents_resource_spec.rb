@@ -170,6 +170,30 @@ RSpec.describe "API v3 documents resource" do
         expect(subject.status)
           .to be(403)
       end
+
+      context "when trying to move document to another project where user can manage documents" do
+        let(:target_project) { create(:project) }
+        let(:target_role) { create(:project_role, permissions: %i(view_documents manage_documents)) }
+        let(:request_body) do
+          {
+            project_id: target_project.id,
+            title: "Moved Document Title"
+          }
+        end
+
+        before do
+          create(:member, principal: current_user, project: target_project, roles: [target_role])
+          document # ensure the source document exists before patching
+        end
+
+        it "returns 403 FORBIDDEN" do
+          expect(subject.status).to be(403)
+        end
+
+        it "does not move the document to another project" do
+          expect(document.reload.project_id).to eq(project.id)
+        end
+      end
     end
 
     context "when lacking view permissions" do

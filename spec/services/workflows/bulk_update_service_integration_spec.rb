@@ -31,8 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
-  let(:type) do
-    create(:type)
+  let(:workflow) do
+    create(:type).default_variant.workflow
   end
   let(:role) do
     create(:project_role)
@@ -54,12 +54,13 @@ RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
   end
 
   let(:instance) do
-    described_class.new(role:, type:, tab:)
+    described_class.new(role:, workflow:, tab:)
   end
 
   describe "#call" do
     let(:params) { {} }
-    let(:subject) do
+
+    subject do
       instance.call(params)
     end
 
@@ -75,17 +76,17 @@ RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
       it "sets the workflows" do
         subject
 
-        expect(Workflow.where(type_id: type.id, role_id: role.id).count)
+        expect(Workflows::StatusTransition.where(workflow_id: workflow.id, role_id: role.id).count)
           .to be 3
 
-        expect(Workflow.where(role_id: role.id,
-                              type_id: type.id,
-                              old_status_id: status3.id,
-                              new_status_id: status2.id).first).not_to be_nil
-        expect(Workflow.where(role_id: role.id,
-                              type_id: type.id,
-                              old_status_id: status5.id,
-                              new_status_id: status4.id).first).to be_nil
+        expect(Workflows::StatusTransition.where(role_id: role.id,
+                                                 workflow_id: workflow.id,
+                                                 old_status_id: status3.id,
+                                                 new_status_id: status2.id).first).not_to be_nil
+        expect(Workflows::StatusTransition.where(role_id: role.id,
+                                                 workflow_id: workflow.id,
+                                                 old_status_id: status5.id,
+                                                 new_status_id: status4.id).first).to be_nil
       end
     end
 
@@ -100,10 +101,11 @@ RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
       it "sets the workflows" do
         subject
 
-        expect(Workflow.where(type_id: type.id, role_id: role.id).count)
+        expect(Workflows::StatusTransition.where(workflow_id: workflow.id, role_id: role.id).count)
           .to be 1
 
-        w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status1.id).first
+        w = Workflows::StatusTransition.where(role_id: role.id, workflow_id: workflow.id, old_status_id: status3.id,
+                                              new_status_id: status1.id).first
         assert w.author
         assert !w.assignee
       end
@@ -120,10 +122,11 @@ RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
       it "sets the workflows" do
         subject
 
-        expect(Workflow.where(type_id: type.id, role_id: role.id).count)
+        expect(Workflows::StatusTransition.where(workflow_id: workflow.id, role_id: role.id).count)
           .to be 1
 
-        w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id).first
+        w = Workflows::StatusTransition.where(role_id: role.id, workflow_id: workflow.id, old_status_id: status3.id,
+                                              new_status_id: status2.id).first
         assert !w.author
         assert w.assignee
       end
@@ -136,13 +139,14 @@ RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
       end
 
       before do
-        Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
+        Workflows::StatusTransition.create!(role_id: role.id, workflow_id: workflow.id, old_status_id: status3.id,
+                                            new_status_id: status2.id)
       end
 
       it "clears all workflows" do
         subject
 
-        expect(Workflow.where(type_id: type.id, role_id: role.id).count)
+        expect(Workflows::StatusTransition.where(workflow_id: workflow.id, role_id: role.id).count)
           .to be 0
       end
     end
@@ -154,13 +158,14 @@ RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
       end
 
       before do
-        Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
+        Workflows::StatusTransition.create!(role_id: role.id, workflow_id: workflow.id, old_status_id: status3.id,
+                                            new_status_id: status2.id)
       end
 
       it "clears all workflows" do
         subject
 
-        expect(Workflow.where(type_id: type.id, role_id: role.id).count)
+        expect(Workflows::StatusTransition.where(workflow_id: workflow.id, role_id: role.id).count)
           .to be 0
       end
     end

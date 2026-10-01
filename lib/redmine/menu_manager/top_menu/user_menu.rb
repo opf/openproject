@@ -141,6 +141,8 @@ module Redmine::MenuManager::TopMenu::UserMenu
 
   def add_lateral_user_menu_items(list, link_items)
     link_items.each do |item|
+      list.with_divider if item.show_divider_before?
+
       list.with_item(
         href: allowed_node_url(item, nil),
         label: item.caption,
@@ -155,13 +157,13 @@ module Redmine::MenuManager::TopMenu::UserMenu
 
   def render_login_partial
     partial =
-      if OpenProject::Configuration.disable_password_login?
+      if Users::PasswordLogin.none?
         "account/omniauth_login"
       else
         "account/login"
       end
 
-    render partial:
+    render partial:, formats: [:html]
   end
 
   def show_avatar?(avatar)

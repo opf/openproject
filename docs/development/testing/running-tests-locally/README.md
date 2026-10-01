@@ -51,10 +51,22 @@ You can run all frontend tests with the standard npm command:
 npm test
 ```
 
+This runs the suite in headless Chromium. CI additionally runs Firefox and WebKit; to reproduce that locally, pass the browsers explicitly:
+
+```shell
+npm test -- --browsers chromium --browsers firefox --browsers webkit
+```
+
 Alternatively, when in the `frontend/` folder, you can also use the watch mode of Angular to automatically run tests after you changed a file in the frontend.
 
 ```shell
 ./node_modules/.bin/ng test --watch
+```
+
+CI additionally typechecks the application and spec sources with `tsc`, which reports errors that the build and the test run can miss. To reproduce that locally, run the following in the `frontend/` folder:
+
+```shell
+npm run typecheck
 ```
 
 ## Unit tests
@@ -73,13 +85,21 @@ RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/pr
 
 ## System tests
 
-System tests are also called *rspec feature specs* and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) and [Selenium](https://www.selenium.dev/documentation/webdriver/) to run. They are automatically executed with an actual browser when `js: true` is set.
+System tests are also called _rspec feature specs_ and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) and [Selenium](https://www.selenium.dev/documentation/webdriver/) to run. They are automatically executed with an actual browser when `js: true` is set.
+
+To run feature specs, it is important that the frontend assets are being served. This is done by running `npm run serve`
+in a separate terminal tab. This will start the Angular CLI and serve the frontend assets on `http://localhost:4200`.
+Otherwise, the tests will fail because JavaScript and CSS assets are not available.
 
 System tests are located in `spec/features`. Use the following command to run individual test:
 
 ```shell
 RAILS_ENV=test bundle exec rspec spec/features/auth/login_spec.rb
 ```
+
+When feature specs are run and a failure occurs, the browser logs are printed to the console. This can be helpful for
+debugging, but it can also be overwhelming when there are many logs. To disable this behavior, set the environment
+variable `SKIP_CAPYBARA_BROWSER_LOGS` to `true` in your `.env` file or export it in your terminal session:
 
 ### Dependencies
 
@@ -91,7 +111,7 @@ Capybara uses Selenium to drive the browser and perform the actions we describe 
 
 Almost all system tests depend on the browser for testing, you will need to have the Angular CLI running to serve frontend assets.
 
-So with `npm run serve` running and completed in one tab, run the test using `rspec` as  for the unit tests:
+So with `npm run serve` running and completed in one tab, run the test using `rspec` as for the unit tests:
 
 ```shell
 RAILS_ENV=test bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]
@@ -99,7 +119,7 @@ RAILS_ENV=test bundle exec rspec ./modules/documents/spec/features/attachment_up
 
 The tests will generally run a lot slower due to the whole application being run end-to-end, but these system tests will provide the most elaborate tests possible.
 
-You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let GitHub Actions CI test the entire suite.
+You can also run _all_ feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let GitHub Actions CI test the entire suite.
 
 ```shell
 RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
@@ -119,7 +139,7 @@ Either save the driver under `C:\Windows\system32` to make it available or add i
 
 **3) Find out your WSL ethernet adapter IP**
 
-You can do this by opening a powershell and running ```wsl cat /etc/resolv.conf `| grep nameserver `| cut -d ' ' -f 2```. Alternatively looking for the adapter's IP in the output of `ipconfig` works too.
+You can do this by opening a powershell and running ``wsl cat /etc/resolv.conf `| grep nameserver `| cut -d ' ' -f 2``. Alternatively looking for the adapter's IP in the output of `ipconfig` works too.
 It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 **4) Download Selenium hub**
@@ -185,9 +205,9 @@ You can fix this either by accessing a page locally (if the rails server is runn
 
 You can run the specs with the following commands:
 
-* `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on GitHub Actions CI as part of your pull request.
+- `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on GitHub Actions CI as part of your pull request.
 
-* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
+- `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
 
 ## Parallel testing
 
@@ -255,7 +275,7 @@ To easily change the RSpec examples being run without relaunching `watchexec` ev
 
 ## Manual acceptance tests
 
-* Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
+- Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 
 ### Accessing a local OpenProject instance from a VM or mobile phone
 
@@ -287,6 +307,7 @@ you can access both from inside a VM with nat/bridged networking as follows:
 # Start ng serve middleware binding to the interface given by FE_HOST or on localhost if not defined
 FE_HOST=<your local IP address> PROXY_HOSTNAME=<your local IP address> npm run serve
 ```
+
 On npm run serve, you want to ensure it logs the correct hostname:
 
 ```log
@@ -312,9 +333,9 @@ OPENPROJECT_CLI_PROXY="http://$LOCAL_IP_ADDR:4200"
 
 ### Legacy LDAP tests
 
-OpenProject supports using LDAP for user authentications.  To test LDAP
+OpenProject supports using LDAP for user authentications. To test LDAP
 with OpenProject, load the LDAP export from `test/fixtures/ldap/test-ldap.ldif`
-into a testing LDAP server.  Test that the ldap server can be accessed
+into a testing LDAP server. Test that the ldap server can be accessed
 at 127.0.0.1 on port 389.
 
 Setting up the test ldap server is beyond the scope of this documentation.

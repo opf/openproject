@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe FilesQuery, :webmock do
+          RSpec.describe FilesQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:admin) }
             let(:storage) { create(:sharepoint_storage, :sandbox, oauth_client_token_user: user) }
 
@@ -61,28 +61,28 @@ module Storages
                       id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw",
                       name: "Shared Documents",
                       mime_type: "application/x-op-drive",
-                      location: "/Shared%20Documents",
+                      location: "/Shared Documents",
                       permissions: %i[readable]
                     ),
                     Results::StorageFile.new(
                       id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol",
                       name: "Selected Permissions",
                       mime_type: "application/x-op-drive",
-                      location: "/Selected%20Permissions",
+                      location: "/Selected Permissions",
                       permissions: %i[readable]
                     ),
                     Results::StorageFile.new(
                       id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY_YoKf1JPvYSJeFRsyx4zF_",
                       name: "Chris document library",
                       mime_type: "application/x-op-drive",
-                      location: "/Chris%20document%20library",
+                      location: "/Chris document library",
                       permissions: %i[readable]
                     ),
                     Results::StorageFile.new(
                       id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8CfNaHr_0ERYs5kgmEWFrX",
                       name: "Marcello AMPF",
                       mime_type: "application/x-op-drive",
-                      location: "/Marcello%20AMPF",
+                      location: "/Marcello AMPF",
                       permissions: %i[readable]
                     ),
                     Results::StorageFile.new(
@@ -103,7 +103,7 @@ module Storages
                       id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW",
                       name: "Marcello VCR",
                       mime_type: "application/x-op-drive",
-                      location: "/Marcello%20VCR",
+                      location: "/Marcello VCR",
                       permissions: %i[readable]
                     )
                   ],
@@ -132,7 +132,7 @@ module Storages
                       last_modified_at: Time.zone.parse("2025-04-07 12:02:26Z"),
                       created_by_name: "Eric Schubert",
                       last_modified_by_name: "Eric Schubert",
-                      location: "/Marcello%20VCR/data",
+                      location: "/Marcello VCR/data",
                       permissions: %i[readable writeable]
                     ),
                     Results::StorageFile.new(
@@ -144,7 +144,7 @@ module Storages
                       last_modified_at: Time.zone.parse("2025-07-28 08:46:36Z"),
                       created_by_name: "Eric Schubert",
                       last_modified_by_name: "Eric Schubert",
-                      location: "/Marcello%20VCR/empty",
+                      location: "/Marcello VCR/empty",
                       permissions: %i[readable writeable]
                     ),
                     Results::StorageFile.new(
@@ -156,7 +156,7 @@ module Storages
                       last_modified_at: Time.zone.parse("2025-08-05 15:20:13Z"),
                       created_by_name: "OP Owner",
                       last_modified_by_name: "OP Owner",
-                      location: "/Marcello%20VCR/Folder%20with%20spaces",
+                      location: "/Marcello VCR/Folder with spaces",
                       permissions: %i[readable writeable]
                     ),
                     Results::StorageFile.new(
@@ -168,14 +168,14 @@ module Storages
                       last_modified_at: Time.zone.parse("2025-04-07 12:02:42Z"),
                       created_by_name: "Eric Schubert",
                       last_modified_by_name: "Eric Schubert",
-                      location: "/Marcello%20VCR/simply_oidc.jpg",
+                      location: "/Marcello VCR/simply_oidc.jpg",
                       permissions: %i[readable writeable]
                     )
                   ],
                   parent: Results::StorageFile.new(
                     id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW:",
                     name: "Marcello VCR",
-                    location: "/Marcello%20VCR",
+                    location: "/Marcello VCR",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [
@@ -198,7 +198,7 @@ module Storages
                       name: "subfolder",
                       size: 11845,
                       mime_type: "application/x-op-directory",
-                      location: "/Marcello%20VCR/data/subfolder",
+                      location: "/Marcello VCR/data/subfolder",
                       created_at: Time.zone.parse("2025-07-28 15:03:27.000000000 UTC +00:00"),
                       last_modified_at: Time.zone.parse("2025-07-28 15:03:27.000000000 UTC +00:00"),
                       created_by_name: "Eric Schubert",
@@ -210,7 +210,7 @@ module Storages
                       name: "edge one_drive_health_report_2025-07-22T16_03_25Z.txt",
                       size: 760,
                       mime_type: "text/plain",
-                      location: "/Marcello%20VCR/data/edge%20one_drive_health_report_2025-07-22T16_03_25Z.txt",
+                      location: "/Marcello VCR/data/edge one_drive_health_report_2025-07-22T16_03_25Z.txt",
                       created_at: Time.zone.parse("2025-07-28 08:45:30.000000000 UTC +00:00"),
                       last_modified_at: Time.zone.parse("2025-07-28 08:45:30.000000000 UTC +00:00"),
                       created_by_name: "Eric Schubert",
@@ -221,7 +221,7 @@ module Storages
                   parent: Results::StorageFile.new(
                     id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW:01ANJ53W5P3SUY3ZCDTRA3KLXRGA5A2M3S",
                     name: "data",
-                    location: "/Marcello%20VCR/data",
+                    location: "/Marcello VCR/data",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [
@@ -248,14 +248,14 @@ module Storages
                       last_modified_at: Time.zone.parse("2025-09-10T13:08:15Z"),
                       created_by_name: "Eric Schubert",
                       last_modified_by_name: "Eric Schubert",
-                      location: "/Marcello%20VCR/%C3%9Cml%C3%A6%C3%BBts/data/written_in_stone.webp",
+                      location: "/Marcello VCR/Ümlæûts/data/written_in_stone.webp",
                       permissions: %i[readable writeable]
                     )
                   ],
                   parent: Results::StorageFile.new(
                     id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW:01ANJ53W552X5C42XRLBCL2EC4BBBZYA5Y",
                     name: "data",
-                    location: "/Marcello%20VCR/%C3%9Cml%C3%A6%C3%BBts/data",
+                    location: "/Marcello VCR/Ümlæûts/data",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [
@@ -278,7 +278,7 @@ module Storages
                   parent: Results::StorageFile.new(
                     id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW:01ANJ53W2MWJ6SKEZPHFGIAAB325KYYMPE",
                     name: "empty",
-                    location: "/Marcello%20VCR/empty",
+                    location: "/Marcello VCR/empty",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [
@@ -300,7 +300,7 @@ module Storages
                   parent: Results::StorageFile.new(
                     id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol",
                     name: "Selected Permissions",
-                    location: "/Selected%20Permissions",
+                    location: "/Selected Permissions",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [
@@ -324,6 +324,37 @@ module Storages
               let(:error_source) { described_class }
 
               it_behaves_like "storage adapter: error response", :not_found
+            end
+
+            context "when the site and collection have the same name" do
+              let(:folder) { "/OPTest" }
+
+              it "correctly parses the location for the files", vcr: "sharepoint/files_query_collection_site_same_name" do
+                result = described_class.call(storage:, auth_strategy:, input_data:)
+                expect(result).to be_success
+
+                file_collection = result.value!
+
+                expect(file_collection.files.size).to eq(2)
+                expect(file_collection.files.map(&:location)).to all(match(/\/OPTest\/.+/))
+                expect(file_collection.parent.location).to eq("/OPTest")
+              end
+            end
+
+            context "when the site and collection and folder have the same name" do
+              let(:folder) { "/OPTest/OPTest" }
+
+              it "correctly parses the location for the files", vcr: "sharepoint/files_query_collection_site_folder_same_name" do
+                result = described_class.call(storage:, auth_strategy:, input_data:)
+                expect(result).to be_success
+
+                file_collection = result.value!
+
+                expect(file_collection.files.size).to eq(1)
+                expect(file_collection.files.first.location).to eq("/OPTest/OPTest/OPTest.md")
+                expect(file_collection.files.first.name).to eq("OPTest.md")
+                expect(file_collection.parent.location).to eq("/OPTest/OPTest")
+              end
             end
           end
         end

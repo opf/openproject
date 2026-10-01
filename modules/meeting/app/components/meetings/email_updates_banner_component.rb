@@ -43,18 +43,6 @@ module Meetings
 
     private
 
-    def type
-      if @type == :participants
-        "participants"
-      elsif @meeting.is_a?(RecurringMeeting) || (@meeting.recurring? && @meeting.templated?)
-        "template"
-      elsif @meeting.recurring?
-        "occurrence"
-      else
-        "onetime"
-      end
-    end
-
     def status
       if @override.present?
         @override.to_s
@@ -66,15 +54,15 @@ module Meetings
     end
 
     def description
-      I18n.t("meeting.notifications.banner.#{type}.#{status}")
+      I18n.t("meeting.notifications.#{status}")
     end
 
     def scheme
-      status == "enabled" ? :default : :warning
+      status == "disabled" ? :warning : :default
     end
 
     def icon
-      status == "enabled" ? :info : nil
+      status == "disabled" ? nil : :info
     end
   end
 end

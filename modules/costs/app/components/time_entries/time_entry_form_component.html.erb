@@ -30,6 +30,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= component_wrapper do
         primer_form_with(**form_options) do |form|
           flex_layout(classes: "time-entry-dialog-form-spacing") do |body|
+            if base_errors.present?
+              body.with_row do
+                render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop)) { base_errors.to_sentence }
+              end
+            end
             body.with_row(display: show_user ? :block : :none) do
               render(TimeEntries::UserForm.new(form, visible: show_user))
             end

@@ -41,7 +41,7 @@ module Documents
       private
 
       def refresh_token_url
-        document_refresh_token_path(document)
+        project_document_refresh_token_path(project, document)
       end
     end
   end

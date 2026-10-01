@@ -30,13 +30,14 @@
 
 class PlaceholderUsers::MembershipsController < ApplicationController
   include IndividualPrincipals::MembershipControllerMethods
+
   layout "admin"
 
   before_action :authorize_global
   before_action :find_individual_principal
 
   def find_individual_principal
-    @individual_principal = PlaceholderUser.find(params[:placeholder_user_id])
+    @individual_principal = PlaceholderUser.visible.find(params[:placeholder_user_id])
   end
 
   def redirected_to_tab(_membership)

@@ -3,7 +3,7 @@
 get:
   parameters:
     - description: ID of the meeting whose attachments will be listed
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -84,7 +84,7 @@ get:
 post:
   parameters:
     - description: ID of the meeting to receive the attachment
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

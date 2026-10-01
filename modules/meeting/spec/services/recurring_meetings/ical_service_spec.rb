@@ -73,6 +73,10 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
   end
 
   describe "exported series" do
+    it "conforms to RFC 5545 and RFC 5546" do
+      expect(result).to be_a_conforming_calendar
+    end
+
     it "contains serise and template information" do
       expect(parsed_events.count).to eq(1)
       expect(series_ical).to include("LOCATION:https://example.com/meet/important-meeting")
@@ -81,6 +85,63 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
       expect(series_ical).to include("ATTENDEE;CN=Bob Barker;EMAIL=bob@example.com")
       expect(series_ical).to include("ATTENDEE;CN=Foo Fooer;EMAIL=foo@example.com")
       expect(series_ical).to include("RRULE:FREQ=WEEKLY;UNTIL=20251202T000000Z")
+    end
+  end
+
+  describe "#generate_historic_schedule" do
+    let(:new_york) { ActiveSupport::TimeZone["America/New_York"] }
+    let(:result) { service.generate_historic_schedule.result }
+
+    # A parameter is not searchable in the raw text: iCalendar folds a long line, thus RSVP=TRUE
+    # can arrive as "RSVP=TRU", CRLF, space, "E".
+    def rsvp_flags(ics)
+      Icalendar::Calendar
+        .parse(ics)
+        .first
+        .events
+        .flat_map(&:attendee)
+        .flat_map { Array(it.ical_params["rsvp"]) }
+    end
+
+    context "when the series ended a previous schedule" do
+      before do
+        create(:recurring_meeting_historic_schedule,
+               recurring_meeting: series,
+               uid: "historic@example.com",
+               tzid: "America/New_York",
+               dtstart: new_york.parse("2024-06-03 09:00"),
+               ends_at: new_york.parse("2024-11-25 09:00"),
+               duration: 1.0,
+               summary: "The old weekly schedule",
+               location: "Room 1",
+               rrule: "FREQ=WEEKLY;UNTIL=20241125T140000Z",
+               ical_sequence: 5)
+      end
+
+      it "conforms to RFC 5545 and RFC 5546" do
+        expect(result).to be_a_conforming_calendar
+      end
+
+      it "carries the frozen event alone, as a REQUEST" do
+        expect(parsed_events.map(&:uid)).to contain_exactly("historic@example.com")
+        expect(result).to include("METHOD:REQUEST")
+        expect(series_ical).to include("SUMMARY:The old weekly schedule")
+        expect(series_ical).to include("LOCATION:Room 1")
+        expect(series_ical).to include("RRULE:FREQ=WEEKLY;UNTIL=20241125T140000Z")
+      end
+
+      it "asks nobody to answer again, where the live series does ask" do
+        template.participants.update_all(participation_status: "needs-action")
+
+        expect(rsvp_flags(service.generate_series.result)).to include("TRUE")
+        expect(rsvp_flags(result)).to be_empty
+      end
+    end
+
+    context "when the series never ended a schedule" do
+      it "fails rather than sending an empty calendar" do
+        expect(service.generate_historic_schedule).to be_failure
+      end
     end
   end
 
@@ -106,19 +167,88 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
     end
   end
 
+  describe "monthly by nth weekday" do
+    shared_let(:series) do
+      create(:recurring_meeting,
+             author: user,
+             project:,
+             title: "Monthly Strategy",
+             frequency: "monthly_nth_weekday",
+             monthly_ordinal: 1,
+             monthly_weekday: "tuesday",
+             interval: 1,
+             time_zone: "America/New_York",
+             start_time: DateTime.parse("2024-12-01T10:00:00Z"),
+             end_date: "2025-12-01")
+    end
+
+    it "exports monthly RRULE with nth weekday" do
+      expect(parsed_events.count).to eq(1)
+      expect(series_ical).to include("RRULE:FREQ=MONTHLY")
+      expect(series_ical).to match(/BYDAY=1TU|BYDAY=TU;BYSETPOS=1/)
+    end
+  end
+
+  describe "monthly by day of month" do
+    shared_let(:series) do
+      create(:recurring_meeting,
+             author: user,
+             project:,
+             title: "Monthly Billing",
+             frequency: "monthly_day_of_month",
+             monthly_day: 16,
+             interval: 2,
+             time_zone: "America/New_York",
+             start_time: DateTime.parse("2024-12-01T10:00:00Z"),
+             end_date: "2025-12-01")
+    end
+
+    it "exports monthly RRULE with month day and interval" do
+      expect(parsed_events.count).to eq(1)
+      expect(series_ical).to include("RRULE:FREQ=MONTHLY")
+      expect(series_ical).to include("BYMONTHDAY=16")
+      expect(series_ical).to include("INTERVAL=2")
+    end
+  end
+
+  describe "monthly by last weekday" do
+    shared_let(:series) do
+      create(:recurring_meeting,
+             author: user,
+             project:,
+             title: "Monthly Review",
+             frequency: "monthly_nth_weekday",
+             monthly_ordinal: -1,
+             monthly_weekday: "friday",
+             interval: 2,
+             time_zone: "America/New_York",
+             start_time: DateTime.parse("2024-12-01T10:00:00Z"),
+             end_date: "2025-12-01")
+    end
+
+    it "exports monthly RRULE with last weekday and interval" do
+      expect(parsed_events.count).to eq(1)
+      expect(series_ical).to include("RRULE:FREQ=MONTHLY")
+      expect(series_ical).to include("INTERVAL=2")
+      expect(series_ical).to match(/BYDAY=-1FR|BYDAY=FR;BYSETPOS=-1/)
+    end
+  end
+
   describe "cancelled schedules" do
     shared_let(:cancelled_schedule1) do
-      create(:scheduled_meeting,
-             :cancelled,
+      create(:meeting,
              recurring_meeting: series,
-             start_time: DateTime.parse("2024-12-08T10:00:00Z"))
+             start_time: DateTime.parse("2024-12-08T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-08T10:00:00Z"),
+             state: :cancelled)
     end
 
     shared_let(:cancelled_schedule2) do
-      create(:scheduled_meeting,
-             :cancelled,
+      create(:meeting,
              recurring_meeting: series,
-             start_time: DateTime.parse("2024-12-24T10:00:00Z"))
+             start_time: DateTime.parse("2024-12-24T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-24T10:00:00Z"),
+             state: :cancelled)
     end
 
     it "excludes them as EXDATE", :aggregate_failures do
@@ -130,46 +260,45 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
 
   describe "instantiated schedules" do
     shared_let(:schedule) do
-      create(:scheduled_meeting,
-             :persisted,
+      create(:meeting,
              recurring_meeting: series,
-             start_time: DateTime.parse("2024-12-08T10:00:00Z"))
+             start_time: DateTime.parse("2024-12-08T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-08T10:00:00Z"))
     end
 
     shared_let(:schedule2) do
-      create(:scheduled_meeting,
-             :persisted,
+      create(:meeting,
              recurring_meeting: series,
-             start_time: DateTime.parse("2024-12-08T10:00:00Z") + 10.weeks)
+             start_time: DateTime.parse("2024-12-08T10:00:00Z") + 10.weeks,
+             recurrence_start_time: DateTime.parse("2024-12-08T10:00:00Z") + 10.weeks)
     end
 
     shared_let(:moved_schedule) do
-      create(:scheduled_meeting,
-             :persisted,
+      create(:meeting,
              recurring_meeting: series,
-             start_time: DateTime.parse("2024-12-15T10:00:00Z"),
-             meeting_start_time: DateTime.parse("2024-12-16T11:30:00Z"))
+             start_time: DateTime.parse("2024-12-16T11:30:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-15T10:00:00Z"))
     end
 
     it "creates additional events", :aggregate_failures do
       expect(parsed_events.count).to eq(4)
 
-      first = parsed_events.detect { |evt| evt.recurrence_id == schedule.start_time }.to_ical
-      second = parsed_events.detect { |evt| evt.recurrence_id == schedule2.start_time }.to_ical
-      # Moved schedule still has the original start time as recurrence id
-      moved = parsed_events.detect { |evt| evt.recurrence_id == moved_schedule.start_time }.to_ical
+      first = parsed_events.detect { |evt| evt.recurrence_id == schedule.recurrence_start_time }.to_ical
+      second = parsed_events.detect { |evt| evt.recurrence_id == schedule2.recurrence_start_time }.to_ical
+      # Moved schedule still has the original recurrence_start_time (canonical occurrence time)
+      moved = parsed_events.detect { |evt| evt.recurrence_id == moved_schedule.recurrence_start_time }.to_ical
 
       expect(first).to include("DTSTART;TZID=America/New_York:20241208T050000")
       expect(first).to include("DTEND;TZID=America/New_York:20241208T060000")
-      expect(first).to include("URL:http://#{Setting.host_name}/meetings/#{schedule.meeting_id}")
+      expect(first).to include("URL:http://#{Setting.host_name}/meetings/#{schedule.id}")
 
       expect(second).to include("DTSTART;TZID=America/New_York:20250216T050000")
       expect(second).to include("DTEND;TZID=America/New_York:20250216T060000")
-      expect(second).to include("URL:http://#{Setting.host_name}/meetings/#{schedule2.meeting_id}")
+      expect(second).to include("URL:http://#{Setting.host_name}/meetings/#{schedule2.id}")
 
       expect(moved).to include("DTSTART;TZID=America/New_York:20241216T063000")
       expect(moved).to include("DTEND;TZID=America/New_York:20241216T073000")
-      expect(moved).to include("URL:http://#{Setting.host_name}/meetings/#{moved_schedule.meeting_id}")
+      expect(moved).to include("URL:http://#{Setting.host_name}/meetings/#{moved_schedule.id}")
     end
   end
 end

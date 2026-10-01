@@ -4,7 +4,11 @@
       flex_layout(flex_items: :center) do |credentials_row|
         credentials_row.with_row(mb: 3, test_selector: "storage-openproject_oauth_application_warning") do
           render(Primer::Alpha::Banner.new(icon: :alert, scheme: :warning)) do
-            I18n.t("storages.instructions.oauth_application_details", oauth_application_details_link: oauth_application_details_link).html_safe
+            helpers.link_translate(
+              "storages.instructions.oauth_application_details_html",
+              links: { oauth_application_details_link: ::Storages::UrlBuilder.url(storage.uri, "settings/admin/openproject") },
+              external: true
+            )
           end
         end
 

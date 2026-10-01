@@ -82,9 +82,9 @@ RSpec.describe "Copying a budget", :js do
 
     budget_page.expect_subject(budget_subject)
 
-    budget_page.expect_planned_costs!(type: :labor, row: 1, expected: "125.00 EUR")
-    budget_page.expect_planned_costs!(type: :material, row: 1, expected: "150.00 EUR")
-    budget_page.expect_planned_costs!(type: :material, row: 2, expected: "600,000.00 EUR")
+    budget_page.expect_planned_costs!(type: :labor, row: 1, expected: "125.00 €")
+    budget_page.expect_planned_costs!(type: :material, row: 1, expected: "150.00 €")
+    budget_page.expect_planned_costs!(type: :material, row: 2, expected: "600,000.00 €")
 
     click_button "Create"
 

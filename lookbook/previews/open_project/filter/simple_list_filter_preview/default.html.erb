@@ -1,0 +1,31 @@
+<div
+  data-controller="filter--filter-list"
+  data-filter--filter-list-clear-button-id-value="ice-cream-filter-clear-button">
+  <%=
+    render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+      subheader.with_filter_input(
+        name: "ice-cream-filter-input",
+        label: "Search ice cream flavor",
+        visually_hide_label: true,
+        placeholder: "Search ice cream flavor",
+        leading_visual: {
+          icon: :search,
+          size: :small
+        },
+        show_clear_button: true,
+        clear_button_id: "ice-cream-filter-clear-button",
+        data: {
+          action: "input->filter--filter-list#filterLists",
+          "filter--filter-list-target": "filter"
+        }
+      )
+    end
+  %>
+
+  <ul>
+    <li data-filter--filter-list-target="searchItem">Vanilla</li>
+    <li data-filter--filter-list-target="searchItem">Chocolate</li>
+    <li data-filter--filter-list-target="searchItem">Strawberry</li>
+    <li data-filter--filter-list-target="searchItem">Cookie Dough</li>
+  </ul>
+</div>

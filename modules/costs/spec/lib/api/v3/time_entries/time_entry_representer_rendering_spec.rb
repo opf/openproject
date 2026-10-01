@@ -54,6 +54,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
   let(:permissions) do
     [:edit_time_entries]
   end
+  let(:work_package_visible) { true }
   let(:representer) do
     described_class.create(time_entry, current_user:, embed_links:)
   end
@@ -63,6 +64,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
   before do
     mock_permissions_for(current_user) do |mock|
       mock.allow_in_project *permissions, project: workspace if workspace
+      mock.allow_in_project :view_work_packages, project: workspace if work_package_visible && workspace
     end
 
     allow(time_entry)
@@ -98,6 +100,48 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
         let(:href) { api_v3_paths.work_package work_package.id }
         let(:title) { work_package.subject }
       end
+
+      it "includes displayId in the entity link (classic mode numeric id)" do
+        expect(subject)
+          .to be_json_eql(work_package.display_id.to_s.to_json)
+          .at_path("_links/entity/displayId")
+      end
+
+      context "with semantic identifier mode active",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-42", project: workspace) }
+
+        it "includes the semantic displayId in the entity link" do
+          expect(subject)
+            .to be_json_eql("PROJ-42".to_json)
+            .at_path("_links/entity/displayId")
+        end
+      end
+    end
+
+    context "with a time entry logged on a work package not visible to the user" do
+      let(:work_package_visible) { false }
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "entity" }
+        let(:href) { API::V3::URN_UNDISCLOSED }
+        let(:title) { I18n.t(:"api_v3.undisclosed.workPackage") }
+      end
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "workPackage" }
+        let(:href) { API::V3::URN_UNDISCLOSED }
+        let(:title) { I18n.t(:"api_v3.undisclosed.workPackage") }
+      end
+
+      it "does not disclose the work package displayId" do
+        expect(subject).not_to have_json_path("_links/entity/displayId")
+      end
+
+      it "does not embed the work package subject or attributes" do
+        expect(subject).not_to have_json_path("_embedded/entity")
+        expect(subject).not_to have_json_path("_embedded/workPackage")
+      end
     end
 
     context "with a time entry logged on a meeting" do
@@ -113,6 +157,10 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
 
       it_behaves_like "has no link" do
         let(:link) { "workPackage" }
+      end
+
+      it "does not include displayId in the entity link" do
+        expect(subject).not_to have_json_path("_links/entity/displayId")
       end
     end
 

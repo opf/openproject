@@ -29,11 +29,10 @@
 class BudgetsController < ApplicationController
   include AttachableServiceCall
 
-  before_action :find_budget, only: %i[show edit update copy destroy_info]
-  before_action :find_budgets, only: :destroy
-  before_action :check_and_update_belonging_work_packages, only: :destroy
+  before_action :find_budget, only: %i[show edit update copy destroy_info destroy]
   before_action :find_project_by_project_id, only: %i[new create update_material_budget_item update_labor_budget_item]
   before_action :find_optional_project, only: :index
+  before_action :check_if_workpackages_need_reassignment, only: :destroy
 
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
@@ -42,6 +41,7 @@ class BudgetsController < ApplicationController
     :update_material_budget_item,
     :update_labor_budget_item
   ]
+
   no_authorization_required! :update_material_budget_item,
                              :update_labor_budget_item
 
@@ -142,7 +142,10 @@ class BudgetsController < ApplicationController
   end
 
   def destroy
-    @budgets.each(&:destroy)
+    reassign_or_nullify_work_package_budgets
+
+    @budget.destroy!
+
     flash[:notice] = t(:notice_successful_delete)
     redirect_to action: "index", project_id: @project, status: :see_other
   end
@@ -151,7 +154,7 @@ class BudgetsController < ApplicationController
     @possible_other_budgets = @project.budgets.where.not(id: @budget.id)
   end
 
-  def update_material_budget_item
+  def update_material_budget_item # rubocop:disable Metrics/AbcSize
     @element_id = params[:element_id]
 
     cost_type = CostType.where(id: params[:cost_type_id]).first
@@ -178,47 +181,58 @@ class BudgetsController < ApplicationController
 
   def update_labor_budget_item
     @element_id = params[:element_id]
-    user = User.where(id: params[:user_id]).first
-
-    if user && params[:hours]
-      hours = Rate.parse_number_string_to_number(params[:hours])
-      @costs = begin
-        hours * user.rate_at(params[:fixed_date], @project).rate
-      rescue StandardError
-        0.0
-      end
-    else
-      @costs = 0.0
-    end
+    principal = budgeted_principal
+    rate = applicable_rate(principal)
+    @costs = labor_costs(rate)
 
     respond_to do |format|
-      format.json do
-        render json: render_item_as_json(@element_id, @costs, @unit, @project, :view_hourly_rates)
-      end
+      format.json { render json: labor_budget_item_as_json(principal, rate) }
     end
   end
 
   private
 
   def find_budget
-    # This function comes directly from issues_controller.rb (Redmine 0.8.4)
-    @budget = Budget.includes(:project, :author).find(params[:id])
+    @budget = Budget.visible.includes(:project, :author).find(params[:id])
     @project = @budget.project if @budget
   end
 
-  def find_budgets
-    # This function comes directly from issues_controller.rb (Redmine 0.8.4)
+  def applicable_rate(principal)
+    return if principal.nil? || params[:hours].blank?
 
-    @budgets = Budget.where(id: params[:id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @budgets.empty?
+    principal.rate_at(params[:fixed_date], @project)
+  rescue StandardError
+    nil
+  end
 
-    projects = @budgets.filter_map(&:project).uniq
-    if projects.size == 1
-      @project = projects.first
-    else
-      # TODO: let users bulk edit/move/destroy budgets from different projects
-      render_error "Can not bulk edit/move/destroy cost objects from different projects" and return false
-    end
+  # A group is budgetable but carries no rate, so it falls through to 0.0.
+  def budgeted_principal
+    Principal.with_rates.in_project(@project).find_by(id: params[:user_id])
+  end
+
+  def labor_costs(rate)
+    return 0.0 if rate.nil?
+
+    Rate.parse_hours_string_to_number(params[:hours]) * rate.rate
+  end
+
+  # The hint is always part of the response, so that one left over from a
+  # previous selection is cleared once a rate applies again.
+  def labor_budget_item_as_json(principal, rate)
+    render_item_as_json(@element_id, @costs, @unit, @project, :view_hourly_rates)
+      .merge("#{@element_id}_cost_hint" => missing_rate_hint(principal, rate).to_s)
+  end
+
+  def missing_rate_hint(principal, rate)
+    return if rate || !principal.is_a?(Costs::HasRates)
+    return unless current_user.allowed_in_project?(:view_hourly_rates, @project)
+
+    fixed_date = params[:fixed_date].presence&.to_date
+    return if fixed_date.nil?
+
+    t("budgets.labor_budget_items.no_rate_at_fixed_date", date: format_date(fixed_date))
+  rescue Date::Error
+    nil
   end
 
   def render_item_as_json(element_id, costs, unit, project, permission)
@@ -253,26 +267,26 @@ class BudgetsController < ApplicationController
       .per_page(per_page_param)
   end
 
-  def check_and_update_belonging_work_packages
-    if params[:todo]
-      update_belonging_work_packages
-    end
-
-    budget = Budget.find(params[:id])
-    if budget.work_packages.any?
-      redirect_to destroy_info_budget_path(budget), status: :see_other
+  def check_if_workpackages_need_reassignment
+    if @budget.work_packages.any? && params[:todo].blank?
+      redirect_to destroy_info_budget_path(@budget), status: :see_other
     end
   end
 
-  def update_belonging_work_packages
-    reassign_to_id = params[:reassign_to_id]
-    budget_id = params[:id]
+  def reassign_or_nullify_work_package_budgets # rubocop:disable Metrics/AbcSize
+    return unless params[:todo].in?(%w[reassign delete])
 
-    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == "reassign"
-    reassign_to = budget_exists ? reassign_to_id : nil
+    reassign_to_id = if params[:todo] == "reassign"
+                       # Only allow reassignment to budgets that are visible to the user and belong to the same project
+                       # If budget is not visible this will raise and we will return a 404
+                       @project.budgets.visible.find(params[:reassign_to_id]).id
+                     elsif params[:todo] == "delete"
+                       nil
+                     end
 
-    WorkPackage
-      .where(budget_id:)
-      .update_all(budget_id: reassign_to, updated_at: DateTime.now)
+    @budget.work_packages.find_each(batch_size: 100) do |work_package|
+      work_package.journal_cause = Journal::CausedByBudgetDeletion.new(budget: @budget)
+      work_package.update!(budget_id: reassign_to_id)
+    end
   end
 end

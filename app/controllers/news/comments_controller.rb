@@ -30,8 +30,9 @@
 
 class News::CommentsController < ApplicationController
   default_search_scope :news
-  model_object Comment, scope: [News => :commented]
-  before_action :find_object_and_scope
+
+  before_action :find_news_and_project
+  before_action :find_comment, only: [:destroy]
   before_action :authorize
 
   def create
@@ -41,11 +42,22 @@ class News::CommentsController < ApplicationController
       flash[:notice] = I18n.t(:label_comment_added)
     end
 
-    redirect_to news_path(@news), status: :see_other
+    redirect_to project_news_path(@project, @news), status: :see_other
   end
 
   def destroy
-    @comment.destroy
-    redirect_to news_path(@news), status: :see_other
+    @comment.destroy!
+    redirect_to project_news_path(@project, @news), status: :see_other
+  end
+
+  private
+
+  def find_comment
+    @comment = @news.comments.find(params[:id])
+  end
+
+  def find_news_and_project
+    @project = Project.visible.find(params[:project_id])
+    @news = @project.news.visible.find(params[:news_id])
   end
 end

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +36,7 @@ export class PlannedCostsFormAugment {
 
       link.hidden = true;
       form.hidden = false;
+      PlannedCostsFormAugment.toggleRateHint(form, true);
 
       const input = form.querySelector('input') as HTMLInputElement;
       input.disabled = false;
@@ -47,9 +48,18 @@ export class PlannedCostsFormAugment {
 
       link.hidden = false;
       form.hidden = true;
+      PlannedCostsFormAugment.toggleRateHint(form, false);
 
       const input = form.querySelector('input') as HTMLInputElement;
       input.disabled = true;
     });
+  }
+
+  private static toggleRateHint(form:HTMLElement, hidden:boolean):void {
+    const hint = form.closest('td')?.querySelector<HTMLElement>('.costs--rate-hint');
+
+    if (hint) {
+      hint.hidden = hidden;
+    }
   }
 }

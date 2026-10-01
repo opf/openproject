@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 nl:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Pull requests"
-        copy_menu:
-          label: Git snippets
-          description: Git snippets kopiëren naar klembord
-        git_actions:
-          branch_name: Branch naam
-          commit_message: Commit bericht
-          cmd: Maak branch met lege commit
-          title: Snelle snippets voor Git
-          copy_success: '✅ Gekopieerd!'
-          copy_error: '❌ Kopiëren mislukt!'
-      tab_prs:
-        empty: 'Er zijn nog geen pull requests gekoppeld. Koppel een bestaande PR door de code <code>OP#%{wp_id}</code> in de PR-beschrijving te gebruiken of maak een nieuwe PR.'
       github_actions: Acties
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
+        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
+        referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
         states:
-          opened: 'geopend'
-          closed: 'gesloten'
-          draft: 'drafted'
-          merged: 'samengevoegd'
-          ready_for_review: 'gemarkeerd als klaar voor review'
+          closed: gesloten
+          draft: drafted
+          merged: samengevoegd
+          opened: geopend
+          ready_for_review: gemarkeerd als klaar voor review
+      tab_header:
+        copy_menu:
+          description: Git snippets kopiëren naar klembord
+          label: Git snippets
+        git_actions:
+          branch_name: Branch naam
+          cmd: Maak branch met lege commit
+          commit_message: Commit bericht
+          copy_error: "❌ Kopiëren mislukt!"
+          copy_success: "✅ Gekopieerd!"
+          title: Snelle snippets voor Git
+        title: Pull requests
+      tab_prs:
+        empty: Er zijn nog geen pull requests gekoppeld. Koppel een bestaande PR door de code <code>OP#%{wp_id}</code> in de PR-beschrijving te gebruiken of maak een nieuwe PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

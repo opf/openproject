@@ -74,11 +74,12 @@ RSpec.describe Storages::FileLinks::CopyFileLinksService, :webmock do
 
     let(:remote_source_info) do
       source_links.map do |link|
-        Storages::StorageFileInfo.new(status: "ok",
-                                      status_code: 200,
-                                      id: link.origin_id,
-                                      name: link.origin_name,
-                                      location: File.join(source_storage.managed_project_folder_path, link.origin_name))
+        Storages::Adapters::Results::StorageFileInfo
+          .new(status: "ok",
+               status_code: 200,
+               id: link.origin_id,
+               name: link.origin_name,
+               location: File.join(source_storage.managed_project_folder_path, link.origin_name))
       end
     end
 
@@ -115,11 +116,12 @@ RSpec.describe Storages::FileLinks::CopyFileLinksService, :webmock do
     context "when one file_link points to a deleted file" do
       before do
         link = source_links[-1]
-        remote_source_info[-1] = Storages::StorageFileInfo.new(status: "Forbidden",
-                                                               status_code: 403,
-                                                               id: link.origin_id,
-                                                               name: nil,
-                                                               location: nil)
+        remote_source_info[-1] = Storages::Adapters::Results::StorageFileInfo
+          .new(status: "Forbidden",
+               status_code: 403,
+               id: link.origin_id,
+               name: nil,
+               location: nil)
 
         path_to_ids.delete(File.join(target_storage.managed_project_folder_path, link.origin_name))
       end
@@ -142,11 +144,12 @@ RSpec.describe Storages::FileLinks::CopyFileLinksService, :webmock do
         link = source_links[-1]
         location = File.join("/", link.origin_name)
         old_location = File.join(target_storage.managed_project_folder_path, link.origin_name)
-        remote_source_info[-1] = Storages::StorageFileInfo.new(status: "ok",
-                                                               status_code: 200,
-                                                               id: link.origin_id,
-                                                               name: link.origin_name,
-                                                               location:)
+        remote_source_info[-1] = Storages::Adapters::Results::StorageFileInfo
+          .new(status: "ok",
+               status_code: 200,
+               id: link.origin_id,
+               name: link.origin_name,
+               location:)
 
         path_to_ids.delete(old_location)
       end

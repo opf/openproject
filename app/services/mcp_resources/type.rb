@@ -37,7 +37,7 @@ module McpResources
     default_description "Access work package types of this OpenProject instance."
 
     def read(id:)
-      type = ::Type.find_by(id:)
+      type = ::Type.visible.find_by(id:)
       return nil if type.nil?
 
       API::V3::Types::TypeRepresenter.new(type, current_user:)

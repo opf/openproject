@@ -51,16 +51,8 @@ module Projects::Settings::WorkPackages::Activities
     private
 
     def caption_text
-      link = render(
-        Primer::Beta::Link.new(
-          href: OpenProject::Static::Links.url_for(:enterprise_features, :internal_comments),
-          underline: true
-        )
-      ) do
-        I18n.t("label_learn_more")
-      end
-
-      I18n.t("settings.work_packages.activities.helper_text", link:).html_safe
+      helpers.link_translate("settings.work_packages.activities.helper_text_html",
+                             links: { docs_url: %i[enterprise_features internal_comments] })
     end
   end
 end

@@ -59,9 +59,11 @@ RSpec.describe "SMTP settings" do
   end
 
   def send_mail
-    ActionMailer::Base
-      .mail(from: "test@op.com", to: "foo@bar.com", subject: "Test mail", body: "body")
-      .deliver_now
+    Class.new(ActionMailer::Base) do # rubocop:disable Rails/ApplicationMailer
+      def test_mail
+        mail(from: "test@op.com", to: "foo@bar.com", subject: "Test mail", body: "body")
+      end
+    end.test_mail.deliver_now
   end
 
   describe "enable_starttls_auto" do

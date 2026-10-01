@@ -1,0 +1,75 @@
+# Schema: UserWorkingHoursCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This collection of working hours records.
+                  **Resource**: UserWorkingHoursCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of working hours records for the user, ordered by `validFrom` descending.
+            items:
+              $ref: './user_working_hours_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: /api/v3/users/42/working_hours
+  _embedded:
+    elements:
+      - _type: UserWorkingHours
+        id: 2
+        validFrom: '2025-01-01'
+        mondayHours: 6.0
+        tuesdayHours: 6.0
+        wednesdayHours: 6.0
+        thursdayHours: 6.0
+        fridayHours: 6.0
+        saturdayHours: 0.0
+        sundayHours: 0.0
+        availabilityFactor: 80
+        _links:
+          self:
+            href: /api/v3/users/42/working_hours/2
+          user:
+            href: /api/v3/users/42
+            title: Jane Doe
+      - _type: UserWorkingHours
+        id: 1
+        validFrom: '2024-01-01'
+        mondayHours: 8.0
+        tuesdayHours: 8.0
+        wednesdayHours: 8.0
+        thursdayHours: 8.0
+        fridayHours: 8.0
+        saturdayHours: 0.0
+        sundayHours: 0.0
+        availabilityFactor: 100
+        _links:
+          self:
+            href: /api/v3/users/42/working_hours/1
+          user:
+            href: /api/v3/users/42
+            title: Jane Doe

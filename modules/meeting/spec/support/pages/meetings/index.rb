@@ -73,6 +73,14 @@ module Pages::Meetings
                           results_selector: "body"
     end
 
+    # Types +query+ into the project autocompleter without selecting anything
+    # and returns the open dropdown, so that its options can be tested.
+    def search_project(query)
+      search_autocomplete find("[data-test-selector='project_id']"),
+                          query:,
+                          results_selector: "body"
+    end
+
     def set_duration(duration)
       fill_in "Duration", with: duration
     end
@@ -144,6 +152,38 @@ module Pages::Meetings
         else
           click_link_or_button "Past"
         end
+      end
+
+      wait_for_network_idle
+    end
+
+    def expect_quick_filter_selected(label)
+      within "#content-body" do
+        expect(page).to have_css("segmented-control .SegmentedControl-item--selected", text: label)
+      end
+    end
+
+    def set_project_filter(*projects)
+      find_test_selector("quick-filter-select-panel-button").click
+
+      projects.each do |project|
+        option = find("[role='option']", text: project.name)
+        option.click unless option[:"aria-selected"] == "true"
+      end
+
+      within("[data-controller='quick-filter--select-panel']") do
+        click_link_or_button I18n.t(:button_apply)
+      end
+
+      wait_for_network_idle
+    end
+
+    def set_title_filter(value)
+      open_filters
+      select_filter("title", "Title") unless page.has_css?(filter_selector("title"), wait: 0)
+
+      within(filter_selector("title")) do
+        fill_in "title_value", with: value
       end
 
       wait_for_network_idle

@@ -1,0 +1,14 @@
+<%=
+  render(Primer::OpenProject::SidePanel.new(spacious: true)) do |panel|
+    panel.with_section do |section|
+      section.with_title { t("ldap_departments.synchronized_trees.singular") }
+
+      flex_layout do |details|
+        attributes.each_with_index do |(label, value), index|
+          details.with_row(font_weight: :bold, mt: index.zero? ? 0 : 2) { label }
+          details.with_row { value }
+        end
+      end
+    end
+  end
+%>

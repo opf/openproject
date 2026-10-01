@@ -367,7 +367,7 @@ default:
   # omniauth provider if additional ones are configured.
   # omniauth_direct_login_provider: developer
   #
-  # disable_password_login: true
+  # password_login: none
 
   # If enabled a user's password cannot be set to an arbitrary value.
   # The respective form elements will be removed from the user edit view.

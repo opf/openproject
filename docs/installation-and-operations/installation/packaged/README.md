@@ -8,6 +8,7 @@ sidebar_navigation:
 
 > [!IMPORTANT]
 > We will not build packages for new Linux versions, such as Ubuntu 24.04. We will, however, keep releasing new package versions for the currently supported Linux versions until their EOL (end of life).
+> If your distribution has reached EOL and packages are no longer available, migrate to Docker Compose using the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/).
 
 The packaged installation of OpenProject is one of the ways to install and maintain OpenProject using DEB or RPM packages.
 
@@ -83,11 +84,11 @@ sudo apt-get install openproject
 
 Verify the repository is configured correctly:
 
-```bash
+```shell
 apt-cache policy
 ```
 
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4"></video>
 
@@ -124,13 +125,11 @@ sudo apt-get install openproject
 
 Verify the repository is configured correctly:
 
-```bash
+```shell
 apt-cache policy
 ```
 
-
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 ## Debian Installation
 
@@ -166,11 +165,11 @@ apt update
 apt install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 Verify the repository is configured correctly:
 
-```bash
+```shell
 apt-cache policy
 ```
 
@@ -206,11 +205,11 @@ apt update
 apt install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 Verify the repository is configured correctly:
 
-```bash
+```shell
 apt-cache policy
 ```
 
@@ -239,13 +238,11 @@ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noa
 
 Add the OpenProject repository:
 
-```bash
+```shell
 sudo curl -fsSL \
   "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/el/9.repo" \
   -o /etc/yum.repos.d/openproject.repo
 ```
-
-
 
 Download the OpenProject package:
 
@@ -255,21 +252,19 @@ sudo yum install openproject
 
 Or if you are using dnf:
 
-```bash
+```shell
 sudo dnf install openproject
 ```
 
-
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 > [!NOTE]
-> On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+> On this distribution full-text extraction for attachments [_is not supported_](#full-text-extraction-not-supported) by default.
 
 ## SUSE Linux Enterprise Server (SLES) Installation
 
 > [!NOTE]
-> On SLES, full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+> On SLES, full-text extraction for attachments [_is not supported_](#full-text-extraction-not-supported) by default.
 
 ### SLES 15
 
@@ -297,13 +292,11 @@ sudo zypper install openproject
 
 Verify the repository is correctly configured:
 
-```bash
+```shell
 sudo zypper repos
 ```
 
-
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 ## Full-text extraction not supported
 
@@ -336,9 +329,9 @@ sudo openproject configure #non-interactive - using values stored in /etc/openpr
 
 OpenProject comes in two editions:
 
-* the default edition, which is targeted at general project management.
+- the default edition, which is targeted at general project management.
 
-* the BIM edition, which is specifically target at the construction industry.
+- the BIM edition, which is specifically target at the construction industry.
 
 ![select-edition](select-edition.png)
 
@@ -346,10 +339,10 @@ You can find more about the BIM edition on [this page](https://www.openproject.o
 
 > This wizard step is only available on the following distributions:
 >
-> * RHEL/CentOS 9
-> * Ubuntu 22.04
-> * Ubuntu 20.04
-> * Debian 11
+> - RHEL/CentOS 9
+> - Ubuntu 22.04
+> - Ubuntu 20.04
+> - Debian 11
 >
 > On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.
 
@@ -394,7 +387,7 @@ This wizard step allows you to auto-install an Apache2 web server to function as
 
 The available options are:
 
-### **Install Apache2 web server** (default)
+### Install Apache2 web server (default)
 
 We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
 
@@ -557,8 +550,8 @@ You should be able to reach the OpenProject instance by visiting your installati
 
 You can then log in using the default user/password combination:
 
-* username = `admin`
-* password = `admin`
+- username = `admin`
+- password = `admin`
 
 You will be asked to change this password immediately after the first login.
 

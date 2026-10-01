@@ -83,8 +83,12 @@ module Pages
     def expect_work_package_with_attributes(work_package, attr_value_hash)
       within(table_container) do
         attr_value_hash.each do |column, value|
+          # Use exact_text when value is empty so Capybara actually asserts the cell
+          # is empty. With text: "", Capybara treats the constraint as absent and
+          # will happily match cells that contain text.
+          text_options = value.to_s.empty? ? { exact_text: "" } : { text: value.to_s }
           expect(page).to have_css(
-            ".wp-row-#{work_package.id} td.#{column}", text: value.to_s, wait: 20
+            ".wp-row-#{work_package.id} td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
           )
         end
       end
@@ -221,9 +225,16 @@ module Pages
     # Opens the split view for the specified work package.
     #
     # @param work_package [WorkPackage] The work package object.
-    # @return [Pages::SplitWorkPackage] The split work package page object.
-    def open_split_view(work_package)
-      split_page = SplitWorkPackage.new(work_package, project)
+    # @param primerized [Boolean] Whether to return a Pages::PrimerizedSplitWorkPackage
+    #   (the split view now rendered for work packages/gantt, the default) instead of
+    #   the legacy Pages::SplitWorkPackage.
+    # @return [Pages::SplitWorkPackage, Pages::PrimerizedSplitWorkPackage] The split work package page object.
+    def open_split_view(work_package, primerized: true)
+      split_page = if primerized
+                     PrimerizedSplitWorkPackage.new(work_package, project)
+                   else
+                     SplitWorkPackage.new(work_package, project)
+                   end
 
       # Hover row to show split screen button
       row_element = row(work_package)
@@ -273,6 +284,11 @@ module Pages
     # @param to [WorkPackage] The target work package object.
     def drag_and_drop_work_package(from:, to:)
       drag_and_drop_list(from:, to:, elements: ".wp-table--row", handler: ".wp-table--drag-and-drop-handle")
+    end
+
+    def select_all_work_packages
+      send_select_all(table_container.first('tr.wp-table--row[tabindex="0"]', minimum: 1))
+      expect(page).to have_no_css "#work-package-context-menu"
     end
 
     # Returns the row element for the specified work package.

@@ -42,10 +42,10 @@ module Projects
             autocomplete_options: {
               model: project_autocompleter_model,
               focusDirectly: false,
-              dropdownPosition: "bottom",
+              dropdownPosition: dropdown_position,
               url: project_autocompleter_url,
               filters: [],
-              data: { qa_field_name: "parent" }
+              data: { test_selector: "parent" }
             }
           )
         else
@@ -53,15 +53,16 @@ module Projects
         end
       end
 
-      def initialize(invisible: false)
+      def initialize(invisible: false, dropdown_position: "top")
         super()
 
         @invisible = invisible
+        @dropdown_position = dropdown_position
       end
 
       private
 
-      attr_reader :invisible
+      attr_reader :invisible, :dropdown_position
 
       def visible?
         model.parent_allowed? && !invisible

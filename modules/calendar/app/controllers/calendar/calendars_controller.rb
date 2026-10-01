@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,14 +33,18 @@ module ::Calendar
     before_action :load_and_authorize_in_optional_project
     before_action :build_calendar_view, only: %i[new]
     before_action :authorize, except: %i[index new create]
-    before_action :authorize_global, only: %i[index new create]
+    before_action :authorize_global, only: %i[index create]
+    before_action :authorize_new, only: %i[new]
+    authorization_checked! :new
+    authorize_with_permission :add_work_packages, only: %i[split_create]
 
-    before_action :find_calendar, only: %i[destroy]
+    before_action :find_calendar, only: %i[show split_view destroy]
     menu_item :calendar_view
 
     include Layout
     include PaginationHelper
     include SortHelper
+    include WorkPackages::WithSplitView
 
     def index
       @views = visible_views
@@ -46,10 +52,38 @@ module ::Calendar
     end
 
     def show
-      render layout: "angular/angular"
+      render
     end
 
-    def new; end
+    def split_view
+      respond_to do |format|
+        format.html do
+          if turbo_frame_request?
+            render "work_packages/split_view", layout: false
+          else
+            render :show
+          end
+        end
+      end
+    end
+
+    def split_create
+      respond_to do |format|
+        format.html do
+          if turbo_frame_request?
+            render "work_packages/split_create", layout: false
+          else
+            render :show
+          end
+        end
+      end
+    end
+
+    def new
+      # In a project context, show the calendar view with an unsaved query.
+      # In the global context (no project), show the form so the user can select a project.
+      render :show if @project
+    end
 
     def create
       service_result = create_service_class.new(user: User.current)
@@ -59,7 +93,7 @@ module ::Calendar
 
       if service_result.success?
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to project_calendar_path(@project, @view.query)
+        redirect_to project_calendar_path(@project || @view.query.project, @view.query)
       else
         render action: :new, status: :unprocessable_entity
       end
@@ -72,10 +106,27 @@ module ::Calendar
         flash[:error] = t(:error_can_not_delete_entry)
       end
 
-      redirect_to action: :index
+      redirect_to action: :index, status: :see_other
     end
 
     private
+
+    # In project context, `new` renders the calendar view and needs the same project-level
+    # permission as `show`. In global context (no project), it shows the creation form.
+    def authorize_new
+      @project ? authorize : authorize_global
+    end
+
+    def split_view_base_route
+      # Unsaved calendars use the /new path (no :id).
+      # In that case @view is nil and we return the /new path as the base route
+      # so that the split view close button navigates back correctly.
+      if @view
+        project_calendar_path(@project, @view, request.query_parameters)
+      else
+        new_project_calendar_path(@project, request.query_parameters)
+      end
+    end
 
     def build_calendar_view
       @view = Query.new
@@ -86,7 +137,7 @@ module ::Calendar
     end
 
     def calendar_view_params
-      params.require(:query).permit(:name, :public, :starred).merge(project_id: @project&.id)
+      params.expect(query: %i[name public starred project_id])
     end
 
     def visible_views
@@ -103,9 +154,15 @@ module ::Calendar
     end
 
     def find_calendar
-      @view = Query
-                .visible(current_user)
-                .find(params[:id])
+      # split_view is also reachable via the /new collection path
+      # (e.g. /calendars/new/details/:wp_id) which carries no :id.
+      # In that case @view remains nil and split_view_base_route handles it.
+      return if params[:id].blank?
+
+      query_scope = Query.visible(current_user)
+      query_scope = query_scope.where(project_id: @project.id) if @project
+
+      @view = query_scope.find(params[:id])
     end
   end
 end

@@ -63,7 +63,8 @@ module API
               end
 
               after_validation do
-                contract = ::CustomActions::ExecuteContract.new(parsed_params, current_user)
+                contract = ::CustomActions::ExecuteContract.new(parsed_params, current_user,
+                                                                options: { custom_action: })
 
                 unless contract.valid?
                   fail ::API::Errors::ErrorBase.create_and_merge_errors(contract.errors)

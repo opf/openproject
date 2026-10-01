@@ -28,8 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: This is but a stub
 module Messages
   class UpdateContract < BaseContract
+    attribute :forum_id, permission: :edit_messages
+    attribute :locked, permission: :edit_messages
+    attribute :sticky, permission: :edit_messages
+
+    validate :moving_message_to_another_forum
+
+    private
+
+    def moving_message_to_another_forum
+      return if !model.forum_id_changed?
+      return if model.forum_id_was.nil?
+
+      old_forum = Forum.find_by(id: model.forum_id_was)
+      return if old_forum.nil?
+
+      return if old_forum.project_id == model.forum.project_id
+
+      errors.add(:forum_id, :cannot_move_message_to_forum_of_different_project)
+    end
   end
 end

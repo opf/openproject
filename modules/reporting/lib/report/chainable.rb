@@ -264,9 +264,19 @@ module Report
       end
     end
 
+    # SQL identifiers (optionally qualified as table.column) that are safe to
+    # interpolate into the report query. Field values should originate from internal
+    # definitions only
+    # (db_field constants, integer-derived custom field names, class names).
+    FIELD_FORMAT = /\A\w+(\.\w+)*\z/
+
     inherited_attribute :db_field
     def self.field
-      db_field || (name[/[^:]+$/] || name).to_s.underscore
+      (db_field || (name[/[^:]+$/] || name).to_s.underscore).to_s.tap do |value|
+        unless value.empty? || value.match?(FIELD_FORMAT)
+          raise ArgumentError, "Unsafe report field name: #{value.inspect}"
+        end
+      end
     end
 
     def display?

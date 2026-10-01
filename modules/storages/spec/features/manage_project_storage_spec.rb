@@ -178,7 +178,7 @@ RSpec.describe("Activation of storages in projects",
 
     within_test_selector("op-project-storages--delete-dialog") do
       expect(page).to have_text("Delete file storage")
-      expect(page).to have_unchecked_field("I understand that this removal cannot be reversed")
+      expect(page).to have_unchecked_field("I understand that this removal cannot be reversed.")
       expect(page).to have_button("Remove permanently", disabled: true)
 
       # Cancel Confirmation
@@ -192,7 +192,7 @@ RSpec.describe("Activation of storages in projects",
 
     within_test_selector("op-project-storages--delete-dialog") do
       # Approve Confirmation
-      page.check "I understand that this removal cannot be reversed"
+      page.check "I understand that this removal cannot be reversed."
       page.click_button("Remove permanently")
     end
 

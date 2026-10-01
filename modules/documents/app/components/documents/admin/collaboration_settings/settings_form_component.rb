@@ -37,6 +37,11 @@ module Documents
 
         delegate :writable_setting?, to: :helpers
 
+        def initialize(errors: nil)
+          super()
+          @errors = errors
+        end
+
         def none_writable_settings?
           settings.none? { writable_setting?(it) }
         end
@@ -45,7 +50,28 @@ module Documents
           settings.any? { !writable_setting?(it) }
         end
 
+        def validation_message_for(attribute)
+          if attribute == :collaborative_editing_hocuspocus_url && (@errors&.include?(attribute) || invalid_hocuspocus_url?)
+            I18n.t("documents.admin.collaboration_settings.hocuspocus_server_url.invalid_scheme")
+          elsif @errors&.include?(attribute)
+            @errors.full_messages_for(attribute).to_sentence
+          end
+        end
+
         private
+
+        def invalid_hocuspocus_url?
+          return false if Setting.collaborative_editing_hocuspocus_url.blank?
+
+          !websocket_url?(Setting.collaborative_editing_hocuspocus_url)
+        end
+
+        def websocket_url?(url)
+          uri = URI.parse(url)
+          uri.is_a?(URI::WS) || uri.is_a?(URI::WSS)
+        rescue URI::InvalidURIError
+          false
+        end
 
         def settings
           %i[collaborative_editing_hocuspocus_url

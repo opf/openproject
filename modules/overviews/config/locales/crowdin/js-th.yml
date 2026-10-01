@@ -1,4 +1,5 @@
+---
 th:
   js:
     overviews:
-      label: 'ภาพรวม'
+      label: ภาพรวม

@@ -32,6 +32,13 @@ require "icalendar/tzinfo"
 
 module Meetings
   class IcalendarBuilder
+    # Emit at most this many meetings from a previous schedule as RECURRENCE-ID
+    # overrides. Older instantiated meetings (before `current_schedule_start`) are
+    # silently dropped from the feed to keep it bounded.
+    PAST_OCCURRENCES_LIMIT = 10
+
+    OccurrenceSchedule = Struct.new(:uid, :summary, :timezone, :sequence)
+
     attr_reader :builder_internal_timezone, :calendar, :all_times, :calendar_generated_for_user
 
     delegate :publish, to: :calendar
@@ -55,8 +62,8 @@ module Meetings
         e.dtstart = ical_datetime(meeting.start_time)
         e.dtend = ical_datetime(meeting.end_time)
 
-        e.created = meeting.created_at.utc
-        e.last_modified = meeting.updated_at.utc
+        e.created = ical_utc(meeting.created_at)
+        e.last_modified = ical_utc(meeting.updated_at)
         e.sequence = meeting.lock_version
 
         url = url_helpers.meeting_url(meeting)
@@ -88,9 +95,9 @@ module Meetings
         e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
         e.organizer = ical_organizer
 
-        e.created = recurring_meeting.template.created_at.utc
-        e.last_modified = [recurring_meeting.template.updated_at, recurring_meeting.updated_at].max.utc
-        e.sequence = recurring_meeting.template.lock_version
+        e.created = ical_utc(recurring_meeting.template.created_at)
+        e.last_modified = ical_utc([recurring_meeting.template.updated_at, recurring_meeting.updated_at].max)
+        e.sequence = recurring_meeting.ical_sequence
 
         e.rrule = recurring_meeting.ical_schedule.rrules.first.to_ical # We currently only have one recurrence rule
         e.dtstart = ical_datetime(recurring_meeting.current_schedule_start, timezone: recurring_meeting.time_zone)
@@ -124,13 +131,81 @@ module Meetings
       add_virtual_occurences_for_interim_responses(recurring_meeting: recurring_meeting)
     end
 
-    def add_single_recurring_occurrence(scheduled_meeting:, cancelled: false) # rubocop:disable Metrics/AbcSize
-      recurring_meeting = scheduled_meeting.recurring_meeting
-      meeting = scheduled_meeting.meeting
+    # If a series ever has been rescheduled, we record its past historic schedules.
+    # We need to output that as a separate master event.
+    # RFC 5546 3.2.2 allows only one UID per REQUEST, so we need to actually send out separate mails for this.
+    # This matches the behavior of other cross-service series schedule changes.
+    def historic_schedule_event(recurring_meeting:, historic: recurring_meeting.last_historic_schedule) # rubocop:disable Metrics/AbcSize
+      return if historic.nil?
+
+      timezone = historic.time_zone
 
       calendar.event do |e|
-        e.uid = recurring_meeting.uid
-        e.summary = recurring_meeting.title
+        e.uid = historic.uid
+        e.summary = historic.summary
+
+        url = url_helpers.recurring_meeting_url(recurring_meeting)
+        e.url = url
+        e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
+        e.organizer = ical_organizer
+
+        e.created = ical_utc(recurring_meeting.template.created_at)
+        e.last_modified = ical_utc(historic.created_at)
+        e.sequence = historic.sequence
+
+        e.rrule = historic.rrule
+        e.dtstart = ical_datetime(historic.dtstart, timezone:)
+        e.dtend = ical_datetime(historic.dtend, timezone:)
+        e.location = historic.location.presence
+        e.status = "CONFIRMED"
+
+        # include the exdate rules in that old series to make sure that
+        # exception times stay where they were before
+        e.exdate = historic.exdates.map { ical_datetime(it, timezone:) }
+
+        # The last occurrence will act as the until/end date of the old series
+        all_times[timezone].push(historic.ends_at.in_time_zone(timezone))
+
+        add_attendees(event: e, meeting: recurring_meeting.template, rsvp: false)
+      end
+
+      add_historic_occurrences(recurring_meeting:, historic:)
+    end
+
+    def occurrence_schedule(recurring_meeting, historic)
+      if historic
+        OccurrenceSchedule.new(historic.uid, historic.summary, historic.time_zone, historic.sequence)
+      else
+        OccurrenceSchedule.new(recurring_meeting.uid, recurring_meeting.title,
+                               recurring_meeting.time_zone, recurring_meeting.ical_sequence)
+      end
+    end
+
+    def add_historic_occurrences(recurring_meeting:, historic:)
+      historic_occurrences(recurring_meeting, historic).each do |meeting|
+        add_single_recurring_occurrence(meeting:, historic:)
+      end
+    end
+
+    # These are the occurrences that ran in the frozen window. The frozen master has an EXDATE for
+    # each occurrence that a user cancelled, and instantiated_schedules does not give those.
+    def historic_occurrences(recurring_meeting, historic)
+      instantiated_schedules(recurring_meeting)
+        .select { it.recurrence_start_time.between?(historic.dtstart, historic.ends_at) }
+        .reject { covered_by_rule?(it, recurring_meeting, historic) }
+        .sort_by(&:recurrence_start_time)
+        .last(PAST_OCCURRENCES_LIMIT)
+    end
+
+    def add_single_recurring_occurrence(meeting:, cancelled: false, historic: nil) # rubocop:disable Metrics/AbcSize
+      recurring_meeting = meeting.recurring_meeting
+      # The schedule may either be the current "live" one, or a historic
+      schedule = occurrence_schedule(recurring_meeting, historic)
+      timezone = schedule.timezone
+
+      calendar.event do |e|
+        e.uid = schedule.uid
+        e.summary = schedule.summary
 
         occurrence_url = url_helpers.meeting_url(meeting)
         e.url = occurrence_url
@@ -139,17 +214,18 @@ module Meetings
                                url: occurrence_url)
         e.organizer = ical_organizer
 
-        e.created = meeting.created_at.utc
-        e.last_modified = meeting.updated_at.utc
-        e.sequence = meeting.lock_version
+        e.created = ical_utc(meeting.created_at)
+        e.last_modified = ical_utc(meeting.updated_at)
+        e.sequence = [meeting.lock_version, schedule.sequence].max
 
-        e.recurrence_id = ical_datetime(scheduled_meeting.start_time, timezone: recurring_meeting.time_zone)
-        e.dtstart = ical_datetime(meeting.start_time, timezone: recurring_meeting.time_zone)
-        e.dtend = ical_datetime(meeting.end_time, timezone: recurring_meeting.time_zone)
+        e.recurrence_id = ical_datetime(meeting.recurrence_start_time, timezone:)
+        e.dtstart = ical_datetime(meeting.start_time, timezone:)
+        e.dtend = ical_datetime(meeting.end_time, timezone:)
         e.location = meeting.location.presence
 
-        add_attendees(event: e, meeting: meeting)
-        e.status = if cancelled || scheduled_meeting.cancelled?
+        # A schedule that ended asks nobody to answer again, and that holds for its overrides too.
+        add_attendees(event: e, meeting:, rsvp: historic.nil?)
+        e.status = if cancelled || meeting.cancelled?
                      "CANCELLED"
                    else
                      "CONFIRMED"
@@ -171,19 +247,22 @@ module Meetings
       calendar.to_ical
     end
 
-    def preload_for_recurring_meetings(recurring_meetings:)
-      @excluded_dates_cache = ScheduledMeeting
+    def preload_for_recurring_meetings(recurring_meetings:) # rubocop:disable Metrics/AbcSize
+      @excluded_dates_cache = Meeting
+        .not_templated
         .cancelled
         .where(recurring_meeting: recurring_meetings)
+        .where.not(recurrence_start_time: nil)
         .group(:recurring_meeting_id)
-        .pluck(:recurring_meeting_id, "array_agg(start_time)")
+        .pluck(:recurring_meeting_id, "array_agg(recurrence_start_time)")
         .to_h
 
-      @instantiated_occurrences_cache = ScheduledMeeting
-        .where(recurring_meeting: recurring_meetings)
+      @instantiated_occurrences_cache = Meeting
+        .not_templated
         .not_cancelled
-        .instantiated
-        .includes(meeting: [:project], recurring_meeting: [:project])
+        .where(recurring_meeting: recurring_meetings)
+        .where.not(recurrence_start_time: nil)
+        .includes(:participants, :project, recurring_meeting: [:project])
         .group_by(&:recurring_meeting_id)
 
       @interim_responses_cache = RecurringMeetingInterimResponse
@@ -207,7 +286,7 @@ module Meetings
       end
     end
 
-    def add_attendees(event:, meeting:, override_participation_status: {})
+    def add_attendees(event:, meeting:, override_participation_status: {}, rsvp: true)
       meeting.participants.includes(:user).find_each do |participant|
         user = participant.user
         next unless user
@@ -220,7 +299,7 @@ module Meetings
             "CN" => user.name,
             "EMAIL" => user.mail,
             "PARTSTAT" => attendee_participation_status(participant),
-            "RSVP" => attendee_rsvp_needed?(participant) ? "TRUE" : nil,
+            "RSVP" => rsvp && attendee_rsvp_needed?(participant) ? "TRUE" : nil,
             "CUTYPE" => "INDIVIDUAL",
             "ROLE" => "REQ-PARTICIPANT"
           }.compact
@@ -250,6 +329,12 @@ module Meetings
       calendar_generated_for_user == participant.user && participant.participation_needs_action?
     end
 
+    # Helper method to ensure output as UTC times
+    # RFC 5545 3.8.7: CREATED and LAST-MODIFIED need to be UTC values
+    def ical_utc(time)
+      Icalendar::Values::DateTime.new(time.utc, "tzid" => "UTC")
+    end
+
     def ical_datetime(time, timezone: builder_internal_timezone)
       tzid = timezone.tzinfo.canonical_identifier
 
@@ -269,9 +354,8 @@ module Meetings
       all_times.each do |timezone, times|
         calendar.timezone do |tz|
           tz.tzid = timezone.tzinfo.canonical_identifier
-          transitions = timezone.tzinfo.transitions_up_to(times.max + 6.months, times.min - 6.months)
 
-          transitions.each do |tr|
+          relevant_transitions(timezone.tzinfo, times).each do |tr|
             if tr.offset.dst?
               tz.daylight { |d| transition_to_component(d, tr) }
             else
@@ -280,6 +364,17 @@ module Meetings
           end
         end
       end
+    end
+
+    # `transitions_up_to(to, from)` only returns transitions at or after `from`, so a
+    # fixed lookback (e.g. `times.min - 6.months`) can skip past the transition that
+    # established the offset currently in effect. When that happens the VTIMEZONE has
+    # no observance preceding the event and clients fall back to the wrong offset
+    def relevant_transitions(tzinfo, times)
+      transitions = tzinfo.transitions_up_to(times.max + 6.months, times.min)
+      active = tzinfo.transitions_up_to(times.min).last
+      transitions.unshift(active) if active
+      transitions
     end
 
     def transition_to_component(component, transition)
@@ -299,13 +394,56 @@ module Meetings
 
     # Methods for recurring meetings
     def add_instantiated_occurrences(recurring_meeting:)
-      upcoming_instantiated_schedules(recurring_meeting).each do |scheduled_meeting|
-        add_single_recurring_occurrence(scheduled_meeting:)
+      instantiated_occurrences_for_export(recurring_meeting).each do |meeting|
+        add_single_recurring_occurrence(meeting:)
       end
+    end
+
+    def instantiated_occurrences_for_export(recurring_meeting)
+      @export_occurrences_cache ||= {}
+      @export_occurrences_cache[recurring_meeting.id] ||= begin
+        past, upcoming = exportable_occurrences(recurring_meeting)
+                           .partition { it.recurrence_start_time < Time.current }
+
+        past.last(PAST_OCCURRENCES_LIMIT) + upcoming
+      end
+    end
+
+    # Some implementations (such as OpenXchange) reject the full series if an event starts
+    # before the master DTSTART.
+    def exportable_occurrences(recurring_meeting)
+      instantiated_schedules(recurring_meeting)
+        .reject { it.recurrence_start_time < recurring_meeting.current_schedule_start }
+        .reject { covered_by_rule?(it, recurring_meeting, nil) }
+        .sort_by(&:recurrence_start_time)
+    end
+
+    # If an occurrence is matching its planned slot in the series, we do not need to output an override
+    # as that is needless duplication.
+    def covered_by_rule?(meeting, recurring_meeting, historic)
+      template = recurring_meeting.template
+      master = historic || template
+
+      meeting.start_time == meeting.recurrence_start_time &&
+        meeting.duration == master.duration &&
+        meeting.location == master.location &&
+        participation_of(meeting) == participation_of(template)
+    end
+
+    def participation_of(meeting)
+      meeting.participants.filter_map { [it.user_id, it.participation_status] if it.user_id }.sort
     end
 
     def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
       interim_responses_for(recurring_meeting).each do |start_time, responses|
+        next if start_time < recurring_meeting.current_schedule_start
+
+        # Ensure interim responses still match the meeting
+        unless recurring_meeting.schedule.occurs_at?(start_time)
+          warn "Interim response has start time that does not match #{recurring_meeting.id}, skipping."
+          next
+        end
+
         calendar.event do |e|
           e.uid = recurring_meeting.uid
           e.summary = recurring_meeting.title
@@ -315,9 +453,9 @@ module Meetings
           e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
           e.organizer = ical_organizer
 
-          e.created = recurring_meeting.template.created_at.utc
-          e.last_modified = [recurring_meeting.template.updated_at, recurring_meeting.updated_at].max.utc
-          e.sequence = recurring_meeting.template.lock_version
+          e.created = ical_utc(recurring_meeting.template.created_at)
+          e.last_modified = ical_utc([recurring_meeting.template.updated_at, recurring_meeting.updated_at].max)
+          e.sequence = recurring_meeting.ical_sequence
 
           e.dtstart = ical_datetime(start_time, timezone: recurring_meeting.time_zone)
           e.dtend = ical_datetime(start_time + recurring_meeting.template.duration.hours, timezone: recurring_meeting.time_zone)
@@ -334,26 +472,39 @@ module Meetings
       end
     end
 
+    # Only emit EXDATE for cancelled meetings: their dates are still in the RRULE
+    # expansion (if at or after current_schedule_start) and need to be suppressed.
+    # Meetings from a previous schedule are already outside the RRULE expansion
+    # because DTSTART = current_schedule_start, so EXDATE'ing them would be a no-op.
     def set_excluded_recurrence_dates(event:, recurring_meeting:)
-      event.exdate = if series_cache_loaded?
-                       @excluded_dates_cache[recurring_meeting.id] || []
-                     else
-                       recurring_meeting
-                         .scheduled_meetings
-                         .cancelled
-                         .pluck(:start_time)
-                     end.map { ical_datetime(it, timezone: recurring_meeting.time_zone) }
+      event.exdate = cancelled_recurrence_dates(recurring_meeting)
+                       .map { ical_datetime(it, timezone: recurring_meeting.time_zone) }
     end
 
-    def upcoming_instantiated_schedules(recurring_meeting)
+    def cancelled_recurrence_dates(recurring_meeting)
+      if series_cache_loaded?
+        (@excluded_dates_cache[recurring_meeting.id] || [])
+          .select { it >= recurring_meeting.current_schedule_start }
+      else
+        recurring_meeting
+          .meetings
+          .not_templated
+          .cancelled
+          .where(recurrence_start_time: recurring_meeting.current_schedule_start...)
+          .pluck(:recurrence_start_time)
+      end
+    end
+
+    def instantiated_schedules(recurring_meeting)
       if series_cache_loaded?
         @instantiated_occurrences_cache[recurring_meeting.id] || []
       else
         recurring_meeting
-          .scheduled_meetings
+          .meetings
+          .not_templated
           .not_cancelled
-          .instantiated
-          .includes(meeting: [:project], recurring_meeting: [:project])
+          .where.not(recurrence_start_time: nil)
+          .includes(:participants, :project, recurring_meeting: [:project])
       end
     end
 

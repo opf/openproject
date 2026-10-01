@@ -19,37 +19,78 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pl:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Kontrola stanu wdrożenia
+        few: Kontrole stanu wdrożenia
+        many: Kontrole stanu wdrożenia
+        other: Kontrole stanu wdrożenia
+      deploy_target:
+        one: Cel wdrożenia
+        few: Cele wdrożenia
+        many: Cele wdrożenia
+        other: Cele wdrożenia
+      github_check_run:
+        one: Uruchomienie kontroli GitHub
+        few: Uruchomienia kontroli GitHub
+        many: Uruchomienia kontroli GitHub
+        other: Uruchomienia kontroli GitHub
+      github_pull_request:
+        one: Żądanie Pull Request w GitHub
+        few: Żądania Pull Request w GitHub
+        many: Żądania Pull Request w GitHub
+        other: Żądania Pull Request w GitHub
+      github_user:
+        one: Użytkownik GitHub
+        few: Użytkownicy GitHub
+        many: Użytkownicy GitHub
+        other: Użytkownicy GitHub
   attributes:
-    additions_count: "Liczba dodań"
-    deletions_count: "Liczba usunięć"
-    comments_count: "Liczba komentarzy"
-    github_html_url: "Adres URL żądania Pull Request"
-    github_app_owner_avatar_url: "Adres URL awatara właściciela"
-    review_comments_count: "Liczba komentarzy recenzji"
-    github: "Identyfikator GitHub"
-    github_avatar_url: "Adres URL awatara"
-    github_updated_at: "Zaktualizowano o"
-    github_login: "Login GitHub"
-    host: "Gospodarz"
-    labels: "Etykiety"
-    repository: "Repozytorium"
-    changed_files_count: "Zmienione pliki"
+    additions_count: Liczba dodań
+    changed_files_count: Zmienione pliki
+    comments_count: Liczba komentarzy
+    deletions_count: Liczba usunięć
+    github: Identyfikator GitHub
+    github_app_owner_avatar_url: Adres URL awatara właściciela
+    github_avatar_url: Adres URL awatara
+    github_html_url: Adres URL żądania Pull Request
+    github_login: Login GitHub
+    github_updated_at: Zaktualizowano o
+    host: Gospodarz
+    labels: Etykiety
+    repository: Repozytorium
+    review_comments_count: Liczba komentarzy recenzji
   button_add_deploy_target: Dodaj cel wdrożenia
   label_deploy_target: Cel wdrożenia
   label_deploy_target_new: Nowy cel wdrożenia
   label_deploy_target_plural: Cele wdrożenia
+  label_github_comment_user: Użytkownik GitHub
   label_github_integration: Integracja z GitHub
+  label_github_webhook_secret: Klucz tajny obiektu webhook
   notice_deploy_target_created: Utworzono cel wdrożenia
   notice_deploy_target_destroyed: Usunięto cel wdrożenia
-  plugin_openproject_github_integration:
-    name: "Integracja OpenProject z GitHub"
-    description: "Integruje OpenProject i GitHub dla lepszego przepływu pracy"
-  project_module_github: "GitHub"
-  permission_show_github_content: "Pokaż treść GitHub"
   permission_introspection: Odczytaj wersję bazową uruchomionego wystąpienia OpenProject i SHA kompilacji
-  text_deploy_target_type_info: >
-    Jak dotąd wspieramy tylko sam OpenProject.
-  text_deploy_target_api_key_info: >
-    OpenProject [API key](docs_url) należący do użytkownika mającego globalne uprawnienie do introspekcji.
+  permission_show_github_content: Pokaż treść GitHub
+  plugin_openproject_github_integration:
+    description: Integruje OpenProject i GitHub dla lepszego przepływu pracy
+    name: Integracja OpenProject z GitHub
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'OpenProject [API key](docs_url) należący do użytkownika mającego globalne uprawnienie do introspekcji.
+
+    '
+  text_deploy_target_type_info: 'Jak dotąd wspieramy tylko sam OpenProject.
+
+    '
+  text_github_comment_user_info: 'Użytkownik OpenProject, którego klucz interfejsu API musi być używany do uwierzytelniania przychodzących żądań obiektu webhoo. Po jego ustawieniu żądania uwierzytelnione przy użyciu poświadczeń dowolnego innego użytkownika są odrzucane. Ten użytkownik publikuje również automatyczne komentarze dotyczące stanu wdrożenia pakietów roboczych. Domyślnie ustawiany jest użytkownik systemowy.
+
+    '
+  text_github_webhook_secret_info: 'Tajny token udostępniany serwisowi GitHub podczas konfigurowania obiektu webhook. Po jego ustawieniu OpenProject weryfikuje nagłówek X-Hub-Signature-256 w każdym przychodzącym żądaniu i odrzuca niezgodną zawartość. Pozostaw puste, aby pomijać weryfikację (niezalecane).
+
+    '
+  text_github_webhook_secret_missing_warning: 'Nie skonfigurowano klucza tajnego obiektu webhook. Każde żądanie do punktu końcowego obiektu webhook GitHub zostanie zaakceptowane bez weryfikacji, co może pozwolić nieautoryzowanym użytkownikom na fałszowanie zdarzeń. Zdecydowanie zalecane jest ustawienie klucza tajnego.
+
+    '
   text_pull_request_deployed_to: "%{pr_link} wdrożono w %{deploy_target_link}"

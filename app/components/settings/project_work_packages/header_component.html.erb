@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<% helpers.html_title(*title_parts) %>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:label_work_package_plural) }

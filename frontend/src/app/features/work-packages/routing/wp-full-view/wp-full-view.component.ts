@@ -21,27 +21,19 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { StateService } from '@uirouter/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, inject } from '@angular/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { Observable, of } from 'rxjs';
@@ -59,6 +51,10 @@ import { Observable, of } from 'rxjs';
   standalone: false,
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
+  recentItemsService = inject(RecentItemsService);
+  readonly currentUserService = inject(CurrentUserService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   // Watcher properties
   public isWatched:boolean;
 
@@ -78,14 +74,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     },
   };
 
-  constructor(
-    public injector:Injector,
-    public wpTableSelection:WorkPackageViewSelectionService,
-    public recentItemsService:RecentItemsService,
-    readonly $state:StateService,
-    readonly currentUserService:CurrentUserService,
-  ) {
-    super(injector);
+  public onTabSelected(tab:TabDefinition):void {
+    this.activeTab = tab.id;
+    this.cdRef.markForCheck();
   }
 
   // enable other parts of the application to trigger an immediate update
@@ -107,7 +98,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
       this.recentItemsService.add(this.workPackage.id);
 
       // Set Focused WP
-      this.wpTableFocus.updateFocus(this.workPackage.id);
+      this.wpTableFocus.initializeSelectionAndFocus(this.workPackage.id);
     }
 
     this.setWorkPackageScopeProperties(this.workPackage);

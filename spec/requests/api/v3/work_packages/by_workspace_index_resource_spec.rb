@@ -214,9 +214,9 @@ RSpec.describe "GET api/v3/workspace/:id/work_packages", content_type: :json do
       it "contains the sum element" do
         expected = {
           estimatedTime: "PT3H",
-          laborCosts: "0.00 EUR",
-          materialCosts: "0.00 EUR",
-          overallCosts: "0.00 EUR",
+          laborCosts: "0.00 €",
+          materialCosts: "0.00 €",
+          overallCosts: "0.00 €",
           percentageDone: nil,
           remainingTime: nil,
           storyPoints: nil

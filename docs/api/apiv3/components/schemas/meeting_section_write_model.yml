@@ -1,0 +1,7 @@
+# Schema: MeetingSectionWriteModel
+---
+type: object
+properties:
+  title:
+    type: string
+    description: The section's title.

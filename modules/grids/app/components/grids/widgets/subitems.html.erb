@@ -88,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         if has_more_subitems?
-          container.with_row do
+          container.with_footer do
             render(Primer::Beta::Link.new(href: view_all_subitems_path)) { t(".view_all_subitems") }
           end
         end

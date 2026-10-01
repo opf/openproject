@@ -26,8 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "core_extensions/string"
-require "core_extensions/time_with_zone"
+Dir[File.join(File.dirname(__FILE__), "core_extensions/**/*.rb")].each { |f| require f }
 
 String.prepend CoreExtensions::String
+String.prepend CoreExtensions::HtmlSafeGsub
+ActiveSupport::SafeBuffer.prepend CoreExtensions::HtmlSafeGsub
 ActiveSupport::TimeWithZone.include CoreExtensions::TimeWithZone

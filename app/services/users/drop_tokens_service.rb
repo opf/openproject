@@ -38,9 +38,10 @@ module Users
       @user = current_user
     end
 
-    def call!(clear_invitation_tokens: true)
+    def call!(clear_invitation_tokens: true, clear_autologin_tokens: false)
       invalidate_recovery_tokens
       invalidate_invitation_tokens if clear_invitation_tokens
+      invalidate_autologin_tokens if clear_autologin_tokens
     end
 
     private
@@ -51,6 +52,10 @@ module Users
 
     def invalidate_invitation_tokens
       Token::Invitation.where(user:).delete_all
+    end
+
+    def invalidate_autologin_tokens
+      Token::AutoLogin.where(user:).delete_all
     end
   end
 end

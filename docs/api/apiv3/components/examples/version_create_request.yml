@@ -1,0 +1,17 @@
+# Example: Version create request
+---
+description: Request to create a basic version with custom fields
+value:
+  name: v0.9.1-alpha
+  startDate: "2026-02-02"
+  endDate: "2026-02-09"
+  status: open
+  sharing: tree
+  customField14: true
+  _links:
+    definingProject:
+      href: "/api/v3/projects/10"
+      title: "Death Star"
+    customField23:
+      href: "/api/v3/users/18"
+      title: "Mara Jade"

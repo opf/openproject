@@ -1,29 +1,29 @@
-#English strings go here
+---
 mn:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      label_team_planner_plural: 'Багийн төлөвлөгчид'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Багийн төлөвлөгч'
-      create_title: 'Шинэ баг төлөвлөгч үүсгэх'
-      unsaved_title: 'Unnamed team planner'
-      no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Даалгагч'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2 долоо хоног'
-      one_week: '1 долоо хоног'
-      four_weeks: '4 долоо хоног'
-      eight_weeks: '8 долоо хоног'
-      work_week: 'Ажлын долоо хоног'
-      today: 'Өнөөдөр'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
-      cannot_drag_here: 'Cannot move the work package due to permissions or editing restrictions.'
-      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
-      quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Хайх...'
+      add_assignee: Даалгагч
+      add_existing: Add existing
+      add_existing_title: Add existing work packages
+      cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
+      cannot_drag_to_non_working_day: This work package cannot start/finish on a non-working day.
+      create_label: Багийн төлөвлөгч
+      create_title: Шинэ баг төлөвлөгч үүсгэх
+      drag_here_to_remove: Drag here to remove assignee and start and end dates.
+      eight_weeks: 8 долоо хоног
+      four_weeks: 4 долоо хоног
+      label_team_planner_plural: Багийн төлөвлөгчид
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          fallback: This work package cannot be edited.
+          permission_denied: You do not have the necessary permissions to modify this.
+      no_data: Add assignees to set up your team planner.
+      one_week: 1 долоо хоног
+      quick_add:
+        empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
+        search_placeholder: Хайх...
+      remove_assignee: Remove assignee
+      today: Өнөөдөр
+      two_weeks: 2 долоо хоног
+      unsaved_title: Unnamed team planner
+      work_week: Ажлын долоо хоног

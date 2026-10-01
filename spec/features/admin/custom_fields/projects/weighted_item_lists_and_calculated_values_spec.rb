@@ -31,10 +31,7 @@
 require "spec_helper"
 require_relative "shared_context"
 
-RSpec.describe "Weighted item lists and calculated values",
-               :js,
-               with_ee: %i[calculated_values weighted_item_lists],
-               with_flag: { calculated_value_project_attribute: true } do
+RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[calculated_values weighted_item_lists] do
   current_user { create(:admin) }
 
   let!(:project) { create(:project) }

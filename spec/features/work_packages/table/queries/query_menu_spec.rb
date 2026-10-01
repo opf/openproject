@@ -124,14 +124,14 @@ RSpec.describe "Query menu item", :js do
 
     it "allows filtering, saving, retrieving and altering the saved filter (Regression #25372)" do
       filters.open
-      filters.add_filter_by("Version", "is (OR)", version.name)
+      filters.add_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
 
       wp_table.save_as("Some query name")
 
-      filters.remove_filter "version"
+      filters.remove_filter "targetVersion"
       filters.expect_filter_count 1
 
       wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
@@ -169,10 +169,10 @@ RSpec.describe "Query menu item", :js do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by("Version", "is (OR)", version.name)
+      filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
 
       # Removing the filter and returning to query restores it
-      filters.remove_filter "version"
+      filters.remove_filter "targetVersion"
       filters.expect_filter_count 1
       expect(page.current_url).to include("query_props")
 
@@ -186,7 +186,7 @@ RSpec.describe "Query menu item", :js do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by("Version", "is (OR)", version.name)
+      filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
     end
   end
 end

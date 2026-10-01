@@ -34,18 +34,20 @@ require_relative "../../projects/exporter/exportable_project_context"
 
 RSpec.describe Project::PDFExport::ProjectInitiation do
   include PDFExportSpecUtils
-  include ProjectHelper
+  include ProjectsHelper
   include Redmine::I18n
 
   include_context "with a project with an arrangement of custom fields"
 
   let(:exporter) { described_class.new(project) }
-  let(:current_user) { create(:user, member_with_permissions: { project => %i[view_projects view_project_attributes] }) }
+  let(:current_user) do
+    create(:user, member_with_permissions: { project => %i[view_projects view_project_attributes view_work_packages] })
+  end
   let(:export_time) { DateTime.new(2025, 11, 13, 13, 37) }
   let(:export_time_formatted) { format_time(export_time) }
   let(:wizard_status) { create(:status, name: "Submitted") }
   let(:status) { create(:status, name: "Approved") }
-  let(:work_package) { create(:work_package, status:) }
+  let(:work_package) { create(:work_package, project: project, status:) }
   let(:custom_artefact_name_key) { "project_mandate" }
   let(:section_a) { create(:project_custom_field_section, name: "Section A") }
   let(:section_b) { create(:project_custom_field_section, name: "Section B") }
@@ -87,7 +89,6 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
       expect(exporter.title).to eq("#{project.identifier}_#{exporter.sane_filename(custom_artefact_name)}_#{title_datetime}.pdf")
     end
 
-
     it "exports a PDF containing project initiation using the custom defined name" do
       expected_document = [
         custom_artefact_name, project.name, Setting.app_title, export_time_formatted, # cover page
@@ -105,6 +106,7 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
       string_cf.update!(project_custom_field_section: section_a)
       text_cf.update!(project_custom_field_section: section_a)
       link_cf.update!(project_custom_field_section: section_a)
+      hidden_cf.update!(project_custom_field_section: section_a)
       unset_string_cf.update!(project_custom_field_section: section_a)
       disabled_custom_field.update!(project_custom_field_section: section_a)
 
@@ -115,33 +117,79 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
       version_cf.update!(project_custom_field_section: section_b)
 
       disabled_mapping
+
+      # As of SPPM-330, activating a project attribute (e.g. by giving it a value, as the shared context does above)
+      # no longer enables it for the creation wizard (PIR) automatically.
+      # Explicitly enable all project attributes except the deliberately disabled one:
+      project.project_custom_field_project_mappings
+             .where.not(custom_field_id: disabled_custom_field.id)
+             .update_all(creation_wizard: true)
     end
 
-    it "exports a PDF containing project initiation with custom attributes grouped by sections" do
-      expected_document = [
+    let(:expected_document) do
+      [
         heading, project.name, Setting.app_title, export_time_formatted, # cover page
         heading,
         project.name,
         "The description of the project",
 
         "Section A",
-        link_cf.name, "https://www.example.com",
+        bool_cf.name, "Yes",
         text_cf.name, "Some ", "long", " text",
         string_cf.name, "Some small text",
-        bool_cf.name, "Yes",
+        link_cf.name, "https://www.example.com",
         unset_string_cf.name, "–",
 
         "Section B",
         version_cf.name, system_version,
+        "#{version_cf.name} comment", "Comment visible to members",
         user_cf.name, "Other User",
-        date_cf.name, format_date(Time.zone.today),
-        float_cf.name, "4.5",
         int_cf.name, "5",
+        float_cf.name, "4.5",
+        date_cf.name, format_date(Time.zone.today),
 
         "1/1", heading, project.name
       ].join(" ")
+    end
 
+    it "exports a PDF containing project initiation with custom attributes grouped by sections" do
       expect(subject).to eq expected_document
+    end
+
+    context "as admin" do
+      let(:current_user) { build(:admin) }
+
+      let(:expected_document) do
+        [
+          heading, project.name, Setting.app_title, export_time_formatted, # cover page
+          heading,
+          project.name,
+          "The description of the project",
+
+          "Section A",
+          bool_cf.name, "Yes",
+          text_cf.name, "Some ", "long", " text",
+          string_cf.name, "Some small text",
+          hidden_cf.name, "hidden",
+          "#{hidden_cf.name} comment", "Comment visible to admins",
+          link_cf.name, "https://www.example.com",
+          unset_string_cf.name, "–",
+
+          "Section B",
+          version_cf.name, system_version,
+          "#{version_cf.name} comment", "Comment visible to members",
+          user_cf.name, "Other User",
+          int_cf.name, "5",
+          float_cf.name, "4.5",
+          date_cf.name, format_date(Time.zone.today),
+
+          "1/1", heading, project.name
+        ].join(" ")
+      end
+
+      it "exports a PDF containing project initiation with custom attributes grouped by sections" do
+        expect(subject).to eq expected_document
+      end
     end
   end
 
@@ -166,7 +214,12 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
   end
 
   context "with a work package status" do
-    let(:project) { create(:project, project_creation_wizard_artifact_work_package_id: work_package.id) }
+    let(:project) { create(:project) }
+
+    before do
+      # WorkPackage has to be created within the project so we cannot set it in the `create` call
+      project.update!(project_creation_wizard_artifact_work_package_id: work_package.id)
+    end
 
     it "uses a fixed pattern for the filename" do
       title_datetime = exporter.send(:title_datetime)

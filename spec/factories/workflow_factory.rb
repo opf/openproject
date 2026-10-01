@@ -28,15 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :workflow do
-    old_status factory: :status
-    new_status factory: :status
-    role factory: :project_role
-    type
+module WorkflowFactoryDeprecation
+  class << self
+    def warn_once
+      return if @warned
 
-    factory :workflow_with_default_status do
-      old_status factory: :default_status
+      @warned = true
+      OpenProject::Deprecation.warn(
+        "Factory :workflow builds a Workflows::StatusTransition and creates a named " \
+        "Workflow as a side-effect. Use :status_transition, or :named_workflow for the container."
+      )
     end
+  end
+end
+
+FactoryBot.define do
+  factory :named_workflow, class: "Workflow" do
+    sequence(:name) { |n| "Workflow No. #{n}" }
+
+    # A workflow only the owning project can see or use.
+    factory :project_owned_workflow do
+      project
+    end
+  end
+
+  factory :workflow, parent: :status_transition, class: "Workflows::StatusTransition" do
+    after(:build) { WorkflowFactoryDeprecation.warn_once }
   end
 end

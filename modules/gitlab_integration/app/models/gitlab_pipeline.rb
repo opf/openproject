@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -32,27 +32,31 @@
 class GitlabPipeline < ApplicationRecord
   belongs_to :gitlab_merge_request, touch: true
 
-  # TODO: confirm with the gitlab documentation what are the different statuses.
+  # Statuses according to docs at https://docs.gitlab.com/api/pipelines/#list-project-pipelines
   enum :status, {
     created: "created",
     running: "running",
     success: "success",
     waiting: "waiting",
+    waiting_for_resource: "waiting_for_resource",
+    waiting_for_callback: "waiting_for_callback",
     preparing: "preparing",
     failed: "failed",
     pending: "pending",
+    canceling: "canceling",
     canceled: "canceled",
     skipped: "skipped",
     manual: "manual",
     scheduled: "scheduled"
   }
 
-  validates_presence_of :gitlab_user_avatar_url,
-                        :gitlab_html_url,
-                        :gitlab_id,
-                        :status,
-                        :name,
-                        :ci_details,
-                        :commit_id,
-                        :username
+  validates :gitlab_user_avatar_url,
+            :gitlab_html_url,
+            :gitlab_id,
+            :status,
+            :name,
+            :ci_details,
+            :commit_id,
+            :username,
+            presence: true
 end

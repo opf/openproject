@@ -1,0 +1,39 @@
+<%= component_wrapper(style: "flex: 1") do
+  if total_pages > 1
+    flex_layout(justify_content: :flex_start, align_items: :center) do |flex|
+      flex.with_column(mr: 2) do
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :"chevron-left",
+            scheme: :invisible,
+            tag: :a,
+            href: page > 1 ? switch_page_url(page - 1) : nil,
+            disabled: page <= 1,
+            "aria-label": I18n.t(:label_previous),
+            data: { turbo_stream: true }
+          )
+        )
+      end
+
+      flex.with_column do
+        render(Primer::Beta::Text.new(tag: :span)) do
+          "#{page} / #{total_pages}"
+        end
+      end
+
+      flex.with_column(ml: 2) do
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :"chevron-right",
+            scheme: :invisible,
+            tag: :a,
+            href: page < total_pages ? switch_page_url(page + 1) : nil,
+            disabled: page >= total_pages,
+            "aria-label": I18n.t(:label_next),
+            data: { turbo_stream: true }
+          )
+        )
+      end
+    end
+  end
+end %>

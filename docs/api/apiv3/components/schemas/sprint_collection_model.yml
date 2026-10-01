@@ -1,0 +1,30 @@
+# Schema: SprintCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This sprint collection
+
+                  **Resource**: Collection
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './sprint_model.yml'

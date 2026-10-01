@@ -75,11 +75,11 @@ class ExternalLinkWarningController < ApplicationController
   def parse_url(url)
     return nil if url.blank?
 
-    uri = URI.parse(url)
-    return url if uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+    uri = Addressable::URI.parse(url)
+    return url if %w[http https].include?(uri.scheme&.downcase)
 
     nil
-  rescue URI::InvalidURIError
+  rescue Addressable::URI::InvalidURIError
     nil
   end
 end

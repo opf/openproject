@@ -3,7 +3,7 @@
   [style.grid-template-rows]="gridRowStyle">
 
   <!-- Grid areas that have a widget in them -->
-  @for (area of layout.widgetAreas; track identifyGridArea($index, area)) {
+  @for (area of widgetAreasForDisplay; track identifyGridArea($index, area)) {
     <div
       class="grid--area -widgeted"
        [ngClass]="{'-dragged': drag.isDragged(area),
@@ -31,7 +31,7 @@
       @if (resize.isResizable) {
         <op-resizer
           [customHandler]="true"
-          (resizeFinished)="resize.end(area)"
+          (resizeFinished)="resizeEnd(area)"
           (resizeStarted)="resize.start(area)"
           (move)="resize.moving()">
           <div class="grid--resizer">

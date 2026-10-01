@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Global role: Global Create project",
-               :js do
+RSpec.describe "Global role: Global Create project", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:user) { create(:user) }
   shared_let(:project) { create(:project) }
@@ -74,6 +73,7 @@ RSpec.describe "Global role: Global Create project",
   describe "for a user with the global permission to add projects" do
     let!(:global_role) { create(:global_role, name: "Global", permissions: %i[add_project]) }
     let!(:member_role) { create(:project_role, name: "Member", permissions: %i[view_project]) }
+    let!(:default_project_role) { create(:project_creator_role) }
 
     let!(:global_member) do
       create(:global_member,
@@ -83,9 +83,13 @@ RSpec.describe "Global role: Global Create project",
 
     current_user { user }
 
+    before do
+      allow(Setting).to receive(:new_project_user_role_id).and_return(default_project_role.id.to_s)
+    end
+
     it 'allows creating projects via the "+ Project" button' do
       projects_page.visit!
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project
 
       # Step 1: Select workspace type (blank project)
       click_on "Continue"
@@ -108,31 +112,16 @@ RSpec.describe "Global role: Global Create project",
     end
   end
 
-  describe "portfolio_models feature flag" do
-    context "when enabled", with_flag: { portfolio_models: true } do
-      let(:projects_menu) { Components::Projects::TopMenu.new }
+  describe "projects menu" do
+    let(:projects_menu) { Components::Projects::TopMenu.new }
 
-      current_user { admin }
+    current_user { admin }
 
-      it "does not show the button for project creation and list" do
-        projects_page.visit!
-        projects_menu.toggle!
-        projects_menu.expect_no_project_create_button
-        projects_menu.expect_no_project_list_button
-      end
-    end
-
-    describe "when disabled", with_flag: { portfolio_models: false } do
-      let(:projects_menu) { Components::Projects::TopMenu.new }
-
-      current_user { admin }
-
-      it "shows the button for project creation and list" do
-        projects_page.visit!
-        projects_menu.toggle!
-        projects_menu.expect_project_create_button
-        projects_menu.expect_project_list_button
-      end
+    it "does not show the button for project creation and list" do
+      projects_page.visit!
+      projects_menu.toggle!
+      projects_menu.expect_no_project_create_button
+      projects_menu.expect_no_project_list_button
     end
   end
 end

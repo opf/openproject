@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,11 +32,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import {
-  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { QuerySharingChange } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -44,8 +40,19 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 @Component({
   templateUrl: './query-sharing.modal.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class QuerySharingModalComponent extends OpModalComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly states = inject(States);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly wpListService = inject(WorkPackagesListService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly toastService = inject(ToastService);
+
   public query:QueryResource;
 
   public isStarred = false;
@@ -64,20 +71,6 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
   };
-
-  constructor(
-    readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly I18n:I18nService,
-    readonly states:States,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly cdRef:ChangeDetectorRef,
-    readonly wpListService:WorkPackagesListService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly toastService:ToastService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
 
   ngOnInit():void {
     super.ngOnInit();
@@ -103,6 +96,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     }
 
     this.isBusy = true;
+    this.cdRef.markForCheck();
     const promises = [];
 
     if (this.query.public !== this.isPublic) {
@@ -120,10 +114,12 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
       .then(() => {
         this.closeMe($event);
         this.isBusy = false;
+        this.cdRef.markForCheck();
       })
       .catch(() => {
         this.toastService.addError(this.I18n.t('js.error.query_saving'));
         this.isBusy = false;
+        this.cdRef.markForCheck();
       });
   }
 }

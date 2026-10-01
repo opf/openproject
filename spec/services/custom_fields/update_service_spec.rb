@@ -65,9 +65,7 @@ RSpec.describe CustomFields::UpdateService, type: :model do
       end
     end
 
-    describe "calculated value custom field",
-             with_ee: %i[calculated_values],
-             with_flag: { calculated_value_project_attribute: true } do
+    describe "calculated value custom field", with_ee: %i[calculated_values] do
       using CustomFieldFormulaReferencing
 
       context "when updating not a calculated value" do

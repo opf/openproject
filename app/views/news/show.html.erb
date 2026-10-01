@@ -29,11 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { "#{avatar(@news.author)}  #{h @news.title}".html_safe }
+    header.with_title do
+      concat avatar(@news.author)
+      concat @news.title
+    end
+
     header.with_breadcrumbs(
       [
-        ({ href: project_overview_path(@project.id), text: @project.name } if @project),
-        ({ href: project_news_index_path(@project.id), text: t(:label_news_plural) } if @project),
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_news_index_path(@project.id), text: t(:label_news_plural) },
         @news.title
       ].compact
     )
@@ -43,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         mobile_icon: :pencil,
         mobile_label: t(:button_edit),
         size: :medium,
-        href: edit_news_path(@news),
+        href: edit_project_news_path(@project, @news),
         aria: { label: I18n.t(:button_edit) },
         title: I18n.t(:button_edit)
       ) do |button|
@@ -58,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
       header.with_action_button(
         scheme: :danger,
         tag: :a,
-        href: news_path(@news),
+        href: project_news_path(@project, @news),
         mobile_icon: :trash,
         mobile_label: I18n.t("button_delete"),
         data: { turbo_confirm: t(:text_are_you_sure), turbo_method: :delete },
@@ -88,7 +92,7 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="comment">
         <div class="contextual">
           <%= link_to_if_authorized icon_wrapper("icon-context icon-delete", t(:button_delete)),
-                                    { controller: "/news/comments", action: "destroy", id: comment },
+                                    { controller: "/news/comments", action: "destroy", id: comment, project_id: @project, news_id: @news },
                                     data: { turbo_method: :delete, turbo_confirm: t(:text_are_you_sure) },
                                     class: "no-decoration-on-hover",
                                     title: t(:button_delete),
@@ -100,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
   <% if authorize_for 'news/comments', 'create' %>
-    <%= form_for([@news, Comment.new], html: { id: "add_comment_form" }) do %>
+    <%= form_for([@project, @news, Comment.new], html: { id: "add_comment_form" }) do %>
       <div>
         <%= label_tag "comment_comments", Journal.human_attribute_name(:notes), class: "sr-only" %>
         <%= text_area "comment",

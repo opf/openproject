@@ -1,0 +1,334 @@
+---
+sv:
+  activerecord:
+    attributes:
+      placeholder_user:
+        user_filter: Filterkriterier
+      resource_allocation:
+        allocated_hours: Timmar
+        allocated_time: Tilldelad tid
+        date_range: Datum
+        end_date: Slutdatum
+        entity: Entitet
+        placeholder_or_user: Tilldelad till
+        placeholder_user: Platshållaranvändare
+        principal: Tilldelad till
+        start_date: Startdatum
+        state: Tillstånd
+      resource_planner:
+        date_range: Datum
+        default_view_class_name: Standardvy
+        end_date: Slutdatum
+        favorite: Favorit
+        name: Namn
+        public: Offentlig
+        start_date: Startdatum
+      work_package:
+        allocated_principals: Tilldelade resurser
+        allocated_time: Tilldelad
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: måste vara efter startdatumet.
+            principal:
+              not_a_member: är inte medlem i arbetspaketets projekt.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: måste vara efter startdatumet.
+              required_with_start_date: måste anges när ett startdatum anges.
+            start_date:
+              required_with_end_date: måste anges när ett slutdatum anges.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: måste vara en arbetspaketsfråga.
+    models:
+      resource_allocation:
+        one: Resurstilldelning
+        other: Resurstilldelningar
+      resource_planner:
+        one: Resursplanerare
+        other: Resursplanerare
+      resource_user_card:
+        one: Användarkort
+        other: Användarkort
+      resource_user_timeline:
+        one: Användartidslinje
+        other: Användartidslinjer
+      resource_work_package_list:
+        one: Arbetspaketslista
+        other: Arbetspaketslistor
+      resource_work_package_timeline:
+        one: Arbetspaketstidslinje
+        other: Arbetspaketstidslinjer
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Dold – den tilldelade användaren visas inte eftersom du saknar behörighet.
+  button_next: Nästa
+  ee:
+    features:
+      resource_management: Resurshantering
+    upsell:
+      resource_management:
+        description: Planera och balansera teamets arbetsbelastning med resursplanerare. Tilldela personer till arbetspaket, följ kapaciteten över tid och upptäck över- och undertilldelning med en blick.
+        title: Resurshantering
+  label_resource_management: Resurshantering
+  permission_allocate_user_resources: Tilldela användarresurser
+  permission_allocate_user_resources_explanation: Tillåter användare att skapa, uppdatera och ta bort resurstilldelningar i en resursplanerare. Detta omfattar att tilldela användare (eller användarfilter) till en planerare och justera tilldelad tid och datumintervall.
+  permission_assign_users_to_generic_allocations: Tilldela användare till generiska tilldelningar
+  permission_assign_users_to_generic_allocations_explanation: Tillåter användare att använda bemanningsvyn för att tilldela verkliga användare till generiska (filterbaserade) resurstilldelningar som ännu inte har någon användare. Det tillåter inte att tilldelningar skapas eller redigeras.
+  permission_manage_public_global_resource_planners: Hantera offentliga globala resursplanerare
+  permission_manage_public_global_resource_planners_explanation: Tillåter användare att publicera egna globala resursplanerare och hantera globala resursplanerare som andra användare har delat offentligt. Behörigheten ger inte tillgång till globala resursplanerare som inte har delats offentligt.
+  permission_manage_public_resource_planners: Hantera offentliga resursplanerare
+  permission_manage_public_resource_planners_explanation: Tillåter användare att skapa och hantera offentliga resursplanerare. De kan visa, skapa, hantera och publicera sina egna resursplanerare. Det tillåter inte användare att visa resursplanerare som skapats av andra användare och inte delas offentligt.
+  permission_view_global_resource_planners: Visa globala resursplanerare
+  permission_view_global_resource_planners_explanation: Tillåter användare att öppna avsnittet för global resursplanering, där resurser och tilldelningar från flera projekt kan planeras tillsammans. De får skapa och hantera egna globala resursplanerare och visa offentliga. Användare ser endast de projekt, resurser och tilldelningar som de har behörighet att visa.
+  permission_view_resource_planners: Visa resursplanerare
+  permission_view_resource_planners_explanation: Tillåter användare att komma åt resursplanerare. De kan skapa och hantera sina egna resursplanerare och visa offentliga resursplanerare. Det tillåter inte användare att visa resursplanerare som skapats av andra användare och inte delas offentligt.
+  plugin_openproject_resource_management:
+    description: Tillhandahåller resurshantering och kapacitetsplanering.
+    name: OpenProject resurshantering
+  project_module_resource_management: Resurshantering
+  resource_management:
+    action:
+      delete: Ta bort
+      edit: Redigera
+      favorite: Lägg till i favoriter
+      make_private: Gör privat
+      make_public: Gör offentlig
+      unfavorite: Ta bort från favoriter
+    allocate_resource_dialog:
+      criteria:
+        empty: Inga kriterier angivna.
+        label: Kriterier
+      missing_working_hours:
+        none: Den valda användaren har inga arbetstider angivna för dessa datum och räknas därför som att sakna kapacitet.
+        partial: Den valda användaren har inga arbetstider angivna för %{dates}, så dessa dagar räknas som att sakna kapacitet.
+      outside_dates:
+        description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} tillgängligt · %{scheduled} schemalagt"
+        description: Den valda användaren, %{user}, skulle tilldelas mer tid än sina arbetstimmar under den här perioden.
+        hidden_work: Andra tilldelningar
+        schedule_availability: "%{schedule} (%{factor} % tillgänglig för projektarbete)"
+        schedule_change: till %{date}, därefter %{schedule}
+        schedule_note: Den här användaren arbetar %{schedule}.
+        submit: Tilldela övertid
+        title: Vill du tilldela användaren övertid?
+      submit: Tilldela
+      success_message: Resursen har tilldelats.
+      title: Tilldela resurs
+    allocation:
+      hours: "%{value} tim"
+      no_work: Inget arbete planerat för det här arbetspaketet
+      summary: "%{allocated} / %{scheduled}"
+    assignment_dialog:
+      available: "%{hours} tillgängliga"
+      confirm_overtime: Tilldela ändå
+      filter_criteria: Filterkriterier
+      no_candidates:
+        description: Ingen projektmedlem matchar filterkriterierna för den här tilldelningen.
+        title: Inga matchande medlemmar
+      no_schedule: Den här användaren har inget arbetsschema konfigurerat, så vi kan inte avgöra om tilldelningen passar.
+      overbooked_detail: Den här användaren har %{available} tillgängligt under perioden, medan arbetspaketet kräver %{requested}.
+      requested_for: Begärt för
+      select_user: Välj en användare att tilldela.
+      submit: Tilldela
+      title: Tilldela %{filter_name}
+    blankslate:
+      desc: Skapa en resursplanerare för att börja planera kapaciteten för det här projektet.
+      global_desc: Skapa en resursplanerare för att börja planera kapacitet över flera projekt.
+      title: Inga resursplanerare ännu
+    configure_view_dialog:
+      delete_confirmation: Är du säker på att du vill ta bort den här vyn? Detta kan inte ångras.
+      filter_mode:
+        automatic:
+          caption: En automatiskt genererad lista som visar poster som uppfyller kriterier som du definierar.
+          label: Automatiskt filtrerad
+        label: Posturval
+        manual:
+          caption: En anpassad lista med poster som du lägger till och tar bort manuellt. Filtrering är inte möjlig.
+          label: Manuellt utvalda
+      title: Konfigurera vy
+    create_placeholder_user_dialog:
+      submit: Skapa
+      title: Skapa platshållaranvändare
+    edit_allocation_dialog:
+      submit: Spara
+      success_message: Resurstilldelningen har uppdaterats.
+      title: Redigera tilldelning
+    favorite_caption: Gör den här vyn till favorit för att lägga till den högst upp i sidofältsmenyn.
+    filters:
+      resource_management_enabled: Resurshantering aktiverad
+    global_public_caption: Gör den här vyn offentlig för alla som har behörighet att se globala resursplanerare. Detta påverkar inte synligheten för arbetspaket, som fortfarande styrs av varje användares behörigheter.
+    label_edit_resource_planner: Redigera resursplanerare
+    label_new_resource_planner: Ny resursplanerare
+    label_resource_planner: Resursplanerare
+    label_resource_planner_plural: Resursplanerare
+    new_view_dialog:
+      title: Lägg till vy
+    public_caption: Gör den här vyn offentlig för alla projektmedlemmar. Detta påverkar inte synligheten för arbetspaket, som fortfarande beror på varje användares behörigheter.
+    show:
+      placeholder: Detaljvyn för den här resursplaneraren kommer snart.
+    sidebar:
+      private: Privat
+      public: Offentlig
+    staffing:
+      assign: Tilldela användare
+      blank:
+        description: Alla generiska tilldelningar i det här projektet har en användare tilldelad.
+        title: Inget att bemanna
+      columns:
+        dates: Datum
+        requested_time: Begärd tid
+        resource: Resurs
+        work_package: Arbetspaket
+      context_menu_label: Tilldelningsåtgärder
+      delete_confirmation: Är du säker på att du vill ta bort den här tilldelningen?
+      menu_item: Bemanning
+      starts_in_past: Den här tilldelningen har redan börjat och är fortfarande otilldelad.
+      success_message: Användaren har tilldelats.
+      title: Bemanning
+    sub_views: Vyer i den här resursplaneraren
+    timeframe:
+      full: Från %{start} till %{end}
+    timeline:
+      granularity:
+        day: Dag
+        month: Månad
+        week: Kalendervecka
+      navigation:
+        next: Nästa period
+        previous: Föregående period
+        today: I dag
+      subheader:
+        add: Lägg till
+        allocate: Tilldela
+        settings: Konfigurera vy
+      undisclosed:
+        tooltip: Du har inte behörighet att se den här tilldelade resursen
+        work_package: Arbetspaketet är inte synligt för dig
+    user_allocations_dialog:
+      allocate_work_package: Tilldela arbetspaket
+      blank: Den här användaren har inga tilldelade arbetspaket.
+      blank_in_timeframe: Den här användaren har inga tilldelade arbetspaket under den valda tidsperioden.
+      hidden_work_package: Arbetspaketet är inte synligt för dig
+      title: Utnyttjandegrad
+      total_time: "%{hours} totalt"
+    user_card_list:
+      add_user_dialog:
+        title: Lägg till användare
+      blank:
+        description: Det finns ännu inga användare som matchar filtren i den här vyn.
+        manual_description: Inga användare har ännu lagts till i den här vyn.
+        title: Inga användare att visa
+      card:
+        multi_value_more: "+%{count} till"
+        remove: Ta bort användare
+        remove_confirmation: Ta bort den här användaren från vyn?
+      fields:
+        drag_area_label: Visade fält
+        input_caption: Välj vilka fält som ska visas på användarkortet i den här vyn
+        input_label: Fält
+        input_placeholder: Lägg till ett fält
+        working_times: Arbetstider
+      subheader:
+        resource: Resurs
+        settings: Konfigurera vy
+      utilization:
+        label: Utnyttjandegrad
+      working_hours:
+        blank: Inga arbetstider konfigurerade
+        schedule_availability_compact: "%{schedule} (%{factor} % tillgänglig)"
+        schedule_change_compact: till %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Lägg till användare
+        configure_view: Konfigurera vy
+        description: Det finns ännu inga användare som matchar filtren i den här vyn.
+        manual_description: Lägg till användare i den här vyn för att se deras tilldelning över tid.
+        title: Inga användare att visa
+      no_work_schedule: Inget arbetsschema planerat för den här användaren
+      overbooked: Den här användaren är övertilldelad under den valda perioden.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} schemalagt, %{available} tillgängligt"
+      subheader:
+        add_user: Lägg till användare
+    view_types:
+      resource_user_card:
+        caption: Skapa en vy baserad på användare och se deras information och tilldelning i en lista med användarkort
+        label: Lista med användarkort
+      resource_user_timeline:
+        caption: Skapa en vy baserad på användare och se deras tilldelningar över tid på en tidslinje
+        label: Användartidslinje
+      resource_work_package_list:
+        caption: Skapa en vy baserad på arbetspaket och se deras information och tilldelning i en lista
+        label: Arbetspaketslista
+      resource_work_package_timeline:
+        caption: Skapa en vy baserad på arbetspaket och se deras tilldelningar över tid på en tidslinje
+        label: Arbetspaketstidslinje
+      user_card:
+        caption: Skapa en vy baserad på användare och se deras information och tilldelning i en lista med användarkort
+        label: Lista med användarkort
+    work_package_allocations_dialog:
+      allocate_resource: Tilldela resurs
+      context_menu_label: Tilldelningsåtgärder
+      delete_confirmation: Är du säker på att du vill ta bort den här tilldelningen? Detta kan inte ångras.
+      delete_success: Resurstilldelningen har tagits bort.
+      hidden_user: Dold användare
+      overbooked: Användaren är tilldelad mer tid än sina arbetstimmar under den här perioden.
+      title: Tilldelning
+    work_package_list:
+      add_work_package_dialog:
+        title: Lägg till arbetspaket
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} användare"
+          other: "%{count} användare"
+        unassigned: Ej tilldelad
+      allocation_placeholder: "—"
+      blank:
+        description: Det finns ännu inga arbetspaket som matchar filtren i den här vyn.
+        title: Inga arbetspaket att visa
+      columns:
+        allocated_members: Tilldelade medlemmar
+        allocation: Tilldelning
+        dates: Datum
+      context_menu:
+        add_filter_criteria: Lägg till filterkriterier
+        add_user_group: Lägg till användargrupp
+        edit_total_work: Redigera totalt arbete
+        label: Fler åtgärder
+        move: Flytta
+        move_down: Flytta ned
+        move_to_bottom: Flytta längst ned
+        move_to_top: Flytta till toppen
+        move_up: Flytta upp
+        remove: Ta bort
+        remove_confirmation: Ta bort det här arbetspaketet från vyn?
+        see_allocation: Visa tilldelning
+      mobile_title: Arbetspaket
+      query_name: 'Arbetspaket för resurshantering: %{name}'
+      subheader:
+        add: Lägg till
+        add_work_package: Lägg till arbetspaket
+        allocate: Tilldela
+        settings: Konfigurera vy
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} medlem i det här projektet matchar tilldelningens filterkriterier."
+          other: "%{count} medlemmar i det här projektet matchar tilldelningens filterkriterier."
+      blank:
+        add_work_package: Lägg till arbetspaket
+        configure_view: Konfigurera vy
+        description: Det finns ännu inga arbetspaket som matchar filtren i den här vyn.
+        manual_description: Lägg till arbetspaket i den här vyn för att planera deras tilldelning över tid.
+        title: Inga arbetspaket att visa
+      query_name: 'Tidslinje för arbetspaket i resurshantering: %{name}'
+      subheader:
+        add_work_package: Lägg till arbetspaket

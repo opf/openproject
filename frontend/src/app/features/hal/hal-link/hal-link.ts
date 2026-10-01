@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,6 +42,7 @@ export interface HalLinkInterface {
   payload?:any;
   type?:string;
   identifier?:string;
+  displayId?:string;
 }
 
 export interface HalLinkSource {
@@ -62,7 +63,8 @@ export class HalLink implements HalLinkInterface {
     public templated = false,
     public payload?:any,
     public type = 'application/json',
-    public identifier?:string) {
+    public identifier?:string,
+    public displayId?:string) {
   }
 
   /**
@@ -78,6 +80,7 @@ export class HalLink implements HalLinkInterface {
       link.payload,
       link.type,
       link.identifier,
+      link.displayId,
     );
   }
 
@@ -99,8 +102,8 @@ export class HalLink implements HalLinkInterface {
       throw new Error(`The link ${this.href} is not templated.`);
     }
 
-    let href = _.clone(this.href) || '';
-    _.each(templateValues, (value:string, key:string) => {
+    let href = this.href ?? '';
+    Object.entries(templateValues).forEach(([key, value]) => {
       const regexp = new RegExp(`{${key}}`);
       href = href.replace(regexp, value);
     });
@@ -114,6 +117,7 @@ export class HalLink implements HalLinkInterface {
       this.payload,
       this.type,
       this.identifier,
+      this.displayId,
     ).$callable();
   }
 
@@ -125,7 +129,7 @@ export class HalLink implements HalLinkInterface {
   public $callable():CallableHalLink {
     const linkFunc:any = (...params:any[]) => this.$fetch(...params);
 
-    _.extend(linkFunc, {
+    Object.assign(linkFunc, {
       $link: this,
       href: this.href,
       title: this.title,
@@ -134,6 +138,7 @@ export class HalLink implements HalLinkInterface {
       payload: this.payload,
       type: this.type,
       identifier: this.identifier,
+      displayId: this.displayId,
     });
 
     return linkFunc;

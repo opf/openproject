@@ -13,7 +13,6 @@ Launching OpenProject works like launching any other container in [Synology](htt
 
 First you have to go to the **Registry** section and download the OpenProject image.
 It's best to choose the specific tag of the latest stable version (`openproject/openproject:17` at the time of writing).
-You can use `:latest` too but it might lead to surprises when a major version upgrade happens.
 
 Below are some settings you have to pay attention to when launching the container.
 

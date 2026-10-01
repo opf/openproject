@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -37,7 +39,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
 
   let(:handler_instance) { described_class.new }
   let(:upsert_service) { OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new }
-  let(:gitlab_merge_request) { GitlabMergeRequest.find_by_gitlab_identifiers(id: 4) }
+  let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/merge_requests/4" }
+  let(:gitlab_merge_request) { GitlabMergeRequest.find_by_gitlab_identifiers(id: 4, url: gitlab_html_url) }
 
   let(:mr_description) { "Mentioning OP##{work_package.id}" }
   let(:gitlab_action) { "open" }
@@ -70,7 +73,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "head_pipeline_id" => nil,
         "id" => 4,
         "iid" => 4,
-        "url" => "http://79dfcd98b723/root/hot_do/-/merge_requests/4",
+        "url" => gitlab_html_url,
         "updated_at" => Time.current.iso8601
       },
       "labels" => labels,
@@ -78,7 +81,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "name" => "Hot Do",
         "url" => "git@79dfcd98b723:root/hot_do.git",
         "description" => nil,
-        "homepage" => "http://79dfcd98b723/root/hot_do/-/merge_requests/4"
+        "homepage" => gitlab_html_url
       }
     }
   end
@@ -178,7 +181,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     it_behaves_like "calls the merge request upsert service"
 
     context "when the work package is already known to the GitlabMergeRequest" do
-      let!(:gitlab_merge_request) { create(:gitlab_merge_request, gitlab_id: 4, work_packages: [work_package]) }
+      let!(:gitlab_merge_request) { create(:gitlab_merge_request, gitlab_id: 4, gitlab_html_url:, work_packages: [work_package]) }
 
       it_behaves_like "adding a comment"
 

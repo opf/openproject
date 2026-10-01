@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 zh-CN:
   js:
     two_factor_authentication:
       errors:
-        aborted: "身份验证已取消。请重试。"
+        aborted: 身份验证已取消。请重试。

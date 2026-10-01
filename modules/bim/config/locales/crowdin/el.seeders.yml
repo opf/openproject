@@ -13,14 +13,14 @@ el:
         item_2:
           name: Υψηλή
         item_3:
-          name: Critical
+          name: Κρίσιμο
       statuses:
         item_0:
           name: Νέο
         item_1:
           name: Σε εξέλιξη
         item_2:
-          name: Resolved
+          name: Επιλυμένο
         item_3:
           name: Κλειστό
       time_entry_activities:
@@ -38,16 +38,16 @@ el:
         item_2:
           name: Φάση
         item_3:
-          name: Issue
+          name: Πρόβλημα
         item_4:
-          name: Remark
+          name: Παρατήρηση
         item_5:
-          name: Request
+          name: Αίτημα
         item_6:
-          name: Clash
+          name: Σύγκρουση
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Ενσωματωμένος πίνακας: Παιδιά'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,23 +55,23 @@ el:
               group_name: Παιδιά
       groups:
         item_0:
-          name: Architects
+          name: Αρχιτέκτονες
         item_1:
-          name: BIM Coordinators
+          name: Συντονιστές BIM
         item_2:
-          name: BIM Managers
+          name: Διαχειριστές BIM
         item_3:
-          name: BIM Modellers
+          name: Μοντελοποιητές BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: Επικεφαλής συντονιστές BIM
         item_5:
-          name: MEP Engineers
+          name: Μηχανικοί MEP
         item_6:
-          name: Planners
+          name: Σχεδιαστές
         item_7:
-          name: Structural Engineers
+          name: Δομικοί Μηχανικοί
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Καλώς ήρθατε στην έκδοση OpenProject BIM!
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -87,7 +87,7 @@ el:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
+          name: "(Demo) Έργο κατασκευής"
           status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo construction project.
           news:

@@ -40,7 +40,7 @@ module OpenProject::TeamPlanner
                      dependencies: :work_package_tracking,
                      enterprise_feature: "team_planner_view" do
         permission :view_team_planner,
-                   { "team_planner/team_planner": %i[index show upsell overview],
+                   { "team_planner/team_planner": %i[index show split_view split_create upsell overview],
                      "team_planner/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages],

@@ -29,6 +29,8 @@
 #++
 module LdapGroups
   class SynchronizedGroupsController < ::ApplicationController
+    include OpTurbo::ComponentStream
+
     before_action :require_admin
 
     guard_enterprise_feature(:ldap_groups, except: %i[index show destroy]) do
@@ -79,7 +81,7 @@ module LdapGroups
     end
 
     def destroy_info
-      render
+      respond_with_dialog LdapGroups::SynchronizedGroups::DestroyDialogComponent.new(group: @group)
     end
 
     def destroy

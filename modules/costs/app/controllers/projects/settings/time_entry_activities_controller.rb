@@ -23,13 +23,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Projects::Settings::TimeEntryActivitiesController < Projects::SettingsController
-  menu_item :settings_time_entry_activities
+  menu_item :settings_time_and_costs
 
   def update
     TimeEntryActivitiesProject.upsert_all(update_params, unique_by: %i[project_id activity_id])

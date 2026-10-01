@@ -21,27 +21,31 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-watcher-button',
   templateUrl: './wp-watcher-button.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly wpWatchersService = inject(WorkPackageWatchersService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public disabled = false;
@@ -53,15 +57,6 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
   public buttonId:string;
 
   public watched:boolean;
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpWatchersService:WorkPackageWatchersService,
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this
@@ -80,11 +75,11 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
   }
 
   public get isWatched() {
-    return this.workPackage.hasOwnProperty('unwatch');
+    return Object.hasOwn(this.workPackage, 'unwatch');
   }
 
   public get displayWatchButton() {
-    return this.isWatched || this.workPackage.hasOwnProperty('watch');
+    return this.isWatched || Object.hasOwn(this.workPackage, 'watch');
   }
 
   public toggleWatch() {

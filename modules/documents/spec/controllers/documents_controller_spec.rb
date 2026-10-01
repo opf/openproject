@@ -35,8 +35,7 @@ RSpec.describe DocumentsController do
 
   let(:admin) { create(:admin) }
   let(:project) { create(:project, name: "Test Project") }
-  let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:view_documents]) }
+  let(:user) { create(:user, member_with_permissions: { project => [:view_documents] }) }
 
   let(:document_type) do
     create(:document_type, name: "Default Type")
@@ -129,15 +128,12 @@ RSpec.describe DocumentsController do
       let(:uncontainered) { create(:attachment, container: nil, author: admin) }
 
       before do
-        notify_project = project
-        create(:member, project: notify_project, user:, roles: [role])
-
         post :create,
              params: {
-               project_id: notify_project.identifier,
+               project_id: project.identifier,
                document: attributes_for(:document,
                                         title: "New Document",
-                                        project_id: notify_project.id,
+                                        project_id: project.id,
                                         type_id: document_type.id,
                                         kind: "classic"),
                attachments: { "1" => { id: uncontainered.id } }
@@ -168,6 +164,10 @@ RSpec.describe DocumentsController do
       expect(response).to be_successful
       expect(response).to render_template("show")
     end
+
+    it "does not opt out of Turbo snapshot caching" do
+      expect(response.body).not_to include('name="turbo-cache-control"')
+    end
   end
 
   describe "destroy" do
@@ -187,19 +187,15 @@ RSpec.describe DocumentsController do
   end
 
   describe "setup_collaboration_context",
-           with_config: {
-             collaborative_editing_hocuspocus_url: "wss://hocuspocus.local",
+           with_settings: {
+             real_time_text_collaboration_enabled: true,
+             collaborative_editing_hocuspocus_url: "wss://hocuspocus.example.com",
              collaborative_editing_hocuspocus_secret: "secret1234"
            } do
-    let(:manage_role) { create(:project_role, permissions: %i[view_documents manage_documents]) }
-    let(:view_only_role) { create(:project_role, permissions: [:view_documents]) }
-    let(:user_with_manage) { create(:user) }
-    let(:user_without_manage) { create(:user) }
+    let(:user_with_manage) { create(:user, member_with_permissions: { project => %i[view_documents manage_documents] }) }
+    let(:user_without_manage) { create(:user, member_with_permissions: { project => [:view_documents] }) }
 
     before do
-      create(:member, project:, user: user_with_manage, roles: [manage_role])
-      create(:member, project:, user: user_without_manage, roles: [view_only_role])
-
       document.update(kind: :collaborative)
     end
 
@@ -210,6 +206,11 @@ RSpec.describe DocumentsController do
         get :show, params: { id: document.id }
         expect(assigns(:token_payload)).to be_present
       end
+
+      it "opts the collaborative editor page out of Turbo snapshot caching" do
+        get :show, params: { id: document.id }
+        expect(response.body).to include('<meta name="turbo-cache-control" content="no-cache">')
+      end
     end
 
     context "when user does not have manage_documents permission" do
@@ -218,6 +219,68 @@ RSpec.describe DocumentsController do
       it "generates a token payload for show action" do
         get :show, params: { id: document.id }
         expect(assigns(:token_payload)).to be_present
+      end
+    end
+  end
+
+  describe "#search", with_settings: { per_page_options: "1 5 10" } do
+    let!(:document2) { create(:document, title: "Second Document", project:, type: document_type) }
+
+    it "returns a turbo_stream response" do
+      get :search, params: { project_id: project.identifier, per_page: 1 }, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "renders pagination links that target the index action, not the search action" do
+      get :search, params: { project_id: project.identifier, per_page: 1 }, format: :turbo_stream
+
+      expect(response.body).not_to include("#{search_project_documents_path(project)}?")
+    end
+  end
+
+  describe "#update_title" do
+    subject(:rendered_title) do
+      Nokogiri::HTML5.fragment(response.body).at_css('turbo-stream[action="set_title"]')&.[]("title")
+    end
+
+    it "keeps the browser title in sync with the renamed document" do
+      put :update_title, params: { id: document.id, document: { title: "Renamed document" } }, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(document.reload.title).to eq("Renamed document")
+      expect(rendered_title).to eq("Renamed document | Documents | Test Project | #{Setting.app_title}")
+    end
+
+    it "leaves the browser title alone when the rename is rejected" do
+      put :update_title, params: { id: document.id, document: { title: "" } }, format: :turbo_stream
+
+      expect(document.reload.title).to eq("Sample Document")
+      expect(rendered_title).to be_nil
+    end
+  end
+
+  describe "#render_avatars" do
+    let(:user) { create(:user, member_with_permissions: { project => [:view_documents] }) }
+    let!(:non_member) { create(:user) }
+
+    current_user { user }
+
+    it "only renders avatars of users that are visible" do
+      get :render_avatars, params: { project_id: project.id, id: document.id, user_ids: [user.id, non_member.id] },
+                           format: :turbo_stream
+
+      expect(assigns(:users)).to contain_exactly(user)
+    end
+
+    context "with an admin user, that can see all users" do
+      current_user { create(:admin) }
+
+      it "renders avatars of all users" do
+        get :render_avatars, params: { project_id: project.id, id: document.id, user_ids: [user.id, non_member.id] },
+                             format: :turbo_stream
+
+        expect(assigns(:users)).to include(user, non_member)
       end
     end
   end

@@ -53,7 +53,7 @@ module Projects
     def sub_header_data_attributes
       {
         controller: "filter--filters-form",
-        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-turbo-stream-request-value": true,
         "filter--filters-form-clear-button-id-value": clear_button_id,
         "filter--filters-form-display-filters-value": filters_expanded?
       }
@@ -84,10 +84,8 @@ module Projects
 
     def allowed_new_workspace_types
       @allowed_new_workspace_types ||= [].tap do |types|
-        if OpenProject::FeatureDecisions.portfolio_models_active?
-          types << "portfolio" if @current_user.allowed_globally?(:add_portfolios)
-          types << "program" if @current_user.allowed_globally?(:add_programs)
-        end
+        types << "portfolio" if @current_user.allowed_globally?(:add_portfolios)
+        types << "program" if @current_user.allowed_globally?(:add_programs)
         types << "project" if @current_user.allowed_globally?(:add_project)
       end
     end

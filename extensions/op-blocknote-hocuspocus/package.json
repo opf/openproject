@@ -1,0 +1,53 @@
+{
+  "name": "op-blocknote-hocuspocus",
+  "version": "0.0.2",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "debug": "tsx --inspect src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opf/openproject.git"
+  },
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/opf/openproject/issues"
+  },
+  "homepage": "https://github.com/opf/openproject/tree/dev/extensions/op-blocknote-hocuspocus#readme",
+  "engines": {
+    "node": "^24.15.0"
+  },
+  "dependencies": {
+    "@blocknote/server-util": "^0.51.3",
+    "@hocuspocus/extension-logger": "^4.7.0",
+    "@hocuspocus/server": "^4.2.0",
+    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.3.1/op-blocknote-extensions-0.3.1.tgz",
+    "tsx": "^4.23.15"
+  },
+  "devDependencies": {
+    "@blocknote/core": "^0.51.3",
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.1.0",
+    "@hocuspocus/provider": "^4.7.0",
+    "@hocuspocus/provider-prev-test-only": "npm:@hocuspocus/provider@^3",
+    "@stylistic/eslint-plugin": "^5.3.1",
+    "@types/node": "^26.6.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-headers": "^1.3.4",
+    "globals": "^17.12.0",
+    "msw": "^2.12.7",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^4.1.11"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "msw@2.14.6": true
+  }
+}

@@ -50,7 +50,7 @@
     [attr.aria-label]="text.label_actions"
     class='op-pull-request--checks'
     >
-    @for (checkRun of pullRequest._embedded.checkRuns; track checkRun) {
+    @for (checkRun of pullRequest._embedded.checkRuns; track checkRun.htmlUrl || checkRun.detailsUrl || checkRun.name) {
       <li class='op-pr-check'>
         <span class='op-pr-check--state-icon' [ngClass]="'op-pr-check--state-icon_' + checkRunState(checkRun)">
           <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"

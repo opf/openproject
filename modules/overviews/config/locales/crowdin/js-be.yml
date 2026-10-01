@@ -1,4 +1,5 @@
+---
 be:
   js:
     overviews:
-      label: 'Overview'
+      label: Overview

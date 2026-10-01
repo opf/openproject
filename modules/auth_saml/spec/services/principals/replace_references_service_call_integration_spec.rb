@@ -45,7 +45,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
 
   context "with Saml::Provider" do
     it_behaves_like "rewritten record",
-                    :saml_provider,
+                    Saml::Provider,
                     :creator_id do
       let(:attributes) do
         {

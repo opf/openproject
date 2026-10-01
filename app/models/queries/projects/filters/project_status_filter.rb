@@ -41,6 +41,19 @@ class Queries::Projects::Filters::ProjectStatusFilter < Queries::Projects::Filte
     :list_optional
   end
 
+  def autocomplete_options
+    all_items = allowed_values.map { |name, id| { name:, id: } }
+    {
+      component: "opce-autocompleter",
+      bindValue: "id",
+      bindLabel: "name",
+      hideSelected: true,
+      defaultData: false,
+      items: all_items,
+      model: all_items.select { |item| values.include?(item[:id]) }
+    }
+  end
+
   def where
     operator_strategy.sql_for_field(values, model.table_name, :status_code)
   end

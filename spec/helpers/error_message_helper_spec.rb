@@ -42,7 +42,7 @@ RSpec.describe ErrorMessageHelper do
     Array(attributes)
       .flat_map { |attribute| errors.full_messages_for(attribute) }
       .map { CGI.escapeHTML it }
-      .join("<br/>")
+      .join("<br />")
   end
 
   before do
@@ -66,7 +66,7 @@ RSpec.describe ErrorMessageHelper do
         expect(description).to be_html_safe.and eq([
           t("errors.header_invalid_fields", count: 1),
           join_escaped_errors(:title)
-        ].join("<br/>"))
+        ].join("<br />"))
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe ErrorMessageHelper do
         expect(description).to be_html_safe.and eq([
           t("errors.header_invalid_fields", count: 2),
           join_escaped_errors(%i[title author])
-        ].join("<br/>"))
+        ].join("<br />"))
       end
     end
 
@@ -114,7 +114,7 @@ RSpec.describe ErrorMessageHelper do
           join_escaped_errors(:base),
           t("errors.header_additional_invalid_fields", count: 1),
           join_escaped_errors(:title)
-        ].join("<br/>"))
+        ].join("<br />"))
       end
     end
 
@@ -134,7 +134,7 @@ RSpec.describe ErrorMessageHelper do
           join_escaped_errors(:base),
           t("errors.header_additional_invalid_fields", count: 2),
           join_escaped_errors(%i[title author])
-        ].join("<br/>"))
+        ].join("<br />"))
       end
     end
   end

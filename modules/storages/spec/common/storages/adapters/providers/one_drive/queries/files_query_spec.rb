@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Queries
-          RSpec.describe FilesQuery, :webmock do
+          RSpec.describe FilesQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
             let(:auth_strategy) { Registry["one_drive.authentication.user_bound"].call(user, storage) }
@@ -67,7 +67,7 @@ module Storages
                                              last_modified_at: Time.zone.parse("2023-09-26T14:38:57Z"),
                                              created_by_name: "Eric Schubert",
                                              last_modified_by_name: "Eric Schubert",
-                                             location: "/Folder%20with%20spaces",
+                                             location: "/Folder with spaces",
                                              permissions: %i[readable writeable]),
                     Results::StorageFile.new(id: "01AZJL5PN3LVLHH2RSZZDJ6ZFAD3OWSGYB",
                                              name: "Permissions Folder",
@@ -77,7 +77,7 @@ module Storages
                                              last_modified_at: Time.zone.parse("2024-01-12T09:05:24Z"),
                                              created_by_name: "Marcello Rocha",
                                              last_modified_by_name: "Marcello Rocha",
-                                             location: "/Permissions%20Folder",
+                                             location: "/Permissions Folder",
                                              permissions: %i[readable writeable])
                   ],
                   parent: Results::StorageFile.new(id: "01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ",
@@ -138,7 +138,7 @@ module Storages
                   files: [],
                   parent: Results::StorageFile.new(id: "01AZJL5PMGEIRPHZPHRRH2NM3D734VIR7H",
                                                    name: "very empty folder",
-                                                   location: "/Folder%20with%20spaces/very%20empty%20folder",
+                                                   location: "/Folder with spaces/very empty folder",
                                                    permissions: %i[readable writeable]),
                   ancestors: [
                     Results::StorageFileAncestor.new(name: "Root", location: "/"),
@@ -164,13 +164,13 @@ module Storages
                       last_modified_at: Time.zone.parse("2023-10-09T15:27:25Z"),
                       created_by_name: "Eric Schubert",
                       last_modified_by_name: "Eric Schubert",
-                      location: "/Folder/%C3%9Cml%C3%A6%C3%BBts/Anr%C3%BCchiges%20deutsches%20Dokument.docx",
+                      location: "/Folder/Ümlæûts/Anrüchiges deutsches Dokument.docx",
                       permissions: %i[readable writeable]
                     )
                   ],
                   parent: Results::StorageFile.new(id: "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB",
                                                    name: "Ümlæûts",
-                                                   location: "/Folder/%C3%9Cml%C3%A6%C3%BBts",
+                                                   location: "/Folder/Ümlæûts",
                                                    permissions: %i[readable writeable]),
                   ancestors: [
                     Results::StorageFileAncestor.new(name: "Root", location: "/"),

@@ -33,6 +33,7 @@ class MeetingParticipant < ApplicationRecord
   belongs_to :user
 
   validates :user, :meeting, presence: true
+  validates :user, uniqueness: { scope: :meeting }
 
   scope :invited, -> { where(invited: true) }
   scope :attended, -> { where(attended: true) }
@@ -52,10 +53,6 @@ class MeetingParticipant < ApplicationRecord
 
   def mail
     user.present? ? user.mail : I18n.t("user.deleted")
-  end
-
-  def <=>(other)
-    to_s.downcase <=> other.to_s.downcase
   end
 
   def status_sorting_value

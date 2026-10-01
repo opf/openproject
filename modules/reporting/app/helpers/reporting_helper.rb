@@ -103,11 +103,11 @@ module ReportingHelper
 
     case key.to_sym
     when :activity_id
-      mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>".html_safe
+      mapped value, Enumeration, content_tag(:i, I18n.t(:caption_material_costs))
     when :project_id
       link_to_project Project.find(value.to_i)
     when :user_id, :assigned_to_id, :author_id, :logged_by_id
-      link_to_user(User.find_by(id: value.to_i) || DeletedUser.first)
+      link_to_user(User.visible.find_by(id: value.to_i) || DeletedUser.first)
     when :tweek
       "#{I18n.t(:label_week)} ##{h value}"
     when :tmonth
@@ -119,7 +119,7 @@ module ReportingHelper
     when :budget_id
       budget_link value
     when :work_package_id
-      link_to_work_package(WorkPackage.find(value.to_i))
+      link_to_work_package(WorkPackage.visible.find(value.to_i))
     when :entity_gid
       allowed_types = (TimeEntry::ALLOWED_ENTITY_TYPES | CostEntry::ALLOWED_ENTITY_TYPES).map(&:safe_constantize)
       entity = begin
@@ -233,8 +233,10 @@ module ReportingHelper
 
   ##
   # Create the appropriate action for an entry with the type of log to use
+  # The controller has to be absolute: the report is rendered from a namespaced
+  # controller, where a relative one would resolve to reporting/costlog.
   def action_for(result, options = {})
-    options.merge controller: controller_for(result.fields["type"]), id: result.fields["id"].to_i
+    options.merge controller: "/#{controller_for(result.fields['type'])}", id: result.fields["id"].to_i
   end
 
   def controller_for(type)

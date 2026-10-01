@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: "dir_list" %>
 <% end %>
 
-<%= render_properties(@properties) %>
+<%= render partial: "properties" %>
 
 <div class="repository--revision-toolbar">
   <%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>

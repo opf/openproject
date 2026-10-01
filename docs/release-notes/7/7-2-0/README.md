@@ -54,9 +54,9 @@ fields).
 
 OpenProject 7.2 includes several usability improvements.
 
-For example, we removed the *Show all* button. Project
+For example, we removed the _Show all_ button. Project
 members can see the number of relations a work package has, by looking
-at the label shown next to the *Relations* tab.
+at the label shown next to the _Relations_ tab.
 
 ## Substantial number of bug fixes
 

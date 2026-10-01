@@ -39,7 +39,7 @@ module Exports
       # Takes a WorkPackage or Project and an attribute and returns the value to be exported.
       def retrieve_value(object)
         custom_field = find_custom_field(object)
-        return "" if custom_field.nil?
+        return nil if custom_field.nil?
 
         format_for_export(object, custom_field)
       end
@@ -68,8 +68,8 @@ module Exports
       ##
       # Finds a custom field from the attribute identifier
       def find_custom_field(object)
-        id = attribute.to_s.sub("cf_", "").to_i
-        object.available_custom_fields.detect { |cf| cf.id == id }
+        id = attribute.to_s.delete_prefix("cf_").to_i
+        object.available_custom_fields.find { it.id == id }
       end
     end
   end

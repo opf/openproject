@@ -42,7 +42,7 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
   end
 
   def relation_type
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   private

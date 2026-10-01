@@ -18,16 +18,16 @@ This guide is an evolving description of the steps taken from collecting require
 
 The product development process involves various roles during the different phases:
 
-* Product Manager (PM)
-* Designer
-* QA/Tester
-* Developer
-* Security & Privacy engineers
-* DevOps
-* Customer
-* Marketing
-* Community
-* UX researcher
+- Product Manager (PM)
+- Designer
+- QA/Tester
+- Developer
+- Security & Privacy engineers
+- DevOps
+- Customer
+- Marketing
+- Community
+- UX researcher
 
 All of those roles interact to guide a feature from the initial idea to it being released. The following picture gives an overview of the steps taken on that course.
 
@@ -161,7 +161,7 @@ Based on the Product Managers judgement (taking among other things the RICE scor
 
 3. PM and Developer validate solution (technical feasibility / solution).
 
-   *If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](../../development/concepts/secure-coding/#secure-coding-guidelines).*
+   _If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](../../development/concepts/secure-coding/#secure-coding-guidelines)._
 
 4. PM / UX Researcher validates the solution through user interviews. (optional)
 
@@ -195,8 +195,8 @@ During the building phase we develop, improve and test the validated solutions.
 
 The preparations the development team conducts consists of two parts:
 
-* Preparing for the implementation
-* Preparing for the quality assurance
+- Preparing for the implementation
+- Preparing for the quality assurance
 
 For the implementation, prior to working on a new feature, the development team analyzes the feature from a technical viewpoint and breaks them down into technical work packages:
 
@@ -401,7 +401,7 @@ The effort score ranges from 0.03 (XS = less than a day of effort) to 20 (XXXL =
 
 ### 4.3 Opportunity Canvas
 
-One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://about.gitlab.com/handbook/product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
+One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://handbook.gitlab.com/handbook/product/product-processes/#product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
 
 **<u>Main sections:</u>**
 

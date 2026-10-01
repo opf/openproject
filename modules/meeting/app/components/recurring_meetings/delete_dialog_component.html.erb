@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
       form_arguments: {
         action: project_recurring_meeting_path(@project, @recurring_meeting),
         method: :delete,
-        data: { turbo: true }
+        data: { turbo: false }
       }
     )
   ) do |dialog|

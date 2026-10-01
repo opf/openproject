@@ -45,14 +45,14 @@ RSpec.describe "SAML metadata endpoint", with_ee: %i[sso_auth_providers] do
     Nokogiri::XML(temp.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML))
   end
 
-  before do
-    provider
-    get "/auth/saml/metadata"
-  end
-
   context "with basic provider" do
     let(:provider) do
       create(:saml_provider, slug: "saml")
+    end
+
+    before do
+      provider
+      get "/auth/saml/metadata"
     end
 
     it "returns the metadata" do
@@ -75,6 +75,11 @@ RSpec.describe "SAML metadata endpoint", with_ee: %i[sso_auth_providers] do
              :with_encryption,
              :with_requested_attributes,
              slug: "saml")
+    end
+
+    before do
+      provider
+      get "/auth/saml/metadata"
     end
 
     it "returns the metadata", :aggregate_failures do # rubocop:disable RSpec/ExampleLength
@@ -113,6 +118,29 @@ RSpec.describe "SAML metadata endpoint", with_ee: %i[sso_auth_providers] do
       requested.each do |attr|
         expect(attr["NameFormat"]).to eq "urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
       end
+    end
+  end
+
+  describe "metadata import via URL" do
+    let(:admin) { create(:admin) }
+    let(:provider) { create(:saml_provider, slug: "saml-provider") }
+    let(:metadata_url) { "https://example.com/metadata" }
+    let(:parser_instance) { instance_double(OneLogin::RubySaml::IdpMetadataParser) }
+
+    before do
+      login_as admin
+      allow(OneLogin::RubySaml::IdpMetadataParser).to receive(:new).and_return(parser_instance)
+      allow(parser_instance).to receive(:parse_remote_to_hash).and_return({})
+    end
+
+    it "blocks metadata import when the URL host resolves to an unsafe IP" do
+      allow(OpenProject::SsrfProtection).to receive(:safe_ip?).with("example.com").and_return(nil)
+
+      post "/admin/saml/providers/#{provider.id}/import_metadata",
+           params: { saml_provider: { metadata_url: } }
+
+      expect(last_response.status).to eq(422)
+      expect(parser_instance).not_to have_received(:parse_remote_to_hash)
     end
   end
 end

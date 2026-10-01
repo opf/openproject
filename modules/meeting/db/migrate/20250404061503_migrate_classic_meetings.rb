@@ -30,7 +30,7 @@ class MigrateClassicMeetings < ActiveRecord::Migration[8.0]
         ms.id,
         mc.author_id,
         mc.author_id,
-        '#{I18n.t('activerecord.models.meeting_agenda')}',
+        '#{I18n.t(:label_meeting_agenda)}',
         mc.text,
         1,
         mc.created_at,

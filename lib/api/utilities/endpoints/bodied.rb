@@ -33,7 +33,7 @@ module API
         include NamespacedLookup
 
         def default_instance_generator(_model)
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def default_params_modifier
@@ -146,11 +146,11 @@ module API
         private
 
         def present_success(_request, _call)
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def present_error(_call)
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def success?(call)
@@ -166,15 +166,15 @@ module API
         end
 
         def deduce_parse_representer
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def deduce_parse_service
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def deduce_render_representer
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def deduce_api_namespace
@@ -182,7 +182,7 @@ module API
         end
 
         def update_or_create
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
       end
     end

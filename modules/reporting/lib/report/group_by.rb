@@ -42,6 +42,6 @@ class Report::GroupBy
   end
 
   def self.from_hash
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 end

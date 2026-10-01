@@ -40,7 +40,7 @@ module Storages
         end
 
         def render?
-          storage.present? && OAuthClientToken.exists?(user: User.current, oauth_client: storage.oauth_client)
+          storage.present? && OAuthClients::TokenFetcher.new(user: User.current).connected?(oauth_client: storage.oauth_client)
         end
 
         private
@@ -69,7 +69,7 @@ module Storages
           return if storage_record_or_id.blank?
           return storage_record_or_id if storage_record_or_id.is_a?(::Storages::Storage)
 
-          ::Storages::Storage.find_by(id: storage_record_or_id)
+          ::Storages::Storage.visible.find_by(id: storage_record_or_id)
         end
       end
     end

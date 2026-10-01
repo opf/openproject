@@ -23,7 +23,6 @@ The project is defined, planned, and executed under certain external (or self-im
 
 ![Fig 2.1 Key project characteristics](02.01.png)
 
-
 A successful project ends when its scope objective has been achieved and all deliverables have been produced and accepted by the organisation or person that requested the project (the client). The deliverables are then handed over to the client and the project team is disbanded.
 
 Projects are different from normal day-to-day work (operations) and are best managed with a special temporary organisational structure in order to:
@@ -59,7 +58,6 @@ Projects start for many different reasons:
 - To migrate information to a new document management system.
 - To improve an existing service.
 
-
 ### 2.1.3 Project outputs, outcomes, benefits
 
 Although project teams tend to focus their efforts on producing deliverables, it should be remembered that project deliverables are merely a means to an end. The real purpose of a project is to achieve given outcomes that will yield measurable benefits.
@@ -71,7 +69,6 @@ Therefore, it is important for everyone involved in managing and executing a pro
 - The benefits are the measurable improvements resulting from this outcome.
 
 ![Fig 2.3 Project outputs, outcomes and benefits](02.03.png)
-
 
 Note that project outcomes and benefits are often realised only after the project has closed.
 The table below illustrates this with a simple example:
@@ -117,7 +114,6 @@ A Project Support Office (PSO) is an organisational body (or entity) that provid
 - coordinate configuration management and quality assurance activities
 - monitor adherence to methodology guidelines and other organisational standards
 - tailor the project management methodology to new best practices and help project teams implement the updated methodology effectively.
-
 
 ### 2.2.4 Programme management
 
@@ -188,8 +184,6 @@ To develop the competences required to manage projects effectively. Project Mana
 It is up to the Project Manager (PM) to acquire these skills and invest in their project management skills set. Project management knowledge comes from study and practice, from discussing, sharing experiences and reflecting on what went well and what can be improved.
 
 ![Fig 2.5 What Project Managers (PMs) need to understand](02.05.png)
-
-
 
 ### 2.3.3 Project management competences 
 

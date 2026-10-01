@@ -46,7 +46,14 @@ RSpec.shared_examples_for "list custom fields" do |type|
     cf_page.set_name "Operating System"
 
     expect(page).to have_text("Allow multi-select")
-    check("custom_field_multi_value")
+    check("multi_value")
+
+    click_on "Save"
+    cf_page.expect_flash(message: "Successful creation.")
+    expect(page).to have_field("multi_value", checked: true)
+
+    click_link "Items"
+    wait_for_network_idle
 
     expect(page).to have_css(".custom-option-row", count: 1)
     within all(".custom-option-row").last do
@@ -73,14 +80,10 @@ RSpec.shared_examples_for "list custom fields" do |type|
     within all(".custom-option-row").last do
       find(".custom-option-value input").set "Solaris"
 
-      click_on "Move to top"
+      click_on accessible_name: "Move to top"
     end
 
     click_on "Save"
-
-    expect(page).to have_text("Successful creation")
-
-    expect(page).to have_field("custom_field_multi_value", checked: true)
 
     expect(page).to have_css(".custom-option-row", count: 3)
     expect(page).to have_field("custom_field_custom_options_attributes_0_value", with: "Solaris")
@@ -147,6 +150,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
   # Form element labels, default English translation in the trailing comment:
   let(:label_name) { I18n.t("attributes.name") } # Name
   let(:label_section) { I18n.t("activerecord.attributes.project_custom_field.custom_field_section") } # Section
+  let(:label_has_comment) { I18n.t("activerecord.attributes.custom_field.has_comment") } # Add a comment text field
   let(:label_is_for_all) { I18n.t("attributes.is_for_all") } # For all projects
   let(:label_admin_only) { I18n.t("activerecord.attributes.custom_field.admin_only") } # Admin-only
   let(:label_searchable) { I18n.t("activerecord.attributes.custom_field.searchable") } # Searchable
@@ -157,6 +161,8 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
   let(:label_editable) { I18n.t("activerecord.attributes.custom_field.editable") } # Editable
   let(:label_min_length) { I18n.t("activerecord.attributes.custom_field.min_length") } # Minimum length
   let(:label_max_length) { I18n.t("activerecord.attributes.custom_field.max_length") } # Maximum length
+  let(:label_min_value) { I18n.t("activerecord.attributes.custom_field.min_value") } # Minimum value
+  let(:label_max_value) { I18n.t("activerecord.attributes.custom_field.max_value") } # Maximum value
   let(:label_regexp) { I18n.t("activerecord.attributes.custom_field.regexp") } # Regular expression
   let(:label_multi_value) { I18n.t("activerecord.attributes.custom_field.multi_value") } # Allow multi-select
   let(:label_allow_non_open_versions) do # Allow non-open versions
@@ -176,10 +182,16 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
 
     expect(page).to have_field(label_name)
 
-    if type == "Project"
+    if %w[Project User].include?(type)
       expect(page).to have_field(label_section)
     else
       expect(page).to have_no_label(label_section)
+    end
+
+    if type == "Project"
+      expect(page).to have_field(label_has_comment)
+    else
+      expect(page).to have_no_label(label_has_comment)
     end
 
     if type == "Work package"
@@ -218,7 +230,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
       expect(page).to have_no_label(label_admin_only)
     end
 
-    if format in "Text" | "Integer" | "Float" | "Long text"
+    if format in "Text" | "Long text"
       expect_page_to_have(fields: [
                             label_min_length,
                             label_max_length
@@ -230,7 +242,18 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
                           ])
     end
 
-    # Integer and Float have min/max_len and regex as well which seems strange.
+    if format in "Integer" | "Float"
+      expect_page_to_have(fields: [
+                            label_min_value,
+                            label_max_value
+                          ])
+    else
+      expect_page_to_have(no_labels: [
+                            label_min_value,
+                            label_max_value
+                          ])
+    end
+
     if format in "Text" | "Integer" | "Float" | "Long text" | "Link"
       expect(page).to have_field(label_regexp)
     else
@@ -270,12 +293,6 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
       expect(page).to have_field(label_allow_non_open_versions)
     else
       expect(page).to have_no_label(label_allow_non_open_versions)
-    end
-
-    if format == "List"
-      expect(page).to have_fieldset(label_possible_values)
-    else
-      expect(page).to have_no_fieldset(label_possible_values)
     end
   end
 end

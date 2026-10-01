@@ -1,29 +1,29 @@
-#English strings go here
-"no":
+---
+'no':
   js:
     team_planner:
-      add_existing: 'Legg til eksisterende'
-      label_team_planner_plural: 'Teamplanleggere'
-      add_existing_title: 'Legg til eksisterende oppgaver'
-      create_label: 'Teamplanlegger'
-      create_title: 'Opprett ny teamplanlegger'
-      unsaved_title: 'Navnløs teamplanlegger'
-      no_data: 'Legg til utførende for å sette opp din teamplanlegger.'
-      add_assignee: 'Deltaker'
-      remove_assignee: 'Fjern utførende'
-      two_weeks: 'Andre uke'
-      one_week: 'Første uke'
-      four_weeks: '4-ukers'
-      eight_weeks: '8-ukers'
-      work_week: 'Arbeidsuke'
-      today: 'I dag'
-      drag_here_to_remove: 'Dra hit for å fjerne utførende og start- og sluttdato.'
-      cannot_drag_here: 'Cannot move the work package due to permissions or editing restrictions.'
-      cannot_drag_to_non_working_day: 'Denne oppgaven kan ikke startes eller avsluttes på en fridag.'
-      quick_add:
-        empty_state: 'Bruk søkefeltet til å finne oppgaver og dra dem til planleggeren å tilordne den til noen og definere start- og sluttdato.'
-        search_placeholder: 'Søk ...'
+      add_assignee: Deltaker
+      add_existing: Legg til eksisterende
+      add_existing_title: Legg til eksisterende oppgaver
+      cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
+      cannot_drag_to_non_working_day: Denne oppgaven kan ikke startes eller avsluttes på en fridag.
+      create_label: Teamplanlegger
+      create_title: Opprett ny teamplanlegger
+      drag_here_to_remove: Dra hit for å fjerne utførende og start- og sluttdato.
+      eight_weeks: 8-ukers
+      four_weeks: 4-ukers
+      label_team_planner_plural: Teamplanleggere
       modify:
         errors:
-          permission_denied: 'Du har ikke nødvendige tillatelser til å endre dette.'
-          fallback: 'Denne oppgaven kan ikke redigeres.'
+          fallback: Denne oppgaven kan ikke redigeres.
+          permission_denied: Du har ikke nødvendige tillatelser til å endre dette.
+      no_data: Legg til utførende for å sette opp din teamplanlegger.
+      one_week: Første uke
+      quick_add:
+        empty_state: Bruk søkefeltet til å finne oppgaver og dra dem til planleggeren å tilordne den til noen og definere start- og sluttdato.
+        search_placeholder: Søk ...
+      remove_assignee: Fjern utførende
+      today: I dag
+      two_weeks: Andre uke
+      unsaved_title: Navnløs teamplanlegger
+      work_week: Arbeidsuke

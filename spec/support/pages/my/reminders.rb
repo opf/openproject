@@ -34,7 +34,7 @@ module Pages
   module My
     class Reminders < ::Pages::Reminders::Settings
       def path
-        my_reminders_path
+        my_notifications_path(tab: "reminders")
       end
     end
   end

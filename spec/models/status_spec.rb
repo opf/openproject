@@ -66,6 +66,30 @@ RSpec.describe Status do
     end
   end
 
+  describe ".visible" do
+    subject { described_class.visible(user) }
+
+    let!(:status) { create(:status) }
+    let(:user) { create(:user) }
+    let(:permissions) { %i[view_work_packages] }
+
+    before do
+      create(:member, user:, roles: [create(:project_role, permissions: permissions)])
+    end
+
+    it "returns the same statuses as all" do
+      expect(subject.to_a).to match_array(described_class.all.to_a)
+    end
+
+    context "when the user has the wrong permission" do
+      let(:permissions) { %i[view_wikis] }
+
+      it "returns no statuses" do
+        expect(subject.to_a).to be_empty
+      end
+    end
+  end
+
   describe "#is_readonly" do
     let!(:status) { build(:status, is_readonly: true) }
 
@@ -111,7 +135,7 @@ RSpec.describe Status do
       workflow = create(:workflow)
 
       expect { workflow.old_status.destroy }
-        .to change { Workflow.exists?(id: workflow.id) }
+        .to change { Workflows::StatusTransition.exists?(id: workflow.id) }
               .from(true)
               .to(false)
     end

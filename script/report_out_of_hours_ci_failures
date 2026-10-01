@@ -1,0 +1,371 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "rubygems"
+require "bundler"
+Bundler.setup(:default, :development)
+
+require "json"
+require "optparse"
+require "pathname"
+require "time"
+require "yaml"
+require "httpx"
+require "active_support/all"
+
+require_relative "support/github_actions_failures"
+
+GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
+RAILS_ROOT = Pathname.new(__dir__).dirname
+TEST_WORKFLOW_FILE = "test-core.yml"
+PRIMARY_BRANCH_PATTERN = /\A(?:dev|release\/.+)\z/
+TEST_STEP_NAMES = ["Unit tests", "Feature tests"].freeze
+DEFAULT_TIMEZONE = "Europe/Berlin"
+DEFAULT_LOOKBACK_DAYS = 30
+
+module OutOfHoursCiFailures
+  RunSummary = Data.define(:run_id, :run_number, :html_url, :head_branch, :event, :created_at, :failed_steps, :errors)
+  SpecSummary = Data.define(
+    :location,
+    :test_types,
+    :out_of_hours_count,
+    :in_hours_count,
+    :branches,
+    :first_seen_at,
+    :last_seen_at,
+    :out_of_hours_runs,
+    :in_hours_runs,
+    :classification
+  )
+
+  class Options
+    DEFAULTS = {
+      days: DEFAULT_LOOKBACK_DAYS,
+      include_pr_runs: false,
+      json: false,
+      timezone: DEFAULT_TIMEZONE,
+      workflow: TEST_WORKFLOW_FILE
+    }.freeze
+
+    class << self
+      # rubocop:disable Metrics/AbcSize
+      def parse!(argv)
+        options = DEFAULTS.dup
+
+        OptionParser.new do |parser|
+          parser.banner = "Usage: script/report_out_of_hours_ci_failures [options]"
+
+          parser.on("--days DAYS", Integer, "Look back this many days (default: #{DEFAULT_LOOKBACK_DAYS})") do |value|
+            options[:days] = value
+          end
+
+          parser.on("--include-pr-runs", "Include pull_request runs in the report") do
+            options[:include_pr_runs] = true
+          end
+
+          parser.on("--json", "Output JSON instead of a table") do
+            options[:json] = true
+          end
+
+          parser.on(
+            "--timezone NAME",
+            "Timezone for the in-hours/out-of-hours classification (default: #{DEFAULT_TIMEZONE})"
+          ) do |value|
+            options[:timezone] = value
+          end
+
+          parser.on("--workflow FILE", "Workflow file name to inspect (default: #{TEST_WORKFLOW_FILE})") do |value|
+            options[:workflow] = value
+          end
+
+          parser.on("-h", "--help", "Print this help") do
+            puts parser
+            exit
+          end
+        end.parse!(argv)
+
+        options
+      end
+      # rubocop:enable Metrics/AbcSize
+    end
+  end
+
+  class GithubClient
+    def initialize(cache_dir:)
+      @cache_dir = cache_dir
+    end
+
+    def workflow_runs(workflow_file:, page:)
+      get_json("actions/workflows/#{workflow_file}/runs?status=completed&per_page=100&page=#{page}")
+    end
+
+    def jobs(run_id)
+      get_json("actions/runs/#{run_id}/jobs")
+    end
+
+    def log(job_id)
+      cached("job_#{job_id}.log") do
+        get_http("actions/jobs/#{job_id}/logs")
+      end
+    end
+
+    private
+
+    def http
+      @http ||= HTTPX
+        .plugin(:follow_redirects)
+        .with_headers(
+          "Authorization" => "Bearer #{ENV.fetch('GITHUB_TOKEN')}"
+        )
+    end
+
+    def github_url(path)
+      path.start_with?("http") ? path : "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
+    end
+
+    def get_http(path)
+      response = http.get(github_url(path))
+      response.raise_for_status
+      response.to_s
+    end
+
+    def get_json(path)
+      JSON.parse(get_http(path))
+    rescue HTTPX::HTTPError => e
+      body = e.response.json
+      raise "#{body['message']} (see #{body['documentation_url']})"
+    end
+
+    def cached(name)
+      path = @cache_dir.join(name)
+      return path.read if path.file?
+
+      content = yield
+      path.dirname.mkpath
+      path.write(content)
+      content
+    end
+  end
+
+  class ReportBuilder
+    def initialize(options:, client:)
+      @options = options
+      @client = client
+      @timezone = ActiveSupport::TimeZone[options[:timezone]] || raise("Unknown timezone #{options[:timezone]}")
+      @since = Time.current - options[:days].days
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def build
+      spec_runs = Hash.new { |hash, key| hash[key] = [] }
+
+      each_relevant_run do |workflow_run, failed_jobs|
+        logs = failed_jobs.map { |job| @client.log(job.fetch("id")) }
+        scan_result = GithubActionsFailures::JobErrorsFinder.scan_logs(logs)
+        next if scan_result.errors.empty?
+
+        failed_steps = failed_jobs.flat_map { failing_test_steps(it) }.uniq.sort
+        summary = RunSummary.new(
+          run_id: workflow_run.fetch("id"),
+          run_number: workflow_run.fetch("run_number"),
+          html_url: workflow_run.fetch("html_url"),
+          head_branch: workflow_run.fetch("head_branch"),
+          event: workflow_run.fetch("event"),
+          created_at: parse_time(workflow_run.fetch("created_at")),
+          failed_steps:,
+          errors: scan_result.errors.map(&:location).sort
+        )
+
+        summary.errors.each do |location|
+          spec_runs[location] << summary
+        end
+      end
+
+      spec_runs
+        .sort_by { |location, _| location }
+        .map { |location, runs| summarize(location, runs) }
+        .sort_by { |summary| [-summary.out_of_hours_count, -summary.in_hours_count, summary.location] }
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    private
+
+    # rubocop:disable Metrics/AbcSize
+    def each_relevant_run
+      page = 1
+      done = false
+
+      loop do
+        response = @client.workflow_runs(workflow_file: @options[:workflow], page:)
+        runs = response.fetch("workflow_runs")
+        break if runs.empty?
+
+        runs.each do |workflow_run|
+          created_at = parse_time(workflow_run.fetch("created_at"))
+          if created_at < @since
+            done = true
+            break
+          end
+
+          next unless include_run?(workflow_run)
+
+          jobs = @client.jobs(workflow_run.fetch("id")).fetch("jobs")
+          failed_jobs = jobs.select { test_job_failure?(it) }
+          next if failed_jobs.empty?
+
+          yield workflow_run, failed_jobs
+        end
+
+        page += 1
+        break if done
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def include_run?(workflow_run)
+      branch = workflow_run.fetch("head_branch")
+      return false unless branch.match?(PRIMARY_BRANCH_PATTERN) || @options[:include_pr_runs]
+      return false if workflow_run.fetch("event") == "pull_request" && !@options[:include_pr_runs]
+
+      true
+    end
+
+    def test_job_failure?(job)
+      job.fetch("conclusion") == "failure" && failing_test_steps(job).any?
+    end
+
+    def failing_test_steps(job)
+      job
+        .fetch("steps")
+        .filter_map { |step| step["name"] if step["conclusion"] == "failure" && TEST_STEP_NAMES.include?(step["name"]) }
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def summarize(location, runs)
+      out_of_hours_runs, in_hours_runs = runs.partition { out_of_hours?(it.created_at) }
+      branches = runs.map(&:head_branch).uniq.sort
+      test_types = runs.flat_map(&:failed_steps).uniq.sort
+
+      SpecSummary.new(
+        location:,
+        test_types:,
+        out_of_hours_count: out_of_hours_runs.count,
+        in_hours_count: in_hours_runs.count,
+        branches:,
+        first_seen_at: runs.min_by(&:created_at).created_at,
+        last_seen_at: runs.max_by(&:created_at).created_at,
+        out_of_hours_runs: out_of_hours_runs.map(&:html_url),
+        in_hours_runs: in_hours_runs.map(&:html_url),
+        classification: classify(out_of_hours_runs:, in_hours_runs:, branches:)
+      )
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def classify(out_of_hours_runs:, in_hours_runs:, branches:)
+      total = out_of_hours_runs.count + in_hours_runs.count
+      return "needs manual review" if total < 2
+      return "likely regression" if branches.one?
+      return "likely datetime-sensitive" if in_hours_runs.empty?
+
+      ratio = out_of_hours_runs.count.to_f / total
+      return "likely datetime-sensitive" if ratio >= 0.75 && branches.many?
+
+      "likely generic flaky"
+    end
+
+    def out_of_hours?(time)
+      local = time.in_time_zone(@timezone)
+      local.saturday? || local.sunday? || local.hour < 9 || local.hour >= 18
+    end
+
+    def parse_time(value)
+      Time.iso8601(value)
+    end
+  end
+
+  class Formatter
+    def initialize(timezone:)
+      @timezone = timezone
+    end
+
+    def print(spec_summaries, json: false)
+      json ? print_json(spec_summaries) : print_table(spec_summaries)
+    end
+
+    private
+
+    # rubocop:disable Metrics/AbcSize
+    def print_json(spec_summaries)
+      puts JSON.pretty_generate(
+        spec_summaries.map do |summary|
+          {
+            location: summary.location,
+            test_types: summary.test_types,
+            out_of_hours_count: summary.out_of_hours_count,
+            in_hours_count: summary.in_hours_count,
+            branches: summary.branches,
+            first_seen_at: summary.first_seen_at.in_time_zone(@timezone).iso8601,
+            last_seen_at: summary.last_seen_at.in_time_zone(@timezone).iso8601,
+            classification: summary.classification,
+            out_of_hours_runs: summary.out_of_hours_runs,
+            in_hours_runs: summary.in_hours_runs
+          }
+        end
+      )
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    # rubocop:disable Metrics/AbcSize
+    def print_table(spec_summaries)
+      puts [
+        "Classification".ljust(26),
+        "OOH".rjust(3),
+        "IN".rjust(3),
+        "Type".ljust(16),
+        "Branches".ljust(18),
+        "First seen".ljust(17),
+        "Last seen".ljust(17),
+        "Spec"
+      ].join("  ")
+
+      spec_summaries.each do |summary|
+        puts [
+          summary.classification.ljust(26),
+          summary.out_of_hours_count.to_s.rjust(3),
+          summary.in_hours_count.to_s.rjust(3),
+          summary.test_types.join(",").ljust(16),
+          truncate(summary.branches.join(","), 18).ljust(18),
+          summary.first_seen_at.in_time_zone(@timezone).strftime("%F %H:%M"),
+          summary.last_seen_at.in_time_zone(@timezone).strftime("%F %H:%M"),
+          summary.location
+        ].join("  ")
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def truncate(value, length)
+      return value if value.length <= length
+
+      "#{value[0, length - 3]}..."
+    end
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  if !ENV["GITHUB_TOKEN"]
+    raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
+  end
+
+  # workaround an openssl 3.6.0 issue
+  # https://github.com/ruby/openssl/issues/949#issuecomment-3367944960
+  s = OpenSSL::X509::Store.new.tap(&:set_default_paths)
+  OpenSSL::SSL::SSLContext.send(:remove_const, :DEFAULT_CERT_STORE) rescue nil # rubocop:disable Style/RescueModifier
+  OpenSSL::SSL::SSLContext.const_set(:DEFAULT_CERT_STORE, s.freeze)
+
+  options = OutOfHoursCiFailures::Options.parse!(ARGV)
+  client = OutOfHoursCiFailures::GithubClient.new(cache_dir: RAILS_ROOT.join("tmp/report_out_of_hours_ci_failures"))
+  builder = OutOfHoursCiFailures::ReportBuilder.new(options:, client:)
+  formatter = OutOfHoursCiFailures::Formatter.new(timezone: options[:timezone])
+
+  formatter.print(builder.build, json: options[:json])
+end

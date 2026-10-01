@@ -172,7 +172,7 @@ module My
     helper_method :has_tokens?
 
     def has_tokens?
-      Setting.feeds_enabled? || Setting.rest_api_enabled? || current_user.ical_tokens.any?
+      Setting.feeds_enabled? || Setting.api_tokens_enabled? || current_user.ical_tokens.any?
     end
 
     def set_api_token

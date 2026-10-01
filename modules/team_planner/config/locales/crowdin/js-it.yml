@@ -1,29 +1,29 @@
-#English strings go here
+---
 it:
   js:
     team_planner:
-      add_existing: 'Aggiungi esistente'
-      label_team_planner_plural: 'Organizzatori di gruppo'
-      add_existing_title: 'Aggiungi macro-attività esistenti'
-      create_label: 'Pianificatore di team'
-      create_title: 'Crea nuovo pianificatore di team'
-      unsaved_title: 'Pianificatore di team senza nome'
-      no_data: 'Aggiungi assegnatari per configurare il tuo pianificatore di team.'
-      add_assignee: 'Assegnatario'
-      remove_assignee: 'Rimuovi assegnatario'
-      two_weeks: '2 settimane'
-      one_week: '1 settimana'
-      four_weeks: '4 settimane'
-      eight_weeks: '8 settimane'
-      work_week: 'Settimana lavorativa'
-      today: 'Oggi'
-      drag_here_to_remove: 'Trascina qui per rimuovere l''assegnatario e le date di inizio e fine.'
-      cannot_drag_here: 'Impossibile spostare la macro-attività a causa di permessi o restrizioni di modifica.'
-      cannot_drag_to_non_working_day: 'Questa macro-attività non può iniziare/finire in un giorno non lavorativo.'
-      quick_add:
-        empty_state: 'Utilizzare il campo di ricerca per trovare macro-attività e trascinarle nel planner per assegnarle a qualcuno e definire le date di inizio e di fine.'
-        search_placeholder: 'Cerca...'
+      add_assignee: Assegnatario
+      add_existing: Aggiungi esistente
+      add_existing_title: Aggiungi macro-attività esistenti
+      cannot_drag_here: Impossibile spostare la macro-attività a causa di permessi o restrizioni di modifica.
+      cannot_drag_to_non_working_day: Questa macro-attività non può iniziare/finire in un giorno non lavorativo.
+      create_label: Pianificatore di team
+      create_title: Crea nuovo pianificatore di team
+      drag_here_to_remove: Trascina qui per rimuovere l'assegnatario e le date di inizio e fine.
+      eight_weeks: 8 settimane
+      four_weeks: 4 settimane
+      label_team_planner_plural: Organizzatori di gruppo
       modify:
         errors:
-          permission_denied: 'Non hai i permessi necessari per effettuare questa modifica.'
-          fallback: 'Questa macro-attività non può essere modificata.'
+          fallback: Questa macro-attività non può essere modificata.
+          permission_denied: Non hai i permessi necessari per effettuare questa modifica.
+      no_data: Aggiungi assegnatari per configurare il tuo pianificatore di team.
+      one_week: 1 settimana
+      quick_add:
+        empty_state: Utilizzare il campo di ricerca per trovare macro-attività e trascinarle nel planner per assegnarle a qualcuno e definire le date di inizio e di fine.
+        search_placeholder: Cerca...
+      remove_assignee: Rimuovi assegnatario
+      today: Oggi
+      two_weeks: 2 settimane
+      unsaved_title: Pianificatore di team senza nome
+      work_week: Settimana lavorativa

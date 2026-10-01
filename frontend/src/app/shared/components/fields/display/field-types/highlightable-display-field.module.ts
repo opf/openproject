@@ -21,18 +21,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class HighlightableDisplayField extends DisplayField {
   /** Optionally test if we can inject highlighting service */
-  @InjectField(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
+  @LazyInject(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
 
   // DisplayFieldRenderer.attributeName returns the 'date' name for the
   // 'dueDate' field because it is its schema.mappedName (that allows to display

@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module WorkPackageTypes
+  module CopyConfiguration
+    #
+    # Embedded query groups are rebuilt as fresh Query records so the two types
+    # never share queries. Saving replaces the previous configuration: the
+    # variant's old embedded queries are destroyed by the attribute-groups cleanup
+    # on save, and its active custom fields are re-derived from the copied
+    # groups.
+    class FormConfigurationService < BaseService
+      def call(source:)
+        return invalid_source_result unless valid_source?(source)
+
+        groups_result = duplicated_groups(source)
+        return groups_result if groups_result.failure?
+
+        persist(groups_result.result, required: source.required_attributes.map(&:to_s))
+      end
+
+      private
+
+      def duplicated_groups(source)
+        groups = source.attribute_groups.map do |group|
+          case group
+          when Type::QueryGroup
+            query_result = FormConfiguration::EmbeddedQueryBuilder.rebuild(query: group.query, user:)
+            return query_result if query_result.failure?
+
+            group_entry(group, [query_result.result])
+          else
+            group_entry(group, group.attributes.dup)
+          end
+        end
+
+        ServiceResult.success(result: groups)
+      end
+
+      def group_entry(group, members)
+        entry = [group.key, members]
+        entry << group.display_name if group.display_name.present?
+        entry
+      end
+
+      def persist(groups, required:)
+        Type.transaction do
+          variant.attribute_groups = groups
+          variant.required_attributes = required
+          variant.save!
+        end
+
+        ServiceResult.success(result: variant)
+      rescue ActiveRecord::RecordInvalid
+        ServiceResult.failure(result: variant, errors: variant.errors)
+      end
+    end
+  end
+end

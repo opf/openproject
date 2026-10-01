@@ -275,4 +275,45 @@ RSpec.describe User, "permission check methods" do
       end
     end
   end
+
+  describe "#allowed_to_condition_with_project_id" do
+    let(:permission) { :view_own_time_entries }
+    let(:project) { create(:project) }
+    let(:other_project) { create(:project) }
+
+    context "when the user has the permission in one project" do
+      subject { create(:user, member_with_permissions: { project => [permission] }) }
+
+      it "returns a condition on that project's id" do
+        expect(subject.allowed_to_condition_with_project_id(permission))
+          .to eq("(projects.id in (#{project.id}))")
+      end
+    end
+
+    context "when the user has the permission in two projects" do
+      subject do
+        create(:user, member_with_permissions: { project => [permission], other_project => [permission] })
+      end
+
+      it "returns a condition covering both project ids" do
+        condition = subject.allowed_to_condition_with_project_id(permission)
+
+        expect(condition).to match(/\A\(projects\.id in \(\d+, \d+\)\)\z/)
+        expect(condition.scan(/\d+/).map(&:to_i)).to contain_exactly(project.id, other_project.id)
+      end
+
+      it "only returns the requested project when one is given" do
+        expect(subject.allowed_to_condition_with_project_id(permission, project))
+          .to eq("(projects.id in (#{project.id}))")
+      end
+    end
+
+    context "when the user has the permission in no project" do
+      subject { create(:user) }
+
+      it "returns a condition that is neutral within an OR" do
+        expect(subject.allowed_to_condition_with_project_id(permission)).to eq("1=0")
+      end
+    end
+  end
 end

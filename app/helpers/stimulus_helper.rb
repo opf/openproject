@@ -39,5 +39,13 @@ module StimulusHelper
     @stimulus_content_data || {}
   end
 
+  def body_controller(name)
+    @stimulus_body_controller = name
+  end
+
+  def stimulus_body_controller
+    @stimulus_body_controller
+  end
+
   # rubocop:enable Rails/HelperInstanceVariable
 end

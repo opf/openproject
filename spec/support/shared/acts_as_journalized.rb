@@ -36,7 +36,11 @@ RSpec.shared_examples_for "journaled values for" do |new_values_set:,
                                                      expected_cause: nil,
                                                      expected_notes: nil|
   def value_or_id(value)
-    value.is_a?(Symbol) ? public_send(value).id : value
+    case value
+    when Symbol then public_send(value).id
+    when Proc then instance_exec(&value)
+    else value
+    end
   end
 
   before do

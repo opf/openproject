@@ -33,13 +33,12 @@ class Projects::CreationWizardController < ApplicationController
 
   load_and_authorize_with_permission_in_project :edit_project_attributes
   before_action :load_sections_and_fields, only: %i[show update]
+  before_action :ensure_sections_present, only: %i[show update]
   before_action :find_current_section, only: %i[show update]
 
   layout "no_menu"
 
-  def show
-    render locals: { menu_name: :none }
-  end
+  def show; end
 
   def help_text
     custom_field = ProjectCustomField.visible.find(params[:custom_field_id])
@@ -67,15 +66,13 @@ class Projects::CreationWizardController < ApplicationController
   private
 
   def render_wizard_error_step
-    render :show,
-           locals: { menu_name: :none },
-           status: :unprocessable_entity
+    render :show, status: :unprocessable_entity
   end
 
   def create_work_package_artifact # rubocop:disable Metrics/AbcSize
     creation_call = User.execute_as_admin(current_user) do
-      Projects::CreationWizard::CreateArtifactWorkPackageService
-        .new(user: current_user, model: @project)
+      Projects::CreationWizard::SubmitArtifactService
+        .new(user: current_user, project: @project)
         .call
     end
 
@@ -83,7 +80,7 @@ class Projects::CreationWizardController < ApplicationController
     # upload to Nextcloud that needs to be shown to the user
     if creation_call.success?
       flash[:error] = creation_call.errors.full_messages if creation_call.errors.any?
-      redirect_to project_work_packages_path(@project, @project.project_creation_wizard_artifact_work_package_id),
+      redirect_to project_work_package_path(@project, @project.project_creation_wizard_artifact_work_package_id),
                   notice: I18n.t("projects.wizard.success")
     else
       flash.now[:error] = creation_call.errors.full_messages
@@ -101,10 +98,16 @@ class Projects::CreationWizardController < ApplicationController
       .where(creation_wizard: true)
       .select(:custom_field_id)
 
-    @custom_fields_by_section = @project
-      .available_custom_fields
-      .where(id: enabled_in_wizard_ids)
-      .group_by(&:project_custom_field_section)
+    scoped_fields = @project.available_custom_fields.where(id: enabled_in_wizard_ids)
+    @custom_fields_by_section = ProjectCustomFieldSection.grouped_in_order(scoped_fields).to_h
+  end
+
+  def ensure_sections_present
+    return if @custom_fields_by_section.any?
+
+    flash[:error] = t("projects.wizard.no_custom_fields_html",
+                      link: project_settings_project_custom_fields_path(@project))
+    redirect_to project_path(@project)
   end
 
   def find_current_section

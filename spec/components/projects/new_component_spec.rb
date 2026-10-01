@@ -81,4 +81,8 @@ RSpec.describe Projects::NewComponent, type: :component do
       expect(Projects::Settings::CustomFieldsForm).to have_received(:new)
     end
   end
+
+  describe "#identifier_suggestion_data" do
+    it_behaves_like "renders identifier_suggestion_data"
+  end
 end

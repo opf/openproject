@@ -8,12 +8,13 @@
     )
   ) do |dialog|
     dialog.with_header(variant: :large)
-    dialog.with_body do
+    dialog.with_body(classes: "Overlay-body_autocomplete_height") do
       render(
         Meetings::Index::FormComponent.new(
           meeting: @meeting,
           project: @project,
-          copy_from: @copy_from
+          copy_from: @copy_from,
+          template: @template
         )
       )
     end
@@ -35,13 +36,7 @@
             type: :submit
           )
         ) do
-          if @meeting.persisted?
-            I18n.t(:button_save)
-          elsif @meeting.is_a?(RecurringMeeting)
-            I18n.t(:label_recurring_meeting_series_create)
-          else
-            I18n.t(:label_meeting_create)
-          end
+          submit_button_text
         end
       end
     end

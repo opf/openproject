@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -42,9 +44,9 @@ RSpec.describe "adding a new budget", :js do
 
     page.find("[aria-label='Add budget']").click
 
-    expect(page).to have_content "New budget"
-    expect(page).to have_content "Description"
-    expect(page).to have_content "Subject"
+    expect(page).to have_text "New budget"
+    expect(page).to have_text "Description"
+    expect(page).to have_text "Subject"
   end
 
   describe "with multiple cost types" do
@@ -60,7 +62,7 @@ RSpec.describe "adding a new budget", :js do
       visit projects_budgets_path(project)
 
       page.find("[aria-label='Add budget']").click
-      expect(page).to have_content "New budget"
+      expect(page).to have_text "New budget"
 
       fill_in "Subject", with: "My subject"
       fill_in "budget_new_material_budget_item_attributes_0_units", with: 15
@@ -68,15 +70,38 @@ RSpec.describe "adding a new budget", :js do
       # change cost type
       select "Foobar", from: "budget_new_material_budget_item_attributes_0_cost_type_id"
 
-      expect(page).to have_content "bars"
+      expect(page).to have_text "bars"
 
       click_on "Create"
 
-      expect(page).to have_content "Successful creation"
-      expect(page).to have_content "My subject"
+      expect(page).to have_text "Successful creation"
+      expect(page).to have_text "My subject"
 
       expect(page).to have_css(".material_budget_items td.units", text: "15.00")
       expect(page).to have_css(".material_budget_items td", text: "Foobar")
+    end
+
+    context "and a project-scoped cost type not mapped to this project" do
+      let!(:scoped_mapped) do
+        create(:cost_type, name: "Mapped", unit: "x", unit_plural: "xs", for_all_projects: false).tap do |ct|
+          CostTypesProject.create!(cost_type: ct, project: project)
+        end
+      end
+      let!(:scoped_unmapped) do
+        create(:cost_type, name: "Hidden", unit: "y", unit_plural: "ys", for_all_projects: false)
+      end
+
+      it "omits the unmapped cost type from the dropdown" do
+        visit new_projects_budget_path(project)
+
+        select_id = "budget_new_material_budget_item_attributes_0_cost_type_id"
+        within("##{select_id}") do
+          expect(page).to have_css("option", text: "Post-war")
+          expect(page).to have_css("option", text: "Foobar")
+          expect(page).to have_css("option", text: "Mapped")
+          expect(page).to have_no_css("option", text: "Hidden")
+        end
+      end
     end
   end
 
@@ -87,8 +112,8 @@ RSpec.describe "adding a new budget", :js do
 
     click_on "Create"
 
-    expect(page).to have_content "Successful creation"
-    expect(page).to have_content "My subject"
+    expect(page).to have_text "Successful creation"
+    expect(page).to have_text "My subject"
   end
 
   context "with cost items" do
@@ -118,36 +143,37 @@ RSpec.describe "adding a new budget", :js do
 
         fill_in Budget.human_attribute_name(:subject), with: "First Aid"
 
-        new_budget_page.add_unit_costs! "3,50", comment: "RadAway", expected_costs: "175,00 EUR"
-        new_budget_page.add_unit_costs! "1.000,50", comment: "Rad-X", expected_costs: "50.025,00 EUR"
+        new_budget_page.add_unit_costs! "3,50", comment: "RadAway", expected_costs: "175,00 €"
+        new_budget_page.add_unit_costs! "1.000,50", comment: "Rad-X", expected_costs: "50.025,00 €"
 
-        new_budget_page.add_labor_costs! "5000,10", user_name: user.name, comment: "treatment", expected_costs: "125.002,50 EUR"
-        new_budget_page.add_labor_costs! "0,5", user_name: user.name, comment: "attendance", expected_costs: "12,50 EUR"
+        new_budget_page.add_labor_costs! "5000,10", user_name: user.name, comment: "treatment", expected_costs: "125.002,50 €"
+        new_budget_page.add_labor_costs! "0,5", user_name: user.name, comment: "attendance", expected_costs: "12,50 €"
 
         page.find('[data-test-selector="budgets-create-button"]').click
         expect_and_dismiss_flash(message: I18n.t(:notice_successful_create))
 
-        expect(new_budget_page.unit_costs_at(1)).to have_content "175,00 EUR"
-        expect(new_budget_page.unit_costs_at(2)).to have_content "50.025,00 EUR"
-        expect(new_budget_page.overall_unit_costs).to have_content "50.200,00 EUR"
+        expect(new_budget_page.unit_costs_at(1)).to have_text "175,00 €"
+        expect(new_budget_page.unit_costs_at(2)).to have_text "50.025,00 €"
+        expect(new_budget_page.overall_unit_costs).to have_text "50.200,00 €"
 
-        expect(new_budget_page.labor_costs_at(1)).to have_content "125.002,50 EUR"
-        expect(new_budget_page.labor_costs_at(2)).to have_content "12,50 EUR"
-        expect(new_budget_page.overall_labor_costs).to have_content "125.015,00 EUR"
+        expect(new_budget_page.labor_costs_at(1)).to have_text "125.002,50 €"
+        expect(new_budget_page.labor_costs_at(2)).to have_text "12,50 €"
+        expect(new_budget_page.overall_labor_costs).to have_text "125.015,00 €"
 
         click_on I18n.t(:button_update)
 
-        budget_page.expect_planned_costs! type: :material, row: 1, expected: "175,00 EUR"
-        budget_page.expect_planned_costs! type: :material, row: 2, expected: "50.025,00 EUR"
-        budget_page.expect_planned_costs! type: :labor, row: 1, expected: "125.002,50 EUR"
-        budget_page.expect_planned_costs! type: :labor, row: 2, expected: "12,50 EUR"
+        budget_page.expect_planned_costs! type: :material, row: 1, expected: "175,00 €"
+        budget_page.expect_planned_costs! type: :material, row: 2, expected: "50.025,00 €"
+        budget_page.expect_planned_costs! type: :labor, row: 1, expected: "125.002,50 €"
+        budget_page.expect_planned_costs! type: :labor, row: 2, expected: "12,50 €"
 
         fields = page
           .all("input.budget-item-value")
           .select { |node| node.value.present? }
           .map(&:value)
 
-        expect(fields).to contain_exactly "3,50", "1.000,50", "5.000,10", "0,50"
+        # Units keep the locale number format, hours are rendered as durations.
+        expect(fields).to contain_exactly "3,50", "1.000,50", "5000.1h", "0.5h"
       end
     end
 
@@ -163,17 +189,46 @@ RSpec.describe "adding a new budget", :js do
       new_budget_page.add_labor_costs! 2, user_name: user.name, comment: "attendance"
 
       click_on "Create"
-      expect(page).to have_content("Successful creation")
+      expect(page).to have_text("Successful creation")
 
-      expect(page).to have_css("td.currency", text: "150.00 EUR")
-      expect(new_budget_page.unit_costs_at(1)).to have_content "150.00 EUR"
-      expect(new_budget_page.unit_costs_at(2)).to have_content "100.00 EUR"
-      expect(new_budget_page.overall_unit_costs).to have_content "250.00 EUR"
+      expect(page).to have_css("td.currency", text: "150.00 €")
+      expect(new_budget_page.unit_costs_at(1)).to have_text "150.00 €"
+      expect(new_budget_page.unit_costs_at(2)).to have_text "100.00 €"
+      expect(new_budget_page.overall_unit_costs).to have_text "250.00 €"
 
-      expect(page).to have_css("td.currency", text: "125.00 EUR")
-      expect(new_budget_page.labor_costs_at(1)).to have_content "125.00 EUR"
-      expect(new_budget_page.labor_costs_at(2)).to have_content "50.00 EUR"
-      expect(new_budget_page.overall_labor_costs).to have_content "175.00 EUR"
+      expect(page).to have_css("td.currency", text: "125.00 €")
+      expect(new_budget_page.labor_costs_at(1)).to have_text "125.00 €"
+      expect(new_budget_page.labor_costs_at(2)).to have_text "50.00 €"
+      expect(new_budget_page.overall_labor_costs).to have_text "175.00 €"
+    end
+
+    it "renders a single user autocompleter per added labor row" do
+      new_budget_page.visit!
+
+      new_budget_page.add_labor_costs_row!
+
+      rows = page.all("#labor_budget_items_body tr.cost_entry")
+      expect(rows.size).to eq(2)
+
+      expect(rows).to all(have_css("opce-user-autocompleter", count: 1))
+      expect(rows).to all(have_css("opce-user-autocompleter .ng-select", count: 1, visible: :all))
+      expect(rows).to all(have_css("opce-user-autocompleter input[type='hidden']", count: 1, visible: :all))
+    end
+
+    context "with labor costs given as a duration", with_settings: { hours_per_day: 8 } do
+      it "resolves days through the hours per day setting" do
+        new_budget_page.visit!
+
+        fill_in "Subject", with: "First Aid"
+
+        new_budget_page.add_labor_costs! "2d 10h", user_name: user.name, expected_costs: "650.00 €"
+
+        click_on "Create"
+        expect(page).to have_text("Successful creation")
+
+        expect(new_budget_page.labor_costs_at(1)).to have_text "650.00 €"
+        expect(LaborBudgetItem.last.hours).to eq(26)
+      end
     end
   end
 end

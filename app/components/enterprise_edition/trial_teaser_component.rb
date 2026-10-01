@@ -65,7 +65,7 @@ module EnterpriseEdition
     end
 
     def description
-      I18n.t("ee.teaser.description", trial_plan: plan_name).html_safe
+      helpers.t("ee.teaser.description_html", trial_plan: plan_name)
     end
 
     def plan_name

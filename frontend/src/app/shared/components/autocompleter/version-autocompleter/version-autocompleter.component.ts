@@ -21,20 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Injector,
-  Output,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output, inject } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -47,11 +39,20 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'version-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
+  readonly I18n = inject(I18nService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly pathHelper = inject(PathHelperService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly halNotification = inject(HalResourceNotificationService);
+
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   groupByFn = (item:HalResource):string|null => {
@@ -59,18 +60,6 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     const project = item.definingProject as HalResource | undefined;
     return project?.name || this.I18n.t('js.project.not_available');
   };
-
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly currentProject:CurrentProjectService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service,
-    readonly halNotification:HalResourceNotificationService,
-  ) {
-    super(injector);
-  }
 
   ngAfterViewInit() {
     super.ngAfterViewInit();

@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Work display", :js do
   include Toasts::Expectations
 
-  shared_let(:project) { create(:project) }
+  shared_let(:project) { create(:project, :with_internal_wiki).reload }
   shared_let(:user) { create(:admin) }
   shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
   shared_let(:query) do
@@ -75,7 +75,7 @@ RSpec.describe "Work display", :js do
     it "work package details" do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n#{expected_text}")
+      expect(page).to have_text("Work\n#{expected_text}")
     end
 
     it "wiki page workPackageValue:id:estimatedTime macro" do
@@ -176,10 +176,10 @@ RSpec.describe "Work display", :js do
       wp_table.visit_query query
 
       # parent
-      expect(page).to have_content("5h·Σ 20h")
+      expect(page).to have_text("5h·Σ 20h")
       expect(page).to have_link("Σ 20h")
       # child 2
-      expect(page).to have_content("3h·Σ 15h")
+      expect(page).to have_text("3h·Σ 15h")
       expect(page).to have_link("Σ 15h")
     end
 
@@ -193,10 +193,10 @@ RSpec.describe "Work display", :js do
         wp_table.visit_query query
 
         # parent
-        expect(page).to have_content("5h·Σ 2d 4h")
+        expect(page).to have_text("5h·Σ 2d 4h")
         expect(page).to have_link("Σ 2d 4h")
         # child 2
-        expect(page).to have_content("3h·Σ 1d 7h")
+        expect(page).to have_text("3h·Σ 1d 7h")
         expect(page).to have_link("Σ 1d 7h")
       end
     end
@@ -239,7 +239,7 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows also all ancestors in the work package table" do
-        expect(page).to have_content("Work\n3h·Σ 15h")
+        expect(page).to have_text("Work\n3h·Σ 15h")
         click_on("Σ 15h")
 
         wp_table.expect_work_package_count(3)

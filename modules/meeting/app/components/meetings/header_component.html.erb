@@ -1,18 +1,15 @@
 <%=
-  helpers.content_controller "poll-for-changes keep-scroll-position",
+  helpers.content_controller "poll-for-changes",
                              poll_for_changes_url_value: check_for_updates_project_meeting_path(@meeting.project, @meeting),
-                             poll_for_changes_interval_value: check_for_updates_interval,
-                             keep_scroll_position_url_value: meeting_path(@meeting)
+                             poll_for_changes_interval_value: check_for_updates_interval
+  helpers.body_controller "keep-scroll-position"
 
   component_wrapper do
     render(
       Primer::OpenProject::PageHeader.new(
         test_selector: "meeting-page-header",
         state: @state,
-        data: {
-          poll_for_changes_target: "reference",
-          reference_value: @meeting.changed_hash
-        }
+        data: page_header_data_attributes
       )
     ) do |header|
       header.with_title do |title|
@@ -41,6 +38,13 @@
         end
       end
 
+      if create_from_template_enabled?
+        header.with_action_button(**create_from_template_button_params) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          I18n.t("label_meeting")
+        end
+      end
+
       if can_start_presentation?
         header.with_action_button(
           tag: :a,
@@ -65,7 +69,7 @@
       ) do |menu|
         if @meeting.editable? && !@series
           menu.with_item(
-            label: t("label_meeting_edit_title"),
+            label: edit_label,
             href: edit_project_meeting_path(@project, @meeting),
             content_arguments: {
               data: { "turbo-stream": true }
@@ -76,14 +80,16 @@
         end
 
         unless @meeting.template?
-          menu.with_item(
-            label: copy_label,
-            href: copy_project_meeting_path(@project, @meeting),
-            content_arguments: {
-              data: { turbo_stream: true }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :duplicate)
+          if copy_enabled?
+            menu.with_item(
+              label: copy_label,
+              href: copy_project_meeting_path(@project, @meeting),
+              content_arguments: {
+                data: { turbo_stream: true }
+              }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :duplicate)
+            end
           end
 
           menu.with_item(

@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Users::SetAttributesService, "Integration", type: :model do
-  shared_let(:input_user) { create(:user) }
+  let(:input_user) { create(:user) }
   let(:actor) { build_stubbed(:admin) }
 
   let(:instance) do
@@ -58,7 +58,7 @@ RSpec.describe Users::SetAttributesService, "Integration", type: :model do
     end
 
     it "returns an error for that" do
-      expect(subject.errors[:workdays]).to include "is not of type 'array'"
+      expect(subject.errors[:workdays]).to be_present
     end
   end
 

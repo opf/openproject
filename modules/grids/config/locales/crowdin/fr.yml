@@ -1,35 +1,51 @@
+---
 fr:
-  grids:
-    label_widget_in_grid: "Widget contenu dans la grille %{grid_name}"
-    widgets:
-      empty: "Ce widget est actuellement vide."
-      not_available: "Ce widget n'est pas disponible."
-      subitems:
-        title: "Sous-éléments"
-        no_results: "Il n'y a pas d'enfants visibles."
-        view_all_subitems: "Voir tous les sous-éléments"
-        button_text: "Sous-élément"
-      members:
-        title: "Membres"
-        no_results: "Aucun membre visible."
-        view_all_members: "Afficher tous les membres"
-        show_members_count: "Afficher tous les membres de %{count}"
-        x_more:
-          one: "et un membre supplémentaire."
-          other: "et %{count} plus de membres."
-      news:
-        no_results: "Rien de nouveau à signaler."
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Nombre de lignes"
-        column_count: "Nombre de colonnes"
-        widgets: "Widgets"
-        scope: "Périmètre"
+        column_count: Nombre de colonnes
+        page: Page
+        row_count: Nombre de lignes
+        scope: Périmètre
+        widgets: Widgets
     errors:
       models:
         grids/grid:
-          overlaps: 'superposition.'
-          outside: 'est hors de la grille.'
-          end_before_start: 'la valeur finale doit être supérieure à la valeur de départ.'
+          end_before_start: la valeur finale doit être supérieure à la valeur de départ.
+          outside: est hors de la grille.
+          overlaps: superposition.
+    models:
+      grids/grid:
+        one: Grille
+        other: Grilles
+      grids/widget:
+        one: Widget
+        other: Widgets
+  grids:
+    label_widget_in_grid: Widget contenu dans la grille %{grid_name}
+    widgets:
+      empty: Ce widget est actuellement vide.
+      members:
+        no_results: Aucun membre visible.
+        show_members_count: Afficher les %{count} membres
+        title: Membres
+        view_all_members: Afficher tous les membres
+        x_more:
+          one: et un membre supplémentaire.
+          other: et %{count} membres supplémentaires.
+      news:
+        no_results: Rien de nouveau à signaler.
+      not_available: Ce widget n'est pas disponible.
+      project_timeline:
+        footer_actions_label: Voir plus de détails
+        gantt_link: Diagramme de Gantt des jalons
+        no_results_title: Aucun contenu configuré pour la chronologie du projet
+        sprints_link: Vue d'ensemble des sprints
+        title: Chronologie du projet
+        title_portfolio: Chronologie du portefeuille
+        title_program: Chronologie du programme
+      subitems:
+        button_text: Sous-élément
+        no_results: Il n'y a pas d'enfants visibles.
+        title: Sous-éléments
+        view_all_subitems: Voir tous les sous-éléments

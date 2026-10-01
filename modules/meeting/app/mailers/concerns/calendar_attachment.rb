@@ -54,6 +54,8 @@ module CalendarAttachment
   # @param ics_content [String] the ICS calendar content
   # @param cancelled [Boolean] whether this is a cancellation (uses CANCEL method) or invitation (REQUEST)
   def add_calendar_part(message, ics_content, cancelled:)
+    return if message.blank?
+
     method = cancelled ? "CANCEL" : "REQUEST"
 
     calendar_part = Mail::Part.new do

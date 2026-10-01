@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Queries
-          RSpec.describe UserQuery, :webmock do
+          RSpec.describe UserQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
 
             let(:storage) do

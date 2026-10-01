@@ -37,7 +37,11 @@ module McpResources
     default_description "A list of all work package statuses configured in this OpenProject instance."
 
     def read
-      API::V3::Statuses::StatusCollectionRepresenter.new(::Status.all, self_link: api_v3_paths.statuses, current_user:)
+      API::V3::Statuses::StatusCollectionRepresenter.new(
+        ::Status.visible(current_user),
+        self_link: api_v3_paths.statuses,
+        current_user:
+      )
     end
   end
 end

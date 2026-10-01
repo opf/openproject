@@ -48,7 +48,7 @@ module Admin
       end
 
       settings_form do |sf|
-        sf.check_box(name: :rest_api_enabled)
+        sf.check_box(name: :api_tokens_enabled, caption: I18n.t(:setting_api_tokens_enabled_caption))
 
         sf.text_field(
           name: :apiv3_max_page_size,

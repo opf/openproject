@@ -1,29 +1,29 @@
-#English strings go here
+---
 sv:
   js:
     bcf:
-      label_bcf: 'BCF'
-      import: 'Importera'
-      import_bcf_xml_file: 'Importera BCF XML-fil (BCF version 2.1)'
-      export: 'Exportera'
-      export_bcf_xml_file: 'Exportera BCF XML-fil (BCF version 2.1)'
-      viewpoint: 'Utsiktspunkt'
-      add_viewpoint: 'Lägg till utsiktspunkt'
-      show_viewpoint: 'Visa utsiktspunkt'
-      delete_viewpoint: 'Ta bort utsiktspunkt'
-      management: 'BCF hantering'
-      refresh: 'Uppdatera'
-      refresh_work_package: 'Uppdatera arbetspaket'
+      add_viewpoint: Lägg till utsiktspunkt
+      delete_viewpoint: Ta bort utsiktspunkt
+      export: Exportera
+      export_bcf_xml_file: Exportera BCF XML-fil (BCF version 2.1)
+      import: Importera
+      import_bcf_xml_file: Importera BCF XML-fil (BCF version 2.1)
+      label_bcf: BCF
+      management: BCF hantering
+      refresh: Uppdatera
+      refresh_work_package: Uppdatera arbetspaket
+      show_viewpoint: Visa utsiktspunkt
+      viewpoint: Utsiktspunkt
     ifc_models:
-      empty_warning: "Detta projekt har ännu inga IFC-modeller."
-      use_this_link_to_manage: "Använd denna länk för att ladda upp och hantera dina IFC-modeller"
-      keyboard_input_disabled: "Viewer har inte tangentbordskontroller. Klicka på tittaren för att ge tangentbordskontroll till tittaren."
+      empty_warning: Detta projekt har ännu inga IFC-modeller.
+      keyboard_input_disabled: Viewer har inte tangentbordskontroller. Klicka på tittaren för att ge tangentbordskontroll till tittaren.
       models:
-        ifc_models: 'IFC-modeller'
+        ifc_models: IFC-modeller
+      use_this_link_to_manage: Använd denna länk för att ladda upp och hantera dina IFC-modeller
       views:
-        viewer: 'Visare'
-        split: 'Visare och tabell'
-        split_cards: 'Visare och kort'
+        split: Visare och tabell
+        split_cards: Visare och kort
+        viewer: Visare
     revit:
-      revit_add_in: "Revit tillägg"
-      revit_add_in_settings: "Revit tilläggsinställningar"
+      revit_add_in: Revit tillägg
+      revit_add_in_settings: Revit tilläggsinställningar

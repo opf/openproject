@@ -21,6 +21,9 @@ try 'echo "{}" > config/frontend_assets.manifest.json'
 echo "Installing node_modules ... "
 try '(cd frontend && npm ci) >> log/setup_dev.log'
 
+echo "Installing hocuspocus dependencies..."
+try '(cd extensions/op-blocknote-hocuspocus && npm ci) >> log/setup_dev.log'
+
 echo "Linking plugin modules and exporting frontend locale files"
 try 'bundle exec rails openproject:plugins:register_frontend assets:export_locales >> log/setup_dev.log'
 
@@ -38,5 +41,10 @@ echo 'prefer using Overmind over Foreman if available.'
 
 echo ""
 echo 'Setting up git hooks'
-echo 'If you want to have commit hooks for rubocop and eslint errors, you can install lefthook like so:'
-echo '`bundle exec lefthook install`'
+echo 'If you want to have commit hooks for rubocop and eslint errors, you can use lefthook.'
+echo 'We provide a `lefthook.yml`. To install lefthook, use an installation method of your choice, e.g.:'
+echo '`gem install lefthook`'
+echo '(Do not forget to make the executable available on the $PATH.)'
+echo ""
+echo 'To configure the git hooks:'
+echo '`lefthook install`'

@@ -53,13 +53,26 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
       end
 
       context "if project folder deletion request fails" do
-        let(:error) { Storages::Adapters::Results::Error.new(code: :conflict, source: command_class_reference) }
+        let(:error) { SimpleError.new(code: :conflict, source: command_class_reference) }
         let(:command_double) { class_double(command_class_reference, call: Failure(error)) }
 
         it "tries to remove the project folder at the remote storage and still succeed with deletion" do
           expect(described_class.new(model: project_storage, user:).call).to be_success
           expect(command_double).to have_received(:call)
         end
+      end
+    end
+
+    context "when the user is not permitted to manage files in the project" do
+      let(:role) { create(:project_role, permissions: []) }
+      let(:project_storage) do
+        create(:project_storage, project:, storage:, project_folder_id: "1337", project_folder_mode: "automatic")
+      end
+
+      it "must not try to delete project folders" do
+        described_class.new(model: project_storage, user:).call
+
+        expect(command_double).not_to have_received(:call)
       end
     end
 

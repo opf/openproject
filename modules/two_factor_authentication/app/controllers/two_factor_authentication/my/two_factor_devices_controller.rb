@@ -9,7 +9,6 @@ module ::TwoFactorAuthentication
       # Authorization is not handled explicitly but as the user on which changes can be done is only the current user
       # (and that user needs to be logged in), no action harmful to other users can be done.
       no_authorization_required! :new,
-                                 :index,
                                  :create,
                                  :register,
                                  :confirm,
@@ -17,7 +16,7 @@ module ::TwoFactorAuthentication
                                  :make_default,
                                  :webauthn_challenge
 
-      before_action :find_device, except: %i[new index register webauthn_challenge]
+      before_action :find_device, except: %i[new register webauthn_challenge]
 
       # Remember token functionality
       include ::TwoFactorAuthentication::RememberToken
@@ -31,14 +30,7 @@ module ::TwoFactorAuthentication
       before_action :clear_remember_token!, only: [:destroy]
 
       layout "my"
-      menu_item :two_factor_authentication
-
-      def index
-        @two_factor_devices = @user.otp_devices.reload
-        @has_remember_token_for_user = any_remember_token_present?(current_user)
-        @remember_token = get_2fa_remember_token(current_user)
-        @available_devices = available_devices
-      end
+      menu_item :security
 
       ##
       # Register the device and let the user confirm
@@ -106,16 +98,16 @@ module ::TwoFactorAuthentication
           default_message = t("two_factor_authentication.devices.confirm_send_failed")
           flash[:error] = "#{default_message} #{error}"
 
-          redirect_to action: :index
+          redirect_to index_path
         end
       end
 
       def index_path
-        url_for action: :index
+        my_security_path
       end
 
       def registration_success_path
-        url_for(action: :index)
+        my_security_path
       end
 
       def set_user_variables

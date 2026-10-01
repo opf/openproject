@@ -50,7 +50,7 @@ RSpec.describe "Enterprise token", :js do
       click_button "Add Enterprise token"
 
       expect(page).to have_dialog("Add Enterprise token")
-      expect(page).to have_field("Type support token text", type: "textarea")
+      expect(page).to have_field("Your Enterprise token text", type: "textarea")
     end
 
     context "with invalid input" do
@@ -135,7 +135,7 @@ RSpec.describe "Enterprise token", :js do
         enterprise_tokens_page.expect_add_token_validation_error("This token has already been added.")
 
         # Try importing with blank spaces and newlines before and after
-        fill_in "Type support token text", with: " \nfoobar \n"
+        fill_in "Your Enterprise token text", with: " \nfoobar \n"
         click_button "Add"
 
         # The dialog is still open with an error message on token field

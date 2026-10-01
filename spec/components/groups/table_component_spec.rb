@@ -61,4 +61,24 @@ RSpec.describe Groups::TableComponent, type: :component do
     it_behaves_like "rendering Border Box Grid headings"
     it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 3
   end
+
+  context "with nested groups" do
+    let(:parent_group) do
+      create(:group, lastname: "Parent").tap { |g| g.hierarchy_depth = 0 }
+    end
+    let(:child_group) do
+      create(:group, lastname: "Child", parent: parent_group).tap { |g| g.hierarchy_depth = 1 }
+    end
+    let(:groups) { [parent_group, child_group] }
+
+    it "renders child groups with indentation and arrow icon" do
+      expect(rendered_component).to have_css("span[style='margin-left: 20px']")
+      expect(rendered_component).to have_css("span[style='margin-left: 20px'] a", text: "Child")
+    end
+
+    it "renders parent groups without indentation" do
+      expect(rendered_component).to have_link("Parent")
+      expect(rendered_component).to have_no_css("span[style='margin-left: 0px']")
+    end
+  end
 end

@@ -61,7 +61,7 @@ Rails.application.routes.draw do
               controller: "two_factor_authentication/my/two_factor_devices",
               param: :device_id,
               as: "my_2fa_devices",
-              only: %i[index new destroy] do
+              only: %i[new destroy] do
       # Register new device ( 'create' )
       post :register, on: :collection
 

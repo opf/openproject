@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
@@ -45,27 +45,24 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-custom-action',
   templateUrl: './wp-custom-action.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class WpCustomActionComponent extends UntilDestroyedMixin implements OnInit {
+  private halResourceService = inject(HalResourceService);
+  private apiV3Service = inject(ApiV3Service);
+  private wpActivity = inject(WorkPackagesActivityService);
+  private notificationService = inject(WorkPackageNotificationService);
+  private halEditing = inject(HalResourceEditingService);
+  private halEvents = inject(HalEventsService);
+  private cdRef = inject(ChangeDetectorRef);
+
   @Input() workPackage:WorkPackageResource;
 
   @Input() action:CustomActionResource;
-
-  constructor(
-    private halResourceService:HalResourceService,
-    private apiV3Service:ApiV3Service,
-    private wpActivity:WorkPackagesActivityService,
-    private notificationService:WorkPackageNotificationService,
-    private halEditing:HalResourceEditingService,
-    private halEvents:HalEventsService,
-    private cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this
@@ -83,6 +80,9 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
 
     void this.halResourceService
       .get<CustomActionResource>(this.action.href)
+      .pipe(
+        this.untilDestroyed(),
+      )
       .subscribe((action) => {
         this.action = action;
       });

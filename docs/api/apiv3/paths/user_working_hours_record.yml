@@ -1,0 +1,233 @@
+# /api/v3/users/{id}/working_hours/{working_hours_id}
+---
+get:
+  summary: View a working hours record
+  operationId: view_user_working_hours_record
+  tags:
+    - User Working Times
+  description: |-
+    Returns a single working hours record for the given user.
+
+    **Required permissions:**
+    - Administrators can view working hours records for any user.
+    - Users with the global `manage_working_times` permission can view working hours for any user.
+    - Any user can view their own working hours records.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: User id.
+      schema:
+        type: integer
+      example: 42
+    - name: working_hours_id
+      in: path
+      required: true
+      description: Working hours record id.
+      schema:
+        type: integer
+      example: 1
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_working_hours_model.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the user or working hours record does not exist,
+        or if the requesting user does not have permission to view it.
+
+patch:
+  summary: Update a working hours record
+  operationId: update_user_working_hours_record
+  tags:
+    - User Working Times
+  description: |-
+    Updates the given working hours record.
+
+    Only records that have not yet taken effect (i.e., `validFrom` is in the future) can be
+    updated. Attempting to update a record that is already in effect will return a `422` error.
+
+    **Required permissions:**
+    - Administrators can update working hours records for any user.
+    - Users with the global `manage_own_working_times` permission can update their own records.
+    - Users with the global `manage_working_times` permission can update working hours for any user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: User id.
+      schema:
+        type: integer
+      example: 42
+    - name: working_hours_id
+      in: path
+      required: true
+      description: Working hours record id.
+      schema:
+        type: integer
+      example: 2
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/user_working_hours_model.yml"
+        example:
+          mondayHours: 6
+          tuesdayHours: 6
+          wednesdayHours: 6
+          thursdayHours: 6
+          fridayHours: 6
+          saturdayHours: 0
+          sundayHours: 0
+          availabilityFactor: 80
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_working_hours_model.yml"
+    "400":
+      $ref: "../components/responses/invalid_request_body.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_working_times` globally (for other users) or
+        `manage_own_working_times` globally (for own records).
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the user or working hours record does not exist,
+        or if the requesting user does not have permission to view it.
+    "406":
+      $ref: "../components/responses/missing_content_type.yml"
+    "415":
+      $ref: "../components/responses/unsupported_media_type.yml"
+    "422":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Validation failed.
+      description: |-
+        Returned if the request body contains invalid parameters, or if the record has
+        already taken effect and cannot be modified.
+
+delete:
+  summary: Delete a working hours record
+  operationId: delete_user_working_hours_record
+  tags:
+    - User Working Times
+  description: |-
+    Deletes the given working hours record.
+
+    **Required permissions:**
+    - Administrators can delete working hours records for any user.
+    - Users with the global `manage_own_working_times` permission can delete their own records.
+    - Users with the global `manage_working_times` permission can delete working hours records for any user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: User id.
+      schema:
+        type: integer
+      example: 42
+    - name: working_hours_id
+      in: path
+      required: true
+      description: Working hours record id.
+      schema:
+        type: integer
+      example: 2
+  responses:
+    "204":
+      description: |-
+        No Content.
+        The record was deleted successfully.
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_working_times` globally (for other users) or
+        `manage_own_working_times` globally (for own records).
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the user or working hours record does not exist,
+        or if the requesting user does not have permission to view it.

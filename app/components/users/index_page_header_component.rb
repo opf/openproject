@@ -29,8 +29,11 @@
 # ++
 
 class Users::IndexPageHeaderComponent < ApplicationComponent
+  include OpTurbo::Streamable
   include OpPrimer::ComponentHelpers
   include ApplicationHelper
+
+  options :query
 
   delegate :user_limit, to: :"OpenProject::Enterprise"
 
@@ -38,5 +41,24 @@ class Users::IndexPageHeaderComponent < ApplicationComponent
     [{ href: admin_index_path, text: t("label_administration") },
      { href: admin_settings_users_path, text: t(:label_user_and_permission) },
      t(:label_user_plural)]
+  end
+
+  def configure_view_modal_path
+    helpers.configure_view_modal_users_path(query_params)
+  end
+
+  private
+
+  def query_params
+    { filters: helpers.params[:filters],
+      sortBy: helpers.params[:sortBy],
+      columns: current_columns }.compact_blank
+  end
+
+  def current_columns
+    return if query.nil?
+
+    cols = query.selects.map { |s| s.attribute.to_s }.join(" ")
+    cols.presence
   end
 end

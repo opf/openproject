@@ -21,29 +21,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Injector,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, Output, ViewChild, inject } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
@@ -58,12 +47,15 @@ export interface CreateAutocompleterValueOption {
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'create-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./create-autocompleter.component.sass'],
   standalone: false,
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
+  readonly injector = inject(Injector);
+
   @Input() public availableValues:CreateAutocompleterValueOption[];
 
   @Input() public appendTo:string;
@@ -86,27 +78,33 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public hideSelected = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onChange = new EventEmitter<HalResource>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onKeydown = new EventEmitter<KeyboardEvent>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onOpen = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onClose = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
-  @InjectField() readonly I18n:I18nService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() readonly cdRef:ChangeDetectorRef;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() readonly currentProject:CurrentProjectService;
+  readonly currentProject = inject(CurrentProjectService);
 
-  @InjectField() readonly pathHelper:PathHelperService;
+  readonly pathHelper = inject(PathHelperService);
 
   public compareByHref = compareByHref;
 
@@ -118,7 +116,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   private _openDirectly = false;
 
-  constructor(readonly injector:Injector) {
+  constructor() {
     super();
 
     this.text.add_new_action = this.I18n.t('js.label_create');
@@ -141,7 +139,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public closeSelect() {
-    this.ngSelectComponent && this.ngSelectComponent.close();
+    this.ngSelectComponent?.close();
   }
 
   public changeModel(element:HalResource) {
@@ -174,6 +172,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public focusInputField() {
-    this.ngSelectComponent && this.ngSelectComponent.focus();
+    this.ngSelectComponent?.focus();
   }
 }

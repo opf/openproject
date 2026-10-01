@@ -42,11 +42,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for "user" %>
 
 <%=
-  render(Primer::Beta::Subhead.new) do |component|
-    component.with_heading(tag: :h3, size: :medium) { I18n.t("activerecord.attributes.user_preference.header_look_and_feel") }
-  end
-%>
-<%=
   settings_primer_form_with(
     model: @user.pref,
     scope: :pref,
@@ -59,14 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  render(Primer::Beta::Subhead.new(mt: 3)) do |component|
-    component.with_heading(tag: :h3, size: :medium) { I18n.t("activerecord.attributes.user_preference.header_alerts") }
-  end
-%>
-<%=
   settings_primer_form_with(model: @user.pref, scope: :pref, url: { action: "update_settings" }, data: { turbo: false }) do |form|
     render(My::AlertsForm.new(form))
   end
 %>
-
-<%= call_hook(:view_my_settings, user: @user) %>

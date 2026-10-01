@@ -47,7 +47,7 @@ class Widget::Filters::WorkPackage < Widget::Filters::Base
                                     model: selected_values.compact,
                                     url: ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages,
                                     resource: "work_packages",
-                                    searchKey: "subjectOrId"
+                                    searchKey: "typeahead"
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: "filter-value advanced-filters--ng-select"
@@ -70,6 +70,8 @@ class Widget::Filters::WorkPackage < Widget::Filters::Base
     expand_comma_separated_values!
 
     work_packages = WorkPackage.visible.where(id: filter.values)
-    work_packages.map { |wp| { id: wp.id, name: wp.subject } }
+    work_packages.map do |wp|
+      { id: wp.id, displayId: wp.display_id.to_s, formattedId: wp.formatted_id, subject: wp.subject, name: wp.subject }
+    end
   end
 end

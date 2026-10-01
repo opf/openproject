@@ -33,6 +33,7 @@ module My
     class CalendarComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ScheduledHours
 
       options time_entries: [],
               mode: :week,
@@ -40,7 +41,7 @@ module My
 
       private
 
-      def wrapper_data
+      def wrapper_data # rubocop:disable Metrics/AbcSize
         {
           "controller" => "my--time-tracking",
           "my--time-tracking-mode-value" => mode,
@@ -52,8 +53,9 @@ module My
           "my--time-tracking-allow-times-value" => TimeEntry.can_track_start_and_end_time?,
           "my--time-tracking-force-times-value" => TimeEntry.must_track_start_and_end_time?,
           "my--time-tracking-locale-value" => I18n.locale,
-          "my--time-tracking-start-of-week-value" => Setting.start_of_week,
+          "my--time-tracking-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
           "my--time-tracking-working-days-value" => working_days,
+          "my--time-tracking-working-hours-value" => working_hours.to_json,
           "my--time-tracking-time-zone-value" => User.current.time_zone.name
         }
       end

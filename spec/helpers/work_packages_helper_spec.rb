@@ -90,6 +90,22 @@ RSpec.describe WorkPackagesHelper do
         expect(helper.link_to_work_package(stub_work_package)).to have_no_text(text)
       end
     end
+
+    describe "in semantic mode",
+             with_settings: { work_packages_identifier: "semantic" } do
+      let(:stub_work_package) { build_stubbed(:work_package, type: stub_type, identifier: "MACROPROJ-42") }
+
+      it "uses the semantic identifier in the visible link label" do
+        link_text = Regexp.new("^#{stub_type.name} MACROPROJ-42:$")
+        expect(helper.link_to_work_package(stub_work_package))
+          .to have_css("a[href='#{work_package_path(stub_work_package)}']", text: link_text)
+      end
+
+      it "does not embed the bare numeric `#N` form in the link label" do
+        result = helper.link_to_work_package(stub_work_package)
+        expect(result).to have_no_css("a", text: /##{stub_work_package.id}:/)
+      end
+    end
   end
 
   describe "#work_packages_columns_options" do
@@ -101,9 +117,27 @@ RSpec.describe WorkPackagesHelper do
           { name: "Status", id: "status" }
         )
     end
+
+    context "with multiple versions disabled", with_settings: { work_package_multiple_versions: false } do
+      it "offers the version column under the canonical target_versions id" do
+        expect(helper.work_packages_columns_options)
+          .to include({ name: WorkPackage.human_attribute_name(:version), id: "target_versions" })
+      end
+
+      it "does not offer a separate version id" do
+        expect(helper.work_packages_columns_options.pluck(:id)).not_to include("version")
+      end
+    end
+
+    context "with multiple versions enabled", with_settings: { work_package_multiple_versions: true } do
+      it "offers the target versions column under its own id" do
+        expect(helper.work_packages_columns_options)
+          .to include({ name: WorkPackage.human_attribute_name(:target_versions), id: "target_versions" })
+      end
+    end
   end
 
-  describe "#selected_project_columns_options",
+  describe "#selected_work_packages_columns_options",
            with_settings: { work_package_list_default_columns: %w[id subject type status] } do
     it "returns the columns options currently persisted in the setting (in that order)" do
       expect(helper.selected_work_packages_columns_options)
@@ -114,9 +148,61 @@ RSpec.describe WorkPackagesHelper do
                   { name: "Status", id: "status" }
                 ])
     end
+
+    context "with target_versions persisted" do
+      context "and multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false,
+                               work_package_list_default_columns: %w[id target_versions] } do
+        it "resolves the version column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:version), id: "target_versions" }
+                    ])
+        end
+      end
+
+      context "and multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true,
+                               work_package_list_default_columns: %w[id target_versions] } do
+        it "resolves the target versions column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:target_versions), id: "target_versions" }
+                    ])
+        end
+      end
+    end
+
+    context "with the legacy version name persisted" do
+      context "and multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false,
+                               work_package_list_default_columns: %w[id version] } do
+        it "resolves the version column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:version), id: "target_versions" }
+                    ])
+        end
+      end
+
+      context "and multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true,
+                               work_package_list_default_columns: %w[id version] } do
+        it "resolves the target versions column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:target_versions), id: "target_versions" }
+                    ])
+        end
+      end
+    end
   end
 
-  describe "#protected_project_columns_options" do
+  describe "#protected_work_packages_columns_options" do
     it "returns the columns options currently persisted in the setting (in that order)" do
       expect(helper.protected_work_packages_columns_options)
         .to eql([

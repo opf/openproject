@@ -1,13 +1,11 @@
 services:
   traefik:
-    # Overwrite to enable Let's encrypt instead of using Step CA for certificate generation
-    # command: >
-    #   --entryPoints.websecure.http.tls.certresolver=letsencrypt
-    #   --certificatesresolvers.letsencrypt.acme.email=you@example.com
-
-    # For step CA only: Overwrite trusted CA certificates with Step root CA (not needed for Let's encrypt)
     environment:
-      - LEGO_CA_CERTIFICATES=/step/certs/root_ca.crt
+      # For step CA only: Overwrite trusted CA certificates with Step root CA (not needed for Let's encrypt)
+      LEGO_CA_CERTIFICATES: /step/certs/root_ca.crt
+      # Overwrite to enable Let's encrypt instead of using Step CA for certificate generation
+      # TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_CERTRESOLVER: letsencrypt
+      # TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_EMAIL: you@example.com
 
     # Necessary for certificates via Step CA only
     depends_on:

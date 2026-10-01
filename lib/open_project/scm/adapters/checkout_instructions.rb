@@ -59,7 +59,7 @@ module OpenProject
         ##
         # Returns the checkout command for this vendor
         def checkout_command
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         private

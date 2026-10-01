@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +29,7 @@
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { RenderInfo } from '../wp-timeline';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
@@ -38,9 +38,9 @@ import { WorkPackageTimelineCell } from './wp-timeline-cell';
 
 export class WorkPackageTimelineCellsRenderer {
   // Injections
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public halEditing:HalResourceEditingService;
+  @LazyInject() public halEditing:HalResourceEditingService;
 
   public cells:Record<string, WorkPackageTimelineCell> = {};
 
@@ -59,7 +59,7 @@ export class WorkPackageTimelineCellsRenderer {
   }
 
   public getCellsFor(wpId:string):WorkPackageTimelineCell[] {
-    return _.filter(this.cells, (cell) => cell.workPackageId === wpId) || [];
+    return Object.values(this.cells).filter((cell) => cell.workPackageId === wpId);
   }
 
   /**
@@ -70,11 +70,11 @@ export class WorkPackageTimelineCellsRenderer {
     this.synchronizeCells();
 
     // Update all cells
-    _.each(this.cells, (cell) => this.refreshSingleCell(cell));
+    Object.values(this.cells).forEach((cell) => this.refreshSingleCell(cell));
   }
 
   public refreshCellsFor(wpId:string) {
-    _.each(this.getCellsFor(wpId), (cell) => this.refreshSingleCell(cell));
+    this.getCellsFor(wpId).forEach((cell) => this.refreshSingleCell(cell));
   }
 
   public refreshSingleCell(cell:WorkPackageTimelineCell, isDuplicatedCell?:boolean, withAlternativeLabels?:boolean) {
@@ -95,7 +95,7 @@ export class WorkPackageTimelineCellsRenderer {
     const currentlyActive:string[] = Object.keys(this.cells);
     const newCells:string[] = [];
 
-    _.each(this.wpTimeline.workPackageIdOrder, (renderedRow:RenderedWorkPackage) => {
+    this.wpTimeline.workPackageIdOrder.forEach((renderedRow:RenderedWorkPackage) => {
       const wpId = renderedRow.workPackageId;
 
       // Ignore extra rows not tied to a work package
@@ -120,7 +120,7 @@ export class WorkPackageTimelineCellsRenderer {
       newCells.push(identifier);
     });
 
-    _.difference(currentlyActive, newCells).forEach((identifier:string) => {
+    currentlyActive.filter((identifier) => !newCells.includes(identifier)).forEach((identifier:string) => {
       this.cells[identifier].clear();
       delete this.cells[identifier];
     });

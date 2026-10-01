@@ -52,7 +52,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       let(:notify) { true }
 
       it "renders the onetime enabled banner" do
-        expect(subject).to have_text I18n.t("meeting.notifications.banner.onetime.enabled")
+        expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
         expect(subject).to have_no_selector(".Banner--warning")
       end
@@ -62,7 +62,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       let(:notify) { false }
 
       it "renders the onetime disabled banner" do
-        expect(subject).to have_text I18n.t("meeting.notifications.banner.onetime.disabled")
+        expect(subject).to have_text I18n.t("meeting.notifications.disabled")
         expect(subject).to have_css(".Banner--warning")
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       let(:notify) { true }
 
       it "renders the template enabled banner" do
-        expect(subject).to have_text I18n.t("meeting.notifications.banner.template.enabled")
+        expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
         expect(subject).to have_no_selector(".Banner--warning")
       end
@@ -94,7 +94,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       let(:notify) { false }
 
       it "renders the template disabled banner" do
-        expect(subject).to have_text I18n.t("meeting.notifications.banner.template.disabled")
+        expect(subject).to have_text I18n.t("meeting.notifications.disabled")
         expect(subject).to have_css(".Banner--warning")
       end
     end
@@ -111,10 +111,9 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       template
     end
     let(:meeting) do
-      create(:meeting,
+      create(:recurring_meeting_occurrence,
              project:,
-             recurring_meeting_id: recurring_meeting.id,
-             template: false)
+             recurring_meeting_id: recurring_meeting.id)
     end
     let(:override) { nil }
 
@@ -123,7 +122,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
 
       it "renders the occurrence enabled banner" do
         template
-        expect(subject).to have_text I18n.t("meeting.notifications.banner.occurrence.enabled")
+        expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
         expect(subject).to have_no_selector(".Banner--warning")
       end
@@ -134,7 +133,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
 
       it "renders the occurrence disabled banner" do
         template
-        expect(subject).to have_text I18n.t("meeting.notifications.banner.occurrence.disabled")
+        expect(subject).to have_text I18n.t("meeting.notifications.disabled")
         expect(subject).to have_css(".Banner--warning")
       end
     end
@@ -151,7 +150,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
     let(:override) { "enabled" }
 
     it "renders the enabled banner regardless of notify" do
-      expect(subject).to have_text I18n.t("meeting.notifications.banner.onetime.enabled")
+      expect(subject).to have_text I18n.t("meeting.notifications.enabled")
       expect(subject).to have_css(".Banner")
       expect(subject).to have_no_selector(".Banner--warning")
     end
@@ -168,7 +167,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
     let(:override) { "disabled" }
 
     it "renders the disabled banner regardless of notify" do
-      expect(subject).to have_text I18n.t("meeting.notifications.banner.onetime.disabled")
+      expect(subject).to have_text I18n.t("meeting.notifications.disabled")
       expect(subject).to have_css(".Banner--warning")
     end
   end

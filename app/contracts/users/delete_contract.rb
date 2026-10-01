@@ -40,6 +40,8 @@ module Users
     # @param user [User] User to be deleted.
     # @param actor [User] User who wants to delete the given user.
     def self.deletion_allowed?(user, actor)
+      return false if user.admin? && User.admin.active.where.not(id: user.id).empty?
+
       if actor == user
         Setting.users_deletable_by_self?
       else

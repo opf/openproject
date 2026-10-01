@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper(target: "_top") do
+  component_wrapper(target: "_top", data: identifier_suggestion_data) do
     settings_primer_form_with(
       model: project,
       url: workspaces_path,
@@ -39,6 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(
             Primer::Forms::FormList.new(
               Projects::Settings::NameForm.new(f),
+              Projects::Settings::EditableIdentifierForm.new(f),
               Projects::Settings::DescriptionForm.new(f),
               Projects::Settings::RelationsForm.new(f, invisible: params[:parent_id].present?),
               Projects::Settings::TypeForm.new(f)

@@ -201,9 +201,14 @@ module OpenProject
         end
 
         def checkout_path
-          Pathname(OpenProject::Configuration.scm_local_checkout_path)
-            .join(@identifier)
-            .expand_path
+          root = Pathname(OpenProject::Configuration.scm_local_checkout_path).expand_path.to_s
+          path = Pathname(root).join(@identifier).expand_path.to_s
+
+          unless path.start_with?("#{root}/")
+            raise ArgumentError, "Checkout path escapes the configured root directory"
+          end
+
+          Pathname(path)
         end
 
         def checkout_uri

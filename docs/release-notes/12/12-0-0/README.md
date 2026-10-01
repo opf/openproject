@@ -21,7 +21,7 @@ The new in-app notifications let you never miss a change in your projects again.
 
 Go to our user guide to find out how to [configure in-app notifications](../../../user-guide/notifications/).
 
-> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../../user-guide/account-settings/#email-reminders) at specific times of the day that you can configure.
+> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../../user-guide/account-settings/notification-and-email/#email-reminders) at specific times of the day that you can configure.
 
 ## Notification center
 
@@ -203,7 +203,7 @@ To use OpenProject 12.0 right away, create an instance and [test Enterprise clou
 Prefer to run OpenProject 12.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
-Want to upgrade from your self-managed Community version to try out the Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)  Navigate to the -> *Administration*-> *Enterprise edition* and request your trial token.
+Want to upgrade from your self-managed Community version to try out the Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)  Navigate to the -> _Administration_-> _Enterprise edition_ and request your trial token.
 
 ## Migrating to OpenProject 12.0
 

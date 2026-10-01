@@ -30,7 +30,7 @@ require "spec_helper"
 require_relative "support/board_index_page"
 require_relative "support/board_page"
 
-RSpec.describe "Board management spec", :js, :selenium, with_ee: %i[board_view] do
+RSpec.describe "Board management spec", :js, :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })

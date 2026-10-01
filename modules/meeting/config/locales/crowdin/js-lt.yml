@@ -19,9 +19,10 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 lt:
   js:
-    label_meetings: 'Susitikimai'
+    label_meetings: Susitikimai
     work_packages:
       tabs:
-        meetings: 'Susitikimai'
+        meetings: Susitikimai

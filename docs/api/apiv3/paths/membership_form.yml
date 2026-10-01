@@ -35,7 +35,7 @@ post:
             $ref: '../components/schemas/membership_read_model.yml'
           examples:
             'simple membership':
-              $ref: '../components/examples/membership-simple-response.yml'
+              $ref: '../components/examples/membership_simple_response.yml'
     '400':
       $ref: '../components/responses/invalid_request_body.yml'
     '403':

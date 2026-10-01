@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe FilePathToIdMapQuery, :webmock do
+          RSpec.describe FilePathToIdMapQuery, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
             let(:base_drive) { "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW" }
             let(:auth_strategy) { Adapters::Registry["sharepoint.authentication.userless"].call }

@@ -77,6 +77,7 @@ class Meeting::AddToSection < ApplicationForm
 
     items.concat(meeting.sections) if meeting.present? && @occurrence.nil?
     items.concat(@occurrence.sections) if @occurrence.present?
+    items.push(MeetingSection.new) if items.empty?
     items.push(meeting.backlog) if meeting.present? && !meeting.template? && meeting.backlog.present?
 
     items.reject! { |i| i == @selected_section } if @selected_section.present?

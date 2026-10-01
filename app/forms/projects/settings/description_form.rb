@@ -36,7 +36,6 @@ module Projects
           label: attribute_name(:description),
           rich_text_options: {
             showAttachments: false,
-            data: { qa_field_name: "description" }
           }
         )
       end

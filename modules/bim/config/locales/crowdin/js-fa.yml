@@ -1,29 +1,31 @@
-#English strings go here
+---
 fa:
   js:
     bcf:
-      label_bcf: 'BCF'
-      import: 'درون‌ریزی'
-      import_bcf_xml_file: 'وارد کردن فایل XML BCF (نسخه BCF 2.1)'
-      export: 'خروجی'
-      export_bcf_xml_file: 'خروجی گرفتن از فایل XML مربوط به BCF (نسخه BCF 2.1)'
-      viewpoint: 'نقطه دید'
-      add_viewpoint: 'افزودن نقطه دید'
-      show_viewpoint: 'نمایش نقطه دید'
-      delete_viewpoint: 'حذف نقطه دید'
-      management: 'مدیریت BCF'
-      refresh: 'بازنشانی'
-      refresh_work_package: 'بازنشانی بسته کار'
+      add_viewpoint: افزودن نقطه دید
+      delete_viewpoint: حذف نقطه دید
+      export: خروجی
+      export_bcf_xml_file: خروجی گرفتن از فایل XML مربوط به BCF (نسخه BCF 2.1)
+      import: واردکردن
+      import_bcf_xml_file: وارد کردن فایل XML BCF (نسخه BCF 2.1)
+      label_bcf: BCF
+      management: مدیریت BCF
+      refresh: بازنشانی
+      refresh_work_package: بازنشانی بسته کار
+      show_viewpoint: نمایش نقطه دید
+      viewpoint: نقطه دید
     ifc_models:
-      empty_warning: "این پروژه هنوز هیچ مدل IFC ندارد."
-      use_this_link_to_manage: "از این لینک برای آپلود و مدیریت مدل های IFC خود استفاده کنید"
-      keyboard_input_disabled: "نمایشگر کنترل های صفحه کلید ندارد.\nبرای دادن کنترل صفحه کلید به نمایشگر روی نمایشگر کلیک کنید."
+      empty_warning: این پروژه هنوز هیچ مدل IFC ندارد.
+      keyboard_input_disabled: |-
+        نمایشگر کنترل های صفحه کلید ندارد.
+        برای دادن کنترل صفحه کلید به نمایشگر روی نمایشگر کلیک کنید.
       models:
-        ifc_models: 'مدل های IFC'
+        ifc_models: مدل های IFC
+      use_this_link_to_manage: از این لینک برای آپلود و مدیریت مدل های IFC خود استفاده کنید
       views:
-        viewer: 'نمایشگر'
-        split: 'نمایشگر و جدول'
-        split_cards: 'نمایشگر و کارت ها'
+        split: نمایشگر و جدول
+        split_cards: نمایشگر و کارت ها
+        viewer: نمایشگر
     revit:
-      revit_add_in: "افزونه رویت"
-      revit_add_in_settings: "تنظیمات افزونه رویت"
+      revit_add_in: افزونه رویت
+      revit_add_in_settings: تنظیمات افزونه رویت

@@ -33,6 +33,7 @@ require "open_project/scm/adapters/subversion"
 class Repository::Subversion < Repository
   validates :url, presence: true
   validates :url, format: { with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i }
+  validate :validity_of_local_url
 
   def self.scm_adapter_class
     OpenProject::SCM::Adapters::Subversion
@@ -135,6 +136,15 @@ class Repository::Subversion < Repository
   end
 
   private
+
+  def validity_of_local_url
+    return if managed?
+
+    if OpenProject::SCM::LocalPathValidator.points_to_openproject_directory?(url) ||
+       OpenProject::SCM::LocalPathValidator.points_to_openproject_directory?(root_url)
+      errors.add :url, :must_not_point_to_openproject_directory
+    end
+  end
 
   # Returns the relative url of the repository
   # Eg: root_url = file:///var/svn/foo

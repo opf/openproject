@@ -21,24 +21,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
-  constructor(public ConfigurationService:ConfigurationService,
-    readonly timezoneService:TimezoneService) {
-    super();
-  }
+  ConfigurationService = inject(ConfigurationService);
+  readonly timezoneService = inject(TimezoneService);
+
 
   public get order() {
     return this.isReversed ? 'desc' : 'asc';
@@ -70,7 +70,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
   }
 
   protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
-    const sorted = _.sortBy(_.flatten(activities), attr);
+    const sorted = sortBy(activities.flat(), attr);
 
     if (this.isReversed) {
       return sorted.reverse();

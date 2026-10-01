@@ -39,7 +39,7 @@ module API
           end
 
           get do
-            StatusCollectionRepresenter.new(Status.all,
+            StatusCollectionRepresenter.new(Status.visible,
                                             self_link: api_v3_paths.statuses,
                                             current_user:)
           end
@@ -49,7 +49,7 @@ module API
               # Note that naming the method #status or having
               # a variable named @status colides with grape.
               def work_package_status
-                Status.find(params[:id])
+                Status.visible.find(params[:id])
               end
             end
 

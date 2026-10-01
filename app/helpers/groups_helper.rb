@@ -64,6 +64,29 @@ module GroupsHelper
     ]
   end
 
+  def department_settings_tabs(group)
+    [
+      {
+        name: "general",
+        partial: "admin/departments/general",
+        path: edit_admin_department_path(group),
+        label: :label_general
+      },
+      {
+        name: "memberships",
+        partial: "admin/departments/memberships",
+        path: edit_admin_department_path(group, tab: :memberships),
+        label: :label_project_plural
+      },
+      {
+        name: "global_roles",
+        partial: "principals/global_roles",
+        path: edit_admin_department_path(group, tab: :global_roles),
+        label: :label_global_roles
+      }
+    ]
+  end
+
   def autocompleter_filters(group)
     [
       { name: "status", operator: "=", values: ["active", "invited"] },

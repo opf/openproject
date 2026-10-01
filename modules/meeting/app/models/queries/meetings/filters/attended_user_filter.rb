@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,15 +29,13 @@
 #++
 
 class Queries::Meetings::Filters::AttendedUserFilter < Queries::Meetings::Filters::MeetingFilter
+  include ::Queries::Filters::Shared::VisiblePrincipalFilter
+
   def type
     :list_optional
   end
 
   def type_strategy
-    # Instead of getting the IDs of all the projects a user is allowed
-    # to see we only check that the value is an integer.  Non valid ids
-    # will then simply create an empty result but will not cause any
-    # harm.
     @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
   end
 
@@ -47,11 +46,14 @@ class Queries::Meetings::Filters::AttendedUserFilter < Queries::Meetings::Filter
     when "="
       [operator_strategy.sql_for_field(values, MeetingParticipant.table_name, "user_id"), condition].join(" AND ")
     when "!"
-      <<~SQL.squish
+      user_id = normalized_user_id(values.first)
+      return "1=1" if user_id.nil?
+
+      OpenProject::SqlSanitization.sanitize(<<~SQL.squish, user_id)
         NOT EXISTS (
           SELECT 1 FROM #{MeetingParticipant.table_name}
           WHERE #{MeetingParticipant.table_name}.meeting_id = meetings.id
-          AND #{MeetingParticipant.table_name}.user_id = '#{MeetingParticipant.connection.quote_string(values.first)}'
+          AND #{MeetingParticipant.table_name}.user_id = ?
           AND #{condition}
         )
       SQL
@@ -76,7 +78,19 @@ class Queries::Meetings::Filters::AttendedUserFilter < Queries::Meetings::Filter
     :participants
   end
 
+  def autocomplete_options
+    { component: "opce-user-autocompleter", resource: "principals" }
+  end
+
   def self.key
     :attended_user_id
+  end
+
+  private
+
+  def normalized_user_id(value)
+    Integer(value, 10)
+  rescue ArgumentError, TypeError
+    nil
   end
 end

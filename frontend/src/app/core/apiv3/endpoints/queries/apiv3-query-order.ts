@@ -21,20 +21,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
 import { SimpleResource } from 'core-app/core/apiv3/paths/path-resources';
 
 export type QueryOrder = Record<string, number>;
 
 export class ApiV3QueryOrder extends SimpleResource {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   constructor(readonly injector:Injector,
     readonly basePath:string,

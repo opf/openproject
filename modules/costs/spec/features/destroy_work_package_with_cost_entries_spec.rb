@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,6 +31,8 @@
 require_relative "../spec_helper"
 
 RSpec.describe "Deleting time entries", :js do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:project) { work_package.project }
   let(:user) do
     create(:user,
@@ -83,7 +87,7 @@ RSpec.describe "Deleting time entries", :js do
 
     SeleniumHubWaiter.wait
     choose "to_do_action_reassign"
-    fill_in "to_do_reassign_to_id", with: other_work_package.id
+    select_autocomplete(find("opce-autocompleter"), query: other_work_package.subject)
 
     click_button(I18n.t("button_delete"))
 

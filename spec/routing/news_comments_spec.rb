@@ -32,16 +32,19 @@ require "spec_helper"
 
 RSpec.describe News::CommentsController, "routing" do
   context "news scoped" do
-    it {
-      expect(subject).to route(:post, "/news/567/comments").to(controller: "news/comments",
-                                                               action: "create",
-                                                               news_id: "567")
-    }
+    it do
+      expect(subject).to route(:post, "/projects/123/news/567/comments").to(controller: "news/comments",
+                                                                            action: "create",
+                                                                            project_id: "123",
+                                                                            news_id: "567")
+    end
   end
 
-  it {
-    expect(subject).to route(:delete, "/comments/15").to(controller: "news/comments",
-                                                         action: "destroy",
-                                                         id: "15")
-  }
+  it do
+    expect(subject).to route(:delete, "/projects/123/news/567/comments/15").to(controller: "news/comments",
+                                                                               action: "destroy",
+                                                                               project_id: "123",
+                                                                               news_id: "567",
+                                                                               id: "15")
+  end
 end

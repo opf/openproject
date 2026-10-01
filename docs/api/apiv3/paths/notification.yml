@@ -10,7 +10,7 @@ get:
     - name: id
       in: path
       description: notification id
-      example: '1'
+      example: 1
       required: true
       schema:
         type: integer

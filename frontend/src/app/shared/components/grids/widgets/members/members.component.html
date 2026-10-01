@@ -2,23 +2,28 @@
   [name]="widgetName"
   [editable]="isEditable">
 
-  <attribute-help-text slot="prepend"
-    attribute="members"
-  [attributeScope]="'Project'" />
+  <attribute-help-text slot="append"
+                       attribute="members"
+                       [attributeScope]="'Project'" />
 
   <widget-menu slot="menu"
     [resource]="resource" />
 </widget-header>
 
-<div class="op-widget-box--body">
-  @if ({hasCapability: hasCapability$ | async}; as context) {
-    @if (context.hasCapability === false) {
+@if ({hasCapability: hasCapability$ | async}; as context) {
+  @if (context.hasCapability === false) {
+    <div class="op-widget-box--body grid--widget-content">
       <div class="op-toast -error">
         <span [textContent]="text.missing_permission"></span>
       </div>
-    }
-    @if (context.hasCapability === true) {
-      <turbo-frame [id]="frameId" [src]="src" loading="lazy" />
-    }
+    </div>
   }
-</div>
+  @if (context.hasCapability === true) {
+    <turbo-frame
+      class="grid--widget-content"
+      [id]="frameId"
+      [src]="src"
+      loading="lazy">
+    </turbo-frame>
+  }
+}

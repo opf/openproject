@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Queries::Documents::Filters::TitleFilter do
   include_context "filter tests"
-  let(:values) { ["A title"] }
+  let(:values) { ["A title", "Another title"] }
   let(:model) { Document }
 
   it_behaves_like "basic query filter" do
@@ -43,6 +43,48 @@ RSpec.describe Queries::Documents::Filters::TitleFilter do
 
     describe "#allowed_values" do
       it { expect(instance.allowed_values).to be_nil }
+    end
+  end
+
+  describe "#apply_to" do
+    context 'for "="' do
+      let(:operator) { "=" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(documents.title) IN ('a title', 'another title')")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!"' do
+      let(:operator) { "!" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(documents.title) NOT IN ('a title', 'another title')")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "~"' do
+      let(:operator) { "~" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(documents.title) LIKE '%a title%'")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!~"' do
+      let(:operator) { "!~" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(documents.title) NOT LIKE '%a title%'")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
     end
   end
 end

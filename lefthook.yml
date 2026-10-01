@@ -1,8 +1,14 @@
 # Lefthook configuration
 #
-# Add commit hooks with `bundle exec lefthook install`
+# Install lefthook with any preferred method (see https://github.com/evilmartians/lefthook?tab=readme-ov-file#install).
+#   example: `gem install lefthook`
 #
-# Refer for explanation to following link:
+# Add commit hooks with `lefthook install`.
+#
+# To override any config, create a `lefthook-local.yml` file - e.g., for changing the run command
+# to be executed in a docker container context.
+#
+# Refer for explanation to the following link:
 # https://github.com/evilmartians/lefthook/blob/master/docs/usage.md
 
 pre-commit:
@@ -25,3 +31,53 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "{Gemfile.lock,frontend/package.json}"
       run: script/check_same_primer_view_components_version_everywhere
+    yamllint:
+      files: git diff --name-only --staged
+      glob:
+        - ".yamllint.yml"
+        - "config/locales/en.yml"
+        - "config/locales/js-en.yml"
+        - "modules/*/config/locales/en.yml"
+        - "modules/*/config/locales/js-en.yml"
+      run: |
+        if command -v yamllint > /dev/null 2>&1; then
+          yamllint {files}
+        else
+          echo "warning: yamllint is not installed, skipping" >&2
+        fi
+
+# Autofix counterpart of the pre-commit checks. Run explicitly:
+#
+#     # fix staged files
+#     lefthook run fix
+#
+#     # fix files changed since origin/dev (excluding deleted ones)
+#     lefthook run fix --files-from-stdin < <(git diff --name-only --diff-filter=d origin/dev)
+#
+#     # fix all files in the repository
+#     lefthook run fix --all-files
+fix:
+  parallel: true
+  commands:
+    eslint:
+      root: "frontend/"
+      files: git diff --name-only --staged
+      glob: "*.{js,ts,jsx,tsx}"
+      run: npx eslint --fix {files}
+    rubocop:
+      files: git diff --name-only --staged
+      glob: "*.rb"
+      run: bin/dirty-rubocop --uncommitted --force-exclusion -a {files}
+    erb_lint:
+      files: git diff --name-only --staged
+      glob: "*.erb"
+      run: erb_lint --autocorrect {files}
+    order_yaml:
+      files: git diff --name-only --staged
+      glob:
+        - ".yamllint.yml"
+        - "config/locales/en.yml"
+        - "config/locales/js-en.yml"
+        - "modules/*/config/locales/en.yml"
+        - "modules/*/config/locales/js-en.yml"
+      run: script/order_yaml -i {files}

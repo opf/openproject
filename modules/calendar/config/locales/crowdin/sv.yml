@@ -1,12 +1,12 @@
-#English strings go here
+---
 sv:
+  label_calendar: Kalender
+  label_calendar_plural: Kalendrar
+  label_new_calendar: Ny kalender
+  permission_manage_calendars: Hantera kalendrar
+  permission_share_calendars: Prenumerera på iCalendars
+  permission_view_calendar: Visa kalender
   plugin_openproject_calendar:
-    name: "OpenProject-kalender"
-    description: "Tillhandahåller kalendervyer."
-  label_calendar: "Kalender"
-  label_calendar_plural: "Kalendrar"
-  label_new_calendar: "Ny kalender"
-  permission_view_calendar: "Visa kalender"
-  permission_manage_calendars: "Hantera kalendrar"
-  permission_share_calendars: "Prenumerera på iCalendars"
-  project_module_calendar_view: "Kalendrar"
+    description: Tillhandahåller kalendervyer.
+    name: OpenProject-kalender
+  project_module_calendar_view: Kalendrar

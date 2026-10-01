@@ -31,7 +31,7 @@
 class Projects::ArchiveController < ApplicationController
   include OpTurbo::ComponentStream
 
-  before_action :find_project_by_project_id
+  before_action :find_project_including_archived
   before_action :authorize, only: %i[create dialog]
   before_action :require_admin, only: [:destroy]
 
@@ -49,17 +49,21 @@ class Projects::ArchiveController < ApplicationController
 
   private
 
+  def find_project_including_archived
+    # The visible scope filters out archived projects, but here we want to explicitly unarchive them.
+    # The contracts do proper permission checks, so we can skip the visible scope here.
+    @project = Project.find(params[:project_id])
+  end
+
   def change_status_action(status)
     service_call = change_status(status)
 
-    if service_call.success?
-      redirect_to(projects_path, status: :see_other)
-    else
+    if !service_call.success?
       flash[:error] = t(:"error_can_not_#{status}_project",
                         errors: service_call.errors.full_messages.join(", "))
-      redirect_back fallback_location: projects_path,
-                    status: :see_other
     end
+
+    redirect_to(projects_path, status: :see_other)
   end
 
   def change_status(status)

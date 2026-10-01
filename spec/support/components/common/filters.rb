@@ -31,6 +31,8 @@
 module Components
   module Common
     module Filters
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
       def expect_filters_container_toggled
         expect(page).to have_css(".op-filters-form")
       end
@@ -43,12 +45,12 @@ module Components
         if filter_name == "name_and_identifier"
           expect(page.find_by_id(filter_name).value).not_to be_empty
         elsif value
-          within("li[data-filter-name='#{filter_name}']") do
+          within(filter_selector(filter_name)) do
             expect(page).to have_css(".advanced-filters--filter-value", text: value, visible: :all)
           end
         else
           expect(page)
-            .to have_css("li[data-filter-name='#{filter_name}']")
+            .to have_css(filter_selector(filter_name))
         end
       end
 
@@ -71,24 +73,43 @@ module Components
       end
 
       def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
-        selected_filter = select_filter(name, human_name)
+        select_filter(name, human_name)
+
+        # Classify the row before apply_operator re-renders it; the type and
+        # autocomplete markers are fixed per filter, so selecting the operator
+        # does not change them. Skipped when there is nothing to set.
+        kind = values.any? ? filter_kind(name) : nil
+
         apply_operator(name, human_operator)
 
-        within(selected_filter) do
-          return unless values.any?
+        return unless values.any?
 
-          if boolean_filter?(name)
-            set_toggle_filter(values)
-          elsif autocomplete_filter?(selected_filter)
-            select(human_operator, from: "operator")
-            set_autocomplete_filter(values)
-          elsif name == "created_at"
-            select(human_operator, from: "operator")
-            set_created_at_filter(human_operator, values, send_keys:)
-          elsif date_filter?(selected_filter) && human_operator == "on"
-            set_date_filter(values, send_keys)
-          end
+        set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+      end
+
+      # Every filter form using this helper submits on change and re-renders the
+      # row, so it is entered only once the operator has landed. The inputs each
+      # do a single interaction that finishes before that re-render, so one
+      # scope covers them. The autocompleter cannot use one: it picks its values one
+      # after the other, and every pick re-renders the row, so a scope held
+      # across them is dead by the second value (ObsoleteNode). It is handed the
+      # filter name and re-finds the row per pick instead.
+      def set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+        if boolean_filter?(name)
+          within_filter(name) { set_toggle_filter(values) }
+        elsif kind == :autocomplete
+          set_autocomplete_filter(values, filter_name: name)
+        elsif name == "created_at"
+          within_filter(name) { set_datetime_filter(name, human_operator, values, send_keys:) }
+        elsif kind == :date && human_operator == "on"
+          within_filter(name) { set_date_filter(values, send_keys) }
         end
+      end
+
+      def within_filter(name, &)
+        wait_for_network_idle
+
+        within(filter_selector(name), &)
       end
 
       def expect_autocomplete_options_for(custom_field, options, grouping: nil, results_selector: "body")
@@ -114,35 +135,32 @@ module Components
       end
 
       def apply_operator(name, human_operator)
-        select(human_operator, from: "operator") unless boolean_filter?(name)
+        select(human_operator, from: "operator_#{name}") unless boolean_filter?(name)
       end
 
       def select_filter(name, human_name)
         select human_name, from: "add_filter_select"
-        page.find("li[data-filter-name='#{name}']")
+        page.find(filter_selector(name))
       end
 
       def remove_filter(name)
         if name == "name_and_identifier"
           page.find_by_id("name_and_identifier").find(:xpath, "following-sibling::button").click
         else
-          page.find("li[data-filter-name='#{name}'] .filter_rem").click
+          page.find("#{filter_selector(name)} .advanced-filters--remove-filter").click
         end
       end
 
       def set_toggle_filter(values)
         should_active = values.first == "yes"
-        is_active = page.has_selector? '[data-test-selector="spot-switch-handle"][data-qa-active]'
+        label = should_active ? I18n.t("general_text_Yes") : I18n.t("general_text_No")
+        hidden = page.find('input[type="hidden"]', visible: :all)
+        is_active = hidden.value == "t"
 
-        if should_active != is_active
-          page.find('[data-test-selector="spot-switch-handle"]').click
-        end
+        click_button(label, exact: true) unless should_active == is_active
 
-        if should_active
-          expect(page).to have_css('[data-test-selector="spot-switch-handle"][data-qa-active]')
-        else
-          expect(page).to have_css('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
-        end
+        expected_value = should_active ? "t" : "f"
+        expect(page).to have_field(hidden["name"], with: expected_value, type: :hidden)
       end
 
       def set_name_and_identifier_filter(values, send_keys: false)
@@ -153,35 +171,44 @@ module Components
         end
       end
 
-      def set_created_at_filter(human_operator, values, send_keys: false)
+      def set_datetime_filter(filter_name, human_operator, values, send_keys: false)
         case human_operator
         when "on", "less than days ago", "more than days ago", "days ago"
           if send_keys
-            find_field("value").send_keys values.first
+            find_field(filter_name).send_keys values.first
           else
-            fill_in "value", with: values.first
+            fill_in filter_name, with: values.first
           end
         when "between"
           if send_keys
-            find_field("from_value").send_keys values.first
-            find_field("to_value").send_keys values.second
+            value = values.join(" - ")
+            find_field(filter_name).send_keys value
           else
-            fill_in "from_value", with: values.first
-            fill_in "to_value", with: values.second
+            find_field(filter_name).click
+            datepicker = ::Components::RangeDatepicker.new
+            datepicker.set_date values.first
+            datepicker.set_date values.last
           end
         end
       end
 
-      def set_autocomplete_filter(values, clear: true)
-        element = find('[data-filter-autocomplete="true"]')
-
-        ng_select_clear(element, raise_on_missing: false) if clear
+      def set_autocomplete_filter(values, filter_name:, clear: true)
+        ng_select_clear(autocomplete_element(filter_name), raise_on_missing: false) if clear
 
         Array(values).each do |query|
-          select_autocomplete element,
+          select_autocomplete autocomplete_element(filter_name),
                               query:,
                               results_selector: "body"
         end
+      end
+
+      # Re-found on every call, never captured in a local nor reached through an
+      # enclosing `within`: between one selected value and the next the row is
+      # gone, taking any reference to it along.
+      def autocomplete_element(filter_name)
+        wait_for_network_idle
+
+        page.find(filter_selector(filter_name)).find('[data-filter-autocomplete="true"]')
       end
 
       def set_list_filter(values)
@@ -198,10 +225,21 @@ module Components
       end
 
       def open_filters
+        return if filters_expanded?
+
         retry_block do
           toggle_filters_section
           expect(page).to have_css(".op-filters-form.-expanded")
           page.find_field("Add filter", visible: true)
+        end
+      end
+
+      def close_filters
+        return unless filters_expanded?
+
+        retry_block do
+          toggle_filters_section
+          expect(page).to have_no_css(".op-filters-form.-expanded")
         end
       end
 
@@ -213,16 +251,37 @@ module Components
         filters_toggle.click
       end
 
-      def autocomplete_filter?(filter)
-        filter.has_css?('[data-filter-autocomplete="true"]', wait: 0)
+      def filters_expanded?
+        # wait for widgets to be loaded (filters button should be visible)
+        filters_toggle
+
+        page.has_css?(".op-filters-form.-expanded", wait: 0)
       end
 
-      def date_filter?(filter)
-        filter[:"data-filter-type"] == "date"
+      def filter_selector(name)
+        ".advanced-filters--filter[data-filter-name='#{name}']"
       end
 
-      def date_time_filter?(filter)
-        filter[:"data-filter-type"] == "datetime_past"
+      # Classifies the filter row by re-finding it once. Returns :autocomplete
+      # when the value container carries the autocomplete marker, otherwise the
+      # row's data-filter-type as a symbol (:date, :datetime_past, ...).
+      #
+      # Re-finding is required because adding/operating on a filter re-renders
+      # the row, leaving a captured reference stale (ObsoleteNode). The row can
+      # also go stale between the find and the reads, so the whole
+      # classification runs in a synchronize block that retries on that error.
+      # The marker check stays wait: 0 on purpose: rows are pre-rendered, so the
+      # marker is present whenever the row is, and a default wait would only
+      # stall the non-autocomplete branches for the full Capybara timeout before
+      # falling through.
+      def filter_kind(name)
+        page.document.synchronize do
+          row = page.find(filter_selector(name))
+
+          next :autocomplete if row.has_css?('[data-filter-autocomplete="true"]', wait: 0)
+
+          row[:"data-filter-type"]&.to_sym
+        end
       end
 
       def boolean_filter?(_filter)

@@ -31,7 +31,7 @@
 module Backlogs
   class SprintPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
-    include RbCommonHelper
+    include CommonHelper
 
     delegate :with_action_button, to: :@page_header
 
@@ -46,14 +46,14 @@ module Backlogs
 
     def breadcrumb_items
       [{ href: project_overview_path(@project), text: @project.name },
-       { href: backlogs_project_backlogs_path(@project), text: t(:label_backlogs) },
+       { href: project_backlogs_backlog_path(@project), text: t(:label_backlogs) },
        @sprint.name]
     end
 
     private
 
     def date_range
-      [@sprint.start_date, @sprint.effective_date]
+      [@sprint.start_date, @sprint.finish_date]
     end
   end
 end

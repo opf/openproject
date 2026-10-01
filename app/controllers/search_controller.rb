@@ -49,7 +49,9 @@ class SearchController < ApplicationController
       end
     end
 
-    render "index", locals: { menu_name: project_or_global_menu }
+    respond_to do |format|
+      format.html { render "index", locals: { menu_name: project_or_global_menu } }
+    end
   end
 
   private

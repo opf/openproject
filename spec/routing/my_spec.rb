@@ -51,10 +51,6 @@ RSpec.describe "my routes" do
     expect(get("/my/notifications")).to route_to("my#notifications")
   end
 
-  it "/my/reminders GET routes to my#notifications" do
-    expect(get("/my/reminders")).to route_to("my#reminders")
-  end
-
   it "/my/deletion_info GET routes to users#deletion_info" do
     expect(get("/my/deletion_info")).to route_to(controller: "users",
                                                  action: "deletion_info")

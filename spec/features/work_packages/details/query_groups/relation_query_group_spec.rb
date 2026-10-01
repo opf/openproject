@@ -58,7 +58,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
     end
   end
 
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
@@ -128,11 +128,12 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
     let(:query_text) { "Embedded Table for follows".upcase }
 
     before do
-      query = type.attribute_groups.last.query
+      variant = type.default_variant
+      query = variant.attribute_groups.last.query
       query.add_filter("project_id", "=", [project2.id, project3.id])
       # User has no permission to save, avoid creating another user to allow it
       query.save!(validate: false)
-      type.save!
+      variant.save!
     end
 
     context "with a user who has permission in one project" do

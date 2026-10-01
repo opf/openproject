@@ -27,7 +27,6 @@ The Monitor \& Control activities are carried out based on the processes describ
 
 ![Fig 9.1 Monitor & Control activities and main artefacts](09.01.png)
 
-
 Monitor \& Control artefacts comprise the Project Work Plan as well as a range of Project Logs and Checklists.
 
 The Project Logs are regularly updated as new information becomes available (e.g. new issues can arise and new information can be added to the Issue Log).
@@ -79,14 +78,11 @@ This information is then distributed to relevant stakeholders as per the Communi
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Monitor Project Performance | I | I | A | C | C | I | R | C |
 
-
-
 ![Fig 9.2 Monitor Project Performance inputs/outputs and main roles](09.02.png)
 
 **Outputs**
 
 - Project Work Plan (tracked)
-
 
 ## 9.2 Control Schedule 
 
@@ -119,11 +115,7 @@ Approved project changes (e.g. addition of new tasks or changes to the required 
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Control Schedule | I | I | A | C | C | I | R | C |
 
-
-
 ![Fig 9.3 Control Schedule inputs/outputs and main roles](09.03.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -167,8 +159,6 @@ Note: The project budget must have been approved by the Project Owner (PO) at th
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Control Cost | I | I | A | C | C | I | R | C |
 
-
-
 ![Fig 9.4 Control Cost inputs/outputs and main roles](09.04.png)
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
@@ -211,11 +201,7 @@ Responsibility for this activity belongs to the Project Manager (PM). However, a
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Stakeholders | I | I | A | S/C | I | C | R | I |
 
-
-
 ![Fig 9.5 Manage Stakeholders inputs/outputs and main roles](09.05.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -227,22 +213,18 @@ Outputs
 - Issue and Decision Logs (updated)
 - Stakeholders Checklist
 
-
 ## 9.5 Manage Requirements
 
 Requirements management is the process of gathering, documenting and validating requirements and managing their implementation and change. It is a process that runs throughout the project lifecycle and relates to other project management processes, such as quality and change management.
 
 The Requirements Management Process can be tailored and customised to a project's needs. It can be documented either in a Requirements Management Plan or in the Project Handbook. Separate requirements documents are used to specify, categorise and prioritise the requirements. These can be standalone documents or an annex to the Project Charter.
 
-|  Key Participants | Description  |
-| --- | --- |
-|  Project Manager (PM) | Undertakes the requirements management process.  |
-|  Business Manager (BM) | Provides information required to draft the requirements and
-approves them.  |
-|  User Representatives (URs) | Participate in the gathering and validation of the requirements.  |
-|  Business Analyst (BA) (member
-of the Project Core Team, PCT) | Responsible for many of the requirements management activities
-(e.g. requirements documentation, specification, etc.).  |
+| Key Participants                                             | Description                                                                                                            |
+|--------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| Project Manager (PM)                                         | Undertakes the requirements management process.                                                                        |
+| Business Manager (BM)                                        | Provides information required to draft the requirements and approves them.                                             |
+| User Representatives (URs)                                   | Participate in the gathering and validation of the requirements.                                                       |
+| Business Analyst (BA) (member of the Project Core Team, PCT) | Responsible for many of the requirements management activities (e.g. requirements documentation, specification, etc.). |
 
 **Inputs**
 
@@ -273,11 +255,7 @@ of the Project Core Team, PCT) | Responsible for many of the requirements manage
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Requirements | I | I | A | C | C | I | R | S |
 
-
-
 ![Fig 9.6 Manage Requirements inputs/outputs and main roles](09.06.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -295,15 +273,12 @@ Project change management defines the activities related to identifying, documen
 
 The Project Change Management Process can be tailored and customised to a project's needs and can be documented either in a Project Change Management Plan or in the Project Handbook. A Change Log is used to document, monitor and control all project changes (see Appendix B). This makes it easier to track the changes and communicate them to the Project Owner (PO) and/or the Project Steering Committee (PSC) for approval.
 
-|  Key Participants | Description  |
-| --- | --- |
-|  Project Manager (PM) | Monitors and controls the project changes.  |
-|  Project Owner (PO) and/or
-Project Steering Committee (PSC) | Approves or rejects the project changes.  |
-|  Project Core Team (PCT) | Involved in analysing the requested project changes (estimating
-the effort required to implement the changes).  |
-|  Stakeholders | Informed about the approved project changes. May introduce
-new project changes.  |
+| Key Participants                                           | Description                                                                                                    |
+|------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| Project Manager (PM)                                       | Monitors and controls the project changes.                                                                     |
+| Project Owner (PO) and/or Project Steering Committee (PSC) | Approves or rejects the project changes.                                                                       |
+| Project Core Team (PCT)                                    | Involved in analysing the requested project changes (estimating the effort required to implement the changes). |
+| Stakeholders                                               | Informed about the approved project changes. May introduce new project changes.                                |
 
 **Inputs**
 
@@ -327,11 +302,7 @@ All stakeholders affected by the project changes should be informed and the Chan
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Project Change | I | C | A | S | I | I | R | C |
 
-
-
 ![Fig 9.7 Manage Project Change inputs/outputs and main roles](09.07.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :-- | :--: | :--: | :--: | :--: | :--: |
@@ -342,7 +313,6 @@ All stakeholders affected by the project changes should be informed and the Chan
 - Change Request Form
 - Change Log (updated)
 - Project Work Plan (updated)
-
 
 ## 9.7 Manage Risk 
 
@@ -377,11 +347,7 @@ The Risk Management Process can be tailored and customised to a project's needs 
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Risks | I | C | A | S/C | C | I | R | C |
 
-
-
 ![Fig 9.8: Manage Risk inputs/outputs and main roles](09.08.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -427,11 +393,7 @@ The Project Manager (PM) manages project issues and decisions. Issues are identi
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Issues and Decisions | I | I | A | S | C | I | R | C |
 
-
-
 ![Fig 9.9 Manage Issues and Decisions inputs/outputs and main roles](09.09.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -530,11 +492,7 @@ For example:
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Deliverables Acceptance | I | I | A | S | C | C | R | C |
 
-
-
 ![Fig 9.11 Manage Deliverables Acceptance inputs/outputs and main roles](09.11.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -586,11 +544,7 @@ Transition management ensures a controlled and smooth transition from the old st
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Transition | I | A | C | C | C | C | R | C |
 
-
-
 ![Fig 9.12 Manage Transition inputs/outputs and main roles](09.12.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -639,11 +593,7 @@ Note that business implementation activities will almost always be required long
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Business Implementation | I | I | A | R | C | I | S | I |
 
-
-
 ![Fig 9.13 Manage Business Implementation inputs/outputs and main roles](09.13.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -685,11 +635,7 @@ The Project Manager (PM) manages the delivery of all products and/or services th
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Manage Outsourcing | A | C | C | C | I | S | R | I |
 
-
-
 ![Fig 9.14 Manage Outsourcing inputs/outputs and main roles](09.14.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |

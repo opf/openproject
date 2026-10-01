@@ -58,7 +58,7 @@ RSpec.describe Storages::Admin::SidePanel::HealthNotificationsComponent, type: :
 
         it "shows a healthy status" do
           expect(page).to have_test_selector("storage-health-status", text: "Healthy")
-          expect(page).to have_test_selector("storage-health-checked-at", text: "Last check: 11/28/2023 01:02 AM")
+          expect(page).to have_test_selector("storage-health-checked-at", text: "Last sync: 11/28/2023 01:02 AM")
         end
       end
 

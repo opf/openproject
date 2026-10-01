@@ -133,7 +133,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         # Move "Name" column to the left
         projects_page.click_table_header_to_open_action_menu("Name")
         projects_page.move_column_via_action_menu("Name", direction: :left)
-        wait_for_reload
+        wait_for_network_idle
 
         # Name was moved left?
         projects_page.expect_columns_in_order("Name", "Created on", "Status")
@@ -141,7 +141,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         # Now move it back to the right once
         projects_page.click_table_header_to_open_action_menu("Name")
         projects_page.move_column_via_action_menu("Name", direction: :right)
-        wait_for_reload
+        wait_for_network_idle
 
         # Original position should have been restored
         projects_page.expect_columns_in_order("Created on", "Name", "Status")
@@ -188,18 +188,18 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
 
         # Remove "Name" column
         projects_page.click_table_header_to_open_action_menu("Name")
-        projects_page.remove_column_via_action_menu("Name")
-        wait_for_reload
+        wait_for_turbo_frame { projects_page.remove_column_via_action_menu("Name") }
 
         # Name was removed
+        projects_page.expect_no_columns("Name")
         projects_page.expect_columns_in_order("Created on", "Status")
 
         # Remove "Status" column, too
         projects_page.click_table_header_to_open_action_menu("project_status")
-        projects_page.remove_column_via_action_menu("project_status")
-        wait_for_reload
+        wait_for_turbo_frame { projects_page.remove_column_via_action_menu("project_status") }
 
         # It was removed
+        projects_page.expect_no_columns("Status")
         projects_page.expect_columns_in_order("Created on")
       end
     end
@@ -224,10 +224,10 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         # Filter component is visible
         expect(page).to have_select("add_filter_select")
         # Filter for column is visible and can now be specified by the user
-        expect(page).to have_css(".advanced-filters--filter-name[for='created_at']")
+        expect(page).to have_css(".advanced-filters--filter[data-filter-name='created_at']")
 
         # The correct filter input field has focus
-        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_value")).to be(true)
+        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_days")).to be(true)
       end
 
       it "adds the filter for a selected column that has a different filter mapped to its column" do
@@ -238,7 +238,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         # Filter component is visible
         expect(page).to have_select("add_filter_select")
         # Filter for column is visible. Note that the filter name is different from the column attribute!
-        expect(page).to have_css(".advanced-filters--filter-name[for='project_status_code']")
+        expect(page).to have_css(".advanced-filters--filter[data-filter-name='project_status_code']")
       end
 
       it "does not offer to filter if the column has no associated filter" do
@@ -350,14 +350,10 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
 
       context "for users without view_project_phases permission" do
         specify "project phase columns cannot be configured to show up" do
-          element_selector = "#columns-select_autocompleter ng-select.op-draggable-autocomplete--input"
-          results_selector = "#columns-select_autocompleter ng-dropdown-panel .ng-dropdown-panel-items"
           projects_page.expect_no_config_columns(project_phase_with_gates.name,
                                                  project_phase.name,
                                                  inactive_project_phase_with_gates.name,
-                                                 inactive_project_phase.name,
-                                                 element_selector:,
-                                                 results_selector:)
+                                                 inactive_project_phase.name)
         end
       end
 
@@ -401,9 +397,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
     end
   end
 
-  context "with calculated value columns",
-          with_ee: %i[calculated_values],
-          with_flag: { calculated_value_project_attribute: true } do
+  context "with calculated value columns", with_ee: %i[calculated_values] do
     let!(:static_calculated_value) do
       create(:calculated_value_project_custom_field,
              name: "Calculated value field",
@@ -478,6 +472,110 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
 
         expect(page).to have_test_selector("calculated-value-error-dialog-#{division_by_zero_calculated_value.id}",
                                            text: I18n.t("calculated_values.errors.mathematical"))
+      end
+    end
+  end
+
+  context "with custom comment columns" do
+    shared_let(:commentable) do
+      create(
+        :string_project_custom_field,
+        :has_comment,
+        name: "Commentable",
+        projects: [project, development_project]
+      )
+    end
+    shared_let(:admin_commentable) do
+      create(
+        :string_project_custom_field,
+        :admin_only,
+        :has_comment,
+        name: "Admin commentable",
+        projects: [project, development_project]
+      )
+    end
+
+    def comment_column_name(custom_field) = I18n.t(:label_custom_comment, name: custom_field.name)
+
+    before do
+      create(:custom_comment, text: "short text" * 20, customized: project, custom_field: commentable)
+      create(:custom_comment, text: "short text a", customized: project, custom_field: admin_commentable)
+      create(:custom_comment, text: "short text b", customized: development_project, custom_field: commentable)
+
+      login_as(user)
+      projects_page.visit!
+    end
+
+    context "for admin" do
+      let(:user) { admin }
+
+      it "doesn't allow custom comment column for fields that do not allow comments" do
+        projects_page.expect_no_config_columns(comment_column_name(custom_field))
+      end
+
+      it "displays custom comment columns", :aggregate_failures do
+        projects_page.set_columns("Name", comment_column_name(commentable), comment_column_name(admin_commentable))
+
+        projects_page.within_row(project) do
+          expect(page).to have_css(".name", text: project.name)
+
+          expect(page).to have_css(".cfc_#{commentable.id}", text: "short text" * 20)
+          expect(page).to have_css(".cfc_#{commentable.id} button.ellipsis-expander")
+
+          expect(page).to have_css(".cfc_#{admin_commentable.id}", text: "short text a")
+          expect(page).to have_no_css(".cfc_#{admin_commentable.id} button.ellipsis-expander")
+        end
+
+        projects_page.within_row(development_project) do
+          expect(page).to have_css(".name", text: development_project.name)
+
+          expect(page).to have_css(".cfc_#{commentable.id}", text: "short text b")
+          expect(page).to have_no_css(".cfc_#{commentable.id} button.ellipsis-expander")
+
+          expect(page).to have_css(".cfc_#{admin_commentable.id}", text: "")
+          expect(page).to have_no_css(".cfc_#{admin_commentable.id} button.ellipsis-expander")
+        end
+      end
+    end
+
+    context "for non admin user with view permissions" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i(view_project_attributes),
+                                                 development_project => %i(view_project_attributes) })
+      end
+
+      it "doesn't allow custom comment column for fields that do not allow comments or that are admin only" do
+        projects_page.expect_no_config_columns(comment_column_name(custom_field), comment_column_name(admin_commentable))
+      end
+
+      it "displays custom comment columns", :aggregate_failures do
+        projects_page.set_columns("Name", comment_column_name(commentable))
+
+        projects_page.within_row(project) do
+          expect(page).to have_css(".name", text: project.name)
+
+          expect(page).to have_css(".cfc_#{commentable.id}", text: "short text" * 20)
+          expect(page).to have_css(".cfc_#{commentable.id} button.ellipsis-expander")
+        end
+
+        projects_page.within_row(development_project) do
+          expect(page).to have_css(".name", text: development_project.name)
+
+          expect(page).to have_css(".cfc_#{commentable.id}", text: "short text b")
+          expect(page).to have_no_css(".cfc_#{commentable.id} button.ellipsis-expander")
+        end
+      end
+    end
+
+    context "for non admin user without permissions" do
+      let(:user) { create(:user) }
+
+      it "doesn't allow custom comment column for fields that do not allow comments or that are admin only" do
+        projects_page.expect_no_config_columns(
+          comment_column_name(custom_field),
+          comment_column_name(admin_commentable),
+          comment_column_name(commentable)
+        )
       end
     end
   end

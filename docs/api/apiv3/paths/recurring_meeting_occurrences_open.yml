@@ -1,0 +1,40 @@
+# /api/v3/recurring_meetings/{id}/occurrences/open
+---
+get:
+  summary: List open occurrences of a recurring meeting
+  operationId: list_recurring_meeting_occurrences_open
+  tags:
+    - Recurring Meetings
+  description: |-
+    Returns a collection of open (instantiated, non-cancelled) occurrences for the given recurring meeting.
+    Only persisted `ScheduledMeeting` records that have an associated meeting and are not cancelled are returned.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_occurrence_collection_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project

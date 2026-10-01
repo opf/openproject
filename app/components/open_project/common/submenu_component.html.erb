@@ -48,7 +48,13 @@
               </span>
 
               <% if menu_item.count %>
-                <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-submenu--item-count"><%= menu_item.count %></span>
+                <%= render Primer::Beta::Counter.new(
+                      count: menu_item.count,
+                      scheme: :primary,
+                      hide_if_zero: true,
+                      round: true,
+                      test_selector: "op-submenu--item-count"
+                    ) %>
               <% end %>
             </a>
           </li>
@@ -90,7 +96,13 @@
                 </span>
 
                 <% if child_item.count %>
-                  <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-submenu--item-count"><%= child_item.count %></span>
+                  <%= render Primer::Beta::Counter.new(
+                        count: child_item.count,
+                        scheme: :secondary,
+                        hide_if_zero: true,
+                        round: true,
+                        test_selector: "op-submenu--item-count"
+                      ) %>
                 <% end %>
               </a>
             </li>

@@ -31,12 +31,12 @@
 class CustomStylesController < ApplicationController
   include EnterpriseHelper
   include CustomStylesControllerHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
   menu_item :custom_style
 
   UNGUARDED_ACTIONS = %i[logo_download
-                         logo_mobile_download
                          favicon_download
                          touch_icon_download].freeze
 
@@ -56,6 +56,7 @@ class CustomStylesController < ApplicationController
     @custom_style = CustomStyle.current || CustomStyle.new
     @current_theme = @custom_style.theme
     @theme_options = options_for_theme_select
+    @colors = Color.all.sort_by(&:name)
 
     if params[:tab].blank?
       redirect_to tab: "interface"
@@ -100,11 +101,9 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_download
-    file_download(:logo_path)
-  end
+    return unless (field = logo_field)
 
-  def logo_mobile_download
-    file_download(:logo_mobile_path)
+    file_download(:"#{field}_path")
   end
 
   def export_logo_download
@@ -128,11 +127,9 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
-    file_delete(:remove_logo)
-  end
+    return unless (field = logo_field)
 
-  def logo_mobile_delete
-    file_delete(:remove_logo_mobile)
+    file_delete(:"remove_#{field}")
   end
 
   def export_logo_delete
@@ -179,6 +176,10 @@ class CustomStylesController < ApplicationController
       .call
 
     redirect_to action: :show
+  end
+
+  def confirm_theme
+    respond_with_dialog CustomStyles::ConfirmThemeDialogComponent.new(theme: params[:theme], selected_tab_name: params[:tab])
   end
 
   def update_themes
@@ -233,7 +234,11 @@ class CustomStylesController < ApplicationController
   def custom_style_params
     params.expect(custom_style: %i[
                     logo remove_logo
+                    logo_dark remove_logo_dark
+                    logo_light_high_contrast remove_logo_light_high_contrast
                     logo_mobile remove_logo_mobile
+                    logo_mobile_dark remove_logo_mobile_dark
+                    logo_mobile_light_high_contrast remove_logo_mobile_light_high_contrast
                     export_logo remove_export_logo
                     export_cover remove_export_cover
                     export_footer remove_export_footer
@@ -247,9 +252,17 @@ class CustomStylesController < ApplicationController
                   ])
   end
 
+  def logo_field
+    field = CustomStyle::LOGO_FIELDS.values.flat_map(&:values).find { |value| value.to_s == params[:field] }
+    return field if field
+
+    head :not_found
+    nil
+  end
+
   def file_download(path_method)
     @custom_style = CustomStyle.current
-    if @custom_style && @custom_style.send(path_method)
+    if @custom_style&.send(path_method)
       expires_in 1.year, public: true, must_revalidate: false
       send_file(@custom_style.send(path_method))
     else
@@ -263,7 +276,7 @@ class CustomStylesController < ApplicationController
       return render_404
     end
 
-    @custom_style.send(remove_method)
+    @custom_style.send("#{remove_method}!")
     redirect_to custom_style_path, status: :see_other
   end
 end

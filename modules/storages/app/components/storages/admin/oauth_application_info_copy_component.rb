@@ -40,16 +40,6 @@ module Storages::Admin
 
     def self.wrapper_key = :storage_openproject_oauth_section
 
-    def oauth_application_details_link
-      render(
-        Primer::Beta::Link.new(
-          href: ::Storages::UrlBuilder.url(storage.uri, "settings/admin/openproject"),
-          data: { allow_external_link: true },
-          target: "_blank"
-        )
-      ) { I18n.t("storages.instructions.oauth_application_details_link_text") }
-    end
-
     def submit_button_options
       {
         scheme: :primary,

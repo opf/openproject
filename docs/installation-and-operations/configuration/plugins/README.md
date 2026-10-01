@@ -26,7 +26,7 @@ end
 
 **Note:** The Gitlab plugin is usually only compatible with the latest versions. For more information, please see the [respective repository](https://github.com/btey/openproject-gitlab-integration/).
 
-The group `:opf_plugins` is generally recommended, but only required for plugins with custom frontend code that is picked up by webpack and output into their respective bundles.
+The group `:opf_plugins` is generally recommended, but only required for plugins with custom frontend code that is picked up by esbuild and output into their respective bundles.
 
 We suggest to store the Gemfile under `/etc/openproject/Gemfile.custom`, but the choice is up to you, just make sure the openproject user is able to read it.
 

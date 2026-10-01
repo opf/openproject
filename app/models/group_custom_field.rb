@@ -29,6 +29,8 @@
 #++
 
 class GroupCustomField < CustomField
+  scopes :visible
+
   def type_name
     :label_group_plural
   end

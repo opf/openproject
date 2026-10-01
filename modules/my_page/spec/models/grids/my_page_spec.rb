@@ -45,31 +45,53 @@ RSpec.describe Grids::MyPage do
   end
 
   context "altering widgets" do
-    context "when removing a work_packages_table widget" do
-      let(:user) { create(:user) }
+    shared_examples_for "removing a query widget" do |identifier|
+      let(:query_user) { create(:user) }
       let(:query) do
         create(:query,
-               user:)
+               user: query_user,
+               project: nil)
       end
 
       before do
-        widget = Grids::Widget.new(identifier: "work_packages_table",
+        widget = Grids::Widget.new(identifier:,
                                    start_row: 1,
                                    end_row: 2,
                                    start_column: 1,
                                    end_column: 2,
-                                   options: { queryId: query.id })
+                                   options: { "queryId" => query.id })
 
         instance.widgets = [widget]
         instance.save!
       end
 
-      it "removes the widget's query" do
-        instance.widgets = []
+      context "when the query is owned by the user" do
+        current_user { query_user }
 
-        expect(Query.find_by(id: query.id))
-          .to be_nil
+        it "removes the widget's query" do
+          instance.widgets = []
+
+          expect(Query.find_by(id: query.id))
+            .to be_nil
+        end
+      end
+
+      context "when the query is not owned by the user" do
+        current_user { create(:user) }
+
+        it "removes the widget but keeps the query" do
+          instance.widgets = []
+
+          expect(Query.find_by(id: query.id))
+            .to eql query
+        end
       end
     end
+
+    it_behaves_like "removing a query widget", "work_packages_table"
+    it_behaves_like "removing a query widget", "work_packages_assigned"
+    it_behaves_like "removing a query widget", "work_packages_accountable"
+    it_behaves_like "removing a query widget", "work_packages_watched"
+    it_behaves_like "removing a query widget", "work_packages_created"
   end
 end

@@ -103,37 +103,42 @@ RSpec.describe RecurringMeetings::EndService, type: :model do
         expect(result.errors[:base]).to include("Some error")
       end
 
-      it "does not remove scheduled meetings or occurrences" do
-        allow(recurring_meeting).to receive(:scheduled_meetings)
-        allow(recurring_meeting).to receive(:scheduled_instances)
+      it "does not remove meetings or occurrences" do
+        allow(recurring_meeting).to receive(:meetings).and_call_original
 
         service.call
 
-        expect(recurring_meeting).not_to have_received(:scheduled_meetings)
-        expect(recurring_meeting).not_to have_received(:scheduled_instances)
+        # Meetings relation may be queried to check instances, but no deletions happen
+        expect(recurring_meeting.meetings.not_templated.count).to eq(0)
       end
     end
   end
 
-  describe "scheduled meetings removal" do
-    let!(:upcoming_scheduled_meeting) do
-      create(:scheduled_meeting,
-             :persisted,
+  describe "occurrence meeting removal" do
+    let(:upcoming_time) { Time.zone.tomorrow + 1.day + 10.hours }
+    let(:cancelled_time) { Time.zone.tomorrow + 2.days + 10.hours }
+    let(:past_time) { Time.zone.yesterday + 10.hours }
+
+    let!(:upcoming_meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: Time.zone.tomorrow + 1.day + 10.hours)
+             start_time: upcoming_time,
+             recurrence_start_time: upcoming_time)
     end
 
-    let!(:cancelled_scheduled_meeting) do
-      create(:scheduled_meeting,
-             :cancelled,
+    let!(:cancelled_meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: Time.zone.tomorrow + 2.days + 10.hours)
+             start_time: cancelled_time,
+             recurrence_start_time: cancelled_time,
+             state: :cancelled)
     end
 
-    let!(:past_scheduled_meeting) do
-      create(:scheduled_meeting,
+    let!(:past_meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: Time.zone.yesterday + 10.hours)
+             start_time: past_time,
+             recurrence_start_time: past_time)
     end
 
     let(:update_service_instance) { instance_double(RecurringMeetings::UpdateService) }
@@ -149,64 +154,23 @@ RSpec.describe RecurringMeetings::EndService, type: :model do
         .and_return(ServiceResult.success)
     end
 
-    it "removes upcoming scheduled meetings" do
+    it "removes upcoming occurrence meetings" do
       expect { service.call }
-        .to change { recurring_meeting.scheduled_meetings.upcoming.count }
+        .to change { recurring_meeting.meetings.not_templated.where(recurrence_start_time: Time.current..).count }
         .from(2).to(0)
     end
 
-    it "does not remove past scheduled meetings" do
+    it "does not remove past occurrence meetings" do
       expect { service.call }
-        .not_to change { recurring_meeting.scheduled_meetings.past.count }
+        .not_to change { recurring_meeting.meetings.not_templated.where(recurrence_start_time: ...Time.current).count }
     end
 
-    it "removes both persisted and cancelled upcoming meetings" do
+    it "removes both instantiated and cancelled upcoming meetings" do
       service.call
 
-      expect { upcoming_scheduled_meeting.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { cancelled_scheduled_meeting.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { past_scheduled_meeting.reload }.not_to raise_error
-    end
-  end
-
-  describe "future occurrences removal" do
-    let!(:future_occurrence) do
-      create(:scheduled_meeting,
-             :persisted,
-             recurring_meeting:,
-             start_time: Time.zone.tomorrow + 1.day + 10.hours)
-    end
-
-    let!(:past_occurrence) do
-      create(:scheduled_meeting,
-             recurring_meeting:,
-             start_time: Time.zone.yesterday + 10.hours)
-    end
-
-    let(:update_service_instance) { instance_double(RecurringMeetings::UpdateService) }
-
-    before do
-      allow(RecurringMeetings::UpdateService)
-        .to receive(:new)
-              .with(model: recurring_meeting, user: user, contract_class: RecurringMeetings::EndSeriesContract)
-              .and_return(update_service_instance)
-      allow(update_service_instance)
-        .to receive(:call)
-              .with(end_after: "specific_date", end_date: Time.zone.yesterday)
-              .and_return(ServiceResult.success)
-    end
-
-    it "removes upcoming scheduled instances only" do
-      expect { service.call }
-        .to change { recurring_meeting.scheduled_instances.count }
-              .from(1).to(0)
-    end
-
-    it "removes future occurrences but not past ones" do
-      service.call
-
-      expect { future_occurrence.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { past_occurrence.reload }.not_to raise_error
+      expect { upcoming_meeting.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { cancelled_meeting.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { past_meeting.reload }.not_to raise_error
     end
   end
 

@@ -24,7 +24,7 @@ end
 
 After that you first need to bundle the application with `bundle install`.
 
-The plugin is now known in the OpenProject application, but their frontends are not linked. For development, before you run any `webpack`  or `CLI` commands, execute this rake task:
+The plugin is now known in the OpenProject application, but their frontends are not linked. For development, before you run any frontend build or `CLI` commands, execute this rake task:
 
 
 

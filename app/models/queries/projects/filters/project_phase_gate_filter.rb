@@ -54,7 +54,7 @@ class Queries::Projects::Filters::ProjectPhaseGateFilter < Queries::Projects::Fi
   end
 
   def initialize(name, options = {})
-    @project_phase_gate = name.match(self.class.key)[:gate]
+    @project_phase_gate = name.match(key)[:gate]
 
     super
   end

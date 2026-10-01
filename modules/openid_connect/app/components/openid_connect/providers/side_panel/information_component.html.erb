@@ -9,7 +9,7 @@
       end
 
       collection.with_component(
-        OpPrimer::CopyToClipboardComponent.new(provider.slug, scheme: :input)
+        OpPrimer::CopyToClipboardComponent.new(provider.slug, scheme: :value)
       )
 
       collection.with_component(Primer::Beta::Heading.new(tag: :h5, mt: 4, mb: 1)) do
@@ -17,7 +17,7 @@
       end
 
       collection.with_component(
-        OpPrimer::CopyToClipboardComponent.new(provider.callback_url, scheme: :input)
+        OpPrimer::CopyToClipboardComponent.new(provider.callback_url, scheme: :value)
       )
 
       collection.with_component(Primer::Beta::Heading.new(tag: :h5, mt: 4, mb: 1)) do
@@ -25,7 +25,7 @@
       end
 
       collection.with_component(
-        OpPrimer::CopyToClipboardComponent.new(provider.backchannel_logout_url, scheme: :input)
+        OpPrimer::CopyToClipboardComponent.new(provider.backchannel_logout_url, scheme: :value)
       )
     end
   end

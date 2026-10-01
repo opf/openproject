@@ -49,10 +49,20 @@ module Grids
         }
       }
 
+      renders_one :counter, ->(**system_arguments) do
+        system_arguments[:ml] ||= 2
+        system_arguments[:scheme] ||= :primary
+        system_arguments[:round] = true unless system_arguments.key?(:round)
+
+        Primer::Beta::Counter.new(**system_arguments)
+      end
+
+      # @param attribute_label [Hash, nil] Optional args for AttributeLabelComponent (model:, attribute:, current_user:)
       # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
-      def initialize(title:, **system_arguments)
+      def initialize(title:, attribute_label: nil, **system_arguments)
         super()
         @title = title
+        @attribute_label_args = attribute_label
         @system_arguments = system_arguments
         @system_arguments[:tag] = :header
         @system_arguments[:id] ||= self.class.generate_id

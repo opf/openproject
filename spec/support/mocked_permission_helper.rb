@@ -135,7 +135,7 @@ module MockedPermissionHelper
       next true if permission_mock.admin_allowed_to?(permissions)
 
       permission_names = permissions.map(&:name)
-      projects.all? do |project|
+      projects.any? && projects.all? do |project|
         permission_mock.permitted_entities[project].intersect?(permission_names)
       end
     end

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -93,7 +93,7 @@ export class PathHelperService {
   }
 
   public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
-    let path = `${this.projectPath(projectIdentifier)}/bcf/details/${workPackageId}`;
+    let path = `${this.projectPath(projectIdentifier)}/bcf/details/${workPackageId}/overview`;
 
     if (viewpoint !== null) {
       path += `?query_props=%7B"t"%3A"id%3Adesc"%2C"dr"%3A"splitCards"%7D&viewpoint=${viewpoint.toString()}`;
@@ -245,6 +245,10 @@ export class PathHelperService {
 
   public newBoardsPath(projectIdentifier:string|null) {
     return `${this.boardsPath(projectIdentifier)}/new`;
+  }
+
+  public boardDetailsPath(projectIdentifier:string|null, boardId:string|number, workPackageId:string|number) {
+    return `${this.boardsPath(projectIdentifier)}/${boardId}/details/${workPackageId}`;
   }
 
   public projectDashboardsPath(projectIdentifier:string) {
@@ -407,6 +411,12 @@ export class PathHelperService {
     return `${this.workPackagesPath(null)}/bulk`;
   }
 
+  public workPackagesBulkDeleteDialogPath(ids:string[], backUrl?:string) {
+    const params = ids.map((id) => `ids[]=${encodeURIComponent(id)}`).join('&');
+    const backParam = backUrl ? `&back_url=${encodeURIComponent(backUrl)}` : '';
+    return `${this.workPackagesPath(null)}/bulk/delete_dialog?${params}${backParam}`;
+  }
+
   public workPackagesBulkReassignmentPath() {
     return `${this.workPackagesPath(null)}/bulk/reassign`;
   }
@@ -461,5 +471,20 @@ export class PathHelperService {
 
   public externalRedirectPath(url:string) {
     return `${this.staticBase}/external_redirect?url=${encodeURIComponent(url)}`;
+  }
+
+  public wikiPageLinkMacro(providerId:string, pageIdentifier:string, turboFrameId:string) {
+    const providerIdQuery = `provider_id=${encodeURIComponent(providerId)}`;
+    const pageIdentifierQuery = `page_identifier=${encodeURIComponent(pageIdentifier)}`;
+    const frameIdQuery = `turbo_frame_id=${encodeURIComponent(turboFrameId)}`;
+    return `${this.staticBase}/wiki_page_link_macro/load?${providerIdQuery}&${pageIdentifierQuery}&${frameIdQuery}`;
+  }
+
+  public openExistingWikiPageDialog() {
+    return `${this.staticBase}/wiki_page_link_macro/existing_page_dialog`;
+  }
+
+  public openNewWikiPageDialog() {
+    return `${this.staticBase}/wiki_page_link_macro/new_page_dialog`;
   }
 }

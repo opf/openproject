@@ -21,69 +21,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Observable } from 'rxjs';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AbstractTurboWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-turbo-widget.component';
 
 @Component({
+  selector: 'op-project-status-widget',
   templateUrl: './project-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    WorkPackageViewHighlightingService,
-    IsolatedQuerySpace,
-    HalResourceEditingService,
-  ],
   standalone: false,
 })
-export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
-  @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
-
-  public currentStatusCode = 'not set';
-
-  public explanation = '';
-
-  public project$:Observable<ProjectResource>;
-
-  constructor(protected readonly i18n:I18nService,
-    protected readonly injector:Injector,
-    protected readonly apiV3Service:ApiV3Service,
-    protected readonly currentProject:CurrentProjectService,
-    protected readonly cdRef:ChangeDetectorRef) {
-    super(i18n, injector);
-  }
-
-  ngOnInit():void {
-    if (this.currentProject.id) {
-      this.project$ = this
-        .apiV3Service
-        .projects
-        .id(this.currentProject.id)
-        .get();
-      this.cdRef.detectChanges();
-    }
-  }
-
-  public get isEditable():boolean {
-    return false;
-  }
+export class WidgetProjectStatusComponent extends AbstractTurboWidgetComponent {
+  override frameId = 'grids-widgets-project-status';
+  override name = 'project_status';
 }

@@ -1,41 +1,42 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { DialogPreviewController } from '../dialog/preview.controller';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import type { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   debounce,
   DebouncedFunc,
-} from 'lodash';
+} from 'lodash-es';
+import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class PreviewController extends DialogPreviewController {
+  static services:ServiceKey[] = ['timezone'];
+
   static values = {
     dateMode: String,
     triggeringField: String,
@@ -46,7 +47,8 @@ export default class PreviewController extends DialogPreviewController {
   declare triggeringFieldValue:string;
   declare scheduleManuallyValue:boolean;
 
-  private timezoneService:TimezoneService;
+  declare timezone:TimezoneService;
+
   private highlightedField:HTMLInputElement|null = null;
 
   // The field values currently used by the controller
@@ -62,7 +64,11 @@ export default class PreviewController extends DialogPreviewController {
   private debouncedDelayedPreview:DebouncedFunc<(input:HTMLInputElement) => void>;
   private debouncedImmediatePreview:DebouncedFunc<(input:HTMLInputElement) => void>;
 
-  async connect() {
+  initialize() {
+    useAngularServices(this);
+  }
+
+  connect() {
     // if the debounce value is changed, the following test helper must be kept
     // in sync: `spec/support/edit_fields/progress_edit_field.rb`, method `#wait_for_preview_to_complete`
     this.debouncedDelayedPreview = debounce((input:HTMLInputElement) => {
@@ -74,10 +80,11 @@ export default class PreviewController extends DialogPreviewController {
 
     this.readInitialValues();
     super.connect();
+  }
 
-    const context = await window.OpenProject.getPluginContext();
-    this.timezoneService = context.services.timezone;
-
+  // The flatpickr listener reads the timezone service synchronously, so it may
+  // only start listening once the service is bound.
+  servicesConnected() {
     document.addEventListener('date-picker:flatpickr-dates-changed', this.handleFlatpickrDatesChangedBound);
     this.focusOnOpen();
   }
@@ -250,7 +257,7 @@ export default class PreviewController extends DialogPreviewController {
   }
 
   private updateFlatpickrCalendar() {
-    const dates:Date[] = _.compact([this.currentStartDate, this.currentDueDate]);
+    const dates:Date[] = [this.currentStartDate, this.currentDueDate].filter((x):x is NonNullable<typeof x> => Boolean(x));
     const ignoreNonWorkingDays = this.currentIgnoreNonWorkingDays;
     const mode = this.mode();
 
@@ -266,14 +273,14 @@ export default class PreviewController extends DialogPreviewController {
   }
 
   private lastClickedDate(changedDates:Date[]):Date|null {
-    const flatPickrDates = this.timezoneService.utcDatesToISODateStrings(changedDates);
+    const flatPickrDates = this.timezone.utcDatesToISODateStrings(changedDates);
     if (flatPickrDates.length === 1) {
       return this.toDate(flatPickrDates[0]);
     }
 
-    const fieldDates = _.compact([this.currentStartDate, this.currentDueDate])
-                        .map((date) => this.timezoneService.utcDateToISODateString(date));
-    const diff = _.difference(flatPickrDates, fieldDates);
+    const fieldDates = [this.currentStartDate, this.currentDueDate].filter((x):x is NonNullable<typeof x> => Boolean(x))
+                        .map((date) => this.timezone.utcDateToISODateString(date));
+    const diff = flatPickrDates.filter((date) => !fieldDates.includes(date));
     return this.toDate(diff[0]);
   }
 
@@ -416,7 +423,7 @@ export default class PreviewController extends DialogPreviewController {
     if (targetFieldID) {
       const inputField = document.getElementById(targetFieldID);
       if (inputField) {
-        (inputField as HTMLInputElement).value = this.timezoneService.utcDateToISODateString(new Date(Date.now()));
+        (inputField as HTMLInputElement).value = this.timezone.utcDateToISODateString(new Date(Date.now()));
         inputField.dispatchEvent(new Event('input'));
       }
     }
@@ -424,7 +431,7 @@ export default class PreviewController extends DialogPreviewController {
 
   private datetoIso(date:Date|null):string {
     if (date) {
-      return this.timezoneService.utcDateToISODateString(date);
+      return this.timezone.utcDateToISODateString(date);
     }
     return '';
   }
@@ -534,14 +541,16 @@ export default class PreviewController extends DialogPreviewController {
   }
 
   private focusOnOpen() {
-    const banner = document.querySelector('.wp-datepicker--banner') as HTMLElement;
+    const banner = document.querySelector<HTMLElement>('.wp-datepicker--banner');
     if (banner) {
       banner.setAttribute('tabindex', '-1');
       banner.focus();
     } else {
-      const tabs = document.querySelector('.wp-datepicker-dialog--UnderlineNav') as HTMLElement;
-      tabs.setAttribute('tabindex', '-1');
-      tabs.focus();
+      const tabs = document.querySelector<HTMLElement>('.wp-datepicker-dialog--UnderlineNav');
+      if (tabs) {
+        tabs.setAttribute('tabindex', '-1');
+        tabs.focus();
+      }
     }
   }
 }

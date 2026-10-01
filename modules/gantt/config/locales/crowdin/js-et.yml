@@ -1,6 +1,7 @@
+---
 et:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt diagrammiid"
       default_queries:
-        milestones: 'Eesmärgid'
+        milestones: Eesmärgid
+      label_gantt_chart_plural: Gantt diagrammiid

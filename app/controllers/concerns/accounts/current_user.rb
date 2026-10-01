@@ -101,7 +101,7 @@ module Accounts::CurrentUser
   end
 
   def current_api_key_user
-    return unless Setting.rest_api_enabled? && api_request?
+    return unless Setting.api_tokens_enabled? && api_request?
 
     key = api_key_from_request
 
@@ -165,15 +165,12 @@ module Accounts::CurrentUser
           # but ONLY for html requests to avoid double-resetting sessions
           reset_session
 
-          redirect_to main_app.signin_path(back_url: login_back_url)
+          redirect_to main_app.signin_path(signin_params)
         end
-
-        auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(request_headers: request.headers)
 
         format.any(:xml, :js, :json, :turbo_stream) do
           head :unauthorized,
-               "X-Reason" => "login needed",
-               "WWW-Authenticate" => auth_header
+               "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header(env: request.env)
         end
 
         format.all { head :not_acceptable }
@@ -187,5 +184,17 @@ module Accounts::CurrentUser
     return unless require_login
 
     render_403 unless current_user.admin?
+  end
+
+  def signin_params
+    back_url = login_back_url
+
+    # Do not pass home path as a back_url
+    # as we want after_login_default_redirect_url to take effect
+    if back_url == home_url
+      {}
+    else
+      { back_url: }
+    end
   end
 end

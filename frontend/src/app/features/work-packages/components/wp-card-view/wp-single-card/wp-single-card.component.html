@@ -4,6 +4,7 @@
   data-tour-selector="op-wp-single-card"
   role="button"
   tabindex="0"
+  data-draggable-surface
   [attr.data-qa-draggable]="draggable || undefined"
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
@@ -83,7 +84,7 @@
         [ngClass]="uiStateLinkClass"
         (click)="emitStateLinkClicked($event, workPackage)"
         >
-        #{{workPackage.id}}
+        {{workPackage.formattedId}}
       </a>
       <span class="op-wp-single-card--content-subject-line">
         @if (showAsInlineCard && showStartDate) {

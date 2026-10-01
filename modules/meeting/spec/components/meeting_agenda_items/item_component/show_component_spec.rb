@@ -50,7 +50,7 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
              author: user)
     end
     let(:meeting) do
-      create(:meeting,
+      create(:recurring_meeting_occurrence,
              project:,
              recurring_meeting: series,
              start_time: meeting_start_time,
@@ -117,7 +117,7 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
 
     context "when viewing the last occurrence of a series" do
       let(:meeting) do
-        create(:meeting,
+        create(:recurring_meeting_occurrence,
                project:,
                recurring_meeting: series,
                start_time: 2.weeks.from_now,
@@ -132,7 +132,7 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
 
     context "when viewing an occurrence with future occurrences" do
       let(:meeting) do
-        create(:meeting,
+        create(:recurring_meeting_occurrence,
                project:,
                recurring_meeting: series,
                start_time: 1.week.from_now,

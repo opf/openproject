@@ -40,6 +40,10 @@ module Queries::Filters::Shared::ProjectFilter::Optional
       @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
     end
 
+    def value_objects
+      Project.visible.where(id: values)
+    end
+
     def type
       :list_optional
     end
@@ -50,6 +54,14 @@ module Queries::Filters::Shared::ProjectFilter::Optional
       # will then simply create an empty result but will not cause any
       # harm.
       @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+    end
+
+    def autocomplete_options
+      {
+        component: "opce-project-autocompleter",
+        resource: "projects",
+        filters: [{ name: "active", operator: "=", values: ["t"] }]
+      }
     end
   end
 

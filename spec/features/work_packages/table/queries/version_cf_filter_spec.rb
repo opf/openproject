@@ -36,7 +36,7 @@ RSpec.describe "Work package filtering by version custom field", :js do
 
   shared_let(:project) { create(:project) }
   shared_let(:inaccessible_project) { create(:project) }
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
   shared_let(:version_cf1) do
     create(
       :version_wp_custom_field,

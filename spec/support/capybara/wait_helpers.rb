@@ -54,6 +54,206 @@ module WaitHelpers
       raise Capybara::ExpectationNotMet, "Animation not finished" unless initial_position == final_position
     end
   end
+
+  # Executes the given block and waits for a Turbo Stream to be rendered.
+  #
+  # Registers a listener for `op:turbo-stream-rendered` BEFORE the block runs,
+  # avoiding the race where the stream renders before the listener is attached.
+  # Trigger the stream from inside the block.
+  #
+  # @example
+  #   wait_for_turbo_stream { click_on "Save" }
+  #   expect(page).to have_text("Saved")
+  #
+  # @param wait [Integer, true, false, nil] seconds to wait; +true+ uses
+  #   Capybara's default wait time, a falsey value skips the wait and just runs the block
+  # @yield the actions that trigger the Turbo Stream
+  # @return [Object] the block's return value
+  def wait_for_turbo_stream(wait: Capybara.default_max_wait_time, &)
+    wait_for_browser_event("op:turbo-stream-rendered", wait:, &)
+  end
+
+  # Executes the given block and waits for a Turbo Drive navigation to complete.
+  #
+  # Registers a listener for `turbo:load` BEFORE the block runs, avoiding the
+  # race where the navigation completes before the listener is attached.
+  # Trigger the navigation from inside the block.
+  #
+  # @example
+  #   wait_for_turbo { click_on "Save" }
+  #   expect(page).to have_text("Saved")
+  #
+  # @param wait [Integer, true, false, nil] seconds to wait; +true+ uses
+  #   Capybara's default wait time, a falsey value skips the wait and just runs the block
+  # @yield the actions that trigger the navigation
+  # @return [Object] the block's return value
+  def wait_for_turbo(wait: Capybara.default_max_wait_time, &)
+    wait_for_browser_event("turbo:load", wait:, &)
+  end
+
+  # Executes the given block and waits for a Turbo Frame navigation to complete.
+  #
+  # Registers a listener for `turbo:frame-load` BEFORE the block runs, avoiding
+  # the race where the frame loads before the listener is attached. Trigger the
+  # frame load from inside the block.
+  #
+  # @example
+  #   wait_for_turbo_frame { click_on "Remove column" }
+  #   wait_for_turbo_frame(frame: "backlogs_container") { drop_card }
+  #
+  # @param frame [String, Symbol, nil] when given, only a turbo:frame-load whose
+  #   target element has this id satisfies the wait; otherwise the first frame
+  #   load of any frame satisfies it
+  # @param wait [Integer, true, false, nil] seconds to wait; +true+ uses
+  #   Capybara's default wait time, a falsey value skips the wait and just runs the block
+  # @yield the actions that trigger the frame load
+  # @return [Object] the block's return value
+  def wait_for_turbo_frame(frame: nil, wait: Capybara.default_max_wait_time, &)
+    wait_for_browser_event("turbo:frame-load", target_id: frame&.to_s, wait:, &)
+  end
+
+  # Arms a one-shot reload probe for the Turbo frame with `frame_id`.
+  #
+  # The listener latches the probe state when the named frame loads. Each call
+  # resets that state and attaches a fresh one-shot listener, so callers can
+  # re-arm the probe before every action they want to observe.
+  #
+  # @param frame_id [String, Symbol] the DOM id of the Turbo frame to observe
+  # @raise [Capybara::ElementNotFound] if no Turbo frame has `frame_id`
+  # @return [nil] after successfully arming the probe
+  def install_turbo_frame_reload_probe(frame_id)
+    frame_id = frame_id.to_s
+    installed = page.evaluate_script(<<~JS, frame_id)
+      (() => {
+        const frameId = arguments[0];
+        const frame = document.getElementById(frameId);
+
+        if (!frame || frame.tagName !== "TURBO-FRAME") { return false; }
+
+        const probes = (window.__opTurboFrameReloadProbes ||= {});
+        probes[frameId] = false;
+        const onFrameLoad = (event) => {
+          if (event.target !== frame) { return; }
+
+          probes[frameId] = true;
+          frame.removeEventListener("turbo:frame-load", onFrameLoad);
+        };
+        frame.addEventListener("turbo:frame-load", onFrameLoad);
+        return true;
+      })()
+    JS
+
+    return if installed
+
+    raise Capybara::ElementNotFound,
+          "Unable to install Turbo frame reload probe: no turbo-frame##{frame_id}"
+  end
+
+  # Waits for a possible reload and expects the named frame's probe to remain unset.
+  #
+  # The browser-side timer waits `wait` seconds before reporting an unchanged
+  # probe. Capybara caps async scripts at its current maximum wait time, so the
+  # outer budget must exceed that timer. The five-second headroom prevents
+  # Selenium from racing the callback and raising `ScriptTimeoutError` in CI.
+  #
+  # @param frame_id [String, Symbol] the DOM id used to install the probe
+  # @param wait [Numeric] seconds to wait for a possible frame reload
+  # @raise [Capybara::ExpectationNotMet] if no probe is installed for `frame_id`
+  # @raise [RSpec::Expectations::ExpectationNotMetError] if the frame reloaded
+  # @return [nil] after the probe remains unset for the wait period
+  def expect_turbo_frame_not_reloaded(frame_id, wait: Capybara.default_max_wait_time)
+    frame_id = frame_id.to_s
+    result = Capybara.using_wait_time(wait + 5) do
+      page.evaluate_async_script(<<~JS, frame_id, wait * 1000)
+        const [frameId, timeoutMs] = arguments;
+        const done = arguments[arguments.length - 1];
+        const probes = window.__opTurboFrameReloadProbes || {};
+
+        if (!Object.prototype.hasOwnProperty.call(probes, frameId)) {
+          done({ installed: false, reloaded: false });
+        } else if (probes[frameId]) {
+          done({ installed: true, reloaded: true });
+        } else {
+          setTimeout(
+            () => done({ installed: true, reloaded: probes[frameId] === true }),
+            timeoutMs
+          );
+        }
+      JS
+    end
+
+    unless result.fetch("installed")
+      raise Capybara::ExpectationNotMet,
+            "No Turbo frame reload probe installed for ##{frame_id}"
+    end
+
+    expect(result.fetch("reloaded")).to be(false)
+    nil
+  end
+
+  private
+
+  # Shared implementation for the +wait_for_turbo*+ helpers.
+  #
+  # Registers a one-shot listener for +event_name+ before running the block,
+  # then blocks until the event fires or raises on timeout. Driver-agnostic:
+  # works under both Cuprite and Selenium.
+  #
+  # @param event_name [String] the DOM event to wait for
+  # @param wait [Integer, true, false, nil] seconds to wait; +true+ uses
+  #   Capybara's default wait time, a falsey value skips the wait and just runs the block
+  # @param target_id [String, nil] when set, only an event whose target element
+  #   has this id satisfies the wait
+  # @yield the actions that trigger the event
+  # @return [Object] the block's return value
+  def wait_for_browser_event(event_name, wait: Capybara.default_max_wait_time, target_id: nil, &block)
+    return block ? yield : nil unless wait
+
+    timeout = wait == true ? Capybara.default_max_wait_time : wait
+    description = target_id ? "'#{event_name}' on frame '#{target_id}'" : "'#{event_name}'"
+    timeout_message = "Timed out after #{timeout}s waiting for #{description}"
+    # A unique key per call keeps nested wait_for_turbo* calls from clobbering
+    # each other's pending promise on the shared window registry.
+    key = SecureRandom.hex(8)
+
+    page.execute_script(<<~JS, key, event_name, timeout * 1000, target_id)
+      const [key, eventName, timeoutMs, targetId] = arguments;
+      (window.__opAwaitedBrowserEvents ||= {})[key] = new Promise((resolve, reject) => {
+        const handler = (event) => {
+          if (targetId && !(event.target instanceof Element && event.target.id === targetId)) { return; }
+          clearTimeout(timer);
+          document.removeEventListener(eventName, handler);
+          resolve(true);
+        };
+        const timer = setTimeout(() => {
+          document.removeEventListener(eventName, handler);
+          reject(new Error(#{timeout_message.to_json}));
+        }, timeoutMs);
+        document.addEventListener(eventName, handler);
+      });
+      // Mark the promise handled so that, if the block raises before we await
+      // it below, the eventual timeout rejection is not an unhandled rejection.
+      window.__opAwaitedBrowserEvents[key].catch(() => {});
+    JS
+
+    block_result = yield
+
+    result = page.evaluate_async_script(<<~JS, key)
+      const key = arguments[0];
+      const done = arguments[arguments.length - 1];
+      window.__opAwaitedBrowserEvents[key].then(() => {
+        delete window.__opAwaitedBrowserEvents[key];
+        done({ success: true });
+      }).catch((e) => {
+        delete window.__opAwaitedBrowserEvents[key];
+        done({ success: false, error: e.message });
+      });
+    JS
+
+    raise result["error"] if result.is_a?(Hash) && !result["success"]
+
+    block_result
+  end
 end
 
 RSpec.configure do |config|

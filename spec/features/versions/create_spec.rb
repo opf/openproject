@@ -75,7 +75,7 @@ RSpec.describe "version create", :js do
       it "I can create a version with a custom field value including validation" do
         visit project_settings_versions_path(project)
 
-        click_on "Version"
+        page.find_test_selector("versions-create-button").click
 
         expect(page).to have_text("New version")
 
@@ -86,7 +86,7 @@ RSpec.describe "version create", :js do
 
         # Should stay on the form page and show validation error
         expect(page).to have_text("New version")
-        expect(page).to have_css(".Banner--error", text: /Release Notes can't be blank./)
+        expect(page).to have_field(custom_field.name, with: "", validation_error: "Value can't be blank")
 
         fill_in custom_field.name, with: "Bug fixes and improvements"
 

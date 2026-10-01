@@ -116,4 +116,79 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
       expect(response.response_code).to eq(405)
     end
   end
+
+  describe "brute force protection",
+           with_settings: {
+             "plugin_openproject_two_factor_authentication" => { active_strategies: %i[developer totp] },
+             brute_force_block_after_failed_logins: 5,
+             brute_force_block_minutes: 30
+           } do
+    let!(:device) { create(:two_factor_authentication_device_totp, user:, channel: :totp) }
+
+    before do
+      session[:authenticated_user_id] = user.id
+    end
+
+    describe "POST confirm_otp with an invalid token" do
+      before do
+        post :confirm_otp, params: { otp: "000000" }
+      end
+
+      it "increments the failed_login_count" do
+        expect(user.reload.failed_login_count).to eq 1
+      end
+
+      it "redirects to the stage failure path" do
+        expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
+      end
+    end
+
+    describe "POST confirm_otp when the user is already brute-force-blocked" do
+      before do
+        user.update!(failed_login_count: 5, last_failed_login_on: Time.zone.now)
+        post :confirm_otp, params: { otp: "000000" }
+      end
+
+      it "redirects to the stage failure path" do
+        expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
+      end
+
+      it "sets the blocked error message" do
+        expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
+      end
+
+      it "does not increment failed_login_count further" do
+        expect(user.reload.failed_login_count).to eq 5
+      end
+    end
+
+    describe "POST verify_backup_code with an invalid code" do
+      before do
+        post :verify_backup_code, params: { backup_code: "invalid-backup-code" }
+      end
+
+      it "increments the failed_login_count" do
+        expect(user.reload.failed_login_count).to eq 1
+      end
+
+      it "redirects to the stage failure path" do
+        expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
+      end
+    end
+
+    describe "POST verify_backup_code when the user is already brute-force-blocked" do
+      before do
+        user.update!(failed_login_count: 5, last_failed_login_on: Time.zone.now)
+        post :verify_backup_code, params: { backup_code: "any-code" }
+      end
+
+      it "redirects to the stage failure path" do
+        expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
+      end
+
+      it "sets the blocked error message" do
+        expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
+      end
+    end
+  end
 end

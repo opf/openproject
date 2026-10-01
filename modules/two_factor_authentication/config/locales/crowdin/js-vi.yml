@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 vi:
   js:
     two_factor_authentication:
       errors:
-        aborted: "Việc xác thực đã bị hủy. Vui lòng thử lại."
+        aborted: Việc xác thực đã bị hủy. Vui lòng thử lại.

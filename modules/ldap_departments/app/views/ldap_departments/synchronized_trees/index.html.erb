@@ -1,0 +1,38 @@
+<% html_title(t(:label_administration), t("ldap_departments.synchronized_trees.plural")) -%>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { I18n.t("ldap_departments.synchronized_trees.plural") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_settings_authentication_path, text: t(:label_authentication) },
+       I18n.t("ldap_departments.synchronized_trees.plural")]
+    )
+  end
+%>
+
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_action_button(
+        tag: :a,
+        href: new_ldap_departments_synchronized_tree_path,
+        scheme: :primary,
+        leading_icon: :plus,
+        disabled: !EnterpriseToken.allows_to?(:ldap_groups),
+        label: I18n.t("ldap_departments.synchronized_trees.add_new")
+      ) do
+        I18n.t("ldap_departments.synchronized_trees.add_new")
+      end
+    end %>
+
+<%= render EnterpriseEdition::BannerComponent.new(:ldap_groups, variant: :inline, i18n_scope: "ee.upsell.ldap_departments") %>
+
+<div class="op-toast -info">
+  <div class="op-toast--content">
+    <strong><%= t("note") %></strong>
+    <%= t("ldap_departments.synchronized_trees.help_text") %>
+  </div>
+</div>
+
+<%= render(Primer::Box.new(mt: 3)) do %>
+  <%= render(LdapDepartments::SynchronizedTrees::TableComponent.new(rows: @trees)) %>
+<% end %>

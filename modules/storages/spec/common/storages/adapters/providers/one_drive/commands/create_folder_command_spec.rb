@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Commands
-          RSpec.describe CreateFolderCommand, :webmock do
+          RSpec.describe CreateFolderCommand, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage) }
             let(:auth_strategy) { Registry.resolve("one_drive.authentication.userless").call }
             let(:input_data) { Input::CreateFolder.build(folder_name:, parent_location:).value! }
@@ -46,7 +46,7 @@ module Storages
             context "when creating a folder in the root", vcr: "one_drive/create_folder_root" do
               let(:folder_name) { "Földer CreatedBy Çommand" }
               let(:parent_location) { "/" }
-              let(:path) { "/F%C3%B6lder%20CreatedBy%20%C3%87ommand" }
+              let(:path) { "/Földer CreatedBy Çommand" }
 
               it_behaves_like "adapter create_folder_command: successful folder creation"
             end
@@ -54,7 +54,7 @@ module Storages
             context "when creating a folder in a parent folder", vcr: "one_drive/create_folder_parent" do
               let(:folder_name) { "Földer CreatedBy Çommand" }
               let(:parent_location) { "01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU" }
-              let(:path) { "/Folder%20with%20spaces/F%C3%B6lder%20CreatedBy%20%C3%87ommand" }
+              let(:path) { "/Folder with spaces/Földer CreatedBy Çommand" }
 
               it_behaves_like "adapter create_folder_command: successful folder creation"
             end

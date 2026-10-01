@@ -36,6 +36,12 @@ RSpec.describe AddViewAllPrincipalsPermissionToExistingRoles, type: :model do
   let(:regular_user) { create(:user) }
   let(:project) { create(:project) }
 
+  def migrate
+    perform_enqueued_jobs do
+      ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+    end
+  end
+
   describe "up migration" do
     context "when global roles have manage_user permission" do
       let(:global_role) { create(:global_role, name: "Staff Manager") }
@@ -67,7 +73,7 @@ RSpec.describe AddViewAllPrincipalsPermissionToExistingRoles, type: :model do
         expect(GlobalRole.find_by(name: "View all users (migration)")).to be_nil
         expect(user_with_manage_members.members.where(project: nil)).to be_empty
 
-        ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+        migrate
 
         migration_role = GlobalRole.find_by(name: "View all users (migration)")
         expect(migration_role).to be_present
@@ -79,10 +85,10 @@ RSpec.describe AddViewAllPrincipalsPermissionToExistingRoles, type: :model do
       end
 
       it "does not duplicate assignments for users already having the global role" do
-        ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+        migrate
 
         # Run migration again
-        ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+        migrate
 
         migration_role = GlobalRole.find_by(name: "View all users (migration)")
         user_with_manage_members.reload
@@ -106,7 +112,7 @@ RSpec.describe AddViewAllPrincipalsPermissionToExistingRoles, type: :model do
       end
 
       it "assigns the global role only once per user" do
-        ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+        migrate
 
         migration_role = GlobalRole.find_by(name: "View all users (migration)")
         user_with_multiple_projects.reload
@@ -196,7 +202,7 @@ RSpec.describe AddViewAllPrincipalsPermissionToExistingRoles, type: :model do
       end
 
       it "assigns the migration global role even if user already has view_all_users via global role" do
-        ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+        migrate
 
         migration_role = GlobalRole.find_by(name: "View all users (migration)")
         user_with_both.reload

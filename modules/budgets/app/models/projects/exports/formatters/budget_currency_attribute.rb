@@ -45,11 +45,11 @@ module Projects::Exports::Formatters
     def format(project, **)
       return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
 
-      project_budgets = ::Budgets::Patches::Projects::RowComponentPatch::ProjectBudgets.new(project)
+      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
       budgets_attribute = BudgetCurrencyAttribute.budget_mapping.fetch(attribute.to_sym)
-      return unless project_budgets && budgets_attribute
+      return unless aggregation && budgets_attribute
 
-      project_budgets.public_send(budgets_attribute)
+      aggregation.public_send(budgets_attribute)
     end
 
     def format_options

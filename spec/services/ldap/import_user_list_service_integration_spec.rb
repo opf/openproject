@@ -32,6 +32,22 @@ RSpec.describe Ldap::ImportUsersFromListService do
     expect(user_cc414.lastname).to eq "Carpenter"
   end
 
+  context "with a required user custom field" do
+    let!(:custom_field) { create(:user_custom_field, :string, name: "Employee ID", is_required: true) }
+
+    it "still adds all three users, as LDAP cannot provide a value for the custom field" do
+      subject
+
+      expect(User.where(login: user_list).count).to eq 3
+    end
+
+    it "leaves the custom field empty" do
+      subject
+
+      expect(User.find_by(login: "aa729").custom_value_for(custom_field).value).to be_nil
+    end
+  end
+
   context "when two users already exist" do
     let!(:user_aa729) { create(:user, login: "aa729", firstname: "Foobar", lastname: "Bobbit", ldap_auth_source:) }
     let!(:user_bb459) { create(:user, login: "bb459", firstname: "Bla", lastname: "Bobbit", ldap_auth_source:) }

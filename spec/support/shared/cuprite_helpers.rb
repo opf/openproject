@@ -77,6 +77,24 @@ def clear_input_field_contents(input_element)
   input_element.native.node.type(*backspaces)
 end
 
+# Waits for CKEditor to be fully initialized.
+#
+# CKEditor is an Angular component (`opce-ckeditor-augmented-textarea`)
+# that initializes asynchronously after its container is inserted into the DOM
+# (e.g. via a Turbo Stream). The `.ck-content` element only appears once the
+# editor instance is fully created, so waiting for it is a reliable readiness signal.
+#
+# Uses a generous timeout because Angular bootstrap + CKEditor init can be slow on CI.
+#
+# @example
+#   wait_for_turbo_stream { description_field.open_field }
+#   wait_for_ckeditor
+#   wait_for_turbo_stream { description_field.fill_and_submit_value(...) }
+#
+def wait_for_ckeditor(wait: 20)
+  expect(page).to have_css(".ck-content", wait:)
+end
+
 def using_cuprite?
   Capybara.javascript_driver == :better_cuprite_en
 end

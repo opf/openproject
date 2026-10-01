@@ -20,34 +20,35 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 lt:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: "GitLab"
+      gitlab_pipelines: Sąsajos
       tab_header_issue:
-        title: "Problemos"
+        title: Problemos
       tab_header_mr:
-        title: "Suliejimo prašymai"
-        create_mr:
-          label: Kurti MR
-          description: Kurti suliejimo prašymą
         copy_menu:
-          label: Git fragmentai
           description: Kopijuoti git fragmentus į iškarpinę
+          label: Git fragmentai
+        create_mr:
+          description: Kurti suliejimo prašymą
+          label: Kurti MR
         git_actions:
           branch_name: Šakos pavadinimas
-          commit_message: Commit pranešimas
           cmd: Sukurti šaką su tuščiu commit pranešimu
+          commit_message: Commit pranešimas
+          copy_error: "❌ Kopijavimas nepavyko!"
+          copy_success: "✅ Nukopijuota!"
           title: Greiti Git fragmentai
-          copy_success: '✅ Nukopijuota!'
-          copy_error: '❌ Kopijavimas nepavyko!'
+        title: Suliejimo prašymai
       tab_issue:
-        empty: 'Dar nėra susietų problemų. Susiekite esamą problemą naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) problemos antraštėje/aprašyme, arba sukurkite naują problemą.'
+        empty: Dar nėra susietų problemų. Susiekite esamą problemą naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) problemos antraštėje/aprašyme, arba sukurkite naują problemą.
       tab_mrs:
-        empty: 'Dar nėra susietų suliejimo prašymų. Susiekite esamą MR naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) MR antraštėje/aprašyme arba sukurkite naują MR.'
-      gitlab_pipelines: Sąsajos
+        empty: Dar nėra susietų suliejimo prašymų. Susiekite esamą MR naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) MR antraštėje/aprašyme arba sukurkite naują MR.
       updated_on: Atnaujinta
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
-        gitlab: "GitLab"
+        gitlab: GitLab

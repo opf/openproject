@@ -32,7 +32,6 @@ module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
     using Storages::Peripherals::ServiceResultRefinements
     helpers Storages::Peripherals::StorageErrorHelper,
-            Storages::Peripherals::StorageFileInfoConverter,
             Storages::Peripherals::StorageParentFolderExtractor
 
     helpers do
@@ -43,7 +42,7 @@ module API::V3::StorageFiles
 
         case body.transform_keys(&:to_sym)
         in { projectId: project_id, fileName: file_name, parent: parent }
-          authorize_in_project(:manage_file_links, project: Project.find(project_id))
+          authorize_in_project(:manage_file_links, project: @storage.projects.find(project_id))
           ServiceResult.success(result: { folder_id: parent, file_name: })
         else
           raise API::Errors::BadRequest.new("Request body malformed!")
@@ -71,11 +70,11 @@ module API::V3::StorageFiles
         get do
           Storages::StorageFileService
             .call(storage: @storage, user: current_user, file_id: params[:file_id])
-            .map { |file_info| to_storage_file(file_info) }
+            .map { it.to_storage_file.value! }
             .match(
-              on_success: lambda { |storage_file|
+              on_success: lambda do |storage_file|
                 API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
-              },
+              end,
               on_failure: ->(error) { raise_service_result_error(error) }
             )
         end

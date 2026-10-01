@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Toggle watching", :js do
-  let(:project) { create(:project) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:role) { create(:project_role, permissions: %i[view_messages view_wiki_pages]) }
   let(:user) { create(:user, member_with_roles: { project => role }) }
   let(:news) { create(:news, project:) }
@@ -46,18 +46,41 @@ RSpec.describe "Toggle watching", :js do
 
   it "can toggle watch and unwatch" do
     # Work packages have a different toggle and are hence not considered here
-    [news_path(news),
-     project_forum_path(project, forum),
-     topic_path(message),
-     project_wiki_path(project, wiki_page)].each do |path|
-       visit path
-       click_link(I18n.t("button_watch"))
-       expect(page).to have_link(I18n.t("button_unwatch"))
+    [
+      project_news_path(project, news),
+      project_forum_path(project, forum),
+      project_forum_topic_path(project, forum, message)
+    ].each do |path|
+      visit path
+      click_link(I18n.t("button_watch"))
+      expect(page).to have_link(I18n.t("button_unwatch"))
 
-       wait_for_network_idle
+      wait_for_network_idle
 
-       click_link(I18n.t("button_unwatch"))
-       expect(page).to have_link(I18n.t("button_watch"))
-     end
+      click_link(I18n.t("button_unwatch"))
+      expect(page).to have_link(I18n.t("button_watch"))
+    end
+  end
+
+  it "can toggle watch and watch all from the menu" do
+    [
+      project_wiki_path(project, wiki_page)
+    ].each do |path|
+      visit path
+      page.find_test_selector("wiki-more-dropdown-menu").click
+      click_link(I18n.t("button_watch"))
+
+      wait_for_network_idle
+
+      page.find_test_selector("wiki-more-dropdown-menu").click
+      expect(page).to have_link(I18n.t("button_unwatch"))
+
+      click_link(I18n.t("button_unwatch"))
+
+      wait_for_network_idle
+
+      page.find_test_selector("wiki-more-dropdown-menu").click
+      expect(page).to have_link(I18n.t("button_watch"))
+    end
   end
 end

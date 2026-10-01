@@ -104,6 +104,15 @@ RSpec.describe ProjectCustomField do
       end
     end
 
+    context "when deleting a project custom field via section cascade" do
+      let(:section) { create(:project_custom_field_section) }
+      let!(:cf) { create(:project_custom_field, project_custom_field_section: section) }
+
+      it "does not raise an error when the section is destroyed with its fields" do
+        expect { section.destroy! }.not_to raise_error
+      end
+    end
+
     context "when deleting a project custom field" do
       let!(:project_custom_field) { create(:string_project_custom_field) }
       let!(:project) do
@@ -119,6 +128,35 @@ RSpec.describe ProjectCustomField do
         expect(ProjectCustomFieldProjectMapping).not_to exist(custom_field_id: project_custom_field.id,
                                                               project_id: project.id)
       end
+    end
+  end
+
+  describe "attribute_order integration" do
+    let(:section) { create(:project_custom_field_section) }
+
+    it "appends itself to the section's attribute_order on creation" do
+      cf = create(:project_custom_field, project_custom_field_section: section)
+      expect(section.reload.attribute_order).to include(cf.column_name)
+    end
+
+    it "orders fields by creation order when multiple are created" do
+      cf1 = create(:project_custom_field, project_custom_field_section: section)
+      cf2 = create(:project_custom_field, project_custom_field_section: section)
+      expect(section.reload.attribute_order).to eq([cf1.column_name, cf2.column_name])
+    end
+
+    it "removes itself from the section's attribute_order on destruction" do
+      cf = create(:project_custom_field, project_custom_field_section: section)
+      cf.destroy
+      expect(section.reload.attribute_order).not_to include(cf.column_name)
+    end
+
+    it "scopes positions per section (each section is independent)" do
+      other_section = create(:project_custom_field_section)
+      cf1 = create(:project_custom_field, project_custom_field_section: section)
+      cf2 = create(:project_custom_field, project_custom_field_section: other_section)
+      expect(section.reload.attribute_order).to eq([cf1.column_name])
+      expect(other_section.reload.attribute_order).to eq([cf2.column_name])
     end
   end
 

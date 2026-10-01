@@ -49,7 +49,7 @@ module API
           delegate :id, :name, to: :represented
 
           def attributes
-            represented.custom_fields.map do |cf|
+            represented.custom_fields_in_order.map do |cf|
               convert_property(cf.attribute_name)
             end
           end

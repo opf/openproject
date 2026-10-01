@@ -29,6 +29,8 @@
 require "spec_helper"
 
 RSpec.describe ProjectWebhookJob, :webmock, type: :job do
+  include_context "with ssrf stubs"
+
   shared_let(:request_url) { "http://example.net/test/42" }
   shared_let(:project) { create(:project, name: "Foo Bar") }
   shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
@@ -40,7 +42,7 @@ RSpec.describe ProjectWebhookJob, :webmock, type: :job do
     let(:stubbed_url) { request_url }
 
     let(:request_headers) do
-      { content_type: "application/json", accept: "application/json" }
+      { "Content-Type": "application/json", Accept: "application/json" }
     end
 
     let(:response_code) { 200 }
@@ -54,7 +56,7 @@ RSpec.describe ProjectWebhookJob, :webmock, type: :job do
     end
 
     let(:stub) do
-      stub_request(:post, stubbed_url.sub("http://", ""))
+      stub_request(:post, stubbed_url)
         .with(
           body: hash_including(
             "action" => event,
@@ -64,7 +66,7 @@ RSpec.describe ProjectWebhookJob, :webmock, type: :job do
               **expected_payload
             )
           ),
-          headers: request_headers
+          headers: request_headers.merge(host: "example.net")
         )
         .to_return(
           status: response_code,

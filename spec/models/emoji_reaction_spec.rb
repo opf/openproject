@@ -96,4 +96,27 @@ RSpec.describe EmojiReaction do
       expect(emoji_reaction.emoji).to eq("👍")
     end
   end
+
+  describe "stamping the reactable's reactions_changed_at" do
+    let(:work_package) { create(:work_package) }
+    let(:journal) { work_package.journals.last.tap(&:reload) }
+
+    it "records reaction additions without bumping updated_at" do
+      updated_at = journal.updated_at
+
+      expect { create(:emoji_reaction, reactable: journal, user: create(:user)) }
+        .to change { journal.reload.reactions_changed_at }.from(nil)
+      expect(journal.updated_at).to eq(updated_at)
+    end
+
+    it "records reaction removals without bumping updated_at" do
+      reaction = create(:emoji_reaction, reactable: journal, user: create(:user))
+      updated_at = journal.reload.updated_at
+
+      travel(1.second) do
+        expect { reaction.destroy }.to change { journal.reload.reactions_changed_at }
+      end
+      expect(journal.updated_at).to eq(updated_at)
+    end
+  end
 end

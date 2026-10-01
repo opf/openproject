@@ -48,7 +48,11 @@ RSpec.describe "Work Package table configuration modal columns spec", :js do
   context "When seeing the table" do
     it_behaves_like "add and remove columns"
 
-    context "with three columns", driver: :firefox_de do
+    # Chrome, because reordering the columns is a native HTML5 drag: geckodriver
+    # starts one (dragstart and dragover fire) but never finishes it, so no drop
+    # ever reaches the page and the columns stay put. The German locale this
+    # example has always carried is preserved; nothing here depends on it.
+    context "with three columns", driver: :chrome_de do
       let!(:query) do
         query = build(:query, user:, project:)
         query.column_names = %w[id project subject]
@@ -82,7 +86,7 @@ RSpec.describe "Work Package table configuration modal columns spec", :js do
         expect(page).to have_selector :columnheader, text: /.+/, count: 3
         expect(page).to have_selector :columnheader, "ID"
         expect(page).to have_selector :columnheader, "Subject"
-        expect(page).to have_selector :columnheader, "Project", colindex: 2
+        expect(page).to have_selector :columnheader, "Project", colindex: 4
       end
     end
   end

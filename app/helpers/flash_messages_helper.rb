@@ -28,7 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-
 module FlashMessagesHelper
   extend ActiveSupport::Concern
 
@@ -40,7 +39,7 @@ module FlashMessagesHelper
   #
   # @return [String] an HTML-safe string.
   def render_flash_messages
-    safe_join build_flash_components.map { it.render_in(self) }, "\n"
+    safe_join(build_flash_components.map { it.render_in(self) }, "\n")
   end
 
   # Renders flash messages wrapped in `<turbo-stream>` tags, suitable for
@@ -48,7 +47,11 @@ module FlashMessagesHelper
   #
   # @return [String] an HTML-safe string.
   def render_flash_messages_as_turbo_streams
-    safe_join(build_flash_components.map { it.render_as_turbo_stream(view_context: self, action: :flash) })
+    streams = build_flash_components.map do |component|
+      component.render_as_turbo_stream(view_context: self, action: :flash)
+    end
+
+    safe_join(streams)
   end
 
   def render_flash_modal
@@ -66,10 +69,10 @@ module FlashMessagesHelper
     flash
       .reject { |k, _| k.start_with? "_" }
       .reject { |k, _| k.to_s == "op_modal" }
-      .map { |k, v| build_flash_component(k.to_sym, v) }
+      .map { |key, value| build_flash_component(key.to_sym, value) }
   end
 
-  def mapped_flash_type(type)
+  def mapped_flash_scheme(type)
     case type
     when :error, :danger
       :danger
@@ -89,7 +92,12 @@ module FlashMessagesHelper
     action_button_arguments = options.delete(:action_button_arguments)
     action_button_content = options.delete(:action_button_content)
 
-    OpPrimer::FlashComponent.new(scheme: mapped_flash_type(type), **options).tap do |component|
+    mapped_scheme = mapped_flash_scheme(type)
+
+    OpPrimer::FlashComponent.new(
+      scheme: mapped_scheme,
+      **options
+    ).tap do |component|
       component.with_content(join_flash_messages(content))
 
       if action_button_arguments.present?

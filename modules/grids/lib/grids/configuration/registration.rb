@@ -93,7 +93,7 @@ module Grids::Configuration
       end
 
       def from_scope(_scope)
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def all_scopes

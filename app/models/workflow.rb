@@ -29,111 +29,66 @@
 #++
 
 class Workflow < ApplicationRecord
-  belongs_to :role
-  belongs_to :old_status, class_name: "Status"
-  belongs_to :new_status, class_name: "Status"
-  belongs_to :type, inverse_of: "workflows"
+  include WorkPackageTypes::NamedReference
 
-  validates :role, :old_status, :new_status, presence: true
+  # The project owning this workflow, or nil for a workflow every project may use.
+  belongs_to :project, optional: true
 
-  # Returns workflow transitions count by type and role
-  def self.count_by_type_and_role
-    counts = connection
-             .select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
-    roles = Role.order(Arel.sql("builtin, position"))
-    types = ::Type.order(Arel.sql("position"))
+  has_many :type_variants, dependent: :restrict_with_error, inverse_of: :workflow
+  has_many :status_transitions,
+           class_name: "Workflows::StatusTransition",
+           inverse_of: :workflow,
+           dependent: :delete_all
 
-    result = []
-    types.each do |type|
-      t = []
-      roles.each do |role|
-        row = counts.detect { |c| c["role_id"].to_s == role.id.to_s && c["type_id"].to_s == type.id.to_s }
-        t << [role, (row.nil? ? 0 : row["c"].to_i)]
-      end
-      result << [type, t]
+  validates :name, uniqueness: { scope: :project_id, case_sensitive: false }
+
+  scope :global, -> { where(project_id: nil) }
+  scope :project_owned, -> { where.not(project_id: nil) }
+  scope :owned_by, ->(project) { where(project:) }
+  scope :available_in, ->(project) { where(project: [nil, project]) }
+
+  # A name only has to be free within the scope that will hold it, so a project may reuse one
+  # administration already has.
+  def self.name_scope(project) = owned_by(project)
+
+  def self.statuses(workflows, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
+    transition_table, status_table = [Workflows::StatusTransition, Status].map(&:arel_table)
+    ids = workflows.respond_to?(:arel) ? workflows.arel : workflows
+    old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
+      subquery = transition_table.project(transition_table[foreign_key])
+                                 .where(transition_table[:workflow_id].in(ids))
+      subquery = subquery.where(transition_table[:role_id].eq(role.id)) if role
+      subquery = apply_tab_condition(subquery, transition_table, tab) if tab
+      subquery
     end
-
-    result
+    Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
   end
 
-  # Gets all work flows originating from the provided status
-  # that:
-  #   * are defined for the type
-  #   * are defined for any of the roles
-  #
-  # Workflows specific to author or assignee are ignored unless author and/or assignee are set to true. In
-  # such a case, those work flows are additionally returned.
-  def self.from_status(old_status_id, type_id, role_ids, author = false, assignee = false)
-    workflows = Workflow
-                .where(old_status_id:, type_id:, role_id: role_ids)
-
-    if author && assignee
-      workflows
-    elsif author || assignee
-      workflows
-        .merge(Workflow.where(author:).or(Workflow.where(assignee:)))
+  def self.apply_tab_condition(subquery, transition_table, tab)
+    case tab
+    when "author"
+      subquery.where(transition_table[:author].eq(true))
+    when "assignee"
+      subquery.where(transition_table[:assignee].eq(true))
     else
-      workflows
-        .where(author:)
-        .where(assignee:)
+      subquery.where(transition_table[:author].eq(false).and(transition_table[:assignee].eq(false)))
     end
   end
 
-  # Find potential statuses the user could be allowed to switch issues to
-  def self.available_statuses(project, user = User.current)
-    Workflow
-      .includes(:new_status)
-      .where(role_id: user.roles_for_project(project).map(&:id))
-      .filter_map(&:new_status)
-      .uniq
-      .sort
+  def statuses(role: nil, tab: nil)
+    return Status.none if new_record?
+
+    self.class.statuses([id], role:, tab:)
   end
 
-  # Copies workflows from source to targets
-  def self.copy(source_type, source_role, target_types, target_roles)
-    unless source_type.is_a?(::Type) || source_role.is_a?(Role)
-      raise ArgumentError.new("source_type or source_role must be specified")
-    end
-
-    target_types = Array(target_types)
-    target_types = ::Type.all if target_types.empty?
-
-    target_roles = Array(target_roles)
-    target_roles = Role.all if target_roles.empty?
-
-    target_types.each do |target_type|
-      target_roles.each do |target_role|
-        copy_one(source_type || target_type,
-                 source_role || target_role,
-                 target_type,
-                 target_role)
-      end
-    end
+  def statuses_missing_in(other, roles:)
+    statuses_used_by(roles).where.not(id: other.statuses_used_by(roles).select(:id))
   end
 
-  # Copies a single set of workflows from source to target
-  def self.copy_one(source_type, source_role, target_type, target_role)
-    unless source_type.is_a?(::Type) && !source_type.new_record? &&
-           source_role.is_a?(Role) && !source_role.new_record? &&
-           target_type.is_a?(::Type) && !target_type.new_record? &&
-           target_role.is_a?(Role) && !target_role.new_record?
-
-      raise ArgumentError.new("arguments can not be nil or unsaved objects")
-    end
-
-    if source_type == target_type && source_role == target_role
-      false
-    else
-      transaction do
-        where(type_id: target_type.id, role_id: target_role.id).delete_all
-        connection.insert <<-SQL
-          INSERT INTO #{Workflow.table_name} (type_id, role_id, old_status_id, new_status_id, author, assignee)
-          SELECT #{target_type.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee
-          FROM #{Workflow.table_name}
-          WHERE type_id = #{source_type.id} AND role_id = #{source_role.id}
-        SQL
-      end
-      true
-    end
+  def statuses_used_by(roles)
+    transitions = status_transitions.where(role: roles)
+    Status.where(id: transitions.select(:old_status_id)).or(Status.where(id: transitions.select(:new_status_id)))
   end
+
+  def project_specific? = project_id.present?
 end

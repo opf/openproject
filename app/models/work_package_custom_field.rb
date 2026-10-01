@@ -29,36 +29,23 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects,
+  has_and_belongs_to_many :projects, # rubocop:disable Rails/HasAndBelongsToMany
                           join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           foreign_key: "custom_field_id"
-  has_and_belongs_to_many :types,
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          foreign_key: "custom_field_id"
+  has_many :form_configuration_memberships, -> { active },
+           class_name: "FormConfigurationAttribute",
+           foreign_key: :custom_field_id,
+           inverse_of: :custom_field,
+           dependent: nil
+  has_many :form_configurations, -> { distinct }, through: :form_configuration_memberships
+  has_many :type_variants, through: :form_configurations
   has_many :work_packages,
            through: :custom_values,
            source: :customized,
            source_type: "WorkPackage"
 
-  scope :manageable_by_user, ->(user) {
-    if user.allowed_in_any_project?(:select_custom_fields)
-      all
-    else
-      visible_by_user(user)
-    end
-  }
-
-  scope :visible_by_user, ->(user) {
-    # Prefer a subquery to a join to avoid the database query returning
-    # the cross product of projects, types and custom fields.
-    where(id:
-      unscoped
-        .where(projects: { id: Project.visible(user) })
-        .where(types: { id: Type.enabled_in(Project.visible(user)) })
-        .or(unscoped.where(is_for_all: true))
-        .includes(:projects, :types)
-        .select(:id))
-  }
+  scopes :visible,
+         :on_visible_type_and_project
 
   scope :usable_as_custom_action, -> {
     where.not(field_format: %w[hierarchy weighted_item_list])
@@ -73,7 +60,15 @@ class WorkPackageCustomField < CustomField
     %w[int float].include?(field_format)
   end
 
+  def visible?(usr = User.current, project: nil)
+    self.class.visible(usr, project:).exists?(id: id)
+  end
+
   def type_name
     :label_work_package_plural
+  end
+
+  def to_s
+    "#{name} #{field_format}"
   end
 end

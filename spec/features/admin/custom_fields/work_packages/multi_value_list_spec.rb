@@ -48,6 +48,12 @@ RSpec.describe "Multi-value custom fields creation", :js, :selenium do
     SeleniumHubWaiter.wait
     fill_in "custom_field_name", with: "My List CF"
 
+    click_on "Save"
+    index_cf_page.expect_flash(message: "Successful creation.")
+
+    click_link "Items"
+    wait_for_network_idle
+
     expect(page).to have_css("input#custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "A"
 
@@ -65,11 +71,8 @@ RSpec.describe "Multi-value custom fields creation", :js, :selenium do
 
     click_on "Save"
 
-    index_cf_page.expect_and_dismiss_flash(message: "Successful creation.")
-
     # Edit again
     SeleniumHubWaiter.wait
-    page.find("a", text: "My List CF").click
     expect(page).to have_css("input#custom_field_custom_options_attributes_0_value[value=A]")
     expect(page).to have_css("input#custom_field_custom_options_attributes_1_value[value=B]")
     expect(page).to have_css("input#custom_field_custom_options_attributes_2_value[value=C]")

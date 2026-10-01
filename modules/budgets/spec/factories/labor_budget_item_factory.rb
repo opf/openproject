@@ -28,8 +28,20 @@
 
 FactoryBot.define do
   factory :labor_budget_item do
-    association :user
-    association :budget
+    principal { association(:user) }
+    budget
+
     hours { 0.0 }
+
+    after(:build) do |item|
+      project = item.budget&.project
+      principal = item.principal
+
+      next unless project&.persisted? && principal&.persisted?
+      next if Member.exists?(principal:, project:)
+
+      role = create(:project_role, permissions: %i[work_package_assigned])
+      create(:member, principal:, project:, roles: [role])
+    end
   end
 end

@@ -30,8 +30,8 @@ require "spec_helper"
 require_relative "../support//board_index_page"
 require_relative "../support/board_page"
 
-RSpec.describe "Subtasks action board", :js, :selenium, with_ee: %i[board_view] do
-  let(:type) { create(:type_standard) }
+RSpec.describe "Subtasks action board", :js, :selenium do
+  let(:type) { create(:type_task) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:project_role, permissions:) }
 
@@ -53,7 +53,7 @@ RSpec.describe "Subtasks action board", :js, :selenium, with_ee: %i[board_view] 
 
   context "without the manage_subtasks permission" do
     let(:permissions) do
-      %i[show_board_views manage_board_views add_work_packages
+      %i[show_board_views manage_board_views add_work_packages save_queries
          edit_work_packages view_work_packages manage_public_queries]
     end
 
@@ -77,7 +77,7 @@ RSpec.describe "Subtasks action board", :js, :selenium, with_ee: %i[board_view] 
     let!(:other_wp) { create(:work_package, project:, subject: "Other WP", status: open_status) }
 
     let(:permissions) do
-      %i[show_board_views manage_board_views add_work_packages
+      %i[show_board_views manage_board_views add_work_packages save_queries
          edit_work_packages view_work_packages manage_public_queries manage_subtasks]
     end
 

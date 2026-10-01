@@ -76,11 +76,18 @@ See COPYRIGHT and LICENSE files for more details.
       </span>
     </td>
     <td class="buttons">
-      <a href="#"
-         class="delete-row-button no-decoration-on-hover"
-         data-action="subform#deleteRow">
-        <%= op_icon("icon-context icon-delete", title: t(:button_delete)) %>
-      </a>
+      <%=
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :trash,
+            scheme: :invisible,
+            type: :button,
+            classes: "delete-row-button",
+            aria: { label: t(:button_delete) },
+            data: { action: "subform#deleteRow" }
+          )
+        )
+      %>
     </td>
   <% end %>
 <% end %>

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -71,21 +71,13 @@ import { WidgetMembersComponent } from 'core-app/shared/components/grids/widgets
 import {
   WidgetProjectStatusComponent,
 } from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
-import {
-  WidgetProjectStatusBetaComponent,
-} from 'core-app/shared/components/grids/widgets/project-status-beta/project-status-beta.component';
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import {
-  WidgetTimeEntriesCurrentUserMenuComponent,
-} from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component';
-import {
-  TimeEntriesCurrentUserConfigurationModalComponent,
-} from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
-import {
-  WidgetProjectFavoritesComponent,
-} from 'core-app/shared/components/grids/widgets/project-favorites/widget-project-favorites.component';
+  WidgetFavoriteProjectsComponent,
+} from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
+import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blankslate.component';
 
 @NgModule({
   imports: [
@@ -107,6 +99,8 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     // Support for inline editig fields
     OpenprojectFieldsModule,
     IconModule,
+
+    ErrorBlankSlateComponent,
   ],
   providers: [
     GridWidgetsService,
@@ -127,9 +121,8 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     WidgetWpGraphComponent,
     WidgetProjectDescriptionComponent,
     WidgetProjectStatusComponent,
-    WidgetProjectStatusBetaComponent,
     WidgetSubprojectsComponent,
-    WidgetProjectFavoritesComponent,
+    WidgetFavoriteProjectsComponent,
     WidgetTimeEntriesCurrentUserComponent,
     WidgetTimeEntriesProjectComponent,
 
@@ -137,8 +130,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,
-    WidgetTimeEntriesCurrentUserMenuComponent,
-    TimeEntriesCurrentUserConfigurationModalComponent,
 
     AddGridWidgetModalComponent,
 

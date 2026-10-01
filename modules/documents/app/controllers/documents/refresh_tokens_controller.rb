@@ -30,10 +30,8 @@
 
 module Documents
   class RefreshTokensController < ApplicationController
-    model_object Document
-
-    before_action :find_model_object
-    before_action :find_project_from_association
+    before_action :find_project_by_project_id
+    before_action :find_document
     before_action :authorize
 
     def create
@@ -52,9 +50,8 @@ module Documents
 
     private
 
-    def find_model_object(object_id = :document_id)
-      super
-      @document = @object
+    def find_document
+      @document = Document.where(project_id: @project.id).find(params[:document_id])
     end
   end
 end

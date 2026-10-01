@@ -63,12 +63,14 @@ class AddViewAllPrincipalsPermissionToExistingRoles < ActiveRecord::Migration[8.
   private
 
   def add_global_role_for_manage_members
-    service = Members::AddRoleService.new(current_user: User.system)
+    role_id = global_role_view_all_users.id
 
     find_user_ids_with_manage_members.each do |user_id|
-      service
-        .call(user_id:, role_id: global_role_view_all_users.id, project_id: nil, send_notifications: false)
-        .on_failure { |result| Rails.logger.error("Failed to assign global role to user #{user_id}: #{result.message}") }
+      CallServiceJob.perform_later(
+        "Members::AddRoleService",
+        { user_id:, role_id:, project_id: nil, send_notifications: false },
+        check_pending_migrations: true
+      )
     end
   end
 

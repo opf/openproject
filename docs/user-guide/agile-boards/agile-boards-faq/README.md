@@ -14,12 +14,11 @@ To do this, you can (provided you have set the end dates for the work packages) 
 
 ## How can I activate Boards in OpenProject?
 
-The Boards module is an Enterprise add-on of OpenProject Enterprise on-premises and OpenProject Enterprise cloud. You can upgrade your Community edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
-In addition, you need to activate the Boards module in the project settings.
+You can activate the Boards module in the project settings.
 
 ## Is it possible that we can have a board over all OpenProject tasks and users?
 
-Yes, to achieve the desired result you can navigate to the main project and on the Kanban view add the filter "subproject" "all". This will display the work packages in the main project and all subprojects. As a precondition, you will need a central parent project within your project hierarchy.
+Yes, to achieve the desired result you can navigate to the main project and on the Kanban view add the filter "Including subproject". This will display the work packages in the main project and all subprojects. As a precondition, you will need a central parent project within your project hierarchy.
 
 ## What does the error message "Parent is invalid because the work package (...) is a backlog task and therefore cannot have a parent outside of the current project" mean?
 

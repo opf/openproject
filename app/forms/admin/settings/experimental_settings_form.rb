@@ -39,6 +39,8 @@ module Admin
           visually_hide_label: true
         ) do |group|
           available_feature_flags.each do |(label, name)|
+            next if !setting_value(name) && setting_disabled?(name)
+
             group.check_box(
               name:,
               label:,

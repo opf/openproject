@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,10 +42,10 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import {
   Highlighting,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import {
   WorkPackageCardViewService,
 } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
@@ -35,8 +63,8 @@ import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/lin
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { fromEvent, merge } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { BaselineMode, getBaselineState } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
@@ -46,8 +74,11 @@ import {
 import {
   KeepTabService
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-card',
   styleUrls: ['./wp-single-card.component.sass'],
   templateUrl: './wp-single-card.component.html',
@@ -85,6 +116,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showAsGhost = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -97,15 +129,16 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   readonly pathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
-  readonly $state = inject(StateService);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
+
+  readonly selectionGestures = inject(WorkPackageViewSelectionGesturesService);
   readonly wpTableFocus = inject(WorkPackageViewFocusService);
   readonly cardView = inject(WorkPackageCardViewService);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly timezoneService = inject(TimezoneService);
   readonly schemaCache = inject(SchemaCacheService);
   readonly keepTabService = inject(KeepTabService);
+  readonly urlParams = inject(UrlParamsService);
 
   public uiStateLinkClass:string = uiStateLinkClass;
 
@@ -130,22 +163,27 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   combinedDateDisplayField = CombinedDateDisplayField;
 
   ngOnInit():void {
-    // Update selection state
-    combineLatest([
+    // Update selection state. turbo:frame-load is included so that URL-based detection
+    // updates when the split view opens or closes via Turbo frame navigation.
+    merge(
       this.wpTableSelection.live$(),
-      this.uiRouterGlobals.params$,
-    ])
+      fromEvent(document, 'turbo:frame-load'),
+    )
       .pipe(
         this.untilDestroyed(),
         map(() => {
           if (this.selectedWhenOpen) {
-            return this.uiRouterGlobals.params.workPackageId === this.workPackage.id;
+            // Use URL-based detection so that closing the split view (which changes the URL
+            // but does not clear the selection service) correctly deselects the card.
+            const routingId = this.urlParams.currentDetailsRouteParams()?.routingId;
+            return matchesRoutingId(this.workPackage, routingId);
           }
 
           return this.wpTableSelection.isSelected(this.workPackage.id!);
         }),
+        distinctUntilChanged(),
       )
-      .subscribe((selected) => {
+      .subscribe((selected:boolean) => {
         this.selected = selected;
         this.cdRef.detectChanges();
       });
@@ -160,10 +198,9 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return;
     }
 
-    const classIdentifier = this.classIdentifier(wp);
     const stateToEmit = detail ? 'split' : 'show';
 
-    this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
+    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards, this.classIdentifier(wp));
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
     event.preventDefault();
@@ -207,7 +244,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public fullWorkPackageLink(wp:WorkPackageResource):string {
-    return this.keepTabService.currentShowHref(wp.id!);
+    return this.keepTabService.currentShowHref(wp.displayId);
   }
 
   public cardHighlightingClass(wp:WorkPackageResource):string {

@@ -1,0 +1,15 @@
+<% html_title(t(:label_administration), t("ldap_departments.synchronized_trees.add_new")) -%>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("ldap_departments.synchronized_trees.add_new") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_settings_authentication_path, text: t(:label_authentication) },
+       { href: ldap_departments_synchronized_trees_path, text: I18n.t("ldap_departments.label_menu_item") },
+       t("ldap_departments.synchronized_trees.add_new")]
+    )
+  end
+%>
+
+<%= render(LdapDepartments::SynchronizedTrees::FormComponent.new(@tree)) %>

@@ -34,10 +34,8 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
 
   layout "admin"
 
-  model_object CustomField
-
   before_action :require_admin
-  before_action :find_model_object
+  before_action :find_custom_field
 
   before_action :available_custom_fields_projects_query, only: %i[index destroy]
   before_action :initialize_custom_field_project, only: :new
@@ -69,7 +67,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
       )
     end
 
-    respond_to_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+    respond_to_with_turbo_streams(status: create_service)
   end
 
   def destroy
@@ -85,7 +83,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
       )
     end
 
-    respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
+    respond_to_with_turbo_streams(status: delete_service)
   end
 
   private
@@ -99,14 +97,13 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     )
   end
 
-  def find_model_object(object_id = :custom_field_id)
-    super
-    @custom_field = @object
+  def find_custom_field
+    @custom_field = CustomField.find(params[:custom_field_id])
   end
 
   def find_projects_to_activate_for_custom_field
     if (project_ids = params.to_unsafe_h[:custom_fields_project][:project_ids]).present?
-      @projects = Project.find(project_ids)
+      @projects = Project.visible.find(project_ids)
     else
       initialize_custom_field_project
       @custom_field_project.errors.add(:project_ids, :blank)

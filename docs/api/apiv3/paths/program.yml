@@ -3,7 +3,7 @@
 get:
   parameters:
     - description: Program id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -45,7 +45,7 @@ get:
 patch:
   parameters:
     - description: Program id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -140,7 +140,7 @@ patch:
 delete:
   parameters:
     - description: Program id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

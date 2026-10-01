@@ -1,35 +1,51 @@
+---
 fa:
-  grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
-    widgets:
-      empty: "This widget is currently empty."
-      not_available: "This widget is not available."
-      subitems:
-        title: "Subitems"
-        no_results: "There are no visible children."
-        view_all_subitems: "View all subitems"
-        button_text: "Subitem"
-      members:
-        title: "Members"
-        no_results: "No visible members."
-        view_all_members: "مشاهده همه کاربران"
-        show_members_count: "Show all %{count} members"
-        x_more:
-          one: "and one more member."
-          other: "and %{count} more members."
-      news:
-        no_results: "Nothing new to report."
   activerecord:
     attributes:
       grids/grid:
-        page: "صفحه"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "ویجت ﻫﺎ"
-        scope: "حوزه"
+        column_count: تعداد ستون‌ها
+        page: صفحه
+        row_count: تعداد ردیف‌ها
+        scope: دامنه
+        widgets: ویجت‌ها
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          end_before_start: مقدار پایان باید از مقدار شروع بزرگ‌تر باشد.
+          outside: خارج از شبکه است.
+          overlaps: هم‌پوشانی.
+    models:
+      grids/grid:
+        one: شبکه
+        other: شبکه‌ها
+      grids/widget:
+        one: ویجت
+        other: ویجت‌ها
+  grids:
+    label_widget_in_grid: ویجت موجود در شبکه %{grid_name}
+    widgets:
+      empty: این ویجت در حال حاضر خالی است.
+      members:
+        no_results: عضو قابل مشاهده‌ای وجود ندارد.
+        show_members_count: نمایش همه %{count} عضو
+        title: اعضا
+        view_all_members: مشاهده همه اعضا
+        x_more:
+          one: و یک عضو دیگر.
+          other: و %{count} عضو دیگر.
+      news:
+        no_results: مورد جدیدی برای گزارش وجود ندارد.
+      not_available: این ویجت در دسترس نیست.
+      project_timeline:
+        footer_actions_label: مشاهده جزئیات بیشتر
+        gantt_link: گانت نقاط عطف
+        no_results_title: محتوایی برای خط زمانی پروژه پیکربندی نشده است
+        sprints_link: نمای کلی اسپرینت‌ها
+        title: خط زمانی پروژه
+        title_portfolio: خط زمانی سبد پروژه
+        title_program: خط زمانی برنامه
+      subitems:
+        button_text: زیرمورد
+        no_results: زیرمورد قابل مشاهده‌ای وجود ندارد.
+        title: زیرموردها
+        view_all_subitems: مشاهده همه زیرموردها

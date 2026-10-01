@@ -1,0 +1,94 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%=
+  widget_wrapper do |container|
+    if has_budgets_data?
+      container.with_body do
+        flex_layout do |flex|
+          flex.with_row do
+            render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
+              if project.children.any?
+                t(
+                  ".count_caption_with_subitems.#{project.workspace_type.presence_in(%w[project program portfolio]) || 'project'}",
+                  count: budget_count
+                )
+              else
+                t(".count_caption", count: budget_count)
+              end
+            end
+          end
+          flex.with_row(mt: 3, align: :center) do
+            helpers.angular_component_tag(
+              "opce-budget-by-cost-type",
+              currency: Setting.costs_currency,
+              "chart-data": {
+                labels: chart_labels,
+                datasets: [{
+                  label: Budget.model_name.human,
+                  data: chart_data
+                }]
+              }.to_json
+            )
+          end
+        end
+      end
+
+      container.with_footer(test_selector: "budget-by-cost-type-widget-footer") do
+        render(Primer::Beta::Link.new(href: projects_budgets_path(project))) { t(".view_details") }
+      end
+    elsif has_budgets?
+      render(Primer::Beta::Blankslate.new) do |blankslate|
+        blankslate.with_visual_icon(icon: :"op-budget")
+        blankslate.with_heading(tag: :h3).with_content(t(".blankslate_zero.heading"))
+        blankslate.with_description_content(t(".blankslate_zero.description"))
+        blankslate.with_primary_action(
+          href: helpers.projects_budgets_path(project),
+          scheme: :secondary
+        ) do |button|
+          button.with_leading_visual_icon(icon: :pencil)
+          Budget.human_model_name.pluralize
+        end
+      end
+    else
+      render(Primer::Beta::Blankslate.new) do |blankslate|
+        blankslate.with_visual_icon(icon: :"op-budget")
+        blankslate.with_heading(tag: :h3).with_content(t(".blankslate.heading"))
+        blankslate.with_description_content(t(".blankslate.description"))
+        blankslate.with_primary_action(
+          href: helpers.new_projects_budget_path(project),
+          scheme: :secondary
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          Budget.human_model_name
+        end
+      end
+    end
+  end
+%>

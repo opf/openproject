@@ -61,32 +61,33 @@ RSpec.describe "Recurring meetings complete template",
     login_as(current_user)
   end
 
+  def occurrence_count
+    recurring_meeting.meetings.not_templated.count
+  end
+
   context "when past occurrence is already created" do
-    let!(:meeting) { create(:meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
-    let!(:schedule) do
-      create :scheduled_meeting,
-             meeting:,
+    let!(:meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time
+             start_time: recurring_meeting.start_time,
+             recurrence_start_time: recurring_meeting.start_time)
     end
 
     it "does not delete that one" do
-      expect { subject }.not_to change(recurring_meeting.scheduled_meetings, :count)
+      expect { subject }.not_to change { occurrence_count }
       expect(response).to be_redirect
 
-      expect(recurring_meeting.scheduled_meetings.count).to eq(1)
-      first = recurring_meeting.scheduled_meetings.first.meeting
-      expect(first).to eq(meeting)
+      expect(occurrence_count).to eq(1)
+      expect(recurring_meeting.meetings.not_templated.first).to eq(meeting)
     end
   end
 
   context "when start_time < current time" do
-    let!(:meeting) { create(:meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
-    let!(:schedule) do
-      create :scheduled_meeting,
-             meeting:,
+    let!(:meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time
+             start_time: recurring_meeting.start_time,
+             recurrence_start_time: recurring_meeting.start_time)
     end
 
     subject do
@@ -101,31 +102,32 @@ RSpec.describe "Recurring meetings complete template",
   end
 
   context "when first occurrence is cancelled" do
-    let!(:schedule) do
-      create :scheduled_meeting,
-             :cancelled,
+    let!(:cancelled_occurrence) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time
+             start_time: recurring_meeting.start_time,
+             recurrence_start_time: recurring_meeting.start_time,
+             state: :cancelled)
     end
 
     it "does not delete this occurrence" do
-      expect { subject }.not_to change(recurring_meeting.scheduled_meetings, :count)
+      expect { subject }.not_to change { occurrence_count }
       expect(response).to be_redirect
 
       recurring_meeting.reload
       expect(recurring_meeting.end_date).to eq Date.parse("2025-01-28")
 
-      expect(recurring_meeting.scheduled_meetings.count).to eq(1)
-      first = recurring_meeting.scheduled_meetings.first
-      expect(first).to be_cancelled
+      expect(occurrence_count).to eq(1)
+      expect(recurring_meeting.meetings.not_templated.first).to be_cancelled
     end
   end
 
   context "when todays occurrence is present, but we're later" do
-    let!(:schedule) do
-      create :scheduled_meeting,
+    let!(:occurrence) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: DateTime.parse("2024-12-05T10:00:00Z")
+             start_time: DateTime.parse("2024-12-05T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-05T10:00:00Z"))
     end
 
     subject do
@@ -133,20 +135,21 @@ RSpec.describe "Recurring meetings complete template",
     end
 
     it "does not delete this occurrence" do
-      expect { subject }.not_to change(recurring_meeting.scheduled_meetings, :count)
+      expect { subject }.not_to change { occurrence_count }
       expect(response).to be_redirect
 
       recurring_meeting.reload
       expect(recurring_meeting.end_date).to eq Date.parse("2024-12-04")
-      expect(recurring_meeting.scheduled_meetings.count).to eq(1)
+      expect(occurrence_count).to eq(1)
     end
   end
 
   context "when todays occurrence is present, but we're sooner" do
-    let!(:schedule) do
-      create :scheduled_meeting,
+    let!(:occurrence) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: DateTime.parse("2024-12-05T10:00:00Z")
+             start_time: DateTime.parse("2024-12-05T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-05T10:00:00Z"))
     end
 
     subject do
@@ -154,7 +157,7 @@ RSpec.describe "Recurring meetings complete template",
     end
 
     it "does delete this occurrence" do
-      expect { subject }.to change(recurring_meeting.scheduled_meetings, :count).by(-1)
+      expect { subject }.to change { occurrence_count }.by(-1)
       expect(response).to be_redirect
 
       recurring_meeting.reload
@@ -164,24 +167,24 @@ RSpec.describe "Recurring meetings complete template",
 
   context "when there is a scheduled instance for today and tomorrow" do
     let!(:today) do
-      create :scheduled_meeting,
-             :persisted,
+      create(:meeting,
              recurring_meeting:,
-             start_time: DateTime.parse("2024-12-05T10:00:00Z")
+             start_time: DateTime.parse("2024-12-05T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-05T10:00:00Z"))
     end
     let!(:tomorrow) do
-      create :scheduled_meeting,
-             :persisted,
+      create(:meeting,
              recurring_meeting:,
-             start_time: DateTime.parse("2024-12-06T10:00:00Z")
+             start_time: DateTime.parse("2024-12-06T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-06T10:00:00Z"))
     end
 
     subject do
       Timecop.freeze("2024-12-05T09:59:00Z".to_datetime) { request }
     end
 
-    it "does delete this occurrence" do
-      expect { subject }.to change(recurring_meeting.scheduled_meetings, :count).by(-2)
+    it "does delete both occurrences" do
+      expect { subject }.to change { occurrence_count }.by(-2)
       expect(response).to be_redirect
 
       recurring_meeting.reload
@@ -190,10 +193,11 @@ RSpec.describe "Recurring meetings complete template",
   end
 
   context "when next occurrence is present" do
-    let!(:schedule) do
-      create :scheduled_meeting,
+    let!(:occurrence) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: DateTime.parse("2024-12-06T10:00:00Z")
+             start_time: DateTime.parse("2024-12-06T10:00:00Z"),
+             recurrence_start_time: DateTime.parse("2024-12-06T10:00:00Z"))
     end
 
     subject do
@@ -201,13 +205,13 @@ RSpec.describe "Recurring meetings complete template",
     end
 
     it "does delete this occurrence" do
-      expect { subject }.to change(recurring_meeting.scheduled_meetings, :count).by(-1)
+      expect { subject }.to change { occurrence_count }.by(-1)
       expect(response).to be_redirect
 
       recurring_meeting.reload
       expect(recurring_meeting.end_date).to eq Date.parse("2024-12-04")
-      expect(recurring_meeting.scheduled_meetings.count).to eq(0)
-      expect { schedule.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(occurrence_count).to eq(0)
+      expect { occurrence.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 

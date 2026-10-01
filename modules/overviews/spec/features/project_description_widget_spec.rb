@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -30,9 +32,11 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Project description widget", :js, with_flag: { new_project_overview: true } do
+RSpec.describe "Project description widget", :js do
+  include TestSelectorFinders
+
   let!(:type) { create(:type) }
-  let!(:portfolio) { create(:portfolio, description: "") }
+  let!(:portfolio) { create(:portfolio, description: "A new description") }
   let!(:open_status) { create(:default_status) }
 
   let(:permissions) do
@@ -54,44 +58,60 @@ RSpec.describe "Project description widget", :js, with_flag: { new_project_overv
     Pages::Dashboard.new(portfolio)
   end
 
-  context "as a user with permission" do
+  let(:overview_page) do
+    Pages::Projects::Show.new(portfolio)
+  end
+
+
+  shared_examples_for "adds a project description widget, and edits it correctly" do
     before do
       login_as user
 
-      dashboard_page.visit!
+      tested_page.visit!
     end
 
-    it "opens the dashboard, adds a project description widget, and edits it correctly" do
-      expect(page).to have_current_path(dashboard_project_overview_path(portfolio))
+    it do
+      expect(page).to have_current_path(path)
 
-      # Find the project description widget area
-      description_widget_area = Components::Grids::GridArea.new("[data-test-selector*='grid-widget-project_description']")
-      description_widget_area.expect_to_exist
+      # Edit the project description
+      # Find the editable description field
+      description_field = Components::Common::InplaceEditField.new(portfolio, :description)
 
-      # Edit the project description within the widget
-      within description_widget_area.area do
-        # Find the editable description field
-        description_field = TextEditorField.new(page, "description",
-                                                selector: "op-editable-attribute-field[fieldname='description']")
+      # Activate the field for editing
+      wait_for_turbo_stream { description_field.open_field }
+      wait_for_ckeditor
 
-        # Activate the field for editing
-        description_field.activate!
+      # Set a new description
+      new_description = "This is a **test** project description with markdown formatting."
+      wait_for_turbo_stream { description_field.fill_and_submit_value(name: "project[description]", val: new_description, ckeditor: true) }
 
-        # Set a new description
-        new_description = "This is a **test** project description with markdown formatting."
-        description_field.set_value(new_description)
+      tested_page.expect_and_dismiss_flash message: I18n.t("js.notice_successful_update")
 
-        # Save the changes
-        description_field.save!
-      end
-
-      dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
-
-      dashboard_page.visit!
+      tested_page.visit!
+      wait_for_network_idle
       expect(page).to have_content("This is a test project description with markdown formatting.")
 
       portfolio.reload
       expect(portfolio.description).to include("This is a **test** project description")
+    end
+  end
+
+
+  context "as a user with permission" do
+    context "on the dashboard" do
+      it_behaves_like "adds a project description widget, and edits it correctly" do
+        let(:tested_page) { dashboard_page }
+        let(:path) { dashboard_project_overview_path(portfolio) }
+        let(:selector) { test_selector("grid-widget-project_description") }
+      end
+    end
+
+    context "on the overview" do
+      it_behaves_like "adds a project description widget, and edits it correctly" do
+        let(:tested_page) { overview_page }
+        let(:path) { project_overview_path(portfolio) }
+        let(:selector) { test_selector("op-overview-widget--project-description") }
+      end
     end
   end
 end

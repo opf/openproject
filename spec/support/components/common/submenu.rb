@@ -80,6 +80,13 @@ module Components
       end
     end
 
+    def expect_no_selected_item
+      within "#main-menu" do
+        expect(page).to have_css(".op-submenu--item-action")
+        expect(page).to have_no_css(".op-submenu--item-action.selected")
+      end
+    end
+
     def expect_no_items
       within "#main-menu" do
         expect(page).not_to have_test_selector("op-submenu--item-action")

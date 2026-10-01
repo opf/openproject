@@ -53,6 +53,33 @@ RSpec.describe MeetingParticipants::CreateService do
         expect(subject.result.invited).to be true
         expect(subject.result.attended).to be false
       end
+
+      it "triggers the notification debounce job with since_invited_ids" do
+        allow(Meetings::NotificationDebounceJob).to receive(:debounce)
+        subject
+        expect(Meetings::NotificationDebounceJob).to have_received(:debounce).with(meeting, since_invited_ids: anything)
+      end
+
+      context "when notify: false" do
+        subject do
+          described_class.new(user: current_user, notify: false).call(meeting:, user_id:, invited: true, attended: false)
+        end
+
+        it "creates the participant" do
+          expect { subject }.to change { meeting.participants.count }.by(1)
+        end
+
+        it "does not trigger the notification debounce job" do
+          allow(Meetings::NotificationDebounceJob).to receive(:debounce)
+          subject
+          expect(Meetings::NotificationDebounceJob).not_to have_received(:debounce)
+        end
+      end
+
+      it "saves a new journal for the meeting",
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+        expect { subject }.to change { meeting.journals.count }
+      end
     end
 
     context "when user does not have meeting permissions" do
@@ -112,6 +139,43 @@ RSpec.describe MeetingParticipants::CreateService do
         expect(subject).to be_failure
         expect(subject.result).to be_new_record
         expect(subject.errors.full_messages).to include("User can't be blank.")
+      end
+    end
+
+    context "when the meeting is a series template" do
+      shared_let(:series) { create(:recurring_meeting, project:) }
+
+      let(:user_id) { user_with_meeting_permissions.id }
+
+      subject do
+        described_class.new(user: current_user)
+                       .call(meeting: series.template, user_id:, invited: true, attended: false)
+      end
+
+      it "advances the ICS revision of the series" do
+        expect { expect(subject).to be_success }
+          .to change { series.reload.ical_sequence }.by(1)
+      end
+    end
+
+    context "when the meeting is an occurrence of a series" do
+      shared_let(:occurrence_series) { create(:recurring_meeting, project:) }
+      shared_let(:occurrence) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting: occurrence_series,
+               project:,
+               start_time: 1.day.from_now)
+      end
+
+      let(:user_id) { user_with_meeting_permissions.id }
+
+      subject do
+        described_class.new(user: current_user).call(meeting: occurrence, user_id:, invited: true, attended: false)
+      end
+
+      it "leaves the ICS revision of the series alone" do
+        expect { expect(subject).to be_success }
+          .not_to change { occurrence_series.reload.ical_sequence }
       end
     end
 

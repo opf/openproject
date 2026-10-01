@@ -1,9 +1,9 @@
-#English strings go here
+---
 de:
   js:
     calendar:
-      create_new: 'Neuen Kalender erstellen'
-      title: 'Kalender'
-      too_many: 'Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.'
-      unsaved_title: 'Unbenannter Kalender'
-      label_calendar_plural: 'Kalender'
+      create_new: Neuen Kalender erstellen
+      label_calendar_plural: Kalender
+      title: Kalender
+      too_many: Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.
+      unsaved_title: Unbenannter Kalender

@@ -1,0 +1,38 @@
+services:
+  db-jira:
+    image: postgres:17
+    restart: unless-stopped
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB=jira-software
+      - POSTGRES_USER=jira-software
+      - POSTGRES_PASSWORD=jira-software
+    networks:
+      - gateway
+
+  jira-software:
+    image:  atlassian/jira-software:10.3.11
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jira-software.rule=Host(`jira-software.${OPENPROJECT_DOCKER_DEV_TLD}`)"
+      - "traefik.http.routers.jira-software.service=jira-software-service"
+      - "traefik.http.services.jira-software-service.loadbalancer.server.port=8080"
+    environment:
+      - ATL_PROXY_NAME=jira-software.${OPENPROJECT_DOCKER_DEV_TLD}
+      - ATL_PROXY_PORT=443
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_TOMCAT_SECURE=true
+    networks:
+      - gateway
+    volumes:
+      - jiraVolume:/var/atlassian/application-data/jira
+    depends_on:
+      - db-jira
+networks:
+  gateway:
+    external: true
+    name: gateway
+volumes:
+  jiraVolume:
+  pgdata:

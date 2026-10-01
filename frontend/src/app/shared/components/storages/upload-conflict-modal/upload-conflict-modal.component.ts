@@ -21,23 +21,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 
 @Component({
   templateUrl: 'upload-conflict-modal.component.html',
@@ -45,6 +37,8 @@ import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.servi
   standalone: false,
 })
 export class UploadConflictModalComponent extends OpModalComponent {
+  private readonly i18n = inject(I18nService);
+
   public overwrite:boolean|null = null;
 
   public text = {
@@ -56,15 +50,6 @@ export class UploadConflictModalComponent extends OpModalComponent {
       cancel: this.i18n.t('js.button_cancel'),
     },
   };
-
-  public constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-    private readonly i18n:I18nService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
 
   public close(overwrite:boolean):void {
     this.overwrite = overwrite;

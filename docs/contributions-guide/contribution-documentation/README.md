@@ -53,7 +53,7 @@ If you would like to report a typo or an inconsistency in our documentation, the
 
 ### Let us know through the OpenProject Community installation
 
-You can also join us directly through the [OpenProject Community installation](https://community.openproject.org). Here you can **leave a message on the [Forum](https://community.openproject.org/projects/openproject/forums)**, or **create a work package with the type *Documentation* and describe or request a documentation change.
+You can also join us directly through the [OpenProject Community installation](https://community.openproject.org). Here you can **leave a message on the [Forum](https://community.openproject.org/projects/openproject/forums)**, or **create a work package with the type _Documentation_ and describe or request a documentation change.
 
 To gain access to the Community installation at, please send an email to [support@openproject.com](mailto:support@openproject.com) with the subject line **"Joining Community"**. Our team will review your request and send you an invitation as soon as possible.
 

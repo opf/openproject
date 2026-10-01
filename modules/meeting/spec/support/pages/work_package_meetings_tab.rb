@@ -35,10 +35,14 @@ module Pages
   class MeetingsTab < Page
     attr_reader :work_package_id, :project_id
 
-    def initialize(project_id:, work_package_id:)
+    # @param primerized [Boolean] Whether the work package page rendering this tab is the
+    #   Rails/Primer split view (WorkPackages::Details::TabComponent, the default) or the
+    #   legacy full view's Angular tab bar.
+    def initialize(project_id:, work_package_id:, primerized: true)
       super()
       @work_package_id = work_package_id
       @project_id = project_id
+      @primerized = primerized
     end
 
     def path
@@ -46,15 +50,27 @@ module Pages
     end
 
     def expect_tab_present
-      expect(page).to have_css(".op-tab-row--link", text: "MEETINGS")
+      if @primerized
+        Components::WorkPackages::PrimerizedTabs.new.expect_tab("meetings")
+      else
+        expect(page).to have_css(".op-tab-row--link", text: "MEETINGS")
+      end
     end
 
     def expect_tab_count(count)
-      expect(page).to have_css(".op-tab-row--link", text: "MEETINGS (#{count})", wait: 10)
+      if @primerized
+        Components::WorkPackages::PrimerizedTabs.new.expect_counter("meetings", count)
+      else
+        expect(page).to have_css(".op-tab-row--link", text: "MEETINGS (#{count})", wait: 10)
+      end
     end
 
     def expect_tab_not_present
-      expect(page).to have_no_css(".op-tab-row--link", text: "MEETINGS")
+      if @primerized
+        Components::WorkPackages::PrimerizedTabs.new.expect_no_tab("meetings")
+      else
+        expect(page).to have_no_css(".op-tab-row--link", text: "MEETINGS")
+      end
     end
 
     def expect_tab_content_rendered
@@ -104,11 +120,12 @@ module Pages
     def fill_and_submit_meeting_dialog(meeting, notes, counter)
       retry_block do
         fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
-        page.find(".ng-option-marked", text: meeting.title) # wait for selection
-        page.find(".ng-option-marked").click
+        wait_for_turbo_stream do
+          page.find(".ng-option-marked", text: meeting.title).click
+        end
         page.find(".ck-editor__editable").set(notes)
 
-        click_on("Save")
+        wait_for_turbo_stream { click_on("Save") }
 
         page.within_test_selector("op-upcoming-meetings-counter") do
           raise "Expected counter to eq #{counter}" unless page.has_content?(counter)

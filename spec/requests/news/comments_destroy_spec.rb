@@ -40,7 +40,7 @@ RSpec.describe "News comments destroy redirect",
   context "when an admin deletes a news comment" do
     current_user { create(:admin) }
 
-    let(:request) { delete "/comments/#{comment.id}" }
+    let(:request) { delete "/projects/#{project.identifier}/news/#{news.id}/comments/#{comment.id}" }
 
     subject do
       request
@@ -49,7 +49,7 @@ RSpec.describe "News comments destroy redirect",
 
     it "responds with 303 See Other and redirects to the news page" do
       expect(subject).to have_http_status(:see_other)
-      expect(response).to redirect_to(news_path(news))
+      expect(response).to redirect_to(project_news_path(project, news))
 
       expect { Comment.find(comment.id) }.to raise_error(ActiveRecord::RecordNotFound)
       expect { News.find(news.id) }.not_to raise_error

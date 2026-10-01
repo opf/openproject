@@ -21,17 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ComponentType } from '@angular/cdk/portal';
-import {
-  Injectable,
-  InjectionToken,
-  Injector,
-} from '@angular/core';
+import { Injectable, InjectionToken, Injector, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
@@ -50,13 +46,13 @@ export interface ModalData {
 
 @Injectable({ providedIn: 'root' })
 export class OpModalService {
+  private readonly injector = inject(Injector);
+
   public activeModalInstance$ = new BehaviorSubject<OpModalComponent|null>(null);
 
   public activeModalData$ = new BehaviorSubject<ModalData|null>(null);
 
-  constructor(
-    private readonly injector:Injector,
-  ) {
+  constructor() {
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
       if (evt.key !== 'Escape' || evt.defaultPrevented) {

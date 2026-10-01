@@ -1,0 +1,69 @@
+# Schema: MeetingOutcomeModel
+---
+type: object
+required:
+  - _type
+  - id
+  - kind
+  - createdAt
+  - updatedAt
+properties:
+  _type:
+    type: string
+    enum:
+      - MeetingOutcome
+  id:
+    type: integer
+    description: Identifier of this outcome
+    minimum: 1
+  kind:
+    type: string
+    description: |-
+      The type of this outcome. Possible values:
+
+      - *information*: an informational outcome with notes
+      - *work_package*: an outcome linked to a work package
+    enum:
+      - information
+      - work_package
+  notes:
+    $ref: "./formattable.yml"
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation.
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change.
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This outcome
+
+              **Resource**: MeetingOutcome
+      author:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user who created this outcome
+
+              **Resource**: User
+      agendaItem:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The agenda item this outcome belongs to
+
+              **Resource**: MeetingAgendaItem
+      workPackage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The linked work package (for work_package type outcomes)
+
+              **Resource**: WorkPackage

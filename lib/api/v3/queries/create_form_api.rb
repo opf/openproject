@@ -36,7 +36,7 @@ module API
           helpers ::API::V3::Queries::QueryHelper
 
           post do
-            create_or_update_query_form Query.new_default, ::Queries::CreateContract, CreateFormRepresenter
+            create_or_update_query_form Query.new_default, ::Queries::BaseContract, CreateFormRepresenter
           end
         end
       end

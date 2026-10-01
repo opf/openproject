@@ -1,16 +1,17 @@
+---
 ru:
-  plugin_openproject_xls_export:
-    name: "OpenProject XLS Экспорт"
-    description: "Экспортировать списки задач как таблицы Excel (.xls)."
-  export_to_excel: "Экспорт XLS"
-  print_with_description: "Предпросмотр печати с описанием"
-  sentence_separator_or: "или"
   different_formats: Различные форматы
   export:
     format:
-      xls: "XLS"
-      xls_with_descriptions: "XLS с описанием"
-      xls_with_relations: "XLS с отношениями"
+      xls: XLS
+      xls_with_descriptions: XLS с описанием
+      xls_with_relations: XLS с отношениями
+  export_to_excel: Экспорт XLS
+  plugin_openproject_xls_export:
+    description: Экспортировать списки задач как таблицы Excel (.xls).
+    name: OpenProject XLS Экспорт
+  print_with_description: Предпросмотр печати с описанием
+  sentence_separator_or: или
   xls_export:
     child_of: потомок
     parent_of: родитель

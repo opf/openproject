@@ -35,11 +35,11 @@ class Project::PDFExport::ProjectInitiation < Exports::Exporter
   include Exports::PDF::Common::Macro
   include Exports::PDF::Common::Markdown
   include Exports::PDF::Common::Badge
+  include Exports::PDF::Common::ProjectAttributes
   include Exports::PDF::Components::Page
-  include Project::PDFExport::Common::ProjectAttributes
-  include Project::PDFExport::ProjectInitiation::Cover
-  include Project::PDFExport::ProjectInitiation::Styles
-  include ProjectHelper
+  include Exports::PDF::Artefact::Cover
+  include Exports::PDF::Artefact::Styles
+  include ProjectsHelper
 
   attr_accessor :pdf
 
@@ -183,17 +183,29 @@ class Project::PDFExport::ProjectInitiation < Exports::Exporter
       .select(:custom_field_id)
   end
 
-  def collect_custom_fields_data
+  def collect_custom_fields_data # rubocop:disable Metrics/AbcSize
     project.available_custom_fields
            .where(id: enabled_in_wizard_ids)
+           .order("custom_fields.id")
            .group_by(&:project_custom_field_section)
            .map do |section, custom_fields|
-      {
-        caption: section.name,
-        fields: custom_fields.map do |custom_field|
-          { key: "cf_#{custom_field.id}", caption: custom_field.name, custom_field: }
-        end
-      }
+             {
+               caption: section.name,
+               fields: custom_fields.each_with_object([]) do |custom_field, fields|
+                 fields << {
+                   key: "cf_#{custom_field.id}",
+                   caption: custom_field.name,
+                   custom_field:
+                 }
+                 if custom_field.has_comment?
+                   fields << {
+                     key: "cfc_#{custom_field.id}",
+                     caption: I18n.t(:label_custom_comment, name: custom_field.name),
+                     custom_field:
+                   }
+                 end
+               end
+             }
     end
   end
 
@@ -284,7 +296,7 @@ class Project::PDFExport::ProjectInitiation < Exports::Exporter
   def project_initiation_work_package_status
     return nil if project.project_creation_wizard_artifact_work_package_id.blank?
 
-    work_package = WorkPackage.find_by(id: project.project_creation_wizard_artifact_work_package_id)
+    work_package = WorkPackage.visible.find_by(id: project.project_creation_wizard_artifact_work_package_id)
     work_package&.status
   end
 

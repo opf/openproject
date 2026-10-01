@@ -30,10 +30,7 @@
 #
 require "spec_helper"
 
-RSpec.describe Projects::Settings::CustomFieldsForm,
-               type: :forms,
-               with_ee: %i[calculated_values],
-               with_flag: { calculated_value_project_attribute: true } do
+RSpec.describe Projects::Settings::CustomFieldsForm, type: :forms, with_ee: %i[calculated_values] do
   let(:string_project_custom_field) do
     create(:string_project_custom_field, name: "String field", is_required: true, is_for_all: true)
   end
@@ -121,7 +118,7 @@ RSpec.describe Projects::Settings::CustomFieldsForm,
     expect(page).to have_element "opce-autocompleter", "data-label-for-id": "\"#{label_id}\"" do |autocompleter|
       expect(autocompleter["data-multiple"]).to be_json_eql(%{false})
       expect(autocompleter["data-items"]).to have_json_size(3)
-      expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "eins"}})
+      expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "eins", "selected": true}})
     end
   end
 
@@ -133,7 +130,7 @@ RSpec.describe Projects::Settings::CustomFieldsForm,
       expect(autocompleter["data-multiple"]).to be_json_eql(%{true})
       expect(autocompleter["data-items"]).to have_json_size(4)
       expect(autocompleter["data-model"]).to have_json_size(2)
-      expect(autocompleter["data-model"]).to be_json_eql(%{[{"name": "tre"}, {"name": "quattro"}]})
+      expect(autocompleter["data-model"]).to be_json_eql(%{[{"disabled": false, "name": "tre", "selected": true}, {"disabled": false, "name": "quattro", "selected": true}]})
     end
   end
 

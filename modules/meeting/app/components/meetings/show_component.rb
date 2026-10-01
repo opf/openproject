@@ -32,11 +32,12 @@ module Meetings
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:)
+    def initialize(meeting:, state: :show)
       super
 
       @meeting = meeting
       @project = meeting.project
+      @state = state
     end
 
     private

@@ -57,13 +57,13 @@ module WorkPackages
                    "#{auto_scrolling_controller}-anchor-name-param": activity_anchor_name
                  }
                )) do
-          journal_updated_at_formatted_time(journal)
+          journal_created_at_formatted_time(journal)
         end
       end
 
-      def journal_updated_at_formatted_time(journal)
+      def journal_created_at_formatted_time(journal)
         render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
-          format_time(journal.updated_at)
+          format_time(journal.created_at)
         end
       end
 

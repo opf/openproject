@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -42,6 +44,12 @@ module API
               fail ::API::Errors::InvalidUserStatusTransition
             end
           end
+
+          def ensure_user_limit_not_reached_for_activation!
+            return unless OpenProject::Enterprise.user_limit_reached?
+
+            fail ::API::Errors::UnprocessableContent.new(I18n.t(:error_enterprise_activation_user_limit))
+          end
         end
 
         resources :users do
@@ -78,7 +86,7 @@ module API
                 if params[:id] == "me"
                   User.current
                 else
-                  User.visible.find_by_unique!(params[:id]) # rubocop:disable Rails/DynamicFindBy
+                  User.visible.find_by_unique!(params[:id])
                 end
             end
 
@@ -88,6 +96,8 @@ module API
 
             mount ::API::V3::Users::UpdateFormAPI
             mount ::API::V3::UserPreferences::PreferencesByUserAPI
+            mount ::API::V3::UserWorkingHours::WorkingHoursByUserAPI
+            mount ::API::V3::UserNonWorkingTimes::NonWorkingTimesByUserAPI
 
             namespace :lock do
               # Authenticate lock transitions
@@ -105,7 +115,10 @@ module API
               desc "Remove lock on user account"
               delete do
                 user_transition(@user.locked? || @user.active? || @user.deleted?) do
-                  @user.activate! unless @user.active?
+                  if @user.locked?
+                    ensure_user_limit_not_reached_for_activation!
+                    @user.activate!
+                  end
                 end
               end
             end

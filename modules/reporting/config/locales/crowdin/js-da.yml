@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 da:
   js:
     reporting_engine:
-      label_remove: "Slet"
-      label_response_error: "En fejl opstod under forespørgselshåndteringen."
+      label_remove: Slet
+      label_response_error: En fejl opstod under forespørgselshåndteringen.

@@ -1,9 +1,13 @@
-<div class="position-relative mx-auto" style="height:60vh">
-  <canvas baseChart
-    [data]="lineChartData()"
-    [options]="lineChartOptions()"
-    [type]="'line'"></canvas>
-</div>
+@if (hasChartData()) {
+  <div class="position-relative mx-auto" style="height:60vh">
+    <canvas baseChart
+      [data]="lineChartData()"
+      [options]="lineChartOptions()"
+      [type]="'line'"></canvas>
+  </div>
+} @else {
+  <op-no-results />
+}
 
 @if (isDevMode) {
   <hr/>

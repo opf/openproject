@@ -59,7 +59,9 @@ class AttributeHelpTextsController < ApplicationController
     @attribute_help_text = AttributeHelpText.new type: @attribute_scope
   end
 
-  def edit; end
+  def edit
+    @back_url = params[:back_url] || request.referer
+  end
 
   def create # rubocop:disable Metrics/AbcSize
     call = ::AttributeHelpTexts::CreateService
@@ -83,7 +85,7 @@ class AttributeHelpTextsController < ApplicationController
 
     if call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
+      redirect_back_or_default(attribute_help_texts_path(tab: @attribute_help_text.attribute_scope))
     else
       flash.now[:error] = call.message || I18n.t("notice_internal_server_error")
       render action: :edit, status: :unprocessable_entity

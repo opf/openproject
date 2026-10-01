@@ -17,8 +17,9 @@ keywords: work packages, tickets
 Work packages have a **type**, an **ID**, a **subject** and may have various additional attributes, such as **status**, **assignee**, **priority**, **due date**.
 
 <div class="glossary">
+**Work package ID** is a unique identifier assigned to a newly created work package. By default, OpenProject uses an instance-wide numerical sequence (for example, `#12345`). Administrators can alternatively enable project-based identifiers, which combine a project identifier with a sequential number (for example, `PROJ-123`).
 
-**Work package ID** is defined as a unique integer assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential).
+Work package identifiers cannot be edited manually and remain associated with the work package throughout its lifecycle.
 
 </div>
 
@@ -44,6 +45,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Duplicate, move, delete](duplicate-move-delete)             | How to copy, move, delete a work package.                    |
 | [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.). |
 | [Export work packages](exporting)                            | How to export work packages for other tools such as Microsoft Excel. |
+| [Import work packages](importing)                            | How to create many work packages at once from a CSV file.    |
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies.        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4"></video>

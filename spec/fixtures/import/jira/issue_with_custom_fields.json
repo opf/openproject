@@ -1,0 +1,133 @@
+{
+  "id": "10200",
+  "key": "DYX-2",
+  "self": "https://jira-software.local/rest/api/2/issue/10200",
+  "fields": {
+    "summary": "Issue with all custom field types",
+    "description": null,
+    "created": "2026-03-01T10:00:00.000+0000",
+    "updated": "2026-03-01T10:00:00.000+0000",
+    "project": {
+      "id": "10242",
+      "key": "DYX",
+      "name": "Zombie Engine"
+    },
+    "creator": {
+      "key": "JIRAUSER10000",
+      "name": "e.xample",
+      "displayName": "E Xample",
+      "emailAddress": "e.xample@example.com",
+      "active": true
+    },
+    "assignee": null,
+    "issuetype": {
+      "id": "10100",
+      "name": "Task",
+      "description": "A task that needs to be done.",
+      "subtask": false
+    },
+    "status": {
+      "id": "3",
+      "name": "In Progress",
+      "description": "This issue is being actively worked on."
+    },
+    "priority": {
+      "id": "1",
+      "name": "Highest"
+    },
+    "comment": {
+      "total": 0,
+      "comments": []
+    },
+    "attachment": [],
+    "customfield_10255": "my plain string value",
+    "customfield_10275": "This is *bold* and _italic_ text.",
+    "customfield_10254": 42.5,
+    "customfield_10261": "2024-06-15",
+    "customfield_10257": "https://example.com",
+    "customfield_10264": {
+      "id": "10141",
+      "self": "https://jira-software.local/rest/api/2/customFieldOption/10141",
+      "value": "Cat"
+    },
+    "customfield_10265": [
+      {
+        "id": "10145",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10145",
+        "value": "Mouse"
+      },
+      {
+        "id": "10146",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10146",
+        "value": "Turtle"
+      }
+    ],
+    "customfield_10280": ["Label A", "Label B"],
+    "customfield_10258": {
+      "key": "JIRAUSER10000",
+      "name": "e.xample",
+      "displayName": "E Xample",
+      "emailAddress": "e.xample@example.com",
+      "active": true
+    },
+    "customfield_10266": {
+      "id": "10150",
+      "self": "https://jira-software.local/rest/api/2/customFieldOption/10150",
+      "value": "Critical",
+      "child": {
+        "id": "10151",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10151",
+        "value": "Security"
+      }
+    },
+    "customfield_10260": [
+      {
+        "id": "10137",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10137",
+        "value": "Check 1"
+      }
+    ],
+    "customfield_10270": [
+      {
+        "id": "10139",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10139",
+        "value": "Yes"
+      }
+    ],
+    "customfield_10285": [
+      {
+        "id": "10200",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10200",
+        "value": "Alpha"
+      }
+    ],
+    "customfield_10286": [
+      {
+        "id": "10204",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10204",
+        "value": "Active"
+      }
+    ],
+    "customfield_10287": [
+      {
+        "id": "10205",
+        "self": "https://jira-software.local/rest/api/2/customFieldOption/10205",
+        "value": "Yes"
+      }
+    ],
+    "customfield_10290": {
+      "id": "10290",
+      "self": "https://jira-software.local/rest/api/2/customFieldOption/10290",
+      "value": "Option A"
+    },
+    "customfield_10291": {
+      "id": "10300",
+      "self": "https://jira-software.local/rest/api/2/customFieldOption/10300",
+      "value": "North"
+    }
+  },
+  "changelog": {
+    "total": 0,
+    "histories": []
+  }
+}

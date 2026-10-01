@@ -1,0 +1,12 @@
+---
+hy:
+  label_calendar: Օրացույց
+  label_calendar_plural: Օրացույցներ
+  label_new_calendar: Նոր օրացույց
+  permission_manage_calendars: Կառավարել օրացույցները
+  permission_share_calendars: Բաժանորդագրվել iCalendar-ներին
+  permission_view_calendar: Դիտել օրացույցները
+  plugin_openproject_calendar:
+    description: Ապահովում է օրացույցի տեսքեր։
+    name: OpenProject-ի օրացույց
+  project_module_calendar_view: Օրացույցներ

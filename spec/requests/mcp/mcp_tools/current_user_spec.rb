@@ -30,10 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::CurrentUser, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpTools::CurrentUser do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
-    header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
   end
@@ -63,28 +62,22 @@ RSpec.describe McpTools::CurrentUser, with_flag: { mcp_server: true } do
   end
 
   context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP response with structured content"
+    it_behaves_like "MCP embedded resource tool"
 
     it "responds with a properly formatted user" do
-      subject
+      mcp_request
       expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("user_model")
     end
 
     it "responds with the current user" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "id")).to eq(user.id)
-    end
-
-    context "when the tool is disabled via configuration" do
-      let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP error response"
     end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

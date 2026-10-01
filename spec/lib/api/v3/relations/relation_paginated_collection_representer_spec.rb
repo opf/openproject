@@ -49,8 +49,17 @@ RSpec.describe API::V3::Relations::RelationPaginatedCollectionRepresenter do
                 .and_return(relations)
 
         allow(relations)
-          .to receive(:count)
-                .and_return(relations.length)
+          .to receive(:where)
+                .with(id: relations.pluck(:id))
+                .and_return(relations)
+
+        allow(relations)
+          .to receive_messages(count: relations.length,
+                               model: relations,
+                               eager_load: relations,
+                               preload: relations,
+                               order: relations,
+                               order_values: [])
       end
     end
   end

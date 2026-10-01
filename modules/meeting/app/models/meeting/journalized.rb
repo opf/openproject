@@ -38,21 +38,48 @@ module Meeting::Journalized
           #{format_date o.start_time} \
           #{format_time o.start_time, include_date: false}-#{format_time o.end_time, include_date: false})"
                          },
-                  url: Proc.new { |o| { controller: "/meetings", action: "show", id: o } },
+                  url: Proc.new { |o| { controller: "/meetings", action: "show", project_id: o.project, id: o } },
                   author: Proc.new(&:user),
-                  description: ""
+                  description: Proc.new(&:searchable_content)
 
     register_journal_formatted_fields "title", "location", formatter_key: :plaintext
     register_journal_formatted_fields "duration", formatter_key: :fraction
     register_journal_formatted_fields "start_date", formatter_key: :datetime
     register_journal_formatted_fields "start_time", formatter_key: :meeting_start_time
     register_journal_formatted_fields "state", formatter_key: :meeting_state
+    register_journal_formatted_fields "participants_invited", "participants_attended", formatter_key: :plaintext
+    register_journal_formatted_fields "participants_added", "participants_removed", formatter_key: :participant_change
 
     register_journal_formatted_fields "duration", formatter_key: :agenda_item_duration
-    register_journal_formatted_fields /agenda_items_\d+_notes/, formatter_key: :agenda_item_diff
-    register_journal_formatted_fields /agenda_items_\d+_title/, formatter_key: :agenda_item_title
-    register_journal_formatted_fields /agenda_items_\d+_duration_in_minutes/, formatter_key: :agenda_item_duration
+    register_journal_formatted_fields /\Aagenda_items_\d+_notes\z/, formatter_key: :agenda_item_diff
+    register_journal_formatted_fields /\Aagenda_items_\d+_title\z/, formatter_key: :agenda_item_title
+    register_journal_formatted_fields /\Aagenda_items_\d+_duration_in_minutes\z/, formatter_key: :agenda_item_duration
     register_journal_formatted_fields "position", formatter_key: :agenda_item_position
-    register_journal_formatted_fields /agenda_items_\d+_work_package_id/, formatter_key: :meeting_work_package_id
+    register_journal_formatted_fields /\Aagenda_items_\d+_work_package_id\z/, formatter_key: :meeting_work_package_id
+  end
+
+  # Text of the meeting's searchable content grouped into blocks.
+  # When tokens are given only the matching blocks are returned (to return a section title, for example).
+  def searchable_content(tokens = nil)
+    blocks = content_blocks
+    blocks = blocks.select { |block| block_matches_tokens?(block, tokens) } if tokens.present?
+
+    blocks.join("\n\n")
+  end
+
+  private
+
+  def content_blocks
+    section_blocks = sections.map(&:title)
+    item_blocks = agenda_items.map do |item|
+      [item.title, item.notes, *item.outcomes.map(&:notes)].compact_blank.join("\n\n")
+    end
+
+    (section_blocks + item_blocks).compact_blank
+  end
+
+  def block_matches_tokens?(block, tokens)
+    text = block.downcase
+    tokens.any? { |token| text.include?(token.downcase) }
   end
 end

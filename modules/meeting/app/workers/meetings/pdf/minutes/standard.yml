@@ -78,6 +78,7 @@ cover:
 
 notes:
   markdown_margin:
+    margin_top: 4
     margin_bottom: 0
   markdown:
     font:
@@ -87,8 +88,10 @@ notes:
       size: 10.5
       styles: [ "bold" ]
       padding_top: 4
+      padding_bottom: 4
     paragraph:
       align: "justify"
+      padding_bottom: 6
     unordered_list:
       spacing: 1
       padding_top: 10
@@ -100,6 +103,7 @@ notes:
       spacing: 10
     ordered_list:
       spacing: 1
+      padding_bottom: 6
     ordered_list_point:
       spacing: 4
       spanning: true
@@ -114,6 +118,7 @@ notes:
       list_style_type: upper-roman
     task_list:
       spacing: 1
+      padding_bottom: 6
     task_list_point:
       spacing: 4
       checked: "☑"
@@ -134,8 +139,7 @@ notes:
       border_width: 1
       padding: 4
       padding_left: 6
-      margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 6
       no_border_left: false
       no_border_right: true
       no_border_bottom: true
@@ -150,14 +154,15 @@ notes:
       background_color: "F5F5F5"
       color: "880000"
       padding: 10
+      padding_top: 6
       size: 8
-      margin_top: 10
+      margin_top: 2
       margin_bottom: 10
       font: "SpaceMono"
     table:
       auto_width: true
       margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 6
       header:
         size: 10
         styles: [ "bold" ]
@@ -169,7 +174,7 @@ notes:
     html_table:
       auto_width: true
       margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 10
       header:
         size: 10
         styles: [ "bold" ]
@@ -261,6 +266,7 @@ outcome:
     size: 10
     margin_bottom: 5
   markdown_margin:
+    margin_top: 4
     margin_bottom: 8
   markdown:
     font:
@@ -270,6 +276,7 @@ outcome:
       size: 8
       styles: [ "bold" ]
       padding_top: 4
+      padding_bottom: 4
     header_1:
       size: 10
     header_2:
@@ -278,12 +285,19 @@ outcome:
       size: 9
     paragraph:
       align: "left"
+      padding_bottom: 6
     unordered_list:
       spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
     unordered_list_point:
       spacing: 4
     ordered_list:
       spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
     ordered_list_point:
       spacing: 4
       spanning: true
@@ -298,6 +312,9 @@ outcome:
       list_style_type: upper-roman
     task_list:
       spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
     task_list_point:
       spacing: 4
       checked: "☑"
@@ -318,8 +335,7 @@ outcome:
       border_width: 1
       padding: 4
       padding_left: 6
-      margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 6
       no_border_left: false
       no_border_right: true
       no_border_bottom: true
@@ -334,8 +350,9 @@ outcome:
       background_color: "F5F5F5"
       color: "880000"
       padding: 10
+      padding_top: 6
       size: 8
-      margin_top: 10
+      margin_top: 2
       margin_bottom: 10
       font: "SpaceMono"
     table:
@@ -353,7 +370,7 @@ outcome:
     html_table:
       auto_width: true
       margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 10
       header:
         size: 9
         styles: [ "bold" ]

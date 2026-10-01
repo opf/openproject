@@ -49,6 +49,7 @@ module Storages
         def to_h
           { issuer:, client_id:, client_secret:, scope: }
         end
+        alias_method :to_hash, :to_h
       end
     end
   end

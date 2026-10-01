@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -56,12 +56,11 @@ export class OpenProject {
     return this.pageState === 'submitted';
   }
 
-  /** Globally setable variable whether any of the EditFormComponent
-   * contain changes.
-   * Necessary to show a data loss warning on beforeunload when clicking
-   * on a link out of the Angular app (ie: main side menu)
-   * */
-  public editFormsContainModelChanges:boolean;
+  public get pageHasUnsavedChanges():boolean {
+    return this.pageWasEdited || this.editFormsContainUnsavedChanges();
+  }
+
+  public editFormsContainUnsavedChanges:() => boolean = () => false;
 
   public getPluginContext():Promise<OpenProjectPluginContext> {
     return firstValueFrom(this.pluginContext.values$());
@@ -103,9 +102,9 @@ export class OpenProject {
         window.localStorage.setItem(key, newValue);
       } else {
         const value = window.localStorage.getItem(key);
-        return value === null ? undefined : value;
+        return value ?? undefined;
       }
-    } catch (e) {
+    } catch {
       console.error('Failed to access your browsers local storage. Is your local database corrupted?');
     }
   }

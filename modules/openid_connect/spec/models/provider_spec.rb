@@ -201,4 +201,28 @@ RSpec.describe OpenIDConnect::Provider do
       end
     end
   end
+
+  describe "#csp_form_action_origin" do
+    subject { build(:oidc_provider, authorization_endpoint:, issuer:).csp_form_action_origin }
+
+    let(:authorization_endpoint) { "https://keycloak.local/realms/master/protocol/openid-connect/auth" }
+    let(:issuer) { "https://keycloak.local/realms/master" }
+
+    it { is_expected.to eq("https://keycloak.local/") }
+
+    context "when the authorization endpoint is relative" do
+      let(:authorization_endpoint) { "/realms/master/protocol/openid-connect/auth" }
+
+      it "falls back to the issuer origin" do
+        expect(subject).to eq("https://keycloak.local/")
+      end
+    end
+
+    context "when authorization endpoint and issuer are blank" do
+      let(:authorization_endpoint) { nil }
+      let(:issuer) { nil }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

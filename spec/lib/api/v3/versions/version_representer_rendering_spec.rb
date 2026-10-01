@@ -49,7 +49,7 @@ RSpec.describe API::V3::Versions::VersionRepresenter, "rendering" do
   end
 
   it "fulfills the documented schema" do
-    expect(generated).to match_json_schema.from_docs("version_model")
+    expect(generated).to match_json_schema.from_docs("version_read_model")
   end
 
   it { is_expected.to include_json("Version".to_json).at_path("_type") }

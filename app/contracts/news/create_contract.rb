@@ -29,4 +29,5 @@
 #++
 
 class News::CreateContract < News::BaseContract
+  attribute :project
 end

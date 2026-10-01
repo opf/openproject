@@ -75,7 +75,8 @@ module LdapGroups
         link_to I18n.t(:button_delete),
                 { controller: table.target_controller, ldap_filter_id: model.id, action: :destroy_info },
                 class: "icon icon-delete",
-                title: t(:button_delete)
+                title: t(:button_delete),
+                data: { turbo_stream: true }
       end
     end
   end

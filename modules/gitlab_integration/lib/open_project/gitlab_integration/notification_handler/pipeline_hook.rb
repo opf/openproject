@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -59,8 +61,13 @@ module OpenProject::GitlabIntegration
       end
 
       def find_merge_request
-        gitlab_id = payload.merge_request.iid
-        GitlabMergeRequest.find_by(gitlab_id:)
+        # The payload's merge request URL is authoritative: for fork pipelines the
+        # pipeline's project is not the merge request's project, so a URL rebuilt
+        # from the project would not match. Rebuilding is the fallback for payloads
+        # that carry no URL.
+        url = payload.merge_request.url?.presence ||
+          "#{payload.project.web_url}/-/merge_requests/#{payload.merge_request.iid}"
+        GitlabMergeRequest.find_by(gitlab_html_url: url)
       end
     end
   end

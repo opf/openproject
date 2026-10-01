@@ -21,7 +21,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,11 +57,18 @@ module TimeEntries
     private
 
     def user_allowed_to_update_in?(time_entry)
-      user.allowed_in_project?(:edit_time_entries, time_entry.project) || (model.user == user && edit_own?(time_entry))
+      user.allowed_in_project?(:edit_time_entries, time_entry.project) || (own_entry? && edit_own?(time_entry))
     end
 
     def user_allowed_to_modify_ongoing?(time_entry)
-      model.user == user && (user.allowed_in_project?(:log_time, time_entry.project) || log_own?(time_entry))
+      own_entry? && (user.allowed_in_project?(:log_time, time_entry.project) || log_own?(time_entry))
+    end
+
+    # Whether the entry is the acting user's own entry. The previous owner is
+    # checked alongside the current one so that authorization cannot be gained by
+    # reassigning another user's entry to oneself within the same request
+    def own_entry?
+      model.user_id_was == user.id && model.user == user
     end
 
     def edit_own?(time_entry)

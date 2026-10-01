@@ -21,25 +21,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, NgZone, OnInit,
+  ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import {
@@ -57,9 +56,16 @@ import {
   styleUrls: ['./bcf-list.component.sass'],
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
-    DragAndDropService,
     CausedUpdatesService,
+    // Component metadata is not inherited: this template renders <wp-table>
+    // itself, so the table's drag binding needs its own scoped instance here.
+    DragAndDropService,
   ],
+  // The BIM/primerized layout has no equivalent of the (non-BIM) partitioned
+  // page's own content-right placeholder div, so this component's own host is
+  // what the <wp-resizer elementClass="..."> below measures/resizes instead.
+  // Deliberately a distinct class, not the same-named one from
+  host: { class: 'op-bcf-list' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-bcf-list',
   standalone: false,
@@ -67,21 +73,17 @@ import {
 export class BcfListComponent extends WorkPackageListViewComponent implements UntilDestroyedMixin, OnInit {
   @Input() showResizer = false;
 
-  @InjectField() bcfView:BcfViewService;
+  @LazyInject() bcfView:BcfViewService;
 
-  @InjectField() ifcModelsService:IfcModelsDataService;
+  @LazyInject() ifcModelsService:IfcModelsDataService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() uIRouterGlobals:UIRouterGlobals;
+  @LazyInject() viewer:ViewerBridgeService;
 
-  @InjectField() viewer:ViewerBridgeService;
+  @LazyInject() states:States;
 
-  @InjectField() states:States;
-
-  @InjectField() bcfApi:BcfApiService;
-
-  @InjectField() zone:NgZone;
+  @LazyInject() bcfApi:BcfApiService;
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false,
@@ -105,9 +107,7 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
     if (!this.showViewPointInFlight) {
       this.showViewPointInFlight = true;
 
-      this.zone.runOutsideAngular(() => {
-        setTimeout(() => { this.showViewPointInFlight = false; }, 500);
-      });
+      setTimeout(() => { this.showViewPointInFlight = false; }, 500);
 
       const wp = this.states.workPackages.get(workPackageId).value;
 
@@ -116,25 +116,20 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
       }
     }
 
+    // Unlike the plain work-packages list (which opens the full view on double
+    // click), BCF always opens the split view here - leaving `/bcf` would drop
+    // the topic list/model toolbar. Whether the viewer pane itself is shown
+    // alongside it is a layout concern (see IFCViewerPageComponent), not a
+    // routing one.
     if (double || this.deviceService.isMobile) {
-      this.goToWpDetailState(workPackageId, this.uIRouterGlobals.params.cards);
+      this.openInSplitView(resolveRoutingId(this.states, workPackageId));
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
-    this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards, true);
-  }
-
-  goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean):void {
-    // Show the split view when there is a viewer (browser)
-    // Show only wp details when there is no viewer, plugin environment (ie: Revit)
-    const stateToGo = this.viewer.shouldShowViewer
-      ? splitViewRoute(this.$state)
-      : 'bim.partitioned.show';
-    // Passing the card param to the new state because the router doesn't keep
-    // it when going to 'bim.partitioned.show'
-    const params = { workPackageId, cards, focus };
-
-    void this.$state.go(stateToGo, params);
+  // Overridden (rather than inherited as-is) because the parent's version opens
+  // the full view for a 'show' link - here that would leave `/bcf` and drop the
+  // topic list/model toolbar, same as handleWorkPackageClicked above.
+  openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }):void {
+    this.openInSplitView(resolveRoutingId(this.states, event.workPackageId));
   }
 }

@@ -58,6 +58,11 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "new", over
 
     options.logging_prefs = { browser: "ALL" }
 
+    # axe-core audits and Capybara's own hint gathering run as scripts over the
+    # full DOM. On large pages (permissions matrix, Gantt header) the 30s W3C
+    # default is not enough on a loaded CI machine.
+    options.timeouts = { script: 60_000 }
+
     yield(options) if block_given?
 
     client = Selenium::WebDriver::Remote::Http::Default.new
@@ -124,6 +129,8 @@ end
 register_chrome "en", name: :chrome_billy do |options|
   options.add_argument("proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
   options.add_argument("proxy-bypass-list=127.0.0.1;localhost;#{Capybara.server_host}")
+  # Reduce background Google service traffic that can crash puffing-billy's parser.
+  options.add_argument("--disable-background-networking")
 
   options.accept_insecure_certs = true
 end

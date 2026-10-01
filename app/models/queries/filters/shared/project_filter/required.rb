@@ -51,6 +51,14 @@ module Queries::Filters::Shared::ProjectFilter::Required
       # harm.
       @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
     end
+
+    def autocomplete_options
+      {
+        component: "opce-project-autocompleter",
+        resource: "projects",
+        filters: [{ name: "active", operator: "=", values: ["t"] }]
+      }
+    end
   end
 
   module ClassMethods

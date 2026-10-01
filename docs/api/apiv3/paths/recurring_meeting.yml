@@ -1,0 +1,164 @@
+# /api/v3/recurring_meetings/{id}
+---
+get:
+  summary: Get a recurring meeting
+  operationId: get_recurring_meeting
+  tags:
+    - Recurring Meetings
+  description: Retrieve an individual recurring meeting series as identified by the id parameter.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+
+patch:
+  summary: Update recurring meeting
+  operationId: update_recurring_meeting
+  tags:
+    - Recurring Meetings
+  description: |-
+    Updates the given recurring meeting series by applying the attributes provided in the body.
+    If schedule-related attributes (frequency, interval, startTime, endAfter, etc.) are changed,
+    the meeting schedule is automatically recalculated.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/recurring_meeting_write_model.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit meetings in the recurring meeting's project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+delete:
+  summary: Delete recurring meeting
+  operationId: delete_recurring_meeting
+  tags:
+    - Recurring Meetings
+  description: |-
+    Deletes the entire recurring meeting series, including the template meeting and all
+    scheduled occurrences that have not yet been instantiated. Already-created meeting
+    instances are not deleted.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the recurring meeting was successfully deleted.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** delete meetings
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

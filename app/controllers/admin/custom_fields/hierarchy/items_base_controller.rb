@@ -36,9 +36,10 @@ module Admin
         include Dry::Monads[:result]
 
         layout :admin_or_frame_layout
-        model_object CustomField
 
-        before_action :require_admin, :find_model_object, :find_active_item
+        before_action :require_admin
+        before_action :find_custom_field
+        before_action :find_active_item
 
         # See https://github.com/hotwired/turbo-rails?tab=readme-ov-file#a-note-on-custom-layouts
         def admin_or_frame_layout
@@ -212,7 +213,7 @@ module Admin
         def parse_parent_input(new_parent_input)
           case new_parent_input
           in [new_parent]
-            input = MultiJson.load(new_parent, symbolize_keys: true)[:value]
+            input = MultiJSON.load(new_parent, symbolize_keys: true)[:value]
             new_parent = CustomField::Hierarchy::Item.including_children.find_by(id: input)
 
             if new_parent.present?
@@ -225,20 +226,15 @@ module Admin
           end
         end
 
-        def find_model_object
-          @object = find_custom_field
-          @custom_field = @object
-        end
-
         def find_custom_field
-          raise NotImplementedError, "SubclassResponsibility"
+          raise SubclassResponsibilityError
         end
 
         def find_active_item
           @active_item = if params[:id].present?
                            CustomField::Hierarchy::Item.including_children.find(params[:id])
                          else
-                           @object.hierarchy_root
+                           @custom_field.hierarchy_root
                          end
         end
       end

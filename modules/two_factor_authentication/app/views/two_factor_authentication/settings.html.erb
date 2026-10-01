@@ -25,7 +25,8 @@
         <% configuration_link = OpenProject::Static::Links.url_for :configuration_guide %>
         <%= link_to t("two_factor_authentication.settings.text_configuration_guide"),
                     configuration_link,
-                    target: "_blank" %>
+                    target: "_blank",
+                    rel: "noopener" %>
       </p>
       <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
             if configuration["active_strategies"].empty?

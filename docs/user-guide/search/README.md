@@ -14,7 +14,7 @@ There are two ways to search for work packages, documents, projects, etc. in Ope
 
 The search bar is located in the **center of the header navigation**. To find work packages by subject, start typing your search terms — **do not press Enter**. An auto-completer will suggest matching work packages from all projects you have access to. You can click a suggestion or right-click to open it in a new tab.
 
-You can also search by work package type, status, ID, or the project it belongs to. For example, let's start by searching for a keyword within a subject: entering the word **“release”** will show all work packages with the word “release” in the subject.
+You can also search by work package type, status, ID (for example, #12345 or PROJ-123), or the project it belongs to. For example, let's start by searching for a keyword within a subject: entering the word **“release”** will show all work packages with the word “release” in the subject.
 
 ![Search results for a global search using the keyword "release" in OpenProject](openproject_user_guide_search_all_results.png)
 
@@ -44,6 +44,26 @@ You can now view search results from different categories or sections of OpenPro
 > [!NOTE]
 >
 > It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/project-lists/).
+
+## Partial-text search
+
+The OpenProject search bar is also configured to support partial-text search. Simply type part of a word, and the system will display matching items.
+
+For example: Entering **"roto"** will return results such as **prototyping**, **prototype**
+
+This feature is especially helpful if you do not remember the exact name of a work package or are unsure of the exact spelling.
+
+![Partial text search for work package search in OpenProject](openproject_userguide_search_partial_text.png)
+
+## Multi-term text search
+
+You can also search using multiple space-separated terms to narrow down results.
+
+For example: Entering **"de roto"** will match **Design prototyping**.
+
+When you type more than one text, the search will only show results where **all entered terms** appear somewhere in the project or workspace name. This helps you find items faster, even if you only remember parts of the name.
+
+![Multi term text search for work package search in OpenProject](openproject_userguide_search_multispace_text.png)
 
 ## Full-text search
 

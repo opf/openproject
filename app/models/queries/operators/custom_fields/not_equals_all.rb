@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,10 +38,15 @@ module Queries::Operators
 
         if values.present?
           sql = values.map do |val|
-            "NOT EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = '#{connection.quote_string(customized_type)}' " \
-              "AND custom_field_id = #{custom_field_id} " \
+            OpenProject::SqlSanitization.sanitize(
+              "NOT EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = ? " \
+              "AND custom_field_id = ? " \
               "AND customized_id = #{customized_id_join_field} " \
-              "AND value ='#{connection.quote_string(val)}')"
+              "AND value = ?)",
+              customized_type,
+              custom_field_id,
+              val
+            )
           end
 
           sql.join(" AND ")

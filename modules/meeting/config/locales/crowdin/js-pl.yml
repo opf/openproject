@@ -19,9 +19,10 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pl:
   js:
-    label_meetings: 'Spotkania'
+    label_meetings: Spotkania
     work_packages:
       tabs:
-        meetings: 'Spotkania'
+        meetings: Spotkania

@@ -1,0 +1,15 @@
+<div class="widget-boxes -flex">
+  <%= render(::Grids::WidgetBoxComponent.new(key: "widget-box-rows-preview", title: "Widget title")) do |widget| %>
+    <% widget.with_row do %>
+      First row
+    <% end %>
+
+    <% widget.with_row do %>
+      Second row
+    <% end %>
+
+    <% widget.with_row do %>
+      Third row
+    <% end %>
+  <% end %>
+</div>

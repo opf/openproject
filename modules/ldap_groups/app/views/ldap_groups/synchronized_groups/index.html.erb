@@ -42,7 +42,14 @@
 <div class="op-toast -info">
   <div class="op-toast--content">
     <strong><%= t("note") %></strong>
-    <%= t("ldap_groups.synchronized_groups.help_text_html") %>
+    <%=
+      link_translate(
+        "ldap_groups.synchronized_groups.help_text_html",
+        links: {
+          docs_url: %i[sysadmin_docs ldap_group_sync]
+        }
+      )
+    %>
   </div>
 </div>
 

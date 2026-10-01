@@ -34,7 +34,6 @@ module Pages
   module Portfolios
     class Index < ::Pages::Page
       include ::Components::Common::Filters
-      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def path(*)
         "/portfolios"
@@ -163,6 +162,10 @@ module Pages
 
       def sidebar_menu_items
         page.find_by_id("menu-sidebar").all(".op-submenu--item-title").map(&:text)
+      end
+
+      def expect_no_sidebar_filter_selected
+        Components::Submenu.new.expect_no_selected_item
       end
 
       def within_portfolio_list(&)

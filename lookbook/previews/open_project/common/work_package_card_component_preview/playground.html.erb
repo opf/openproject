@@ -1,0 +1,26 @@
+<%= render OpenProject::Common::WorkPackageCardComponent.new(
+      work_package:,
+      show_assignee:,
+      show_priority:,
+      show_drag_handle:,
+      show_parent:,
+      link_subject:,
+      status_scheme: status_scheme.to_sym
+    ) do |card|
+      card.with_metric { (work_package.try(:story_points) || 5).to_s } if show_metric
+
+      if show_menu
+        card.with_menu do |menu|
+          menu.with_item(label: "Open", href: "/work_packages/#{work_package.id}")
+          menu.with_item(label: "Edit", href: "/work_packages/#{work_package.id}/edit")
+          menu.with_divider
+          menu.with_item(label: "Delete", scheme: :danger)
+        end
+      end
+
+      if additional_details
+        card.with_additional_details do
+          render(Primer::Beta::Text.new(tag: :span, font_size: :small, color: :subtle)) { "Some bottom line" }
+        end
+      end
+    end %>

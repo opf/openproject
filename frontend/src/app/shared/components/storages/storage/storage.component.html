@@ -6,7 +6,7 @@
       <svg class="op-tab-content--header-icon op-files-tab--icon" cloud-icon size="small"></svg>
     }
 
-    <span class="op-tab-content--header-text" [textContent]="(storage | async)?.name"></span>
+    <span class="op-tab-content--header-text" [textContent]="$safeNavigationMigration((storage | async)?.name)"></span>
 
     @if (openStorageLink) {
       <a
@@ -21,7 +21,7 @@
     }
   </div>
 
-  @for (infoBox of storageErrors | async; track infoBox) {
+  @for (infoBox of storageErrors | async; track infoBox.header + ':' + infoBox.content) {
     <op-storage-information class="op-files-tab--storage-info-box"
       data-test-selector="op-storage--information"
       [content]="infoBox"
@@ -76,7 +76,7 @@
           'op-file-section--drop-box': true,
           'op-file-section--drop-box_dragging': dragging > 0,
           'op-file-section--drop-box_dragging-over': draggingOverDropZone,
-          'op-file-section--drop-box_float': (fileLinks | async)?.length
+          'op-file-section--drop-box_float': $safeNavigationMigration((fileLinks | async)?.length)
         }"
         type="button"
         (dragover)="onDragOver($event)"

@@ -30,4 +30,4 @@ Watch this short video to get a first overview about time and cost reporting in 
 
 ### Does OpenProject provide resource management?
 
-Please note that OpenProject currently does not yet support resource management. However, this is scheduled in our [roadmap](https://community.openproject.org/projects/openproject/roadmap) as one of our main topics. Our [use cases](../../use-cases/resource-management/) provide examples for workarounds to support resource management within OpenProject.
+Yes. The Resource management module enables project managers to plan capacity, allocate work and staff projects based on team members' availability and skills. For details, see the [Resource management user guide](../resource-management/).

@@ -31,20 +31,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :edit)) %>
 
-<% if CustomFields::DetailsComponent.supported?(@custom_field) %>
-  <%= render CustomFields::DetailsComponent.new(@custom_field) %>
-<% else %>
-  <%= error_messages_for "custom_field" %>
-
-  <% content_controller "admin--custom-fields",
-                        "admin--custom-fields-format-config-value": OpenProject::CustomFieldFormatDependent.stimulus_config,
-                        "admin--custom-fields-format-value": @custom_field.field_format %>
-
-  <%= labelled_tabular_form_for @custom_field,
-                                as: :custom_field,
-                                url: custom_field_path(@custom_field),
-                                html: { method: :put, id: "custom_field_form" } do |f| %>
-    <%= render partial: "form", locals: { f: f } %>
-    <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-  <% end %>
-<% end %>
+<%= render CustomFields::DetailsComponent.new(@custom_field) %>

@@ -32,7 +32,8 @@ module CustomField::OrderStatements
   ORDER_JOIN_METHOD_BY_FIELD_FORMAT = OpenProject::MultiKeyHash.expand(
     %w[string date bool link] => :join_for_order_by_string_sql,
     "int" => :join_for_order_by_int_sql,
-    %w[float calculated_value] => :join_for_order_by_float_sql,
+    "float" => :join_for_order_by_float_sql,
+    "calculated_value" => :join_for_order_by_calculated_value_sql,
     "list" => :join_for_order_by_list_sql,
     "user" => :join_for_order_by_user_sql,
     "version" => :join_for_order_by_version_sql,
@@ -113,16 +114,20 @@ module CustomField::OrderStatements
   #   ) cf_order_NNN ON cf_order_NNN.customized_id = …
   #
   def join_for_order_sql(value:, add_select: nil, join: nil, multi_value: false)
-    <<-SQL.squish
+    customized_type_condition = OpenProject::SqlSanitization.sanitize(
+      "cv.customized_type = ?", self.class.customized_class.base_class.name
+    )
+
+    <<~SQL.squish
       LEFT OUTER JOIN (
         SELECT
-          #{multi_value ? '' : 'DISTINCT ON (cv.customized_id)'}
+          #{'DISTINCT ON (cv.customized_id)' unless multi_value}
             cv.customized_id
             , #{value} "value"
             #{", #{add_select}" if add_select}
           FROM #{CustomValue.quoted_table_name} cv
           #{join}
-          WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
+          WHERE #{customized_type_condition}
             AND cv.custom_field_id = #{id}
             AND cv.value IS NOT NULL
             AND cv.value != ''
@@ -137,6 +142,10 @@ module CustomField::OrderStatements
   def join_for_order_by_int_sql = join_for_order_sql(value: "cv.value::decimal(60)")
 
   def join_for_order_by_float_sql = join_for_order_sql(value: "cv.value::double precision")
+
+  def join_for_order_by_calculated_value_sql
+    join_for_order_sql(value: "CASE cv.value WHEN 't' THEN 1 WHEN 'f' THEN 0 ELSE cv.value::double precision END")
+  end
 
   def join_for_order_by_list_sql
     join_for_order_sql(

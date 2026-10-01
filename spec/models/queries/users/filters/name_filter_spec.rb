@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Queries::Users::Filters::NameFilter do
   include_context "filter tests"
-  let(:values) { ["A name"] }
+  let(:values) { ["A name", "Another name"] }
   let(:model) { User.user }
 
   it_behaves_like "basic query filter" do
@@ -58,7 +58,10 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       let(:operator) { "=" }
 
       it "is the same as handwriting the query" do
-        expected = model.where("LOWER(users.firstname) IN ('#{values.first.downcase}') OR unaccent(LOWER(users.firstname)) IN ('#{values.first.downcase}')")
+        expected = model.where(<<~SQL.squish)
+          LOWER(users.firstname) IN ('a name', 'another name')
+          OR unaccent(LOWER(users.firstname)) IN ('a name', 'another name')
+        SQL
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
@@ -68,7 +71,10 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       let(:operator) { "!" }
 
       it "is the same as handwriting the query" do
-        expected = model.where("LOWER(users.firstname) NOT IN ('a name') AND unaccent(LOWER(users.firstname)) NOT IN ('a name')")
+        expected = model.where(<<~SQL.squish)
+          LOWER(users.firstname) NOT IN ('a name', 'another name')
+          AND unaccent(LOWER(users.firstname)) NOT IN ('a name', 'another name')
+        SQL
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
@@ -78,7 +84,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       let(:operator) { "~" }
 
       it "is the same as handwriting the query" do
-        expected = model.where("unaccent(LOWER(users.firstname)) LIKE unaccent('%#{values.first.downcase}%')")
+        expected = model.where("unaccent(LOWER(users.firstname)) LIKE unaccent('%a name%')")
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
@@ -88,7 +94,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       let(:operator) { "!~" }
 
       it "is the same as handwriting the query" do
-        expected = model.where("unaccent(LOWER(users.firstname)) NOT LIKE unaccent('%#{values.first.downcase}%')")
+        expected = model.where("unaccent(LOWER(users.firstname)) NOT LIKE unaccent('%a name%')")
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end

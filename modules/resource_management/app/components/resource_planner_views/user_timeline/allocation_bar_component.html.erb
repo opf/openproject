@@ -1,0 +1,26 @@
+<%= tag.div(class: "op-rm-timeline-bar op-rm-timeline-bar_status", style: status_style, id: label_tooltip_id) do %>
+  <span class="op-rm-timeline-bar--hours"><%= hours_label %></span>
+  <% if project_name.present? %>
+    <span class="op-rm-timeline-bar--project"><%= project_name %></span>
+  <% end %>
+  <span class="op-rm-timeline-bar--label <%= "-undisclosed" unless entity_visible? %>"><%= entity_subject %></span>
+  <%= render Primer::Alpha::Tooltip.new(
+        for_id: label_tooltip_id,
+        type: :description,
+        text: label_tooltip
+      ) %>
+  <% if overbooked? %>
+    <%= render Primer::Beta::Octicon.new(
+          icon: :alert,
+          color: :danger,
+          id: overbooked_tooltip_id,
+          classes: "op-rm-timeline-bar--warning",
+          "aria-label": overbooked_tooltip
+        ) %>
+    <%= render Primer::Alpha::Tooltip.new(
+          for_id: overbooked_tooltip_id,
+          type: :description,
+          text: overbooked_tooltip
+        ) %>
+  <% end %>
+<% end %>

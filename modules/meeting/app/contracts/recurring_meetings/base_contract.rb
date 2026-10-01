@@ -40,6 +40,9 @@ module RecurringMeetings
     attribute :start_date
     attribute :start_time_hour
     attribute :frequency
+    attribute :monthly_day
+    attribute :monthly_ordinal
+    attribute :monthly_weekday
     attribute :end_after
     attribute :end_date
     attribute :iterations

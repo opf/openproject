@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,7 +37,7 @@ export function getMetaContent<T extends string|null>(
   defaultValue?:T
 ):string|T {
   const content = getMetaElement(name)?.content ?? defaultValue ?? '';
-  return content as string|T;
+  return content;
 }
 
 export function getMetaValue(name:string, key:string):string;
@@ -48,5 +48,5 @@ export function getMetaValue<T extends string|null>(
   defaultValue?:T
 ):string|T {
   const value = getMetaElement(name)?.dataset[key] ?? defaultValue ?? '';
-  return value as string|T;
+  return value;
 }

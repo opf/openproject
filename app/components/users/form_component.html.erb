@@ -1,0 +1,15 @@
+<%= render(form_list) %>
+
+<%= helpers.render_user_form_hooks(user: @user, form: @builder) %>
+
+<% if show_preferences? %>
+  <%# Outside the FormList because of its :pref scope, so it needs the gap the
+      list adds between its own sections (the section margin already supplies the rest). %>
+  <%= render(Primer::Box.new(mt: 3)) do %>
+    <%= fields_for(:pref, @user.pref, builder: @builder.class) do |pref_f| %>
+      <%= render(Users::Form::PreferencesForm.new(pref_f)) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, name: "submit", mt: 3)) { creating? ? I18n.t(:button_create) : I18n.t(:button_save) } %>

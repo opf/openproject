@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -21,18 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
@@ -44,6 +38,8 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
   standalone: false,
 })
 export class OpAttachmentListComponent extends UntilDestroyedMixin {
+  private readonly attachmentsResourceService = inject(AttachmentsResourceService);
+
   @Input() public attachments:IAttachment[] = [];
 
   @Input() public collectionKey:string;
@@ -53,12 +49,6 @@ export class OpAttachmentListComponent extends UntilDestroyedMixin {
   @Input() public showDelete = true;
 
   @Output() public attachmentRemoved = new EventEmitter<void>();
-
-  constructor(
-    private readonly attachmentsResourceService:AttachmentsResourceService,
-  ) {
-    super();
-  }
 
   public removeAttachment(attachment:IAttachment):void {
     this.attachmentsResourceService.removeAttachment(this.collectionKey, attachment).subscribe(() => {

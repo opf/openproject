@@ -33,20 +33,13 @@ require_relative "../shared_context"
 
 RSpec.describe "Edit project phases on project overview page", :js do
   include_context "with seeded projects and phases"
-  shared_let(:user) { create(:user) }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:overview_page) { Pages::Projects::Show.new(project) }
   let(:permissions) { [] }
 
   current_user { user }
 
   before do
-    # Mocking the Project::Phase.visible scope
-    allow(Project).to receive(:allowed_to).and_call_original
-    allow(Project).to receive(:allowed_to).with(user, :view_project_phases).and_return(project)
-
-    mock_permissions_for(user) do |mock|
-      mock.allow_in_project(*permissions, project:) # any project
-    end
     overview_page.visit_page
   end
 

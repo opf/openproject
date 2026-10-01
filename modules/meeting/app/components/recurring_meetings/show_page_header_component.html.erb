@@ -1,6 +1,5 @@
 <%=
-  helpers.content_controller "keep-scroll-position",
-                             keep_scroll_position_url_value: polymorphic_path([@project, @meeting])
+  helpers.content_controller "keep-scroll-position"
 
   component_wrapper do
     render(Primer::OpenProject::PageHeader.new) do |header|

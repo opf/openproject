@@ -21,12 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { State } from '@openproject/reactivestates';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -41,13 +42,17 @@ export const fallbackSchemaId = '__fallback';
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
+  readonly states:States;
+  readonly halResourceService = inject(HalResourceService);
+
   fallbackSchema = this.halResourceService.createHalResourceOfClass<SchemaResource>(SchemaResource, {}, true);
 
-  constructor(
-    readonly states:States,
-    readonly halResourceService:HalResourceService,
-  ) {
+  constructor() {
+    const states = inject(States);
+
     super(states.schemas);
+    this.states = states;
+
     this.putValue(fallbackSchemaId, this.fallbackSchema);
   }
 

@@ -52,7 +52,7 @@ module My
 
       token = cookies[OpenProject::Configuration["autologin_cookie_name"]]
       if token
-        @current_token = @autologin_tokens.find_by_plaintext_value(token) # rubocop:disable Rails/DynamicFindBy
+        @current_token = @autologin_tokens.find_by_plaintext_value(token)
       end
     end
 

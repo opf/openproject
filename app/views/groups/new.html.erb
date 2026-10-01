@@ -41,7 +41,10 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for(@group) do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
-  <div><%= f.button t(:button_create), class: "button -primary -with-icon icon-checkmark" %></div>
-<% end %>
+<%= error_messages_for @group %>
+
+<%=
+  settings_primer_form_with(model: @group) do |f|
+    render Groups::Form.new(f, submit_label: I18n.t(:button_create))
+  end
+%>

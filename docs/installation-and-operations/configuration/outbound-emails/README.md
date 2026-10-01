@@ -6,9 +6,11 @@ sidebar_navigation:
 
 # Configuring outbound emails
 
+## SMTP
+
 In this guide we will describe how to configure outbound emails using an external SMTP server.
 
-## Requirements
+### Requirements
 
 You will need to have SMTP settings ready. Those can either be from a company SMTP server, a Gmail account, or a public provider such as
 [SendGrid](https://www.sendgrid.com/).
@@ -24,7 +26,7 @@ You can adjust those settings for other SMTP providers, such as Gmail,
 Mandrill, etc. Please refer to the documentation of the corresponding provider
 to see what values should be used.
 
-## Configuration through the Admin UI
+### Configuration through the Admin UI
 
 OpenProject allows you to configure your SMTP settings through the administration UI. Using the default admin account created when you first installed OpenProject, go to Administration > Emails and notifications.
 
@@ -32,7 +34,7 @@ At the bottom of this screen, you will find the following configuration form.
 
 ![smtp](smtp.png)
 
-## SMTP Options
+### SMTP Options
 
 These are the options that are available. Please see the [Configuration guide](../) and [Environment variables guide](../environment) on how to set these values from the command line.
 
@@ -49,7 +51,7 @@ These are the options that are available. Please see the [Configuration guide](.
 | OpenSSL verify mode        | smtp_openssl_verify_mode  | `OPENPROJECT_SMTP__OPENSSL__VERIFY__MODE`  | Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`.<br>Note: This setting can only be set through ENV/settings |
 | SMTP Timeout               | smtp_timeout              | `OPENPROJECT_SMTP__TIMEOUT`                | This optional setting allows you to specify the number of seconds to wait for SMTP connections to be opened and read.<br>If the value is set too low, a `Net::OpenTimeout` or `Net::ReadTimeout` might be raised. |
 
-## Package-based installation (DEB/RPM)
+### Package-based installation (DEB/RPM)
 
 If you installed OpenProject with the package-based installation, you can configure the above settings using the config:set helper. Please note that this will disable the settings in the administration UI.
 
@@ -64,7 +66,7 @@ openproject config:set OPENPROJECT_SMTP__USER__NAME="apikey"
 openproject config:set OPENPROJECT_SMTP__PASSWORD="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"
 ```
 
-## Docker installation
+### Docker installation
 
 If you installed OpenProject with Docker, here is how you would enable outbound emails through the use of the SMTP environment variables (with SendGrid, the `SMTP_USER_NAME` is always `apikey`. Just replace `SMTP_PASSWORD` with the API key you've generated and you should be good to
 go). Please note that this will disable the settings in the administration UI.
@@ -81,3 +83,30 @@ docker run -d \
   -e OPENPROJECT_SMTP__PASSWORD="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" \
   ...
 ```
+
+## Sendmail
+
+### Requirements
+
+You need to have Sendmail configured on your server.
+For information about how to configure Sendmail, please refer to the [Sendmail docs](https://www.sendmail.org/~ca/email/doc8.12/cf/m4/index.html)
+
+### Configuration through the Admin UI
+
+OpenProject allows you to configure your Sendmail through the administration UI. Using the default admin account created when you first installed OpenProject, go to Administration > Emails and notifications.
+Here, you need to change the `Email delivery method` to `sendmail`.
+
+![sendmail](sendmail.png)
+
+If you want to override the path where Sendmail is installed or change the command-line arguments, you can’t do this through the web frontend.  
+In this case, please use the variable shown in the next section to configure the path or arguments.
+
+### Sendmail Options
+
+These are the options that are available. Please see the [Configuration guide](../) and [Environment variables guide](../environment) on how to set these values from the command line.
+
+| Option                     | Setting                   | ENV name                               | Description                                                                                                   |
+| -------------------------- | ------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Email delivery method      | email_delivery_method     | `OPENPROJECT_EMAIL__DELIVERY__METHOD`  | email delivery method to be used (smtp, sendmail)                                                             |
+| Sendmail location          | sendmail_location         | `OPENPROJECT_SENDMAIL__LOCATION`       | Location of sendmail to call if it is configured as outgoing email setup. Default value: `/usr/sbin/sendmail` |
+| Sendmail arguments         | sendmail_arguments        | `OPENPROJECT_SENDMAIL__ARGUMENTS`      | Arguments to call sendmail with in case it is configured as outgoing email setup. Default value: `-i`         |

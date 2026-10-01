@@ -11,7 +11,7 @@ keywords: system backup
 
 Unless disabled via the [configuration](../../installation-and-operations/configuration/#enable-backups) users can make backups of the OpenProject installation from within the administration area. They either need to be an administrator or have the global permission to do so.
 
-You can yourself create backups of your OpenProject installation. Go to *Administration* and *Backup* to get started.
+You can yourself create backups of your OpenProject installation. Go to _Administration_ and _Backup_ to get started.
 
 To be able to create a backup, a so called _backup token_ has to be generated first. This is supposed to add another level of security since backing up the whole installation includes sensitive data.
 
@@ -43,7 +43,7 @@ After having requested the backup, you will receive an email notification with a
 
 ## Delayed reset
 
-*Note: this is only valid for on-premises installations*
+_Note: this is only valid for on-premises installations_
 
 If the user resetting (or creating) a backup token does not have a password, for instance because they
 authenticate using Google, the newly generated backup token will only be valid after an initial waiting period.
@@ -62,7 +62,7 @@ sudo openproject run rake backup:allow_now
 
 It is sometimes good to have backups on other locations (e.g. local vs cloud). You are able to pull a backup via the APIv3 in OpenProject.
 
-*Preconditions:*
+_Preconditions:_
 
 1. The Token must be already generated and stored in a secure keystore
 2. The API Key must be known and stored in a secure keystore

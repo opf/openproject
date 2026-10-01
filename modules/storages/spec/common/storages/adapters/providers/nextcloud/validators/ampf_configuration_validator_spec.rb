@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed) }
             let(:project_folder_id) { "1337" }
             let!(:project_storage) do
@@ -45,8 +45,14 @@ module Storages
 
             let(:files_response) do
               Success(Results::StorageFileCollection.new(
-                        files: [StorageFile.new(id: project_folder_id, name: project_storage.managed_project_folder_name)],
-                        parent: StorageFile.new(id: "root", name: "root"),
+                        files: [
+                          Results::StorageFile.new(
+                            id: project_folder_id,
+                            name: project_storage.managed_project_folder_name,
+                            mime_type: "application/x-op-directory"
+                          )
+                        ],
+                        parent: Results::StorageFile.new(id: "root", name: "root", mime_type: "application/x-op-directory"),
                         ancestors: []
                       ))
             end
@@ -86,7 +92,7 @@ module Storages
                 allow(subject).to receive(:nextcloud_dependencies).and_return(absurd_version)
 
                 results = validator.call
-                expect(results[:team_folder_app]).to be_a_failure
+                expect(results[:team_folder_app]).to be_a_warning
                 expect(results[:team_folder_app].code).to eq(:nc_dependency_version_mismatch)
                 expect(results[:team_folder_app].context[:dependency]).to eq("Team Folders")
               end
@@ -107,7 +113,7 @@ module Storages
                 results = validator.call
 
                 states = results.tally
-                expect(states).to eq({ success: 2, failure: 1, skipped: 2 })
+                expect(states).to eq({ success: 2, failure: 1, skipped: 4 })
                 expect(results[:userless_access]).to be_failure
                 expect(results[:userless_access].code).to eq(:nc_userless_access_denied)
               end
@@ -143,10 +149,14 @@ module Storages
               let(:files_response) do
                 Success(Results::StorageFileCollection.new(
                           files: [
-                            StorageFile.new(id: project_folder_id, name: "I am your father"),
-                            StorageFile.new(id: "noooooooooo", name: "testimony_of_luke_skywalker.md")
+                            Results::StorageFile.new(
+                              id: project_folder_id,
+                              name: "I am your father",
+                              mime_type: "application/x-op-directory"
+                            ),
+                            Results::StorageFile.new(id: "noooooooooo", name: "testimony_of_luke_skywalker.md")
                           ],
-                          parent: StorageFile.new(id: "root", name: "root"),
+                          parent: Results::StorageFile.new(id: "root", name: "root", mime_type: "application/x-op-directory"),
                           ancestors: []
                         ))
               end
@@ -155,14 +165,50 @@ module Storages
                 results = validator.call
 
                 expect(results[:team_folder_contents]).to be_a_warning
-                expect(results[:team_folder_contents].code).to eq(:nc_unexpected_content)
+                expect(results[:team_folder_contents].code).to eq(:nc_unexpected_files)
+              end
+            end
+
+            context "if the files request does not return a project folder" do
+              let(:files_response) do
+                Success(Results::StorageFileCollection.new(
+                          files: [
+                            Results::StorageFile.new(
+                              id: "13#{project_folder_id}37",
+                              name: project_storage.managed_project_folder_name, # name matches, but ID is different
+                              mime_type: "application/x-op-directory"
+                            )
+                          ],
+                          parent: Results::StorageFile.new(id: "root", name: "root", mime_type: "application/x-op-directory"),
+                          ancestors: []
+                        ))
+              end
+
+              it "shows a failure about a missing project folder" do
+                results = validator.call
+
+                expect(results[:project_folders_exist]).to be_a_failure
+                expect(results[:project_folders_exist].code).to eq(:nc_project_folder_missing)
+              end
+            end
+
+            context "when an AMPF project storage has no project folder yet" do
+              let!(:project_storage_two) do
+                create(:project_storage, :as_automatically_managed, project_folder_id: "", storage:, project: create(:project))
+              end
+
+              it "warns the user about a missing project folder link" do
+                results = validator.call
+
+                expect(results[:project_folders_linked]).to be_a_warning
+                expect(results[:project_folders_linked].code).to eq(:nc_unlinked_project_folders)
               end
             end
 
             private
 
             def build_failure(code:, payload: nil)
-              error = Results::Error.new(code:, payload:, source: self)
+              error = SimpleError.new(code:, payload:, source: self)
               Failure(error)
             end
           end

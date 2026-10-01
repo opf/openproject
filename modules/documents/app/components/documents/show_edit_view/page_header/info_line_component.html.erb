@@ -59,12 +59,8 @@
         end
       end
 
-      flex.with_column(mr: 3) do
-        render(Documents::ShowEditView::PageHeader::LiveUsersComponent.new)
-      end
-
       flex.with_column do
-        render(Documents::ShowEditView::PageHeader::LiveSavedAtComponent.new(document))
+        render(Documents::ShowEditView::PageHeader::ConnectionStatusComponent.new(document))
       end
     end
   end

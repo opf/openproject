@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,8 +38,8 @@ module Queries::Operators
       values = values.map(&:to_s)
 
       if values.present?
-        "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
-          values.map { |val| "'#{connection.quote_string(val)}'" }.join(",") + "))"
+        not_in = OpenProject::SqlSanitization.sanitize("#{db_table}.#{db_field} NOT IN (?)", values)
+        "(#{db_table}.#{db_field} IS NULL OR #{not_in})"
       else
         # empty set of forbidden values allows all results
         "1=1"

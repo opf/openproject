@@ -56,6 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </noscript>
 <opce-toasts-container></opce-toasts-container>
+<%= render partial: "layouts/flashes" %>
 <opce-modal-overlay></opce-modal-overlay>
 <live-region></live-region>
 <span id="open-blank-target-link-description" class="sr-only"><%= I18n.t("open_link_in_a_new_tab") %></span>
@@ -74,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
         </a>
         <%= render_top_menu_left %>
       </div>
-      <div class="op-app-header--center">
+      <div class="op-app-header--center op-app-header--center_mobile-end">
         <%= render_top_menu_center %>
       </div>
       <div class="op-app-header--end">
@@ -132,7 +133,6 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="content-overlay"
          data-action="click->menus--main-toggle#toggleNavigation"></div>
     <%= content_tag :main, id: "content-wrapper", class: initial_classes, data: stimulus_content_data do %>
-      <%= render partial: "layouts/flashes" %>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
@@ -176,7 +176,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%= yield %>
           <% end %>
         </div>
-        <%= turbo_frame_tag "content-bodyRight" do %>
+        <%= turbo_frame_tag "content-bodyRight", target: "_top" do %>
           <%= content_for :content_body_right %>
         <% end %>
       <% end %>

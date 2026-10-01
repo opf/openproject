@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 <%= labelled_tabular_form_for @message,
-                              url: forum_topics_path(@forum),
+                              url: project_forum_topics_path(@project, @forum),
                               html: {
                                 multipart: true,
                                 id: "message-form",

@@ -55,7 +55,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
 
       context "with a user that can see the custom field" do
         before do
-          allow(wp_relation).to receive(:visible_by_user)
+          allow(wp_relation).to receive(:on_visible_type_and_project)
                                   .with(user)
                                   .and_return([text_custom_field, list_custom_field])
         end
@@ -71,7 +71,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
 
       context "with a user that cannot see custom fields" do
         before do
-          allow(wp_relation).to receive(:visible_by_user)
+          allow(wp_relation).to receive(:on_visible_type_and_project)
                                   .with(user)
                                   .and_return([])
         end
@@ -91,7 +91,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
 
       context "with a user that can see the custom field" do
         before do
-          allow(wp_relation).to receive(:visible_by_user)
+          allow(wp_relation).to receive(:on_visible_type_and_project)
                                   .with(user)
                                   .and_return([text_custom_field, list_custom_field])
         end
@@ -107,7 +107,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
 
       context "with a user that cannot see custom fields" do
         before do
-          allow(wp_relation).to receive(:visible_by_user)
+          allow(wp_relation).to receive(:on_visible_type_and_project)
                                   .with(user)
                                   .and_return([])
         end

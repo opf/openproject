@@ -179,5 +179,4 @@ Last but not least, we are very grateful for our very engaged translation contri
 - [NCAA](https://crowdin.com/profile/ncaa), for a great number of translations into Danish.
 - [greench](https://crowdin.com/profile/greench), for a great number of translations into Turkish.
 
-
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

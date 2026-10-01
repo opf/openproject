@@ -43,8 +43,9 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |dialog|
     dialog.with_confirmation_message do |message|
       message.with_heading(tag: :h2) do
-        t(:"project.archive.are_you_sure", name: project.name)
+        t(:"project.archive.confirmation_heading")
       end
+      message.with_description_content(t(:"project.archive.confirmation_message"))
     end
   end
 %>

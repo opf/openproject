@@ -41,14 +41,14 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
   #
   # Used in the where and joins clauses.
   def filter_model
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   # Returns the column name for which the filter will apply.
   #
   # Used in the where clause.
   def filter_column
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def allowed_values

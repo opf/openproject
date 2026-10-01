@@ -89,11 +89,9 @@ module TimeEntries
     end
 
     def caption
-      if model.user.time_zone == User.current.time_zone
-        nil
-      else
-        I18n.t("notice_different_time_zones", tz: friendly_timezone_name(model.user.time_zone))
-      end
+      return if model.user.nil? || model.user.time_zone == User.current.time_zone
+
+      I18n.t("notice_different_time_zones", tz: friendly_timezone_name(model.user.time_zone))
     end
   end
 end

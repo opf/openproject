@@ -71,7 +71,7 @@ To learn how to use the Work packages module to configure epics, features and us
 
 You can also use [project templates](../../user-guide/projects/project-templates/) and to make it easier to create news ARTs with the same structure, set of enabled modules, project structure or work package templates. Once a new ART is created using a template, it can then be modified in any way.
 
-**Agile teams** *within* an Agile Release Train (ART) can either be organized as sub-projects of an ART or simply as saved custom views in a Team planner or Assignee-based Kanban board. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
+**Agile teams** _within_ an Agile Release Train (ART) can either be organized as sub-projects of an ART or simply as saved custom views in a Team planner or Assignee-based Kanban board. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
 ### Solution Trains
 
@@ -95,7 +95,7 @@ In OpenProject, a **program increment (PI)** or **iteration** corresponds to a v
 
 ![Create versions to represent PIs, iterations and sprints](versions_represent_PI_iterations_sprints.png)
 
-Like most things in OpenProject, a version is technically contained within a project. As such, a PI or iteration can be contained within an ART. However, it is possible to *share* versions with sub-projects, other projects or even with the entire instance.
+Like most things in OpenProject, a version is technically contained within a project. As such, a PI or iteration can be contained within an ART. However, it is possible to _share_ versions with sub-projects, other projects or even with the entire instance.
 
 Shared versions are especially useful when you need PIs to be shared between multiple ARTs.
 
@@ -134,11 +134,11 @@ A [type template (or default text for description)](../../system-admin-guide/man
 
 Similarly, a template can be defined for **User stories** so that they can be expressed in a SAFe-compatible manner, like so:
 
-> **As a** *{role}*
+> **As a** _{role}_
 >
-> **I want to** *{activity}*
+> **I want to** _{activity}_
 >
-> **so that** *{business or user value}*
+> **so that** _{business or user value}_
 
 > **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings) (requires admin privileges).
 
@@ -154,7 +154,7 @@ Similarly, **Business outcome hypothesis**, **Non-functional requirements** and 
 
 ![Defining a custom field - Class of service](define_custom_field_ClassService.png)
 
-Custom fields can also hold different *types* of values, like lists, booleans, dates and even users. If you are using Kanban class of service for example, you can create a **Class of service** custom field of type multi-select with these options: *Standard*, *Fixed*, *Expedite*.
+Custom fields can also hold different _types_ of values, like lists, booleans, dates and even users. If you are using Kanban class of service for example, you can create a **Class of service** custom field of type multi-select with these options: _Standard_, _Fixed_, _Expedite_.
 
 > **Demo**: [Class of service custom field](https://safe.openproject.com/custom_fields/5/edit)
 
@@ -208,13 +208,13 @@ The **Backlog** and **Kanban** are key tools in a scaled agile environment, not 
 
 ### Backlog
 
-The [Backlog module](../../user-guide/backlogs-scrum/work-with-backlogs/) displays all versions available to a particular project or ART in a two-column format. For each version (representing a Product increment, Iteration or a Feature or Story backlog), the module displays:
+The [Backlog module](../../user-guide/backlogs-scrum/) displays all versions available to a particular project or ART in a two-column format. For each version (representing a Product increment, Iteration or a Feature or Story backlog), the module displays:
 
 - Version name
 - Start and end dates
 - Total story points
 
-It also displays the *id*, *name*, *status* and *story points* for each work package contained in a version.
+It also displays the _id_, _name_, _status_ and _story points_ for each work package contained in a version.
 
 ![Backlog view of one ART](Backlogs.png)
 

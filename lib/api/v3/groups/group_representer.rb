@@ -39,6 +39,14 @@ module API
           "Group"
         end
 
+        property :organizational_unit,
+                 render_nil: true
+
+        associated_resource :parent,
+                            v3_path: :group,
+                            representer: GroupRepresenter,
+                            skip_render: ->(*) { represented.parent_id.nil? }
+
         link :delete,
              cache_if: -> { current_user.admin? } do
           {

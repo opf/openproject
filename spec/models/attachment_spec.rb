@@ -168,6 +168,27 @@ RSpec.describe Attachment do
       expect(attachment.digest)
         .to eql Digest::MD5.file(file.path).hexdigest
     end
+
+    context "when CarrierWave moves the source file during cache" do
+      it "still detects size, content type, and digest from the original file" do
+        expected_size = file.size
+        expected_digest = Digest::MD5.file(file.path).hexdigest
+
+        # Simulate FogFileUploader::MovableSource: cache! moves (deletes) the source.
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(LocalFileUploader).to receive(:cache!) do |_uploader, new_file|
+          path = new_file.respond_to?(:path) ? new_file.path : new_file.to_s
+          FileUtils.rm_f(path) if path.present? && File.exist?(path)
+        end
+        # rubocop:enable RSpec/AnyInstance
+
+        moved = described_class.new(author:, container: work_package, content_type: nil, file:)
+
+        expect(moved.filesize).to eq expected_size
+        expect(moved.content_type).to eq "image/jpeg"
+        expect(moved.digest).to eq expected_digest
+      end
+    end
   end
 
   describe "content type detection" do
@@ -252,7 +273,7 @@ RSpec.describe Attachment do
     let(:author) { create(:user) }
 
     let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
-    let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
+    let(:text_path) { Rails.root.join("spec/fixtures/files/testfile-utf8.txt") }
     let(:binary_path) { Rails.root.join("spec/fixtures/files/textfile.txt.gz") }
 
     let(:image_attachment) { FogAttachment.new author:, file: File.open(image_path) }
@@ -320,6 +341,11 @@ RSpec.describe Attachment do
       it_behaves_like "it uses content disposition inline" do
         let(:attachment) { text_attachment }
       end
+
+      it "includes response-content-type with text/plain and the detected charset in the S3 URL" do
+        url = text_attachment.external_url.to_s
+        expect(url).to include "response-content-type=text%2Fplain%3B%20charset%3D"
+      end
     end
 
     describe "for a video file" do
@@ -350,6 +376,58 @@ RSpec.describe Attachment do
       it "makes S3 use content_disposition 'attachment; filename=...'" do
         expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
+      end
+
+      it "includes response-content-type application/octet-stream in the S3 URL" do
+        expect(binary_attachment.external_url.to_s).to include "response-content-type=application%2Foctet-stream"
+      end
+    end
+  end
+
+  describe "#serving_content_type" do
+    subject(:attachment) { described_class.new(content_type:, charset:) }
+
+    let(:charset) { nil }
+
+    context "when a text file has a detected utf-8 charset (new upload)" do
+      let(:content_type) { "text/plain" }
+      let(:charset) { "utf-8" }
+
+      it "combines content_type and charset" do
+        expect(attachment.serving_content_type).to eq("text/plain; charset=utf-8")
+      end
+    end
+
+    context "when a text file has a non-UTF-8 charset (e.g. ISO-8859-1)" do
+      let(:content_type) { "text/plain" }
+      let(:charset) { "iso-8859-1" }
+
+      it "uses the stored charset" do
+        expect(attachment.serving_content_type).to eq("text/plain; charset=iso-8859-1")
+      end
+    end
+
+    context "when a text file has no charset stored (legacy upload)" do
+      let(:content_type) { "text/plain" }
+
+      it "falls back to Setting.attachment_default_charset so browsers do not default to ISO-8859-1" do
+        expect(attachment.serving_content_type).to eq("text/plain; charset=#{Setting.attachment_default_charset}")
+      end
+    end
+
+    context "when another text variant has no charset stored" do
+      let(:content_type) { "text/x-ruby" }
+
+      it "falls back to Setting.attachment_default_charset" do
+        expect(attachment.serving_content_type).to eq("text/x-ruby; charset=#{Setting.attachment_default_charset}")
+      end
+    end
+
+    context "when the file is not a text type" do
+      let(:content_type) { "image/png" }
+
+      it "returns the content type unchanged" do
+        expect(attachment.serving_content_type).to eq("image/png")
       end
     end
   end

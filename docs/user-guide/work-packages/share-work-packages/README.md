@@ -21,7 +21,7 @@ To share a work package with a project non-member select the detailed view of a 
 A dialogue window will open, showing the list of all users, who this work package has already been shared with. If the work package has not yet been shared, the list will be empty.
 
 > [!NOTE]
-> In order to be able to share a work package with non members you need to have been assigned a [global role *create users*](../../../system-admin-guide/users-permissions/users/#create-users). If you do not see the option to share a work package, please contact your administrator.
+> In order to be able to share a work package with non members you need to have been assigned a [global role _create users_](../../../system-admin-guide/users-permissions/users/#create-users). If you do not see the option to share a work package, please contact your administrator.
 
 ![List of users with access to a work package in OpenProject](openproject_user_guide_shared_with_list.png)
 
@@ -97,4 +97,4 @@ Users with the edit role can update most of the attributes of a shared work pack
 
 ![Message on not configured work package editor workflows](openproject_user_guide_sharing_configuration_message.png)
 
-To do so, an administrator can follow the link in the message to get to the form for [copying workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows/#copy-an-existing-workflow). 
+To do so, an administrator can follow the link in the message to get to the form for [copying workflows](../../../system-admin-guide/manage-work-packages/work-package-types/workflows/#copy-an-existing-workflow). 

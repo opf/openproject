@@ -55,7 +55,7 @@ module Pages::Messages
     end
 
     def path
-      new_forum_topic_path(forum)
+      new_project_forum_topic_path(forum.project, forum)
     end
   end
 end

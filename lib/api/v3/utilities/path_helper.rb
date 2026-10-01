@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -111,6 +113,29 @@ module API
 
           index :activity
           show :activity
+
+          def self.ai_text_transform_action(id)
+            "#{root}/ai_text_transform_actions/#{id}"
+          end
+
+          def self.ai_text_transform_actions
+            "#{root}/ai_text_transform_actions"
+          end
+
+          def self.ai_text_transform_actions_by_work_package(id)
+            "#{work_package(id)}/ai_text_transform_actions"
+          end
+
+          def self.ai_text_transform_actions_by_project(id, type_id:)
+            "#{project(id)}/ai_text_transform_actions?typeId=#{type_id}"
+          end
+
+          index :ai_text_transform_run
+          show :ai_text_transform_run
+
+          def self.ai_text_transform_run_cancel(uuid)
+            "#{ai_text_transform_run(uuid)}/cancel"
+          end
 
           def self.api_spec
             "#{root}/spec.json"
@@ -592,6 +617,22 @@ module API
             "#{user(id)}/preferences"
           end
 
+          def self.user_working_hours(user_id)
+            "#{user(user_id)}/working_hours"
+          end
+
+          def self.user_working_hours_record(user_id, id)
+            "#{user_working_hours(user_id)}/#{id}"
+          end
+
+          def self.user_non_working_times(user_id)
+            "#{user(user_id)}/non_working_times"
+          end
+
+          def self.user_non_working_time(user_id, non_working_time_id)
+            "#{user_non_working_times(user_id)}/#{non_working_time_id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
           end
@@ -611,6 +652,9 @@ module API
           def self.views_type(type)
             "#{views}/#{type}"
           end
+
+          index :label
+          show :label
 
           def self.versions_available_projects
             "#{versions}/available_projects"
@@ -746,6 +790,19 @@ module API
             root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
 
             root_url.gsub(duplicate_regexp, "") + send(path, arguments)
+          end
+
+          def self.path_for_object(object)
+            strategy = if self.class.const_defined?("API::V3::Utilities::PathHelper::#{object.class}Strategy")
+                         "API::V3::Utilities::PathHelper::#{object.class}Strategy".constantize
+                       else
+                         API::V3::Utilities::PathHelper::DefaultStrategy
+                       end
+
+            send(strategy.path_name_for_object(object), object.id)
+          rescue StandardError => e
+            Rails.logger.error "Failed to get path for object #{object}: #{e}"
+            nil
           end
         end
 

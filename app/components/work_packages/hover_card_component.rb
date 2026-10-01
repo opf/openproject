@@ -35,7 +35,7 @@ class WorkPackages::HoverCardComponent < ApplicationComponent
     super
 
     @id = id
-    @work_package = WorkPackage.visible.find_by(id:)
+    @work_package = WorkPackage.visible.find_by_display_id(id)
     @assignee = @work_package.present? ? @work_package.assigned_to : nil
   end
 

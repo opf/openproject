@@ -30,10 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe "MCP tools/list", with_flag: { mcp_server: true } do
+RSpec.describe "MCP tools/list" do
   subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
-    header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
   end
@@ -71,9 +70,6 @@ RSpec.describe "MCP tools/list", with_flag: { mcp_server: true } do
 
     context "when not passing a token" do
       subject do
-        # TODO: It's actually a hack that we expect clients to provide this header for proper WWW-Authenticate responses
-        # Regular clients will never see the extended WWW-Authenticate headers with resource_metadata hints
-        header "X-Authentication-Scheme", "Bearer"
         header "Content-Type", "application/json"
         post "/mcp", request_body.to_json
       end

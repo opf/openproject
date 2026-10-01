@@ -108,6 +108,47 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    context "when filtering by typeahead and sorting by exact_match to rank an identifier match first" do
+      let(:com_project) { create(:project, members: { current_user => role }) }
+      let(:prefix_match) do
+        create(:work_package, project: com_project, updated_at: 1.minute.ago, skip_semantic_id_allocation: true)
+      end
+      let(:exact_match) do
+        create(:work_package, project: com_project, updated_at: 2.days.ago, skip_semantic_id_allocation: true)
+      end
+      let(:prefix_alias) do
+        create(:work_package_semantic_alias, work_package: prefix_match, identifier: "COM-50")
+      end
+      let(:exact_alias) do
+        create(:work_package_semantic_alias, work_package: exact_match, identifier: "COM-5")
+      end
+
+      let(:filters) do
+        [
+          {
+            typeahead: {
+              operator: "**",
+              values: "#COM-5"
+            }
+          }
+        ]
+      end
+      let(:path) do
+        api_v3_paths.path_for :work_packages, filters:, sort_by: [["exact_match", "desc"], ["updatedAt", "desc"]]
+      end
+
+      before do
+        prefix_alias
+        exact_alias
+
+        get path
+      end
+
+      it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
+        let(:elements) { [exact_match, prefix_match] }
+      end
+    end
+
     context "with a user not seeing any work packages" do
       # Create a public project so that the non-member permission has something to attach to
       let!(:public_project) { create(:project, public: true, active: true) }
@@ -242,6 +283,17 @@ RSpec.describe "API v3 Work package resource",
 
         it_behaves_like "param validation error"
       end
+
+      context "with a decompression bomb payload exceeding the size limit" do
+        let(:props) do
+          # 11MB of null bytes compresses to a few KB but decompresses beyond the 10MB limit
+          bomb_data = "\x00" * (11 * 1024 * 1024)
+          compressed = Zlib::Deflate.deflate(bomb_data)
+          { eprops: Base64.encode64(compressed) }.to_query
+        end
+
+        it_behaves_like "param validation error"
+      end
     end
 
     context "when providing timestamps", with_ee: %i[baseline_comparison] do
@@ -271,7 +323,7 @@ RSpec.describe "API v3 Work package resource",
       let(:custom_field) do
         create(:string_wp_custom_field,
                name: "String CF",
-               types: project.types,
+               types: project.enabled_types,
                projects: [project])
       end
 
@@ -365,6 +417,33 @@ RSpec.describe "API v3 Work package resource",
           .at_path("_embedded/elements/0/_meta/timestamp")
       end
 
+      describe "update links" do
+        context "when last timestamp is current" do
+          it "has the update links" do
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with one timestamp in the past" do
+          let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with two timestamps in the past" do
+          let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+      end
+
       context "when a custom value changes" do
         before do
           custom_value
@@ -397,7 +476,7 @@ RSpec.describe "API v3 Work package resource",
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: project.types,
+                 types: project.enabled_types,
                  projects: [project])
         end
 

@@ -28,12 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Metrics/CollectionLiteralLength
 module Settings
   class Definition
     ENV_PREFIX = "OPENPROJECT_"
+    SECRET_PLACEHOLDER = "__openproject_secret_unchanged__"
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
-    DEFINITIONS = {
+
+    DEFINITIONS = { # rubocop:disable Metrics/CollectionLiteralLength
       activity_days_default: {
         default: 30
       },
@@ -46,6 +47,17 @@ module Settings
         description: "Override URL to which logged in users are redirected instead of the Home page",
         format: :string,
         default: nil
+      },
+      ai_text_transform_actions_enabled: {
+        description: "Enable AI text transform actions in the rich text editor",
+        default: false
+      },
+      ai_text_transform_run_retention_seconds: {
+        description: "How long AI text transform runs and their events are kept before a cron job removes them. " \
+                     "Applies to finished runs from their finish time and to unfinished runs from their creation time.",
+        format: :integer,
+        writable: false,
+        default: 1.hour
       },
       allowed_link_protocols: {
         format: :array,
@@ -77,6 +89,14 @@ module Settings
       },
       app_title: {
         default: "OpenProject"
+      },
+      organization_name: {
+        default: "My Organization"
+      },
+      attachment_default_charset: {
+        description: "Fallback charset used when serving text attachments whose encoding was not detected on upload",
+        format: :string,
+        default: "utf-8"
       },
       attachment_max_size: {
         default: 5120
@@ -125,6 +145,13 @@ module Settings
         format: :symbol,
         default: :quarantine,
         allowed: %i[quarantine delete]
+      },
+      api_tokens_enabled: {
+        default: true,
+        description: "Decide whether users can create personal API tokens in their account settings",
+        # Keeping old name only for backwards-compatibility, can be removed in OpenProject 18.0
+        env_alias: "OPENPROJECT_REST__API__ENABLED",
+        format: :boolean
       },
       auth_source_sso: {
         description: "Configuration for Header-based Single Sign-On",
@@ -194,7 +221,7 @@ module Settings
       },
       backup_attachment_size_max_sum_mb: {
         description: "Maximum limit of attachment size to include into application backups",
-        default: 1024
+        default: 4096
       },
       blacklisted_routes: {
         description: "Blocked routes to prevent access to certain modules or pages",
@@ -203,6 +230,12 @@ module Settings
       },
       bcc_recipients: {
         default: true
+      },
+      blocked_email_domains: {
+        format: :array,
+        description: "Email domains that may not be used for user accounts. Subdomains are blocked as well. " \
+                     "Recipients on these domains are also skipped when sending emails.",
+        default: []
       },
       boards_demo_data_available: {
         description: "Internal setting determining availability of demo seed data",
@@ -301,11 +334,16 @@ module Settings
       cross_project_work_package_relations: {
         default: true
       },
+      csv_escape_formulas: {
+        default: true,
+        description: "Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@)"
+      },
       database_cipher_key: {
         description: "Encryption key for repository credentials",
         format: :string,
         default: nil,
-        writable: false
+        writable: false,
+        secret: true
       },
       date_format: {
         format: :string,
@@ -347,7 +385,7 @@ module Settings
       },
       default_projects_modules: {
         default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
+          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
           if Setting.real_time_text_collaboration_enabled?
             base_modules + %w[documents]
           else
@@ -358,6 +396,9 @@ module Settings
       },
       default_projects_public: {
         default: false
+      },
+      default_projects_wiki: {
+        default: true
       },
       demo_projects_available: {
         default: false
@@ -401,7 +442,8 @@ module Settings
         default: false
       },
       disable_password_login: {
-        description: "Disable internal logins and instead only allow SSO through OmniAuth.",
+        description: "Disable internal logins and instead only allow SSO through OmniAuth. " \
+                     "Forces password_login to 'none'. Prefer setting password_login directly.",
         default: false
       },
       display_subprojects_work_packages: {
@@ -453,19 +495,31 @@ module Settings
         default: nil,
         env_alias: "EMAIL_DELIVERY_METHOD"
       },
+      email_limit_per_day: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Number of emails which are allowed to be sent per day on average (may be up to 2x as much on " \
+                     "a single day). This can be used to address spam and abuse, but is just designed as a last " \
+                     "resort as it simply drops mails that are over the limit instead of sending them at a later " \
+                     "point in time or notifying the user."
+      },
       emails_salutation: {
-        allowed: %w[firstname name],
+        allowed: %i[firstname name],
         default: :firstname
       },
       emails_footer: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       emails_header: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       # use email address as login, hide login in registration form
       email_login: {
@@ -518,6 +572,10 @@ module Settings
         description: "Expiration time in seconds of created shared presigned URLs",
         default: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
       },
+      fog_direct_upload_expires_in: {
+        description: "Expiration time in seconds of the signed forms used for direct uploads",
+        default: 14400
+      },
       # Additional / overridden help links
       force_help_link: {
         description: "You can set a custom URL for the help button in application header menu.",
@@ -566,7 +624,8 @@ module Settings
       good_job_engine_basic_auth: {
         description: "Allow basic authentication for GoodJob web interface by setting a password",
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       hashed_token_pepper: {
         description: "Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). " \
@@ -574,7 +633,8 @@ module Settings
                      "Changing this invalidates all existing hashed tokens.",
         format: :string,
         default: -> { SecureRandom.hex(32) },
-        persist_on_first_read: true
+        persist_on_first_read: true,
+        secret: true
       },
       host_name: {
         format: :string,
@@ -609,7 +669,8 @@ module Settings
         default_by_env: {
           development: "secret12345"
         },
-        description: "The secret used for generating access tokens to access documents on hocuspocus server."
+        description: "The secret used for generating access tokens to access documents on hocuspocus server.",
+        secret: true
       },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
@@ -621,7 +682,8 @@ module Settings
       health_checks_authentication_password: {
         description: "Add an authentication challenge for the /health_check endpoint",
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {
@@ -645,6 +707,11 @@ module Settings
         description: "Hide menu items in the menu sidebar for each main menu (such as Administration and Projects).",
         default: {},
         writable: false # cached in global variable
+      },
+      ical_feed_keep_closed_meetings_days: {
+        description: "Number of days to keep closed and in-progress one-time meetings in iCal feeds",
+        format: :integer,
+        default: 30
       },
       impressum_link: {
         description: "Impressum link to be set, hidden by default",
@@ -671,7 +738,8 @@ module Settings
         default: 7
       },
       journal_aggregation_time_minutes: {
-        default: 5
+        default: 5,
+        allowed: 0..120
       },
       ldap_force_no_page: {
         description: "Force LDAP to respond as a single page, in case paged responses do not work with your server.",
@@ -682,12 +750,21 @@ module Settings
         description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
         default: false
       },
+      ldap_departments_disable_sync_job: {
+        description: "Deactivate regular synchronization job for departments in case scheduled as a separate cronjob",
+        default: false
+      },
       ldap_users_disable_sync_job: {
         description: "Deactivate user attributes synchronization from LDAP",
         default: false
       },
       ldap_users_sync_status: {
         description: "Enable user status (locked/unlocked) synchronization from LDAP",
+        format: :boolean,
+        default: false
+      },
+      llm_features_enabled: {
+        description: "Enable the AI features backed by the configured LLM connection",
         format: :boolean,
         default: false
       },
@@ -729,7 +806,8 @@ module Settings
       },
       mail_handler_api_key: {
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       mail_handler_body_delimiters: {
         default: ""
@@ -749,6 +827,12 @@ module Settings
         writable: false,
         allowed: %w[danish dutch english finnish french german hungarian
                     italian norwegian portuguese romanian russian simple spanish swedish turkish]
+      },
+      mcp_tool_response_format: {
+        default: :full,
+        format: :symbol,
+        allowed: -> { McpTools::Base::RESPONSE_FORMATS },
+        description: "How to format responses for MCP tools. Using values other than full may improve language model performance."
       },
       migration_check_on_exceptions: {
         description: "Check for missing migrations in internal errors",
@@ -799,6 +883,9 @@ module Settings
       },
       password_active_rules: {
         default: %w[lowercase uppercase numeric special],
+        default_by_env: {
+          test: []
+        },
         allowed: %w[lowercase uppercase numeric special]
       },
       password_count_former_banned: {
@@ -807,11 +894,39 @@ module Settings
       password_days_valid: {
         default: 0
       },
-      password_min_length: {
-        default: 10
+      password_login: {
+        description: "Who may authenticate with a password: all users, everyone except OmniAuth-linked " \
+                     "users, or nobody (except the break-glass allowlist).",
+        format: :string,
+        default: lambda {
+          if OpenProject::Configuration::TRUE_VALUES.include?(OpenProject::Configuration["disable_password_login"])
+            "none"
+          else
+            "all"
+          end
+        },
+        writable: lambda {
+          OpenProject::Configuration::TRUE_VALUES.exclude?(OpenProject::Configuration["disable_password_login"])
+        },
+        allowed: -> { Users::PasswordLogin::MODES }
       },
-      password_min_adhered_rules: {
-        default: 0
+      password_login_bypass_logins: {
+        description: "Logins that keep password login as a break-glass access when password_login " \
+                     "is except_sso or none. Intended as an environment overlay when nobody can " \
+                     "reach administration. Matched case-insensitively.",
+        format: :array,
+        default: []
+      },
+      password_login_bypass_principal_ids: {
+        description: "User and group ids that keep password login as a break-glass access when " \
+                     "password_login is except_sso or none. Groups include their descendant groups.",
+        format: :array,
+        default: []
+      },
+      password_min_length: {
+        default: 10,
+        format: :integer,
+        allowed: -> { 1..Setting::PASSWORD_MAX_LENGTH }
       },
       # TODO: turn into array of ints
       # Requires a migration to be written
@@ -918,6 +1033,14 @@ module Settings
         description: "Enable OpenTelemetry metrics",
         default: false
       },
+      mail_recipient_limits: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum distinct recipients an instance may send emails to per day. " \
+                     "Mails to addresses over that limit will be dropped. 0 equals unlimited recipients."
+      },
       rate_limiting: {
         default: {},
         description: "Configure rate limiting for various endpoint rules. See configuration documentation for details."
@@ -926,6 +1049,21 @@ module Settings
         default: {
           "en" => ""
         }
+      },
+      registration_rate_limit: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum unauthenticated POST /account/register requests per hour. " \
+                     "Counted per client IP by default, or per instance (host_name) when " \
+                     "registration_rate_limit_per_ip is false. 0 disables the limit."
+      },
+      registration_rate_limit_per_ip: {
+        format: :boolean,
+        default: true,
+        writable: false,
+        description: "Count registration rate limits per client IP. Set to false to count based on hostname itself."
       },
       remote_storage_upload_host: {
         format: :string,
@@ -938,6 +1076,13 @@ module Settings
         default: nil,
         writable: false,
         description: "Host the frontend uses to download files, which has to be added to the CSP."
+      },
+      # Content Security Policy
+      csp_img_src: {
+        format: :array,
+        default: %w(* data: blob:),
+        writable: false,
+        description: "Allowed sources for the CSP img-src directive."
       },
       report_incoming_email_errors: {
         description: "Respond to incoming mails with error details",
@@ -969,8 +1114,11 @@ module Settings
       repository_truncate_at: {
         default: 500
       },
-      rest_api_enabled: {
-        default: true
+      scim_clients: {
+        description: "Configure SCIM clients through environment variables",
+        writable: false,
+        default: [],
+        format: :array
       },
       scm: {
         format: :hash,
@@ -1009,7 +1157,8 @@ module Settings
       seed_admin_user_password: {
         description: 'Password to set for the initially created admin user (Login remains "admin").',
         default: "admin",
-        writable: false
+        writable: false,
+        secret: true
       },
       seed_admin_user_mail: {
         description: "E-mail to set for the initially created admin user.",
@@ -1034,7 +1183,8 @@ module Settings
         string_values: true
       },
       seed_design: {
-        description: "Seed enterprise-edition theme colors and logos through ENV",
+        description: "Seed enterprise-edition theme colors and logos through ENV. " \
+                     "Set only_when_empty to apply only when no CustomStyle exists.",
         writable: false,
         default: nil,
         format: :hash,
@@ -1044,7 +1194,8 @@ module Settings
         description: "Seed enterprise-edition token through ENV",
         writable: false,
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       self_registration: {
         default: 2,
@@ -1150,7 +1301,8 @@ module Settings
       smtp_password: {
         format: :string,
         default: "",
-        env_alias: "SMTP_PASSWORD"
+        env_alias: "SMTP_PASSWORD",
+        secret: true
       },
       smtp_timeout: {
         format: :integer,
@@ -1167,6 +1319,52 @@ module Settings
       sql_slow_query_threshold: {
         description: "Time limit in ms after which queries will be logged as slow queries",
         default: 2000,
+        writable: false
+      },
+      ssrf_protection_ip_allowlist: {
+        description: "
+          Connections to certain IP addresses (such as private ranges) are blocked to prevent SSRF attacks.
+          Use this setting to explicitly allow given IP addresses which would otherwise be blocked.
+          Takes a comma or space separated list of IPv4 and IPv6 addresses (including masks for ranges),
+          e.g. `192.168.255.255/16`.
+
+          Here is a list of blocked IP ranges as defined by the ssrf_filter gem used.
+          See [1] for the latest state in case this has changed.
+
+            0.0.0.0/8          # Current network (only valid as source address)
+            10.0.0.0/8         # Private network
+            100.64.0.0/10      # Shared Address Space
+            127.0.0.0/8        # Loopback
+            169.254.0.0/16     # Link-local
+            172.16.0.0/12      # Private network
+            192.0.0.0/24       # IETF Protocol Assignments
+            192.0.2.0/24       # TEST-NET-1, documentation and examples
+            192.88.99.0/24     # IPv6 to IPv4 relay (includes 2002::/16)
+            192.168.0.0/16     # Private network
+            198.18.0.0/15      # Network benchmark tests
+            198.51.100.0/24    # TEST-NET-2, documentation and examples
+            203.0.113.0/24     # TEST-NET-3, documentation and examples
+            224.0.0.0/4        # IP multicast (former Class D network)
+            240.0.0.0/4        # Reserved (former Class E network)
+            255.255.255.255    # Broadcast
+
+            ::1/128            # Loopback
+            64:ff9b::/96       # IPv4/IPv6 translation (RFC 6052)
+            100::/64           # Discard prefix (RFC 6666)
+            2001::/32          # Teredo tunneling
+            2001:10::/28       # Deprecated (previously ORCHID)
+            2001:20::/28       # ORCHIDv2
+            2001:db8::/32      # Addresses used in documentation and example source code
+            2002::/16          # 6to4
+            fc00::/7           # Unique local address
+            fe80::/10          # Link-local address
+            ff00::/8           # Multicast
+
+          [1] https://github.com/arkadiyt/ssrf_filter/blob/main/lib/ssrf_filter/ssrf_filter.rb#L28-L58
+        ".squish,
+        format: :string,
+        default: "",
+        env_alias: "SSRF_PROTECTION_IP_ALLOWLIST",
         writable: false
       },
       start_of_week: {
@@ -1200,7 +1398,10 @@ module Settings
       sys_api_key: {
         description: "Internal system API key for setting up managed repositories",
         default: nil,
-        format: :string
+        format: :string,
+        # Admins have to read the key from the UI to configure it as OpenProjectApiKey
+        # in the Apache repository integration, so it must not be masked.
+        secret: false
       },
       time_format: {
         format: :string,
@@ -1217,6 +1418,11 @@ module Settings
       },
       users_deletable_by_admins: {
         default: false
+      },
+      user_can_change_email: {
+        description: "Whether users can change their own email addresses",
+        default: true,
+        format: :boolean
       },
       user_default_theme: {
         default: "light",
@@ -1259,11 +1465,37 @@ module Settings
         default: "field",
         allowed: %w[field status]
       },
+      work_package_import_max_rows: {
+        description: "Maximum number of data rows accepted by the work package CSV import.",
+        format: :integer,
+        writable: false,
+        default: 5_000
+      },
+      work_package_multiple_versions: {
+        description: "Enable multiple version assignments on work packages.",
+        format: :boolean,
+        default: true
+      },
+      work_packages_activities_tab_polling_interval_in_ms: {
+        description: "Interval in milliseconds at which the work package activities tab polls for updates.",
+        format: :integer,
+        default: 10_000,
+        allowed: 1000..10_000
+      },
       work_packages_projects_export_limit: {
         default: 500
       },
       work_packages_bulk_request_limit: {
         default: 10
+      },
+      work_packages_identifier: {
+        description: "Defines how work packages are identified in the UI (e.g. in links and titles). " \
+                     "The 'classic' option uses the work package numerical ID, " \
+                     "while 'semantic' uses the project identifier and the work package ID separated by a dash " \
+                     "(e.g. 'PROJA-123').",
+        format: :string,
+        allowed: -> { Setting::WorkPackageIdentifier::ALLOWED_VALUES },
+        default: "classic"
       },
       work_package_list_default_highlighted_attributes: {
         default: ["status", "priority", "due_date"],
@@ -1309,13 +1541,14 @@ module Settings
                   :format,
                   :env_alias,
                   :string_values,
-                  :persist_on_first_read
+                  :persist_on_first_read,
+                  :secret
 
     attr_writer :value,
                 :description,
                 :allowed
 
-    def initialize(name, # rubocop:disable Metrics/AbcSize
+    def initialize(name, # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
                    default:,
                    default_by_env: {},
                    description: nil,
@@ -1324,7 +1557,8 @@ module Settings
                    allowed: nil,
                    env_alias: nil,
                    string_values: false,
-                   persist_on_first_read: false)
+                   persist_on_first_read: false,
+                   secret: false)
       self.name = name.to_s
       self.value = derive_default default_by_env.fetch(Rails.env.to_sym, default)
       self.format = format ? format.to_sym : deduce_format(value)
@@ -1334,6 +1568,7 @@ module Settings
       self.description = description.presence || :"setting_#{name}"
       self.string_values = string_values
       self.persist_on_first_read = persist_on_first_read
+      self.secret = secret
 
       if persist_on_first_read && !writable
         raise ArgumentError, "Settings using persist_on_first_read need to be writable"
@@ -1342,6 +1577,18 @@ module Settings
       if persist_on_first_read && default.nil?
         raise ArgumentError, "Settings using persist_on_first_read need to have a default value"
       end
+
+      if secret && self.format != :string
+        raise ArgumentError, "Only string settings can be secret"
+      end
+    end
+
+    def env_name
+      self.class.env_name(self)
+    end
+
+    def possible_env_names
+      self.class.possible_env_names(self)
     end
 
     def derive_default(default)
@@ -1355,6 +1602,10 @@ module Settings
     end
 
     def value
+      unless (override = resolve_value_override).nil?
+        return cast(override)
+      end
+
       cast(@value)
     end
 
@@ -1371,6 +1622,8 @@ module Settings
     end
 
     def writable?
+      return false if value_override?
+
       if writable.respond_to?(:call)
         writable.call
       else
@@ -1380,6 +1633,10 @@ module Settings
 
     def persist_on_first_read?
       persist_on_first_read
+    end
+
+    def secret?
+      secret
     end
 
     def unprefixed_env_var_name_allowed?
@@ -1452,6 +1709,7 @@ module Settings
               env_alias: nil,
               string_values: false,
               persist_on_first_read: false,
+              secret: false,
               disallow_override: false)
         name = name.to_sym
         return if exists?(name)
@@ -1465,7 +1723,8 @@ module Settings
                          allowed:,
                          env_alias:,
                          string_values:,
-                         persist_on_first_read:)
+                         persist_on_first_read:,
+                         secret:)
         override_value(definition) unless disallow_override
         all[name] = definition
       end
@@ -1492,6 +1751,38 @@ module Settings
 
       def all
         @all ||= {}
+      end
+
+      # Registers a value override block for a setting. The block is called
+      # whenever the setting's value or writability is evaluated.
+      #
+      # If the block returns a non-nil value, that value is used as the setting's
+      # value and the setting becomes non-writable. If the block returns nil,
+      # no override is applied.
+      #
+      # To override a setting with nil, return a callable: +-> { nil }+
+      #
+      # @param name [Symbol] The setting name to override.
+      # @yield A block that returns the override value, or nil to skip.
+      #
+      # @example Force a setting to true when a condition is met
+      #   Settings::Definition.add_value_override(:capture_external_links) do
+      #     true if MyPlugin.active?
+      #   end
+      def add_value_override(name, &block)
+        (value_overrides[name.to_sym] ||= []) << block
+      end
+
+      def value_overrides
+        @value_overrides ||= {}
+      end
+
+      def clear_value_overrides(name = nil)
+        if name
+          value_overrides.delete(name.to_sym)
+        else
+          @value_overrides = {}
+        end
       end
 
       private
@@ -1577,8 +1868,8 @@ module Settings
         env_var_hash_part
           .scan(/(?:[a-zA-Z0-9]|__)+/)
           .map do |seg|
-          unescape_underscores(seg.downcase)
-        end
+            unescape_underscores(seg.downcase)
+          end
       end
 
       # takes the path provided and transforms it into a deeply nested hash
@@ -1633,8 +1924,6 @@ module Settings
         ].compact
       end
 
-      public :possible_env_names
-
       def env_name_nested(definition)
         "#{ENV_PREFIX}#{definition.name.upcase.gsub('_', '__')}"
       end
@@ -1652,6 +1941,8 @@ module Settings
 
         definition.env_alias.upcase
       end
+
+      public :possible_env_names, :env_name
 
       ##
       # Extract the configuration value from the given environment variable
@@ -1686,6 +1977,18 @@ module Settings
 
     attr_accessor :serialized,
                   :writable
+
+    def value_override?
+      !resolve_value_override.nil?
+    end
+
+    def resolve_value_override
+      self.class.value_overrides[name.to_sym]&.each do |block|
+        result = block.call
+        return result unless result.nil?
+      end
+      nil
+    end
 
     def cast(value)
       return nil if value.nil?
@@ -1733,4 +2036,3 @@ module Settings
     end
   end
 end
-# rubocop:enable Metrics/CollectionLiteralLength

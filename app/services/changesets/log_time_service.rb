@@ -53,7 +53,7 @@ module Changesets
     def combined_parameters(work_package, hours)
       params = {
         hours:,
-        work_package:,
+        entity: work_package,
         spent_on: changeset.commit_date,
         comments: I18n.t(:text_time_logged_by_changeset, value: changeset.text_tag, locale: Setting.default_language)
       }

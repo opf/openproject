@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { ApplicationController } from 'stimulus-use';
 import { sanitizeUrl } from '@braintree/sanitize-url';
@@ -146,8 +144,8 @@ export default class HoverCardTriggerController extends ApplicationController {
     this.close(true);
 
     const turboFrameUrl = this.parseHoverCardUrl(el);
-    const popoverEl = this.getPopoverFromId(el);
-    if (!turboFrameUrl && !popoverEl) { return; }
+    const popoverTemplate = this.getPopoverTemplateFromId(el);
+    if (!turboFrameUrl && !popoverTemplate) { return; }
 
     // Reset close timer for when hovering over multiple triggers in quick succession.
     // A timer from a previous hover card might still be running. We do not want it to
@@ -156,11 +154,11 @@ export default class HoverCardTriggerController extends ApplicationController {
 
     // Set a delay before showing the hover card
     this.hoverTimeout = window.setTimeout(() => {
-      this.showHoverCard(el, turboFrameUrl, popoverEl);
+      this.showHoverCard(el, turboFrameUrl, popoverTemplate);
     }, this.OPEN_DELAY_IN_MS);
   }
 
-  private showHoverCard(el:HTMLElement, turboFrameUrl:string, popoverElement:HTMLElement|null) {
+  private showHoverCard(el:HTMLElement, turboFrameUrl:string, popoverTemplate:HTMLTemplateElement|null) {
     // Abort if the trigger element is no longer present in the DOM. This can happen when this method is called after a delay.
     if (!this.element.contains(el)) { return; }
     // Do not try to show two hover cards at the same time.
@@ -168,8 +166,8 @@ export default class HoverCardTriggerController extends ApplicationController {
     // The mouse might have left the trigger while we were waiting for the hover delay.
     if (!this.mouseIsHoveringOverTrigger) { return; }
 
-    if (popoverElement) {
-      this.showHoverCardViaExistingElement(el, popoverElement);
+    if (popoverTemplate) {
+      this.showHoverCardViaExistingElement(el, popoverTemplate);
     } else {
       this.loadAndShowHoverCardViaTurboFrame(el, turboFrameUrl);
     }
@@ -194,13 +192,13 @@ export default class HoverCardTriggerController extends ApplicationController {
     });
   }
 
-  private showHoverCardViaExistingElement(targetEl:HTMLElement, protoPopover:HTMLElement) {
+  private showHoverCardViaExistingElement(targetEl:HTMLElement, popoverTemplate:HTMLTemplateElement) {
     const overlay = this.getAndResetOverlay();
     if (!overlay) { return; }
 
     this.moveOverlayToAppropriateParent(overlay, targetEl);
 
-    const popover = this.cloneStaticPopover(overlay, protoPopover);
+    const popover = this.popoverFromTemplate(overlay, popoverTemplate);
 
     this.isShowingHoverCard = true;
     this.previousTarget = targetEl;
@@ -262,7 +260,7 @@ export default class HoverCardTriggerController extends ApplicationController {
    * When there is no URL or if the URL is invalid, will return an empty string.
    */
   private parseHoverCardUrl(el:HTMLElement) {
-    let url = el.getAttribute('data-hover-card-url');
+    let url = el.dataset.hoverCardUrl;
     if (!url) { return ''; }
 
     url = sanitizeUrl(url);
@@ -272,11 +270,14 @@ export default class HoverCardTriggerController extends ApplicationController {
     return url === 'about:blank' ? '' : url;
   }
 
-  private getPopoverFromId(el:HTMLElement):HTMLElement|null {
-    const id = el.getAttribute('data-hover-card-popover-id');
+  private getPopoverTemplateFromId(el:HTMLElement):HTMLTemplateElement|null {
+    const id = el.dataset.hoverCardPopoverTemplateId;
     if (!id) { return null; }
 
-    return document.getElementById(id);
+    const element = document.getElementById(id);
+    if (!(element instanceof HTMLTemplateElement)) { return null; }
+
+    return element;
   }
 
   private async reposition(element:HTMLElement, target:HTMLElement) {
@@ -317,11 +318,12 @@ export default class HoverCardTriggerController extends ApplicationController {
     return { turboFrame, popover };
   }
 
-  private cloneStaticPopover(overlay:HTMLElement, staticPopover:HTMLElement):HTMLElement {
-    const popover = staticPopover.cloneNode(true) as HTMLElement;
-
-    popover.removeAttribute('id');
+  private popoverFromTemplate(overlay:HTMLElement, template:HTMLTemplateElement):HTMLElement {
+    const popover = document.createElement('div');
     this.setPopoverAttributes(popover);
+
+    const popoverFragment = document.importNode(template.content, true);
+    popover.appendChild(popoverFragment);
 
     overlay.appendChild(popover);
 
@@ -331,7 +333,7 @@ export default class HoverCardTriggerController extends ApplicationController {
   private setPopoverAttributes(popover:HTMLElement) {
     popover.classList.add('op-hover-card');
     popover.setAttribute('popover', 'auto');
-    popover.setAttribute('data-hover-card-trigger-target', 'card');
+    popover.dataset.hoverCardTriggerTarget = 'card';
   }
 
   /*

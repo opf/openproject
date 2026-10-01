@@ -60,11 +60,11 @@ module BrowserHelper
   ##
   # Browser specific classes for browser-specific fixes
   # or mobile detection
-  def browser_specific_classes
+  def browser_specific_classes # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     [].tap do |classes|
       classes << "-browser-chrome" if browser.chrome? || browser.chromium_based?
       classes << "-browser-firefox" if browser.firefox?
-      classes << "-browser-safari" if browser.safari?
+      classes << "-browser-webkit" if browser.safari? || browser.epiphany?
       classes << "-browser-edge" if browser.edge?
 
       classes << "-browser-mobile" if browser.device.mobile?

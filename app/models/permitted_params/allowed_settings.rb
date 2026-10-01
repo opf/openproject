@@ -92,7 +92,6 @@ class PermittedParams
       password_keys = %i(
         password_min_length
         password_active_rules
-        password_min_adhered_rules
         password_days_valid
         password_count_former_banned
         lost_password
@@ -100,7 +99,7 @@ class PermittedParams
 
       add_restriction!(
         keys: password_keys,
-        condition: -> { OpenProject::Configuration.disable_password_login? }
+        condition: -> { Users::PasswordLogin.none? }
       )
 
       add_restriction!(

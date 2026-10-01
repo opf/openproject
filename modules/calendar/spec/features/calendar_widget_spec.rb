@@ -30,7 +30,7 @@ require "spec_helper"
 require_relative "../../../overviews/spec/support/pages/dashboard"
 require_relative "../support/pages/calendar"
 
-RSpec.describe "Calendar Widget", :js, with_flag: { new_project_overview: true }, with_settings: { start_of_week: 1 } do
+RSpec.describe "Calendar Widget", :js, with_settings: { start_of_week: 1 } do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view meetings])
   end

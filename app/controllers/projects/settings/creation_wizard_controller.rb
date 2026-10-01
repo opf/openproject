@@ -34,6 +34,7 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
   menu_item :settings_creation_wizard
 
   before_action :check_enterprise_plan, only: :toggle
+  before_action :check_activation_conditions, only: :toggle
 
   def show; end
 
@@ -44,7 +45,16 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
   end
 
   def toggle
-    @project.update(project_creation_wizard_enabled: !@project.project_creation_wizard_enabled)
+    enabling = !@project.project_creation_wizard_enabled
+    @project.update!(project_creation_wizard_enabled: enabling)
+
+    # Enabling PIR will enable all the project's currently active
+    # project attributes for PIR by default.
+    # Note that project attributes that are added to the project *later*
+    # are not enabled in PIR automatically.
+    # They will have to be enabled explicitly on the attributes tab.
+    enable_creation_wizard_for_all_mappings! if enabling
+
     redirect_to project_settings_creation_wizard_path(@project, tab: params[:tab]), status: :see_other
   end
 
@@ -101,6 +111,23 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
     end
   end
 
+  def check_activation_conditions
+    # Allow disabling even without activation conditions met
+    return if @project.project_creation_wizard_enabled
+
+    error = if @project.project_creation_wizard_default_work_package_type.nil?
+              I18n.t("projects.settings.creation_wizard.errors.no_work_package_type")
+            elsif @project.project_creation_wizard_default_status_when_submitted.nil?
+              type = @project.project_creation_wizard_default_work_package_type.name
+              I18n.t("projects.settings.creation_wizard.errors.no_status_when_submitted", type:)
+            end
+
+    if error
+      flash[:error] = error
+      redirect_to project_settings_creation_wizard_path(@project, tab: params[:tab]), status: :see_other
+    end
+  end
+
   def update_section_mappings(value)
     section_id = permitted_params.project_custom_field_project_mapping[:custom_field_section_id]
 
@@ -119,6 +146,10 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
     ProjectCustomFieldProjectMapping
       .where(project_id: @project.id, custom_field_id: custom_field_ids)
       .update_all(creation_wizard: true)
+  end
+
+  def enable_creation_wizard_for_all_mappings!
+    @project.project_custom_field_project_mappings.update_all(creation_wizard: true)
   end
 
   def custom_field_toggleable?(custom_field)

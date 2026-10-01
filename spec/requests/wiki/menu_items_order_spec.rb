@@ -34,8 +34,9 @@ RSpec.describe "Menu items order",
                :skip_csrf,
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:wiki) { project.wiki }
+  let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
 
   let!(:item3) { create(:wiki_menu_item, wiki:, title: "3. FAQ") }
   let!(:item2) { create(:wiki_menu_item, wiki:, title: "2. New chapter") }
@@ -43,7 +44,7 @@ RSpec.describe "Menu items order",
 
   before do
     login_as admin
-    get project_wiki_path(project, "wiki")
+    get project_wiki_path(project, wiki_page)
   end
 
   it "orders the main menu items by title ascending" do

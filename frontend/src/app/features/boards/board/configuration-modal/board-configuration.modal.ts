@@ -1,18 +1,33 @@
-import {
-  ApplicationRef,
-  ChangeDetectorRef,
-  Component,
-  ComponentFactoryResolver,
-  ElementRef,
-  Inject,
-  Injector,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import {
   ActiveTabInterface,
   TabComponent,
@@ -27,8 +42,18 @@ import { Board } from 'core-app/features/boards/board/board';
 @Component({
   templateUrl: './board-configuration.modal.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+  readonly I18n = inject(I18nService);
+  readonly boardService = inject(BoardService);
+  readonly boardConfigurationService = inject(BoardConfigurationService);
+  readonly injector = inject(Injector);
+  readonly appRef = inject(ApplicationRef);
+
   public text = {
     title: this.I18n.t('js.boards.configuration_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -38,30 +63,17 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   };
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly I18n:I18nService,
-    readonly boardService:BoardService,
-    readonly boardConfigurationService:BoardConfigurationService,
-    readonly injector:Injector,
-    readonly appRef:ApplicationRef,
-    readonly componentFactoryResolver:ComponentFactoryResolver,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
-    super(locals, cdRef, elementRef);
-  }
-
   ngOnInit() {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.boardConfigurationService.tabs,
       this.tabContentOutlet.nativeElement,
-      this.componentFactoryResolver,
       this.appRef,
       this.injector,
     );

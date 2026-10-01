@@ -41,17 +41,8 @@ RSpec.describe Queries::Notifications::Filters::ReasonFilter do
     it_behaves_like "non ar filter"
 
     describe "#allowed_values" do
-      context "with enterprise", with_ee: %i[date_alerts] do
-        it "contains all the REASONS" do
-          expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
-        end
-      end
-
-      context "without enterprise", with_ee: false do
-        it "does not contains date alerts" do
-          expect(instance.allowed_values)
-            .to eq(described_class::REASONS.keys.without("dateAlert").map { |r| [r, r] })
-        end
+      it "contains all the REASONS" do
+        expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
       end
     end
   end

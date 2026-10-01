@@ -44,7 +44,8 @@ module Users::Invitation::ProjectStep
         component_collection do |modal_footer|
           modal_footer.with_component(
             Primer::Beta::Button.new(
-              data: { "close-dialog-id": Users::Invitation::DialogComponent::DIALOG_ID }
+              data: { "close-dialog-id": Users::Invitation::DialogComponent::DIALOG_ID },
+              mr: 1
             )
           ) do
             I18n.t(:button_cancel)

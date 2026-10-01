@@ -27,14 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 User-agent: *
-<% cache @projects.cache_key(:updated_at) do %>
-  <% @projects.flat_map { |p| [p.id, p.identifier] }.each do |identifier| -%>
-Disallow: <%= project_repository_path(identifier) %>
-Disallow: <%= project_work_packages_path(identifier) %>
-Disallow: <%= project_activity_index_path(identifier) %>
-Disallow: <%= search_path(identifier) %>
-  <% end -%>
-<% end %>
+Disallow: <%= project_repository_path("*") %>
+Disallow: <%= project_work_packages_path("*") %>
+Disallow: <%= project_activity_index_path("*") %>
+Disallow: <%= search_path("*") %>
 Disallow: <%= activities_path %>
 Disallow: /activity
 Disallow: <%= search_path %>

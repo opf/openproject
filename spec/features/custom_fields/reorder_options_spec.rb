@@ -37,6 +37,10 @@ RSpec.describe "Reordering custom options of a list custom field", :js, :seleniu
     cf_page.visit!
     click_link custom_field.name
 
+    wait_for_network_idle
+    click_link "Items"
+    wait_for_network_idle
+
     click_link "Reorder values alphabetically"
     cf_page.accept_alert_dialog!
     expect_flash(message: I18n.t(:notice_successful_update))

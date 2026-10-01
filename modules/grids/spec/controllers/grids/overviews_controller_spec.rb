@@ -29,28 +29,16 @@
 require "spec_helper"
 
 RSpec.describe Overviews::OverviewsController do
-  let(:permissions) do
-    %i(view_project)
-  end
-  let(:project) do
-    build_stubbed(:project).tap do |p|
-      allow(Project)
-        .to receive(:find)
-        .with(p.id.to_s)
-        .and_return(p)
-    end
-  end
+  let(:permissions) { %i[view_project] }
+  let(:project) { create(:project) }
+
   let(:main_app_routes) do
     Rails.application.routes.url_helpers
   end
 
-  let(:current_user) { build_stubbed(:user) }
+  let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
-    mock_permissions_for(current_user) do |mock|
-      mock.allow_in_project *permissions, :view_news, :manage_dashboards, project:
-    end
-
     login_as current_user
   end
 
@@ -79,7 +67,7 @@ RSpec.describe Overviews::OverviewsController do
     end
   end
 
-  describe "#dashboard", with_flag: { new_project_overview: true } do
+  describe "#dashboard" do
     it "renders 'dashboard'" do
       get :dashboard, params: { project_id: project.id }
 

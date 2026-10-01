@@ -51,6 +51,8 @@ module Meetings
       end
 
       def update_sidebar_details_component_via_turbo_stream(meeting: @meeting)
+        return if meeting.onetime_template?
+
         update_via_turbo_stream(
           component: Meetings::SidePanel::DetailsComponent.new(
             meeting:
@@ -59,6 +61,8 @@ module Meetings
       end
 
       def update_sidebar_state_component_via_turbo_stream(meeting: @meeting)
+        return if meeting.onetime_template?
+
         update_via_turbo_stream(
           component: Meetings::SidePanel::StateComponent.new(
             meeting:
@@ -76,8 +80,20 @@ module Meetings
       end
 
       def update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
+        return if meeting.onetime_template?
+
         update_via_turbo_stream(
           component: Meetings::SidePanel::ParticipantsComponent.new(
+            meeting:
+          )
+        )
+      end
+
+      def update_sidebar_sharing_component_via_turbo_stream(meeting: @meeting)
+        return unless meeting.onetime_template?
+
+        update_via_turbo_stream(
+          component: Meetings::SidePanel::SharingComponent.new(
             meeting:
           )
         )
@@ -156,7 +172,8 @@ module Meetings
 
       def render_agenda_item_form_via_turbo_stream(collapsed:, current_occurrence:, meeting: @meeting,
                                                    meeting_section: @meeting_section, type: :simple)
-        if meeting.sections.empty? && meeting_section != meeting.backlog
+        # Nil case is for onetime templates
+        if meeting.sections.empty? && (meeting_section.nil? || meeting_section != meeting.backlog)
           render_agenda_item_form_for_empty_meeting_via_turbo_stream(type:)
         else
           render_agenda_item_form_in_section_via_turbo_stream(meeting:, meeting_section:, type:, collapsed:, current_occurrence:)

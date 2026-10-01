@@ -42,6 +42,7 @@ RSpec.describe "Team planner working days",
     it 'hides sat and sun in the "Work week" view andd renders sat and sun as non working in the "1-week" view' do
       team_planner.visit!
 
+      team_planner.wait_for_loaded
       team_planner.expect_empty_state
       team_planner.add_assignee user.name
 

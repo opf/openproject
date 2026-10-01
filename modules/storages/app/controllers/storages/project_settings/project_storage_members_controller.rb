@@ -36,12 +36,12 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
 
   menu_item :settings_project_storages
 
-  before_action :find_model_object, only: %i[index]
-
-  model_object Storages::ProjectStorage
+  before_action :find_project_by_project_id
+  before_action :find_project_storage, only: %i[index]
 
   def index
     @project_users = Member
+                   .visible
                    .of_project(@project)
                    .joins(:principal)
                    .preload(roles: :role_permissions, principal: :remote_identities)
@@ -53,9 +53,8 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
 
   private
 
-  def find_model_object(object_id = :project_storage_id)
-    super
-    @project_storage = @object
+  def find_project_storage
+    @project_storage = Storages::ProjectStorage.where(project: @project).find(params[:project_storage_id])
     @storage = @project_storage.storage
   end
 end

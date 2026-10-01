@@ -1,4 +1,32 @@
-import { Injectable } from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Injectable, inject } from '@angular/core';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { map } from 'rxjs/operators';
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
@@ -20,15 +48,11 @@ import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-pat
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
-@Injectable()
-
+@Injectable({ providedIn: 'root' })
 export class OpAutocompleterService extends UntilDestroyedMixin {
-  constructor(
-    private apiV3Service:ApiV3Service,
-    private halResourceService:HalResourceService,
-  ) {
-    super();
-  }
+  private apiV3Service = inject(ApiV3Service);
+  private halResourceService = inject(HalResourceService);
+
 
   // A method for fetching data with different resource type and different filter
   public loadAvailable(matching:string, resource:TOpAutocompleterResource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
@@ -63,9 +87,11 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   protected createParams(resource:TOpAutocompleterResource):Record<string, string> {
     if (resource === 'work_packages') {
       return {
-        // see op-autocompleter/op-autocompleter.component.html for required attributes
-        select: 'elements/id,elements/subject,elements/author,elements/type,elements/project,elements/status',
-        sortBy: '[["updatedAt","desc"]]',
+        // Fields are listed in op-autocompleter/op-autocompleter.component.html. `_type` is the
+        // HAL class discriminator: omitting it causes the factory to fall back to a generic
+        // HalResource, and getters like `formattedId` on WorkPackageResource never resolve.
+        select: 'elements/id,elements/displayId,elements/subject,elements/author,elements/type,elements/project,elements/status,elements/_type',
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
       };
     }
 
@@ -98,7 +124,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
     switch (resource) {
       // in this case we can add more functions for fetching usual resources
       default: {
-        return this.loadAvailable(matching || '', resource, filters, searchKey);
+        return this.loadAvailable(matching ?? '', resource, filters, searchKey);
       }
     }
   }
@@ -111,7 +137,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
       return of([]);
     }
 
-    const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching || '', searchKey);
+    const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching ?? '', searchKey);
     const params = this.createParams(resource);
 
     const stringifiedBuiltOutUrl = addFiltersToPath(url, finalFilters, params).toString();

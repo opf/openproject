@@ -1,5 +1,13 @@
+---
 cs:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        few: Overviews
+        many: Overviews
+        other: Overviews
   overviews:
-    label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "Přehled"
+    label_dashboard: Nástěnka
+    label_home: "%{workspace_type}"
+    label_overview: Přehled

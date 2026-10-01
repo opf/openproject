@@ -47,7 +47,7 @@ module Components
 
     def change_hours(value)
       within modal_container do
-        fill_in "time_entry_hours", with: value
+        fill_in "time_entry_hours_display", with: value
       end
     end
 
@@ -129,7 +129,7 @@ module Components
 
     def update_time_field(field_name, hour:, minute:)
       built_time = browser_timezone.local(2025, 1, 1, hour, minute, 0)
-      page.fill_in "time_entry_#{field_name}", with: built_time.iso8601
+      page.fill_in "time_entry_#{field_name}", with: built_time.strftime("%H:%M")
     end
 
     def update_field(field_name, value)

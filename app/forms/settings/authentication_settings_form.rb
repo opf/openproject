@@ -91,13 +91,14 @@ module Settings
 
       f.text_field(
         name: :after_first_login_redirect_url,
-        caption: I18n.t(:setting_after_first_login_redirect_url_text_html).html_safe,
+        caption: helpers.t(:setting_after_first_login_redirect_url_text_html),
         input_width: :large
       )
 
       f.text_field(
         name: :after_login_default_redirect_url,
-        caption: I18n.t(:setting_after_login_default_redirect_url_text_html).html_safe,
+        caption: helpers.t(:setting_after_login_default_redirect_url_example_html,
+                           example_code: helpers.content_tag(:code, "/my/page")),
         input_width: :large
       )
 

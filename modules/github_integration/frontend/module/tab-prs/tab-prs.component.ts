@@ -21,18 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { sortBy } from 'lodash-es';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -51,6 +46,10 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class TabPrsComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly githubPullRequests = inject(GithubPullRequestResourceService);
+
   @HostBinding('class.op-github-prs') className = true;
 
   @Input() workPackage:WorkPackageResource;
@@ -59,19 +58,13 @@ export class TabPrsComponent implements OnInit {
 
   emptyText:string;
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly githubPullRequests:GithubPullRequestResourceService,
-  ) {}
-
   ngOnInit():void {
-    this.emptyText = this.I18n.t('js.github_integration.tab_prs.empty', { wp_id: this.workPackage.id });
+    this.emptyText = this.I18n.t('js.github_integration.tab_prs.empty', { wp_id: this.workPackage.displayId });
     this.pullRequests$ = this
       .githubPullRequests
       .ofWorkPackage(this.workPackage)
       .pipe(
-        map((elements) => _.sortBy(elements, 'updatedAt')),
+        map((elements) => sortBy(elements, 'updatedAt')),
         shareReplay(1),
       );
   }

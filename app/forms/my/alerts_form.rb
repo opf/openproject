@@ -30,13 +30,15 @@
 
 class My::AlertsForm < ApplicationForm
   form do |f|
-    f.check_box name: :warn_on_leaving_unsaved,
-                label: I18n.t("activerecord.attributes.user_preference.warn_on_leaving_unsaved")
+    f.fieldset_group(title: helpers.t("activerecord.attributes.user_preference.header_alerts"), mt: 3) do |fg|
+      fg.check_box name: :warn_on_leaving_unsaved,
+                   label: helpers.t("activerecord.attributes.user_preference.warn_on_leaving_unsaved")
 
-    f.check_box name: :auto_hide_popups,
-                label: I18n.t("activerecord.attributes.user_preference.auto_hide_popups"),
-                caption: I18n.t("activerecord.attributes.user_preference.auto_hide_popups_caption")
+      fg.check_box name: :auto_hide_popups,
+                   label: helpers.t("activerecord.attributes.user_preference.auto_hide_popups"),
+                   caption: helpers.t("activerecord.attributes.user_preference.auto_hide_popups_caption")
 
-    f.submit(name: :submit, label: I18n.t("activerecord.attributes.user_preference.button_update_alerts"), scheme: :default)
+      fg.submit(name: :submit, label: helpers.t("activerecord.attributes.user_preference.button_update_alerts"), scheme: :default)
+    end
   end
 end

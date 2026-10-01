@@ -59,7 +59,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (item of rows; track item) {
+                  @for (item of rows; track item.entry?.id || 'sum:' + item.date) {
                     <tr class="time-entry">
                       @if (item.entry) {
                         <td class="activity"

@@ -1,0 +1,15 @@
+services:
+  gitlab:
+    volumes:
+      # Mount SSL certificates from the host system if you created your own ones
+      # Linux
+      # - /etc/ssl/certs:/etc/ssl/certs:ro
+      # - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
+      # In case of MacOS, you need to mount the certs from the host machine
+      # having them previously bundled via `sudo update-ca-certificates`
+      #
+      # - ~/.step/certs:/etc/ssl/certs
+      # - ~/.step/certs:/usr/local/share/ca-certificates
+    extra_hosts:
+      # In case OpenProject is not running via docker compose, forward its traffic to the host gateway
+      # - "openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}:host-gateway"

@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 export enum ActivityAnchorType {
   Comment = 'comment',
@@ -63,5 +61,24 @@ export namespace UrlHelpers {
       }
     }
     return null;
+  }
+
+  /**
+   * Translates a legacy `activity` anchor into its canonical `comment` anchor
+   * using the comment id the server resolved it to. Comment anchors, and activity
+   * anchors the server could not resolve, are returned unchanged.
+   *
+   * @example
+   * ```typescript
+   * canonicalActivityAnchor({ type: "activity", id: "5" }, 456);
+   * // Returns: { type: "comment", id: "456" }
+   * ```
+   */
+  export function canonicalActivityAnchor(anchor:ActivityAnchor, resolvedCommentId:number | null):ActivityAnchor {
+    if (anchor.type !== ActivityAnchorType.Activity || !resolvedCommentId) {
+      return anchor;
+    }
+
+    return { type: ActivityAnchorType.Comment, id: String(resolvedCommentId) };
   }
 }

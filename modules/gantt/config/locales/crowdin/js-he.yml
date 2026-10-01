@@ -1,6 +1,7 @@
+---
 he:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt charts"
       default_queries:
-        milestones: 'אבני דרך'
+        milestones: אבני דרך
+      label_gantt_chart_plural: Gantt charts

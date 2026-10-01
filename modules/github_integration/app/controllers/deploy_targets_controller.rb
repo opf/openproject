@@ -65,6 +65,6 @@ class DeployTargetsController < ApplicationController
 
     flash[:success] = I18n.t(:notice_deploy_target_destroyed)
 
-    redirect_to deploy_targets_path
+    redirect_to deploy_targets_path, status: :see_other
   end
 end

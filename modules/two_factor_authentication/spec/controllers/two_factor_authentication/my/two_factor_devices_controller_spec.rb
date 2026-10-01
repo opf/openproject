@@ -29,7 +29,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
   describe "accessing" do
     before do
-      get :index
+      get :new
     end
 
     context "when not logged in" do
@@ -38,7 +38,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
       it "does not give access" do
         expect(response).to be_redirect
-        expect(response).to redirect_to signin_path(back_url: my_2fa_devices_url)
+        expect(response).to redirect_to signin_path(back_url: new_my_2fa_device_url)
       end
     end
 
@@ -51,9 +51,9 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
     context "when logged in and active strategies" do
       let(:active_strategies) { [:developer] }
 
-      it "renders the index page" do
+      it "renders the new type selection page" do
         expect(response).to be_successful
-        expect(response).to render_template "index"
+        expect(response).to render_template "new_type"
       end
     end
   end
@@ -149,7 +149,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
               .and_return(ServiceResult.failure)
 
             get :confirm, params: { device_id: device.id }
-            expect(response).to redirect_to action: :index
+            expect(response).to redirect_to my_security_path
             expect(flash[:error]).to include I18n.t("two_factor_authentication.devices.confirm_send_failed")
           end
         end
@@ -167,7 +167,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
           it "renders a 400 on missing token" do
             post :confirm, params: { device_id: device.id }
-            expect(response).to redirect_to action: :index
+            expect(response).to redirect_to my_security_path
           end
 
           it "redirects to the confirmation on faulty entry" do
@@ -192,7 +192,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
                 .and_return(ServiceResult.success)
 
               post :confirm, params: { device_id: device.id, otp: "1234" }
-              expect(response).to redirect_to action: :index
+              expect(response).to redirect_to my_security_path
               expect(flash[:notice]).to include I18n.t("two_factor_authentication.devices.registration_complete")
               device.reload
               expect(device.active).to be true
@@ -212,7 +212,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
                 # rubocop:enable RSpec/AnyInstance
 
                 post :confirm, params: { device_id: device.id, otp: "1234" }
-                expect(response).to redirect_to action: :index
+                expect(response).to redirect_to my_security_path
                 expect(flash[:notice]).to include I18n.t("two_factor_authentication.devices.registration_complete")
                 device.reload
                 expect(device.active).to be true
@@ -241,7 +241,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
           it "deletes it" do
             delete :destroy, params: { device_id: device.id }
-            expect(response).to redirect_to action: :index
+            expect(response).to redirect_to my_security_path
             expect(user.otp_devices.reload).to eq []
           end
         end
@@ -251,7 +251,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
           it "deletes it" do
             delete :destroy, params: { device_id: device.id }
-            expect(response).to redirect_to action: :index
+            expect(response).to redirect_to my_security_path
             expect(user.otp_devices.reload).to eq []
           end
         end

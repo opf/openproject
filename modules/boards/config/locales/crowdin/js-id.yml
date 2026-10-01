@@ -1,87 +1,94 @@
-#English strings go here
+---
 id:
   ee:
     upsell:
       board_view:
-        description: 'Apakah Anda ingin mengotomatiskan alur kerja Anda dengan Papan? Papan tingkat lanjut adalah add-on Enterprise. Tingkatkan ke paket berbayar.'
+        description: Apakah Anda ingin mengotomatiskan alur kerja Anda dengan Papan? Papan tingkat lanjut adalah add-on Enterprise. Tingkatkan ke paket berbayar.
   js:
     boards:
-      create_new: 'Buat papan baru'
-      label_unnamed_board: 'Papan tanpa nama'
-      label_unnamed_list: 'Daftar tanpa nama'
-      label_board_type: 'Tipe papan'
-      lists:
-        delete: 'Hapus daftar'
-      version:
-        is_locked: 'Versi terkunci. Tidak ada item yang bisa di tambahkan ke versi ini.'
-        is_closed: 'Versi di tutup. Tidak ada item yang bisa di tambahkan ke versi ini.'
-        close_version: 'Tutup versi'
-        open_version: 'Buka versi'
-        lock_version: 'Kunci Versi'
-        unlock_version: 'Buka kunci versi'
-        edit_version: 'Ubah versi'
-        show_version: 'Tampilkan versi'
-        locked: 'Locked'
-        closed: 'Closed'
-      new_board: 'Papan baru'
-      add_list: 'Tambahkan daftar ke papan'
-      add_card: 'Tambah kartu'
-      error_attribute_not_writable: "Tidak bisa memindahkan paket kerja, %{attribute} tidak bisa ditulis."
-      error_loading_the_list: "Gagal memuat daftar: %{error_message}"
-      error_permission_missing: "Izin untuk membuat queri publik hilang"
-      error_cannot_move_into_self: "Anda tidak dapat memindahkan paket kerja ke kolomnya sendiri."
-      text_hidden_list_warning: "Tidak semua daftar ditampilkan karena Anda tidak memiliki izin. Hubungi admin Anda untuk informasi lebih lanjut."
-      click_to_remove_list: "Klik untuk menghapus daftar ini"
-      board_type:
-        text: 'Tipe papan'
-        free: 'standar'
-        select_board_type: 'Silakan pilih jenis papan yang Anda butuhkan.'
-        free_text: >
-          Mulai dari awal dengan papan kosong. Tambahkan kartu dan kolom secara manual ke papan ini.
-        action: 'Papan aksi'
-        action_by_attribute: 'Papan aksi (%{attribute}'
-        action_text: >
-          Papan dengan daftar yang difilter berdasarkan atribut %{attribute}. Pemindahan paket kerja ke daftar lain akan memperbarui atributnya.
-        action_text_subprojects: >
-          Papan dengan kolom otomatis untuk subproyek. Menyeret paket pekerjaan ke daftar lain akan memperbarui (sub) proyek yang sesuai.
-        action_text_subtasks: >
-          Papan dengan kolom otomatis untuk sub-elemen. Menyeret paket pekerjaan ke daftar lain akan memperbarui induknya.
-        action_text_status: >
-          Papan gaya kanban dasar dengan kolom untuk status seperti To Do, In Progress, Done.
-        action_text_assignee: >
-          Papan dengan kolom otomatis berdasarkan pengguna yang ditugaskan. Ideal untuk mengirimkan paket kerja.
-        action_text_version: >
-          Papan dengan kolom otomatis berdasarkan atribut versi. Ideal untuk merencanakan pengembangan produk.
-        action_type:
-          assignee: penanggung jawab
-          status: status
-          version: versi
-          subproject: subproyek
-          subtasks: parent-child
-        board_type_title:
-          assignee: Pelimpahan
-          status: Status
-          version: Versi
-          subproject: Sub-Project
-          subtasks: Orangtua-anak
-          basic: Dasar
-        select_attribute: "Aksi atribut"
+      add_card: Tambah kartu
+      add_list: Tambahkan daftar ke papan
       add_list_modal:
         labels:
           assignee: Pilih pengguna untuk ditambahkan ke daftar penanggung jawab baru
           status: Pilih status untuk ditambahkan sebagai daftar baru
-          version: Pilih versi untuk ditambahkan sebagai daftar baru
           subproject: Pilih subproyek untuk ditambahkan sebagai daftar baru
           subtasks: Pilih paket kerja untuk ditambahkan sebagai daftar baru
+          version: Pilih versi untuk ditambahkan sebagai daftar baru
         warning:
+          add_members: <a href="%{link}">Tambahkan anggota baru ke proyek ini</a> untuk memilih pengguna lagi.
+          assignee: Tidak ada anggota yang sesuai dengan nilai filter Anda.  <br>
+          no_member: Saat ini, proyek ini tidak memiliki anggota yang dapat ditambahkan.  <br>
           status: |
             Tidak ada status yang tersedia untuk saat ini. <br>
             Mungkin tidak ada sama sekali atau semuanya sudah ditambahkan ke papan.
-          assignee: Tidak ada anggota yang sesuai dengan nilai filter Anda.  <br>
-          no_member: Saat ini, proyek ini tidak memiliki anggota yang dapat ditambahkan.  <br>
-          add_members: <a href="%{link}">Tambahkan anggota baru ke proyek ini</a> untuk memilih pengguna lagi.
+      board_type:
+        action: Papan aksi
+        action_by_attribute: Papan aksi (%{attribute}
+        action_text: 'Papan dengan daftar yang difilter berdasarkan atribut %{attribute}. Pemindahan paket kerja ke daftar lain akan memperbarui atributnya.
+
+          '
+        action_text_assignee: 'Papan dengan kolom otomatis berdasarkan pengguna yang ditugaskan. Ideal untuk mengirimkan paket kerja.
+
+          '
+        action_text_status: 'Papan gaya kanban dasar dengan kolom untuk status seperti To Do, In Progress, Done.
+
+          '
+        action_text_subprojects: 'Papan dengan kolom otomatis untuk subproyek. Menyeret paket pekerjaan ke daftar lain akan memperbarui (sub) proyek yang sesuai.
+
+          '
+        action_text_subtasks: 'Papan dengan kolom otomatis untuk sub-elemen. Menyeret paket pekerjaan ke daftar lain akan memperbarui induknya.
+
+          '
+        action_text_version: 'Papan dengan kolom otomatis berdasarkan atribut versi. Ideal untuk merencanakan pengembangan produk.
+
+          '
+        action_type:
+          assignee: penanggung jawab
+          status: status
+          subproject: subproyek
+          subtasks: parent-child
+          version: versi
+        board_type_title:
+          assignee: Pelimpahan
+          basic: Dasar
+          status: Status
+          subproject: Sub-Project
+          subtasks: Orangtua-anak
+          version: Versi
+        free: standar
+        free_text: 'Mulai dari awal dengan papan kosong. Tambahkan kartu dan kolom secara manual ke papan ini.
+
+          '
+        select_attribute: Aksi atribut
+        select_board_type: Silakan pilih jenis papan yang Anda butuhkan.
+        text: Tipe papan
+      click_to_remove_list: Klik untuk menghapus daftar ini
       configuration_modal:
-        title: 'Atur papan ini'
         display_settings:
-          card_mode: "Tampilkan sebagai kartu"
-          table_mode: "Tampilkan sebagai tabel"
+          card_mode: Tampilkan sebagai kartu
+          table_mode: Tampilkan sebagai tabel
+        title: Atur papan ini
+      create_new: Buat papan baru
+      error_attribute_not_writable: Tidak bisa memindahkan paket kerja, %{attribute} tidak bisa ditulis.
+      error_cannot_move_into_self: Anda tidak dapat memindahkan paket kerja ke kolomnya sendiri.
+      error_loading_the_list: 'Gagal memuat daftar: %{error_message}'
+      error_permission_missing: Izin untuk membuat queri publik hilang
+      label_board_type: Tipe papan
+      label_unnamed_board: Papan tanpa nama
+      label_unnamed_list: Daftar tanpa nama
+      lists:
+        delete: Hapus daftar
+      new_board: Papan baru
+      text_hidden_list_warning: Tidak semua daftar ditampilkan karena Anda tidak memiliki izin. Hubungi admin Anda untuk informasi lebih lanjut.
+      version:
+        close_version: Tutup versi
+        closed: Closed
+        edit_version: Ubah versi
+        is_closed: Versi di tutup. Tidak ada item yang bisa di tambahkan ke versi ini.
+        is_locked: Versi terkunci. Tidak ada item yang bisa di tambahkan ke versi ini.
+        lock_version: Kunci Versi
+        locked: Locked
+        open_version: Buka versi
+        show_version: Tampilkan versi
+        unlock_version: Buka kunci versi

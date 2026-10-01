@@ -11,7 +11,7 @@ post:
   parameters:
     - name: id
       description: Work package id
-      example: '1'
+      example: 1
       in: path
       required: true
       schema:

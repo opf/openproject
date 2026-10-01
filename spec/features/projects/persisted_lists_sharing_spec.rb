@@ -366,8 +366,9 @@ RSpec.describe "Project list sharing",
           # Toggle the switch to make the project list query public
           share_dialog.expect_toggle_public_off
 
-          share_dialog.toggle_public
-          wait_for_network_idle
+          wait_for_turbo_stream do
+            share_dialog.toggle_public
+          end
 
           share_dialog.expect_toggle_public_on
           share_dialog.close

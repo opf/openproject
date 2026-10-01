@@ -55,7 +55,7 @@ module Projects
     def validate_work_package_type
       if project.project_creation_wizard_work_package_type_id.blank?
         add_error :project_creation_wizard_work_package_type_id, :blank
-      elsif !project.project_creation_wizard_work_package_type_id.in?(project.type_ids)
+      elsif !project.project_types.exists?(type_id: project.project_creation_wizard_work_package_type_id)
         add_error :project_creation_wizard_work_package_type_id, :inclusion
       end
     end
@@ -69,9 +69,9 @@ module Projects
     end
 
     def validate_assignee_custom_field
-      if project_assignee_custom_field_not_configured?
-        add_error :project_creation_wizard_assignee_custom_field_id, :blank
-      elsif not_allowed_to_read_assignee_custom_field_value?
+      return if project_assignee_custom_field_not_configured?
+
+      if not_allowed_to_read_assignee_custom_field_value?
         add_error assignee_custom_field.attribute_name, :unauthorized
       elsif missing_assignee_custom_field_value?
         add_error assignee_custom_field.attribute_name, :blank
@@ -113,7 +113,8 @@ module Projects
       type = Type.find_by(id: project.project_creation_wizard_work_package_type_id)
       return false if type.blank? # no extra error if there is already an error about type being blank
 
-      type.statuses.pluck(:id).exclude?(project.project_creation_wizard_status_when_submitted_id)
+      project.type_variant(type).statuses.pluck(:id)
+             .exclude?(project.project_creation_wizard_status_when_submitted_id)
     end
 
     def add_error(attribute, error)

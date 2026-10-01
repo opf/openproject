@@ -41,9 +41,9 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%= styled_form_tag(
-      admin_settings_working_days_and_hours_path,
-      method: :patch,
-      class: "op-working-days-admin-settings"
+      confirm_changes_admin_settings_working_days_and_hours_path,
+      class: "op-working-days-admin-settings",
+      data: { turbo_stream: true }
     ) do %>
 
   <section class="form--section">

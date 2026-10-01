@@ -31,8 +31,11 @@
 class Setting < ApplicationRecord
   class NotWritableError < StandardError; end
 
+  extend Accessors
   extend Aliases
   extend MailSettings
+
+  PASSWORD_MAX_LENGTH = 128
 
   ENCODINGS = %w(US-ASCII
                  windows-1250
@@ -74,71 +77,6 @@ class Setting < ApplicationRecord
                  Big5-HKSCS
                  TIS-620).freeze
 
-  class << self
-    def create_setting(name, value = {})
-      ::Settings::Definition.add(name, **value.symbolize_keys)
-    end
-
-    def create_setting_accessors(name)
-      # Defines getter and setter for each setting
-      # Then setting values can be read using: Setting.some_setting_name
-      # or set using Setting.some_setting_name = "some value"
-      src = <<-END_SRC
-        def self.#{name}
-          # when running too early, there is no settings table. do nothing
-          self[:#{name}] if settings_table_exists_yet?
-        end
-
-        def self.#{name}?
-          # when running too early, there is no settings table. do nothing
-          return unless settings_table_exists_yet?
-          definition = Settings::Definition[:#{name}]
-
-          if definition.format != :boolean
-            ActiveSupport::Deprecation.new.warn "Calling #{self}.#{name}? is deprecated since it is not a boolean", caller_locations
-          end
-
-          value = self[:#{name}]
-          ActiveRecord::Type::Boolean.new.cast(value) || false
-        end
-
-        def self.#{name}=(value)
-          if settings_table_exists_yet?
-            self[:#{name}] = value
-          else
-            logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
-            nil # when running too early, there is no settings table. do nothing
-          end
-        end
-
-        def self.#{name}_writable?
-          Settings::Definition[:#{name}].writable?
-        end
-      END_SRC
-      class_eval src, __FILE__, __LINE__
-    end
-
-    def method_missing(method, *, &)
-      if exists?(accessor_base_name(method))
-        create_setting_accessors(accessor_base_name(method))
-
-        send(method, *)
-      else
-        super
-      end
-    end
-
-    def respond_to_missing?(method_name, include_private = false)
-      exists?(accessor_base_name(method_name)) || super
-    end
-
-    private
-
-    def accessor_base_name(name)
-      name.to_s.sub(/(_writable\?)|(\?)|=\z/, "")
-    end
-  end
-
   validates :name,
             uniqueness: true,
             inclusion: {
@@ -154,6 +92,13 @@ class Setting < ApplicationRecord
               only_integer: true,
               allow_nil: true,
               if: ->(setting) { setting.nullable_integer_format? }
+            }
+  validates :value,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to: PASSWORD_MAX_LENGTH,
+              if: ->(setting) { setting.name == "password_min_length" }
             }
 
   def nullable_integer_format?

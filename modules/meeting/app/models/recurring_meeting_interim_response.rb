@@ -40,4 +40,12 @@ class RecurringMeetingInterimResponse < ApplicationRecord
     # delegated: "delegated", # We currently do not support delegation
     unknown: "unknown" # this status is used for existing participants when introducing the field
   }, prefix: :participation
+
+  validate :start_time_must_be_valid_occurrence, if: -> { start_time.present? && recurring_meeting.present? }
+
+  private
+
+  def start_time_must_be_valid_occurrence
+    errors.add(:start_time, :not_an_occurrence) unless recurring_meeting.occurs_at?(start_time)
+  end
 end

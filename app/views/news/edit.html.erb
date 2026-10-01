@@ -33,18 +33,18 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { @news.title }
     header.with_breadcrumbs(
       [
-        ({ href: project_overview_path(@project.id), text: @project.name } if @project),
-        ({ href: project_news_index_path(@project.id), text: t(:label_news_plural) } if @project),
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_news_index_path(@project.id), text: t(:label_news_plural) },
         @news.title
       ].compact
     )
   end
 %>
 
-<%= labelled_tabular_form_for @news, html: { id: "news-form" } do |f| %>
+<%= labelled_tabular_form_for [@project, @news], html: { id: "news-form" } do |f| %>
   <%= render partial: "form", locals: { f: f } %>
   <hr class="form--separator">
   <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-  <%= link_to t(:button_cancel), news_path(@news), class: "button -with-icon icon-cancel" %>
+  <%= link_to t(:button_cancel), project_news_path(@project, @news), class: "button -with-icon icon-cancel" %>
 <% end %>
 <div id="preview"></div>

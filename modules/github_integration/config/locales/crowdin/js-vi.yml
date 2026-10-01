@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 vi:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Kéo yêu cầu"
-        copy_menu:
-          label: Đoạn mã Git
-          description: Sao chép đoạn git vào clipboard
-        git_actions:
-          branch_name: Tên chi nhánh
-          commit_message: Thông báo cam kết
-          cmd: Tạo nhánh với cam kết trống
-          title: Đoạn mã nhanh cho Git
-          copy_success: '✅ Đã sao chép!'
-          copy_error: '❌ Sao chép thất bại!'
-      tab_prs:
-        empty: 'Chưa có yêu cầu kéo nào được liên kết. Liên kết một PR hiện có bằng cách sử dụng mã <code>OP#%{wp_id}</code> trong phần mô tả PR hoặc tạo một PR mới.'
       github_actions: hành động
       pull_requests:
-        message: "Yêu cầu kéo #%{pr_number} %{pr_link} cho %{repository_link} do %{github_user_link} tạo đã được %{pr_state}."
-        merged_message: "Yêu cầu kéo #%{pr_number} %{pr_link} cho %{repository_link} đã được %{pr_state} bởi %{github_user_link}."
-        referenced_message: "Kéo yêu cầu #%{pr_number} %{pr_link} cho %{repository_link} tác giả bởi %{github_user_link} đã tham chiếu gói công việc này."
+        merged_message: 'Yêu cầu kéo #%{pr_number} %{pr_link} cho %{repository_link} đã được %{pr_state} bởi %{github_user_link}.'
+        message: 'Yêu cầu kéo #%{pr_number} %{pr_link} cho %{repository_link} do %{github_user_link} tạo đã được %{pr_state}.'
+        referenced_message: 'Kéo yêu cầu #%{pr_number} %{pr_link} cho %{repository_link} tác giả bởi %{github_user_link} đã tham chiếu gói công việc này.'
         states:
-          opened: 'đã mở'
-          closed: 'đóng cửa'
-          draft: 'soạn thảo'
-          merged: 'sáp nhập'
-          ready_for_review: 'được đánh dấu sẵn sàng để xem xét'
+          closed: đóng cửa
+          draft: soạn thảo
+          merged: sáp nhập
+          opened: đã mở
+          ready_for_review: được đánh dấu sẵn sàng để xem xét
+      tab_header:
+        copy_menu:
+          description: Sao chép đoạn git vào clipboard
+          label: Đoạn mã Git
+        git_actions:
+          branch_name: Tên chi nhánh
+          cmd: Tạo nhánh với cam kết trống
+          commit_message: Thông báo cam kết
+          copy_error: "❌ Sao chép thất bại!"
+          copy_success: "✅ Đã sao chép!"
+          title: Đoạn mã nhanh cho Git
+        title: Kéo yêu cầu
+      tab_prs:
+        empty: Chưa có yêu cầu kéo nào được liên kết. Liên kết một PR hiện có bằng cách sử dụng mã <code>OP#%{wp_id}</code> trong phần mô tả PR hoặc tạo một PR mới.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

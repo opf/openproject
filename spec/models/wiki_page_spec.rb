@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe WikiPage do
   shared_let(:author) { create(:user) }
-  shared_let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  shared_let(:project) { create(:project, :with_internal_wiki).reload }
 
   let(:wiki) { project.wiki }
   let(:title) { wiki.wiki_menu_items.first.title }
@@ -52,7 +52,7 @@ RSpec.describe WikiPage do
 
   describe "#slug" do
     context "when another project with same title exists" do
-      let(:project2) { create(:project) }
+      let(:project2) { create(:project, :with_internal_wiki).reload }
       let(:wiki2) { project2.wiki }
       let!(:wiki_page1) { create(:wiki_page, wiki:, title: "asdf") }
       let!(:wiki_page2) { create(:wiki_page, wiki: wiki2, title: "asdf") }
@@ -335,11 +335,11 @@ RSpec.describe WikiPage do
 
   describe "#text" do
     it "does not truncate to 64k" do
-      content = described_class.create(title:, text: "a" * 500.kilobyte, author:, wiki:)
+      content = described_class.create(title:, text: "a" * 500.kilobytes, author:, wiki:)
       content.reload
 
       expect(content.text.size)
-        .to eql(500.kilobyte)
+        .to eql(500.kilobytes)
     end
   end
 

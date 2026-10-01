@@ -39,9 +39,48 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @view, url: { controller: "/calendar/calendars", action: "create" }, html: { id: "calendar-form" } do |f| -%>
-  <%= render partial: "form", locals: { f: f } %>
-  <%= styled_button_tag t(:button_create), class: "-primary" %>
-  <%= link_to t(:button_cancel), { controller: "calendar/calendars", action: "index" },
-              class: "button" %>
+<%= primer_form_with(model: @view, scope: :query, url: calendars_path) do |f| %>
+  <%= render_inline_form(f) do |form|
+    project_id_value = @project&.id
+    form.text_field(
+      name: :name,
+      label: helpers.t(:label_title),
+      required: true,
+      input_width: :large
+    )
+
+    form.project_autocompleter(
+      name: :project_id,
+      label: Query.human_attribute_name(:project),
+      required: true,
+      caption: helpers.t("help_texts.views.project",
+                 singular: helpers.t(:label_calendar).downcase,
+                 plural: helpers.t(:label_calendar_plural)),
+      input_width: :large,
+      autocomplete_options: {
+        focusDirectly: false,
+        dropdownPosition: "bottom",
+        inputValue: project_id_value,
+        filters: [{ name: "user_action", operator: "=", values: ["calendars/create"] }],
+        data: { "test-selector": "project_id" }
+      }
+    )
+
+    form.check_box(
+      name: :public,
+      label: Query.human_attribute_name(:public),
+      caption: helpers.t("help_texts.views.public")
+    )
+
+    form.check_box(
+      name: :starred,
+      label: helpers.t(:label_favorite),
+      caption: helpers.t("help_texts.views.favoured")
+    )
+
+    form.group(layout: :horizontal) do |button_group|
+      button_group.submit(label: helpers.t(:button_create), name: :submit, scheme: :primary)
+      button_group.button(tag: :a, href: helpers.calendars_path, label: helpers.t(:button_cancel), name: :cancel)
+    end
+  end %>
 <% end %>

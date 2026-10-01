@@ -27,6 +27,8 @@
 #++
 
 class TimeEntryCustomField < CustomField
+  scopes :visible
+
   def type_name
     :label_spent_time
   end

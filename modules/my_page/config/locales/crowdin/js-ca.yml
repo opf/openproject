@@ -1,4 +1,5 @@
+---
 ca:
   js:
     my_page:
-      label: "La meva pàgina"
+      label: La meva pàgina

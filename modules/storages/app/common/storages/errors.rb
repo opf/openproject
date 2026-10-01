@@ -36,12 +36,6 @@ module Storages
 
     class ConfigurationError < BaseError; end
 
-    class SubclassResponsibility < BaseError
-      def message
-        "A subclass needs to implement its own version of this method."
-      end
-    end
-
     class IntegrationJobError < BaseError; end
   end
 end

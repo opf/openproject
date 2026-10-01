@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= raw t(
         :mail_body_wiki_page_updated,
         id: link_to(@wiki_page.title, project_wiki_url(@wiki_page.project, @wiki_page)),
-        author: @wiki_page.journals.last.user
+        author: h(@wiki_page.journals.last.user)
       ) %><br>
   <em><%= @wiki_page.journals.last.notes %></em>
 </p>

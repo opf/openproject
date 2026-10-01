@@ -7,16 +7,40 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
+      # The CSS grid uses doubled line numbers so that empty placeholder cells
+      # (used as drag-and-drop targets) can be placed between every content cell.
+      # Logical position 1 → CSS line 2, position 2 → CSS line 4, etc.
+      # Use css_line and logical_position helpers to convert between the two.
+      CSS_LINES_PER_LOGICAL_UNIT = 2
+
       attr_accessor :area_selector
 
       def initialize(*selector)
         self.area_selector = selector
       end
 
-      def resize_to(row, column)
+      def grid_value(style_name)
+        area.style(style_name)[style_name].to_i
+      end
+
+      def logical_start_row
+        grid_value("grid-row-start") / CSS_LINES_PER_LOGICAL_UNIT
+      end
+
+      def logical_start_col
+        grid_value("grid-column-start") / CSS_LINES_PER_LOGICAL_UNIT
+      end
+
+      def resize_to(rows, cols)
         area.hover
 
-        area.find(".grid--resizer").drag_to self.class.of(row * 2, column * 2).area
+        # rows/cols are the desired SIZE of the widget in logical grid units,
+        # e.g. resize_to(1, 2) → 1 row tall, 2 columns wide.
+        target_row = logical_start_row + rows - 1
+        target_col = logical_start_col + cols - 1
+
+        area.find(".grid--resizer").drag_to self.class.of(target_row * CSS_LINES_PER_LOGICAL_UNIT,
+                                                          target_col * CSS_LINES_PER_LOGICAL_UNIT).area
       end
 
       def open_menu
@@ -55,7 +79,7 @@ module Components
 
       def drag_to(row, column)
         handle = drag_handle
-        drop_area = self.class.of(row * 2, column * 2).area
+        target = self.class.of(row * 2, column * 2)
 
         scroll_to_element(handle)
 
@@ -63,12 +87,14 @@ module Components
           action.click_and_hold(handle.native)
         end
 
-        scroll_to_element(drop_area)
-        drop_area.hover
+        scroll_to_element(target.area)
+        target.area.hover
 
         sleep(1)
 
-        move_to(drop_area, &:release)
+        # `target.area` calls page.find on each access, so this re-queries the DOM
+        # to get a fresh native reference after CDK drag has updated it.
+        move_to(target.area, &:release)
       end
 
       def expect_to_exist

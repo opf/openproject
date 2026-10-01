@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -64,7 +64,7 @@ const RESIZE_EVENT = 'main-menu-resize';
 export class MainMenuResizerComponent extends UntilDestroyedMixin {
   readonly toggleService = inject(MainMenuToggleService);
   readonly I18n = inject(I18nService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   private readonly elementWidth = signal<number>(0);
   private readonly mainMenu = document.querySelector('#main-menu')!;

@@ -5,7 +5,7 @@ embed_fallback_translations:
 translations:
   - file: "frontend/src/locales/:locale.json"
     patterns:
-      - '*.js'
+      - '*.js.*'
       - '*.number.*'
       - '*.time.*'
       - '*.date.*'

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# Correctly rebuilds the database from scratch by dropping it, deleting the structure.sql, creating it again,
+# running all migrations and seeding it.
+
+die() { yell "$*"; exit 1; }
+try() { eval "$@" || die "\n\nFailed to run '$*'"; }
+
+echo "Dropping database"
+try "bundle exec rake db:drop"
+
+echo "Deleting structure.sql to recreate a fresh DB from migrations"
+try "rm -f db/structure.sql"
+
+echo "Creating database"
+try "bundle exec rake db:create"
+
+echo "Migrating database"
+try "bundle exec rake db:migrate"
+
+echo "Seeding database"
+try "bundle exec rake db:seed"
+
+echo "✔ Done."

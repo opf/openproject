@@ -47,10 +47,10 @@ RSpec.describe "Admin Edit File storage",
 
     within_test_selector("op-storages--destroy-confirm-dialog") do
       expect(page).to have_text("Delete file storage")
-      expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed")
+      expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed.")
       expect(page).to have_button("Delete permanently", disabled: true)
 
-      page.check("I understand that this deletion cannot be reversed")
+      page.check("I understand that this deletion cannot be reversed.")
       page.click_button("Delete permanently")
     end
 
@@ -143,9 +143,6 @@ RSpec.describe "Admin Edit File storage",
 
         within_test_selector("storage-openproject-oauth-application-form") do
           warning_section = find_test_selector("storage-openproject_oauth_application_warning")
-          expect(warning_section).to have_text("The client secret value will not be accessible again after you close " \
-                                               "this window. Please copy these values into the Nextcloud " \
-                                               "OpenProject Integration settings.")
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
                                                href: "#{storage.host}settings/admin/openproject")
 

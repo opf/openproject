@@ -89,7 +89,7 @@ module Components
 
       def expect_hovered_bar(duration: 1)
         expected_length = duration * 30
-        expect(container).to have_css('div[class^="__hl_background_"', style: { width: "#{expected_length}px" })
+        expect(container).to have_css("div.__hl_background", style: { width: "#{expected_length}px" })
       end
 
       def expect_bar(duration: 1)
@@ -99,7 +99,7 @@ module Components
       end
 
       def expect_no_hovered_bar
-        expect(container).to have_no_css('div[class^="__hl_background_"')
+        expect(container).to have_no_css("div.__hl_background")
       end
 
       def expect_no_bar

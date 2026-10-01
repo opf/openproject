@@ -21,7 +21,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -125,6 +125,19 @@ RSpec.describe TimeEntries::UpdateContract do
 
       it "is invalid" do
         time_entry.user = other_user
+        expect_valid(false, base: %i(error_unauthorized))
+      end
+    end
+
+    context "if an entry of another user is reassigned to the acting user" do
+      let(:time_entry_user) { other_user }
+      let(:permissions) { %i(edit_own_time_entries log_time) }
+
+      before do
+        time_entry.user = current_user
+      end
+
+      it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
     end

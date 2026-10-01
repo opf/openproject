@@ -45,9 +45,9 @@ RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     )
   end
 
-  it "escapes script tags" do
+  it "strips script tags" do
     assert_html_output(
-      "this is a <script>" => "this is a &lt;script&gt;"
+      "this is a <script>" => "this is a "
     )
   end
 

@@ -44,17 +44,24 @@ module EnvData
     end
 
     def applicable?
-      Setting.seed_design.present?
+      return false if Setting.seed_design.blank?
+      return true unless only_when_empty?
+
+      CustomStyle.none?
     end
 
     private
+
+    def only_when_empty?
+      ActiveRecord::Type::Boolean.new.deserialize(Setting.seed_design["only_when_empty"])
+    end
 
     def seed_logos(custom_style)
       CustomStyle.uploaders.each_key do |key|
         data = Setting.seed_design[key.to_s]
 
         if data.blank?
-          custom_style.public_send(:"remove_#{key}")
+          custom_style.public_send(:"remove_#{key}!")
         elsif data.match?(/^https?:\/\//)
           seed_remote_url(custom_style, key, data)
         else
@@ -85,31 +92,9 @@ module EnvData
     end
 
     def seed_remote_url(custom_style, key, url)
-      response = HTTPX.get(url)
-      raise "Failed to set #{key} from #{url}: #{response}" unless response.status == 200
+      print_status "      ↳ Downloading #{key} from #{url} in the background"
 
-      build_attachable_file(key.to_s, response.body.to_s) do |file|
-        custom_style.public_send(:"#{key}=", file)
-        custom_style.save!
-      end
-    end
-
-    def build_attachable_file(file_name, data)
-      Tempfile.open(file_name) do |tempfile|
-        tempfile.binmode
-        tempfile.write(data)
-        tempfile.rewind
-
-        content_type = OpenProject::ContentTypeDetector.new(tempfile.path).detect
-        mime_type = MIME::Types[content_type].last
-        raise ArgumentError, "Unknown mime type: #{content_type}" if mime_type.nil?
-
-        file = OpenProject::Files.build_uploaded_file(tempfile,
-                                                      content_type,
-                                                      file_name: "#{file_name}.#{mime_type.preferred_extension}")
-
-        yield(file)
-      end
+      CustomStyles::SeedRemoteAssetJob.perform_later(custom_style, key, url)
     end
 
     class Base64StringIO < StringIO
@@ -136,7 +121,7 @@ module EnvData
         content_type = metadata.match(%r{data:([^;]+)})&.captures&.first
         raise ArgumentError, "Failed to parse content type from metadata: #{metadata}" if content_type.nil?
 
-        mime_type = MIME::Types[content_type].last
+        mime_type = MIME::Types[content_type].first
         raise ArgumentError, "Unknown mime type: #{content_type}" if mime_type.nil?
 
         mime_type.preferred_extension

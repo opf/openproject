@@ -92,6 +92,14 @@ module Queries
       end
     end
 
+    def user_allowed_to_save_queries?
+      if model.project
+        user.allowed_in_project?(:save_queries, model.project)
+      else
+        user.allowed_in_any_project?(:save_queries)
+      end
+    end
+
     def timestamps_are_parsable
       invalid_timestamps = model.timestamps.reject(&:valid?)
 

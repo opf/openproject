@@ -8,7 +8,7 @@ delete:
     - Principals
   parameters:
     - description: Placeholder user id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -53,12 +53,12 @@ get:
     - Principals
   parameters:
     - description: The placeholder user id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
       schema:
-        type: string
+        type: integer
   responses:
     '200':
       content:
@@ -94,7 +94,7 @@ patch:
     that are required, in the body.
   parameters:
     - description: Placeholder user id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

@@ -71,7 +71,7 @@ es:
         item_7:
           name: Ingenieros estructurales
       welcome:
-        title: '¡Le damos la bienvenida a la edición BIM de OpenProject!'
+        title: "¡Le damos la bienvenida a la edición BIM de OpenProject!"
         text: |
           Consulte los proyectos de demostración para empezar con algunos ejemplos.
 

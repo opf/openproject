@@ -49,6 +49,9 @@ module OpenProject::Storages
     # please see comments inside ActsAsOpEngine class
     include OpenProject::Plugins::ActsAsOpEngine
 
+    patches %i[WorkPackage]
+    patch_with_namespace :API, :V3, :WorkPackages, :WorkPackagePayloadRepresenter
+
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
     end
@@ -256,6 +259,8 @@ module OpenProject::Storages
 
     # This hook is executed when the module is loaded.
     config.to_prepare do
+      Journals::CreateService::Association.register(:Storable)
+
       # Load Storages::Storage descendants due to STI
       Storages::Storage::InexistentStorage
       Storages::OneDriveStorage
@@ -293,6 +298,25 @@ module OpenProject::Storages
           filter ::Queries::Storages::ProjectStorages::Filter::StorageUrlFilter
           filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
         end
+      end
+    end
+
+    include_module "Storages::FileLinks::SetReplacements", into: "WorkPackages::SetAttributesService"
+    include_module "Storages::FileLinks::ReplaceFileLinks", into: %w[WorkPackages::CreateService WorkPackages::UpdateService]
+    include_module "Storages::FileLinks::ValidateReplacements", into: %w[WorkPackages::CreateContract WorkPackages::UpdateContract]
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      link :fileLinks, cache_if: -> { current_user.allowed_in_project?(:view_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id)
+        }
+      end
+
+      link :addFileLink, cache_if: -> { current_user.allowed_in_project?(:manage_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id),
+          method: :post
+        }
       end
     end
 

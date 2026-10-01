@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,30 +31,21 @@
 require_relative "../spec_helper"
 
 RSpec.describe CostType do
-  let(:klass) { CostType }
   let(:cost_type) do
-    klass.new name: "ct1",
-              unit: "singular",
-              unit_plural: "plural"
-  end
-
-  before do
-    # as the spec_helper loads fixtures and they are probably needed by other tests
-    # we delete them here so they do not interfere.
-    # on the long run, fixtures should be removed
-
-    CostType.destroy_all
+    described_class.new name: "ct1",
+                        unit: "singular",
+                        unit_plural: "plural"
   end
 
   describe "class" do
     describe "active" do
       describe "WHEN a CostType instance is deleted" do
         before do
-          cost_type.deleted_at = Time.now
+          cost_type.deleted_at = Time.zone.now
           cost_type.save!
         end
 
-        it { expect(klass.active.size).to eq(0) }
+        it { expect(described_class.active.size).to eq(0) }
       end
 
       describe "WHEN a CostType instance is not deleted" do
@@ -60,8 +53,59 @@ RSpec.describe CostType do
           cost_type.save!
         end
 
-        it { expect(klass.active.size).to eq(1) }
-        it { expect(klass.active[0]).to eq(cost_type) }
+        it { expect(described_class.active.size).to eq(1) }
+        it { expect(described_class.active[0]).to eq(cost_type) }
+      end
+    end
+  end
+
+  describe ".available_for_project" do
+    let(:project) { create(:project) }
+    let(:other_project) { create(:project) }
+    let!(:global_ct) { create(:cost_type, for_all_projects: true) }
+    let!(:scoped_ct) { create(:cost_type, for_all_projects: false) }
+    let!(:unrelated_ct) { create(:cost_type, for_all_projects: false) }
+
+    before do
+      CostTypesProject.create!(cost_type: scoped_ct, project: project)
+      CostTypesProject.create!(cost_type: unrelated_ct, project: other_project)
+    end
+
+    it "returns global cost types plus those explicitly mapped to the project" do
+      expect(described_class.available_for_project(project)).to contain_exactly(global_ct, scoped_ct)
+    end
+
+    it "accepts a project_id integer too" do
+      expect(described_class.available_for_project(project.id)).to contain_exactly(global_ct, scoped_ct)
+    end
+  end
+
+  describe ".default_for_project" do
+    let(:project) { create(:project) }
+
+    context "when the global default is available in the project" do
+      let!(:default_ct) { create(:cost_type, for_all_projects: true, default: true) }
+      let!(:_other) { create(:cost_type, for_all_projects: true) }
+
+      it "returns the default" do
+        expect(described_class.default_for_project(project)).to eq(default_ct)
+      end
+    end
+
+    context "when no default cost type is available in the project" do
+      let!(:default_ct) { create(:cost_type, for_all_projects: false, default: true) }
+      let!(:available) { create(:cost_type, for_all_projects: true) }
+
+      it "falls back to the first available cost type" do
+        expect(described_class.default_for_project(project)).to eq(available)
+      end
+    end
+
+    context "when no cost type is available in the project" do
+      let!(:_unrelated) { create(:cost_type, for_all_projects: false) }
+
+      it "returns nil" do
+        expect(described_class.default_for_project(project)).to be_nil
       end
     end
   end

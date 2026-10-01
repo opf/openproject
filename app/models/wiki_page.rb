@@ -31,10 +31,10 @@
 class WikiPage < ApplicationRecord
   belongs_to :wiki, touch: true
   has_one :project, through: :wiki
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 
-  acts_as_attachable delete_permission: :delete_wiki_pages_attachments
-  acts_as_tree dependent: :nullify, order: 'title'
+  acts_as_attachable delete_permission: :edit_wiki_pages
+  acts_as_tree dependent: :nullify, order: "title"
 
   # Generate slug of the title
   acts_as_url :title,
@@ -47,7 +47,7 @@ class WikiPage < ApplicationRecord
   acts_as_watchable
   acts_as_event title: Proc.new { |o| "#{Wiki.model_name.human}: #{o.title}" },
                 description: :text,
-                url: Proc.new { |o| { controller: '/wiki', action: 'show', project_id: o.wiki.project, id: o.title } }
+                url: Proc.new { |o| { controller: "/wiki", action: "show", project_id: o.wiki.project, id: o.title } }
 
   acts_as_searchable columns: %W[#{WikiPage.table_name}.title text],
                      include: [{ wiki: :project }],
@@ -64,7 +64,7 @@ class WikiPage < ApplicationRecord
   validates :slug,
             presence: {
               message: ->(object, _) {
-                I18n.t('activerecord.errors.models.wiki_page.attributes.slug.undeducible', title: object.title)
+                I18n.t("activerecord.errors.models.wiki_page.attributes.slug.undeducible", title: object.title)
               }
             }
 
@@ -161,7 +161,7 @@ class WikiPage < ApplicationRecord
     content_to = journals.find_by(version: version_to)
     content_from = journals.find_by(version: version_from)
 
-    content_to && content_from ? Wikis::Diff.new(content_to, content_from) : nil
+    content_to && content_from ? WikiPage::Diff.new(content_to, content_from) : nil
   end
 
   def version
@@ -171,12 +171,12 @@ class WikiPage < ApplicationRecord
   def annotate(compare_version = nil)
     compare_version = compare_version ? compare_version.to_i : version
     c = journals.find_by(version: compare_version)
-    c ? Wikis::Annotate.new(c) : nil
+    c ? WikiPage::Annotate.new(c) : nil
   end
 
   # Returns true if usr is allowed to edit the page, otherwise false
   def editable_by?(usr)
-    !protected? || usr.allowed_in_project?(:protect_wiki_pages, wiki.project)
+    !protected? || usr.allowed_in_project?(:manage_wiki, wiki.project)
   end
 
   def attachments_deletable?(usr = User.current)

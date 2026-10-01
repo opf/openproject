@@ -34,6 +34,7 @@ class ApplicationMailer < ActionMailer::Base
   helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields, # for show_value
+         :mail_formatting, # for format_mail_html / format_mail_text
          :mail_layout # for layouting
 
   include OpenProject::LocaleHelper
@@ -158,10 +159,10 @@ class ApplicationMailer < ActionMailer::Base
     super(headers.merge(to: to.mail), &block)
   end
 
-  def send_localized_mail(user)
+  def send_localized_mail(user, delivery_method_options: {})
     with_locale_for(user) do
       subject = yield
-      mail to: user, subject:
+      mail to: user, subject:, delivery_method_options:
     end
   end
 

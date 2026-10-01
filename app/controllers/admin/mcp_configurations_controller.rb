@@ -40,14 +40,15 @@ module Admin
 
     def index
       @server_config = McpConfiguration.server_config
-      @tool_configs = McpConfiguration.where(identifier: McpTools.tools_by_name.keys)
+      @tool_configs = McpConfiguration.where(identifier: McpTools.tools_by_name.keys).order(identifier: :asc)
 
-      @resource_configs = McpConfiguration.where(identifier: McpResources.resources_by_name.keys)
+      @resource_configs = McpConfiguration.where(identifier: McpResources.resources_by_name.keys).order(identifier: :asc)
     end
 
     def update
       config = McpConfiguration.find(params[:id])
       if config.update(mcp_config_params)
+        update_tool_response_format
         flash[:notice] = t(".success")
       else
         flash[:error] = t(".failure")
@@ -72,6 +73,17 @@ module Admin
 
     def mcp_config_params
       params.expect(mcp_configuration: %i[enabled title description])
+    end
+
+    def update_tool_response_format
+      return if tool_response_format_param.nil?
+      return unless McpTools::Base::RESPONSE_FORMATS.include?(tool_response_format_param.to_sym)
+
+      Setting.mcp_tool_response_format = tool_response_format_param
+    end
+
+    def tool_response_format_param
+      params.dig(:mcp_configuration, :tool_response_format)
     end
   end
 end

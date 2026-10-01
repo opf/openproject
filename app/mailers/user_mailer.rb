@@ -33,16 +33,17 @@ class UserMailer < ApplicationMailer
 
   helper_method :message_url
 
-  def test_mail(user)
+  def test_mail(user, delivery_method_options: {})
     @welcome_url = url_for(controller: "/homescreen")
 
     open_project_headers "Type" => "Test"
 
-    send_localized_mail(user) { "#{Setting.app_title} Test" }
+    send_localized_mail(user, delivery_method_options:) { "#{Setting.app_title} Test" }
   end
 
-  def backup_ready(user)
+  def backup_ready(user, missing_attachments_count: 0)
     @download_url = admin_backups_url
+    @missing_attachments_count = missing_attachments_count
 
     send_localized_mail(user) { I18n.t(:mail_subject_backup_ready) }
   end
@@ -60,7 +61,7 @@ class UserMailer < ApplicationMailer
 
     @token = token
     @reset_password_url = url_for(controller: "/account",
-                                  action: :lost_password,
+                                  action: :password_recovery,
                                   token: @token.value)
 
     open_project_headers "Type" => "Account"

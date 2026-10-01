@@ -90,7 +90,7 @@
 
   <div #inspectorPane
     class="op-ifc-viewer--inspector-container"
-    [class.op-ifc-viewer--inspector-container-hidden]="!(inspectorVisible$ | async)"
+    [class.op-ifc-viewer--inspector-container-hidden]="(inspectorVisible$ | async) === false"
     data-test-selector="op-ifc-viewer--inspector-container">
   </div>
 </div>

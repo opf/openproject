@@ -28,7 +28,7 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 ## Development Environment
 
-Take a look at the bottom under Additional resources to see how to setup your development environment.
+Take a look at the bottom under Additional resources to see how to set up your development environment.
 
 ## Highlighting Development Environment
 
@@ -42,7 +42,7 @@ Please see this separate guide for the [git branching model and core development
 
 ## Development concepts
 
-We prepared a set of documentation concepts for an introduction into various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
+We prepared a set of documentation concepts for an introduction to various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
 
 ## Translations
 
@@ -58,9 +58,9 @@ Please see this separate guide for the [process of building packages of OpenProj
 
 Please add tests to your code to verify functionality, especially if it is a new feature.
 
-Pull requests will be verified by TravisCI as well, but please run them locally as well and make sure they are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
+Pull requests will be verified by the Continuous Integration system (CI) as well, but please run them locally as well and make sure they are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
 
-If you push to your branch in quick succession, please consider stopping the associated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
+If you push to your branch in quick succession, please consider stopping the associated CI builds, as they will run for each commit. This is especially true if you force push to the branch.
 
 Please also use `[ci skip]` in your commit message to suppress builds which are not necessary (e.g. after fixing a typo in the `README`).
 
@@ -96,8 +96,8 @@ A GitHub action will enforce the [CLA](https://www.openproject.org/legal/contrib
 
 ## Additional resources
 
-* [Development environment](development-environment)
-* [Developing Plugins](create-openproject-plugin)
-* [Running Tests](testing)
-* [API Documentation](../api)
-* [Report a Bug](report-a-bug)
+- [Development environment](development-environment)
+- [Developing Plugins](create-openproject-plugin)
+- [Running Tests](testing)
+- [API Documentation](../api)
+- [Report a Bug](report-a-bug)

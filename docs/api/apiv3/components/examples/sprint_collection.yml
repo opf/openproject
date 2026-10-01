@@ -1,0 +1,39 @@
+description: |-
+  Simple response of a sprint collection.
+value:
+  _type: Collection
+  total: 40
+  count: 20
+  pageSize: 20
+  offset: 1
+  _embedded:
+    elements:
+      - _type: Sprint
+        id: 3
+        name: Sprint 11
+        startDate: "2026-02-02"
+        finishDate: "2026-02-09"
+        createdAt: "2026-02-06T09:30:49.157Z"
+        updatedAt: "2026-02-10T09:53:21.620Z"
+        _links:
+          self:
+            href: "/api/v3/sprints/3"
+            title: "Sprint 11"
+          definingWorkspace:
+            href: "/api/v3/projects/10"
+            title: "Scrum project"
+          status:
+            href: urn:openproject-org:api:v3:sprints:status:in_planning
+            title: "In planning"
+      - _abbreviated: Further sprint resources shortened for brevity.
+  _links:
+    self:
+      href: /api/v3/sprints?filters=%5B%5D&offset=1&pageSize=20
+    jumpTo:
+      href: /api/v3/sprints?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20
+      templated: true
+    changeSize:
+      href: /api/v3/sprints?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D
+      templated: true
+    nextByOffset:
+      href: /api/v3/sprints?filters=%5B%5D&offset=2&pageSize=20

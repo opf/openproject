@@ -9,6 +9,8 @@ module OpenProject::Recaptcha
 
     register "openproject-recaptcha",
              author_url: "https://www.openproject.org",
+             # TODO: secret_key should be marked as `secret: true`, but that is only supported
+             # for string settings, not for keys inside this plugin settings hash.
              settings: {
                default: {
                  recaptcha_type: ::OpenProject::Recaptcha::TYPE_DISABLED,

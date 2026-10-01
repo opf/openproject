@@ -1,4 +1,5 @@
+---
 fi:
   js:
     overviews:
-      label: 'Yleiskatsaus'
+      label: Yleiskatsaus

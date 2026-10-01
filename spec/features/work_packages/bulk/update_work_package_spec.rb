@@ -77,7 +77,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
     wp_table.expect_work_package_listed work_package, work_package2
 
     # Select all work packages
-    find("body").send_keys [:control, "a"]
+    wp_table.select_all_work_packages
   end
 
   context "with permission" do
@@ -290,7 +290,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
         it "does not display them on the form" do
           expect(page).to have_field custom_field_removed.name
 
-          custom_field_removed.types = []
+          custom_field_removed.form_configurations.each { it.custom_field_ids -= [custom_field_removed.id] }
           custom_field_removed.save!
           page.refresh
           wait_for_reload

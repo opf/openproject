@@ -1,0 +1,1 @@
+UTF-8 encoded text with non-ASCII characters: äöü €

@@ -102,9 +102,27 @@ class WorkPackages::UpdateService < BaseServices::Update
       delete_relations(moved_work_packages)
       move_time_entries(moved_work_packages, work_package.project_id)
       move_work_package_memberships(moved_work_packages, work_package.project_id)
+      update_semantic_ids(moved_work_packages) if Setting::WorkPackageIdentifier.semantic?
     end
     if work_package.saved_change_to_type_id?
       reset_custom_values(work_package)
+    end
+  end
+
+  def update_semantic_ids(work_packages)
+    return if work_packages.empty?
+
+    # reserve_semantic_id_block! writes via raw SQL UPDATE, so the in-memory
+    # records still carry the nil identifier left by SetAttributesService.
+    # Apply the returned assignments in-memory so callers (HAL representers,
+    # redirect helpers) see the freshly allocated semantic id without N reloads.
+    assignments = work_packages.first.project.reserve_semantic_id_block!(work_packages.map(&:id))
+    work_packages.each do |wp|
+      next unless (identifier = assignments[wp.id])
+
+      wp.assign_attributes(identifier:,
+                           sequence_number: WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier))
+      wp.clear_attribute_changes(%i[identifier sequence_number])
     end
   end
 
@@ -116,10 +134,16 @@ class WorkPackages::UpdateService < BaseServices::Update
     end
   end
 
+  # Saved individually so that +TimeEntry#update_costs+ re-rates each entry against the target
+  # project. Validations are skipped because entries logged under earlier settings (enforced
+  # start times, required custom fields) may no longer validate and must not block the move.
   def move_time_entries(work_packages, project_id)
     TimeEntry
       .on_work_packages(work_packages)
-      .update_all(project_id:)
+      .find_each do |entry|
+        entry.project_id = project_id
+        entry.save(validate: false)
+      end
   end
 
   def move_work_package_memberships(work_packages, project_id)
@@ -137,7 +161,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
     # if parent changed, the former parent needs to be rescheduled too.
     if parent_just_changed?(work_package)
-      former_parent = WorkPackage.find_by(id: work_package.parent_id_before_last_save)
+      former_parent = WorkPackage.visible(user).find_by(id: work_package.parent_id_before_last_save)
       work_packages_to_reschedule << former_parent if former_parent
     end
 

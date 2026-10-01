@@ -1,6 +1,7 @@
+---
 zh-TW:
   js:
     work_packages:
-      label_gantt_chart_plural: "甘特圖"
       default_queries:
-        milestones: '里程碑'
+        milestones: 里程碑
+      label_gantt_chart_plural: 甘特圖

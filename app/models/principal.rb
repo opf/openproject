@@ -30,6 +30,7 @@
 
 class Principal < ApplicationRecord
   include ::Scopes::Scoped
+  include HasDetailsTable
 
   default_scope -> { where.not(status: Principal.statuses[:deleted]) }
 
@@ -76,6 +77,9 @@ class Principal < ApplicationRecord
            inverse_of: :principal
   has_many :auth_providers, through: :user_auth_provider_links
 
+  has_many :persisted_views, inverse_of: :principal, dependent: :nullify
+  has_many :persisted_queries, inverse_of: :principal, dependent: :nullify
+
   has_paper_trail
 
   scopes :like,
@@ -88,6 +92,12 @@ class Principal < ApplicationRecord
          :ordered_by_name,
          :visible,
          :status
+
+  # Groups can be budgeted and assigned, but only users and placeholder
+  # users can carry an hourly rate.
+  scope :with_rates, ->(user = User.current) {
+    visible(user).where(type: %w[User PlaceholderUser])
+  }
 
   scope :in_project, ->(project) {
     where(id: Member.of_project(project).select(:user_id))
@@ -136,7 +146,7 @@ class Principal < ApplicationRecord
 
   # Columns required for formatting the principal's name.
   def self.columns_for_name(formatter = nil)
-    raise NotImplementedError, "Redefine in subclass" unless self == Principal
+    raise SubclassResponsibilityError, "Redefine in subclass" unless self == Principal
 
     [User, Group, PlaceholderUser].map { it.columns_for_name(formatter) }.inject(:|)
   end

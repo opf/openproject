@@ -17,10 +17,10 @@
 
   <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
     <%=
-      t("storages.instructions.new_storage",
-        provider_link: ::OpenProject::Static::Links.url_for(:storage_docs, :"#{@storage}_setup"),
-        provider_name: I18n.t("storages.provider_types.#{@storage}.name")
-      ).html_safe
+      link_translate("storages.instructions.new_storage_html",
+                     i18n_args: { provider_name: I18n.t("storages.provider_types.#{@storage}.name") },
+                     links: { docs_url: [:storage_docs, :"#{@storage}_setup"] },
+                     external: true)
     %>
   <% end %>
 <% end %>

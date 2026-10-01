@@ -34,12 +34,8 @@ RSpec.describe "Wiki page navigation spec", :js do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let!(:wiki_page_55) do
-    create(:wiki_page,
-           wiki: project.wiki,
-           title: "Wiki Page No. 55")
-  end
+  let(:project) { create(:project, :with_internal_wiki).reload }
+  let!(:wiki_page_55) { create(:wiki_page, wiki: project.wiki, title: "Wiki Page No. 55") } # rubocop:disable Naming/VariableNumber
   let!(:wiki_pages) do
     create_list(:wiki_page, 30, wiki: project.wiki)
   end
@@ -58,10 +54,10 @@ RSpec.describe "Wiki page navigation spec", :js do
     expect(page).to have_test_selector("wiki-page-header-title", text: "Wiki Page No. 55")
 
     # Expect scrolled to menu node
-    expect_element_in_view page.find(".tree-menu--item.-selected", text: "Wiki Page No. 55")
+    expect_element_in_view page.find(".TreeViewItemContent", text: "Wiki Page No. 55", aria: { current: true })
 
     # Expect permalink being correct (Regression #46351)
-    permalink = page.all(".op-uc-link_permalink", visible: :all).first
-    expect(permalink["href"]).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#wiki-page-no-55"
+    permalink = page.first(".op-uc-link_permalink", visible: :all)
+    expect(permalink["href"]).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#op-frag-wiki-page-no-55"
   end
 end

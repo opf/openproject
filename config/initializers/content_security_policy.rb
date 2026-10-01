@@ -34,6 +34,7 @@
 # See the Securing Rails Applications Guide for more information:
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
+# rubocop:disable Lint/PercentStringArray
 Rails.application.config.after_initialize do
   Rails.application.configure do
     config.content_security_policy do |policy|
@@ -79,13 +80,6 @@ Rails.application.config.after_initialize do
         connect_src += ["https://appsignal-endpoint.net"]
       end
 
-      # Allow connections to S3 for BIM
-      if OpenProject::Configuration.fog_directory.present?
-        connect_src += [
-          OpenProject::Configuration.fog_s3_upload_host
-        ]
-      end
-
       # Add proxy configuration for Angular CLI to csp
       if FrontendAssetHelper.assets_proxied?
         proxied = ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
@@ -118,14 +112,22 @@ Rails.application.config.after_initialize do
         form_action += ["test-bucket.s3.amazonaws.com"]
       end
 
+      # Allow connections to S3 for BIM
+      if OpenProject::Configuration.fog_directory.present?
+        connect_src += [OpenProject::Configuration.fog_s3_upload_host]
+        form_action += [OpenProject::Configuration.fog_s3_upload_host]
+      end
+
       # Configure CSP directives
       policy.default_src(*default_src)
       policy.base_uri("'self'")
-      policy.font_src(*assets_src, "data:", "'self'")
+      policy.font_src(*assets_src, "data:")
       policy.form_action(*form_action)
       policy.frame_src(*frame_src, "'self'")
       policy.frame_ancestors("'self'")
-      policy.img_src("*", "data:", "blob:")
+      img_src = %w('self') + Array(OpenProject::Configuration.csp_img_src)
+      img_src << asset_host if asset_host.present?
+      policy.img_src(*img_src.compact.uniq)
       policy.script_src(*script_src)
       policy.script_src_attr("'none'")
       policy.style_src(*assets_src, "'unsafe-inline'")
@@ -149,3 +151,4 @@ Rails.application.config.after_initialize do
     config.content_security_policy_nonce_directives = %w(script-src)
   end
 end
+# rubocop:enable Lint/PercentStringArray

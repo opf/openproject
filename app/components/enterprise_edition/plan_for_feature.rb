@@ -48,7 +48,7 @@ module EnterpriseEdition
     def description
       @description || begin
         if I18n.exists?(:description_html, scope: i18n_scope)
-          I18n.t(:description_html, scope: i18n_scope).html_safe
+          helpers.t(:description_html, scope: i18n_scope)
         else
           I18n.t(:description, scope: i18n_scope)
         end
@@ -81,11 +81,21 @@ module EnterpriseEdition
     end
 
     def plan_text
+      if trial_feature?
+        safe_join [helpers.t("ee.upsell.trial_text"), upsell_plan_text], " "
+      else
+        upsell_plan_text
+      end
+    end
+
+    private
+
+    def upsell_plan_text
       plan_name = render(Primer::Beta::Text.new(font_weight: :bold, classes: "upsell-colored-text")) do
         I18n.t("ee.upsell.plan_name", plan: plan.capitalize)
       end
 
-      I18n.t("ee.upsell.plan_text_html", plan_name:).html_safe
+      helpers.t("ee.upsell.plan_text_html", plan_name:)
     end
   end
 end

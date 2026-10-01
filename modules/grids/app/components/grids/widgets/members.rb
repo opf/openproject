@@ -49,7 +49,7 @@ module Grids
           .map do |role|
           members_query = members_for_role(role.id)
           total_count = members_query.count
-          members = members_query.limit(limit).to_a.map(&:user)
+          members = members_query.limit(limit).to_a.map(&:principal)
 
           {
             role:,

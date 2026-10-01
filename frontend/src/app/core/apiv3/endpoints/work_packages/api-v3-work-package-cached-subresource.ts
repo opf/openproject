@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,12 +33,12 @@ import { ApiV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packa
 import { take, tap } from 'rxjs/operators';
 import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 export class ApiV3WorkPackageCachedSubresource extends ApiV3GettableResource<WorkPackageCollectionResource> {
-  @InjectField() private states:States;
+  @LazyInject() private states:States;
 
   public get():Observable<WorkPackageCollectionResource> {
     return this

@@ -46,8 +46,17 @@ RSpec.describe API::V3::Memberships::MembershipCollectionRepresenter do
           .and_return(members)
 
         allow(members)
-          .to receive(:count)
-          .and_return(3)
+          .to receive(:where)
+                .with(id: members.pluck(:id))
+                .and_return(members)
+
+        allow(members)
+          .to receive_messages(count: 3,
+                               model: members,
+                               eager_load: members,
+                               preload: members,
+                               order: members,
+                               order_values: [])
       end
     end
   end

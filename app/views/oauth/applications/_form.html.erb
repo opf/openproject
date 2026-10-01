@@ -110,7 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
       </p>
       <% if @application.client_credentials_user_id %>
         <p class="form--field-instructions">
-          <% user = User.find(@application.client_credentials_user_id) %>
+          <% user = User.visible.find(@application.client_credentials_user_id) %>
           <span><%= t("oauth.client_credentials_impersonation_set_to") %></span>
           <%= link_to_user user %>
         </p>

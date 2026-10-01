@@ -53,22 +53,22 @@ module Storages
 
             def files_info(http, file_ids)
               response = http.post(UrlBuilder.url(@storage.uri, FILES_INFO_PATH), json: { fileIds: file_ids })
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
-                fail_on_ocs_error(response.json(symbolize_keys: true), error)
+                parse_json(response, error).bind { fail_on_ocs_error(it, error) }
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 
             def create_storage_file_infos(parsed_json)
-              parsed_json.dig(:ocs, :data)&.map do |(key, value)|
+              json_fetch(parsed_json, :ocs, :data)&.filter_map do |(key, value)|
                 if value[:statuscode] == 200
                   build_file_info(value).bind { it }
                 else
@@ -98,7 +98,10 @@ module Storages
                 last_modified_by_id: value[:modifier_id],
                 permissions: value[:dav_permissions],
                 location: location(value[:path], value[:mimetype])
-              )
+              ).or do |error|
+                log_validation_error(error, value)
+                Success(nil)
+              end
             end
             # rubocop:enable Metrics/AbcSize
 

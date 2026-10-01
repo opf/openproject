@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe SharesController do
-  shared_let(:user) { create(:user) }
+  shared_let(:user) { create(:user, global_permissions: %i[view_all_principals]) }
   shared_let(:view_user) { create(:user) }
   shared_let(:edit_user) { create(:user) }
   shared_let(:project_query) { create(:project_query, user:) }
@@ -307,15 +307,6 @@ RSpec.describe SharesController do
         it "calls respond_with_prepend_shares" do
           make_request
           expect(controller).to have_received(:respond_with_prepend_shares)
-        end
-      end
-
-      context "when the user is locked" do
-        let(:shared_user) { new_locked_shared_user }
-
-        it "calls respond_with_new_invite_form" do
-          make_request
-          expect(controller).to have_received(:respond_with_new_invite_form)
         end
       end
     end

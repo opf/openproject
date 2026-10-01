@@ -96,15 +96,17 @@ module WorkPackages
       end
 
       def mobile_description
-        text = if @manually_scheduled
-                 I18n.t("work_packages.datepicker_modal.banner.description.manual_mobile")
-               else
-                 I18n.t("work_packages.datepicker_modal.banner.description.automatic_mobile")
-               end
+        text =
+          if @manually_scheduled
+            I18n.t("work_packages.datepicker_modal.banner.description.manual_mobile")
+          else
+            I18n.t("work_packages.datepicker_modal.banner.description.automatic_mobile")
+          end
 
-        "#{text} #{render(Primer::Beta::Link.new(tag: :a, href: link, target: '_blank', underline: true)) do
-          I18n.t('work_packages.datepicker_modal.show_relations')
-        end}".html_safe
+        capture do
+          concat text
+          concat render(Primer::Beta::Link.new(tag: :a, href: link, target: "_blank", underline: true)) { I18n.t("work_packages.datepicker_modal.show_relations") }
+        end
       end
 
       def overlapping_predecessor?
@@ -122,7 +124,7 @@ module WorkPackages
 
         predecessor_work_packages.filter_map(&:due_date)
                                  .max
-                                 &.before?(@work_package.start_date - 2)
+          &.before?(@work_package.start_date - 2)
       end
 
       def predecessor_relations
@@ -131,8 +133,8 @@ module WorkPackages
 
       def predecessor_work_packages
         @predecessor_work_packages ||= predecessor_relations
-                                         .includes(:to)
-                                         .map(&:to)
+          .includes(:to)
+          .map(&:to)
       end
 
       def children

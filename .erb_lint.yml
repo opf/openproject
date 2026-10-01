@@ -5,6 +5,7 @@ inherit_gem:
     - config/accessibility.yml
 exclude:
   - '**/frontend/**/*'
+  - 'lookbook/previews/open_project/deprecated/**/*'
   - '**/node_modules/**/*'
   - '**/vendor/**/*'
 linters:

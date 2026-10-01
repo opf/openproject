@@ -31,4 +31,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <p><%= t("copy_project.text.failed", source_project_name: @source_project.name, target_project_name: @target_project_name) %></p>
 
-<%= @errors.join("<br/>".html_safe) %>
+<%= safe_join @errors, tag(:br) %>

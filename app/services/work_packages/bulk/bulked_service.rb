@@ -73,11 +73,11 @@ module WorkPackages
       end
 
       def alter_work_package(_work_package, _params)
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def call_move_hook(_work_package, _params)
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
     end
   end

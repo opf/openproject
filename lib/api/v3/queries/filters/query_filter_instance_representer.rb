@@ -78,17 +78,8 @@ module API
                       next unless represented.ar_object_filter?
 
                       represented.value_objects.map do |value_object|
-                        href = begin
-                          path_name = value_object.class.name.demodulize.underscore
-
-                          api_v3_paths.send(path_name, value_object.id)
-                        rescue StandardError => e
-                          Rails.logger.error "Failed to get href for value_object #{value_object}: #{e}"
-                          nil
-                        end
-
                         link_object = {
-                          href:,
+                          href: api_v3_paths.path_for_object(value_object),
                           title: value_object.name
                         }
 

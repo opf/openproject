@@ -111,8 +111,8 @@ RSpec.describe "Only see your own rates", :js do
     # All the values do not include the entries made by the other user
     wp_page.expect_attributes spent_time: "1h",
                               costs_by_type: "2 Translations",
-                              overall_costs: "24.00 EUR",
-                              labor_costs: "10.00 EUR",
-                              material_costs: "14.00 EUR"
+                              overall_costs: "24.00 €",
+                              labor_costs: "10.00 €",
+                              material_costs: "14.00 €"
   end
 end

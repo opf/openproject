@@ -7,14 +7,14 @@ he:
     common:
       document_types:
         item_0:
-          name: Note
+          name: הערה
         item_1:
-          name: Idea
+          name: רעיון
         item_2:
-          name: Proposal
+          name: הצעה
         item_3:
-          name: Specification
+          name: מפרט
         item_4:
-          name: Report
+          name: דיווח
         item_5:
-          name: Documentation
+          name: תיעוד

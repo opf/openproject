@@ -50,7 +50,7 @@ module Projects
         visually_hide_label: true,
         scope_name_to_model: false,
         data: {
-          qa_field_name: "use_template"
+          test_selector: "use_template"
         }
       ) do |group|
         group.radio_button(

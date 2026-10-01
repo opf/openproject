@@ -1,11 +1,10 @@
 <%=
-  flex_layout(classes: "project-custom-field-items") do |flex|
+  flex_layout(classes: "gap-2") do |flex|
     @project_custom_fields.each do |project_custom_field|
       flex.with_row do
         render(
           Overviews::ProjectCustomFields::ItemComponent.new(
             project_custom_field:,
-            project_custom_field_values: attribute_load_service.get_eager_loaded_project_custom_field_values_for(project_custom_field.id),
             project: @project
           )
         )

@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
@@ -11,9 +39,10 @@ import {
   internalSortColumn,
   sharedUserColumn,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { checkedClassName } from '../ui-state-link-builder';
+import { paintRowSelection } from './row-selection-painter';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import {
   CellBuilder,
@@ -35,13 +64,15 @@ export const commonRowClassName = 'wp--row';
 
 export class SingleRowBuilder {
   // Injections
-  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableFocus:WorkPackageViewFocusService;
 
-  @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() wpTableBaseline:WorkPackageViewBaselineService;
+
+  @LazyInject() I18n!:I18nService;
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder(this.injector);
@@ -211,7 +242,7 @@ export class SingleRowBuilder {
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id!];
 
-    return form && form.activeFields[column.id];
+    return form?.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
@@ -220,7 +251,10 @@ export class SingleRowBuilder {
 
     if (change && !change.isEmpty()) {
       // Try to find an old instance of this row
-      const oldRow = locateTableRowByIdentifier(this.classIdentifier(workPackage));
+      const oldRow = locateTableRowByIdentifier(
+        this.classIdentifier(workPackage),
+        this.workPackageTable.tableAndTimelineContainer,
+      );
 
       change.changedAttributes.forEach((attribute:string) => {
         const oldCell = oldRow?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${attribute}`);
@@ -246,10 +280,10 @@ export class SingleRowBuilder {
       }
     });
 
-    // Set the row selection state
-    if (this.wpTableSelection.isSelected(workPackage.id!)) {
-      row.classList.add(checkedClassName);
-    }
+    paintRowSelection(row, {
+      selected: this.wpTableSelection.isSelected(workPackage.id!),
+      pressed: this.wpTableFocus.isFocused(workPackage.id!),
+    });
 
     return [row, false];
   }

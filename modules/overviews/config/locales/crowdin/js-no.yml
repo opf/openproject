@@ -1,4 +1,5 @@
-"no":
+---
+'no':
   js:
     overviews:
-      label: 'Oversikt'
+      label: Oversikt

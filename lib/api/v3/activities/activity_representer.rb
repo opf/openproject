@@ -37,6 +37,11 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
         include ActivityPropertyFormatters
 
+        def initialize(*, embed_emoji_reactions: false, **)
+          @embed_emoji_reactions = embed_emoji_reactions
+          super(*, **)
+        end
+
         self_link path: :activity,
                   title_getter: ->(*) {}
 
@@ -93,7 +98,7 @@ module API
         property :emoji_reactions,
                  embedded: true,
                  exec_context: :decorator,
-                 if: ->(*) { embed_links },
+                 if: ->(*) { embed_links || embed_emoji_reactions },
                  uncacheable: true
 
         date_time_property :created_at
@@ -127,6 +132,8 @@ module API
         end
 
         private
+
+        attr_reader :embed_emoji_reactions
 
         def current_user_allowed_to_edit?
           represented.editable_by?(current_user)

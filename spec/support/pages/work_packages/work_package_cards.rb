@@ -83,7 +83,7 @@ module Pages
       # The offset is needed to ensure that the resizer does not catch the click, instead of the info icon
       element.hover.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
 
-      ::Pages::SplitWorkPackage.new(work_package, project)
+      ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
 
     def drag_and_drop_work_package(from:, to:)
@@ -124,12 +124,12 @@ module Pages
     end
 
     def select_all_work_packages
-      find("body").send_keys [:control, "a"]
+      send_select_all(page.first('.op-wp-single-card[tabindex="0"]', minimum: 1))
       expect(page).to have_no_css "#work-package-context-menu"
     end
 
     def deselect_all_work_packages
-      find("body").send_keys [:control, "d"]
+      find("body").send_keys :escape
       expect(page).to have_no_css "#work-package-context-menu"
     end
 

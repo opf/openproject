@@ -1,0 +1,64 @@
+# Schema: MeetingWriteModel
+---
+type: object
+properties:
+  title:
+    type: string
+    description: The meeting's title
+  location:
+    type: string
+    description: The meeting's location
+  startTime:
+    type: string
+    format: date-time
+    description: The scheduled meeting start time.
+  duration:
+    type: string
+    description: |-
+      The meeting duration as an ISO 8601 duration (e.g. `PT1H` for 1 hour, `PT1H30M` for 1.5 hours).
+  state:
+    type: string
+    description: |-
+      The current state of the meeting. Possible values:
+
+      - *open*
+      - *draft*
+      - *in_progress*
+      - *cancelled*
+      - *closed*
+    enum:
+      - open
+      - draft
+      - in_progress
+      - cancelled
+      - closed
+  sharing:
+    type: string
+    description: |-
+      How the meeting template is shared. Only applicable for one-time templates.
+    enum:
+      - none
+      - descendants
+      - system
+  template:
+    type: boolean
+    description: Whether this meeting is a template.
+  notify:
+    type: boolean
+    description: Whether to send email notifications to participants.
+  lockVersion:
+    type: integer
+    description: |-
+      The version of the item as used for optimistic locking.
+
+      Required for PATCH operations to detect concurrent modifications.
+  _links:
+    type: object
+    properties:
+      project:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The project the meeting belongs to. Required on creation.
+
+              **Resource**: Project

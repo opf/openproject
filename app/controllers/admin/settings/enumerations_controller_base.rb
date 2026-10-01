@@ -74,29 +74,25 @@ module Admin
           handle_reassignment_on_deletion
         elsif @enumeration.destroy
           flash[:notice] = I18n.t(:notice_successful_delete)
-          redirect_to(action: :index)
+          redirect_to(action: :index, status: :see_other)
         else
           flash.now[:error] = I18n.t(:error_can_not_delete_entry)
-          redirect_to(action: :index)
+          redirect_to(action: :index, status: :see_other)
         end
       end
 
       def move
-        if @enumeration.update(move_params)
-          render_success_flash_message_via_turbo_stream(
-            message: I18n.t(:enumeration_caption_order_changed)
-          )
+        moved = move_after_anchor
+
+        if moved
+          render_move_success
         else
           render_error_flash_message_via_turbo_stream(
-            message: I18n.t(:enumeration_could_not_be_moved)
+            message: I18n.t(:error_invalid_list_move_anchor)
           )
         end
 
-        replace_via_turbo_stream(
-          component: index_component_class.new(enumerations: enumeration_class.all)
-        )
-
-        respond_with_turbo_streams
+        respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
       end
 
       def reassign
@@ -105,17 +101,43 @@ module Admin
 
       private
 
-      def move_params
-        move_to = params[:move_to]
-        position = Integer(params[:position], exception: false)
+      # Morph first: Turbo applies streams in order, so the flash only shows
+      # once the list has been reconciled.
+      def render_move_success
+        update_via_turbo_stream(component: index_component, method: :morph)
+        render_success_flash_message_via_turbo_stream(
+          message: I18n.t(:enumeration_caption_order_changed)
+        )
+      end
 
-        if move_to.in? %w(highest higher lower lowest)
-          { move_to: move_to }
-        elsif position
-          { position: position }
-        else
-          {}
-        end
+      def index_component
+        index_component_class.new(enumerations: enumeration_class.all)
+      end
+
+      def move_after_anchor
+        return false unless valid_drop_request?
+
+        @enumeration.move_after_anchor(drop_params[:prev_id], scope: enumeration_class.all)
+      end
+
+      def valid_drop_request?
+        drop_params[:list_type] == sortable_list_type &&
+          unscoped_list_id? &&
+          drop_params.key?(:prev_id)
+      end
+
+      # Enumeration lists carry no list id. The raw param is checked because
+      # permit cannot tell an absent value from a filtered-out array or hash.
+      def unscoped_list_id?
+        params[:list_id].nil? || params[:list_id] == ""
+      end
+
+      def drop_params
+        @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+      end
+
+      def sortable_list_type
+        enumeration_class.model_name.param_key
       end
 
       def handle_reassignment_on_deletion
@@ -136,7 +158,7 @@ module Admin
       end
 
       def enumeration_class
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def enumeration_permitted_params

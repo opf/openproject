@@ -1,12 +1,12 @@
-#English strings go here
-"no":
+---
+'no':
+  label_calendar: Kalender
+  label_calendar_plural: Kalendere
+  label_new_calendar: Ny kalender
+  permission_manage_calendars: Behandle kalendere
+  permission_share_calendars: Abonner på iCalendar
+  permission_view_calendar: Vis kalendere
   plugin_openproject_calendar:
-    name: "OpenProject Kalender"
-    description: "Tilbyr kalendervisninger."
-  label_calendar: "Kalender"
-  label_calendar_plural: "Kalendere"
-  label_new_calendar: "Ny kalender"
-  permission_view_calendar: "Vis kalendere"
-  permission_manage_calendars: "Behandle kalendere"
-  permission_share_calendars: "Abonner på iCalendar"
-  project_module_calendar_view: "Kalendere"
+    description: Tilbyr kalendervisninger.
+    name: OpenProject Kalender
+  project_module_calendar_view: Kalendere

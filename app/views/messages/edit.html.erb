@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%= labelled_tabular_form_for @message,
-                              url: topic_path(@message),
+                              url: project_forum_topic_path(@project, @forum, @message),
                               method: :put,
                               html: {
                                 multipart: true,
@@ -53,6 +53,6 @@ See COPYRIGHT and LICENSE files for more details.
   <hr class="form--separator">
 
   <%= f.button t(:button_save), class: "button -primary -with-icon icon-checkmark" %>
-  <%= link_to t(:button_cancel), topic_path(@message), class: "button -with-icon icon-cancel" %>
+  <%= link_to t(:button_cancel), project_forum_topic_path(@project, @forum, @message), class: "button -with-icon icon-cancel" %>
 <% end %>
 <div id="preview"></div>

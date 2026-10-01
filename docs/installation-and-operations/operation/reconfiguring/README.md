@@ -20,9 +20,9 @@ The wizard configuration is stored in `/etc/openproject/installer.dat`.
 
 The wizard will automatically set environment variables to be used by OpenProject. Those variables can be manipulated with the CLI tool that ships with OpenProject:
 
-* `sudo openproject config` will display the list of environment variables set.
-* `sudo openproject config:get KEY` allows you to get the value of single environment variable.
-* `sudo openproject config:set KEY VALUE` allows you to set a new value for a single environment variable.
+- `sudo openproject config` will display the list of environment variables set.
+- `sudo openproject config:get KEY` allows you to get the value of single environment variable.
+- `sudo openproject config:set KEY VALUE` allows you to set a new value for a single environment variable.
 
 ## Docker installation
 

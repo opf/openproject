@@ -59,7 +59,7 @@ RSpec.describe "SCIM API Users", with_ee: [:scim_api] do
       get "/scim_v2/Users", {}, headers
 
       response_body = JSON.parse(last_response.body)
-      ids = response_body["Resources"].map { |item| item["id"] }
+      ids = response_body["Resources"].pluck("id")
       expect(ids).to include(locked_user.id.to_s)
       expect(response_body["Resources"].find { |resource| resource["id"] == locked_user.id.to_s }["active"]).to be(false)
       expect(ids).not_to include(user_marked_for_deletion.id.to_s)
@@ -97,6 +97,24 @@ RSpec.describe "SCIM API Users", with_ee: [:scim_api] do
                                      "schemas" => ["urn:ietf:params:scim:api:messages:2.0:ListResponse"],
                                      "startIndex" => 1,
                                      "totalResults" => 5)
+    end
+
+    it "lists each user once when they belong to multiple groups and includes all groups" do
+      second_group = create(:group,
+                            identity_url: "#{oidc_provider.slug}:idp_group_second_membership",
+                            members: [user])
+
+      get "/scim_v2/Users", {}, headers
+
+      response_body = JSON.parse(last_response.body)
+      resource_ids = response_body["Resources"].pluck("id")
+      expect(resource_ids.uniq).to eq(resource_ids)
+
+      user_resources = response_body["Resources"].select { |item| item["id"] == user.id.to_s }
+      expect(user_resources.length).to eq(1)
+
+      group_values = user_resources.first["groups"].pluck("value")
+      expect(group_values).to contain_exactly(group.id.to_s, second_group.id.to_s)
     end
 
     it "filters results by familyName case-insensitively" do
@@ -502,6 +520,25 @@ RSpec.describe "SCIM API Users", with_ee: [:scim_api] do
                                               "givenName" => request_body["name"]["givenName"] },
                                   "schemas" => ["urn:ietf:params:scim:schemas:core:2.0:User"],
                                   "userName" => request_body["userName"])
+    end
+
+    context "when users are not allowed to change their own email",
+            with_settings: { user_can_change_email: false } do
+      it "still updates the email, as it is provisioned by the identity provider" do
+        request_body = {
+          "schemas" => ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "externalId" => new_external_user_id,
+          "userName" => "jdoe",
+          "name" => { "givenName" => "John", "familyName" => "Doe" },
+          "active" => true,
+          "emails" => [{ "value" => "jdoe@example.com", "type" => "work", "primary" => true }]
+        }
+
+        put "/scim_v2/Users/#{user.id}", request_body.to_json, headers
+
+        expect(last_response).to have_http_status(:ok)
+        expect(user.reload.mail).to eq "jdoe@example.com"
+      end
     end
   end
 

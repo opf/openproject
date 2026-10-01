@@ -1,0 +1,12 @@
+# Schema: CustomCommentProperties
+---
+type: object
+patternProperties:
+  "^customComment\\d+$":
+    type:
+      - "null"
+      - string
+    description: |-
+      A plain-text comment associated with a project custom field that has comments enabled.
+
+      The property is only present when the corresponding `customField{N}` has `has_comment` set to `true`.

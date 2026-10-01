@@ -4,7 +4,6 @@ module Grids::Configuration
             "work_packages_graph",
             "project_description",
             "project_status",
-            "project_status_beta",
             "subprojects",
             "work_packages_calendar",
             "work_packages_overview",
@@ -15,7 +14,11 @@ module Grids::Configuration
             "custom_text"
 
     remove_query_lambda = -> {
-      ::Query.find_by(id: options[:queryId])&.destroy
+      @query = ::Query.find_by(id: options["queryId"])
+
+      next unless @query && QueryPolicy.new(User.current).allowed?(@query, :destroy)
+
+      @query.destroy!
     }
 
     save_or_manage_queries_lambda = ->(user, project) {
@@ -25,10 +28,6 @@ module Grids::Configuration
 
     view_work_packages_lambda = ->(user, project) {
       user.allowed_in_any_work_package?(:view_work_packages, in_project: project)
-    }
-
-    view_beta_widgets = ->(_user, _project) {
-      OpenProject::FeatureDecisions.beta_widgets_active?
     }
 
     widget_strategy "work_packages_table" do
@@ -45,10 +44,6 @@ module Grids::Configuration
       allowed save_or_manage_queries_lambda
 
       options_representer "::API::V3::Grids::Widgets::ChartOptionsRepresenter"
-    end
-
-    widget_strategy "project_status_beta" do
-      allowed view_beta_widgets
     end
 
     widget_strategy "custom_text" do

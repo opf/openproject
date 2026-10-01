@@ -33,7 +33,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          class StorageConfigurationValidator < ConnectionValidators::BaseValidatorGroup
+          class StorageConfigurationValidator < HealthReports::ValidatorGroup
             def self.key = :base_configuration
 
             private
@@ -50,7 +50,7 @@ module Storages
             end
 
             def storage_configuration_status
-              if @storage.configured?
+              if subject.configured?
                 pass_check(:storage_configured)
               else
                 fail_check(:storage_configured, :not_configured)
@@ -72,7 +72,7 @@ module Storages
               dependency = I18n.t("storages.dependencies.nextcloud.integration_app")
 
               if capabilities_result.app_version < min_app_version
-                fail_check(:dependencies_versions, :nc_dependency_version_mismatch, context: { dependency: })
+                warn_check(:dependencies_versions, :nc_dependency_version_mismatch, context: { dependency: })
               else
                 pass_check(:dependencies_versions)
               end
@@ -100,8 +100,8 @@ module Storages
             def noop = Input::Strategy.build(key: :noop)
 
             def capabilities
-              @capabilities ||= Registry.resolve("#{@storage}.queries.capabilities")
-                                        .call(storage: @storage, auth_strategy: noop)
+              @capabilities ||= Registry.resolve("#{subject}.queries.capabilities")
+                                        .call(storage: subject, auth_strategy: noop)
             end
 
             def nextcloud_dependencies

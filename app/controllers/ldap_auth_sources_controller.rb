@@ -31,13 +31,13 @@
 class LdapAuthSourcesController < ApplicationController
   menu_item :ldap_authentication
   include PaginationHelper
+
   layout "admin"
 
   before_action :require_admin
   before_action :block_if_password_login_disabled
 
-  self._model_object = LdapAuthSource
-  before_action :find_model_object, only: %i(edit update destroy)
+  before_action :find_ldap_auth_source, only: %i(edit update destroy)
   before_action :prevent_editing_when_seeded, only: %i(update)
 
   def index
@@ -101,6 +101,10 @@ class LdapAuthSourcesController < ApplicationController
 
   protected
 
+  def find_ldap_auth_source
+    @ldap_auth_source = LdapAuthSource.find(params[:id])
+  end
+
   def prevent_editing_when_seeded
     if @ldap_auth_source.seeded_from_env?
       flash[:warning] = I18n.t(:label_seeded_from_env_warning)
@@ -109,6 +113,6 @@ class LdapAuthSourcesController < ApplicationController
   end
 
   def block_if_password_login_disabled
-    render_404 if OpenProject::Configuration.disable_password_login?
+    render_404 if Users::PasswordLogin.none?
   end
 end

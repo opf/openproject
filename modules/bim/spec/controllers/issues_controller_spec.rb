@@ -123,7 +123,7 @@ RSpec.describe Bim::Bcf::IssuesController do
 
       it "redirects back to where we started from" do
         expect { action }.not_to change { Attachment.count }
-        expect(response).to have_http_status 422
+        expect(response).to have_http_status 302
         expect(response.headers["Location"]).to end_with "/projects/bim_project/issues/upload"
       end
     end

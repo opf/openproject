@@ -36,9 +36,11 @@ class Reminder < ApplicationRecord
   has_many :notifications, through: :reminder_notifications
 
   # Currently, reminders are personal, meaning
-  # they are only visible to the user who created them.
+  # they are only visible to the user who created them
+  # and who still has access to the remindable.
   def self.visible(user)
     where(creator: user)
+      .where(remindable_type: WorkPackage.name, remindable_id: WorkPackage.visible(user).select(:id))
   end
 
   def self.upcoming_and_visible_to(user)

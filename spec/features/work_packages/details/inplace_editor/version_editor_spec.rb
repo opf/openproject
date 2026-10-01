@@ -39,7 +39,7 @@ RSpec.describe "subject inplace editor", :js, :selenium do
            project: subproject2)
   end
 
-  let(:property_name) { :version }
+  let(:property_name) { :targetVersions }
   let(:work_package) { create(:work_package, project:) }
   let(:user) do
     create(:user,
@@ -57,11 +57,11 @@ RSpec.describe "subject inplace editor", :js, :selenium do
       login_as(user)
     end
 
-    it "renders hierarchical versions" do
+    it "renders hierarchical versions", with_settings: { work_package_multiple_versions: false } do
       work_package_page.visit!
       work_package_page.ensure_page_loaded
 
-      field = work_package_page.work_package_field(:version)
+      field = work_package_page.work_package_field(:targetVersions)
       field.activate!
 
       expect(page).to have_css(".ng-option-label", text: "-")
@@ -78,18 +78,15 @@ RSpec.describe "subject inplace editor", :js, :selenium do
       field.expect_state_text(version3.name)
     end
 
-    it "allows creating versions from within the WP view" do
+    it "does not allow creating versions from within the WP view" do
       work_package_page.visit!
       work_package_page.ensure_page_loaded
 
-      field = work_package_page.work_package_field(:version)
+      field = work_package_page.work_package_field(:targetVersions)
       field.activate!
 
-      field.set_new_value "Super cool new release"
-      field.expect_state_text "Super cool new release"
-
-      visit project_settings_versions_path(project)
-      expect(page).to have_content "Super cool new release"
+      field.input_element.find("input").set "Super cool new release"
+      expect(page).to have_no_css(".ng-option", text: "Create: Super cool new release")
     end
   end
 
@@ -102,7 +99,7 @@ RSpec.describe "subject inplace editor", :js, :selenium do
       work_package_page.visit!
       work_package_page.ensure_page_loaded
 
-      field = work_package_page.work_package_field(:version)
+      field = work_package_page.work_package_field(:targetVersions)
       field.activate!
 
       field.input_element.find("input").set "Version that does not exist"

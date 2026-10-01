@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -46,7 +46,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   IUploadFile,
   OpUploadService,
@@ -56,19 +55,18 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
 
 @Injectable()
 export class AttachmentsResourceService extends ResourceStoreService<IAttachment> {
-  @InjectField() I18n:I18nService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() uploadService:OpUploadService;
+  // Keep lazy: the upload service factory depends on loaded configuration.
+  @LazyInject() uploadService:OpUploadService;
 
-  @InjectField() configurationService:ConfigurationService;
-
-  @InjectField() toastService:ToastService;
+  readonly configurationService = inject(ConfigurationService);
 
   /**
    * Sends deletion request and updates the store collection of attachments.
@@ -106,6 +104,13 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
         identifier,
         href,
         uploadFiles,
+      )
+      .pipe(
+        tap(() => {
+          if (isNewResource(resource)) {
+            this.syncNewResourceAttachments(resource);
+          }
+        }),
       );
   }
 
@@ -152,6 +157,15 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
     return attachments?.href || null;
   }
 
+  private syncNewResourceAttachments(resource:HalResource):void {
+    const ids = this.query.getValue().collections[HAL_NEW_RESOURCE_ID]?.ids ?? [];
+    const attachments = ids
+      .map((id) => this.query.getEntity(id))
+      .filter((attachment):attachment is IAttachment => !!attachment);
+
+    resource.attachments = { elements: attachments.map((attachment) => attachment._links.self) };
+  }
+
   private uploadAttachments(href:string, files:IUploadFile[]):Observable<IAttachment[]> {
     const observables = this.uploadService.upload<IAttachment>(href, files);
     const uploads = files.map((f, i):[File, Observable<HttpEvent<unknown>>] => [f.file, observables[i]]);
@@ -195,7 +209,7 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
     }
 
     if (isNewResource(resource)) {
-      return this.configurationService.prepareAttachmentURL as string|null;
+      return this.configurationService.prepareAttachmentURL ?? null;
     }
 
     return null;

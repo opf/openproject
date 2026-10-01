@@ -1,35 +1,32 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller } from '@hotwired/stimulus';
-import { compact } from 'lodash';
 
 export default class SortByConfigController extends Controller {
   static targets = [
@@ -74,7 +71,7 @@ export default class SortByConfigController extends Controller {
       return null;
     });
 
-    return JSON.stringify(compact(filters));
+    return JSON.stringify(filters.filter(Boolean));
   }
 
   // Tries to find the parent form in the DOM. If present and the form contains a `page` field marked
@@ -84,9 +81,9 @@ export default class SortByConfigController extends Controller {
     this.parentForm = this.sortByFieldTarget.closest('form');
 
     if (this.parentForm) {
-      this.pageTarget = this.parentForm.querySelector('input[data-sort-by-config-target="page"]')!;
-
-      if (this.pageTarget) {
+      const pageTarget = this.parentForm.querySelector<HTMLInputElement>('input[data-sort-by-config-target="page"]');
+      if (pageTarget) {
+        this.pageTarget = pageTarget;
         this.parentForm.addEventListener('submit', this.onFormSubmit.bind(this));
       }
     }
@@ -116,7 +113,8 @@ export default class SortByConfigController extends Controller {
 
   fieldChanged(event:Event):void {
     const target = event.target as HTMLElement;
-    const row = target.closest('div[data-sort-by-config-target="inputRow"]') as HTMLElement;
+    const row = target.closest<HTMLElement>('div[data-sort-by-config-target="inputRow"]');
+    if (!row) { return; }
 
     this.manageRow(row);
 
@@ -208,18 +206,20 @@ export default class SortByConfigController extends Controller {
   }
 
   getSelectedField(row:HTMLElement):string|null {
-    const selectedField = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;
-    return selectedField?.value || null;
+    const selectedField = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
+    return selectedField?.value ?? null;
   }
 
   getSelectedDirection(row:HTMLElement):string|null {
     const selectedSegment = row.querySelector('li.SegmentedControl-item--selected > button');
-    return selectedSegment?.getAttribute('data-direction') || null;
+    return selectedSegment?.getAttribute('data-direction') ?? null;
   }
 
   unsetField(row:HTMLElement):void {
-    const select = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;
-    select.value = '';
+    const select = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
+    if (select) {
+      select.value = '';
+    }
   }
 
   unsetDirection(row:HTMLElement):void {
@@ -267,12 +267,12 @@ export default class SortByConfigController extends Controller {
   }
 
   getAllSelectedFields(...excludedRows:HTMLElement[]):string[] {
-    return compact(this.inputRowTargets.map((row) => {
+    return this.inputRowTargets.map((row) => {
       if (!excludedRows.includes(row)) {
         return this.getSelectedField(row);
       }
       return null;
-    }));
+    }).filter((x):x is NonNullable<typeof x> => Boolean(x));
   }
 
   moveRowToBottom(row:HTMLElement):void {
@@ -283,8 +283,8 @@ export default class SortByConfigController extends Controller {
   disableSelectedFieldsForOtherSelects():void {
     this.inputRowTargets.forEach((row) => {
       const selectedFieldsInOtherRows = this.getAllSelectedFields(row);
-      const otherSelect = row.querySelector('select[name="sort_field"]')!;
-      otherSelect.querySelectorAll('option').forEach((option) => {
+      const otherSelect = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
+      otherSelect?.querySelectorAll('option').forEach((option) => {
         option.disabled = selectedFieldsInOtherRows.includes(option.value);
       });
     });

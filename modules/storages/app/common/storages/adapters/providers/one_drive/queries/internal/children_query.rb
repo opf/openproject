@@ -35,17 +35,20 @@ module Storages
         module Queries
           module Internal
             class ChildrenQuery < Base
-              def call(http:, folder:, fields: [])
-                query = fields.empty? ? "" : "?$select=#{fields.join(',')}"
+              MAXIMUM = 1000
 
+              def call(http:, folder:, fields: [])
                 url = UrlBuilder.url(base_uri, uri_path_for(folder))
-                handle_responses(http.get(url + query))
+                query = { "$top" => MAXIMUM }
+                query["$select"] = fields.join(",") if fields.any?
+
+                handle_responses(http.get(url, params: query))
               end
 
               private
 
               def handle_responses(response)
-                error = Results::Error.new(source: self.class, payload: response)
+                error = SimpleError.new(source: self.class, payload: response, code: :error)
 
                 case response
                 in { status: 200..299 }
@@ -57,7 +60,7 @@ module Storages
                 in { status: 401 }
                   Failure(error.with(code: :unauthorized))
                 else
-                  Failure(error.with(code: :error))
+                  Failure(error)
                 end
               end
 

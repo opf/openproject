@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject, provideAppInitializer } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
@@ -64,6 +64,7 @@ import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fiel
 import { ProgressPopoverEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/progress-popover-edit-field.component';
 import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
+import { VersionsEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
 import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -118,6 +119,7 @@ import { FormsModule } from '@angular/forms';
     CombinedDateEditFieldComponent,
     ProjectEditFieldComponent,
     UserEditFieldComponent,
+    VersionsEditFieldComponent,
     WorkPackageEditFieldComponent,
     EditFormComponent,
     DisplayFieldComponent,
@@ -131,6 +133,4 @@ import { FormsModule } from '@angular/forms';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectFieldsModule {
-  constructor(injector:Injector) {
-  }
 }

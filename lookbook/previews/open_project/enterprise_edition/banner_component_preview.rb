@@ -79,11 +79,20 @@ module OpenProject
       def large
         render(
           ::EnterpriseEdition::BannerComponent
-            .new(:date_alerts,
+            .new(:work_package_sharing,
                  variant: :large,
-                 video: "enterprise/date-alert-notifications.mp4",
+                 video: "enterprise/share-work-package.mp4",
                  show_always: true)
         )
+      end
+
+      # Compares the two dark mode strategies for the `:medium` variant. This preview is forced
+      # into dark mode: the top banner has no `dark_image` and falls back to inverting the light
+      # image, while the bottom banner renders a dedicated `dark_image`.
+      # @display min_height 700px
+      # @display color_mode dark
+      def dark_image
+        render_with_template
       end
 
       # @display min_height 350px

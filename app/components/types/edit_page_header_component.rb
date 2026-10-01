@@ -33,18 +33,64 @@ module Types
     include OpPrimer::ComponentHelpers
     include ApplicationHelper
     include TabsHelper
+    include WorkPackageTypes::VariantRoutes
 
-    def initialize(type:, tabs: nil)
+    attr_reader :description
+
+    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil, description: nil)
       super
       @type = type
+      @variant = variant
       @tabs = tabs
+      @additional_breadcrumb_items = additional_breadcrumb_items
+      @title = title
+      @description = description
+    end
+
+    def title
+      @title || variant_or_type_name
     end
 
     def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       { href: types_path, text: t(:label_type_plural) },
-       @type.name]
+      [*helpers.variant_scope_breadcrumb_roots,
+       *variant_breadcrumb_item,
+       *own_breadcrumb_item,
+       *@additional_breadcrumb_items]
+    end
+
+    private
+
+    def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
+
+    def variant_or_type_name
+      return @type.name unless named_variant?
+
+      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
+    end
+
+    # Link back to the type's own page when we are on a named variant, since the crumb below
+    # then shows the variant's name rather than the type's.
+    def variant_breadcrumb_item
+      return [] unless named_variant?
+
+      [{ href: variant_breadcrumb_href, text: @type.name }]
+    end
+
+    # The type's own screen is administration's, so from a project this leads to that project's
+    # list of types instead.
+    def variant_breadcrumb_href
+      return variant_settings_path(nil, @type.default_variant) if scope_project.nil?
+
+      project_settings_work_packages_types_path(scope_project)
+    end
+
+    def scope_project = helpers.variant_scope_project
+
+    def own_breadcrumb_item
+      text = variant_or_type_name
+      return [text] if @additional_breadcrumb_items.blank?
+
+      [{ href: variant_settings_path(scope_project, @variant || @type.default_variant), text: }]
     end
   end
 end

@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= @news.title %>
-<%= news_url(@news) %>
+<%= project_news_url(@news.project, @news) %>
 
 <%= t(:text_user_wrote, value: @comment.author) %>
 

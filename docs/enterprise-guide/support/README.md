@@ -40,9 +40,9 @@ With Basic support, you already have integrated mail support and can reach our e
 
 The Professional support covers everything from the Basic support. Furthermore, you have the possibility to reach our support managers via our telephone, so that you have a direct contact person in case of critical problems. If you opt for the Professional plan, you and your employees will also be supported in the form of onboarding training, so that you learn right from the start how to best adapt OpenProject to your individual needs and how to optimally map processes there.
 
-| Service hours                                             | Support channels                                   | Support services                                             |
-| --------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 17:00 CET<br>Mon-Fri, 9:30 am - 4 pm ET | - Professional E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br>- Training material and best practices <br>- Onboarding training |
+| Service hours                                           | Support channels                                 | Support services                                         |
+| ------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------- |
+| Mon-Fri, 9:30 - 17:00 CET<br>Mon-Fri, 9:30 am - 4 pm ET | - Professional E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br> |
 
 ### Premium support (on-premises only)
 
@@ -50,9 +50,9 @@ The Premium support covers everything from the Basic and Professional support. I
 
 Onboarding training in the Premium support plan includes onboarding for a perfect start with OpenProject as well as consulting on special requirements and administrative configurations.
 
-| Service hours                                                | Support channels                              | Support services                                             |
-| ------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 17:30 CET<br>Mon-Fri, 9:30 am - 5:30 pm ET | - Premium E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br>- Training material and best practices <br>- Onboarding training<br>- Remote hands <br>- Installation support <br>- Upgrade assistance <br>- Dedicated onboarding manager (3h) |
+| Service hours                                              | Support channels                            | Support services                                             |
+| ---------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| Mon-Fri, 9:30 - 17:30 CET<br>Mon-Fri, 9:30 am - 5:30 pm ET | - Premium E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br>- Remote hands <br/>- Installation support <br/>- Upgrade assistance <br/> |
 
 ### Corporate support (on-premises only)
 

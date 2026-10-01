@@ -21,12 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { debounce } from 'lodash-es';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 export const remoteFieldUpdaterSelector = 'remote-field-updater';
@@ -38,11 +39,9 @@ export const remoteFieldUpdaterSelector = 'remote-field-updater';
   standalone: false,
 })
 export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
-  constructor(
-    private elementRef:ElementRef,
-    private http:HttpClient,
-  ) {
-  }
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private http = inject(HttpClient);
+
 
   private url:string;
 
@@ -55,14 +54,14 @@ export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
   private unitsTextField:HTMLInputElement | null = null;
 
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     this.form = element.closest('form')!;
     this.costTypeSelect = this.form.querySelector('#cost_entry_cost_type_id');
     this.unitsTextField = this.form.querySelector('#cost_entry_units');
 
     this.url = element.dataset.url!;
 
-    this.debouncedUpdaterBound = _.debounce(this.updater.bind(this), 500);
+    this.debouncedUpdaterBound = debounce(this.updater.bind(this), 500);
 
     this.addListeners();
   }
@@ -134,7 +133,7 @@ export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
     this
       .request(params)
       .subscribe((response:object) => {
-        _.each(response, (val:string, selector:string) => {
+        Object.entries(response).forEach(([selector, val]) => {
           const element = document.getElementById(selector) as HTMLElement|HTMLInputElement;
 
           if (element instanceof HTMLInputElement) {

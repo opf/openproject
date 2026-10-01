@@ -1,0 +1,30 @@
+description: |-
+  A simple response of a meeting collection.
+value:
+  _type: 'Collection'
+  total: 2
+  count: 2
+  pageSize: 20
+  offset: 1
+  _embedded:
+    _abbreviated: Embedded resources shortened for brevity
+    elements:
+      - _type: 'Meeting'
+        id: 6
+        title: 'Weekly'
+        startTime: '2026-02-17T20:54:35.523Z'
+        endTime: '2026-02-17T21:54:35.523Z'
+      - _type: 'Meeting'
+        id: 5
+        title: 'Weekly'
+        startTime: '2026-02-10T20:54:35.523Z'
+        endTime: '2026-02-10T21:54:35.523Z'
+  _links:
+    self:
+      href: '/api/v3/meetings?filters=%5B%5D&offset=1&pageSize=20'
+    jumpTo:
+      href: '/api/v3/meetings?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20'
+      templated: true
+    changeSize:
+      href: '/api/v3/meetings?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D'
+      templated: true

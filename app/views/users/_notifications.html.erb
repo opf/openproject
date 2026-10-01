@@ -26,4 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= angular_component_tag "opce-notification-settings", inputs: { userId: @user.id } %>
+<%= render(
+      My::Notifications::ShowPageComponent.new(
+        user: @user,
+        global_notification_setting: @user.notification_settings.find_or_initialize_by(project: nil),
+        update_participating_url: update_participating_user_path(@user),
+        update_non_participating_url: update_non_participating_user_path(@user),
+        update_date_alerts_url: update_date_alerts_user_path(@user),
+        new_project_settings_url: new_project_settings_user_path(@user),
+        edit_project_settings_url: ->(project_id) { edit_project_settings_user_path(@user, project_id:) },
+        project_setting_url: ->(project_id) { project_setting_user_path(@user, project_id:) }
+      )
+    ) %>

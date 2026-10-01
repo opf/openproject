@@ -73,6 +73,12 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
           <div class="form--field-instructions -labeled-checkbox">
             <%= t(:"permission_#{permission.name}_explanation", default: nil) %>
+            <% if permission.name.in?(%i[add_project add_subprojects]) %>
+              <%= link_translate(
+                    :permission_project_identifier_visibility_caution,
+                    links: { project_identifier_visibility_url: %i[sysadmin_docs project_identifier_visibility] }
+                  ) %>
+            <% end %>
           </div>
         </div>
       <% end %>

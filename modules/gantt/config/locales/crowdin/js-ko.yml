@@ -1,6 +1,7 @@
+---
 ko:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt 차트"
       default_queries:
-        milestones: '마일스톤'
+        milestones: 마일스톤
+      label_gantt_chart_plural: Gantt 차트

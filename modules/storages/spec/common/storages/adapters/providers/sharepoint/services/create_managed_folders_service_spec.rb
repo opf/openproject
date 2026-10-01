@@ -38,7 +38,7 @@ module Storages
     module Providers
       module Sharepoint
         module Services
-          RSpec.describe CreateManagedFoldersService, :webmock do
+          RSpec.describe CreateManagedFoldersService, :disable_ssrf_filter, :webmock do
             shared_let(:admin) { create(:admin) }
             shared_let(:storage) do
               create(:sharepoint_storage, :sandbox,

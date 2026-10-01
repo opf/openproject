@@ -42,6 +42,107 @@ RSpec.describe "API V3 Authentication" do
   end
   let(:resource_metadata) { 'resource_metadata="http://test.host/.well-known/oauth-protected-resource"' }
 
+  describe "session auth" do
+    let(:user) { create(:admin) }
+    let(:session_data) { ActiveSupport::HashWithIndifferentAccess.new(user_id: user.id, updated_at: Time.current) }
+
+    before do
+      # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(OpenProject::Authentication::Strategies::Warden::Session)
+        .to receive(:session)
+        .and_return(session_data)
+      # rubocop:enable RSpec/AnyInstance
+    end
+
+    context "when making a GET request" do
+      before do
+        get resource
+      end
+
+      it "authenticates successfully" do
+        expect(last_response).to have_http_status :ok
+      end
+    end
+
+    context "when making a POST request" do
+      let(:add_additional_headers) { nil }
+
+      before do
+        header "Content-Type", "application/json"
+        add_additional_headers
+        post resource, { name: "Test" }.to_json
+      end
+
+      it "is not authenticated" do
+        expect(last_response).to have_http_status :unauthorized
+      end
+
+      context "and when the Sec-Fetch-Site header indicates a same-origin request" do
+        let(:add_additional_headers) { header "Sec-Fetch-Site", "same-origin" }
+
+        it "authenticates successfully" do
+          expect(last_response).to have_http_status :created
+        end
+      end
+
+      context "and when the Sec-Fetch-Site header indicates a cross-site request" do
+        let(:add_additional_headers) { header "Sec-Fetch-Site", "cross-site" }
+
+        it "is not authenticated" do
+          expect(last_response).to have_http_status :unauthorized
+        end
+      end
+
+      context "and when the Sec-Fetch-Site header indicates a same-site request" do
+        let(:add_additional_headers) { header "Sec-Fetch-Site", "same-site" }
+
+        it "is not authenticated" do
+          expect(last_response).to have_http_status :unauthorized
+        end
+      end
+
+      context "and when there is an X-Requested-With: XMLHttpRequest header when HTTPS is enabled",
+              with_settings: { https: true } do
+        let(:add_additional_headers) { header "X-Requested-With", "XMLHttpRequest" }
+
+        # in HTTPS setups we ignore this header, because the safer alternative is available
+        it "is not authenticated" do
+          expect(last_response).to have_http_status :unauthorized
+        end
+      end
+
+      context "and when there is an X-Requested-With: XMLHttpRequest header when HTTPS is disabled",
+              with_settings: { https: false } do
+        let(:add_additional_headers) { header "X-Requested-With", "XMLHttpRequest" }
+
+        # in HTTP setups we still accept the header for backwards-compatibility
+        it "authenticates successfully" do
+          expect(last_response).to have_http_status :created
+        end
+      end
+    end
+  end
+
+  describe "without a known application hostname", with_settings: { host_name: nil } do
+    let(:expected_message) { "You need to be authenticated to access this resource." }
+
+    before do
+      allow(ActionMailer::Base).to receive(:default_url_options).and_return({})
+      header "Host", "central.example.com"
+
+      get resource
+    end
+
+    it "uses the request host for the resource metadata" do
+      expect(last_response).to have_http_status :unauthorized
+      expect(last_response.header["WWW-Authenticate"]).to eq(
+        'Bearer realm="OpenProject API", ' \
+        'resource_metadata="http://central.example.com/.well-known/oauth-protected-resource", scope="api_v3"'
+      )
+      expect(JSON.parse(last_response.body)).to eq(error_response_body)
+    end
+  end
+
   describe "oauth" do
     let(:oauth_access_token) { "" }
     let(:expected_message) { "You did not provide the correct credentials." }
@@ -187,6 +288,9 @@ RSpec.describe "API V3 Authentication" do
       let(:token) { create(:oauth_access_token, resource_owner: nil, application:) }
       let(:application) { create(:oauth_application) }
       let(:oauth_access_token) { token.plaintext_token }
+      let(:expected_www_auth_header) do
+        %{Bearer realm="OpenProject API", #{resource_metadata}, scope="api_v3"}
+      end
 
       # Note: This is just caused by DoorkeeperOauth rejecting to handle this case and auth falling through to basic auth
       # more specific examples can be found at spec/requests/oauth/client_credentials_flow_spec.rb
@@ -194,10 +298,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-
-        # Note: This is just caused by DoorkeeperOauth rejecting to handle this case and auth falling through to basic auth
-        # more specific examples can be found at spec/requests/oauth/client_credentials_flow_spec.rb
-        expect(last_response.header["WWW-Authenticate"]).to eq('Basic realm="OpenProject API"')
+        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
 
@@ -332,7 +433,7 @@ RSpec.describe "API V3 Authentication" do
           end
 
           it "returns the WWW-Authenticate header" do
-            expect(last_response.header["WWW-Authenticate"]).to include 'Basic realm="OpenProject API"'
+            expect(last_response.header["WWW-Authenticate"]).to include 'Bearer realm="OpenProject API"'
           end
         end
 
@@ -383,34 +484,7 @@ RSpec.describe "API V3 Authentication" do
 
           it "returns the WWW-Authenticate header" do
             expect(last_response.header["WWW-Authenticate"])
-              .to include 'Basic realm="OpenProject API"'
-          end
-        end
-
-        context 'with invalid credentials an X-Authentication-Scheme "Session"' do
-          let(:expected_message) { "You did not provide the correct credentials." }
-
-          before do
-            set_basic_auth_header(username, password.reverse)
-            header "X-Authentication-Scheme", "Session"
-            get resource
-          end
-
-          it "returns 401 unauthorized" do
-            expect(last_response).to have_http_status :unauthorized
-          end
-
-          it "returns the correct JSON response" do
-            expect(JSON.parse(last_response.body)).to eq error_response_body
-          end
-
-          it "returns the correct content type header" do
-            expect(last_response.headers["Content-Type"]).to eq "application/hal+json; charset=utf-8"
-          end
-
-          it "returns the WWW-Authenticate header" do
-            expect(last_response.header["WWW-Authenticate"])
-              .to include 'Session realm="OpenProject API"'
+              .to include 'Bearer realm="OpenProject API"'
           end
         end
 

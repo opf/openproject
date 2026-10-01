@@ -29,14 +29,23 @@
 #++
 module EnterpriseTokens
   class TokenForm < ApplicationForm
+    include Redmine::I18n
+
     form do |f|
       f.text_area(
         name: :encoded_token,
         label: I18n.t("admin.enterprise.create_dialog.type_token_text"),
         placeholder: I18n.t("admin.enterprise.create_dialog.token_placeholder"),
+        caption:,
         rows: 10,
         style: "resize: none"
       )
+    end
+
+    def caption
+      link_translate("admin.enterprise.create_dialog.token_caption",
+                     links: { docs_url: %i[enterprise_guide on_premises activate] },
+                     external: true)
     end
   end
 end

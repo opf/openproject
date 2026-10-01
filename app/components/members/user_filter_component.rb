@@ -113,6 +113,12 @@ module Members
         end
       end
 
+      def filter_group(query, group_id)
+        if group_id.present?
+          query.where(:group_hierarchy, "=", group_id)
+        end
+      end
+
       protected
 
       def filter_shares(query, role_id)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -67,6 +69,21 @@ module OpenProject
                        }
             },
             {
+              name: "working_hours",
+              partial: "users/working_hours/list",
+              path: ->(params) { edit_user_path(params[:user], tab: :working_hours) },
+              label: :label_working_hours,
+              only_if: ->(*) { User.current.allowed_globally?(:manage_working_times) }
+            },
+            {
+              name: "non_working_times",
+              partial: "users/non_working_times/list",
+              path: ->(params) { edit_user_path(params[:user], tab: :non_working_times) },
+              label: :label_non_working_days,
+              only_if: ->(*) { User.current.allowed_globally?(:manage_working_times) }
+            },
+
+            {
               name: "memberships",
               partial: "individual_principals/memberships",
               path: ->(params) { edit_user_path(params[:user], tab: :memberships) },
@@ -90,13 +107,13 @@ module OpenProject
               name: "notifications",
               partial: "users/notifications",
               path: ->(params) { edit_user_path(params[:user], tab: :notifications) },
-              label: :"js.notifications.settings.title"
+              label: :"my_account.notifications_and_email.tabs.notifications"
             },
             {
               name: "reminders",
               partial: "users/reminders",
               path: ->(params) { edit_user_path(params[:user], tab: :reminders) },
-              label: :"js.reminders.settings.title"
+              label: :"my_account.notifications_and_email.tabs.email_reminders"
             }
           ]
         end
@@ -109,6 +126,12 @@ module OpenProject
               partial: "placeholder_users/general",
               path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :general) },
               label: :label_general
+            },
+            {
+              name: "criteria",
+              partial: "placeholder_users/criteria",
+              path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :criteria) },
+              label: :label_criteria
             },
             {
               name: "memberships",

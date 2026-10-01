@@ -1,0 +1,70 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= content_tag(:div, container_attributes) do %>
+  <%= render(
+        ResourcePlannerViews::UserTimeline::SubHeaderComponent.new(
+          project: @project, resource_planner: @resource_planner, view: @view
+        )
+      ) %>
+  <% if users.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(border: true)) do |blankslate| %>
+      <% blankslate.with_visual_icon(icon: :people) %>
+      <% blankslate.with_heading(tag: :h2) { t("resource_management.user_timeline.blank.title") } %>
+      <% blankslate.with_description { blank_description } %>
+      <% if @view.manually_picked? %>
+        <% blankslate.with_primary_action(
+             label: t("resource_management.user_timeline.blank.add_user"),
+             href: add_user_path,
+             data: { controller: "async-dialog" }
+           ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :plus) %>
+          <%= t("resource_management.user_timeline.blank.add_user") %>
+        <% end %>
+      <% else %>
+        <% blankslate.with_primary_action(
+             label: t("resource_management.user_timeline.blank.configure_view"),
+             href: configure_view_path,
+             data: { controller: "async-dialog" }
+           ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :gear) %>
+          <%= t("resource_management.user_timeline.blank.configure_view") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="op-rm-timeline-canvas">
+      <div class="op-rm-timeline" data-resource-management--resource-timeline-target="calendar"></div>
+      <div class="op-rm-timeline-loading" data-resource-management--resource-timeline-target="loading">
+        <%= render(Primer::Beta::Spinner.new(size: :large)) %>
+        <span class="op-rm-timeline-loading--label"><%= t(:label_loading) %></span>
+      </div>
+    </div>
+  <% end %>
+<% end %>

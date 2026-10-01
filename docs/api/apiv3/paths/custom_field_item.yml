@@ -5,11 +5,13 @@ get:
   operationId: get_custom_field_item
   description: |-
     Retrieves a single custom field item specified by its unique identifier.
+  tags:
+    - Custom Fields
   parameters:
     - name: id
       description: The custom field item's unique identifier
       in: path
-      example: '42'
+      example: 42
       required: true
       schema:
         type: integer
@@ -36,7 +38,10 @@ get:
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not authorized to access this resource.
     '404':
-      description: Returned if the custom field item does not exist or the user is not logged in.
+      description: |-
+        Returned if the custom field item does not exist or the user lacks permission to see it.
+
+        The permission required to view the item depends on the custom field it belongs to.
       content:
         application/hal+json:
           schema:

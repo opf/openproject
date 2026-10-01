@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg work package linking", :js, :selenium do
   let(:user) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  let(:project) { create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking]) }
   let(:work_package) { create(:work_package, subject: "Foobar", project:) }
   let(:editor) { Components::WysiwygEditor.new }
 
@@ -53,12 +53,32 @@ RSpec.describe "Wysiwyg work package linking", :js, :selenium do
       expect(editor.editor_element).to have_css("a.mention", text: "##{work_package.id}")
 
       # Save wiki page
-      click_on "Save"
+      click_on "Create"
 
       expect_flash(message: "Successful creation.")
 
       within("#content") do
         expect(page).to have_css("a.issue", count: 1)
+      end
+    end
+
+    it "renders double hash work package references as quickinfo macros when editing" do
+      editor.set_markdown "###{work_package.id}"
+
+      click_on "Create"
+
+      expect_flash(message: "Successful creation.")
+
+      within("#content") do
+        expect(page).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='false']")
+      end
+
+      click_on "Edit"
+
+      editor.in_editor do |_container, editable|
+        expect(editable).to have_css(".op-macro-wp-quickinfo-widget")
+        expect(editable).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='false']")
+        expect(editable).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
       end
     end
   end

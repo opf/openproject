@@ -5,7 +5,7 @@
         id: DIALOG_ID,
         size: :xlarge,
         title: I18n.t("meeting.participants.label.manage_participants"),
-        data: { "keep-open-on-submit": true }
+        data: { "keep-open-on-submit": true, controller: "meetings--participants--update-occurrence-participants" }
       )
     ) do |d|
       d.with_header(variant: :large)

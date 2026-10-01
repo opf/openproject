@@ -63,13 +63,13 @@ module OpenProject::TextFormatting
       ##
       # Get the regexp that matches the content
       def self.regexp
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       ##
       # Called with a match from the regexp on the node's content
       def self.process_match(matchdata, matched_string, context)
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       ##

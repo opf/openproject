@@ -34,12 +34,13 @@ module Meetings
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, project:, copy_from: nil)
+    def initialize(meeting:, project:, copy_from: nil, template: false)
       super
 
       @meeting = meeting
       @project = project
       @copy_from = copy_from
+      @template = template
     end
 
     private
@@ -50,7 +51,8 @@ module Meetings
     end
 
     def title
-      return I18n.t(:label_meeting_duplicate) if @copy_from
+      return I18n.t(:label_meeting_template_new) if @template
+      return I18n.t(:label_meeting_duplicate) if @copy_from && !@copy_from.onetime_template?
       return I18n.t(:label_meeting_edit) if @meeting.persisted?
 
       case @meeting
@@ -59,6 +61,14 @@ module Meetings
       else
         I18n.t("label_meeting_new_dynamic")
       end
+    end
+
+    def submit_button_text
+      return I18n.t(:label_meeting_template_create) if @template
+      return I18n.t(:button_save) if @meeting.persisted?
+      return I18n.t(:label_recurring_meeting_series_create) if @meeting.is_a?(RecurringMeeting)
+
+      I18n.t(:label_meeting_create)
     end
   end
 end

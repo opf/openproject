@@ -39,16 +39,16 @@ module Projects
         end
 
         def call
-          return unless version.work_packages.any?
+          # The graph queries work packages by the version filter, which matches
+          # on target versions, so it is only rendered when that finds any.
+          return unless version.targeted_work_packages.any?
 
           widget_wrapper do |widget|
             widget.with_body do
               helpers.angular_component_tag(
                 "opce-wp-overview-graph",
-                inputs: {
-                  "global-scope": version.systemwide?,
-                  "initial-filters": helpers.version_wp_overview_graph_initial_filters(version)
-                }
+                "global-scope": version.systemwide?,
+                "initial-filters": helpers.version_wp_overview_graph_initial_filters(version).to_json
               )
             end
           end

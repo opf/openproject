@@ -45,8 +45,6 @@ class Attachment < ApplicationRecord
   validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
 
-  validate :filesize_below_allowed_maximum,
-           if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
   has_paper_trail
@@ -73,6 +71,7 @@ class Attachment < ApplicationRecord
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
   after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
+  after_commit :delete_staged_direct_upload, on: :destroy, if: :prepared?
 
   scope :pending_direct_upload, -> { status_prepared }
   scope :not_pending_direct_upload, -> { not_status_prepared }
@@ -93,7 +92,9 @@ class Attachment < ApplicationRecord
   # specifically when using S3 for attachments. In the case of S3 the file name for the downloaded
   # file will still be correct as it's part of the URL before the query.
   def external_url_options(expires_in: nil)
-    { content_disposition: content_disposition(include_filename: false), expires_in: }
+    { content_disposition: content_disposition(include_filename: false),
+      content_type: served_content_type,
+      expires_in: }
   end
 
   def external_storage?
@@ -117,6 +118,30 @@ class Attachment < ApplicationRecord
     else
       disposition
     end
+  end
+
+  # Returns the Content-Type to use when serving this file inline in a browser.
+  # Text files are normalised to text/plain (prevents script execution) with an
+  # explicit charset. Non-inlineable files get application/octet-stream so the
+  # browser is forced to download them.
+  def served_content_type
+    if is_text?
+      "text/plain; charset=#{charset.presence || Setting.attachment_default_charset}"
+    elsif inlineable?
+      content_type
+    else
+      "application/octet-stream"
+    end
+  end
+
+  # Returns the content type to use when serving the file to a browser.
+  # For text files, ensures a charset is always present so browsers don't
+  # fall back to ISO-8859-1. Preserves the real MIME subtype (e.g. text/x-ruby)
+  # unlike served_content_type which normalises to text/plain for security.
+  def serving_content_type
+    return content_type unless is_text?
+
+    "#{content_type}; charset=#{charset.presence || Setting.attachment_default_charset}"
   end
 
   def visible?(user = User.current)
@@ -211,15 +236,13 @@ class Attachment < ApplicationRecord
   end
 
   def file=(file)
-    super.tap do
-      set_file_size file
+    # Take size, type, digest from source before CarrierWave caches it in super.
+    # FogFileUploader may move the source into the cache (MovableSource), after which +file.path+ no longer exists.
+    set_file_size file
+    set_content_type file
+    set_digest file if File.readable?(file.path)
 
-      set_content_type file
-
-      if File.readable? file.path
-        set_digest file
-      end
-    end
+    super
   end
 
   def set_file_size(file)
@@ -227,7 +250,7 @@ class Attachment < ApplicationRecord
   end
 
   def set_content_type(file)
-    self.content_type = self.class.content_type_for(file.path)
+    self.content_type, self.charset = OpenProject::ContentTypeDetector.new(file.path).detect_with_charset
   end
 
   def set_digest(file)
@@ -344,6 +367,10 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def delete_staged_direct_upload
+    DirectFogUploader.delete_staged_upload(self)
+  end
 
   def filesize_below_allowed_maximum
     if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes

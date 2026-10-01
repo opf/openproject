@@ -34,3 +34,34 @@ table.list.members
 
 .budget-row-template
   display: none
+
+// Column widths come from the colgroup, so that editing a row (typing, loading
+// options, selecting a long value) cannot reflow the table.
+#labor_budget_items,
+#material_budget_items
+  table-layout: fixed
+
+  .form--text-field,
+  .form--select
+    width: 100%
+
+  opce-user-autocompleter
+    display: block
+    width: 100%
+
+    .inline-label
+      width: 100%
+
+    ng-select
+      min-width: 0
+
+  td.units .form--field-container
+    align-items: center
+    gap: 0.5rem
+    flex-wrap: nowrap
+
+  .budget-item--unit-name
+    color: var(--fgColor-muted)
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis

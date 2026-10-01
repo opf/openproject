@@ -34,7 +34,7 @@ module API
       elsif object.respond_to?(:to_json)
         object.to_json
       else
-        MultiJson.dump(object)
+        MultiJSON.dump(object)
       end
     end
   end

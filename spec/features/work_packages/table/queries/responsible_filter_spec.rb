@@ -83,6 +83,7 @@ RSpec.describe "Work package filtering by responsible", :js do
     filters.open
     filters.expect_filter_by("Accountable", "is (OR)", [other_user.name], "responsible")
     filters.remove_filter "responsible"
+    loading_indicator_saveguard
     filters.add_filter_by("Accountable", "is (OR)", [placeholder_user.name], "responsible")
 
     wp_table.ensure_work_package_not_listed!(work_package_user_responsible)

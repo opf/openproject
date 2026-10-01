@@ -152,6 +152,10 @@ RSpec.describe "Work package timeline date formatting",
            with_settings: { start_of_week: "7", first_week_of_year: "6" } do
     let(:current_user) { create(:admin) }
 
+    before do
+      wp_timeline.expect_timeline!
+    end
+
     it "shows english ISO dates" do
       expect(page).to have_css(".wp-timeline--header-element", text: "01")
       expect(page).to have_css(".wp-timeline--header-element", text: "02")

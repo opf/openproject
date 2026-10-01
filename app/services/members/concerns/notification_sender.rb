@@ -55,7 +55,7 @@ module Members::Concerns::NotificationSender
     end
 
     def event_type
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
   end
 end

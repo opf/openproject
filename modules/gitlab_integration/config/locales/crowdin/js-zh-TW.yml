@@ -20,34 +20,35 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 zh-TW:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: "GitLab"
+      gitlab_pipelines: 流水線
       tab_header_issue:
-        title: "問題"
+        title: 問題
       tab_header_mr:
-        title: "合併請求"
-        create_mr:
-          label: 建立 MR
-          description: 建立合併請求
         copy_menu:
-          label: Git snippets
           description: 複製 git 片段到剪貼簿
+          label: Git snippets
+        create_mr:
+          description: 建立合併請求
+          label: 建立 MR
         git_actions:
           branch_name: 分支名稱
-          commit_message: 提交訊息
           cmd: 以空白提交建立分支
+          commit_message: 提交訊息
+          copy_error: "❌ 複製失敗！"
+          copy_success: "✅ 已複製!"
           title: Git 快速代碼段
-          copy_success: '✅ 已複製!'
-          copy_error: '❌ 複製失敗！'
+        title: 合併請求
       tab_issue:
-        empty: '目前尚未連結任何問題。在問題標題/描述中使用代碼<code>OP#%{wp_id}</code>(或<code>PP#%{wp_id}</code>用作私人連結) 連結現有問題，或建立新問題。'
+        empty: 目前尚未連結任何問題。在問題標題/描述中使用代碼<code>OP#%{wp_id}</code>(或<code>PP#%{wp_id}</code>用作私人連結) 連結現有問題，或建立新問題。
       tab_mrs:
-        empty: '目前尚未連結任何問題。在問題標題/描述中使用代碼<code>OP#%{wp_id}</code>(或<code>PP#%{wp_id}</code>用作私人連結) 連結現有問題，或建立新問題。'
-      gitlab_pipelines: 流水線
+        empty: 目前尚未連結任何問題。在問題標題/描述中使用代碼<code>OP#%{wp_id}</code>(或<code>PP#%{wp_id}</code>用作私人連結) 連結現有問題，或建立新問題。
       updated_on: 更新於
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
-        gitlab: "GitLab"
+        gitlab: GitLab

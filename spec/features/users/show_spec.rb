@@ -69,4 +69,51 @@ RSpec.describe "index users", :js do
       expect(page).to have_no_text group.name
     end
   end
+
+  describe "own memberships without the permission to view members" do
+    shared_let(:reader_role) { create(:project_role, name: "Reader", permissions: %i[view_project]) }
+    shared_let(:reader_project) { create(:project, name: "Readable") }
+    shared_let(:reader) { create(:user, member_with_roles: { reader_project => [reader_role] }) }
+
+    current_user { reader }
+
+    it "lists them on the own profile, with a preview of the own role" do
+      visit user_path(reader)
+
+      expect(page).to have_text reader_project.name
+      expect(page).to have_text reader_role.name
+      expect(page).to have_css "a[href='#{role_permissions_dialog_path(reader_role)}']", visible: :all
+    end
+
+    it "hides them from another user lacking the permission" do
+      visit user_path(user)
+
+      expect(page).to have_current_path user_path(user)
+      expect(page).to have_no_text reader_project.name
+    end
+  end
+
+  describe "built-in and custom field attributes in the side panel" do
+    shared_let(:section) { create(:user_custom_field_section, name: "Public profile") }
+    shared_let(:custom_field) do
+      create(:user_custom_field, :string, name: "Job title", user_custom_field_section: section)
+    end
+    shared_let(:profile_user) do
+      create(:user, firstname: "Sarah", mail: "s.chen@example.com",
+                    custom_values: [build(:custom_value, custom_field:, value: "Developer")])
+    end
+
+    before do
+      section.update_column(:attribute_order, ["firstname", "mail", custom_field.column_name])
+      visit user_path(profile_user)
+    end
+
+    it "shows built-in attributes alongside custom fields" do
+      expect(page).to have_text(User.human_attribute_name("firstname"))
+      expect(page).to have_text("Sarah")
+      expect(page).to have_text("s.chen@example.com")
+      expect(page).to have_text("Job title")
+      expect(page).to have_text("Developer")
+    end
+  end
 end

@@ -89,5 +89,52 @@ RSpec.describe JournalFormatter::PolymorphicAssociation do
                         old: old_wp.subject))
       end
     end
+
+    context "when the old value references a record that has since been deleted" do
+      let(:old_value) do
+        create(:work_package).then do |work_package|
+          work_package.to_gid.tap { work_package.destroy }
+        end
+      end
+
+      it "renders only the new value instead of raising" do
+        expect(instance.render("entity_gid", [old_value, new_value]))
+          .to eq(I18n.t(:text_journal_set_to,
+                        label: "<strong>Logged for</strong>",
+                        value: "<i>#{new_wp.subject}</i>"))
+
+        expect(instance.render("entity_gid", [old_value, new_value], html: false))
+          .to eq(I18n.t(:text_journal_set_to,
+                        label: "Logged for",
+                        value: new_wp.subject))
+      end
+    end
+
+    context "when both values reference records that have since been deleted" do
+      let(:old_value) do
+        create(:work_package).then do |work_package|
+          work_package.to_gid.tap { work_package.destroy }
+        end
+      end
+      let(:new_value) do
+        create(:work_package).then do |work_package|
+          work_package.to_gid.tap { work_package.destroy }
+        end
+      end
+
+      it "renders as removed instead of raising" do
+        expect(instance.render("entity_gid", [old_value, new_value], html: false))
+          .to eq(I18n.t(:text_journal_deleted_no_detail, label: "Logged for"))
+      end
+    end
+
+    context "when a value is not a parseable global id" do
+      let(:new_value) { "gid://#{GlobalID.app}//" }
+
+      it "renders as removed instead of raising" do
+        expect(instance.render("entity_gid", [old_value, new_value], html: false))
+          .to eq(I18n.t(:text_journal_deleted, label: "Logged for", old: old_wp.subject))
+      end
+    end
   end
 end

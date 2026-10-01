@@ -32,7 +32,7 @@ require_relative "../../support/pages/my/page"
 
 RSpec.describe "Work package watched widget on My page", :js do
   shared_let(:user) { create(:user) }
-  shared_let(:non_member) { create(:non_member, permissions: [:view_work_packages]) }
+  shared_let(:non_member) { create(:non_member, permissions: [:view_work_packages, :save_queries]) }
   shared_let(:project) { create(:project, public: true) }
   shared_let(:work_package) do
     create(:work_package,

@@ -69,7 +69,7 @@ class OpenProject::JournalFormatter::Attachment < JournalFormatter::Base
 
   def format_html_attachment_detail(key, value)
     if value.present? && a = Attachment.find_by(id: key.to_i)
-      link_to_attachment(a, only_path: false)
+      link_to_attachment(a, only_path: false, target: "_blank")
     elsif value.present?
       value
     end

@@ -7,11 +7,13 @@ get:
     Retrieves the branch of a single custom field item specified by its unique identifier.
 
     A branch is list of all ancestors, starting with the root item and finishing with the item itself.
+  tags:
+    - Custom Fields
   parameters:
     - name: id
       description: The custom field item's unique identifier
       in: path
-      example: '42'
+      example: 42
       required: true
       schema:
         type: integer
@@ -38,7 +40,7 @@ get:
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not authorized to access this resource.
     '404':
-      description: Returned if the custom field does not exist.
+      description: Returned if the custom field does not exist or the user lacks permission to view it.
       content:
         application/hal+json:
           schema:

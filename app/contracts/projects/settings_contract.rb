@@ -52,7 +52,6 @@ module Projects
       validate_work_package_type
       validate_status_when_submitted
       validate_assignee_custom_field
-      validate_work_package_comment
       validate_notification_text
     end
 
@@ -60,7 +59,7 @@ module Projects
       if model.project_creation_wizard_work_package_type_id.blank?
         errors.add :project_creation_wizard_work_package_type_id, :blank
       else
-        unless model.types.exists?(id: model.project_creation_wizard_work_package_type_id)
+        unless model.project_types.exists?(type_id: model.project_creation_wizard_work_package_type_id)
           errors.add :project_creation_wizard_work_package_type_id, :inclusion
         end
       end
@@ -71,28 +70,20 @@ module Projects
         errors.add :project_creation_wizard_status_when_submitted_id, :blank
       else
         type = Type.find_by(id: model.project_creation_wizard_work_package_type_id)
-        unless type.statuses.exists?(id: model.project_creation_wizard_status_when_submitted_id)
+        unless model.type_variant(type).statuses.exists?(id: model.project_creation_wizard_status_when_submitted_id)
           errors.add :project_creation_wizard_status_when_submitted_id, :inclusion
         end
       end
     end
 
     def validate_assignee_custom_field
-      if model.project_creation_wizard_assignee_custom_field_id.blank?
-        errors.add :project_creation_wizard_assignee_custom_field_id, :blank
-      else
-        valid_custom_field = model.available_custom_fields
-                                  .where(field_format: "user", multi_value: false)
-                                  .exists?(id: model.project_creation_wizard_assignee_custom_field_id)
-        unless valid_custom_field
-          errors.add :project_creation_wizard_assignee_custom_field_id, :inclusion
-        end
-      end
-    end
+      return if model.project_creation_wizard_assignee_custom_field_id.blank?
 
-    def validate_work_package_comment
-      if model.project_creation_wizard_work_package_comment.blank?
-        errors.add :project_creation_wizard_work_package_comment, :blank
+      valid_custom_field = model.available_custom_fields
+                                .where(field_format: "user", multi_value: false)
+                                .exists?(id: model.project_creation_wizard_assignee_custom_field_id)
+      unless valid_custom_field
+        errors.add :project_creation_wizard_assignee_custom_field_id, :inclusion
       end
     end
 

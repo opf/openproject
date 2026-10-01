@@ -35,8 +35,10 @@
 #     create(:calculated_value_project_custom_field, formula: "#{cf_1} * #{cf_2} + #{cf_3}")
 module CustomFieldFormulaReferencing
   refine CustomField do
-    def to_s
+    def ref
       "{{cf_#{id}}}"
     end
+
+    alias_method :to_s, :ref
   end
 end

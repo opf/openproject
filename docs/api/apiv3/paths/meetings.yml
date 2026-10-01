@@ -1,0 +1,74 @@
+# /api/v3/meetings
+---
+get:
+  summary: List all visible meetings
+  operationId: list_meetings
+  tags:
+    - Meetings
+  description: |-
+    Retrieve a paginated collection of meetings visible to the authenticated user.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          examples:
+            response:
+              $ref: "../components/examples/meeting_collection_simple_response.yml"
+          schema:
+            $ref: "../components/schemas/meeting_collection_model.yml"
+
+post:
+  summary: Create meeting
+  operationId: create_meeting
+  tags:
+    - Meetings
+  description: |-
+    Creates a new meeting applying the attributes provided in the body.
+
+    You can use the form and schema to retrieve the valid attribute values and by that be guided towards
+    successful creation.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/meeting_write_model.yml"
+        examples:
+          'create meeting':
+            $ref: '../components/examples/meeting_create_request.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_model.yml"
+          examples:
+            response:
+              $ref: '../components/examples/meeting_simple_response.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** create meetings
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

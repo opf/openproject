@@ -28,7 +28,7 @@ Then, you will assign work packages to a budgets. If you log time or costs to th
 > [!TIP]
 > In order to create a budget in your project, the **Budgets module** needs to be activated under [project settings](../projects/).
 
-To create your first budget in OpenProject, navigate to *Budgets* module and click the green **+ Budget** button in the top right corner.
+To create your first budget in OpenProject, navigate to _Budgets_ module and click the green **+ Budget** button in the top right corner.
 
 ![A button to create a new budget in OpenProject Budgets module](openproject_user_guide_budgets_create_budget_button.png)
 
@@ -75,7 +75,7 @@ The **+ icon** will add a new unit cost type for this budget.
 
 You can also add planned labor costs to a budget.
 
-Set the **hours** that will be planned for a user on this budget.
+Set the **hours**, **days**, **weeks** or **months** that will be planned for a user on this budget. The system converts the entered duration to hours based on the [number of hours defined per day](../../system-admin-guide/calendars-and-dates/#working-days-and-hours) in the system-wide settings. For example, if your system settings is set to eight hours per work day, entering 6d 2h results in a total of 50h.
 
 Add a **user** from the drop-down list.
 
@@ -120,6 +120,7 @@ In the top right corner you can update, copy or delete a budget by clicking the 
 - **Delete** the budget.
 
 The detailed budget view will show the following:
+
 - all **planned unit costs**.
 - work packages assigned to this budget that have **actual unit costs** booked.
 - **planned labor costs** are displayed for this budget.

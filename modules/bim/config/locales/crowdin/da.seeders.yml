@@ -80,7 +80,7 @@ da:
               * [(Demo) Bim-projekt]({{opSetting:base_url}}/projects/demo-bim-project): BIM-proces og koordinering.
                   * [(Demo) BCF-håndtering]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF-håndtering.
 
-          Man kan også oprette et tomt [nyt projekt]({{opSetting:base_url}}/projects/new).
+          Der kan også oprettes et tomt [nyt projekt]({{opSetting:base_url}}/projects/new).
 
           Stop aldrig samarbejdet. Med open source og åbent sind.
 
@@ -89,13 +89,13 @@ da:
         demo-construction-project:
           name: "(Demo) Konstruktionsprojekt"
           status_explanation: Alle opgaver og delprojekter følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: Dette er et kort resumé af målene for dette demobyggeprojekt.
+          description: Dette er et kort resumé af målene for dette demokonstruktionsprojekt.
           news:
             item_0:
               title: Velkommen til demo-projektet
               summary: |
                 Vi er glade for deltagelsen.
-                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
+                I dette modul kan der kommunikeres projektnyheder til teammedlemmerne.
               description: De faktiske nyheder
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
@@ -151,13 +151,13 @@ da:
         demo-planning-constructing-project:
           name: "(Demo) Planlægning og konstruktion"
           status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: Dette er et kort resumé af målene for dette demo planlægnings- og byggeprojekt.
+          description: Dette er et kort resumé af målene for dette demoplanlægnings- og byggeprojekt.
           news:
             item_0:
-              title: Velkommen til demo-projektet
+              title: Velkommen til demoprojektet
               summary: |
                 Vi er glade for deltagelsen.
-                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
+                I dette modul kan projektnyheder kommunikeres til teammedlemmerne.
               description: De faktiske nyheder
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
@@ -179,21 +179,21 @@ da:
                 options:
                   name: At komme gang
                   text: |
-                    Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
+                    Vi er glade for deltage!sen Vi foreslår at prøve et par ting for at komme i gang med OpenProject.
 
-                    Her finder du de klassiske roller, nogle arbejdsgange og arbejdspakker til dit byggeprojekt.
+                    Her findes de klassiske roller, nogle arbejdsgange og arbejdspakker til byggeprojektet.
 
                     Prøv følgende trin:_
 
-                    1.  _Invitér nye medlemmer til dit projekt:_ → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) i projektnavigationen.
-                    2.  _Se arbejdet i dine projekter:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    3.  _Create a new work package:_ → Gå til [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    5.  _Aktivér yderligere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Arbejder du agilt? Opret et nyt board:_ → Gå til [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Invitér nye medlemmer til projektet:_ → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) i projektnavigationen.
+                    2.  _Se arbejdet i projekterne:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    3.  _Oprette en ny srbejdspakke:_ → Gå til [Arbejdspakker → Opret]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Oprett og opdatere et Gantt-diagram:_ → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    5.  _Aktivere yderligere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Arbejdes agilt? Opret en ny tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Her finder du vores [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Lad os vide, hvis du har spørgsmål eller brug for support. Kontakt os gerne: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her findes vores [Brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Lad os vide, hvis der er spørgsmål eller behov for support. Kontakt os gerne: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer
@@ -205,49 +205,49 @@ da:
                   name: Milepæle
           work_packages:
             item_0:
-              subject: Projekt kick off anlægsprojekt
+              subject: Projekt kick off byggeprojekt
               description: |-
-                Projektets kick off markerer starten på projektet i din virksomhed. Alle, der er en del af projektet, bør inviteres til kick off for at få en første briefing.
+                Projektets kick off markerer starten på projektet i virksomheden. Alle, som er en del af projektet, bør inviteres til kick off til den indledende briefing.
 
-                Det næste skridt kunne være at tjekke tidsplanen og justere aftalerne ved at se på [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Næste skridt kunne være at tjekke tidsplanen og justere aftalerne ved at se på [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Grundlæggende evaluering
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              subject: Basisevaluering
+              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
               children:
                 item_0:
-                  subject: Indsamling af de første projektoplysninger
+                  subject: Indsamling af indledende projektoplysninger
                   description: |-
                     ## Mål
 
-                    * Definer opgaver baseret på kundens behov
+                    * Definér opgaver baseret på kundebehov
                     * Tidsramme og omkostningsoverslag skal defineres
 
                     ## Beskrivelse
 
-                    * Identificer kundens behov ved at afholde en workshop med ham/hende
+                    * Identificér kundebehov ved at afholde en workshop med vedkommende
                     * Hvert behov skal repræsentere en opgave med tilhørende arbejdspakker
                     * Udled omkostningsoverslag og tidsramme
                 item_1:
-                  subject: Sammenfat resultaterne
+                  subject: Opsummér resultaterne
                   description: |-
                     ## Mål
 
                     * At skabe et brugbart overblik over resultaterne
-                    * At kontrollere, hvad der er blevet gjort, og sammenfatte resultaterne
-                    * At kommunikere alle relevante resultater med kunden
-                    * At identificere projektets grundlæggende grænsebetingelser
+                    * At kontrollere, hvad der er blevet gjort, og opsummere resultaterne
+                    * At kommunikere alle relevante resultater til kunden
+                    * At identificere projektets basisgrænsebetingelser
 
                     ## Beskrivelse
 
-                    * Hvert emne får sit eget overblik, som vil blive brugt som et resultatkatalog
-                    * Dette overblik informerer alle deltagere om de beslutninger, der er truffet
+                    * Hvert emne får sit eget overblik, der tjener som et resultatkatalog
+                    * Dette overblik informerer alle deltagere om de trufne beslutninger
                     * ...
                 item_2:
-                  subject: Afslutning af grundlæggende evaluering
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+                  subject: Afslutning af basisevaluering
+                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
             item_2:
               subject: Indledende planlægning
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
               children:
                 item_0:
                   subject: Udvikling af første udkast
@@ -255,39 +255,39 @@ da:
                     ## Mål
 
                     * At skabe et brugbart overblik over resultaterne
-                    * At kontrollere, hvad der er blevet gjort, og sammenfatte resultaterne
-                    * At kommunikere alle relevante resultater med kunden
-                    * At identificere projektets grundlæggende grænsebetingelser
+                    * At kontrollere, hvad der er blevet gjort og opsummere resultaterne
+                    * At kommunikere alle relevante resultater til kunden
+                    * At identificere projektets basisgrænsebetingelser
 
                     ## Beskrivelse
 
-                    * Hvert emne får sit eget overblik, som vil blive brugt som et resultatkatalog
-                    * Dette overblik informerer alle deltagere om de beslutninger, der er truffet
+                    * Hvert emne får sit eget overblik, der tjener som et resultatkatalog
+                    * Dette overblik informerer alle deltagere om de trufne beslutninger
                     * ...
                 item_1:
-                  subject: Sammenfat resultaterne
+                  subject: Opsummér resultaterne
                   description: |-
                     ## Mål
 
                     * At skabe et brugbart overblik over resultaterne
-                    * At kontrollere, hvad der er blevet gjort, og sammenfatte resultaterne
-                    * At kommunikere alle relevante resultater med kunden
-                    * At identificere projektets grundlæggende grænsebetingelser
+                    * At kontrollere, hvad der er blevet gjort og opsummere resultaterne
+                    * At kommunikere alle relevante resultater til kunden
+                    * At identificere projektets basisgrænsebetingelser
 
                     ## Beskrivelse
 
-                    * Hvert emne får sit eget overblik, som vil blive brugt som et resultatkatalog
-                    * Dette overblik informerer alle deltagere om de beslutninger, der er truffet
+                    * Hvert emne får sit eget overblik, der tjener som et resultatkatalog
+                    * Dette overblik informerer alle deltagere om de trufne beslutninger
                     * ...
             item_3:
-              subject: Godkendelse af foreløbig planlægning
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              subject: Godkendelse af indledende planlægning
+              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
             item_4:
-              subject: Planlægning af design
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              subject: Designplanlægning
+              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
               children:
                 item_0:
-                  subject: Efterbehandling af design
+                  subject: Afsluttende design
                   description: |-
                     ## Mål
 
@@ -296,13 +296,13 @@ da:
 
                     ## Beskrivelse
 
-                    * Designet af projektet bliver færdigt
+                    * Projektdesignet færdiggøres
                     * Alle parter er enige om designet
-                    * Bygherren er tilfreds med resultaterne
+                    * Ejeren er tilfreds med resultaterne
                     * ...
                 item_1:
-                  subject: Fastfrysning af design
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+                  subject: Designfastfrysning
+                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
             item_5:
               subject: Konstruktionsfasen
               children:

@@ -54,8 +54,7 @@ RSpec.describe "External links", :js do
       document.body.appendChild(link);
     JS
 
-    href = external_redirect_path(url: "https://example.com/")
-    link = page.find_link("External Example", href:, match: :first)
+    link = page.find_link("External Example", href: "https://example.com", match: :first)
 
     # Verify accessibility and security attributes
     expect(link[:target]).to eq("_blank")

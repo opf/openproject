@@ -72,7 +72,7 @@ jobs:
           echo "Triggering $WORKFLOW_ID workflow on $REPOSITORY branch '$REF', which will check out core branch '$CORE_REF'"
 
           status=$(
-            curl -i --fail-with-body --silent --output $OUTPUT_FILE --write-out "%{http_code}" \
+            curl -i --silent --output $OUTPUT_FILE --write-out "%{http_code}" \
               -H"authorization: Bearer $TOKEN" -H"Accept: application/vnd.github.v3+json" \
               -XPOST \
               -d "$PAYLOAD" \

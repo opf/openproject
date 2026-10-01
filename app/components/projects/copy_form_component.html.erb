@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper do
+  component_wrapper(data: identifier_suggestion_data) do
     settings_primer_form_with(model: target_project, url: copy_project_path(source_project), method: :post) do |f|
       flex_layout do |container|
         container.with_row(mb: 3) do
@@ -41,6 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(
             Primer::Forms::FormList.new(
               Projects::Settings::NameForm.new(f),
+              Projects::Settings::EditableIdentifierForm.new(f),
               Projects::Settings::RelationsForm.new(f, invisible: params[:parent_id].present?),
               Projects::Settings::CustomFieldsForm.new(f)
             )

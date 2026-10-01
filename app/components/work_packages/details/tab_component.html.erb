@@ -38,6 +38,7 @@
               turbo: true,
               turbo_stream: true,
               turbo_action: "replace",
+              turbo_frame: "_self",
               "work-packages--details--tabs-target": @tab == node.name ? "activeElement" : ""
             }
           ) do |c|
@@ -70,7 +71,7 @@
           icon: :"screen-full",
           tag: :a,
           classes: "hidden-for-small-laptops",
-          href: work_package_path(work_package.id, full_screen_tab),
+          href: work_package_path(work_package.display_id, full_screen_tab),
           target: "_top",
           scheme: :invisible,
           test_selector: "wp-details-tab-component--full-screen",
@@ -85,7 +86,7 @@
           icon: :x,
           tag: :a,
           href: base_route,
-          data: { turbo: true, target: "_top", turbo_action: "advance" },
+          data: { turbo: true, turbo_action: "advance", turbo_frame: "_self" },
           scheme: :invisible,
           test_selector: "wp-details-tab-component--close",
           aria: { label: I18n.t(:button_close) }

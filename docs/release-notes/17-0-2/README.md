@@ -30,7 +30,7 @@ For more information, please see the [GitHub advisory #GHSA-74p5-9pr3-r6pw](http
 
 ### CVE-2026-24772 - SSRF and CSWSH in Hocuspocus Synchronization Server
 
-To enable the real time collaboration on documents, OpenProject 17.0 introduced a [synchronization server](https://github.com/opf/op-blocknote-hocuspocus). The OpenPrioject backend generates an authentication token that is currently valid for 24 hours, encrypts it with a shared secret only known to the synchronization server. The frontend hands this encrypted token and the backend URL over to the synchronization server to check user&#39;s ability to work on the document and perform intermittent saves while editing.
+To enable the real time collaboration on documents, OpenProject 17.0 introduced a [synchronization server](https://github.com/opf/op-blocknote-hocuspocus). The OpenProject backend generates an authentication token that is currently valid for 24 hours, encrypts it with a shared secret only known to the synchronization server. The frontend hands this encrypted token and the backend URL over to the synchronization server to check user&#39;s ability to work on the document and perform intermittent saves while editing.
 
 The synchronization server does not properly validate the backend URL and sends a request with the decrypted authentication token to the endpoint that was given to the server. An attacker could use this vulnerability to decrypt a token that he intercepted by other means to gain an access token to interact with OpenProject on the victim&#39;s behalf.
 
@@ -57,9 +57,9 @@ For more information, please see the [GitHub advisory #GHSA-35c6-x276-2pvc](http
 - Bugfix: Meeting outcomes cannot be saved with ctrl/cmd+enter \[[#69974](https://community.openproject.org/wp/69974)\]
 - Bugfix: AXe Accessibility error: invalid list structure \[[#70573](https://community.openproject.org/wp/70573)\]
 - Bugfix: Fix AXe Accessibility error: Navigation toggler must have discernible text \[[#70574](https://community.openproject.org/wp/70574)\]
-- Bugfix: Documents module is missing meaningfull html title \[[#70614](https://community.openproject.org/wp/70614)\]
+- Bugfix: Documents module is missing meaningful html title \[[#70614](https://community.openproject.org/wp/70614)\]
 - Bugfix: Users with the &quot;Manage Users&quot; permission did not see links to Lock/Unlock users \[[#70796](https://community.openproject.org/wp/70796)\]
-- Bugfix: Cannot authorise OpenProject app with OpenProject when user has 2FA enabled \[[#70966](https://community.openproject.org/wp/70966)\]
+- Bugfix: Cannot authorize OpenProject app with OpenProject when user has 2FA enabled \[[#70966](https://community.openproject.org/wp/70966)\]
 - Bugfix: Running docker slim image, runs slim-bim one \[[#70980](https://community.openproject.org/wp/70980)\]
 - Bugfix: &#39;For all projects&#39; project attributes are not displayed during new project creation \[[#70982](https://community.openproject.org/wp/70982)\]
 - Bugfix: Fix revision parsing in git diff output \[[#71020](https://community.openproject.org/wp/71020)\]

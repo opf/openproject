@@ -1,0 +1,91 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { within } from '@testing-library/dom';
+import { buildTable, TableHarness } from './testing/table-harness';
+
+describe('WorkPackageTable', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness?.destroy());
+
+  it('renders one row per work package in result order', async () => {
+    harness = buildTable({ workPackages: [{ id: '3' }, { id: '1' }, { id: '2' }] });
+
+    const rendered = await harness.render();
+
+    expect(harness.rows().map((row) => row.dataset.workPackageId)).toEqual(['3', '1', '2']);
+    expect(rendered.map((row) => row.workPackageId)).toEqual(['3', '1', '2']);
+  });
+
+  it('renders one cell per configured column', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject', 'status'] });
+
+    await harness.render();
+
+    const cells = within(harness.row('1')).getAllByRole('cell');
+    expect(cells).toHaveLength(3);
+    expect(cells[0]).not.toHaveClass('subject');
+    expect(cells[1]).toHaveClass('subject');
+    expect(cells[2]).not.toHaveClass('subject');
+  });
+
+  it('mirrors each row identifier onto its timeline cell', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+
+    await harness.render();
+
+    const cells = Array.from(harness.table.timelineBody.querySelectorAll<HTMLElement>('.wp-timeline-cell'));
+    expect(cells.map((cell) => cell.dataset.classIdentifier)).toEqual(['wp-row-1', 'wp-row-2']);
+    expect(cells.map((cell) => cell.dataset.workPackageId)).toEqual(['1', '2']);
+  });
+
+  it('renders existing selection and the current work package on initial render', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
+    harness.selection.initializeSelection(['2']);
+    harness.focus.updateFocus('3', false, false);
+
+    await harness.render();
+
+    expect(harness.row('2')).toHaveClass('-checked');
+    expect(harness.row('3')).toHaveClass('-pressed');
+    expect(harness.row('1')).not.toHaveClass('-checked');
+    expect(harness.row('1')).not.toHaveClass('-pressed');
+  });
+
+  it('repaints when the current work package changes', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+    await harness.render();
+
+    harness.focus.updateFocus('1', false, false);
+    harness.focus.updateFocus('2', false, false);
+
+    expect(harness.row('1')).not.toHaveClass('-pressed');
+    expect(harness.row('2')).toHaveClass('-pressed');
+  });
+});

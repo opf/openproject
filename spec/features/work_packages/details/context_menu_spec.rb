@@ -30,4 +30,24 @@ RSpec.describe "Work package single context menu", :js, :selenium do
     # It can either succeed (showing success message) or fail (showing the URL to copy manually).
     expect(page).to have_message_copied_to_clipboard("/wp/#{work_package.id}")
   end
+
+  describe "'Copy numeric ID to clipboard' item" do
+    context "in classic (numeric) mode", with_settings: { work_packages_identifier: "classic" } do
+      it "is not offered (the displayed id is already the numeric id)" do
+        find("button[wpsinglecontextmenu]").click
+        within(".op-context-menu--overlay") do
+          expect(page).to have_no_css(".menu-item", text: "Copy numeric ID to clipboard")
+        end
+      end
+    end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      it "is offered" do
+        find("button[wpsinglecontextmenu]").click
+        within(".op-context-menu--overlay") do
+          expect(page).to have_css(".menu-item", text: "Copy numeric ID to clipboard")
+        end
+      end
+    end
+  end
 end

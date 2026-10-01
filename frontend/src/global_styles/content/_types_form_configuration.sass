@@ -1,100 +1,87 @@
-.type-form-conf-group,
-#type-form-conf-inactive-group
-  border-radius: 2px
-  padding: 0px 3px 1px 3px
-  margin-bottom: 20px
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
-  .group-head
-    color: var(--fgColor-white)
-    padding: 7px 4px 8px 0px
-    text-transform: uppercase
-    .group-handle
-      cursor: -webkit-grab
-      cursor: grab
-      color: var(--fgColor-white)
-      font-size: 12px
-    op-group-edit-in-place
-      display: inline-block
-      .group-edit-in-place--input
-        color: var(--fgColor-white)
-    .delete-group
-      .Button-visual
-        color: var(--fgColor-white)
-  .attributes
-    min-height: 29px
+@import ../openproject/mixins
 
-.type-form-conf-group
-  background: var(--accent-color)
-  .group-name
-    border-color: var(--accent-color)
-    border-width: 1px
-    border-style: solid
-    &:hover
-      cursor: text
-      border-color: var(--borderColor-default)
-      background: var(--control-bgColor-activ)
+body:has(.type-form-configuration-page)
+  @include extended-content--bottom
 
-  &.-error
-    background: var(--content-form-error-color)
-    .group-name
-      border-color: var(--content-form-error-color)
-    .group-handle
-      color: var(--fgColor-white)
+  #content-body
+    display: flex
+    flex-direction: column
 
+.type-form-configuration-page
+  &--wrapper
+    height: 100%
+    overflow: hidden
 
-#type-form-conf-inactive-group
-  background: var(--fgColor-muted)
-  .visibility-check
-    visibility: hidden
-  .group-head
-    display: block
-  .advice
-    text-transform: initial
+  &--sidebar
+    border-top-left-radius: var(--borderRadius-medium)
+    border-top-right-radius: var(--borderRadius-medium)
 
-.type-form-conf-attribute
-  padding: 7px 7px 7px 0px
-  margin-bottom: 2px
+  &--sidebar,
+  &--main
+    @include styled-scroll-bar
+    min-height: 0
 
-  background: var(--type-form-conf-attribute--background)
+  &--active-list
+    overflow: auto
+    height: 100%
 
-  border-top-left-radius: 2px
-  border-bottom-left-radius: 2px
-  border-top-right-radius: 2px
-  border-bottom-right-radius: 2px
-  .attribute-handle
-    cursor: -webkit-grab
-    cursor: grab
-    color: var(--body-font-color)
-    font-size: 12px
-  .delete-attribute:before
-    color: var(--body-font-color)
+  &--inactive-list
+    list-style: none
+    margin: 0
+    padding: 0
 
-.attribute-cf-label
-  font-size: 0.8rem
-  padding-left: 2px
-  color: #4d4d4d
+    .ActionListItem-visual--leading
+      pointer-events: auto
 
-#type-form-conf-group-template,
-#type-form-conf-query-template
-  display: none
+  &--inactive-item,
+  &--inactive-empty
+    margin-block: var(--base-size-4)
 
-.group-head,
-.type-form-conf-attribute
-  display: flex
-  align-items: baseline
-  justify-content: space-between
-  .icon-drag-handle
-    flex-basis: 15px
-  .attribute-name,
-  .group-name
-    flex-basis: 90%
-    @include text-shortener(false)
+  &--inactive-item .ActionListContent
+    padding-inline: var(--base-size-4)
 
+  &--row-alignment-spacer
+    min-width: var(--base-size-16)
+    width: var(--base-size-16)
+    min-height: var(--control-small-size)
 
-// Query group styles
-.type-form-query
-  padding: 10px
-  cursor: pointer
-  color: white
+  &--drag-handle,
+  &--actions
+    align-self: flex-start
+    justify-self: end
 
-// Ensure dropdown is shown
+  &--actions-button
+    margin-top: 0
+
+  @media screen and (max-width: $breakpoint-md)
+    &--main-inner
+      padding-left: 0
+      padding-top: var(--base-size-24)

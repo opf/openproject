@@ -37,7 +37,7 @@ module Admin
         private
 
         def find_custom_field
-          CustomField.hierarchy_root_and_children.find(params[:custom_field_id])
+          @custom_field = CustomField.hierarchy_root_and_children.find(params[:custom_field_id])
         end
       end
     end

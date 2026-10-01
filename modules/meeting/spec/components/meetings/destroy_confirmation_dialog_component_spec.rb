@@ -79,4 +79,20 @@ RSpec.describe Meetings::DeleteDialogComponent, type: :component do
       expect(subject).to have_text "Any meeting information not in the template will be lost."
     end
   end
+
+  context "with a past recurring occurrence" do
+    let(:series) { build_stubbed(:recurring_meeting, project:) }
+    let(:meeting) do
+      build_stubbed(:meeting, recurring_meeting: series, project:,
+                              start_time: 2.days.ago, duration: 1)
+    end
+
+    it "shows the delete heading" do
+      expect(subject).to have_text "Delete this occurrence?"
+    end
+
+    it "shows a warning saying it is not reversible" do
+      expect(subject).to have_text "This action is not reversible. Please proceed with caution."
+    end
+  end
 end

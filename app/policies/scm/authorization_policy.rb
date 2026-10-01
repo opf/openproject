@@ -51,7 +51,7 @@ class SCM::AuthorizationPolicy
   # Determines whether the given request is a read access
   # Must be implemented by descendents of this policy.
   def readonly_request?(_params)
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   ##

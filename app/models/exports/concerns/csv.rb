@@ -47,7 +47,8 @@ module Exports
 
       def encode_csv_columns(columns, encoding = I18n.t(:general_csv_encoding))
         columns.map do |cell|
-          Redmine::CodesetUtil.from_utf8(cell.to_s, encoding)
+          sanitized = Exports::Concerns::CSVFormulaSanitization.sanitize(cell)
+          Redmine::CodesetUtil.from_utf8(sanitized, encoding)
         end
       end
 

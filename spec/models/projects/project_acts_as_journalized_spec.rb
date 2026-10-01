@@ -122,59 +122,58 @@ RSpec.describe Project, "acts_as_journalized" do
             value: "some string value for project custom field",
             custom_field:)
     end
+    let(:modified_custom_value) do
+      build(:custom_value,
+            value: "some modified value for project custom field",
+            custom_field:)
+    end
     let(:custom_field_key) { "custom_fields_#{custom_field.id}" }
 
-    shared_context "for project with new custom value" do
-      before do
-        project.update(custom_values: [custom_value])
-      end
-    end
-
-    shared_examples "contains no change for disabled custom field" do
-      before do
-        project.project_custom_field_project_mappings.where(custom_field_id: custom_field.id).delete_all
-      end
-
-      it "contains no change for the disabled custom field" do
-        expect(project.last_journal.details).not_to have_key(custom_field_key)
+    shared_examples "contains the expected change" do
+      it "contains the expected change" do
+        expect(project.last_journal.details).to include(custom_field_key => expected_change)
       end
     end
 
     context "for new custom value" do
-      include_context "for project with new custom value"
+      let(:expected_change) { [nil, custom_value.value] }
 
-      it "contains the new custom value change" do
-        expect(project.last_journal.details)
-          .to include(custom_field_key => [nil, custom_value.value])
+      before do
+        project.update!(custom_values: [custom_value])
       end
 
-      it_behaves_like "contains no change for disabled custom field"
+      include_examples "contains the expected change"
     end
 
     context "for updated custom value" do
-      include_context "for project with new custom value"
-
-      let(:modified_custom_value) do
-        build(:custom_value,
-              value: "some modified value for project custom field",
-              custom_field:)
-      end
+      let(:expected_change) { [custom_value.value, modified_custom_value.value] }
 
       before do
-        project.update(custom_values: [modified_custom_value])
+        User.execute_as user do
+          project.update!(custom_values: [custom_value])
+        end
+
+        project.update!(custom_values: [modified_custom_value])
       end
 
-      it "contains the change from previous value to updated value" do
-        expect(project.last_journal.details)
-          .to include(custom_field_key => [custom_value.value, modified_custom_value.value])
+      include_examples "contains the expected change"
+    end
+
+    context "when custom value removed" do
+      let(:expected_change) { [custom_value.value, nil] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_values: [custom_value])
+        end
+
+        project.update!(custom_values: [])
       end
 
-      it_behaves_like "contains no change for disabled custom field"
+      include_examples "contains the expected change"
     end
 
     context "when project saved without any changes" do
-      include_context "for project with new custom value"
-
       let(:unmodified_custom_value) do
         build(:custom_value,
               value: custom_value.value,
@@ -182,25 +181,163 @@ RSpec.describe Project, "acts_as_journalized" do
       end
 
       before do
+        User.execute_as user do
+          project.update!(custom_values: [custom_value])
+        end
+
         project.custom_values = [unmodified_custom_value]
       end
 
       it { expect { project.save! }.not_to change(Journal, :count) }
     end
 
-    context "when custom value removed" do
-      include_context "for project with new custom value"
+    context "when custom field gets disabled" do
+      let(:expected_change) { [custom_value.value, nil] }
 
       before do
-        project.update(custom_values: [])
+        User.execute_as user do
+          project.update!(custom_values: [custom_value])
+        end
+
+        project.update!(custom_values: [modified_custom_value])
+        project.project_custom_field_project_mappings.where(custom_field_id: custom_field.id).delete_all
+        project.save_journals
       end
 
-      it "contains the change from previous value to nil" do
-        expect(project.last_journal.details)
-          .to include(custom_field_key => [custom_value.value, nil])
+      it "contains no change for the disabled custom field (removed when fetching)" do
+        expect(project.last_journal.details).not_to have_key(custom_field_key)
+      end
+    end
+
+    context "if custom field is marked for all" do
+      let(:expected_change) { [custom_value.value, modified_custom_value.value] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_values: [custom_value])
+        end
+
+        project.update!(custom_values: [modified_custom_value])
+        custom_field.update!(is_for_all: true)
+        project.project_custom_field_project_mappings.where(custom_field_id: custom_field.id).delete_all
+        project.save_journals
       end
 
-      it_behaves_like "contains no change for disabled custom field"
+      it "contains no change for the disabled custom field (removed when fetching)" do
+        expect(project.last_journal.details).not_to have_key(custom_field_key)
+      end
+    end
+  end
+
+  describe "custom comments" do
+    let!(:custom_field) { create(:string_project_custom_field, :has_comment, projects: [project]) }
+    let(:custom_comment_key) { "custom_comment_#{custom_field.id}" }
+    let(:custom_comment_text) { "some descriptive comment" }
+    let(:modified_custom_comment_text) { "a more descriptive comment" }
+
+    shared_examples "contains the expected change" do
+      it "contains the expected change" do
+        expect(project.last_journal.details).to include(custom_comment_key => expected_change)
+      end
+    end
+
+    context "for new custom comment" do
+      let(:expected_change) { [nil, custom_comment_text] }
+
+      before do
+        project.update!(custom_comments: { custom_field.id => custom_comment_text })
+      end
+
+      include_examples "contains the expected change"
+    end
+
+    context "for updated custom comment" do
+      let(:expected_change) { [custom_comment_text, modified_custom_comment_text] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_comments: { custom_field.id => custom_comment_text })
+        end
+
+        project.update!(custom_comments: { custom_field.id => modified_custom_comment_text })
+      end
+
+      include_examples "contains the expected change"
+    end
+
+    context "for removed custom comment" do
+      let(:expected_change) { [custom_comment_text, nil] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_comments: { custom_field.id => custom_comment_text })
+        end
+
+        project.update!(custom_comments: { custom_field.id => "" })
+      end
+
+      include_examples "contains the expected change"
+    end
+
+    context "when project saved without any changes" do
+      before do
+        User.execute_as user do
+          project.update!(custom_comments: { custom_field.id => custom_comment_text })
+        end
+
+        project.custom_comments = { custom_field.id => custom_comment_text }
+      end
+
+      it { expect { project.save! }.not_to change(Journal, :count) }
+    end
+
+    context "when custom field gets disabled" do
+      let(:expected_change) { [custom_comment_text, nil] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_comments: { custom_field.id => custom_comment_text })
+        end
+
+        project.update!(custom_comments: { custom_field.id => modified_custom_comment_text })
+        project.project_custom_field_project_mappings.where(custom_field_id: custom_field.id).delete_all
+        project.save_journals
+      end
+
+      include_examples "contains the expected change"
+    end
+
+    context "if custom field is marked for all" do
+      let(:expected_change) { [custom_comment_text, modified_custom_comment_text] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_comments: { custom_field.id => custom_comment_text })
+        end
+
+        project.update!(custom_comments: { custom_field.id => modified_custom_comment_text })
+        custom_field.update!(is_for_all: true)
+        project.project_custom_field_project_mappings.where(custom_field_id: custom_field.id).delete_all
+        project.save_journals
+      end
+
+      include_examples "contains the expected change"
+    end
+
+    context "if custom field is marked as not having comments" do
+      let(:expected_change) { [custom_comment_text, nil] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_comments: { custom_field.id => custom_comment_text })
+        end
+
+        project.update!(custom_comments: { custom_field.id => modified_custom_comment_text })
+        custom_field.update!(has_comment: false)
+        project.save_journals
+      end
+
+      include_examples "contains the expected change"
     end
   end
 
@@ -229,8 +366,8 @@ RSpec.describe Project, "acts_as_journalized" do
         end
 
         it "contains the change" do
-          phase1.update(active: false)
-          phase2.update(active: true)
+          phase1.update!(active: false)
+          phase2.update!(active: true)
           project.save!
 
           expect(project.last_journal.details).to eq(
@@ -260,8 +397,8 @@ RSpec.describe Project, "acts_as_journalized" do
         let(:original4) { nil }
 
         it "contains the change" do
-          phase1.update(start_date: Date.new(2025, 1, 28), finish_date: Date.new(2025, 1, 29))
-          phase2.update(start_date: Date.new(2025, 1, 30), finish_date: Date.new(2025, 1, 31))
+          phase1.update!(start_date: Date.new(2025, 1, 28), finish_date: Date.new(2025, 1, 29))
+          phase2.update!(start_date: Date.new(2025, 1, 30), finish_date: Date.new(2025, 1, 31))
           project.save!
 
           expect(project.last_journal.details).to match(
@@ -286,9 +423,9 @@ RSpec.describe Project, "acts_as_journalized" do
         let(:original4) { Date.new(2025, 2, 5)..Date.new(2025, 2, 7) }
 
         it "contains the change" do
-          phase1.update(start_date: Date.new(2025, 1, 1), finish_date: Date.new(2025, 1, 7))
-          phase2.update(start_date: Date.new(2025, 1, 16), finish_date: Date.new(2025, 1, 18))
-          phase3.update(start_date: Date.new(2025, 1, 25), finish_date: Date.new(2025, 1, 31))
+          phase1.update!(start_date: Date.new(2025, 1, 1), finish_date: Date.new(2025, 1, 7))
+          phase2.update!(start_date: Date.new(2025, 1, 16), finish_date: Date.new(2025, 1, 18))
+          phase3.update!(start_date: Date.new(2025, 1, 25), finish_date: Date.new(2025, 1, 31))
           project.save!
 
           expect(project.last_journal.details).to match(
@@ -317,8 +454,8 @@ RSpec.describe Project, "acts_as_journalized" do
         let(:original4) { Date.new(2025, 2, 5)..Date.new(2025, 2, 7) }
 
         it "contains the change" do
-          phase1.update(start_date: nil, finish_date: nil)
-          phase2.update(start_date: nil, finish_date: nil)
+          phase1.update!(start_date: nil, finish_date: nil)
+          phase2.update!(start_date: nil, finish_date: nil)
           project.save!
 
           expect(project.last_journal.details).to match(
@@ -400,7 +537,7 @@ RSpec.describe Project, "acts_as_journalized" do
     let!(:customizable_journals) { journal.customizable_journals }
 
     before do
-      project.destroy
+      project.destroy!
     end
 
     it "removes the journal" do

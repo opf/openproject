@@ -338,7 +338,7 @@ module SortHelper
 
   # Extracts the given `options` and provides them to a block.
   # See #sort_header_tag and #sort_header_with_action_menu for usage examples.
-  def with_sort_header_options(column, allowed_params: nil, with_title: false, **options)
+  def with_sort_header_options(column, allowed_params: nil, with_title: false, **options) # rubocop:disable Metrics/AbcSize
     caption = get_caption(column, options)
 
     default_order = options.delete(:default_order) || "asc"
@@ -348,6 +348,12 @@ module SortHelper
 
     options[:title] = sort_header_title(column, caption, options) if with_title
     options[:icon_only_header] = column == :favorited
+
+    # Give the header cell an explicit accessible name equal to the plain caption.
+    # Without it, the column header's accessible name is derived from its contents,
+    # which can include the action menu trigger text and is uppercased by the
+    # `text-transform` styling, neither of which should be part of the name.
+    options[:"aria-label"] = caption if caption.present?
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
       yield(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title],

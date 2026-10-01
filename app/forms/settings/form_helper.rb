@@ -56,8 +56,8 @@ module Settings
     # @param names [Array<Symbol>] The name(s) of the setting
     # @return [String] The translated HTML-safe caption
     def setting_caption(*names)
-      I18n.t("setting_#{names.join('_')}_caption_html", default: nil)&.html_safe \
-        || I18n.t("setting_#{names.join('_')}_caption", default: nil)
+      ApplicationController.helpers.t("setting_#{names.join('_')}_caption_html", default: nil) ||
+        I18n.t("setting_#{names.join('_')}_caption", default: nil)
     end
 
     # Retrieves the current value of a setting
@@ -74,6 +74,14 @@ module Settings
     # @return [Array] The allowed values for the setting
     def setting_allowed_values(name)
       Settings::Definition[name].allowed
+    end
+
+    # Checks if a setting's definition is marked as secret
+    #
+    # @param name [Symbol] The name of the setting
+    # @return [Boolean] `true` if the setting is secret, `false` otherwise
+    def setting_secret?(name)
+      Settings::Definition[name].secret?
     end
 
     # Checks if a setting is disabled.

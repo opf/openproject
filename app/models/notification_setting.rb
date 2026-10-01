@@ -68,6 +68,16 @@ class NotificationSetting < ApplicationRecord
     ]
   end
 
+  def self.non_participating_settings
+    [
+      WORK_PACKAGE_CREATED,
+      WORK_PACKAGE_COMMENTED,
+      WORK_PACKAGE_PROCESSED,
+      WORK_PACKAGE_PRIORITIZED,
+      WORK_PACKAGE_SCHEDULED
+    ]
+  end
+
   def self.date_alert_settings
     [
       START_DATE,
@@ -94,4 +104,18 @@ class NotificationSetting < ApplicationRecord
 
   include Scopes::Scoped
   scopes :applicable
+
+  # rubocop:disable Naming/PredicateMethod
+  def start_date_active
+    start_date.present?
+  end
+
+  def due_date_active
+    due_date.present?
+  end
+
+  def overdue_active
+    overdue.present?
+  end
+  # rubocop:enable Naming/PredicateMethod
 end

@@ -21,7 +21,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -29,6 +29,7 @@
 module TimeEntries
   class CreateContract < BaseContract
     validate :user_allowed_to_add
+    validate :user_is_project_member
 
     private
 
@@ -38,6 +39,13 @@ module TimeEntries
       return if allowed_to_log_to_himself?
 
       errors.add :entity, :cannot_log_for_this_work_package
+      errors.add :base, :error_unauthorized
+    end
+
+    def user_is_project_member
+      return unless model.project && model.user
+      return if model.user.member_of?(model.project)
+
       errors.add :base, :error_unauthorized
     end
 

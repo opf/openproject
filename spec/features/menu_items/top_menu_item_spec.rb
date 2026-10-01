@@ -80,7 +80,7 @@ RSpec.describe "Top menu items", :js do
     shared_let(:team_planners_item) { menu_link_item.new(I18n.t("team_planner.label_team_planner_plural"), team_planners_path) }
     shared_let(:boards_item) { menu_link_item.new(I18n.t(:project_module_board_view), work_package_boards_path) }
     shared_let(:news_item) { menu_link_item.new(I18n.t(:label_news_plural), news_index_path) }
-    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), "/cost_reports") }
+    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), "/reporting/cost_reports") }
     shared_let(:meetings_item) { menu_link_item.new(I18n.t(:label_meeting_plural), "/meetings") }
     shared_let(:my_page_item) { menu_link_item.new(I18n.t("my_page.label"), my_page_path) }
     shared_let(:home_item) { menu_link_item.new(I18n.t(:label_home), home_path) }
@@ -156,54 +156,6 @@ RSpec.describe "Top menu items", :js do
         it "displays only projects, activity, news and home" do
           has_menu_items? project_item, activity_item, news_item, home_item
         end
-      end
-    end
-  end
-
-  describe "Projects" do
-    let(:top_menu) { find_by_id("projects-menu") }
-
-    let(:all_projects) { I18n.t("js.label_project_list") }
-    let(:add_project) { I18n.t("js.label_project") }
-
-    context "as an admin" do
-      let(:user) { create(:admin) }
-
-      it "displays all items" do
-        expect(page).to have_css("a.button", exact_text: all_projects)
-        expect(page).to have_css("a.button", exact_text: add_project)
-      end
-
-      it "visits the projects page" do
-        page.find_link(all_projects).click
-
-        expect(page).to have_current_path(projects_path)
-      end
-    end
-
-    context "as a user without project permission" do
-      before do
-        ProjectRole.non_member.update_attribute :permissions, [:view_project]
-      end
-
-      it "does not display new_project" do
-        expect(page).to have_css("a.button", exact_text: all_projects)
-        expect(page).to have_no_css("a.button", exact_text: add_project)
-      end
-    end
-
-    context "as an anonymous user" do
-      let(:user) { create(:anonymous) }
-      let(:open_menu) { false }
-
-      around do |example|
-        project.update(public: false)
-        example.run
-        project.update(public: true)
-      end
-
-      it "does not show the menu" do
-        expect(page).to have_no_css("#projects-menu")
       end
     end
   end

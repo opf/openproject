@@ -140,6 +140,13 @@ module API::V3::Storages
              end,
              setter: ->(*) {}
 
+    property :forbiddenFileNameCharacters,
+             skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
+             getter: ->(represented:, **) do
+               represented.forbidden_file_name_characters if represented.provider_type_nextcloud?
+             end,
+             setter: ->(fragment:, represented:, **) { represented.forbidden_file_name_characters = fragment }
+
     date_time_property :created_at
 
     date_time_property :updated_at

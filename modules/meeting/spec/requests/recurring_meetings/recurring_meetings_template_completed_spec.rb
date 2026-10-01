@@ -64,20 +64,20 @@ RSpec.describe "Recurring meetings complete template",
 
   context "when first occurrence is not existing" do
     it "instantiates the first occurrence from template and schedules the init job" do
-      expect { subject }.to change(recurring_meeting.scheduled_meetings, :count).by(1)
+      expect { subject }.to change(recurring_meeting.meetings.not_templated, :count).by(1)
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       expect(response.body).to include('action="redirect_to"')
       expect(response.body).to include(project_recurring_meeting_path(project, recurring_meeting))
 
-      expect(recurring_meeting.scheduled_meetings.count).to eq(1)
-      first = recurring_meeting.scheduled_meetings.first
-      expect(first.start_time).to eq(DateTime.parse("2024-12-05T10:00:00Z"))
-      expect(first.start_time).to eq(recurring_meeting.first_occurrence.to_time)
+      occurrences = recurring_meeting.meetings.not_templated
+      expect(occurrences.count).to eq(1)
+      first = occurrences.first
+      expect(first.recurrence_start_time).to eq(DateTime.parse("2024-12-05T10:00:00Z"))
+      expect(first.recurrence_start_time).to eq(recurring_meeting.first_occurrence.to_time)
 
-      meeting = first.meeting
-      expect(meeting.agenda_items.count).to eq(1)
-      expect(meeting.agenda_items.first.title).to eq("My template item")
+      expect(first.agenda_items.count).to eq(1)
+      expect(first.agenda_items.first.title).to eq("My template item")
 
       expect(RecurringMeetings::InitNextOccurrenceJob)
         .to have_been_enqueued.with(recurring_meeting, DateTime.parse("2024-12-06T10:00:00Z"))
@@ -86,43 +86,67 @@ RSpec.describe "Recurring meetings complete template",
   end
 
   context "when first occurrence is already created" do
-    let!(:meeting) { create(:meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
-    let!(:schedule) do
-      create :scheduled_meeting,
-             meeting:,
+    let!(:meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time
+             start_time: recurring_meeting.start_time,
+             recurrence_start_time: recurring_meeting.start_time)
     end
 
     it "does not create a new meeting" do
-      expect { subject }.not_to change(recurring_meeting.scheduled_meetings, :count)
+      expect { subject }.not_to change(recurring_meeting.meetings.not_templated, :count)
       expect(response).to redirect_to(project_recurring_meeting_path(project, recurring_meeting))
 
-      expect(recurring_meeting.scheduled_meetings.count).to eq(1)
-      first = recurring_meeting.scheduled_meetings.first.meeting
-      expect(first).to eq(meeting)
+      expect(recurring_meeting.meetings.not_templated.count).to eq(1)
+      expect(recurring_meeting.meetings.not_templated.first).to eq(meeting)
     end
   end
 
-  context "when first occurrence is cancelled" do
-    let!(:schedule) do
-      create :scheduled_meeting,
-             :cancelled,
+  context "when first occurrence is already created while the template is still a draft" do
+    let!(:meeting) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time
+             start_time: recurring_meeting.start_time,
+             recurrence_start_time: recurring_meeting.start_time)
     end
 
-    it "takes over that occurrence" do
-      expect { subject }.to change(recurring_meeting.meetings, :count).by(1)
+    before do
+      recurring_meeting.template.update!(state: :draft)
+    end
+
+    it "opens the template without creating a duplicate occurrence" do
+      expect { subject }.not_to change(recurring_meeting.meetings.not_templated, :count)
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       expect(response.body).to include('action="redirect_to"')
       expect(response.body).to include(project_recurring_meeting_path(project, recurring_meeting))
 
-      expect(recurring_meeting.scheduled_meetings.count).to eq(1)
-      first = recurring_meeting.scheduled_meetings.first
+      expect(recurring_meeting.template.reload).to be_open
+      expect(recurring_meeting.meetings.not_templated.first).to eq(meeting)
+      expect(RecurringMeetings::InitNextOccurrenceJob)
+        .to have_been_enqueued.with(recurring_meeting, DateTime.parse("2024-12-06T10:00:00Z"))
+                              .at(DateTime.parse("2024-12-05T10:00:00Z"))
+    end
+  end
+
+  context "when first occurrence is cancelled" do
+    let!(:cancelled_occurrence) do
+      create(:recurring_meeting_occurrence,
+             :cancelled,
+             recurring_meeting:,
+             start_time: recurring_meeting.start_time)
+    end
+
+    it "restores that occurrence" do
+      expect { subject }.not_to change(recurring_meeting.meetings.not_templated, :count)
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body).to include('action="redirect_to"')
+      expect(response.body).to include(project_recurring_meeting_path(project, recurring_meeting))
+
+      expect(recurring_meeting.meetings.not_templated.count).to eq(1)
+      first = recurring_meeting.meetings.not_templated.first
       expect(first).not_to be_cancelled
-      expect(first.meeting).to be_present
     end
   end
 

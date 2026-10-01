@@ -73,7 +73,7 @@ module MeetingAgendaItems
         icon: :info,
         dismiss_scheme: :none
       ) do
-        if @meeting.template?
+        if @meeting.series_template?
           draft = @meeting.draft? ? "draft_" : ""
           t(
             "recurring_meeting.template.#{draft}banner_html",
@@ -82,6 +82,8 @@ module MeetingAgendaItems
               project_recurring_meeting_path(@meeting.project, @meeting.recurring_meeting)
             )
           )
+        elsif @meeting.onetime_template?
+          t("text_onetime_meeting_template_banner")
         elsif @meeting.draft?
           t("text_meeting_draft_banner")
         end

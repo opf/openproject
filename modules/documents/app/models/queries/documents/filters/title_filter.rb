@@ -40,9 +40,9 @@ class Queries::Documents::Filters::TitleFilter < Queries::Documents::Filters::Do
     when "!"
       ["LOWER(documents.title) NOT IN (?)", sql_value]
     when "~", "**"
-      ["LOWER(documents.title) LIKE ?", "%#{sql_value}%"]
+      ["LOWER(documents.title) LIKE ?", sql_value]
     when "!~"
-      ["LOWER(documents.title) NOT LIKE ?", "%#{sql_value}%"]
+      ["LOWER(documents.title) NOT LIKE ?", sql_value]
     else
       raise "Unsupported operator #{operator}"
     end
@@ -61,9 +61,9 @@ class Queries::Documents::Filters::TitleFilter < Queries::Documents::Filters::Do
   def sql_value
     case operator
     when "=", "!"
-      values.map { self.class.connection.quote_string(it.downcase) }.join(",")
+      values.map(&:downcase)
     when "**", "~", "!~"
-      values.first.downcase
+      "%#{values.first.downcase}%"
     end
   end
 end

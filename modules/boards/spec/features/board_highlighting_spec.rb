@@ -30,13 +30,15 @@ require "spec_helper"
 require_relative "support/board_index_page"
 require_relative "support/board_page"
 
-RSpec.describe "Work Package boards spec", :js, :selenium, with_ee: %i[board_view] do
+RSpec.describe "Work Package boards spec", :js, :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
+  let(:permissions) do
+    %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries save_queries]
+  end
   let(:role) { create(:project_role, permissions:) }
 
   let!(:wp) do
@@ -73,7 +75,7 @@ RSpec.describe "Work Package boards spec", :js, :selenium, with_ee: %i[board_vie
   it "navigates from boards to the WP full view and back" do
     board_index.visit!
 
-    board_page = board_index.create_board action: "Status"
+    board_page = board_index.create_board action: "Kanban"
 
     # See the work packages
     board_page.expect_query "Open", editable: false
@@ -81,26 +83,26 @@ RSpec.describe "Work Package boards spec", :js, :selenium, with_ee: %i[board_vie
     board_page.expect_card "Open", wp2.subject
 
     # Highlight type inline is always active
-    expect(page).to have_css(".__hl_inline_type_#{type.id}")
-    expect(page).to have_css(".__hl_inline_type_#{type2.id}")
+    expect(page).to have_css(".__hl_foreground.__hl_type_#{type.id}")
+    expect(page).to have_css(".__hl_foreground.__hl_type_#{type2.id}")
 
     # Highlight whole card by priority
-    board_page.change_board_highlighting "inline", "Priority"
-    expect(page).to have_css(".__hl_background_priority_#{priority.id}")
-    expect(page).to have_css(".__hl_background_priority_#{priority2.id}")
+    board_page.change_board_highlighting "Entire card by", "Priority"
+    expect(page).to have_css(".__hl_background.__hl_priority_#{priority.id}")
+    expect(page).to have_css(".__hl_background.__hl_priority_#{priority2.id}")
 
     # Highlight whole card by type
-    board_page.change_board_highlighting "inline", "Type"
-    expect(page).to have_css(".__hl_background_type_#{type.id}")
-    expect(page).to have_css(".__hl_background_type_#{type2.id}")
+    board_page.change_board_highlighting "Entire card by", "Type"
+    expect(page).to have_css(".__hl_background.__hl_type_#{type.id}")
+    expect(page).to have_css(".__hl_background.__hl_type_#{type2.id}")
 
     # Disable highlighting
-    board_page.change_board_highlighting "none"
-    expect(page).to have_no_css(".__hl_background_type_#{type.id}")
-    expect(page).to have_no_css(".__hl_background_type_#{type2.id}")
+    board_page.change_board_highlighting "No highlighting"
+    expect(page).to have_no_css(".__hl_background.__hl_type_#{type.id}")
+    expect(page).to have_no_css(".__hl_background.__hl_type_#{type2.id}")
 
     # Type is still shown highlighted
-    expect(page).to have_css(".__hl_inline_type_#{type.id}")
-    expect(page).to have_css(".__hl_inline_type_#{type2.id}")
+    expect(page).to have_css(".__hl_foreground.__hl_type_#{type.id}")
+    expect(page).to have_css(".__hl_foreground.__hl_type_#{type2.id}")
   end
 end

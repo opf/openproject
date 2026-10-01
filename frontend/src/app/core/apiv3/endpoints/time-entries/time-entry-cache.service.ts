@@ -21,13 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { States } from 'core-app/core/states/states.service';
 import { Injector } from '@angular/core';
@@ -35,9 +35,9 @@ import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service
 import { MultiInputState } from '@openproject/reactivestates';
 
 export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
-  @InjectField() readonly states:States;
+  @LazyInject() readonly states:States;
 
-  @InjectField() readonly schemaCache:SchemaCacheService;
+  @LazyInject() readonly schemaCache:SchemaCacheService;
 
   constructor(readonly injector:Injector, state:MultiInputState<TimeEntryResource>) {
     super(state);

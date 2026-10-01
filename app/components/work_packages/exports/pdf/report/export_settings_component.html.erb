@@ -5,7 +5,9 @@
           "columns-select-export-pdf-report",
           I18n.t("export.dialog.columns.input_caption_report"),
           I18n.t("export.dialog.columns.input_label_report"),
-          required: false
+          required: false,
+          excluded_columns: [:subject],
+          allow_relation_columns: true
         ) %>
   <% end %>
   <% container.with_row do |_columns| %>

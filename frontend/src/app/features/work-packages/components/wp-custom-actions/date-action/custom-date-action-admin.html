@@ -2,12 +2,13 @@
   <span class="form--select-container">
     <select class="form--select"
       [attr.id]="fieldId"
-      [(ngModel)]="selectedOperator"
+      [(ngModel)]="selectedOperatorKey"
       (change)="toggleValueVisibility()">
-      @for (operator of operators; track operator) {
+      @for (operator of operators; track operator.key) {
         <option
+          [value]="operator.key"
           [textContent]="operator.label"
-          [ngValue]="operator">
+          >
         </option>
       }
     </select>

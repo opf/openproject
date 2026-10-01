@@ -93,6 +93,7 @@ FactoryBot.define do
     sequence(:host) { |n| "https://host#{n}.example.com/" }
     authentication_method { "two_way_oauth2" }
     storage_audience { nil }
+    forbidden_file_name_characters { "" }
 
     trait :with_oauth_configured do
       after(:create) do |storage, _evaluator|
@@ -255,7 +256,7 @@ FactoryBot.define do
 
     trait :sandbox do
       tenant_id { ENV.fetch("SHAREPOINT_TEST_TENANT_ID", "e36f1dbc-fdae-427e-b61b-0d96ddfb81a4") }
-      host { ENV.fetch("SHAREPOINT_TEST_HOST", "https://ymt6d.sharepoint.com/sites/OPTest") }
+      host { ENV.fetch("SHAREPOINT_TEST_HOST", "https://ymt6d.sharepoint.com/sites/OPTest/") }
 
       transient do
         oauth_client_token_user { association :user }

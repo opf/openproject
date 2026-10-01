@@ -13,7 +13,7 @@ get:
       required: true
       schema:
         type: integer
-      example: '42'
+      example: 42
   responses:
     '200':
       description: OK
@@ -47,6 +47,14 @@ patch:
     Updates the given grid by applying the attributes provided in the body. The constraints applied to the grid depend
     on the page the grid is placed in which is why the create form endpoint should be used to be guided when wanting
     to update a grid.
+  parameters:
+    - name: id
+      in: path
+      description: Grid id
+      required: true
+      schema:
+        type: integer
+      example: 42
   requestBody:
     content:
       application/json:

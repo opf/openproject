@@ -130,6 +130,14 @@ module OpenProject
         @global_permissions ||= permissions.select(&:global?)
       end
 
+      def module_permissions(module_name)
+        @module_permissions ||= Hash.new do |hash, key|
+          hash[key] = permissions.select { |p| p.project_module.to_s == key.to_s }
+        end
+
+        @module_permissions[module_name]
+      end
+
       def available_project_modules(sorted: false)
         modules = project_modules - disabled_project_modules
 

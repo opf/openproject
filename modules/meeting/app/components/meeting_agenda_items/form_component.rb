@@ -87,5 +87,11 @@ module MeetingAgendaItems
         :none
       end
     end
+
+    def conditional_layout_classes
+      classes = []
+      classes << "op-meeting-agenda-item-form_hidden-presenter" if @meeting.onetime_template?
+      classes.join(" ")
+    end
   end
 end

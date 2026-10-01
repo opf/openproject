@@ -50,8 +50,10 @@ module OpenProject
             return true if request.get?
 
             # For all other requests, to mitigate CSRF vectors,
-            # require the frontend header to be present.
-            xml_request_header_set?
+            # require browser indication that this was a same-origin request
+            # we also allow the legacy X-Requested-With header in addition to that, since Sec-Fetch-Site
+            # is only sent via HTTPS (specifically: Only to "potentially trustworty origin"s)
+            same_origin? || (!Setting.https? && xml_request_header_set?)
           end
 
           def authenticate!
@@ -62,6 +64,10 @@ module OpenProject
 
           def xml_request_header_set?
             request.env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
+          end
+
+          def same_origin?
+            request.env["HTTP_SEC_FETCH_SITE"] == "same-origin"
           end
 
           def user_id

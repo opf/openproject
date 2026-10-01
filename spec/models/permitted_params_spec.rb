@@ -61,7 +61,7 @@ RSpec.describe PermittedParams do
     include_context "with prepare params comparison"
 
     it do
-      expected = defined?(expected_allowed_params) ? expected_allowed_params : hash
+      expected = defined?(expected_permitted) ? expected_permitted : hash
       expect(subject).to eq(expected)
     end
   end
@@ -75,7 +75,10 @@ RSpec.describe PermittedParams do
   shared_examples_for "forbids params" do
     include_context "with prepare params comparison"
 
-    it { expect(subject).not_to eq(hash) }
+    it do
+      expected = defined?(expected_permitted) ? expected_permitted : {}
+      expect(subject).to eq(expected)
+    end
   end
 
   describe "#permit" do
@@ -102,7 +105,7 @@ RSpec.describe PermittedParams do
       acceptable_params = %w(time_zone comments_sorting
                              warn_on_leaving_unsaved)
 
-      acceptable_params.index_with { |_x| "value" }
+      acceptable_params.index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -111,7 +114,7 @@ RSpec.describe PermittedParams do
   describe "#news" do
     let(:attribute) { :news }
     let(:hash) do
-      %w(title summary description).index_with { |_x| "value" }.to_h
+      %w(title summary description).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -120,7 +123,7 @@ RSpec.describe PermittedParams do
   describe "#comment" do
     let(:attribute) { :comment }
     let(:hash) do
-      %w(commented author comments).index_with { |_x| "value" }.to_h
+      %w(commented author comments).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -129,7 +132,7 @@ RSpec.describe PermittedParams do
   describe "#watcher" do
     let(:attribute) { :watcher }
     let(:hash) do
-      %w(watchable user user_id).index_with { |_x| "value" }.to_h
+      %w(watchable user user_id).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -138,7 +141,7 @@ RSpec.describe PermittedParams do
   describe "#reply" do
     let(:attribute) { :reply }
     let(:hash) do
-      %w(content subject).index_with { |_x| "value" }.to_h
+      %w(content subject).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -147,7 +150,7 @@ RSpec.describe PermittedParams do
   describe "#wiki" do
     let(:attribute) { :wiki }
     let(:hash) do
-      %w(start_page).index_with { |_x| "value" }.to_h
+      %w(start_page).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -165,7 +168,7 @@ RSpec.describe PermittedParams do
   describe "#category" do
     let(:attribute) { :category }
     let(:hash) do
-      %w(name assigned_to_id).index_with { |_x| "value" }.to_h
+      %w(name assigned_to_id).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -177,7 +180,7 @@ RSpec.describe PermittedParams do
     context "with whitelisted params" do
       let(:hash) do
         %w(name description effective_date due_date
-           start_date wiki_page_title status sharing).index_with { |_x| "value" }.to_h
+           start_date wiki_page_title status sharing).index_with("value")
       end
 
       it_behaves_like "allows params"
@@ -200,12 +203,12 @@ RSpec.describe PermittedParams do
     let(:attribute) { :message }
 
     context "with no instance passed" do
-      let(:expected_allowed_params) do
-        %w(subject content forum_id).index_with { |_x| "value" }.to_h
+      let(:expected_permitted) do
+        %w(subject content).index_with("value")
       end
 
       let(:hash) do
-        expected_allowed_params.merge(evil: "true", sticky: "true", locked: "true")
+        expected_permitted.merge(evil: "true", sticky: "true", locked: "true", forum_id: "value")
       end
 
       it_behaves_like "allows params"
@@ -219,7 +222,7 @@ RSpec.describe PermittedParams do
 
     context "with project instance passed" do
       let(:project) { instance_double(Project) }
-      let(:expected_allowed_params) do
+      let(:expected_permitted) do
         { "subject" => "value",
           "content" => "value",
           "forum_id" => "value",
@@ -228,7 +231,7 @@ RSpec.describe PermittedParams do
       end
 
       let(:hash) do
-        ActionController::Parameters.new("message" => expected_allowed_params.merge(evil: "true"))
+        ActionController::Parameters.new("message" => expected_permitted.merge(evil: "true"))
       end
 
       before do
@@ -240,7 +243,30 @@ RSpec.describe PermittedParams do
       subject { described_class.new(hash, user).message(project).to_h }
 
       it do
-        expect(subject).to eq(expected_allowed_params)
+        expect(subject).to eq(expected_permitted)
+      end
+    end
+
+    context "with project instance passed but without edit_messages" do
+      let(:project) { instance_double(Project) }
+      let(:expected_permitted) do
+        %w(subject content).index_with("value")
+      end
+
+      let(:hash) do
+        ActionController::Parameters.new("message" => expected_permitted.merge(forum_id: "value", evil: "true"))
+      end
+
+      before do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_own_messages, project:
+        end
+      end
+
+      subject { described_class.new(hash, user).message(project).to_h }
+
+      it do
+        expect(subject).to eq(expected_permitted)
       end
     end
   end
@@ -268,7 +294,7 @@ RSpec.describe PermittedParams do
 
       context "with empty status_code" do
         let(:hash) { { "status_code" => "" } }
-        let(:expected_allowed_params) { { "status_code" => nil } }
+        let(:expected_permitted) { { "status_code" => nil } }
 
         it_behaves_like "allows params"
       end
@@ -276,6 +302,18 @@ RSpec.describe PermittedParams do
 
     describe "status_explanation" do
       let(:hash) { { "status_explanation" => "Blah..." } }
+
+      it_behaves_like "allows params"
+    end
+
+    describe "custom fields" do
+      let(:hash) { { "custom_field_values" => { "4" => "21" } } }
+
+      it_behaves_like "allows params"
+    end
+
+    describe "custom comments" do
+      let(:hash) { { "custom_comments" => { "4" => "foo" } } }
 
       it_behaves_like "allows params"
     end
@@ -302,6 +340,18 @@ RSpec.describe PermittedParams do
 
       it_behaves_like "allows params"
     end
+
+    context "with custom_comments" do
+      let(:hash) { { "name" => "Brand New Project", "workspace_type" => "project", "custom_comments" => { "4" => "foo" } } }
+
+      it_behaves_like "allows params"
+    end
+
+    context "with identifier" do
+      let(:hash) { { "name" => "Brand New Project", "workspace_type" => "project", "identifier" => "BNP" } }
+
+      it_behaves_like "allows params"
+    end
   end
 
   describe "#copy_project_options" do
@@ -316,7 +366,7 @@ RSpec.describe PermittedParams do
 
     context "with dependencies with empty values" do
       let(:hash) { { "dependencies" => ["", " "] } }
-      let(:expected_allowed_params) { { "dependencies" => [] } }
+      let(:expected_permitted) { { "dependencies" => [] } }
 
       it_behaves_like "allows params"
     end
@@ -347,7 +397,7 @@ RSpec.describe PermittedParams do
 
       context "with empty status_code" do
         let(:hash) { { "status_code" => "" } }
-        let(:expected_allowed_params) { { "status_code" => nil } }
+        let(:expected_permitted) { { "status_code" => nil } }
 
         it_behaves_like "allows params"
       end
@@ -357,27 +407,6 @@ RSpec.describe PermittedParams do
       let(:hash) { { "status_explanation" => "Blah..." } }
 
       it_behaves_like "allows params"
-    end
-  end
-
-  describe "#projects_type_ids" do
-    let(:attribute) { :projects_type_ids }
-    let(:hash_key) { "project" }
-
-    let(:hash) do
-      { "type_ids" => ["1", "", "2"] }
-    end
-
-    let(:expected_allowed_params) do
-      [1, 2]
-    end
-
-    include_context "with prepare params comparison"
-
-    it do
-      actual = described_class.new(params, user).send(attribute)
-
-      expect(actual).to eq(expected_allowed_params)
     end
   end
 
@@ -489,7 +518,7 @@ RSpec.describe PermittedParams do
     describe "version_id" do
       let(:hash) { { "version_id" => "1" } }
 
-      it_behaves_like "allows params"
+      it_behaves_like "forbids params"
     end
 
     describe "estimated_hours" do
@@ -589,6 +618,120 @@ RSpec.describe PermittedParams do
     end
   end
 
+  describe "#move_work_package" do
+    subject(:permitted) { described_class.new(params, user).move_work_package.to_h }
+
+    let(:params) do
+      ActionController::Parameters.new(
+        assigned_to_id: "1",
+        custom_field_values: { "2" => "Keep me" },
+        new_project_id: "3",
+        new_type_id: "4",
+        notes: "Move notes",
+        subject: "Do not keep me"
+      )
+    end
+
+    it "permits move params and normalizes operation-only keys" do
+      expect(permitted).to eq(
+        "assigned_to_id" => "1",
+        "custom_field_values" => { "2" => "Keep me" },
+        "type_id" => "4",
+        "project_id" => "3",
+        "journal_notes" => "Move notes"
+      )
+    end
+
+    context "with array-shaped custom field values" do
+      let(:params) do
+        ActionController::Parameters.new(
+          assigned_to_id: "1",
+          custom_field_values: ["Malformed"],
+          new_project_id: "3",
+          new_type_id: "4",
+          notes: "Move notes"
+        )
+      end
+
+      it "ignores them" do
+        expect(permitted).to eq(
+          "assigned_to_id" => "1",
+          "type_id" => "4",
+          "project_id" => "3",
+          "journal_notes" => "Move notes"
+        )
+      end
+    end
+  end
+
+  describe "#move_work_package_form_values" do
+    subject(:permitted) { described_class.new(params, user).move_work_package_form_values.to_h }
+
+    let(:params) do
+      ActionController::Parameters.new(
+        assigned_to_id: "1",
+        responsible_id: "2",
+        start_date: "2026-07-01",
+        due_date: "2026-07-31",
+        status_id: "3",
+        target_version_ids: ["4"],
+        priority_id: "5",
+        budget_id: "6",
+        custom_field_values: { "7" => "Keep me" },
+        new_project_id: "8",
+        new_type_id: "9",
+        notes: "Keep me elsewhere",
+        subject: "Do not keep me"
+      )
+    end
+
+    it "permits move form values and normalizes operation-only keys" do
+      expect(permitted).to eq(
+        "assigned_to_id" => "1",
+        "responsible_id" => "2",
+        "start_date" => "2026-07-01",
+        "due_date" => "2026-07-31",
+        "status_id" => "3",
+        "target_version_ids" => ["4"],
+        "priority_id" => "5",
+        "budget_id" => "6",
+        "custom_field_values" => { "7" => "Keep me" },
+        "type_id" => "9",
+        "project_id" => "8"
+      )
+    end
+
+    context "with custom field values that do not follow the schema 'id as string' => 'value as string'" do
+      let(:params) do
+        ActionController::Parameters.new(
+          custom_field_values: {
+            "blubs" => "5",
+            "5" => { "1" => "2" }
+          }
+        )
+      end
+
+      it "removes them" do
+        expect(permitted).to eq("type_id" => nil, "project_id" => nil)
+      end
+    end
+
+    context "with array-shaped custom field values" do
+      let(:params) do
+        ActionController::Parameters.new(
+          assigned_to_id: "1",
+          custom_field_values: ["Malformed"]
+        )
+      end
+
+      it "ignores them" do
+        expect(permitted).to eq("assigned_to_id" => "1",
+                                "type_id" => nil,
+                                "project_id" => nil)
+      end
+    end
+  end
+
   describe "#time_entry_activities_project" do
     let(:attribute) { :time_entry_activities_project }
     let(:hash) do
@@ -597,7 +740,7 @@ RSpec.describe PermittedParams do
         { "activity_id" => "6", "active" => "1" }
       ]
     end
-    let(:expected_allowed_params) do
+    let(:expected_permitted) do
       [
         ActionController::Parameters.new("activity_id" => "5", "active" => "0").permit!,
         ActionController::Parameters.new("activity_id" => "6", "active" => "1").permit!
@@ -786,6 +929,7 @@ RSpec.describe PermittedParams do
 
     describe "invalid custom fields" do
       let(:hash) { { "custom_field_values" => { "blubs" => "5", "5" => { "1" => "2" } } } }
+      let(:expected_permitted) { { "custom_field_values" => {} } }
 
       it_behaves_like "forbids params"
     end
@@ -827,12 +971,6 @@ RSpec.describe PermittedParams do
     let (:attribute) { :settings }
 
     describe "with password login enabled" do
-      before do
-        allow(OpenProject::Configuration)
-          .to receive(:disable_password_login?)
-                .and_return(false)
-      end
-
       let(:hash) do
         {
           "sendmail_arguments" => "value",
@@ -846,14 +984,8 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "with password login disabled" do
+    describe "with password login disabled", with_settings: { password_login: "none" } do
       include_context "with prepare params comparison"
-
-      before do
-        allow(OpenProject::Configuration)
-          .to receive(:disable_password_login?)
-                .and_return(true)
-      end
 
       let(:hash) do
         {
@@ -912,11 +1044,11 @@ RSpec.describe PermittedParams do
         }
       end
 
-      let(:expected_permitted_hash) do
+      let(:expected_permitted) do
         {}
       end
 
-      it { expect(subject).to eq(expected_permitted_hash) }
+      it_behaves_like "forbids params"
     end
 
     context "when fetching settings" do
@@ -1005,6 +1137,30 @@ RSpec.describe PermittedParams do
       let(:hash) { { "redirect_existing_links" => "1" } }
 
       it_behaves_like "allows params"
+    end
+
+    describe "lock_version" do
+      let(:hash) { { "lock_version" => "1" } }
+
+      it_behaves_like "allows params"
+    end
+
+    describe "text" do
+      let(:hash) { { "text" => "blubs" } }
+
+      it_behaves_like "forbids params"
+    end
+
+    describe "parent_id" do
+      let(:hash) { { "parent_id" => "1" } }
+
+      it_behaves_like "forbids params"
+    end
+
+    describe "journal_notes" do
+      let(:hash) { { "journal_notes" => "blubs" } }
+
+      it_behaves_like "forbids params"
     end
   end
 

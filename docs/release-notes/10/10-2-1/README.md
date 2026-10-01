@@ -23,4 +23,4 @@ A big thanks to community members for reporting bugs and helping us identifying 
 
 Special thanks for reporting and finding bugs go to
 
-*Matthias Tylkowski*
+_Matthias Tylkowski_

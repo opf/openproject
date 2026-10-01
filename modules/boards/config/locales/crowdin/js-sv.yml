@@ -1,87 +1,94 @@
-#English strings go here
+---
 sv:
   ee:
     upsell:
       board_view:
-        description: 'Vill du automatisera dina arbetsflöden med Tavlor? Avancerade tavlor är ett Enterprise tillägg. Vänligen uppgradera till en betald plan.'
+        description: Vill du automatisera dina arbetsflöden med Tavlor? Avancerade tavlor är ett Enterprise tillägg. Vänligen uppgradera till en betald plan.
   js:
     boards:
-      create_new: 'Skapa ny bräda'
-      label_unnamed_board: 'Namnlös tavla'
-      label_unnamed_list: 'Namnlös lista'
-      label_board_type: 'Typ av tavla'
-      lists:
-        delete: 'Ta bort lista'
-      version:
-        is_locked: 'Version är låst. Inga objekt kan läggas till i denna version.'
-        is_closed: 'Version är stängd. Inga objekt kan läggas till i denna version.'
-        close_version: 'Stäng version'
-        open_version: 'Öppen version'
-        lock_version: 'Lås version'
-        unlock_version: 'Lås upp version'
-        edit_version: 'Redigera version'
-        show_version: 'Visa version'
-        locked: 'Låst'
-        closed: 'Stängt'
-      new_board: 'Ny tavla'
-      add_list: 'Lägg till lista på tavlan'
-      add_card: 'Lägg till kort'
-      error_attribute_not_writable: "Kan inte flytta arbetspaketet, %{attribute} är inte skrivbar."
-      error_loading_the_list: "Fel vid inläsning av listan: %{error_message}"
-      error_permission_missing: "Behörigheten att skapa offentliga frågor saknas"
-      error_cannot_move_into_self: "Du kan inte flytta ett arbetspaket till sin egen kolumn."
-      text_hidden_list_warning: "Inte alla listor visas eftersom du saknar tillstånd. Kontakta administratören för mer information."
-      click_to_remove_list: "Klicka för att ta bort denna lista"
-      board_type:
-        text: 'Brädstyp'
-        free: 'grundläggande'
-        select_board_type: 'Välj vilken typ av tavla du behöver.'
-        free_text: >
-          Börja från början med en tom tavla. Lägg till kort och kolumner manuellt till tavlan.
-        action: 'Åtgärdstavla'
-        action_by_attribute: 'Åtgärdstavla (%{attribute})'
-        action_text: >
-          En tavla med filtrerade listor på %{attribute} attribut. Om du flyttar arbetspaket till andra listor uppdateras deras attribut.
-        action_text_subprojects: >
-          Tavla med automatiserade kolumner för delprojekt. Genom att dra arbetspaket till andra listor uppdateras (del-)projektet i enlighet med detta.
-        action_text_subtasks: >
-          Tavla med automatiserade kolumner för underelement. Om du drar arbetspaket till andra listor uppdateras den överordnade listan i enlighet med detta.
-        action_text_status: >
-          Grundläggande kanban-tavla med kolumner för status, t. ex. Att göra, Pågående, Klar.
-        action_text_assignee: >
-          Tavla med automatiserade kolumner baserat på tilldelade användare. Perfekt för att skicka ut arbetspaket.
-        action_text_version: >
-          Tavla med automatiserade kolumner baserade på versionsattributet. Idealisk för planering av produktutveckling.
-        action_type:
-          assignee: tilldelad till
-          status: status
-          version: version
-          subproject: delprojekt
-          subtasks: förälder-barn
-        board_type_title:
-          assignee: Tilldelad till
-          status: Status
-          version: Version
-          subproject: Delprojekt
-          subtasks: Förälder-barn
-          basic: Enkel
-        select_attribute: "Åtgärdsattribut"
+      add_card: Lägg till kort
+      add_list: Lägg till lista på tavlan
       add_list_modal:
         labels:
           assignee: Välj användare som ska läggas till som en ny mottagarlista
           status: Välj status för att lägga till som en ny lista
-          version: Välj version för att lägga till som en ny lista
           subproject: Välj delprojekt som ska läggas till som en ny lista
           subtasks: Välj arbetspaket som ska läggas till som en ny lista
+          version: Välj version för att lägga till som en ny lista
         warning:
+          add_members: <a href="%{link}">Lägg till en ny medlem i detta projekt</a> för att välja användare igen.
+          assignee: Det finns ingen medlem som matchar ditt filtervärde. <br>
+          no_member: Det här projektet har för närvarande inga medlemmar som kan läggas till. <br>
           status: |
             Det finns för närvarande ingen status tillgänglig. <br>
             Antingen finns det ingen eller så har alla redan lagts till på tavlan.
-          assignee: Det finns ingen medlem som matchar ditt filtervärde. <br>
-          no_member: Det här projektet har för närvarande inga medlemmar som kan läggas till. <br>
-          add_members: <a href="%{link}">Lägg till en ny medlem i detta projekt</a> för att välja användare igen.
+      board_type:
+        action: Åtgärdstavla
+        action_by_attribute: Åtgärdstavla (%{attribute})
+        action_text: 'En tavla med filtrerade listor på %{attribute} attribut. Om du flyttar arbetspaket till andra listor uppdateras deras attribut.
+
+          '
+        action_text_assignee: 'Tavla med automatiserade kolumner baserat på tilldelade användare. Perfekt för att skicka ut arbetspaket.
+
+          '
+        action_text_status: 'Grundläggande kanban-tavla med kolumner för status, t. ex. Att göra, Pågående, Klar.
+
+          '
+        action_text_subprojects: 'Tavla med automatiserade kolumner för delprojekt. Genom att dra arbetspaket till andra listor uppdateras (del-)projektet i enlighet med detta.
+
+          '
+        action_text_subtasks: 'Tavla med automatiserade kolumner för underelement. Om du drar arbetspaket till andra listor uppdateras den överordnade listan i enlighet med detta.
+
+          '
+        action_text_version: 'Tavla med automatiserade kolumner baserade på versionsattributet. Idealisk för planering av produktutveckling.
+
+          '
+        action_type:
+          assignee: tilldelad till
+          status: status
+          subproject: delprojekt
+          subtasks: förälder-barn
+          version: version
+        board_type_title:
+          assignee: Tilldelad till
+          basic: Enkel
+          status: Status
+          subproject: Delprojekt
+          subtasks: Förälder-barn
+          version: Version
+        free: grundläggande
+        free_text: 'Börja från början med en tom tavla. Lägg till kort och kolumner manuellt till tavlan.
+
+          '
+        select_attribute: Åtgärdsattribut
+        select_board_type: Välj vilken typ av tavla du behöver.
+        text: Brädstyp
+      click_to_remove_list: Klicka för att ta bort denna lista
       configuration_modal:
-        title: 'Konfigurera denna tavla'
         display_settings:
-          card_mode: "Visa som kort"
-          table_mode: "Visa som tabell"
+          card_mode: Visa som kort
+          table_mode: Visa som tabell
+        title: Konfigurera denna tavla
+      create_new: Skapa ny bräda
+      error_attribute_not_writable: Kan inte flytta arbetspaketet, %{attribute} är inte skrivbar.
+      error_cannot_move_into_self: Du kan inte flytta ett arbetspaket till sin egen kolumn.
+      error_loading_the_list: 'Fel vid inläsning av listan: %{error_message}'
+      error_permission_missing: Behörigheten att skapa offentliga frågor saknas
+      label_board_type: Typ av tavla
+      label_unnamed_board: Namnlös tavla
+      label_unnamed_list: Namnlös lista
+      lists:
+        delete: Ta bort lista
+      new_board: Ny tavla
+      text_hidden_list_warning: Inte alla listor visas eftersom du saknar tillstånd. Kontakta administratören för mer information.
+      version:
+        close_version: Stäng version
+        closed: Stängt
+        edit_version: Redigera version
+        is_closed: Version är stängd. Inga objekt kan läggas till i denna version.
+        is_locked: Version är låst. Inga objekt kan läggas till i denna version.
+        lock_version: Lås version
+        locked: Låst
+        open_version: Öppen version
+        show_version: Visa version
+        unlock_version: Lås upp version

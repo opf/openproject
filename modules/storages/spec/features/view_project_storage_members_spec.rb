@@ -60,36 +60,105 @@ RSpec.describe "Project storage members connection status view", :js do
     expect(page).to have_no_text("Members connection status")
   end
 
-  it "lists project members connection statuses" do
-    login_as user
+  context "when the user is not allowed to view members of the project" do
+    it "does not list any members" do
+      login_as user
 
-    # Go to Projects -> Settings -> File Storages
-    visit external_file_storages_project_settings_project_storages_path(project)
+      # Go to Projects -> Settings -> File Storages
+      visit external_file_storages_project_settings_project_storages_path(project)
 
-    expect(page).to have_title("Files")
-    expect(page).to have_text(storage.name)
-    page.find(".icon.icon-group").click
+      expect(page).to have_title("Files")
+      expect(page).to have_text(storage.name)
+      page.find(".icon.icon-group").click
 
-    # Members connection status page
-    expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
-                                                                                    project_storage_id: project_storage)
+      # Members connection status page
+      expected_current_path = project_settings_project_storage_members_path(project_id: project,
+                                                                            project_storage_id: project_storage)
+      expect(page).to have_current_path(expected_current_path)
 
-    aggregate_failures "Verifying Connection Statuses" do
-      [
-        [user, "Not connected. The user should login to the storage via the following link."],
-        [admin_user, "Connected"],
-        [connected_user, "Connected"],
-        [connected_no_permissions_user, "User role has no storages permissions"],
-        [disconnected_user, "Not connected. The user should login to the storage via the following link."],
-        [disconnected_sso_user, "Not connected. The user should login to the storage via the following link."],
-        [group_user, "Not connected. The user should login to the storage via the following link."]
-      ].each do |(principal, status)|
-        expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
-        expect(page).to have_css("#member-#{principal.id} .status", text: status)
+      expect(page).to have_text("No members to display.")
+    end
+  end
+
+  context "when the user is allowed to view members of the project" do
+    before do
+      role = create(:project_role, permissions: %i[view_members])
+      existing_member = project.members.find_by(principal: user, entity: nil)
+      if existing_member
+        existing_member.roles << role
+      else
+        create(:member, principal: user, project: project, roles: [role])
       end
+    end
 
-      [placeholder_user, group].each do |principal|
-        expect(page).to have_no_css("#member-#{principal.id} .name", text: principal.name)
+    it "lists project members connection statuses" do
+      login_as user
+
+      # Go to Projects -> Settings -> File Storages
+      visit external_file_storages_project_settings_project_storages_path(project)
+
+      expect(page).to have_title("Files")
+      expect(page).to have_text(storage.name)
+      page.find(".icon.icon-group").click
+
+      # Members connection status page
+      expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
+                                                                                      project_storage_id: project_storage)
+
+      aggregate_failures "Verifying Connection Statuses" do
+        [
+          [user, "Not connected. The user should login to the storage via the following link."],
+          [admin_user, "Connected"],
+          [connected_user, "Connected"],
+          [connected_no_permissions_user, "User role has no storages permissions"],
+          [disconnected_user, "Not connected. The user should login to the storage via the following link."],
+          [disconnected_sso_user, "Not connected. The user should login to the storage via the following link."],
+          [group_user, "Not connected. The user should login to the storage via the following link."]
+        ].each do |(principal, status)|
+          expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
+          expect(page).to have_css("#member-#{principal.id} .status", text: status)
+        end
+
+        [placeholder_user, group].each do |principal|
+          expect(page).to have_no_css("#member-#{principal.id} .name", text: principal.name)
+        end
+      end
+    end
+
+    context "when the storage authenticates through SSO" do
+      let!(:storage) { create(:nextcloud_storage, :as_automatically_managed, :oidc_sso_enabled) }
+
+      it "lists project members connection statuses" do
+        login_as user
+
+        # Go to Projects -> Settings -> File Storages
+        visit external_file_storages_project_settings_project_storages_path(project)
+
+        expect(page).to have_title("Files")
+        expect(page).to have_text(storage.name)
+        page.find(".icon.icon-group").click
+
+        # Members connection status page
+        expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
+                                                                                        project_storage_id: project_storage)
+
+        not_connectable = "Not connectable. The storage requires login through an SSO provider, " \
+                          "but the user is not logging in through SSO."
+        aggregate_failures "Verifying Connection Statuses" do
+          [
+            [user, not_connectable],
+            [connected_user, "Connected"],
+            [disconnected_user, not_connectable],
+            [disconnected_sso_user, "Not yet connected, SSO should automatically connect them, once looking at files."]
+          ].each do |(principal, status)|
+            expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
+            expect(page).to have_css("#member-#{principal.id} .status", text: status)
+          end
+
+          [placeholder_user, group].each do |principal|
+            expect(page).to have_no_css("#member-#{principal.id} .name", text: principal.name)
+          end
+        end
       end
     end
   end
@@ -112,43 +181,6 @@ RSpec.describe "Project storage members connection status view", :js do
     expect(page).to have_current_path(expected_current_path)
 
     expect(page).to have_text("No members to display.")
-  end
-
-  context "when the storage authenticates through SSO" do
-    let!(:storage) { create(:nextcloud_storage, :as_automatically_managed, :oidc_sso_enabled) }
-
-    it "lists project members connection statuses" do
-      login_as user
-
-      # Go to Projects -> Settings -> File Storages
-      visit external_file_storages_project_settings_project_storages_path(project)
-
-      expect(page).to have_title("Files")
-      expect(page).to have_text(storage.name)
-      page.find(".icon.icon-group").click
-
-      # Members connection status page
-      expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
-                                                                                      project_storage_id: project_storage)
-
-      not_connectable = "Not connectable. The storage requires login through an SSO provider, " \
-                        "but the user is not logging in through SSO."
-      aggregate_failures "Verifying Connection Statuses" do
-        [
-          [user, not_connectable],
-          [connected_user, "Connected"],
-          [disconnected_user, not_connectable],
-          [disconnected_sso_user, "Not yet connected, SSO should automatically connect them, once looking at files."]
-        ].each do |(principal, status)|
-          expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
-          expect(page).to have_css("#member-#{principal.id} .status", text: status)
-        end
-
-        [placeholder_user, group].each do |principal|
-          expect(page).to have_no_css("#member-#{principal.id} .name", text: principal.name)
-        end
-      end
-    end
   end
 
   def create_project_with_storage_and_members

@@ -23,6 +23,13 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 
 OpenProject offers a GitLab integration, based on the [GitLab plugin contributed by the Community](https://github.com/btey/openproject-gitlab-integration). More information on the GitLab integration is available in our [GitLab integration guide](./gitlab-integration/).
 
+### XWiki
+
+[feature: xwiki_integration ]
+
+OpenProject offers integration with XWiki for wiki collaboration. You can find more information
+about [setting up the integration with XWiki](./xwiki) and [using the integration](../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page).
+
 ### Nextcloud
 
 OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/file-management/nextcloud-integration/).
@@ -40,6 +47,8 @@ OpenProject offers an integration with OneDrive for file storage and collaborati
 ### SharePoint (Enterprise add-on)
 
 OpenProject offers an integration with SharePoint for file storage and collaboration. You can find more information about [setting up the integration with SharePoint](./share-point) and [using the integration](../../user-guide/file-management/sharepoint-integration/).
+
+
 
 ## Community plugins
 
@@ -97,13 +106,17 @@ Find out more about the [Excel synchronization with OpenProject](./excel-synchro
 
 ### JIRA
 
-We do not provide a direct integration between OpenProject and JIRA ourselves. 
+We do not provide a direct integration between OpenProject and JIRA ourselves.
 
-If you want to migrate from JIRA to OpenProject, there are several ways to do that, including OpenProject [API](../../api/), OpenProject [Excel sync](excel-synchronization) or using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence). 
+If you want to migrate from JIRA to OpenProject, you can use the **[OpenProject Jira Migrator](https://www.openproject.org/jira-migrator/)**. The built-in migration tool guides you through importing your Jira data into OpenProject and is being continuously expanded with additional migration capabilities.
 
-Keep in mind that we are [developing a dedicated OpenProject migration solution](https://community.openproject.org/projects/jira-migration). In the meantime our partners at [ALM Toolbox](https://www.almtoolbox.com/) are happy to support you with Jira or Confluence migration. 
+The Jira Migrator is currently in beta and should only be used in test setups. It currently supports Jira Data Center versions 10.x and 11.x and can import basic data such as projects, issues, users, statuses, types and supported custom fields.
 
-Please consult [JIRA migration overview page](../../installation-and-operations/jira-migration/) for an in-depth overview of all existing options.
+For supported data, current limitations and step-by-step instructions, see the **[Jira migration guide](https://www.openproject.org/docs/installation-and-operations/jira-migration/)**. 
+
+Other migration options are also available, including the OpenProject [API](../../api/), OpenProject [Excel synchronization](excel-synchronization/) or a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence).
+
+In addition, our partners at **[ALM Toolbox](https://www.almtoolbox.com/)** are happy to support you with Jira or Confluence migration.
 
 ### Microsoft Project
 

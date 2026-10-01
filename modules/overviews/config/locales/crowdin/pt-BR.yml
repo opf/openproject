@@ -1,5 +1,11 @@
+---
 pt-BR:
+  activerecord:
+    models:
+      grids/overview:
+        one: Visão geral
+        other: Visões gerais
   overviews:
+    label_dashboard: Painel
     label_home: "%{workspace_type} inicial"
-    label_dashboard: "Painel"
-    label_overview: "Visão geral"
+    label_overview: Visão geral

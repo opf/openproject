@@ -29,6 +29,12 @@
 #++
 
 Rails.application.routes.draw do
+  scope module: "grids" do
+    namespace :widgets do
+      resource :time_entries_current_user, controller: :time_entries_current_user, only: %i[show]
+    end
+  end
+
   resources :time_entries, only: %i[create update destroy] do
     get :dialog, on: :collection
     get :dialog, on: :member
@@ -40,19 +46,21 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "projects" do
     resources :cost_entries, controller: "costlog", only: %i[new create]
 
-    resources :hourly_rates, only: %i[show edit update]
+    resources :hourly_rates, only: %i[show new create]
 
     get "/time_entries/dialog" => "time_entries#dialog"
   end
 
   namespace "my" do
+    get "/hourly_rates" => "hourly_rates#show", as: "hourly_rates"
+
     get "/timer" => "timer#show", as: "timers"
 
     get "/time-tracking/(:mode-:view_mode)(/:date)" => "time_tracking#index",
         as: :time_tracking,
         constraints: {
           mode: /day|week|workweek|month/,
-          view_mode: /list|calendar/,
+          view_mode: /list|calendar|stack/,
           date: /(\d{4}-\d{2}-\d{2}|today)/
         }
     get "/time-tracking/refresh" => "time_tracking#refresh",
@@ -62,6 +70,9 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :time_entry_activities, only: %i[show update]
+      resources :cost_types, only: %i[index] do
+        member { post :toggle }
+      end
     end
   end
 
@@ -74,8 +85,14 @@ Rails.application.routes.draw do
 
   get "/cost_types", to: redirect("/admin/cost_types")
 
-  # TODO: this is a duplicate from a route defined under project/:project_id, check whether we really want to do that
-  resources :hourly_rates, only: %i[edit update]
+  # Keyed by the rate, unlike the project scoped hourly_rates#show whose :id is
+  # the principal whose history is shown.
+  resources :hourly_rates, only: %i[edit update destroy] do
+    get :deletion_dialog, on: :member
+  end
+  resources :default_hourly_rates, only: %i[new create edit update destroy] do
+    get :deletion_dialog, on: :member
+  end
 
   namespace :admin do
     namespace :settings do
@@ -92,6 +109,12 @@ Rails.application.routes.draw do
         # TODO: check if this can be replaced with update method
         put :set_rate
         patch :restore
+        get :rates
+      end
+
+      scope module: :cost_types do
+        resources :projects, controller: :cost_type_projects, only: %i[index new create]
+        resource :project, controller: :cost_type_projects, only: :destroy
       end
     end
 

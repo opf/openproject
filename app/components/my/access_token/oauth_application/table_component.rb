@@ -32,15 +32,15 @@ module My
   module AccessToken
     module OAuthApplication
       class TableComponent < OpPrimer::BorderBoxTableComponent
-        columns :name, :active_tokens, :last_used_at
+        columns :name, :active_tokens, :last_refreshed_at
         main_column :name
-        mobile_labels :active_tokens, :last_used_at
+        mobile_labels :active_tokens, :last_refreshed_at
 
         def headers
           [
             [:name, { caption: I18n.t("attributes.name") }],
             [:active_tokens, { caption: I18n.t("my_account.access_tokens.oauth_application.active_tokens") }],
-            [:last_used_at, { caption: I18n.t("my_account.access_tokens.oauth_application.last_used_at") }]
+            [:last_refreshed_at, { caption: I18n.t("my_account.access_tokens.oauth_application.last_refreshed_at") }]
           ]
         end
 

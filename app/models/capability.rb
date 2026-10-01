@@ -32,7 +32,8 @@ class Capability < ApplicationRecord
   include Tableless
   include Scopes::Scoped
 
-  scopes :default
+  scopes :default,
+         :visible
 
   default_scope { default }
 

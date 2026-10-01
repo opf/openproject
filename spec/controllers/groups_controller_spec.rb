@@ -186,8 +186,8 @@ RSpec.describe GroupsController do
 
     it "shows" do
       get :show, params: { id: group.id }
-      expect(response).to be_successful
-      expect(response).to render_template "show"
+      expect(response).not_to be_successful
+      expect(response).to have_http_status :not_found
     end
 
     context "when having view_members permission in a project the group belongs to" do
@@ -197,6 +197,11 @@ RSpec.describe GroupsController do
 
       before do
         create(:member, project:, principal: group, roles: [create(:project_role)])
+      end
+
+      it "shows" do
+        get :show, params: { id: group.id }
+        expect(response).to be_successful
       end
 
       it "shows members" do
@@ -217,7 +222,9 @@ RSpec.describe GroupsController do
 
       it "does not show members" do
         get :show, params: { id: group.id }
-        expect(assigns(:group_users)).to be_empty
+
+        expect(response).to have_http_status :not_found
+        expect(assigns(:group_users)).to be_blank
       end
     end
 

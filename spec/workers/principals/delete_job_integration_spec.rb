@@ -87,11 +87,9 @@ RSpec.describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for "labor_budget_item handling" do
-      let(:item) { build(:labor_budget_item, user: principal) }
+      let!(:item) { create(:labor_budget_item, principal:) }
 
       before do
-        item.save!
-
         job
       end
 
@@ -253,6 +251,74 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it { expect(Query.find_by(id: query.id)).to be_nil }
     end
 
+    shared_examples_for "persisted view and query handling" do
+      let!(:private_view) { PersistedView.create!(name: "Private", public: false, principal:) }
+      let!(:public_view)  { PersistedView.create!(name: "Public",  public: true,  principal:) }
+
+      # Query shared between the principal's private view and another user's public view —
+      # must survive the destruction of the private view.
+      let!(:other_user) { create(:user) }
+      let!(:shared_query) { UserQuery.create!(name: "Shared") }
+      let!(:shared_private_view) do
+        PersistedView.create!(name: "Shared-private", public: false, principal:, query: shared_query)
+      end
+      let!(:other_public_view) do
+        PersistedView.create!(name: "Other-public", public: true, principal: other_user, query: shared_query)
+      end
+
+      # Query referenced only from the principal's private view — should be destroyed along with the view.
+      let!(:orphaned_query) { UserQuery.create!(name: "Orphaned", principal:) }
+      let!(:orphaning_view) do
+        PersistedView.create!(name: "Orphaning-private", public: false, principal:, query: orphaned_query)
+      end
+
+      # Public query owned by the principal — kept, principal_id nullified.
+      let!(:kept_user_query) { UserQuery.create!(name: "Public-owned", principal:) }
+      let!(:kept_public_view) do
+        PersistedView.create!(name: "Keeps-query", public: true, principal: other_user, query: kept_user_query)
+      end
+
+      # Manual entries pointing at the principal — must be deleted.
+      let!(:manual_entry_user) do
+        OrderedPersistedQueryEntity.create!(persisted_query: shared_query, entity: principal, position: 1)
+      end
+      let!(:manual_entry_other) do
+        OrderedPersistedQueryEntity.create!(persisted_query: shared_query, entity: other_user, position: 2)
+      end
+
+      before { job }
+
+      it "deletes private views owned by the principal" do
+        expect(PersistedView.find_by(id: private_view.id)).to be_nil
+        expect(PersistedView.find_by(id: shared_private_view.id)).to be_nil
+        expect(PersistedView.find_by(id: orphaning_view.id)).to be_nil
+      end
+
+      it "keeps public views but nullifies their principal_id" do
+        expect(public_view.reload.principal_id).to be_nil
+      end
+
+      it "destroys queries that are no longer referenced by any public view" do
+        expect(PersistedQuery.find_by(id: orphaned_query.id)).to be_nil
+      end
+
+      it "keeps queries still referenced by another public view" do
+        expect(PersistedQuery.find_by(id: shared_query.id)).to eq(shared_query)
+      end
+
+      it "nullifies principal_id on surviving queries" do
+        expect(kept_user_query.reload.principal_id).to be_nil
+      end
+
+      it "deletes ordered entries that pointed at the principal" do
+        expect(OrderedPersistedQueryEntity.find_by(id: manual_entry_user.id)).to be_nil
+      end
+
+      it "keeps ordered entries that point at other users" do
+        expect(OrderedPersistedQueryEntity.find_by(id: manual_entry_other.id)).to eq(manual_entry_other)
+      end
+    end
+
     shared_examples_for "backup token handling" do
       let!(:backup_token) do
         create(:backup_token, user: principal)
@@ -300,13 +366,14 @@ RSpec.describe Principals::DeleteJob, type: :model do
       end
     end
 
-    shared_examples_for "private cost_query handling" do
-      let!(:query) { create(:private_cost_query, user: principal) }
+    shared_examples_for "private cost_report handling" do
+      let!(:report) { create(:cost_report, principal:, public: false) }
 
-      it "removes the query" do
+      it "removes the report and its query" do
         job
 
-        expect(CostQuery.find_by(id: query.id)).to be_nil
+        expect(CostReport.find_by(id: report.id)).to be_nil
+        expect(CostReportQuery.find_by(id: report.query_id)).to be_nil
       end
     end
 
@@ -320,108 +387,111 @@ RSpec.describe Principals::DeleteJob, type: :model do
       end
     end
 
-    shared_examples_for "public cost_query handling" do
-      let!(:query) { create(:public_cost_query, user: principal) }
+    shared_examples_for "working hours handling" do
+      let!(:working_hours) { create(:user_working_hours, user: principal) }
 
-      before do
-        query
-
+      it "removes the working hours" do
         job
-      end
 
-      it "leaves the query" do
-        expect(CostQuery.find_by(id: query.id)).to eq(query)
-      end
-
-      it "rewrites the user reference" do
-        expect(query.reload.user).to eq(deleted_user)
+        expect(UserWorkingHours.find_by(id: working_hours.id)).to be_nil
       end
     end
 
-    shared_examples_for "cost_query handling" do
-      let(:query) { create(:cost_query) }
+    shared_examples_for "non working times handling" do
+      let!(:non_working_time) { create(:user_non_working_time, user: principal) }
+
+      it "removes the non working times" do
+        job
+
+        expect(UserNonWorkingTime.find_by(id: non_working_time.id)).to be_nil
+      end
+    end
+
+    shared_examples_for "public cost_report handling" do
+      let!(:report) { create(:cost_report, principal:, public: true, query: create(:cost_report_query, principal:)) }
+
+      before do
+        job
+      end
+
+      it "leaves the report" do
+        expect(CostReport.find_by(id: report.id)).to eq(report)
+      end
+
+      it "drops the owner reference" do
+        expect(report.reload.principal).to be_nil
+        expect(report.query.reload.principal).to be_nil
+      end
+    end
+
+    shared_examples_for "cost_report_query handling" do
+      let(:query) { create(:cost_report_query) }
       let(:other_user) { create(:user) }
 
-      shared_examples_for "public query rewriting" do
-        let(:filter_symbol) { filter.to_s.demodulize.underscore.to_sym }
+      def stored_filter
+        CostReportQuery.find(query.id).filters.detect { |f| f.name.to_s == filter_name }
+      end
 
+      def filter_on(values)
+        query.filters = [query.filter_for(filter_name).tap do |f|
+          f.operator = "="
+          f.values = values
+        end]
+        query.save(validate: false)
+      end
+
+      shared_examples_for "principal filter rewriting" do
         describe "with the filter has the deleted user as its value" do
           before do
-            query.filter(filter_symbol, values: [principal.id.to_s], operator: "=")
-            query.save!
+            filter_on([principal.id.to_s])
 
             job
           end
 
           it "removes the filter" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters)
-              .not_to(be_any { |f| f.is_a?(filter) })
+            expect(stored_filter).to be_nil
           end
         end
 
         describe "with the filter has another user as its value" do
           before do
-            query.filter(filter_symbol, values: [other_user.id.to_s], operator: "=")
-            query.save!
+            filter_on([other_user.id.to_s])
 
             job
           end
 
           it "keeps the filter" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters)
-              .to(be_any { |f| f.is_a?(filter) })
+            expect(stored_filter).to be_present
           end
 
           it "does not alter the filter values" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters.detect do |f|
-              f.is_a?(filter)
-            end.values).to eq([other_user.id.to_s])
+            expect(stored_filter.values).to eq([other_user.id.to_s])
           end
         end
 
         describe "with the filter has the deleted user and another user as its value" do
           before do
-            query.filter(filter_symbol, values: [principal.id.to_s, other_user.id.to_s], operator: "=")
-            query.save!
+            filter_on([principal.id.to_s, other_user.id.to_s])
 
             job
           end
 
           it "keeps the filter" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters)
-              .to(be_any { |f| f.is_a?(filter) })
+            expect(stored_filter).to be_present
           end
 
           it "removes only the deleted user" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters.detect do |f|
-              f.is_a?(filter)
-            end.values).to eq([other_user.id.to_s])
+            expect(stored_filter.values).to eq([other_user.id.to_s])
           end
         end
       end
 
-      describe "with the query has a user_id filter" do
-        let(:filter) { CostQuery::Filter::UserId }
+      Principals::DeleteJob::PRINCIPAL_COST_REPORT_FILTERS.each do |name|
+        describe "with the query has a #{name} filter" do
+          let(:filter_name) { name }
 
-        it_behaves_like "public query rewriting"
-      end
-
-      describe "with the query has a author_id filter" do
-        let(:filter) { CostQuery::Filter::AuthorId }
-
-        it_behaves_like "public query rewriting"
-      end
-
-      describe "with the query has a assigned_to_id filter" do
-        let(:filter) { CostQuery::Filter::AssignedToId }
-
-        it_behaves_like "public query rewriting"
-      end
-
-      describe "with the query has an responsible_id filter" do
-        let(:filter) { CostQuery::Filter::ResponsibleId }
-
-        it_behaves_like "public query rewriting"
+          it_behaves_like "principal filter rewriting"
+        end
       end
     end
 
@@ -468,12 +538,15 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it_behaves_like "backup token handling"
       it_behaves_like "notification handling"
       it_behaves_like "private query handling"
+      it_behaves_like "persisted view and query handling"
       it_behaves_like "issue category handling"
-      it_behaves_like "private cost_query handling"
-      it_behaves_like "public cost_query handling"
-      it_behaves_like "cost_query handling"
+      it_behaves_like "private cost_report handling"
+      it_behaves_like "public cost_report handling"
+      it_behaves_like "cost_report_query handling"
       it_behaves_like "project query handling"
       it_behaves_like "mention rewriting"
+      it_behaves_like "working hours handling"
+      it_behaves_like "non working times handling"
 
       describe "favorites" do
         before do
@@ -483,6 +556,17 @@ RSpec.describe Principals::DeleteJob, type: :model do
 
         it "removes the assigned_to association to the principal" do
           expect(project.favoriting_users.reload).to be_empty
+        end
+      end
+
+      describe "AI text transform runs" do
+        let!(:run) { create(:ai_text_transform_run, user: principal).tap { |run| run.append_event("completed") } }
+
+        before { job }
+
+        it "removes the runs together with their events" do
+          expect(AI::TextTransformRun.exists?(run.id)).to be(false)
+          expect(AI::TextTransformRunEvent.where(run_id: run.id)).not_to exist
         end
       end
     end

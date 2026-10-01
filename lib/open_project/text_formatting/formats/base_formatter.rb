@@ -39,7 +39,7 @@ module OpenProject::TextFormatting::Formats
     end
 
     def to_html(text)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     protected

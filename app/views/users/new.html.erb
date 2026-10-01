@@ -43,19 +43,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for @user %>
 
-<%= labelled_tabular_form_for @user,
-                              url: { action: "create" },
-                              html: { class: nil, autocomplete: "off" },
-                              data: {
-                                controller: "admin--users",
-                                turbo: false,
-                                "admin--users-password-auth-selected-value": @user.ldap_auth_source_id.blank?
-                              },
-                              as: :user do |f| %>
-  <%= render partial: "simple_form", locals: { f: f, auth_sources: @ldap_auth_sources, user: @user } %>
-
-  <p>
-    <%= styled_button_tag t(:button_create), class: "-primary -with-icon icon-checkmark" %>
-    <%= styled_button_tag t(:button_create_and_continue), name: "continue", class: "-primary -with-icon icon-checkmark" %>
-  </p>
-<% end %>
+<%=
+  settings_primer_form_with(
+    model: @user,
+    url: { action: "create" },
+    html: { autocomplete: "off" },
+    data: {
+      controller: "admin--users",
+      turbo: false,
+      "admin--users-password-auth-selected-value": @user.ldap_auth_source_id.blank?
+    }
+  ) do |f|
+    render(Users::FormComponent.new(builder: f, user: @user, contract: @contract))
+  end
+%>

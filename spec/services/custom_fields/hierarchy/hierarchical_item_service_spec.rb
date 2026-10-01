@@ -430,9 +430,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
     end
   end
 
-  context "with weighted item list and calculated values",
-          with_ee: %i[calculated_values weighted_item_lists],
-          with_flag: { calculated_value_project_attribute: true } do
+  context "with weighted item list and calculated values", with_ee: %i[calculated_values weighted_item_lists] do
     current_user { create(:admin) }
 
     let!(:project_using_one) { create(:project) }

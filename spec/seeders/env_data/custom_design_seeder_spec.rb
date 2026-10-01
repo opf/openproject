@@ -39,14 +39,14 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
     "data:image/png;base64,#{base64_image}"
   end
   let(:png_stub) do
-    stub_request(:get, "http://test.foobar.com/image.png")
+    stub_request(:get, "https://example.com/image.png")
       .to_return(
         status: 200,
         body: Rails.root.join("spec/fixtures/files/image.png").read
       )
   end
   let(:svg_stub) do
-    stub_request(:get, "http://test.foobar.com/image.svg")
+    stub_request(:get, "https://example.com/image.svg")
       .to_return(
         status: 200,
         body: Rails.root.join("spec/fixtures/files/icon_logo.svg").read
@@ -78,13 +78,13 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
             OPENPROJECT_SEED_DESIGN_HEADER__BG__COLOR: "#FFFFFF",
             OPENPROJECT_SEED_DESIGN_MAIN__MENU__BG__COLOR: "#FFFFFF",
             OPENPROJECT_SEED_DESIGN_MAIN__MENU__BG__SELECTED__BACKGROUND: "#571EFA",
-            OPENPROJECT_SEED_DESIGN_TOUCH__ICON: "http://test.foobar.com/image.png",
+            OPENPROJECT_SEED_DESIGN_TOUCH__ICON: "https://example.com/image.png",
             OPENPROJECT_SEED_DESIGN_LOGO: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wQACfsD/QqnFgAAAABJRU5ErkJggg=="
           } do
     it "uses those variables" do
       reset(:seed_design)
 
-      seeder.seed!
+      perform_enqueued_jobs { seeder.seed! }
 
       expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#571EFA")
       expect(DesignColor.find_by(variable: "accent-color").hexcode).to eq("#571EFA")
@@ -105,17 +105,26 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
   context "when setting logo as svg",
           :settings_reset,
           with_env: {
-            OPENPROJECT_SEED_DESIGN_LOGO: "http://test.foobar.com/image.svg"
+            OPENPROJECT_SEED_DESIGN_LOGO: "https://example.com/image.svg"
           } do
     it "sets the content type" do
       reset(:seed_design)
 
-      seeder.seed!
+      perform_enqueued_jobs { seeder.seed! }
 
+      RequestStore.clear!
       custom_style = CustomStyle.current
 
       expect(custom_style.logo.file).to be_present
       expect(custom_style.logo.file.content_type).to eq "image/svg+xml"
+    end
+
+    it "downloads the asset in a job" do
+      reset(:seed_design)
+
+      expect { seeder.seed! }
+        .to have_enqueued_job(CustomStyles::SeedRemoteAssetJob)
+        .with(an_instance_of(CustomStyle), :logo, "https://example.com/image.svg")
     end
   end
 
@@ -217,6 +226,59 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
       expect(DesignColor.count).to eq(2)
       expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#571EFA")
       expect(DesignColor.find_by(variable: "accent-color").hexcode).to eq("#571EFA")
+    end
+  end
+
+  context "when only_when_empty is true and no CustomStyle exists",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY: "true",
+            OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR: "#571EFA"
+          } do
+    it "seeds the design" do
+      reset(:seed_design)
+
+      seeder.seed!
+
+      expect(CustomStyle.count).to eq(1)
+      expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#571EFA")
+    end
+  end
+
+  context "when only_when_empty is true and a CustomStyle exists",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY: "true",
+            OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR: "#571EFA"
+          } do
+    it "does not change the existing design" do
+      reset(:seed_design)
+
+      CustomStyle.create!
+      DesignColor.create!(variable: "primary-button-color", hexcode: "#FFFFFF")
+
+      seeder.seed!
+
+      expect(CustomStyle.count).to eq(1)
+      expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#FFFFFF")
+    end
+  end
+
+  context "when only_when_empty is false and a CustomStyle exists",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY: "false",
+            OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR: "#571EFA"
+          } do
+    it "overwrites the existing design" do
+      reset(:seed_design)
+
+      CustomStyle.create!
+      DesignColor.create!(variable: "primary-button-color", hexcode: "#FFFFFF")
+
+      seeder.seed!
+
+      expect(DesignColor.find_by(variable: "primary-button-color").hexcode).to eq("#571EFA")
     end
   end
 end

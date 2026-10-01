@@ -47,9 +47,10 @@ RSpec.describe MembersController do
   end
 
   it {
-    expect(subject).to route(:put, "/members/5234").to(controller: "members",
-                                                       action: "update",
-                                                       id: "5234")
+    expect(subject).to route(:put, "/projects/1234/members/5234").to(controller: "members",
+                                                                     action: "update",
+                                                                     project_id: "1234",
+                                                                     id: "5234")
   }
 
   it {

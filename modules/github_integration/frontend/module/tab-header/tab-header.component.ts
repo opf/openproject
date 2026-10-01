@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
@@ -36,9 +36,12 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
   styleUrls: [
     './styles/tab-header.sass'
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TabHeaderComponent {
+  readonly I18n = inject(I18nService);
+
   @Input() public workPackage:WorkPackageResource;
 
   public text = {
@@ -48,7 +51,4 @@ export class TabHeaderComponent {
     gitMenuLabel: this.I18n.t('js.github_integration.tab_header.copy_menu.label'),
     gitMenuDescription: this.I18n.t('js.github_integration.tab_header.copy_menu.description'),
   };
-
-  constructor(readonly I18n:I18nService) {
-  }
 }

@@ -57,9 +57,9 @@ RSpec.describe BasicData::ProjectCustomFieldSectionSeeder do
     it "creates the corresponding sections with the given attributes", :aggregate_failures do
       expect(ProjectCustomFieldSection.count).to eq(2)
       expect(ProjectCustomFieldSection.find_by(name: "Project Attributes"))
-        .to have_attributes(position: 1)
+        .to have_attributes(position: 1, overview: CustomFieldSection::OVERVIEW__SIDEBAR_KEY)
       expect(ProjectCustomFieldSection.find_by(name: "Project Attributes Two"))
-        .to have_attributes(position: 2)
+        .to have_attributes(position: 2, overview: CustomFieldSection::OVERVIEW__SIDEBAR_KEY)
 
       # references the section in the seed data
       created_status = ProjectCustomFieldSection.last

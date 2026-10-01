@@ -36,7 +36,9 @@ module RecurringMeetings
 
     def validate_params
       @old_schedule_model = model.dup
+      @previous_snapshot = ScheduleSnapshot.capture(model)
       @old_location = model.template.location
+      @old_title = model.title
       super
     end
 
@@ -44,15 +46,49 @@ module RecurringMeetings
       return call unless call.success?
 
       recurring_meeting = call.result
+      recurring_meeting.bump_ical_sequence!
+
+      # Make sure we update the template before sending out any emails
+      # to make sure it's attributes (such as a location change) are correctly used
+      update_template(call)
+
+      return call unless call.success?
+
+      started_new_schedule = start_new_schedule(recurring_meeting)
 
       if should_reschedule?(recurring_meeting)
         reschedule_future_occurrences(recurring_meeting)
         reschedule_init_job(recurring_meeting)
-        send_updated_mail(recurring_meeting)
+      end
+
+      if send_updated_mail?(recurring_meeting)
+        send_updated_mail(recurring_meeting, historic_schedule: started_new_schedule)
       end
 
       cleanup_cancelled_schedules(recurring_meeting)
-      update_template(call)
+      cleanup_interim_responses(recurring_meeting)
+      update_future_occurrence_titles(recurring_meeting)
+
+      call
+    end
+
+    # Not should_reschedule?, which is false when the series has no next occurrence. An update
+    # that shortened a series into the past must still tell the participants.
+    # RecurringMeetings::EndService is the exception. It sends its own ended_series mail after
+    # this call, thus a mail from here would arrive twice.
+    def send_updated_mail?(recurring_meeting)
+      recurring_meeting.reschedule_required?(previous: true) &&
+        contract_class != RecurringMeetings::EndSeriesContract
+    end
+
+    # Updating this series will replace and rewrite occurrences. IF we need to start
+    # a new schedule, we have to do it before this update.
+    def start_new_schedule(recurring_meeting)
+      return unless recurring_meeting.schedule_changed?(previous: true)
+
+      StartNewScheduleService
+        .new(recurring_meeting:, previous: @previous_snapshot)
+        .call
     end
 
     def update_template(call)
@@ -85,76 +121,130 @@ module RecurringMeetings
     # per day. This ensures we can reschedule them on update.
     def multi_instances_per_day?(recurring_meeting)
       recurring_meeting
-        .scheduled_meetings
-        .group("start_time::date")
+        .meetings
+        .not_templated
+        .where.not(recurrence_start_time: nil)
+        .group("recurrence_start_time::date")
         .having("COUNT(*) > 1")
         .exists?
     end
 
-    def update_time_of_day(recurring_meeting)
-      schedule_meetings = recurring_meeting.scheduled_meetings
-
-      schedule_meetings.each do |scheduled|
-        # Ensure we treat the start_time as a local time of the series
-        start_time = scheduled.start_time.in_time_zone(recurring_meeting.time_zone)
-        # so that we change the correct hour/minute
-        new_time = start_time.change(
+    # This moves only the occurrences that did not start.
+    # Occurrences in the past will keep their slot.
+    def update_time_of_day(recurring_meeting) # rubocop:disable Metrics/AbcSize
+      recurring_meeting
+        .meetings
+        .not_templated
+        .where.not(recurrence_start_time: nil)
+        .where(recurrence_start_time: Time.current..)
+        .find_each do |meeting|
+        # Ensure we treat the recurrence_start_time as a local time of the series
+        occurrence_time = meeting.recurrence_start_time.in_time_zone(recurring_meeting.time_zone)
+        # change only the hour/minute component
+        new_time = occurrence_time.change(
           hour: recurring_meeting.start_time.hour,
           min: recurring_meeting.start_time.min
         )
 
         Meeting.transaction do
-          scheduled.update_column(:start_time, new_time)
-          if scheduled.meeting_id.present? && scheduled.meeting.start_time.future?
-            # for past meetings we do not change the time
-            scheduled.meeting.update_column(:start_time, new_time)
-          end
+          meeting.update_column(:recurrence_start_time, new_time)
+          meeting.update_column(:start_time, new_time) if meeting.start_time.future?
         end
       end
     end
 
     def remove_cancelled_schedules(recurring_meeting)
       recurring_meeting
-        .scheduled_meetings
+        .meetings
+        .not_templated
         .cancelled
-        .delete_all
+        .destroy_all
     end
 
     def reschedule_all_occurrences(recurring_meeting)
-      # Get all future scheduled meetings that have been instantiated, ordered by start time
-      future_meetings = recurring_meeting
-        .scheduled_instances(upcoming: true)
-        .instantiated
-        .not_cancelled
-
-      # Get the next occurrences from the schedule matching the number of future meetings
+      future_meetings = future_occurrences_to_reschedule(recurring_meeting)
       next_occurrences = recurring_meeting.scheduled_occurrences(limit: future_meetings.count)
+      pairs = ordered_reschedule_pairs(future_meetings, next_occurrences)
 
-      # Update each meeting's timing to match the new schedule
-      # Wrap in transaction to allow deferrable unique constraint to work
       Meeting.transaction do
-        future_meetings.each_with_index do |scheduled, index|
-          next_time = next_occurrences[index]&.to_time
+        pairs.each do |meeting, next_time|
+          next unless next_time
 
-          if next_time
-            scheduled.update_column(:start_time, next_time)
-            scheduled.meeting.update_column(:start_time, next_time)
-          end
+          meeting.update_column(:recurrence_start_time, next_time)
+          meeting.update_column(:start_time, next_time)
         end
       end
     end
 
+    def future_occurrences_to_reschedule(recurring_meeting)
+      recurring_meeting
+        .meetings
+        .not_templated
+        .not_cancelled
+        .where.not(recurrence_start_time: nil)
+        .where(recurrence_start_time: Time.current..)
+        .order(recurrence_start_time: :asc)
+        .to_a
+    end
+
+    # Pair each existing meeting with its new scheduled time.
+    # Update order is important here: PostgreSQL enforces the unique constraint on recurrence_start_time
+    # after every individual write, not just at the end of the transaction.
+    # If we do not order them here, we would violate the unique constraint.
+    def ordered_reschedule_pairs(future_meetings, next_occurrences)
+      pairs = future_meetings.zip(next_occurrences.map(&:to_time))
+      last_old = future_meetings.last&.recurrence_start_time
+      last_new = next_occurrences.last&.to_time
+
+      # When the schedule expands (the last new slot is later than the last old slot), we process
+      # from last to first so each meeting moves into a slot already vacated by the one after it.
+      # When the schedule ends up tighter, first-to-last is still safe since each newly freed slot is earlier than the next.
+      pairs.reverse! if last_new && last_old && last_new > last_old
+
+      pairs
+    end
+
     def cleanup_cancelled_schedules(recurring_meeting)
-      ScheduledMeeting
-        .where(recurring_meeting:)
+      recurring_meeting
+        .meetings
+        .not_templated
         .cancelled
-        .find_each do |scheduled|
-          occurring = recurring_meeting.schedule.occurs_at?(scheduled.start_time)
-          scheduled.delete unless occurring
+        .find_each do |meeting|
+        occurring = recurring_meeting.schedule.occurs_at?(meeting.recurrence_start_time)
+        meeting.destroy! unless occurring
       end
     end
 
-    def send_updated_mail(recurring_meeting)
+    # Interim response become stale when we reschedule the meeting.
+    # This method cleans up all responses after a reschedule that no longer match the RRULE and current DTSTART.
+    def cleanup_interim_responses(recurring_meeting)
+      # All responses from an earlier schedule can be dropped, as we only keep actual meetings around.
+      recurring_meeting
+        .recurring_meeting_interim_responses
+        .where(start_time: ...recurring_meeting.current_schedule_start)
+        .delete_all
+
+      # For remaining interim responses, remove those that are not covered
+      recurring_meeting
+        .recurring_meeting_interim_responses
+        .where(start_time: recurring_meeting.current_schedule_start..)
+        .find_each { |interim| interim.destroy! unless recurring_meeting.schedule.occurs_at?(interim.start_time) }
+    end
+
+    def update_future_occurrence_titles(recurring_meeting)
+      new_title = @template_params[:title]
+      return if new_title == @old_title
+
+      recurring_meeting
+        .meetings
+        .not_templated
+        .not_cancelled
+        .where.not(recurrence_start_time: nil)
+        .where(recurrence_start_time: Time.current..)
+        .update_all(title: new_title)
+    end
+
+    def send_updated_mail(recurring_meeting, historic_schedule: false)
       return unless recurring_meeting.notify?
 
       recurring_meeting
@@ -162,18 +252,75 @@ module RecurringMeetings
         .participants
         .invited
         .find_each do |participant|
-          # Generate old schedule in each participant's locale
-          old_schedule = User.execute_as(participant.user) do
-            @old_schedule_model.full_schedule_in_words
-          end
+        send_historic_schedule_mail(recurring_meeting, participant) if historic_schedule
 
-          MeetingSeriesMailer.updated(
-            recurring_meeting,
-            participant.user,
-            User.current,
-            changes: { old_schedule:, old_location: @old_location }
-          ).deliver_now
+        MeetingSeriesMailer.updated(
+          recurring_meeting,
+          participant.user,
+          User.current,
+          changes: updated_mail_changes(recurring_meeting, participant.user)
+        ).deliver_now
       end
+    end
+
+    # RFC 5546 3.2.2 permits one UID per REQUEST, thus the schedule that ended needs its own
+    # message. It goes first, so the client sees the end before the new series starts.
+    def send_historic_schedule_mail(recurring_meeting, participant)
+      historic = recurring_meeting.last_historic_schedule
+      # We ignore sending out a previous schedule if the participant was added only after the
+      # schedule changed in the first place. They never had the old invite.
+      return if participant.created_at > historic.created_at
+
+      MeetingSeriesMailer.updated(
+        recurring_meeting,
+        participant.user,
+        User.current,
+        changes: historic_schedule_changes(historic, participant.user),
+        historic_schedule: true
+      ).deliver_now
+    end
+
+    # The mail for the schedule that ended looks like any other update.
+    # It ist just "updated" as a side-effect with a new end date.
+    def historic_schedule_changes(historic, recipient)
+      ended = ended_schedule_model(historic)
+
+      User.execute_as(recipient) do
+        {
+          old_location: @old_location,
+          new_location: @old_location,
+          old_schedule: @old_schedule_model.full_schedule_in_words,
+          new_schedule: ended.full_schedule_in_words
+        }
+      end
+    end
+
+    def ended_schedule_model(historic)
+      RecurringMeeting
+        .new(@old_schedule_model.attributes.slice(*schedule_columns))
+        .tap do |ended|
+        ended.end_after = :specific_date
+        ended.end_date = historic.ends_at.in_time_zone(historic.time_zone).to_date
+      end
+    end
+
+    # SCHEDULE_ATTRIBUTES includes two virtual attributes: start_date and start_time_hour.
+    # Using #attributes with them would return "nil" for those fields.
+    # This would cause a new record to lose +start_time+ as a result,
+    # since +set_initial_values+ would set it to the current time.
+    def schedule_columns
+      RecurringMeeting::SCHEDULE_ATTRIBUTES & RecurringMeeting.column_names
+    end
+
+    # Only include old_schedule when the recurrence actually changed.
+    # Previously, we compared the localized schedule which would always differ.
+    def updated_mail_changes(recurring_meeting, recipient)
+      changes = { old_location: @old_location }
+      return changes unless recurring_meeting.schedule_changed?(previous: true)
+
+      changes.merge(
+        old_schedule: User.execute_as(recipient) { @old_schedule_model.full_schedule_in_words }
+      )
     end
 
     def reschedule_init_job(recurring_meeting)

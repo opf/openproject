@@ -40,7 +40,19 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
   it_behaves_like "rendering autocompleter", "List field" do
     it "sets correct autocompleter inputs" do
       expect(autocompleter["data-items"]).to have_json_size(3)
-      expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "eins"}})
+      expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "eins", "selected": true}})
+    end
+  end
+
+  context "when the field is rendered read-only" do
+    def build_form(builder)
+      described_class.new(builder, custom_field:, object: model, disabled: true)
+    end
+
+    it_behaves_like "rendering autocompleter", "List field" do
+      it "disables the autocompleter" do
+        expect(autocompleter["data-disabled"]).to be_json_eql(true)
+      end
     end
   end
 
@@ -63,7 +75,7 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
       # [1] CustomFields::Inputs::SingleSelectList#list_items
       describe "with an option selected" do
         it "pre-selects the selected value" do
-          expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "drei"}})
+          expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "drei", "selected": true}})
         end
       end
 
@@ -71,7 +83,7 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
         let(:value) { nil }
 
         it "pre-selects the default value" do
-          expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "zwei"}})
+          expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "zwei", "selected": true}})
         end
       end
     end

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -107,8 +107,11 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'TimeEntriesActivity',
         'Version',
         'Category',
+        'BacklogBucket',
+        'Sprint',
         'CustomField::Hierarchy::Item',
-        'CustomOption'])
+        'CustomOption',
+        'Workspace'])
       .addFieldType(ProjectPhaseDisplayField, 'projectPhase', ['ProjectPhase'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption', '[]CustomField::Hierarchy::Item'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]Version'])

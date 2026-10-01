@@ -69,9 +69,20 @@ module Projects
 
     # We don't return the project row
     # but the [project, level] array from the helper
+    #
+    # The projects are also wrapped with the eager loading wrapper so that custom fields can be eager loaded.
     def rows
       @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
+        projects_enumerator = ->(model) {
+          projects = if has_custom_field_column?
+                       API::V3::Projects::ProjectEagerLoadingWrapper.wrap(model, eager_loaded: %i[custom_fields])
+                     else
+                       model
+                     end
+
+          to_enum(:projects_with_levels_order_sensitive, projects).to_a
+        }
+
         instance_exec(model, &projects_enumerator)
       end
     end
@@ -164,8 +175,14 @@ module Projects
                   .with_latest_activity
       end
 
+      if has_custom_field_column?
+        scope = scope
+                  .includes(:custom_values,
+                            :calculated_value_errors)
+      end
+
       scope
-        .includes(:custom_values, :enabled_modules)
+        .includes(:enabled_modules)
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
     end
 
@@ -205,6 +222,10 @@ module Projects
 
     def sorted_by_lft?
       query.orders.first&.attribute == :lft
+    end
+
+    def has_custom_field_column?
+      query.selects.any? { it.is_a?(Queries::Projects::Selects::CustomField) } # rubocop:disable Style/PredicateWithKind
     end
   end
 end

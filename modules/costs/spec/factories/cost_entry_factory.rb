@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :cost_entry do
     project
     user
+    logged_by { User.current }
     entity factory: :work_package
     cost_type
     spent_on { Date.current }

@@ -19,128 +19,380 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 sv:
-  plugin_openproject_backlogs:
-    name: "Backloggar för OpenProject"
-    description: "Modulen lägger till funktioner som gör det möjligt för agila team att arbeta med OpenProject i Scrum-projekt."
   activerecord:
     attributes:
+      project:
+        allow_multiple_active_sprints: Tillåt flera aktiva sprintar
+        backlog_excluded_types: Undantagna arbetspaketstyper
+        estimation_unit: Enhet
+        sprint_sharing: Delning av sprintar
+        statuses_considered_closed: Statusar som betraktas som stängda
       sprint:
-        duration: "Sprint duration"
+        duration: Varaktighet
+        finish_date: Slutdatum
+        goal: Sprintmål
+        name: Sprintnamn
+        sharing: Delas
+        statuses:
+          active: Aktiv
+          completed: Slutförd
+          in_planning: Under planering
+        work_packages: Arbetspaket
+      sprint_goal:
+        text: Sprintmål
       work_package:
-        position: "Position"
-        story_points: "Berättelsepoäng"
-        backlogs_work_package_type: "Typ av backlogg"
+        backlog_bucket: Backlogggrupp
+        backlog_inbox: Backloggens inkorg
+        backlogs_work_package_type: Typ av backlogg
+        position: Position
+        sprint: Sprint
+        story_points: Berättelsepoäng
     errors:
+      messages:
+        cannot_start_while_receiving_shared_sprints: kan inte startas medan projektet tar emot delade sprintar.
+        dates_required: Start- och slutdatum krävs för att starta sprinten.
+        must_be_in_planning: måste vara under planering för att kunna startas.
+        only_one_active_sprint_allowed: endast en aktiv sprint är tillåten per projekt.
       models:
+        project:
+          attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: kan inte ändras medan flera aktiva sprintar pågår.
+              requires_no_sharing: kan endast aktiveras när sprintdelning är inställd på ”Dela inte”.
+            sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: kan inte ställas in för mottagning eftersom projektet har en aktiv eller lånad sprint. Stäng eller ta först bort tilldelningen från arbetspaketen.
+              locked_by_multiple_active_sprints: kan inte ändras medan flera aktiva sprintar är aktiverade.
+              share_all_projects_already_taken: kan inte ställas in eftersom projektet ”%{name}” redan delar med alla projekt.
+              share_all_projects_already_taken_anonymous: kan inte ställas in eftersom ett annat projekt redan delar med alla projekt.
+              work_packages_still_linked_to_shared_sprints: kan inte ändras eftersom arbetspaket fortfarande är länkade till delade sprintar. Ta först bort tilldelningen från dem.
+          receiving_sprints: tar emot delade sprintar. Egna sprintar kan inte skapas.
+        sprint:
+          attributes:
+            base:
+              format: "%{message}"
+              unfinished_work_packages:
+                one: Det finns ett arbetspaket som inte slutfördes i den här sprinten.
+                other: Det finns %{count} arbetspaket som inte slutfördes i den här sprinten.
+            status:
+              not_active: är inte aktiv och kan därför inte stängas.
+        sprint_goal:
+          project_already_has_goal: har redan ett mål för den här sprinten.
         work_package:
           attributes:
+            backlog_bucket:
+              backlog_bucket_from_another_project: måste tillhöra samma projekt som arbetspaketet.
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "kan endast innehålla ID:n för arbetspaket i den aktuella sprinten."
-              must_block_at_least_one_work_package: "måste innehålla ID för minst ett arbetspaket."
+              can_only_contain_work_packages_of_current_sprint: kan endast innehålla ID:n för arbetspaket i den aktuella sprinten.
+              must_block_at_least_one_work_package: måste innehålla ID för minst ett arbetspaket.
+            sprint:
+              not_assignable: kan inte tilldelas eftersom den antingen inte delas med projektet eller redan är slutförd.
+              not_eligible_for_moving: är inte en aktiv sprint i projektet som innehåller sprinten som arbetspaketet flyttas ut från.
             version_id:
-              task_version_must_be_the_same_as_story_version: "måste vara samma som föräldraberättelsens version."
-        sprint:
-          cannot_end_before_it_starts: "En sprint kan inte avslutas innan den startar."
-  attributes:
-    task_type: "Task type"
+              task_version_must_be_the_same_as_story_version: måste vara samma som föräldraberättelsens version.
+          backlog_bucket_xor_sprint: kan inte tilldelas både en sprint och en backlogggrupp.
+    models:
+      backlog_bucket:
+        one: Backlogggrupp
+        other: Backlogggrupper
+      sprint:
+        one: Sprint
+        other: Sprintar
+      sprint_goal:
+        one: Sprintmål
+        other: Sprintmål
   backlogs:
-    any: "någon"
-    column_width: "Column width"
-    definition_of_done: "Definition av klart"
-    impediment: "Hinder"
-    label_versions_default_fold_state: "Visa ihopfällda versioner"
-    caption_versions_default_fold_state: "Versioner kommer inte att utökas som standard när du visar backloggar. Var och en måste utökas manuellt."
-    work_package_is_closed: "Arbetspaket är klart, när"
-    label_is_done_status: "Status %{status_name} innebär klart"
-    points_label:
-      one: "point"
-      other: "points"
-    positions_could_not_be_rebuilt: "Positioner kunde inte beräknas om."
-    positions_rebuilt_successfully: "Positioner beräknades om."
-    rebuild: "Rekonstruera"
-    rebuild_positions: "Rekonstruera positioner"
-    remaining_hours: "Återstående arbete"
-    show_burndown_chart: "Burndown-diagram"
-    story: "Berättelse"
-    story_points:
-      one: "%{count} story point"
-      other: "%{count} story points"
-    task: "Aktivitet"
-    task_color: "Aktivitetsfärg"
-    unassigned: "Ej tilldelad"
-    user_preference:
-      header_backlogs: "Backlogmodul"
-      button_update_backlogs: "Uppdatera backlogmodul"
+    add_existing_work_package_dialog_component:
+      title_without_container: Lägg till befintligt arbetspaket
+    administration_blankslate:
+      text: Vi håller för närvarande på att göra om modulen Backloggar. Administratörsinställningar för sprintar och backloggar kommer att visas här inom kort. Inställningar på projektnivå är fortfarande tillgängliga.
+      title: Administratörsinställningarna för backloggar utvecklas
     backlog_component:
-      blankslate_title: "%{name} is empty"
-      blankslate_description: "No items planned yet. Drag items here to add them."
-    backlog_header_component:
-      label_toggle_backlog: "Collapse/Expand %{name}"
-      label_story_count:
-        zero: "No stories in backlog"
-        one: "%{count} story in backlog"
-        other: "%{count} stories in backlog"
-    backlog_menu_component:
-      label_actions: "Backlog actions"
+      button_new_backlog_bucket: Ny backlogggrupp
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlogggrupp
+        other: Backlogggrupper
+        zero: Alla backlogggrupper
+      label_sprint_filter:
+        one: Sprint
+        other: Sprintar
+        zero: Alla sprintar
+      select_panel_title: Välj objekt
+    blankslate_filtered_title: Inga arbetspaket matchar filtervillkoren.
+    bucket_component:
       action_menu:
-        edit_sprint: "Edit sprint"
-        new_story: "New story"
-        stories_tasks: "Stories/Tasks"
-        task_board: "Task board"
-        burndown_chart: "Burndown chart"
-        wiki: "Wiki"
-        properties: "Properties"
-    story_component:
-      label_drag_story: "Move %{name}"
-    story_menu_component:
-      label_actions: "Story actions"
-  backlogs_points_burn_direction: "Burn up/-down poäng"
-  backlogs_product_backlog: "Produktbacklog"
-  backlogs_story: "Berättelse"
-  backlogs_story_type: "Berättelsetyp"
-  backlogs_task: "Uppgift"
-  backlogs_task_type: "Aktivitetstyp"
-  backlogs_wiki_template: "Mall för sprint wiki-sida"
-  backlogs_empty_title: "No versions are defined yet"
-  backlogs_empty_action_text: "To start using backlogs, please create a version first"
-  backlogs_not_configured_title: "Backlogs not configured"
-  backlogs_not_configured_description: "Story and task types need to be set before using this module."
-  backlogs_not_configured_action_text: "Configure Backlogs"
+        add_existing_work_package: Lägg till befintligt arbetspaket
+        add_new_work_package: Lägg till nytt arbetspaket
+        delete_backlog_bucket: Ta bort backlogggrupp
+        edit_backlog_bucket: Redigera backlogggrupp
+      blankslate_description: Dra objekt hit för att lägga till dem
+      blankslate_title: Backlogggruppen är tom
+      drop_zone_label: Släpp här för att lägga till objektet
+      label_actions: Åtgärder för backlogggrupp
+    bucket_destroy_modal_component:
+      details: Backlogggruppen ”%{name}” tas bort och alla arbetspaket flyttas till backloggens inkorg. Inget arbetspaket tas bort.
+      title: Ta bort backlogggruppen?
+    burndown_chart:
+      show:
+        blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
+        blankslate_title: Inga burndown-data tillgängliga
+    estimation_unit: Enheter
+    excluded_work_package_types_caption: 'Välj vilka arbetspaketstyper som ska döljas från backloggen. Objekt av de valda typerna visas inte automatiskt i backloggen, så att den kan fokusera på det arbete som är relevant för teamet. Till exempel kan typer som epics eller milstolpar, som hanteras på en högre nivå, döljas så att backloggen fokuserar på åtgärdbara objekt.
+
+      '
+    finish_sprint_dialog_component:
+      actions:
+        move_to_bottom_of_backlog: Flytta dem längst ned i backloggen
+        move_to_sprint: Flytta dem till en annan sprint
+        move_to_top_of_backlog: Flytta dem högst upp i backloggen
+      body: "%{message} Vad vill du göra med dessa?"
+      button_complete_sprint: Slutför sprint
+      legend: Åtgärd för oavslutade arbetspaket
+      select_sprint_label: Välj sprint
+      title: Det finns pågående objekt
+    inbox_component:
+      action_menu:
+        add_existing_work_package: Lägg till befintligt arbetspaket
+        add_new_work_package: Lägg till nytt arbetspaket
+      blankslate_description: Öppna arbetspaket som inte ingår i en sprint eller backlogggrupp visas automatiskt här
+      blankslate_title: Backloggens inkorg är tom
+      drop_zone_label: Släpp här för att lägga till objektet
+      label_actions: Inkorgsåtgärder
+      show_more:
+        one: Visa 1 objekt till
+        other: Visa %{count} objekt till
+      title: Inkorg
+    index_subheader_component:
+      label_search_by_subject: Sök arbetspaket efter ämne
+    label_burndown_chart: Burndown-diagram
+    label_is_done_status: Status %{status_name} innebär klart
+    label_sprint_board: Sprinttavla
+    label_sprint_report: Sprintrapport
+    move_to_bucket_dialog_component:
+      title: Flytta till backlogggrupp
+    move_to_sprint_dialog_component:
+      label_sprint: Sprint
+      title: Flytta till sprint
+    multiple_active_sprints: Flera aktiva sprintar
+    points_label:
+      one: poäng
+      other: poäng
+    positions_could_not_be_rebuilt: Positioner kunde inte beräknas om.
+    positions_rebuilt_successfully: Positioner beräknades om.
+    rebuild: Rekonstruera
+    rebuild_positions: Rekonstruera positioner
+    remaining_hours: Återstående arbete
+    sharing: Delning av sprintar
+    show_burndown_chart: Burndown-diagram
+    show_work_package_overview: Arbetspaket i sprinten
+    sprint_component:
+      action_menu:
+        add_existing_work_package: Lägg till befintligt arbetspaket
+        add_new_work_package: Lägg till nytt arbetspaket
+        edit_sprint: Redigera sprint
+      blankslate_description: Inga objekt är planerade ännu. Dra objekt hit för att lägga till dem.
+      blankslate_title: "%{name} är tom"
+      drop_zone_label: Släpp här för att lägga till objektet
+      label_actions: Sprintåtgärder
+      label_complete_sprint: Slutför sprint
+      label_start_sprint: Starta sprint
+      start_sprint_disabled_reason_active_sprint: En annan sprint är redan aktiv.
+      start_sprint_disabled_reason_missing_dates: Start- och slutdatum krävs för att starta sprinten.
+      start_sprint_disabled_reason_receiving_shared_sprints: Projektets egna sprintar kan inte startas medan det tar emot delade sprintar.
+      start_sprint_disabled_reason_shared_sprint: Den här sprinten kommer från ett annat projekt som inte stöder flera aktiva sprintar.
+    sprint_form:
+      goal_caption: Sprintmålet är unikt för det här projektet och delas inte med andra projekt som också använder sprinten.
+      goal_for_this_project_label: "%{attribute} (för det här projektet)"
+    sprint_form_component:
+      shared_sprint_info_banner: Det här är en delad sprint. Ändringar återspeglas i alla projekt som använder den.
+      shared_sprint_warning_banner: Det här är en delad sprint. Du har inte de behörigheter som krävs för att redigera den.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Rapport
+        title: Rapport för %{sprint}
+      widgets:
+        work_package_graph:
+          title: Graf för arbetspaket
+        work_package_overview:
+          blankslate:
+            description: Ange start- och slutdatum för sprinten för att skapa översikten över arbetspaket.
+            heading: Inga sprintdata tillgängliga
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Omfattningsändring
+              story_points_change: "+%{added} / -%{removed} berättelsepoäng"
+            completed:
+              heading: Slutförd
+            initially_planned:
+              heading: Ursprungligen planerat
+            unfinished:
+              heading: Inte slutfört
+          breakdown_block:
+            blocks:
+              show_all: Visa alla
+          closed_work_packages: Stängda arbetspaket
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} av %{total} arbetspaket)"
+            other: "%{percentage}% (%{resolved} av %{total} arbetspaket)"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Redigera sprint
+          sprint_report: Sprintrapport
+    sprints_component:
+      blankslate:
+        create_and_manage_description_html: För att börja planera sprinten kan du skapa en här eller gå till %{settings_link} för att ta emot sprintar från ett annat projekt.
+        create_description_text: För att börja planera sprinten skapar du en här.
+        manage_description_html: För att börja planera sprinten går du till %{settings_link} för att ta emot sprintar från ett annat projekt.
+        no_actions_description_text: Det finns ännu inga sprintar tillgängliga för det här projektet.
+        receive_and_manage_description_html: Det här projektet tar emot sprintar från ett annat projekt. Hantera detta i %{settings_link}.
+        receive_description_text: Det här projektet tar emot delade sprintar från ett annat projekt, men inga är tillgängliga just nu.
+        settings_link_text: projektinställningarna
+        title: Inga sprintar ännu
+      button_new_sprint: Ny sprint
+    statuses_considered_closed_caption: 'Välj de statusar som representerar ett stängt eller avslutat tillstånd i arbetsflödet. Dessa behandlas som tillståndet ”Stängd” i rapportering (t.ex. burndown) och sprintplanering. Statusar som Klar, Löst eller Åtgärdas inte kan till exempel alla representera ett stängt arbetsobjekt i er process.
+
+      '
+    story_points:
+      one: "%{count} berättelsepoäng"
+      other: "%{count} berättelsepoäng"
+    types_and_statuses: Typer och statusar
+    unassigned: Ej tilldelad
+    user_preference:
+      button_update_backlogs: Uppdatera backlogmodul
+      header_backlogs: Backlogmodul
+    work_package_card_menu_component:
+      action_menu:
+        copy_url_to_clipboard: Kopiera URL till urklipp
+        copy_work_package_id: Kopiera arbetspakets-ID
+        move_menu: Flytta till position
+        move_to_backlog_bucket: Flytta till backlogggrupp
+        move_to_inbox: Flytta till backloggens inkorg
+        move_to_sprint: Flytta till sprint
+    work_package_is_closed: Arbetspaket är klart, när
+    work_packages:
+      add_existing_dialog:
+        invalid_target: Målet du försöker lägga till i är ogiltigt.
+        target_not_found: Sprinten eller backloggen som du försöker lägga till i hittades inte.
+      batch_update_service:
+        mixed_projects: Alla arbetspaket i en grupp som flyttas samtidigt måste tillhöra samma projekt.
+        stale_batch: Minst ett arbetspaket ändrades medan flytten förbereddes. Kontrollera de aktuella positionerna och försök igen.
+        stale_predecessor: Arbetspaketet som de andra skulle infogas efter har flyttats någon annanstans. Kontrollera de aktuella positionerna och försök igen.
+        unavailable_target: Mållistan är inte längre tillgänglig. Läs in sidan på nytt och försök igen.
+        unexpected_failure: Det gick inte att flytta arbetspaketen. Försök igen.
+      move:
+        moved_announcement: "%{label} flyttades till %{list}, position %{position} av %{total}"
+      move_collection:
+        invalid_ids: Listan över arbetspaket som ska flyttas är ogiltig.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Högst %{max} arbetspaket kan flyttas samtidigt.
+        work_packages_not_found: Minst ett arbetspaket kunde inte hittas i det här projektet.
+      update_service:
+        invalid_target_type: 'list_type måste vara något av följande: backlog_bucket med ett list_id, sprint med ett list_id eller inbox utan ett list_id.'
+        missing_target: list_type eller list_id måste anges.
   burndown:
-    story_points: "Story points"
-    story_points_ideal: "Story points (ideal)"
-  errors:
-    attributes:
-      task_type:
-        cannot_be_story_type: "can not also be a story type"
-  label_backlogs: "Backloggar"
-  label_backlogs_unconfigured: "Du har inte konfigurerat backloggar ännu. Gå till %{administration} > %{plugins}, klicka på %{configure} länken för denna plugin. När du har ställt in fälten, kan du komma tillbaka till denna sida för att börja använda verktyget."
-  label_blocks_ids: "ID:n för blockerade arbetspaket"
-  label_column_in_backlog: "Kolumn i backlog"
-  label_points_burn_down: "Ner"
-  label_points_burn_up: "Upp"
-  label_select_type: "Select a type"
-  label_select_types: "Select types"
-  label_selected_type: "Selected type"
-  label_selected_types: "Selected types"
-  label_sprint_impediments: "Sprint hinder"
-  label_task_board: "Aktivitetstavla"
-  permission_view_master_backlog: "Visa master backlog"
-  permission_view_taskboards: "Visa aktivitetstavlor"
-  permission_select_done_statuses: "Välj klar status"
-  permission_update_sprints: "Uppdatera sprinter"
-  project_module_backlogs: "Backloggar"
-  rb_burndown_charts:
-    show:
-      blankslate_title: "No burndown data available"
-      blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-  remaining_hours: "återstående arbete"
-  version_settings_display_label: "Kolumn i backlog"
-  version_settings_display_option_left: "vänster"
-  version_settings_display_option_none: "inga"
-  version_settings_display_option_right: "höger"
-  setting_plugin_openproject_backlogs_story_types_caption: |
-    Types treated as backlog stories (e.g., Feature, User story). Must differ from task type.
-  setting_plugin_openproject_backlogs_task_type_caption: |
-    Type used for story tasks. Must differ from story types.
+    story_points: Berättelsepoäng
+    story_points_ideal: Berättelsepoäng (idealiskt)
+  ee:
+    features:
+      multiple_active_sprints: Flera aktiva sprintar
+      sprint_sharing: Delning av sprintar
+    upsell:
+      multiple_active_sprints:
+        description: Kör flera sprintar parallellt för olika team i projektet för större kontroll och flexibilitet.
+      sprint_sharing:
+        description: Dela sprintar mellan projekt för att samordna team och arbete i skalade agila upplägg (SAFe).
+  label_all_sprints: Alla sprintar
+  label_backlog: Backlogg
+  label_backlog_and_sprints: Backlogg och sprintar
+  label_backlog_bucket_edit: Redigera backlogggrupp
+  label_backlog_bucket_new: Ny backlogggrupp
+  label_backlogs: Backloggar
+  label_burndown_chart: Burndown-diagram
+  label_inbox: Inkorg
+  label_points_burn_down: Ner
+  label_points_burn_up: Upp
+  label_sprint_board: Sprinttavla
+  label_sprint_edit: Redigera sprint
+  label_sprint_new: Ny sprint
+  label_task_board: Aktivitetstavla
+  notice_successful_finish: Sprinten slutfördes.
+  notice_successful_start: Sprinten startades.
+  notice_unsuccessful_finish: Sprinten kunde inte slutföras.
+  notice_unsuccessful_finish_with_reason: 'Sprinten kunde inte slutföras: %{reason}'
+  notice_unsuccessful_start: Sprinten kunde inte startas.
+  notice_unsuccessful_start_with_reason: 'Sprinten kunde inte startas: %{reason}'
+  notice_work_package_invisible_after_move:
+    one: 'Arbetspaketet flyttades till %{backlog} men är inte synligt eftersom dess typ eller status är undantagen från backloggen.
+
+      '
+    other: "%{count} arbetspaket flyttades till %{backlog} men visas inte eftersom deras typ eller status är undantagen från backloggen.\n"
+  permission_create_sprints: Skapa sprintar
+  permission_manage_sprint_items: Hantera sprintobjekt
+  permission_select_backlog_types_and_statuses: Välj backloggtyper och statusar
+  permission_select_backlog_types_and_statuses_explanation: 'Gör det möjligt att välja vilka arbetspaketstyper som ska döljas från backloggen. Det går också att ange vilka statusar som representerar ett stängt eller avslutat tillstånd i projektets arbetsflöde.
+
+    '
+  permission_share_sprint: Dela sprint
+  permission_start_complete_sprint: Starta/slutför sprint
+  permission_view_sprints: Visa sprintar
+  plugin_openproject_backlogs:
+    description: Modulen lägger till funktioner som gör det möjligt för agila team att arbeta med OpenProject i Scrum-projekt.
+    name: Backloggar för OpenProject
+  project_module_backlogs: Backloggar
+  projects:
+    copy:
+      backlog_buckets: Backlogggrupper
+      sprints: Sprintar
+    settings:
+      backlog_estimation_unit:
+        estimation_unit: Enhet
+        options:
+          none:
+            caption: Antalet arbetspaket används som standardenhet i diagram. Vissa diagram i sprintrapporter visas inte.
+            label: Ingen
+          story_points:
+            caption: Korten och diagrammen visar berättelsepoäng.
+            label: Berättelsepoäng
+          time:
+            caption: Korten och diagrammen visar uppskattad arbetstid.
+            label: Uppskattad arbetstid
+      backlog_sharing:
+        options:
+          no_sharing:
+            caption: Sprintar som skapas i det här projektet är endast tillgängliga och synliga i det här projektet. De är inte heller synliga för delprojekt.
+            label: Dela inte
+          receive_shared:
+            caption: Det här projektet kan endast använda sprintar som delas av andra projekt.
+            label: Ta emot delade sprintar
+            warning: Det här projektet kan endast använda sprintar som delas av andra projekt. Oanvända sprintar som tidigare skapats i det här projektet kommer inte längre att vara synliga.
+          share_all_projects:
+            caption: Sprintar som skapas i det här projektet blir tillgängliga för alla projekt i den här instansen. Om du väljer det här alternativet kommer det inte längre att vara tillgängligt för andra projekt.
+            disabled_caption: Alternativet är inte tillgängligt eftersom projektet ”%{name}” för närvarande delar med alla projekt och endast ett projekt kan göra detta.
+            disabled_caption_anonymous: Alternativet är inte tillgängligt eftersom ett annat projekt för närvarande delar med alla projekt och endast ett projekt kan göra detta.
+            label: Alla projekt
+          share_subprojects:
+            caption: Sprintar som skapas i det här projektet blir tillgängliga för alla delprojekt till det aktuella projektet.
+            info: När en sprint delas delas namn, status samt start- och slutdatum med alla projekt. Dessa kan inte ändras i projekt som tar emot och använder sprintarna.
+            label: Delprojekt
+        sprint_sharing: Dela sprintar
+      backlogs:
+        estimation_unit_form_component:
+          description: Välj en standardenhet för arbetsinsats, arbetstakt och kapacitet som passar det agila teamets arbetssätt. Enheten visas i backloggen och i sprintrapporterna.
+          heading: Standardenhet för arbetstakt, arbetsinsats och kapacitet
+        multiple_active_sprints:
+          description: Som standard kan endast en sprint åt gången vara aktiv per projekt. Du kan ändra detta så att flera sprintar kan vara aktiva parallellt i det här projektet.
+          heading: Antal aktiva sprintar
+        multiple_active_sprints_component:
+          cannot_turn_off: Flera sprintar är aktiva just nu. För att återgå till att endast tillåta en aktiv sprint åt gången måste du först se till att högst en sprint är aktiv.
+          not_available_html: Flera aktiva sprintar är inte tillgängliga när <a href=%{sprint_sharing_url}>sprintdelning</a> eller mottagning är aktiverad.
+        sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprintdelning är inte tillgänglig när flera aktiva sprintar är aktiverade.
+          sharing_description: Det här projektet kan antingen dela sina egna sprintar, ta emot delade sprintar eller hantera sprintar självständigt (ingen delning).
+          sharing_fallback_description: Utan en Enterprise-plan för företag är delningsalternativen begränsade till projektets egna sprintar. Den inställning som för närvarande är aktiv förblir aktiv.
+  query_fields:
+    backlog_inbox: Backloggens inkorg
+  remaining_hours: återstående arbete

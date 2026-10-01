@@ -1,27 +1,6 @@
 <%=
   component_wrapper do
-    primer_form_with(
-      scope: :meeting,
-      model: @meeting,
-      method: form_method,
-      data: {
-        turbo: true,
-        controller: [
-          "show-when-value-selected",
-          "show-when-checked",
-          @meeting.is_a?(RecurringMeeting) ? "recurring-meetings--form" : nil
-        ].compact.join(" "),
-        "recurring-meetings--form-persisted-value": @meeting.persisted?
-      },
-      html: {
-        id: "meeting-form"
-      },
-      url: {
-        controller: form_controller,
-        action: form_action,
-        project_id: @project
-      }
-    ) do |f|
+    primer_form_with(**form_options) do |f|
       flex_layout(mb: 3) do |modal_body|
         if @meeting.errors[:base].present?
           modal_body.with_row do
@@ -31,23 +10,33 @@
 
         if @project.nil?
           modal_body.with_row(mb: 3) do
-            render(Meeting::ProjectAutocompleter.new(f))
+            render(Meeting::ProjectAutocompleter.new(f, meeting: @meeting))
           end
         end
 
-        modal_body.with_row do
-          render(Meeting::Title.new(f))
+        if show_template_selector?
+          modal_body.with_row(mb: 3) do
+            render(Meeting::TemplateAutocompleter.new(f, project: effective_project, disabled: template_selector_disabled?, placeholder: template_selector_placeholder, selected_id: @copy_from&.id))
+          end
         end
 
-        modal_body.with_row(mt: 3) do
-          render(Meeting::Location.new(f, meeting: @meeting))
+        unless @template
+          modal_body.with_row do
+            render(Meeting::Title.new(f))
+          end
         end
 
-        modal_body.with_row(mt: 3) do
-          render(Meeting::TimeGroup.new(f, meeting: @meeting))
+        unless @template
+          modal_body.with_row(mt: 3) do
+            render(Meeting::Location.new(f, meeting: @meeting))
+          end
+
+          modal_body.with_row(mt: 3) do
+            render(Meeting::TimeGroup.new(f, meeting: @meeting))
+          end
         end
 
-        if @meeting.is_a?(RecurringMeeting)
+        if !@template && @meeting.is_a?(RecurringMeeting)
           modal_body.with_row(mt: 3) do
             flex_layout(classes: "FormControl-horizontalGroup") do |frequency_row|
               frequency_row.with_column(flex: 1) do
@@ -69,14 +58,39 @@
             end
           end
 
+          modal_body.with_row(
+            mt: 3,
+            hidden: !@meeting.frequency_monthly_day_of_month?,
+            data: {
+              value: "monthly_day_of_month",
+              target_name: "frequency",
+              "show-when-value-selected-target": "effect"
+            }
+          ) do
+            render(RecurringMeeting::DayOfMonth.new(f))
+          end
+
+          modal_body.with_row(
+            mt: 3,
+            hidden: !@meeting.frequency_monthly_nth_weekday?,
+            data: {
+              value: "monthly_nth_weekday",
+              target_name: "frequency",
+              "show-when-value-selected-target": "effect"
+            }
+          ) do
+            flex_layout(classes: "FormControl-horizontalGroup") do |monthly_pattern_row|
+              monthly_pattern_row.with_column(flex: 1) do
+                render(RecurringMeeting::MonthlyOrdinal.new(f))
+              end
+              monthly_pattern_row.with_column(flex: 1) do
+                render(RecurringMeeting::MonthlyWeekday.new(f))
+              end
+            end
+          end
+
           modal_body.with_row(mt: 1) do
-            render(
-              Primer::Beta::Text.new(
-                id: "recurring-meeting-frequency-schedule",
-                font_size: :small,
-                color: :subtle
-              )
-            ) { @meeting.human_frequency_schedule }
+            render(RecurringMeetings::HumanScheduleComponent.new(recurring_meeting: @meeting))
           end
 
           modal_body.with_row(mt: 3) do
@@ -85,9 +99,7 @@
                 render(RecurringMeeting::EndAfter.new(f))
               end
 
-              frequency_row.with_column(
-                flex: 1
-              ) do
+              frequency_row.with_column(flex: 1) do
                 flex_layout do |end_after|
                   end_after.with_row(
                     hidden: !@meeting.end_after_specific_date?,
@@ -121,20 +133,22 @@
             render(Meeting::CopiedFrom.new(f, id: @copy_from.id))
           end
 
-          modal_body.with_row(mt: 3) do
-            render(Meeting::CopyItems.new(f))
-          end
+          unless @copy_from.onetime_template?
+            modal_body.with_row(mt: 3) do
+              render(Meeting::CopyItems.new(f))
+            end
 
-          modal_body.with_row(mt: 3) do
-            render(Meeting::CopyParticipants.new(f))
-          end
+            modal_body.with_row(mt: 3) do
+              render(Meeting::CopyParticipants.new(f))
+            end
 
-          modal_body.with_row(mt: 3) do
-            render(Meeting::CopyAttachments.new(f))
+            modal_body.with_row(mt: 3) do
+              render(Meeting::CopyAttachments.new(f))
+            end
           end
         end
 
-        if @meeting.is_a?(RecurringMeeting) && @meeting.persisted?
+        if !@template && @meeting.is_a?(RecurringMeeting) && @meeting.persisted?
           modal_body.with_row(mt: 3) do
             render(Meetings::EmailUpdatesBannerComponent.new(@meeting))
           end

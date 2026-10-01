@@ -1,0 +1,79 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Wikis
+  class RelationPageLinksComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+
+    alias_method :provider, :model
+
+    attr_reader :work_package
+
+    def initialize(model = nil, work_package: nil, **)
+      @work_package = work_package
+      super(model, **)
+    end
+
+    def page_links
+      @page_links ||= page_link_service.relation_page_links_for(provider:, linkable: work_package)
+    end
+
+    def user_connected?
+      provider.user_connected?(User.current)
+    end
+
+    def create_new_page_parameters
+      {
+        wikis_forms_create_new_wiki_page_form_model: {
+          linkable_id: work_package.id,
+          linkable_type: work_package.class.name,
+          provider_id: provider.id
+        }
+      }
+    end
+
+    private
+
+    def menu_actions_for(page_link)
+      return [] unless can_manage_links?
+
+      [PageLinkComponent::RemoveAction.new(page_link:)]
+    end
+
+    def page_link_service
+      @page_link_service ||= PageLinkService.new
+    end
+
+    def can_manage_links?
+      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, work_package.project)
+    end
+  end
+end

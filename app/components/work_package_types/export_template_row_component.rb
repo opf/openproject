@@ -33,12 +33,33 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
-    def initialize(type:, template:)
+    def initialize(variant:, template:, readonly: false)
       super
 
       @template = template
-      @type = type
+      @variant = variant
+      @readonly = readonly
+    end
+
+    def readonly? = @readonly
+
+    def edit_settings_path
+      edit_settings_variant_pdf_export_template_path(helpers.variant_scope_project, @variant, @template.id)
+    end
+
+    def wrapper_uniq_by
+      @template.id
+    end
+
+    private
+
+    def toggle_label
+      I18n.t(
+        "types.edit.export_configuration.pdf_export_templates.actions.label_toggle_template",
+        template: @template.label
+      )
     end
   end
 end

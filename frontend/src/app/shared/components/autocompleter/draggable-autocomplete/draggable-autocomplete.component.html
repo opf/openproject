@@ -28,24 +28,32 @@
 
   <div class="FormControl-spacingWrapper">
     <div class="FormControl width-full">
-      <span class="FormControl-label" [textContent]="dragAreaLabel"></span>
+      <span class="FormControl-label" [textContent]="dragAreaLabel" [tabIndex]="0" role="region"></span>
 
       <div
         class="op-draggable-autocomplete--selected"
-        dragula="columns"
-        [(dragulaModel)]="selectedOptions"
+        opSortableLists
+        opSortableListsAxis="horizontal"
+        (opSortableListsDrop)="reorder($event)"
         >
-        @for (item of selectedOptions; track item) {
-          <div class="op-draggable-autocomplete--item">
+        @for (item of selectedOptions; track item.id) {
+          <div
+            class="op-draggable-autocomplete--item"
+            [opSortableListsItem]="item.id"
+          >
             <span
               class="op-draggable-autocomplete--item-text"
               [textContent]="item.name"
             ></span>
             @if (isRemovable(item)) {
-              <a
+              <button
+                type="button"
                 (click)="remove(item)"
-                class="op-draggable-autocomplete--remove-item icon-remove"
-              ></a>
+                class="op-draggable-autocomplete--remove-item"
+                [attr.aria-label]="removeLabel(item)"
+              >
+                <svg octicon icon="x" size="xsmall" aria-hidden="true"></svg>
+              </button>
             }
           </div>
         }

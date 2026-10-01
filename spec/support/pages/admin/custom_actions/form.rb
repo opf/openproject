@@ -59,8 +59,7 @@ module Pages
         def remove_action(name)
           within "#custom-actions-form--active-actions" do
             find(".form--field", text: name)
-              .find(".icon-close")
-              .click
+              .click_on accessible_name: "Close"
           end
         end
 

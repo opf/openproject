@@ -1,4 +1,4 @@
-@for (option of options; track option) {
+@for (option of options; track option.value) {
   <label
     [ngClass]="{ 'button': true, '-disabled': disabled, 'form--field-inline-button': true, '-active': value === option.value, 'spot-toggle--button': true }"
     data-test-selector="spot-toggle--option"

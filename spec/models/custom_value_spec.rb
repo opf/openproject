@@ -402,12 +402,14 @@ RSpec.describe CustomValue do
 
   describe "#valid?" do
     let(:custom_field) do
-      build_stubbed(:custom_field, field_format:, is_required:, min_length:, max_length:, regexp:)
+      build_stubbed(:custom_field, field_format:, is_required:, min_length:, max_length:, min_value:, max_value:, regexp:)
     end
     let(:custom_value) { described_class.new(custom_field:, value:) }
     let(:is_required) { false }
     let(:min_length) { 0 }
     let(:max_length) { 0 }
+    let(:min_value) { nil }
+    let(:max_value) { nil }
     let(:regexp) { nil }
 
     context "for a data custom field" do
@@ -554,6 +556,67 @@ RSpec.describe CustomValue do
       end
     end
 
+    shared_examples "enforces value bounds" do |below:, at_min:, within:, at_max:, above:|
+      let(:min_value) { -1.5 }
+      let(:max_value) { 10.25 }
+
+      context "with a value below the minimum" do
+        let(:value) { below }
+
+        it "is invalid" do
+          expect(custom_value).not_to be_valid
+          expect(custom_value.errors.symbols_for(:value)).to include(:greater_than_or_equal_to)
+        end
+      end
+
+      context "with a value at the minimum" do
+        let(:value) { at_min }
+
+        it { expect(custom_value).to be_valid }
+      end
+
+      context "with a value within the bounds" do
+        let(:value) { within }
+
+        it { expect(custom_value).to be_valid }
+      end
+
+      context "with a value at the maximum" do
+        let(:value) { at_max }
+
+        it { expect(custom_value).to be_valid }
+      end
+
+      context "with a value above the maximum" do
+        let(:value) { above }
+
+        it "is invalid" do
+          expect(custom_value).not_to be_valid
+          expect(custom_value.errors.symbols_for(:value)).to include(:less_than_or_equal_to)
+        end
+      end
+
+      context "with a blank value" do
+        let(:value) { "" }
+
+        it { expect(custom_value).to be_valid }
+      end
+
+      context "with only a minimum bound" do
+        let(:max_value) { nil }
+        let(:value) { above }
+
+        it { expect(custom_value).to be_valid }
+      end
+
+      context "with only a maximum bound" do
+        let(:min_value) { nil }
+        let(:value) { below }
+
+        it { expect(custom_value).to be_valid }
+      end
+    end
+
     context "for a list custom field" do
       let(:custom_option1) { build_stubbed(:custom_option, value: "value1") }
       let(:custom_option2) { build_stubbed(:custom_option, value: "value1") }
@@ -645,6 +708,39 @@ RSpec.describe CustomValue do
             .to be_valid
         end
       end
+
+      it_behaves_like "enforces value bounds",
+                      below: "-2", at_min: "-1", within: "0", at_max: "10", above: "11" do
+        let(:min_value) { -1 }
+        let(:max_value) { 10 }
+      end
+
+      context "with a non numeric value inside the bounds" do
+        let(:min_value) { -1 }
+        let(:max_value) { 10 }
+        let(:value) { "abc" }
+
+        it "reports only the type error" do
+          expect(custom_value).not_to be_valid
+          expect(custom_value.errors.symbols_for(:value)).to contain_exactly(:not_an_integer)
+        end
+      end
+
+      context "with a zero bound and a negative value" do
+        let(:min_value) { 0 }
+        let(:value) { "-1" }
+
+        it { expect(custom_value).not_to be_valid }
+      end
+
+      context "with a length limit left over from an older configuration" do
+        let(:min_length) { 4 }
+        let(:value) { "7" }
+
+        it "ignores the character length" do
+          expect(custom_value).to be_valid
+        end
+      end
     end
 
     context "for a float custom field" do
@@ -710,6 +806,18 @@ RSpec.describe CustomValue do
         it "is invalid" do
           expect(custom_value)
             .not_to be_valid
+        end
+      end
+
+      it_behaves_like "enforces value bounds",
+                      below: "-1.51", at_min: "-1.5", within: "0.1234", at_max: "10.25", above: "10.26"
+
+      context "with a non numeric value inside the bounds" do
+        let(:value) { "abc" }
+
+        it "reports only the type error" do
+          expect(custom_value).not_to be_valid
+          expect(custom_value.errors.symbols_for(:value)).to contain_exactly(:not_a_number)
         end
       end
     end
@@ -797,6 +905,24 @@ RSpec.describe CustomValue do
           expect(project.reload.project_custom_fields).not_to include(custom_field)
         end
       end
+    end
+  end
+
+  describe ".for_semantic_key" do
+    let(:customized_user) { create(:user) }
+    let(:job_title_field) { create(:user_custom_field, field_format: "string", semantic_key: "job_title") }
+    let(:plain_field) { create(:user_custom_field, field_format: "string", semantic_key: nil) }
+    let!(:job_title_value) do
+      create(:custom_value, custom_field: job_title_field, customized: customized_user, value: "Architect")
+    end
+    let!(:plain_value) { create(:custom_value, custom_field: plain_field, customized: customized_user, value: "Other") }
+
+    it "returns only custom values whose field carries the given semantic key" do
+      result = described_class.for_semantic_key(:job_title)
+
+      expect(result).to include(job_title_value)
+      expect(result).not_to include(plain_value)
+      expect(result.map(&:custom_field_id).uniq).to contain_exactly(job_title_field.id)
     end
   end
 end

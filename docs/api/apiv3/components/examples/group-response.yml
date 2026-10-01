@@ -8,18 +8,18 @@ value:
   updatedAt: '2024-01-11T15:58:02.237Z'
   _embedded:
     members:
-      - _hint: Principal resource shortened for brevity
-        _type: User
+      - _type: User
         id: 23
         name: Grogu Jarin
-      - _hint: Principal resource shortened for brevity
-        _type: User
+        _abbreviated: Principal resource shortened for brevity
+      - _type: User
         id: 14
         name: Mara Jade
-      - _hint: Principal resource shortened for brevity
-        _type: User
+        _abbreviated: Principal resource shortened for brevity
+      - _type: User
         id: 3
         name: Darth Vader
+        _abbreviated: Principal resource shortened for brevity
   _links:
     self:
       href: '/api/v3/groups/26'

@@ -113,7 +113,7 @@ RSpec.describe "Authentication Stages", :skip_2fa_stage do
     end
 
     it "redirects to authentication stage after registration via omniauth too" do
-      visit "/auth/developer"
+      start_omniauth_developer
 
       fill_in "first_name", with: "Adam"
       fill_in "last_name", with: "Apfel"
@@ -146,7 +146,7 @@ RSpec.describe "Authentication Stages", :skip_2fa_stage do
     visit "/my/account"
 
     within_test_selector "my-account-form" do
-      expect(page).to have_field "user_username", with: user.login # just checking we're really logged in
+      expect(page).to have_field "user_login", with: user.login # just checking we're really logged in
     end
   end
 
@@ -220,7 +220,7 @@ RSpec.describe "Authentication Stages", :skip_2fa_stage do
     visit "/my/account"
 
     within_test_selector "my-account-form" do
-      expect(page).to have_field "user_username", with: user.login # just checking we're really logged in
+      expect(page).to have_field "user_login", with: user.login # just checking we're really logged in
     end
   end
 
@@ -252,7 +252,7 @@ RSpec.describe "Authentication Stages", :skip_2fa_stage do
       visit "/my/account"
 
       within_test_selector "my-account-form" do
-        expect(page).to have_field "user_username", with: user.login # just checking we're really logged in
+        expect(page).to have_field "user_login", with: user.login # just checking we're really logged in
       end
     end
   end

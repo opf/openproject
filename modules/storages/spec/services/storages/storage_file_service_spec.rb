@@ -32,7 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 
 module Storages
-  RSpec.describe StorageFileService, :webmock do
+  RSpec.describe StorageFileService, :disable_ssrf_filter, :webmock do
     shared_examples "storage file service: successful response" do
       it "returns a success with a Adapters::Results::StorageFileInfo" do
         service_result = described_class.call(storage:, user:, file_id:)

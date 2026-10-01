@@ -100,7 +100,7 @@ RSpec.describe OpPrimer::StatusButtonComponent, type: :component do
     let(:title) { nil }
 
     it "raises an exception" do
-      expect { render_inline(component) }.to raise_error(NotImplementedError)
+      expect { render_inline(component) }.to raise_error(SubclassResponsibilityError)
     end
   end
 end

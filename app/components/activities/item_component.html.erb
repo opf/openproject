@@ -34,7 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
     <% else %>
       <%= @event.event_title %>
     <% end %>
-    <%= project_suffix %>
+    <% suffix = project_suffix %>
+    <% if suffix.present? %>
+      (<%= suffix %>)
+    <% end %>
   </div>
   <%=
     render(

@@ -21,13 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -38,19 +37,14 @@ import {
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpViewDropdown]',
   standalone: false,
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly I18n:I18nService,
-    readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-    readonly wpTableTimeline:WorkPackageViewTimelineService,
-  ) {
-    super(elementRef, opContextMenu);
-  }
+  readonly I18n = inject(I18nService);
+  readonly wpDisplayRepresentationService = inject(WorkPackageViewDisplayRepresentationService);
+  readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
 
   public isOpen = false;
 

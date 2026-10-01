@@ -1,4 +1,4 @@
-@for (project of projects; track project) {
+@for (project of projects; track project.href) {
   <li
     class="spot-list--item op-project-include-list--item"
     data-test-selector="op-project-include-list--item"
@@ -40,7 +40,7 @@
         slot="body"
         class="spot-body-small"
         >
-        @if (project.href === currentProjectHref) {
+        @if (project.href === queryWorkspaceHref) {
           <span>{{ text.current_project }}</span>
         } @else {
           @if (includeSubprojects && parentChecked) {
@@ -61,6 +61,7 @@
         [includeSubprojects]="includeSubprojects"
         [parentChecked]="parentChecked || isChecked(project.href)"
         [searchText]="searchText"
+        [queryWorkspaceHref]="queryWorkspaceHref"
         (update)="updateList($event)"
       ></ul>
     }

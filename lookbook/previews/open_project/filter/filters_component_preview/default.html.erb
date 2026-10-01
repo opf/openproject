@@ -1,6 +1,6 @@
 <div
   data-controller="filter--filters-form"
-  data-filter--filters-form-perform-turbo-requests-value="true"
+  data-filter--filters-form-turbo-stream-request-value="true"
   data-filter--filters-form-clear-button-id-value="the_button"
   data-filter--filters-form-display-filters-value="true">
   <%= render(::Projects::ProjectsFiltersComponent.new(query:, initially_expanded: true)) %>

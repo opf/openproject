@@ -43,7 +43,8 @@ See COPYRIGHT and LICENSE files for more details.
     <% dialog.with_additional_details do %>
       <% render(Primer::OpenProject::FlexLayout.new) do |flex| %>
         <% flex.with_row do %>
-            <%= t("storages.delete_warning.storage", file_storage: "<strong>#{h(@storage.name)}</strong>").html_safe %>
+            <%= t("storages.delete_warning.storage_html",
+                  file_storage: content_tag(:strong, @storage.name)) %>
         <% end %>
         <% flex.with_row do %>
           <ul>

@@ -30,6 +30,7 @@
 
 class WorkPackageHierarchyRelationsController < ApplicationController
   include OpTurbo::ComponentStream
+  include WorkPackageRelationsTab::UpdateResponses
 
   class InvalidRelationType < StandardError; end
 
@@ -65,7 +66,7 @@ class WorkPackageHierarchyRelationsController < ApplicationController
   end
 
   def destroy
-    related = WorkPackage.find(params[:id])
+    related = WorkPackage.visible.find(params[:id])
     service_result =
       if related.parent_id == @work_package.id
         set_relation(child: related, parent: nil)
@@ -101,7 +102,7 @@ class WorkPackageHierarchyRelationsController < ApplicationController
   def related_work_package
     @related_work_package ||=
       if params[:work_package][:id].present?
-        WorkPackage.find(params[:work_package][:id])
+        WorkPackage.visible.find(params[:work_package][:id])
       else
         WorkPackage.new
       end
@@ -121,25 +122,11 @@ class WorkPackageHierarchyRelationsController < ApplicationController
   end
 
   def allowed_to_set_parent?(child)
-    contract = WorkPackages::UpdateContract.new(child, current_user)
-    contract.can_set_parent?
-  end
-
-  def respond_with_relations_tab_update(service_result, **)
-    if service_result.success?
-      @work_package.reload
-      component = WorkPackageRelationsTab::IndexComponent.new(work_package: @work_package, **)
-      replace_via_turbo_stream(component:)
-      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
-
-      respond_with_turbo_streams
-    else
-      respond_with_turbo_streams(status: :unprocessable_entity)
-    end
+    WorkPackages::UpdateContract.update_parent_allowed?(work_package: child, user: current_user)
   end
 
   def set_work_package
-    @work_package = WorkPackage.find(params[:work_package_id])
+    @work_package = WorkPackage.visible.find(params[:work_package_id])
     @project = @work_package.project
   end
 

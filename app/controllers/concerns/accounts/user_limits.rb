@@ -91,18 +91,16 @@ module Accounts::UserLimits
   end
 
   def user_limit_warning
-    warning = if current_user.admin?
-                I18n.t(
-                  :warning_user_limit_reached_admin,
-                  upgrade_url: OpenProject::Enterprise.upgrade_url
-                )
-              else
-                I18n.t(
-                  :warning_user_limit_reached
-                )
-              end
-
-    warning.html_safe
+    if current_user.admin?
+      link_translate(
+        :warning_user_limit_reached_admin_html,
+        links: { upgrade_url: OpenProject::Enterprise.upgrade_url }
+      )
+    else
+      I18n.t(
+        :warning_user_limit_reached
+      )
+    end
   end
 
   def show_imminent_user_limit_warning!(flash_now: false)
@@ -115,12 +113,10 @@ module Accounts::UserLimits
   # A warning for when the user limit has technically not been reached yet
   # but if all invited users were to activate their accounts it would be reached.
   def imminent_user_limit_warning
-    warning = I18n.t(
-      :warning_imminent_user_limit,
-      upgrade_url: OpenProject::Enterprise.upgrade_url
+    link_translate(
+      :warning_imminent_user_limit_html,
+      links: { upgrade_url: OpenProject::Enterprise.upgrade_url }
     )
-
-    warning.html_safe
   end
 
   def user_limit_reached?

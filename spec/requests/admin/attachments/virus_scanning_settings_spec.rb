@@ -45,6 +45,18 @@ RSpec.describe "Attachments virus scanning",
     allow(service).to receive(:ping)
   end
 
+  describe "POST av_form",
+           with_ee: %i[virus_scanning] do
+    it "refreshes the AV sub-form via POST as a turbo stream" do
+      post av_form_admin_settings_virus_scanning_path,
+           params: { settings: { antivirus_scan_mode: "clamav_socket" } },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "replace", target: "attachments_av_subform")
+    end
+  end
+
   describe "enabling virus scanning",
            with_ee: %i[virus_scanning] do
     subject do

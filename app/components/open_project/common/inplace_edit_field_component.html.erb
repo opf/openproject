@@ -1,0 +1,25 @@
+<%= component_wrapper(
+      tag: :div,
+      class: "op-inplace-edit",
+      uniq_by: wrapper_uniq_by,
+      data: {
+        test_selector: wrapper_test_selector,
+        turbo_stream_target: wrapper_id,
+        inplace_edit_stable_key: wrapper_uniq_by,
+        inplace_edit_system_arguments: @system_arguments.to_json
+      }
+    ) do %>
+  <% if display_field_component.present? && (!enforce_edit_mode || !writable?) %>
+      <%= render display_field_component %>
+  <% else %>
+    <%= primer_form_with(**form_options) do |form|
+        render_field_component = ->(f) { render edit_field_component(f) } # The render_inline_form method looses context and thus does not know about the `field_component` method
+        system_arguments = @system_arguments
+
+        render_inline_form(form) do |f|
+          f.hidden name: "system_arguments_json", value: system_arguments.to_json
+          render_field_component.call(f)
+        end
+        end %>
+  <% end %>
+<% end %>

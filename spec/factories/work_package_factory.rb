@@ -35,11 +35,19 @@ FactoryBot.define do
       days { WorkPackages::Shared::Days.for(self) }
       journals { nil }
       now { Time.zone.now }
+      version { nil }
     end
 
     priority
     project factory: :project_with_types
     status
+    # Semantic identifier and its sequence number always travel together (see
+    # WorkPackage::SemanticIdentifier). Derive the sequence number from the
+    # identifier ("PROJ-42" → 42) so specs only need to set the identifier, using
+    # the same inversion as the functional code. An explicit sequence_number
+    # override still wins.
+    identifier { nil }
+    sequence_number { identifier && WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier) }
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
@@ -76,7 +84,8 @@ FactoryBot.define do
     end
 
     callback(:after_build) do |work_package, evaluator|
-      work_package.type ||= TestProf::FactoryBot.get_factory_default(:type) || work_package.project.types.first
+      work_package.type ||= TestProf::FactoryBot.get_factory_default(:type) ||
+                            enabled_types_of(work_package.project).first
 
       custom_values = evaluator.custom_values || {}
 
@@ -93,7 +102,16 @@ FactoryBot.define do
 
     callback(:after_stub) do |wp, evaluator|
       unless wp.type_id || evaluator.overrides?(:type) || wp.project.nil?
-        wp.type = wp.project.types.first
+        wp.type = enabled_types_of(wp.project).first
+      end
+    end
+
+    # The persistence services mirror version_id into a kind: "target" join row,
+    # so every saved work package with a version also has one. Factories skip
+    # the services, so the row is created here to match.
+    callback(:after_create) do |work_package, evaluator|
+      if evaluator.version
+        work_package.work_package_versions.find_or_create_by!(version_id: evaluator.version.id, kind: "target")
       end
     end
 
@@ -120,11 +138,14 @@ FactoryBot.define do
 
           # Does not yet support overwriting the custom values via the provided attributes.
           work_package_cv_attributes = work_package.custom_values.map { it.attributes.slice("custom_field_id", "value") }
+          version_attributes = work_package.work_package_versions.where(kind: "target")
+                                           .map { it.attributes.slice("version_id", "kind") }
 
           create(:work_package_journal,
                  **journal_attributes,
                  data: build(:journal_work_package_journal, data_attributes),
-                 customizable_journals: work_package_cv_attributes.map { build(:journal_customizable_journal, it) })
+                 customizable_journals: work_package_cv_attributes.map { build(:journal_customizable_journal, it) },
+                 work_package_version_journals: version_attributes.map { build(:journal_work_package_version_journal, it) })
         end
 
         work_package.journals.reload

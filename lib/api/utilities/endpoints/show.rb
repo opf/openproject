@@ -74,7 +74,7 @@ module API
         private
 
         def deduce_render_representer
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def deduce_api_namespace

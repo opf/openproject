@@ -30,10 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe "MCP resources/templates/list", with_flag: { mcp_server: true } do
+RSpec.describe "MCP resources/templates/list" do
   subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
-    header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
   end
@@ -87,7 +86,6 @@ RSpec.describe "MCP resources/templates/list", with_flag: { mcp_server: true } d
 
     context "when not passing a Bearer token" do
       subject do
-        header "X-Authentication-Scheme", "Bearer"
         header "Content-Type", "application/json"
         post "/mcp", request_body.to_json
       end

@@ -15,9 +15,10 @@
         <span [textContent]="toast.message"></span>
         <span [textContent]="' '"></span>
         @if (toast.link) {
-          <a class="op-toast--target-link"
-            (click)="executeTarget()"
-            [textContent]="toast.link!.text">
+          <a href="#"
+            class="op-toast--target-link"
+            [textContent]="toast.link!.text"
+            (click)="executeTarget()">
           </a>
         }
       </p>
@@ -28,11 +29,10 @@
           <div>
             @if (canBeHidden) {
               <div>
-                <a (click)="show = true" [hidden]="show">
+                <a href="#" [hidden]="show" (click)="show = true">
                   <svg chevron-right-icon size="small"></svg>
                 </a>
-                <a (click)="show = false" [hidden]="!show">
-
+                <a href="#" [hidden]="!show" (click)="show = false">
                   <svg chevron-down-icon size="small"></svg>
                 </a>
                 <span [textContent]="uploadText"></span>

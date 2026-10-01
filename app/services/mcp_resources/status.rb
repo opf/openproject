@@ -37,7 +37,7 @@ module McpResources
     default_description "Access work package statuses of this OpenProject instance."
 
     def read(id:)
-      status = ::Status.find_by(id:)
+      status = ::Status.visible(current_user).find_by(id:)
       return nil if status.nil?
 
       API::V3::Statuses::StatusRepresenter.new(status, current_user:)

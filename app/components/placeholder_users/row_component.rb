@@ -38,6 +38,10 @@ module PlaceholderUsers
       link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
     end
 
+    def criteria
+      ::Queries::FilterSummary.new(placeholder_user.user_filter).to_s
+    end
+
     def created_at
       helpers.format_time placeholder_user.created_at
     end
@@ -48,7 +52,8 @@ module PlaceholderUsers
 
     def delete_link
       if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
-        link_to deletion_info_placeholder_user_path(placeholder_user) do
+        link_to deletion_info_placeholder_user_path(placeholder_user),
+                data: { controller: "async-dialog" } do
           helpers.tooltip_tag I18n.t("placeholder_users.delete_tooltip"), icon: "icon-delete"
         end
       else

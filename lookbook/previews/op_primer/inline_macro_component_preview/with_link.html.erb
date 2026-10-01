@@ -1,0 +1,6 @@
+<%=
+  render(OpPrimer::InlineMacroComponent.new) do |component|
+    component.with_leading_visual_icon(icon: :sun)
+    render(Primer::Beta::Link.new(href: "#")) { "Click me" }
+  end
+%>

@@ -48,7 +48,7 @@ RSpec.describe "Cost report calculations", :js do
 
   before do
     login_as current_user
-    visit "/cost_reports?set_filter=1"
+    visit reporting_cost_reports_path(filters: "")
   end
 
   context "as anonymous" do
@@ -70,7 +70,7 @@ RSpec.describe "Cost report calculations", :js do
       report_page.switch_to_type "Translations"
 
       expect(page).to have_content "3.0 plural_unit"
-      expect(page).to have_content "21.00 EUR"
+      expect(page).to have_content "21.00 €"
     end
   end
 

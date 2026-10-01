@@ -28,7 +28,7 @@ module OpenProject::Calendar
              settings: {} do
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
-                   { "calendar/calendars": %i[index show],
+                   { "calendar/calendars": %i[index show split_view split_create new],
                      "calendar/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages],

@@ -1,6 +1,7 @@
+---
 de:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt-Diagramme"
       default_queries:
-        milestones: 'Meilensteine'
+        milestones: Meilensteine
+      label_gantt_chart_plural: Gantt-Diagramme

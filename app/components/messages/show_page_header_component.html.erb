@@ -29,7 +29,7 @@
         mobile_icon: :pencil,
         mobile_label: t(:button_edit),
         size: :medium,
-        href: edit_topic_path(@topic),
+        href: edit_project_forum_topic_path(@topic.forum.project, @topic.forum, @topic),
         aria: { label: t(:button_edit) },
         data: { test_selector: "message-edit-button" },
         title: t(:button_edit)
@@ -46,7 +46,7 @@
         mobile_icon: :trash,
         mobile_label: t(:button_delete),
         size: :medium,
-        href: topic_path(@topic),
+        href: project_forum_topic_path(@topic.forum.project, @topic.forum, @topic),
         aria: { label: I18n.t(:button_delete) },
         data: {
           turbo_confirm: I18n.t(:text_are_you_sure),

@@ -36,15 +36,21 @@ RSpec.describe "mobile date filter work packages", :js do
   shared_let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   shared_let(:wp_cards) { Pages::WorkPackageCards.new(project) }
   shared_let(:filters) { Components::WorkPackages::Filters.new }
-  shared_let(:work_package_with_due_date) { create(:work_package, project:, due_date: Date.current) }
-  shared_let(:work_package_without_due_date) { create(:work_package, project:, due_date: 5.days.from_now) }
+  shared_let(:business_day_at_noon) { Time.zone.local(2025, 1, 8, 12, 0, 0) }
+  shared_let(:work_package_with_due_date) { create(:work_package, project:, due_date: business_day_at_noon.to_date) }
+  shared_let(:work_package_without_due_date) { create(:work_package, project:, due_date: business_day_at_noon.to_date + 5.days) }
 
   current_user { user }
 
   include_context "with mobile screen size"
 
   before do
+    travel_to(business_day_at_noon)
     wp_table.visit!
+  end
+
+  after do
+    travel_back
   end
 
   context "when filtering between finish date" do
@@ -59,9 +65,9 @@ RSpec.describe "mobile date filter work packages", :js do
       clear_input_field_contents(start_field)
       clear_input_field_contents(end_field)
 
-      start_field.set 1.day.ago.to_date
+      start_field.set business_day_at_noon.to_date - 1.day
       start_field.send_keys :tab
-      end_field.set Date.current
+      end_field.set business_day_at_noon.to_date
       end_field.send_keys :tab
 
       wait_for_reload
@@ -76,7 +82,7 @@ RSpec.describe "mobile date filter work packages", :js do
 
       last_query = Query.last
       date_filter = last_query.filters.last
-      expect(date_filter.values).to eq [1.day.ago.to_date.iso8601, Date.current.iso8601]
+      expect(date_filter.values).to eq [(business_day_at_noon.to_date - 1.day).iso8601, business_day_at_noon.to_date.iso8601]
     end
   end
 
@@ -90,7 +96,7 @@ RSpec.describe "mobile date filter work packages", :js do
       expect(date_field["type"]).to eq "date"
 
       clear_input_field_contents(date_field)
-      date_field.set Date.current
+      date_field.set business_day_at_noon.to_date
 
       wait_for_reload
       loading_indicator_saveguard
@@ -104,7 +110,7 @@ RSpec.describe "mobile date filter work packages", :js do
 
       last_query = Query.last
       date_filter = last_query.filters.last
-      expect(date_filter.values).to eq [Date.current.iso8601]
+      expect(date_filter.values).to eq [business_day_at_noon.to_date.iso8601]
     end
   end
 end

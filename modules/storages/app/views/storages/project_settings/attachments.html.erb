@@ -34,11 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::FlexLayout.new(p: 3)) do |container|
     container.with_row do
-      checked = if @project.deactivate_work_package_attachments.nil?
-                  Setting.show_work_package_attachments
-                else
-                  !@project.deactivate_work_package_attachments
-                end
+      checked = !@project.deactivate_work_package_attachments
 
       render(
         Primer::Forms::ToggleSwitchForm.new(

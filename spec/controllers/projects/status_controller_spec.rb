@@ -34,15 +34,10 @@ RSpec.describe Projects::StatusController do
   shared_let(:user) { create(:admin) }
   current_user { user }
 
-  let(:project) { build_stubbed(:project) }
+  let(:project) { create(:project) }
   let(:service_result) { ServiceResult.failure }
 
   before do
-    allow(Project)
-      .to receive(:find)
-            .with(project.identifier)
-            .and_return(project)
-
     update_service = instance_double(Projects::UpdateService, call: service_result)
 
     allow(Projects::UpdateService)

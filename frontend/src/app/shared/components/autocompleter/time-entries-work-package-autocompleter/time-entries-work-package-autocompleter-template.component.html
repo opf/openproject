@@ -4,7 +4,10 @@
       <ul class="op-tab-row">
         <li
           class="op-tab-row--tab"
+          tabindex="0"
           (click)="autocompleter.changeMode('all')"
+          (keydown.enter)="$event.preventDefault(); autocompleter.changeMode('all')"
+          (keydown.space)="$event.preventDefault(); autocompleter.changeMode('all')"
         >
           <a
             href="#"
@@ -16,7 +19,10 @@
         </li>
         <li
           class="op-tab-row--tab"
+          tabindex="0"
           (click)="autocompleter.changeMode('recent')"
+          (keydown.space)="$event.preventDefault(); autocompleter.changeMode('recent')"
+          (keydown.enter)="$event.preventDefault(); autocompleter.changeMode('recent')"
         >
           <a
             href="#"

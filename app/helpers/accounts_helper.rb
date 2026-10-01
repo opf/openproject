@@ -48,7 +48,15 @@ module AccountsHelper
   end
 
   def email_field(form)
-    form.text_field :mail, required: true
+    form.text_field :mail, required: true, readonly: !registration_mail_editable?
+  end
+
+  ##
+  # An invited user activates an existing account, so they may only keep the address the
+  # administrator invited them with unless users are allowed to change their email address.
+  # Self-registering users always pick their own address.
+  def registration_mail_editable?
+    Setting.user_can_change_email? || @user.nil? || @user.new_record? # rubocop:disable Rails/HelperInstanceVariable
   end
 
   ##

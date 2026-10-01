@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,10 +30,10 @@
 
 FactoryBot.define do
   factory :task do
-    association :type, factory: :type_task
+    type factory: %i[type_task]
     subject { "Printing Recipes" }
     description { "Just printing recipes" }
-    association :priority
-    association :author, factory: :user
+    priority
+    author factory: %i[user]
   end
 end

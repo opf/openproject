@@ -55,7 +55,17 @@ RSpec.describe "Work package activity tab comment editor",
         end
       end
 
-      it "is dismissable via Cancel button" do
+      it "shows a Dismiss button (not Cancel) for new comments" do
+        activity_tab.add_comment(text: "Sample text", save: false)
+        activity_tab.clear_comment
+
+        page.within_test_selector("op-work-package-journal-form") do
+          expect(page).to have_button("Dismiss")
+          expect(page).to have_no_button("Cancel")
+        end
+      end
+
+      it "is dismissable via Dismiss button" do
         expect_editor_to_be_dismissed do
           activity_tab.dismiss_comment_editor_with_cancel_button
         end
@@ -80,10 +90,22 @@ RSpec.describe "Work package activity tab comment editor",
           end
         end
 
-        it "requires confirmation to dismiss via Cancel button" do
+        it "requires confirmation to dismiss via Dismiss button" do
           expect_editor_to_be_dismissed_with_confirmation do
             activity_tab.dismiss_comment_editor_with_cancel_button
           end
+        end
+
+        it "shows the updated confirmation message when dismissing a new comment" do
+          activity_tab.add_comment(text: "Sample text", save: false)
+          activity_tab.expect_focus_on_editor
+
+          expected_message = "Are you sure you want to dismiss your comment? The content that you have written will be lost."
+          accept_alert(expected_message) do
+            activity_tab.dismiss_comment_editor_with_cancel_button
+          end
+
+          expect(page).not_to have_test_selector("op-work-package-journal-form-element")
         end
 
         def expect_editor_to_be_dismissed_with_confirmation(&)

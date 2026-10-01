@@ -22,7 +22,7 @@
     </section>
   }
 
-  @for (storage of projectStorages | async; track storage) {
+  @for (storage of projectStorages | async; track storage.id) {
     <section
       data-test-selector="op-tab-content--tab-section"
       class="op-tab-content--tab-section"

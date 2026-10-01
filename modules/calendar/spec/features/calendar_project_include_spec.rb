@@ -37,7 +37,7 @@ RSpec.describe "Calendar project include", :js, :selenium do
   end
 
   it_behaves_like "has a project include dropdown" do
-    let(:work_package_view) { Pages::Calendar.new project }
+    let(:work_package_view) { Pages::Calendar.new portfolio }
     let(:dropdown) { Components::ProjectIncludeComponent.new }
 
     it "correctly filters work packages by project" do

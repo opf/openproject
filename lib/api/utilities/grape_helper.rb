@@ -34,9 +34,9 @@ module API
       # outside of the Grape context. We use it outside of the Grape context because
       # OpenProject authentication happens in a middleware upstream of Grape.
       class GrapeError < Grape::Middleware::Error
-        def initialize(env)
+        def initialize(env, content_types:, format:)
+          super(nil, content_types:, format:)
           @env = env
-          @options = {}
         end
 
         def error!(message, status = nil, headers = nil, backtrace = nil, original_exception = nil)
@@ -45,13 +45,10 @@ module API
       end
 
       def grape_error_for(env, api)
-        GrapeError.new(env).tap do |e|
-          e.options[:content_types] = api.content_types
-          e.options[:format] = "hal+json"
-        end
+        GrapeError.new(env, content_types: api.content_types, format: "hal+json")
       end
 
-      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: -> { {} }, log: true)
+      def error_response(rescued_error, error = nil, rescue_subclasses: true, headers: -> { {} }, log: true)
         error_response_lambda = default_error_response(headers, log)
 
         response =

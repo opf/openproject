@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Commands
-          RSpec.describe CreateFolderCommand, :webmock do
+          RSpec.describe CreateFolderCommand, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
             let(:auth_strategy) { Registry.resolve("sharepoint.authentication.userless").call(false) }
             let(:base_drive) { "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW" }
@@ -47,7 +47,7 @@ module Storages
             context "when creating a folder in the root", vcr: "sharepoint/create_folder_root" do
               let(:folder_name) { "Földer CreatedBy Çommand" }
               let(:parent_location) { SharepointSpecHelper.composite_identifier(base_drive, nil) }
-              let(:path) { "/Marcello%20VCR/F%C3%B6lder%20CreatedBy%20%C3%87ommand" }
+              let(:path) { "/Marcello VCR/Földer CreatedBy Çommand" }
 
               it_behaves_like "adapter create_folder_command: successful folder creation"
             end
@@ -57,7 +57,7 @@ module Storages
               let(:parent_location) do
                 SharepointSpecHelper.composite_identifier(base_drive, "01ANJ53W7TITEF4WCHRBDKR7VMNUWZ33WD")
               end
-              let(:path) { "/Marcello%20VCR/Folder%20with%20spaces/F%C3%B6lder%20CreatedBy%20%C3%87ommand" }
+              let(:path) { "/Marcello VCR/Folder with spaces/Földer CreatedBy Çommand" }
 
               it_behaves_like "adapter create_folder_command: successful folder creation"
             end

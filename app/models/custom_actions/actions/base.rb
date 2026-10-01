@@ -42,21 +42,21 @@ class CustomActions::Actions::Base
   end
 
   def allowed_values
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def value_objects
-    values.map do |value|
+    values.filter_map do |value|
       allowed_values.find { |v| v[:value] == value }
     end
   end
 
   def type
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def apply(_work_package)
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def human_name
@@ -64,7 +64,7 @@ class CustomActions::Actions::Base
   end
 
   def self.key
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def self.all

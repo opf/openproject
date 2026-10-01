@@ -38,15 +38,14 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       if: Proc.new { Setting.welcome_on_homescreen? && Setting.welcome_text.present? }
     },
     {
-      name: "projects"
+      name: "favorite_projects"
     },
     {
       name: "new_features",
       if: Proc.new { OpenProject::Configuration.show_community_links? }
     },
     {
-      name: "users",
-      if: Proc.new { User.current.admin? }
+      name: "meetings"
     },
     {
       name: "my_account",

@@ -37,16 +37,16 @@ RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
   let(:last_modified_at) { DateTime.now }
   let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:file) do
-    Storages::StorageFile.new(
+    Storages::Adapters::Results::StorageFile.new(
       id: 42,
-      name: "readme.md",
+      name: "README.md",
       size: 4096,
       mime_type: "text/plain",
       created_at:,
       last_modified_at:,
       created_by_name: "admin",
       last_modified_by_name: "admin",
-      location: "/readme.md",
+      location: "Tutorials & introductions/README.md",
       permissions: %i[readable writeable]
     )
   end
@@ -92,7 +92,7 @@ RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
     end
 
     it_behaves_like "property", :location do
-      let(:value) { file.location }
+      let(:value) { "/Tutorials%20%26%20introductions/README.md" }
     end
 
     it_behaves_like "property", :permissions do

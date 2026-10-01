@@ -93,6 +93,11 @@ properties:
           href:
             type: string
             example: "/api/v3/workspaces/schema"
+patternProperties:
+  "^customField\\d+$":
+    $ref: './schema_property_model.yml'
+  "^customComment\\d+$":
+    $ref: './schema_property_model.yml'
 
 example:
   _type: Schema
@@ -229,6 +234,12 @@ example:
     hasDefault: false
     writable: true
     visibility: default
+  customComment35:
+    type: String
+    name: Text project custom field comment
+    required: false
+    hasDefault: false
+    writable: true
   _links:
     self:
       href: "/api/v3/workspaces/schema"

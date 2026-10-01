@@ -1,32 +1,26 @@
-module CostScopes
-  def self.included(base_module)
-    base_module.class_eval do
-      def self.extended(base_class)
-        base_class.class_eval do
-          def self.visible(*args)
-            user = args.first || User.current
-            with_visible_entries_on self, user:, project: args[1]
-          end
+# frozen_string_literal: true
 
-          def self.visible_costs(*args)
-            user = args.first || User.current
-            with_visible_costs_on self, user:, project: args[1]
-          end
-        end
-      end
-    end
+module CostScopes
+  def visible(*args)
+    user = args.first || User.current
+    with_visible_entries_on self, user:, project: args[1]
+  end
+
+  def visible_costs(*args)
+    user = args.first || User.current
+    with_visible_costs_on self, user:, project: args[1]
   end
 
   def view_allowed_entries_permission
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def view_allowed_own_entries_permission
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def view_rates_permissions
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def with_visible_costs_on(scope, user: User.current, project: nil)

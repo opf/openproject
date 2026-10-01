@@ -113,7 +113,7 @@ module Pages::Messages
     end
 
     def path
-      topic_path(message)
+      project_forum_topic_path(message.forum.project, message.forum, message)
     end
   end
 end

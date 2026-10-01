@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -32,8 +34,10 @@ require "open_project/custom_field_format"
 require "open_project/logging"
 require "open_project/patches"
 require "open_project/mime_type"
+require "open_project/oauth2"
 require "open_project/custom_styles/design"
 require "open_project/httpx_appsignal"
+require "open_project/httpx_ssrf_custom_error_message"
 require "redmine/plugin"
 
 require "csv"
@@ -59,11 +63,11 @@ module OpenProject
 
   private_class_method def self.httpx_session
     session = HTTPX
-                .plugin(:oauth)
-                .plugin(:persistent)
-                .plugin(:basic_auth)
-                .plugin(:webdav)
                 .with(headers: { "User-Agent" => "OpenProject #{OpenProject::VERSION.to_semver} HTTPX Client" })
+                .plugin(:auth)
+                .plugin(:webdav)
+                .plugin(:ssrf_filter, safe_private_ranges: OpenProject::Configuration.ssrf_protection_ip_allowlist)
+                .plugin(HttpxSsrfCustomErrorMessage)
                 .with(
                   timeout: {
                     connect_timeout: OpenProject::Configuration.httpx_connect_timeout,
@@ -74,6 +78,7 @@ module OpenProject
                     keep_alive_timeout: OpenProject::Configuration.httpx_keep_alive_timeout
                   }
                 )
+
     OpenProject::Appsignal.enabled? ? session.plugin(HttpxAppsignal) : session
   end
 end

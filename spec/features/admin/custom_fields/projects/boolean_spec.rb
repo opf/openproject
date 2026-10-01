@@ -41,7 +41,5 @@ RSpec.describe "Edit project custom fields", :js do
   it_behaves_like "shows checkboxes for configuration" do
     let(:required_supported) { false }
   end
-  it_behaves_like "editing the field" do
-    let(:using_primer) { true }
-  end
+  it_behaves_like "editing the field"
 end

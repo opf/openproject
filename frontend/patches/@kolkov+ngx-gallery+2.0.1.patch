@@ -1,0 +1,74 @@
+diff --git a/node_modules/@kolkov/ngx-gallery/esm2020/lib/ngx-gallery.module.mjs b/node_modules/@kolkov/ngx-gallery/esm2020/lib/ngx-gallery.module.mjs
+index def4186..5d00f28 100644
+--- a/node_modules/@kolkov/ngx-gallery/esm2020/lib/ngx-gallery.module.mjs
++++ b/node_modules/@kolkov/ngx-gallery/esm2020/lib/ngx-gallery.module.mjs
+@@ -1,4 +1,4 @@
+-import { NgModule, Injectable } from '@angular/core';
++import { NgModule, Injectable, InjectionToken } from '@angular/core';
+ import { NgxGalleryComponent } from './ngx-gallery.component';
+ import { NgxGalleryImageComponent } from './ngx-gallery-image/ngx-gallery-image.component';
+ import { NgxGalleryArrowsComponent } from './ngx-gallery-arrows/ngx-gallery-arrows.component';
+@@ -7,7 +7,16 @@ import { NgxGalleryPreviewComponent } from './ngx-gallery-preview/ngx-gallery-pr
+ import { NgxGalleryActionComponent } from './ngx-gallery-action/ngx-gallery-action.component';
+ import { NgxGalleryBulletsComponent } from './ngx-gallery-bullets/ngx-gallery-bullets.component';
+ import { CommonModule } from '@angular/common';
+-import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
++// Hammer support was removed from @angular/platform-browser.
++// These inert stubs keep the gallery's gesture-config wiring compiling; the
++// config was already non-functional without HammerModule.
++const HAMMER_GESTURE_CONFIG = new InjectionToken('HammerGestureConfig');
++class HammerGestureConfig {
++    constructor() {
++        this.events = [];
++        this.overrides = {};
++    }
++}
+ import * as i0 from "@angular/core";
+ export class CustomHammerConfig extends HammerGestureConfig {
+     constructor() {
+diff --git a/node_modules/@kolkov/ngx-gallery/fesm2015/kolkov-ngx-gallery.mjs b/node_modules/@kolkov/ngx-gallery/fesm2015/kolkov-ngx-gallery.mjs
+index a92208c..38fea6a 100644
+--- a/node_modules/@kolkov/ngx-gallery/fesm2015/kolkov-ngx-gallery.mjs
++++ b/node_modules/@kolkov/ngx-gallery/fesm2015/kolkov-ngx-gallery.mjs
+@@ -1,7 +1,16 @@
+ import * as i0 from '@angular/core';
+-import { Injectable, EventEmitter, Component, ChangeDetectionStrategy, Input, Output, ViewChild, HostListener, ViewEncapsulation, HostBinding, NgModule } from '@angular/core';
++import { Injectable, EventEmitter, Component, ChangeDetectionStrategy, Input, Output, ViewChild, HostListener, ViewEncapsulation, HostBinding, NgModule, InjectionToken } from '@angular/core';
+ import * as i1 from '@angular/platform-browser';
+-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
++// Hammer support was removed from @angular/platform-browser.
++// These inert stubs keep the gallery's gesture-config wiring compiling; the
++// config was already non-functional without HammerModule.
++const HAMMER_GESTURE_CONFIG = new InjectionToken('HammerGestureConfig');
++class HammerGestureConfig {
++    constructor() {
++        this.events = [];
++        this.overrides = {};
++    }
++}
+ import * as i6 from '@angular/common';
+ import { CommonModule } from '@angular/common';
+ import { trigger, state, style, transition, animate } from '@angular/animations';
+diff --git a/node_modules/@kolkov/ngx-gallery/fesm2020/kolkov-ngx-gallery.mjs b/node_modules/@kolkov/ngx-gallery/fesm2020/kolkov-ngx-gallery.mjs
+index a92208c..38fea6a 100644
+--- a/node_modules/@kolkov/ngx-gallery/fesm2020/kolkov-ngx-gallery.mjs
++++ b/node_modules/@kolkov/ngx-gallery/fesm2020/kolkov-ngx-gallery.mjs
+@@ -1,7 +1,16 @@
+ import * as i0 from '@angular/core';
+-import { Injectable, EventEmitter, Component, ChangeDetectionStrategy, Input, Output, ViewChild, HostListener, ViewEncapsulation, HostBinding, NgModule } from '@angular/core';
++import { Injectable, EventEmitter, Component, ChangeDetectionStrategy, Input, Output, ViewChild, HostListener, ViewEncapsulation, HostBinding, NgModule, InjectionToken } from '@angular/core';
+ import * as i1 from '@angular/platform-browser';
+-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
++// Hammer support was removed from @angular/platform-browser.
++// These inert stubs keep the gallery's gesture-config wiring compiling; the
++// config was already non-functional without HammerModule.
++const HAMMER_GESTURE_CONFIG = new InjectionToken('HammerGestureConfig');
++class HammerGestureConfig {
++    constructor() {
++        this.events = [];
++        this.overrides = {};
++    }
++}
+ import * as i6 from '@angular/common';
+ import { CommonModule } from '@angular/common';
+ import { trigger, state, style, transition, animate } from '@angular/animations';

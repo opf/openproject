@@ -29,7 +29,7 @@
 #++
 
 module Shares
-  class PermissionButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class PermissionButtonComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable

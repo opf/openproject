@@ -1,0 +1,51 @@
+---
+hy:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Սյունակների թիվ
+        page: Էջ
+        row_count: Տողերի թիվ
+        scope: Շրջանակ
+        widgets: Վիջեթներ
+    errors:
+      models:
+        grids/grid:
+          end_before_start: ավարտի արժեքը պետք է մեծ լինի սկզբի արժեքից։
+          outside: ցանցի սահմաններից դուրս է։
+          overlaps: վերածածկվում են։
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
+  grids:
+    label_widget_in_grid: "%{grid_name} ցանցում պարունակվող վիջեթ"
+    widgets:
+      empty: Այս վիջեթը ներկայումս դատարկ է։
+      members:
+        no_results: Տեսանելի անդամներ չկան։
+        show_members_count: Ցուցադրել բոլոր %{count} անդամներին
+        title: Անդամներ
+        view_all_members: Դիտել բոլոր անդամներին
+        x_more:
+          one: և ևս մեկ անդամ։
+          other: և ևս %{count} անդամ։
+      news:
+        no_results: Նոր նորություններ չկան։
+      not_available: Այս վիջեթը հասանելի չէ։
+      project_timeline:
+        footer_actions_label: Տեսնել ավելի մանրամասն
+        gantt_link: Հանգրվանների Գանտի գծապատկեր
+        no_results_title: Նախագծի ժամանակագծի բովանդակությունը կազմաձևված չէ
+        sprints_link: Սպրինտների ընդհանուր տեսք
+        title: Նախագծի ժամանակագիծ
+        title_portfolio: Պորտֆոլիոյի ժամանակագիծ
+        title_program: Ծրագրի ժամանակագիծ
+      subitems:
+        button_text: Ենթատարր
+        no_results: Տեսանելի ենթատարրեր չկան։
+        title: Ենթատարրեր
+        view_all_subitems: Դիտել բոլոր ենթատարրերը

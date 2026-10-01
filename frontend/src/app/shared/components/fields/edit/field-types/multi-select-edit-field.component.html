@@ -30,7 +30,7 @@
   </ng-template>
   @if (showAddNewUserButton) {
     <ng-template ng-footer-tmp>
-      <op-invite-user-button [projectId]="resource.project?.id"
+      <op-invite-user-button [projectId]="$safeNavigationMigration(resource.project?.id)"
         (invited)="selectedOption = $event"
        />
     </ng-template>

@@ -33,12 +33,21 @@ class JournalFormatterCache
     RequestStore.store[:journal_formatter_cache] ||= new
   end
 
+  def self.fetch(...) = request_instance.fetch(...)
+
   def initialize
     @cache = Hash.new
   end
 
-  def fetch(klass, id, &)
-    key = [klass, id]
+  # The reader is folded into the key by default, so a verdict or a scoped id set
+  # cached while serving one user can never be read back for another — see
+  # JournalFormatter::NamedAssociation#reachable? for the same rationale. This is
+  # a no-op for the raw-record lookups NamedAssociation/PolymorphicAssociation
+  # cache here (User.current is constant for the life of a request), so it's
+  # free to apply unconditionally rather than leaving it as an easy-to-forget
+  # opt-in for permission-sensitive callers.
+  def fetch(klass, id, user: User.current, &)
+    key = [klass, id, user.id]
     if @cache.key?(key)
       @cache[key]
     elsif block_given?

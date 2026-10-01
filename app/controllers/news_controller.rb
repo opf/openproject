@@ -34,17 +34,16 @@ class NewsController < ApplicationController
 
   default_search_scope :news
 
+  before_action :load_and_authorize_in_optional_project
   before_action :find_news_object, except: %i[new create index]
-  before_action :find_project_from_association, except: %i[new create index]
-  before_action :find_project, only: %i[new create]
-  before_action :authorize, except: [:index]
-  before_action :load_and_authorize_in_optional_project, only: [:index]
+  before_action :authorize
+
   accept_key_auth :index
 
-  def index
-    scope = @project ? @project.news : News.all
+  def index # rubocop:disable Metrics/AbcSize
+    scope = @project ? @project.news : News.visible
 
-    @newss = scope.merge(News.latest_for(current_user, count: 0))
+    @news = scope.merge(News.latest_for(current_user, count: 0))
                   .page(page_param)
                   .per_page(per_page_param)
 
@@ -53,7 +52,7 @@ class NewsController < ApplicationController
         render locals: { menu_name: project_or_global_menu }
       end
       format.atom do
-        render_feed(@newss,
+        render_feed(@news,
                     title: (@project ? @project.name : Setting.app_title) + ": #{I18n.t(:label_news_plural)}")
       end
     end
@@ -95,7 +94,7 @@ class NewsController < ApplicationController
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: "show", id: @news
+      redirect_to project_news_path(@project, @news)
     else
       @news = call.result
       render action: :edit, status: :unprocessable_entity
@@ -119,10 +118,11 @@ class NewsController < ApplicationController
   private
 
   def find_news_object
-    @news = @object = News.find(params[:id].to_i)
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
+    if @project
+      @news = @project.news.visible.find(params[:id].to_i)
+    else
+      @news = News.visible.find(params[:id].to_i)
+      @project = @news.project
+    end
   end
 end

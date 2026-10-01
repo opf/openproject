@@ -38,9 +38,62 @@ module API
         include API::V3::Attachments::AttachableRepresenterMixin
         include API::Decorators::DateProperty
 
-        self.to_eager_load = [:author, { project: :enabled_modules }]
+        self.to_eager_load = [:author, { project: :enabled_modules }, { participants: :user }]
+
+        cached_representer key_parts: %i(project participants),
+                           dependencies: ->(*) { represented.notify? }
 
         self_link title_getter: ->(*) { represented.title }
+
+        link :schema do
+          {
+            href: api_v3_paths.meeting_schema
+          }
+        end
+
+        link :update,
+             cache_if: -> { current_user.allowed_in_project?(:edit_meetings, represented.project) } do
+          {
+            href: api_v3_paths.meeting_form(represented.id),
+            method: :post
+          }
+        end
+
+        link :updateImmediately,
+             cache_if: -> { current_user.allowed_in_project?(:edit_meetings, represented.project) } do
+          {
+            href: api_v3_paths.meeting(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete,
+             cache_if: -> { current_user.allowed_in_project?(:delete_meetings, represented.project) } do
+          {
+            href: api_v3_paths.meeting(represented.id),
+            method: :delete
+          }
+        end
+
+        link :agendaItems do
+          {
+            href: api_v3_paths.meeting_agenda_items(meeting_id: represented.id)
+          }
+        end
+
+        link :sections do
+          {
+            href: api_v3_paths.meeting_sections(meeting_id: represented.id)
+          }
+        end
+
+        link :recurringMeeting do
+          next unless represented.recurring_meeting_id
+
+          {
+            href: api_v3_paths.recurring_meeting(represented.recurring_meeting_id)
+          }
+        end
 
         property :id
         property :title
@@ -55,11 +108,51 @@ module API
         date_time_property :start_time
         date_time_property :end_time
 
-        property :duration
+        property :duration,
+                 exec_context: :decorator,
+                 render_nil: true,
+                 getter: ->(*) {
+                   datetime_formatter.format_duration_from_hours(represented.duration, allow_nil: true)
+                 },
+                 setter: ->(fragment:, **) {
+                   represented.duration = datetime_formatter.parse_duration_to_hours(fragment, "duration", allow_nil: true)
+                 }
+        property :state
+
+        property :sharing
+
+        property :template
+
+        property :notify,
+                 getter: ->(*) { notify? }
 
         associated_resource :author,
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter
+
+        associated_resources :users,
+                             as: :participants,
+                             getter: ->(*) {
+                               represented.participants.map do |participant|
+                                 ::API::V3::Users::UserRepresenter.create(participant.user, current_user:)
+                               end
+                             },
+                             setter: ->(fragment:, **) {
+                               ids = parse_link_ids_from_fragment(fragment, :user)
+                               represented[:participants_attributes] =
+                                 ids.map { |id| { user_id: id, invited: true } }
+                             },
+                             link: ->(*) {
+                               represented.participants.map do |participant|
+                                 ::API::Decorators::LinkObject
+                                   .new(participant.user,
+                                        property_name: :itself,
+                                        path: :user,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             }
 
         associated_project
 

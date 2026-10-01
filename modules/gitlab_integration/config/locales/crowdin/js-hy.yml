@@ -1,0 +1,54 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+---
+hy:
+  js:
+    gitlab_integration:
+      gitlab_pipelines: Հոսքագծեր
+      tab_header_issue:
+        title: Խնդիրներ
+      tab_header_mr:
+        copy_menu:
+          description: Պատճենել git-ի հատվածները փոխանակման բուֆեր
+          label: Git-ի հատվածներ
+        create_mr:
+          description: Ստեղծել միաձուլման հարցում
+          label: Ստեղծել MR
+        git_actions:
+          branch_name: Ճյուղի անվանում
+          cmd: Ստեղծել ճյուղ դատարկ կոմիտով
+          commit_message: Կոմիտի հաղորդագրություն
+          copy_error: "❌ Պատճենումը ձախողվեց։"
+          copy_success: "✅ Պատճենվեց։"
+          title: Git-ի արագ հատվածներ
+        title: Միաձուլման հարցումներ
+      tab_issue:
+        empty: Դեռևս կապակցված խնդիրներ չկան։ Կապակցեք գոյություն ունեցող խնդիրը՝ խնդրի վերնագրում/նկարագրության մեջ օգտագործելով <code>OP#%{wp_id}</code> կոդը (կամ <code>PP#%{wp_id}</code>՝ մասնավոր հղումների համար), կամ ստեղծեք նոր խնդիր։
+      tab_mrs:
+        empty: Դեռևս կապակցված միաձուլման հարցումներ չկան։ Կապակցեք գոյություն ունեցող MR՝ MR-ի վերնագրում/նկարագրության մեջ օգտագործելով <code>OP#%{wp_id}</code> կոդը (կամ <code>PP#%{wp_id}</code>՝ մասնավոր հղումների համար), կամ ստեղծեք նոր MR։
+      updated_on: Թարմացվել է
+      work_packages:
+        tab_name: GitLab
+    work_packages:
+      tabs:
+        gitlab: GitLab

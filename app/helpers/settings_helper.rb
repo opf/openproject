@@ -163,7 +163,7 @@ module SettingsHelper
 
   def setting_label(setting, options = {})
     label = options[:label]
-    return "".html_safe if label == false
+    return "" if label == false
 
     styled_label_tag(
       "settings_#{setting}", options[:not_translated_label] || I18n.t(label || "setting_#{setting}"),
@@ -192,18 +192,23 @@ module SettingsHelper
   def build_settings_matrix_head(settings, options = {})
     content_tag(:tr, class: "form--matrix-header-row") do
       content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
-                  class: "form--matrix-header-cell") +
-        settings.map do |setting|
-          content_tag(:th, class: "form--matrix-header-cell") do
-            hidden_field_tag("settings[#{setting}][]", "") +
-              I18n.t("setting_#{setting}")
-          end
-        end.join.html_safe
+                  class: "form--matrix-header-cell") + build_settings_matrix_head_values(settings)
     end
   end
 
+  def build_settings_matrix_head_values(settings)
+    values = settings.map do |setting|
+      content_tag(:th, class: "form--matrix-header-cell") do
+        hidden_field_tag("settings[#{setting}][]", "") +
+          I18n.t("setting_#{setting}")
+      end
+    end
+
+    safe_join(values)
+  end
+
   def build_settings_matrix_body(settings, choices)
-    choices.map do |choice|
+    body = choices.map do |choice|
       value = choice[:value]
       caption = choice[:caption] || value.to_s
       exceptions = Array(choice[:except]).compact
@@ -211,11 +216,13 @@ module SettingsHelper
         content_tag(:td, caption, class: "form--matrix-cell") +
           settings_matrix_tds(settings, exceptions, value)
       end
-    end.join.html_safe # rubocop:disable Rails/OutputSafety
+    end
+
+    safe_join(body)
   end
 
   def settings_matrix_tds(settings, exceptions, value)
-    settings.map do |setting|
+    tds = settings.map do |setting|
       content_tag(:td, class: "form--matrix-checkbox-cell") do
         unless exceptions.include?(setting)
           styled_check_box_tag("settings[#{setting}][]", value,
@@ -223,14 +230,16 @@ module SettingsHelper
                                disabled_setting_option(setting).merge(id: "#{setting}_#{value}"))
         end
       end
-    end.join.html_safe # rubocop:disable Rails/OutputSafety
+    end
+
+    safe_join(tds)
   end
 
-  def setting_multiselect_choice(setting, choice, options)
+  def setting_multiselect_choice(setting, choice, options) # rubocop:disable Metrics/AbcSize
     text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
     choice_options = disabled_setting_option(setting)
-                       .merge(choice_options || {})
-                       .merge(options.except(:id))
+      .merge(choice_options || {})
+      .merge(options.except(:id))
     choice_options[:id] = "#{setting}_#{value}"
 
     content_tag(:label, class: "form--label-with-check-box") do
@@ -255,7 +264,7 @@ module SettingsHelper
     if writable_setting?(setting)
       yield
     else
-      "".html_safe
+      ActiveSupport::SafeBuffer.new
     end
   end
 end

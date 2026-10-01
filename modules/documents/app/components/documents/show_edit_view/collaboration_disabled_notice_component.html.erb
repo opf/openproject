@@ -38,7 +38,9 @@
         end
 
         flex.with_row(classes: "op-document-view--editor") do
-          render(Primer::Alpha::Banner.new(icon: :alert, scheme: :warning)) do
+          render(
+            Primer::Alpha::Banner.new(icon: :alert, scheme: :warning, test_selector: "collaboration-disabled-notice")
+          ) do
             I18n.t("documents.text_collaboration_disabled_notice.description")
           end
         end

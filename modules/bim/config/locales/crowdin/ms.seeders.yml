@@ -205,7 +205,7 @@ ms:
                   name: Pencapaian
           work_packages:
             item_0:
-              subject: Permulaan projek dengan projek pembinaan 
+              subject: Permulaan projek dengan projek pembinaan
               description: |-
                 Permulaan projek menandakan permulaan projek di dalam syarikat anda. Setiap orang yang menjadi sebahagian daripada projek ini perlu dijemput untuk menyertai taklimat pertama projek.
 
@@ -229,19 +229,7 @@ ms:
                     *   Memperolehi anggaran kos dan jangka waktu
                 item_1:
                   subject: Ringkaskan hasil
-                  description: |-
-                    ## Matlamat
-
-                    *   Cipta rumusan hasil yang bermanfaat  
-                    *   Semak apa yang telah dilakukan dan ringkaskan hasil
-                    *   Menyampaikan hasil berkaitan kepada pelanggan
-                    *   Mengenal pasti asas kondisi garis sempadan projek ini
-
-                    ## Deskripsi
-
-                    *   Setiap topik dapat rumusan tersendiri yang akan digunakan sebagai katalog hasil
-                    *   Rumusan ini menyampaikan kepada semua peserta tentang keputusan yang dilakukan
-                    *   ...
+                  description: "## Matlamat\n\n*   Cipta rumusan hasil yang bermanfaat  \n*   Semak apa yang telah dilakukan dan ringkaskan hasil\n*   Menyampaikan hasil berkaitan kepada pelanggan\n*   Mengenal pasti asas kondisi garis sempadan projek ini\n\n## Deskripsi\n\n*   Setiap topik dapat rumusan tersendiri yang akan digunakan sebagai katalog hasil\n*   Rumusan ini menyampaikan kepada semua peserta tentang keputusan yang dilakukan\n*   ..."
                 item_2:
                   subject: Penghujung penilaian asas
                   description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
@@ -251,34 +239,10 @@ ms:
               children:
                 item_0:
                   subject: Pembinaan draf pertama
-                  description: |-
-                    ## Matlamat
-
-                    *   Cipta rumusan hasil yang bermanfaat  
-                    *   Semak apa yang telah dilakukan dan ringkaskan hasil
-                    *   Menyampaikan hasil berkaitan kepada pelanggan
-                    *   Mengenal pasti asas kondisi garis sempadan projek ini
-
-                    ## Deskripsi
-
-                    *   Setiap topik dapat rumusan tersendiri yang akan digunakan sebagai katalog hasil
-                    *   Rumusan ini menyampaikan kepada semua peserta tentang keputusan yang dilakukan
-                    *   ...
+                  description: "## Matlamat\n\n*   Cipta rumusan hasil yang bermanfaat  \n*   Semak apa yang telah dilakukan dan ringkaskan hasil\n*   Menyampaikan hasil berkaitan kepada pelanggan\n*   Mengenal pasti asas kondisi garis sempadan projek ini\n\n## Deskripsi\n\n*   Setiap topik dapat rumusan tersendiri yang akan digunakan sebagai katalog hasil\n*   Rumusan ini menyampaikan kepada semua peserta tentang keputusan yang dilakukan\n*   ..."
                 item_1:
                   subject: Ringkaskan hasil
-                  description: |-
-                    ## Matlamat
-
-                    *   Cipta rumusan hasil yang bermanfaat  
-                    *   Semak apa yang telah dilakukan dan ringkaskan hasil
-                    *   Menyampaikan hasil berkaitan kepada pelanggan
-                    *   Mengenal pasti asas kondisi garis sempadan projek ini
-
-                    ## Deskripsi
-
-                    *   Setiap topik dapat rumusan tersendiri yang akan digunakan sebagai katalog hasil
-                    *   Rumusan ini menyampaikan kepada semua peserta tentang keputusan yang dilakukan
-                    *   ...
+                  description: "## Matlamat\n\n*   Cipta rumusan hasil yang bermanfaat  \n*   Semak apa yang telah dilakukan dan ringkaskan hasil\n*   Menyampaikan hasil berkaitan kepada pelanggan\n*   Mengenal pasti asas kondisi garis sempadan projek ini\n\n## Deskripsi\n\n*   Setiap topik dapat rumusan tersendiri yang akan digunakan sebagai katalog hasil\n*   Rumusan ini menyampaikan kepada semua peserta tentang keputusan yang dilakukan\n*   ..."
             item_3:
               subject: Kelulusan perancangan awal
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
@@ -307,7 +271,7 @@ ms:
               subject: Fasa pembinaan
               children:
                 item_0:
-                  subject: Mulakan pembinaan 
+                  subject: Mulakan pembinaan
                   description: |-
                     ## Matlamat
 
@@ -501,7 +465,7 @@ ms:
                     *   Untuk mengendalikan antara muka teknologi, topologi perisian akan ditakrifkan, dianalisis, dan disahkan
                     *   ...
                 item_2:
-                  subject: ' Penyelesaian pelan pelaksanaan BIM '
+                  subject: " Penyelesaian pelan pelaksanaan BIM "
                   description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_2:
               subject: Pengakhiran fasa penyediaan
@@ -577,7 +541,7 @@ ms:
                     *   Model berikut akan diperiksa, mengikut standard yang ditakrifkan (konvensyen, LOD, ...) dan disemak.
                     *   ...
                 item_3:
-                  subject: Menghantar model BIM 
+                  subject: Menghantar model BIM
                   description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_5:
               subject: Koordinasi, kitaran pertama

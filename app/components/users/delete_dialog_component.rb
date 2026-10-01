@@ -44,7 +44,7 @@ module Users
     private
 
     def id = "delete-user-dialog"
-    def title = I18n.t("account.deletion_info.heading", name: @user.name)
+    def title = I18n.t("account.deletion_info.title", name: @user.name)
     def heading = I18n.t("account.deletion_info.heading", name: @user.name)
 
     def user_scope

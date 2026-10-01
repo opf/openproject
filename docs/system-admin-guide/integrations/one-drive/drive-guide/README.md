@@ -26,10 +26,10 @@ The first step to take is to interrupt the inheritance chain of SharePoint for t
 OpenProject instance will be able to manage the permissions on the drive for the project folders, otherwise SharePoint
 will consistently override those permissions.
 
-To achieve that, you need to enter the *Library Settings* of the target drive. Those usually can get accessed by
-selecting the *Settings gear icon* to the top right, selecting *Library Settings* and finally selecting *More Library
-Settings*. In the category of *Permissions and Management*, there should be the option to select *Permissions for this
-document library*. Within the new page, in the top menu, you need to select the option *Stop Inheriting Permissions*.
+To achieve that, you need to enter the _Library Settings_ of the target drive. Those usually can get accessed by
+selecting the _Settings gear icon_ to the top right, selecting _Library Settings_ and finally selecting _More Library
+Settings_. In the category of _Permissions and Management_, there should be the option to select _Permissions for this
+document library_. Within the new page, in the top menu, you need to select the option _Stop Inheriting Permissions_.
 
 > [!TIP]
 > If you are using OneDrive for Business instead of SharePoint, there will be no site overriding the
@@ -41,13 +41,13 @@ document library*. Within the new page, in the top menu, you need to select the 
 Once the inheritance chain is interrupted, the last remaining step is to prepare the drive for remote permissions
 management.
 
-In the last screen of the drive configuration (the one after clicking on *Permissions for this document library*
-in the *Library Settings*), you should be able to see a list of all currently set permissions. In a standard drive,
-where no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners* (SharePoint
+In the last screen of the drive configuration (the one after clicking on _Permissions for this document library_
+in the _Library Settings_), you should be able to see a list of all currently set permissions. In a standard drive,
+where no custom permissions were set, this is usually restricted to the _Members_, _Visitors_ and _Owners_ (SharePoint
 groups that are linked to the parent site). Now, you need to remove all permissions except the ones for the group
-*Owners*. Keeping these is important for still being able to reconfigure the drive at a later point in time.
+_Owners_. Keeping these is important for still being able to reconfigure the drive at a later point in time.
 
-Once this is done, there should be no permissions left assigned to the document library, except the *Owners* group.
+Once this is done, there should be no permissions left assigned to the document library, except the _Owners_ group.
 
 ## How to obtain a drive ID
 

@@ -42,8 +42,6 @@ module CustomActions::Actions::Strategies::Float
   def to_float_or_nil(value)
     return nil if value.nil?
 
-    Float(value)
-  rescue TypeError, ArgumentError
-    nil
+    Float(value, exception: false)
   end
 end

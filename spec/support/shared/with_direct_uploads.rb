@@ -68,7 +68,7 @@ class WithDirectUploads
   end
 
   def mock_attachment
-    allow_any_instance_of(::Attachments::PrepareUploadService)
+    allow_any_instance_of(::Attachments::PrepareUploadService) # rubocop:disable RSpec/AnyInstance
       .to receive(:instance) do
       # We don't use create here because this would cause an infinite loop as FogAttachment's #create
       # uses the base class's #create which is what we are mocking here. All this is necessary to begin
@@ -76,15 +76,16 @@ class WithDirectUploads
       # is ever run and we need remote attachments using the FogFileUploader in this scenario.
       FogAttachment.new
     end
-
-    # This is so the uploaded callback works. Since we can't actually substitute the Attachment class
-    # used there we get a LocalFileUploader file for the attachment which is not readable when
-    # everything else is mocked to be remote.
-    allow_any_instance_of(FileUploader).to receive(:readable?).and_return true
   end
 
   def stub_frontend(redirect: false)
-    proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "options").and_return(
+    stub_chrome_background_requests
+
+    # The stubbed S3 endpoint below accepts uploads without storing them, so the staged file
+    # the uploaded callback checks for never exists.
+    allow_any_instance_of(DirectFogUploader).to receive(:readable?).and_return(true) # rubocop:disable RSpec/AnyInstance
+
+    proxy.stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "options").and_return(
       headers: {
         "Access-Control-Allow-Methods" => "POST",
         "Access-Control-Allow-Origin" => "*"
@@ -102,7 +103,7 @@ class WithDirectUploads
 
   def stub_with_redirect
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "post")
+      .stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
@@ -111,7 +112,7 @@ class WithDirectUploads
         {
           code: ok ? 302 : 403,
           headers: {
-            "Location" => ok ? redirect_url + "?key=" + CGI.escape(key) : nil,
+            "Location" => ok ? append_key_query_param(redirect_url, key) : nil,
             "Access-Control-Allow-Methods" => "POST",
             "Access-Control-Allow-Origin" => "*"
           }
@@ -119,9 +120,29 @@ class WithDirectUploads
       end)
   end
 
+  def stub_chrome_background_requests
+    [
+      %r{\Ahttp://clients2\.google\.com:80/},
+      %r{\Ahttps://accounts\.google\.com:443/},
+      %r{\Ahttps://www\.google\.com:443/},
+      %r{\Ahttps://content-autofill\.googleapis\.com:443/},
+      %r{\Ahttps://optimizationguide-pa\.googleapis\.com:443/},
+      %r{\Ahttps://android\.clients\.google\.com:443/}
+    ].each do |url_pattern|
+      %w[get post].each do |method|
+        proxy.stub(url_pattern, method:).and_return(code: 204, headers: {})
+      end
+    end
+  end
+
+  def append_key_query_param(redirect_url, key)
+    delimiter = redirect_url.include?("?") ? "&" : "?"
+    "#{redirect_url}#{delimiter}key=#{CGI.escape(key)}"
+  end
+
   def stub_with_status
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "post")
+      .stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         {
           code: body.include?("X-Amz-Signature") ? 201 : 403, # check that the expected post to AWS was made with the form fields
@@ -172,14 +193,19 @@ RSpec.configure do |config|
 
     WithDirectUploads.new(self).before example
 
-    class FogAttachment < Attachment
-      # Remounting the uploader overrides the original file setter taking care of setting,
-      # among other things, the content type. So we have to restore that original
-      # method this way.
-      # We do this in a new, separate class, as to not interfere with any other specs.
-      alias_method :set_file, :file=
-      mount_uploader :file, FogFileUploader
-      alias_method :file=, :set_file
+    # Only define FogAttachment once. In CW 2.x, mount_uploader uses prepend,
+    # so re-opening the class and re-mounting would stack prepend modules and
+    # cause infinite recursion with the alias_method trick below.
+    unless defined?(FogAttachment)
+      class FogAttachment < Attachment
+        # Remounting the uploader overrides the original file setter taking care of setting,
+        # among other things, the content type. So we have to restore that original
+        # method this way.
+        # We do this in a new, separate class, as to not interfere with any other specs.
+        alias_method :set_file, :file=
+        mount_uploader :file, FogFileUploader
+        alias_method :file=, :set_file
+      end
     end
   end
 

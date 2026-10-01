@@ -21,16 +21,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+
+const splitViewBodyClass = 'router--work-packages-partitioned-split-view-details';
+
+// Turbo's non-morphing body swap on a redirect-driven visit can construct the new
+// instance before the old one's ngOnDestroy fires (observed ~29ms apart). Without a
+// count, the late remove() from the dying instance would wipe out the class the new,
+// live instance already added.
+let splitViewInstanceCount = 0;
 
 /**
  * An entry component to be rendered by Rails which opens an isolated query space
@@ -48,14 +56,24 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WorkPackageSplitViewEntryComponent {
+export class WorkPackageSplitViewEntryComponent implements OnDestroy {
   @Input() workPackageId:string;
   @Input() activeTab:string;
   @Input() resizerClass:string;
 
-  constructor(readonly elementRef:ElementRef) {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  constructor() {
     populateInputsFromDataset(this);
 
-    document.body.classList.add('router--work-packages-partitioned-split-view-details');
+    splitViewInstanceCount += 1;
+    document.body.classList.add(splitViewBodyClass);
+  }
+
+  ngOnDestroy():void {
+    splitViewInstanceCount -= 1;
+    if (splitViewInstanceCount <= 0) {
+      document.body.classList.remove(splitViewBodyClass);
+    }
   }
 }

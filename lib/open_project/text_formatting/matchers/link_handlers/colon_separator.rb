@@ -139,7 +139,7 @@ module OpenProject::TextFormatting::Matchers
 
       def render_user
         if (user = User.visible.find_by(login: oid))
-          link_to_user(user, only_path: context[:only_path], class: "user-mention")
+          link_to_user(user, only_path: context[:only_path], class: "user-mention", title: nil)
         end
       end
 
@@ -167,8 +167,11 @@ module OpenProject::TextFormatting::Matchers
           .first
 
         if meeting&.visible?(User.current)
-          link_to meeting.title,
-                  { only_path: context[:only_path], controller: "/meetings", action: "show", id: meeting.id },
+          link_to meeting.title, { only_path: context[:only_path],
+                                   controller: "/meetings",
+                                   action: "show",
+                                   project_id: meeting.project_id,
+                                   id: meeting.id },
                   class: "meeting"
         end
       end

@@ -39,26 +39,20 @@ module McpTools
         @resource
       end
 
-      def resource_schema(schema_definition)
-        output_schema(JsonSchemaLoader.new.load(schema_definition))
-      end
-
       def resource_annotations
         annotations read_only: true, idempotent: true, destructive: false
+        input_schema additionalProperties: false
       end
     end
 
     private
 
     def call
-      McpResources.read_resource_content(self.class.resource.uri, resources_considered: McpResources.all)
+      Success(McpResources.read_resource_content(self.class.resource.uri, resources_considered: McpResources.all))
     end
 
-    def format_result(content)
-      MCP::Tool::Response.new(
-        [{ type: "resource", resource: McpResources.format_json_resource(self.class.resource.uri, content) }],
-        structured_content: content
-      )
+    def format_content(result)
+      [{ type: "resource", resource: McpResources.format_json_resource(self.class.resource.uri, result) }]
     end
   end
 end

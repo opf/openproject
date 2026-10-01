@@ -1,0 +1,101 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module ResourceAllocations
+  module AllocationStep
+    class FormComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
+      include ResourceManagement::PlannerRoutes
+
+      # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
+      # attach to it): the create wizard's by default, the edit dialog's when
+      # editing a persisted allocation.
+      def initialize(allocation:,
+                     project:,
+                     dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
+                     view: nil)
+        super
+        @allocation = allocation
+        @project = project
+        @dialog_id = dialog_id
+        @view = view
+      end
+
+      def wrapper_key
+        ResourceAllocations::NewDialogComponent::BODY_ID
+      end
+
+      private
+
+      attr_reader :dialog_id
+
+      # A persisted allocation submits an update to itself; a new one goes
+      # through the create flow (with its confirmation step).
+      def form_url
+        if @allocation.persisted?
+          allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+        else
+          allocations_path(@project, resource_planner_view_id: @view&.id)
+        end
+      end
+
+      def form_method
+        @allocation.persisted? ? :patch : :post
+      end
+
+      # The URLs follow the page the dialog was opened from, but the pickers follow
+      # the work package: on a global planner the allocation belongs to whichever
+      # project that work package sits in, and its members are the candidates.
+      def picker_project
+        @allocation.project || @project
+      end
+
+      def form_list_component(form)
+        Primer::Forms::FormList.new(
+          ResourceAllocations::Forms::PlaceholderOrUserForm.new(
+            form,
+            project: picker_project,
+            dialog_id:,
+            create_placeholder_user_path: new_resource_management_placeholder_user_path,
+            view: @view
+          ),
+          ResourceAllocations::Forms::WorkPackageForm.new(form,
+                                                          project: picker_project,
+                                                          dialog_id:,
+                                                          view: @view),
+          ResourceAllocations::Forms::DateRangeForm.new(form, dialog_id: dialog_id),
+          ResourceAllocations::Forms::HoursForm.new(form)
+        )
+      end
+    end
+  end
+end

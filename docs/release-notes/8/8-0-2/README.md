@@ -26,7 +26,7 @@ newest version.
   for non-inlinable images. This resulted in SVGs being displayed
   inline, which opens an SVG XSS attack vector on the AWS domain (NOT
   on the OpenProject domain). From this version onward, non-image
-  files will receive a forced *attachment* content disposition to
+  files will receive a forced _attachment_ content disposition to
   ensure the file is not loaded in the browser.
 
 ## Contributions

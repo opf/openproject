@@ -1,29 +1,29 @@
-#English strings go here
+---
 cs:
   js:
     team_planner:
-      add_existing: 'Přidat existující'
-      label_team_planner_plural: 'Týmové plánovače'
-      add_existing_title: 'Přidat existující pracovní balíčky'
-      create_label: 'Týmový plánovač'
-      create_title: 'Vytvořit nový týmový plánovač'
-      unsaved_title: 'Nepojmenovaný plánovač týmu'
-      no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
-      add_assignee: 'Řešitel'
-      remove_assignee: 'Odstranit řešitele'
-      two_weeks: '2 týdny'
-      one_week: '1 týden'
-      four_weeks: '4 týdny'
-      eight_weeks: '8 týdnů'
-      work_week: 'Pracovní týden'
-      today: 'Dnes'
-      drag_here_to_remove: 'Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.'
-      cannot_drag_here: 'Cannot move the work package due to permissions or editing restrictions.'
-      cannot_drag_to_non_working_day: 'Tento pracovní balíček nemůže začít/skončit v nepracovní den.'
-      quick_add:
-        empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
-        search_placeholder: 'Hledat...'
+      add_assignee: Řešitel
+      add_existing: Přidat existující
+      add_existing_title: Přidat existující pracovní balíčky
+      cannot_drag_here: Pracovní balíček nelze přesunout z důvodu omezení oprávnění nebo úprav.
+      cannot_drag_to_non_working_day: Tento pracovní balíček nemůže začít/skončit v nepracovní den.
+      create_label: Týmový plánovač
+      create_title: Vytvořit nový týmový plánovač
+      drag_here_to_remove: Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.
+      eight_weeks: 8 týdnů
+      four_weeks: 4 týdny
+      label_team_planner_plural: Týmové plánovače
       modify:
         errors:
-          permission_denied: 'Nemáte potřebná oprávnění k úpravě tohoto stavu.'
-          fallback: 'Tento pracovní balíček nelze upravit.'
+          fallback: Tento pracovní balíček nelze upravit.
+          permission_denied: Nemáte potřebná oprávnění k úpravě tohoto stavu.
+      no_data: Přidejte řešitele k nastavení svého týmového plánovače.
+      one_week: 1 týden
+      quick_add:
+        empty_state: Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.
+        search_placeholder: Hledat...
+      remove_assignee: Odstranit řešitele
+      today: Dnes
+      two_weeks: 2 týdny
+      unsaved_title: Nepojmenovaný plánovač týmu
+      work_week: Pracovní týden

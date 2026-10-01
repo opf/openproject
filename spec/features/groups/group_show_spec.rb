@@ -39,8 +39,7 @@ RSpec.describe "group show page" do
   end
 
   context "as an admin" do
-    shared_let(:admin) { create(:admin) }
-    let(:current_user) { admin }
+    let(:current_user) { create(:admin) }
 
     it "I can visit the group page" do
       visit show_group_path(group)
@@ -53,11 +52,26 @@ RSpec.describe "group show page" do
   context "as a regular user" do
     let(:current_user) { create(:user) }
 
-    it "I can visit the group page" do
-      visit show_group_path(group)
-      expect(page).to have_test_selector("groups--title", text: "Bob's Team")
-      expect(page).not_to have_test_selector("groups--edit-group-button")
-      expect(page).to have_no_css("li", text: member.name)
+    context "when the user is not a member of the group" do
+      it "I get a 404 when visiting the group page" do
+        visit show_group_path(group)
+        expect(page).to have_content("[Error 404] The page you were trying to access doesn't exist or has been removed")
+      end
+    end
+
+    context "when the user is a member of he group" do
+      before do
+        Groups::AddUsersService
+          .new(group, current_user: User.system)
+          .call(ids: [current_user.id], send_notifications: false)
+      end
+
+      it "I can visit the group page" do
+        visit show_group_path(group)
+        expect(page).to have_test_selector("groups--title", text: "Bob's Team")
+        expect(page).not_to have_test_selector("groups--edit-group-button")
+        expect(page).to have_no_css("li", text: member.name)
+      end
     end
   end
 end

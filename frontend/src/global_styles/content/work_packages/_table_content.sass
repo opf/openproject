@@ -50,14 +50,12 @@
   &.-collapsed
     display: none
 
-  &.-dragged
-    height: 0px
-    border: none !important
-    outline: 1px solid var(--accent-color)
-    opacity: 1
-
-    .wp-table--cell-td
-      display: none !important
+  // The Pragmatic engine marks the picked-up row and keeps it in the DOM
+  // for the whole drag; show it in place as a dimmed placeholder
+  // (mirroring the Backlogs card treatment) instead of collapsing it.
+  &[data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
 
   &.wp-table--sums-row:empty
     height: 0
@@ -87,10 +85,10 @@
   width: auto
 
   &:hover .inline-edit--active-field.-error:hover
-    border-color: var(--content-form-danger-zone-bg-color)
+    border-color: var(--borderColor-danger-emphasis)
 
 .wp-table--faulty-query-icon
-  color: var(--content-form-danger-zone-bg-color)
+  color: var(--fgColor-danger)
 
 // Remove padding from grouping rows (exceeds allowed width of 41px)
 .wp-table--group-header

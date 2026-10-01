@@ -1,37 +1,57 @@
+---
 pl:
-  grids:
-    label_widget_in_grid: "Widżet zawarty w siatce %{grid_name}"
-    widgets:
-      empty: "Ten widżet jest obecnie pusty."
-      not_available: "Ten widżet jest niedostępny."
-      subitems:
-        title: "Podppzycje"
-        no_results: "Nie ma żadnych widocznych elementów podrzędnych."
-        view_all_subitems: "Wyświetl wszystkie podppzycje"
-        button_text: "Podelement"
-      members:
-        title: "Członkowie"
-        no_results: "Brak widocznych członków."
-        view_all_members: "Zobacz wszystkich członków"
-        show_members_count: "Pokaż wszystkich %{count} członków"
-        x_more:
-          one: "i jeszcze jeden członek."
-          few: "i jeszcze %{count} członków."
-          many: "i jeszcze %{count} członków."
-          other: "i jeszcze %{count} członka."
-      news:
-        no_results: "Utwórz nowy raport."
   activerecord:
     attributes:
       grids/grid:
-        page: "Strona"
-        row_count: "Liczba wierszy"
-        column_count: "Liczba kolumn"
-        widgets: "Widżety"
-        scope: "Zakres"
+        column_count: Liczba kolumn
+        page: Strona
+        row_count: Liczba wierszy
+        scope: Zakres
+        widgets: Widżety
     errors:
       models:
         grids/grid:
-          overlaps: 'nałożenie.'
-          outside: 'jest poza siatką.'
-          end_before_start: 'wartość końcowa musi być większa niż wartość początkowa.'
+          end_before_start: wartość końcowa musi być większa niż wartość początkowa.
+          outside: jest poza siatką.
+          overlaps: nałożenie.
+    models:
+      grids/grid:
+        one: Siatka
+        few: Siatki
+        many: Siatki
+        other: Siatki
+      grids/widget:
+        one: Widżet
+        few: Widżety
+        many: Widżety
+        other: Widżety
+  grids:
+    label_widget_in_grid: Widżet zawarty w siatce %{grid_name}
+    widgets:
+      empty: Ten widżet jest obecnie pusty.
+      members:
+        no_results: Brak widocznych członków.
+        show_members_count: Pokaż wszystkich %{count} członków
+        title: Członkowie
+        view_all_members: Zobacz wszystkich członków
+        x_more:
+          one: i jeszcze jeden członek.
+          few: i jeszcze %{count} członków.
+          many: i jeszcze %{count} członków.
+          other: i jeszcze %{count} członka.
+      news:
+        no_results: Utwórz nowy raport.
+      not_available: Ten widżet jest niedostępny.
+      project_timeline:
+        footer_actions_label: Zobacz więcej szczegółów
+        gantt_link: Kamienie milowe — wykres Gantta
+        no_results_title: Nie skonfigurowano zawartości osi czasu projektu
+        sprints_link: Przegląd sprintów
+        title: Oś czasu projektu
+        title_portfolio: Oś czasu portfolio
+        title_program: Oś czasu programu
+      subitems:
+        button_text: Podelement
+        no_results: Nie ma żadnych widocznych elementów podrzędnych.
+        title: Podpozycje
+        view_all_subitems: Wyświetl wszystkie podpozycje

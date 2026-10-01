@@ -2,15 +2,13 @@
 
 module ::TwoFactorAuthentication
   module Devices
-    class RowComponent < ::RowComponent
+    class RowComponent < ::OpPrimer::BorderBoxRowComponent
       def device
         model
       end
 
       def row_css_class
-        is_default = "blocked" if device.default
-
-        ["mobile-otp--two-factor-device-row", is_default].compact.join(" ")
+        "mobile-otp--two-factor-device-row"
       end
 
       def device_type
@@ -19,76 +17,95 @@ module ::TwoFactorAuthentication
 
       def default
         if device.default
-          helpers.op_icon "icon-yes"
+          render(Primer::Beta::Octicon.new(icon: :check))
         else
           "-"
         end
       end
 
-      def confirmed
+      def active
         if device.active
-          helpers.op_icon "icon-yes"
+          render(Primer::Beta::Octicon.new(icon: :check))
         elsif table.self_table?
-          link_to t("two_factor_authentication.devices.confirm_now"),
-                  { controller: table.target_controller, action: :confirm, device_id: device.id }
-
+          "-"
         else
-          helpers.op_icon "icon-no"
+          render(Primer::Beta::Octicon.new(icon: :x))
         end
       end
 
       ###
 
       def button_links
-        links = [delete_link]
-        links << make_default_link unless device.default
-
-        links
+        [menu_button]
       end
 
-      def make_default_link
-        helpers.password_confirmation_form_for(
-          device,
-          url: { controller: table.target_controller, action: :make_default, device_id: device.id },
-          method: :post,
-          html: { id: "two_factor_make_default_form", class: "form--inline" }
-        ) do |f|
-          f.submit I18n.t(:button_make_default),
-                   class: "button--link two-factor--mark-default-button"
+      def menu_button
+        render(Primer::Alpha::ActionMenu.new) do |menu|
+          menu.with_show_button(
+            icon: "kebab-horizontal",
+            scheme: :invisible,
+            "aria-label": t(:label_actions),
+            test_selector: "two-factor--actions-button"
+          )
+
+          make_default_action(menu)
+          make_active_action(menu) if table.self_table?
+          delete_action(menu)
         end
       end
 
-      def delete_link
-        title =
-          if deletion_blocked?
-            I18n.t("two_factor_authentication.devices.is_default_cannot_delete")
-          else
-            I18n.t(:button_delete)
-          end
+      def make_default_action(menu)
+        menu.with_item(
+          label: t(:button_make_default),
+          tag: :button,
+          disabled: device.default,
+          href: helpers.url_for(controller: table.target_controller, action: :make_default, device_id: device.id),
+          form_arguments: {
+            method: :post,
+            id: "two_factor_make_default_form",
+            data: helpers.password_confirmation_data_attribute({})
+          },
+          test_selector: "two-factor--make-default-button",
+          "aria-label": t(:button_make_default)
+        )
+      end
 
-        helpers.password_confirmation_form_for(
-          device,
-          url: { controller: table.target_controller, action: :destroy, device_id: device.id },
-          method: :delete,
-          html: { id: "two_factor_delete_form", class: "" }
-        ) do |f|
-          f.submit I18n.t(:button_delete),
-                   class: "button--link two-factor--delete-button",
-                   disabled: deletion_blocked?,
-                   title:
-        end
+      def make_active_action(menu)
+        menu.with_item(
+          label: I18n.t(:button_make_active),
+          tag: :a,
+          disabled: device.active,
+          href: helpers.url_for(controller: table.target_controller, action: :confirm, device_id: device.id),
+          test_selector: "two-factor--make-active-button",
+          "aria-label": t("two_factor_authentication.devices.confirm_now")
+        )
+      end
+
+      def delete_action(menu)
+        menu.with_item(
+          label: t(:button_remove),
+          scheme: :danger,
+          tag: :button,
+          disabled: deletion_blocked?,
+          href: helpers.url_for(controller: table.target_controller, action: :destroy, device_id: device.id),
+          form_arguments: {
+            method: :delete,
+            id: "two_factor_delete_form",
+            data: helpers.password_confirmation_data_attribute({})
+          },
+          test_selector: "two-factor--delete-button",
+          "aria-label": if deletion_blocked?
+                          t("two_factor_authentication.devices.is_default_cannot_delete")
+                        else
+                          t(:button_delete)
+                        end
+        )
       end
 
       def deletion_blocked?
         return false if table.admin_table?
 
         device.default && table.enforced?
-      end
-
-      def column_css_class(_column)
-        if device.default
-          "mobile-otp--device-default"
-        end
       end
     end
   end

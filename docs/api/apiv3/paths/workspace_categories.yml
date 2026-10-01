@@ -3,7 +3,7 @@
 get:
   parameters:
     - description: ID of the workspace whose categories will be listed
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

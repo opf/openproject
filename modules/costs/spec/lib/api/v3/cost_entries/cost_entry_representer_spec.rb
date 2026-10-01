@@ -36,11 +36,18 @@ RSpec.describe API::V3::CostEntries::CostEntryRepresenter do
   let(:entity) { build_stubbed(:work_package, project: workspace) }
   let(:cost_entry) { build_stubbed(:cost_entry, entity:, project: workspace) }
   let(:embed_links) { true }
+  let(:work_package_visible) { true }
   let(:representer) do
     described_class.new(cost_entry, current_user:, embed_links:)
   end
 
   subject { representer.to_json }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project :view_work_packages, project: workspace if work_package_visible && workspace
+    end
+  end
 
   describe "_links" do
     it_behaves_like "has an untitled link" do
@@ -66,6 +73,27 @@ RSpec.describe API::V3::CostEntries::CostEntryRepresenter do
       let(:link) { "entity" }
       let(:href) { api_v3_paths.work_package cost_entry.entity.id }
       let(:title) { cost_entry.entity.subject }
+    end
+
+    context "when the work package is not visible to the user" do
+      let(:work_package_visible) { false }
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "entity" }
+        let(:href) { API::V3::URN_UNDISCLOSED }
+        let(:title) { I18n.t(:"api_v3.undisclosed.workPackage") }
+      end
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "workPackage" }
+        let(:href) { API::V3::URN_UNDISCLOSED }
+        let(:title) { I18n.t(:"api_v3.undisclosed.workPackage") }
+      end
+
+      it "does not embed the work package subject or attributes" do
+        expect(subject).not_to have_json_path("_embedded/entity")
+        expect(subject).not_to have_json_path("_embedded/workPackage")
+      end
     end
   end
 

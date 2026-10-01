@@ -1,5 +1,11 @@
+---
 eo:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
-    label_home: "%{workspace_type} home"
-    label_dashboard: "Paneloj"
-    label_overview: "Superrigardo"
+    label_dashboard: Paneloj
+    label_home: "%{workspace_type} hejmo"
+    label_overview: Superrigardo

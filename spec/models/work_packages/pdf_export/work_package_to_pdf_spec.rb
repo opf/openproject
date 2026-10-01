@@ -55,10 +55,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            name: "Rich text project custom field",
            default_value: "rich text field value with a table <table></table>")
   end
+  let(:enabled_module_names) { nil }
   let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
            types: [type],
+           **(enabled_module_names ? { enabled_module_names: } : {}),
            public: true,
            status_code: "on_track",
            description: "A **rich** text description",
@@ -96,7 +98,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:user) do
     create(:user,
            member_with_permissions: {
-             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases]
+             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
+                           view_budgets]
            })
   end
   let(:another_user) do
@@ -232,8 +235,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
   end
   let(:expected_details) do
-    result = [
-      "#{type.name} ##{work_package.id} - #{work_package.subject}",
+    [
+      "#{type.name} #{work_package.formatted_id} - #{work_package.subject}",
       " ", exporter.prawn_badge_text_stuffing(work_package.status.name.downcase), # badge & padding
       "People",
       "Assignee", user.name,
@@ -243,26 +246,38 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Remaining work", "9h",
       "% Complete", "25%",
       "Spent time", "0h",
+      "Story Points", "1",
       "Details",
       "Priority", "Normal",
-      "Version", work_package.version,
+      *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
+      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
+      WorkPackage.human_attribute_name(:version), work_package.target_versions.first,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
       "Other",
+      "Position", "1",
       "Work Package Custom Field Long Text", "foo   faa",
       "Empty Work Package Custom Field Long Text",
       "Work Package Custom Field Boolean", "Yes",
       "My Link", "https://example.com",
       "Costs",
-      "Spent units", "Labor costs", "Unit costs", "Overall costs", "Budget"
+      "Spent units", "Labor costs", "Unit costs", "Overall costs",
+      *(project.module_enabled?(:budgets) ? ["Budget"] : [])
     ]
-    result
   end
 
   def get_column_value(column_name)
     formatter = Exports::Register.formatter_for(WorkPackage, column_name, :pdf)
     formatter.format(work_package)
+  end
+
+  def remove_pdf_page_footers(strings, nr_of_pages)
+    result = strings
+    nr_of_pages.times do |page|
+      result = result.gsub([" #{page + 1}", export_date_formatted, project.name].join(" "), "")
+    end
+    result
   end
 
   subject(:pdf) do
@@ -288,25 +303,33 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     image_attachment_elsewhere.save
   end
 
-  describe "with a request for a PDF" do
+  describe "with a request for a PDF", with_settings: { work_package_multiple_versions: false } do
     describe "with rich text and images" do
       it "contains correct data" do
         # Joining with space for comparison since word wrapping leads to a different array for the same content
-        result = pdf[:strings].join(" ")
+        # removing the footer text from the result for comparison, as the number of pages and page breaks are not important
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
         expected_result = [
           *expected_details,
           label_title(:description),
           "Lorem", " ", "ipsum", " ", "dolor", " ", "sit", " ",
           "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
           "Image Caption",
-          "1", export_date_formatted, project.name,
           "Image Redirect",
-          "Foo",
-          "2", export_date_formatted, project.name
+          "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
         expect(result).not_to include("DisabledCustomField")
         expect(pdf[:images].length).to eq(4)
+      end
+    end
+
+    describe "with multiple versions enabled",
+             with_settings: { work_package_multiple_versions: true } do
+      it "renders the target versions attribute instead of the deprecated version" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:target_versions)} #{version.name}")
       end
     end
 
@@ -369,6 +392,28 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         expect(exporter.send(:pdf_embeddable?, "image/png")).to be true
         expect(exporter.send(:pdf_embeddable?, "image/jpeg")).to be true
         expect(exporter.send(:pdf_embeddable?, "image/gif")).to be true
+        expect(exporter.send(:pdf_embeddable?, "image/webp")).to be true
+      end
+    end
+
+    describe "with WebP image attachment" do
+      let(:webp_path) { Rails.root.join("spec/fixtures/files/image.webp") }
+      let(:webp_attachment) { Attachment.new author: user, file: File.open(webp_path) }
+      let(:attachments) { [webp_attachment] }
+      let(:description) do
+        <<~DESCRIPTION
+          This work package contains a WebP image.
+          ![](/api/v3/attachments/#{webp_attachment.id}/content)
+        DESCRIPTION
+      end
+
+      before do
+        webp_attachment.save
+      end
+
+      it "converts WebP images and includes them in the PDF export" do
+        expect(webp_attachment.content_type).to eq "image/webp"
+        expect(pdf[:images].length).to eq(1)
       end
     end
 
@@ -441,7 +486,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "My link in table", "https://example.com",
           "No replacement of:", "workPackageValue:1:assignee", "workPackageLabel:assignee",
           "workPackageValue:2:assignee workPackageLabel:assignee",
-          "workPackageValue:3:assignee", "workPackageLabel:assignee",
+          "workPackageValue:3:assignee", "workPackageLabel:assignee"
         ]
       end
 
@@ -459,11 +504,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
       it "contains resolved attributes and labels" do
         # Joining with space for comparison since word wrapping leads to a different array for the same content
-        result = pdf[:strings].join(" ")
+        # removing the footer text from the result for comparison, as the number of pages and page breaks are not important
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 3)
+
         expected_result = [
           *expected_details,
           label_title(:description),
-          "1", export_date_formatted, project.name,
           "Work package attributes and labels",
           supported_work_package_embeds.map do |embed|
             [WorkPackage.human_attribute_name(
@@ -471,9 +517,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             ), embed[1]]
           end,
           *expected_description_first,
-          "2", export_date_formatted, project.name,
-          *expected_description_second,
-          "3", export_date_formatted, project.name
+          *expected_description_second
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
       end
@@ -545,8 +589,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           end,
           "Custom field boolean", I18n.t(:general_text_Yes),
           "Custom field rich text", "foo",
-          "1", export_date_formatted, project.name,
-
           "Custom field hidden",
           "No replacement of:",
           "projectValue:1:status",
@@ -560,15 +602,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Access denied:  ",
           "[#{I18n.t('export.macro.error', message:
             I18n.t('export.macro.resource_not_found', resource: "Project #{forbidden_project.id}"))}]  ",
-          "Access denied by identifier:", " ", "[Macro error, resource not found: Project", "forbidden-project]",
-
-          "2", export_date_formatted, project.name
+          "Access denied by identifier:", " ", "[Macro error, resource not found: Project", "forbidden-project]"
         ].flatten.join(" ")
       end
 
       it "contains resolved attributes and labels" do
         # Joining with space for comparison since word wrapping leads to a different array for the same content
-        result = pdf[:strings].join(" ")
+        # removing the footer text from the result for comparison, as the number of pages and page breaks are not important
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 3)
         expect(result).to eq(expected_result)
       end
     end
@@ -598,6 +639,31 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           expect(pdf[:logos].first.hash[:Height]).to eq(30)
           expect(pdf[:logos].first.hash[:Width]).to eq(149)
         end
+      end
+    end
+
+    context "with the backlogs module enabled" do
+      let(:enabled_module_names) { %i[backlogs] }
+      let(:sprint) { create(:sprint, name: "Sprint name for export", project:) }
+
+      before do
+        work_package.sprint = sprint
+        work_package.save!
+      end
+
+      it "contains correct data" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+        expected_result = [
+          *expected_details,
+          label_title(:description),
+          "Lorem", " ", "ipsum", " ", "dolor", " ", "sit", " ",
+          "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
+          "Image Caption",
+          "Image Redirect",
+          "Foo"
+        ].flatten.join(" ")
+        expect(result).to eq(expected_result)
+        expect(result).not_to include("DisabledCustomField")
       end
     end
   end

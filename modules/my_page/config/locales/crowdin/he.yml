@@ -1,3 +1,10 @@
+---
 he:
+  activerecord:
+    models:
+      grids/my_page:
+        one: My page
+        two: My pages
+        other: My pages
   my_page:
-    label: "העמוד שלי"
+    label: העמוד שלי

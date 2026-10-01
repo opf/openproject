@@ -1,0 +1,38 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      scope: :work_package,
+      model: work_package,
+      url: convert_to_work_package_project_meeting_agenda_item_path(
+        meeting.project,
+        meeting,
+        meeting_agenda_item
+      ),
+      method: :post,
+      html: {
+        id: MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent::FORM_ID,
+        data: {
+          controller: "work-packages--create-dialog",
+          "work-packages--create-dialog-refresh-url-value": refresh_convert_to_work_package_dialog_project_meeting_agenda_item_path(
+            meeting.project,
+            meeting,
+            meeting_agenda_item
+          )
+        }
+      }
+    ) do |f|
+      flex_layout(mb: 3) do |modal_body|
+        if work_package.errors[:base].present?
+          modal_body.with_row do
+            render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) { work_package.errors[:base].join("\n") }
+          end
+        end
+
+        modal_body.with_row do
+          dialog_id = "##{MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent::DIALOG_ID}"
+          render(WorkPackages::Dialogs::CreateForm.new(f, work_package:, wrapper_id: dialog_id))
+        end
+      end
+    end
+  end
+%>

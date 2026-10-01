@@ -113,7 +113,7 @@ module CostQuery::CustomFieldMixin
     custom_options_table = CustomOption.table_name
 
     <<-SQL
-    -- BEGIN Custom Field Join: #{db_field}
+    -- BEGIN Custom Field Join: cf_#{field.id}
     LEFT OUTER JOIN (
     SELECT
       co.id AS #{db_field},
@@ -129,16 +129,16 @@ module CostQuery::CustomFieldMixin
 
     AND #{db_field}.custom_field_id = #{field.id}
     AND #{db_field}.customized_id = entries.entity_id
-    -- END Custom Field Join: #{db_field}
+    -- END Custom Field Join: cf_#{field.id}
     SQL
   end
 
   def default_join_table(field)
-    <<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]
-    -- BEGIN Custom Field Join: "%4$s"
+    <<-SQL % [CustomValue.table_name, table_name, field.id, SQL_TYPES[field.field_format]]
+    -- BEGIN Custom Field Join: cf_%3$d
     LEFT OUTER JOIN (
     \tSELECT
-    \t\tCAST(value AS %5$s) AS %2$s,
+    \t\tCAST(value AS %4$s) AS %2$s,
     \t\tcustomized_type,
     \t\tcustom_field_id,
     \t\tcustomized_id
@@ -148,7 +148,7 @@ module CostQuery::CustomFieldMixin
     ON %2$s.customized_type = 'WorkPackage'
     AND %2$s.custom_field_id = %3$d
     AND %2$s.customized_id = entries.entity_id
-    -- END Custom Field Join: "%4$s"
+    -- END Custom Field Join: cf_%3$d
     SQL
   end
 

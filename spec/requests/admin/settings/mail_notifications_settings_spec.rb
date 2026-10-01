@@ -40,9 +40,8 @@ RSpec.describe "Mail Notifications Settings",
   end
 
   describe "GET /admin/settings/mail_notifications" do
-    context "when email_delivery_method is sendmail" do
+    context "when email_delivery_method is sendmail", with_settings: { email_delivery_method: :sendmail } do
       before do
-        allow(Setting).to receive(:email_delivery_method).and_return(:sendmail)
         get "/admin/settings/mail_notifications"
       end
 
@@ -50,6 +49,81 @@ RSpec.describe "Mail Notifications Settings",
         expect(response).to have_http_status(:success)
 
         expect(page).to have_field(I18n.t(:setting_sendmail_location), disabled: true, visible: :all)
+      end
+
+      it "shows the sendmail fields group and hides the smtp fields group" do
+        expect(page).to have_field(I18n.t(:setting_sendmail_location), visible: :visible, disabled: :all)
+        expect(page).to have_field(I18n.t(:setting_smtp_address), visible: :hidden, disabled: :all)
+      end
+    end
+
+    context "when email_delivery_method is smtp", with_settings: { email_delivery_method: :smtp } do
+      before do
+        get "/admin/settings/mail_notifications"
+      end
+
+      it "shows the smtp fields group and hides the sendmail fields group" do
+        expect(response).to have_http_status(:success)
+
+        expect(page).to have_field(I18n.t(:setting_smtp_address), visible: :visible, disabled: :all)
+        expect(page).to have_field(I18n.t(:setting_sendmail_location), visible: :hidden, disabled: :all)
+      end
+
+      it "marks smtp as the selected option" do
+        select = page.find_field(I18n.t(:setting_email_delivery_method), visible: :all, disabled: :all)
+
+        expect(select).to have_css("option[selected][value='smtp']", visible: :all)
+      end
+    end
+
+    context "when email_delivery_method is not configured", with_settings: { email_delivery_method: nil } do
+      before do
+        get "/admin/settings/mail_notifications"
+      end
+
+      it "hides both delivery method field groups" do
+        expect(response).to have_http_status(:success)
+
+        expect(page).to have_field(I18n.t(:setting_smtp_address), visible: :hidden, disabled: :all)
+        expect(page).to have_field(I18n.t(:setting_sendmail_location), visible: :hidden, disabled: :all)
+      end
+
+      it "offers a blank option instead of displaying an unsaved delivery method" do
+        select = page.find_field(I18n.t(:setting_email_delivery_method), visible: :all, disabled: :all)
+
+        expect(select).to have_css("option[value='']", text: I18n.t(:label_not_configured), visible: :all)
+        expect(select).to have_no_css("option[selected]", visible: :all)
+      end
+    end
+
+    context "when email_delivery_method is letter_opener",
+            with_settings: { email_delivery_method: :letter_opener } do
+      context "in development" do
+        before do
+          allow(Rails.env).to receive(:development?).and_return(true)
+          get "/admin/settings/mail_notifications"
+        end
+
+        it "explains letter_opener and hides the smtp and sendmail field groups" do
+          expect(response).to have_http_status(:success)
+
+          expect(page).to have_text(I18n.t(:text_email_delivery_letter_opener))
+          expect(page).to have_field(I18n.t(:setting_smtp_address), visible: :hidden, disabled: :all)
+          expect(page).to have_field(I18n.t(:setting_sendmail_location), visible: :hidden, disabled: :all)
+        end
+      end
+
+      context "when not in development" do
+        before do
+          get "/admin/settings/mail_notifications"
+        end
+
+        it "does not offer letter_opener at all" do
+          expect(response).to have_http_status(:success)
+
+          expect(page).to have_no_text(I18n.t(:text_email_delivery_letter_opener))
+          expect(page).to have_no_css("option[value='letter_opener']", visible: :all)
+        end
       end
     end
   end

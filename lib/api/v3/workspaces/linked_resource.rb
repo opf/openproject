@@ -70,7 +70,7 @@ module API
               representer: ::API::V3::Projects::ProjectRepresenter,
               skip_render:,
               link: ::API::V3::Workspaces::WorkspaceRepresenterFactory
-                     .create_link_lambda(name),
+                     .create_link_lambda(name, property_name: as),
               setter: ::API::V3::Workspaces::WorkspaceRepresenterFactory
                       .create_setter_lambda(name)
             }

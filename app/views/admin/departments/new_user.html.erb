@@ -1,0 +1,8 @@
+<%= render(
+      Admin::Departments::DetailComponent.new(
+        group: @group,
+        ancestors: @ancestors,
+        child_groups: @child_groups,
+        add_user: true
+      )
+    ) %>

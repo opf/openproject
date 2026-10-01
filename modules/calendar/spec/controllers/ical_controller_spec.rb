@@ -329,6 +329,41 @@ RSpec.describe Calendar::ICalController do
       it_behaves_like "failure"
     end
 
+    # The token still exists until Principals::DeleteJob has run to clean it up
+    context "when the token's user has been soft-deleted but the token still exists" do
+      before do
+        valid_ical_token_value
+        user.update_column(:status, Principal.statuses[:deleted])
+
+        get :show, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it "returns 404, not 500" do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when the token's user is locked" do
+      before do
+        valid_ical_token_value
+        user.locked!
+
+        get :show, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it "returns 404, not 500" do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context "with invalid query" do
       before do
         get :show, params: {

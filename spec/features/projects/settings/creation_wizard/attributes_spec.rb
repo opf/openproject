@@ -289,7 +289,7 @@ RSpec.describe "Project creation wizard settings - attributes tab",
     end
   end
 
-  it "defaults to true for newly mapped fields" do
+  it "defaults to false for newly mapped fields, even though the wizard is enabled" do
     new_field = create(:string_project_custom_field,
                        name: "New Field",
                        project_custom_field_section: section1)
@@ -301,12 +301,12 @@ RSpec.describe "Project creation wizard settings - attributes tab",
 
     within_custom_field_section_container(section1) do
       within_custom_field_container(new_field) do
-        expect_checked_state
+        expect_unchecked_state
       end
     end
 
     new_mapping.reload
-    expect(new_mapping.creation_wizard).to be true
+    expect(new_mapping.creation_wizard).to be false
   end
 
   it "can enable all fields in a section at once" do

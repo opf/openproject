@@ -47,18 +47,18 @@ class Reports::Report
 
   # ---- every report needs to implement these methods to supply all needed data for a report -----
   def field
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def rows
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def data
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def title
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 end

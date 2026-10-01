@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
-
 <% columns.each.with_index do |column, index| %>
   <%=
     render(
@@ -36,7 +35,8 @@ See COPYRIGHT and LICENSE files for more details.
         role: cell_role(column, index),
         aria: { colindex: index + 1 }
       )
-    ) do %>
+    ) do
+  %>
     <% label = mobile_label(column) %>
     <% if label.present? %>
       <%= render(Primer::Beta::Text.new(classes: "op-border-box-grid__row-label")) { "#{label}: " } %>
@@ -51,7 +51,8 @@ See COPYRIGHT and LICENSE files for more details.
       classes: "op-border-box-grid__row-action gap-1",
       role: :cell,
       aria: { colindex: columns.size + 1 }
-    ) do |flex| %>
+    ) do |flex|
+  %>
     <% button_links.each do |link| %>
       <% flex.with_column { link } %>
     <% end %>

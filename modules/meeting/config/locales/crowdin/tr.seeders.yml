@@ -13,17 +13,18 @@ tr:
           meeting_agenda_items:
             item_0:
               title: Güzel haberlerimiz var!
+              notes: What went well this week?
             item_1:
-              title: Geliştirme ekibinden gelişmeler
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Üretim ekibinden gelişmeler
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Pazarlama ekibinden gelişmeler
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Satış ekibinden gelişmeler
-            item_6:
-              title: Çeyrek bazlı hedefleri gözden geçirilmesi
-            item_7:
-              title: Temel değerler geri bildirimi
-            item_8:
-              title: Genel başlıklar
+              title: General topics
+              notes: Solving or discussing topics together.

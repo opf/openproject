@@ -30,4 +30,20 @@
 
 class Queries::Users::Filters::GroupFilter < Queries::Users::Filters::UserFilter
   include Queries::Filters::Shared::GroupFilter
+
+  def human_name
+    I18n.t(:label_group)
+  end
+
+  def autocomplete_options
+    {
+      component: "opce-user-autocompleter",
+      resource: "principals",
+      url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+      filters: [{ name: "type", operator: "=", values: %w[Group] }],
+      searchKey: "any_name_attribute",
+      inputValue: values,
+      bindValue: "id"
+    }
+  end
 end

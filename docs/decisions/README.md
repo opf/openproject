@@ -52,7 +52,7 @@ Typical examples:
 - Authentication or authorization approach
 - Service boundaries or modularization
 - Communication patterns (events vs REST, sync vs async)
-- Deployment or hosting strategy
+- Frontend rendering approach (server-rendered vs. single-page app)
 
 If unsure: **create an ADR**. It is better to document one decision too many than one too few.
 
@@ -104,7 +104,7 @@ If unsure: **create an ADR**. It is better to document one decision too many tha
 
 7. **Add to Dev Weekly agenda**
 
-   Add an agenda item to the next [weekly dev meeting](https://community.openproject.org/projects/development/recurring_meetings/2).
+   Add an agenda item to the next [weekly dev meeting](https://community.openproject.org/projects/development/recurring_meetings/2). Steps relying on internal channels (this one and "Notify the team") are carried out by a maintainer on behalf of external contributors; the pull request stays the public, authoritative record of the discussion.
 
 8. **Discuss and refine**
 

@@ -46,4 +46,12 @@ class Storages::FileLink < ApplicationRecord
   def name
     origin_name
   end
+
+  def user_allowed_to_manage?(user)
+    if container.present?
+      user.allowed_in_project?(:manage_file_links, container.project)
+    else
+      user == creator
+    end
+  end
 end

@@ -1,7 +1,9 @@
 <%= render(
       Primer::Alpha::Dialog.new(
         title: I18n.t("export.dialog.title"),
-        size: :xlarge,
+        size: :large,
+        position: :right,
+        position_narrow: :fullscreen,
         id: MODAL_ID,
         data: {
           controller: "work-packages--export--dialog"

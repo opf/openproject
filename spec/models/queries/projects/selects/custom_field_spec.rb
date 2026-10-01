@@ -55,11 +55,9 @@ RSpec.describe Queries::Projects::Selects::CustomField do
     let(:id) { 42 }
 
     before do
-      scope = double
-
-      allow(ProjectCustomField).to receive(:visible).and_return(scope)
-      allow(scope).to receive(:includes).with(:calculated_value_errors).and_return(scope)
-      allow(scope).to receive(:where).with(id: [id]).and_return([custom_field].compact)
+      allow(ProjectCustomField)
+        .to receive(:visible)
+              .and_return([custom_field].compact)
     end
 
     context "when custom field exists" do

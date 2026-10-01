@@ -40,7 +40,7 @@
                 size: :large,
                 data: {
                   hover_card_trigger_target: "trigger",
-                  hover_card_popover_id: sub_status_hover_card_id,
+                  hover_card_popover_template_id: sub_status_hover_card_id,
                   test_selector: "op-portfolios--sub-status-bar"
                 }
               )
@@ -166,9 +166,8 @@
 <%=
   # Card that appears when hovering over the progress bar
   if render_sub_status_bar?
-    content_tag(:div, class: "op-hover-card--hidden-container") do
+    content_tag(:template, id: sub_status_hover_card_id) do
       flex_layout(
-        id: sub_status_hover_card_id,
         classes: "op-portfolios--popover",
         data: {
           test_selector: "op-portfolios--hover-card-#{portfolio.id}"

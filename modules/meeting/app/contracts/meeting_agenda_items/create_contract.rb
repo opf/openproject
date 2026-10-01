@@ -32,7 +32,9 @@ module MeetingAgendaItems
   class CreateContract < BaseContract
     attribute :item_type
 
-    validate :user_allowed_to_add, :validate_meeting_existence
+    validate :user_allowed_to_add,
+             :validate_meeting_existence,
+             :section_belongs_to_meeting
 
     def self.assignable_meetings(user)
       Meeting
@@ -65,11 +67,27 @@ module MeetingAgendaItems
     def validate_meeting_existence
       # when creating a meeting agenda item from the work package tab and not selecting a meeting
       # the meeting and therefore the project is not set
-      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existance error
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existence error
       # the error is added by the models presence validation
       return if model.meeting.nil?
 
       errors.add :base, :does_not_exist unless visible?
+    end
+
+    def section_belongs_to_meeting
+      return if model.meeting_section.nil? || model.meeting.nil?
+      return if section_is_meetings_backlog?
+
+      errors.add :base, :section_not_belong_to_meeting unless section_meeting_matches?
+    end
+
+    def section_meeting_matches?
+      model.meeting_id == model.meeting_section.meeting_id
+    end
+
+    # For recurring meetings, the backlog belongs to the template, and so this exception is needed
+    def section_is_meetings_backlog?
+      model.meeting.recurring? && model.meeting.backlog.id == model.meeting_section.id
     end
 
     private

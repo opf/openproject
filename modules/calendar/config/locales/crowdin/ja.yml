@@ -1,12 +1,12 @@
-#English strings go here
+---
 ja:
+  label_calendar: カレンダー
+  label_calendar_plural: カレンダー
+  label_new_calendar: 新しいカレンダー
+  permission_manage_calendars: カレンダーを管理
+  permission_share_calendars: iCalendarを購読
+  permission_view_calendar: カレンダーを表示
   plugin_openproject_calendar:
-    name: "OpenProject カレンダー"
-    description: "カレンダー ビューを提供します。"
-  label_calendar: "カレンダー"
-  label_calendar_plural: "カレンダー"
-  label_new_calendar: "新しいカレンダー"
-  permission_view_calendar: "カレンダーを表示"
-  permission_manage_calendars: "カレンダーを管理"
-  permission_share_calendars: "iCalendarを購読"
-  project_module_calendar_view: "カレンダー"
+    description: カレンダー ビューを提供します。
+    name: OpenProject カレンダー
+  project_module_calendar_view: カレンダー

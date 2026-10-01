@@ -30,16 +30,16 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::ListTypes, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpTools::ListTypes do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
-    header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
   end
 
   let(:access_token) { create(:oauth_access_token, scopes: "mcp", resource_owner: user) }
   let(:user) { create(:user) }
+  let(:permissions) { %i[view_work_packages] }
   let(:request_body) do
     {
       jsonrpc: "2.0",
@@ -61,33 +61,37 @@ RSpec.describe McpTools::ListTypes, with_flag: { mcp_server: true } do
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
 
   before do
+    create(:member, project: create(:project, no_types: true), user:, roles: [create(:project_role, permissions: permissions)])
     server_config.save!
     tool_config.save!
   end
 
   context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP response with structured content"
+    it_behaves_like "MCP embedded resource tool"
 
     it "finds all types" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "count")).to eq(2)
     end
 
     it "responds with properly formatted types" do
-      subject
+      mcp_request
       expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("types_model")
     end
 
-    context "when the tool is disabled via configuration" do
-      let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
+    context "when lacking permission to see types" do
+      let(:permissions) { [] }
 
-      it_behaves_like "MCP error response"
+      it "finds no types" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "count")).to eq(0)
+      end
     end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

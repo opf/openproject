@@ -1,0 +1,76 @@
+# /api/v3/recurring_meetings/{id}/occurrences/{start_time}
+---
+delete:
+  summary: Cancel an occurrence
+  operationId: cancel_recurring_meeting_occurrence
+  tags:
+    - Recurring Meetings
+  description: |-
+    Cancels the occurrence at the given `start_time` for this recurring meeting series.
+    A `ScheduledMeeting` record is created (or updated) with `cancelled: true`.
+
+    An occurrence that has already been instantiated as a meeting cannot be cancelled via this
+    endpoint — delete the meeting directly via `DELETE /api/v3/meetings/{id}` instead.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: The ISO 8601 start time of the occurrence to cancel (e.g. `2025-06-02T10:00:00Z`)
+      example: "2025-06-02T10:00:00Z"
+      in: path
+      name: start_time
+      required: true
+      schema:
+        type: string
+        format: date-time
+  responses:
+    '204':
+      description: Returned if the occurrence was successfully cancelled.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit meetings in the recurring meeting's project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+    '409':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Conflict
+                message: Cannot cancel an already instantiated occurrence. Delete the meeting instead.
+      description: |-
+        Returned if the occurrence has already been instantiated as a meeting.
+        Delete the meeting directly via `DELETE /api/v3/meetings/{id}` instead.

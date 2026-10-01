@@ -37,7 +37,7 @@ module McpResources
     default_description "Access users of this OpenProject instance."
 
     def read(id:)
-      user = ::User.visible(current_user).find_by_unique(id) # rubocop:disable Rails/DynamicFindBy
+      user = ::User.visible(current_user).find_by_unique(id)
       return nil if user.nil?
 
       API::V3::Users::UserRepresenter.create(user, current_user:)

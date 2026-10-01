@@ -21,18 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 
 @Component({
   templateUrl: './static-attribute-help-text.modal.html',
@@ -40,6 +36,8 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
   standalone: false,
 })
 export class StaticAttributeHelpTextModalComponent extends OpModalComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+
   readonly text = {
     close: this.I18n.t('js.button_close'),
   };
@@ -47,17 +45,4 @@ export class StaticAttributeHelpTextModalComponent extends OpModalComponent impl
   public title:string = this.locals.title as string;
 
   public content:string = this.locals.content as string;
-
-  constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
 }

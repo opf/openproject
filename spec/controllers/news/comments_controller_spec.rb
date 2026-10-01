@@ -33,18 +33,20 @@ require "spec_helper"
 RSpec.describe News::CommentsController do
   render_views
 
-  let(:user) { create(:admin)   }
-  let(:news) { create(:news)    }
+  let(:user) { create(:admin) }
+
+  let(:project) { create(:project) }
+  let(:news) { create(:news, project: project) }
 
   before do
-    allow(User).to receive(:current).and_return user
+    login_as(user)
   end
 
   describe "#create" do
     it "assigns a comment to the news item and redirects to the news page" do
-      post :create, params: { news_id: news.id, comment: { comments: "This is a test comment" } }
+      post :create, params: { project_id: project.id, news_id: news.id, comment: { comments: "This is a test comment" } }
 
-      expect(response).to redirect_to news_path(news)
+      expect(response).to redirect_to project_news_path(news.project, news)
 
       latest_comment = news.comments.reorder(created_at: :desc).first
       expect(latest_comment).not_to be_nil
@@ -54,9 +56,9 @@ RSpec.describe News::CommentsController do
 
     it "doesn't create a comment when it is invalid" do
       expect do
-        post :create, params: { news_id: news.id, comment: { comments: "" } }
-        expect(response).to redirect_to news_path(news)
-      end.not_to change { Comment.count }
+        post :create, params: { project_id: project.id, news_id: news.id, comment: { comments: "" } }
+        expect(response).to redirect_to project_news_path(news.project, news)
+      end.not_to change(Comment, :count)
     end
   end
 
@@ -65,10 +67,10 @@ RSpec.describe News::CommentsController do
       comment = create(:comment, commented: news)
 
       expect do
-        delete :destroy, params: { id: comment.id }
-      end.to change { Comment.count }.by -1
+        delete :destroy, params: { project_id: project.id, news_id: news.id, id: comment.id }
+      end.to change(Comment, :count).by(-1)
 
-      expect(response).to redirect_to news_path(news)
+      expect(response).to redirect_to project_news_path(project, news)
       expect { comment.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end

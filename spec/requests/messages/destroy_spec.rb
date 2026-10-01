@@ -40,7 +40,7 @@ RSpec.describe "Messages destroy redirect",
   context "when an admin deletes a message" do
     current_user { create(:admin) }
 
-    let(:request) { delete "/topics/#{message.id}" }
+    let(:request) { delete "/projects/#{project.id}/forums/#{forum.id}/topics/#{message.id}" }
 
     subject do
       request
@@ -62,7 +62,7 @@ RSpec.describe "Messages destroy redirect",
 
     current_user { create(:admin) }
 
-    let(:request) { delete "/topics/#{reply.id}" }
+    let(:request) { delete "/projects/#{project.id}/forums/#{forum.id}/topics/#{reply.id}" }
 
     subject do
       request
@@ -71,7 +71,7 @@ RSpec.describe "Messages destroy redirect",
 
     it "responds with 303 See Other and redirects to the topic" do
       expect(subject).to have_http_status(:see_other)
-      expect(response).to redirect_to(topic_path(topic, r: reply))
+      expect(response).to redirect_to(project_forum_topic_path(project, forum, topic, r: reply))
 
       expect { Message.find(reply.id) }.to raise_error(ActiveRecord::RecordNotFound)
       expect { Message.find(topic.id) }.not_to raise_error

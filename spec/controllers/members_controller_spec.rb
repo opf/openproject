@@ -44,62 +44,6 @@ RSpec.describe MembersController do
 
   before { login_as(admin) }
 
-  describe "create" do
-    shared_let(:admin) { create(:admin) }
-    let(:project2) { create(:project) }
-
-    it "works for multiple users" do
-      post :create,
-           params: {
-             project_id: project2.identifier,
-             member: {
-               user_ids: [admin.id, user.id],
-               role_ids: [role.id]
-             }
-           }
-
-      expect(response.response_code).to be < 400
-
-      [admin, user].each do |u|
-        u.reload
-        expect(u.memberships.size).to be >= 1
-
-        expect(u.memberships.find do |m|
-          expect(m.roles).to include(role)
-        end).not_to be_nil
-      end
-    end
-  end
-
-  describe "update" do
-    shared_let(:admin) { create(:admin) }
-    let(:project2) { create(:project) }
-    let(:role1) { create(:project_role) }
-    let(:role2) { create(:project_role) }
-    let(:member2) do
-      create(
-        :member,
-        project: project2,
-        user: admin,
-        roles: [role1]
-      )
-    end
-
-    it "however allows roles to be updated through mass assignment" do
-      put "update",
-          params: {
-            project_id: project.identifier,
-            id: member2.id,
-            member: {
-              role_ids: [role1.id, role2.id]
-            }
-          }
-
-      expect(Member.find(member2.id).roles).to include(role1, role2)
-      expect(response.response_code).to be < 400
-    end
-  end
-
   describe "#autocomplete_for_member" do
     let(:params) { { "project_id" => project.identifier.to_s, "q" => query } }
     let(:query) { "" }
@@ -107,14 +51,15 @@ RSpec.describe MembersController do
     let(:global_permissions) { [] }
     let(:project_permissions) { [] }
 
-    subject { post(:autocomplete_for_member, xhr: true, params:) }
+    let(:user) do
+      create(:user,
+             member_with_permissions: { project => project_permissions },
+             global_permissions: global_permissions)
+    end
+
+    subject { post(:autocomplete_for_member, xhr: true, params:, format: :json) }
 
     before do
-      mock_permissions_for(user) do |mock|
-        mock.allow_globally(*global_permissions)
-        mock.allow_in_project(*project_permissions, project:)
-      end
-
       login_as(user)
     end
 
@@ -189,7 +134,9 @@ RSpec.describe MembersController do
       let!(:other_project) { create(:project) }
       let!(:other_user) { create(:user, member_with_permissions: { other_project => %i[view_project] }) }
       let!(:user) do
-        create(:user, member_with_permissions: { project => project_permissions, other_project => %i[view_project] })
+        create(:user,
+               global_permissions: global_permissions,
+               member_with_permissions: { project => project_permissions, other_project => %i[view_project] })
       end
 
       context "when the user is not authorized to see email addresses" do
@@ -219,6 +166,25 @@ RSpec.describe MembersController do
             subject
             expect(json_response).to be_empty
           end
+        end
+      end
+
+      context "when searching for a group the user belongs to" do
+        let!(:visible_group) { create(:group, lastname: "Visible group", members: [user]) }
+        let!(:hidden_group) { create(:group, lastname: "Hidden group") }
+        let(:query) { "Visible group" }
+
+        it "returns the group even if it is not a member of the project" do
+          subject
+
+          expect(json_response).to include(
+            {
+              "id" => visible_group.id,
+              "name" => visible_group.name,
+              "href" => "/api/v3/groups/#{visible_group.id}"
+            }
+          )
+          expect(json_response.pluck("id")).not_to include(hidden_group.id)
         end
       end
 
@@ -259,8 +225,28 @@ RSpec.describe MembersController do
     describe "WHEN the user is not authorized" do
       it "is forbidden" do
         subject
-        expect(response.response_code).to eq(403)
+        expect(response).to have_http_status(:forbidden)
       end
+    end
+  end
+
+  describe "#index" do
+    let(:role) { create(:project_role, permissions: [:manage_members]) }
+    let!(:member) { create(:member, project:, user:, roles: [role]) }
+
+    let!(:visible_group) { create(:group, members: [user]) }
+    let!(:hidden_group) { create(:group) }
+
+    before { login_as(user) }
+
+    it "only includes groups the user is a member of in the filter options" do
+      get :index, params: { project_id: project.id }
+
+      expect(response).to be_successful
+
+      groups = assigns(:members_filter_options)[:groups]
+      expect(groups).to include(visible_group)
+      expect(groups).not_to include(hidden_group)
     end
   end
 
@@ -301,6 +287,27 @@ RSpec.describe MembersController do
 
         # No invitation email should be sent since the user already exists
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "when adding by direct user ID a user who is not visible" do
+      let!(:hidden_user) { create(:user) }
+      let(:params) do
+        {
+          project_id: project.id,
+          member: {
+            role_ids: [role.id],
+            user_ids: [hidden_user.id]
+          }
+        }
+      end
+
+      it "does not add the hidden user as a member" do
+        expect { post :create, params: }
+          .to change(Member, :count).by(0)
+
+        hidden_user.reload
+        expect(hidden_user).not_to be_member_of(project)
       end
     end
   end
@@ -476,6 +483,7 @@ RSpec.describe MembersController do
     let(:action) do
       post :update,
            params: {
+             project_id: project.id,
              id: member.id,
              member: { role_ids: [role2.id], user_id: user.id }
            }
@@ -489,6 +497,29 @@ RSpec.describe MembersController do
     it "updates the member" do
       expect { action }.not_to change(Member, :count)
       expect(response).to redirect_to "/projects/pet_project/members"
+    end
+
+    context "when the member is a group" do
+      let(:group) { create(:group) }
+      let(:member) do
+        create(:member, project:,
+                        principal: group,
+                        roles: [role])
+      end
+      let(:action) do
+        post :update,
+             params: {
+               project_id: project.id,
+               id: member.id,
+               member: { role_ids: [role2.id] }
+             }
+      end
+
+      it "updates the group member instead of returning a 404" do
+        action
+        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(member.reload.roles).to contain_exactly(role2)
+      end
     end
   end
 end

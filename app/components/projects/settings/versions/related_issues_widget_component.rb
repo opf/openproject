@@ -66,7 +66,7 @@ module Projects
         end
 
         def render_view_all_link(widget)
-          widget.with_row do
+          widget.with_footer do
             helpers.link_to(
               I18n.t("projects.settings.versions.show_work_packages"),
               helpers.project_work_packages_version_path(version)

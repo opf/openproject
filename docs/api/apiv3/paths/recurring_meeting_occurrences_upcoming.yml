@@ -1,0 +1,51 @@
+# /api/v3/recurring_meetings/{id}/occurrences/upcoming
+---
+get:
+  summary: List upcoming occurrences of a recurring meeting
+  operationId: list_recurring_meeting_occurrences_upcoming
+  tags:
+    - Recurring Meetings
+  description: |-
+    Returns a collection of upcoming occurrences for the given recurring meeting.
+    The list merges computed occurrences from the recurrence schedule (via IceCube) with
+    any persisted `ScheduledMeeting` records, including already-instantiated open meetings.
+
+    Occurrences are ordered chronologically and limited by the `limit` parameter.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: Maximum number of occurrences to return. Defaults to 20.
+      example: 20
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        default: 20
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_occurrence_collection_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project

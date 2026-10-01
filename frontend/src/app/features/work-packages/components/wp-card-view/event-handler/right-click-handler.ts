@@ -1,22 +1,50 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardRightClickHandler implements CardEventHandler {
   // Injections
-  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() selectionGestures:WorkPackageViewSelectionGesturesService;
 
-  @InjectField() wpCardView:WorkPackageCardViewService;
+  @LazyInject() wpCardView:WorkPackageCardViewService;
 
-  @InjectField() opContextMenu:OPContextMenuService;
+  @LazyInject() opContextMenu:OPContextMenuService;
 
   constructor(public readonly injector:Injector,
     card:WorkPackageCardViewComponent) {
@@ -54,12 +82,7 @@ export class CardRightClickHandler implements CardEventHandler {
     if (!wpId) {
       return true;
     }
-    const classIdentifier = element.dataset.classIdentifier!;
-    const index = this.wpCardView.findRenderedCard(classIdentifier);
-
-    if (!this.wpTableSelection.isSelected(wpId)) {
-      this.wpTableSelection.setSelection(wpId, index);
-    }
+    this.selectionGestures.handleContextMenu(wpId, this.wpCardView.renderedCards, element.dataset.classIdentifier);
 
     const handler = new WorkPackageViewContextMenu(this.injector, wpId, evt.target as HTMLElement, {}, card.showInfoButton);
     this.opContextMenu.show(handler, evt);

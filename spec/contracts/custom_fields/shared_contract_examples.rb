@@ -45,6 +45,8 @@ RSpec.shared_examples_for "custom_field contract" do
   let(:custom_field_is_required) { true }
   let(:custom_field_max_length) { 0 }
   let(:custom_field_min_length) { 0 }
+  let(:custom_field_max_value) { nil }
+  let(:custom_field_min_value) { nil }
   let(:custom_field_possible_values) { [] }
   let(:custom_field_regexp) { nil }
   let(:custom_field_formula) { nil }
@@ -77,8 +79,7 @@ RSpec.shared_examples_for "custom_field contract" do
     end
   end
 
-  context "for a calculated field", with_ee: %i[calculated_values],
-                                    with_flag: { calculated_value_project_attribute: true } do
+  context "for a calculated field", with_ee: %i[calculated_values] do
     let(:custom_field_field_format) { "calculated_value" }
     let(:custom_field_is_required) { false }
     let(:custom_field_formula) { "1 + 1" }

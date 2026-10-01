@@ -42,7 +42,8 @@ RSpec.describe CustomFields::Inputs::MultiVersionSelectList, type: :forms do
     it "sets correct autocompleter inputs" do
       expect(autocompleter["data-items"]).to have_json_size(5)
       expect(autocompleter["data-model"]).to have_json_size(2)
-      expect(autocompleter["data-model"]).to be_json_eql(value.map { it.slice(:name) }.to_json).excluding("group_by")
+      expect(autocompleter["data-model"])
+        .to be_json_eql(value.map { it.slice(:name) }.to_json).excluding("group_by", "selected", "disabled")
     end
   end
 end

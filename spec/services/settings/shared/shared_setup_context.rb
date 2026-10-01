@@ -35,7 +35,7 @@ RSpec.shared_context "with update service setup" do
   let(:instance) do
     described_class.new(user:)
   end
-  let(:user) { build_stubbed(:user) }
+  let(:user) { build_stubbed(:admin) }
   let(:contract) do
     instance_double(Settings::UpdateContract,
                     validate: contract_success,
@@ -43,7 +43,7 @@ RSpec.shared_context "with update service setup" do
   end
   let(:contract_success) { true }
   let(:setting_definition) do
-    instance_double(Settings::Definition)
+    instance_double(Settings::Definition, secret?: false)
   end
   let(:setting_name) { :a_setting_name }
   let(:new_setting_value) { "a_new_setting_value" }

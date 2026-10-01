@@ -66,17 +66,21 @@
     <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
       @if (!item.id) {
         <div>
-          <div tabindex="-1" class="global-search--option" (click)="followItem(item)">
+          <a tabindex="0"
+             href="#"
+             class="global-search--option"
+             (click)="$event.preventDefault(); followItem(item)"
+             (keydown.enter)="$event.preventDefault(); followItem(item)"
+             (keydown.space)="$event.preventDefault(); followItem(item)">
             <div class="global-search--search-term">{{ currentValue }}</div>
             <div class="global-search--project-scope" title="{{ item.projectScope }}">{{ item.text }} ↵</div>
-          </div>
+          </a>
         </div>
       } @else {
         <a
-          tabindex="-1"
           class="global-search--option"
-          [href]="wpPath(item.id)"
-          (click)="redirectToWp(item.id, $event)"
+          [href]="wpPath(item.displayId)"
+          (click)="redirectToWp(item.displayId, $event)"
           style="line-height: 1"
           >
           <div class="global-search--option-meta">
@@ -84,7 +88,7 @@
               <span [ngClass]="highlighting('type', item.type.id)">
                 {{ item.type.name }}
               </span>
-              <span>#{{ item.id }}</span>
+              <span>{{ item.formattedId }}</span>
               <span [ngClass]="statusHighlighting(item.status.id)">
                 {{ item.status.name }}
               </span>

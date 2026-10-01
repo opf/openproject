@@ -59,7 +59,7 @@ module Components
     end
 
     def add_viewpoint
-      page.find("a.button", text: "Viewpoint").click
+      click_button "Viewpoint"
     end
   end
 end

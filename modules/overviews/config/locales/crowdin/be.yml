@@ -1,5 +1,13 @@
+---
 be:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        few: Overviews
+        many: Overviews
+        other: Overviews
   overviews:
+    label_dashboard: Dashboard
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "Overview"
+    label_overview: Overview

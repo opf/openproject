@@ -45,25 +45,29 @@ OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :calculated_value_project_attribute,
-                                  description: "Allows the use of calculated values as a project attribute.",
-                                  force_active: true
-
-OpenProject::FeatureDecisions.add :beta_widgets,
-                                  description: "Enables BETA versions of widgets."
-
-OpenProject::FeatureDecisions.add :mcp_server,
-                                  description: "Enables the experimental MCP API."
-
 OpenProject::FeatureDecisions.add :minutes_styling_meeting_pdf,
                                   description: "Allow exporting a meeting with FITKO styling. " \
                                                "See #65124 for details."
 
-OpenProject::FeatureDecisions.add :portfolio_models,
-                                  description: "Enables the creation and management of portfolio and program work spaces.",
+OpenProject::FeatureDecisions.add :wiki_enhancements,
+                                  description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :new_project_overview,
-                                  description: "Enables the new project overview experience.",
-                                  force_active: true
+OpenProject::FeatureDecisions.add :sprint_reports,
+                                  description: "Enables sprint reporting within the backlogs module. " \
+                                               "It shows a dashboard with various widgets regarding the sprint progress."
 
+OpenProject::FeatureDecisions.add :ai_text_transform_actions,
+                                  description: "Enables the admin UI to manage AI text transform actions."
+
+OpenProject::FeatureDecisions.add :work_package_labels,
+                                  description: "Enables labels on work packages, the labels API and the labels administration. " \
+                                               "See FND-5 for details."
+
+OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
+                                  description: "Enables project settings for the unit of velocity, effort and capacity. " \
+                                               "See AGILE-198 for details."
+
+OpenProject::FeatureDecisions.add :llm_connection,
+                                  description: "Enables the administration page connecting OpenProject to an " \
+                                               "OpenAI-API-compatible LLM server, and the AI features built on it."

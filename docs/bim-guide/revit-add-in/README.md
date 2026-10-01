@@ -8,7 +8,7 @@ keywords: BIM, BCF, IFC, Viewer
 
 # Revit add-in (BIM feature)
 
-The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other software for BIM Issue Management.
+The _OpenProject Revit Add-In_ allows you to use the open source project management software _OpenProject BIM_ directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other software for BIM Issue Management.
 
 To download the latest version (v2.2.3) of our OpenProject Revit AddIn click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
 
@@ -46,25 +46,25 @@ You can find the latest version of our AddIn on [Github](https://github.com/opf/
 After you have downloaded the file, please run it to start the installation process.
 
 1. **Start Installation process**
-   In the first screen, click *Next* to continue:
+   In the first screen, click _Next_ to continue:
 
 ![Installation Step 1](installation-step-01.png)
 
 2. **Select Revit Version**
 
-   Next, select the Revit version you have installed locally and click *Next* to continue. You can select multiple versions:
+   Next, select the Revit version you have installed locally and click _Next_ to continue. You can select multiple versions:
 
 ![Installation Step 02](installation-step-02.png)
 
 3. **Start Installation**
 
-   Verify the installation steps are correct in the next screen and click on *Install* to install the **OpenProject Revit AddIn**:
+   Verify the installation steps are correct in the next screen and click on _Install_ to install the **OpenProject Revit AddIn**:
 
 ![Installation Step 03](installation-step-03.png)
 
 4. **Ready to use**
 
-   Please wait a few moments for the installation to complete and then click *Finish* to finish the installation.
+   Please wait a few moments for the installation to complete and then click _Finish_ to finish the installation.
 
 ## How to update from an earlier version
 
@@ -76,7 +76,7 @@ After Installing the OpenProject BIM AddIn you can find a new tab within the Rev
 
 ![Revit AddIn Settings](RevitAddIn_Settings.png)
 
-The settings will appear in a new tab. Within this tab you have to insert your own ***OpenProject BIM URL*** and confirm with "Go". Your OpenProject account is now linked to your Revit application and you can close the tab.
+The settings will appear in a new tab. Within this tab you have to insert your own _**OpenProject BIM URL**_ and confirm with "Go". Your OpenProject account is now linked to your Revit application and you can close the tab.
 
 ![OpenProject BIM Login](OpenProject_BIM_Login.png)
 
@@ -130,19 +130,19 @@ To remove the **OpenProject Revit AddIn** remove the AddIn like any other AddIn 
 
 ### 'Your computer was protected by Windows' Error Message
 
-This is an internal Windows defense mechanism called *Windows SmartScreen*. When you run the installer, you might see a message similar to this:
+This is an internal Windows defense mechanism called _Windows SmartScreen_. When you run the installer, you might see a message similar to this:
 
 ![Installer Windows SmartScreen 1](installer-smart-screen-01.png)
 
 This can happen when a new release was not yet installed by many users, so internal Microsoft services do not yet know about the trustworthiness of the **OpenProject Revit AddIn** version.
 
-To continue, please click on the highlighted part labeled *Additional Information*, then you should see a screen like the following:
+To continue, please click on the highlighted part labeled _Additional Information_, then you should see a screen like the following:
 
 ![Installer Windows SmartScreen 2](installer-smart-screen-02.png)
 
-Ensure that publisher says *OpenProject GmbH*. That means the installer was correctly signed by OpenProject and is safe to use.
+Ensure that publisher says _OpenProject GmbH_. That means the installer was correctly signed by OpenProject and is safe to use.
 
-To proceed with the installation, click on *Run Anyway* and the installation will start.
+To proceed with the installation, click on _Run Anyway_ and the installation will start.
 
 ## Reporting bugs
 

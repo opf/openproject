@@ -1,0 +1,17 @@
+<%# `Query` is the legacy work-package query model. %>
+<%# `Filters::FilterFormComponent` works against it the same way it does %>
+<%# against `Queries::BaseQuery` subclasses — the only requirement is %>
+<%# `available_advanced_filters`, `filters`, and `find_active_filter(name)`, %>
+<%# all of which `Query` exposes (the last one was mirrored from `BaseQuery` %>
+<%# to bring the legacy query in line with the new component). %>
+<%= primer_form_with(url: "/foo", method: :post) do |f| %>
+  <%=
+    render(
+      Filters::FilterFormComponent.new(
+        builder: f,
+        query: query,
+        wrap_with_controller: true
+      )
+    )
+  %>
+<% end %>

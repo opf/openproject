@@ -41,7 +41,7 @@ module Storages
     end
   end
 
-  RSpec.describe NextcloudManagedFolderPermissionsService, :webmock do
+  RSpec.describe NextcloudManagedFolderPermissionsService, :disable_ssrf_filter, :webmock do
     shared_let(:oidc_provider) { create(:oidc_provider) }
 
     shared_let(:admin) { create(:admin) }
@@ -160,7 +160,7 @@ module Storages
         end
       end
 
-      it "adds and remove users from the remote group", vcr: "nextcloud/managed_folder_set_permissions_group_users" do
+      it "adds and removes users from the remote group", vcr: "nextcloud/managed_folder_set_permissions_group_users" do
         service.call
 
         users = Adapters::Input::GroupUsers.build(group: storage.group).bind do |input_data|
@@ -173,6 +173,24 @@ module Storages
           Adapters::Input::RemoveUserFromGroup.build(group: storage.group, user:).bind do |input_data|
             Adapters::Registry["nextcloud.commands.remove_user_from_group"].call(storage:, auth_strategy:, input_data:)
           end
+        end
+      end
+
+      context "when two project storages have the same project_folder_id (regression #75022)" do
+        before do
+          create(:project_storage, storage:, project_folder_id: project_storage.project_folder_id)
+        end
+
+        it "fails with an appropriate error", vcr: "nextcloud/managed_folder_set_permissions" do
+          result = service.call
+          expect(result).to be_failure
+          expect(result.errors.details[:set_folder_permission]).to contain_exactly(
+            error: :folder_id_collision,
+            folder: project_storage.project_folder_id
+          )
+
+          # Ensure presence of a translation
+          expect(result.errors.full_messages).to all(be_a(String))
         end
       end
     end

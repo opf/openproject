@@ -1,0 +1,38 @@
+## Rich text editor
+
+OpenProject uses CKEditor for rich text editing.
+See https://www.openproject.org/docs/development/concepts/wysiwyg-editor/ for more information on how the editor works
+and how it is used in frontend code.
+
+To add a rich text field to a primer form, use the `form.rich_text_area` input:
+
+```ruby
+  form do |agenda_item_form|
+    agenda_item_form.rich_text_area(
+      name: :notes,
+      label: MeetingAgendaItem.human_attribute_name(:notes),
+      disabled: @disabled,
+      rich_text_options: {
+        resource:,
+        showAttachments: false
+      }
+    )
+  end
+```
+
+Under the hood, this will render a textarea and next to it, a custom element called `opce-ckeditor-augmented-textarea`.
+This custom element will sync the markdown output from the rich text editor to the textarea, so that on submission,
+markdown is sent as if it was contained in the textarea.
+
+### Options
+
+Here are the most common options you'd pass to the rich text editor:
+
+- **resource**: An APIv3 represented resource to attach attachments to. For example, if you are editing a work package,
+  you would pass `API::V3::WorkPackages::WorkPackageRepresenter.new(work_package, current_user: User.current, embed_links: false)`
+- **showAttachments**: (false) Whether to show attachments below the editor. They will only be present if `resource` is present
+- **editorType**: (full) The type of editor to use. Currently, only `full` (all macros) and `constrained` (limited functionality) is supported.
+
+### Examples
+
+<%= embed OpenProject::Common::RichTextPreview, :default, panels: %i[source] %>

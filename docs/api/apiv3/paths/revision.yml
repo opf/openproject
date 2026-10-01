@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: Revision id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

@@ -1,0 +1,44 @@
+<%=
+  component_wrapper do
+    grid_layout("op-storage-view--row", tag: :div, align_items: :center) do |grid|
+      grid.with_area(:item, tag: :div, mr: 3) do
+        concat(render(Primer::Beta::Text.new(font_weight: :bold, mr: 1)) { t("wikis.admin.wiki_providers.oauth.openproject_oauth") })
+        if oauth_application.present?
+          concat(render(Primer::Beta::Label.new(scheme: :success)) { t(:label_completed) })
+        else
+          concat(render(Primer::Beta::Label.new(scheme: :attention)) { t(:label_incomplete) })
+        end
+      end
+
+      grid.with_area(:description, tag: :div, color: :subtle) do
+        if oauth_application.present?
+          render(Primer::Beta::Text.new) { "#{t(".label_oauth_client_id")}: #{oauth_application.uid}" }
+        else
+          render(Primer::Beta::Text.new) { t("wikis.admin.wiki_providers.#{wiki_provider}.oauth.openproject_oauth_description") }
+        end
+      end
+
+      if wiki_provider.persisted? && !wiki_provider.configured_from_env?
+        grid.with_area(:"icon-button", tag: :div, color: :muted) do
+          flex_layout(justify_content: :flex_end) do |icons|
+            icons.with_column do
+              primer_form_with(
+                model: wiki_provider,
+                url: url_helpers.replace_oauth_application_admin_settings_wiki_provider_path(wiki_provider),
+                method: :delete
+              ) do |_form|
+                render(Primer::Beta::IconButton.new(
+                  icon: :sync,
+                  scheme: :invisible,
+                  type: :submit,
+                  aria: { label: t(".replace_oauth_application") },
+                  data: { turbo_confirm: t(".confirm_replace_oauth_application") }
+                ))
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

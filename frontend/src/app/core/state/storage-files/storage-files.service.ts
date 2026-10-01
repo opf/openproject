@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
   filter, map, take, tap,
@@ -44,14 +44,12 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class StorageFilesResourceService {
+  private readonly httpClient = inject(HttpClient);
+  private readonly apiV3Service = inject(ApiV3Service);
+
   private readonly store:StorageFilesStore = new StorageFilesStore();
 
   private readonly query = new QueryEntity(this.store);
-
-  constructor(
-    private readonly httpClient:HttpClient,
-    private readonly apiV3Service:ApiV3Service,
-  ) {}
 
   files(link:IHalResourceLink):Observable<IStorageFiles> {
     const value = this.store.getValue().files[link.href];

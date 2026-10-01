@@ -32,47 +32,29 @@ require "spec_helper"
 
 RSpec.describe MessagesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
-  let(:project) { create(:project) }
-  let(:role) { create(:project_role) }
-  let!(:member) do
-    create(:member,
-           project:,
-           principal: user,
-           roles: [role])
-  end
-  let!(:forum) do
-    create(:forum,
-           project:)
-  end
+  let(:permissions) { [] }
+  let(:project) { create(:project, member_with_permissions: { user => permissions }) }
+  let!(:forum) { create(:forum, project:) }
 
   let(:filename) { "testfile.txt" }
-  let(:file) { File.open(Rails.root.join("spec/fixtures/files", filename)) }
+  let(:file) { Rails.root.join("spec/fixtures/files", filename).open }
 
-  before { allow(User).to receive(:current).and_return user }
+  before do
+    login_as(user)
+  end
 
   describe "#show" do
-    context "with a public project" do
-      let(:user) { User.anonymous }
-      let(:project) { create(:public_project) }
+    context "when the user is allowed to view messages" do
+      let(:permissions) { %i[view_messages] }
       let!(:message) { create(:message, forum:) }
 
-      context "when login_required", with_settings: { login_required: true } do
-        it "redirects to login" do
-          get :show, params: { project_id: project.id, id: message.id }
-          expect(response).to redirect_to signin_path(back_url: topic_url(message.id))
-        end
-      end
+      it "renders the show template" do
+        get :show, params: { project_id: project.id, forum_id: forum.id, id: message.id }
 
-      context "when not login_required", with_settings: { login_required: false } do
-        it "renders the show template" do
-          get :show, params: { project_id: project.id, id: message.id }
-
-          expect(response).to be_successful
-          expect(response).to render_template "messages/show"
-          expect(assigns(:topic)).to be_present
-          expect(assigns(:forum)).to be_present
-          expect(assigns(:project)).to be_present
-        end
+        expect(response).to render_template "messages/show"
+        expect(assigns(:topic)).to be_present
+        expect(assigns(:forum)).to be_present
+        expect(assigns(:project)).to be_present
       end
     end
   end
@@ -80,87 +62,49 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
   describe "#update" do
     let(:message) { create(:message, forum:) }
     let(:other_forum) { create(:forum, project:) }
+    let(:permissions) { %i[edit_messages] }
 
-    before do
-      role.add_permission!(:edit_messages) and user.reload
-      put :update, params: { id: message,
-                             message: { forum_id: other_forum } }
-    end
-
-    it "allows for changing the board" do
-      expect(message.reload.forum).to eq(other_forum)
-    end
-
-    context "attachment upload" do
-      let!(:message) { create(:message) }
-      let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
-      # Attachment is already uploaded
-      let(:attachment) { create(:attachment, container: nil, author: user) }
-      let(:params) do
-        { id: message.id,
-          attachments: { "0" => { "id" => attachment.id } } }
+    context "when moving it to another forum" do
+      before do
+        put :update, params: { project_id: project.id,
+                               forum_id: forum.id,
+                               id: message,
+                               message: { forum_id: other_forum } }
       end
 
-      describe "add" do
-        before do
-          allow_any_instance_of(Message).to receive(:editable_by?).and_return(true)
-        end
+      it "allows for changing the board" do
+        expect(message.reload.forum).to eq(other_forum)
+      end
+    end
 
-        context "journal" do
+    context "when uploading an attachment" do
+      let!(:message) { create(:message, forum: forum) }
+      let(:uncontainered) { create(:attachment, container: nil, author: user) }
+      let(:attachment_id) { "attachments_#{uncontainered.id}" }
+
+      let(:params) do
+        {
+          project_id: project.id,
+          forum_id: forum.id,
+          id: message.id,
+          attachments: { "1" => { id: uncontainered.id } }
+        }
+      end
+
+      describe "when adding an attachment" do
+        let(:permissions) { %i[edit_messages] }
+
+        context "with journaling" do
           before do
             put(:update, params:)
 
             message.reload
           end
 
-          describe "#key" do
-            subject { message.journals.last.details }
-
-            it { is_expected.to have_key attachment_id }
+          it "stores attachment details in the journal entry" do
+            expect(message.journals.last.details).to have_key attachment_id
+            expect(message.journals.last.details[attachment_id].last).to eq(uncontainered.filename)
           end
-
-          describe "#value" do
-            subject { message.journals.last.details[attachment_id].last }
-
-            it { is_expected.to eq(attachment.filename) }
-          end
-        end
-      end
-    end
-
-    describe "#remove" do
-      let!(:attachment) do
-        create(:attachment,
-               container: message,
-               author: user,
-               filename:)
-      end
-      let!(:attachable_journal) do
-        create(:journal_attachable_journal,
-               journal: message.journals.last,
-               attachment:,
-               filename:)
-      end
-
-      before do
-        message.reload
-        message.attachments.delete(attachment)
-        message.reload
-      end
-
-      context "journal" do
-        let(:attachment_id) { "attachments_#{attachment.id}" }
-
-        describe "#key" do
-          subject { message.journals.last.details }
-
-          it { is_expected.to have_key attachment_id }
-        end
-
-        describe "#value" do
-          subject { message.journals.last.details[attachment_id].first }
-
-          it { is_expected.to eq(filename) }
         end
       end
     end
@@ -172,12 +116,8 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
     context "when allowed" do
       let(:user) { create(:admin) }
 
-      before do
-        login_as user
-      end
-
       it "renders the content as json" do
-        get :quote, params: { forum_id: forum.id, id: message.id }, format: :json
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
 
         expect(response).to be_successful
         expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
@@ -189,10 +129,64 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
         user.save! validate: false
 
         message.update!(author: user)
-        get :quote, params: { forum_id: forum.id, id: message.id }, format: :json
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
 
         expect(response).to be_successful
         expect(response.parsed_body["content"]).to eq "Hello &lt;b&gt;world&lt;/b&gt; wrote:\n> foo\n\n"
+      end
+
+      it "prefixes each line with > for multiline content" do
+        message.update!(content: "line one\nline two\nline three")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        body = response.parsed_body
+        expect(body["content"]).to include("> line one\n> line two\n> line three")
+      end
+
+      it "replaces <pre> blocks with [...]" do
+        message.update!(content: "before\n<pre>some code\nblock</pre>\nafter")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        body = response.parsed_body
+        expect(body["content"]).to include("[...]")
+        expect(body["content"]).not_to include("<pre>")
+        expect(body["content"]).not_to include("some code")
+      end
+
+      it "preserves double quotes in content" do
+        message.update!(content: 'she said "hello" to him')
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response).to be_successful
+        expect(response.parsed_body["content"]).to include('she said "hello" to him')
+      end
+
+      it "does not add RE: prefix when subject already starts with RE:" do
+        message.update!(subject: "RE: already replied")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response.parsed_body["subject"]).to eq "RE: already replied"
+      end
+
+      it "adds RE: prefix to subject" do
+        message.update!(subject: "original topic")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response.parsed_body["subject"]).to eq "RE: original topic"
+      end
+
+      it "handles nil content gracefully" do
+        message.update_columns(content: nil)
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response).to be_successful
+        expect(response.parsed_body["content"]).to include("> \n\n")
+      end
+
+      it "returns not acceptable for non-JSON requests" do
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :html
+
+        expect(response).to have_http_status(:not_acceptable)
       end
     end
   end

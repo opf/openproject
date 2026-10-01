@@ -33,6 +33,7 @@ require "rails_helper"
 RSpec.describe Projects::CopyFormComponent, type: :component do
   let(:source_project) { build_stubbed(:project) }
   let(:target_project) { Project.new(attributes_for(:project).except(:name)) }
+  let(:rendered_component) { render_component }
 
   def render_component(**params)
     render_inline(described_class.new(source_project:, target_project:, **params))
@@ -40,6 +41,10 @@ RSpec.describe Projects::CopyFormComponent, type: :component do
   end
 
   it "renders a form" do
-    expect(render_component).to have_css "form"
+    expect(rendered_component).to have_css "form"
+  end
+
+  describe "#identifier_suggestion_data" do
+    it_behaves_like "renders identifier_suggestion_data"
   end
 end

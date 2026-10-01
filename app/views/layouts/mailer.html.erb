@@ -102,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
       <table class="header">
         <tr>
           <td>
-            <%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %>
+            <%= format_mail_html(Setting.localized_emails_header) %>
           </td>
         </tr>
       </table>
@@ -118,7 +118,7 @@ See COPYRIGHT and LICENSE files for more details.
       <table class="footer">
         <tr>
           <td>
-            <%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %>
+            <%= format_mail_html(Setting.localized_emails_footer) %>
           </td>
         </tr>
       </table>

@@ -1,0 +1,32 @@
+<%=
+  component_wrapper(
+    class: "op-user-built-in-attribute-container",
+    data: { test_selector: "user-built-in-attribute-container-#{@attribute_key}" }
+  ) do
+    flex_layout(justify_content: :space_between, align_items: :center) do |main_container|
+      main_container.with_column(flex_layout: true, align_items: :center) do |content_container|
+        content_container.with_column(mr: 2) do
+          render(Primer::OpenProject::DragHandle.new(classes: "handle"))
+        end
+        content_container.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { attribute_label }
+        end
+        content_container.with_column do
+          render(Primer::Beta::Label.new(scheme: :secondary, size: :medium)) do
+            t(".label_built_in")
+          end
+        end
+      end
+      main_container.with_column do
+        render(Primer::Alpha::ActionMenu.new(data: { test_selector: "built-in-attribute-action-menu" })) do |menu|
+          menu.with_show_button(
+            icon: "kebab-horizontal",
+            "aria-label": t(".label_built_in_attribute_actions"),
+            scheme: :invisible
+          )
+          move_actions(menu)
+        end
+      end
+    end
+  end
+%>

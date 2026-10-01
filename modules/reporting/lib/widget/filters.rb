@@ -31,11 +31,12 @@ class Widget::Filters < Widget::Base
   def render
     spacer = content_tag :li, "", class: "advanced-filters--spacer hide-when-print"
 
-    add_filter = content_tag :li, id: "add_filter_block", class: "advanced-filters--add-filter hide-when-print" do
+    add_filter = content_tag :li, id: "add_filter_block",
+                                  class: "advanced-filters--add-filter hide-when-print add_filter_block" do
       add_filter_label = label_tag(
         "add_filter_select",
         I18n.t(:label_filter_add),
-        class: "advanced-filters--add-filter-label"
+        class: "advanced-filters--add-filter-label add_filter_select"
       )
       add_filter_label += label_tag(
         "add_filter_select",
@@ -46,7 +47,7 @@ class Widget::Filters < Widget::Base
       add_filter_value = content_tag :div, class: "advanced-filters--add-filter-value" do
         select_tag "add_filter_select",
                    options_for_select([["", ""]] + selectables),
-                   class: "advanced-filters--select",
+                   class: "advanced-filters--select add_filter_select",
                    data: {
                      action: "reporting--page#addFilter"
                    },
@@ -93,7 +94,7 @@ class Widget::Filters < Widget::Base
   # rubocop:disable Metrics/PerceivedComplexity
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
-    html = "".html_safe
+    html = ActiveSupport::SafeBuffer.new
     render_widget Label, f, to: html
     render_widget Operators, f, to: html
 
@@ -104,6 +105,8 @@ class Widget::Filters < Widget::Base
       render_widget User, f, to: html
     elsif f_cls == CostQuery::Filter::WorkPackageId
       render_widget WorkPackage, f, to: html
+    elsif f_cls == CostQuery::Filter::VersionId && Setting::WorkPackageMultipleVersions.active?
+      render_widget Version, f, to: html
     # Handling of generic widgets
     elsif f_cls.heavy?
       render_widget Heavy, f, to: html

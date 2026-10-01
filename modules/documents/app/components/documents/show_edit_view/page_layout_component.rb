@@ -107,7 +107,7 @@ module Documents
 
       def add_tab_to_underline_panels(name, active, counter, **system_arguments, &)
         @underline_panels.with_tab(selected: active, id: name, **system_arguments) do |tab|
-          tab.with_panel(px: 3, classes: "document-page-layout--right-content", &)
+          tab.with_panel(classes: "document-page-layout--right-content", &)
           tab.with_text { name }
           tab.with_counter(count: counter, hide_if_zero: true)
         end

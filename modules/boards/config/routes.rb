@@ -12,7 +12,13 @@ Rails.application.routes.draw do
       collection do
         get "menu" => "boards/menus#show"
       end
-      get "(/*state)" => "boards/boards#show", on: :member, as: "", constraints: { id: /\d+/ }
+      member do
+        get "details/:work_package_id(/:tab)",
+            action: :split_view,
+            defaults: { tab: :overview },
+            as: :details,
+            work_package_split_view: true
+      end
     end
   end
 end

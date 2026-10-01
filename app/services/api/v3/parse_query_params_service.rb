@@ -135,6 +135,10 @@ module API
       end
 
       def filter_from_params(filter)
+        unless filter.is_a?(Hash)
+          raise JSON::ParserError, "Filter must be a JSON object, got #{filter.class}"
+        end
+
         attribute = filter.keys.first # there should only be one attribute per filter
         operator =  filter[attribute]["operator"]
         values = Array(filter[attribute]["values"])

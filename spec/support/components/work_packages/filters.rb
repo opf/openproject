@@ -47,12 +47,27 @@ module Components
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
           find(filters_selector, visible: true)
+          # The container can become visible slightly before Angular has finished
+          # rendering its actual content (e.g. right after a browser back/forward
+          # navigation, while the app is still being rebuilt) - wait for the
+          # always-present "add filter" row too, so callers that immediately
+          # interact with a specific filter's fields (e.g. expect_filter_by) don't
+          # race that render.
+          find(".advanced-filters--add-filter-value", visible: true)
         end
       end
 
       def open!
         open
         expect_open
+      end
+
+      def ensure_open
+        SeleniumHubWaiter.wait
+        expect_loaded
+        return if page.has_selector?(filters_selector, visible: :visible, wait: false)
+
+        open
       end
 
       def expect_filter_count(num)
@@ -223,6 +238,10 @@ module Components
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
       end
 
+      def clear_filter_value(field)
+        ng_select_clear(page.find("#filter_#{field} ng-select"), raise_on_missing: false)
+      end
+
       def open_autocompleter(id)
         with_filter_input(id, &:click)
       end
@@ -263,16 +282,16 @@ module Components
           elsif operator == "between"
             insert_two_single_dates(id, value)
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
-            insert_autocomplete_item(filter_element, value)
+            insert_autocomplete_item(id, value)
           else
             insert_plain_value(id, value)
           end
         end
       end
 
-      def insert_autocomplete_item(filter_element, value)
+      def insert_autocomplete_item(id, value)
         Array(value).each do |val|
-          select_autocomplete filter_element.find("ng-select"),
+          select_autocomplete page.find("#filter_#{id} ng-select"),
                               query: val,
                               results_selector: ".ng-dropdown-panel-items"
         end

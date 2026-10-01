@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -71,12 +73,9 @@ module OpenProject::GithubIntegration
       end
 
       def already_referenced_work_packages(payload)
-        pull_request = GithubPullRequest
-          .where(github_id: payload.pull_request.id)
-          .or(GithubPullRequest.where(github_html_url: payload.pull_request.html_url))
-          .take
+        pull_request = GithubPullRequest.find_by(github_html_url: payload.pull_request.html_url)
 
-        pull_request&.work_packages.to_a || []
+        pull_request&.work_packages.to_a
       end
 
       def upsert_pull_request(payload, work_packages)

@@ -30,15 +30,26 @@
 
 class Wiki < ApplicationRecord
   belongs_to :project
-  has_many :pages, -> {
-    order("title")
-  }, class_name: "WikiPage", dependent: :destroy
-  has_many :wiki_menu_items, -> {
-    order("name")
-  }, class_name: "MenuItems::WikiMenuItem", dependent: :delete_all, foreign_key: "navigatable_id"
+
+  has_many :pages, -> { order(:title) }, class_name: "WikiPage", inverse_of: :wiki, dependent: :destroy
+
+  has_many :wiki_menu_items,
+           -> { order(:name) },
+           class_name: "MenuItems::WikiMenuItem",
+           inverse_of: :wiki,
+           dependent: :delete_all,
+           foreign_key: "navigatable_id"
+
   has_many :redirects, class_name: "WikiRedirect", dependent: :delete_all
 
   acts_as_watchable permission: :view_wiki_pages
+
+  scope :visible, ->(user = User.current) {
+    where(enabled: true)
+      .includes(:project)
+      .references(:project)
+      .merge(Project.allowed_to(user, :view_wiki_pages))
+  }
 
   accepts_nested_attributes_for :wiki_menu_items,
                                 allow_destroy: true,
@@ -49,8 +60,10 @@ class Wiki < ApplicationRecord
   after_create :create_menu_item_for_start_page
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_in_project?(:view_wiki_pages, project)
+    enabled && user.allowed_in_project?(:view_wiki_pages, project)
   end
+
+  def disabled? = !enabled?
 
   # find the page with the given title
   # if page doesn't exist, return a new page

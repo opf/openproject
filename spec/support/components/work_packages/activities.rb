@@ -35,6 +35,7 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
       include RSpec::Wait
+      include WaitHelpers
 
       attr_reader :work_package
 
@@ -285,19 +286,18 @@ module Components
           check_internal_comment_checkbox if internal
 
           if save
-            page.find_test_selector("op-submit-work-package-journal-form").click
-            wait_for_network_idle
-          end
-        end
-
-        if save
-          page.within_test_selector("op-wp-journals-container") do
-            # wait for the comment to be loaded
-            expect(page).to have_test_selector("op-journal-notes-body", text:, wait: 10)
+            wait_for_turbo_stream do
+              page.find_test_selector("op-submit-work-package-journal-form").click
+            end
           end
         end
 
         wait_for_network_idle
+
+        if save
+          # wait for the comment to be loaded
+          expect(page).to have_test_selector("op-journal-notes-body", text:, wait: 10)
+        end
       end
 
       def edit_comment(journal, text: nil, save: true)
@@ -356,7 +356,7 @@ module Components
 
       def dismiss_comment_editor_with_cancel_button
         page.within_test_selector("op-work-package-journal-form") do
-          click_on "Cancel"
+          click_on "Dismiss"
         end
       end
 
@@ -370,25 +370,21 @@ module Components
         end
       end
 
-      def filter_journals(filter, default_sorting: User.current.preference&.comments_sorting || "desc")
+      def filter_journals(filter)
         retry_block do
-          page.find_test_selector("op-wp-journals-filter-menu").click
+          wait_for_turbo_stream do
+            page.find_test_selector("op-wp-journals-filter-menu").click
 
-          case filter
-          when :all
-            page.find_test_selector("op-wp-journals-filter-show-all").click
-          when :only_comments
-            page.find_test_selector("op-wp-journals-filter-show-only-comments").click
-          when :only_changes
-            page.find_test_selector("op-wp-journals-filter-show-only-changes").click
+            case filter
+            when :all
+              page.find_test_selector("op-wp-journals-filter-show-all").click
+            when :only_comments
+              page.find_test_selector("op-wp-journals-filter-show-only-comments").click
+            when :only_changes
+              page.find_test_selector("op-wp-journals-filter-show-only-changes").click
+            end
           end
         end
-
-        # Ensure the journals are reloaded
-        wait_for { page }.to have_test_selector("op-wp-journals-#{filter}-#{default_sorting}")
-        # the wait_for will not work on its own as the selector will be switched to the target filter before the page is updated
-        # so we still need to wait statically unfortunately to avoid flakyness
-        sleep 1
       end
 
       def set_journal_sorting(sorting, default_filter: :all)

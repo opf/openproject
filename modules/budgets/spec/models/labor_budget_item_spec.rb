@@ -29,8 +29,9 @@
 require_relative "../spec_helper"
 
 RSpec.describe LaborBudgetItem do
-  let(:item) { build(:labor_budget_item, budget:, user:) }
+  let(:item) { build(:labor_budget_item, budget:, principal:) }
   let(:budget) { build(:budget, project:) }
+  let(:principal) { user }
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:rate) do
@@ -80,6 +81,23 @@ RSpec.describe LaborBudgetItem do
       it { expect(item.calculated_costs).to eq(rate.rate * item.hours) }
     end
 
+    describe "WHEN a placeholder user, hours and rate are defined" do
+      let(:principal) { create(:placeholder_user) }
+      let(:placeholder_rate) do
+        create(:hourly_rate, principal:, project:, valid_from: 4.days.ago, rate: 250.0)
+      end
+
+      before do
+        project.save!
+        item.hours = 5.0
+        placeholder_rate
+      end
+
+      it { expect(item).to be_valid }
+
+      it { expect(item.calculated_costs).to eq(placeholder_rate.rate * item.hours) }
+    end
+
     describe "WHEN user, hours and rate are defined " \
              "WHEN the user is deleted" do
       before do
@@ -101,7 +119,7 @@ RSpec.describe LaborBudgetItem do
       before do
         item.save!
         item.reload
-        item.update_attribute(:user_id, user.id)
+        item.update(user_id: user.id)
         item.reload
       end
 
@@ -109,12 +127,13 @@ RSpec.describe LaborBudgetItem do
     end
 
     describe "WHEN a group is provided" do
+      let(:principal) { group }
       let(:group) { create(:group) }
 
       before do
         item.save!
         item.reload
-        item.update_attribute(:user_id, group.id)
+        item.update(user_id: group.id)
         item.reload
       end
 
@@ -125,7 +144,7 @@ RSpec.describe LaborBudgetItem do
       before do
         item.save!
         item.reload
-        item.update_attribute(:user_id, user.id)
+        item.update(user_id: user.id)
         user.destroy
         item.reload
       end
@@ -182,7 +201,54 @@ RSpec.describe LaborBudgetItem do
 
       it "is not valid" do
         expect(item).not_to be_valid
-        expect(item.errors[:user]).to eq([I18n.t("activerecord.errors.messages.blank")])
+        expect(item.errors[:principal]).to eq([I18n.t("activerecord.errors.messages.blank")])
+      end
+    end
+
+    describe "WHEN the user is not a member of the budget project" do
+      before do
+        item # trigger build so after(:build) creates the membership first
+        Member.where(project:, principal: user).destroy_all
+      end
+
+      it "is not valid" do
+        expect(item).not_to be_valid
+        expect(item.errors.where(:principal, :not_a_member_of_budget_project)).not_to be_empty
+      end
+    end
+
+    describe "WHEN the budget has no project yet" do
+      before do
+        item.budget = build(:budget, project: nil)
+      end
+
+      it "skips the membership check and does not add a membership error" do
+        item.valid?
+        expect(item.errors.where(:principal, :not_a_member_of_budget_project)).to be_empty
+      end
+    end
+
+    describe "WHEN a group is provided as principal" do
+      let(:group) { create(:group) }
+
+      before do
+        create(:member, principal: group, project:, roles: [create(:project_role, permissions: %i[work_package_assigned])])
+        item.principal = group
+      end
+
+      it "is valid when the group is a member of the budget project" do
+        expect(item).to be_valid
+      end
+
+      context "when the group is not a member of the budget project" do
+        before do
+          Member.where(principal: group, project:).destroy_all
+        end
+
+        it "is not valid" do
+          expect(item).not_to be_valid
+          expect(item.errors.where(:principal, :not_a_member_of_budget_project)).not_to be_empty
+        end
       end
     end
   end

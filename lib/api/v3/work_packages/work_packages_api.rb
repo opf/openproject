@@ -63,7 +63,7 @@ module API
                                                             })
                                                        .mount)
 
-          route_param :id, type: Integer, desc: "Work package ID" do
+          route_param :id, type: String, desc: "Work package ID or semantic identifier (e.g. PROJ-42)" do
             helpers WorkPackagesSharedHelpers
 
             helpers do
@@ -71,7 +71,7 @@ module API
             end
 
             after_validation do
-              @work_package = WorkPackage.find(declared_params[:id])
+              @work_package = WorkPackage.visible.find(declared_params[:id])
 
               authorize_in_work_package(:view_work_packages, work_package: @work_package) do
                 raise API::Errors::NotFound.new model: :work_package
@@ -97,6 +97,7 @@ module API
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::UpdateFormAPI
             mount ::API::V3::WorkPackages::AvailableAssigneesAPI
+            mount ::API::V3::AI::TextTransformActionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI

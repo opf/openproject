@@ -36,7 +36,7 @@ module WorkPackages::ActivitiesTab::Journals
       journals_form.hidden(name: :filter, value: @filter)
     end
 
-    def initialize(last_server_timestamp:, filter: :all)
+    def initialize(last_server_timestamp:, filter: WorkPackages::ActivitiesTab::Filters::ALL)
       super()
       @last_server_timestamp = last_server_timestamp
       @filter = filter

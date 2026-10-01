@@ -41,7 +41,7 @@ module Projects::Exports
     include Projects::Exports::PDFExport::Report
     include Projects::Exports::PDFExport::InfoMap
     include Projects::Exports::PDFExport::Styles
-    include Project::PDFExport::Common::ProjectAttributes
+    include Exports::PDF::Common::ProjectAttributes
 
     attr_accessor :pdf
 

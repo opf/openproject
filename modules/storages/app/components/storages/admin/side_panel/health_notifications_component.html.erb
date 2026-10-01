@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
         notifications_container.with_row do
           concat(
             render(Primer::Beta::Text.new(pr: 2, test_selector: "storage-health-checked-at")) do
-              I18n.t("storages.health.checked", datetime: helpers.format_time(@storage.health_checked_at))
+              I18n.t("storages.health.synced", datetime: helpers.format_time(@storage.health_checked_at))
             end
           )
 
@@ -56,6 +56,22 @@ See COPYRIGHT and LICENSE files for more details.
           notifications_container.with_row(mt: 2) do
             render(Primer::Beta::Text.new(color: :muted, test_selector: "storage-health-error")) do
               formatted_health_reason
+            end
+          end
+        end
+
+        notifications_container.with_row(mt: 2) do
+          if sync_pending?
+            render(Primer::OpenProject::InlineMessage.new(scheme: :success)) { t(".sync_queued") }
+          else
+            render(Primer::Beta::Button.new(
+              tag: :a,
+              scheme: :link,
+              data: { turbo_method: :post },
+              href: ampf_sync_now_admin_settings_storage_path(@storage)
+            )) do |button|
+              button.with_leading_visual_icon(icon: :sync)
+              t(".sync_now")
             end
           end
         end

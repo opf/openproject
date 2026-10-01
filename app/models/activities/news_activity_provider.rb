@@ -50,16 +50,16 @@ class Activities::NewsActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_path(event)
-    url_helpers.news_path(url_helper_parameter(event))
+    url_helpers.project_news_path(url_helper_parameter(event))
   end
 
   def event_url(event)
-    url_helpers.news_url(url_helper_parameter(event))
+    url_helpers.project_news_url(url_helper_parameter(event))
   end
 
   private
 
   def url_helper_parameter(event)
-    event["journable_id"]
+    { project_id: event["project_id"], id: event["journable_id"] }
   end
 end

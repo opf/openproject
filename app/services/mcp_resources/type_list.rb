@@ -37,7 +37,11 @@ module McpResources
     default_description "A list of all work package types configured in this OpenProject instance."
 
     def read
-      API::V3::Types::TypeCollectionRepresenter.new(::Type.includes(:color).all, self_link: api_v3_paths.types, current_user:)
+      API::V3::Types::TypeCollectionRepresenter.new(
+        ::Type.includes(:color).visible(current_user),
+        self_link: api_v3_paths.types,
+        current_user:
+      )
     end
   end
 end

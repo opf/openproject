@@ -16,6 +16,7 @@ module Grids
           .controller_actions
           .push(
             "grids/widgets/project_statuses/show",
+            "grids/widgets/descriptions/show",
             "grids/widgets/subitems/show"
           )
 

@@ -285,6 +285,24 @@ RSpec.describe API::V3::ParseQueryParamsService,
             end
           end
         end
+
+        context "with a non-object filter element" do
+          let(:params) do
+            { filters: JSON::dump([["status", "=", "not a hash"]]) }
+          end
+
+          it "is not success" do
+            expect(subject)
+              .not_to be_success
+          end
+
+          it "returns the error" do
+            expect(subject.errors.messages[:base].length)
+              .to be(1)
+            expect(subject.errors.messages[:base][0])
+              .to include("Filter must be a JSON object, got Array")
+          end
+        end
       end
     end
 

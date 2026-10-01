@@ -70,9 +70,9 @@ The configuration of the “view all projects” page now enables better project
 
 ## Harmonization of the time and costs modules
 
-Tracking spent time and costs is now much easier with the improved and harmonized modules for time and cost reporting. The modules *Time tracking* and *Cost reporting* have been combined. Whenever you want to track time and/or costs in a project, the new module *Time and costs* needs to be activated in the project settings. It automatically adds the time tracking and cost reporting functionality to the project.
+Tracking spent time and costs is now much easier with the improved and harmonized modules for time and cost reporting. The modules _Time tracking_ and _Cost reporting_ have been combined. Whenever you want to track time and/or costs in a project, the new module _Time and costs_ needs to be activated in the project settings. It automatically adds the time tracking and cost reporting functionality to the project.
 
-The *Budgets* module will remain unchanged and additionally enables project budgets to be tracked.
+The _Budgets_ module will remain unchanged and additionally enables project budgets to be tracked.
 
 ![time-and-costs-module](time-and-costs-module.png)
 
@@ -311,7 +311,7 @@ Prefer to run OpenProject 11.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
 Want to upgrade from your self-managed Community version to try out the Enterprise Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)
-Navigate to the -> *Administration*-> *Enterprise edition* and request your trial token.
+Navigate to the -> _Administration_-> _Enterprise edition_ and request your trial token.
 
 ## Migrating to OpenProject 11.0
 

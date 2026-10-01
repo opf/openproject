@@ -77,7 +77,7 @@ module API
               authorize_in_project(:add_work_package_watchers, project: @work_package.project)
             end
 
-            user = User.find user_id
+            user = User.visible.find(user_id)
 
             Services::CreateWatcher.new(@work_package, user).run(
               success: ->(result) { status(200) unless result[:created] },
@@ -101,7 +101,7 @@ module API
                 authorize_in_project(:delete_work_package_watchers, project: @work_package.project)
               end
 
-              user = User.find_by(id: params[:user_id])
+              user = User.visible.find_by(id: params[:user_id])
 
               raise ::API::Errors::NotFound unless user
 

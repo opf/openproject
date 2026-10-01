@@ -1,4 +1,32 @@
-import { Injectable } from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Injectable, inject } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -19,17 +47,14 @@ import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {
+  private readonly CurrentProject = inject(CurrentProjectService);
+  private readonly pathHelper = inject(PathHelperService);
+  private readonly apiV3Service = inject(ApiV3Service);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly toastService = inject(ToastService);
+  private readonly I18n = inject(I18nService);
+
   private v3 = this.pathHelper.api.v3;
-
-  constructor(
-    private readonly CurrentProject:CurrentProjectService,
-    private readonly pathHelper:PathHelperService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly halResourceService:HalResourceService,
-    private readonly toastService:ToastService,
-    private readonly I18n:I18nService) {
-
-  }
 
   private create(params:object, filters:ApiV3Filter[]):Observable<QueryResource> {
     const filterJson = JSON.stringify(filters);

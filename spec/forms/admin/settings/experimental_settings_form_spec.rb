@@ -59,4 +59,17 @@ RSpec.describe Admin::Settings::ExperimentalSettingsForm, :settings_reset, type:
       expect(rendered_form).to have_field "Another example", type: :checkbox, fieldset: "Feature flags"
     end
   end
+
+  context "with a feature flag that has allow_enabling disabled" do
+    before do
+      OpenProject::FeatureDecisions.add :an_example, allow_enabling: false
+      OpenProject::FeatureDecisions.add :another_example
+    end
+
+    it "does not render the disabled flag with a false default", :aggregate_failures do
+      expect(rendered_form).to have_field count: 1, type: :checkbox, fieldset: "Feature flags"
+      expect(rendered_form).to have_no_field "An example", type: :checkbox, fieldset: "Feature flags"
+      expect(rendered_form).to have_field "Another example", type: :checkbox, fieldset: "Feature flags"
+    end
+  end
 end

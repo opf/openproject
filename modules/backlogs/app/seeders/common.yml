@@ -30,9 +30,8 @@ modules_permissions:
   backlogs:
   - role: :default_role_member
     add:
-    - :view_master_backlog
-    - :view_taskboards
+    - :view_sprints
+    - :manage_sprint_items
   - role: :default_role_reader
     add:
-    - :view_master_backlog
-    - :view_taskboards
+    - :view_sprints

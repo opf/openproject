@@ -94,6 +94,11 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Rotate the test log so the disk is never filled
+  config.logger = ActiveSupport::TaggedLogging.new(
+    ActiveSupport::Logger.new(Rails.root.join("log/test.log"), 3, 150.megabytes)
+  )
+
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 

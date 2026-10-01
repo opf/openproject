@@ -57,7 +57,10 @@ module HookHelper
       default_context = { project: @project, hook_caller: self }
       default_context[:controller] = controller if respond_to?(:controller)
       default_context[:request] = request if respond_to?(:request)
-      OpenProject::Hook.call_hook(hook, default_context.merge(context)).join(" ").html_safe
+      ApplicationController.helpers.safe_join(
+        OpenProject::Hook.call_hook(hook, default_context.merge(context)),
+        " "
+      )
     end
   end
 end

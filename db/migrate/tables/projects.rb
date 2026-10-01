@@ -49,7 +49,7 @@ class Tables::Projects < Tables::Base
 
       t.index :lft, name: "index_projects_on_lft"
       t.index :rgt, name: "index_projects_on_rgt"
-      t.index :identifier, unique: true
+      t.index "LOWER(identifier)", unique: true, name: "index_projects_on_lower_identifier"
       t.index %i[lft rgt]
     end
   end

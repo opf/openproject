@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 module OpenProject
   module RateLimiting
     class Base
+      include RecognizedRoute
+
       class << self
         def rule_name
           name.demodulize.underscore
@@ -54,6 +58,14 @@ module OpenProject
         "Your request has been throttled. Try again at #{retry_after.seconds.from_now}.\n"
       end
 
+      def blocked_response
+        [429, { "Content-Type" => "text/plain" }, [blocked_response_body]]
+      end
+
+      def blocked_response_body
+        "Your request has been blocked.\n"
+      end
+
       protected
 
       # Provide a limit callback proc for the request, or use the default limit
@@ -91,16 +103,16 @@ module OpenProject
         false
       end
 
-      def discriminator(request)
-        raise NotImplementedError
+      def discriminator(_request)
+        raise SubclassResponsibilityError
       end
 
       def default_limit
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def default_period
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
     end
   end

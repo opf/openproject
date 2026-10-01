@@ -1,21 +1,21 @@
-#English strings go here
+---
 ka:
-  plugin_openproject_team_planner:
-    name: "OpenProject Team Planner"
-    description: "Provides team planner views."
-  permission_view_team_planner: "გუნდის მგეგმავის ნახვა"
-  permission_manage_team_planner: "გუნდის მგეგმავის მართვა"
-  project_module_team_planner_view: "გუნდის მგეგმავები"
   ee:
     feature_names:
-      team_planner_view: "გუნდის მგეგმავი"
+      team_planner_view: გუნდის მგეგმავი
     upsell:
       team_planner_view:
-        title: "გუნდის მგეგმავი"
-        description: "მიიღეთ მთელი თქვენი გუნდის გეგმების მიმოხილვა მგეგმავთან ერთად. გაწელეთ, შეამოკლეთ და გადაათრიეთ სამუშაოს პაკეტები, მათი თარიღების შესაცვლელად, გადასაადგილებლად ან მიმნიჭებლის შესაცვლელად."
+        description: მიიღეთ მთელი თქვენი გუნდის გეგმების მიმოხილვა მგეგმავთან ერთად. გაწელეთ, შეამოკლეთ და გადაათრიეთ სამუშაოს პაკეტები, მათი თარიღების შესაცვლელად, გადასაადგილებლად ან მიმნიჭებლის შესაცვლელად.
+        title: გუნდის მგეგმავი
+  permission_manage_team_planner: გუნდის მგეგმავის მართვა
+  permission_view_team_planner: გუნდის მგეგმავის ნახვა
+  plugin_openproject_team_planner:
+    description: Provides team planner views.
+    name: OpenProject Team Planner
+  project_module_team_planner_view: გუნდის მგეგმავები
   team_planner:
-    label_team_planner: "გუნდის მგეგმავი"
-    label_new_team_planner: "ახალი გუნდის მგეგმავი"
-    label_create_new_team_planner: "ახალი გუნდის მგეგმავის შექმნა"
-    label_team_planner_plural: "გუნდის მგეგმავები"
-    label_assignees: "მიმნიჭებლები"
+    label_assignees: მიმნიჭებლები
+    label_create_new_team_planner: ახალი გუნდის მგეგმავის შექმნა
+    label_new_team_planner: ახალი გუნდის მგეგმავი
+    label_team_planner: გუნდის მგეგმავი
+    label_team_planner_plural: გუნდის მგეგმავები

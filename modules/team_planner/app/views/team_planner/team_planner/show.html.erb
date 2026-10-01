@@ -1,1 +1,10 @@
 <% html_title(t("team_planner.label_team_planner")) -%>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-team-planner-view" %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+  <%= render(split_create_instance) if render_work_package_split_create? %>
+<% end %>

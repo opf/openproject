@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
   include ApplicationHelper
-  include ProjectHelper
+  include ProjectsHelper
   include Rails.application.routes.url_helpers
 
   let(:current_user) { build_stubbed(:user) }
@@ -196,7 +196,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
 
       it "renders a button linking to the work package" do
         rendered = render_inline(component)
-        expect(rendered).to have_link(href: project_work_packages_path(project, work_package))
+        expect(rendered).to have_link(href: project_work_package_path(project, work_package))
       end
     end
 

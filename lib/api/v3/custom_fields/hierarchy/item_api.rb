@@ -37,6 +37,9 @@ module API
                 authorize_logged_in
 
                 @custom_field_item = CustomField::Hierarchy::Item.find(params[:id])
+
+                # Only for checking the authorization.
+                CustomField.visible.find(@custom_field_item.root.custom_field_id)
               end
 
               get &::API::V3::Utilities::Endpoints::Show

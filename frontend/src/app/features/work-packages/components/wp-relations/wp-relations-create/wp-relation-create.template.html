@@ -32,7 +32,7 @@
             role="listbox"
             [(ngModel)]="selectedRelationType"
             opAutofocus>
-            @for (type of relationTypes; track type) {
+            @for (type of relationTypes; track type.name) {
               <option
                 [textContent]="type.label"
               [value]="type.name"></option>

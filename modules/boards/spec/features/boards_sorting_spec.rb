@@ -32,8 +32,7 @@ require_relative "support/board_page"
 
 RSpec.describe "Work Package boards sorting spec",
                :js,
-               :selenium,
-               with_ee: %i[board_view] do
+               :selenium do
   let(:admin) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:board_index) { Pages::BoardIndex.new(project) }
@@ -65,7 +64,7 @@ RSpec.describe "Work Package boards sorting spec",
     query_menu.expect_item "My Action Board"
 
     board_page = board_index.create_board title: "My Status Board",
-                                          action: "Status"
+                                          action: "Kanban"
     board_page.back_to_index
 
     board_index.expect_boards_listed "My Status Board",

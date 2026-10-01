@@ -35,7 +35,7 @@ module OpenIDConnect
     # application for which we know the audience name, which is typically the application's
     # client_id at an identity provider that OpenProject and the application have in common.
     class FetchService
-      include Dry::Monads::Result(TokenOperationError)
+      include Dry::Monads::Result(SimpleError)
       include Dry::Monads::Do.for(:access_token_for)
 
       TOKEN_OBTAINED_EVENT = "access_token_obtained"
@@ -51,7 +51,6 @@ module OpenIDConnect
         @token_exchange = token_exchange
         @token_refresh = token_refresh
         @jwt_parser = jwt_parser
-        @error = TokenOperationError.new(source: self.class)
       end
 
       ##
@@ -86,7 +85,7 @@ module OpenIDConnect
         if @token_exchange.supported?
           @token_exchange.call(aud)
         else
-          Failure(@error.with(code: :no_token_for_audience, payload: "No token for audience '#{aud}'"))
+          Failure(SimpleError.new(source: self.class, code: :no_token_for_audience, payload: "No token for audience '#{aud}'"))
         end
       end
 

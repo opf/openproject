@@ -21,19 +21,19 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ApiV3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Observable } from 'rxjs';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
 import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 
 export class ApiV3UserPreferencesPaths extends ApiV3ResourcePath<IUserPreference> {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   /**
    * Perform a request to the backend to load preferences

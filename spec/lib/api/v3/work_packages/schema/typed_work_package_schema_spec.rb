@@ -133,4 +133,31 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.assignable_custom_field_values(version_cf)).to be_nil
     end
   end
+
+  describe "#available_custom_fields when the project resolves a variant" do
+    let(:root_type) { create(:type) }
+    let(:variant) { create(:type_variant, type: root_type) }
+    let(:project) { create(:project, types: [variant]) }
+
+    let!(:root_cf) { create(:integer_wp_custom_field, projects: [project], types: [root_type]) }
+    let!(:variant_cf) { create(:integer_wp_custom_field, projects: [project], types: [variant]) }
+
+    subject { described_class.new(project:, type: root_type) }
+
+    context "when the variant shares its type's form" do
+      before { link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION) }
+
+      it "answers with the root's fields" do
+        expect(subject.available_custom_fields).to include(root_cf)
+        expect(subject.available_custom_fields).not_to include(variant_cf)
+      end
+    end
+
+    context "when the variant has a form of its own" do
+      it "answers with the variant's own fields" do
+        expect(subject.available_custom_fields).to include(variant_cf)
+        expect(subject.available_custom_fields).not_to include(root_cf)
+      end
+    end
+  end
 end

@@ -33,7 +33,9 @@ require "digest/sha1"
 class User < Principal
   ScimEmail = Struct.new("ScimEmail", :value, :primary, :type)
 
-  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
+  VALID_NAME_CHARS = "\\d\\p{Alpha}\\p{Mark}\\p{Space}\\p{Emoji}'\\u{2019}´\\-_.,@()+&*–"
+  INVALID_NAME_REGEX = /[^#{VALID_NAME_CHARS}]/
+  VALID_NAME_REGEX   = /\A[#{VALID_NAME_CHARS}]+\z/
   CURRENT_USER_LOGIN_ALIAS = "me"
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -47,7 +49,26 @@ class User < Principal
   include ::Associations::Groupable
   include ::Users::Avatars
   include ::Users::PermissionChecks
+  include ::Users::SemanticCustomFields
+  include ::Costs::HasRates
   extend DeprecatedAlias
+
+  # Join association backing #departments. The group_users lifecycle is already
+  # managed by the `groups` HABTM above, so no :dependent option is declared here.
+  has_many :group_users, inverse_of: :user # rubocop:disable Rails/HasManyOrHasOneDependent
+  # A user belongs to at most one department (an organizational unit group).
+  # Modeled as a has_many because Rails forbids a has_one :through a collection
+  # (group memberships). Use #department for the single value, and eager-load
+  # with User.includes(:departments) to avoid N+1 queries in user lists.
+  has_many :departments,
+           -> { Group.organizational_units },
+           through: :group_users,
+           source: :group
+  # Departments are surfaced as their own attribute, so they are left out here.
+  has_many :regular_groups,
+           -> { Group.not_organizational_units },
+           through: :group_users,
+           source: :group
 
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all
@@ -60,6 +81,12 @@ class User < Principal
   has_one :rss_token, class_name: "::Token::RSS", dependent: :destroy
   has_many :api_tokens, class_name: "::Token::API", dependent: :destroy
   has_many :oauth_client_tokens, dependent: :destroy
+  has_many :working_hours, class_name: "UserWorkingHours",
+                           dependent: :destroy,
+                           inverse_of: :user
+  has_many :non_working_times, class_name: "UserNonWorkingTime",
+                               dependent: :destroy,
+                               inverse_of: :user
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
@@ -105,6 +132,19 @@ class User < Principal
   has_many :emoji_reactions, dependent: :destroy
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
+  has_many :ai_text_transform_runs, class_name: "AI::TextTransformRun", dependent: :delete_all
+
+  # Resource allocations assigned to this user. Normal user-deletion goes
+  # through Principals::DeleteJob, which rewrites principal_id to a
+  # DeletedUser placeholder before destroy fires (registered in the
+  # resource_management engine). The `dependent: :nullify` here is a
+  # defensive fallback if a user is destroyed outside that flow — the column
+  # is already nullable for the unassigned/filter-only state.
+  has_many :resource_allocations,
+           class_name: "ResourceAllocation",
+           foreign_key: :principal_id,
+           dependent: :nullify,
+           inverse_of: :principal
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -132,9 +172,9 @@ class User < Principal
      blocked_if_login_since]
   end
 
-  acts_as_customizable
+  acts_as_customizable admin_only_allowed: true
 
-  attr_accessor :password, :password_confirmation, :last_before_login_on
+  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input, :consent_check
 
   validates :login,
             :firstname,
@@ -153,6 +193,8 @@ class User < Principal
 
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
+  # Only on change so that blocking a domain does not make its existing users unsaveable
+  validates :mail, blocked_email_domain: true, if: Proc.new { |user| user.mail_changed? }
 
   validates :password,
             confirmation: {
@@ -247,17 +289,13 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password, session = nil) # rubocop:disable Metrics/PerceivedComplexity
+  def self.try_authentication_for_existing_user(user, password, session = nil)
     activate_user! user, session if session
 
-    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+    return nil unless user.active?
+    return nil unless user.check_password?(password)
 
-    if user.ldap_auth_source
-      # user has an external authentication method
-      return nil unless user.ldap_auth_source.authenticate(user.login, password)
-    else
-      # authentication with local password
-      return nil unless user.check_password?(password)
+    unless user.ldap_auth_source
       return nil if user.force_password_change
       return nil if user.password_expired?
     end
@@ -279,7 +317,7 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
-    return nil if OpenProject::Configuration.disable_password_login?
+    return nil if Users::PasswordLogin.none?
 
     user = LdapAuthSource.authenticate(login, password)
 
@@ -362,6 +400,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
+    return false unless password_login_allowed?
+
     if ldap_auth_source.present?
       ldap_auth_source.authenticate(login, clear_password)
     else
@@ -373,7 +413,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return false if OpenProject::Configuration.disable_password_login?
+    return false unless password_login_allowed?
     return false if uses_external_authentication? && current_password.nil?
 
     ldap_auth_source_id.blank?
@@ -381,7 +421,12 @@ class User < Principal
 
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
-    user_auth_provider_links.exists?
+    # using #any? instead of #exists? so that it also works on unpersisted auth provider links
+    user_auth_provider_links.any?
+  end
+
+  def password_login_allowed?
+    Users::PasswordLogin.allowed?(self)
   end
 
   #
@@ -448,7 +493,7 @@ class User < Principal
   end
 
   def self.find_by_api_key(key)
-    return nil unless Setting.rest_api_enabled?
+    return nil unless Setting.api_tokens_enabled?
 
     token = Token::API.find_by_plaintext_value(key)
 
@@ -506,6 +551,15 @@ class User < Principal
 
   def anonymous?
     !logged?
+  end
+
+  def active_admin?
+    admin? && active?
+  end
+
+  # The single organizational unit (department) the user belongs to, if any.
+  def department
+    departments.first
   end
 
   def consent_expired?
@@ -673,6 +727,29 @@ class User < Principal
   end
 
   include Scimitar::Resources::Mixin
+
+  def non_working_time_entities_for_year(year)
+    NonWorkingDay.for_year(year).to_a + non_working_times.for_year(year).to_a
+  end
+
+  def non_working_days_for_year(year)
+    working_wdays = Setting.working_days.map { |d| d % 7 }
+    all_dates = system_non_working_dates_for_year(year) | user_non_working_dates_for_year(year)
+    all_dates.select { |d| working_wdays.include?(d.wday) }
+  end
+
+  private
+
+  def system_non_working_dates_for_year(year)
+    NonWorkingDay.for_year(year).pluck(:date).to_set
+  end
+
+  def user_non_working_dates_for_year(year)
+    year_range = Date.new(year, 1, 1)..Date.new(year, 12, 31)
+    non_working_times.for_year(year).flat_map do |t|
+      ([t.start_date, year_range.begin].max..[t.end_date, year_range.end].min).to_a
+    end.to_set
+  end
 
   protected
 

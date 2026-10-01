@@ -21,12 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { formatWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export class WorkPackageDisplayField extends DisplayField {
   public text = {
@@ -53,13 +55,47 @@ export class WorkPackageDisplayField extends DisplayField {
       return this.value.id;
     }
 
-    // Read WP ID from href
     return this.value.href.match(/(\d+)$/)[0];
+  }
+
+  /**
+   * Returns the identifier for URL routing.
+   * Reads `displayId` from the linked resource whether or not it is fully
+   * loaded — the API now includes `displayId` on HAL link objects (e.g.
+   * the parent link), so `WorkPackageResource#displayId` resolves
+   * correctly from `$source._links.self.displayId` even for stubs.
+   */
+  public get wpRoutingId():string {
+    const linkedWp = this.value as WorkPackageResource | undefined;
+    if (linkedWp) {
+      return linkedWp.displayId;
+    }
+    return (this.wpId as string | null) ?? '';
+  }
+
+  /**
+   * Returns the work package ID formatted for display.
+   * Classic mode: `#123` (hash-prefixed), Semantic mode: `PROJ-42` (no prefix).
+   *
+   * Delegates to `WorkPackageResource#formattedId` for both loaded and
+   * unloaded stubs. The API includes `displayId` on HAL link objects so
+   * `formattedId` resolves the semantic identifier without a fetch.
+   */
+  public get wpFormattedId():string {
+    const linkedWp = this.value as WorkPackageResource | undefined;
+    if (linkedWp) {
+      return linkedWp.formattedId;
+    }
+
+    const id = this.wpId as string | number | null;
+    if (!id) return '';
+
+    return formatWorkPackageId(String(id));
   }
 
   public get valueString() {
     // cannot display the type name easily here as it may not be loaded
-    return `#${this.wpId} ${this.title}`;
+    return `${this.wpFormattedId} ${this.title}`;
   }
 
   public isEmpty():boolean {

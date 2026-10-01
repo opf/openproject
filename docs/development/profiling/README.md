@@ -34,10 +34,10 @@ This will start the application in development mode, which oftentimes is suffici
 
 To avoid this, the application can be started in production mode but before this can happen, the code needs to be adapted slightly:
 
-* Search for the places where `OPENPROJECT_RACK_PROFILER_ENABLED` is referenced within the code and remove the references to `Rails.env.development?` from the conditions. At the time of writing, this needs to be done at:
-  * `config/initializers/rack_profiler.rb`
-  * `config/initializers/secure_headers.rb`
-* Read the profiling gems to your `Gemfile`/`Gemfile.local`/`Gemfile.profiling` since they would otherwise only be available in the development environment:
+- Search for the places where `OPENPROJECT_RACK_PROFILER_ENABLED` is referenced within the code and remove the references to `Rails.env.development?` from the conditions. At the time of writing, this needs to be done at:
+  - `config/initializers/rack_profiler.rb`
+  - `config/initializers/security_content_policy.rb`
+- Read the profiling gems to your `Gemfile`/`Gemfile.local`/`Gemfile.profiling` since they would otherwise only be available in the development environment:
 
 ```ruby
 gem 'flamegraph'
@@ -49,7 +49,7 @@ gem 'stackprof'
 Start thin via:
 
 ```shell
-SECRET_KEY_BASE='abcd' RAILS_ENV=production CUSTOM_PLUGIN_GEMFILE=gemfile.profiling OPENPROJECT_RACK_PROFILER_ENABLED=true thin start
+SECRET_KEY_BASE="$(openssl rand -hex 64)" RAILS_ENV=production CUSTOM_PLUGIN_GEMFILE=gemfile.profiling OPENPROJECT_RACK_PROFILER_ENABLED=true thin start
 ```
 
 ## Using the profiling tools

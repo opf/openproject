@@ -37,16 +37,45 @@ RSpec.describe Queries::Projects::Filters::TypeFilter do
     let(:model) { Project }
     let(:attribute) { :type_id }
     let(:values) { ["3"] }
-    let(:admin) { build_stubbed(:admin) }
-    let(:user) { build_stubbed(:user) }
+  end
 
-    before do
-      allow(Type).to receive(:pluck).with(:name, :id).and_return([["Foo", "1234"]])
+  def filter(operator, values)
+    described_class.create!(operator:, values:)
+  end
+
+  describe "#allowed_values" do
+    let!(:first) { create(:type, name: "Alpha") }
+    let!(:second) { create(:type, name: "Beta") }
+
+    it "is a list of the types in their configured order" do
+      expect(filter("=", []).allowed_values)
+        .to eq [["Alpha", first.id], ["Beta", second.id]]
+    end
+  end
+
+  describe "#apply_to" do
+    let(:bug) { create(:type) }
+    let(:task) { create(:type) }
+    let(:milestone) { create(:type) }
+
+    let!(:bug_project) { create(:project, types: [bug]) }
+    let!(:task_project) { create(:project, types: [task]) }
+    let!(:both_project) { create(:project, types: [bug, task]) }
+    let!(:milestone_project) { create(:project, types: [milestone]) }
+
+    let(:values) { [bug.id.to_s, task.id.to_s] }
+
+    context 'for "="' do
+      it "returns every project having one of the types, without duplicating those having several" do
+        expect(filter("=", values).apply_to(Project))
+          .to contain_exactly(bug_project, task_project, both_project)
+      end
     end
 
-    describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expect(instance.allowed_values).to contain_exactly(["Foo", "1234"])
+    context 'for "!"' do
+      it "returns only the projects having none of the types" do
+        expect(filter("!", values).apply_to(Project))
+          .to contain_exactly(milestone_project)
       end
     end
   end

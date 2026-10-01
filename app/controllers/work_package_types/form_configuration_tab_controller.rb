@@ -30,40 +30,158 @@
 
 module WorkPackageTypes
   class FormConfigurationTabController < BaseTabController
-    include PaginationHelper
+    include TypesHelper
+    include OpTurbo::ComponentStream
+    include WorkPackageTypes::FormConfigurationComponentStreams
 
-    layout "admin"
-
-    current_menu_item [:edit, :update] do
+    current_menu_item :edit do
       :types
     end
 
     def edit; end
 
-    def update
-      result = WorkPackageTypes::UpdateService
-        .new(user: current_user, model: @type, contract_class: UpdateFormConfigurationContract)
-        .call(permitted_type_params)
+    def toggle_required
+      call = ::WorkPackageTypes::FormConfigurationRows::ToggleRequiredService
+        .new(user: current_user, variant: @variant, row_key: params[:row_key])
+        .call
 
-      if result.success?
-        redirect_to edit_type_form_configuration_path(@type), notice: t(:notice_successful_update)
+      if call.success?
+        update_form_configuration_via_turbo_stream
       else
-        flash.now[:error] = result.errors[:attribute_groups].to_sentence
-        render :edit, status: :unprocessable_entity
+        render_form_configuration_error(call)
       end
+
+      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
+    end
+
+    def change_dialog
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant, model_class:, back_url:)
+    end
+
+    def change
+      assign(::FormConfiguration.find(params.expect(:form_configuration_id)))
+
+      redirect_to back_url || edit_variant_form_configuration_path(variant_scope_project, @variant),
+                  status: :see_other
+    end
+
+    def start_dialog
+      respond_with_dialog start_dialog_component(url: start_variant_form_configuration_path(@variant, **dialog_params))
+    end
+
+    def configure_dialog
+      respond_with_dialog start_dialog_component(url: configure_variant_form_configuration_path(@variant,
+                                                                                                **dialog_params))
+    end
+
+    def configure
+      if copying_without_a_source?
+        return reject_missing_copy_source(configure_variant_form_configuration_path(@variant, **dialog_params))
+      end
+
+      respond_with_dialog naming_dialog(::FormConfiguration.new(name: provisional_name), copy_from_id: chosen_copy_from_id)
+    end
+
+    def create
+      service_call = ::FormConfigurations::CreateService.new(user: current_user).call(**form_configuration_params)
+      return render_name_errors(service_call.result) unless service_call.success?
+
+      assign(service_call.result)
+      redirect_to edit_form_configuration_path(service_call.result), status: :see_other
+    end
+
+    def start
+      if copying_without_a_source?
+        return reject_missing_copy_source(start_variant_form_configuration_path(@variant, **dialog_params))
+      end
+
+      service_call = start_form
+      return render_name_errors(service_call.result) unless service_call.success?
+
+      assign(service_call.result)
+      redirect_to return_to(service_call.result), status: :see_other
     end
 
     private
 
-    def find_type
-      @type = ::Type.includes(:projects, :custom_fields).find(params[:type_id])
-      show_error_not_found unless @type
+    def model_class = ::FormConfiguration
+
+    def start_form
+      ::FormConfigurations::CreateService.new(user: current_user)
+                                         .call(name: provisional_name, copy_from_id: chosen_copy_from_id)
     end
 
-    def permitted_type_params
-      # having to call #to_unsafe_h as a query hash the attribute_groups
-      # parameters would otherwise still be an ActiveSupport::Parameter
-      permitted_params.type.to_unsafe_h
+    def assign(form)
+      service_call = NamedReferences::AssignService.new(variant: @variant, model_class:).call(form)
+      return flash[:error] = service_call.errors.full_messages.to_sentence unless service_call.success?
+
+      flash[:notice] = t(:notice_successful_update) if back_url.nil?
+    end
+
+    def return_to(form)
+      return edit_form_configuration_path(form) if back_url.nil?
+
+      uri = URI.parse(back_url)
+      uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
+                             .merge("started_form_configuration_id" => form.id).to_query
+      uri.to_s
+    end
+
+    def back_url
+      @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
+    end
+
+    def copying_without_a_source?
+      params[:start] == NamedReferences::StartForm::COPY && params[:copy_from_id].blank?
+    end
+
+    def chosen_copy_from_id
+      return unless params[:start] == NamedReferences::StartForm::COPY
+
+      params[:copy_from_id].presence
+    end
+
+    def reject_missing_copy_source(url)
+      respond_with_dialog start_dialog_component(url:, error: t("form_configurations.start.copy.missing")),
+                          status: :unprocessable_entity
+    end
+
+    def start_dialog_component(url:, error: nil)
+      NamedReferences::StartDialogComponent.new(
+        model_class:,
+        url:,
+        candidates: ::FormConfiguration.in_display_order.to_a,
+        error:,
+        type_record_id: @variant.type_form_configuration&.id
+      )
+    end
+
+    def dialog_params = { back_url: }.compact
+
+    def provisional_name = ::FormConfiguration.implicit_name(@variant.composite_name)
+
+    def naming_dialog(form, copy_from_id:)
+      NamedReferences::NameDialogComponent.new(record: form,
+                                               model_class:,
+                                               copy_from_id:,
+                                               ask_copy_source: false,
+                                               url: variant_form_configuration_path(@variant, **dialog_params))
+    end
+
+    def form_configuration_params
+      params.expect(form_configuration: %i[name description copy_from_id]).to_h.symbolize_keys
+    end
+
+    def render_name_errors(form)
+      update_via_turbo_stream(
+        component: NamedReferences::NameFormComponent.new(record: form,
+                                                          model_class:,
+                                                          copy_from_id: params.dig(:form_configuration, :copy_from_id).presence,
+                                                          ask_copy_source: false,
+                                                          url: variant_form_configuration_path(@variant, **dialog_params)),
+        status: :unprocessable_entity
+      )
+      respond_with_turbo_streams
     end
   end
 end

@@ -30,7 +30,7 @@
 
 class Projects::CreationWizardStatusComponent < ApplicationComponent
   include ApplicationHelper
-  include ProjectHelper
+  include ProjectsHelper
 
   attr_reader :project, :current_user,
               :artifact_id, :artifact_work_package

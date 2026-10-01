@@ -41,12 +41,12 @@ module IncomingEmails::Handlers
 
     # Override in subclasses to determine if this handler can process the email
     def self.handles?(email, reference:, automated_email:)
-      raise NotImplementedError, "Subclasses must implement can_handle? method"
+      raise SubclassResponsibilityError, "Subclasses must implement handles? method"
     end
 
     # Override in subclasses to process the email
     def process
-      raise NotImplementedError, "Subclasses must implement handle method"
+      raise SubclassResponsibilityError, "Subclasses must implement process method"
     end
 
     def cleaned_up_text_body
@@ -91,7 +91,7 @@ module IncomingEmails::Handlers
         .call(container:, filename: attachment.filename, file:)
 
       call.on_failure do
-        log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
+        log "Failed to add attachment #{attachment.filename} for [#{user.mail}]: #{call.message}"
       end
 
       call.result
@@ -178,7 +178,7 @@ module IncomingEmails::Handlers
         # Work package attribute translations
         I18n.with_locale(lang) do
           %i[assigned_to category due_date estimated_hours parent priority
-             remaining_hours responsible start_date status type version project].each do |attr|
+             remaining_hours responsible start_date status type version target_versions project].each do |attr|
             translations[attr] = ::WorkPackage.human_attribute_name(attr)
           end
         end

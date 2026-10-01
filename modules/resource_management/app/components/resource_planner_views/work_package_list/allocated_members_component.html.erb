@@ -1,0 +1,50 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if named? %>
+  <%= flex_layout(align_items: :center) do |container| %>
+    <%= container.with_column(flex_shrink: 0) do %>
+      <%= render(Primer::OpenProject::AvatarStack.new(tooltipped: true, body_arguments: { label: tooltip_label })) do |stack| %>
+        <% avatar_options.each do |options| %>
+          <% stack.with_avatar_with_fallback(**options) %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= container.with_column(ml: 2, classes: "min-width-0") do %>
+      <%= render(Primer::Beta::Truncate.new) { lead_name } %>
+    <% end %>
+    <% if additional? %>
+      <%= container.with_column(ml: 1, flex_shrink: 0) do %>
+        <%= render(Primer::Beta::Label.new(scheme: :secondary, inline: true)) { additional_label } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(Primer::Beta::Text.new(color: :muted)) { anonymous_label } %>
+<% end %>

@@ -43,8 +43,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= with_enterprise_banner_guard(
   :mcp_server,
-  variant: :medium,
-  image: "enterprise/scim-api.png" # TODO: Replace
+  variant: :large,
+  video: "enterprise/mcp-server.mp4"
 ) do %>
 
   <%= settings_primer_form_with(model: @server_config, data: { test_selector: "mcp-configuration--server-config-form" }) { |f| render(McpConfigurations::ServerForm.new(f)) } %>

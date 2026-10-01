@@ -40,8 +40,50 @@ module Groups
     end
 
     def breadcrumb_items
-      [{ href: groups_path, text: t(:label_group_plural) },
-       @group.name]
+      if @current_user.admin?
+        admin_breadcrumb_items
+      else
+        non_admin_breadcrumb_items
+      end
+    end
+
+    private
+
+    def admin_breadcrumb_items
+      items = [{ href: admin_index_path, text: t("label_administration") },
+               { href: admin_settings_users_path, text: t(:label_user_and_permission) }]
+
+      items << if @group.organizational_unit?
+                 { href: admin_departments_path, text: t(:label_departments) }
+               else
+                 { href: groups_path, text: t(:label_group_plural) }
+               end
+
+      items << @group.name
+    end
+
+    def non_admin_breadcrumb_items
+      if @group.organizational_unit?
+        [t(:label_departments), @group.name]
+      else
+        [t(:label_group_plural), @group.name]
+      end
+    end
+
+    def edit_path
+      if @group.organizational_unit?
+        edit_admin_department_path(@group)
+      else
+        edit_group_path(@group)
+      end
+    end
+
+    def edit_label
+      if @group.organizational_unit?
+        t("departments.edit")
+      else
+        t(:button_edit)
+      end
     end
   end
 end

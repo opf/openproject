@@ -182,9 +182,16 @@ class Repository::Git < Repository
   private
 
   def validity_of_local_url
+    return if managed?
+
     parsed = URI.parse root_url.presence || url
     if parsed.scheme == "ssh"
       errors.add :url, :must_not_be_ssh
+    end
+
+    if OpenProject::SCM::LocalPathValidator.points_to_openproject_directory?(url) ||
+       OpenProject::SCM::LocalPathValidator.points_to_openproject_directory?(root_url)
+      errors.add :url, :must_not_point_to_openproject_directory
     end
   rescue StandardError => e
     Rails.logger.error "Failed to parse repository url for validation: #{e}"

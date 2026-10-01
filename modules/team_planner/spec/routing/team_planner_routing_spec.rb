@@ -69,11 +69,18 @@ RSpec.describe "Team planner routing" do
             .to(controller: "team_planner/team_planner", action: :create)
   end
 
-  it "routes to team_planner#show with state" do
+  it "routes to team_planner#split_view" do
     expect(subject)
       .to route(:get, "/projects/foobar/team_planners/1234/details/555")
-            .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar", id: "1234",
-                state: "details/555")
+            .to(controller: "team_planner/team_planner", action: :split_view, project_id: "foobar", id: "1234",
+                work_package_id: "555", tab: "overview", work_package_split_view: true)
+  end
+
+  it "routes to team_planner#split_create" do
+    expect(subject)
+      .to route(:get, "/projects/foobar/team_planners/1234/details/new")
+            .to(controller: "team_planner/team_planner", action: :split_create, project_id: "foobar", id: "1234",
+                work_package_split_create: true)
   end
 
   it "routes to team_planner#destroy" do

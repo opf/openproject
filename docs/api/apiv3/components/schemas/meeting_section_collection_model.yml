@@ -1,0 +1,39 @@
+# Schema: MeetingSectionCollectionModel
+---
+type: object
+required:
+  - _type
+  - count
+  - total
+  - _embedded
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - Collection
+  count:
+    type: integer
+  total:
+    type: integer
+  _embedded:
+    type: object
+    required:
+      - elements
+    properties:
+      elements:
+        type: array
+        items:
+          $ref: './meeting_section_model.yml'
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The link to this section collection resource
+
+              **Resource**: MeetingSectionCollection

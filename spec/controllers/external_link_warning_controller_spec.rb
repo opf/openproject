@@ -73,6 +73,19 @@ RSpec.describe ExternalLinkWarningController do
       end
     end
 
+    context "with a percent-encoded unicode URL" do
+      before do
+        allow(Setting).to receive(:capture_external_links?).and_return(false)
+      end
+
+      it "handles URLs with percent-encoded UTF-8 characters" do
+        encoded_url = CGI.escape("https://example.com?ünicode=1")
+        get :show, params: { url: encoded_url }
+
+        expect(response).to redirect_to("https://example.com?ünicode=1")
+      end
+    end
+
     context "when capture is enabled and login is required",
             with_ee: %i[capture_external_links],
             with_settings: { capture_external_links: true,

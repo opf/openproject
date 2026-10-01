@@ -55,10 +55,22 @@ module BulkServices
       def validate_permissions
         return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
 
-        if @user.allowed_in_project?(permission, incoming_projects)
+        if allowed_in_incoming_projects?
           ServiceResult.success
         else
           ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
+        end
+      end
+
+      def allowed_in_incoming_projects?
+        active_projects, archived_projects = incoming_projects.partition(&:active?)
+
+        # In case we're dealing with archived projects,
+        # the admin always needs to be an admin
+        if archived_projects.any?
+          @user.admin?
+        else
+          active_projects.empty? || @user.allowed_in_project?(permission, active_projects)
         end
       end
 
@@ -107,12 +119,12 @@ module BulkServices
 
       # @return [Symbol] the permission required to create the mapping
       def permission
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       # @return [Symbol] the column name of the mapping
       def model_foreign_key_id
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def attributes_service_class

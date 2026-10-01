@@ -73,7 +73,7 @@ module Storages
             def userless_strategy = Registry.resolve("#{@storage}.authentication.userless").call
 
             def storage_file_info(json, status: "ok", status_code: 200)
-              StorageFileTransformer.new(site_name).transform_file_info({ status:, status_code: }.merge(json))
+              StorageFileTransformer.new(host_uri).transform_file_info({ status:, status_code: }.merge(json))
             end
           end
         end

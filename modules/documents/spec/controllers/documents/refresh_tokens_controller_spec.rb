@@ -45,9 +45,9 @@ RSpec.describe Documents::RefreshTokensController do
   describe "POST #create" do
     context "when user is not logged in" do
       it "redirects to login" do
-        post :create, params: { document_id: document.id }
+        post :create, params: { project_id: project.id, document_id: document.id }
 
-        expect(response).to redirect_to(signin_path(back_url: document_refresh_token_url(document)))
+        expect(response).to redirect_to(signin_path(back_url: project_document_refresh_token_url(project.id, document)))
       end
     end
 
@@ -56,10 +56,10 @@ RSpec.describe Documents::RefreshTokensController do
         login_as(user)
       end
 
-      it "returns forbidden" do
-        post :create, params: { document_id: document.id }
+      it "returns not found" do
+        post :create, params: { project_id: project.id, document_id: document.id }
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:not_found)
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe Documents::RefreshTokensController do
 
       it "returns a successful JSON response" do
         expect do
-          post :create, params: { document_id: document.id }
+          post :create, params: { project_id: project.id, document_id: document.id }
         end.to change(Doorkeeper::AccessToken, :count).by(1)
 
         expect(response).to have_http_status(:ok)
@@ -96,7 +96,7 @@ RSpec.describe Documents::RefreshTokensController do
       end
 
       it "returns not found" do
-        post :create, params: { document_id: 999_999 }
+        post :create, params: { project_id: project.id, document_id: 999_999 }
 
         expect(response).to have_http_status(:not_found)
       end
@@ -113,7 +113,7 @@ RSpec.describe Documents::RefreshTokensController do
       end
 
       it "returns unprocessable entity" do
-        post :create, params: { document_id: document.id }
+        post :create, params: { project_id: project.id, document_id: document.id }
 
         expect(response).to have_http_status(:unprocessable_entity)
         json = response.parsed_body

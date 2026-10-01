@@ -31,11 +31,13 @@
 module Storages
   module Adapters
     class OAuthConfigurationBase
-      def scope = raise ::Storages::Errors::SubclassResponsibility
+      def token_endpoint = raise SubclassResponsibilityError
 
-      def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
+      def scope = raise SubclassResponsibilityError
 
-      def to_httpx_oauth_config = raise ::Storages::Errors::SubclassResponsibility
+      def basic_rack_oauth_client = raise SubclassResponsibilityError
+
+      def to_httpx_oauth_config = raise SubclassResponsibilityError
 
       def authorization_uri(state: nil)
         basic_rack_oauth_client.authorization_uri(scope:, state:)

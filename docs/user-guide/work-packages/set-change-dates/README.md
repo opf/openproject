@@ -34,7 +34,7 @@ Here is an example of the date picker in OpenProject. This is what you will see:
 
 1. The **information banner** on top of date picker will state what scheduling mode is selected and if there are possible date constraints due to existing work package relations. The message will vary depending on the scheduling mode selected and the existing work package relations. This banner is only shown for work packages that have relations
 2. The **show relations** button on the banner will open a Gantt chart view showing an overview of all directly-related work packages
-3. The **Relation tabs** let you see a list of relevant relations for the current work packages: *predecessors*, *successors* or *children*
+3. The **Relation tabs** let you see a list of relevant relations for the current work packages: _predecessors_, _successors_ or _children_
 4. The **scheduling mode toggle** allows you to switch between [manual](#manual-scheduling) and [automatic](#automatic-scheduling) modes
 5. The **Working days only** switch, that lets you switch between counting only working days or all days to the total duration
 6. **Start date**, **finish date** and **duration** input fields
@@ -60,22 +60,21 @@ The information in the banners provides scheduling details, such as:
 
 ## Date picker tabs
 
-Apart from the default *Dates* tab, date picker also includes the following relations related tabs:
+Apart from the default _Dates_ tab, date picker also includes the following relations related tabs:
 
 - **Predecessors** – Displays all predecessor work packages. 
-  - *Predecessors* are tasks that must be completed before the current one can begin.
+  - _Predecessors_ are tasks that must be completed before the current one can begin.
   - In automatic mode, the closest predecessor from which the current work package derives its dates is marked with a **“closest”** label.
 
 - **Successors** – Displays all successor work packages. 
-  - *Successors* are tasks that will commence after the current one is finished.
+  - _Successors_ are tasks that will commence after the current one is finished.
   - In automatic mode, the start dates of successors are affected by the current work package’s finish date.
 
 - **Children** – Displays all child work packages. 
-  - *Children* are sub-tasks that fall under the current work package.
+  - _Children_ are sub-tasks that fall under the current work package.
   - If a work package has children, it will **default to automatic scheduling mode**.
   - The start and finish dates of the parent work package will cover the dates of all its child work packages.
   
-
 ![Date picker tab in an OpenProject work package with the children tab opened and showing children work packages](openproject_user_guide_date_picker_children_tab.png)
 
 > [!TIP]
@@ -137,7 +136,7 @@ With the introduction of the new automatic mode in OpenProject 15.4, there are t
 
 By default, new work packages start in single-date mode, with only the **Finish date** field active. This makes it easy to quickly set a deadline for a task.
 
-If you would also like to add a start date, you can do so by clicking on the **+ Start date** button and choosing a start date. The work package will go into *range mode*  with both Start and Finish dates. You can also remove the Finish date and get the date picker to go back to single-date mode but this time with only the Start date as the sole date.
+If you would also like to add a start date, you can do so by clicking on the **+ Start date** button and choosing a start date. The work package will go into _range mode_  with both Start and Finish dates. You can also remove the Finish date and get the date picker to go back to single-date mode but this time with only the Start date as the sole date.
 
 ![A date picker modal for a newly created work package in OpenProject, showing only finish date and a button to add a start date](openproject_user_guide_date_picker_new_wp_single_date_mode.png)
 
@@ -147,7 +146,7 @@ If the [use current date as start date for new work packages](../../../system-ad
 
 #### One-day events
 
-Work packages with *only* a start date or only a finish date are automatically considered one-day events. If you want the work package (for example a Milestone) to start and finish on the same date, simply click the same date twice.
+Work packages with _only_ a start date or only a finish date are automatically considered one-day events. If you want the work package (for example a Milestone) to start and finish on the same date, simply click the same date twice.
 
 ![Date picker with the same start and finish dates in OpenProject](openproject_user_guide_date_picker_milestone.png)
 
@@ -184,7 +183,7 @@ Date changes are documented in the work package [Activity](../../activity/).
 
 - For a work package that already has a start and finish date, it is possible to adjust just the finish date: click on the finish date field and then click on a new date. As long as this date is after the start date, the finish date updates accordingly. If the date you pick is earlier than the start date, the original start date will then be cleared and a click on a second date will define the other end of the new range.
 
-- It is possible to set only one of the two dates. In range mode, simply clear the *other* date and save the date picker. It will now go into single-date mode.
+- It is possible to set only one of the two dates. In range mode, simply clear the _other_ date and save the date picker. It will now go into single-date mode.
 
 > [!NOTE]
 > The precedes-follows relation can constrain or affect the dates of work packages. For more information, see [Moving related work packages](../work-package-relations-hierarchies/#moving-related-work-packages).
@@ -223,27 +222,27 @@ Duration can either be automatically derived from dates or entered manually. Whe
 
 #### Duration when start and finish dates exist
 
-When you set a start and a finish date, the duration is automatically derived. For example, if the start date is set to *Wednesday, 12 October, 2022* and the finish date to *Friday, 14 October, 2022*, a duration of 3 days is derived.
+When you set a start and a finish date, the duration is automatically derived. For example, if the start date is set to _Wednesday, 12 October, 2022_ and the finish date to _Friday, 14 October, 2022_, a duration of 3 days is derived.
 
 ![A duration of 3 days automatically derived from the start and finish dates](openproject_user_guide_date_picker_automatically_derived_duration.png)
 
 Changing the duration when both start and finish dates are already set will then update the finish date. In our example, if you change the duration to 4 days, one of two things can happen:
 
-- *If the Working days only switch is **on***, the finish date is automatically set to Monday, 17 October, 2022 (since Saturday and Sunday are not working days)
-- *If the Working days only switch is **off***, the finish date is automatically set to Saturday, 15 October, 2022 (since all calendar days are included)
+- _If the Working days only switch is **on**_, the finish date is automatically set to Monday, 17 October, 2022 (since Saturday and Sunday are not working days)
+- _If the Working days only switch is **off**_, the finish date is automatically set to Saturday, 15 October, 2022 (since all calendar days are included)
 
 #### Duration when only one date exists
 
-A work package cannot have only one date *and* a duration; in range mode, the other date is automatically derived and in single-date mode, the duration field is not available. 
+A work package cannot have only one date _and_ a duration; in range mode, the other date is automatically derived and in single-date mode, the duration field is not available. 
 
-For example, in range mode, if you set the start date to *Wednesday, 12 October* and enter a duration of 3 days, a finish date of Friday, 14 October is automatically derived. Conversely, if you set the finish date *Friday, 14 October* and then set the duration to 3 days, the date picker will count backwards and derive a start date of *Wednesday, 12 October.*
+For example, in range mode, if you set the start date to _Wednesday, 12 October_ and enter a duration of 3 days, a finish date of Friday, 14 October is automatically derived. Conversely, if you set the finish date _Friday, 14 October_ and then set the duration to 3 days, the date picker will count backwards and derive a start date of _Wednesday, 12 October._
 
 #### Duration without start and finish dates
 
 A work package can have only a duration without any start or finish dates set.
 
 > [!NOTE]
-> If you add even one date to a work package with duration, the other date is automatically derived; it is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived.
+> If you add even one date to a work package with duration, the other date is automatically derived; it is not possible to have just one date (start _or_ finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived.
 
 Setting only duration without start or finish dates is especially useful when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
 

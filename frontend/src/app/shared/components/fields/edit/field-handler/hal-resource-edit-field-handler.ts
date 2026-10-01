@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,25 +34,33 @@ import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing
 import { setPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
-  @InjectField() FocusHelper:FocusHelperService;
+  @LazyInject() FocusHelper:FocusHelperService;
 
-  @InjectField() ConfigurationService:ConfigurationService;
+  @LazyInject() ConfigurationService:ConfigurationService;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();
 
   // Current errors of the field
   public errors:string[];
+
+  // Fires when errors are updated, so portals can trigger their own CD
+  private readonly _errorsChanged$ = new Subject<void>();
+  public readonly errorsChanged$:Observable<void> = this._errorsChanged$.asObservable();
+
+  // Fires when handler-derived state such as inFlight changes.
+  private readonly _stateChanged$ = new Subject<void>();
+  public readonly stateChanged$:Observable<void> = this._stateChanged$.asObservable();
 
   constructor(
     public injector:Injector,
@@ -90,7 +98,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   }
 
   public focus(setClickOffset?:number) {
-    const target = this.element.querySelector('.inline-edit--field') as HTMLElement;
+    const target = this.element.querySelector<HTMLElement>('.inline-edit--field');
 
     if (!target) {
       debugLog(`Tried to focus on ${this.fieldName}, but element does not (yet) exist.`);
@@ -109,6 +117,11 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public setErrors(newErrors:string[]) {
     this.errors = newErrors;
     this.element.classList.toggle('-error', this.isErrorenous);
+    this._errorsChanged$.next();
+  }
+
+  public notifyStateChanged() {
+    this._stateChanged$.next();
   }
 
   /**

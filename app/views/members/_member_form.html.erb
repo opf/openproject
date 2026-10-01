@@ -39,9 +39,19 @@ See COPYRIGHT and LICENSE files for more details.
                  "user-limit-member-autocompleter-value": true
                }
     ) do |f| %>
-    <a title="<%= t("js.close_form_title") %>"
-       class="hide-member-form-button form--close icon-context icon-close"
-       data-action="members-form#hideAddMemberForm"></a>
+
+  <%=
+    render(
+      Primer::Beta::IconButton.new(
+        icon: :x,
+        scheme: :invisible,
+        classes: "hide-member-form-button form--close",
+        tooltip_direction: :se,
+        aria: { label: t("js.close_form_title") },
+        data: { action: "members-form#hideAddMemberForm" }
+      )
+    )
+  %>
     <div id="new-member-message"></div>
     <div class="grid-block">
       <div class="grid-content medium-5 small-12 collapse -flex">
@@ -52,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
             user_id_title = I18n.t(:label_principal_search)
 
             if current_user.admin?
-              user_id_title += I18n.t(:label_principal_invite_via_email)
+              user_id_title = "#{user_id_title}#{I18n.t(:label_principal_invite_via_email)}"
             end
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
@@ -61,13 +71,15 @@ See COPYRIGHT and LICENSE files for more details.
                                     inputs: {
                                       inputName: "member[user_ids]",
                                       inputBindValue: "id",
-                                      url: autocomplete_for_member_project_members_path + ".json",
+                                      url: "#{autocomplete_for_member_project_members_path}.json",
                                       multiple: true
                                     } %>
         </div>
       </div>
+      <% preview_role_permissions = Roles::PermissionsDialogComponent.visible_to?(current_user) %>
       <div class="grid-content medium-8 small-12 -flex -with-button">
-        <div class="form--field">
+        <div class="form--field"
+             data-controller="<%= "roles--permissions-preview" if preview_role_permissions %>">
           <%= styled_label_tag :member_role_ids, title: t(:label_role_search) do
                 render OpenProject::Common::AttributeLabelComponent.new(
                   attribute: "members",
@@ -78,16 +90,34 @@ See COPYRIGHT and LICENSE files for more details.
                 end
               end %>
           <div class="form--field-container">
-            <div class="form--select-container -auto">
-              <% options = roles.collect { |obj| [obj.name, obj.id] } %>
-              <%= select_tag "member[role_ids][]", options_for_select(options),
-                             multiple: false,
-                             no_label: true,
-                             title: t(:label_role_search),
-                             tabIndex: 0,
-                             class: "form--select",
-                             id: "member_role_ids" %>
-            </div>
+            <%= render(Primer::Box.new(display: :flex, align_items: :center)) do %>
+              <div class="form--select-container -auto">
+                <% options = roles.collect do |obj|
+                     [obj.name, obj.id, { data: { permissions_dialog_path: role_permissions_dialog_path(obj) } }]
+                   end %>
+                <%= select_tag "member[role_ids][]", options_for_select(options),
+                               multiple: false,
+                               no_label: true,
+                               title: t(:label_role_search),
+                               tabIndex: 0,
+                               class: "form--select",
+                               id: "member_role_ids",
+                               data: { "roles--permissions-preview-target": "select" } %>
+              </div>
+
+              <% if preview_role_permissions %>
+                <%= render(
+                      Primer::Beta::Button.new(
+                        scheme: :link,
+                        type: :button,
+                        font_size: :small,
+                        ml: 2,
+                        data: { action: "roles--permissions-preview#open" },
+                        test_selector: "op-members--role-preview-link"
+                      )
+                    ) { t("roles.permissions_dialog.preview_action") } %>
+              <% end %>
+            <% end %>
           </div>
         </div>
         <div id="member-add-submit-button--container">
@@ -99,12 +129,23 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
 
   <% if OpenProject::Enterprise.user_limit.present? %>
-        <div class="op-toast -warning icon-warning d-none"
-             data-user-limit-target="limitWarning">
-          <div class="op-toast--content">
-            <p><%= I18n.t("warning_user_limit_reached#{'_admin' if current_user.admin?}", upgrade_url: OpenProject::Enterprise.upgrade_url).html_safe %></p>
-          </div>
-        </div>
+    <%=
+      render(
+        Primer::Alpha::Banner.new(
+          scheme: :warning,
+          icon: :alert,
+          classes: "d-none",
+          data: { "user-limit-target": "limitWarning" }
+        )
+      ) do
+    %>
+      <%=
+        link_translate(
+          "warning_user_limit_reached#{'_admin' if current_user.admin?}",
+          links: { upgrade_url: OpenProject::Enterprise.upgrade_url }
+        )
+      %>
     <% end %>
+  <% end %>
 
 <% end %>

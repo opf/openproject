@@ -37,7 +37,7 @@ module OpenProject
         ##
         # Allows users to authenticate using their API key via basic auth.
         # Note that in order for a user to be able to generate one
-        # `Setting.rest_api_enabled` has to be `1`.
+        # `Setting.api_tokens_enabled` has to be `true`.
         #
         # The basic auth credentials are expected to contain the literal 'apikey'
         # as the user name and the API key as the password.

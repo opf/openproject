@@ -21,14 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { Injectable } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { input } from '@openproject/reactivestates';
 import { WorkPackageTimelineState } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline';
 import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
@@ -40,16 +40,12 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   /** Remember the computed zoom level to correct zooming after leaving autozoom */
   public appliedZoomLevel$ = input<TimelineZoomLevel>('auto');
 
-  public constructor(protected readonly querySpace:IsolatedQuerySpace) {
-    super(querySpace);
-  }
-
   public valueFromQuery(query:QueryResource) {
     return {
       ...this.defaultState,
       visible: query.timelineVisible,
       zoomLevel: query.timelineZoomLevel,
-      labels: query.timelineLabels,
+      labels: query.timelineLabels ?? this.defaultLabels,
     };
   }
 
@@ -64,7 +60,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   public hasChanged(query:QueryResource) {
     const visibilityChanged = this.isVisible !== query.timelineVisible;
     const zoomLevelChanged = this.zoomLevel !== query.timelineZoomLevel;
-    const labelsChanged = !_.isEqual(this.current.labels, query.timelineLabels);
+    const labelsChanged = !isEqual(this.current.labels, query.timelineLabels);
 
     return visibilityChanged || zoomLevelChanged || labelsChanged;
   }
@@ -95,7 +91,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   }
 
   public get labels() {
-    if (_.isEmpty(this.current.labels)) {
+    if (Object.keys(this.current.labels).length === 0) {
       return this.defaultLabels;
     }
 
@@ -109,7 +105,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   public getNormalizedLabels(workPackage:WorkPackageResource) {
     const labels:TimelineLabels = this.defaultLabels;
 
-    _.each(this.current.labels, (attribute:string | null, positionAsString:string) => {
+    Object.entries(this.current.labels).forEach(([positionAsString, attribute]) => {
       // RR: Lodash typings declare the position as string. However, it is save to cast
       // to `keyof TimelineLabels` because `this.current.labels` is of type TimelineLabels.
       const position:keyof TimelineLabels = positionAsString as keyof TimelineLabels;
@@ -163,7 +159,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
    * @param update
    */
   private modify(update:Partial<WorkPackageTimelineState>) {
-    this.update({ ...this.current, ...update } as WorkPackageTimelineState);
+    this.update({ ...this.current, ...update });
   }
 
   /**

@@ -55,8 +55,6 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
       model_page.find("#work-packages-filter-toggle-button .badge", text: "1")
     end
 
-    let(:full_create) { Pages::FullWorkPackageCreate.new }
-
     it "show the right elements on the page" do
       # shows "Cards" view by default
       model_page.expect_view_toggle_at "Cards"
@@ -78,18 +76,19 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
 
     it "opens new work package form in full view" do
       find(".add-work-package", wait: 10).click
-      # The only type to select is 'NONE'
-      find(".menu-item", text: "NONE", wait: 10).click
+      # The project runs a single type, so that is the only one on offer.
+      find(".menu-item", text: project.enabled_types.first.name.upcase, wait: 10).click
 
-      full_create.edit_field(:subject).expect_active!
-      expect(page).to have_css(".work-packages-partitioned-page--content-right", visible: :all)
+      create_page = Pages::BCF::CreateSplit.new(project:)
+      create_page.subject_field
+      expect(page).to have_css("#content-bodyRight")
     end
 
     it "shows work package details page in full view on Cards display mode" do
       model_page.click_info_icon(work_package)
 
       expect(page).to have_css(".work-packages-partitioned-page--content-left", text: work_package.subject)
-      expect(page).to have_css(".work-packages-partitioned-page--content-right", visible: :all)
+      expect(page).to have_css("#content-bodyRight")
     end
 
     context "with the table display mode" do
@@ -101,10 +100,10 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
 
         expect(page).to have_css(".work-package-table")
         wp_table.expect_work_package_listed work_package
-        wp_table.open_split_view work_package
+        wp_table.open_split_view work_package, primerized: false
 
         expect(page).to have_css(".work-packages-partitioned-page--content-left", text: work_package.subject)
-        expect(page).to have_css(".work-packages-partitioned-page--content-right", visible: false)
+        expect(page).to have_css("#content-bodyRight")
       end
     end
 
@@ -113,17 +112,15 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
       let!(:priority) { create(:priority, is_default: true) }
 
       it "redirects correctly" do
-        create_page = model_page.create_wp_by_button(build(:type_standard))
-        expect(page).to have_current_path /bcf\/new$/, ignore_query: true
+        create_page = model_page.create_wp_by_button(project.enabled_types.first)
+        expect(page).to have_current_path /bcf\/details\/new$/, ignore_query: true
         create_page.subject_field.set("Some subject")
         create_page.save!
 
         sleep(5)
         last_work_package = WorkPackage.find_by(subject: "Some subject")
-        # The currently working routes seem weird as they duplicate the work package ID.
         expect(page).to(
-          have_current_path(/bcf\/show\/#{last_work_package.id}\/details\/#{last_work_package.id}\/overview$/,
-                            ignore_query: true)
+          have_current_path(/bcf\/details\/#{last_work_package.id}$/, ignore_query: true)
         )
       end
     end

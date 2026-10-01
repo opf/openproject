@@ -1,3 +1,4 @@
 web: bundle exec rails server
 angular: npm run serve
 worker: bundle exec good_job start
+hocuspocus: cd extensions/op-blocknote-hocuspocus && SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run dev

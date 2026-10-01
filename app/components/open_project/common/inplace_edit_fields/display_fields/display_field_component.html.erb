@@ -1,0 +1,52 @@
+<%=
+  flex_layout(
+    align_items: :flex_start,
+    justify_content: :space_between,
+    test_selector: @system_arguments[:test_selector],
+    classes: @system_arguments[:display_classes]
+  ) do |flex|
+    flex.with_row(mb: 1) do
+      render OpenProject::Common::AttributeLabelComponent.new(
+        attribute:,
+        model:,
+        required: @system_arguments[:required],
+        hidden: @system_arguments[:visually_hide_label]
+      ) do
+        render(Primer::Beta::Text.new(font_weight: :bold)) { @system_arguments[:label] }
+      end
+    end
+
+    flex.with_row(w: :full) do
+      input_specific_call
+    end
+
+    flex.with_row(w: :full) do
+      render OpenProject::Common::AttributeHelpTextCaptionComponent.new(
+        help_text: helpers.help_text_for(
+          model,
+          attribute,
+          current_user: helpers.current_user
+        )
+      )
+    end
+
+    if show_comment?
+      flex.with_row(w: :full, mt: 2) do
+        flex_layout do |inner_flex|
+          inner_flex.with_row do
+            render(Primer::Beta::Text.new(tag: :label, font_weight: :bold)) { t("attributes.comment") }
+          end
+          inner_flex.with_row(mt: 1) do
+            render(Primer::Beta::Text.new) { comment_text }
+          end
+        end
+      end
+    end
+
+    if (error_html = render_calculation_error).present?
+      flex.with_row(w: :full) { error_html }
+    end
+  end
+%>
+
+<%= render_tooltip %>

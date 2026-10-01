@@ -1,7 +1,7 @@
 # Schema: Versions_by_WorkspaceModel
 ---
 allOf:
-  - "$ref": "./collection_model.yml"
+  - $ref: "./collection_model.yml"
   - type: object
     required:
       - _links
@@ -14,7 +14,7 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The versions collection
                   
@@ -28,5 +28,5 @@ allOf:
             readOnly: true
             items:
               allOf:
-                - "$ref": "./version_model.yml"
+                - $ref: "./version_read_model.yml"
                 - description: Collection of Versions

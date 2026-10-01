@@ -33,4 +33,4 @@
 
 <%= render(Documents::Admin::CollaborationSettings::PageHeaderComponent.new) %>
 
-<%= render(Documents::Admin::CollaborationSettings::SettingsFormComponent.new) %>
+<%= render(Documents::Admin::CollaborationSettings::SettingsFormComponent.new(errors: @errors)) %>

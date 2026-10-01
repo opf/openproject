@@ -19,37 +19,68 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 de:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Deployment Status Überprüfung
+        other: Deployment Status Überprüfungen
+      deploy_target:
+        one: Deploymentziel
+        other: Deploymentziele
+      github_check_run:
+        one: GitHub-Prüfung
+        other: GitHub-Prüfungen
+      github_pull_request:
+        one: GitHub-Pull-Request
+        other: GitHub-Pull-Requests
+      github_user:
+        one: GitHub-Nutzer
+        other: GitHub-Nutzer
   attributes:
-    additions_count: "Anzahl der Ergänzungen"
-    deletions_count: "Anzahl der Löschungen"
-    comments_count: "Anzahl der Kommentare"
-    github_html_url: "Pull-Request URL"
-    github_app_owner_avatar_url: "Avatar-URL des Besitzers"
-    review_comments_count: "Anzahl der Review-Kommentare"
-    github: "GitHub identifer"
-    github_avatar_url: "Avatar-URL"
-    github_updated_at: "Aktualisiert am"
-    github_login: "GitHub Login"
-    host: "Host"
-    labels: "Bezeichnung"
-    repository: "Projektarchiv"
-    changed_files_count: "Geänderte Dateien"
+    additions_count: Anzahl der Ergänzungen
+    changed_files_count: Geänderte Dateien
+    comments_count: Anzahl der Kommentare
+    deletions_count: Anzahl der Löschungen
+    github: GitHub identifer
+    github_app_owner_avatar_url: Avatar-URL des Besitzers
+    github_avatar_url: Avatar-URL
+    github_html_url: Pull-Request URL
+    github_login: GitHub Login
+    github_updated_at: Aktualisiert am
+    host: Host
+    labels: Bezeichnung
+    repository: Projektarchiv
+    review_comments_count: Anzahl der Review-Kommentare
   button_add_deploy_target: Deploymentziel hinzufügen
   label_deploy_target: Deploymentziel
   label_deploy_target_new: Neues Deploymentziel
   label_deploy_target_plural: Deploymentziele
+  label_github_comment_user: GitHub Benutzer
   label_github_integration: GitHub Integration
+  label_github_webhook_secret: Webhook secret
   notice_deploy_target_created: Deploymentziel erstellt
   notice_deploy_target_destroyed: Deploymentziel gelöscht
-  plugin_openproject_github_integration:
-    name: "OpenProject GitHub-Integration"
-    description: "Integriert OpenProject und GitHub für einen besseren Arbeitsablauf"
-  project_module_github: "GitHub"
-  permission_show_github_content: "Zeige weiteren Inhalt"
   permission_introspection: Auslesen der OpenProject Core Version und Build-SHA
-  text_deploy_target_type_info: >
-    Bislang unterstützen wir nur OpenProject selbst.
-  text_deploy_target_api_key_info: >
-    Ein OpenProject [API-Schlüssel](docs_url), der einem Benutzer gehört, der die Berechtigung zur globalen Introspektion hat.
+  permission_show_github_content: Zeige weiteren Inhalt
+  plugin_openproject_github_integration:
+    description: Integriert OpenProject und GitHub für einen besseren Arbeitsablauf
+    name: OpenProject GitHub-Integration
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'Ein OpenProject [API-Schlüssel](docs_url), der einem Benutzer gehört, der die Berechtigung zur globalen Introspektion hat.
+
+    '
+  text_deploy_target_type_info: 'Bislang unterstützen wir nur OpenProject selbst.
+
+    '
+  text_github_comment_user_info: 'Der OpenProject-Benutzer, dessen API-Schlüssel für die Authentifizierung eingehender Webhook-Anfragen verwendet wird. Wenn er festgelegt ist, werden Anfragen, die mit den Anmeldedaten eines anderen Benutzers authentifiziert wurden, abgelehnt. Dieser Benutzer gibt auch automatische Kommentare zum Bereitstellungsstatus von Arbeitspaketen ab. Standardmäßig wird der Systembenutzer verwendet, wenn er nicht festgelegt ist.
+
+    '
+  text_github_webhook_secret_info: 'Ein geheimes Token, das bei der Konfiguration des Webhooks mit GitHub geteilt wird. Wenn diese Option gesetzt ist, überprüft OpenProject den X-Hub-Signature-256-Header bei jeder eingehenden Anfrage und lehnt Payloads ab, die nicht übereinstimmen. Lassen Sie die Option leer, um die Überprüfung zu überspringen (nicht empfohlen).
+
+    '
+  text_github_webhook_secret_missing_warning: 'Es ist kein Webhook Secret konfiguriert. Jede Anfrage an den GitHub-Endpunkt wird ohne Überprüfung akzeptiert, was es Unbefugten ermöglichen könnte, Ereignisse zu fälschen. Es wird dringend empfohlen, ein Geheimnis festzulegen.
+
+    '
   text_pull_request_deployed_to: "%{pr_link} wurde zu %{deploy_target_link} deployed"

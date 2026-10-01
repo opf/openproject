@@ -72,7 +72,7 @@ module Capabilities::Scopes
             ON members.id = member_roles.member_id
             AND members.entity_type IS NULL
             AND members.entity_id IS NULL
-          JOIN (#{principal_sql}) users
+          JOIN users
             ON "users".id = members.user_id
           LEFT OUTER JOIN "projects"
             ON "projects".id = members.project_id
@@ -91,7 +91,7 @@ module Capabilities::Scopes
             users.id principal_id,
             projects.id context_id
           FROM (#{Action.default.to_sql}) actions
-          JOIN (#{principal_sql}) users
+          JOIN users
             ON "users".admin = true AND actions.grant_to_admin = true
           LEFT OUTER JOIN "projects"
             ON "projects".active = true
@@ -115,7 +115,7 @@ module Capabilities::Scopes
           JOIN "roles"
             ON ("roles".id = "role_permissions".role_id OR "actions"."public")
             AND roles.builtin = #{Role::BUILTIN_NON_MEMBER}
-          JOIN (#{principal_sql}) users
+          JOIN users
             ON 1 = 1
           JOIN "projects"
             ON "projects".active = true
@@ -156,12 +156,6 @@ module Capabilities::Scopes
 
           WHERE enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL
         SQL_PART
-      end
-
-      def principal_sql
-        RequestStore.fetch(:capabilities_principal_sql) do
-          Principal.visible.not_builtin.not_locked.to_sql
-        end
       end
     end
   end

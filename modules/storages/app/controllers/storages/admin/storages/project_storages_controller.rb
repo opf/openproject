@@ -35,10 +35,8 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   layout "admin"
 
-  model_object Storages::Storage
-
   before_action :require_admin
-  before_action :find_model_object
+  before_action :load_storage
   before_action :load_project_storage, only: %i(edit update destroy destroy_confirmation_dialog)
 
   before_action :storage_projects_query, only: :index
@@ -69,6 +67,17 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     )
   end
 
+  def edit
+    last_project_folders = Storages::LastProjectFolder
+                              .where(project_storage: @project_storage)
+                              .pluck(:mode, :origin_folder_id)
+                              .to_h
+
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+      project_storage: @project_storage, last_project_folders:
+    )
+  end
+
   def create # rubocop:disable Metrics/AbcSize
     create_service = ::Storages::ProjectStorages::BulkCreateService
                          .new(user: current_user, projects: @projects, storage: @storage,
@@ -84,18 +93,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       update_via_turbo_stream(component:, status: :bad_request)
     end
 
-    respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
-  end
-
-  def edit
-    last_project_folders = Storages::LastProjectFolder
-                              .where(project_storage: @project_storage)
-                              .pluck(:mode, :origin_folder_id)
-                              .to_h
-
-    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
-      project_storage: @project_storage, last_project_folders:
-    )
+    respond_with_turbo_streams(status: create_service)
   end
 
   def update
@@ -110,7 +108,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       update_via_turbo_stream(component:, status: :bad_request)
     end
 
-    respond_with_turbo_streams(status: update_service.success? ? :ok : :unprocessable_entity)
+    respond_with_turbo_streams(status: update_service)
   end
 
   def destroy_confirmation_dialog
@@ -138,13 +136,17 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       )
     end
 
-    respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
+    respond_to_with_turbo_streams(status: delete_service)
   end
 
   private
 
+  def load_storage
+    @storage = ::Storages::Storage.visible.find(params[:storage_id])
+  end
+
   def load_project_storage
-    @project_storage = Storages::ProjectStorage.find(params[:id])
+    @project_storage = ::Storages::ProjectStorage.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_error_flash_message_via_turbo_stream(message: t(:notice_file_not_found))
     update_project_list_via_turbo_stream
@@ -152,14 +154,9 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     respond_with_turbo_streams
   end
 
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
-  end
-
-  def find_projects_to_activate_for_storage
+  def find_projects_to_activate_for_storage # rubocop:disable Metrics/AbcSize
     if (project_ids = params.to_unsafe_h[:storages_project_storage][:project_ids]).present?
-      @projects = Project.find(project_ids)
+      @projects = Project.visible.find(project_ids)
     else
       initialize_project_storage
       @project_storage.errors.add(:project_ids, :blank)

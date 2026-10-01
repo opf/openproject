@@ -1,0 +1,64 @@
+# /api/v3/attachments/{id}/uploaded
+---
+get:
+  summary: Complete a direct attachment upload
+  operationId: complete_attachment_upload
+  tags:
+    - Attachments
+  description: |-
+    This is the third and final step of the direct upload flow described at
+    `POST /api/v3/attachments/prepare`. It is called by the client after it has successfully
+    uploaded the file content directly to the storage backend, as instructed by the `addAttachment`
+    link of the preceding `prepare` step.
+
+    The server checks that the uploaded file is now present in the storage. If so, the attachment
+    is scheduled to be finalized asynchronously (its definitive content type is determined, matched
+    against the configured content type allowlist if any is configured, a virus scan is run if
+    enabled, and the attachment's container is notified). The finalization may therefore not yet be
+    reflected in the returned representation, in particular the `status` property might still read
+    `prepared` for a brief moment, but will eventually change to `uploaded` (or the attachment
+    removed, should the finalization fail, e.g. because the content type is not allowed).
+
+    Calling this endpoint before the direct upload to the storage has actually finished (or if it
+    failed) results in a `404` response.
+  parameters:
+    - name: id
+      description: |-
+        The `id` of the pending attachment, as returned by the `prepare` step (either in the
+        top-level `id` property or, equivalently, in the `_links.completeUpload` link of the
+        response).
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/attachment_model.yml'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if any of the following is true:
+
+        * No pending, prepared upload with the given id exists (e.g. it was already completed, was
+          never prepared, or does not belong to the current user)
+
+        * the client does not have sufficient permissions to see the attachment
+
+        * the file has not actually been uploaded to the storage backend yet (i.e. step 2 of the
+          flow was skipped or has not finished successfully)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence
+        of an attachment. That's why a 404 is returned here, even if a 403 might be more
+        appropriate.*

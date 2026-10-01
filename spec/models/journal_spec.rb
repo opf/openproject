@@ -61,6 +61,29 @@ RSpec.describe Journal do
           end
         end
       end
+
+      context "with a non-project-member who has the work package shared with them" do
+        let(:shared_user) { create(:user) }
+        let(:journal) { create(:work_package_journal, journable: work_package, version: 2) }
+
+        before do
+          create(:work_package_member, entity: work_package, user: shared_user,
+                                       roles: [create(:view_work_package_role)])
+          login_as(shared_user)
+        end
+
+        it "is visible" do
+          expect(journal).to be_attachments_visible(shared_user)
+        end
+
+        context "when the journal is internal" do
+          let(:journal) { create(:work_package_journal, journable: work_package, version: 2, internal: true) }
+
+          it "is not visible without the internal comments permission" do
+            expect(journal).not_to be_attachments_visible(shared_user)
+          end
+        end
+      end
     end
   end
 

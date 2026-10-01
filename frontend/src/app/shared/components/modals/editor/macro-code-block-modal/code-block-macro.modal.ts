@@ -21,22 +21,27 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { debounce } from 'lodash-es';
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject,
 } from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/components/ckeditor/codemirror-loader.service';
+import type { Editor as CodeMirrorEditor } from 'codemirror';
 
 @Component({
   templateUrl: './code-block-macro.modal.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class CodeBlockMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
@@ -52,11 +57,16 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   public content:string;
 
   // Codemirror instance
-  public codeMirrorInstance:undefined|any;
+  public codeMirrorInstance:CodeMirrorEditor|undefined;
 
-  public debouncedLanguageLoader = _.debounce(() => this.loadLanguageAsMode(this.language), 300);
+  private pendingMode:string|undefined;
 
-  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef;
+  public debouncedLanguageLoader = debounce(() => this.loadLanguageAsMode(this.language), 300);
+
+  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef<HTMLTextAreaElement>;
+
+  readonly I18n = inject(I18nService);
+  readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.code_block.title'),
@@ -67,13 +77,10 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
     close_popup: this.I18n.t('js.close_popup_title'),
   };
 
-  constructor(readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService) {
-    super(locals, cdRef, elementRef);
-    this.languageClass = locals.languageClass || 'language-text';
-    this.content = locals.content;
+  constructor() {
+    super();
+    this.languageClass = (this.locals.languageClass as string | undefined) ?? 'language-text';
+    this.content = this.locals.content as string;
 
     const match = /language-(\w+)/.exec(this.languageClass);
     if (match) {
@@ -84,7 +91,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   public applyAndClose(evt:Event):void {
-    this.content = this.codeMirrorInstance.getValue();
+    this.content = this.codeMirrorInstance!.getValue();
     const lang = this.language || 'text';
     this.languageClass = `language-${lang}`;
 
@@ -93,8 +100,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   ngAfterViewInit():void {
-    import('codemirror').then((imported:any) => {
-      const CodeMirror = imported.default;
+    void this.codeMirrorLoader.loadCore().then((CodeMirror) => {
       this.codeMirrorInstance = CodeMirror.fromTextArea(
         this.codeMirrorPane.nativeElement,
         {
@@ -105,6 +111,10 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
           mode: '',
         },
       );
+      if (this.pendingMode !== undefined) {
+        this.updateCodeMirrorMode(this.pendingMode);
+        this.pendingMode = undefined;
+      }
     });
   }
 
@@ -123,19 +133,21 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
       return this.updateCodeMirrorMode('');
     }
 
-    import(/* webpackChunkName: "codemirror-mode" */ `../../../../../../../node_modules/codemirror/mode/${language}/${language}.js`)
-      .then(() => {
-        this.updateCodeMirrorMode(language);
-      })
-      .catch((e) => {
-        console.error(`Failed to load language ${language}: ${e}`);
-        this.updateCodeMirrorMode('');
+    void this.codeMirrorLoader
+      .ensureModeLoaded(language)
+      .then((modeLoaded) => {
+        this.updateCodeMirrorMode(modeLoaded ? language : '');
       });
   }
 
   updateCodeMirrorMode(newLanguage:string) {
-    const editor = this.codeMirrorInstance;
-    editor?.setOption('mode', newLanguage);
+    if (!this.codeMirrorInstance) {
+      this.pendingMode = newLanguage;
+      return;
+    }
+
+    this.codeMirrorInstance.setOption('mode', newLanguage);
+    this.codeMirrorInstance.refresh();
   }
 
   updateLanguage(newValue?:string) {

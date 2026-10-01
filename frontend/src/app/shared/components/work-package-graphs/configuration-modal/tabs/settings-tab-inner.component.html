@@ -8,7 +8,7 @@
             [ngModelOptions]="{standalone: true}"
             id="selected_grouping"
             class="form--select">
-            @for (group of availableGroups; track group) {
+            @for (group of availableGroups; track group.href) {
               <option
                 [ngValue]="group"
               [textContent]="group.name"></option>
@@ -26,7 +26,7 @@
             [ngModelOptions]="{standalone: true}"
             id="selected_chart_type"
             class="form--select">
-            @for (type of availableChartTypes; track type) {
+            @for (type of availableChartTypes; track type.identifier) {
               <option
                 [ngValue]="type"
               [textContent]="type.label"></option>

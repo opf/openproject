@@ -1,0 +1,102 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%= component_wrapper(tag: "turbo-frame", refresh: :morph, style: "display:contents") do %>
+  <%=
+    render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
+      head.with_heading(
+        tag: :h3,
+        size: :medium,
+        font_weight: :bold,
+        display: :inline_flex,
+        align_items: :center,
+        classes: "gap-2"
+      ) do
+        concat(Sprint.human_plural_model_name)
+        concat render(
+          Primer::Beta::Counter.new(
+            scheme: :primary,
+            count: total,
+            round: true,
+            limit: 1_000,
+            hide_if_zero: true,
+            data: { test_selector: "op-sprints--total-counter" }
+          )
+        )
+      end
+    end
+  %>
+
+  <%= render(Primer::OpenProject::FlexLayout.new(justify_content: :space_between, align_items: :center)) do |flex| %>
+    <% flex.with_column do %>
+      <%= render Backlogs::BacklogFilterSelectPanelComponent.new(project:, field_name: :sprint_ids) %>
+    <% end %>
+
+    <% if sprint_creation_allowed? %>
+      <%
+        flex.with_column do
+          render Primer::Beta::Button.new(
+            tag: :a,
+            href: new_dialog_project_backlogs_sprints_path(project, backlog_filter_params),
+            aria: { label: t(".button_new_sprint") },
+            data: {
+              controller: "async-dialog",
+              test_selector: "op-sprints--new-sprint-button"
+            }
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            Sprint.human_model_name
+          end
+        end
+      %>
+    <% end %>
+  <% end %>
+
+  <% if sprints.empty? %>
+    <%=
+      render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
+        blankslate.with_visual_icon(icon: :zap)
+        blankslate.with_heading(tag: :h4).with_content(t(".blankslate.title"))
+        blankslate.with_description_content(blankslate_description)
+      end
+    %>
+  <% else %>
+    <% sprints.each do |sprint| %>
+      <%=
+        render Backlogs::SprintComponent.new(
+          sprint:,
+          project:,
+          work_packages: work_packages_by_sprint_id[sprint.id] || [],
+          active_sprints: active_sprints,
+          visible_sprint_ids: visible_sprint_ids
+        )
+      %>
+    <% end %>
+  <% end %>
+<% end %>

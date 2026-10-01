@@ -21,34 +21,37 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalDeletedEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { States } from 'core-app/core/states/states.service';
+import { resolveNumericId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Injectable()
 export class WorkPackageService {
+  private readonly http = inject(HttpClient);
+  private readonly PathHelper = inject(PathHelperService);
+  private readonly UrlParamsHelper = inject(UrlParamsHelperService);
+  private readonly toastService = inject(ToastService);
+  private readonly I18n = inject(I18nService);
+  private readonly halEvents = inject(HalEventsService);
+  private readonly urlParams = inject(UrlParamsService);
+
   private text = {
     successful_delete: this.I18n.t('js.work_packages.message_successful_bulk_delete'),
   };
 
-  constructor(private readonly http:HttpClient,
-    private readonly $state:StateService,
-    private readonly PathHelper:PathHelperService,
-    private readonly UrlParamsHelper:UrlParamsHelperService,
-    private readonly toastService:ToastService,
-    private readonly I18n:I18nService,
-    private readonly halEvents:HalEventsService) {
-  }
+  private readonly states = inject(States);
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {
     const params = {
@@ -66,11 +69,14 @@ export class WorkPackageService {
         .then(() => {
           this.toastService.addSuccess(this.text.successful_delete);
 
-          ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' } as HalDeletedEvent));
+          ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' }));
 
-          if (this.$state.includes('**.list.details.**')
-            && ids.includes(this.$state.params.workPackageId)) {
-            this.$state.go('work-packages.partitioned.list', this.$state.params);
+          const routeWpId = this.urlParams.currentDetailsRouteParams()?.routingId;
+          const numericId = routeWpId ? resolveNumericId(this.states, routeWpId) : undefined;
+
+          if (numericId && ids.includes(numericId)) {
+            const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+            Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
           }
         })
         .catch(() => {

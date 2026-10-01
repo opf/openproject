@@ -40,98 +40,34 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%=
-  styled_form_tag(
-    admin_settings_mail_notifications_path,
-    method: :patch,
-    data: { controller: "show-when-value-selected" }
-  ) do
-%>
-  <% if @deliveries %>
-    <section class="form--section">
-      <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: "-middle" %></div>
-      <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
-      <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
-      <div class="form--field">
-        <%= setting_select :emails_salutation,
-                           [
-                             [User.human_attribute_name(:firstname), :firstname],
-                             [t("mail.salutation_full_name"), :name]
-                           ],
-                           container_class: "-middle" %>
-      </div>
-    </section>
-
-    <fieldset id="emails_decorators" class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t(:setting_emails_header) %>
-        & <%= I18n.t(:setting_emails_footer) %></legend>
-      <%= render Settings::TextSettingComponent.new(I18n.locale, name: "emails_header") %>
-      <%= render Settings::TextSettingComponent.new(I18n.locale, name: "emails_footer") %>
-    </fieldset>
-  <% else %>
-    <div class="nodata">
-      <%= simple_format(t(:text_email_delivery_not_configured)) %>
-    </div>
-  <% end %>
-
-  <%
-    email_methods = %i[smtp sendmail]
-    email_methods << :letter_opener if Rails.env.development?
+<% unless @deliveries %>
+  <%=
+    render Primer::Alpha::Banner.new(scheme: :default) do
+      t(:text_email_delivery_not_configured)
+    end
   %>
-  <%= content_tag :fieldset, class: "form--fieldset" do %>
-    <legend class="form--fieldset-legend"><%= t(:text_setup_mail_configuration) %></legend>
-    <div class="form--field">
-      <%=
-        setting_select(
-          :email_delivery_method,
-          email_methods,
-          container_class: "-slim",
-          data: {
-            show_when_value_selected_target: "cause",
-            target_name: "email_delivery_method_settings"
-          }
-        )
-      %>
-    </div>
-    <div
-      data-show-when-value-selected-target="effect"
-      data-target-name="email_delivery_method_settings"
-      data-value="smtp"
-      <%= "hidden" unless Setting.email_delivery_method == :smtp %>>
-      <div class="form--field"><%= setting_text_field :smtp_address, container_class: "-middle" %></div>
-      <div class="form--field"><%= setting_text_field :smtp_port, size: 6, container_class: "-xslim" %></div>
-      <div class="form--field"><%= setting_text_field :smtp_domain, container_class: "-middle" %></div>
-      <div class="form--field"><%= setting_select(:smtp_authentication, %i[none plain login cram_md5], container_class: "-slim") %></div>
-      <div class="form--field"><%= setting_text_field :smtp_user_name, container_class: "-middle" %></div>
-      <div class="form--field"><%= setting_password :smtp_password, container_class: "-middle" %></div>
-      <div class="form--field"><%= setting_check_box :smtp_enable_starttls_auto %></div>
-      <div class="form--field"><%= setting_check_box :smtp_ssl %></div>
-    </div>
-    <div
-      data-show-when-value-selected-target="effect"
-      data-target-name="email_delivery_method_settings"
-      data-value="sendmail"
-      <%= "hidden" unless Setting.email_delivery_method == :sendmail %>>
-      <div class="form--field"><%= setting_text_field :sendmail_location %></div>
-      <div class="form--field"><%= setting_text_field :sendmail_arguments %></div>
-    </div>
-    <div
-      data-show-when-value-selected-target="effect"
-      data-target-name="email_delivery_method_settings"
-      data-value="letter_opener"
-      <%= "hidden" unless Setting.email_delivery_method == :letter_opener %>>
-      <p>Letter opener is used to render emails as a file in your Rails tmp folder. Mails will automatically open in
-        your browser if supported.</p>
-    </div>
-  <% end unless OpenProject::Configuration['email_delivery_configuration'] == 'legacy' %>
+<% end %>
 
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
+<%=
+  settings_primer_form_with(
+    url: admin_settings_mail_notifications_path,
+    scope: :settings,
+    method: :patch,
+    data: { turbo: false,
+            controller: "show-when-value-selected" }
+  ) do |form|
+    render Admin::Settings::MailNotificationsSettingForm.new(form, deliveries: @deliveries)
+  end
+%>
 
-  <% if @deliveries %>
-    <div style="float:none;display:inline-block;font-weight:bold;">
-      <%= link_to t(:label_send_test_email),
-                  { controller: "/admin", action: "test_email" },
-                  data: { turbo_method: :post } %>
-    </div>
-  <% end %>
+<% if @deliveries %>
+  <%= render Primer::Beta::Link.new(
+        href: test_email_admin_index_path,
+        data: { turbo_method: :post },
+        font_weight: :bold,
+        display: :block,
+        mt: 3
+      ) do
+        t(:label_send_test_email)
+      end %>
 <% end %>

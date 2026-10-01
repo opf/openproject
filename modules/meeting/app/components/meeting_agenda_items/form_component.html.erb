@@ -6,7 +6,7 @@
       url: @submit_path,
       namespace: "form_#{wrapper_uniq_by}"
     ) do |f|
-      grid_layout("op-meeting-agenda-item-form", tag: :div) do |grid|
+      grid_layout("op-meeting-agenda-item-form", classes: conditional_layout_classes, tag: :div) do |grid|
         grid.with_area(:title) do
           case @type
           when :simple
@@ -20,8 +20,10 @@
           render(MeetingAgendaItem::Duration.new(f))
         end
 
-        grid.with_area(:presenter) do
-          render(MeetingAgendaItem::Presenter.new(f))
+        unless @meeting.onetime_template?
+          grid.with_area(:presenter) do
+            render(MeetingAgendaItem::Presenter.new(f))
+          end
         end
 
         grid.with_area(

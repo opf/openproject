@@ -40,7 +40,7 @@ RSpec.describe CustomFields::Inputs::SingleVersionSelectList, type: :forms do
   it_behaves_like "rendering autocompleter", "Version field" do
     it "sets correct autocompleter inputs" do
       expect(autocompleter["data-items"]).to have_json_size(1)
-      expect(autocompleter["data-model"]).to be_json_eql(%{{"name":"Version 26"}}).excluding("group_by")
+      expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "Version 26"}}).excluding("group_by", "selected", "disabled")
     end
   end
 end

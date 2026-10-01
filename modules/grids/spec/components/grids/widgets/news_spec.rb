@@ -82,7 +82,7 @@ RSpec.describe Grids::Widgets::News, type: :component do
       it "renders news items from all projects", :aggregate_failures do
         expect(rendered_component).to have_list_item(count: 2)
         expect(rendered_component).to have_list_item(position: 2) do |item|
-          expect(item).to have_link href: news_path(news_red)
+          expect(item).to have_link href: project_news_path(project_red, news_red)
           expect(item).to have_content(/Added by .+ on \d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M/)
           expect(item).to have_link href: user_path(author)
         end
@@ -105,7 +105,7 @@ RSpec.describe Grids::Widgets::News, type: :component do
       it "renders only this project’s news" do
         expect(rendered_component).to have_list_item(count: 3)
         expect(rendered_component).to have_list_item(position: 3) do |item|
-          expect(item).to have_link href: news_path(news_items.first)
+          expect(item).to have_link href: project_news_path(project, news_items.first)
           expect(item).to have_content(/Added by .+ on \d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M/)
           expect(item).to have_link href: user_path(author)
         end

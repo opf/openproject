@@ -31,7 +31,8 @@ module Projects
   module Settings
     class NameForm < ApplicationForm
       form do |f|
-        f.text_field name: :name, label: attribute_name(:name), required: true
+        f.text_field name: :name, label: attribute_name(:name), required: true,
+                     data: { "projects--identifier-suggestion-target": "name" }
       end
     end
   end

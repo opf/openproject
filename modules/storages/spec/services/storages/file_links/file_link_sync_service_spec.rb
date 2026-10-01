@@ -149,7 +149,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       before do
         Storages::Adapters::Registry
           .stub("nextcloud.queries.files_info",
-                ->(_) { Failure(Storages::Adapters::Results::Error.new(code: :error, source: "Specs")) })
+                ->(_) { Failure(SimpleError.new(code: :error, source: "Specs")) })
       end
 
       it "leaves the list of file_links unchanged with permissions = :error" do

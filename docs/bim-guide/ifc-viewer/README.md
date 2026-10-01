@@ -26,7 +26,7 @@ The BCF Module has included a very powerful IFC viewer. Here is a short overview
 
 ## Import and export IFC models
 
-Within the BCF module you are able to manage your IFC files. You are able to upload new building models and download already existing files. Just Click on the ***"IFC-Models"-Button*** within the OpenProject Toolbar.
+Within the BCF module you are able to manage your IFC files. You are able to upload new building models and download already existing files. Just Click on the _**"IFC-Models"-Button**_ within the OpenProject Toolbar.
 
 ![Import and Export IFC Models](import-and-export-ifc-models.png)
 
@@ -52,7 +52,7 @@ If there already exist a model in project, you don't have to open the "model man
 
 ## How to rotate the building model
 
-To rotate the IFC model you either left-click on the building viewer and ***rotate the building model by panning*** your cursor **or** use the ***View Cube*** in the right bottom corner for navigation.
+To rotate the IFC model you either left-click on the building viewer and _**rotate the building model by panning**_ your cursor **or** use the _**View Cube**_ in the right bottom corner for navigation.
 
 ![Model_Rotation](Model_Rotation.gif)
 
@@ -104,13 +104,13 @@ The first person perspective changes the way you interact with the building mode
 
 ![Slice Building Model](slice-building-model.png)
 
-To have a deeper look within the building model you are able to slice the whole building. To start slicing click on the "***scissors symbol***" within the ***IFC-Viewer toolbar*** and left-click on an element which has the same angle you want to slice (you can edit this angle later as well). Now there are shown some arrows. Grab one and slice the model by dragging the arrow to the location you want.
+To have a deeper look within the building model you are able to slice the whole building. To start slicing click on the "_**scissors symbol**_" within the _**IFC-Viewer toolbar**_ and left-click on an element which has the same angle you want to slice (you can edit this angle later as well). Now there are shown some arrows. Grab one and slice the model by dragging the arrow to the location you want.
 
 ![Slice building model](Slice_building.gif)
 
 ## How to clear slices
 
-You are able to clear all slices by using the ***dropdown*** menu next to the "***scissors symbol***" within the ***IFC-Viewer-Toolbar***.
+You are able to clear all slices by using the _**dropdown**_ menu next to the "_**scissors symbol**_" within the _**IFC-Viewer-Toolbar**_.
 
 ![slice-building-model](slice-building-model.png)
 
@@ -118,7 +118,7 @@ You are able to clear all slices by using the ***dropdown*** menu next to the "*
 
 ## How to select elements
 
-To select elements within the building model, you have to activate the selection mode by clicking on the highlighted toggle button placed in the ***IFC-Viewer toolbar***. After activating the selection mode you are able to select a single or multiple elements within the viewer by left click. Your individual selection won't be reset after leaving the selection mode. You are able to reset your current selection with the context menu (right click).
+To select elements within the building model, you have to activate the selection mode by clicking on the highlighted toggle button placed in the _**IFC-Viewer toolbar**_. After activating the selection mode you are able to select a single or multiple elements within the viewer by left click. Your individual selection won't be reset after leaving the selection mode. You are able to reset your current selection with the context menu (right click).
 
 ![Select Elements Button](select-elements-button.png)
 
@@ -142,7 +142,7 @@ In order to inspect the information for individual objects, you have to use the 
 
 ## Show or hide elements via viewer
 
-There are two options to hide elements via viewer. The **first possibility** is to use the ***IFC-viewer toolbar***. Within the toolbar you will find the **"hide-button"**
+There are two options to hide elements via viewer. The **first possibility** is to use the _**IFC-viewer toolbar**_. Within the toolbar you will find the **"hide-button"**
 
 ![Hide Elements Button](hide-elements-button.png)
 
@@ -170,7 +170,7 @@ All you have to do is open the context menu on the desired element and select th
 
 ## Show or hide models or elements via model tree
 
-If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changing the status of the ***checkbox within the model tree.***
+If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changing the status of the _**checkbox within the model tree.**_
 
 The model tree can represent the structure of the building model in different ways. This means that entire models, storeys or even similar components can be hidden with a single click.
 

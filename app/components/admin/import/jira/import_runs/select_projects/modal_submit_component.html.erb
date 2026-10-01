@@ -1,0 +1,16 @@
+<%= component_wrapper do
+  render(
+    Primer::Beta::Button.new(
+      scheme: :primary,
+      tag: :a,
+      href: admin_import_jira_run_select_projects_path(jira_id: jira_import.jira.id, run_id: jira_import.id),
+      data: {
+        turbo_stream: true,
+        turbo_method: :put
+      }
+    )
+  ) do |button|
+    button.with_trailing_visual_counter(count: count, style: "min-width: 2rem")
+    I18n.t(:button_continue)
+  end
+end %>

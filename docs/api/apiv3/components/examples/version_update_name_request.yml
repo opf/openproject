@@ -1,0 +1,5 @@
+# Example: Version update name response
+---
+description: Example request body to update the name of a version.
+value:
+  name: v0.9.1-alpha

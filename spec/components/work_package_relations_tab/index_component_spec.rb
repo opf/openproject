@@ -50,6 +50,13 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     end
   end
 
+  it "offers to create a new child from within the relations tab" do
+    render_component
+
+    expect(page).to have_link "Create new child",
+                              href: "/work_packages/#{work_package.id}/children/new"
+  end
+
   context "with parent relation" do
     shared_let_work_packages(<<~TABLE)
       hierarchy      | MTWTFSS | scheduling mode |
@@ -58,7 +65,6 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     TABLE
 
     it "renders the relations group with the parent work package in it" do
-      expect(render_component).to have_test_selector("op-relation-group-parent")
       expect(render_component).to have_list "Parent"
 
       list = page.find(:list, "Parent")
@@ -75,7 +81,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     TABLE
 
     it "renders the relations group" do
-      expect(render_component).to have_test_selector("op-relation-group-child")
+      expect(render_component).to have_list "Children"
     end
 
     it "renders the relations in child creation order" do
@@ -99,7 +105,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     TABLE
 
     it "renders the relations group" do
-      expect(render_component).to have_test_selector("op-relation-group-follows")
+      expect(render_component).to have_list "Predecessors (before)"
     end
 
     it "renders the relations in relation creation order" do

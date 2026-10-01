@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,18 +45,17 @@ export class GitActionsService {
 
   private formattingInput(workPackage: WorkPackageResource) {
     const type = workPackage.type.name || '';
-    const id = workPackage.id || '';
+    const id = workPackage.displayId;
+    const formattedId = workPackage.formattedId;
     const title = workPackage.subject;
-    const url = window.location.origin + workPackage.pathHelper.workPackagePath(id);
+    const url = window.location.origin + workPackage.pathHelper.workPackageShortPath(id);
     const description = '';
 
-    return({
-      id, type, title, url, description
-    });
+    return { id, formattedId, type, title, url, description };
   }
 
   private sanitizeShellInput(str:string):string {
-    return `${str.replace(/'/g, '\\\'')}`;
+    return str.replace(/'/g, "'\\''");
   }
 
   public branchName(workPackage:WorkPackageResource):string {
@@ -64,23 +63,19 @@ export class GitActionsService {
     return `${this.sanitizeBranchString(type)}/${id}-${this.sanitizeBranchString(title)}`.toLocaleLowerCase();
   }
 
-  public commitMessage(workPackage:WorkPackageResource):string {
-    const { title, id, description, url } = this.formattingInput(workPackage);
-    return `[#${id}] ${title}
-
-${description}
-
-${url}
-`.replace(/\n\n+/g, '\n\n');
+  private commitMessageParts(workPackage:WorkPackageResource):string[] {
+    const { title, formattedId, description, url } = this.formattingInput(workPackage);
+    return [`[${formattedId}] ${title}`, description, url].filter(Boolean);
   }
 
-  public commitMessageDisplayText(workPackage:WorkPackageResource):string {
-    return this.commitMessage(workPackage).replace(/\n\n/g, ' ');
+  public commitMessage(workPackage:WorkPackageResource):string {
+    return this.commitMessageParts(workPackage).join("\n\n");
   }
 
   public gitCommand(workPackage:WorkPackageResource):string {
     const branch = this.branchName(workPackage);
-    const commit = this.commitMessage(workPackage);
-    return `git checkout -b '${this.sanitizeShellInput(branch)}' && git commit --allow-empty -m '${this.sanitizeShellInput(commit)}'`;
+    const messageParts = this.commitMessageParts(workPackage);
+    const messages = messageParts.map((part) => `-m '${this.sanitizeShellInput(part)}'`).join(' ');
+    return `git checkout -b '${this.sanitizeShellInput(branch)}' && git commit --allow-empty ${messages}`;
   }
 }

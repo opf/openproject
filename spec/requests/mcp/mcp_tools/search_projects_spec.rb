@@ -30,10 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpTools::SearchProjects do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
-    header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
   end
@@ -56,6 +55,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
 
   let!(:project_a) { create(:project, identifier: "abc", name: "The ABC Project", status_code: :on_track) }
   let!(:project_b) { create(:project, identifier: "def", name: "The DEF Project", status_code: :off_track) }
+  let!(:portfolio) { create(:portfolio, identifier: "ghi", name: "The unrelated Portfolio", status_code: :on_track) }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -66,15 +66,15 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
   end
 
   context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP response with structured content"
+    it_behaves_like "MCP text tool"
 
     it "finds all projects without filters" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
     end
 
     it "responds with properly formatted projects" do
-      subject
+      mcp_request
       parsed_results.dig("structuredContent", "items").each do |project|
         expect(project.to_json).to match_json_schema.from_docs("project_model")
       end
@@ -84,7 +84,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
       let(:call_args) { { identifier: "abc" } }
 
       it "finds the project" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
       let(:call_args) { { identifier: "Abc" } }
 
       it "does not find the project" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_empty
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
       let(:call_args) { { name: "The ABC Project" } }
 
       it "finds the project" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
     end
@@ -125,15 +125,20 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
       end
 
       it "returns only results up to the page size" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+      end
+
+      it "indicates the total number of results" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "total")).to eq(project_count)
       end
 
       context "if another page is requested" do
         let(:call_args) { { name: "Death Star", page: 2 } }
 
         it "returns the requested page" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_projects)
         end
       end
@@ -143,7 +148,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
       let(:call_args) { { name: "The abc" } }
 
       it "finds the project" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
     end
@@ -152,7 +157,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
       let(:call_args) { { status_code: "on_track" } }
 
       it "finds the project" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
 
@@ -160,7 +165,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
         let(:call_args) { { status_code: "on_track", identifier: "abc" } }
 
         it "finds the project" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items")).to be_present
         end
       end
@@ -169,7 +174,7 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
         let(:call_args) { { status_code: "on_track", identifier: "def" } }
 
         it "does not find the project" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items")).to be_empty
         end
       end
@@ -178,28 +183,22 @@ RSpec.describe McpTools::SearchProjects, with_flag: { mcp_server: true } do
     context "when passing an invalid project status" do
       let(:call_args) { { status_code: "blubb" } }
 
-      it_behaves_like "MCP error response"
+      it_behaves_like "MCP tool execution error response"
     end
 
     context "when user can't see projects" do
       let(:user) { create(:user) }
 
       it "does not find the project" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_empty
       end
-    end
-
-    context "when the tool is disabled via configuration" do
-      let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP error response"
     end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

@@ -37,7 +37,13 @@ RSpec.describe API::V3::Shares::ShareCollectionRepresenter do
       without_partial_double_verification do
         allow(members).to receive(:limit).with(page_size).and_return(members)
         allow(members).to receive(:offset).with(page - 1).and_return(members)
-        allow(members).to receive(:count).and_return(3)
+        allow(members).to receive(:where).with(id: members.pluck(:id)).and_return(members)
+        allow(members).to receive_messages(count: 3,
+                                           model: members,
+                                           eager_load: members,
+                                           preload: members,
+                                           order: members,
+                                           order_values: [])
       end
     end
   end

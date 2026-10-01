@@ -21,28 +21,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Moment } from 'moment';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OnInit, Directive } from '@angular/core';
+import { OnInit, Directive, inject } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Directive()
 export abstract class AbstractDateTimeValueController extends UntilDestroyedMixin implements OnInit {
-  public filter:QueryFilterInstanceResource;
+  protected I18n = inject(I18nService);
+  protected timezoneService = inject(TimezoneService);
 
-  constructor(
-    protected I18n:I18nService,
-    protected timezoneService:TimezoneService,
-  ) {
-    super();
-  }
+  public filter:QueryFilterInstanceResource;
 
   ngOnInit() {
     this.filter.values = (this.filter.values as string[]).filter((value) => (value === '' || this.timezoneService.isValidISODateTime(value)));

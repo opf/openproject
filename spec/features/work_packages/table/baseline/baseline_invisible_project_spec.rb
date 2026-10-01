@@ -61,7 +61,9 @@ RSpec.describe "baseline with a work package moved to an invisible project", :js
         .new(user: User.system, model: wp)
         .call(
           subject: "Moved to private project",
-          project: private_project
+          project: private_project,
+          assigned_to: nil,
+          responsible: nil
         )
         .on_failure { |result| raise result.message }
         .result

@@ -1,16 +1,17 @@
+---
 it:
-  plugin_openproject_xls_export:
-    name: "Esportazione OpenProject XLS"
-    description: "Esporta elenchi di problemi come fogli di calcolo Excel (.xls)."
-  export_to_excel: "Esporta in XLS"
-  print_with_description: "Stampa anteprima con descrizione"
-  sentence_separator_or: "oppure"
   different_formats: Formati diversi
   export:
     format:
-      xls: "XLS"
-      xls_with_descriptions: "XLS con descrizioni"
-      xls_with_relations: "XLS con relazioni"
+      xls: XLS
+      xls_with_descriptions: XLS con descrizioni
+      xls_with_relations: XLS con relazioni
+  export_to_excel: Esporta in XLS
+  plugin_openproject_xls_export:
+    description: Esporta elenchi di problemi come fogli di calcolo Excel (.xls).
+    name: Esportazione OpenProject XLS
+  print_with_description: Stampa anteprima con descrizione
+  sentence_separator_or: oppure
   xls_export:
     child_of: figlio di
     parent_of: genitore di

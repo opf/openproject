@@ -21,22 +21,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-} from '@angular/core';
+import { defaults } from 'lodash-es';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface ConfirmDialogOptions {
@@ -69,6 +62,8 @@ export interface ConfirmDialogOptions {
   standalone: false,
 })
 export class ConfirmDialogModalComponent extends OpModalComponent {
+  readonly I18n = inject(I18nService);
+
   public showClose:boolean;
 
   public showListData:boolean;
@@ -101,26 +96,22 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
   public dangerHighlighting:boolean;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-  ) {
-    super(locals, cdRef, elementRef);
-    this.options = (locals.options || {}) as ConfirmDialogOptions;
+  constructor() {
+    super();
 
-    this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
-    this.showListData = _.defaultTo(this.options.showListData, false);
-    this.refreshOnCancel = _.defaultTo(this.options.refreshOnCancel, false);
-    this.listTitle = _.defaultTo(this.options.listTitle, '');
-    this.warningText = _.defaultTo(this.options.warningText, '');
-    this.passedData = _.defaultTo(this.options.passedData, []);
-    this.showClose = _.defaultTo(this.options.showClose, true);
-    this.divideContent = _.defaultTo(this.options.divideContent, false);
+    this.options = (this.locals.options ?? {}) as ConfirmDialogOptions;
+
+    this.dangerHighlighting = (this.options.dangerHighlighting ?? false);
+    this.showListData = (this.options.showListData ?? false);
+    this.refreshOnCancel = (this.options.refreshOnCancel ?? false);
+    this.listTitle = (this.options.listTitle ?? '');
+    this.warningText = (this.options.warningText ?? '');
+    this.passedData = (this.options.passedData ?? []);
+    this.showClose = (this.options.showClose ?? true);
+    this.divideContent = (this.options.divideContent ?? false);
     // override default texts and icons if any
-    this.text = _.defaults(this.options.text, this.text);
-    this.icon = _.defaults(this.options.icon, this.icon);
+    this.text = defaults(this.options.text, this.text);
+    this.icon = defaults(this.options.icon, this.icon);
   }
 
   public confirmAndClose(evt:Event):void {

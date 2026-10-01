@@ -1,0 +1,10 @@
+<%= render(
+      OpPrimer::QuickFilter::BooleanComponent.new(
+        name: "Recurring",
+        query: query,
+        filter_key: :type,
+        true_label: "Recurring",
+        false_label: "One-time",
+        path_args: [:meetings]
+      )
+    ) %>

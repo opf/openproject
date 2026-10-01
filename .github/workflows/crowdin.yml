@@ -2,30 +2,31 @@ name: crowdin
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *' # Daily at 03:00
+    - cron: "0 3 * * *" # Daily at 03:00
 
 permissions: {}
 jobs:
   setup:
+    if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:
-    - id: find_latest_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
-      run: |
-        BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-          https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
-        )
-        if [ "$BRANCH" = "" ]; then
-          echo "Invalid release branch found: $BRANCH"
-          exit 1
-        fi
+      - id: find_latest_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          BRANCH=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" --jq '.[].name' | \
+            grep '^release/' | sort --version-sort | tail -1
+          )
+          if [ "$BRANCH" = "" ]; then
+            echo "Invalid release branch found: $BRANCH"
+            exit 1
+          fi
 
-        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
     permissions:
@@ -41,11 +42,11 @@ jobs:
           - dev
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@e8944e80fb94b20106697132f8c20c665fab29e9 # v1
         with:
           bundler-cache: true
       - name: "Set crowdin branch name"
@@ -65,7 +66,7 @@ jobs:
             bundle exec script/i18n/generate_seeders_i18n_source_file
           fi
       - name: "Crowdin: upload sources and download translations"
-        uses: crowdin/github-action@v2
+        uses: crowdin/github-action@0d5670f539973aea2f01abce61a8989934df0025 # v3.0.2
         with:
           # Upload current source files
           upload_sources: true
@@ -75,12 +76,14 @@ jobs:
           crowdin_branch_name: ${{ steps.vars.outputs.crowdin_branch }}
           # Dont create a PR for the updated translations
           push_translations: false
+          user: auto
         env:
           OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
       - name: "Fix root key in Portuguese crowdin translation files"
-        run: |
-          script/i18n/fix_crowdin_pt_language_root_key
+        run: script/i18n/fix_crowdin_pt_language_root_key
+      - name: "Rewrite crowdin translation files using ruby yaml library"
+        run: script/i18n/rewrite_crowdin_yml_files
       - name: "Commit translations"
         env:
           BRANCH: ${{ matrix.branch }}

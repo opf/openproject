@@ -33,7 +33,7 @@ require "spec_helper"
 module WorkPackageTypes
   RSpec.describe UpdateFormConfigurationContract do
     let(:user) { create(:admin) }
-    let(:model) { create(:type, name: "O-Negative") }
+    let(:model) { create(:type, name: "O-Negative").default_variant }
 
     subject(:contract) { described_class.new(model, user, options: {}) }
 
@@ -62,10 +62,10 @@ module WorkPackageTypes
 
       context "when deactivating fields" do
         before do
-          model.update_column(:attribute_groups, [
-                                [:people, %w[assignee responsible]],
-                                [:details, %w[priority category percentage_done]]
-                              ])
+          model.form_configuration.update!(attribute_groups: [
+                                             [:people, %w[assignee responsible]],
+                                             [:details, %w[priority category percentage_done]]
+                                           ])
         end
 
         it "is valid" do
@@ -106,7 +106,7 @@ module WorkPackageTypes
 
       context "when preserving existing custom groups without changes" do
         before do
-          model.update_column(:attribute_groups, [["Existing Custom", %w[assignee responsible]]])
+          model.form_configuration.update!(attribute_groups: [["Existing Custom", %w[assignee responsible]]])
         end
 
         it "is valid when not making structural changes" do
@@ -139,7 +139,7 @@ module WorkPackageTypes
 
       context "when renaming an existing custom group" do
         before do
-          model.update_column(:attribute_groups, [["Original Name", %w[assignee responsible]]])
+          model.form_configuration.update!(attribute_groups: [["Original Name", %w[assignee responsible]]])
         end
 
         it "is invalid" do
@@ -147,6 +147,24 @@ module WorkPackageTypes
 
           expect(contract).not_to be_valid
           expect(contract.errors.details[:base]).to include(action: "Edit Attribute Groups", error: :error_enterprise_only)
+        end
+      end
+
+      context "when normalizing an unnamed legacy group" do
+        before do
+          model.form_configuration.update!(attribute_groups: [
+                                             ["", ["assignee"]],
+                                             [:details, ["priority"]]
+                                           ])
+        end
+
+        it "is valid" do
+          model.attribute_groups = [
+            [I18n.t("types.edit.form_configuration.untitled_group"), ["assignee"]],
+            [:details, ["priority"]]
+          ]
+
+          expect(contract).to be_valid
         end
       end
     end
@@ -194,6 +212,18 @@ module WorkPackageTypes
           end
         end
 
+        context "when a custom group uses the visible name of a default group" do
+          it "is invalid and adds :duplicate_group error for the visible name" do
+            model.attribute_groups = [
+              [:details, ["priority"]],
+              ["Details", ["assignee"]]
+            ]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(error: :duplicate_group, group: "Details")
+          end
+        end
+
         context "when an attribute group contains unknown attributes" do
           let(:invalid_group) { ["foo", ["unknown_attribute"]] }
 
@@ -203,6 +233,33 @@ module WorkPackageTypes
             expect(contract).not_to be_valid
             expect(contract.errors.details[:attribute_groups]).to include(
               error: "Invalid work package attribute used: unknown_attribute"
+            )
+          end
+        end
+
+        it "accepts target_versions" do
+          model.attribute_groups = [["foo", ["target_versions"]]]
+
+          expect(contract).to be_valid
+        end
+
+        it "rejects the deprecated version as an unknown attribute" do
+          model.attribute_groups = [["foo", ["version"]]]
+
+          expect(contract).not_to be_valid
+          expect(contract.errors.details[:attribute_groups]).to include(
+            error: "Invalid work package attribute used: version"
+          )
+        end
+
+        context "when the multiple versions feature is inactive",
+                with_settings: { work_package_multiple_versions: false } do
+          it "rejects the deprecated version as an unknown attribute" do
+            model.attribute_groups = [["foo", ["version"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: version"
             )
           end
         end
@@ -217,6 +274,16 @@ module WorkPackageTypes
             expect(contract).not_to be_valid
             expect(contract.errors.details[:attribute_groups])
               .to include(hash_including(error: :query_invalid, group: "query_group"))
+          end
+        end
+
+        context "with a persisted embedded query owned by another user" do
+          let(:query) { create(:query, user: create(:user), name: "Existing embedded query") }
+
+          it "is valid" do
+            model.attribute_groups = [["query_group", [query]]]
+
+            expect(contract).to be_valid
           end
         end
       end

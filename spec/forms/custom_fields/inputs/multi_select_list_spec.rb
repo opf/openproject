@@ -48,7 +48,7 @@ RSpec.describe CustomFields::Inputs::MultiSelectList, type: :forms do
     it "sets correct autocompleter inputs" do
       expect(autocompleter["data-items"]).to have_json_size(4)
       expect(autocompleter["data-model"]).to have_json_size(2)
-      expect(autocompleter["data-model"]).to be_json_eql(%{[{"name": "tre"}, {"name": "quattro"}]})
+      expect(autocompleter["data-model"]).to be_json_eql(%{[{"disabled": false, "name": "tre", "selected": true}, {"disabled": false, "name": "quattro", "selected": true}]})
     end
   end
 end

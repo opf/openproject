@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 /**
  * Return the row html id attribute for the given work package ID.
  */
@@ -11,12 +39,12 @@ export function relationRowClass():string {
   return 'wp-table--relations-additional-row';
 }
 
-export function locateTableRow(workPackageId:string) {
-  return document.querySelector<HTMLTableRowElement>(`.${rowId(workPackageId)}`);
+export function locateTableRow(workPackageId:string, root:ParentNode) {
+  return root.querySelector<HTMLTableRowElement>(`.${rowId(workPackageId)}`);
 }
 
-export function locateTableRowByIdentifier(identifier:string) {
-  return document.querySelector<HTMLTableRowElement>(`.${identifier}-table`);
+export function locateTableRowByIdentifier(identifier:string, root:ParentNode) {
+  return root.querySelector<HTMLTableRowElement>(`.${identifier}-table`);
 }
 
 export function isInsideCollapsedGroup(el?:Element | null) {
@@ -40,9 +68,9 @@ export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTM
   return null;
 }
 
-export function scrollTableRowIntoView(workPackageId:string):void {
+export function scrollTableRowIntoView(workPackageId:string, root:ParentNode):void {
   try {
-    const element = locateTableRow(workPackageId)!;
+    const element = locateTableRow(workPackageId, root)!;
     const container = getScrollParent(element);
     const containerTop = container.scrollTop;
     const containerBottom = containerTop + container.clientHeight;
@@ -56,7 +84,7 @@ export function scrollTableRowIntoView(workPackageId:string):void {
       container.scrollTop = elemBottom - container.clientHeight;
     }
   } catch (e) {
-    console.warn(`Can't scroll row element into view: ${e}`);
+    console.warn(`Can't scroll row element into view: ${String(e)}`);
   }
 }
 
@@ -76,5 +104,5 @@ function getScrollParent(element:HTMLElement, includeHidden = false) {
     parent = parent.parentElement;
   }
 
-  return document.scrollingElement || document.documentElement;
+  return document.scrollingElement ?? document.documentElement;
 }

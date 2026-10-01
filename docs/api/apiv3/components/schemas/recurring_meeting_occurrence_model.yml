@@ -1,0 +1,52 @@
+# Schema: RecurringMeetingOccurrenceModel
+---
+type: object
+required:
+  - _type
+  - startTime
+  - state
+properties:
+  _type:
+    type: string
+    enum:
+      - MeetingOccurrence
+  startTime:
+    type: string
+    format: date-time
+    description: The start time of this occurrence.
+  state:
+    type: string
+    description: |-
+      The current state of the occurrence. Possible values:
+
+      - *open*: the occurrence has been instantiated as a meeting
+      - *cancelled*: the occurrence has been cancelled
+      - *scheduled*: the occurrence is scheduled but not yet instantiated
+    enum:
+      - open
+      - cancelled
+      - scheduled
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This occurrence
+
+              **Resource**: MeetingOccurrence
+      meeting:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The instantiated meeting for this occurrence, if it exists.
+
+              **Resource**: Meeting
+      recurringMeeting:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The recurring meeting this occurrence belongs to
+
+              **Resource**: RecurringMeeting

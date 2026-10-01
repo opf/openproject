@@ -31,7 +31,14 @@
 module Groups
   class RowComponent < OpPrimer::BorderBoxRowComponent
     def name
-      render(Primer::Beta::Link.new(href: edit_group_path(model), font_weight: :bold)) { model.name }
+      depth = model.hierarchy_depth || 0
+      link = render(Primer::Beta::Link.new(href: edit_group_path(model), font_weight: :bold)) { model.name }
+
+      if depth > 0
+        tag.span(style: "margin-left: #{depth * 20}px") { link }
+      else
+        link
+      end
     end
 
     def user_count

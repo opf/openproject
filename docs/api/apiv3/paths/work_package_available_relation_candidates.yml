@@ -8,14 +8,14 @@ get:
   description: ''
   parameters:
     - description: Project id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
       schema:
         type: integer
     - description: Maximum number of candidates to list (default 10)
-      example: '25'
+      example: 25
       in: query
       name: pageSize
       required: false
@@ -46,7 +46,9 @@ get:
         type: string
     - description: |-
         JSON specifying sort criteria.
-        Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint.
+        Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint,
+        including the special `exactMatch` key for ranking an exact id/identifier/sequence number match
+        for `query` first, e.g. `[["exactMatch", "desc"], ["updatedAt", "desc"]]`.
       example: '[["status", "asc"]]'
       in: query
       name: sortBy

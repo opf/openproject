@@ -33,7 +33,7 @@ module ::Calendar
     def show
       @submenu_menu_items = ::Calendar::Menu.new(project: @project, params:).menu_items
       @create_btn_options = if User.current.allowed_in_project?(:manage_calendars, @project)
-                              { href: new_project_calendars_path(@project), module_key: "calendar" }
+                              { href: new_project_calendar_path(@project), module_key: "calendar" }
                             end
 
       render layout: nil

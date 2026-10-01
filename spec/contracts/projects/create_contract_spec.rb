@@ -213,7 +213,7 @@ RSpec.describe Projects::CreateContract do
         end
       end
 
-      describe "reading and writing project attributes" do
+      describe "reading and writing project attributes and their comments" do
         # The create contract is being used to render the project schema too. It should return
         # the custom fields the user can access via project memberships with `:view_project_attributes`
         # permission or return all the custom fields if the user has the `:add_project` global permission.
@@ -222,9 +222,29 @@ RSpec.describe Projects::CreateContract do
         # It will not affect the availability of all the custom fields on project creation, because
         # the `:add_project` permission will ensure that all the custom fields are accessible.
 
-        shared_examples "can read project attributes" do
-          it "can read project attributes" do
+        shared_examples "can access custom field" do
+          it "can access custom field" do
             expect(contract.available_custom_fields).to include(custom_field)
+          end
+        end
+
+        shared_examples "can not access custom field" do
+          it "can not access custom field" do
+            expect(contract.available_custom_fields).not_to include(custom_field)
+          end
+        end
+
+        shared_examples "can not write comments of non commentable project attributes" do
+          context "for non commentable project attribute comment" do
+            let(:attribute) { custom_field.comment_attribute_name }
+
+            include_examples "can not write"
+          end
+
+          context "for non commentable non member project attribute comment" do
+            let(:attribute) { non_member_custom_field.comment_attribute_name }
+
+            include_examples "can not write"
           end
         end
 
@@ -237,10 +257,17 @@ RSpec.describe Projects::CreateContract do
                  public: other_project_public,
                  members: { current_user => role })
         end
-        let(:mapping) { create(:project_custom_field_project_mapping, project: other_project) }
-        let!(:custom_field) { mapping.project_custom_field }
+        let!(:custom_field) do
+          create(:project_custom_field, projects: other_project)
+        end
         let!(:non_member_custom_field) do
           create(:project_custom_field_project_mapping).project_custom_field
+        end
+        let!(:commentable_custom_field) do
+          create(:project_custom_field, :has_comment, projects: other_project)
+        end
+        let!(:commentable_non_member_custom_field) do
+          create(:project_custom_field, :has_comment)
         end
 
         before { User.current = current_user }
@@ -248,57 +275,123 @@ RSpec.describe Projects::CreateContract do
         context "without view_project_attributes permission" do
           let(:project_permissions) { [] }
 
-          shared_examples "cannot read project attributes" do
-            it "cannot read project attributes" do
-              expect(contract.available_custom_fields).not_to include(custom_field)
-            end
-          end
-
-          it_behaves_like "cannot read project attributes"
+          include_examples "can not access custom field"
 
           context "with a public project" do
             let(:other_project_public) { true }
 
-            it_behaves_like "cannot read project attributes"
+            include_examples "can not access custom field"
           end
+
+          context "for project attribute" do
+            let(:attribute) { custom_field.attribute_name }
+
+            include_examples "can not write"
+          end
+
+          context "for project attribute comment" do
+            let(:attribute) { commentable_custom_field.comment_attribute_name }
+
+            include_examples "can not write"
+          end
+
+          context "for non member project attribute comment" do
+            let(:attribute) { commentable_non_member_custom_field.attribute_name }
+
+            include_examples "can not write"
+          end
+
+          include_examples "can not write comments of non commentable project attributes"
         end
 
         context "with view_project_attributes permission" do
           let(:project_permissions) { %i(view_project_attributes) }
 
-          it_behaves_like "can read project attributes"
+          include_examples "can access custom field"
 
-          it_behaves_like "can not write" do
+          context "for project attribute" do
             let(:attribute) { custom_field.attribute_name }
+
+            include_examples "can not write"
           end
+
+          context "for project attribute comment" do
+            let(:attribute) { commentable_custom_field.comment_attribute_name }
+
+            include_examples "can not write"
+          end
+
+          context "for non member project attribute comment" do
+            let(:attribute) { commentable_non_member_custom_field.attribute_name }
+
+            include_examples "can not write"
+          end
+
+          include_examples "can not write comments of non commentable project attributes"
         end
 
         context "with edit_project_attributes permission" do
           let(:project_permissions) { %i(view_project_attributes edit_project_attributes) }
 
-          it_behaves_like "can read project attributes"
+          include_examples "can access custom field"
 
-          it_behaves_like "can write" do
+          context "for project attribute" do
             let(:attribute) { custom_field.attribute_name }
+
+            include_examples "can write"
           end
 
-          it_behaves_like "can not write" do
+          context "for non member project attribute" do
             let(:attribute) { non_member_custom_field.attribute_name }
+
+            include_examples "can not write"
           end
+
+          context "for project attribute comment" do
+            let(:attribute) { commentable_custom_field.comment_attribute_name }
+
+            include_examples "can write"
+          end
+
+          context "for non member project attribute comment" do
+            let(:attribute) { commentable_non_member_custom_field.attribute_name }
+
+            include_examples "can not write"
+          end
+
+          include_examples "can not write comments of non commentable project attributes"
         end
 
         context "with add_project permission" do
           let(:global_permissions) { %i(add_project) }
 
-          it_behaves_like "can read project attributes"
+          include_examples "can access custom field"
 
-          it_behaves_like "can write" do
+          context "for project attribute" do
             let(:attribute) { custom_field.attribute_name }
+
+            include_examples "can write"
           end
 
-          it_behaves_like "can write" do
+          context "for non member project attribute" do
             let(:attribute) { non_member_custom_field.attribute_name }
+
+            include_examples "can write"
           end
+
+          context "for project attribute comment" do
+            let(:attribute) { commentable_custom_field.comment_attribute_name }
+
+            include_examples "can write"
+          end
+
+          context "for non member project attribute comment" do
+            let(:attribute) { commentable_non_member_custom_field.attribute_name }
+
+            include_examples "can write"
+          end
+
+          include_examples "can not write comments of non commentable project attributes"
         end
       end
     end

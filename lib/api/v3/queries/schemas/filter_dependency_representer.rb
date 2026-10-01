@@ -82,11 +82,11 @@ module API
           end
 
           def type
-            raise NotImplementedError, "Subclass has to implement #type"
+            raise SubclassResponsibilityError, "Subclass has to implement #type"
           end
 
           def href_callback
-            raise NotImplementedError, "Subclass has to implement #href_callback"
+            raise SubclassResponsibilityError, "Subclass has to implement #href_callback"
           end
 
           attr_accessor :operator

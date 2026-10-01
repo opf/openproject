@@ -31,16 +31,17 @@
 module Overviews
   module ProjectCustomFields
     class ShowComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-
-      def initialize(project:, project_custom_field_section:, project_custom_fields:)
+      def initialize(project_custom_field:, project:)
         super
 
+        @project_custom_field = project_custom_field
         @project = project
-        @project_custom_field_section = project_custom_field_section
-        @project_custom_fields = project_custom_fields
+      end
+
+      private
+
+      def limited_space?
+        false
       end
     end
   end

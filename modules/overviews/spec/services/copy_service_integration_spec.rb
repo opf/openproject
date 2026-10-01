@@ -164,7 +164,8 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
 
               expect(query_copy).to be_present
 
-              version_copy = Version.find query_copy.filters.find { |f| f.name == :version_id }.values.first
+              version_filter = query_copy.filters.find { |f| %i[version_id target_version_id].include?(f.name) }
+              version_copy = Version.find version_filter.values.first
 
               expect(version_copy.id).not_to eq source_version.id
               expect(version_copy.name).to eq source_version.name

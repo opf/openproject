@@ -98,7 +98,7 @@
                 [showStartDate]="!isWpStartDateInCurrentView(wp)"
                 [showEndDate]="!isWpEndDateInCurrentView(wp)"
                 (stateLinkClicked)="openStateLink($event)"
-                (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+                (cardClicked)="onCardClicked($event)"
                 (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
                 (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
                />
@@ -132,6 +132,7 @@
     }
 
     <div class="op-team-planner--footer" data-test-selector="op-team-planner-footer">
+      <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
       @if (!(showAddAssignee$ | async) && !(dropzone$ | async)?.dragging) {
         <div
           class="op-team-planner--add-assignee"

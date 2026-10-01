@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +39,7 @@ module Storages
           end
 
           def name
-            "#{@project.name.tr('/', '|')} (#{@project.id})"
+            "#{filter_restricted_characters(@project.name)} (#{@project.id})"
           end
 
           def path
@@ -48,6 +48,18 @@ module Storages
 
           def location
             path
+          end
+
+          private
+
+          def filter_restricted_characters(name)
+            # slashes have historically always been replaced with |
+            # hardcoding slash and backslash instead of making them configurable also prevents project names to be usable
+            # for directory-escape attempts (e.g. "../project name")
+            name = name.tr("/\\", "|")
+
+            # other forbidden characters are replaced with _, consistent with other storages
+            name.tr(@storage.forbidden_file_name_characters, "_")
           end
         end
       end

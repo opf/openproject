@@ -1,9 +1,9 @@
-#English strings go here
+---
 da:
   js:
     calendar:
-      create_new: 'Opret en ny kalender'
-      title: 'Kalender'
-      too_many: 'Der er %{count} arbejdspakker i alt, men kun %{max} kan vises.'
-      unsaved_title: 'Unavngiven kalender'
-      label_calendar_plural: 'Kalendere'
+      create_new: Opret en ny kalender
+      label_calendar_plural: Kalendere
+      title: Kalender
+      too_many: Der er %{count} arbejdspakker i alt, men kun %{max} kan vises.
+      unsaved_title: Unavngiven kalender

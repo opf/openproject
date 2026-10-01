@@ -1,25 +1,26 @@
-#English strings go here for Rails i18n
+---
 hu:
   plugin_openproject_recaptcha:
-    name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    description: Ez a modul a bejelentkezés során reCAPTCHA ellenőrzéseket végez.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Kérlek, várj...'
-    verify_account: "Fiók ellenőrzése..."
-    error_captcha: "Fiókját nem lehetett ellenőrizni. Vegye fel a kapcsolatot egy rendszergazdával."
+    button_please_wait: Kérlek, várj...
+    error_captcha: Fiókját nem lehetett ellenőrizni. Vegye fel a kapcsolatot egy rendszergazdával.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: 'Weboldal-kulcs (más néven "Site key")'
-      response_limit: 'HCaptcha válaszadási limit'
-      response_limit_text: 'A karakterek maximális száma a HCaptcha-válasz érvényesként való kezeléséhez.'
-      website_key_text: 'Írja be az e domain reCAPTCHA adminisztrációs konzolján létrehozott webhelykulcsot.'
-      secret_key: 'Titkos kulcs'
-      secret_key_text: 'Írja be a reCAPTCHA adminisztrációs konzolon létrehozott titkos kulcsot.'
-      type: 'Használj reCAPTCHA'
-      type_disabled: 'Tiltsd reCAPTCHA'
-      type_v2: 'reCAPTCHA v2'
-      type_v3: 'reCAPTCHA v3'
-      type_hcaptcha: 'HChaptcha'
-      type_turnstile: 'Cloudflare Turnstile™'
-      captcha_description_html: >
-        A reCAPTCHA a Google ingyenes szolgáltatása, amely engedélyezhető az Ön OpenProject példányában. Ha engedélyezett, a bejelentkezéskor egy captcha űrlap jelenik meg minden olyan felhasználó számára, aki még nem erősítette meg a captchát. <br/> A reCAPTCHA-ról és annak változatairól, valamint a weboldal és a titkos kulcsok létrehozásának módjáról az alábbi linken talál további részleteket: %{recaptcha_link} <br/> A HCaptcha egy Google-mentes alternatíva, amelyet használhat, ha nem szeretné a reCAPTCHA-t használni. További információkért lásd ezt a linket: %{hcaptcha_link} <br/> A Cloudflare Turnstile™ egy másik alternatíva, amely kényelmesebb a felhasználók számára, miközben ugyanolyan szintű biztonságot nyújt. További információért lásd ezt a linket: %{turnstile_link}
+      captcha_description_html: 'A reCAPTCHA a Google ingyenes szolgáltatása, amely engedélyezhető az Ön OpenProject példányában. Ha engedélyezett, a bejelentkezéskor egy captcha űrlap jelenik meg minden olyan felhasználó számára, aki még nem erősítette meg a captchát. <br/> A reCAPTCHA-ról és annak változatairól, valamint a weboldal és a titkos kulcsok létrehozásának módjáról az alábbi linken talál további részleteket: %{recaptcha_link} <br/> A HCaptcha egy Google-mentes alternatíva, amelyet használhat, ha nem szeretné a reCAPTCHA-t használni. További információkért lásd ezt a linket: %{hcaptcha_link} <br/> A Cloudflare Turnstile™ egy másik alternatíva, amely kényelmesebb a felhasználók számára, miközben ugyanolyan szintű biztonságot nyújt. További információért lásd ezt a linket: %{turnstile_link}
+
+        '
+      response_limit: HCaptcha válaszadási limit
+      response_limit_text: A karakterek maximális száma a HCaptcha-válasz érvényesként való kezeléséhez.
+      secret_key: Titkos kulcs
+      secret_key_text: Írja be a reCAPTCHA adminisztrációs konzolon létrehozott titkos kulcsot.
+      type: Használj reCAPTCHA
+      type_disabled: Tiltsd reCAPTCHA
+      type_hcaptcha: HChaptcha
+      type_turnstile: Cloudflare Turnstile™
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Weboldal-kulcs (más néven "Site key")
+      website_key_text: Írja be az e domain reCAPTCHA adminisztrációs konzolján létrehozott webhelykulcsot.
+    verify_account: Fiók ellenőrzése...

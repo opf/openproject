@@ -47,7 +47,7 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
   end
 
   def relation_type
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def normalized_relation_type
@@ -57,10 +57,10 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
   private
 
   def relation_filter
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def relation_select
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 end

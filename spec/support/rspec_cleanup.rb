@@ -6,6 +6,9 @@ RSpec.configure do |config|
     # This happens automatically for :mailer specs
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.deliveries.clear
+
+    TokenBucketState.delete_all
+    FactoryBot.create :token_bucket_state, :email_limit_per_day
   end
 
   config.append_after do

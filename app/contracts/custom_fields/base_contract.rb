@@ -40,6 +40,7 @@ module CustomFields
     attribute :editable
     attribute :field_format
     attribute :formula
+    attribute :has_comment
     attribute :is_filter
     attribute :is_for_all
     attribute :is_required do
@@ -47,11 +48,14 @@ module CustomFields
     end
     attribute :max_length
     attribute :min_length
+    attribute :max_value
+    attribute :min_value
     attribute :multi_value
     attribute :name
     attribute :possible_values
     attribute :regexp
     attribute :searchable
+    attribute :visible_on_user_card
     attribute :type
 
     def validate_non_true_for_some_formats

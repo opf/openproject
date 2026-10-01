@@ -1,12 +1,12 @@
-#English strings go here
+---
 nl:
+  label_calendar: Kalender
+  label_calendar_plural: Agenda's
+  label_new_calendar: Nieuwe kalender
+  permission_manage_calendars: Agenda's beheren
+  permission_share_calendars: Abonneren op iCalendars
+  permission_view_calendar: Bekijk agenda's
   plugin_openproject_calendar:
-    name: "OpenProject Kalender"
-    description: "Biedt kalenderweergaven."
-  label_calendar: "Kalender"
-  label_calendar_plural: "Agenda's"
-  label_new_calendar: "Nieuwe kalender"
-  permission_view_calendar: "Bekijk agenda's"
-  permission_manage_calendars: "Agenda's beheren"
-  permission_share_calendars: "Abonneren op iCalendars"
-  project_module_calendar_view: "Agenda's"
+    description: Biedt kalenderweergaven.
+    name: OpenProject Kalender
+  project_module_calendar_view: Agenda's

@@ -36,7 +36,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
-    create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
+    create(:project, :with_internal_wiki, types: [type_task, type_bug], enabled_module_names: %w[work_package_tracking])
   end
   shared_let(:wp_task) { create(:work_package, project:, type: type_task) }
   shared_let(:wp_bug) { create(:work_package, project:, type: type_bug) }
@@ -96,17 +96,10 @@ RSpec.describe "Wysiwyg embedded work package tables",
           columns.expect_checked "Subject"
           columns.expect_checked "Type"
           modal.cancel
-
-          # Expect we can preview the table within ckeditor-augmented-textarea
-          editor.within_enabled_preview do |preview_container|
-            embedded_table = Pages::EmbeddedWorkPackagesTable.new preview_container
-            embedded_table.expect_work_package_listed wp_task
-            embedded_table.ensure_work_package_not_listed! wp_bug
-          end
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_flash(message: "Successful creation.")
 
@@ -121,7 +114,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
 
       context "with a subproject that gets deleted" do
         let!(:subproject) do
-          create(:project, parent: project, enabled_module_names: %w[wiki])
+          create(:project, :with_internal_wiki, parent: project)
         end
 
         it "can still edit the embedded table widget" do
@@ -142,7 +135,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
           end
 
           # Save wiki page
-          click_on "Save"
+          click_on "Create"
 
           expect_and_dismiss_flash(message: "Successful creation.")
 

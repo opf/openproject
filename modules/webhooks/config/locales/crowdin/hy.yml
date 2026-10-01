@@ -1,0 +1,80 @@
+---
+hy:
+  activerecord:
+    attributes:
+      webhooks/log:
+        event_name: Իրադարձության անվանում
+        response_body: Պատասխան
+        response_code: Պատասխանի կոդ
+        url: Տվյալների URL
+      webhooks/webhook:
+        enabled: Միացված
+        events: Իրադարձություններ
+        projects: Միացված նախագծեր
+        secret: Ստորագրության գաղտնիք
+        url: Տվյալների URL
+    models:
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
+  plugin_openproject_webhooks:
+    description: Ապահովում է հավելումների API՝ OpenProject-ի վեբհուկներին աջակցելու համար՝ երրորդ կողմերի հետ ավելի լավ ինտեգրացիայի նպատակով։
+    name: OpenProject-ի վեբհուկներ
+  webhooks:
+    outgoing:
+      deliveries:
+        no_results_table: Վերջին օրերին այս վեբհուկի համար առաքումներ չեն կատարվել։
+        time: Առաքման ժամանակ
+        title: Վերջին առաքումներ
+      events:
+        comment: Մեկնաբանություն
+        created: Ստեղծված
+        internal_comment: Ներքին մեկնաբանություն
+        updated: Թարմացված
+      explanation_html: 'Իրադարձության դեպքում, ինչպիսին է աշխատանքային փաթեթի ստեղծումը կամ նախագծի թարմացումը, OpenProject-ը POST հարցում կուղարկի կազմաձևված վեբ վերջնակետերին։ Հաճախ իրադարձությունն ուղարկվում է [կազմաձևված համախմբման ժամանակահատվածի](aggregation_path) ավարտից հետո։
+
+        '
+      form:
+        apiv3_doc_url: Լրացուցիչ տեղեկությունների համար այցելեք API փաստաթղթերը
+        description:
+          placeholder: Վեբհուկի ոչ պարտադիր նկարագրություն։
+        enabled:
+          description: 'Երբ ընտրված է, վեբհուկը կգործարկվի ընտրված իրադարձությունների դեպքում։ Հանեք նշումը՝ վեբհուկն անջատելու համար։
+
+            '
+        events:
+          title: Միացված իրադարձություններ
+        introduction: 'Ուղարկեք POST հարցում ստորև նշված տվյալների URL-ին՝ այն նախագծի ցանկացած իրադարձության համար, որին բաժանորդագրված եք։ Տվյալները կհամապատասխանեն փոփոխվող օբյեկտի APIv3 ներկայացմանը։
+
+          '
+        project_ids:
+          all: Բոլոր նախագծերը
+          description: Ընտրեք, թե որ նախագծերի համար պետք է կատարվի այս վեբհուկը։
+          selected: Միայն ընտրված նախագծերը
+          title: Միացված նախագծեր
+        secret:
+          description: 'Եթե սահմանված է, OpenProject-ն օգտագործում է այս գաղտնի արժեքը՝ վեբհուկի տվյալները ստորագրելու համար։
+
+            '
+        selected_project_ids:
+          title: Ընտրված նախագծեր
+      label_add_new: Ավելացնել նոր վեբհուկ
+      label_edit: Խմբագրել վեբհուկը
+      label_x_events:
+        one: 1 իրադարձություն
+        other: "%{count} իրադարձություն"
+        zero: Իրադարձություններ չկան
+      no_results_table: Վեբհուկներ դեռ սահմանված չեն։
+      status:
+        disabled: Վեբհուկն անջատված է
+        disabled_text: Սեղմեք խմբագրման կոճակը՝ վեբհուկն ակտիվացնելու համար։
+        enabled: Վեբհուկը միացված է
+        enabled_text: Վեբհուկը կուղարկի տվյալներ ստորև սահմանված իրադարձությունների համար։
+    plural: Վեբհուկներ
+    resources:
+      time_entry:
+        name: Ժամանակի գրառում
+    singular: Վեբհուկ

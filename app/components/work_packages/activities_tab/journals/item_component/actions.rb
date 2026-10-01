@@ -32,6 +32,7 @@ module WorkPackages
   module ActivitiesTab
     module Journals
       class ItemComponent::Actions < ApplicationComponent
+        include WorkPackages::ActivitiesTab::SharedHelpers
         include WorkPackages::ActivitiesTab::StimulusControllers
 
         def initialize(journal)

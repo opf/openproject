@@ -30,19 +30,37 @@ class CostType < ApplicationRecord
   has_many :material_budget_items
   has_many :cost_entries, dependent: :destroy
   has_many :rates, class_name: "CostRate", dependent: :destroy
+  has_many :cost_types_projects, dependent: :destroy
+  has_many :projects, through: :cost_types_projects
 
   validates :unit, :unit_plural, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   after_update :save_rates
+  after_update :activate_for_projects_with_costs,
+               if: -> { saved_change_to_for_all_projects? && !for_all_projects? }
+  after_save :persist_current_rate_input
 
   include ActiveModel::ForbiddenAttributesProtection
 
   scope :active, -> { where(deleted_at: nil) }
+  scope :for_all, -> { where(for_all_projects: true) }
+  scope :available_for_project, ->(project) {
+    project_id = project.is_a?(Project) ? project.id : project
+    where(for_all_projects: true)
+      .or(where(id: CostTypesProject.where(project_id:).select(:cost_type_id)))
+  }
 
   # finds the default CostType
   def self.default
     CostType.find_by(default: true) || CostType.first
+  end
+
+  # Returns the default cost type for the given project, falling back to the first
+  # cost type available in that project when the global default is not available there.
+  def self.default_for_project(project)
+    available = available_for_project(project).active
+    available.find_by(default: true) || available.first
   end
 
   def is_default?
@@ -53,8 +71,12 @@ class CostType < ApplicationRecord
     name.downcase <=> other.name.downcase
   end
 
+  attr_writer :current_rate
+
   def current_rate
-    rate_at(Date.today)
+    return @current_rate if instance_variable_defined?(:@current_rate)
+
+    rate_at(Date.current)&.rate
   end
 
   def rate_at(date)
@@ -98,5 +120,51 @@ class CostType < ApplicationRecord
 
   def save_rates
     rates.each(&:save!)
+  end
+
+  def persist_current_rate_input
+    return unless instance_variable_defined?(:@current_rate)
+
+    amount = parse_current_rate_amount(remove_instance_variable(:@current_rate))
+    return if amount.nil?
+
+    today = Time.zone.today
+    if (rate = rate_at(today))
+      rate.update!(rate: amount)
+    else
+      rates.create!(valid_from: today, rate: amount)
+    end
+  end
+
+  def parse_current_rate_amount(value)
+    return if value.to_s.strip.empty?
+
+    CostRate.parse_number_string_to_number(value.to_s)
+  end
+
+  private
+
+  # When a cost type stops applying to all projects, keep it explicitly enabled
+  # in every project that already logged costs for it (including archived ones, so
+  # the costs stay consistent in case they are unarchived)
+  # Runs inside the update transaction, so a failure rolls back the for_all_projects change.
+  def activate_for_projects_with_costs
+    projects = Project.where(id: project_ids_with_unmapped_costs)
+    return if projects.empty?
+
+    result = CostTypes::CostTypeProjects::BulkCreateService
+               .new(user: User.system, projects:, model: self, include_sub_projects: false)
+               .call
+    return if result.success?
+
+    raise "Failed to enable cost type #{id} for projects with logged costs: " \
+          "#{result.errors.full_messages.to_sentence}"
+  end
+
+  def project_ids_with_unmapped_costs
+    cost_entries
+      .where.not(project_id: cost_types_projects.select(:project_id))
+      .distinct
+      .pluck(:project_id)
   end
 end

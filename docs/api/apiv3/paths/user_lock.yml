@@ -7,7 +7,7 @@ delete:
     - Users
   parameters:
     - description: User id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -68,7 +68,7 @@ post:
     - Users
   parameters:
     - description: User id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

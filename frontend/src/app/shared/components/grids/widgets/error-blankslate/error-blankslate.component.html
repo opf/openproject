@@ -1,0 +1,10 @@
+<blankslate>
+  <blankslate-icon icon="circle-slash" />
+  <blankslate-heading>{{ name() }}</blankslate-heading>
+  <blankslate-description>{{ message() }}</blankslate-description>
+  @if (actionText()) {
+    <blankslate-action>
+      <a href="#" class="Link" (click)="onActionClick($event)">{{ actionText() }}</a>
+    </blankslate-action>
+  }
+</blankslate>

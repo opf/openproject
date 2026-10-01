@@ -106,6 +106,7 @@ work_package:
     margin_top: 0
     margin_bottom: 4
   markdown_margin:
+    margin_top: 4
     margin_bottom: 16
   markdown:
     font:
@@ -115,6 +116,7 @@ work_package:
       size: 8
       styles: [ "bold" ]
       padding_top: 4
+      padding_bottom: 4
     header_1:
       size: 10
     header_2:
@@ -123,12 +125,19 @@ work_package:
       size: 9
     paragraph:
       align: "left"
+      padding_bottom: 6
     unordered_list:
       spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
     unordered_list_point:
       spacing: 4
     ordered_list:
       spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
     ordered_list_point:
       spacing: 4
       spanning: true
@@ -143,6 +152,9 @@ work_package:
       list_style_type: upper-roman
     task_list:
       spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
     task_list_point:
       spacing: 4
       checked: "☑"
@@ -163,8 +175,7 @@ work_package:
       border_width: 1
       padding: 4
       padding_left: 6
-      margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 6
       no_border_left: false
       no_border_right: true
       no_border_bottom: true
@@ -179,14 +190,15 @@ work_package:
       background_color: "F5F5F5"
       color: "880000"
       padding: 10
+      padding_top: 6
       size: 8
-      margin_top: 10
+      margin_top: 2
       margin_bottom: 10
       font: "SpaceMono"
     table:
       auto_width: true
       margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 10
       header:
         size: 9
         styles: [ "bold" ]
@@ -198,7 +210,7 @@ work_package:
     html_table:
       auto_width: true
       margin_top: 4
-      margin_bottom: 4
+      margin_bottom: 10
       header:
         size: 9
         styles: [ "bold" ]

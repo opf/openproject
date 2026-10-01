@@ -217,7 +217,7 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
         subject { response }
 
-        it { is_expected.to be_unauthorized }
+        it { is_expected.to be_not_found }
       end
     end
   end
@@ -228,7 +228,7 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
       subject { response }
 
-      it { is_expected.to be_forbidden }
+      it { is_expected.to be_not_found }
     end
 
     context "when a commenter is logged in who has no access to the project" do
@@ -236,7 +236,7 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
       subject { response }
 
-      it { is_expected.to be_forbidden }
+      it { is_expected.to be_not_found }
     end
 
     context "when a user with full privileges is logged in who has no access to the project" do
@@ -244,7 +244,7 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
       subject { response }
 
-      it { is_expected.to be_forbidden }
+      it { is_expected.to be_not_found }
     end
   end
 
@@ -678,6 +678,87 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
         it_behaves_like "successful update action response"
       end
+    end
+  end
+
+  describe "#toggle_reaction" do
+    let(:reaction) { :thumbs_up }
+    let(:journal) { comment_by_user }
+
+    let(:internal_comment) do
+      create(:work_package_journal, user: commenter, notes: "Secret internal note",
+                                    journable: work_package, version: work_package.journals.last.version + 1,
+                                    internal: true)
+    end
+
+    let(:user_with_internal_comments_role) do
+      create(:project_role,
+             permissions: %i[view_work_packages add_work_package_comments
+                             view_internal_comments])
+    end
+    let(:user_with_internal_comments_access) do
+      create(:user, member_with_roles: { project => user_with_internal_comments_role })
+    end
+
+    before do
+      put :toggle_reaction,
+          params: { work_package_id: work_package.id, project_id: project.id,
+                    id: journal.id, reaction: },
+          format: :turbo_stream
+    end
+
+    it_behaves_like "does not grant access for anonymous users in all cases"
+    it_behaves_like "does not grant access for users with no access to the project"
+
+    context "when a viewer is logged in" do
+      let(:user) { viewer }
+
+      subject { response }
+
+      it { is_expected.to be_forbidden }
+    end
+
+    context "when a commenter is logged in" do
+      let(:user) { commenter }
+
+      subject { response }
+
+      it { is_expected.to be_successful }
+
+      context "when targeting an internal comment (IDOR attempt)",
+              with_ee: [:internal_comments] do
+        let(:project) { create(:project, enabled_internal_comments: true) }
+        let(:journal) { internal_comment }
+
+        it { is_expected.to be_not_found }
+      end
+    end
+
+    context "when a user with full privileges is logged in" do
+      let(:user) { user_with_full_privileges }
+
+      subject { response }
+
+      it { is_expected.to be_successful }
+
+      context "when targeting an internal comment without view_internal_comments",
+              with_ee: [:internal_comments] do
+        let(:project) { create(:project, enabled_internal_comments: true) }
+        let(:journal) { internal_comment }
+
+        it { is_expected.to be_not_found }
+      end
+    end
+
+    context "when a user with view_internal_comments reacts to an internal comment",
+            with_ee: [:internal_comments] do
+      let(:project) { create(:project, enabled_internal_comments: true) }
+      let(:user) { user_with_internal_comments_access }
+      let(:journal) { internal_comment }
+
+      subject { response }
+
+      it { is_expected.to be_successful }
     end
   end
 end

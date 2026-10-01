@@ -29,12 +29,11 @@
 class CompositeSeeder < Seeder
   def seed_data!
     ActiveRecord::Base.transaction do
-      seed_with(data_seeders)
+      print_status "Loading discovered seeders: #{discovered_seeders.map { seeder_name(it) }.join(', ')}"
+      seeders = data_seeders + discovered_seeders
+      seeders = sort_seeders_by_dependency(seeders)
 
-      if discovered_seeders.any?
-        print_status "Loading discovered seeders: #{discovered_seeders.map { seeder_name(it) }.join(', ')}"
-        seed_with(discovered_seeders)
-      end
+      seed_with(seeders)
     end
   end
 
@@ -50,7 +49,7 @@ class CompositeSeeder < Seeder
   end
 
   def data_seeder_classes
-    raise NotImplementedError, "has to be implemented by subclasses"
+    raise SubclassResponsibilityError
   end
 
   def discovered_seeders
@@ -71,7 +70,7 @@ class CompositeSeeder < Seeder
   end
 
   def namespace
-    raise NotImplementedError, "has to be implemented by subclasses"
+    raise SubclassResponsibilityError
   end
 
   ##
@@ -86,5 +85,23 @@ class CompositeSeeder < Seeder
 
   def instantiate(seeder_classes)
     seeder_classes.map { |seeder_class| seeder_class.new(seed_data) }
+  end
+
+  # Making sure to run seeders last that depend on other seeders. A seeder can implement a #dependencies method
+  # that returns an array of seeder classes that it depends on.
+  def sort_seeders_by_dependency(seeders)
+    sorted_seeders = []
+    while seeders.any?
+      selected = seeders.select do |s|
+        (s.respond_to?(:dependencies) ? s.dependencies : []).all? { |dep| sorted_seeders.map(&:class).include?(dep) }
+      end
+
+      raise "Could not resolve all seeder dependencies. Remaining seeders: #{seeders.map(&:class)}" if selected.empty?
+
+      sorted_seeders += selected
+      seeders -= selected
+    end
+
+    sorted_seeders
   end
 end

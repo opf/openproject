@@ -474,20 +474,7 @@ it:
               children:
                 item_0:
                   subject: Raccolta dei dati e delle informazioni specifici del progetto per il modello BIM
-                  description: |-
-                    ## Obiettivo
-
-                    *   Identificare la strategia informativa per il cliente (ad es. utilizzando domande in linguaggio semplice)
-                    *   Se fornito, analizzare i requisiti informativi del cliente per il modello BIM
-                    *   Definire una strategia di consegna delle informazioni in base alle esigenze dei clienti
-
-                    ## Descrizione
-
-                    *   Analizzare le esigenze e gli obiettivi dei clienti per l'utilizzo della metodologia BIM 
-                    *   I risultati di queste attività dovrebbero essere:
-                    *   I requisiti per il progetto
-                    *   Una strategia per la fase di consegna
-                    *   ...
+                  description: "## Obiettivo\n\n*   Identificare la strategia informativa per il cliente (ad es. utilizzando domande in linguaggio semplice)\n*   Se fornito, analizzare i requisiti informativi del cliente per il modello BIM\n*   Definire una strategia di consegna delle informazioni in base alle esigenze dei clienti\n\n## Descrizione\n\n*   Analizzare le esigenze e gli obiettivi dei clienti per l'utilizzo della metodologia BIM \n*   I risultati di queste attività dovrebbero essere:\n*   I requisiti per il progetto\n*   Una strategia per la fase di consegna\n*   ..."
                 item_1:
                   subject: Creazione del piano di esecuzione BIM
                   description: |-

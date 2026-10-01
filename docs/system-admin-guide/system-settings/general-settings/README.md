@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: General settings
-  priority: 990
+  priority: 900
 description: General system settings in OpenProject.
 keywords: general settings
 ---
@@ -38,17 +38,18 @@ You can configure general system settings in OpenProject. Under System settings 
 
 8. Set **feed content limit**.
 
-9. **Work packages and projects export limit** defines the maximum items a structured export for work packages and projects can contain (i.e., lines of CSV, XLS etc.). Increasing this value allows you to export more items at once, but at the cost of higher RAM consumption. If you're experiencing errors exporting with a high value, try reducing this number first.
+9. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
 
-10. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
+10. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
 
-11. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
-
-12. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
+11. **Optional: Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
 
 > [!NOTE]
 > If enabled, this will display a badge with your installation status in the [Information](https://qa.openproject-edge.com/admin/info) administration panel, and on the home page. It is displayed to administrators only.
 > The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](../../../system-admin-guide/information/#security-badge).
+
+> [!TIP]
+> The export limit for work packages and projects, previously configured here was moved to the [export settings](../exports/) with OpenProject 17.7.
 
 ![General system settings in OpenProject administration](openproject_system_admin_guide_general_settings.png)
 

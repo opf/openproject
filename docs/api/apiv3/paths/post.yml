@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: Post's identifier
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

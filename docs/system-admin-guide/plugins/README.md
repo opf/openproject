@@ -7,7 +7,7 @@ keywords: plugins
 ---
 # Plugins
 
-The OpenProject configurations contains a certain amount of plugins which are listed under *Administration* -> *Plugins*.
+The OpenProject configurations contains a certain amount of plugins which are listed under _Administration_ -> _Plugins_.
 
 We recommend to use the plugins as suggested in our deployment packages. You will get more detailed information (about current changes, author, etc.) if you follow the links.
 

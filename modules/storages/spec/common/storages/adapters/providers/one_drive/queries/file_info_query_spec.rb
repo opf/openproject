@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Queries
-          RSpec.describe FileInfoQuery, :webmock do
+          RSpec.describe FileInfoQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
 
@@ -87,7 +87,7 @@ module Storages
                   last_modified_by_name: "Eric Schubert",
                   last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                   permissions: nil,
-                  location: "/Folder/%C3%9Cml%C3%A6%C3%BBts"
+                  location: "/Folder/Ümlæûts"
                 )
               end
 
@@ -113,7 +113,7 @@ module Storages
                   last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                   permissions: nil,
                   location:
-                    "/Folder%20with%20spaces/%C3%9Cml%C3%A4uts%20%26%20spe%C2%A2i%C3%A6l%20characters/what_have_you_done.png"
+                    "/Folder with spaces/Ümläuts & spe¢iæl characters/what_have_you_done.png"
                 )
               end
 

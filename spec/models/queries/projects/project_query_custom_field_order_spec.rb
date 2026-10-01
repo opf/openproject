@@ -169,6 +169,22 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
     end
   end
 
+  context "for calculated_value format", with_ee: %i[calculated_values] do
+    include_examples "it sorts" do
+      let(:custom_field) { create(:project_custom_field, :calculated_value) }
+
+      let(:projects) do
+        [
+          project_without_cf_value,
+          project_with_cf_value("f"),   # boolean false sorts as 0
+          project_with_cf_value("0.5"), # among numeric values
+          project_with_cf_value("t"),   # boolean true sorts as 1
+          project_with_cf_value("16")
+        ]
+      end
+    end
+  end
+
   context "for list format" do
     let(:possible_values) { %w[100 3 20] }
     let(:id_by_value) { custom_field.possible_values.to_h { [it.value, it.id] } }

@@ -27,16 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_my_account), I18n.t("js.notifications.settings.title")) -%>
+<% html_title(t(:label_my_account), t("my_account.notifications_and_email.title")) -%>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { I18n.t("js.notifications.settings.title") }
-    header.with_breadcrumbs(
-      [{ href: my_account_path, text: t(:label_my_account) },
-       I18n.t("js.notifications.settings.title")]
-    )
-  end
-%>
+<%= render(My::Notifications::ShowPageHeaderComponent.new) %>
 
-<%= angular_component_tag "opce-notification-settings" %>
+<% if params[:tab] == "reminders" %>
+  <%= render(
+        My::Reminders::ShowPageComponent.new(
+          user: @user,
+          global_notification_setting: @global_notification_setting,
+          update_url: { action: "update_settings" },
+          update_workdays_url: { action: "update_workdays" },
+          update_email_alerts_url: { action: "update_email_alerts" }
+        )
+      ) %>
+<% else %>
+  <%= render(
+        My::Notifications::ShowPageComponent.new(
+          user: @user,
+          global_notification_setting: @global_notification_setting,
+          update_participating_url: { action: "update_participating" },
+          update_non_participating_url: { action: "update_non_participating" },
+          update_date_alerts_url: { action: "update_date_alerts" },
+          new_project_settings_url: new_my_project_settings_path,
+          edit_project_settings_url: ->(project_id) { edit_my_project_settings_path(project_id:) },
+          project_setting_url: ->(project_id) { my_project_setting_path(project_id:) }
+        )
+      ) %>
+<% end %>

@@ -88,6 +88,13 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Rotate the development log so the disk is never filled
+  if ENV["RAILS_LOG_TO_STDOUT"].blank?
+    config.logger = ActiveSupport::TaggedLogging.new(
+      ActiveSupport::Logger.new(Rails.root.join("log/development.log"), 3, 150.megabytes)
+    )
+  end
+
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 

@@ -48,7 +48,7 @@ RSpec.describe WorkPackages::ProgressController do
   # Gets the html content of the template of the first turbo-stream with the
   # given action.
   def turbo_stream_template(action:)
-    Nokogiri("<response>#{response.body}</response>").css("turbo-stream[action=#{action}] template").first.inner_html
+    assert_select("turbo-stream[action=#{action}] template").first.inner_html
   end
 
   describe "GET /work_packages/progress/new" do

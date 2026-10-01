@@ -1,0 +1,185 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Tests that seeding works in all available locales.
+#
+# Usage:
+#   script/i18n/test_seed_all_locales              # Seed all locales sequentially
+#   script/i18n/test_seed_all_locales --list       # Output available locales as JSON
+#   script/i18n/test_seed_all_locales zh-CN        # Seed a single locale
+
+require "pathname"
+require "json"
+
+class SeedAllLocales
+  class << self
+    def call(args)
+      case args.first
+      when "-h", "--help"
+        print_usage
+      when "--list"
+        puts JSON.generate(available_locales)
+      when nil
+        seed_all_locales
+      else
+        locale = args.first
+        validate_locale!(locale)
+        seed_one_locale(locale)
+      end
+    end
+
+    private
+
+    def print_usage
+      puts <<~USAGE
+        Usage: #{$0} [OPTIONS] [LOCALE]
+
+        Tests that seeding works in all available locales.
+        Uses the current development database.
+
+        Options:
+          -h, --help    Show this help message
+          --list        Output available locales as JSON array
+
+        Arguments:
+          LOCALE        Seed a single locale (e.g. zh-CN, de, en)
+
+        Examples:
+          #{$0}              # Seed all locales sequentially
+          #{$0} --list        # Output available locales as JSON
+          #{$0} zh-CN         # Seed a single locale
+      USAGE
+    end
+
+    def validate_locale!(locale)
+      return if available_locales.include?(locale)
+
+      warn "Error: unknown locale '#{locale}'"
+      warn "Available locales: #{available_locales.join(', ')}"
+      exit 1
+    end
+
+    def available_locales
+      @available_locales ||=
+        rails_root.glob("config/locales/**/*.yml")
+          .map { |f| f.basename.to_s.split(".", 2).first }
+          .reject { |l| l.start_with?("js-") || l == "lol" }
+          .uniq
+          .sort
+    end
+
+    def rails_root
+      @rails_root ||=
+        Pathname.new(__dir__)
+          .ascend
+          .find { |dir| dir.join("Gemfile").exist? }
+          .tap { |dir| raise "Unable to find Rails root directory (looking up from #{__dir__})" if dir.nil? }
+    end
+
+    # Runs all locales sequentially and reports all failures at the end.
+    def seed_all_locales
+      locales = available_locales
+      puts "Testing seeding in #{locales.count} locales"
+      puts "Locales: #{locales.join(', ')}"
+      puts
+
+      unless setup_schema
+        puts "ERROR: Database schema setup failed. Cannot continue."
+        exit 1
+      end
+
+      results = {}
+      locales.each_with_index do |locale, index|
+        puts
+        puts "=== [#{index + 1}/#{locales.count}] Seeding locale: #{locale} ==="
+        success = reset_and_seed(locale)
+        results[locale] = success
+        status = success ? "OK" : "FAILED"
+        puts "--- #{locale}: #{status} ---"
+      end
+
+      print_summary(results)
+    end
+
+    # Runs a single locale and exits with appropriate status code.
+    def seed_one_locale(locale)
+      puts "=== Seeding locale: #{locale} ==="
+
+      terminate_db_connections
+      unless run("bin/rails", "db:drop", "db:create", "db:migrate")
+        puts "--- #{locale}: FAILED (database setup) ---"
+        exit 1
+      end
+
+      unless run("bin/rails", "db:seed", env: { "OPENPROJECT_SEED_LOCALE" => locale })
+        puts "--- #{locale}: FAILED (seeding) ---"
+        exit 1
+      end
+
+      puts "--- #{locale}: OK ---"
+    end
+
+    def setup_schema
+      puts "=== Setting up database schema ==="
+      terminate_db_connections
+      run("bin/rails", "db:drop", "db:create", "db:migrate", "db:schema:dump")
+    end
+
+    def reset_and_seed(locale)
+      terminate_db_connections
+      run("bin/rails", "db:drop", "db:create", "db:schema:load") &&
+        run("bin/rails", "db:seed", env: { "OPENPROJECT_SEED_LOCALE" => locale })
+    end
+
+    def terminate_db_connections
+      db_name = database_name
+      return unless db_name
+
+      run("psql", "-d", "postgres", "-c",
+          "SELECT pg_terminate_backend(pid) FROM pg_stat_activity " \
+          "WHERE datname = '#{db_name}' AND pid <> pg_backend_pid()")
+    end
+
+    def database_name
+      @database_name ||= begin
+        require "uri"
+        db_url = ENV.fetch("DATABASE_URL", nil)
+        if db_url
+          URI.parse(db_url).path.delete_prefix("/")
+        else
+          # Fall back to asking Rails; use .split.last to ignore any
+          # extra output from initializers (e.g. REPL commands messages)
+          `bin/rails runner "print ActiveRecord::Base.connection_db_config.database"`.split.last
+        end
+      end
+    end
+
+    def run(*cmd, env: {})
+      env_str = env.map { |k, v| "#{k}=#{v}" }.join(" ")
+      puts "  $ #{env_str} #{cmd.join(' ')}".strip
+      system(env, *cmd, chdir: rails_root.to_s)
+    end
+
+    def print_summary(results)
+      failed = results.reject { |_, success| success }
+      succeeded = results.select { |_, success| success }
+
+      puts <<~SUMMARY
+        ================================
+        SUMMARY: #{succeeded.count} succeeded, #{failed.count} failed out of #{results.count} locales
+        ================================
+      SUMMARY
+
+      if failed.any?
+        puts <<~FAILED
+
+          Failed locales:
+          #{failed.keys.map { |locale| "  - #{locale}" }.join("\n")}
+        FAILED
+        exit 1
+      end
+    end
+  end
+end
+
+SeedAllLocales.call(ARGV)

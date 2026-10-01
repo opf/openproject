@@ -183,24 +183,6 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
-  context "with admin only custom field" do
-    let(:values) { [nil, "1"] }
-
-    before { custom_field.admin_only = true }
-
-    context "as a non admin user" do
-      current_user { build_stubbed(:user) }
-
-      it { expect(rendered).to be_nil }
-    end
-
-    context "as an admin" do
-      current_user { build_stubbed(:admin) }
-
-      it { expect(rendered).to be_a(String) }
-    end
-  end
-
   context "for a multi-select custom field" do
     let(:custom_field) { build_stubbed(:user_wp_custom_field) }
 
@@ -503,6 +485,71 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
         end
 
         it { expect(rendered).to be_html_eql(expected) }
+      end
+    end
+  end
+
+  context "with a Proc-based :view_permission option" do
+    let(:values) { [nil, "1"] }
+
+    context "when the proc, receiving the resolved custom field, allows" do
+      let(:options) do
+        expected_custom_field = custom_field
+        { view_permission: ->(field) { field == expected_custom_field } }
+      end
+
+      let(:expected) do
+        I18n.t(:text_journal_set_to,
+               label: custom_field.name,
+               value: format_value(values.last, custom_field))
+      end
+
+      it "renders normally" do
+        expect(rendered).to eq(expected)
+      end
+    end
+
+    context "when the proc, receiving the resolved custom field, denies" do
+      let(:options) do
+        expected_custom_field = custom_field
+        { view_permission: ->(field) { field != expected_custom_field } }
+      end
+
+      it "renders the permission denied message" do
+        expect(rendered).to eq("_#{I18n.t(:text_journal_permission_denied)}_")
+      end
+    end
+  end
+
+  context "with a named (Symbol) :view_permission option" do
+    let(:values) { [nil, "1"] }
+    let(:options) { { view_permission: :view_project } }
+    let(:project) { build_stubbed(:project) }
+    let(:journal) { instance_double(Journal, id:, project:) }
+    let(:expected_journal_set_to_message) do
+      I18n.t(:text_journal_set_to,
+             label: custom_field.name,
+             value: format_value(values.last, custom_field))
+    end
+
+    context "when the current user has the permission in the project" do
+      before do
+        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
+      end
+
+      it "renders normally" do
+        expect(rendered).to eq(expected_journal_set_to_message)
+      end
+    end
+
+    context "when the current user lacks the permission in the project" do
+      before do
+        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
+      end
+
+      it "renders the permission denied message" do
+        expect(rendered).to include(I18n.t(:text_journal_permission_denied))
+        expect(rendered).not_to include(expected_journal_set_to_message)
       end
     end
   end

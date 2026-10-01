@@ -1,6 +1,7 @@
+---
 es:
   js:
     work_packages:
-      label_gantt_chart_plural: "Diagramas de Gantt"
       default_queries:
-        milestones: 'Hitos'
+        milestones: Hitos
+      label_gantt_chart_plural: Diagramas de Gantt

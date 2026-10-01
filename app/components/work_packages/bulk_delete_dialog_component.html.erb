@@ -1,0 +1,83 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<% if has_descendants? %>
+  <%= render(Primer::Alpha::Dialog.new(id:, title:, size: :medium_portrait)) do |dialog| %>
+    <% dialog.with_header(variant: :large) %>
+    <%= primer_form_with(url: confirm_delete_path, method: :post) do %>
+      <%= render(Primer::Alpha::Dialog::Body.new) do %>
+        <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { description } %>
+        <% if multiple_projects? %>
+          <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :info)) do %>
+            <%= helpers.t("work_packages.bulk_delete_dialog.cross_project_warning_html", projects: link_to_projects(projects)) %>
+          <% end %>
+        <% end %>
+        <%= render_descendants_choice %>
+      <% end %>
+      <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+        <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": id })) { t(:button_cancel) } %>
+        <%= render(Primer::Beta::Button.new(scheme: :danger, type: :submit)) { t(:button_delete) } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(
+        Primer::OpenProject::DangerDialog.new(
+          id:,
+          title:,
+          form_arguments: { action: form_action, method: :delete, data: { turbo: false } },
+          size: :medium_portrait
+        )
+      ) do |dialog| %>
+    <% dialog.with_confirmation_message do |message|
+         message.with_heading(tag: :h2) { heading }
+         message.with_description_content(description)
+       end %>
+    <% dialog.with_additional_details(display: :block) do %>
+      <% if multiple_projects? %>
+        <%= render(Primer::Alpha::Banner.new(mb: 2, icon: :info)) do %>
+          <%= helpers.t("work_packages.bulk_delete_dialog.cross_project_warning_html", projects: link_to_projects(projects)) %>
+        <% end %>
+      <% end %>
+      <%= render(OpPrimer::InsetBoxComponent.new) do %>
+        <% work_packages.each do |wp| %>
+          <%= render WorkPackages::InfoLineComponent.new(
+                work_package: wp,
+                show_subject: true,
+                show_status: false,
+                show_project: multiple_projects?
+              ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% dialog.with_confirmation_check_box_content(confirmation_checkbox_text) %>
+  <% end %>
+<% end %>

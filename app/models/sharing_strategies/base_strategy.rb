@@ -40,36 +40,36 @@ module SharingStrategies
 
     def available_roles
       # format: [{ label: "Role name", value: 42, description: "Role description", default: true }]
-      raise NotImplementedError, "Override in a subclass and return an array of roles that should be displayed"
+      raise SubclassResponsibilityError, "Override in a subclass and return an array of roles that should be displayed"
     end
 
     def viewable?
-      raise NotImplementedError,
+      raise SubclassResponsibilityError,
             "Override in a subclass and return true if the current user can view who the entity is shared with"
     end
 
     def manageable?
-      raise NotImplementedError, "Override in a subclass and return true if the current user can manage sharing"
+      raise SubclassResponsibilityError, "Override in a subclass and return true if the current user can manage sharing"
     end
 
     def create_contract_class
-      raise NotImplementedError, "Override in a subclass and return the contract class for creating a share"
+      raise SubclassResponsibilityError, "Override in a subclass and return the contract class for creating a share"
     end
 
     def update_contract_class
-      raise NotImplementedError, "Override in a subclass and return the contract class for updating a share"
+      raise SubclassResponsibilityError, "Override in a subclass and return the contract class for updating a share"
     end
 
     def delete_contract_class
-      raise NotImplementedError, "Override in a subclass and return the contract class for deleting a share"
+      raise SubclassResponsibilityError, "Override in a subclass and return the contract class for deleting a share"
     end
 
     def share_description(share)
-      raise NotImplementedError, "Override in a subclass and return a description for the shared user"
+      raise SubclassResponsibilityError, "Override in a subclass and return a description for the shared user"
     end
 
     def title
-      raise NotImplementedError, "Override in a subclass and return a title for the sharing dialog"
+      raise SubclassResponsibilityError, "Override in a subclass and return a title for the sharing dialog"
     end
 
     def enterprise_feature

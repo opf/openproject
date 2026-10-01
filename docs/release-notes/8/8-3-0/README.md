@@ -20,7 +20,7 @@ newest version.
 
 OpenProject 8.3. introduces a grid-style dashboard that is now being
 rolled out to
-the *My page*. Additional pages will be converted to this grid in
+the _My page_. Additional pages will be converted to this grid in
 the future, and additional common widgets will be
 created.
 

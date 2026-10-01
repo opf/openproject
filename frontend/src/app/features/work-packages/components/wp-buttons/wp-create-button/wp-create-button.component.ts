@@ -21,31 +21,37 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService, TransitionService } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { take } from 'rxjs/operators';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-create-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-create-button.html',
   standalone: false,
 })
-export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input() stateName$:Observable<string>;
+export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit {
+  readonly currentUser = inject(CurrentUserService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly authorisationService = inject(AuthorisationService);
+  readonly urlParams = inject(UrlParamsService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @Input() routedFromAngular = true;
+  /** Whether this button is mounted on the full work package view rather than a list toolbar. */
+  @Input() fullView = false;
 
   allowed:boolean;
 
@@ -55,26 +61,12 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
   types:any;
 
-  transitionUnregisterFn:Function;
-
   text = {
     title: this.I18n.t('js.work_packages.create.title'),
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
     explanation: this.I18n.t('js.label_create_work_package'),
   };
-
-  constructor(
-    readonly $state:StateService,
-    readonly currentUser:CurrentUserService,
-    readonly currentProject:CurrentProjectService,
-    readonly authorisationService:AuthorisationService,
-    readonly transition:TransitionService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this.projectIdentifier = this.currentProject.identifier;
@@ -90,16 +82,13 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
         this.updateDisabledState();
       });
 
-    this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-    this.transitionUnregisterFn();
+    this.urlParams.changed$
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.updateDisabledState());
   }
 
   private updateDisabledState() {
-    this.disabled = !this.allowed || this.$state.includes('**.new');
+    this.disabled = !this.allowed || this.urlParams.isCreatePaneOpen();
     this.cdRef.detectChanges();
   }
 }

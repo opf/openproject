@@ -1,0 +1,15 @@
+# Schema: CustomFieldLinkedProperties
+---
+type: object
+patternProperties:
+  "^customField\\d+$":
+    allOf:
+      - $ref: "./link.yml"
+      - description: |-
+          A custom field value that belongs to a custom field of a reference type:
+          
+          - Hierarchy
+          - List
+          - User
+          - Version
+          - Weighted item list

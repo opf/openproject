@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<md:EntitiesDescriptor
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui"
+    xmlns:mdrpi="urn:oasis:names:tc:SAML:metadata:rpi"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute"
+    Name="test-federation">
+  <md:EntityDescriptor entityID="https://sp.state-university.edu/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">State University Portal</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Student and staff portal of State University</mdui:Description>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDKzCCAhOgAwIBAgIUNKP1WT7mAMRllZ3z8EDR2to1VNYwDQYJKoZIhvcNAQELBQAwJTEjMCEG
+A1UEAwwaaWRwLmV4YW1wbGUtdW5pdmVyc2l0eS5lZHUwHhcNMjYwNjAzMDg1NDI3WhcNMzYwNTMx
+MDg1NDI3WjAlMSMwIQYDVQQDDBppZHAuZXhhbXBsZS11bml2ZXJzaXR5LmVkdTCCASIwDQYJKoZI
+hvcNAQEBBQADggEPADCCAQoCggEBAK+dgrVLuW+JCM2ST/SfA1J8XX3aCgtuU18Z1Xb8PcmMjQCJ
+Ow0PDIApqp/JJAyt7KDiv8cgJgAmPMGbVQpcmMcOInBu+AvTsndagVqV7V3ePLwN/WOm+NPVoB2g
+EEYGhF32gwZSQ0SHtJphxy4KoJv8CspVWRTviFU/pi1t8HsWJBLW6U6Jb7eLySM/G//6AFWFULdH
+GImkAk/9BfT7iCINYHsOW0MO237UKw90qShxtFCB/fqPRC6eldC2kFkod9eIw9x7cMuH74QGVsCd
+XAv+HUUtd6ov8Vn0xwaDiDxneXgKEBMwdVl97B+s9egUuif2TuMSYF09Qx7KREyayC0CAwEAAaNT
+MFEwHQYDVR0OBBYEFHh0ON9CYmfpcEQYlxixtd6kkmHVMB8GA1UdIwQYMBaAFHh0ON9CYmfpcEQY
+lxixtd6kkmHVMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBABSLwFVGf8L9+alT
+RU3n3D+vyUOvb5zb3hMER3WN0p323nQyeZ7WVSfIy3vsD2PcdsDinYpM9NV9P5zU+11PgAMRwqGv
+UnQLbklJ3d/5ciwdCVPUk+/c8pVwOnrCa5D6m1C8Or4Pnoxihz7sdmGoaGXdlrDhcwzosKx/AcT1
+aJNor+3SzkXJLzNfrYypBeUS8XzlzH3lTY+J1aYrfzXNK06XPCMlckKVL4nFVe0yDrSUk9DiLojy
+b90TaOSCqAGzoecoV8MOCxef6EvFgHmPpq8oMycWal4Ud2zdugUOtnNWxUVvWS15L7O7VG1eley/z
+UrWMUi2pWJ1Gk1NAFs8/0A=</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://sp.state-university.edu/Shibboleth.sso/SAML2/POST"
+          index="1"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">State University</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">State University</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.state-university.edu</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Alex</md:GivenName>
+      <md:SurName>Smith</md:SurName>
+      <md:EmailAddress>mailto:asmith@state-university.edu</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <md:EntityDescriptor entityID="https://sp.tech-institute.ac.uk/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">Tech Institute Library</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Electronic resources portal for Tech Institute staff</mdui:Description>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDKzCCAhOgAwIBAgIUNKP1WT7mAMRllZ3z8EDR2to1VNYwDQYJKoZIhvcNAQELBQAwJTEjMCEG
+A1UEAwwaaWRwLmV4YW1wbGUtdW5pdmVyc2l0eS5lZHUwHhcNMjYwNjAzMDg1NDI3WhcNMzYwNTMx
+MDg1NDI3WjAlMSMwIQYDVQQDDBppZHAuZXhhbXBsZS11bml2ZXJzaXR5LmVkdTCCASIwDQYJKoZI
+hvcNAQEBBQADggEPADCCAQoCggEBAK+dgrVLuW+JCM2ST/SfA1J8XX3aCgtuU18Z1Xb8PcmMjQCJ
+Ow0PDIApqp/JJAyt7KDiv8cgJgAmPMGbVQpcmMcOInBu+AvTsndagVqV7V3ePLwN/WOm+NPVoB2g
+EEYGhF32gwZSQ0SHtJphxy4KoJv8CspVWRTviFU/pi1t8HsWJBLW6U6Jb7eLySM/G//6AFWFULdH
+GImkAk/9BfT7iCINYHsOW0MO237UKw90qShxtFCB/fqPRC6eldC2kFkod9eIw9x7cMuH74QGVsCd
+XAv+HUUtd6ov8Vn0xwaDiDxneXgKEBMwdVl97B+s9egUuif2TuMSYF09Qx7KREyayC0CAwEAAaNT
+MFEwHQYDVR0OBBYEFHh0ON9CYmfpcEQYlxixtd6kkmHVMB8GA1UdIwQYMBaAFHh0ON9CYmfpcEQY
+lxixtd6kkmHVMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBABSLwFVGf8L9+alT
+RU3n3D+vyUOvb5zb3hMER3WN0p323nQyeZ7WVSfIy3vsD2PcdsDinYpM9NV9P5zU+11PgAMRwqGv
+UnQLbklJ3d/5ciwdCVPUk+/c8pVwOnrCa5D6m1C8Or4Pnoxihz7sdmGoaGXdlrDhcwzosKx/AcT1
+aJNor+3SzkXJLzNfrYypBeUS8XzlzH3lTY+J1aYrfzXNK06XPCMlckKVL4nFVe0yDrSUk9DiLojy
+b90TaOSCqAGzoecoV8MOCxef6EvFgHmPpq8oMycWal4Ud2zdugUOtnNWxUVvWS15L7O7VG1eley/z
+UrWMUi2pWJ1Gk1NAFs8/0A=</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://sp.tech-institute.ac.uk/Shibboleth.sso/SAML2/POST"
+          index="1"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">Tech Institute</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">Tech Institute</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.tech-institute.ac.uk</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Jamie</md:GivenName>
+      <md:SurName>Taylor</md:SurName>
+      <md:EmailAddress>mailto:jtaylor@tech-institute.ac.uk</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <md:EntityDescriptor entityID="https://sp.research-center.de/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">Research Center Data Portal</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Scientific data access portal</mdui:Description>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDKzCCAhOgAwIBAgIUNKP1WT7mAMRllZ3z8EDR2to1VNYwDQYJKoZIhvcNAQELBQAwJTEjMCEG
+A1UEAwwaaWRwLmV4YW1wbGUtdW5pdmVyc2l0eS5lZHUwHhcNMjYwNjAzMDg1NDI3WhcNMzYwNTMx
+MDg1NDI3WjAlMSMwIQYDVQQDDBppZHAuZXhhbXBsZS11bml2ZXJzaXR5LmVkdTCCASIwDQYJKoZI
+hvcNAQEBBQADggEPADCCAQoCggEBAK+dgrVLuW+JCM2ST/SfA1J8XX3aCgtuU18Z1Xb8PcmMjQCJ
+Ow0PDIApqp/JJAyt7KDiv8cgJgAmPMGbVQpcmMcOInBu+AvTsndagVqV7V3ePLwN/WOm+NPVoB2g
+EEYGhF32gwZSQ0SHtJphxy4KoJv8CspVWRTviFU/pi1t8HsWJBLW6U6Jb7eLySM/G//6AFWFULdH
+GImkAk/9BfT7iCINYHsOW0MO237UKw90qShxtFCB/fqPRC6eldC2kFkod9eIw9x7cMuH74QGVsCd
+XAv+HUUtd6ov8Vn0xwaDiDxneXgKEBMwdVl97B+s9egUuif2TuMSYF09Qx7KREyayC0CAwEAAaNT
+MFEwHQYDVR0OBBYEFHh0ON9CYmfpcEQYlxixtd6kkmHVMB8GA1UdIwQYMBaAFHh0ON9CYmfpcEQY
+lxixtd6kkmHVMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBABSLwFVGf8L9+alT
+RU3n3D+vyUOvb5zb3hMER3WN0p323nQyeZ7WVSfIy3vsD2PcdsDinYpM9NV9P5zU+11PgAMRwqGv
+UnQLbklJ3d/5ciwdCVPUk+/c8pVwOnrCa5D6m1C8Or4Pnoxihz7sdmGoaGXdlrDhcwzosKx/AcT1
+aJNor+3SzkXJLzNfrYypBeUS8XzlzH3lTY+J1aYrfzXNK06XPCMlckKVL4nFVe0yDrSUk9DiLojy
+b90TaOSCqAGzoecoV8MOCxef6EvFgHmPpq8oMycWal4Ud2zdugUOtnNWxUVvWS15L7O7VG1eley/z
+UrWMUi2pWJ1Gk1NAFs8/0A=</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://sp.research-center.de/Shibboleth.sso/SAML2/POST"
+          index="1"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">Research Center</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">Research Center</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.research-center.de</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Maria</md:GivenName>
+      <md:SurName>Weber</md:SurName>
+      <md:EmailAddress>mailto:mweber@research-center.de</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <!-- ==================== IdP entities ==================== -->
+
+  <md:EntityDescriptor entityID="https://idp.state-university.edu/idp/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">State University</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Identity provider of State University</mdui:Description>
+          <mdui:InformationURL xml:lang="en">https://www.state-university.edu</mdui:InformationURL>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDJzCCAg+gAwIBAgIULPAnn8haVhQcUbxjrZLjtbFX5RkwDQYJKoZIhvcNAQELBQAwIzEhMB8G
+A1UEAwwYaWRwLnN0YXRlLXVuaXZlcnNpdHkuZWR1MB4XDTI2MDYwMzA4NTQ0OVoXDTM2MDUzMTA4
+NTQ0OVowIzEhMB8GA1UEAwwYaWRwLnN0YXRlLXVuaXZlcnNpdHkuZWR1MIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAwo21vefLRM/2iK6LO4Sbl++0h+zrLuSSusY/0Wu3QjPAGklaqzQ0j
+Dc2jbY5bXei4ebWuGxT5PCqPOFIaTQM8uJ5q7uVAo06ab6/uSfwjDJTNE7jokhMeilNh4GuoWTsb
+CyGMDUbSdfTNTDCC/ELoWlTCErce+TuIZulG8Jzmmm3AKTmMjOW+Ch3HMLoKCmEyniKs7m0eB7Az
+298bFCFKp0dpqkfre5U5WTYeFe39RBbZfDPl0bN0UxF1T7ITOf6tkryXPJXfQAnXDiCnB22A936M
+5ou1XFTozkE8RBbgOjq34zBbM0V69rPnhh0yqFDIVUVtULcgyJQEIB5qpigDQIDAQABo1MwUTAdBg
+NVHQ4EFgQUQ4UIhO5Q3RmegmL27mKP0j5QJQ4wHwYDVR0jBBgwFoAUQ4UIhO5Q3RmegmL27mKP0j
+5QJQ4wDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEALUR5WnK0mbu2lPO6CXd7LTs
+IcRdEq/qXRQC+KqofuS5dyZ0N2ip0zD50tG6y8YjWQHERQ89+ZEKv5VmD9+k4PnZpNfVjfmyeivq
+bWohIn/0iNAUNmY/bam0qbz8SCiLPLVrKvu9BAGWcoV7UX9zf+qe+NNT8z1bFVR3+WcnnO/AEWyu
+UVab0ud6HYp5xc36Jj3e98T50h5OaXpQpwfyuM7/p4WX3Ri5FRa0tNxlAy685cuL6B5zrbUOoc+Q
+sc3FqNtGFM/TExrW9VY/kRQVDpuhqv/eUO7RfQJmv1FBhP+XMdXUudJ6aNFswI0P1UO/H9YGm93U
+CXnNW8NGo/MwFSg==</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.state-university.edu/idp/profile/SAML2/Redirect/SLO"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.state-university.edu/idp/profile/SAML2/Redirect/SSO"/>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://idp.state-university.edu/idp/profile/SAML2/POST/SSO"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">State University</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">State University</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.state-university.edu</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Alex</md:GivenName>
+      <md:SurName>Smith</md:SurName>
+      <md:EmailAddress>mailto:asmith@state-university.edu</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <md:EntityDescriptor entityID="https://idp.tech-institute.ac.uk/idp/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">Tech Institute</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Identity provider of Tech Institute</mdui:Description>
+          <mdui:InformationURL xml:lang="en">https://www.tech-institute.ac.uk</mdui:InformationURL>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDJzCCAg+gAwIBAgIUFozhkEI22FNzfgPfPg6tXhOCsLMwDQYJKoZIhvcNAQELBQAwIzEhMB8G
+A1UEAwwYaWRwLnRlY2gtaW5zdGl0dXRlLmFjLnVrMB4XDTI2MDYwMzA4NTQ0OVoXDTM2MDUzMTA4
+NTQ0OVowIzEhMB8GA1UEAwwYaWRwLnRlY2gtaW5zdGl0dXRlLmFjLnVrMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAodVdylnMKJ5d3p7vZqX4za/12IJVI7/Xsyi7S1UxfB52vktX9EZo
+IxqO9GLMe9lIrHFOB8jU1I7BdYp8r0E4mo44YYikncOMKNaOuHF5J1WaJOUZd807jriGO9agZor9
+AmABRpl3w/WYVL9OZPj1mHngQPWaVcosM3OkxXwdULPdcxfe3VATHcNWi7uoLZsB0hpBwua47ldS
+wThmZkVNjdjlD0BRiUCSynFtSY2vGxHz+D/aBvYhrGlBX4uTPCOxqybyC3dfadD9ZlvLfY0d1Yic
+ZvNEybP8bPcu8xUwnsyL6bBsdat7/XXbawOsxEXxSR9wcv42ZfgKmKyTyUdpLQIDAQABo1MwUTAd
+BgNVHQ4EFgQUDVmR5rn9fYj2XkwffcZAwCWKvfowHwYDVR0jBBgwFoAUDVmR5rn9fYj2XkwffcZA
+wCWKvfowDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAnVbAE4SsEYhodobnZEWGu
+z/747XH/m7DM9KM4lvKq6QOd/C/aJ7Lp9nwfl1gXIHdwdYozlOpak2+zfVFFbepvDOldldpScJzZ
+sC+80PTta+h91OTug6Q+viRJV/OzQPozLJ6jz5Tox8dYn7T2XIfmM49jX+tAR861QopVaHLmZ3Lg
+EHzsk+aIV6I6yyJfBmpy4+tO5OhKv3UHLCHmo7NPVhiX+pxe3+XCghdRtKMFCB9gwqJxYoybHb+a
+NrbgZmhp6hjzd9tsFQDMSdkCSTHWCaqua5Hi4EfMIR75SKxUZvrCkTe4FOa+rG5bq26vdeKBZUCs
+sd+OCMN3dWtH446Lf7Gw==</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.tech-institute.ac.uk/idp/profile/SAML2/Redirect/SLO"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.tech-institute.ac.uk/idp/profile/SAML2/Redirect/SSO"/>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://idp.tech-institute.ac.uk/idp/profile/SAML2/POST/SSO"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">Tech Institute</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">Tech Institute</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.tech-institute.ac.uk</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Jamie</md:GivenName>
+      <md:SurName>Taylor</md:SurName>
+      <md:EmailAddress>mailto:jtaylor@tech-institute.ac.uk</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <md:EntityDescriptor entityID="https://idp.research-center.de/idp/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">Research Center</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Identity provider of Research Center</mdui:Description>
+          <mdui:InformationURL xml:lang="en">https://www.research-center.de</mdui:InformationURL>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDIzCCAgugAwIBAgIUcxlF9USQY3nQvvO8uqXJL7C8/XgwDQYJKoZIhvcNAQELBQAwITEfMB0G
+A1UEAwwWaWRwLnJlc2VhcmNoLWNlbnRlci5kZTAeFw0yNjA2MDMwODU0NDlaFw0zNjA1MzEwODU0
+NDlaMCExHzAdBgNVBAMMFmlkcC5yZXNlYXJjaC1jZW50ZXIuZGUwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQDPxGQuYQjgdNedu3dgelQQ5t+1SxM4an4xQav4rXqG2ZtmEmDS3WDfy7Kc
+RKtSfW/6+zWmNUd6wQQnc+3VgnmOb+qRTSh9XCD3WFSrr/hG0HfrmzKtjo4nYK5gWLdXQwgwznu
+R40IOxsKEEtkp2UgkFLMAtGjJ15Kyu6J3eV8MIpB468G+mXXXhbLw7y8uB+cyCTWGsG1aa1ahmZS
+Rz7K9H1TafUSuarUis/+oXZO9+YJHNEi9iU4U6h9iTlqPkly146FefQlHsBys7T0Es46aIqiaCMC
+ygCDxhKK4Rwf0E67I9QMFbTW1y8LF5hKs42NBzcf46iAkwYgPzisbqZtLAgMBAAGjUzBRMB0GA1Ud
+DgQWBBSfqZUJOP+vllNKi2xk3Lbo8St4sDAfBgNVHSMEGDAWgBSfqZUJOP+vllNKi2xk3Lbo8St4
+sDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBAJPRIMKcogeICnsF2pfca25Gln
+5w13G95as+du3wx5ZVqQLH+JYLKcM6Uq7FVvWIrBwbOjCa9FEyUs1lATOtTkCZ3q05X/sw+sGMXI
+r8H/vkDhOPkwIlKRaSRJHCBGN3xk8lUxev6fwwlU3Ht0fQEiOAWlc9N231wDYFDIAXmJbN/tG3/l
+OfJUT1MXHdWe7QuJzmwLQ9OXogfdV2SskSQSqH9MKYcQ+qADc1lf0J0Or0GKSLvjz8YPLkwhXLGr
+NhM+VyjD50hrg0DkUtco/8RTnkC3FkAvI/6WjpSiejpjW8Muh3rRAzxnfA9FQV0S0YXmlb/isM/l
+Z6NiIkQ/8eB</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.research-center.de/idp/profile/SAML2/Redirect/SLO"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.research-center.de/idp/profile/SAML2/Redirect/SSO"/>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://idp.research-center.de/idp/profile/SAML2/POST/SSO"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">Research Center</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">Research Center</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.research-center.de</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Maria</md:GivenName>
+      <md:SurName>Weber</md:SurName>
+      <md:EmailAddress>mailto:mweber@research-center.de</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <md:EntityDescriptor entityID="https://idp.national-lab.fr/idp/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">National Laboratory</mdui:DisplayName>
+          <mdui:DisplayName xml:lang="fr">Laboratoire National</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Identity provider of National Laboratory</mdui:Description>
+          <mdui:InformationURL xml:lang="en">https://www.national-lab.fr</mdui:InformationURL>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDHTCCAgWgAwIBAgIUUl2dXqMr4hJ6wf4fj/GOQlZAcpEwDQYJKoZIhvcNAQELBQAwHjEcMBoG
+A1UEAwwTaWRwLm5hdGlvbmFsLWxhYi5mcjAeFw0yNjA2MDMwODU0NDlaFw0zNjA1MzEwODU0NDla
+MB4xHDAaBgNVBAMME2lkcC5uYXRpb25hbC1sYWIuZnIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+ggEKAoIBAQDAlY882lrAlhuadc5xMT6U8ELf5zH7adGzGjtP76Kx9SLYewDASPXY7nXUx3aM2kqs
+o+MWX0iaVpnWYvV+LMFyH6Mg/12pZhRx8S/cQysYEV3loWVSi3lESkOK9ELR2BeWOrYyZtk3Pz3q
+AJ/BoSFegxe7OxC866m20LMKG9sDBB88i9svxmxXYxSR/HkAEfarSruk37aLOD++Iud+FBfJvRJR
+174MZj6gecIsGcXy2Zn41WLgjGl3/sWUK27SWoa9Up5vDTIeQ8lZ5ySbRT58M+eHCOxSVf/gFf7s
+49+v5i/9iDKDMo5Hy+MDbdovUaDo6KQmiPg6cfzqT52AT39lAgMBAAGjUzBRMB0GA1UdDgQWBBTj
+Gvmk9xkzVe57Cte2KOEnf3k2hzAfBgNVHSMEGDAWgBTjGvmk9xkzVe57Cte2KOEnf3k2hzAPBgNV
+HRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQAMvHuuB2KGKl0n7d0MtJ2/fzKtJmJMMja2
+o1Mqj/rg2Nkq31wrFdXqayxypYDSXQgLoABkWYyZkWIhoWOnml2J9bUDJ8uYLulp4VbNZnAylAS5
+9hu/35ZEc9hmUrm9Q8JaevKdULneiIiR2R269oqf0QEJgF26ZzEEodH0oj7ZNOOuF2OXy+8R893Y
+DSnLHCEtW6uZWjEQTsfbGVcppvYYho6/K0/saO0IPb1/LZ8z1uB7CWbsn5KRnqR0AvT2+R5xlIxE
+k7uWFpPOkdfgfnJ9UbfN2tgDyiieyME3PZZ5sjGWs/StRfnt/z9FeB00T3chiF4ldtuIysmUFDLu
+3fm5</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.national-lab.fr/idp/profile/SAML2/Redirect/SLO"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.national-lab.fr/idp/profile/SAML2/Redirect/SSO"/>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://idp.national-lab.fr/idp/profile/SAML2/POST/SSO"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">National Laboratory</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">National Laboratory</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.national-lab.fr</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Sophie</md:GivenName>
+      <md:SurName>Martin</md:SurName>
+      <md:EmailAddress>mailto:smartin@national-lab.fr</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+  <md:EntityDescriptor entityID="https://idp.polytechnic.edu.br/idp/shibboleth">
+    <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="https://federation.example.org/"/>
+    </md:Extensions>
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <mdui:UIInfo>
+          <mdui:DisplayName xml:lang="en">Polytechnic University</mdui:DisplayName>
+          <mdui:DisplayName xml:lang="pt">Universidade Politécnica</mdui:DisplayName>
+          <mdui:Description xml:lang="en">Identity provider of Polytechnic University</mdui:Description>
+          <mdui:InformationURL xml:lang="en">https://www.polytechnic.edu.br</mdui:InformationURL>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIDIzCCAgugAwIBAgIUcX6lAS/Bq/lth/N/EA1dj6b7aI4wDQYJKoZIhvcNAQELBQAwITEfMB0G
+A1UEAwwWaWRwLnBvbHl0ZWNobmljLmVkdS5icjAeFw0yNjA2MDMwODU0NDlaFw0zNjA1MzEwODU0
+NDlaMCExHzAdBgNVBAMMFmlkcC5wb2x5dGVjaG5pYy5lZHUuYnIwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQDgmBYTodZcgpqaimV8nFH/YH6I6Y2euIgEIIPTHVboHUXAgErOrSU1jzjF
+2S1UX7uHiyg00GSJyQPBPn2i73nTplDSyj0TzmcDdI2uWyY8kygozuGrsjVv7T+krTswlCYD+GhF
+09VK18Gk8VHX0DB/5GFFB03yORHSOi0MieJ5cIWNxDpSaj3UJyVnZdvA9jfxvJKIjVE3niNG82Gc
+Y70VglYRr5Gm814eDAYxhfqJNfSZxKowCmxrcTiKRN/E/hrEzFAYxXaCsyaO5WYs49+IOt2pNkJH
+t86ErHQEKjTF3sf10WsN9UzYz1zv74b6sqfT8GztSjmI7XcDN36ZooJBAgMBAAGjUzBRMB0GA1Ud
+DgQWBBTF0YvxRtWXlt/f1Y3//c6aX/gxxzAfBgNVHSMEGDAWgBTF0YvxRtWXlt/f1Y3//c6aX/gx
+xzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQDVu6t9PvJ7ewKeJ05q7sFdNw9k
+MEjDdim/m3Y6j31YGjSdBXmKnaH898hliATkgv7EnzgFkCT45NtT8aX1pETDEl9kgxL/TjhdwdHK
+1q+Skou1NmJM+Zd7Zm8yvreA7Gj+YTiTL2iF4jeRTR+k04KZaQCLMgoxTQNgF/uxlitapX2+L+d
+IyTikGTkfINXNRjhvx2t3rUqJoxn/bl1qM6uS4A/R5aOne6xve5Kd+lyUCOxB/TZuHpDZgB6O1FT
+03HXTn4lmoCIiCPsjXhXqQOgTq+g8JPMUYtGAi4diNF+CWcD9Zv/1rdqCuGlk1O105HRIPcST5LF
+4MzCa1nJBoVPj</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.polytechnic.edu.br/idp/profile/SAML2/Redirect/SLO"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+          Location="https://idp.polytechnic.edu.br/idp/profile/SAML2/Redirect/SSO"/>
+      <md:SingleSignOnService
+          Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+          Location="https://idp.polytechnic.edu.br/idp/profile/SAML2/POST/SSO"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">Polytechnic University</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">Polytechnic University</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://www.polytechnic.edu.br</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Carlos</md:GivenName>
+      <md:SurName>Silva</md:SurName>
+      <md:EmailAddress>mailto:csilva@polytechnic.edu.br</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+
+</md:EntitiesDescriptor>

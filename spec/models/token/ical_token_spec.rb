@@ -152,9 +152,7 @@ RSpec.describe Token::ICal do
 
         ical_token1 = described_class.where(user_id: user.id).last
 
-        # rubocop:disable Rails/DynamicFindBy
         expect(described_class.find_by_plaintext_value(ical_token1_value)).to eq ical_token1
-        # rubocop:enable Rails/DynamicFindBy
 
         expect(ical_token1.query).to eq query
         expect(ical_token1.ical_token_query_assignment.name).to eq name
@@ -185,9 +183,7 @@ RSpec.describe Token::ICal do
 
         ical_token1 = described_class.where(user_id: user.id).last
 
-        # rubocop:disable Rails/DynamicFindBy
         expect(described_class.find_by_plaintext_value(ical_token1_value)).to eq ical_token1
-        # rubocop:enable Rails/DynamicFindBy
       end
     end
 
@@ -277,10 +273,8 @@ RSpec.describe Token::ICal do
       end
 
       it "finds using the plaintext value" do
-        # rubocop:disable Rails/DynamicFindBy
         expect(described_class.find_by_plaintext_value(subject.plain_value)).to eq subject
         expect(described_class.find_by_plaintext_value("foobar")).to be_nil
-        # rubocop:enable Rails/DynamicFindBy
       end
     end
   end

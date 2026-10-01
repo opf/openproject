@@ -21,13 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { StateService } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
@@ -37,8 +36,7 @@ export class WorkPackageAuthorization {
   public project:ProjectResource;
 
   constructor(public workPackage:WorkPackageResource,
-    readonly PathHelper:PathHelperService,
-    readonly $state:StateService) {
+    readonly PathHelper:PathHelperService) {
     this.project = workPackage.project as ProjectResource;
   }
 
@@ -51,8 +49,14 @@ export class WorkPackageAuthorization {
       case 'copy_link_to_clipboard':
         link = this.shortLink();
         break;
+      case 'copy_numeric_id_to_clipboard':
+        link = this.workPackage.id!.toString();
+        break;
       case 'copy_to_other_project':
         link = this.bulkCopyLink();
+        break;
+      case 'log_time':
+        link = this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!);
         break;
       default:
         link = (this.workPackage[action.link!] as HalLink).href!;
@@ -78,15 +82,14 @@ export class WorkPackageAuthorization {
   }
 
   private copyLink() {
-    const stateName = this.$state.current.name!;
-    if (stateName.startsWith('work-packages.partitioned.list.details')) {
-      return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id!);
+    if (window.location.pathname.includes('/details/')) {
+      return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.displayId);
     }
-    return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.id!);
+    return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.displayId);
   }
 
   private shortLink() {
-    return this.PathHelper.workPackageShortPath(this.workPackage.id!);
+    return this.PathHelper.workPackageShortPath(this.workPackage.displayId);
   }
 
   private bulkCopyLink():string {

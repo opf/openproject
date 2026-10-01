@@ -35,8 +35,7 @@ class CustomActionsController < ApplicationController
     redirect_to action: :index
   end
 
-  self._model_object = CustomAction
-  before_action :find_model_object, only: %i(edit update destroy)
+  before_action :find_custom_action, only: %i(edit update destroy)
   before_action :pad_params, only: %i(create update)
 
   layout "admin"
@@ -72,6 +71,10 @@ class CustomActionsController < ApplicationController
   end
 
   private
+
+  def find_custom_action
+    @custom_action = CustomAction.find(params[:id])
+  end
 
   def index_or_render(render_action)
     ->(call) {

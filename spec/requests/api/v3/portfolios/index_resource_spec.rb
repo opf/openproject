@@ -78,74 +78,68 @@ RSpec.describe "API v3 Portfolios resource index", content_type: :json do
     get get_path
   end
 
-  context "with the feature flag enabled", with_flag: { portfolio_models: true } do
-    it_behaves_like "API V3 collection response", 2, 2, "Portfolio" do
-      let(:elements) { [public_portfolio, portfolio] }
+  it_behaves_like "API V3 collection response", 2, 2, "Portfolio" do
+    let(:elements) { [public_portfolio, portfolio] }
+  end
+
+  context "with a pageSize and offset" do
+    let(:get_path) do
+      api_v3_paths.path_for :portfolios, sort_by: { id: :asc }, page_size: 1, offset: 1
     end
 
-    context "with a pageSize and offset" do
-      let(:get_path) do
-        api_v3_paths.path_for :portfolios, sort_by: { id: :asc }, page_size: 1, offset: 1
-      end
-
-      it_behaves_like "API V3 collection response", 2, 1, "Portfolio" do
-        let(:elements) { [portfolio] }
-      end
-    end
-
-    context "when signaling the properties to include" do
-      let(:select) { "elements/id,elements/name,elements/_type,total" }
-      let(:get_path) do
-        api_v3_paths.path_for :portfolios, select:
-      end
-      let(:expected) do
-        {
-          total: 2,
-          _embedded: {
-            elements: [
-              {
-                id: public_portfolio.id,
-                name: public_portfolio.name,
-                _type: "Portfolio"
-              },
-              {
-                id: portfolio.id,
-                name: portfolio.name,
-                _type: "Portfolio"
-              }
-            ]
-          }
-        }
-      end
-
-      it "is the reduced set of properties of the embedded elements" do
-        expect(last_response.body)
-          .to be_json_eql(expected.to_json)
-      end
-    end
-
-    context "when filtering by typeahead" do
-      let(:filters) do
-        [{ typeahead: { operator: "**", values: [search_string] } }]
-      end
-
-      let(:search_string) { public_portfolio.name }
-
-      it_behaves_like "API V3 collection response", 1, 1, "Portfolio" do
-        let(:elements) { [public_portfolio] }
-      end
-    end
-
-    context "when not being logged in and login is required" do
-      current_user { create(:anonymous) }
-
-      context "if user is not logged in" do
-        it_behaves_like "unauthenticated access"
-      end
+    it_behaves_like "API V3 collection response", 2, 1, "Portfolio" do
+      let(:elements) { [portfolio] }
     end
   end
 
-  context "without the feature flag enabled", with_flag: { portfolio_models: false } do
-    it_behaves_like "not found"
+  context "when signaling the properties to include" do
+    let(:select) { "elements/id,elements/name,elements/_type,total" }
+    let(:get_path) do
+      api_v3_paths.path_for :portfolios, select:
+    end
+    let(:expected) do
+      {
+        total: 2,
+        _embedded: {
+          elements: [
+            {
+              id: public_portfolio.id,
+              name: public_portfolio.name,
+              _type: "Portfolio"
+            },
+            {
+              id: portfolio.id,
+              name: portfolio.name,
+              _type: "Portfolio"
+            }
+          ]
+        }
+      }
+    end
+
+    it "is the reduced set of properties of the embedded elements" do
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json)
+    end
+  end
+
+  context "when filtering by typeahead" do
+    let(:filters) do
+      [{ typeahead: { operator: "**", values: [search_string] } }]
+    end
+
+    let(:search_string) { public_portfolio.name }
+
+    it_behaves_like "API V3 collection response", 1, 1, "Portfolio" do
+      let(:elements) { [public_portfolio] }
+    end
+  end
+
+  context "when not being logged in and login is required" do
+    current_user { create(:anonymous) }
+
+    context "if user is not logged in" do
+      it_behaves_like "unauthenticated access"
+    end
   end
 end

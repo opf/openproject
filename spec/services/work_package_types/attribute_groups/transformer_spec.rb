@@ -40,7 +40,10 @@ RSpec.describe WorkPackageTypes::AttributeGroups::Transformer do
       let(:raw_groups) { [] }
 
       it "returns an empty array" do
-        expect(transformer.call).to eq([])
+        result = transformer.call
+
+        expect(result).to be_success
+        expect(result.result).to eq([])
       end
     end
 
@@ -60,7 +63,10 @@ RSpec.describe WorkPackageTypes::AttributeGroups::Transformer do
       end
 
       it "returns transformed group with symbolized key and attribute keys" do
-        expect(transformer.call).to eq([[:custom, ["custom_field_1", "custom_field_2"]]])
+        result = transformer.call
+
+        expect(result).to be_success
+        expect(result.result).to eq([[:custom, ["custom_field_1", "custom_field_2"], "Custom"]])
       end
     end
 
@@ -76,7 +82,10 @@ RSpec.describe WorkPackageTypes::AttributeGroups::Transformer do
       end
 
       it "uses name as group name" do
-        expect(transformer.call).to eq([["General Info", ["subject"]]])
+        result = transformer.call
+
+        expect(result).to be_success
+        expect(result.result).to eq([["General Info", ["subject"]]])
       end
     end
 
@@ -99,8 +108,9 @@ RSpec.describe WorkPackageTypes::AttributeGroups::Transformer do
 
       it "returns a group with a Query instance" do
         result = transformer.call
-        name, entries = result.first
+        name, entries = result.result.first
 
+        expect(result).to be_success
         expect(name).to eq("Embedded Table")
         expect(entries.first).to be_a(Query)
         expect(entries.first.name).to eq("Embedded table: Embedded Table")
@@ -118,8 +128,12 @@ RSpec.describe WorkPackageTypes::AttributeGroups::Transformer do
         ]
       end
 
-      it "raises JSON::ParserError" do
-        expect { transformer.call }.to raise_error(JSON::ParserError)
+      it "returns a failure result" do
+        result = transformer.call
+
+        expect(result).to be_failure
+        expect(result.errors.full_messages.to_sentence)
+          .to eq(I18n.t("types.edit.form_configuration.invalid_query"))
       end
     end
   end

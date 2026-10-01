@@ -42,14 +42,12 @@ module Queries
           :to_id
         end
 
-        def visibility_checked?
-          true
-        end
-
         private
 
         def visibility_checked_sql(operator, values, visible_sql)
-          ["to_id #{operator} (?) AND from_id IN (#{visible_sql})", values]
+          sql = "to_id #{operator} (?) AND from_id IN (#{visible_sql}) AND to_id IN (#{visible_sql})"
+
+          [sql, values]
         end
       end
     end

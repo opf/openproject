@@ -21,14 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 
 @Component({
   template: `
@@ -43,16 +42,14 @@ import { StateService } from '@uirouter/core';
   standalone: false,
 })
 export class RefreshButtonComponent {
+  readonly I18n = inject(I18nService);
+
   public text = {
     refresh: this.I18n.t('js.bcf.refresh'),
     refresh_hover: this.I18n.t('js.bcf.refresh_work_package'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly state:StateService) {
-  }
-
   refresh() {
-    void this.state.go('.', {}, { reload: true });
+    window.location.reload();
   }
 }

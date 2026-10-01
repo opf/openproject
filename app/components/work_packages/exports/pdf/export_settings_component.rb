@@ -49,8 +49,13 @@ module WorkPackages
         end
 
         def gantt_chart_label
-          label = I18n.t("export.dialog.pdf.export_type.options.gantt.label")
-          gantt_chart_allowed? ? label : (label + enterprise_icon).html_safe # rubocop:disable Rails/OutputSafety
+          capture do
+            concat I18n.t("export.dialog.pdf.export_type.options.gantt.label")
+
+            unless gantt_chart_allowed?
+              concat enterprise_icon
+            end
+          end
         end
 
         def pdf_export_types

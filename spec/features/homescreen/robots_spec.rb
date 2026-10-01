@@ -31,30 +31,26 @@
 require "spec_helper"
 
 RSpec.describe "robots.txt" do
-  let!(:project) { create(:public_project) }
-
   before do
     visit "/robots.txt"
   end
 
   context "when login_required", with_settings: { login_required: true } do
     it "disallows everything" do
-      expect(page).to have_content("Disallow: /")
+      expect(page).to have_text("Disallow: /")
     end
   end
 
   context "when not login_required", with_settings: { login_required: false } do
-    it "disallows global paths and paths from public project" do
-      expect(page).to have_content("Disallow: /activity")
-      expect(page).to have_content("Disallow: /activities")
-      expect(page).to have_content("Disallow: /search")
+    it "disallows global paths and paths from projects" do
+      expect(page).to have_text("Disallow: /activity")
+      expect(page).to have_text("Disallow: /activities")
+      expect(page).to have_text("Disallow: /search")
 
-      [project.identifier, project.id].each do |identifier|
-        expect(page).to have_content("Disallow: /projects/#{identifier}/repository")
-        expect(page).to have_content("Disallow: /projects/#{identifier}/work_packages")
-        expect(page).to have_content("Disallow: /projects/#{identifier}/activity")
-        expect(page).to have_content("Disallow: /projects/#{identifier}/search")
-      end
+      expect(page).to have_text("Disallow: /projects/*/repository")
+      expect(page).to have_text("Disallow: /projects/*/work_packages")
+      expect(page).to have_text("Disallow: /projects/*/activity")
+      expect(page).to have_text("Disallow: /projects/*/search")
     end
   end
 end

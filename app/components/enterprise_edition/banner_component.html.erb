@@ -62,6 +62,9 @@
                             autoplay: true,
                             loop: true,
                             muted: true
+                elsif @dark_image
+                  concat image_tag(@image, class: "op-enterprise-banner--media op-enterprise-banner--media_light")
+                  concat image_tag(@dark_image, class: "op-enterprise-banner--media op-enterprise-banner--media_dark")
                 else
                   image_tag @image, class: "op-enterprise-banner--media"
                 end

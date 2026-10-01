@@ -35,12 +35,12 @@ RSpec.describe CostEntry do
   let(:project2) { create(:project_with_types) }
   let(:work_package) do
     create(:work_package, project:,
-                          type: project.types.first,
+                          type: project.enabled_types.first,
                           author: user)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                          type: project2.types.first,
+                          type: project2.enabled_types.first,
                           author: user)
   end
   let(:user) { create(:user) }
@@ -383,11 +383,6 @@ RSpec.describe CostEntry do
         expect(cost_entry).not_to be_valid
         expect(cost_entry.errors[:logged_by_id]).to be_present
       end
-
-      it "sets logged_by from current user" do
-        entry = User.execute_as(user2) { described_class.new logged_by: user }
-        expect(entry.logged_by).to eq(user2)
-      end
     end
 
     describe "#editable_by?" do
@@ -534,54 +529,4 @@ RSpec.describe CostEntry do
     end
   end
 
-  describe "deprecated work package association" do
-    it "ignores the deprecated work package association" do
-      expect(described_class.ignored_columns).to include("work_package_id")
-    end
-
-    it "allows access to the work package" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      cost_entry.entity = work_package
-      expect(cost_entry.work_package).to eq(work_package)
-
-      cost_entry.entity = create(:meeting)
-      expect(cost_entry.work_package).to be_nil
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).twice.with(:work_package, :entity, any_args)
-    end
-
-    it "allows access to the work package ID" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      cost_entry.entity = work_package
-      expect(cost_entry.work_package_id).to eq(work_package.id)
-
-      cost_entry.entity = create(:meeting)
-      expect(cost_entry.work_package_id).to be_nil
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).twice.with(:work_package_id, :entity_id, any_args)
-    end
-
-    it "allows setting the work package" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      cost_entry.work_package = work_package
-      expect(cost_entry.entity).to eq(work_package)
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).with(:work_package=, :entity=, any_args)
-    end
-
-    it "allows setting the work package ID" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      cost_entry.entity_type = nil # to make sure that we properly set it
-      cost_entry.work_package_id = work_package.id
-      expect(cost_entry.entity).to eq(work_package)
-      expect(cost_entry.entity_type).to eq("WorkPackage")
-      expect(cost_entry.entity_id).to eq(work_package.id)
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).with(:work_package_id=, :entity_id=, any_args)
-    end
-  end
 end

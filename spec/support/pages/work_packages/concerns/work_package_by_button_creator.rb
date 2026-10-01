@@ -75,7 +75,7 @@ module Pages
         end
 
         def create_page_class
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
       end
     end

@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout do |cell|
+    cell.with_row do
+      flex_layout(justify_content: :space_between, classes: "flex-wrap") do |row|
+        row.with_column(flex_layout: true, classes: "flex-wrap") do |line|
+          line.with_column(mr: 2) do
+            render(Primer::Beta::Text.new(font_weight: :bold)) { text }
+          end
+          line.with_column(mr: 2) do
+            render(Primer::Beta::Text.new(font_size: :small, color: status_color)) { status_text }
+          end
+          if error_code.present?
+            line.with_column do
+              render(Primer::Beta::Label.new(scheme: status_color)) { error_code }
+            end
+          end
+        end
+
+        if error_code.present?
+          row.with_column do
+            helpers.static_link_to(href: docs_href,
+                                   label: I18n.t(:label_more_information),
+                                   underline: true)
+          end
+        end
+      end
+    end
+
+    if error_text.present?
+      cell.with_row(mt: 1) do
+        render(Primer::Beta::Text.new(test_selector: "op-health-report--result-status")) do
+          error_text
+        end
+      end
+    end
+  end
+%>

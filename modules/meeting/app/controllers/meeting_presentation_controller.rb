@@ -44,7 +44,7 @@ class MeetingPresentationController < ApplicationController
   layout "meetings/presentation"
 
   def start
-    @meeting.update(state: :in_progress) if @meeting.open?
+    @meeting.update(state: :in_progress) if @meeting.open? && User.current.allowed_in_project?(:edit_meetings, @meeting.project)
     redirect_to action: :show
   end
 

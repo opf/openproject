@@ -1,0 +1,21 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.segmented_control(
+        name: :recurring,
+        label: "Part of a meeting series",
+        value: "f",
+        items: [
+          { value: "f", label: I18n.t("general_text_No") },
+          { value: "t", label: I18n.t("general_text_Yes") }
+        ]
+      )
+
+      f.submit(name: "submit", label: "Save")
+    end
+  end
+%>
+
+<%= primer_form_with(url: "/abc", method: :post) do |f|
+  render(the_form.new(f))
+end %>

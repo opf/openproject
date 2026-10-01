@@ -21,20 +21,22 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { queryVisible } from 'core-app/shared/helpers/dom-helpers';
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {
+  injector = inject(Injector);
+  readonly deviceService = inject(DeviceService);
+
   private elementWidth:number;
 
   private elementMinWidth = 11;
@@ -45,11 +47,13 @@ export class MainMenuToggleService {
 
   private readonly localStorageStateKey:string = 'openProject-mainMenuCollapsed';
 
-  @InjectField() currentProject:CurrentProjectService;
+  readonly currentProject = inject(CurrentProjectService);
 
   private htmlNode = document.getElementsByTagName('html')[0];
 
-  private mainMenu = document.querySelector<HTMLElement>('#main-menu')!; // main menu, containing sidebar and resizer
+  private get mainMenu():HTMLElement|null {
+    return document.querySelector<HTMLElement>('#main-menu');
+  }
 
   // Notes all changes of the menu size (currently needed in wp-resizer.component.ts)
   private changeData = new BehaviorSubject<number|undefined>(undefined);
@@ -59,17 +63,17 @@ export class MainMenuToggleService {
 
   private wasCollapsedByUser = false;
 
-  constructor(
-    public injector:Injector,
-    readonly deviceService:DeviceService,
-  ) {
+  private lastInnerWidth = window.innerWidth;
+
+  constructor() {
     this.initializeMenu();
     // Add resize event listener
     window.addEventListener('resize', this.onWindowResize.bind(this));
   }
 
   public initializeMenu():void {
-    if (!this.mainMenu) {
+    const mainMenu = this.mainMenu;
+    if (!mainMenu) {
       return;
     }
 
@@ -80,7 +84,7 @@ export class MainMenuToggleService {
     this.wasCollapsedByUser = menuCollapsed;
 
     if (!this.elementWidth) {
-      this.saveWidth(this.mainMenu.offsetWidth);
+      this.saveWidth(mainMenu.offsetWidth);
     } else if (menuCollapsed) {
       this.closeMenu();
     } else {
@@ -91,6 +95,12 @@ export class MainMenuToggleService {
   }
 
   private onWindowResize():void {
+    // Skip if only the visual viewport changed (e.g. virtual keyboard opening) —
+    // adjustMenuVisibility() only cares about innerWidth, and the keyboard does not change it.
+    const currentWidth = window.innerWidth;
+    if (currentWidth === this.lastInnerWidth) return;
+    this.lastInnerWidth = currentWidth;
+
     this.adjustMenuVisibility();
   }
 
@@ -129,7 +139,9 @@ export class MainMenuToggleService {
     // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
     // method here. So we need to set the focus after a timeout.
     setTimeout(() => {
-      const firstVisibleMenuItem = queryVisible('[class*="-menu-item"]', this.mainMenu)[0];
+      const mainMenu = this.mainMenu;
+      if (!mainMenu) return;
+      const firstVisibleMenuItem = queryVisible('[class*="-menu-item"]', mainMenu)[0];
       firstVisibleMenuItem?.focus();
     }, 500);
   }
@@ -151,8 +163,11 @@ export class MainMenuToggleService {
       this.elementWidth = width;
     }
 
+    const mainMenu = this.mainMenu;
+    if (!mainMenu) return;
+
     // Apply the width directly to the main menu
-    this.mainMenu.style.width = `${this.elementWidth}px`;
+    mainMenu.style.width = `${this.elementWidth}px`;
 
     // Apply to root CSS variable for any related layout adjustments
     this.htmlNode.style.setProperty('--main-menu-width', `${this.elementWidth}px`);

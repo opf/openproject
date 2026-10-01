@@ -38,8 +38,12 @@ RSpec.describe "Programs",
            global_permissions: :add_programs)
   end
   # Role granted to creator on program creation to be able to access the program.
-  shared_let(:default_project_role) { create(:project_role) }
+  shared_let(:default_project_role) { create(:project_creator_role) }
   shared_let(:add_subproject_role) { create(:project_role, permissions: %i[add_subprojects]) }
+
+  before do
+    allow(Setting).to receive(:new_project_user_role_id).and_return(default_project_role.id.to_s)
+  end
 
   let!(:root_portfolio) do
     create(:portfolio, name: "Root portfolio", members: { user_with_permissions => add_subproject_role })
@@ -54,9 +58,9 @@ RSpec.describe "Programs",
   current_user { user_with_permissions }
 
   context "with enterprise feature enabled", with_ee: :portfolio_management do
-    it "can create a program", with_flag: { portfolio_models: true } do
+    it "can create a program" do
       projects_page.visit!
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :program
 
       expect(page).to have_heading "New program"
 
@@ -83,17 +87,9 @@ RSpec.describe "Programs",
       expect(program.parent).to eq root_portfolio
     end
 
-    context "without the necessary permissions to create programs", with_flag: { portfolio_models: true } do
+    context "without the necessary permissions to create programs" do
       current_user { create(:user) }
 
-      it "cannot create the program" do
-        visit new_program_path
-
-        expect(page).to have_content "[Error 403] You are not authorized to access this page."
-      end
-    end
-
-    context "without the feature flag being active", with_flag: { portfolio_models: false } do
       it "cannot create the program" do
         visit new_program_path
 
@@ -103,9 +99,9 @@ RSpec.describe "Programs",
   end
 
   context "without enterprise feature enabled", with_ee: [] do
-    it "shows enterprise banner instead of the form", with_flag: { portfolio_models: true } do
+    it "shows enterprise banner instead of the form" do
       projects_page.visit!
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :program
 
       expect(page).to have_heading "New program"
 

@@ -60,7 +60,7 @@ module API
       end
 
       def meta_representer_class
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
     end
   end

@@ -38,8 +38,10 @@ module Roles
       end
     end
 
-    def set_default_attributes(*)
-      model.permissions = ProjectRole.non_member.permissions if model.permissions.blank? && model.is_a?(ProjectRole)
+    def set_default_attributes(params)
+      if model.permissions.blank? && model.is_a?(ProjectRole) && !params.key?(:permissions)
+        model.permissions = ProjectRole.non_member.permissions
+      end
     end
   end
 end

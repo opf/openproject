@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -40,28 +40,26 @@ class GitlabIssue < ApplicationRecord
     closed: "closed"
   }
 
-  validates_presence_of :gitlab_html_url,
-                        :number,
-                        :repository,
-                        :state,
-                        :title,
-                        :gitlab_updated_at
-  validates_presence_of :body,
-                        unless: :partial?
+  validates :gitlab_html_url,
+            :number,
+            :repository,
+            :state,
+            :title,
+            :gitlab_updated_at,
+            presence: true
+  validates :body,
+            presence: { unless: :partial? }
   validate :validate_labels_schema
 
   scope :without_work_package, -> { where.missing(:work_packages) }
 
-  def self.find_by_gitlab_identifiers(id: nil, url: nil, initialize: false)
-    raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
+  def self.find_by_gitlab_identifiers(url:, id: nil, initialize: false)
+    raise ArgumentError, "needs an url" if url.blank?
 
-    found = where(gitlab_id: id).or(where(gitlab_html_url: url)).take
-
-    if found
-      found
-    elsif initialize
-      new(gitlab_id: id, gitlab_html_url: url)
-    end
+    # gitlab_id holds GitLab's per-project iid, which repeats across
+    # repositories, so the URL is the only identifier safe to look up by.
+    found = find_by(gitlab_html_url: url)
+    found || (new(gitlab_id: id, gitlab_html_url: url) if initialize)
   end
 
   def partial?

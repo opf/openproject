@@ -1,0 +1,21 @@
+# Schema: CustomFieldProperties
+---
+type: object
+patternProperties:
+  "^customField\\d+$":
+    type:
+      - "null"
+      - number
+      - boolean
+      - string
+      - object
+    description: |-
+      A custom field value, that belongs to a custom field of a simple type:
+
+      - Boolean
+      - Date
+      - Float
+      - Integer
+      - Link (URL)
+      - Text
+      - Long text

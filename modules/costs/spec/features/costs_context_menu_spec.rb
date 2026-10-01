@@ -3,6 +3,7 @@ require "spec_helper"
 RSpec.describe "Work package table log unit costs", :js do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
+  let!(:cost_type) { create(:cost_type, for_all_projects: true) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:menu) { Components::WorkPackages::ContextMenu.new }

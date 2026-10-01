@@ -7,7 +7,7 @@ keywords: notifications settings
 ---
 # Notification settings
 
-You can configure how and for what events you wish to be notified through Notifications. To access these settings, you can either click on your avatar on the top right corner > *Account settings* > *Notification settings* or click on **Notification settings** on the top right corner of the Notifications center.
+You can configure how and for what events you wish to be notified through notifications. To access these settings, you can either click on your avatar on the top right corner > _Account settings_ > _Notification settings_ or click on **Settings** on the top right corner of the notifications inbox.
 
 ![A screenshot of Notification center with the Notification settings button highlighted](Notification-settings-12.4-fromNotificationCenter.png)
 
@@ -16,7 +16,7 @@ Notification settings are divided into four sections:
 | Topic                                               | Description                                                                                                                          |
 |-----------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
 | [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher).  |
-| [Date alerts](#date-alerts-enterprise-add-on)       | Be notified of approaching start or end dates, and when things are overdue.                                                          |
+| [Date alerts](#date-alerts)                         | Be notified of approaching start or end dates, and when things are overdue.                                                          |
 | [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating.                                                       |
 | [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects.                                                            |
 
@@ -35,13 +35,9 @@ You cannot disable notifications for when you are mentioned since the goal of me
 > [!NOTE]
 > Modifying these settings may cause you to miss updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
 
-## Date alerts (Enterprise add-on)
+## Date alerts
 
-Starting with 12.4, OpenProject offers notification for date alerts.
-
-[feature: date_alerts ]
-
-Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher).
+Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are an assignee, accountable or a watcher).
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
@@ -82,9 +78,15 @@ In some cases, you may wish to fine-tune your notification settings at a project
 
 This might be because you are more active in certain projects than others or because certain activities (like date alerts or the creation of new work packages) might be more important to you than others.
 
-To add project-specific notification settings, first click on **+ Add setting for project** and select a project.
+To add project-specific notification settings, first click on **+ Add project-specific notifications**.
 
-Once you do so, you will see a table with a column for that project and and the same three sections (Participating, Date alerts, Non-participating) as your overall notification settings. You can now select and unselect any number of options from this list for more specific project-level notification settings.
+![A button to add project-specific notifications for OpenProject](openproject_user_guide_project_specific_settings_button.png)
+
+Then select a project from the overlay form that will appear and specify notification settings.
+
+![A form to specify project-specific notifications for OpenProject](openproject_user_guide_project_specific_settings_overlay.png)
+
+Once you do so, you will see a list of projects, for which project-specific notification settings were defined. You can modify these settings at any later point.
 
 ![Text](Notification-settings-12.4-projectSpecific.png)
 
@@ -93,4 +95,4 @@ Once you do so, you will see a table with a column for that project and and the 
 
 ## Email reminders
 
-You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on [Email reminders](../../../user-guide/account-settings#email-reminders).
+You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on [Email reminders](../../account-settings/notification-and-email/#email-reminders).

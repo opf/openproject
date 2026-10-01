@@ -95,8 +95,8 @@ RSpec.describe Webhooks::Outgoing::Webhooks::RowComponent, type: :component do
       it "renders events list grouped by Resource", :aggregate_failures do
         expect(rendered_component).to have_list do |list|
           expect(list).to have_list_item count: 2
-          expect(list).to have_list_item "Projects (created)"
-          expect(list).to have_list_item "Work package comments (comment)"
+          expect(list).to have_list_item "Projects (Created)"
+          expect(list).to have_list_item "Work package comments (Comment)"
         end
       end
     end

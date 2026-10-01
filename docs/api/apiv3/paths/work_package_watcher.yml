@@ -3,14 +3,14 @@
 delete:
   parameters:
   - description: Work package id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true
     schema:
       type: integer
   - description: User id
-    example: '1'
+    example: 1
     in: path
     name: user_id
     required: true

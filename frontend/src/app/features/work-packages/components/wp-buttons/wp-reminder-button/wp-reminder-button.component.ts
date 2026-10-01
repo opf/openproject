@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
@@ -51,22 +51,18 @@ import { filter, map, startWith, switchMap } from 'rxjs/operators';
   standalone: false,
 })
 export class WorkPackageReminderButtonComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly opModalService = inject(OpModalService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly actions$ = inject(ActionsService);
+  readonly storeService = inject(IanBellService);
+
   @Input() public workPackage:WorkPackageResource;
 
   hasReminder$:Observable<boolean>;
 
   public buttonTitle = this.I18n.t('js.work_packages.reminders.button_label');
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly opModalService:OpModalService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly apiV3Service:ApiV3Service,
-    readonly actions$:ActionsService,
-    readonly storeService:IanBellService,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     const reminderModalUpdated$ = this

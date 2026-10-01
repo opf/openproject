@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -33,6 +35,8 @@ module Boards
     def set_attributes_params(params)
       super.deep_symbolize_keys.tap do |hash|
         hash[:project] = state.project || model.project
+        hash[:linked_type] = nil
+        hash[:linked_id] = nil
 
         hash[:options] = mapped_options(hash[:options]) if hash.key?(:options)
       end

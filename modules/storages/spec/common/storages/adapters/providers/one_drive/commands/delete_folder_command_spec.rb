@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Commands
-          RSpec.describe DeleteFolderCommand, :vcr, :webmock do
+          RSpec.describe DeleteFolderCommand, :disable_ssrf_filter, :vcr, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage) }
             let(:auth_strategy) { Registry["one_drive.authentication.userless"].call }
 

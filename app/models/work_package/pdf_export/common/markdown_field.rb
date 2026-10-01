@@ -36,7 +36,7 @@ module WorkPackage::PDFExport::Common::MarkdownField
     return if markdown.blank?
 
     write_optional_page_break
-    write_markdown_field_label(label)
+    write_markdown_field_label(label) if label.present?
     write_markdown_field_value(work_package, markdown)
   end
 

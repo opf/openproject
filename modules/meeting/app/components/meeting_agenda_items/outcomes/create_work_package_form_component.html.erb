@@ -10,7 +10,15 @@
       ),
       method: :post,
       html: {
-        id: "create-work-package-outcome-form"
+        id: "create-work-package-outcome-form",
+        data: {
+          controller: "work-packages--create-dialog",
+          "work-packages--create-dialog-refresh-url-value": refresh_work_package_dialog_project_meeting_agenda_item_outcomes_path(
+            meeting.project,
+            meeting,
+            meeting_agenda_item
+          )
+        }
       }
     ) do |f|
       flex_layout(mb: 3) do |modal_body|

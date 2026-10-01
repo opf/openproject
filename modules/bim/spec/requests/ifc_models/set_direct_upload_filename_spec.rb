@@ -29,14 +29,19 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_name" do
-  shared_let(:user) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
-  let(:project) { build_stubbed(:project) }
+RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_name", :skip_csrf do
+  shared_let(:project) { create(:project, enabled_module_names: %w[bim]) }
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: {
+             project => %i[manage_ifc_models]
+           })
+  end
 
   context "when user is not logged in" do
     it "requires login" do
       post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id)
-      expect(last_response).to have_http_status(:not_acceptable)
+      expect(last_response).to have_http_status(:found)
     end
   end
 
@@ -46,9 +51,9 @@ RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_nam
     context "and the upload exceeds the maximum size", with_settings: { attachment_max_size: 1 } do
       it "returns a 422" do
         post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id),
-             { title: "Test.ifc", isDefault: "0", filesize: "113328073" }
+             { title: "Test.ifc", isDefault: "0", fileSize: "113328073" }
         expect(last_response).to have_http_status(:unprocessable_entity)
-        expect(parse_json(last_response.body)).to eq({ "error" => "is too large (maximum size is 1024 Bytes)." })
+        expect(parse_json(last_response.body)).to eq({ "error" => "IFC model is too large (maximum size is 1024 Bytes)." })
       end
     end
   end

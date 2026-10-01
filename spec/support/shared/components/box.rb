@@ -40,7 +40,7 @@ RSpec.shared_examples_for "rendering Box" do |row_count:, header: true, footer: 
   end
 
   it "renders #{row_count} Box rows" do
-    expect(rendered_component).to have_css ".Box-row", count: row_count
+    expect(rendered_component).to have_css ".Box-row:not([data-empty-list-item])", count: row_count
   end
 
   if footer

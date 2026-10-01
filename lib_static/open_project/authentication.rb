@@ -240,20 +240,6 @@ module OpenProject
     module WWWAuthenticate
       module_function
 
-      def pick_auth_scheme(supported_schemes, default_scheme, request_headers = {})
-        req_scheme = request_headers["HTTP_X_AUTHENTICATION_SCHEME"]
-
-        if supported_schemes.include? req_scheme
-          req_scheme
-        else
-          default_scheme
-        end
-      end
-
-      def default_auth_scheme
-        "Basic"
-      end
-
       def default_realm
         "OpenProject API"
       end
@@ -262,52 +248,43 @@ module OpenProject
         Manager.scope_config(scope).realm || default_realm
       end
 
-      def response_header(
-        default_auth_scheme: self.default_auth_scheme,
-        scope: nil,
-        request_headers: {},
-        error: nil,
-        error_description: nil
-      )
-        scheme = pick_auth_scheme(auth_schemes(scope),
-                                  default_auth_scheme,
-                                  request_headers)
+      def response_header(env:, scope: nil, error: nil, error_description: nil)
+        header = %{Bearer realm="#{scope_realm(scope)}", resource_metadata="#{resource_metadata(env)}"}
+        header << %{, scope="#{escape_string scope}"} if scope
 
-        header = %{#{scheme} realm="#{scope_realm(scope)}"}
-        if scheme == "Bearer"
-          header << %{, resource_metadata="#{resource_metadata}"}
-          header << %{, scope="#{escape_string scope}"} if scope
+        if error
+          header << %{, error="#{escape_string error}"}
+          header << %{, error_description="#{escape_string error_description}"} if error_description
         end
 
-        header << %{, error="#{escape_string error}"}                         if error
-        header << %{, error_description="#{escape_string error_description}"} if error && error_description
         header
-      end
-
-      def auth_schemes(scope)
-        strategies = Array(Manager.scope_config(scope).strategies)
-
-        Manager.auth_schemes
-          .select { |_, info| scope.nil? or info.strategies.intersect?(strategies) }
-          .keys
       end
 
       def escape_string(string)
         string.to_s.dump[1..-2]
       end
 
-      def resource_metadata
-        OpenProject::StaticRouting::StaticRouter.new.url_helpers.protected_resource_metadata_url
+      def resource_metadata(env)
+        request = ActionDispatch::Request.new(env)
+        url_helpers = OpenProject::StaticRouting::StaticRouter.new.url_helpers
+
+        url_helpers.protected_resource_metadata_url(
+          host: request.host,
+          protocol: request.protocol,
+          port: request.optional_port
+        )
       end
     end
 
+    # Prepended to the warden basic auth strategy, so when a client already tries to use Basic auth (but fails), they
+    # will receive a Basic WWW-Authenticate header.
     module AuthHeaders
       include WWWAuthenticate
 
       # #scope available from Warden::Strategies::BasicAuth
 
       def auth_scheme
-        pick_auth_scheme auth_schemes(scope), default_auth_scheme, env
+        "Basic"
       end
 
       def realm

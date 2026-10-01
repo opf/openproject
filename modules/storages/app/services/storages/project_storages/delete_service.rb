@@ -33,10 +33,10 @@ module Storages
     # Performs the deletion in the superclass. Associated FileLinks are deleted
     # by the model before_destroy hook.
     class DeleteService < ::BaseServices::Delete
-      def before_perform(*)
+      def after_validate(service_call)
         delete_project_folder if model.project_folder_automatic?
 
-        super
+        service_call
       end
 
       # "persist" is a callback from BaseContracted.perform
