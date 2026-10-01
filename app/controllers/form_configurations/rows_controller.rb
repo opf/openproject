@@ -38,14 +38,6 @@ module FormConfigurations
     before_action :load_form_configuration
     before_action :reconcile_editor_records
 
-    def move
-      respond_to_row_update(row_update_service.call(move_to: params[:move_to]))
-    end
-
-    def drop
-      respond_to_row_update(row_update_service.call(target_id: params[:target_id], position: params[:position]))
-    end
-
     def destroy
       call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
         .new(user: current_user, form_configuration: @form_configuration, row_key: params[:row_key])
@@ -55,11 +47,6 @@ module FormConfigurations
     end
 
     private
-
-    def row_update_service
-      ::WorkPackageTypes::FormConfigurationRows::UpdateService
-        .new(user: current_user, form_configuration: @form_configuration, row_key: params[:row_key])
-    end
 
     def respond_to_row_update(call)
       if call.success?
