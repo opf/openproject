@@ -7,7 +7,7 @@ module Herfy
     # by the OIDC provider) unless HERFY_CC_CREATE_USERS=true, which also
     # pre-creates accounts for every Control Center user.
     class Sync
-      def initialize(base_url: ENV["HERFY_CC_API_URL"].presence || ENV.fetch("HERFY_CC_ISSUER", "https://controlcenter.herfy.com"),
+      def initialize(base_url: ENV["HERFY_CC_API_URL"].presence || ENV.fetch("HERFY_CC_ISSUER"),
                      client_id: ENV.fetch("HERFY_CC_CLIENT_ID"),
                      client_secret: ENV.fetch("HERFY_CC_CLIENT_SECRET"),
                      create_users: ENV["HERFY_CC_CREATE_USERS"] == "true")
