@@ -79,15 +79,12 @@ module FormConfigurations
     end
 
     def mark_default
-      service_call = UpdateService.new(user: current_user, model: @form_configuration).call(is_default: true)
+      report_default_marking
 
-      if service_call.success?
-        flash[:notice] = t("form_configurations.default.marked", name: @form_configuration.name)
-      else
-        flash[:error] = service_call.errors.full_messages.to_sentence
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.redirect_to(marked_default_from) }
+        format.html { redirect_to marked_default_from, status: :see_other }
       end
-
-      redirect_back_or_to edit_form_configuration_path(@form_configuration), status: :see_other
     end
 
     def destroy
@@ -103,8 +100,20 @@ module FormConfigurations
 
     def model_class = ::FormConfiguration
 
+    def marked_default_from = url_from(request.referer) || edit_form_configuration_path(@form_configuration)
+
     def form_editor_context
       @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
+    end
+
+    def report_default_marking
+      service_call = UpdateService.new(user: current_user, model: @form_configuration).call(is_default: true)
+
+      if service_call.success?
+        flash[:notice] = t("form_configurations.default.marked", name: @form_configuration.name)
+      else
+        flash[:error] = service_call.errors.full_messages.to_sentence
+      end
     end
 
     def report_destruction
