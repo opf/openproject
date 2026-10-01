@@ -156,11 +156,12 @@ In the example below, a project attribute called **Initiative score (calculated)
 
 ![An example of a project attribute of type "Calculated value" in OpenProject administration](open_project_system_guide_project_attributes_calculated_value.png)
 
+
 #### Understanding formulas for Calculated value attributes
 
 When you create a "Calculated value" project attribute, you write a formula that does the math for you, similar to a formula in a spreadsheet. The formula can pull in numbers from other project attributes (like integers, decimals, yes/no fields, weighted list scores, or even other calculated values) and combine them.
 
-Here's a plain-language guide to what you can put in a formula.
+Here is a guide on what you can put in a formula.
 
 ##### Basic values you can type in
 
@@ -174,18 +175,29 @@ Just like in math class, some operations happen before others. Multiplication ha
 - `5 + 3 * 2` gives you `11` (the multiplication happens first)
 - `(5 + 3) * 2` gives you `16` (the parentheses force the addition first)
 
+When a formula mixes several symbols, they are calculated in this order, from first to last. Symbols on the same line have equal priority and are calculated left to right:
+
+1. `-` in front of a value, and `%` after a number
+2. `^` 
+3. `*`, `/`, `%`
+4. `+`, `-`
+5. `<`, `>`, `<=`, `>=`, `=`, `==`, `<>`, `!=`
+6. `AND`, `OR` (and `&&`, `||`)
+
 ##### Math symbols you can use
 
 | Symbol | What it does | Example |
 |---|---|---|
 | `+` | Adds two numbers | `1 + 2` → `3` |
 | `-` | Subtracts one number from another | `5 - 2` → `3` |
-| `-` (in front of a number) | Flips a number negative | `-x` |
+| `-` (in front of a value) | Makes the value negative | `-Effort`, `-(2 + 3)` → `-5` |
 | `*` | Multiplies | `4 * 3` → `12` |
-| `/` | Divides | `9 / 3` → `3.0` |
+| `/` | Divides (the result can be a decimal) | `9 / 3` → `3.0`<br>`10 / 4` → `2.5` |
 | `%` | Finds the remainder after dividing | `7 % 3` → `1` |
 | `%` (after a number) | Turns a number into a percentage | `7 + 1%` → `7.01` |
-| `^` | Raises a number to a power | `9 ^ 0.5` → `3.0` |
+| `^` | Raises a number to a power | `9 ^ 0.5` → `3.0`<br>`2 ^ 3 ^ 2` → `64` (calculated left to right) |
+
+Note: `%` after a number simply divides it by 100, so `1%` is `0.01` and `7 + 1%` gives `7.01`, not 1% of 7. To add 1% of a value, write `7 * (1 + 1%)` → `7.07`.
 
 ##### Useful built-in calculations
 
@@ -195,9 +207,9 @@ Just like in math class, some operations happen before others. Multiplication ha
 | `AVG` | Averages the numbers you give it | `AVG(1, 2)` → `1.5` |
 | `MAX` | Picks the biggest number | `MAX(3, 1, 2)` → `3` |
 | `MIN` | Picks the smallest number | `MIN(3, 1, 2)` → `1` |
-| `ROUND` | Rounds to the nearest whole number (or to however many decimals you specify) | `ROUND(1.5)` → `2` |
-| `ROUNDDOWN` | Always rounds down | `ROUNDDOWN(1.5)` → `1` |
-| `ROUNDUP` | Always rounds up | `ROUNDUP(1.5)` → `2` |
+| `ROUND` | Rounds to the nearest whole number, or to the number of decimals you specify (negative values round to tens, hundreds, …) | `ROUND(1.5)` → `2`<br>`ROUND(3.14159, 3)` → `3.142`<br>`ROUND(190, -2)` → `200` |
+| `ROUNDDOWN` | Always rounds toward the lower number | `ROUNDDOWN(1.5)` → `1`<br>`ROUNDDOWN(-1.5)` → `-2`<br>`ROUNDDOWN(0.9999, 3)` → `0.999` |
+| `ROUNDUP` | Always rounds toward the higher number | `ROUNDUP(1.5)` → `2`<br>`ROUNDUP(-1.5)` → `-1`<br>`ROUNDUP(1.0001, 3)` → `1.001` |
 | `SUM` | Adds up all the numbers you give it | `SUM(1, 2, 3)` → `6` |
 
 ##### Comparing two values
@@ -215,14 +227,14 @@ These check whether something is true and give you back `TRUE` or `FALSE`.
 
 ##### Combining true/false conditions
 
-These only work with `TRUE`/`FALSE` values (not numbers).
+These only work with `TRUE`/`FALSE` values (not numbers). `AND` and `OR` can be written either between values or as functions.
 
 | Name | What it does | Example |
 |---|---|---|
-| `AND` | True only if everything you give it is true | `TRUE AND TRUE AND FALSE` → `FALSE` |
-| `OR` | True if at least one thing you give it is true | `FALSE OR FALSE OR TRUE` → `TRUE` |
+| `AND` or `&&` | True only if everything you give it is true | `TRUE AND TRUE AND FALSE` → `FALSE`<br>`AND(TRUE, TRUE, TRUE)` → `TRUE` |
+| `OR` or `\|\|` | True if at least one thing you give it is true | `FALSE OR FALSE OR TRUE` → `TRUE`<br>`OR(FALSE, FALSE, FALSE)` → `FALSE` |
 | `NOT` | Flips true to false and vice versa | `NOT(TRUE)` → `FALSE` |
-| `XOR` | True only if an odd number of things are true | `XOR(TRUE, FALSE, FALSE)` → `TRUE` |
+| `XOR` | True only if an odd number of things are true | `XOR(TRUE, FALSE, FALSE)` → `TRUE`<br>`XOR(TRUE, TRUE, TRUE)` → `TRUE` |
 
 ##### Making decisions in a formula
 
@@ -234,7 +246,7 @@ These only work with `TRUE`/`FALSE` values (not numbers).
 
 `SWITCH(200, 100, 1, 200, 2, 3)` → `200` matches the second option, so this gives `2`
 
-(If none of the options match and you didn't provide a fallback default at the end, the formula is invalid.)
+`SWITCH(300, 100, 1, 200, 2)` → invalid, because none of the options match and there's no fallback default at the end
 
 **`CASE ... WHEN ... THEN ... ELSE ... END`** — does the same thing as `SWITCH`, just written differently:
 
@@ -242,8 +254,12 @@ These only work with `TRUE`/`FALSE` values (not numbers).
 
 (If nothing matches and there's no `ELSE`, the formula is invalid.)
 
+**Examples put together**
 
-**Example put together**: a formula like `(Strategic fit * 0.4) + (User benefit * 0.4) - (Effort * 0.2)` takes three project attributes, weights each one, and combines them into a single score — useful for ranking projects by priority.
+- `(Strategic fit * 0.4) + (User benefit * 0.4) - (Effort * 0.2)` weights three attributes and combines them into one priority score.
+- `IF(Budget approved AND Risk score <= 3, Strategic fit * 2, Strategic fit)` doubles the score for approved, low-risk projects. `Budget approved` is a yes/no attribute.
+- `ROUND(AVG(Strategic fit, User benefit, Customer impact), 1)` averages three ratings and rounds the result to one decimal.
+- `Effort > 8 OR NOT(Team available)` gives `TRUE` for projects that are likely to be hard to staff.
 
 
 ## Modify project attributes
