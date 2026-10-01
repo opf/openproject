@@ -68,6 +68,9 @@ module ::ResourceManagement
         component: ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation:)
       )
       replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation:)
+      )
+      replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)
       )
       respond_with_turbo_streams

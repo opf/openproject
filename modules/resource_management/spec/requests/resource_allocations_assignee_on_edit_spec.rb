@@ -73,6 +73,31 @@ RSpec.describe "Editing the assignee of a resource allocation",
     response
   end
 
+  def refresh_form(placeholder_or_user_id:)
+    post refresh_form_project_resource_allocation_path(project, allocation),
+         params: { resource_allocation: {
+           placeholder_or_user_id:,
+           entity_type: "WorkPackage",
+           entity_id: work_package.id,
+           date_range: "2026-01-05 - 2026-01-09",
+           allocated_hours: "16h"
+         } },
+         as: :turbo_stream
+    response
+  end
+
+  def expect_staffed_from_caption
+    expect(response.body).to have_turbo_stream(action: "dialog") do
+      assert_select "[data-test-selector='op-resource-allocation-staffed-from']", text: /#{placeholder.name}/
+    end
+  end
+
+  def expect_deleted_assignee_notice
+    expect(response.body).to have_turbo_stream(action: "dialog") do
+      assert_select "[data-test-selector='op-resource-allocation-assignee-deleted']"
+    end
+  end
+
   def principals_offered_by_picker
     picker = Nokogiri::HTML(edit_dialog.body).at_css("opce-resource-allocation-autocompleter")
     filters = JSON.parse(picker["data-filters"]).map do |filter|
@@ -93,12 +118,21 @@ RSpec.describe "Editing the assignee of a resource allocation",
     it "pre-fills the picker with the assigned user and names the placeholder it was staffed from" do
       expect(edit_dialog).to have_http_status(:ok)
       expect(response.body).to include(%(data-input-value="#{assignee.id}"))
-      expect(response.body).to have_css("[data-test-selector='op-resource-allocation-staffed-from']",
-                                        text: placeholder.name)
+      expect_staffed_from_caption
     end
 
     it "offers only the users matching the placeholder's criteria in the picker" do
       expect(principals_offered_by_picker).to contain_exactly(assignee.id, other_member.id)
+    end
+
+    it "keeps naming the placeholder when the form refreshes" do
+      expect(refresh_form(placeholder_or_user_id: assignee.id)).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(
+        action: "replace",
+        target: ResourceAllocations::AllocationStep::ResourceFilterComponent.wrapper_key
+      ) do
+        assert_select "[data-test-selector='op-resource-allocation-staffed-from']", text: /#{placeholder.name}/
+      end
     end
 
     it "keeps the assigned user and the placeholder when only the hours change" do
@@ -162,9 +196,8 @@ RSpec.describe "Editing the assignee of a resource allocation",
     it "pre-fills the picker with the deleted user, names the placeholder and explains the deletion" do
       expect(edit_dialog).to have_http_status(:ok)
       expect(response.body).to include(%(data-input-value="#{deleted_user.id}"))
-      expect(response.body).to have_css("[data-test-selector='op-resource-allocation-staffed-from']",
-                                        text: placeholder.name)
-      expect(response.body).to have_css("[data-test-selector='op-resource-allocation-assignee-deleted']")
+      expect_staffed_from_caption
+      expect_deleted_assignee_notice
     end
 
     it "keeps the deleted user and the placeholder when only the hours change" do
@@ -191,11 +224,33 @@ RSpec.describe "Editing the assignee of a resource allocation",
       create(:resource_allocation, entity: work_package, principal: deleted_user, allocated_time: 600)
     end
 
+    def deleted_assignee_banner_stream(&)
+      expect(response).to have_turbo_stream(
+        action: "replace",
+        target: ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.wrapper_key,
+        &
+      )
+    end
+
+    it "keeps explaining the deletion when the form refreshes with the deleted user" do
+      expect(refresh_form(placeholder_or_user_id: deleted_user.id)).to have_http_status(:ok)
+      deleted_assignee_banner_stream do
+        assert_select "[data-test-selector='op-resource-allocation-assignee-deleted']"
+      end
+    end
+
+    it "drops the explanation when the form refreshes with someone else picked" do
+      expect(refresh_form(placeholder_or_user_id: other_member.id)).to have_http_status(:ok)
+      deleted_assignee_banner_stream do
+        assert_select "[data-test-selector='op-resource-allocation-assignee-deleted']", count: 0
+      end
+    end
+
     shared_examples "an editable allocation of a deleted user" do
       it "pre-fills the picker with the deleted user and explains the deletion" do
         expect(edit_dialog).to have_http_status(:ok)
         expect(response.body).to include(%(data-input-value="#{deleted_user.id}"))
-        expect(response.body).to have_css("[data-test-selector='op-resource-allocation-assignee-deleted']")
+        expect_deleted_assignee_notice
       end
 
       it "keeps the deleted user when only the hours change" do
