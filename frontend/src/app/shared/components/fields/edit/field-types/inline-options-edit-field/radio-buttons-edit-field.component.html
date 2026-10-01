@@ -1,0 +1,33 @@
+<fieldset class="inline-edit--field op-inline-options-edit-field"
+  [id]="handler.htmlId"
+  [disabled]="inFlight"
+  role="radiogroup"
+  [attr.aria-required]="required">
+  <legend class="sr-only" [textContent]="schema.name"></legend>
+  @if (!required) {
+    <label class="form--label-with-check-box">
+      <div class="form--radio-button-container">
+        <input type="radio"
+          class="form--radio-button"
+          [name]="handler.htmlId"
+          [checked]="isSelected(emptyOption)"
+          (change)="select(emptyOption)"
+          (keydown)="handler.handleUserKeydown($event)" />
+      </div>
+      <span [textContent]="emptyOption.name"></span>
+    </label>
+  }
+  @for (option of availableOptions; track option.href) {
+    <label class="form--label-with-check-box">
+      <div class="form--radio-button-container">
+        <input type="radio"
+          class="form--radio-button"
+          [name]="handler.htmlId"
+          [checked]="isSelected(option)"
+          (change)="select(option)"
+          (keydown)="handler.handleUserKeydown($event)" />
+      </div>
+      <span [textContent]="option.name"></span>
+    </label>
+  }
+</fieldset>

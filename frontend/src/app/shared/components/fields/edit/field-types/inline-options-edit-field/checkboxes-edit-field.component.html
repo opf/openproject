@@ -1,0 +1,27 @@
+<fieldset class="inline-edit--field op-inline-options-edit-field"
+  [id]="handler.htmlId"
+  [disabled]="inFlight"
+  [attr.aria-required]="required">
+  <legend class="sr-only" [textContent]="schema.name"></legend>
+  @for (option of availableOptions; track option.href) {
+    <label class="form--label-with-check-box">
+      <div class="form--check-box-container">
+        <input #checkbox
+          type="checkbox"
+          class="form--check-box"
+          [checked]="isChecked(option)"
+          (change)="toggle(option, checkbox.checked)"
+          (keydown)="handler.handleUserKeydown($event)" />
+      </div>
+      <span [textContent]="option.name"></span>
+    </label>
+  }
+</fieldset>
+
+@if (!handler.inEditMode) {
+  <edit-field-controls [fieldController]="self"
+    (onSave)="handler.handleUserSubmit()"
+    (onCancel)="handler.handleUserCancel()"
+    [saveTitle]="text.save"
+    [cancelTitle]="text.cancel" />
+}
