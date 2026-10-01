@@ -55,6 +55,12 @@ jobs:
     - name: Restore CI image from cache
       if: steps.cache_docker.outputs.cache-hit == 'true'
       run: docker load -i cache/docker/image.tar
+    - name: Build and cache CI image
+      if: steps.cache_docker.outputs.cache-hit != 'true'
+      run: |
+        bin/ci ruby -v
+        mkdir -p cache/docker
+        docker save openproject/ci:v1 -o cache/docker/image.tar
     - name: Cache GEM
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
@@ -118,9 +124,6 @@ jobs:
             fi
           fi
         fi
-    - name: Save CI image to cache
-      if: steps.cache_docker.outputs.cache-hit != 'true'
-      run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
     - name: Report cache info
       if: ${{ always() }}
       run: |
