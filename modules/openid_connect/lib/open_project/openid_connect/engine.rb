@@ -88,6 +88,7 @@ module OpenProject::OpenIDConnect
             omniauth.oidc_refresh_token
             omniauth.oidc_expires_in
             omniauth.oidc_groups
+            omniauth.herfy_claims
           ]
 
           h[:backchannel_logout_callback] = ->(logout_token) do
