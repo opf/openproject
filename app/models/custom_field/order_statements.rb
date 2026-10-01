@@ -88,7 +88,7 @@ module CustomField::OrderStatements
 
   private
 
-  def can_be_used_for_grouping? = field_format.in?(%w[list date bool int float string link hierarchy])
+  def can_be_used_for_grouping? = field_format.in?(%w[list date datetime bool int float string link hierarchy])
 
   # Template for all the join statements.
   #
