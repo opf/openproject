@@ -22,8 +22,15 @@
 ---
 sv:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Raderna och kolumnerna måste tillsammans motsvara exakt frågans grupperingskriterier.
     models:
       cost_query:
+        one: Kostnadsrapport
+        other: Kostnadsrapporter
+      cost_report:
         one: Kostnadsrapport
         other: Kostnadsrapporter
   button_save_report_as: Spara rapporten som...

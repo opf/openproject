@@ -26,6 +26,7 @@ uk:
       project:
         allow_multiple_active_sprints: Дозволити кілька активних спринтів
         backlog_excluded_types: Виключені типи пакетів робіт
+        estimation_unit: Unit
         sprint_sharing: Спільний доступ до спринту
         statuses_considered_closed: Статуси, що вважаються закритими
       sprint:
@@ -145,6 +146,7 @@ uk:
       show:
         blankslate_description: Визначте дату початку й завершення спринту, щоб згенерувати діаграму згорання завдань.
         blankslate_title: Немає даних про згорання завдань
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Виберіть, які типи пакетів робіт слід приховати в беклогу. Елементи вибраних типів не відображатимуться в беклогу автоматично, що дає змогу зосередитися на завданнях своєї команди. Наприклад, ви можете приховати такі типи, як епіки чи віхи, якими керують на вищому рівні, щоб переглядати лише ті завдання, з якими можна працювати.
 
       '
@@ -196,6 +198,7 @@ uk:
     remaining_hours: Залишок роботи
     sharing: Спільний доступ до спринту
     show_burndown_chart: Діаграма згорання завдань
+    show_work_package_overview: Пакети робіт у межах спринту
     sprint_component:
       action_menu:
         add_existing_work_package: Додати наявний пакет робіт
@@ -221,6 +224,33 @@ uk:
       page_header_component:
         breadcrumb: Звіт
         title: Звіт про %{sprint}
+      widgets:
+        work_package_graph:
+          title: Графік пакетів робіт
+        work_package_overview:
+          blankslate:
+            description: Визначте дату початку й завершення спринту, щоб згенерувати огляд пакетів робіт.
+            heading: Немає даних про спринт
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Зміна обсягу
+              story_points_change: "+%{added} / -%{removed} сторі-пойнтів"
+            completed:
+              heading: Завершено
+            initially_planned:
+              heading: Спочатку заплановано
+            unfinished:
+              heading: Незавершено
+          breakdown_block:
+            blocks:
+              show_all: Переглянути всі
+          closed_work_packages: Закриті пакети робіт
+          resolved_summary:
+            one: "%{percentage}% (вирішено %{resolved} у межах %{total} пакету робіт)"
+            few: "%{percentage}% (вирішено %{resolved} у межах %{total} пакетів робіт)"
+            many: "%{percentage}% (вирішено %{resolved} у межах %{total} пакетів робіт)"
+            other: "%{percentage}% (вирішено %{resolved} у межах %{total} пакета робіт)"
     sprints:
       row_component:
         action_menu:
@@ -263,8 +293,19 @@ uk:
       add_existing_dialog:
         invalid_target: Ціль, яку ви намагаєтеся додати, недійсна.
         target_not_found: Спринт або беклог, у який ви намагаєтеся додати елемент, не знайдено.
+      batch_update_service:
+        mixed_projects: Усі пакети робіт партії повинні належати до одного й того самого проєкту.
+        stale_batch: Під час підготовки до переміщення змінився принаймні один пакет робіт. Перевірте поточні позиції та спробуйте ще раз.
+        stale_predecessor: Пакет робіт, який слід вставити після цього, було переміщено в інше місце. Перевірте поточні позиції та спробуйте ще раз.
+        unavailable_target: Список призначення більше недоступний. Перезавантажте сторінку та спробуйте ще раз.
+        unexpected_failure: Пакети робіт вдалося перемістити. Спробуйте ще раз.
       move:
         moved_announcement: "%{label}: переміщено в список «%{list}» на позицію %{position} з %{total}"
+      move_collection:
+        invalid_ids: Список пакетів робіт для переміщення є неприпустимим.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Максимальна кількість пакетів робіт для одночасного переміщення — %{max}.
+        work_packages_not_found: У цьому проєкті не вдалося знайти принаймні один пакет робіт.
       update_service:
         invalid_target_type: 'list_type має бути одним із таких значень: backlog_bucket із list_id, sprint із list_id або inbox без list_id.'
         missing_target: Має бути вказано list_type або list_id.
@@ -300,9 +341,13 @@ uk:
   notice_unsuccessful_finish_with_reason: 'Спринт не вдалося завершити: %{reason}'
   notice_unsuccessful_start: Спринт не вдалося розпочати.
   notice_unsuccessful_start_with_reason: 'Спринт не вдалося розпочати: %{reason}'
-  notice_work_package_invisible_after_move: 'Пакет робіт було переміщено в беклог (%{backlog}), але він там не відображається, оскільки його тип або статус виключено з беклогу.
+  notice_work_package_invisible_after_move:
+    one: 'Пакет робіт було переміщено в беклог (%{backlog}), але він там не відображається, оскільки його тип або статус виключено з беклогу.
 
-    '
+      '
+    few: "%{count} пакети робіт було переміщено в беклог (%{backlog}), але він там не відображається, оскільки його тип або статус виключено з беклогу.\n"
+    many: "%{count} пакетів робіт було переміщено в беклог (%{backlog}), але він там не відображається, оскільки його тип або статус виключено з беклогу.\n"
+    other: "%{count} пакета робіт було переміщено в беклог (%{backlog}), але він там не відображається, оскільки його тип або статус виключено з беклогу.\n"
   permission_create_sprints: Створення спринтів
   permission_manage_sprint_items: Керування елементами спринтів
   permission_select_backlog_types_and_statuses: Вибір типів і статусів беклогу
@@ -321,6 +366,18 @@ uk:
       backlog_buckets: Сегменти беклогу
       sprints: Спринти
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -341,6 +398,9 @@ uk:
             label: Підпроєкти
         sprint_sharing: Надання доступу до спринтів
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: За замовчуванням у кожному проєкті може бути активний лише один спринт. Це можна змінити, щоб у цьому проєкті одночасно могли бути активними кілька спринтів.
           heading: Кількість активних спринтів

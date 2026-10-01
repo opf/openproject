@@ -50,7 +50,7 @@ de:
       openid_connect/user_token:
         one: OpenID Connect-Token
         other: OpenID Connect-Token
-  logout_warning: 'Sie wurden abgemeldet. Der Inhalt eines Formulars, das Sie uns übermitteln, kann verloren gehen. Bitte [einloggen].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -79,7 +79,7 @@ de:
       display_name: Der Name des Anbieters. Dieser wird in der Login-Schaltfläche und in der Liste der Anbieter angezeigt.
       endpoint_url: Die Endpunkt-URL, die Sie vom OpenID Connect-Anbieter erhalten haben
       group_regexes: Ein regulärer Ausdruck pro Zeile. Bitte lesen Sie [die Dokumentation](docs_url) für weitere Informationen hierzu.
-      group_regexes_detail: Definieren Sie optional Pattern mit regulären Ausdrücken, um Gruppennamen aus dem Gruppenanspruch abzugleichen. Wenn Sie beispielsweise ein Pattern wie ^Level1/Level2/ <code>([\w/]+)$</code> eingeben, wird die Gruppe "Gruppenname/Untergruppe" aus einer Antwort mit "Level1/Level2/Gruppenname/Untergruppe" extrahiert. Wenn kein Pattern übereinstimmt, wird die Gruppe ignoriert. Lassen Sie das Feld leer, um alle Gruppen mit ihrem vollständigen Gruppennamen zu synchronisieren.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Klicken Sie auf 'Muster testen', um Ihr Muster für den regulären Ausdruck mit der OIDC-Benutzerinfo zu vergleichen.
       group_sync: Gruppenzugehörigkeit von Benutzern automatisch vom Identitätsanbieter übertragen.
       groups_claim: Geben Sie den Namen des Claims an, der die Namen von Gruppen enthält, bei denen der Nutzer Mitglied ist.
@@ -104,7 +104,7 @@ de:
       oidc_information: Diese Werte werden für die Konfiguration des OpenID Connect-Anbieters benötigt.
       post_logout_redirect_uri: Die URL, an die der OpenID Connect-Anbieter nach einer erfolgreichen Abmeldung weiterleiten soll.
       scope: Wenn Sie benutzerdefinierte Scopes anfordern möchten, können Sie hier einen oder mehrere durch Leerzeichen getrennte Werte hinzufügen. Weitere Informationen finden Sie in der [OpenID Connect Dokumentation](docs_url).
-      tenant: Bitte ersetzen Sie den vorgegebenen Mandanten durch Ihren eigenen, falls zutreffend. Siehe <a href="https://learn.microsoft.com/de-de/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">diese Dokumentation von Microsoft Entra</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID-Anbieter
     providers:
       client_details_description: Konfigurationsdetails von OpenProject als OIDC-Client

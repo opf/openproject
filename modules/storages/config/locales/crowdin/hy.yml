@@ -412,14 +412,13 @@ hy:
       empty_project_folder_validation: Շարունակելու համար պանակի ընտրությունը պարտադիր է։
       existing_manual_folder: Դուք կարող եք առկա պանակը նշանակել որպես այս նախագծի արմատային պանակ։ Սակայն թույլտվությունները չեն կառավարվում ավտոմատ կերպով, և ադմինիստրատորը պետք է ձեռքով ապահովի, որ համապատասխան օգտատերերն ունենան հասանելիություն։ Ընտրված պանակը կարող է օգտագործվել մի քանի նախագծի կողմից։
       host: Խնդրում ենք ավելացնել Ձեր պահեստի հոսթի հասցեն՝ ներառյալ https://։ Այն չպետք է լինի 255 նշանից երկար։
-      managed_project_folders_application_password_caption: Ավտոմատ կառավարվող պանակները միացնելու համար պատճենեք այս արժեքը հետևյալից՝ %{provider_type_link}։
+      managed_project_folders_application_password_caption_html: 'Enable automatic managed folders by copying this value from: [%{integration}](provider_settings).'
       name: Տվեք Ձեր պահեստին անվանում, որպեսզի օգտատերերը կարողանան տարբերել մի քանի պահեստ միմյանցից։
       new_storage_html: Լրացուցիչ տեղեկությունների համար կարդացեք մեր փաստաթղթերը [%{provider_name} նիշքերի պահեստի ինտեգրացիայի կարգավորման](docs_url) վերաբերյալ։
       nextcloud:
-        application_link_text: "“Integration OpenProject” հավելվածը"
         integration: Nextcloud-ի ադմինիստրավորում / OpenProject
-        oauth_configuration: Պատճենեք այս արժեքները հետևյալից՝ %{application_link_text}։
-        provider_configuration: Խնդրում ենք նախքան կարգավորումը համոզվել, որ Ձեր Nextcloud համակարգում ունեք ադմինիստրատորի արտոնություններ և տեղակայված է %{application_link_text}։
+        oauth_configuration_html: Copy these values from [Nextcloud Administration / OpenProject](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in your Nextcloud instance and the [application “Integration OpenProject”](application_link) is installed before doing the setup.
         storage_audience: Հաճախորդի ID-ն, որը Nextcloud համակարգն օգտագործում է ինքնության մատակարարի հետ հաղորդակցվելու համար։
         storage_audience_placeholder: օրինակ՝ nextcloud
         token_exchange_scope: Շրջանակները, որոնք պետք է պահանջվեն թոքենի փոխանակման ընթացքում՝ յուրաքանչյուրը բաժանված բացատով։
@@ -428,27 +427,24 @@ hy:
       not_logged_into_storage: Նախագծի պանակ ընտրելու համար խնդրում ենք նախ մտնել
       oauth_application_details_html: Հաճախորդի գաղտնիքի արժեքն այլևս հասանելի չի լինի այս պատուհանը փակելուց հետո։ Խնդրում ենք պատճենել այս արժեքները [Nextcloud OpenProject Integration-ի կարգավորումներում](oauth_application_details_link)։
       one_drive:
-        application_link_text: Azure portal
         copy_redirect_uri: Պատճենել վերահղման URI-ը
-        documentation_link_text: OneDrive-ի նիշքերի պահեստների փաստաթղթեր
-        drive_id: Խնդրում ենք պատճենել ID-ն ցանկալի կրիչից՝ հետևելով %{drive_id_link_text}-ում նշված քայլերին։
+        drive_id_html: Please copy the ID from the desired drive by following the steps in the [OneDrive file storages documentation](drive_id_guide).
         integration: OneDrive
         missing_client_id_for_redirect_uri: Խնդրում ենք լրացնել OAuth արժեքները՝ URI ստեղծելու համար
         oauth_client_redirect_uri: Խնդրում ենք պատճենել այս արժեքը Redirect URIs բաժնի նոր Web redirect URI դաշտում։
         oauth_client_secret: Եթե Client credentials բաժնում հավելվածի client secret չկա, խնդրում ենք ստեղծել նորը։
-        oauth_configuration: Պատճենեք այս արժեքները ցանկալի հավելվածից՝ %{application_link_text}։
-        provider_configuration: Խնդրում ենք նախքան կարգավորումը համոզվել, որ ադմինիստրատորի արտոնություններ ունեք հետևյալում՝ %{application_link_text}, կամ դիմել Ձեր Microsoft ադմինիստրատորին։ Պորտալում անհրաժեշտ է նաև գրանցել Azure հավելված կամ նույնականացման համար օգտագործել առկա հավելվածը։
-        tenant_id: Խնդրում ենք պատճենել Directory (tenant) ID-ն ցանկալի հավելվածից և App registrations բաժնից՝ %{application_link_text}-ում։
+        oauth_configuration_html: Copy these values from the desired application in the [Azure portal](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [Azure portal](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id_html: Please copy the Directory (tenant) ID from the desired application and App registrations in the [Azure portal](application_link).
         tenant_id_placeholder: Անվանում կամ UUID
       setting_up_additional_storages: Լրացուցիչ նիշքերի պահեստներ կարգավորելու համար խնդրում ենք այցելել
       setting_up_additional_storages_non_admin: Ադմինիստրատորները կարող են լրացուցիչ նիշքերի պահեստներ կարգավորել Ադմինիստրավորում / Նիշքերի պահեստներ բաժնում։
       setting_up_storages: Նիշքերի պահեստներ կարգավորելու համար խնդրում ենք այցելել
       setting_up_storages_non_admin: Ադմինիստրատորները կարող են նիշքերի պահեստներ կարգավորել Ադմինիստրավորում / Նիշքերի պահեստներ բաժնում։
       sharepoint:
-        application_link_text: SharePoint կայք
         integration: SharePoint-ի ադմինիստրավորում / OpenProject
-        oauth_configuration: Պատճենեք այս արժեքները ցանկալի հավելվածից՝ %{application_link_text}։
-        provider_configuration: Խնդրում ենք նախքան կարգավորումը համոզվել, որ ադմինիստրատորի արտոնություններ ունեք հետևյալում՝ %{application_link_text}, կամ դիմել Ձեր Microsoft ադմինիստրատորին։ Պորտալում անհրաժեշտ է նաև գրանցել Azure հավելված կամ նույնականացման համար օգտագործել առկա հավելվածը։
+        oauth_configuration_html: Copy these values from the desired application in the [SharePoint site](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [SharePoint site](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
       type: Խնդրում ենք նախքան կարգավորումը համոզվել, որ Ձեր Nextcloud համակարգում ունեք ադմինիստրատորի արտոնություններ և տեղակայված է հետևյալ հավելվածը՝
       type_link_text: "“Integration OpenProject”"
     label_active: Ակտիվ
@@ -487,7 +483,7 @@ hy:
       connected: Միացված է
       connected_no_permissions: Օգտատիրոջ դերը չունի պահեստների թույլտվություններ
       not_connectable: Միացումը հնարավոր չէ։ Պահեստը պահանջում է մուտք գործել SSO մատակարարի միջոցով, սակայն օգտատերը չի մտնում SSO-ի միջոցով։
-      not_connected: Միացված չէ։ Օգտատերը պետք է մտնի պահեստ հետևյալի միջոցով՝ %{link}։
+      not_connected_html: Not connected. The user should login to the storage via the following [link](storage_login).
       not_connected_sso: Դեռ միացված չէ, SSO-ն ավտոմատ կերպով կմիացնի նրան, երբ նա դիտի նիշքերը։
     members_no_results: Ցուցադրելու անդամներ չկան։
     no_results: Դեռ պահեստներ կարգավորված չեն։
