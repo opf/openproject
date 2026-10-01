@@ -226,7 +226,6 @@ module OpenProject
 
     config.after_initialize do
       Settings::Definition.add_all
-      Highlighting::Registry.register_default_resource_colors
     end
 
     def root_url

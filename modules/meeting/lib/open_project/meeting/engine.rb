@@ -208,9 +208,11 @@ module OpenProject::Meeting
       Journals::CreateService::Association.register(:Participatable)
     end
 
-    config.after_initialize do
-      ::Highlighting::Registry.register_resource_colors(key: "meeting_status",
-                                                        value_fn: -> { ::Meetings::Statuses::AVAILABLE })
+    initializer "meetings.resource_colors" do
+      Rails.application.reloader.to_prepare do
+        ::Highlighting::Registry.register_resource_colors(key: "meeting_status",
+                                                          value_fn: -> { ::Meetings::Statuses::AVAILABLE })
+      end
     end
 
     add_api_path :meetings do

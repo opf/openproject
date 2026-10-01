@@ -23,21 +23,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Highlighting
-  class Registry
-    class << self
-      def all
-        @all ||= {}
-      end
+Rails.application.config.to_prepare do
+  default_resource_colors = {
+    "status" => -> { Status.includes(:color) },
+    "priority" => -> { IssuePriority.includes(:color) },
+    "type" => -> { Type.includes(:color) },
+    "project_phase_definition" => -> { Project::PhaseDefinition.includes(:color) },
+    "project_status" => -> { Projects::Statuses::AVAILABLE },
+    "color" => -> { Color.all }
+  }
 
-      def register_resource_colors(key:, value_fn:)
-        all[key.to_s] = value_fn
-      end
-    end
+  default_resource_colors.each_pair do |key, value_fn|
+    Highlighting::Registry.register_resource_colors(key:, value_fn:)
   end
 end
