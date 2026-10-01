@@ -57,6 +57,7 @@ RSpec.shared_examples_for "custom_field contract" do
   let(:custom_field_right_to_left) { false }
   let(:custom_field_custom_field_section_id) { custom_field_section.id }
   let(:custom_field_allow_non_open_versions) { nil }
+  let(:custom_field_display_as) { nil }
 
   let(:custom_field_section) { build_stubbed(:project_custom_field_section) }
 
@@ -77,6 +78,14 @@ RSpec.shared_examples_for "custom_field contract" do
 
       it_behaves_like "contract is invalid", is_required: :cannot_be_true
     end
+  end
+
+  context "for a list field displayed as radio buttons" do
+    let(:custom_field_field_format) { "list" }
+    let(:custom_field_possible_values) { %w[low high] }
+    let(:custom_field_display_as) { "radio_buttons" }
+
+    it_behaves_like "contract is valid"
   end
 
   context "for a calculated field", with_ee: %i[calculated_values] do

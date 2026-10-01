@@ -37,6 +37,7 @@ module CustomFields
     attribute :content_right_to_left
     attribute :custom_field_section_id
     attribute :default_value
+    attribute :display_as
     attribute :editable
     attribute :field_format
     attribute :formula

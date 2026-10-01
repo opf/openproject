@@ -54,7 +54,8 @@ RSpec.describe CustomFields::CreateContract do
                       multi_value: custom_field_multi_value,
                       content_right_to_left: custom_field_right_to_left,
                       custom_field_section_id: custom_field_custom_field_section_id,
-                      allow_non_open_versions: custom_field_allow_non_open_versions)
+                      allow_non_open_versions: custom_field_allow_non_open_versions,
+                      display_as: custom_field_display_as)
     end
 
     subject(:contract) { described_class.new(custom_field, current_user) }
