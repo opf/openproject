@@ -28,16 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::ResourceManagement::Patches::PlaceholderUserPatch
-  def self.included(base) # :nodoc:
-    base.class_eval do
-      scope :allocatable, ->(user = User.current) {
-        if user.allowed_in_any_project?(:allocate_user_resources)
-          with_criteria
-        else
-          none
-        end
-      }
-    end
+module PlaceholderUsers::Allocatable
+  extend ActiveSupport::Concern
+
+  included do
+    scope :allocatable, ->(user = User.current) {
+      if user.allowed_in_any_project?(:allocate_user_resources)
+        with_criteria
+      else
+        none
+      end
+    }
   end
 end
