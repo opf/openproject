@@ -43,4 +43,28 @@ RSpec.describe API::V3::CustomFields::CustomFieldRepresenter do
   it "fulfills the documented schema" do
     expect(generated).to match_json_schema.from_docs("custom_field_model")
   end
+
+  it "does not render displayAs for a non-list custom field" do
+    expect(generated).not_to have_json_path("displayAs")
+  end
+
+  context "with a list custom field" do
+    let(:custom_field) { create(:list_wp_custom_field) }
+
+    it "renders the dropdown default" do
+      expect(generated).to be_json_eql("dropdown".to_json).at_path("displayAs")
+    end
+
+    it "fulfills the documented schema" do
+      expect(generated).to match_json_schema.from_docs("custom_field_model")
+    end
+  end
+
+  context "with a multi-select list custom field displayed as checkboxes" do
+    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, display_as: "checkboxes") }
+
+    it "renders the setting" do
+      expect(generated).to be_json_eql("checkboxes".to_json).at_path("displayAs")
+    end
+  end
 end

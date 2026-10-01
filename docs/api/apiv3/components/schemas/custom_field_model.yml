@@ -40,6 +40,16 @@ properties:
   isMultiValue:
     type: boolean
     description: Whether the custom field accepts more than one value.
+  displayAs:
+    type: string
+    description: |-
+      How forms present the options of a list custom field. Only present for custom fields of the `list` format.
+      `checkboxes` only applies to multi-select fields and `radio_buttons` only to single-select fields; forms fall
+      back to a dropdown otherwise.
+    enum:
+    - dropdown
+    - checkboxes
+    - radio_buttons
   createdAt:
     type: string
     format: date-time
