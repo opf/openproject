@@ -241,7 +241,7 @@ gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.37.0"
 gem "openproject-octicons_helper", "~>19.37.0"
-gem "openproject-primer_view_components", "~>0.91.4"
+gem "openproject-primer_view_components", "~>0.92.0"
 gem "view_component", "~> 4.15.0"
 
 # Lookbook

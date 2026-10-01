@@ -855,7 +855,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       # Applies the filters to the filters section
       projects_page.expect_filter_set "active"
-      click_button accessible_name: "Project name filter"
       projects_page.expect_filter_set "name_and_identifier"
 
       # Columns are taken from the default set as defined by the setting

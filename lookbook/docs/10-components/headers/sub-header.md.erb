@@ -12,7 +12,7 @@ The SubHeader accepts a number of additional components. **All buttons** within 
 
 On the left side:
 
-- **Search filter**: (Optional) A basic [text input](https://primer.style/components/text-input) with a [search icon](https://primer.style/components/text-input#with-leading-and-trailing-visuals) which is mostly used on index pages to filter the elements below. Per default, the search input is collapsed to an icon button and changes on click to a text input. To avoid this, use `collapsed_search: false`.
+- **Search filter**: (Optional) A basic [text input](https://primer.style/components/text-input) with a [search icon](https://primer.style/components/text-input#with-leading-and-trailing-visuals) which is mostly used on index pages to filter the elements below.
 - **Sort action** (Optional) A generic slot for a sort button component. It is recommended to use IconButtons here.
 - **Group action** (Optional) A generic slot for a group button component. It is recommended to use IconButtons here.
 - **Quick filters** (Optional) Up to 5 QuickFilter can be rendered here. When using more then one quick filter, an `All Filter` button is required.
@@ -45,7 +45,6 @@ The SubHeader automatically adapts to mobile screens:
 - Use IconButtons instead of Buttons for actions only when the icon is clear enough to describe the action.
 - When more actions are necessary, or if a menu is needed, use an ActionMenu instead of the ActionButtons.
 - Use IconButtons for the sort and group components.
-- Use `collapsed_search: false` when the left side only shows the search input and no further filter actions.
 
 **Don't**
 
@@ -105,10 +104,8 @@ The syntax for an `ActionMenu` within the SubHeader is a bit special due to the 
           item.with_leading_visual_icon(icon: :log)
         end
       end
-    end
-  %>
+    end %>
 ```
-
 
 ### Dialogs
 
@@ -124,8 +121,7 @@ We currently only allow async dialogs to be rendered from the SubHeader. So you 
                                   data: { controller: "async-dialog" }) do
         "Open Dialog"
       end
-    end
-  %>
+    end %>
 ```
 
 ### Sorting and grouping
@@ -142,8 +138,7 @@ The sort and group actions are always displayed after the search but before the 
         component.with_quick_group do
           render(Foo::BarGroupComponent.new(..))
         end
-    end
-  %>
+    end %>
 ```
 
 ### QuickFilters
@@ -160,13 +155,11 @@ The `with_quick_filter` slot only offers a generic slot for a quick filter takin
         render(Foo::OtherFilterComponent.new(query: @query, project: @project))
       end
 
-
       # The all filters button is required when using more than one quick filter
       component.with_filter_component(mobile_label: "All filters") do
         render(Foo::AllFilterComponent.new(query: @query, project: @project))
       end
-    end
-  %>
+    end %>
 ```
 
 ### All filters button
