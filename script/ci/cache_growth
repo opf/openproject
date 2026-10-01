@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+# Report size of caches in CI over time
+
+require "bundler"
+Bundler.setup(:development)
+
+require "date"
+require "json"
+require "terminal-table"
+
+repo = "opf/openproject"
+workflow = "test-core.yml"
+branch = "dev"
+
+def gh_api(*args) = IO.popen(%w[gh api] + args, &:read)
+
+since = Time.zone.today - 30
+runs = gh_api(
+  "--paginate",
+  "repos/#{repo}/actions/workflows/#{workflow}/runs?branch=#{branch}&status=completed&created=%3E%3D#{since}&per_page=100",
+  "--jq", ".workflow_runs[] | {created_at, id}"
+)
+  .lines
+  .map { JSON.parse(it, symbolize_names: true) }
+  .group_by { it[:created_at][0, 10] }
+  .transform_values { it.first[:id] }
+  .sort
+
+rows = runs.filter_map do |date, run_id|
+  job_id = gh_api("--cache", "24h", "repos/#{repo}/actions/runs/#{run_id}/jobs", "--jq", ".jobs[0].id").strip
+  next if job_id.empty?
+
+  sizes = gh_api("--cache", "24h", "--allow-escape-sequences", "repos/#{repo}/actions/jobs/#{job_id}/logs")
+      .scan(%r{^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z ([\d.]+[KMGT]?)\t(cache/\S+)$}).to_h(&:reverse)
+
+  { date:, **sizes }
+end
+
+columns = rows.map(&:keys).inject(:|)
+
+puts Terminal::Table.new(headings: columns, rows: rows.map { it.values_at(*columns) })
