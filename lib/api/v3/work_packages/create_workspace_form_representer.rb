@@ -30,6 +30,8 @@ module API
   module V3
     module WorkPackages
       class CreateWorkspaceFormRepresenter < FormRepresenter
+        include ::WorkPackageTypes::VariantRoutes
+
         link :self do
           {
             href: api_v3_paths.create_workspace_work_package_form(represented.project_id),
@@ -66,7 +68,7 @@ module API
           next unless variant&.configurable_by?(current_user)
 
           {
-            href: edit_type_form_configuration_path(**variant.path_args),
+            href: edit_variant_form_configuration_path(variant.project, variant),
             type: "text/html",
             title: "Configure form"
           }
