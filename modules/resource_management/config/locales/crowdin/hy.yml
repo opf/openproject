@@ -2,17 +2,19 @@
 hy:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Ժամեր
         allocated_time: Հատկացված ժամանակ
         date_range: Ամսաթվեր
         end_date: Ավարտի ամսաթիվ
         entity: Էություն
-        filter_name: Ռեսուրսի զտիչի անվանում
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Պատասխանատու
         start_date: Սկզբի ամսաթիվ
         state: Վիճակ
-        user_filter: Օգտատերերի զտիչ
       resource_planner:
         date_range: Ամսաթվեր
         default_view_class_name: Կանխադրված տեսք
@@ -21,12 +23,17 @@ hy:
         name: Անվանում
         public: Հանրային
         start_date: Սկզբի ամսաթիվ
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: պետք է լինի սկզբի ամսաթվից հետո։
+            principal:
+              not_a_member: is not a member of the work package's project.
         resource_planner:
           attributes:
             end_date:
@@ -57,6 +64,9 @@ hy:
       resource_work_package_timeline:
         one: Work packages timeline
         other: Work packages timelines
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Հաջորդ
   ee:
     features:
@@ -70,8 +80,12 @@ hy:
   permission_allocate_user_resources_explanation: Թույլ է տալիս օգտատերերին ստեղծել, թարմացնել և ջնջել ռեսուրսների հատկացումները ռեսուրսների պլանավորիչի ներսում։ Սա ներառում է օգտատերերի (կամ օգտատերերի զտիչների) նշանակումը պլանավորիչին և հատկացված ժամանակի ու ամսաթվերի միջակայքի ճշգրտումը։
   permission_assign_users_to_generic_allocations: Նշանակել օգտատերերին ընդհանրական հատկացումներին
   permission_assign_users_to_generic_allocations_explanation: Թույլ է տալիս օգտատերերին օգտագործել Կադրերի համալրման տեսքը՝ իրական օգտատերերին նշանակելու այն ընդհանրական (զտիչի վրա հիմնված) ռեսուրսների հատկացումներին, որոնք դեռ օգտատեր չունեն։ Այն թույլ չի տալիս ստեղծել կամ խմբագրել հատկացումներ։
+  permission_manage_public_global_resource_planners: Manage public global resource planners
+  permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Կառավարել հանրային ռեսուրսների պլանավորիչները
   permission_manage_public_resource_planners_explanation: Թույլ է տալիս օգտատերերին ստեղծել և կառավարել հանրային ռեսուրսների պլանավորիչներ։ Այն թույլ է տալիս նրանց դիտել, ստեղծել, կառավարել և հրապարակել իրենց սեփական ռեսուրսների պլանավորիչները։ Այն թույլ չի տալիս օգտատերերին դիտել այլ օգտատերերի ստեղծած ռեսուրսների պլանավորիչները, որոնք հանրորեն համօգտագործված չեն։
+  permission_view_global_resource_planners: View global resource planners
+  permission_view_global_resource_planners_explanation: Allows users to access the global resource planner section, where resources and allocations from several projects can be planned together. It allows them to create and manage their own global resource planners and view public ones. Users only ever see the projects, resources and allocations they are permitted to view.
   permission_view_resource_planners: Դիտել ռեսուրսների պլանավորիչները
   permission_view_resource_planners_explanation: Թույլ է տալիս օգտատերերին հասանելիություն ունենալ ռեսուրսների պլանավորիչներին։ Այն թույլ է տալիս նրանց ստեղծել և կառավարել իրենց սեփական ռեսուրսների պլանավորիչները և դիտել հանրային ռեսուրսների պլանավորիչները։ Այն թույլ չի տալիս օգտատերերին դիտել այլ օգտատերերի ստեղծած ռեսուրսների պլանավորիչները, որոնք հանրորեն համօգտագործված չեն։
   plugin_openproject_resource_management:
@@ -87,14 +101,9 @@ hy:
       make_public: Դարձնել հրապարակային
       unfavorite: Հեռացնել ընտրյալներից
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Սահմանեք զտիչի չափանիշներ՝ հիմնված օգտատիրոջ հատկանիշների վրա, տեղապահ ռեսուրս ստեղծելու համար։
-          label: Զտիչի չափանիշներ
-        label: Հատկացման տեսակ
-        principal:
-          caption: Հատկացրեք ժամեր կոնկրետ օգտատիրոջ համար։
-          label: Օգտատեր
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       missing_working_hours:
         none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
         partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
@@ -131,6 +140,7 @@ hy:
       title: Նշանակել %{filter_name}
     blankslate:
       desc: Ստեղծեք ռեսուրսների պլանավորիչ՝ այս նախագծի հզորությունների պլանավորումը սկսելու համար։
+      global_desc: Create a resource planner to start planning capacity across projects.
       title: Դեռ ռեսուրսների պլանավորիչներ չկան
     configure_view_dialog:
       delete_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս տեսքը։ Սա անշրջելի է։
@@ -143,11 +153,17 @@ hy:
           caption: Տարրերի հատուկ ցուցակ, որոնք Դուք ձեռքով եք ավելացնում և հեռացնում։ Զտումը հնարավոր չէ։
           label: Ձեռքով ընտրված
       title: Կազմաձևել տեսքը
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Պահպանել
       success_message: Ռեսուրսի հատկացումը թարմացվել է։
       title: Խմբագրել հատկացումը
     favorite_caption: Ավելացրեք այս տեսքն ընտրանիում՝ այն կողային ցանկի վերին բաժնում ցուցադրելու համար։
+    filters:
+      resource_management_enabled: Resource management enabled
+    global_public_caption: Make this view public to everyone permitted to see global resource planners. This does not affect the visibility of work packages which still depends on each user permission.
     label_edit_resource_planner: Խմբագրել ռեսուրսների պլանավորիչը
     label_new_resource_planner: Նոր ռեսուրսների պլանավորիչ
     label_resource_planner: Ռեսուրսների պլանավորիչ
@@ -192,13 +208,16 @@ hy:
         add: Ավելացնել
         allocate: Հատկացնել
         settings: Կազմաձևել տեսքը
+      undisclosed:
+        tooltip: You don't have permissions to see this allocated resource
+        work_package: Work package not visible to you
     user_allocations_dialog:
       allocate_work_package: Հատկացնել աշխատանքային փաթեթ
       blank: Այս օգտատերը հատկացված աշխատանքային փաթեթներ չունի։
-      other_work_packages:
-        one: ևս 1 աշխատանքային փաթեթ
-        other: ևս %{count} աշխատանքային փաթեթ
+      blank_in_timeframe: This user has no allocated work packages in the selected time frame.
+      hidden_work_package: Work package not visible to you
       title: Բեռնվածություն
+      total_time: "%{hours} total"
     user_card_list:
       add_user_dialog:
         title: Ավելացնել օգտատեր

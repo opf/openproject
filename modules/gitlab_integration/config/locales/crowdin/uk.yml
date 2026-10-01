@@ -24,6 +24,10 @@
 uk:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Проєкт GitLab
+        namespace: Простір імен GitLab
+        project_html_url: URL-адреса проєкту GitLab
       gitlab_merge_request:
         labels: Мітки
       gitlab_pipeline:
@@ -39,6 +43,11 @@ uk:
             labels:
               invalid_schema: 'має бути масивом гешів із ключами: color, title'
     models:
+      gitlab_branch:
+        one: Гілка GitLab
+        few: Гілки GitLab
+        many: Гілки GitLab
+        other: Гілки GitLab
       gitlab_issue:
         one: Задача GitLab
         few: Задачі GitLab
@@ -63,7 +72,6 @@ uk:
     commit: Коміт
     gitlab: Ідентифікатор GitLab
     gitlab_avatar_url: URL-адреса аватара
-    gitlab_email: Електронна адреса GitLab
     gitlab_html_url: URL-адреса HTML GitLab
     gitlab_merge_request: Запит на злиття
     gitlab_name: Назва GitLab
@@ -71,10 +79,56 @@ uk:
     gitlab_user_avatar_url: URL-адреса аватара GitLab
     gitlab_username: Ім’я користувача GitLab
   gitlab_integration:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: "**Закрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_component:
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**Закрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**Об’єднано MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**Відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**Повторно відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
@@ -87,6 +141,27 @@ uk:
     push_multiple_commits_comment: "**Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment: "**Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment_with_ref: "**Внесено дані в %{reference}:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git snippets
   label_gitlab_actor: Суб’єкт GitLab
   label_gitlab_integration: Інтеграція з GitLab
   label_gitlab_webhook_secret: Секрет вебхука

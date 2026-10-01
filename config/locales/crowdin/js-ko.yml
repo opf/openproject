@@ -805,12 +805,30 @@ ko:
       sorting_disabled: 정렬이 불가능합니다
     sortable_lists:
       announcements:
+        batch_too_large: "%{count}개 항목을 한 번에 이동할 수 없습니다. %{max}개까지만 선택하세요."
         fallback_item_label: 항목
         fallback_list_name: 다른 목록
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
+        move_failed_check_positions_batch:
+          other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
+        move_failed_rolled_back_batch:
+          other: 이동하지 못했습니다. %{count}개 항목이 이전 위치로 돌아갔습니다.
         moved: "%{label}이(가) %{total}개 중 %{position} 위치로 이동됨"
+        moved_batch:
+          other: "%{count}개 항목이 %{total}개 중 %{first} ~ %{last} 위치로 이동됨"
+        moved_batch_to_list:
+          other: "%{count}개 항목이 %{list}(으)로 이동됨, 위치 %{first} ~ %{last}/%{total}"
         moved_to_list: "%{label}이(가) %{list}(으)로 이동됨, 위치 %{position}/%{total}"
+      selection:
+        cleared: 선택 항목이 지워졌습니다.
+        not_selectable: 선택 항목이 변경되지 않았습니다. 이 항목은 해당 목록의 순서 지정에 영향을 미치지 않습니다.
+        range_blocked: 선택 항목이 변경되지 않았습니다. 해당 범위에는 이 목록의 순서 지정에 영향을 미치지 않는 항목이 포함되어 있습니다.
+        range_restarted:
+          other: 범위를 확장할 수 없습니다. %{count}개 항목이 선택되었습니다.
+        range_unavailable: 선택 항목이 변경되지 않았습니다. 이 목록을 확장하여 해당 범위를 선택하세요.
+        selected:
+          other: "%{count}개 항목이 선택되었습니다."
     spot:
       drop_modal:
         close: 모달 닫기

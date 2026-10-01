@@ -1,0 +1,8 @@
+---
+sv:
+  js:
+    button_allocate_resource: Tilldela resurs
+    resource_management:
+      create_placeholder_user: Skapa platshållaranvändare med filterkriterier
+      hidden_user: Dold användare
+      show_allocations: Visa resurstilldelningar

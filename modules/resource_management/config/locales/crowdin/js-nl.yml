@@ -1,0 +1,8 @@
+---
+nl:
+  js:
+    button_allocate_resource: Allocate resource
+    resource_management:
+      create_placeholder_user: Een tijdelijke gebruiker aanmaken met filtercriteria
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations
