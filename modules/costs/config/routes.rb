@@ -55,16 +55,6 @@ Rails.application.routes.draw do
     get "/hourly_rates" => "hourly_rates#show", as: "hourly_rates"
 
     get "/timer" => "timer#show", as: "timers"
-
-    get "/time-tracking/(:mode-:view_mode)(/:date)" => "time_tracking#index",
-        as: :time_tracking,
-        constraints: {
-          mode: /day|week|workweek|month/,
-          view_mode: /list|calendar|stack/,
-          date: /(\d{4}-\d{2}-\d{2}|today)/
-        }
-    get "/time-tracking/refresh" => "time_tracking#refresh",
-        as: :time_tracking_refresh
   end
 
   scope "projects/:project_id", as: "project", module: "projects" do

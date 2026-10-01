@@ -1,0 +1,53 @@
+@import "fullcalendar_frame"
+@import "time_entry_card"
+
+.my-work-calendar-view
+  height: 100%
+  +fc-frame-grid
+  +fc-day-total
+
+  .op-fc-wrapper
+    flex-grow: 1
+    +fc-frame-container
+
+    .fc-daygrid-day-bottom
+      display: flex
+      align-items: center
+      justify-content: center
+
+    .calendar-time-entry-event
+      user-select: none
+      border: none
+      box-shadow: var(--shadow-floating-small)
+      background: var(--body-background)
+      color: var(--body-font-color)
+      border-radius: 5px
+      padding: 4px
+      line-height: var(--text-body-lineHeight-small)
+      font-size: var(--text-body-size-small)
+
+      +te-entry-card
+
+      &.te-entry-card-ongoing
+        +te-entry-card-ongoing
+
+      // The calendar places an entry on a time axis, so the clock reads as noise here.
+      .te-entry-card--icon
+        display: none
+
+      .fc-event-main
+        padding: 0
+
+      &.fc-timegrid-event-short, &.fc-daygrid-block-event
+        +te-entry-card-condensed
+
+    .fc-popover
+      background: var(--fc-page-bg-color) !important
+
+    // event in the the all day area
+    .fc-daygrid-event
+      background: var(--body-background) !important
+
+    .fc-timegrid-more-link
+      background: var(--fc-page-bg-color) !important
+      border: 1px solid var(--borderColor-default)

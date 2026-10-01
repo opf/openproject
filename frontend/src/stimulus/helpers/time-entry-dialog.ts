@@ -74,7 +74,7 @@ export function openTimeEntryDialog(turboRequests:TurboRequestsService, url:stri
     .finally(() => { awaitingDialog = false; });
 }
 
-export function reloadTimeTrackingView(element:Element):void {
+export function reloadMyWorkView(element:Element):void {
   const frame = element.closest<FrameElement>('turbo-frame');
 
   if (!frame) {
