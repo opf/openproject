@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_relative "shared_permission_granted_examples"
 
 RSpec.describe OpenProject::JournalFormatter::CustomComment do
   include Rails.application.routes.url_helpers
@@ -116,57 +117,5 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
     include_examples "results are expected"
   end
 
-  # The #permission_granted? method is used by the JournalFormatter#render_detail
-  # to check whether the user has the permission to see the rendered activity.
-  # It receives a permission as a Proc or a Symbol and a CustomField key.
-  # In case a Symbol is provided, the permission check happens on the project.
-  # In case a Proc is provided, the CustomField resolved by the key is yielded
-  # to the Proc allowing customized permission checks.
-  describe "#permission_granted?" do
-    subject { instance.permission_granted?(permission, key:) }
-
-    context "with a Proc permission" do
-      context "when the proc, receiving the resolved custom field, allows" do
-        let(:permission) do
-          expected_custom_field = custom_field
-          ->(field) { field == expected_custom_field }
-        end
-
-        it { is_expected.to be(true) }
-      end
-
-      context "when the proc, receiving the resolved custom field, denies" do
-        let(:permission) do
-          expected_custom_field = custom_field
-          ->(field) { field != expected_custom_field }
-        end
-
-        it { is_expected.to be(false) }
-      end
-    end
-
-    context "with a named (Symbol) permission" do
-      let(:permission) { :view_project }
-      let(:project) { build_stubbed(:project) }
-      let(:journal) { instance_double(Journal, id:, project:) }
-
-      before do
-        mock_permissions_for(User.current) do |mock|
-          mock.allow_in_project(*permissions, project:)
-        end
-      end
-
-      context "when the current user has the permission in the project" do
-        let(:permissions) { [:view_project] }
-
-        it { is_expected.to be(true) }
-      end
-
-      context "when the current user lacks the permission in the project" do
-        let(:permissions) { [] }
-
-        it { is_expected.to be(false) }
-      end
-    end
-  end
+  it_behaves_like "has a permission_granted? check for rendering details"
 end

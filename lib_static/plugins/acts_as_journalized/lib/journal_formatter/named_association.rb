@@ -82,7 +82,7 @@ module JournalFormatter
     # Overridden by PublicNamedAssociation to skip the check for fields that name
     # people the journable already names elsewhere (assignee, responsible, author).
     def reachable?(object)
-      JournalFormatterCache.fetch(:journal_reachable, [object.class, object.id]) do # rubocop:disable Lint/UselessDefaultValueArgument
+      JournalFormatterCache.fetch(:journal_reachable, [object.class, object.id]) do
         reader_may_see?(object)
       end
     end
@@ -99,7 +99,7 @@ module JournalFormatter
     end
 
     def associated_object(klass, id)
-      JournalFormatterCache.fetch(klass, id) do # rubocop:disable Lint/UselessDefaultValueArgument
+      JournalFormatterCache.fetch(klass, id) do
         klass.find_by(id:)
       end
     end
