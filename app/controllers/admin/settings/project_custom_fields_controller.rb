@@ -310,6 +310,5 @@ module Admin::Settings
     def render_attribute_help_text_form(status: :ok)
       render "custom_fields/attribute_help_texts/show_project", status:
     end
-
   end
 end

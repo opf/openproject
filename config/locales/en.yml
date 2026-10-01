@@ -2783,10 +2783,6 @@ en:
     plural: "Custom actions"
 
   custom_fields:
-    no_results_title_text: There are currently no custom fields.
-    overview:
-      heading: "Settings moved"
-      description: "In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:"
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
@@ -2880,7 +2876,11 @@ en:
     is_enabled_globally: "Is enabled globally"
     multi_value_more:
       other: "and %{count} more"
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: "No role assignment"
+    overview:
+      description: "In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:"
+      heading: "Settings moved"
     placeholder_version_select: "Work package or project selection is required first"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
@@ -4119,10 +4119,10 @@ en:
   label_go_forward: "Open %{module} sub-menu"
   label_greater_or_equal: ">="
   label_group: "Group"
+  label_group_attributes_plural: "Group attributes"
   label_group_by: "Group by"
   label_group_named: "Group %{name}"
   label_group_new: "New group"
-  label_group_attributes_plural: "Group attributes"
   label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
@@ -4526,9 +4526,9 @@ en:
   label_user_settings: "User settings"
   label_users_settings: "Users settings"
   label_value_x: "Value: %{x}"
+  label_version_custom_field_plural: "Version custom fields"
   label_version_edit: "Edit version"
   label_version_new: "New version"
-  label_version_custom_field_plural: "Version custom fields"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
   label_version_sharing_hierarchy: "With project hierarchy"

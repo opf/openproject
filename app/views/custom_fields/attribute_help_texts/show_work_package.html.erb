@@ -33,7 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
   render(
     Admin::CustomFields::EditFormHeaderComponent.new(
       custom_field: @custom_field,
-      selected: :attribute_help_text
+      selected: :attribute_help_text,
+      section_label:,
+      page_title: custom_field_page_title
     )
   )
 %>

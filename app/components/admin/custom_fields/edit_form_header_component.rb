@@ -33,9 +33,11 @@ module Admin
     class EditFormHeaderComponent < ApplicationComponent
       include ::CustomFields::AdminRoutes
 
-      def initialize(custom_field:, selected:, **)
+      def initialize(custom_field:, selected:, section_label:, page_title:, **)
         @custom_field = custom_field
         @selected = selected
+        @section_label = section_label
+        @page_title = page_title
         super(custom_field, **)
       end
 
@@ -65,7 +67,7 @@ module Admin
            label: AttributeHelpText.human_attribute_name(:help_text) }]
       end
 
-      def page_title
+      def header_title
         concat @custom_field.attribute_in_database("name")
         concat render(Primer::Beta::Text.new(color: :muted)) { " (#{helpers.label_for_custom_field_format(@custom_field.field_format)})" }
       end
@@ -73,7 +75,8 @@ module Admin
       def breadcrumbs_items
         [
           { href: admin_index_path, text: t(:label_administration) },
-          { href: index_path(@custom_field), text: I18n.t(@custom_field.type_name) },
+          { href: index_path(@custom_field), text: @section_label },
+          { href: index_path(@custom_field), text: @page_title },
           helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format),
                                             @custom_field.attribute_in_database("name"))
         ]

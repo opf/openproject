@@ -29,7 +29,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_item_plural) %>
 
-<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
+<%=
+  render(
+    Admin::CustomFields::EditFormHeaderComponent.new(
+      custom_field: @custom_field,
+      selected: :items,
+      section_label:,
+      page_title: custom_field_page_title
+    )
+  )
+%>
 
 <%= settings_primer_form_with(
       model: @custom_field,
