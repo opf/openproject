@@ -81,6 +81,8 @@ module CustomFieldsHelper
                               name: field_name,
                               value:
                             }
+    when "datetime"
+      styled_text_field_tag(field_name, value, id: field_id, type: "datetime-local")
     when "text"
       styled_text_area_tag(field_name, value, id: field_id, rows: 3, with_text_formatting: true)
     when "bool"
